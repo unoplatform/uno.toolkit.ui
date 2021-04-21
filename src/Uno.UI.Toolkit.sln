@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.218
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.UI.Toolkit", "Uno.UI.Toolkit\Uno.UI.Toolkit.csproj", "{AEED47ED-BD21-4F03-A7A9-124CF63E4B1C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.WinUI.Toolkit", "Uno.UI.Toolkit\Uno.WinUI.Toolkit.csproj", "{50EA1339-D38D-47F7-848A-8A827A959691}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEED47ED-BD21-4F03-A7A9-124CF63E4B1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEED47ED-BD21-4F03-A7A9-124CF63E4B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEED47ED-BD21-4F03-A7A9-124CF63E4B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEED47ED-BD21-4F03-A7A9-124CF63E4B1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50EA1339-D38D-47F7-848A-8A827A959691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50EA1339-D38D-47F7-848A-8A827A959691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50EA1339-D38D-47F7-848A-8A827A959691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50EA1339-D38D-47F7-848A-8A827A959691}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEF2F9D4-91C2-4F1A-BF0C-654FD02D3E2A}
+	EndGlobalSection
+EndGlobal

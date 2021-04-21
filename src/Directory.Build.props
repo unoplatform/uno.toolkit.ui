@@ -1,0 +1,61 @@
+<Project ToolsVersion="15.0">
+
+	<PropertyGroup>
+		<DebugType>portable</DebugType>
+		<DebugSymbols>True</DebugSymbols>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+
+		<!-- Version management is now done through NuGet, this avoids issues related version mismatch -->
+		<Version>255.255.255.255</Version>
+
+		<Product>$(AssemblyName) ($(TargetFramework))</Product>
+		<DefaultLanguage>en-US</DefaultLanguage>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Authors>Uno Platform</Authors>
+		<PackageProjectUrl>$(BUILD_REPOSITORY_URI)</PackageProjectUrl>
+		<PackageIconUrl>https://nv-assets.azurewebsites.net/logos/uno.png</PackageIconUrl>
+		<RepositoryUrl>$(BUILD_REPOSITORY_URI)</RepositoryUrl>
+		<Description>A set of controls for Uno Platform, UWP and WinUI</Description>
+		<Copyright>Copyright (C) 2015-2021 Uno Platform. - all rights reserved</Copyright>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+		<IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
+	</PropertyGroup>
+
+	<Choose>
+		<When Condition="'$(Configuration)' != 'Debug' and '$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true'">
+			<PropertyGroup>
+				<!-- Optional: Declare that the Repository URL can be published to NuSpec -->
+				<PublishRepositoryUrl>true</PublishRepositoryUrl>
+				<!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+				<EmbedUntrackedSources>true</EmbedUntrackedSources>
+				<!-- Optional: Include PDB in the built .nupkg -->
+				<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+			</PropertyGroup>
+			<ItemGroup>
+				<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+			</ItemGroup>
+		</When>
+	</Choose>
+
+	<!--
+  Adjust the output paths for runtime project in order for those
+  projects to stay in the same folder as the original reference one.
+  -->
+	<PropertyGroup>
+		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.UI.Toolkit.csproj</_AdjustedOutputProjects>
+		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.WinUI.Toolkit.csproj</_AdjustedOutputProjects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$(_AdjustedOutputProjects.Contains('$(MSBuildProjectFile)'))">
+		<BaseOutputPath>bin\$(MSBuildProjectName)</BaseOutputPath>
+		<BaseIntermediateOutputPath>obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+		<DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
+	</PropertyGroup>
+
+</Project>

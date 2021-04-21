@@ -1,0 +1,68 @@
+﻿trigger:
+  branches:
+    include:
+      - master
+      - beta
+      - release/beta/*
+      - stable
+      - release/stable/*
+
+pr: 
+  branches:
+    include:
+      - master
+      - beta
+      - release/beta/*
+      - stable
+      - release/stable/*
+
+variables:
+  # Path where packages (nuget or app packages) will be copied to.
+  PackageOutputPath: $(Build.ArtifactStagingDirectory)
+
+  IsCanaryBranch: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries/')]
+  IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
+
+  ANDROID_NDK_HOME: C:\Microsoft\AndroidNDK64\android-ndk-r16b
+  ANDROID_NDK_PATH: C:\Microsoft\AndroidNDK64\android-ndk-r16b
+  AndroidNdkDirectory: C:\Microsoft\AndroidNDK64\android-ndk-r16b
+
+jobs:
+- job: Windows
+  pool:
+    vmImage: windows-2019
+  
+  steps:
+  - template: templates/gitversion.yml
+
+  - task: MSBuild@1
+    inputs:
+      solution: src/Uno.UI.Toolkit/Uno.UI.Toolkit.sln
+      msbuildArguments: /r /p:Configuration=Release "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary
+      clean: false
+      restoreNugetPackages: false
+      logProjectEvents: false
+      createLogFile: false
+
+  - task: DotNetCoreInstaller@0
+    inputs:
+      version: '2.1.504'
+
+  - task: PowerShell@2
+    displayName: Authenticode Sign Packages
+    inputs:
+      filePath: build/Sign-Package.ps1
+    env:
+      SignClientUser: $(SignClientUser)
+      SignClientSecret: $(SignClientSecret)
+      SignPackageName: "Uno.UI.Toolkit"
+      SignPackageDescription: "Uno.UI.Toolkit"
+      ArtifactDirectory: $(build.artifactstagingdirectory)
+    condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: uno-ui-toolkit-drop
+      ArtifactType: Container
