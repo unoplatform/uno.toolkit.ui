@@ -10,6 +10,7 @@
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<AssemblyName>Uno.UI.ToolkitLib</AssemblyName>
 		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
+		<PackageId>Uno.UI.Toolkit</PackageId>
 	</PropertyGroup>
 
 	<ItemGroup>
