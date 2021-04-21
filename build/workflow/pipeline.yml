@@ -38,7 +38,7 @@ jobs:
   - task: MSBuild@1
     inputs:
       solution: src/Uno.UI.Toolkit.sln
-      msbuildArguments: /r /p:Configuration=Release "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary
+      msbuildArguments: /r /m /p:Configuration=Release "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary
       clean: false
       restoreNugetPackages: false
       logProjectEvents: false

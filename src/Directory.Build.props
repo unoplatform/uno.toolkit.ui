@@ -5,6 +5,8 @@
 		<DebugSymbols>True</DebugSymbols>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+		
+		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 
 		<!-- Version management is now done through NuGet, this avoids issues related version mismatch -->
 		<Version>255.255.255.255</Version>
