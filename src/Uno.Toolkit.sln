@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.218
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.UI.Toolkit", "Uno.UI.Toolkit\Uno.UI.Toolkit.csproj", "{AEED47ED-BD21-4F03-A7A9-124CF63E4B1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.UI", "Uno.Toolkit.UI\Uno.Toolkit.UI.csproj", "{AEED47ED-BD21-4F03-A7A9-124CF63E4B1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.WinUI.Toolkit", "Uno.UI.Toolkit\Uno.WinUI.Toolkit.csproj", "{50EA1339-D38D-47F7-848A-8A827A959691}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.WinUI", "Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj", "{50EA1339-D38D-47F7-848A-8A827A959691}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

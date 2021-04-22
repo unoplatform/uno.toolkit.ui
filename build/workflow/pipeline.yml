@@ -37,7 +37,7 @@ jobs:
 
   - task: MSBuild@1
     inputs:
-      solution: src/Uno.UI.Toolkit.sln
+      solution: src/Uno.Toolkit.sln
       msbuildArguments: /r /m /p:Configuration=Release "/p:PackageOutputPath=$(build.artifactstagingdirectory)\nuget" "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary
       clean: false
       restoreNugetPackages: false
@@ -55,8 +55,8 @@ jobs:
     env:
       SignClientUser: $(SignClientUser)
       SignClientSecret: $(SignClientSecret)
-      SignPackageName: "Uno.UI.Toolkit"
-      SignPackageDescription: "Uno.UI.Toolkit"
+      SignPackageName: "Uno.Toolkit"
+      SignPackageDescription: "Uno.Toolkit"
       ArtifactDirectory: $(build.artifactstagingdirectory)
     condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
 
