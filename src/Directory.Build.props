@@ -50,8 +50,8 @@
   projects to stay in the same folder as the original reference one.
   -->
 	<PropertyGroup>
-		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.UI.Toolkit.csproj</_AdjustedOutputProjects>
-		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.WinUI.Toolkit.csproj</_AdjustedOutputProjects>
+		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.Toolkit.UI.csproj</_AdjustedOutputProjects>
+		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.Toolkit.WinUI.csproj</_AdjustedOutputProjects>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(_AdjustedOutputProjects.Contains('$(MSBuildProjectFile)'))">
