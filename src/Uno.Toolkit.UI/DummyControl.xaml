@@ -10,7 +10,4 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-		<muxc:TabView />
-	</Grid>
 </UserControl>
