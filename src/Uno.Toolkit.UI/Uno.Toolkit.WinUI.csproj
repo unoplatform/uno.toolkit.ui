@@ -13,10 +13,12 @@
 		<AssemblyName>Uno.WinUI.ToolkitLib</AssemblyName>
 		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
 		<PackageId>Uno.UI.Toolkit</PackageId>
+	  <Nullable>enable</Nullable>
+	  <LangVersion>Latest</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" Version="3.7.0-dev.318" />
+		<PackageReference Include="Uno.WinUI" Version="3.8.0-dev.169" />
 	</ItemGroup>
 
 	<Choose>
@@ -38,7 +40,6 @@
 			
 		</Otherwise>
 	</Choose>
-	
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>

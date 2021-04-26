@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Input;
 using Uno.Toolkit.Samples.Entities;
+using Uno.Toolkit.Samples.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -29,7 +32,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-    [SamplePage(SampleCategory.Controls, "TabBar")]
+    [SamplePage(SampleCategory.Controls, "TabBar", DataType = typeof(TabBarViewModel))]
     public sealed partial class TabBarSamplePage : Page
     {
         public TabBarSamplePage()
@@ -37,4 +40,21 @@ namespace Uno.Toolkit.Samples.Content.Controls
             this.InitializeComponent();
         }
     }
+
+	public class TabBarViewModel : ViewModelBase
+	{
+        public int Tab1Count { get => GetProperty<int>(); set => SetProperty(value); }
+        public int Tab2Count { get => GetProperty<int>(); set => SetProperty(value); }
+        public int Tab3Count { get => GetProperty<int>(); set => SetProperty(value); }
+        public List<string> Items { get => GetProperty<List<string>>(); set => SetProperty(value); }
+
+        public ICommand Tab1CountCommand => new Command(_ => Tab1Count++);
+        public ICommand Tab2CountCommand => new Command(_ => Tab2Count++);
+        public ICommand Tab3CountCommand => new Command(_ => Tab3Count++);
+
+		public TabBarViewModel()
+		{
+            Items = new List<string> { "Tab 1", "Tab 2", "Tab 3" };
+		}
+	}
 }

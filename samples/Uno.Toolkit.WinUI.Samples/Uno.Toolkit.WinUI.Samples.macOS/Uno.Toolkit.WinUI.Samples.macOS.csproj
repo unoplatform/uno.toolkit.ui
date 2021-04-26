@@ -60,7 +60,7 @@
     <NoWarn>
     </NoWarn>
   </PropertyGroup>
-    <PropertyGroup>
+  <PropertyGroup>
     <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
@@ -72,12 +72,12 @@
     <Reference Include="System.Memory" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.WinUI" Version="3.6.6" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.6.6" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.WinUI" Version="3.8.0-dev.169" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.8.0-dev.169" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
   </ItemGroup>
-	<Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
+  <Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-128.png" />

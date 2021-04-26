@@ -5,13 +5,136 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
 	  mc:Ignorable="d">
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<sample:SamplePageLayout>
 			<sample:SamplePageLayout.SampleTemplate>
 				<DataTemplate>
-					<Button Content="Test"/>
+					<ScrollViewer>
+						<StackPanel Spacing="20">
+							<Border Padding="20"
+									BorderThickness="2"
+									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+								<StackPanel>
+									<TextBlock Text="Adding Items as TabBarItems Directly"
+											   Style="{StaticResource BodyTextBlockStyle}" />
+									<toolkit:TabBar Background="Tomato"
+													BorderBrush="Blue"
+													BorderThickness="1">
+										<toolkit:TabBar.Items>
+											<toolkit:TabBarItem Icon="Accept"
+																BorderBrush="Black"
+																BorderThickness="1"
+																Content="Tab with Icon" />
+											<toolkit:TabBarItem Icon="Accept"
+																BorderBrush="Black"
+																BorderThickness="1" />
+											<toolkit:TabBarItem Content="Content only"
+																BorderBrush="Black"
+																BorderThickness="1" />
+										</toolkit:TabBar.Items>
+									</toolkit:TabBar>
+								</StackPanel>
+							</Border>
+							<Border Padding="20"
+									BorderThickness="2"
+									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+								<StackPanel>
+									<TextBlock Text="Using ItemsSource"
+											   Style="{StaticResource BodyTextBlockStyle}" />
+									<toolkit:TabBar Background="Tomato"
+													ItemsSource="{Binding Data.Items}" />
+								</StackPanel>
+							</Border>
+							<Border Padding="20"
+									BorderThickness="2"
+									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+								<StackPanel>
+									<TextBlock Text="TabBarItem Command"
+											   Style="{StaticResource BodyTextBlockStyle}" />
+									<toolkit:TabBar Background="Tomato">
+										<toolkit:TabBar.Items>
+											<toolkit:TabBarItem Content="Tab 1"
+																x:Name="TabBarWithCommand_Tab1"
+																AutomationProperties.AutomationId="TabBarWithCommand_Tab1"
+																Command="{Binding Data.Tab1CountCommand}" />
+											<toolkit:TabBarItem Content="Tab 2"
+																x:Name="TabBarWithCommand_Tab2"
+																AutomationProperties.AutomationId="TabBarWithCommand_Tab2"
+																Command="{Binding Data.Tab2CountCommand}" />
+											<toolkit:TabBarItem Content="Tab 3"
+																x:Name="TabBarWithCommand_Tab3"
+																AutomationProperties.AutomationId="TabBarWithCommand_Tab3"
+																Command="{Binding Data.Tab3CountCommand}" />
+										</toolkit:TabBar.Items>
+									</toolkit:TabBar>
+									<TextBlock Text="Tab 1 clicked count:" />
+									<TextBlock x:Name="Tab1_Count"
+											   AutomationProperties.AutomationId="Tab1_Count"
+											   Text="{Binding Data.Tab1Count}" />
+									<TextBlock Text="Tab 2 clicked count:" />
+									<TextBlock x:Name="Tab2_Count"
+											   AutomationProperties.AutomationId="Tab2_Count"
+											   Text="{Binding Data.Tab2Count}" />
+									<TextBlock Text="Tab 3 clicked count:" />
+									<TextBlock x:Name="Tab3_Count"
+											   AutomationProperties.AutomationId="Tab3_Count"
+											   Text="{Binding Data.Tab3Count}" />
+								</StackPanel>
+							</Border>
+							<Border Padding="20"
+									BorderThickness="2"
+									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+								<StackPanel>
+									<TextBlock Text="Custom SelectionIndicator"
+											   Style="{StaticResource BodyTextBlockStyle}" />
+									<toolkit:TabBar Background="Tomato"
+													x:Name="TabBar_SelectionIndicator"
+													AutomationProperties.AutomationId="TabBar_SelectionIndicator">
+										<toolkit:TabBar.Items>
+											<toolkit:TabBarItem Content="Tab 1"
+																x:Name="TabBar_SelectionIndicator_Tab1"
+																AutomationProperties.AutomationId="TabBar_SelectionIndicator_Tab1" />
+											<toolkit:TabBarItem Content="Tab 2"
+																x:Name="TabBar_SelectionIndicator_Tab2"
+																AutomationProperties.AutomationId="TabBar_SelectionIndicator_Tab2" />
+											<toolkit:TabBarItem Content="Tab 3"
+																x:Name="TabBar_SelectionIndicator_Tab3"
+																AutomationProperties.AutomationId="TabBar_SelectionIndicator_Tab3" />
+										</toolkit:TabBar.Items>
+									</toolkit:TabBar>
+								</StackPanel>
+							</Border>
+							<Border Padding="20"
+									BorderThickness="2"
+									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+								<StackPanel>
+									<TextBlock Text="Custom ItemsPanel"
+											   Style="{StaticResource BodyTextBlockStyle}" />
+									<toolkit:TabBar Background="Tomato">
+										<toolkit:TabBar.ItemsPanel>
+											<ItemsPanelTemplate>
+												<StackPanel Orientation="Horizontal" />
+											</ItemsPanelTemplate>
+										</toolkit:TabBar.ItemsPanel>
+										<toolkit:TabBar.Items>
+											<toolkit:TabBarItem Content="Tab 1"
+																BorderBrush="Black"
+																BorderThickness="1" />
+											<toolkit:TabBarItem Content="Tab 2"
+																BorderBrush="Black"
+																BorderThickness="1" />
+											<toolkit:TabBarItem Content="Tab 3"
+																BorderBrush="Black"
+																BorderThickness="1" />
+										</toolkit:TabBar.Items>
+									</toolkit:TabBar>
+								</StackPanel>
+							</Border>
+						</StackPanel>
+					</ScrollViewer>
 				</DataTemplate>
 			</sample:SamplePageLayout.SampleTemplate>
 		</sample:SamplePageLayout>
