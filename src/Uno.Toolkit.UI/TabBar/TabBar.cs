@@ -47,11 +47,6 @@ namespace Uno.UI.ToolkitLib
 			Loaded += OnLoaded;
 		}
 
-		private void OnLoaded(object sender, RoutedEventArgs e)
-		{
-			var selectedContainer = GetItemContainers().FirstOrDefault(x => x.IsSelected);
-			UpdateSelection(selectedContainer);
-		}
 
 		protected override void OnApplyTemplate()
 		{
@@ -92,6 +87,12 @@ namespace Uno.UI.ToolkitLib
 		{
 			base.OnItemsChanged(e);
 
+			var selectedContainer = GetItemContainers().FirstOrDefault(x => x.IsSelected);
+			UpdateSelection(selectedContainer);
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
 			var selectedContainer = GetItemContainers().FirstOrDefault(x => x.IsSelected);
 			UpdateSelection(selectedContainer);
 		}
@@ -178,23 +179,6 @@ namespace Uno.UI.ToolkitLib
 		}
 
 
-		private double GetRelativeCenterPosition(TabBarItem tabBarItem)
-		{
-			if (_tabBarGrid == null)
-			{
-				return 0d;
-			}
-
-			var point = new Point(0, 0);
-			double nextPos;
-
-			var nextPosPoint = tabBarItem.TransformToVisual(_tabBarGrid).TransformPoint(point);
-
-			nextPos = nextPosPoint.X + (tabBarItem.ActualWidth / 2);
-			return nextPos;
-		}
-
-
 		private void UpdateSelection(TabBarItem item)
 		{
 			if (ItemsPanelRoot == null || _isSynchronizingSelection)
@@ -216,15 +200,14 @@ namespace Uno.UI.ToolkitLib
 					if (container != item)
 					{
 						container.IsSelected = false;
-					} 
+					}
 					else
 					{
 						SelectedItem = ItemFromContainer(container);
 						SelectedIndex = IndexFromContainer(container);
+						RaiseSelectionChangedEvent(_previouslySelectedItem, item);
 					}
 				}
-
-				RaiseSelectionChangedEvent(_previouslySelectedItem, item);
 			}
 			finally
 			{
@@ -234,41 +217,19 @@ namespace Uno.UI.ToolkitLib
 
 		private void RaiseSelectionChangedEvent(object? prevItem, object? nextItem)
 		{
-			var eventArgs = new TabBarSelectionChangedEventArgs();
-			eventArgs.OldItem = prevItem;
-			eventArgs.NewItem = nextItem;
-
-			var newContainer = FindContainer(nextItem);
-			if (newContainer != null)
+			var eventArgs = new TabBarSelectionChangedEventArgs
 			{
-				eventArgs.NewItemCenterX = GetRelativeCenterPosition(newContainer);
-				eventArgs.NewItemContainer = newContainer;
-			}
-
-			var oldContainer = FindContainer(prevItem);
-			if (oldContainer != null)
-			{
-				eventArgs.OldItemCenterX = GetRelativeCenterPosition(oldContainer);
-				eventArgs.OldItemContainer = oldContainer;
-			}
+				OldItem = prevItem,
+				NewItem = nextItem
+			};
 
 			SelectionChanged?.Invoke(this, eventArgs);
 		}
 
-		/// <summary>
-		/// Get the items.
-		/// </summary>
-		/// <remarks>The item itself maybe its own container, as in the case of <see cref="TabBarItem"> added as child to <see cref="ItemsControl.Items"/>.</remarks>
-		private IEnumerable GetItems() =>
-			ItemsSource as IEnumerable ??
-			(ItemsSource as CollectionViewSource)?.View ??
-			Items ??
-			Enumerable.Empty<object>();
-
 		private TabBarItem? FindContainer(object? item)
 		{
 			if (item == null)
-			{
+		{
 				return null;
 			}
 

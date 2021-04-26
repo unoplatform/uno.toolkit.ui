@@ -4,23 +4,28 @@
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>Latest</LangVersion>
   </PropertyGroup>
     <PropertyGroup>
     <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="exists('..\Uno.Toolkit.WinUI.Samples.UWP')">
-    <EmbeddedResource Include="..\Uno.Toolkit.WinUI.Samples.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
-    <Content Include="..\Uno.Toolkit.WinUI.Samples.UWP\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="..\Uno.Toolkit.WinUI.Samples.Shared\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Uno.Toolkit.WinUI.Samples.Windows.Package\Images\StoreLogo.png" Link="Assets\StoreLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Uno.Toolkit.WinUI.Samples.Windows.Package\Package.appxmanifest" Link="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-    <PackageReference Include="Uno.WinUI.Skia.Gtk" Version="3.8.0-dev.169" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.8.0-dev.169" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.WinUI.Skia.Gtk" Version="3.8.0-dev.280" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.8.0-dev.280" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />

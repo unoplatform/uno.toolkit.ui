@@ -12,6 +12,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\Uno.Toolkit.Samples.Shared\Strings</ResourcesDirectory>
+    <LangVersion>Latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -115,8 +116,8 @@
     <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="3.8.0-dev.169" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.8.0-dev.169" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI" Version="3.8.0-dev.280" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.8.0-dev.280" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Uno.Extensions.Logging.OSLog " Version="1.0.1" />
   </ItemGroup>

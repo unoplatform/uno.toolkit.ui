@@ -36,6 +36,7 @@ namespace Uno.UI.ToolkitLib
 			DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(TabBarItem), new PropertyMetadata(false, OnPropertyChanged));
 		#endregion
 
+
 		#region IsSelectable
 		public bool IsSelectable
 		{

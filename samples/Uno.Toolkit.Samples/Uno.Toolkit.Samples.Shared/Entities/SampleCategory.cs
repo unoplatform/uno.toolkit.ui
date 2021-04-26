@@ -11,7 +11,7 @@ namespace Uno.Toolkit.Samples.Entities
 		/// </summary>
 		None,
 
-		Styles,
+		Behaviors,
 		Controls,
 		Helpers,
 

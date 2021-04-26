@@ -8,6 +8,48 @@
 	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
 	  mc:Ignorable="d">
 
+	<Page.Resources>
+		<Style x:Key="TabBarWithIndicatorStyle"
+			   TargetType="toolkit:TabBar">
+			<Setter Property="IsTabStop"
+					Value="False" />
+			<Setter Property="Height"
+					Value="{StaticResource TabBarHeight}" />
+			<Setter Property="ItemsPanel">
+				<Setter.Value>
+					<ItemsPanelTemplate>
+						<toolkit:TabBarListPanel />
+					</ItemsPanelTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="toolkit:TabBar">
+						<Grid x:Name="TabBarGrid"
+							  Background="{TemplateBinding Background}"
+							  BorderBrush="{TemplateBinding BorderBrush}"
+							  BorderThickness="{TemplateBinding BorderThickness}"
+							  Height="{TemplateBinding Height}">
+							<ItemsPresenter Padding="{TemplateBinding Padding}" />
+							<toolkit:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+																 x:Name="SelectionIndicatorPresenter"
+																 AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+																 IndicatorTransitionMode="Snap"
+																 Opacity="0">
+								<Rectangle Fill="Purple"
+										   x:Name="TestingRect"
+										   AutomationProperties.AutomationId="TestingRect"
+										   VerticalAlignment="Bottom"
+										   Margin="0,0,0,10"
+										   Height="5"
+										   Width="30" />
+							</toolkit:TabBarSelectionIndicatorPresenter>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Page.Resources>
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<sample:SamplePageLayout>
 			<sample:SamplePageLayout.SampleTemplate>
@@ -22,6 +64,7 @@
 											   Style="{StaticResource BodyTextBlockStyle}" />
 									<toolkit:TabBar Background="Tomato"
 													BorderBrush="Blue"
+													SelectedIndex="1"
 													BorderThickness="1">
 										<toolkit:TabBar.Items>
 											<toolkit:TabBarItem Icon="Accept"
@@ -91,6 +134,7 @@
 									<TextBlock Text="Custom SelectionIndicator"
 											   Style="{StaticResource BodyTextBlockStyle}" />
 									<toolkit:TabBar Background="Tomato"
+													Style="{StaticResource TabBarWithIndicatorStyle}"
 													x:Name="TabBar_SelectionIndicator"
 													AutomationProperties.AutomationId="TabBar_SelectionIndicator">
 										<toolkit:TabBar.Items>

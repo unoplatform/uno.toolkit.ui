@@ -12,18 +12,20 @@
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
     <PackageReference Include="Uno.Core" Version="2.3.0" />
-    <PackageReference Include="Uno.UI" Version="3.8.0-dev.280" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
+    <PackageReference Include="Uno.WinUI">
+      <Version>3.7.0-dev.340</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{C2264DB6-2DBD-449F-A28D-83B4F7E7E5E5}</ProjectGuid>
+    <ProjectGuid>{87856F49-5080-4941-8031-955A0E4C2A5D}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Uno.Toolkit.Samples</RootNamespace>
-    <AssemblyName>Uno.Toolkit.Samples</AssemblyName>
+    <RootNamespace>Uno.Toolkit.WinUI.Samples</RootNamespace>
+    <AssemblyName>Uno.Toolkit.WinUI.Samples</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
@@ -31,8 +33,7 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Uno.Toolkit.Samples.Uwp_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <LangVersion>Latest</LangVersion>
+    <PackageCertificateKeyFile>Uno.Toolkit.WinUI.Samples.Uwp_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -127,11 +128,14 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
+  	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
+	</PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj">
-      <Project>{aeed47ed-bd21-4f03-a7a9-124cf63e4b1c}</Project>
-      <Name>Uno.Toolkit.UI</Name>
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj">
+      <Project>{50ea1339-d38d-47f7-848a-8a827a959691}</Project>
+      <Name>Uno.Toolkit.WinUI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -141,7 +145,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Uno.Toolkit.Samples.UWP_TemporaryKey.pfx" />
+    <None Include="Uno.Toolkit.WinUI.Samples.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -152,7 +156,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
-  <Import Project="..\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
+  <Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
