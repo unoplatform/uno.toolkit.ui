@@ -23,7 +23,7 @@
 		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362.0'">
 			
 			<ItemGroup>
-				<PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.0" />
+				<PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.5" />
 			</ItemGroup>
 			
 		</When>
