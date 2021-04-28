@@ -147,6 +147,10 @@ namespace Uno.UI.ToolkitLib
 			{
 				OnSelectionIndicatorPlacementChanged();
 			}
+			else if (property == SelectedIndexProperty)
+			{
+
+			}
 		}
 
 		private void OnSelectionIndicatorPlacementChanged()

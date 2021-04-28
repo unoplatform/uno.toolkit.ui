@@ -198,6 +198,21 @@ namespace Uno.UI.ToolkitLib
 			DependencyProperty.Register(nameof(SelectionIndicatorTemplateSelector), typeof(DataTemplateSelector), typeof(TabBar), new PropertyMetadata(default));
 		#endregion
 
+		#region
+
+
+		public int SelectedIndex
+		{
+			get { return (int)GetValue(SelectedIndexProperty); }
+			set { SetValue(SelectedIndexProperty, value); }
+		}
+
+		public static DependencyProperty SelectedIndexProperty { get; } =
+			DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(TabBar), new PropertyMetadata(0, OnPropertyChanged));
+
+
+		#endregion
+
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
 		{
 			var owner = (TabBar)sender;
