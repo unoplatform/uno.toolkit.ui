@@ -44,7 +44,7 @@
     <PackageReference Include="Uno.WinUI.WebAssembly" Version="3.6.6" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.6.6" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.4" />
-    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.4" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
