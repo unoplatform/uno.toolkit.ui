@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Uno.Toolkit.Samples.Entities;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -23,18 +25,16 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Uno.Toolkit.Samples
+namespace Uno.Toolkit.Samples.Content.Controls
 {
-	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
-	/// </summary>
-	public sealed partial class MainPage : Page
-	{
-		public MainPage()
-		{
-			this.InitializeComponent();
-		}
-	}
+    [SamplePage(SampleCategory.Controls, "TabBar")]
+    public sealed partial class TabBarSamplePage : Page
+    {
+        public TabBarSamplePage()
+        {
+            this.InitializeComponent();
+        }
+    }
 }

@@ -5,7 +5,18 @@
     xmlns:local="using:Uno.Toolkit.Samples">
 	
 	<Application.Resources>
-		<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!-- Load WinUI resources -->
+				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
+
+				<ResourceDictionary Source="Converters.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/SamplePageLayout.xaml" />
+				<ResourceDictionary>
+					<x:Double x:Key="DesktopAdaptiveThresholdWidth">720</x:Double>
+				</ResourceDictionary>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
 	</Application.Resources>
 
 </Application>

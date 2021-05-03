@@ -18,20 +18,53 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarSamplePage.xaml.cs">
+      <DependentUpon>TabBarSamplePage.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\SamplePageLayout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\FromBoolToValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\FromStringToValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Data\TestCollections.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Design.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Sample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SampleCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SamplePageAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\HierarchyHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelperEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\SamplePageLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\BackButton.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\DownArrowIcon.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\UnoLogo.png" />
   </ItemGroup>
 </Project>

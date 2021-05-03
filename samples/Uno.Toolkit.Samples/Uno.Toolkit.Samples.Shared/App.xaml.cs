@@ -38,6 +38,8 @@ namespace Uno.Toolkit.Samples
 	/// </summary>
 	public sealed partial class App : Application
 	{
+		private Shell _shell;
+
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
@@ -61,74 +63,24 @@ namespace Uno.Toolkit.Samples
 		protected override void OnLaunched(XamlLaunchActivatedEventArgs e)
 		{
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                // this.DebugSettings.EnableFrameRateCounter = true;
-            }
+			if (System.Diagnostics.Debugger.IsAttached)
+			{
+				// this.DebugSettings.EnableFrameRateCounter = true;
+			}
 #endif
 
-#if NET5_0 && WINDOWS
-            var window = new Window();
-            window.Activate();
-#else
+#if WINDOWS_UWP
+			Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(320, 568)); // (size of the iPhone SE)
+#endif
+
 			var window = XamlWindow.Current;
-#endif
-
-			var rootFrame = window.Content as Frame;
-
-			// Do not repeat app initialization when the Window already has content,
-			// just ensure that the window is active
-			if (rootFrame == null)
+			if (!(window.Content is Shell))
 			{
-				// Create a Frame to act as the navigation context and navigate to the first page
-				rootFrame = new Frame();
-
-				rootFrame.NavigationFailed += OnNavigationFailed;
-				var previousExecutionState =
-#if IS_WINUI
-					e.UWPLaunchActivatedEventArgs.PreviousExecutionState;
-#else
-					e.PreviousExecutionState;
-#endif
-				if (previousExecutionState == ApplicationExecutionState.Terminated)
-				{
-					//TODO: Load state from previously suspended application
-				}
-
-				// Place the frame in the current Window
-				window.Content = rootFrame;
+				window.Content = _shell = BuildShell();
 			}
 
-#if !(NET5_0 && WINDOWS)
-			var prelaunchActivated =
-#if IS_WINUI
-					e.UWPLaunchActivatedEventArgs.PrelaunchActivated;
-#else
-					e.PrelaunchActivated;
-#endif
-			if (prelaunchActivated == false)
-#endif
-			{
-				if (rootFrame.Content == null)
-				{
-					// When the navigation stack isn't restored navigate to the first page,
-					// configuring the new page by passing required information as a navigation
-					// parameter
-					rootFrame.Navigate(typeof(MainPage), e.Arguments);
-				}
-				// Ensure the current window is active
-				window.Activate();
-			}
-		}
-
-		/// <summary>
-		/// Invoked when Navigation to a certain page fails
-		/// </summary>
-		/// <param name="sender">The Frame which failed navigation</param>
-		/// <param name="e">Details about the navigation failure</param>
-		void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-		{
-			throw new Exception($"Failed to load {e.SourcePageType.FullName}: {e.Exception}");
+			// Ensure the current window is active
+			window.Activate();
 		}
 
 		/// <summary>
