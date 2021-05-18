@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -43,8 +43,9 @@
     <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
     <PackageReference Include="Uno.WinUI.WebAssembly" Version="3.6.6" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.6.6" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.4" />
-    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.4" />
+	  <PackageReference Include="Uno.Wasm.Bootstrap" Version="2.0.0" />
+	  <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="2.0.0" />
+	  <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
