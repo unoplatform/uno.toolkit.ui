@@ -39,6 +39,15 @@ namespace Uno.Toolkit.Samples
 
 		public MUXC.NavigationView NavigationView => NavigationViewControl;
 
+		public string CurrentSampleBackdoor
+		{
+			get { return (string)GetValue(CurrentSampleBackdoorProperty); }
+			set { SetValue(CurrentSampleBackdoorProperty, value); }
+		}
+
+		public static DependencyProperty CurrentSampleBackdoorProperty { get; } =
+			DependencyProperty.Register(nameof(CurrentSampleBackdoor), typeof(string), typeof(Shell), new PropertyMetadata(null));
+
 
 		/// <summary>
 		/// This method handles the top padding for phones like iPhone X.

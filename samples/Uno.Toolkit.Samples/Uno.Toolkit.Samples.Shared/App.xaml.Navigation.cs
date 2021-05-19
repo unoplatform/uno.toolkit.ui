@@ -19,11 +19,15 @@ using MUXC = Microsoft.UI.Xaml.Controls;
 using MUXCP = Microsoft.UI.Xaml.Controls.Primitives;
 using Uno.Toolkit.Samples.Content.Controls;
 using Uno.Toolkit.Samples.Helpers;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace Uno.Toolkit.Samples
 {
 	partial class App
 	{
+		private static Sample[] _samples;
+
 		/// <summary>
 		/// Invoked when Navigation to a certain page fails
 		/// </summary>
@@ -73,6 +77,8 @@ namespace Uno.Toolkit.Samples
 		private Shell BuildShell()
 		{
 			_shell = new Shell();
+			AutomationProperties.SetAutomationId(_shell, "AppShell");
+			_shell.RegisterPropertyChangedCallback(Shell.CurrentSampleBackdoorProperty, OnCurrentSampleBackdoorChanged);
 			var nv = _shell.NavigationView;
 			AddNavigationItems(nv);
 
@@ -93,6 +99,20 @@ namespace Uno.Toolkit.Samples
 			return _shell;
 		}
 
+		private void OnCurrentSampleBackdoorChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			var sample = GetSamples()
+				.FirstOrDefault(x => string.Equals(x.Title, _shell.CurrentSampleBackdoor, StringComparison.OrdinalIgnoreCase));
+
+			if (sample == null)
+			{
+				this.Log().LogWarning($"No SampleAttribute found with a Title that matches: {_shell.CurrentSampleBackdoor}");
+				return;
+			}
+
+			ShellNavigateTo(sample);
+		}
+
 		private void OnNavigationItemInvoked(MUXC.NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs e)
 		{
 			if (e.InvokedItemContainer.DataContext is Sample sample)
@@ -103,11 +123,7 @@ namespace Uno.Toolkit.Samples
 
 		private void AddNavigationItems(MUXC.NavigationView nv)
 		{
-			var categories = Assembly.GetExecutingAssembly().DefinedTypes
-				.Where(x => x.Namespace?.StartsWith("Uno.Toolkit.Samples") == true)
-				.Select(x => new { TypeInfo = x, SamplePageAttribute = x.GetCustomAttribute<SamplePageAttribute>() })
-				.Where(x => x.SamplePageAttribute != null)
-				.Select(x => new Sample(x.SamplePageAttribute, x.TypeInfo.AsType()))
+			var categories = GetSamples()
 				.OrderByDescending(x => x.SortOrder.HasValue)
 				.ThenBy(x => x.SortOrder)
 				.ThenBy(x => x.Title)
@@ -158,5 +174,14 @@ namespace Uno.Toolkit.Samples
 				});
 			}
 		}
+
+		public static IEnumerable<Sample> GetSamples()
+			=> _samples = _samples ?? Assembly.GetExecutingAssembly()
+				.DefinedTypes
+				.Where(x => x.Namespace?.StartsWith("Uno.Toolkit.Samples") == true)
+				.Select(x => new { TypeInfo = x, SamplePageAttribute = x.GetCustomAttribute<SamplePageAttribute>() })
+				.Where(x => x.SamplePageAttribute != null)
+				.Select(x => new Sample(x.SamplePageAttribute, x.TypeInfo.AsType()))
+				.ToArray();
 	}
 }
