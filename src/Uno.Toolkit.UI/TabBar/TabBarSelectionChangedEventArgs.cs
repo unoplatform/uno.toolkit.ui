@@ -15,25 +15,5 @@ namespace Uno.UI.ToolkitLib
 		{
 			get; internal set;
 		}
-
-		public TabBarItem? NewItemContainer
-		{
-			get; internal set;
-		}
-
-		public TabBarItem? OldItemContainer
-		{
-			get; internal set;
-		}
-
-		public double NewItemCenterX
-		{
-			get; internal set;
-		}
-
-		public double OldItemCenterX
-		{
-			get; internal set;
-		}
 	}
 }
