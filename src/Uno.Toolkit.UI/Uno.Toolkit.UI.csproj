@@ -20,7 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
-		<PackageReference Include="Microsoft.UI.Xaml" Version="2.4" />
+		<PackageReference Include="Microsoft.UI.Xaml" Version="2.6.0" />
 	</ItemGroup>
 	
   <ItemGroup>
