@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
-#else 
+#else
 using Windows.UI.Xaml;
 #endif
 
@@ -23,7 +23,19 @@ namespace Uno.UI.ToolkitLib
 
 		public ToolkitResources()
 		{
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/TabBar/TabBar.xaml") });
+			var dicts = new string[]
+			{
+				"DrawerControl/DrawerControl.xaml",
+				"DrawerControl/DrawerControl.Enhanced.xaml",
+				"TabBar/TabBar.xaml",
+			};
+			foreach (var dict in dicts)
+			{
+				MergedDictionaries.Add(new ResourceDictionary
+				{
+					Source = new Uri($"ms-appx:///{PackageName}/{dict}")
+				});
+			}
 		}
 	}
 }
