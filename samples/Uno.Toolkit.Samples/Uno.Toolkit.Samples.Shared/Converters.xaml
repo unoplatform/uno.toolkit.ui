@@ -11,4 +11,11 @@
 	<converters:FromBoolToValueConverter x:Key="TrueToVisible"
 										 TrueValue="Visible"
 										 NullOrFalseValue="Collapsed" />
+
+	<converters:FromBoolToValueConverter x:Key="NotTrue"
+										 TrueValue="False"
+										 NullOrFalseValue="True" />
+	<converters:FromBoolToValueConverter x:Key="IsFalse"
+										 FalseValue="True"
+										 NullOrTrueValue="False" />
 </ResourceDictionary>

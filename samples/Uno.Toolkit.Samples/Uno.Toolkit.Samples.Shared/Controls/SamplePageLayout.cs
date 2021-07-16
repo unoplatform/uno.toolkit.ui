@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Uno.Toolkit.Samples.Entities;
+using Uno.Toolkit.Samples.Helpers;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -104,5 +105,21 @@ namespace Uno.Toolkit.Samples
 				}
 			}
 		}
+
+		/// <summary>
+		/// Get control inside the data template.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="name">The 'x:Name' of the control</param>
+		/// <returns></returns>
+		/// <remarks>The caller must ensure the control is loaded. This is best done from <see cref="FrameworkElement.Loaded"/> event.</remarks>
+		public T GetSampleChild<T>(string name)
+			where T : FrameworkElement
+		{
+			var presenter = (ContentPresenter)GetTemplateChild($"SampleContentPresenter");
+
+			return VisualTreeHelperEx.GetFirstDescendant<T>(presenter, x => x.Name == name);
+		}
+
 	}
 }
