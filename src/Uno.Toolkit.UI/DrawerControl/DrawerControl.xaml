@@ -21,7 +21,8 @@
 						<Border x:Name="LightDismissOverlay"
 								Background="{TemplateBinding LightDismissOverlayBackground}" />
 						<ContentPresenter x:Name="DrawerContentPresenter"
-										  Content="{TemplateBinding DrawerContent}">
+										  Content="{TemplateBinding DrawerContent}"
+										  Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}">
 							<ContentPresenter.RenderTransform>
 								<TranslateTransform />
 							</ContentPresenter.RenderTransform>
