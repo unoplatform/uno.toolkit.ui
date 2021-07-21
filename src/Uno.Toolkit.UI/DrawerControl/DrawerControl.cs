@@ -124,7 +124,7 @@ namespace Uno.UI.ToolkitLib
 			if (_suppressIsOpenHandler) return;
 
 			StopRunningAnimation();
-			UpdateIsOpen((bool)e.NewValue);
+			UpdateIsOpen((bool)e.NewValue, animate: IsLoaded);
 		}
 
 		private void OnDrawerDepthChanged(DependencyPropertyChangedEventArgs e)
@@ -278,13 +278,18 @@ namespace Uno.UI.ToolkitLib
 			if (_storyboard != null && _storyboard.GetCurrentState() != ClockState.Stopped)
 			{
 				// we want to Pause() the animation midway to avoid the jarring feeling
-				// but since paused state will still yield ClockState.Stopped
-				// we have to actually use Stop() to differentiate
+				// but since paused state will still yield ClockState.Active
+				// we have to actually use Stop() in order to differentiate
 
-				// and by doing so, we need to restore the translate offset
+				// pause & snapshot the animated values in the middle of animation
+				_storyboard.Pause();
 				var offset = TranslateOffset;
+				var opacity = _lightDismissOverlay?.Opacity ?? default;
+
+				// restore the values after stopping it
 				_storyboard.Stop();
 				TranslateOffset = offset;
+				if (_lightDismissOverlay != null) _lightDismissOverlay.Opacity = opacity;
 			}
 		}
 
