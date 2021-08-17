@@ -42,11 +42,11 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-		<PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
-		<PackageReference Include="Uno.UI.WebAssembly" Version="3.8.0-dev.280" />
-		<PackageReference Include="Uno.UI.RemoteControl" Version="3.8.0-dev.280" Condition="'$(Configuration)'=='Debug'" />
-		<PackageReference Include="Uno.Wasm.Bootstrap" Version="2.0.0" />
-		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="2.0.0" />
+		<PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.3.0-dev.1" />
+		<PackageReference Include="Uno.UI.WebAssembly" Version="3.10.0-dev.390" />
+		<PackageReference Include="Uno.UI.RemoteControl" Version="3.10.0-dev.390" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.Wasm.Bootstrap" Version="3.0.0-dev.132" />
+		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.0.0-dev.132" />
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
 	</ItemGroup>
 	<ItemGroup>
