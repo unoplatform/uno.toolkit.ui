@@ -4,10 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Uno.UI.ToolkitLib.Behaviors
 {
+	/// <summary>
+	/// This class contains the attached properties that can be used to access/modify the same named dependency properties on <see cref="DrawerControl"/>
+	/// when it is nested inside another control like <see cref="SplitView"/> or <see cref="NavigationView"/>.
+	/// </summary>
+	/// <example>
+	/// Usage exmaple:
+	/// <code>
+	/// &lt;muxc:NavigationView
+	///   behaviors:DrawerControlBehavior.LightDismissOverlayBackground=&quot;SkyBlue&quot;
+	///   behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength=&quot;123&quot;
+	///   Style=&quot;{StaticResource DrawerNavigationViewStyle}&quot;&gt;
+	/// </code>
+	/// </example>
 	public static class DrawerControlBehavior
 	{
 		#region DependencyProperty: OpenDirection
