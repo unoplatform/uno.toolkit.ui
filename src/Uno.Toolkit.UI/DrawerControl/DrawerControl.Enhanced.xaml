@@ -15,6 +15,7 @@
 
 	<x:Double x:Key="PaneToggleButtonHeight">40</x:Double>
 	<x:Double x:Key="NavigationViewPaneHeaderRowMinHeight">4</x:Double>
+	<StaticResource x:Key="DrawerControlDrawerBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush" />
 	<SolidColorBrush x:Key="SplitViewDrawerLightDismissOverlayBackgroundBrush" Color="#99000000" />
 	<SolidColorBrush x:Key="NavigationViewDrawerLightDismissOverlayBackgroundBrush" Color="#99000000" />
 
@@ -31,19 +32,23 @@
 		<Setter Property="OpenPaneLength" Value="320" />
 
 		<Setter Property="behaviors:DrawerControlBehavior.OpenDirection" Value="Right" />
+		<Setter Property="behaviors:DrawerControlBehavior.DrawerBackground" Value="{StaticResource DrawerControlDrawerBackgroundBrush}" />
 		<Setter Property="behaviors:DrawerControlBehavior.LightDismissOverlayBackground" Value="{StaticResource SplitViewDrawerLightDismissOverlayBackgroundBrush}" />
 		<Setter Property="behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength" Value="50" />
 		<Setter Property="behaviors:DrawerControlBehavior.IsGestureEnabled" Value="True" />
+		<Setter Property="behaviors:DrawerControlBehavior.FitToDrawerContent" Value="False" />
 
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="SplitView">
 					<toolkit:DrawerControl IsOpen="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsPaneOpen, Mode=TwoWay}"
+										   DrawerBackground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.DrawerBackground)}"
 										   DrawerDepth="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=OpenPaneLength, Mode=TwoWay}"
 										   OpenDirection="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.OpenDirection)}"
 										   LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.LightDismissOverlayBackground)}"
 										   EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
 										   IsGestureEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.IsGestureEnabled)}"
+										   FitToDrawerContent="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.FitToDrawerContent)}"
 										   Background="{TemplateBinding Background}">
 						<toolkit:DrawerControl.Content>
 							<!-- workaround: required to prevent ios black screen when used inside a muxc:NavigationView -->
@@ -78,9 +83,11 @@
 		<Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}" />
 
 		<Setter Property="behaviors:DrawerControlBehavior.OpenDirection" Value="Right" />
+		<Setter Property="behaviors:DrawerControlBehavior.DrawerBackground" Value="{StaticResource DrawerControlDrawerBackgroundBrush}" />
 		<Setter Property="behaviors:DrawerControlBehavior.LightDismissOverlayBackground" Value="{StaticResource NavigationViewDrawerLightDismissOverlayBackgroundBrush}" />
 		<Setter Property="behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength" Value="50" />
 		<Setter Property="behaviors:DrawerControlBehavior.IsGestureEnabled" Value="True" />
+		<Setter Property="behaviors:DrawerControlBehavior.FitToDrawerContent" Value="False" />
 
 		<Setter Property="Template">
 			<Setter.Value>
@@ -111,9 +118,11 @@
 									   PaneBackground="{ThemeResource NavigationViewDefaultPaneBackground}"
 									   IsPaneOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPaneOpen, Mode=TwoWay}"
 									   behaviors:DrawerControlBehavior.OpenDirection="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.OpenDirection)}"
+									   behaviors:DrawerControlBehavior.DrawerBackground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.DrawerBackground)}"
 									   behaviors:DrawerControlBehavior.LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.LightDismissOverlayBackground)}"
 									   behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
 									   behaviors:DrawerControlBehavior.IsGestureEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.IsGestureEnabled)}"
+									   behaviors:DrawerControlBehavior.FitToDrawerContent="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.FitToDrawerContent)}"
 									   Style="{StaticResource DrawerSplitViewStyle}">
 
 								<SplitView.Pane>

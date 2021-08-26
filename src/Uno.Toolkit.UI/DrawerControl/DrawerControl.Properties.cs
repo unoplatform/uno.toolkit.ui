@@ -18,9 +18,25 @@ namespace Uno.UI.ToolkitLib
 {
 	public partial class DrawerControl
 	{
+		/* DrawerContent: ...
+		 * DrawerDepth: The depth (width or height depending on the OpenDirection) of the drawer. 
+		 *		The default value is null which enables fully stretched or fit to content (see FitToDrawerContent).
+		 *		Alternatively, a concrete value can be set for a fixed depth.
+		 * DrawerBackground: ...
+		 * OpenDirection: The direction in which the drawer opens toward. The position of drawer when opened is the opposite of this value.
+		 * IsOpen: ...
+		 * FitToDrawerContent: When DrawerDepth is null, this value dictates if the drawer should:
+		 *	- fit to content and aligned to the edge, or
+		 *	- stretch to fill the control.
+		 * LightDismissOverlayBackground: ...
+		 * EdgeSwipeDetectionLength: The length (width or height depending on the OpenDirection) of the area allowed for opening swipe gesture.
+		 * IsGestureEnabled: Used to en/disable swipe gesture.
+		 */
+
 		internal static class DefaultValues
 		{
 			public const bool IsGestureEnabled = true;
+			public const bool FitToDrawerContent = true;
 		}
 
 		#region DependencyProperty: DrawerContent
@@ -42,14 +58,29 @@ namespace Uno.UI.ToolkitLib
 
 		public static DependencyProperty DrawerDepthProperty { get; } = DependencyProperty.Register(
 			nameof(DrawerDepth),
-			typeof(double),
+			typeof(double?),
 			typeof(DrawerControl),
-			new PropertyMetadata(default(double), OnDrawerDepthChanged));
+			new PropertyMetadata(default(double?), OnDrawerDepthChanged));
 
-		public double DrawerDepth
+		public double? DrawerDepth
 		{
-			get => (double)GetValue(DrawerDepthProperty);
+			get => (double?)GetValue(DrawerDepthProperty);
 			set => SetValue(DrawerDepthProperty, value);
+		}
+
+		#endregion
+		#region DependencyProperty: DrawerBackground
+
+		public static DependencyProperty DrawerBackgroundProperty { get; } = DependencyProperty.Register(
+			nameof(DrawerBackground),
+			typeof(Brush),
+			typeof(DrawerControl),
+			new PropertyMetadata(default(Brush)));
+
+		public Brush DrawerBackground
+		{
+			get => (Brush)GetValue(DrawerBackgroundProperty);
+			set => SetValue(DrawerBackgroundProperty, value);
 		}
 
 		#endregion
@@ -80,6 +111,21 @@ namespace Uno.UI.ToolkitLib
 		{
 			get => (bool)GetValue(IsOpenProperty);
 			set => SetValue(IsOpenProperty, value);
+		}
+
+		#endregion
+		#region DependencyProperty: FitToDrawerContent = true
+
+		public static DependencyProperty FitToDrawerContentProperty { get; } = DependencyProperty.Register(
+			nameof(FitToDrawerContent),
+			typeof(bool),
+			typeof(DrawerControl),
+			new PropertyMetadata(DefaultValues.FitToDrawerContent, OnFitToDrawerContentChanged));
+
+		public bool FitToDrawerContent
+		{
+			get => (bool)GetValue(FitToDrawerContentProperty);
+			set => SetValue(FitToDrawerContentProperty, value);
 		}
 
 		#endregion
@@ -132,5 +178,6 @@ namespace Uno.UI.ToolkitLib
 		private static void OnDrawerDepthChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnDrawerDepthChanged(e);
 		private static void OnOpenDirectionChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnOpenDirectionChanged(e);
 		private static void OnIsOpenChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnIsOpenChanged(e);
+		private static void OnFitToDrawerContentChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnFitToDrawerContentChanged(e);
 	}
 }

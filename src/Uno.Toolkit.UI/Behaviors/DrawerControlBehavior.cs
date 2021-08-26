@@ -31,6 +31,18 @@ namespace Uno.UI.ToolkitLib.Behaviors
 	/// </example>
 	public static class DrawerControlBehavior
 	{
+		#region DependencyProperty: DrawerBackground
+
+		public static DependencyProperty DrawerBackgroundProperty { get; } = DependencyProperty.RegisterAttached(
+			"DrawerBackground",
+			typeof(Brush),
+			typeof(DrawerControlBehavior),
+			new PropertyMetadata(default(Brush)));
+
+		public static Brush GetDrawerBackground(DrawerControl obj) => (Brush)obj.GetValue(DrawerBackgroundProperty);
+		public static void SetDrawerBackground(DrawerControl obj, Brush value) => obj.SetValue(DrawerBackgroundProperty, value);
+
+		#endregion
 		#region DependencyProperty: OpenDirection
 
 		public static DependencyProperty OpenDirectionProperty { get; } = DependencyProperty.RegisterAttached(
@@ -77,6 +89,18 @@ namespace Uno.UI.ToolkitLib.Behaviors
 
 		public static bool GetIsGestureEnabled(DependencyObject obj) => (bool)obj.GetValue(IsGestureEnabledProperty);
 		public static void SetIsGestureEnabled(DependencyObject obj, bool value) => obj.SetValue(IsGestureEnabledProperty, value);
+
+		#endregion
+		#region DependencyProperty: FitToDrawerContent = true
+
+		public static DependencyProperty FitToDrawerContentProperty { get; } = DependencyProperty.RegisterAttached(
+			"FitToDrawerContent",
+			typeof(bool),
+			typeof(DrawerControlBehavior),
+			new PropertyMetadata(DrawerControl.DefaultValues.FitToDrawerContent));
+
+		public static bool GetFitToDrawerContent(DrawerControl obj) => (bool)obj.GetValue(FitToDrawerContentProperty);
+		public static void SetFitToDrawerContent(DrawerControl obj, bool value) => obj.SetValue(FitToDrawerContentProperty, value);
 
 		#endregion
 	}

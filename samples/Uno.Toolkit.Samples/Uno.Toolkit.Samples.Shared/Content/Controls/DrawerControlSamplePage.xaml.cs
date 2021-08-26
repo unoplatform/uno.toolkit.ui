@@ -45,6 +45,8 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		{
 			var sampleDrawerControl = SamplePageLayout.GetSampleChild<DrawerControl>("SampleDrawerControl");
 			var optionOpenDirection = SamplePageLayout.GetSampleChild<ComboBox>("OptionOpenDirection");
+			var optionDrawerDepthLengthIsNull = SamplePageLayout.GetSampleChild<CheckBox>("OptionDrawerDepthLengthIsNull");
+			var optionDrawerDepthValue = SamplePageLayout.GetSampleChild<Slider>("OptionDrawerDepthValue");
 			var optionLightDismissOverlayBackground = SamplePageLayout.GetSampleChild<ComboBox>("OptionLightDismissOverlayBackground");
 			var optionEdgeSwipeDetectionLengthIsNull = SamplePageLayout.GetSampleChild<CheckBox>("OptionEdgeSwipeDetectionLengthIsNull");
 			var optionEdgeSwipeDetectionLengthValue = SamplePageLayout.GetSampleChild<Slider>("OptionEdgeSwipeDetectionLengthValue");
@@ -55,6 +57,14 @@ namespace Uno.Toolkit.Samples.Content.Controls
 			{
 				sampleDrawerControl.OpenDirection = (DrawerOpenDirection)optionOpenDirection.SelectedValue;
 			};
+
+			optionDrawerDepthLengthIsNull.Click += (s, e) => UpdateDrawerDepthLength();
+			optionDrawerDepthValue.ValueChanged += (s, e) => UpdateDrawerDepthLength();
+			void UpdateDrawerDepthLength() =>
+				sampleDrawerControl.DrawerDepth =
+					optionDrawerDepthLengthIsNull.IsChecked == true
+						? default(double?)
+						: optionDrawerDepthValue.Value;
 
 			optionLightDismissOverlayBackground.ItemsSource = "SystemControlBackgroundChromeMediumLowBrush,Pink,SkyBlue".Split(',');
 			optionLightDismissOverlayBackground.SelectedIndex = 0;
@@ -70,7 +80,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
 				};
 			};
 
-			optionEdgeSwipeDetectionLengthIsNull.Checked += (s, e) => UpdateEdgeSwipeDetectionLength();
+			optionEdgeSwipeDetectionLengthIsNull.Click += (s, e) => UpdateEdgeSwipeDetectionLength();
 			optionEdgeSwipeDetectionLengthValue.ValueChanged += (s, e) => UpdateEdgeSwipeDetectionLength();
 			void UpdateEdgeSwipeDetectionLength() =>
 				sampleDrawerControl.EdgeSwipeDetectionLength =

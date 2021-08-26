@@ -32,8 +32,8 @@
 														   DrawerContent="DrawerContent"
 														   IsOpen="{Binding ElementName=OptionIsOpen, Path=IsChecked, Mode=TwoWay}"
 														   OpenDirection="{Binding ElementName=OptionOpenDirection, Path=SelectedItem}"
-														   DrawerDepth="{Binding ElementName=OptionDrawerDepth, Path=Value}"
 														   IsGestureEnabled="{Binding ElementName=OptionIsGestureEnabled, Path=IsChecked}"
+														   FitToDrawerContent="{Binding ElementName=OptionFitToDrawerContent, Path=IsChecked}"
 														   MinHeight="300" />
 								</sample:ControlExample.Content>
 
@@ -44,20 +44,34 @@
 													  IsChecked="False" />
 										<ComboBox x:Name="OptionOpenDirection"
 												  Header="OpenDirection" />
-										<Slider x:Name="OptionDrawerDepth"
-												Header="DrawerDepth"
+
+										<TextBlock>
+											<Run Text="OptionDrawerDepth:" />
+											<Run Text="{Binding ElementName=SampleDrawerControl, Path=DrawerDepth,TargetNullValue='(null)'}" />
+										</TextBlock>
+										<CheckBox x:Name="OptionDrawerDepthLengthIsNull"
+												  Content="IsNull"
+												  IsChecked="True" />
+										<Slider x:Name="OptionDrawerDepthValue"
 												Minimum="10"
 												Maximum="500"
 												Value="320" />
+										<ToggleButton x:Name="OptionFitToDrawerContent"
+													  Content="FitToDrawerContent"
+													  IsChecked="True" />
+										
 										<ComboBox x:Name="OptionLightDismissOverlayBackground"
 												  Header="LightDismissOverlayBackground" />
 										<ToggleButton x:Name="OptionIsGestureEnabled"
 													  Content="IsGestureEnabled"
 													  IsChecked="True" />
-										<TextBlock Text="EdgeSwipeDetectionLength" />
+										<TextBlock>
+											<Run Text="EdgeSwipeDetectionLength:" />
+											<Run Text="{Binding ElementName=SampleDrawerControl, Path=EdgeSwipeDetectionLength,TargetNullValue='(null)'}" />
+										</TextBlock>
 										<CheckBox x:Name="OptionEdgeSwipeDetectionLengthIsNull"
 												  Content="IsNull"
-												  IsChecked="True" />
+												  IsChecked="False" />
 										<Slider x:Name="OptionEdgeSwipeDetectionLengthValue"
 												Minimum="0"
 												Maximum="150"

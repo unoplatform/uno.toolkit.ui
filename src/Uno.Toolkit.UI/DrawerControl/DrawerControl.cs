@@ -45,12 +45,12 @@ namespace Uno.UI.ToolkitLib
 		private const double DragToggleThresholdRatio = 1.0 / 3;
 		private const double AnimateSnappingThresholdRatio = 0.95;
 		private static readonly TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(150);
-		
+
 		// template parts
 		private ContentPresenter? _mainContentPresenter;
 		private ContentPresenter? _drawerContentPresenter;
 		private Border? _lightDismissOverlay;
-		
+
 		// references
 		private TranslateTransform? _drawerContentPresenterTransform;
 		private Storyboard _storyboard = new Storyboard();
@@ -97,6 +97,7 @@ namespace Uno.UI.ToolkitLib
 				ManipulationStarted += OnManipulationStarted;
 				ManipulationDelta += OnManipulationDelta;
 				ManipulationCompleted += OnManipulationCompleted;
+				SizeChanged += OnSizeChanged;
 			}
 			if (_lightDismissOverlay != null)
 			{
@@ -152,6 +153,15 @@ namespace Uno.UI.ToolkitLib
 			UpdateIsOpen(IsOpen, animate: false);
 		}
 
+		private void OnFitToDrawerContentChanged(DependencyPropertyChangedEventArgs e)
+		{
+			UpdateSwipeContentPresenterSize();
+			UpdateSwipeContentPresenterLayout();
+
+			_drawerContentPresenter?.UpdateLayout();
+			UpdateIsOpen(IsOpen, animate: false);
+		}
+
 		private void OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
 			var position =
@@ -174,7 +184,7 @@ namespace Uno.UI.ToolkitLib
 			if (!_isGestureCaptured || !IsGestureEnabled) return;
 			e.Handled = true;
 
-			var length = DrawerDepth;
+			var length = GetActualDrawerDepth();
 			var cumulative = IsOpenDirectionHorizontal() ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
 			var currentOffset = UseNegativeTranslation()
 				? Clamp(-length, _startingTranslateOffset + cumulative, 0)
@@ -191,13 +201,19 @@ namespace Uno.UI.ToolkitLib
 			e.Handled = true;
 
 			StopRunningAnimation();
-			var length = DrawerDepth;
+			var length = GetActualDrawerDepth();
 			var cumulative = IsOpenDirectionHorizontal() ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
 
 			var isInCorrectDirection = Math.Sign(cumulative) == (IsOpen ^ UseNegativeTranslation() ? 1 : -1);
 			var isPastThresholdRatio = Math.Abs(cumulative / length) >= DragToggleThresholdRatio;
 
 			UpdateIsOpen(IsOpen ^ (isInCorrectDirection && isPastThresholdRatio));
+		}
+
+		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			UpdateSwipeContentPresenterSize();
+			UpdateIsOpen(IsOpen, animate: false);
 		}
 
 		private void OnLightDismissOverlayTapped(object sender, TappedRoutedEventArgs e)
@@ -208,7 +224,7 @@ namespace Uno.UI.ToolkitLib
 
 		private void UpdateIsOpen(bool willBeOpen, bool animate = true)
 		{
-			var length = DrawerDepth;
+			var length = GetActualDrawerDepth();
 			var currentOffset = TranslateOffset;
 			var targetOffset = GetSnappingOffsetFor(willBeOpen);
 			var relativeDistanceRatio = Math.Abs(Math.Abs(currentOffset) - Math.Abs(targetOffset)) / length;
@@ -307,24 +323,34 @@ namespace Uno.UI.ToolkitLib
 				case DrawerOpenDirection.Left:
 					_drawerContentPresenter.HorizontalAlignment = HorizontalAlignment.Right;
 					_drawerContentPresenter.VerticalAlignment = VerticalAlignment.Stretch;
+					_drawerContentPresenter.HorizontalContentAlignment = FitToDrawerContent ? HorizontalAlignment.Right : HorizontalAlignment.Stretch;
+					_drawerContentPresenter.VerticalContentAlignment = VerticalAlignment.Stretch;
 					break;
 
 				case DrawerOpenDirection.Down:
 					_drawerContentPresenter.HorizontalAlignment = HorizontalAlignment.Stretch;
 					_drawerContentPresenter.VerticalAlignment = VerticalAlignment.Top;
+					_drawerContentPresenter.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+					_drawerContentPresenter.VerticalContentAlignment = FitToDrawerContent ? VerticalAlignment.Top : VerticalAlignment.Stretch;
 					break;
 
 				case DrawerOpenDirection.Up:
 					_drawerContentPresenter.HorizontalAlignment = HorizontalAlignment.Stretch;
 					_drawerContentPresenter.VerticalAlignment = VerticalAlignment.Bottom;
+					_drawerContentPresenter.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+					_drawerContentPresenter.VerticalContentAlignment = FitToDrawerContent ? VerticalAlignment.Bottom : VerticalAlignment.Stretch;
 					break;
 
 				case DrawerOpenDirection.Right:
 				default:
 					_drawerContentPresenter.HorizontalAlignment = HorizontalAlignment.Left;
 					_drawerContentPresenter.VerticalAlignment = VerticalAlignment.Stretch;
+					_drawerContentPresenter.HorizontalContentAlignment = FitToDrawerContent ? HorizontalAlignment.Left : HorizontalAlignment.Stretch;
+					_drawerContentPresenter.VerticalContentAlignment = VerticalAlignment.Stretch;
 					break;
 			}
+
+
 		}
 
 		private void UpdateSwipeContentPresenterSize()
@@ -334,11 +360,11 @@ namespace Uno.UI.ToolkitLib
 			if (IsOpenDirectionHorizontal())
 			{
 				_drawerContentPresenter.Height = double.NaN;
-				_drawerContentPresenter.Width = DrawerDepth;
+				_drawerContentPresenter.Width = DrawerDepth ?? (FitToDrawerContent ? double.NaN : ActualWidth);
 			}
 			else
 			{
-				_drawerContentPresenter.Height = DrawerDepth;
+				_drawerContentPresenter.Height = DrawerDepth ?? (FitToDrawerContent ? double.NaN : ActualHeight);
 				_drawerContentPresenter.Width = double.NaN;
 			}
 		}
@@ -440,9 +466,28 @@ namespace Uno.UI.ToolkitLib
 			};
 		}
 
+		private double GetActualDrawerDepth()
+		{
+			if (_drawerContentPresenter == null) throw new InvalidOperationException($"{nameof(_drawerContentPresenter)} is null");
+
+			return DrawerDepth ?? (IsOpenDirectionHorizontal()
+				? GetDrawerContentSizeReferenceElement().ActualWidth
+				: GetDrawerContentSizeReferenceElement().ActualHeight
+			);
+
+			FrameworkElement GetDrawerContentSizeReferenceElement() => FitToDrawerContent
+				? (GetDrawerContentElement() ?? _drawerContentPresenter)
+				: _drawerContentPresenter;
+			FrameworkElement? GetDrawerContentElement() =>
+				_drawerContentPresenter.Content as FrameworkElement ??
+				(VisualTreeHelper.GetChildrenCount(_drawerContentPresenter) > 0
+					? VisualTreeHelper.GetChild(_drawerContentPresenter, 0) as FrameworkElement
+					: default);
+		}
+
 		private double GetVectoredLength()
 		{
-			return UseNegativeTranslation() ? -DrawerDepth : DrawerDepth;
+			return UseNegativeTranslation() ? -GetActualDrawerDepth() : GetActualDrawerDepth();
 		}
 
 		private static double Clamp(double min, double value, double max)

@@ -2,12 +2,14 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:toolkit="using:Uno.UI.ToolkitLib">
 
+	<StaticResource x:Key="DrawerControlDrawerBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush" />
 	<SolidColorBrush x:Key="DrawerControlLightDismissOverlayBackgroundBrush" Color="#99000000" />
 
 	<Style TargetType="toolkit:DrawerControl">
 		<Setter Property="Background" Value="Transparent" />
-		<Setter Property="DrawerDepth" Value="320" />
+		<Setter Property="DrawerBackground" Value="{StaticResource DrawerControlDrawerBackgroundBrush}" />
 		<Setter Property="OpenDirection" Value="Right" />
+		<Setter Property="FitToDrawerContent" Value="True" />
 		<Setter Property="EdgeSwipeDetectionLength" Value="50" />
 		<Setter Property="LightDismissOverlayBackground" Value="{StaticResource DrawerControlLightDismissOverlayBackgroundBrush}" />
 
@@ -22,7 +24,7 @@
 								Background="{TemplateBinding LightDismissOverlayBackground}" />
 						<ContentPresenter x:Name="DrawerContentPresenter"
 										  Content="{TemplateBinding DrawerContent}"
-										  Background="{StaticResource SystemControlBackgroundChromeMediumLowBrush}">
+										  Background="{TemplateBinding DrawerBackground}">
 							<ContentPresenter.RenderTransform>
 								<TranslateTransform />
 							</ContentPresenter.RenderTransform>
