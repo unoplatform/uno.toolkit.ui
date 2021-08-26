@@ -7,7 +7,7 @@ using Uno.Disposables;
 using Windows.Foundation;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.UI.ToolkitLib.Behaviors;
-using Windows.UI.Xaml.Media.Animation;
+
 
 
 #if IS_WINUI
@@ -20,6 +20,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI;
+using Microsoft.UI.Xaml.Media.Animation;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,6 +31,7 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI;
+using Windows.UI.Xaml.Media.Animation;
 #endif
 
 namespace Uno.UI.ToolkitLib
