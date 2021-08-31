@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:toolkit="using:Uno.UI.ToolkitLib"
+					xmlns:ios="http://uno.ui/ios"
+					xmlns:android="http://uno.ui/android"
+					mc:Ignorable="android ios">
+	<ios:Style x:Key="NativeDefaultNavigationBar"
+			   TargetType="toolkit:NavigationBar">
+		<Setter Property="Background"
+				Value="{x:Null}" />
+		<Setter Property="Foreground"
+				Value="{x:Null}" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Top" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="toolkit:NavigationBar">
+					<!-- We use BorderBrush instead of Background to ensure that semi-transparent background of Grid and NativeNavigationBarPresenter don't add up -->
+					<Border BorderBrush="{TemplateBinding Background}"
+							BorderThickness="{TemplateBinding Padding}">
+						<!-- TODO: 1px line -->
+						<NativeNavigationBarPresenter x:Name="NativeNavigationBarPresenter"/>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</ios:Style>
+
+	<android:Style x:Key="NativeDefaultNavigationBar"
+				   TargetType="toolkit:NavigationBar">
+		<Setter Property="Background"
+				Value="{x:Null}" />
+		<Setter Property="Foreground"
+				Value="{x:Null}" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Top" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="toolkit:NavigationBar">
+					<NativeNavigationBarPresenter x:Name="NativeNavigationBarPresenter"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</android:Style>
+
+</ResourceDictionary>

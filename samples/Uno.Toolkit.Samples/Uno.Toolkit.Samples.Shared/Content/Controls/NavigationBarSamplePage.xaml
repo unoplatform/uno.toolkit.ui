@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Uno.Toolkit.Samples.Content.Controls.NavigationBarSamplePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="using:Uno.UI.ToolkitLib"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<toolkit:NavigationBar Content="Test Content">
+			<toolkit:NavigationBar.MainCommand>
+				<AppBarButton Icon="Accept" Content="Test Label" />
+			</toolkit:NavigationBar.MainCommand>
+		</toolkit:NavigationBar>
+	</Grid>
+</Page>
