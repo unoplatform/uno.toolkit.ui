@@ -47,6 +47,9 @@ namespace Uno.UI.ToolkitLib
 			typeof(DrawerControl),
 			new PropertyMetadata(default(object)));
 
+		/// <summary>
+		/// Gets or sets the drawer content.
+		/// </summary>
 		public object DrawerContent
 		{
 			get => (object)GetValue(DrawerContentProperty);
@@ -62,6 +65,13 @@ namespace Uno.UI.ToolkitLib
 			typeof(DrawerControl),
 			new PropertyMetadata(default(double?), OnDrawerDepthChanged));
 
+		/// <summary>
+		/// Get or sets the depth (width or height depending on the <see cref="OpenDirection"/>) of the drawer.
+		/// </summary>
+		/// <remarks>
+		/// The default value is null which enables fully stretched or fit to content (see: <seealso cref="FitToDrawerContent"/>).
+		/// Alternatively, a concrete value can be set for a fixed depth.
+		/// </remarks>
 		public double? DrawerDepth
 		{
 			get => (double?)GetValue(DrawerDepthProperty);
@@ -77,6 +87,9 @@ namespace Uno.UI.ToolkitLib
 			typeof(DrawerControl),
 			new PropertyMetadata(default(Brush)));
 
+		/// <summary>
+		/// Gets or sets the background of the drawer.
+		/// </summary>
 		public Brush DrawerBackground
 		{
 			get => (Brush)GetValue(DrawerBackgroundProperty);
@@ -92,6 +105,12 @@ namespace Uno.UI.ToolkitLib
 			typeof(DrawerControl),
 			new PropertyMetadata(default(DrawerOpenDirection), OnOpenDirectionChanged));
 
+		/// <summary>
+		/// Gets or sets the direction in which the drawer opens toward.
+		/// </summary>
+		/// <remarks>
+		/// The position of drawer when opened is the opposite of this value.
+		/// </remarks>
 		public DrawerOpenDirection OpenDirection
 		{
 			get => (DrawerOpenDirection)GetValue(OpenDirectionProperty);
@@ -107,6 +126,9 @@ namespace Uno.UI.ToolkitLib
 			typeof(DrawerControl),
 			new PropertyMetadata(default(bool), OnIsOpenChanged));
 
+		/// <summary>
+		/// Gets or sets a value that specifies whether the drawer is open.
+		/// </summary>
 		public bool IsOpen
 		{
 			get => (bool)GetValue(IsOpenProperty);
@@ -122,6 +144,10 @@ namespace Uno.UI.ToolkitLib
 			typeof(DrawerControl),
 			new PropertyMetadata(DefaultValues.FitToDrawerContent, OnFitToDrawerContentChanged));
 
+		/// <summary>
+		/// Get or sets a value that indicates whether the drawer will fit to content and aligned to the edge
+		/// or stretch to fill the control when <see cref="DrawerDepth"/> is null.
+		/// </summary>
 		public bool FitToDrawerContent
 		{
 			get => (bool)GetValue(FitToDrawerContentProperty);
@@ -137,6 +163,9 @@ namespace Uno.UI.ToolkitLib
 			typeof(DrawerControl),
 			new PropertyMetadata(default(Brush)));
 
+		/// <summary>
+		/// Gets or sets the brush used to paint the light dismiss overlay.
+		/// </summary>
 		public Brush LightDismissOverlayBackground
 		{
 			get => (Brush)GetValue(LightDismissOverlayBackgroundProperty);
@@ -152,6 +181,12 @@ namespace Uno.UI.ToolkitLib
 			typeof(DrawerControl),
 			new PropertyMetadata(default(double?)));
 
+		/// <summary>
+		/// Gets or sets the length (width or height depending on the <see cref="OpenDirection"/>) of the area allowed for opening swipe gesture.
+		/// </summary>
+		/// <remarks>
+		/// By default, this value is null allowing the drawer to be swiped opened from anywhere. Setting a positive value will enforce the edge swipe for openning.
+		/// </remarks>
 		public double? EdgeSwipeDetectionLength
 		{
 			get => (double?)GetValue(EdgeSwipeDetectionLengthProperty);
@@ -167,6 +202,9 @@ namespace Uno.UI.ToolkitLib
 			typeof(DrawerControl),
 			new PropertyMetadata(DefaultValues.IsGestureEnabled));
 
+		/// <summary>
+		/// Get or sets a value that indicates whether the user can interact with the control using gesture.
+		/// </summary>
 		public bool IsGestureEnabled
 		{
 			get => (bool)GetValue(IsGestureEnabledProperty);
