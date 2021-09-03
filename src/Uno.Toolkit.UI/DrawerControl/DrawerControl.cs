@@ -69,6 +69,9 @@ namespace Uno.UI.ToolkitLib
 
 		protected override void OnApplyTemplate()
 		{
+			StopRunningAnimation();
+			ResetPreviousTemplate();
+
 			base.OnApplyTemplate();
 
 			_mainContentPresenter = GetTemplateChild(TemplateParts.MainContentPresenterName) as ContentPresenter;
@@ -117,6 +120,22 @@ namespace Uno.UI.ToolkitLib
 				UpdateIsOpen(IsOpen, animate: false);
 			}
 			_isReady = _drawerContentPresenter != null;
+
+			void ResetPreviousTemplate()
+			{
+				_isReady = false;
+				
+				_storyboard.Children.Clear();
+				_storyboard = new Storyboard();
+
+				_drawerContentPresenterTransform = null;
+				_translateAnimation = null;
+				_opacityAnimation = null;
+
+				_isGestureCaptured = false;
+				_startingTranslateOffset = 0;
+				_suppressIsOpenHandler = false;
+			}
 		}
 
 		private void OnIsOpenChanged(DependencyPropertyChangedEventArgs e)
@@ -164,6 +183,8 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
+			if (!IsGestureEnabled) return;
+
 			var position =
 #if MANIPULATION_ABSOLUTE_COORD_ISSUE
 				this.TransformToVisual(null).Inverse.TransformPoint(e.Position);
@@ -172,11 +193,17 @@ namespace Uno.UI.ToolkitLib
 #endif
 
 			_isGestureCaptured = IsOpen ? true : IsInRangeForOpeningEdgeSwipe(position);
-			if (!_isGestureCaptured || !IsGestureEnabled) return;
-			e.Handled = true;
+			if (_isGestureCaptured)
+			{
+				StopRunningAnimation();
+				_startingTranslateOffset = TranslateOffset;
 
-			StopRunningAnimation();
-			_startingTranslateOffset = TranslateOffset;
+				e.Handled = true;
+			}
+			else
+			{
+				e.Complete();
+			}
 		}
 
 		private void OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
