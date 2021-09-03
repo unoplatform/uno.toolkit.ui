@@ -1,6 +1,6 @@
 ﻿#if HAS_UNO
-#define STORYBOARD_RETARGET_ISSUE
-#define MANIPULATION_ABSOLUTE_COORD_ISSUE
+#define STORYBOARD_RETARGET_ISSUE // https://github.com/unoplatform/uno/issues/6960
+#define MANIPULATION_ABSOLUTE_COORD_ISSUE // https://github.com/unoplatform/uno/issues/6964
 #endif
 
 using System;
