@@ -116,10 +116,16 @@
     <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="3.10.0-dev.390" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.10.0-dev.390" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.Cupertino">
+      <Version>1.0.0-dev.810</Version>
+    </PackageReference>
+    <PackageReference Include="Uno.Material">
+      <Version>1.0.0-dev.810</Version>
+    </PackageReference>
+    <PackageReference Include="Uno.UI" Version="3.10.0-dev.593" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="3.10.0-dev.593" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="Uno.Extensions.Logging.OSLog " Version="1.0.1" />
+    <PackageReference Include="Uno.Extensions.Logging.OSLog " Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">

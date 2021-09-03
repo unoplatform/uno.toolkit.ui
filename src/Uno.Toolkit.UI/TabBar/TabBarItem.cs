@@ -45,9 +45,10 @@ namespace Uno.UI.ToolkitLib
 		{
 			DefaultStyleKey = typeof(TabBarItem);
 			Loaded += OnLoaded;
+            LostFocus += OnLostFocus;
 		}
 
-		private void OnLoaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			UpdateCommonStates();
 		}
@@ -174,5 +175,10 @@ namespace Uno.UI.ToolkitLib
 			return state;
 		}
 
+		private void OnLostFocus(object sender, RoutedEventArgs e)
+		{
+			// Prevent VisualState from being reset to Normal upon lost focus
+			UpdateCommonStates();
+		}
 	}
 }

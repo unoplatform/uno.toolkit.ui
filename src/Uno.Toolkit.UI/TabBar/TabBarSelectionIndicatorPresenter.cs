@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Uno.Disposables;
 using Windows.Foundation;
 using Uno.UI.ToolkitLib.Extensions;
+using Uno.UI.ToolkitLib.Behaviors;
+
 
 
 #if IS_WINUI
@@ -18,6 +20,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI;
+using Microsoft.UI.Xaml.Media.Animation;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -28,6 +31,7 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI;
+using Windows.UI.Xaml.Media.Animation;
 #endif
 
 namespace Uno.UI.ToolkitLib
@@ -40,6 +44,7 @@ namespace Uno.UI.ToolkitLib
 		private readonly SerialDisposable _tabBarSelectionChangedRevoker = new();
 		private readonly SerialDisposable _tabBarItemSizeChangedRevoker = new();
 		private readonly SerialDisposable _offsetChangedRevoker = new();
+		private readonly Storyboard _indicatorSlideStoryboard = new();
 
 		/// <summary>
 		/// Return the view within the Panel being used as the selection indicator
@@ -48,6 +53,7 @@ namespace Uno.UI.ToolkitLib
 		public UIElement? GetSelectionIndicator()
 			=> Children?.FirstOrDefault();
 
+		private bool _isSelectorPresent => TabBarSelectorBehavior.GetSelector(Owner) != null;
 
 		public TabBarSelectionIndicatorPresenter()
 		{
@@ -93,7 +99,7 @@ namespace Uno.UI.ToolkitLib
 		{
 			if (sender is not TabBar tabBar
 				|| GetSelectionIndicator() is not { } selectionIndicator
-				|| IndicatorTransitionMode != IndicatorTransitionMode.Slide)
+				|| !_isSelectorPresent)
 			{
 				return;
 			}
@@ -123,7 +129,7 @@ namespace Uno.UI.ToolkitLib
 			_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => tabBarItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
 
 			//If a selection is being made for the first time, start showing the indicator
-			if (IndicatorTransitionMode == IndicatorTransitionMode.Snap
+			if (!_isSelectorPresent
 				|| args.OldItem == null)
 			{
 				Opacity = 1f;
@@ -147,7 +153,42 @@ namespace Uno.UI.ToolkitLib
 				.TransformPoint(point);
 
 			nextPos = nextPosPoint.X + (selectedItem.ActualWidth / 2);
-			child.RenderTransform = new TranslateTransform() { X = nextPos - (child.ActualSize.X / 2) };
+
+			if (IndicatorTransitionMode == IndicatorTransitionMode.Snap)
+			{
+				child.RenderTransform = new TranslateTransform() { X = nextPos - (child.ActualSize.X / 2) };
+			}
+			else if (IndicatorTransitionMode == IndicatorTransitionMode.Slide)
+			{
+				_indicatorSlideStoryboard.Stop();
+				_indicatorSlideStoryboard.Children.Clear();
+
+				var easing = new ExponentialEase();
+
+				var transform = child.RenderTransform as CompositeTransform;
+				if (transform == null)
+				{
+					transform = new CompositeTransform();
+					child.RenderTransform = transform;
+				}
+				child.RenderTransformOrigin = new Point(0, 0);
+
+				var db = new DoubleAnimation
+				{
+					To = nextPos - (child.ActualSize.X / 2),
+					From = null,
+					EasingFunction = easing,
+					Duration = TimeSpan.FromMilliseconds(400)
+				};
+				Storyboard.SetTarget(db, child);
+				var axis = "X";	// X axis
+				Storyboard.SetTargetProperty(db, $"(UIElement.RenderTransform).(CompositeTransform.Translate{axis})");
+
+				_indicatorSlideStoryboard.BeginTime = TimeSpan.FromMilliseconds(0);
+
+				_indicatorSlideStoryboard.Children.Add(db);
+				_indicatorSlideStoryboard.Begin();
+			}
 		}
 	}
 }

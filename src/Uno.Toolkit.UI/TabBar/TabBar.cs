@@ -39,14 +39,25 @@ namespace Uno.UI.ToolkitLib
 		private bool _isSynchronizingSelection = false;
 		private object? _previouslySelectedItem = null;
 
+		public TabBarTemplateSettings TemplateSettings { get; }
+
 		public TabBar()
 		{
 			DefaultStyleKey = typeof(TabBar);
 
 			RegisterPropertyChangedCallback(ItemsSourceProperty, (s, e) => (s as TabBar)?.OnItemsSourceChanged());
 			Loaded += OnLoaded;
+			TemplateSettings = new TabBarTemplateSettings();
+			SizeChanged += OnSizeChanged;
 		}
 
+		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (e.PreviousSize.Width != e.NewSize.Width)
+			{
+				TemplateSettings.SelectionIndicatorWidth = e.NewSize.Width / Items.Count;
+			}
+		}
 
 		protected override void OnApplyTemplate()
 		{
@@ -88,6 +99,11 @@ namespace Uno.UI.ToolkitLib
 			base.OnItemsChanged(e);
 
 			var selectedContainer = GetItemContainers().FirstOrDefault(x => x.IsSelected);
+			if (selectedContainer != null)
+			{
+				TemplateSettings.SelectionIndicatorWidth = selectedContainer.Width;
+			}
+
 			UpdateSelection(selectedContainer);
 		}
 
