@@ -34,7 +34,7 @@
 							<toolkit:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
 																 x:Name="SelectionIndicatorPresenter"
 																 AutomationProperties.AutomationId="SelectionIndicatorPresenter"
-																 IndicatorTransitionMode="Snap"
+																 IndicatorTransitionMode="Slide"
 																 Opacity="0">
 								<Rectangle Fill="Purple"
 										   x:Name="TestingRect"

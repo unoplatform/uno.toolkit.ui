@@ -24,6 +24,8 @@ namespace Uno.UI.ToolkitLib
 		public ToolkitResources()
 		{
 			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/TabBar/TabBar.xaml") });
+			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Themes/Cupertino/SlidingSegmentedControl.xaml") });
+			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Themes/Cupertino/SegmentedControl.xaml") });
 		}
 	}
 }

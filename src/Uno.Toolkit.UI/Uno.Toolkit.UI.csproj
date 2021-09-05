@@ -33,4 +33,24 @@
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <None Remove="Themes\Cupertino\SegmentedControl.xaml" />
+    <None Remove="Themes\Cupertino\SlidingSegmentedControl.xaml" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Themes\Cupertino\SegmentedControl.xaml" />
+    <UpToDateCheckInput Remove="Themes\Cupertino\SlidingSegmentedControl.xaml" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Page Update="Themes\Cupertino\SegmentedControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\Cupertino\SlidingSegmentedControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 </Project>

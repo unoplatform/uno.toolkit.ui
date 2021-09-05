@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="Uno.Toolkit.Samples.Content.Controls.SegmentedControlsSamplePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:sample="using:Uno.Toolkit.Samples" 
+    xmlns:toolkit="using:Uno.UI.ToolkitLib"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <sample:SamplePageLayout>
+            <sample:SamplePageLayout.SampleTemplate>
+                <DataTemplate>
+                    <ScrollViewer>
+                        <StackPanel Spacing="20">
+                            <Border Padding="20"
+									BorderThickness="2"
+									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+                                <StackPanel>
+                                    <TextBlock Text="SlidingSegmentedControl"
+											   Style="{StaticResource BodyTextBlockStyle}" />
+                                    <toolkit:TabBar Style="{StaticResource CupertinoSlidingSegmentedControlStyle}">
+                                        <toolkit:TabBar.Items>
+                                            <toolkit:TabBarItem Content="Tab 1" />
+                                            <toolkit:TabBarItem Content="Tab 2"/>
+                                            <toolkit:TabBarItem Content="Tab 3" />
+                                            <toolkit:TabBarItem Content="Tab 4" />
+                                        </toolkit:TabBar.Items>
+                                    </toolkit:TabBar>
+                                </StackPanel>
+                            </Border>
+                            <Border Padding="20"
+									BorderThickness="2"
+									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+                                <StackPanel>
+                                    <TextBlock Text="SegmentedControl"
+											   Style="{StaticResource BodyTextBlockStyle}" />
+                                    <toolkit:TabBar Style="{StaticResource CupertinoSegmentedControlStyle}"
+													ItemsSource="{Binding Data.Items}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DataTemplate>
+            </sample:SamplePageLayout.SampleTemplate>
+        </sample:SamplePageLayout>
+    </Grid>
+</Page>

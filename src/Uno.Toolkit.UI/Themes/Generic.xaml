@@ -7,6 +7,6 @@
 		   BasedOn="{StaticResource DefaultTabBarStyle}" />
 	
 	<!-- TabBarItem -->
-	<Style TargetType="toolkit:TabBarItem"
+    <Style TargetType="toolkit:TabBarItem"
 		   BasedOn="{StaticResource DefaultTabBarItemStyle}" />
 </ResourceDictionary>
