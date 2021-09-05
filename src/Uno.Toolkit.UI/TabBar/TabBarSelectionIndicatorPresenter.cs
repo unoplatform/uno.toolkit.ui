@@ -7,6 +7,7 @@ using Uno.Disposables;
 using Windows.Foundation;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.UI.ToolkitLib.Behaviors;
+using System.Numerics;
 
 
 
@@ -46,11 +47,11 @@ namespace Uno.UI.ToolkitLib
 		private readonly SerialDisposable _offsetChangedRevoker = new();
 		private readonly Storyboard _indicatorSlideStoryboard = new();
 
-		/// <summary>
-		/// Return the view within the Panel being used as the selection indicator
-		/// </summary>
-		/// <returns></returns>
-		public UIElement? GetSelectionIndicator()
+        /// <summary>
+        /// Return the view within the Panel being used as the selection indicator
+        /// </summary>
+        /// <returns></returns>
+        public UIElement? GetSelectionIndicator()
 			=> Children?.FirstOrDefault();
 
 		private bool _isSelectorPresent => TabBarSelectorBehavior.GetSelector(Owner) != null;
@@ -62,8 +63,11 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs args)
 		{
-			var selectedItem = Owner?.SelectedItem as TabBarItem;
-			MoveSelectionIndicator(selectedItem);
+			if (Owner?.SelectedItem is not null)
+            {
+				var selectedItem = Owner?.ContainerFromIndex(Owner.SelectedIndex) as TabBarItem;
+				MoveSelectionIndicator(selectedItem, true);
+			}
 		}
 
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
@@ -91,8 +95,11 @@ namespace Uno.UI.ToolkitLib
 			tabBar.SelectionChanged += OnTabBarSelectionChanged;
 			_tabBarSelectionChangedRevoker.Disposable = Disposable.Create(() => tabBar.SelectionChanged -= OnTabBarSelectionChanged);
 
-			var selectedItem = Owner?.SelectedItem as TabBarItem;
-			MoveSelectionIndicator(selectedItem);
+			if (Owner?.SelectedItem is not null)
+			{
+				var selectedItem = Owner?.ContainerFromIndex(Owner.SelectedIndex) as TabBarItem;
+				MoveSelectionIndicator(selectedItem);
+			}
 		}
 
 		private void OnSelectionOffsetChanged(DependencyObject sender, DependencyProperty dp)
@@ -112,8 +119,11 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnSelectedTabBarItemSizeChanged(object sender, object e)
 		{
-			var selectedItem = Owner?.SelectedItem as TabBarItem;
-			MoveSelectionIndicator(selectedItem);
+			if (Owner?.SelectedItem is not null)
+			{
+				var selectedItem = Owner?.ContainerFromIndex(Owner.SelectedIndex) as TabBarItem;
+				MoveSelectionIndicator(selectedItem, true);
+			}
 		}
 
 		private void OnTabBarSelectionChanged(TabBar sender, TabBarSelectionChangedEventArgs args)
@@ -137,7 +147,7 @@ namespace Uno.UI.ToolkitLib
 			}
 		}
 
-		private void MoveSelectionIndicator(TabBarItem? selectedItem)
+		private void MoveSelectionIndicator(TabBarItem? selectedItem, bool alwaysSnap = false)
 		{
 			if (selectedItem == null
 				|| Owner == null
@@ -154,7 +164,7 @@ namespace Uno.UI.ToolkitLib
 
 			nextPos = nextPosPoint.X + (selectedItem.ActualWidth / 2);
 
-			if (IndicatorTransitionMode == IndicatorTransitionMode.Snap)
+			if (IndicatorTransitionMode == IndicatorTransitionMode.Snap || alwaysSnap)
 			{
 				child.RenderTransform = new TranslateTransform() { X = nextPos - (child.ActualSize.X / 2) };
 			}
@@ -176,14 +186,12 @@ namespace Uno.UI.ToolkitLib
 				var db = new DoubleAnimation
 				{
 					To = nextPos - (child.ActualSize.X / 2),
-					From = null,
 					EasingFunction = easing,
 					Duration = TimeSpan.FromMilliseconds(400)
 				};
 				Storyboard.SetTarget(db, child);
 				var axis = "X";	// X axis
 				Storyboard.SetTargetProperty(db, $"(UIElement.RenderTransform).(CompositeTransform.Translate{axis})");
-
 				_indicatorSlideStoryboard.BeginTime = TimeSpan.FromMilliseconds(0);
 
 				_indicatorSlideStoryboard.Children.Add(db);
