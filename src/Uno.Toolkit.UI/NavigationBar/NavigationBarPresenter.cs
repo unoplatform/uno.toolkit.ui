@@ -5,9 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Uno.Disposables;
 using Uno.UI.ToolkitLib.Extensions;
+using Windows.Foundation.Collections;
+using CommandBar = Microsoft.UI.Xaml.Controls.CommandBar;
+using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
+
+#if IS_WINUI
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+#else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using CommandBar = Microsoft.UI.Xaml.Controls.CommandBar;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+#endif
 
 namespace Uno.UI.ToolkitLib
 {
@@ -15,8 +33,7 @@ namespace Uno.UI.ToolkitLib
 	{
 		private CommandBar? _commandBar;
 		private WeakReference<NavigationBar?>? _weakNavBar;
-		private SerialDisposable _navBarPropertyChangedRevoker = new SerialDisposable();
-		private SerialDisposable _commandBarPropertyChangedRevoker = new SerialDisposable();
+		private SerialDisposable _navBarCommandsChangedRevoker = new SerialDisposable();
 
 		public NavigationBarPresenter()
 		{
@@ -36,129 +53,102 @@ namespace Uno.UI.ToolkitLib
 				return;
 			}
 
-			UnregisterPropertyChanges();
+			UnregisterCommandsChanged();
 
 			_weakNavBar = new WeakReference<NavigationBar?>(navigationBar);
-			_commandBar = new CommandBar();
-
-			SynchronizeCommandBar();
-			RegisterNavBarPropertyChanges();
-
+			
+			SetBindings();
+			RegisterCommandsChanged();
 
 			Content = _commandBar;
 		}
 
-		private void UnregisterPropertyChanges()
-		{
-			_navBarPropertyChangedRevoker.Disposable = null;
-			_commandBarPropertyChangedRevoker.Disposable = null;
-		}
-
-		private void SynchronizeCommandBar()
+		private void SetBindings()
 		{
 			if (_commandBar is { }
 				&& _weakNavBar?.Target is NavigationBar navigationBar)
 			{
-				_commandBar.SetValue(CommandBar.PrimaryCommandsProperty, navigationBar.PrimaryCommands);
-				_commandBar.SetValue(CommandBar.SecondaryCommandsProperty, navigationBar.SecondaryCommands);
-				_commandBar.SetValue(CommandBar.IsStickyProperty, navigationBar.IsSticky);
-				_commandBar.SetValue(CommandBar.IsOpenProperty, navigationBar.IsOpen);
-				_commandBar.SetValue(CommandBar.LightDismissOverlayModeProperty, navigationBar.LightDismissOverlayMode);
-				_commandBar.SetValue(CommandBar.IsDynamicOverflowEnabledProperty, navigationBar.IsDynamicOverflowEnabled);
-				_commandBar.SetValue(CommandBar.DefaultLabelPositionProperty, navigationBar.DefaultLabelPosition);
-				_commandBar.SetValue(CommandBar.OverflowButtonVisibilityProperty, navigationBar.OverflowButtonVisibility);
-				_commandBar.SetValue(CommandBar.ClosedDisplayModeProperty, navigationBar.ClosedDisplayMode);
+				void setBinding(DependencyProperty property, string path)
+					=> _commandBar?.SetBinding(
+						property,
+						new Binding
+						{
+							Path = new PropertyPath(path),
+							Source = this,
+							Mode = BindingMode.TwoWay,
+							RelativeSource = RelativeSource.TemplatedParent
+						});
+
+				setBinding(CommandBar.PrimaryCommandsProperty, nameof(navigationBar.PrimaryCommands));
+				setBinding(CommandBar.SecondaryCommandsProperty, nameof(navigationBar.SecondaryCommands));
+				setBinding(CommandBar.IsStickyProperty, nameof(navigationBar.IsSticky));
+				setBinding(CommandBar.IsOpenProperty, nameof(navigationBar.IsOpen));
+				setBinding(CommandBar.LightDismissOverlayModeProperty, nameof(navigationBar.LightDismissOverlayMode));
+				setBinding(CommandBar.IsDynamicOverflowEnabledProperty, nameof(navigationBar.IsDynamicOverflowEnabled));
+				setBinding(CommandBar.DefaultLabelPositionProperty, nameof(navigationBar.DefaultLabelPosition));
+				setBinding(CommandBar.OverflowButtonVisibilityProperty, nameof(navigationBar.OverflowButtonVisibility));
+				setBinding(CommandBar.ClosedDisplayModeProperty, nameof(navigationBar.ClosedDisplayMode));
+				setBinding(CommandBar.ForegroundProperty, nameof(navigationBar.Foreground));
+				setBinding(CommandBar.BackgroundProperty, nameof(navigationBar.Background));
+				setBinding(CommandBar.BorderThicknessProperty, nameof(navigationBar.BorderThickness));
+				setBinding(CommandBar.PaddingProperty, nameof(navigationBar.Padding));
+				setBinding(CommandBar.HorizontalAlignmentProperty, nameof(navigationBar.HorizontalAlignment));
+				setBinding(CommandBar.HorizontalContentAlignmentProperty, nameof(navigationBar.HorizontalContentAlignment));
+				setBinding(CommandBar.VerticalAlignmentProperty, nameof(navigationBar.VerticalAlignment));
+				setBinding(CommandBar.VerticalContentAlignmentProperty, nameof(navigationBar.VerticalContentAlignment));
+				setBinding(CommandBar.FontFamilyProperty, nameof(navigationBar.FontFamily));
+				setBinding(CommandBar.FontSizeProperty, nameof(navigationBar.FontSize));
+				setBinding(CommandBar.WidthProperty, nameof(navigationBar.Width));
+				setBinding(CommandBar.UseSystemFocusVisualsProperty, nameof(navigationBar.UseSystemFocusVisuals));
 			}
 		}
 
-		private void RegisterNavBarPropertyChanges()
+		private void RegisterCommandsChanged()
 		{
+			
 			if (_weakNavBar?.Target is NavigationBar navigationBar)
 			{
-				var disposables = new CompositeDisposable(9);
-				disposables.Add(navigationBar.RegisterDisposablePropertyChangedCallback(NavigationBar.PrimaryCommandsProperty, OnNavBarPrimaryCommandsChanged));
-				disposables.Add(navigationBar.RegisterDisposablePropertyChangedCallback(NavigationBar.SecondaryCommandsProperty, OnNavBarSecondaryCommandsChanged));
-				disposables.Add(navigationBar.RegisterDisposablePropertyChangedCallback(NavigationBar.IsStickyProperty, OnNavBarIsStickyChanged));
-				disposables.Add(navigationBar.RegisterDisposablePropertyChangedCallback(NavigationBar.IsOpenProperty, OnNavBarIsOpenChanged));
-				disposables.Add(navigationBar.RegisterDisposablePropertyChangedCallback(NavigationBar.LightDismissOverlayModeProperty, OnNavBarLightDismissOverlayModeChanged));
-				disposables.Add(navigationBar.RegisterDisposablePropertyChangedCallback(NavigationBar.IsDynamicOverflowEnabledProperty, OnNavBarIsDynamicOverflowEnabledChanged));
-				disposables.Add(navigationBar.RegisterDisposablePropertyChangedCallback(NavigationBar.DefaultLabelPositionProperty, OnNavBarDefaultLabelPositionChanged));
-				disposables.Add(navigationBar.RegisterDisposablePropertyChangedCallback(NavigationBar.OverflowButtonVisibilityProperty, OnNavBarOverflowButtonVisibilityChanged));
-				disposables.Add(navigationBar.RegisterDisposablePropertyChangedCallback(NavigationBar.ClosedDisplayModeProperty, OnNavBarClosedDisplayModePropertyChanged));
+				UnregisterCommandsChanged();
 
-				_navBarPropertyChangedRevoker.Disposable = disposables;
+				var disposables = new CompositeDisposable(2);
+				navigationBar.PrimaryCommands.VectorChanged += OnNavBarPrimaryCommandsChanged;
+				navigationBar.SecondaryCommands.VectorChanged += OnNavBarSecondaryCommandsChanged;
+
+				disposables.Add(() => navigationBar.PrimaryCommands.VectorChanged -= OnNavBarPrimaryCommandsChanged);
+				disposables.Add(() => navigationBar.SecondaryCommands.VectorChanged -= OnNavBarSecondaryCommandsChanged);
+
+				_navBarCommandsChangedRevoker.Disposable = disposables;
+			}
+		}
+		private void UnregisterCommandsChanged()
+		{
+			if (_weakNavBar?.Target is { })
+			{
+				_navBarCommandsChangedRevoker.Disposable = null;
 			}
 		}
 
-		private void OnNavBarClosedDisplayModePropertyChanged(DependencyObject sender, DependencyProperty dp)
+		private void OnNavBarPrimaryCommandsChanged(IObservableVector<AppBarButton> sender, IVectorChangedEventArgs @event)
 		{
-			if (_weakNavBar?.Target is NavigationBar navBar)
+			if (_commandBar is { })
 			{
-				_commandBar?.SetValue(CommandBar.ClosedDisplayModeProperty, navBar.ClosedDisplayMode);
+				_commandBar.PrimaryCommands.Clear();
+				foreach (var appBarButton in sender)
+				{
+					_commandBar.PrimaryCommands.Append(appBarButton);
+				}
 			}
 		}
 
-		private void OnNavBarOverflowButtonVisibilityChanged(DependencyObject sender, DependencyProperty dp)
+		private void OnNavBarSecondaryCommandsChanged(IObservableVector<AppBarButton> sender, IVectorChangedEventArgs @event)
 		{
-			if (_weakNavBar?.Target is NavigationBar navBar)
+			if (_commandBar is { })
 			{
-				_commandBar?.SetValue(CommandBar.OverflowButtonVisibilityProperty, navBar.OverflowButtonVisibility);
-			}
-		}
-
-		private void OnNavBarDefaultLabelPositionChanged(DependencyObject sender, DependencyProperty dp)
-		{
-			if (_weakNavBar?.Target is NavigationBar navBar)
-			{
-				_commandBar?.SetValue(CommandBar.DefaultLabelPositionProperty, navBar.DefaultLabelPosition);
-			}
-		}
-
-		private void OnNavBarIsDynamicOverflowEnabledChanged(DependencyObject sender, DependencyProperty dp)
-		{
-			if (_weakNavBar?.Target is NavigationBar navBar)
-			{
-				_commandBar?.SetValue(CommandBar.IsDynamicOverflowEnabledProperty, navBar.IsDynamicOverflowEnabled);
-			}
-		}
-
-		private void OnNavBarLightDismissOverlayModeChanged(DependencyObject sender, DependencyProperty dp)
-		{
-			if (_weakNavBar?.Target is NavigationBar navBar)
-			{
-				_commandBar?.SetValue(CommandBar.LightDismissOverlayModeProperty, navBar.LightDismissOverlayMode);
-			}
-		}
-
-		private void OnNavBarIsOpenChanged(DependencyObject sender, DependencyProperty dp)
-		{
-			if (_weakNavBar?.Target is NavigationBar navBar)
-			{
-				_commandBar?.SetValue(CommandBar.IsOpenProperty, navBar.IsOpen);
-			}
-		}
-
-		private void OnNavBarIsStickyChanged(DependencyObject sender, DependencyProperty dp)
-		{
-			if (_weakNavBar?.Target is NavigationBar navBar)
-			{
-				_commandBar?.SetValue(CommandBar.IsStickyProperty, navBar.IsSticky);
-			}
-		}
-
-		private void OnNavBarPrimaryCommandsChanged(DependencyObject sender, DependencyProperty dp)
-		{
-			if (_weakNavBar?.Target is NavigationBar navBar)
-			{
-				_commandBar?.SetValue(CommandBar.PrimaryCommandsProperty, navBar.PrimaryCommands);
-			}
-		}
-
-		private void OnNavBarSecondaryCommandsChanged(DependencyObject sender, DependencyProperty dp)
-		{
-			if (_weakNavBar?.Target is NavigationBar navBar)
-			{
-				_commandBar?.SetValue(CommandBar.SecondaryCommandsProperty, navBar.SecondaryCommands);
+				_commandBar.SecondaryCommands.Clear();
+				foreach (var appBarButton in sender)
+				{
+					_commandBar.SecondaryCommands.Append(appBarButton);
+				}
 			}
 		}
 	}

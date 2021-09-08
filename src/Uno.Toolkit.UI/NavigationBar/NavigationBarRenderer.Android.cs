@@ -18,8 +18,7 @@ using AndroidX.Core.Graphics.Drawable;
 using Windows.UI.Core;
 using Android.Views.InputMethods;
 using Android.Content;
-using Uno.UI.Extensions;
-using Uno.UI.ToolkitLib.Helpers;
+
 using Windows.UI;
 using ColorHelper = Uno.UI.ToolkitLib.Helpers.ColorHelper;
 
@@ -33,6 +32,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Automation.Peers;
+using Uno.WinUI.Extensions;
+using Uno.WinUI.ToolkitLib.Helpers;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -42,6 +43,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Automation.Peers;
+using Uno.UI.Extensions;
+using Uno.UI.ToolkitLib.Helpers;
 #endif
 
 namespace Uno.UI.ToolkitLib
@@ -302,11 +305,15 @@ namespace Uno.UI.ToolkitLib
 		{
 			CloseKeyboard();
 
-			if (Element?.MainCommand is { } navigationCommand)
+			if (Element?.MainCommand is AppBarButton navigationCommand)
 			{
 				navigationCommand.RaiseClick();
 			}
+
+			var frame = Element?.FindFirstParent<Frame>();
+			frame?.GoBack();
 		}
+
 
 		private void CloseKeyboard()
 		{

@@ -12,7 +12,7 @@
 	<Grid>
 		<toolkit:NavigationBar Content="Test Content">
 			<toolkit:NavigationBar.MainCommand>
-				<AppBarButton Icon="Accept" Content="Test Label" />
+				<AppBarButton Foreground="Red" Background="Green" Content="Test Label" />
 			</toolkit:NavigationBar.MainCommand>
 		</toolkit:NavigationBar>
 	</Grid>

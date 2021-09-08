@@ -22,7 +22,7 @@
 					<Border BorderBrush="{TemplateBinding Background}"
 							BorderThickness="{TemplateBinding Padding}">
 						<!-- TODO: 1px line -->
-						<NativeNavigationBarPresenter x:Name="NativeNavigationBarPresenter"/>
+						<NativeNavigationBarPresenter x:Name="NavigationBarPresenter"/>
 					</Border>
 				</ControlTemplate>
 			</Setter.Value>
@@ -42,7 +42,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkit:NavigationBar">
-					<NativeNavigationBarPresenter x:Name="NativeNavigationBarPresenter"/>
+					<NativeNavigationBarPresenter x:Name="NavigationBarPresenter"/>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

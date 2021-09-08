@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Uno.Disposables;
 using Windows.Foundation;
+using Windows.UI.Core;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -54,22 +55,47 @@ namespace Uno.UI.ToolkitLib
 #endif
 
 		private ContentPresenter? _presenter;
-
+		private SerialDisposable _backRequestedRevoker = new SerialDisposable();
 		private long _isEnabledChangedToken = 0L;
 
 		public NavigationBar()
 		{
+			Loaded += OnLoaded;
+			Unloaded += OnUnloaded;
 			DefaultStyleKey = typeof(NavigationBar);
+		}
+
+		private void OnUnloaded(object sender, RoutedEventArgs e)
+		{
+			_backRequestedRevoker.Disposable = null;
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+			_backRequestedRevoker.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
+		}
+
+		private void OnBackRequested(object sender, BackRequestedEventArgs e)
+		{
+			var page = this.FindFirstParent<Page>();
+
+			if (page?.Frame is { Visibility: Visibility.Visible } frame
+				&& frame.CurrentSourcePageType == page.GetType())
+			{
+				frame.GoBack();
+			}
 		}
 
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
 
+			GetTemplatePart("NavigationBarPresenter", out _presenter);
+
 #if HAS_NATIVE_NAVBAR
 			_isNativeTemplate = _presenter is NativeNavigationBarPresenter;
 #endif
-
 		}
 
 		protected override Size MeasureOverride(Size availableSize)
@@ -82,48 +108,6 @@ namespace Uno.UI.ToolkitLib
 			}
 #endif
 			return base.MeasureOverride(availableSize);
-		}
-
-		private void RegisterEvents()
-		{
-			UnregisterEvents();
-
-			var disposables = new CompositeDisposable(3);
-
-			_isEnabledChangedToken = this.RegisterPropertyChangedCallback(IsEnabledProperty, (s, e) => UpdateCommonState());
-			disposables.Add(() => this.UnregisterPropertyChangedCallback(IsEnabledProperty, _isEnabledChangedToken));
-
-			if (_moreButton is { } moreButton)
-			{
-				moreButton.Click += OnMoreButtonClicked;
-
-				disposables.Add(() => moreButton.Click -= OnMoreButtonClicked);
-			}
-
-			if (_overflowPopup is { } overflowPopup)
-			{
-				overflowPopup.Closed += OnOverflowPopupClosed;
-
-				disposables.Add(() => overflowPopup.Closed -= OnOverflowPopupClosed);
-			}
-
-			_eventSubscriptions.Disposable = disposables;
-		}
-
-		private void UnregisterEvents() => _eventSubscriptions.Disposable = null;
-		
-		private void OnOverflowPopupClosed(object? sender, object e) => IsOpen = false;
-
-		private void OnMoreButtonClicked(object sender, RoutedEventArgs e) => IsOpen = !IsOpen;
-
-		private void UpdateButtonsIsCompact()
-		{
-			var allCommands = Enumerable.Concat(PrimaryCommands, SecondaryCommands).OfType<ICommandBarElement>();
-
-			foreach (var command in allCommands)
-			{
-				command.IsCompact = !IsOpen;
-			};
 		}
 
 		private void GetTemplatePart<T>(string name, out T? element) where T : class
