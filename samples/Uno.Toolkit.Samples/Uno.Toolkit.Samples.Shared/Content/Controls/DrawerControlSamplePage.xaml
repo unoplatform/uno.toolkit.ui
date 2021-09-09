@@ -10,6 +10,33 @@
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+	<Page.Resources>
+		<FontIconSource x:Key="ReplyAllIcon"
+						Glyph="&#xE8C2;" />
+		<FontIconSource x:Key="ReadIcon"
+						Glyph="&#xE8C3;" />
+		<FontIconSource x:Key="DeleteIcon"
+						Glyph="&#xE107;" />
+
+		<SwipeItems x:Key="left"
+					Mode="Reveal">
+			<SwipeItem Text="Reply All"
+					   IconSource="{StaticResource ReplyAllIcon}"
+					   Background="#FF3e6fa7"
+					   Foreground="White" />
+			<SwipeItem Text="Open"
+					   IconSource="{StaticResource ReadIcon}"
+					   Background="#FFff9501"
+					   Foreground="White" />
+		</SwipeItems>
+		<SwipeItems x:Key="right"
+					Mode="Execute">
+			<SwipeItem Text="Delete"
+					   IconSource="{StaticResource DeleteIcon}"
+					   Background="#FFF4B183" />
+		</SwipeItems>
+	</Page.Resources>
+
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<sample:SamplePageLayout x:Name="SamplePageLayout">
 			<sample:SamplePageLayout.SampleTemplate>
@@ -28,13 +55,49 @@
 							<sample:ControlExample>
 								<sample:ControlExample.Content>
 									<toolkit:DrawerControl x:Name="SampleDrawerControl"
-														   Content="Content"
+														   d:Content="Content"
 														   DrawerContent="DrawerContent"
 														   IsOpen="{Binding ElementName=OptionIsOpen, Path=IsChecked, Mode=TwoWay}"
 														   OpenDirection="{Binding ElementName=OptionOpenDirection, Path=SelectedItem}"
 														   IsGestureEnabled="{Binding ElementName=OptionIsGestureEnabled, Path=IsChecked}"
 														   FitToDrawerContent="{Binding ElementName=OptionFitToDrawerContent, Path=IsChecked}"
-														   MinHeight="300" />
+														   MinHeight="300">
+										<ListView ItemsSource="12345">
+											<ListView.ItemTemplate>
+												<DataTemplate>
+													<toolkit:ManipulationBlocker>
+														<SwipeControl BorderThickness="0,1,0,0"
+																	  BorderBrush="{ThemeResource ButtonBackground}"
+																	  Height="68"
+																	  MinWidth="200"
+																	  LeftItems="{StaticResource left}"
+																	  RightItems="{StaticResource right}">
+															<TextBlock Text="{Binding}"
+																	   FontSize="24"
+																	   Margin="20"
+																	   HorizontalAlignment="Stretch"
+																	   VerticalAlignment="Center" />
+															<SwipeControl.RenderTransform>
+																<TranslateTransform X="-20" />
+															</SwipeControl.RenderTransform>
+														</SwipeControl>
+													</toolkit:ManipulationBlocker>
+												</DataTemplate>
+											</ListView.ItemTemplate>
+										</ListView>
+									</toolkit:DrawerControl>
+									<!--<SwipeControl BorderThickness="0,1,0,0"
+												  BorderBrush="{ThemeResource ButtonBackground}"
+												  Height="68"
+												  MinWidth="200"
+												  LeftItems="{StaticResource left}"
+												  RightItems="{StaticResource right}">
+										<TextBlock Text="asdasdsdd"
+												   FontSize="24"
+												   Margin="12"
+												   HorizontalAlignment="Stretch"
+												   VerticalAlignment="Center" />
+									</SwipeControl>-->
 								</sample:ControlExample.Content>
 
 								<sample:ControlExample.Options>
@@ -47,7 +110,7 @@
 
 										<TextBlock>
 											<Run Text="OptionDrawerDepth:" />
-											<Run Text="{Binding ElementName=SampleDrawerControl, Path=DrawerDepth,TargetNullValue='(null)'}" />
+											<Run Text="{Binding ElementName=SampleDrawerControl, Path=DrawerDepth, TargetNullValue='(null)'}" />
 										</TextBlock>
 										<CheckBox x:Name="OptionDrawerDepthLengthIsNull"
 												  Content="IsNull"
@@ -59,7 +122,7 @@
 										<ToggleButton x:Name="OptionFitToDrawerContent"
 													  Content="FitToDrawerContent"
 													  IsChecked="True" />
-										
+
 										<ComboBox x:Name="OptionLightDismissOverlayBackground"
 												  Header="LightDismissOverlayBackground" />
 										<ToggleButton x:Name="OptionIsGestureEnabled"
@@ -67,7 +130,7 @@
 													  IsChecked="True" />
 										<TextBlock>
 											<Run Text="EdgeSwipeDetectionLength:" />
-											<Run Text="{Binding ElementName=SampleDrawerControl, Path=EdgeSwipeDetectionLength,TargetNullValue='(null)'}" />
+											<Run Text="{Binding ElementName=SampleDrawerControl, Path=EdgeSwipeDetectionLength, TargetNullValue='(null)'}" />
 										</TextBlock>
 										<CheckBox x:Name="OptionEdgeSwipeDetectionLengthIsNull"
 												  Content="IsNull"
