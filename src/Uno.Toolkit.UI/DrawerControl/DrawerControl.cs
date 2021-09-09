@@ -40,6 +40,7 @@ namespace Uno.UI.ToolkitLib
 			public const string MainContentPresenterName = "MainContentPresenter";
 			public const string DrawerContentPresenterName = "DrawerContentPresenter";
 			public const string LightDismissOverlayName = "LightDismissOverlay";
+			public const string GestureInterceptorName = "GestureInterceptor";
 		}
 
 		private const double DragToggleThresholdRatio = 1.0 / 3;
@@ -50,6 +51,7 @@ namespace Uno.UI.ToolkitLib
 		private ContentPresenter? _mainContentPresenter;
 		private ContentPresenter? _drawerContentPresenter;
 		private Border? _lightDismissOverlay;
+		private Border? _gestureInterceptor;
 
 		// references
 		private TranslateTransform? _drawerContentPresenterTransform;
@@ -77,6 +79,7 @@ namespace Uno.UI.ToolkitLib
 			_mainContentPresenter = GetTemplateChild(TemplateParts.MainContentPresenterName) as ContentPresenter;
 			_drawerContentPresenter = GetTemplateChild(TemplateParts.DrawerContentPresenterName) as ContentPresenter;
 			_lightDismissOverlay = GetTemplateChild(TemplateParts.LightDismissOverlayName) as Border;
+			_gestureInterceptor = GetTemplateChild(TemplateParts.GestureInterceptorName) as Border;
 
 			if (_drawerContentPresenter != null)
 			{
@@ -114,6 +117,11 @@ namespace Uno.UI.ToolkitLib
 
 				_lightDismissOverlay.Tapped += OnLightDismissOverlayTapped;
 			}
+			if (_gestureInterceptor != null)
+			{
+				UpdateGestureInterceptorSize();
+				UpdateGestureInterceptorLayout();
+			}
 
 			if (DrawerDepth != 0)
 			{
@@ -124,7 +132,7 @@ namespace Uno.UI.ToolkitLib
 			void ResetPreviousTemplate()
 			{
 				_isReady = false;
-				
+
 				_storyboard.Children.Clear();
 				_storyboard = new Storyboard();
 
@@ -162,6 +170,8 @@ namespace Uno.UI.ToolkitLib
 			StopRunningAnimation();
 			UpdateSwipeContentPresenterSize();
 			UpdateSwipeContentPresenterLayout();
+			UpdateGestureInterceptorSize();
+			UpdateGestureInterceptorLayout();
 			UpdateManipulationMode();
 #if !STORYBOARD_RETARGET_ISSUE
 			UpdateTranslateAnimationTargetProperty();
@@ -170,6 +180,12 @@ namespace Uno.UI.ToolkitLib
 #endif
 			ResetOtherAxisTranslateOffset();
 			UpdateIsOpen(IsOpen, animate: false);
+		}
+
+		private void OnEdgeSwipeDetectionLengthChanged(DependencyPropertyChangedEventArgs e)
+		{
+			UpdateGestureInterceptorSize();
+			UpdateGestureInterceptorLayout();
 		}
 
 		private void OnFitToDrawerContentChanged(DependencyPropertyChangedEventArgs e)
@@ -289,6 +305,10 @@ namespace Uno.UI.ToolkitLib
 				_lightDismissOverlay.Opacity = 1 - ratio;
 				_lightDismissOverlay.IsHitTestVisible = ratio != 1;
 			}
+			if (_gestureInterceptor != null)
+			{
+				_gestureInterceptor.IsHitTestVisible = ratio == 1;
+			}
 		}
 
 		private void PlayAnimation(double fromRatio, bool willBeOpen)
@@ -311,6 +331,10 @@ namespace Uno.UI.ToolkitLib
 			if (_lightDismissOverlay != null)
 			{
 				_lightDismissOverlay.IsHitTestVisible = willBeOpen;
+			}
+			if (_gestureInterceptor != null)
+			{
+				_gestureInterceptor.IsHitTestVisible = !willBeOpen;
 			}
 
 			_storyboard.Begin();
@@ -376,8 +400,35 @@ namespace Uno.UI.ToolkitLib
 					_drawerContentPresenter.VerticalContentAlignment = VerticalAlignment.Stretch;
 					break;
 			}
+		}
 
+		private void UpdateGestureInterceptorLayout()
+		{
+			if (_gestureInterceptor == null) return;
 
+			switch (OpenDirection)
+			{
+				case DrawerOpenDirection.Left:
+					_gestureInterceptor.HorizontalAlignment = EdgeSwipeDetectionLength.HasValue ? HorizontalAlignment.Right : HorizontalAlignment.Stretch;
+					_gestureInterceptor.VerticalAlignment = VerticalAlignment.Stretch;
+					break;
+
+				case DrawerOpenDirection.Down:
+					_gestureInterceptor.HorizontalAlignment = HorizontalAlignment.Stretch;
+					_gestureInterceptor.VerticalAlignment = EdgeSwipeDetectionLength.HasValue ? VerticalAlignment.Top : VerticalAlignment.Stretch;
+					break;
+
+				case DrawerOpenDirection.Up:
+					_gestureInterceptor.HorizontalAlignment = HorizontalAlignment.Stretch;
+					_gestureInterceptor.VerticalAlignment = EdgeSwipeDetectionLength.HasValue ? VerticalAlignment.Bottom : VerticalAlignment.Stretch;
+					break;
+
+				case DrawerOpenDirection.Right:
+				default:
+					_gestureInterceptor.HorizontalAlignment = EdgeSwipeDetectionLength.HasValue ? HorizontalAlignment.Left : HorizontalAlignment.Stretch;
+					_gestureInterceptor.VerticalAlignment = VerticalAlignment.Stretch;
+					break;
+			}
 		}
 
 		private void UpdateSwipeContentPresenterSize()
@@ -393,6 +444,22 @@ namespace Uno.UI.ToolkitLib
 			{
 				_drawerContentPresenter.Height = DrawerDepth ?? (FitToDrawerContent ? double.NaN : ActualHeight);
 				_drawerContentPresenter.Width = double.NaN;
+			}
+		}
+
+		private void UpdateGestureInterceptorSize()
+		{
+			if (_gestureInterceptor == null) return;
+
+			if (IsOpenDirectionHorizontal())
+			{
+				_gestureInterceptor.Height = double.NaN;
+				_gestureInterceptor.Width = EdgeSwipeDetectionLength ?? double.NaN;
+			}
+			else
+			{
+				_gestureInterceptor.Height = EdgeSwipeDetectionLength ?? double.NaN;
+				_gestureInterceptor.Width = double.NaN;
 			}
 		}
 

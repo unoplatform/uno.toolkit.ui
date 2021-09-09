@@ -29,6 +29,8 @@
 								<TranslateTransform />
 							</ContentPresenter.RenderTransform>
 						</ContentPresenter>
+						<Border x:Name="GestureInterceptor"
+								Background="Transparent" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
