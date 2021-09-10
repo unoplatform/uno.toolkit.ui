@@ -3,6 +3,9 @@
 #endif
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using Uno.Disposables;
 using Windows.Foundation;
@@ -44,7 +47,6 @@ namespace Uno.UI.ToolkitLib
 		public event TypedEventHandler<NavigationBar, DynamicOverflowItemsChangingEventArgs?>? DynamicOverflowItemsChanging;
 
 		private const string MoreButton = "MoreButton";
-		private const string OverflowPopup = "OverflowPopup";
 		private const string PrimaryItemsControl = "PrimaryItemsControl";
 		private const string SecondaryItemsControl = "SecondaryItemsControl";
 		private const string NavigationBarPresenter = "NavigationBarPresenter";
@@ -56,10 +58,14 @@ namespace Uno.UI.ToolkitLib
 
 		private ContentPresenter? _presenter;
 		private SerialDisposable _backRequestedRevoker = new SerialDisposable();
-		private long _isEnabledChangedToken = 0L;
+		private SerialDisposable _frameBackStackChangedRevoker = new SerialDisposable();
 
 		public NavigationBar()
 		{
+			LeftCommand ??= new Microsoft.UI.Xaml.Controls.AppBarButton() { Visibility = Visibility.Collapsed };
+			PrimaryCommands = new NavigationBarElementCollection();
+			SecondaryCommands = new NavigationBarElementCollection();
+
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
 			DefaultStyleKey = typeof(NavigationBar);
@@ -68,12 +74,34 @@ namespace Uno.UI.ToolkitLib
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
 			_backRequestedRevoker.Disposable = null;
+			_frameBackStackChangedRevoker.Disposable = null;
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 			_backRequestedRevoker.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
+			var frame = this.FindFirstParent<Frame>();
+			if (frame?.BackStack is ObservableCollection<PageStackEntry> backStack)
+			{
+				backStack.CollectionChanged += OnBackStackChanged;
+				_frameBackStackChangedRevoker.Disposable = Disposable.Create(() => backStack.CollectionChanged -= OnBackStackChanged);
+			}
+		}
+
+		private void OnBackStackChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			UpdateLeftCommandVisibility();
+		}
+
+		private void UpdateLeftCommandVisibility()
+		{
+			var frame = this.FindFirstParent<Frame>();
+			var buttonVisibility = (frame?.CanGoBack ?? false)
+				? Visibility.Visible
+				: Visibility.Collapsed;
+
+			LeftCommand.Visibility = buttonVisibility;
 		}
 
 		private void OnBackRequested(object sender, BackRequestedEventArgs e)
@@ -81,9 +109,11 @@ namespace Uno.UI.ToolkitLib
 			var page = this.FindFirstParent<Page>();
 
 			if (page?.Frame is { Visibility: Visibility.Visible } frame
-				&& frame.CurrentSourcePageType == page.GetType())
+				&& frame.CurrentSourcePageType == page.GetType()
+				&& frame.CanGoBack)
 			{
 				frame.GoBack();
+				e.Handled = true;
 			}
 		}
 
@@ -91,7 +121,7 @@ namespace Uno.UI.ToolkitLib
 		{
 			base.OnApplyTemplate();
 
-			GetTemplatePart("NavigationBarPresenter", out _presenter);
+			GetTemplatePart(NavigationBarPresenter, out _presenter);
 
 #if HAS_NATIVE_NAVBAR
 			_isNativeTemplate = _presenter is NativeNavigationBarPresenter;
@@ -108,6 +138,14 @@ namespace Uno.UI.ToolkitLib
 			}
 #endif
 			return base.MeasureOverride(availableSize);
+		}
+
+		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
+		{
+			if (args.Property == LeftCommandProperty)
+			{
+				UpdateLeftCommandVisibility();
+			}
 		}
 
 		private void GetTemplatePart<T>(string name, out T? element) where T : class

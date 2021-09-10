@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
-using LightDismissOverlayMode = Microsoft.UI.Xaml.Controls.LightDismissOverlayMode;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -121,7 +120,7 @@ namespace Uno.UI.ToolkitLib
 
 		public static DependencyProperty PrimaryCommandsProperty { get; } =
 			DependencyProperty.Register(
-				"PrimaryCommands",
+				nameof(PrimaryCommands),
 				typeof(IObservableVector<AppBarButton>),
 				typeof(NavigationBar),
 				new PropertyMetadata(
@@ -140,7 +139,7 @@ namespace Uno.UI.ToolkitLib
 
 		public static DependencyProperty SecondaryCommandsProperty { get; } =
 			DependencyProperty.Register(
-				"SecondaryCommands",
+				nameof(SecondaryCommands),
 				typeof(IObservableVector<AppBarButton>),
 				typeof(NavigationBar),
 				new PropertyMetadata(
@@ -159,7 +158,7 @@ namespace Uno.UI.ToolkitLib
 
 		public static DependencyProperty OverflowButtonVisibilityProperty { get; } =
 			DependencyProperty.Register(
-				"OverflowButtonVisibility",
+				nameof(OverflowButtonVisibility),
 				typeof(NavigationBarOverflowButtonVisibility),
 				typeof(NavigationBar),
 				new PropertyMetadata(default(NavigationBarOverflowButtonVisibility), OnPropertyChanged)
@@ -177,7 +176,7 @@ namespace Uno.UI.ToolkitLib
 
 		public static DependencyProperty IsDynamicOverflowEnabledProperty { get; } =
 			DependencyProperty.Register(
-				"IsDynamicOverflowEnabled",
+				nameof(IsDynamicOverflowEnabled),
 				typeof(bool),
 				typeof(NavigationBar),
 				new PropertyMetadata(default(bool), OnPropertyChanged)
@@ -195,7 +194,7 @@ namespace Uno.UI.ToolkitLib
 
 		public static DependencyProperty DefaultLabelPositionProperty { get; } =
 			DependencyProperty.Register(
-				"DefaultLabelPosition",
+				nameof(DefaultLabelPosition),
 				typeof(NavigationBarDefaultLabelPosition),
 				typeof(NavigationBar),
 				new PropertyMetadata(default(NavigationBarDefaultLabelPosition), OnPropertyChanged)
@@ -203,15 +202,15 @@ namespace Uno.UI.ToolkitLib
 
 		#endregion
 
-		#region MainCommand
-		public AppBarButton MainCommand
+		#region LeftCommand
+		public AppBarButton LeftCommand
 		{
-			get { return (AppBarButton)GetValue(MainCommandProperty); }
-			set { SetValue(MainCommandProperty, value); }
+			get { return (AppBarButton)GetValue(LeftCommandProperty); }
+			set { SetValue(LeftCommandProperty, value); }
 		}
 
-		public static DependencyProperty MainCommandProperty { get; } =
-			DependencyProperty.Register(nameof(MainCommand), typeof(AppBarButton), typeof(NavigationBar), new PropertyMetadata(default(AppBarButton), OnPropertyChanged));
+		public static DependencyProperty LeftCommandProperty { get; } =
+			DependencyProperty.Register(nameof(LeftCommand), typeof(AppBarButton), typeof(NavigationBar), new PropertyMetadata(default(AppBarButton), OnPropertyChanged));
 		#endregion
 
 		#region Subtitle

@@ -13,7 +13,7 @@ using Uno.Logging;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.UI.ToolkitLib.Helpers;
 using Windows.Foundation;
-
+using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -75,6 +75,15 @@ namespace Uno.UI.ToolkitLib
 				if (iconUri != null)
 				{
 					native.NavigationIcon = DrawableHelper.FromUri(iconUri);
+				}
+				else
+				{
+					native.NavigationIcon = new AndroidX.AppCompat.Graphics.Drawable.DrawerArrowDrawable(ContextHelper.Current)
+					{
+						// 0 = menu icon
+						// 1 = back icon
+						Progress = 1,
+					};
 				}
 
 				// Foreground

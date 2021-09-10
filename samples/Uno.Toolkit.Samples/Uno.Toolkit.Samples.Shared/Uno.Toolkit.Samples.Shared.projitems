@@ -22,6 +22,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\SegmentedControlSamplePage.xaml.cs">
       <DependentUpon>SegmentedControlSamplePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\NavigationBarSamplePage2.xaml.cs">
+      <DependentUpon>NavigationBarSamplePage2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarBehaviorSamplePage.xaml.cs">
       <DependentUpon>TabBarBehaviorSamplePage.xaml</DependentUpon>
     </Compile>
@@ -70,6 +73,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\SegmentedControlSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\NavigationBarSamplePage2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

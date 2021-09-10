@@ -21,8 +21,7 @@ using Android.Content;
 
 using Windows.UI;
 using ColorHelper = Uno.UI.ToolkitLib.Helpers.ColorHelper;
-
-
+using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -79,6 +78,7 @@ namespace Uno.UI.ToolkitLib
 		private Android.Graphics.Color? _originalTitleTextColor;
 		private Android.Graphics.Drawables.Drawable? _originalBackground;
 		private Border? _contentContainer;
+		private bool _backButtonVisible;
 
 		public NavigationBarRenderer(NavigationBar element) : base(element) { }
 
@@ -120,38 +120,45 @@ namespace Uno.UI.ToolkitLib
 			yield return Disposable.Create(() => native.NavigationClick -= Native_NavigationClick);
 
 			// Commands
-			VectorChangedEventHandler<ICommandBarElement> OnVectorChanged = (s, e) => Invalidate();
+			VectorChangedEventHandler<AppBarButton> OnVectorChanged = (s, e) => Invalidate();
 			if (Element is { } element)
 			{
-				element.PrimaryCommands.VectorChanged += OnVectorChanged;
-				element.SecondaryCommands.VectorChanged += OnVectorChanged;
-				yield return Disposable.Create(() => element.PrimaryCommands.VectorChanged -= OnVectorChanged);
-				yield return Disposable.Create(() => element.SecondaryCommands.VectorChanged -= OnVectorChanged);
+				if (element.PrimaryCommands is { } primaryCommands)
+				{
+					primaryCommands.VectorChanged += OnVectorChanged;
+					yield return Disposable.Create(() => primaryCommands.VectorChanged -= OnVectorChanged);
 
+				}
+				if (element.SecondaryCommands is { } secondaryCommands)
+				{
+					secondaryCommands.VectorChanged += OnVectorChanged;
+					yield return Disposable.Create(() => secondaryCommands.VectorChanged -= OnVectorChanged);
+
+				}
 
 				// Properties
 				yield return element.RegisterDisposableNestedPropertyChangedCallback(
 					(s, e) => Invalidate(),
-					new[] { CommandBar.PrimaryCommandsProperty },
-					new[] { CommandBar.SecondaryCommandsProperty },
-					new[] { CommandBar.ContentProperty },
-					new[] { CommandBar.ForegroundProperty },
-					new[] { CommandBar.ForegroundProperty, SolidColorBrush.ColorProperty },
-					new[] { CommandBar.ForegroundProperty, SolidColorBrush.OpacityProperty },
-					new[] { CommandBar.BackgroundProperty },
-					new[] { CommandBar.BackgroundProperty, SolidColorBrush.ColorProperty },
-					new[] { CommandBar.BackgroundProperty, SolidColorBrush.OpacityProperty },
-					new[] { CommandBar.VisibilityProperty },
-					new[] { CommandBar.PaddingProperty },
-					new[] { CommandBar.OpacityProperty },
-					new[] { CommandBar.HorizontalContentAlignmentProperty },
-					new[] { CommandBar.VerticalContentAlignmentProperty },
-					new[] { CommandBar.OpacityProperty },
+					new[] { NavigationBar.PrimaryCommandsProperty },
+					new[] { NavigationBar.SecondaryCommandsProperty },
+					new[] { NavigationBar.ContentProperty },
+					new[] { NavigationBar.ForegroundProperty },
+					new[] { NavigationBar.ForegroundProperty, SolidColorBrush.ColorProperty },
+					new[] { NavigationBar.ForegroundProperty, SolidColorBrush.OpacityProperty },
+					new[] { NavigationBar.BackgroundProperty },
+					new[] { NavigationBar.BackgroundProperty, SolidColorBrush.ColorProperty },
+					new[] { NavigationBar.BackgroundProperty, SolidColorBrush.OpacityProperty },
+					new[] { NavigationBar.VisibilityProperty },
+					new[] { NavigationBar.PaddingProperty },
+					new[] { NavigationBar.OpacityProperty },
+					new[] { NavigationBar.HorizontalContentAlignmentProperty },
+					new[] { NavigationBar.VerticalContentAlignmentProperty },
+					new[] { NavigationBar.OpacityProperty },
 					new[] { NavigationBar.SubtitleProperty },
-					new[] { NavigationBar.MainCommandProperty },
-					new[] { NavigationBar.MainCommandProperty, AppBarButton.VisibilityProperty },
-					new[] { NavigationBar.MainCommandProperty, AppBarButton.ForegroundProperty },
-					new[] { NavigationBar.MainCommandProperty, AppBarButton.IconProperty }
+					new[] { NavigationBar.LeftCommandProperty },
+					new[] { NavigationBar.LeftCommandProperty, Microsoft.UI.Xaml.Controls.AppBarButton.VisibilityProperty },
+					new[] { NavigationBar.LeftCommandProperty, Microsoft.UI.Xaml.Controls.AppBarButton.ForegroundProperty },
+					new[] { NavigationBar.LeftCommandProperty, Microsoft.UI.Xaml.Controls.AppBarButton.IconProperty }
 				);
 			}
 		}
@@ -204,15 +211,15 @@ namespace Uno.UI.ToolkitLib
 			// PrimaryCommands & SecondaryCommands
 			var currentMenuItemIds = GetMenuItems(native.Menu)
 				.Select(i => i!.ItemId);
-			var intendedMenuItemIds = element.PrimaryCommands
-				.Concat(element.SecondaryCommands)
+			var intendedMenuItemIds = element.PrimaryCommands.Safe()
+				.Concat(element.SecondaryCommands.Safe())
 				.OfType<AppBarButton>()
 				.Select(i => i.GetHashCode());
 
 			if (!currentMenuItemIds.SequenceEqual(intendedMenuItemIds))
 			{
 				native.Menu.Clear();
-				foreach (var command in element.PrimaryCommands.Concat(element.SecondaryCommands).OfType<AppBarButton>())
+				foreach (var command in element.PrimaryCommands.Safe().Concat(element.SecondaryCommands.Safe()).OfType<AppBarButton>())
 				{
 #pragma warning disable 618
 					var menuItem = native.Menu.Add(0, command.GetHashCode(), Menu.None, null);
@@ -225,41 +232,12 @@ namespace Uno.UI.ToolkitLib
 				}
 			}
 
-			var mainCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
+			var mainCommand = element.GetValue(NavigationBar.LeftCommandProperty) as Microsoft.UI.Xaml.Controls.AppBarButton;
 			// CommandBarExtensions.NavigationCommand
-			if (mainCommand is AppBarButton navigationCommand)
+			if (mainCommand is { })
 			{
-				var renderer = navigationCommand.GetRenderer(() => new NavigationAppBarButtonRenderer(navigationCommand));
+				var renderer = mainCommand.GetRenderer(() => new NavigationAppBarButtonRenderer(mainCommand));
 				renderer.Native = native;
-
-				if (navigationCommand.Icon is BitmapIcon bitmapIcon)
-				{
-					native.NavigationIcon = DrawableHelper.FromUri(bitmapIcon.UriSource);
-				}
-				else
-				{
-					native.NavigationIcon = new AndroidX.AppCompat.Graphics.Drawable.DrawerArrowDrawable(ContextHelper.Current)
-					{
-						// 0 = menu icon
-						// 1 = back icon
-						Progress = 1,
-					};
-				}
-
-				if (ColorHelper.TryGetColorWithOpacity(navigationCommand.Foreground, out var backButtonForeground))
-				{
-					switch (native.NavigationIcon)
-					{
-						case AndroidX.AppCompat.Graphics.Drawable.DrawerArrowDrawable drawerArrowDrawable:
-							drawerArrowDrawable.Color = (Android.Graphics.Color)backButtonForeground;
-							break;
-						case Drawable drawable:
-							DrawableCompat.SetTint(drawable, (Android.Graphics.Color)backButtonForeground);
-							break;
-					}
-				}
-
-				native.NavigationContentDescription = ActionBarUpDescription;
 			}
 			else
 			{
@@ -295,7 +273,7 @@ namespace Uno.UI.ToolkitLib
 			var hashCode = e.Item.ItemId;
 			var appBarButton = Element?.PrimaryCommands
 				.Concat(Element?.SecondaryCommands)
-				.OfType<AppBarButton>()
+				.OfType<Microsoft.UI.Xaml.Controls.AppBarButton>()
 				.FirstOrDefault(c => hashCode == c.GetHashCode());
 
 			appBarButton?.RaiseClick();
@@ -305,7 +283,7 @@ namespace Uno.UI.ToolkitLib
 		{
 			CloseKeyboard();
 
-			if (Element?.MainCommand is AppBarButton navigationCommand)
+			if (Element?.LeftCommand is Microsoft.UI.Xaml.Controls.AppBarButton navigationCommand)
 			{
 				navigationCommand.RaiseClick();
 			}

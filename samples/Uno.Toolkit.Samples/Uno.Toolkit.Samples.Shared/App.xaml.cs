@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Uno.Toolkit.Samples.Content.Controls;
+using Uno.UI;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -39,7 +41,7 @@ namespace Uno.Toolkit.Samples
 	public sealed partial class App : Application
 	{
 		private Shell _shell;
-
+		private Frame _frame;
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
@@ -53,6 +55,8 @@ namespace Uno.Toolkit.Samples
 #if HAS_UNO || NETFX_CORE
             this.Suspending += OnSuspending;
 #endif
+
+			FeatureConfiguration.AppBarButton.EnableBitmapIconTint = true;
 		}
 
 		/// <summary>
@@ -74,13 +78,22 @@ namespace Uno.Toolkit.Samples
 #endif
 
 			var window = XamlWindow.Current;
-			if (!(window.Content is Shell))
+			var rootFrame = window.Content as Frame;
+			if (rootFrame is null)
 			{
-				window.Content = _shell = BuildShell();
+				rootFrame = new Frame();// _shell = BuildShell();
+				window.Content = rootFrame;
 			}
+			rootFrame.NavigationFailed += RootFrame_NavigationFailed;
 
+			rootFrame.Navigate(typeof(NavigationBarSamplePage));
 			// Ensure the current window is active
 			window.Activate();
+		}
+
+		private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
+		{
+
 		}
 
 		/// <summary>
