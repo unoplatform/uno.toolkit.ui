@@ -183,6 +183,7 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
+			if (e.OriginalSource != this) return;
 			if (!IsGestureEnabled) return;
 
 			var position =
