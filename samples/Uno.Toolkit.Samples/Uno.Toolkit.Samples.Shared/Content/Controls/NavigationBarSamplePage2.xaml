@@ -13,7 +13,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<toolkit:NavigationBar Content="Test Content">
 			<toolkit:NavigationBar.LeftCommand>
@@ -25,6 +25,6 @@
 				<muxc:AppBarButton Content="More"/>
 			</toolkit:NavigationBar.PrimaryCommands>
 		</toolkit:NavigationBar>
-		<Button Click="Button_Click" Content="Navigation To Page 1" Grid.Row="1"/>
+		<Button Click="Button_Click" Content="Navigation To Page 1" VerticalAlignment="Center" Grid.Row="1"/>
 	</Grid>
 </Page>

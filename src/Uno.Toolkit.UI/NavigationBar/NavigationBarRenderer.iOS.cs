@@ -11,6 +11,7 @@ using Uno.Extensions;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.UI.ToolkitLib.Helpers;
 using Windows.Foundation;
+using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -57,17 +58,17 @@ namespace Uno.UI.ToolkitLib
 
 			yield return Element.RegisterDisposableNestedPropertyChangedCallback(
 				(s, e) => Invalidate(),
-				new[] { CommandBar.VisibilityProperty },
-				new[] { CommandBar.PrimaryCommandsProperty },
-				new[] { CommandBar.ContentProperty },
-				new[] { CommandBar.ForegroundProperty },
-				new[] { CommandBar.ForegroundProperty, SolidColorBrush.ColorProperty },
-				new[] { CommandBar.ForegroundProperty, SolidColorBrush.OpacityProperty },
-				new[] { CommandBar.BackgroundProperty },
-				new[] { CommandBar.BackgroundProperty, SolidColorBrush.ColorProperty },
-				new[] { CommandBar.BackgroundProperty, SolidColorBrush.OpacityProperty },
-				new[] { NavigationBar.MainCommandProperty, AppBarButton.ForegroundProperty },
-				new[] { NavigationBar.MainCommandProperty, AppBarButton.IconProperty }
+				new[] { NavigationBar.VisibilityProperty },
+				new[] { NavigationBar.PrimaryCommandsProperty },
+				new[] { NavigationBar.ContentProperty },
+				new[] { NavigationBar.ForegroundProperty },
+				new[] { NavigationBar.ForegroundProperty, SolidColorBrush.ColorProperty },
+				new[] { NavigationBar.ForegroundProperty, SolidColorBrush.OpacityProperty },
+				new[] { NavigationBar.BackgroundProperty },
+				new[] { NavigationBar.BackgroundProperty, SolidColorBrush.ColorProperty },
+				new[] { NavigationBar.BackgroundProperty, SolidColorBrush.OpacityProperty },
+				new[] { NavigationBar.LeftCommandProperty, AppBarButton.ForegroundProperty },
+				new[] { NavigationBar.LeftCommandProperty, AppBarButton.IconProperty }
 			);
 		}
 
@@ -125,7 +126,7 @@ namespace Uno.UI.ToolkitLib
 					break;
 			}
 
-			var mainCommand = Element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
+			var mainCommand = Element.GetValue(NavigationBar.LeftCommandProperty) as AppBarButton;
 
 			// CommandBarExtensions.BackButtonForeground
 			ColorHelper.TryGetColorWithOpacity(mainCommand?.Foreground, out var backButtonForeground);

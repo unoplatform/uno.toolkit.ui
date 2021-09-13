@@ -55,8 +55,6 @@ namespace Uno.Toolkit.Samples
 #if HAS_UNO || NETFX_CORE
             this.Suspending += OnSuspending;
 #endif
-
-			FeatureConfiguration.AppBarButton.EnableBitmapIconTint = true;
 		}
 
 		/// <summary>

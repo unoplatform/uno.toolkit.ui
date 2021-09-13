@@ -1,12 +1,15 @@
 ﻿#if __IOS__ || __ANDROID__
 #define HAS_NATIVE_NAVBAR
 #endif
-
+#if __IOS__
+using UIKit;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+
 using Uno.Disposables;
 using Windows.Foundation;
 using Windows.UI.Core;

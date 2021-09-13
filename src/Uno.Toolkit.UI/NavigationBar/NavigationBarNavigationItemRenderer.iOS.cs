@@ -12,7 +12,7 @@ using Windows.UI.ViewManagement;
 using Windows.Foundation.Collections;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.Extensions;
-
+using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -58,7 +58,7 @@ namespace Uno.UI.ToolkitLib
 			//_titleView.RegisterParentChangedCallback(this, OnTitleViewParentChanged);
 
 			// Commands
-			void OnVectorChanged(IObservableVector<ICommandBarElement> s, IVectorChangedEventArgs e)
+			void OnVectorChanged(IObservableVector<AppBarButton> s, IVectorChangedEventArgs e)
 			{
 				RegisterCommandVisibilityAndInvalidate();
 			}
@@ -79,11 +79,11 @@ namespace Uno.UI.ToolkitLib
 			// Properties
 			yield return element.RegisterDisposableNestedPropertyChangedCallback(
 				(s, e) => RegisterCommandVisibilityAndInvalidate(),
-				new[] { CommandBar.PrimaryCommandsProperty },
-				new[] { CommandBar.ContentProperty },
-				new[] { NavigationBar.MainCommandProperty },
-				new[] { NavigationBar.MainCommandProperty, AppBarButton.VisibilityProperty },
-				new[] { NavigationBar.MainCommandProperty, AppBarButton.ContentProperty }
+				new[] { NavigationBar.PrimaryCommandsProperty },
+				new[] { NavigationBar.ContentProperty },
+				new[] { NavigationBar.LeftCommandProperty },
+				new[] { NavigationBar.LeftCommandProperty, AppBarButton.VisibilityProperty },
+				new[] { NavigationBar.LeftCommandProperty, AppBarButton.ContentProperty }
 			);
 
 			RegisterCommandVisibilityAndInvalidate();
@@ -119,7 +119,7 @@ namespace Uno.UI.ToolkitLib
 				.ToArray();
 
 			// CommandBarExtensions.NavigationCommand
-			var navigationCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
+			var navigationCommand = element.GetValue(NavigationBar.LeftCommandProperty) as AppBarButton;
 			if (navigationCommand?.Visibility == Visibility.Visible)
 			{
 				native.LeftBarButtonItem = navigationCommand.GetRenderer(() => new AppBarButtonRenderer(navigationCommand)).Native;
@@ -165,6 +165,16 @@ namespace Uno.UI.ToolkitLib
 		private bool _blockReentrantMeasure;
 		private Size _childSize;
 		private Size? _lastAvailableSize;
+
+		public override void SetSuperviewNeedsLayout()
+		{
+			// Skip the base invocation because the base fetches the native parent
+			// view. This process creates a managed proxy during navigations, the
+			// native counterpart is released. This causes the managed NSObject_Disposer:Drain
+			// to fail to release an already released native reference.
+			//
+			// See https://github.com/unoplatform/uno/issues/7012 for more details.
+		}
 
 		internal TitleView()
 		{
