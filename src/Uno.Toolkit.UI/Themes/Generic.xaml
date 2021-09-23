@@ -4,7 +4,8 @@
 					xmlns:toolkit="using:Uno.UI.ToolkitLib"
 					xmlns:ios="http://uno.ui/ios"
 					xmlns:android="http://uno.ui/android"
-					mc:Ignorable="android ios">
+					xmlns:netstdref="http://uno.ui/netstdref"
+					mc:Ignorable="android ios netstdref">
 
 	<!-- TabBar -->
 	<Style TargetType="toolkit:TabBar"
@@ -14,9 +15,14 @@
 	<Style TargetType="toolkit:TabBarItem"
 		   BasedOn="{StaticResource DefaultTabBarItemStyle}" />
 
+	<!-- NavigationBar -->
 	<ios:Style TargetType="toolkit:NavigationBar"
 			   BasedOn="{StaticResource NativeDefaultNavigationBar}" />
 
 	<android:Style TargetType="toolkit:NavigationBar"
 				   BasedOn="{StaticResource NativeDefaultNavigationBar}" />
+
+	<netstdref:Style TargetType="toolkit:NavigationBar"
+					 BasedOn="{StaticResource XamlDefaultNavigationBar}" />
+	
 </ResourceDictionary>

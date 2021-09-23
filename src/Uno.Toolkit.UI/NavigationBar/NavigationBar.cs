@@ -59,15 +59,15 @@ namespace Uno.UI.ToolkitLib
 		private bool _isNativeTemplate;
 #endif
 
-		private ContentPresenter? _presenter;
+		private FrameworkElement? _presenter;
 		private SerialDisposable _backRequestedRevoker = new SerialDisposable();
 		private SerialDisposable _frameBackStackChangedRevoker = new SerialDisposable();
 
 		public NavigationBar()
 		{
 			LeftCommand ??= new Microsoft.UI.Xaml.Controls.AppBarButton() { Visibility = Visibility.Collapsed };
-			PrimaryCommands = new NavigationBarElementCollection();
-			SecondaryCommands = new NavigationBarElementCollection();
+			PrimaryCommands ??= new NavigationBarElementCollection();
+			SecondaryCommands ??= new NavigationBarElementCollection();
 
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
@@ -85,6 +85,7 @@ namespace Uno.UI.ToolkitLib
 			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 			_backRequestedRevoker.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
 			var frame = this.FindFirstParent<Frame>();
+
 			if (frame?.BackStack is ObservableCollection<PageStackEntry> backStack)
 			{
 				backStack.CollectionChanged += OnBackStackChanged;

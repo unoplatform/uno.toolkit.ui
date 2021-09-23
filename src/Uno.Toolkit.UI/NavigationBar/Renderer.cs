@@ -48,7 +48,7 @@ namespace Uno.UI.ToolkitLib
 
 		public TElement? Element => (TElement?)_element.Target;
 
-		public TNative Native
+		public TNative? Native
 		{
 			get
 			{

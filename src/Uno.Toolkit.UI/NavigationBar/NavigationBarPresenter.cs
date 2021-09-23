@@ -29,7 +29,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.UI.ToolkitLib
 {
-	public partial class NavigationBarPresenter : ContentPresenter
+	public partial class NavigationBarPresenter : Control
 	{
 		private CommandBar? _commandBar;
 		private WeakReference<NavigationBar?>? _weakNavBar;
@@ -37,7 +37,7 @@ namespace Uno.UI.ToolkitLib
 
 		public NavigationBarPresenter()
 		{
-			_commandBar = new CommandBar();
+			DefaultStyleKey = typeof(NavigationBarPresenter);
 		}
 
 		protected override void OnTemplatedParentChanged(DependencyPropertyChangedEventArgs e)
@@ -58,9 +58,8 @@ namespace Uno.UI.ToolkitLib
 			_weakNavBar = new WeakReference<NavigationBar?>(navigationBar);
 			
 			SetBindings();
-			RegisterCommandsChanged();
 
-			Content = _commandBar;
+			RegisterCommandsChanged();
 		}
 
 		private void SetBindings()
