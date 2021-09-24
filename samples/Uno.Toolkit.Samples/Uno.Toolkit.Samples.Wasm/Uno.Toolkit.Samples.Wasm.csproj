@@ -4,7 +4,7 @@
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net5.0</TargetFramework>
 		<NoWarn>NU1701</NoWarn>
-		<LangVersion>Latest</LangVersion>
+		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 	<PropertyGroup>
 		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>

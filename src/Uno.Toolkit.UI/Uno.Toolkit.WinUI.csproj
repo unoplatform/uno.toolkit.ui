@@ -14,7 +14,7 @@
 		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
 		<PackageId>Uno.UI.Toolkit</PackageId>
 	  <Nullable>enable</Nullable>
-	  <LangVersion>Latest</LangVersion>
+	  <LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

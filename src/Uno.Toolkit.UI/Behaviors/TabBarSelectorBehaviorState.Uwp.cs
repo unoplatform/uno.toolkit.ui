@@ -24,35 +24,31 @@ namespace Uno.UI.ToolkitLib.Behaviors
 {
 	partial class TabBarSelectorBehaviorState
 	{
-		private readonly SerialDisposable _flipViewLoadedRevoker = new();
-		private readonly SerialDisposable _viewChangedRevoker = new();
+		private readonly SerialDisposable _flipViewLoadedRevoker = new SerialDisposable();
+		private readonly SerialDisposable _viewChangedRevoker = new SerialDisposable();
 
 		partial void ConnectPartial()
 		{
 			_viewChangedRevoker.Disposable = null;
 			_flipViewLoadedRevoker.Disposable = null;
 
-			if (Selector is not FlipView flipView)
+			if (Selector is FlipView flipView)
 			{
-				return;
+				flipView.Loaded += OnFlipViewLoaded;
+				_flipViewLoadedRevoker.Disposable = Disposable.Create(() => flipView.Loaded -= OnFlipViewLoaded);
 			}
-
-			flipView.Loaded += OnFlipViewLoaded;
-			_flipViewLoadedRevoker.Disposable = Disposable.Create(() => flipView.Loaded -= OnFlipViewLoaded);
 		}
 
 		private void OnFlipViewLoaded(object sender, RoutedEventArgs e)
 		{
-			if (sender is not FlipView flipView
-				|| VisualTreeHelperEx.FindChild<ScrollViewer>(flipView) is not { } scrollViewer)
+			if (sender is FlipView flipView
+				&& VisualTreeHelperEx.FindChild<ScrollViewer>(flipView) is { } scrollViewer)
 			{
-				return;
+				scrollViewer.ViewChanged += OnScrolViewerViewChanged;
+				_viewChangedRevoker.Disposable = Disposable.Create(() => scrollViewer.ViewChanged -= OnScrolViewerViewChanged);
+
+				_flipViewLoadedRevoker.Disposable = null;
 			}
-
-			scrollViewer.ViewChanged += OnScrolViewerViewChanged;
-			_viewChangedRevoker.Disposable = Disposable.Create(() => scrollViewer.ViewChanged -= OnScrolViewerViewChanged);
-
-			_flipViewLoadedRevoker.Disposable = null;
 		}
 
 		partial void DisconnectPartial()
@@ -63,7 +59,9 @@ namespace Uno.UI.ToolkitLib.Behaviors
 
 		private void OnScrolViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
 		{
-			if (sender is not ScrollViewer scrollViewer)
+			var scrollViewer = sender as ScrollViewer;
+
+			if (scrollViewer == null)
 			{
 				return;
 			}
