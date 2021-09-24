@@ -15,14 +15,14 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<toolkit:NavigationBar Background="White" Content="Test Content">
+		<toolkit:NavigationBar Background="Purple"  Content="Test Content">
 			<toolkit:NavigationBar.LeftCommand>
-				<muxc:AppBarButton Content="Test Label" />
+				<muxc:AppBarButton Label="Test Back" />
 			</toolkit:NavigationBar.LeftCommand>
 			<toolkit:NavigationBar.PrimaryCommands>
-				<muxc:AppBarButton Content="More"/>
-				<muxc:AppBarButton Content="More"/>
-				<muxc:AppBarButton Content="More"/>
+				<muxc:AppBarButton Label="More"/>
+				<muxc:AppBarButton Label="More"/>
+				<muxc:AppBarButton Label="More"/>
 			</toolkit:NavigationBar.PrimaryCommands>
 		</toolkit:NavigationBar>
 		<Button Click="Button_Click" Content="Navigation To Page 1" VerticalAlignment="Center" Grid.Row="1"/>

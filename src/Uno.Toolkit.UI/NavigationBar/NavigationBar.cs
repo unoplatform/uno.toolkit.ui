@@ -37,17 +37,14 @@ using Windows.UI.Xaml.Navigation;
 namespace Uno.UI.ToolkitLib
 {
 	[ContentProperty(Name = nameof(PrimaryCommands))]
-	[TemplatePart(Name = MoreButton, Type = typeof(Button))]
-	[TemplatePart(Name = PrimaryItemsControl, Type = typeof(ItemsControl))]
-	[TemplatePart(Name = SecondaryItemsControl, Type = typeof(ItemsControl))]
-	[TemplatePart(Name = NavigationBarPresenter, Type = typeof(ContentPresenter))]
+	[TemplatePart(Name = NavigationBarPresenter, Type = typeof(FrameworkElement))]
 	public partial class NavigationBar : ContentControl
 	{
 		public event EventHandler<object>? Closed;
 		public event EventHandler<object>? Opened;
 		public event EventHandler<object>? Closing;
 		public event EventHandler<object>? Opening;
-		public event TypedEventHandler<NavigationBar, DynamicOverflowItemsChangingEventArgs?>? DynamicOverflowItemsChanging;
+		public event TypedEventHandler<NavigationBar, Microsoft.UI.Xaml.Controls.DynamicOverflowItemsChangingEventArgs?>? DynamicOverflowItemsChanging;
 
 		private const string MoreButton = "MoreButton";
 		private const string PrimaryItemsControl = "PrimaryItemsControl";
@@ -59,13 +56,13 @@ namespace Uno.UI.ToolkitLib
 		private bool _isNativeTemplate;
 #endif
 
-		private FrameworkElement? _presenter;
+		private INavigationBarPresenter? _presenter;
 		private SerialDisposable _backRequestedRevoker = new SerialDisposable();
 		private SerialDisposable _frameBackStackChangedRevoker = new SerialDisposable();
 
 		public NavigationBar()
 		{
-			LeftCommand ??= new Microsoft.UI.Xaml.Controls.AppBarButton() { Visibility = Visibility.Collapsed };
+			LeftCommand ??= new Microsoft.UI.Xaml.Controls.AppBarButton() { Visibility = Visibility.Collapsed, Icon = new SymbolIcon(Symbol.Back) };
 			PrimaryCommands ??= new NavigationBarElementCollection();
 			SecondaryCommands ??= new NavigationBarElementCollection();
 
@@ -73,6 +70,63 @@ namespace Uno.UI.ToolkitLib
 			Unloaded += OnUnloaded;
 			DefaultStyleKey = typeof(NavigationBar);
 		}
+
+		protected override void OnApplyTemplate()
+		{
+			base.OnApplyTemplate();
+
+			GetTemplatePart(NavigationBarPresenter, out _presenter);
+
+			_presenter?.SetOwner(this);
+
+#if HAS_NATIVE_NAVBAR
+			_isNativeTemplate = _presenter is NativeNavigationBarPresenter;
+#endif
+		}
+
+		protected override Size MeasureOverride(Size availableSize)
+		{
+#if HAS_NATIVE_NAVBAR
+			if (_isNativeTemplate)
+			{
+				var size = base.MeasureOverride(availableSize);
+				return size;
+			}
+#endif
+			return base.MeasureOverride(availableSize);
+		}
+
+		internal bool PerformBack()
+		{
+			var page = this.FindFirstParent<Page>();
+
+			if (page?.Frame is { Visibility: Visibility.Visible } frame
+				&& frame.CurrentSourcePageType == page.GetType()
+				&& frame.CanGoBack)
+			{
+				frame.GoBack();
+				return true;
+			}
+
+			return false;
+		}
+
+		#region Event Raising
+		internal void RaiseClosingEvent(object sender, object e) 
+			=> Closing?.Invoke(sender, e);
+
+		internal void RaiseClosedEvent(object sender, object e) 
+			=> Closed?.Invoke(sender, e);
+		
+		internal void RaiseOpeningEvent(object sender, object e)
+			=> Opening?.Invoke(sender, e);
+		
+		internal void RaiseOpenedEvent(object sender, object e)
+			=> Opened?.Invoke(sender, e);
+
+		internal void RaiseDynamicOverflowItemsChanging(Microsoft.UI.Xaml.Controls.DynamicOverflowItemsChangingEventArgs args)
+			=> DynamicOverflowItemsChanging?.Invoke(this, args);
+		#endregion
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
@@ -110,38 +164,7 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnBackRequested(object sender, BackRequestedEventArgs e)
 		{
-			var page = this.FindFirstParent<Page>();
-
-			if (page?.Frame is { Visibility: Visibility.Visible } frame
-				&& frame.CurrentSourcePageType == page.GetType()
-				&& frame.CanGoBack)
-			{
-				frame.GoBack();
-				e.Handled = true;
-			}
-		}
-
-		protected override void OnApplyTemplate()
-		{
-			base.OnApplyTemplate();
-
-			GetTemplatePart(NavigationBarPresenter, out _presenter);
-
-#if HAS_NATIVE_NAVBAR
-			_isNativeTemplate = _presenter is NativeNavigationBarPresenter;
-#endif
-		}
-
-		protected override Size MeasureOverride(Size availableSize)
-		{
-#if HAS_NATIVE_NAVBAR
-			if (_isNativeTemplate)
-			{
-				var size = base.MeasureOverride(availableSize);
-				return size;
-			}
-#endif
-			return base.MeasureOverride(availableSize);
+			e.Handled = PerformBack();
 		}
 
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
+using ICommandBarElement = Microsoft.UI.Xaml.Controls.ICommandBarElement;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -94,7 +95,7 @@ namespace Uno.UI.ToolkitLib
 			DependencyProperty.Register(
 				nameof(LightDismissOverlayMode),
 				typeof(LightDismissOverlayMode),
-				typeof(AppBar),
+				typeof(NavigationBar),
 				new PropertyMetadata(default(LightDismissOverlayMode))
 			);
 
@@ -112,38 +113,38 @@ namespace Uno.UI.ToolkitLib
 
 		#region PrimaryCommands
 
-		public IObservableVector<AppBarButton> PrimaryCommands
+		public IObservableVector<ICommandBarElement> PrimaryCommands
 		{
-			get => (IObservableVector<AppBarButton>)this.GetValue(PrimaryCommandsProperty);
+			get => (IObservableVector<ICommandBarElement>)this.GetValue(PrimaryCommandsProperty);
 			private set => this.SetValue(PrimaryCommandsProperty, value);
 		}
 
 		public static DependencyProperty PrimaryCommandsProperty { get; } =
 			DependencyProperty.Register(
 				nameof(PrimaryCommands),
-				typeof(IObservableVector<AppBarButton>),
+				typeof(IObservableVector<ICommandBarElement>),
 				typeof(NavigationBar),
 				new PropertyMetadata(
-					default(IObservableVector<AppBarButton>), OnPropertyChanged)
+					default(IObservableVector<ICommandBarElement>), OnPropertyChanged)
 			);
 
 		#endregion
 
 		#region SecondaryCommands
 
-		public IObservableVector<AppBarButton> SecondaryCommands
+		public IObservableVector<ICommandBarElement> SecondaryCommands
 		{
-			get => (IObservableVector<AppBarButton>)this.GetValue(SecondaryCommandsProperty);
+			get => (IObservableVector<ICommandBarElement>)this.GetValue(SecondaryCommandsProperty);
 			private set => this.SetValue(SecondaryCommandsProperty, value);
 		}
 
 		public static DependencyProperty SecondaryCommandsProperty { get; } =
 			DependencyProperty.Register(
 				nameof(SecondaryCommands),
-				typeof(IObservableVector<AppBarButton>),
+				typeof(IObservableVector<ICommandBarElement>),
 				typeof(NavigationBar),
 				new PropertyMetadata(
-					default(IObservableVector<AppBarButton>), OnPropertyChanged)
+					default(IObservableVector<ICommandBarElement>), OnPropertyChanged)
 			);
 
 		#endregion
@@ -222,6 +223,17 @@ namespace Uno.UI.ToolkitLib
 
 		public static DependencyProperty SubtitleProperty { get; } =
 			DependencyProperty.Register(nameof(Subtitle), typeof(string), typeof(NavigationBar), new PropertyMetadata(default(string?), OnPropertyChanged));
+		#endregion
+
+		#region LeftCommandStyle
+		public Style LeftCommandStyle
+		{
+			get { return (Style)GetValue(LeftCommandStyleProperty); }
+			set { SetValue(LeftCommandStyleProperty, value); }
+		}
+
+		public static DependencyProperty LeftCommandStyleProperty { get; } =
+			DependencyProperty.Register(nameof(LeftCommandStyle), typeof(Style), typeof(NavigationBar), new PropertyMetadata(default(Style), OnPropertyChanged));
 		#endregion
 
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)

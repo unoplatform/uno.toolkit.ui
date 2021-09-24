@@ -3,21 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Windows.Foundation.Collections;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
+using ICommandBarElement = Microsoft.UI.Xaml.Controls.ICommandBarElement;
 
 namespace Uno.UI.ToolkitLib
 {
-	internal class NavigationBarElementCollection : IObservableVector<AppBarButton>
+	internal class NavigationBarElementCollection : IObservableVector<ICommandBarElement>
 	{
-		private readonly List<AppBarButton> _list = new List<AppBarButton>();
+		private readonly List<ICommandBarElement> _list = new List<ICommandBarElement>();
 
-		public AppBarButton this[int index]
+		public ICommandBarElement this[int index]
 		{
 			get => _list[index];
 			set => SetAt(index, value);
 		}
 
-		private void SetAt(int index, AppBarButton item)
+		private void SetAt(int index, ICommandBarElement item)
 		{
 			_list[index] = item;
 			RaiseVectorChanged(CollectionChange.ItemChanged, index);
@@ -25,12 +25,12 @@ namespace Uno.UI.ToolkitLib
 
 		public int Count => _list.Count;
 
-		public bool IsReadOnly => ((ICollection<AppBarButton>)_list).IsReadOnly;
+		public bool IsReadOnly => ((ICollection<ICommandBarElement>)_list).IsReadOnly;
 
-		public event VectorChangedEventHandler<AppBarButton>? VectorChanged;
+		public event VectorChangedEventHandler<ICommandBarElement>? VectorChanged;
 
-		public void Add(AppBarButton item) => Append(item);
-		public void Append(AppBarButton item)
+		public void Add(ICommandBarElement item) => Append(item);
+		public void Append(ICommandBarElement item)
 		{
 			Insert(Count, item);
 		}
@@ -40,21 +40,21 @@ namespace Uno.UI.ToolkitLib
 			_list.Clear();
 			RaiseVectorChanged(CollectionChange.Reset, 0);
 		}
-		public bool Contains(AppBarButton item) => _list.Contains(item);
+		public bool Contains(ICommandBarElement item) => _list.Contains(item);
 
-		public void CopyTo(AppBarButton[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
+		public void CopyTo(ICommandBarElement[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
 
-		public IEnumerator<AppBarButton> GetEnumerator() => _list.GetEnumerator();
+		public IEnumerator<ICommandBarElement> GetEnumerator() => _list.GetEnumerator();
 
-		public int IndexOf(AppBarButton item) => _list.IndexOf(item);
+		public int IndexOf(ICommandBarElement item) => _list.IndexOf(item);
 
-		public void Insert(int index, AppBarButton item)
+		public void Insert(int index, ICommandBarElement item)
 		{
 			_list.Insert(index, item);
 			RaiseVectorChanged(CollectionChange.ItemInserted, index);
 		}
 
-		public bool Remove(AppBarButton item)
+		public bool Remove(ICommandBarElement item)
 		{
 			var index = _list.IndexOf(item);
 

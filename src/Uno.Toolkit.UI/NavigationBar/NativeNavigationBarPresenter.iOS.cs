@@ -29,7 +29,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.UI.ToolkitLib
 {
-	public partial class NativeNavigationBarPresenter : ContentPresenter
+	public partial class NativeNavigationBarPresenter : ContentPresenter, INavigationBarPresenter
 	{
 		private readonly SerialDisposable _statusBarSubscription = new SerialDisposable();
 		private readonly SerialDisposable _orientationSubscription = new SerialDisposable();
@@ -42,6 +42,11 @@ namespace Uno.UI.ToolkitLib
 		{
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
+		}
+
+		public void SetOwner(NavigationBar navigationBar)
+		{
+			//Owner is accessed through TemplatedParent on Uno platforms
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)

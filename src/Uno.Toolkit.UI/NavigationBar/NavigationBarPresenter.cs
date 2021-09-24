@@ -8,6 +8,8 @@ using Uno.UI.ToolkitLib.Extensions;
 using Windows.Foundation.Collections;
 using CommandBar = Microsoft.UI.Xaml.Controls.CommandBar;
 using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
+using ICommandBarElement = Microsoft.UI.Xaml.Controls.ICommandBarElement;
+using Uno.UI.DataBinding;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -29,21 +31,23 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.UI.ToolkitLib
 {
-	public partial class NavigationBarPresenter : Control
+	public partial class NavigationBarPresenter : Control, INavigationBarPresenter
 	{
+		private const string XamlNavigationBarCommandBar = "XamlNavigationBarCommandBar";
+
 		private CommandBar? _commandBar;
 		private WeakReference<NavigationBar?>? _weakNavBar;
-		private SerialDisposable _navBarCommandsChangedRevoker = new SerialDisposable();
+		private SerialDisposable _navBarCommandsChangedHandler = new SerialDisposable();
+		private SerialDisposable _leftCommandClickedHandler = new SerialDisposable();
 
 		public NavigationBarPresenter()
 		{
 			DefaultStyleKey = typeof(NavigationBarPresenter);
 		}
 
-		protected override void OnTemplatedParentChanged(DependencyPropertyChangedEventArgs e)
+		public void SetOwner(NavigationBar? owner)
 		{
-			base.OnTemplatedParentChanged(e);
-			InitializeCommandBar(TemplatedParent as NavigationBar);
+			InitializeCommandBar(owner);
 		}
 
 		private void InitializeCommandBar(NavigationBar? navigationBar)
@@ -53,13 +57,14 @@ namespace Uno.UI.ToolkitLib
 				return;
 			}
 
-			UnregisterCommandsChanged();
+			UnregisterEvents();
 
+			_commandBar = GetTemplateChild(XamlNavigationBarCommandBar) as CommandBar;
 			_weakNavBar = new WeakReference<NavigationBar?>(navigationBar);
 			
 			SetBindings();
 
-			RegisterCommandsChanged();
+			RegisterEvents();
 		}
 
 		private void SetBindings()
@@ -67,47 +72,70 @@ namespace Uno.UI.ToolkitLib
 			if (_commandBar is { }
 				&& _weakNavBar?.Target is NavigationBar navigationBar)
 			{
-				void setBinding(DependencyProperty property, string path)
-					=> _commandBar?.SetBinding(
+				void setBinding(UIElement target, object source, DependencyProperty property, string path, BindingMode mode = BindingMode.TwoWay)
+					=> target?.SetBinding(
 						property,
 						new Binding
 						{
 							Path = new PropertyPath(path),
-							Source = this,
-							Mode = BindingMode.TwoWay,
-							RelativeSource = RelativeSource.TemplatedParent
+							Source = source,
+							Mode = mode
 						});
 
-				setBinding(CommandBar.PrimaryCommandsProperty, nameof(navigationBar.PrimaryCommands));
-				setBinding(CommandBar.SecondaryCommandsProperty, nameof(navigationBar.SecondaryCommands));
-				setBinding(CommandBar.IsStickyProperty, nameof(navigationBar.IsSticky));
-				setBinding(CommandBar.IsOpenProperty, nameof(navigationBar.IsOpen));
-				setBinding(CommandBar.LightDismissOverlayModeProperty, nameof(navigationBar.LightDismissOverlayMode));
-				setBinding(CommandBar.IsDynamicOverflowEnabledProperty, nameof(navigationBar.IsDynamicOverflowEnabled));
-				setBinding(CommandBar.DefaultLabelPositionProperty, nameof(navigationBar.DefaultLabelPosition));
-				setBinding(CommandBar.OverflowButtonVisibilityProperty, nameof(navigationBar.OverflowButtonVisibility));
-				setBinding(CommandBar.ClosedDisplayModeProperty, nameof(navigationBar.ClosedDisplayMode));
-				setBinding(CommandBar.ForegroundProperty, nameof(navigationBar.Foreground));
-				setBinding(CommandBar.BackgroundProperty, nameof(navigationBar.Background));
-				setBinding(CommandBar.BorderThicknessProperty, nameof(navigationBar.BorderThickness));
-				setBinding(CommandBar.PaddingProperty, nameof(navigationBar.Padding));
-				setBinding(CommandBar.HorizontalAlignmentProperty, nameof(navigationBar.HorizontalAlignment));
-				setBinding(CommandBar.HorizontalContentAlignmentProperty, nameof(navigationBar.HorizontalContentAlignment));
-				setBinding(CommandBar.VerticalAlignmentProperty, nameof(navigationBar.VerticalAlignment));
-				setBinding(CommandBar.VerticalContentAlignmentProperty, nameof(navigationBar.VerticalContentAlignment));
-				setBinding(CommandBar.FontFamilyProperty, nameof(navigationBar.FontFamily));
-				setBinding(CommandBar.FontSizeProperty, nameof(navigationBar.FontSize));
-				setBinding(CommandBar.WidthProperty, nameof(navigationBar.Width));
-				setBinding(CommandBar.UseSystemFocusVisualsProperty, nameof(navigationBar.UseSystemFocusVisuals));
+				foreach (var command in navigationBar.PrimaryCommands)
+				{
+					_commandBar.PrimaryCommands.Add(command);
+				}
+
+				foreach (var command in navigationBar.SecondaryCommands)
+				{
+					_commandBar.SecondaryCommands.Add(command);
+				}
+
+				setBinding(_commandBar, navigationBar, CommandBar.ContentProperty, nameof(navigationBar.Content));
+				setBinding(_commandBar, navigationBar, CommandBar.IsStickyProperty, nameof(navigationBar.IsSticky));
+				setBinding(_commandBar, navigationBar, CommandBar.IsOpenProperty, nameof(navigationBar.IsOpen));
+				setBinding(_commandBar, navigationBar, CommandBar.LightDismissOverlayModeProperty, nameof(navigationBar.LightDismissOverlayMode));
+				setBinding(_commandBar, navigationBar, CommandBar.IsDynamicOverflowEnabledProperty, nameof(navigationBar.IsDynamicOverflowEnabled));
+				setBinding(_commandBar, navigationBar, CommandBar.DefaultLabelPositionProperty, nameof(navigationBar.DefaultLabelPosition));
+				setBinding(_commandBar, navigationBar, CommandBar.OverflowButtonVisibilityProperty, nameof(navigationBar.OverflowButtonVisibility));
+				setBinding(_commandBar, navigationBar, CommandBar.ClosedDisplayModeProperty, nameof(navigationBar.ClosedDisplayMode));
+				setBinding(_commandBar, navigationBar, CommandBar.ForegroundProperty, nameof(navigationBar.Foreground));
+				setBinding(_commandBar, navigationBar, CommandBar.BackgroundProperty, nameof(navigationBar.Background));
+				setBinding(_commandBar, navigationBar, CommandBar.BorderThicknessProperty, nameof(navigationBar.BorderThickness));
+				setBinding(_commandBar, navigationBar, CommandBar.PaddingProperty, nameof(navigationBar.Padding));
+				setBinding(_commandBar, navigationBar, CommandBar.HorizontalAlignmentProperty, nameof(navigationBar.HorizontalAlignment));
+				setBinding(_commandBar, navigationBar, CommandBar.HorizontalContentAlignmentProperty, nameof(navigationBar.HorizontalContentAlignment));
+				setBinding(_commandBar, navigationBar, CommandBar.VerticalAlignmentProperty, nameof(navigationBar.VerticalAlignment));
+				setBinding(_commandBar, navigationBar, CommandBar.VerticalContentAlignmentProperty, nameof(navigationBar.VerticalContentAlignment));
+				setBinding(_commandBar, navigationBar, CommandBar.FontFamilyProperty, nameof(navigationBar.FontFamily));
+				setBinding(_commandBar, navigationBar, CommandBar.FontSizeProperty, nameof(navigationBar.FontSize));
+				setBinding(_commandBar, navigationBar, CommandBar.WidthProperty, nameof(navigationBar.Width));
+				setBinding(_commandBar, navigationBar, CommandBar.UseSystemFocusVisualsProperty, nameof(navigationBar.UseSystemFocusVisuals));
+				setBinding(_commandBar, navigationBar, CommandBarExtensions.LeftCommandProperty, nameof(navigationBar.LeftCommand));
+
+				var leftCommand = CommandBarExtensions.GetLeftCommand(_commandBar);
+				if (leftCommand != null)
+				{
+					setBinding(leftCommand, navigationBar, AppBarButton.StyleProperty, nameof(navigationBar.LeftCommandStyle));
+					VisualStateManager.GoToState(leftCommand, "LabelOnRight", false);
+				}
 			}
 		}
 
-		private void RegisterCommandsChanged()
+		private void OnCommandBarLeftCommandClicked(object sender, RoutedEventArgs e)
 		{
-			
 			if (_weakNavBar?.Target is NavigationBar navigationBar)
 			{
-				UnregisterCommandsChanged();
+				navigationBar.PerformBack();
+			}
+		}
+
+		private void RegisterEvents()
+		{
+			if (_weakNavBar?.Target is NavigationBar navigationBar)
+			{
+				UnregisterEvents();
 
 				var disposables = new CompositeDisposable(2);
 				navigationBar.PrimaryCommands.VectorChanged += OnNavBarPrimaryCommandsChanged;
@@ -116,37 +144,97 @@ namespace Uno.UI.ToolkitLib
 				disposables.Add(() => navigationBar.PrimaryCommands.VectorChanged -= OnNavBarPrimaryCommandsChanged);
 				disposables.Add(() => navigationBar.SecondaryCommands.VectorChanged -= OnNavBarSecondaryCommandsChanged);
 
-				_navBarCommandsChangedRevoker.Disposable = disposables;
+				_navBarCommandsChangedHandler.Disposable = disposables;
+			}
+
+			
+			var commandBarLeftCommand = CommandBarExtensions.GetLeftCommand(_commandBar);
+			if (commandBarLeftCommand != null)
+			{
+				commandBarLeftCommand.Click += OnCommandBarLeftCommandClicked;
+				_leftCommandClickedHandler.Disposable = Disposable.Create(() => commandBarLeftCommand.Click -= OnCommandBarLeftCommandClicked);
+			}
+
+			if (_commandBar != null)
+			{
+				_commandBar.Opened += OnCommandBarOpened;
+				_commandBar.Opening += OnCommandBarOpening;
+				_commandBar.Closed += OnCommandBarClosed;
+				_commandBar.Closing += OnCommandBarClosing;
+				_commandBar.DynamicOverflowItemsChanging += OnCommandBarDynamicOverflowItemsChanging;
 			}
 		}
-		private void UnregisterCommandsChanged()
+
+		private void OnCommandBarDynamicOverflowItemsChanging(CommandBar sender, Microsoft.UI.Xaml.Controls.DynamicOverflowItemsChangingEventArgs args)
+		{
+			_weakNavBar?.Target?.RaiseDynamicOverflowItemsChanging(args);
+		}
+
+		private void OnCommandBarClosing(object sender, object e)
+		{
+			_weakNavBar?.Target?.RaiseClosingEvent(sender, e);
+		}
+
+		private void OnCommandBarClosed(object sender, object e)
+		{
+			_weakNavBar?.Target?.RaiseClosedEvent(sender, e);
+		}
+
+		private void OnCommandBarOpening(object sender, object e)
+		{
+			_weakNavBar?.Target?.RaiseOpeningEvent(sender, e);
+		}
+
+		private void OnCommandBarOpened(object sender, object e)
+		{
+			_weakNavBar?.Target?.RaiseOpenedEvent(sender, e);
+		}
+
+		private void UnregisterEvents()
 		{
 			if (_weakNavBar?.Target is { })
 			{
-				_navBarCommandsChangedRevoker.Disposable = null;
+				_navBarCommandsChangedHandler.Disposable = null;
+			}
+
+			if (CommandBarExtensions.GetLeftCommand(_commandBar) != null)
+			{
+				_leftCommandClickedHandler.Disposable = null;
 			}
 		}
 
-		private void OnNavBarPrimaryCommandsChanged(IObservableVector<AppBarButton> sender, IVectorChangedEventArgs @event)
-		{
-			if (_commandBar is { })
-			{
-				_commandBar.PrimaryCommands.Clear();
-				foreach (var appBarButton in sender)
-				{
-					_commandBar.PrimaryCommands.Append(appBarButton);
-				}
-			}
-		}
+		private void OnNavBarPrimaryCommandsChanged(IObservableVector<ICommandBarElement> sender, IVectorChangedEventArgs args)
+			=> OnCommandsChanged(sender, args, CommandBar.PrimaryCommandsProperty);
 
-		private void OnNavBarSecondaryCommandsChanged(IObservableVector<AppBarButton> sender, IVectorChangedEventArgs @event)
+		private void OnNavBarSecondaryCommandsChanged(IObservableVector<ICommandBarElement> sender, IVectorChangedEventArgs args) 
+			=> OnCommandsChanged(sender, args, CommandBar.SecondaryCommandsProperty);
+
+		private void OnCommandsChanged(IObservableVector<ICommandBarElement> sender, IVectorChangedEventArgs args, DependencyProperty prop)
 		{
 			if (_commandBar is { })
 			{
-				_commandBar.SecondaryCommands.Clear();
-				foreach (var appBarButton in sender)
+				var change = args.CollectionChange;
+				var changeIndex = args.Index;
+
+				if (_commandBar.GetValue(prop) is IObservableVector<ICommandBarElement> commands)
 				{
-					_commandBar.SecondaryCommands.Append(appBarButton);
+					if (change == CollectionChange.Reset)
+					{
+						commands.Clear();
+					}
+					else if (change == CollectionChange.ItemInserted ||
+						change == CollectionChange.ItemChanged)
+					{
+						var element = sender[(int)changeIndex];
+						if (element is { })
+						{
+							commands[(int)changeIndex] = element;
+						}
+					}
+					else if (change == CollectionChange.ItemRemoved)
+					{
+						commands.RemoveAt((int)changeIndex);
+					}
 				}
 			}
 		}

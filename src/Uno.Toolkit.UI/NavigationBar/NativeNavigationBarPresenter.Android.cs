@@ -25,11 +25,16 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.UI.ToolkitLib
 {
-	public partial class NativeNavigationBarPresenter : ContentPresenter
+	public partial class NativeNavigationBarPresenter : ContentPresenter, INavigationBarPresenter
 	{
 		public NativeNavigationBarPresenter()
 		{
 			Loaded += OnLoaded;
+		}
+
+		public void SetOwner(NavigationBar navigationBar)
+		{
+			//Owner is accessed through TemplatedParent on Uno platforms
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)

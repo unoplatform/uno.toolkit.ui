@@ -142,7 +142,7 @@ namespace Uno.UI.ToolkitLib
 						native.ClearCustomView();
 						// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set. 
 						// We default to an empty string to ensure it is added.
-						native.Title = string.Empty;
+						native.Title = element.Label ?? string.Empty;
 						break;
 				}
 			}

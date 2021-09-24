@@ -15,19 +15,19 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<toolkit:NavigationBar Background="White" Content="Test Content">
+		<toolkit:NavigationBar Content="Test Content">
 			<toolkit:NavigationBar.LeftCommand>
-				<muxc:AppBarButton Content="Test Label" />
+				<muxc:AppBarButton Label="Test Label" />
 			</toolkit:NavigationBar.LeftCommand>
 			<toolkit:NavigationBar.PrimaryCommands>
-				<muxc:AppBarButton Content="More"/>
-				<muxc:AppBarButton Content="More"/>
-				<muxc:AppBarButton Content="More"/>
+				<muxc:AppBarButton Label="More" Icon="Accept"/>
+				<muxc:AppBarButton Label="More"/>
+				<muxc:AppBarButton Label="More"/>
 			</toolkit:NavigationBar.PrimaryCommands>
 			<toolkit:NavigationBar.SecondaryCommands>
-				<muxc:AppBarButton Content="More"/>
-				<muxc:AppBarButton Content="More"/>
-				<muxc:AppBarButton Content="More"/>
+				<muxc:AppBarButton Label="More"/>
+				<muxc:AppBarButton Label="More"/>
+				<muxc:AppBarButton Label="More"/>
 			</toolkit:NavigationBar.SecondaryCommands>
 		</toolkit:NavigationBar>
 		<Button Click="Button_Click" Content="Navigation To Page 2" VerticalAlignment="Center" Grid.Row="1"/>
