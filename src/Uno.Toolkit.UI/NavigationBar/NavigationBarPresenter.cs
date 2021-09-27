@@ -172,22 +172,22 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnCommandBarClosing(object sender, object e)
 		{
-			_weakNavBar?.Target?.RaiseClosingEvent(sender, e);
+			_weakNavBar?.Target?.RaiseClosingEvent(e);
 		}
 
 		private void OnCommandBarClosed(object sender, object e)
 		{
-			_weakNavBar?.Target?.RaiseClosedEvent(sender, e);
+			_weakNavBar?.Target?.RaiseClosedEvent(e);
 		}
 
 		private void OnCommandBarOpening(object sender, object e)
 		{
-			_weakNavBar?.Target?.RaiseOpeningEvent(sender, e);
+			_weakNavBar?.Target?.RaiseOpeningEvent(e);
 		}
 
 		private void OnCommandBarOpened(object sender, object e)
 		{
-			_weakNavBar?.Target?.RaiseOpenedEvent(sender, e);
+			_weakNavBar?.Target?.RaiseOpenedEvent(e);
 		}
 
 		private void UnregisterEvents()

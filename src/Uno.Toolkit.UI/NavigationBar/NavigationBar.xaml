@@ -1511,8 +1511,6 @@
 				Value="-3" />
 		<Setter Property="AllowFocusOnInteraction"
 				Value="False" />
-		<Setter Property="Icon"
-				Value="Back" />
 		<contract7Present:Setter Property="CornerRadius"
 								 Value="{ThemeResource ControlCornerRadius}" />
 		<contract6Present:Setter Property="KeyboardAcceleratorPlacementMode"

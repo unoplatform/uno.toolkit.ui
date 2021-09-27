@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
 using Uno.Toolkit.Samples.Entities;
-using Uno.Toolkit.Samples.ViewModels;
-using Uno.UI.ToolkitLib;
-using Uno.UI.ToolkitLib.Behaviors;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,16 +24,17 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-namespace Uno.Toolkit.Samples.Content.Controls
+namespace Uno.Toolkit.Samples.Views.NestedPages
 {
-	[SamplePage(SampleCategory.Behaviors, "TabBarBehavior")]
-	public sealed partial class TabBarBehaviorSamplePage : Page
+	public sealed partial class NavigationBarSample_NestedPage1 : Page
 	{
-		public TabBarBehaviorSamplePage()
+		public NavigationBarSample_NestedPage1()
 		{
-			
 			this.InitializeComponent();
 		}
-	}
 
+		private void NavigateToNextPage(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(NavigationBarSample_NestedPage2));
+
+		private void NavigateBack(object sender, RoutedEventArgs e) => Shell.GetForCurrentView().BackNavigateFromNestedSample();
+	}
 }

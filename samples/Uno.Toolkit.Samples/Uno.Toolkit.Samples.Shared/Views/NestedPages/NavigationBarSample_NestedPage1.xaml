@@ -1,0 +1,44 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Views.NestedPages.NavigationBarSample_NestedPage1"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Views.NestedPages"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<toolkit:NavigationBar Content="First Page"
+							   Opacity="1">
+			<toolkit:NavigationBar.LeftCommand>
+				<muxc:AppBarButton Label="Test Label" />
+			</toolkit:NavigationBar.LeftCommand>
+			<toolkit:NavigationBar.PrimaryCommands>
+				<muxc:AppBarButton Label="More"
+								   Icon="Accept" />
+				<muxc:AppBarButton Label="More" />
+				<muxc:AppBarButton Label="More" />
+			</toolkit:NavigationBar.PrimaryCommands>
+			<toolkit:NavigationBar.SecondaryCommands>
+				<muxc:AppBarButton Label="More" />
+				<muxc:AppBarButton Label="More" />
+				<muxc:AppBarButton Label="More" />
+			</toolkit:NavigationBar.SecondaryCommands>
+		</toolkit:NavigationBar>
+		<StackPanel Spacing="8"
+					Grid.Row="1"
+					VerticalAlignment="Center"
+					Padding="16,0">
+			<Button Content="Exit sample"
+					Click="NavigateBack" />
+			<Button Click="NavigateToNextPage"
+					Content="Navigate To Second Page" />
+		</StackPanel>
+	</Grid>
+</Page>

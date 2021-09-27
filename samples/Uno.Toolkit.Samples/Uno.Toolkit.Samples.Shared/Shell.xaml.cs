@@ -212,5 +212,62 @@ namespace Uno.Toolkit.Samples
 				NavigationViewControl.PaneDisplayMode = MUXC.NavigationViewPaneDisplayMode.LeftMinimal;
 			}
 		}
+
+		private void OnNestedSampleFrameChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			var isInsideNestedSample = NestedSampleFrame.Content != null;
+			PaneToggleButton.Visibility = Visibility.Collapsed;
+			// prevent empty frame from blocking the content (nav-view) behind it
+			NestedSampleFrame.Visibility = isInsideNestedSample
+				? Visibility.Visible
+				: Visibility.Collapsed;
+
+			// toggle built-in back button for wasm (from browser) and uwp (on title bar)
+			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = isInsideNestedSample
+				? AppViewBackButtonVisibility.Visible
+				: AppViewBackButtonVisibility.Collapsed;
+		}
+
+		public void ShowNestedSample<TPage>(bool? clearStack = null) where TPage : Page
+		{
+			NestedSampleFrame.NavigationFailed += NestedSampleFrame_NavigationFailed;
+			var wasFrameEmpty = NestedSampleFrame.Content == null;
+			if (NestedSampleFrame.Navigate(typeof(TPage)) && (clearStack ?? wasFrameEmpty))
+			{
+				NestedSampleFrame.BackStack.Clear();
+			}
+		}
+
+		private void NestedSampleFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
+		{
+		}
+
+		public bool BackNavigateFromNestedSample()
+		{
+			if (NestedSampleFrame.Content == null)
+			{
+				return false;
+			}
+
+			if (NestedSampleFrame.CanGoBack)
+			{
+				NestedSampleFrame.GoBack();
+			}
+			else
+			{
+				NestedSampleFrame.Content = null;
+
+#if __IOS__
+				// This will force reset the UINavigationController, to prevent the back button from appearing when the stack is supposely empty.
+				// note: Merely setting the Frame.Content to null, doesnt fully reset the stack.
+				// When revisiting the page1 again, the previous page1 is still in the UINavigationController stack
+				// causing a back button to appear that takes us back to the previous page1
+				NestedSampleFrame.BackStack.Add(default);
+				NestedSampleFrame.BackStack.Clear();
+#endif
+			}
+
+			return true;
+		}
 	}
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Uno.Toolkit.Samples.Entities;
+using Uno.Toolkit.Samples.Views.NestedPages;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 #if IS_WINUI
@@ -24,24 +25,20 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Uno.Toolkit.Samples.Content.Controls
+namespace Uno.Toolkit.Samples.Views.SamplePages
 {
-	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
-	/// </summary>
-	[SamplePage(SampleCategory.Controls, "NavigationBar")]
-	public sealed partial class NavigationBarSamplePage : Page
-	{
-		public NavigationBarSamplePage()
-		{
-			this.InitializeComponent();
-		}
+    [SamplePage(SampleCategory.Controls, "NavigationBar")]
+    public sealed partial class NavigationBarSamplePage : Page
+    {
+        public NavigationBarSamplePage()
+        {
+            this.InitializeComponent();
+        }
 
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			Frame.Navigate(typeof(NavigationBarSamplePage2));
-		}
-	}
+        private void LaunchFullScreenSample(object sender, RoutedEventArgs e)
+        {
+            Shell.GetForCurrentView().ShowNestedSample<NavigationBarSample_NestedPage1>(clearStack: true);
+        }
+    }
 }

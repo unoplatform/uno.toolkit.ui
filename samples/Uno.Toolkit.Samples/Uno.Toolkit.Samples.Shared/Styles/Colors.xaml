@@ -1,0 +1,22 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Uno.Toolkit.Samples"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="">
+
+	
+	<ResourceDictionary.ThemeDictionaries>
+
+		<!-- Light Theme -->
+		<ResourceDictionary x:Key="Light">
+			<x:String x:Key="BackButtonImageSource">ms-appx:///Assets/BackButton.png</x:String>
+		</ResourceDictionary>
+
+		<!-- Dark Theme -->
+		<ResourceDictionary x:Key="Dark">
+			<x:String x:Key="BackButtonImageSource">ms-appx:///Assets/BackButton-Dark.png</x:String>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

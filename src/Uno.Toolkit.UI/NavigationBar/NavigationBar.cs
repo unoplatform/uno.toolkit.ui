@@ -57,8 +57,8 @@ namespace Uno.UI.ToolkitLib
 #endif
 
 		private INavigationBarPresenter? _presenter;
-		private SerialDisposable _backRequestedRevoker = new SerialDisposable();
-		private SerialDisposable _frameBackStackChangedRevoker = new SerialDisposable();
+		private SerialDisposable _backRequestedHandler = new SerialDisposable();
+		private SerialDisposable _frameBackStackChangedHandler = new SerialDisposable();
 
 		public NavigationBar()
 		{
@@ -112,17 +112,17 @@ namespace Uno.UI.ToolkitLib
 		}
 
 		#region Event Raising
-		internal void RaiseClosingEvent(object sender, object e) 
-			=> Closing?.Invoke(sender, e);
+		internal void RaiseClosingEvent(object e) 
+			=> Closing?.Invoke(this, e);
 
-		internal void RaiseClosedEvent(object sender, object e) 
-			=> Closed?.Invoke(sender, e);
+		internal void RaiseClosedEvent(object e) 
+			=> Closed?.Invoke(this, e);
 		
-		internal void RaiseOpeningEvent(object sender, object e)
-			=> Opening?.Invoke(sender, e);
+		internal void RaiseOpeningEvent(object e)
+			=> Opening?.Invoke(this, e);
 		
-		internal void RaiseOpenedEvent(object sender, object e)
-			=> Opened?.Invoke(sender, e);
+		internal void RaiseOpenedEvent(object e)
+			=> Opened?.Invoke(this, e);
 
 		internal void RaiseDynamicOverflowItemsChanging(Microsoft.UI.Xaml.Controls.DynamicOverflowItemsChangingEventArgs args)
 			=> DynamicOverflowItemsChanging?.Invoke(this, args);
@@ -130,20 +130,20 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
-			_backRequestedRevoker.Disposable = null;
-			_frameBackStackChangedRevoker.Disposable = null;
+			_backRequestedHandler.Disposable = null;
+			_frameBackStackChangedHandler.Disposable = null;
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-			_backRequestedRevoker.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
-			var frame = this.FindFirstParent<Frame>();
+			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
 
+			var frame = this.FindFirstParent<Frame>();
 			if (frame?.BackStack is ObservableCollection<PageStackEntry> backStack)
 			{
 				backStack.CollectionChanged += OnBackStackChanged;
-				_frameBackStackChangedRevoker.Disposable = Disposable.Create(() => backStack.CollectionChanged -= OnBackStackChanged);
+				_frameBackStackChangedHandler.Disposable = Disposable.Create(() => backStack.CollectionChanged -= OnBackStackChanged);
 			}
 		}
 

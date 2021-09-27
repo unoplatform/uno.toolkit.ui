@@ -19,16 +19,21 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\NestedPages\NavigationBarSample_NestedPage1.xaml.cs">
+      <DependentUpon>NavigationBarSample_NestedPage1.xaml</DependentUpon>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\SegmentedControlSamplePage.xaml.cs">
       <DependentUpon>SegmentedControlSamplePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\NavigationBarSamplePage2.xaml.cs">
-      <DependentUpon>NavigationBarSamplePage2.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\NestedPages\NavigationBarSample_NestedPage2.xaml.cs">
+      <DependentUpon>NavigationBarSample_NestedPage2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarBehaviorSamplePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SamplePages\NavigationBarSamplePage.xaml.cs">
+      <DependentUpon>NavigationBarSamplePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SamplePages\TabBarBehaviorSamplePage.xaml.cs">
       <DependentUpon>TabBarBehaviorSamplePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarSamplePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SamplePages\TabBarSamplePage.xaml.cs">
       <DependentUpon>TabBarSamplePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\CupertinoBottomBarSampleNestedPage.xaml.cs">
@@ -68,6 +73,11 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Views\NestedPages\NavigationBarSample_NestedPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\NestedPages\NavigationBarSample_NestedPage2.xaml">
     <Page Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -76,15 +86,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\NavigationBarSamplePage2.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\SamplePages\NavigationBarSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarBehaviorSamplePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\SamplePages\TabBarBehaviorSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarSamplePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\SamplePages\TabBarSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -159,5 +169,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\MaterialIcon_Small.scale-300.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\MaterialIcon_Small.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\UnoLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Views\NestedPages\" />
   </ItemGroup>
 </Project>

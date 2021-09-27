@@ -22,7 +22,7 @@
 	<android:Style TargetType="toolkit:NavigationBar"
 				   BasedOn="{StaticResource NativeDefaultNavigationBar}" />
 
-	<Style TargetType="toolkit:NavigationBar"
+	<netstdref:Style TargetType="toolkit:NavigationBar"
 					 BasedOn="{StaticResource XamlDefaultNavigationBar}" />
 	
 </ResourceDictionary>

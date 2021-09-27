@@ -17,10 +17,10 @@ using Windows.UI.Xaml.Navigation;
 
 using MUXC = Microsoft.UI.Xaml.Controls;
 using MUXCP = Microsoft.UI.Xaml.Controls.Primitives;
-using Uno.Toolkit.Samples.Content.Controls;
 using Uno.Toolkit.Samples.Helpers;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using Uno.Toolkit.Samples.Views.SamplePages;
 
 namespace Uno.Toolkit.Samples
 {
@@ -83,7 +83,7 @@ namespace Uno.Toolkit.Samples
 			AddNavigationItems(nv);
 
 			// landing navigation
-			ShellNavigateTo<SlidingSegmentedControlSamplePage>(
+			ShellNavigateTo<NavigationBarSamplePage>(
 #if WINDOWS_UWP
 				// note: on uwp, NavigationView.SelectedItem MUST be set on launch to avoid entering compact-mode
 				trySynchronizeCurrentItem: true

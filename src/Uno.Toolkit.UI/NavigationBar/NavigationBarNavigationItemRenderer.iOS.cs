@@ -13,6 +13,7 @@ using Windows.Foundation.Collections;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.Extensions;
 using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
+using ICommandBarElement = Microsoft.UI.Xaml.Controls.ICommandBarElement;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -58,7 +59,7 @@ namespace Uno.UI.ToolkitLib
 			//_titleView.RegisterParentChangedCallback(this, OnTitleViewParentChanged);
 
 			// Commands
-			void OnVectorChanged(IObservableVector<AppBarButton> s, IVectorChangedEventArgs e)
+			void OnVectorChanged(IObservableVector<ICommandBarElement> s, IVectorChangedEventArgs e)
 			{
 				RegisterCommandVisibilityAndInvalidate();
 			}

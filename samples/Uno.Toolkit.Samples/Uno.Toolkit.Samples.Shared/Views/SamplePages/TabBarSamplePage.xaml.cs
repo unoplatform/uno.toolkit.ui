@@ -31,7 +31,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Uno.Toolkit.Samples.Content.Controls
+namespace Uno.Toolkit.Samples.Views.SamplePages
 {
     [SamplePage(SampleCategory.Controls, "TabBar", DataType = typeof(TabBarViewModel))]
     public sealed partial class TabBarSamplePage : Page

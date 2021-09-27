@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Uno.Toolkit.Samples.Content.Controls;
 using Uno.UI;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -78,23 +77,15 @@ namespace Uno.Toolkit.Samples
 #endif
 
 			var window = XamlWindow.Current;
-			var rootFrame = window.Content as Frame;
-			if (rootFrame is null)
+			if (!(window.Content is Shell))
 			{
-				rootFrame = new Frame();// _shell = BuildShell();
-				window.Content = rootFrame;
+				window.Content = _shell = BuildShell();
 			}
-			rootFrame.NavigationFailed += RootFrame_NavigationFailed;
 
-			rootFrame.Navigate(typeof(NavigationBarSamplePage));
 			// Ensure the current window is active
 			window.Activate();
 		}
 
-		private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
-		{
-
-		}
 
 		/// <summary>
 		/// Invoked when application execution is being suspended.  Application state is saved
