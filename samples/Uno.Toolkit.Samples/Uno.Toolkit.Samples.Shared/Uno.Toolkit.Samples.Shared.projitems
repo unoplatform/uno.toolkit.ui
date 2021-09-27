@@ -161,6 +161,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-300.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\BackButton-Dark.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\BackButton.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\DownArrowIcon.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\MaterialIcon_Small.scale-100.png" />

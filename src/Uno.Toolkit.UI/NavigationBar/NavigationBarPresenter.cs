@@ -61,7 +61,6 @@ namespace Uno.UI.ToolkitLib
 
 			_commandBar = GetTemplateChild(XamlNavigationBarCommandBar) as CommandBar;
 			_weakNavBar = new WeakReference<NavigationBar?>(navigationBar);
-			
 			SetBindings();
 
 			RegisterEvents();
@@ -69,8 +68,9 @@ namespace Uno.UI.ToolkitLib
 
 		private void SetBindings()
 		{
-			if (_commandBar is { }
-				&& _weakNavBar?.Target is NavigationBar navigationBar)
+			var navigationBar = _weakNavBar?.Target as NavigationBar; 
+			if (_commandBar != null
+				&& navigationBar != null)
 			{
 				void setBinding(UIElement target, object source, DependencyProperty property, string path, BindingMode mode = BindingMode.TwoWay)
 					=> target?.SetBinding(
@@ -118,22 +118,20 @@ namespace Uno.UI.ToolkitLib
 				if (leftCommand != null)
 				{
 					setBinding(leftCommand, navigationBar, AppBarButton.StyleProperty, nameof(navigationBar.LeftCommandStyle));
-					VisualStateManager.GoToState(leftCommand, "LabelOnRight", false);
 				}
 			}
 		}
 
+
 		private void OnCommandBarLeftCommandClicked(object sender, RoutedEventArgs e)
 		{
-			if (_weakNavBar?.Target is NavigationBar navigationBar)
-			{
-				navigationBar.PerformBack();
-			}
+			_weakNavBar?.Target?.PerformBack();
 		}
 
 		private void RegisterEvents()
 		{
-			if (_weakNavBar?.Target is NavigationBar navigationBar)
+			var navigationBar = _weakNavBar?.Target;
+			if (navigationBar != null)
 			{
 				UnregisterEvents();
 
@@ -192,7 +190,7 @@ namespace Uno.UI.ToolkitLib
 
 		private void UnregisterEvents()
 		{
-			if (_weakNavBar?.Target is { })
+			if (_weakNavBar?.Target != null)
 			{
 				_navBarCommandsChangedHandler.Disposable = null;
 			}
@@ -211,12 +209,12 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnCommandsChanged(IObservableVector<ICommandBarElement> sender, IVectorChangedEventArgs args, DependencyProperty prop)
 		{
-			if (_commandBar is { })
+			if (_commandBar != null)
 			{
 				var change = args.CollectionChange;
 				var changeIndex = args.Index;
-
-				if (_commandBar.GetValue(prop) is IObservableVector<ICommandBarElement> commands)
+				var commands = _commandBar.GetValue(prop) as IObservableVector<ICommandBarElement>;
+				if (commands != null)
 				{
 					if (change == CollectionChange.Reset)
 					{
@@ -226,7 +224,7 @@ namespace Uno.UI.ToolkitLib
 						change == CollectionChange.ItemChanged)
 					{
 						var element = sender[(int)changeIndex];
-						if (element is { })
+						if (element != null)
 						{
 							commands[(int)changeIndex] = element;
 						}

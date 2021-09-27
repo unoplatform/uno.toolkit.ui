@@ -328,13 +328,14 @@
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0"
 																		Value="1" />
 											</DoubleAnimationUsingKeyFrames>
+											<!-- UNO WORKAROUND: ClipGeometryTransform.Y not being set to final value of the SplineDoubleKeyFrame -->
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ClipGeometryTransform"
 																		   Storyboard.TargetProperty="Y">
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0"
-																		Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactVerticalDelta}" />
-												<SplineDoubleKeyFrame KeyTime="{StaticResource ControlNormalAnimationDuration}"
+																		Value="0" />
+												<!--<SplineDoubleKeyFrame KeyTime="{StaticResource ControlNormalAnimationDuration}"
 																	  KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
-																	  Value="0" />
+																	  Value="0" />-->
 											</DoubleAnimationUsingKeyFrames>
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform"
 																		   Storyboard.TargetProperty="Y">
@@ -376,13 +377,14 @@
 												<DiscreteDoubleKeyFrame KeyTime="{StaticResource ControlFastAnimationDuration}"
 																		Value="0" />
 											</DoubleAnimationUsingKeyFrames>
+											<!-- UNO WORKAROUND: ClipGeometryTransform.Y not being set to final value of the SplineDoubleKeyFrame -->
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ClipGeometryTransform"
 																		   Storyboard.TargetProperty="Y">
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0"
-																		Value="0" />
-												<SplineDoubleKeyFrame KeyTime="{StaticResource ControlFastAnimationDuration}"
+																		Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactVerticalDelta}" />
+												<!--<SplineDoubleKeyFrame KeyTime="{StaticResource ControlFastAnimationDuration}"
 																	  KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
-																	  Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactVerticalDelta}" />
+																	  Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactVerticalDelta}" />-->
 											</DoubleAnimationUsingKeyFrames>
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform"
 																		   Storyboard.TargetProperty="Y">

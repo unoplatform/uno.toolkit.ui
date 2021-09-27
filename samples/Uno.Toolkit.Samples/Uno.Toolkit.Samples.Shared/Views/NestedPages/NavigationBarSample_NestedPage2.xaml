@@ -14,7 +14,8 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<toolkit:NavigationBar Content="Second Page">
+		<toolkit:NavigationBar Background="Tomato"
+							   Content="Second Page">
 			<toolkit:NavigationBar.LeftCommand>
 				<muxc:AppBarButton Label="Test Back">
 					<muxc:AppBarButton.Icon>
@@ -27,6 +28,11 @@
 				<muxc:AppBarButton Label="More" />
 				<muxc:AppBarButton Label="More" />
 			</toolkit:NavigationBar.PrimaryCommands>
+			<toolkit:NavigationBar.SecondaryCommands>
+				<muxc:AppBarButton Label="More" />
+				<muxc:AppBarButton Label="More" />
+				<muxc:AppBarButton Label="More" />
+			</toolkit:NavigationBar.SecondaryCommands>
 		</toolkit:NavigationBar>
 		<StackPanel Grid.Row="1"
 					Spacing="8"

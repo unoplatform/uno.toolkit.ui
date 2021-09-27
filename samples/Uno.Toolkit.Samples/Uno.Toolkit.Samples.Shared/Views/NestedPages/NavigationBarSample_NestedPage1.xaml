@@ -13,9 +13,9 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<toolkit:NavigationBar Content="First Page"
-							   Opacity="1">
+		<toolkit:NavigationBar Grid.Row="2"  Background="Tomato"  Content="First Page">
 			<toolkit:NavigationBar.LeftCommand>
 				<muxc:AppBarButton Label="Test Label" />
 			</toolkit:NavigationBar.LeftCommand>
