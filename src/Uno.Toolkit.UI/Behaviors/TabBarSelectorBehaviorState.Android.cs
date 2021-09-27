@@ -25,20 +25,18 @@ namespace Uno.UI.ToolkitLib.Behaviors
 {
 	partial class TabBarSelectorBehaviorState
 	{
-		private readonly SerialDisposable _flipViewSizeChangedRevoker = new();
-		private readonly SerialDisposable _scrolledRevoker = new();
+		private readonly SerialDisposable _flipViewSizeChangedRevoker = new SerialDisposable();
+		private readonly SerialDisposable _scrolledRevoker = new SerialDisposable();
 
 		partial void ConnectPartial()
 		{
 			_flipViewSizeChangedRevoker.Disposable = null;
 
-			if (Selector is not FlipView flipView)
+			if (Selector is FlipView flipView)
 			{
-				return;
+				flipView.SizeChanged += OnFlipViewSizeChanged;
+				_flipViewSizeChangedRevoker.Disposable = Disposable.Create(() => flipView.SizeChanged -= OnFlipViewSizeChanged);
 			}
-
-			flipView.SizeChanged += OnFlipViewSizeChanged;
-			_flipViewSizeChangedRevoker.Disposable = Disposable.Create(() => flipView.SizeChanged -= OnFlipViewSizeChanged);
 		}
 
 		partial void DisconnectPartial()

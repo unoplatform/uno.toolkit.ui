@@ -24,20 +24,18 @@ namespace Uno.UI.ToolkitLib.Behaviors
 {
 	partial class TabBarSelectorBehaviorState
 	{
-		private readonly SerialDisposable _flipViewLoadedRevoker = new();
-		private readonly SerialDisposable _scrolledRevoker = new();
+		private readonly SerialDisposable _flipViewLoadedRevoker = new SerialDisposable();
+		private readonly SerialDisposable _scrolledRevoker = new SerialDisposable();
 
 		partial void ConnectPartial()
 		{ 
 			_flipViewLoadedRevoker.Disposable = null;
 
-			if (Selector is not FlipView flipView)
+			if (Selector is FlipView flipView)
 			{
-				return;
+				flipView.Loaded += OnFlipViewLoaded;
+				_flipViewLoadedRevoker.Disposable = Disposable.Create(() => flipView.Loaded -= OnFlipViewLoaded);
 			}
-		
-			flipView.Loaded += OnFlipViewLoaded;
-			_flipViewLoadedRevoker.Disposable = Disposable.Create(() => flipView.Loaded -= OnFlipViewLoaded);
 		}
 
 		private void OnFlipViewLoaded(object sender, RoutedEventArgs e)

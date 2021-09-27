@@ -66,3 +66,36 @@ jobs:
       PathtoPublish: $(build.artifactstagingdirectory)
       ArtifactName: uno-ui-toolkit-drop
       ArtifactType: Container
+
+- job: macOS
+  pool:
+    vmImage: macos-10.15
+  
+  variables:
+  - group: apple.appstore.distribution # Variables for certificate
+
+  steps:
+  - task: InstallAppleCertificate@2
+    inputs:
+      certSecureFile: apple.appstore.distribution.p12
+      certPwd: '$(appleappstorecertificatepassword)'
+      keychain: temp
+      deleteCert: true
+  
+  - task: InstallAppleProvisioningProfile@1
+    inputs:
+      provisioningProfileLocation: secureFiles
+      provProfileSecureFile: UnoToolkit.mobileprovision
+
+  - template: templates/gitversion.yml
+
+  - task: MSBuild@1
+    inputs:
+      solution: samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.iOS/Uno.Toolkit.Samples.iOS.csproj
+      configuration: Release
+      platform: iPhone
+      msbuildArguments: /ds /m /r /p:ApplicationVersion=$(MajorMinorPatch)
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      artifactName: iOS
