@@ -70,6 +70,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Uno.ShowMeTheXAML">
+      <Version>1.0.59</Version>
+    </PackageReference>
+    <PackageReference Include="Uno.ShowMeTheXAML.MSBuild">
+      <Version>1.0.59</Version>
+    </PackageReference>
     <PackageReference Include="Uno.WinUI" Version="3.10.0-dev.593" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.10.0-dev.593" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.35" />
