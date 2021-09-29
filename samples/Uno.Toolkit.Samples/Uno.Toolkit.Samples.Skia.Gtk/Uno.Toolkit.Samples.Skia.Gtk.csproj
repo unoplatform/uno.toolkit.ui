@@ -19,10 +19,14 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Include="Uno.Cupertino" Version="1.0.0-dev.810" />
     <PackageReference Include="Uno.Material" Version="1.0.0-dev.810" />
+    <PackageReference Include="Uno.ShowMeTheXAML" Version="1.0.59" />
+    <PackageReference Include="Uno.ShowMeTheXAML.MSBuild" Version="1.0.59" />
     <PackageReference Include="Uno.UI.Skia.Gtk" Version="3.10.0-dev.593" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.10.0-dev.593" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.csproj" />
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.Material.csproj" />
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" />
   </ItemGroup>
   <Import Project="..\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />

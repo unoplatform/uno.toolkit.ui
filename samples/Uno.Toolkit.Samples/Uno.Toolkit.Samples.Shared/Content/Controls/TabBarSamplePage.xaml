@@ -6,15 +6,19 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
+	  xmlns:smtx="using:ShowMeTheXAML"
 	  mc:Ignorable="d">
 
 	<Page.Resources>
-		<Style x:Key="TabBarWithIndicatorStyle"
+		<!-- Keeping these samples as references for now, will be clean for the next changes -->
+		<!--<Style x:Key="TabBarWithIndicatorStyle"
 			   TargetType="toolkit:TabBar">
 			<Setter Property="IsTabStop"
 					Value="False" />
 			<Setter Property="Height"
 					Value="{StaticResource TabBarHeight}" />
+			<Setter Property="Background"
+					Value="{StaticResource UnoPurpleColorBrush}" />
 			<Setter Property="ItemsPanel">
 				<Setter.Value>
 					<ItemsPanelTemplate>
@@ -32,11 +36,11 @@
 							  Height="{TemplateBinding Height}">
 							<ItemsPresenter Padding="{TemplateBinding Padding}" />
 							<toolkit:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-																 x:Name="SelectionIndicatorPresenter"
-																 AutomationProperties.AutomationId="SelectionIndicatorPresenter"
-																 IndicatorTransitionMode="Snap"
-																 Opacity="0">
-								<Rectangle Fill="Purple"
+																	   x:Name="SelectionIndicatorPresenter"
+																	   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+																	   IndicatorTransitionMode="Snap"
+																	   Opacity="0">
+								<Rectangle Fill="{StaticResource UnoPurpleColorBrush}"
 										   x:Name="TestingRect"
 										   AutomationProperties.AutomationId="TestingRect"
 										   VerticalAlignment="Bottom"
@@ -48,11 +52,242 @@
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
-		</Style>
+		</Style>-->
 	</Page.Resources>
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<sample:SamplePageLayout>
-			<sample:SamplePageLayout.SampleTemplate>
+
+
+	<sample:SamplePageLayout>
+		<sample:SamplePageLayout.MaterialTemplate>
+			<DataTemplate>
+				<StackPanel Padding="0,20"
+							Spacing="20">
+					<!-- Standard TabBar Style -->
+					<TextBlock Text="Standard TabBar Style"
+							   Style="{StaticResource MaterialHeadline6}" />
+					<toolkit:TabBar Style="{StaticResource MaterialTabBarStyle}">
+						<toolkit:TabBar.Items>
+							<toolkit:TabBarItem Content="HOME"
+												Style="{StaticResource MaterialTabBarItemStyle}">
+								<toolkit:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE80F;" />
+								</toolkit:TabBarItem.Icon>
+							</toolkit:TabBarItem>
+							<toolkit:TabBarItem Content="SUPPORT">
+								<toolkit:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE8F2;" />
+								</toolkit:TabBarItem.Icon>
+							</toolkit:TabBarItem>
+							<toolkit:TabBarItem Content="ABOUT">
+								<toolkit:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE946;" />
+								</toolkit:TabBarItem.Icon>
+							</toolkit:TabBarItem>
+
+						</toolkit:TabBar.Items>
+					</toolkit:TabBar>
+
+					<TextBlock Text="Adding Items as TabBarItems directly" />
+					<toolkit:TabBar SelectedIndex="1"
+									Style="{StaticResource MaterialTabBarStyle}">
+						<toolkit:TabBar.Items>
+							<toolkit:TabBarItem Icon="Accept"
+												Content="Tab with Icon" />
+							<toolkit:TabBarItem Icon="Accept" />
+							<toolkit:TabBarItem Content="Content only" />
+						</toolkit:TabBar.Items>
+					</toolkit:TabBar>
+
+					<TextBlock Text="Using ItemsSource" />
+					<toolkit:TabBar ItemsSource="{Binding Data.Items}"
+									Style="{StaticResource MaterialTabBarStyle}" />
+
+					<TextBlock Text="TabBarItem Command" />
+					<toolkit:TabBar Style="{StaticResource MaterialTabBarStyle}">
+						<toolkit:TabBar.Items>
+							<toolkit:TabBarItem Content="Tab 1"
+												x:Name="TabBarWithCommand_Tab1"
+												AutomationProperties.AutomationId="TabBarWithCommand_Tab1"
+												Command="{Binding Data.Tab1CountCommand}" />
+							<toolkit:TabBarItem Content="Tab 2"
+												x:Name="TabBarWithCommand_Tab2"
+												AutomationProperties.AutomationId="TabBarWithCommand_Tab2"
+												Command="{Binding Data.Tab2CountCommand}" />
+							<toolkit:TabBarItem Content="Tab 3"
+												x:Name="TabBarWithCommand_Tab3"
+												AutomationProperties.AutomationId="TabBarWithCommand_Tab3"
+												Command="{Binding Data.Tab3CountCommand}" />
+						</toolkit:TabBar.Items>
+					</toolkit:TabBar>
+					<TextBlock HorizontalAlignment="Center"
+							   Style="{StaticResource MaterialCaption}">
+							<Run Text="Tab 1 clicked count:" />
+							<Run x:Name="Tab1_Count"
+								 AutomationProperties.AutomationId="Tab1_Count"
+								 Text="{Binding Data.Tab1Count}" />
+							<Run Text="/ Tab 2 clicked count:" />
+							<Run x:Name="Tab2_Count"
+								 AutomationProperties.AutomationId="Tab2_Count"
+								 Text="{Binding Data.Tab2Count}" />
+							<Run Text="/ Tab 3 clicked count:" />
+							<Run x:Name="Tab3_Count"
+								 AutomationProperties.AutomationId="Tab3_Count"
+								 Text="{Binding Data.Tab3Count}" />
+					</TextBlock>
+
+
+					<!-- Bottom TabBar Style-->
+					<TextBlock Text="Bottom TabBar Style"
+							   Style="{StaticResource MaterialHeadline6}" />
+					<toolkit:TabBar Style="{StaticResource MaterialBottomTabBarStyle}">
+						<toolkit:TabBar.Items>
+							<toolkit:TabBarItem Content="Home">
+								<toolkit:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE80F;" />
+								</toolkit:TabBarItem.Icon>
+							</toolkit:TabBarItem>
+							<toolkit:TabBarItem Content="Support">
+								<toolkit:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE8F2;" />
+								</toolkit:TabBarItem.Icon>
+							</toolkit:TabBarItem>
+							<toolkit:TabBarItem Content="About">
+								<toolkit:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE946;" />
+								</toolkit:TabBarItem.Icon>
+							</toolkit:TabBarItem>
+
+						</toolkit:TabBar.Items>
+					</toolkit:TabBar>
+
+					<TextBlock Text="Adding Items as TabBarItems directly" />
+					<toolkit:TabBar SelectedIndex="1"
+									Style="{StaticResource MaterialBottomTabBarStyle}">
+						<toolkit:TabBar.Items>
+							<toolkit:TabBarItem Icon="Accept"
+												Content="Tab with Icon" />
+							<toolkit:TabBarItem Icon="Accept" />
+							<toolkit:TabBarItem Content="Content only" />
+						</toolkit:TabBar.Items>
+					</toolkit:TabBar>
+
+					<TextBlock Text="Using ItemsSource" />
+					<toolkit:TabBar ItemsSource="{Binding Data.Items}"
+									Style="{StaticResource MaterialBottomTabBarStyle}" />
+
+					<TextBlock Text="TabBarItem Command" />
+					<toolkit:TabBar Style="{StaticResource MaterialBottomTabBarStyle}">
+						<toolkit:TabBar.Items>
+							<toolkit:TabBarItem Content="Tab 1"
+												x:Name="MaterialBottomTabBarWithCommand_Tab1"
+												AutomationProperties.AutomationId="MaterialBottomTabBarWithCommand_Tab1"
+												Command="{Binding Data.MaterialBottomTab1CountCommand}" />
+							<toolkit:TabBarItem Content="Tab 2"
+												x:Name="MaterialBottomTabBarWithCommand_Tab2"
+												AutomationProperties.AutomationId="MaterialBottomTabBarWithCommand_Tab2"
+												Command="{Binding Data.MaterialBottomTab2CountCommand}" />
+							<toolkit:TabBarItem Content="Tab 3"
+												x:Name="MaterialBottomTabBarWithCommand_Tab3"
+												AutomationProperties.AutomationId="MaterialBottomTabBarWithCommand_Tab3"
+												Command="{Binding Data.MaterialBottomTab3CountCommand}" />
+						</toolkit:TabBar.Items>
+					</toolkit:TabBar>
+					<TextBlock HorizontalAlignment="Center"
+							   Style="{StaticResource MaterialCaption}">
+							<Run Text="Tab 1 clicked count:" />
+							<Run x:Name="MaterialBottomTab1_Count"
+								 AutomationProperties.AutomationId="MaterialBottomTab1_Count"
+								 Text="{Binding Data.MaterialBottomTab1Count}" />
+							<Run Text="/ Tab 2 clicked count:" />
+							<Run x:Name="MaterialBottomTab2_Count"
+								 AutomationProperties.AutomationId="MaterialBottomTab2_Count"
+								 Text="{Binding Data.MaterialBottomTab2Count}" />
+							<Run Text="/ Tab 3 clicked count:" />
+							<Run x:Name="MaterialBottomTab3_Count"
+								 AutomationProperties.AutomationId="MaterialBottomTab3_Count"
+								 Text="{Binding Data.MaterialBottomTab3Count}" />
+					</TextBlock>
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.MaterialTemplate>
+		<sample:SamplePageLayout.CupertinoTemplate>
+			<DataTemplate>
+				<StackPanel Padding="0,20"
+							Spacing="20">
+					<TextBlock Text="Bottom TabBar Style" />
+					<toolkit:TabBar Style="{StaticResource CupertinoBottomTabBarStyle}">
+						<toolkit:TabBar.Items>
+							<toolkit:TabBarItem Content="Home">
+								<toolkit:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE80F;" />
+								</toolkit:TabBarItem.Icon>
+							</toolkit:TabBarItem>
+							<toolkit:TabBarItem Content="Support">
+								<toolkit:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE8F2;" />
+								</toolkit:TabBarItem.Icon>
+							</toolkit:TabBarItem>
+							<toolkit:TabBarItem Content="About">
+								<toolkit:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE946;" />
+								</toolkit:TabBarItem.Icon>
+							</toolkit:TabBarItem>
+						</toolkit:TabBar.Items>
+					</toolkit:TabBar>
+
+					<TextBlock Text="Adding Items as TabBarItems directly" />
+					<toolkit:TabBar SelectedIndex="1"
+									Style="{StaticResource CupertinoBottomTabBarStyle}">
+						<toolkit:TabBar.Items>
+							<toolkit:TabBarItem Icon="Accept"
+												Content="Tab with Icon" />
+							<toolkit:TabBarItem Icon="Accept" />
+							<toolkit:TabBarItem Content="Content only" />
+						</toolkit:TabBar.Items>
+					</toolkit:TabBar>
+
+					<TextBlock Text="Using ItemsSource" />
+					<toolkit:TabBar ItemsSource="{Binding Data.Items}"
+									Style="{StaticResource CupertinoBottomTabBarStyle}" />
+
+					<TextBlock Text="TabBarItem Command" />
+					<toolkit:TabBar Style="{StaticResource CupertinoBottomTabBarStyle}">
+						<toolkit:TabBar.Items>
+							<toolkit:TabBarItem Content="Tab 1"
+												x:Name="CupertinoBottomTabBarWithCommand_Tab1"
+												AutomationProperties.AutomationId="CupertinoBottomTabBarWithCommand_Tab1"
+												Command="{Binding Data.CupertinoBottomTab1CountCommand}" />
+							<toolkit:TabBarItem Content="Tab 2"
+												x:Name="CupertinoBottomTabBarWithCommand_Tab2"
+												AutomationProperties.AutomationId="CupertinoBottomTabBarWithCommand_Tab2"
+												Command="{Binding Data.CupertinoBottomTab2CountCommand}" />
+							<toolkit:TabBarItem Content="Tab 3"
+												x:Name="CupertinoBottomTabBarWithCommand_Tab3"
+												AutomationProperties.AutomationId="CupertinoBottomTabBarWithCommand_Tab3"
+												Command="{Binding Data.CupertinoBottomTab3CountCommand}" />
+						</toolkit:TabBar.Items>
+					</toolkit:TabBar>
+					<TextBlock HorizontalAlignment="Center"
+							   Style="{StaticResource MaterialCaption}">
+							<Run Text="Tab 1 clicked count:" />
+							<Run x:Name="CupertinoBottomTab1_Count"
+								 AutomationProperties.AutomationId="CupertinoBottomTab1_Count"
+								 Text="{Binding Data.CupertinoBottomTab1Count}" />
+							<Run Text="/ Tab 2 clicked count:" />
+							<Run x:Name="CupertinoBottomTab2_Count"
+								 AutomationProperties.AutomationId="CupertinoBottomTab2_Count"
+								 Text="{Binding Data.CupertinoBottomTab2Count}" />
+							<Run Text="/ Tab 3 clicked count:" />
+							<Run x:Name="CupertinoBottomTab3_Count"
+								 AutomationProperties.AutomationId="CupertinoBottomTab3_Count"
+								 Text="{Binding Data.CupertinoBottomTab3Count}" />
+					</TextBlock>
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.CupertinoTemplate>
+		
+		
+		<!-- Keeping these samples as references for now, will be clean for the next changes -->
+		<!--<sample:SamplePageLayout.SampleTemplate>
 				<DataTemplate>
 					<ScrollViewer>
 						<StackPanel Spacing="20">
@@ -60,7 +295,7 @@
 									BorderThickness="2"
 									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
 								<StackPanel>
-									<TextBlock Text="Adding Items as TabBarItems Directly"
+									<TextBlock Text="Adding Items as TabBarItems directly"
 											   Style="{StaticResource BodyTextBlockStyle}" />
 									<toolkit:TabBar Background="Tomato"
 													BorderBrush="Blue"
@@ -180,7 +415,6 @@
 						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>
-			</sample:SamplePageLayout.SampleTemplate>
-		</sample:SamplePageLayout>
-	</Grid>
+			</sample:SamplePageLayout.SampleTemplate>-->
+	</sample:SamplePageLayout>
 </Page>

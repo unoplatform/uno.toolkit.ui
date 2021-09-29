@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+	<!--
+	Adding project references to this project requires some manual adjustments.
+	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
+	-->
+	<PropertyGroup>
+		<TargetFrameworks>uap10.0.18362;netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0;monoandroid10.0</TargetFrameworks>
+		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<AssemblyName>Uno.UI.Toolkit.Cupertino</AssemblyName>
+		<RootNamespace>Uno.UI.Toolkit.Cupertino</RootNamespace>
+		<PackageId>Uno.UI.Toolkit.Cupertino</PackageId>
+		<Nullable>enable</Nullable>
+		<LangVersion>Latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.Cupertino" Version="1.0.0-dev.810" />
+		<PackageReference Include="Uno.Material" Version="1.0.0-dev.810" />
+		<PackageReference Include="Uno.UI" Version="3.10.0-dev.593" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
+		<PackageReference Include="Microsoft.UI.Xaml" Version="2.6.0-prerelease.210623001" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+		<Compile Update="**\*.xaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Styles\Controls\BottomTabBar.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Styles\Controls\BottomTabBar.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Styles\Controls\BottomTabBar.xaml">
+	    <SubType>Designer</SubType>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj">
+			<Project>{aeed47ed-bd21-4f03-a7a9-124cf63e4b1c}</Project>
+			<Name>Uno.Toolkit.UI</Name>
+		</ProjectReference>
+	</ItemGroup>
+</Project>

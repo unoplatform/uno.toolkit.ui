@@ -76,6 +76,12 @@
     <PackageReference Include="Uno.Material">
       <Version>1.0.0-dev.810</Version>
     </PackageReference>
+    <PackageReference Include="Uno.ShowMeTheXAML">
+      <Version>1.0.59</Version>
+    </PackageReference>
+    <PackageReference Include="Uno.ShowMeTheXAML.MSBuild">
+      <Version>1.0.59</Version>
+    </PackageReference>
     <PackageReference Include="Uno.UI" Version="3.10.0-dev.593" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.10.0-dev.593" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
@@ -102,6 +108,8 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <AndroidAsset Include="Resources\Fonts\Cupertino\SF-Pro.ttf" />
+    <None Include="Resources\Fonts\Material\RobotoMono-VariableFont_wght.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -113,6 +121,14 @@
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.csproj">
+      <Project>{a49b9100-805e-4a8d-bb0a-c313609b2e82}</Project>
+      <Name>Uno.Toolkit.Cupertino</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.Material.csproj">
+      <Project>{3aa9542b-f033-4c56-ba9f-5b359e0b55f8}</Project>
+      <Name>Uno.Toolkit.Material</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj">
       <Project>{aeed47ed-bd21-4f03-a7a9-124cf63e4b1c}</Project>
       <Name>Uno.Toolkit.UI</Name>
