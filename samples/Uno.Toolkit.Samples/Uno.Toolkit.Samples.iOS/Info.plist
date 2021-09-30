@@ -57,5 +57,7 @@
 	<string>Media.xcassets/AppIcons.appiconset</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Library Access Warning</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
