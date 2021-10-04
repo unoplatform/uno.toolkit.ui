@@ -24,10 +24,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-    <PackageReference Include="Uno.WinUI.Skia.Gtk" Version="3.10.0-dev.593" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.10.0-dev.593" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.WinUI.Skia.Gtk" Version="3.11.0-dev.270" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.11.0-dev.270" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.WinUI.csproj" />
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.Material.WinUI.csproj" />
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
   </ItemGroup>
   <Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />

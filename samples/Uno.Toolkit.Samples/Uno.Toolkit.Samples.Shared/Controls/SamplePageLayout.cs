@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Windows.Foundation;
+using System.Linq;
 using System.Text;
+using Uno.Disposables;
 using Uno.Toolkit.Samples.Entities;
-
+using Uno.Toolkit.Samples.Helpers;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,80 +18,37 @@ namespace Uno.Toolkit.Samples
 {
 	public partial class SamplePageLayout : ContentControl
 	{
-		#region Property: Title
+		private const string VisualStateMaterial = nameof(Design.Material);
+		private const string VisualStateCupertino = nameof(Design.Cupertino);
 
-		public static DependencyProperty TitleProperty { get; } = DependencyProperty.Register(
-			nameof(Title),
-			typeof(string),
-			typeof(SamplePageLayout),
-			new PropertyMetadata(default));
+		private const string MaterialRadioButtonPartName = "PART_MaterialRadioButton";
+		private const string CupertinoRadioButtonPartName = "PART_CupertinoRadioButton";
+		private const string StickyMaterialRadioButtonPartName = "PART_StickyMaterialRadioButton";
+		private const string StickyCupertinoRadioButtonPartName = "PART_StickyCupertinoRadioButton";
+		private const string ScrollingTabsPartName = "PART_ScrollingTabs";
+		private const string StickyTabsPartName = "PART_StickyTabs";
+		private const string ScrollViewerPartName = "PART_ScrollViewer";
+		private const string TopPartName = "PART_MobileTopBar";
 
-		public string Title
+		private static Design _design = Design.Material;
+
+		private IReadOnlyCollection<LayoutModeMapping> LayoutModeMappings => new List<LayoutModeMapping>
 		{
-			get => (string)GetValue(TitleProperty);
-			set => SetValue(TitleProperty, value);
-		}
+			new LayoutModeMapping(Design.Material, _materialRadioButton, _stickyMaterialRadioButton, VisualStateMaterial, MaterialTemplate),
+			new LayoutModeMapping(Design.Cupertino, _cupertinoRadioButton, _stickyCupertinoRadioButton, VisualStateCupertino, CupertinoTemplate),
 
-		#endregion
-		#region Property: Description
+		};
 
-		public static DependencyProperty DescriptionProperty { get; } = DependencyProperty.Register(
-			nameof(Description),
-			typeof(string),
-			typeof(SamplePageLayout),
-			new PropertyMetadata(default));
+		private RadioButton _materialRadioButton;
+		private RadioButton _cupertinoRadioButton;
+		private RadioButton _stickyMaterialRadioButton;
+		private RadioButton _stickyCupertinoRadioButton;
+		private FrameworkElement _scrollingTabs;
+		private FrameworkElement _stickyTabs;
+		private FrameworkElement _top;
+		private ScrollViewer _scrollViewer;
 
-		public string Description
-		{
-			get => (string)GetValue(DescriptionProperty);
-			set => SetValue(DescriptionProperty, value);
-		}
-
-		#endregion
-		#region Property: DocumentationLink
-
-		public static DependencyProperty DocumentationLinkProperty { get; } = DependencyProperty.Register(
-			nameof(DocumentationLink),
-			typeof(string),
-			typeof(SamplePageLayout),
-			new PropertyMetadata(default));
-
-		public string DocumentationLink
-		{
-			get => (string)GetValue(DocumentationLinkProperty);
-			set => SetValue(DocumentationLinkProperty, value);
-		}
-
-		#endregion
-		#region Property: HeaderTemplate
-		/// <summary>
-		/// The Header is the part above the design tabs (Material|Fluent|Native).
-		/// It contains the Description and the Source in the default style.
-		/// </summary>
-		public DataTemplate HeaderTemplate
-		{
-			get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
-			set { SetValue(HeaderTemplateProperty, value); }
-		}
-
-		public static readonly DependencyProperty HeaderTemplateProperty =
-			DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(SamplePageLayout), new PropertyMetadata(null));
-		#endregion
-		#region Property: SampleTemplate
-
-		public static DependencyProperty SampleTemplateProperty { get; } = DependencyProperty.Register(
-			nameof(SampleTemplate),
-			typeof(DataTemplate),
-			typeof(SamplePageLayout),
-			new PropertyMetadata(default));
-
-		public DataTemplate SampleTemplate
-		{
-			get => (DataTemplate)GetValue(SampleTemplateProperty);
-			set => SetValue(SampleTemplateProperty, value);
-		}
-
-		#endregion
+		private readonly SerialDisposable _subscriptions = new SerialDisposable();
 
 		public SamplePageLayout()
 		{
@@ -101,7 +61,162 @@ namespace Uno.Toolkit.Samples
 					Title = sample.Title;
 					Description = sample.Description;
 					DocumentationLink = sample.DocumentationLink;
+					Source = sample.Source;
 				}
+			}
+		}
+
+		protected override void OnApplyTemplate()
+		{
+			base.OnApplyTemplate();
+
+			_materialRadioButton = (RadioButton)GetTemplateChild(MaterialRadioButtonPartName);
+			_cupertinoRadioButton = (RadioButton)GetTemplateChild(CupertinoRadioButtonPartName);
+			_stickyMaterialRadioButton = (RadioButton)GetTemplateChild(StickyMaterialRadioButtonPartName);
+			_stickyCupertinoRadioButton = (RadioButton)GetTemplateChild(StickyCupertinoRadioButtonPartName);
+			_scrollingTabs = (FrameworkElement)GetTemplateChild(ScrollingTabsPartName);
+			_stickyTabs = (FrameworkElement)GetTemplateChild(StickyTabsPartName);
+			_scrollViewer = (ScrollViewer)GetTemplateChild(ScrollViewerPartName);
+			_top = (FrameworkElement)GetTemplateChild(TopPartName);
+
+			// ensure previous subscriptions is removed before adding new ones, in case OnApplyTemplate is called multiple times
+			var disposables = new CompositeDisposable();
+			_subscriptions.Disposable = disposables;
+
+			_scrollViewer.ViewChanged += OnScrolled;
+			Disposable
+				.Create(() => _scrollViewer.ViewChanged -= OnScrolled)
+				.DisposeWith(disposables);
+
+			BindOnClick(_materialRadioButton);
+			BindOnClick(_cupertinoRadioButton);
+			BindOnClick(_stickyMaterialRadioButton);
+			BindOnClick(_stickyCupertinoRadioButton);
+
+			UpdateLayoutRadioButtons();
+
+			void BindOnClick(RadioButton radio)
+			{
+				radio.Click += OnLayoutRadioButtonChecked;
+				Disposable
+					.Create(() => radio.Click -= OnLayoutRadioButtonChecked)
+					.DisposeWith(disposables);
+			}
+
+			void OnScrolled(object sender, ScrollViewerViewChangedEventArgs e)
+			{
+				var relativeOffset = GetRelativeOffset();
+				if (relativeOffset < 0)
+				{
+					_stickyTabs.Visibility = Visibility.Visible;
+				}
+				else
+				{
+					_stickyTabs.Visibility = Visibility.Collapsed;
+				}
+			}
+		}
+
+		private void RegisterEvent(RoutedEventHandler click)
+		{
+			click += OnLayoutRadioButtonChecked;
+		}
+
+		private void UpdateLayoutRadioButtons()
+		{
+			var mappings = LayoutModeMappings;
+			var previouslySelected = default(LayoutModeMapping);
+
+			foreach (var mapping in mappings)
+			{
+				var visibility = mapping.Template != null ? Visibility.Visible : Visibility.Collapsed;
+				mapping.RadioButton.Visibility = visibility;
+				mapping.StickyRadioButton.Visibility = visibility;
+				if (mapping.Template != null && mapping.Design == _design)
+				{
+					previouslySelected = mapping;
+				}
+			}
+
+			// selected mode is based on previous selection and availability (whether the template is defined)
+			var selected = previouslySelected ?? mappings.FirstOrDefault(x => x.Template != null);
+			if (selected != null)
+			{
+				UpdateLayoutMode(transitionTo: selected.Design);
+			}
+		}
+
+		private void OnLayoutRadioButtonChecked(object sender, RoutedEventArgs e)
+		{
+			if (sender is RadioButton radio && LayoutModeMappings.FirstOrDefault(x => x.RadioButton == radio || x.StickyRadioButton == radio) is LayoutModeMapping mapping)
+			{
+				_design = mapping.Design;
+				UpdateLayoutMode();
+			}
+		}
+
+		private void UpdateLayoutMode(Design? transitionTo = null)
+		{
+			var design = transitionTo ?? _design;
+
+			var current = LayoutModeMappings.FirstOrDefault(x => x.Design == design);
+			if (current != null)
+			{
+				current.RadioButton.IsChecked = true;
+				current.StickyRadioButton.IsChecked = true;
+
+				VisualStateManager.GoToState(this, current.VisualStateName, useTransitions: true);
+			}
+		}
+
+		private double GetRelativeOffset()
+		{
+#if NETFX_CORE
+			// On UWP we can count on finding a ScrollContentPresenter. 
+			var scp = VisualTreeHelperEx.GetFirstDescendant<ScrollContentPresenter>(_scrollViewer);
+			var content = scp?.Content as FrameworkElement;
+			var transform = _scrollingTabs.TransformToVisual(content);
+			return transform.TransformPoint(new Point(0, 0)).Y - _scrollViewer.VerticalOffset;
+#elif __IOS__
+			var transform = _scrollingTabs.TransformToVisual(_scrollViewer);
+			return transform.TransformPoint(new Point(0, 0)).Y;
+#else
+			var transform = _scrollingTabs.TransformToVisual(this);
+			return transform.TransformPoint(new Point(0, 0)).Y - _top.ActualHeight;
+#endif
+		}
+
+		/// <summary>
+		/// Get control inside the specified layout template.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="mode">The layout mode in which the control is defined</param>
+		/// <param name="name">The 'x:Name' of the control</param>
+		/// <returns></returns>
+		/// <remarks>The caller must ensure the control is loaded. This is best done from <see cref="FrameworkElement.Loaded"/> event.</remarks>
+		public T GetSampleChild<T>(Design mode, string name)
+			where T : FrameworkElement
+		{
+			var presenter = (ContentPresenter)GetTemplateChild($"{mode}ContentPresenter");
+
+			return VisualTreeHelperEx.GetFirstDescendant<T>(presenter, x => x.Name == name);
+		}
+
+		private class LayoutModeMapping
+		{
+			public Design Design { get; set; }
+			public RadioButton RadioButton { get; set; }
+			public RadioButton StickyRadioButton { get; set; }
+			public string VisualStateName { get; set; }
+			public DataTemplate Template { get; set; }
+
+			public LayoutModeMapping(Design design, RadioButton radioButton, RadioButton stickyRadioButton, string visualStateName, DataTemplate template)
+			{
+				Design = design;
+				RadioButton = radioButton;
+				StickyRadioButton = stickyRadioButton;
+				VisualStateName = visualStateName;
+				Template = template;
 			}
 		}
 	}

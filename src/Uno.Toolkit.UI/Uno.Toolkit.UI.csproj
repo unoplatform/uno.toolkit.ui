@@ -16,11 +16,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.UI" Version="3.10.0-dev.593" />
+		<PackageReference Include="Uno.UI" Version="3.11.0-dev.270" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
-		<PackageReference Include="Microsoft.UI.Xaml" Version="2.4" />
+		<PackageReference Include="Microsoft.UI.Xaml" Version="2.6.0-prerelease.210623001" />
 	</ItemGroup>
 	
   <ItemGroup>

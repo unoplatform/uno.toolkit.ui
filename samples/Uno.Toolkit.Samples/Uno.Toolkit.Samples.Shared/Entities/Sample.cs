@@ -55,5 +55,7 @@ namespace Uno.Toolkit.Samples.Entities
 		public int? SortOrder { get; }
 
 		public Type ViewType { get; }
+
+		public SourceSdk Source { get; }
 	}
 }
