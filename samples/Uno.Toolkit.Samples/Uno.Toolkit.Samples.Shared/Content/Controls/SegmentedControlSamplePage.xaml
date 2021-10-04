@@ -1,0 +1,52 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.SlidingSegmentedControlSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:toolkitLib="using:Uno.UI.ToolkitLib"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<sample:SamplePageLayout>
+			<sample:SamplePageLayout.CupertinoTemplate>
+				<DataTemplate>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+						<toolkitLib:TabBar Style="{StaticResource CupertinoSegmentedStyle}"
+										   Margin="10"
+										   SelectedIndex="0"
+										   x:Name="segControl">
+							<toolkitLib:TabBar.Items>
+								<toolkitLib:TabBarItem Content="ORANGE" />
+								<toolkitLib:TabBarItem Content="PURPLE" />
+								<toolkitLib:TabBarItem Content="BLUE" />
+							</toolkitLib:TabBar.Items>
+						</toolkitLib:TabBar>
+						<toolkitLib:TabBar x:Name="slidingSegControl"
+										   Grid.Row="1"
+										   Margin="10"
+										   SelectedIndex="{Binding SelectedIndex, ElementName=segControl, Mode=TwoWay}"
+										   Style="{StaticResource CupertinoSlidingSegmentedStyle}">
+							<toolkitLib:TabBar.Items>
+								<toolkitLib:TabBarItem Content="ORANGE" />
+								<toolkitLib:TabBarItem Content="PURPLE" />
+								<toolkitLib:TabBarItem Content="BLUE" />
+							</toolkitLib:TabBar.Items>
+						</toolkitLib:TabBar>
+						<TextBlock HorizontalAlignment="Center"
+								   VerticalAlignment="Center"
+								   Grid.Row="2"
+								   Text="{Binding SelectedItem.Content, ElementName=segControl}"/> 
+					</Grid>
+				</DataTemplate>
+			</sample:SamplePageLayout.CupertinoTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>

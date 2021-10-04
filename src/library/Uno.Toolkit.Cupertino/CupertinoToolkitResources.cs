@@ -27,6 +27,8 @@ namespace Uno.Toolkit.Cupertino
 		public CupertinoToolkitResources()
 		{
 			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/BottomTabBar.xaml") });
+			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SlidingSegmentedControl.xaml") });
+			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SegmentedControl.xaml") });
 		}
 	}
 }

@@ -148,6 +148,9 @@ namespace Uno.UI.ToolkitLib
 			var nextPosPoint = selectedItem.TransformToVisual(Owner)
 				.TransformPoint(point);
 
+			var currentPoint = child.TransformToVisual(Owner)
+				.TransformPoint(new Point(0, 0));
+
 			nextPos = nextPosPoint.X + (selectedItem.ActualWidth / 2);
 
 			if (IndicatorTransitionMode == IndicatorTransitionMode.Snap)
@@ -159,7 +162,7 @@ namespace Uno.UI.ToolkitLib
 				_indicatorSlideStoryboard.Stop();
 				_indicatorSlideStoryboard.Children.Clear();
 
-				var easing = new ExponentialEase();
+				var easing = new CubicEase();
 
 				var transform = child.RenderTransform as CompositeTransform;
 				if (transform == null)
@@ -172,7 +175,7 @@ namespace Uno.UI.ToolkitLib
 				var db = new DoubleAnimation
 				{
 					To = nextPos - (child.ActualSize.X / 2),
-					From = null,
+					From = currentPoint.X,
 					EasingFunction = easing,
 					Duration = TimeSpan.FromMilliseconds(400)
 				};

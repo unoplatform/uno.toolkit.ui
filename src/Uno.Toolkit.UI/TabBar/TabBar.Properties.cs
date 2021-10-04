@@ -35,6 +35,17 @@ namespace Uno.UI.ToolkitLib
 			DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(TabBar), new PropertyMetadata(-1, OnPropertyChanged));
 		#endregion
 
+
+		#region TemplateSettings
+		public TabBarTemplateSettings TemplateSettings
+		{
+			get => (TabBarTemplateSettings)GetValue(TemplateSettingsProperty);
+			private set => SetValue(TemplateSettingsProperty, value);
+		}
+		public static DependencyProperty TemplateSettingsProperty { get; } =
+			DependencyProperty.Register(nameof(TemplateSettings), typeof(TabBarTemplateSettings), typeof(TabBar), new PropertyMetadata(null));
+		#endregion
+
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
 		{
 			var owner = (TabBar)sender;
