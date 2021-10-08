@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Uno.UI.ToolkitLib;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 #if IS_WINUI
@@ -25,6 +26,29 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples
         public CupertinoBottomBarSampleNestedPage()
         {
             this.InitializeComponent();
+        }
+
+        private void OnSelectionChanged(UI.ToolkitLib.TabBar sender, UI.ToolkitLib.TabBarSelectionChangedEventArgs args)
+        {
+            if (args.NewItem is TabBarItem tabBarItem)
+            {
+                foreach (var page in PageContainer.Children)
+                {
+                    var pageGrid = page as Grid;
+                    if (pageGrid != null)
+                    {
+                        pageGrid.Visibility = pageGrid.Name == (string)tabBarItem.Tag ? Visibility.Visible : Visibility.Collapsed;
+                    }
+                }
+            }
+        }
+
+        private void NavigateBack(object sender, RoutedEventArgs e)
+        {
+            // Normally we would've just called `Frame.GoBack();` if we only have a single frame.
+            // However, a nested frame is used to show-case fullscreen sample, so we need some
+            // custom handling to hide the nested frame on back navigation when the stack is empty.
+            Shell.GetForCurrentView()?.BackNavigateFromNestedSample();
         }
     }
 }

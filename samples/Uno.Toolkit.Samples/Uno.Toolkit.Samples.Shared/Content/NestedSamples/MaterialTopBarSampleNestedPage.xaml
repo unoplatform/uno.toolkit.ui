@@ -6,9 +6,10 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:toolkitLib="using:Uno.UI.ToolkitLib"
+	  xmlns:ios="http://uno.ui/ios"
 	  xmlns:toolkitB="using:Uno.UI.ToolkitLib.Behaviors"
 	  xmlns:toolkitE="using:Uno.Material.Extensions"
-	  mc:Ignorable="d"
+	  mc:Ignorable="d ios"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Grid>
@@ -19,6 +20,7 @@
 		</Grid.RowDefinitions>
 
 		<CommandBar Content="Material Top TabBar Sample Page"
+					toolkit:VisibleBoundsPadding.PaddingMask="Top"
 					Style="{StaticResource MaterialCommandBarStyle}">
 			<toolkit:CommandBarExtensions.NavigationCommand>
 				<AppBarButton Click="NavigateBack"
@@ -33,7 +35,7 @@
 
 		<toolkitLib:TabBar Grid.Row="1"
 						   SelectedIndex="1"
-						   Style="{StaticResource MaterialTabBarStyle}"
+						   Style="{StaticResource MaterialTopTabBarStyle}"
 						   toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}">
 			<toolkitLib:TabBar.Items>
 				<toolkitLib:TabBarItem Content="Home" />

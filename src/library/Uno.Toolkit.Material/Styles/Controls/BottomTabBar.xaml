@@ -3,6 +3,8 @@
 					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:controls="using:Uno.Material.Controls"
+					xmlns:toolkitControls="using:Uno.Toolkit.Material.Controls"
+					xmlns:materialToolkit="using:Uno.Toolkit.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:toolkitlib="using:Uno.UI.ToolkitLib"
 					mc:Ignorable="d">
@@ -90,26 +92,28 @@
 	<x:Double x:Key="MaterialTabBarFontSize">14</x:Double>
 	<FontFamily x:Key="MaterialTabBarFontFamily">Roboto</FontFamily>
 	<x:Double x:Key="TabBarHeight">64</x:Double>
+	<x:Double x:Key="FabItemVerticalOffset">-32</x:Double>
 	<x:Double x:Key="TabBarItemIconHeight">22</x:Double>
 	<x:Double x:Key="TabBarItemIconWidth">22</x:Double>
 	<Thickness x:Key="TabBarItemContentMargin">0,0,0,6</Thickness>
 	<Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
 
-	<!--Material Bottom TabBar-->
+	<!-- Material Bottom TabBar -->
 	<Style x:Key="MaterialBottomTabBarStyle"
 		   TargetType="toolkitlib:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialTabBarBackground}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
-		<Setter Property="Height"
-				Value="{StaticResource TabBarHeight}" />
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
 				<ItemsPanelTemplate>
 					<toolkitlib:TabBarListPanel />
 				</ItemsPanelTemplate>
 			</Setter.Value>
+		</Setter>
+		<Setter Property="ItemContainerStyle" Value="{StaticResource MaterialBottomTabBarItemStyle}">
+			
 		</Setter>
 		<Setter Property="Template">
 			<Setter.Value>
@@ -118,14 +122,146 @@
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
-						  Height="{TemplateBinding Height}">
-						<ItemsPresenter Padding="{TemplateBinding Padding}" />
+						  Padding="{TemplateBinding Padding}">
+						<ItemsPresenter Height="{StaticResource TabBarHeight}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource MaterialBottomTabBarItemStyle}" />
+		
+	</Style>
+
+
+	<Style x:Key="MaterialBottomFabTabBarItemStyle"
+		   TargetType="toolkitlib:TabBarItem">
+		<Setter Property="Background"
+				Value="{ThemeResource MaterialSecondaryBrush}" />
+		<Setter Property="Foreground"
+				Value="{ThemeResource MaterialOnSecondaryBrush}" />
+		<Setter Property="BorderBrush"
+				Value="{ThemeResource TabBarItemBorderBrush}" />
+		<Setter Property="FontFamily"
+				Value="{StaticResource MaterialTabBarFontFamily}" />
+		<Setter Property="FontSize"
+				Value="{StaticResource MaterialTabBarFontSize}" />
+		<Setter Property="FontWeight"
+				Value="Normal" />
+		<Setter Property="IsSelectable"
+				Value="False" />
+		<Setter Property="UseSystemFocusVisuals"
+				Value="True" />
+		<Setter Property="VerticalContentAlignment"
+				Value="Center" />
+		<Setter Property="HorizontalContentAlignment"
+				Value="Center" />
+		<Setter Property="CornerRadius"
+				Value="{StaticResource MaterialFabLargeCorderRadius}" />
+		<Setter Property="Padding"
+				Value="{StaticResource MaterialFabLargePadding}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="toolkitlib:TabBarItem">
+					<Grid>
+						<Grid.RenderTransform>
+							<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
+						</Grid.RenderTransform>
+
+						<toolkit:ElevatedView x:Name="ElevatedView"
+											  Margin="0,0,6,6"
+											  Elevation="6"
+											  HorizontalAlignment="Center"
+											  CornerRadius="{TemplateBinding CornerRadius}"
+											  Background="Transparent">
+
+							<controls:Ripple x:Name="Ripple"
+											 CornerRadius="{TemplateBinding CornerRadius}"
+											 Feedback="{TemplateBinding Foreground}"
+											 FeedbackOpacity="{StaticResource MaterialPressedOpacity}">
+
+								<Grid x:Name="Root"
+									  Background="{TemplateBinding Background}"
+									  CornerRadius="{TemplateBinding CornerRadius}">
+									<StackPanel x:Name="ContentPanel"
+												Orientation="Horizontal"
+												Margin="{TemplateBinding Padding}">
+
+										<!-- Icon -->
+										<Viewbox Height="{StaticResource MaterialFabContentWidthOrHeight}"
+												 Width="{StaticResource MaterialFabContentWidthOrHeight}"
+												 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												 Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+											<ContentPresenter Content="{TemplateBinding Icon}"
+															  Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+										</Viewbox>
+
+										<!-- Icon/Content spacing -->
+										<Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+											<Border Width="{StaticResource MaterialFabIconTextPadding}"
+													Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
+										</Border>
+
+										<!-- Content -->
+										<ContentPresenter x:Name="ContentPresenter"
+														  Content="{TemplateBinding Content}"
+														  ContentTemplate="{TemplateBinding ContentTemplate}"
+														  ContentTransitions="{TemplateBinding ContentTransitions}"
+														  CornerRadius="{StaticResource MaterialButtonCornerRadius}"
+														  FontFamily="{TemplateBinding FontFamily}"
+														  FontSize="{TemplateBinding FontSize}"
+														  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+														  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+									</StackPanel>
+
+									<Border x:Name="FabFocusBorder" />
+								</Grid>
+							</controls:Ripple>
+						</toolkit:ElevatedView>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+
+								<VisualState x:Name="Normal" />
+
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="FabFocusBorder.Background"
+												Value="{StaticResource MaterialOnSurfaceHoverBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+
+										<Setter Target="Root.Background"
+												Value="{StaticResource ButtonFabLowFabBackgroundColorBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="FocusStates">
+
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="FabFocusBorder.Background"
+												Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="PointerFocused">
+									<VisualState.Setters>
+										<Setter Target="FabFocusBorder.Background"
+												Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Unfocused" />
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 
 	<Style x:Key="MaterialBottomTabBarItemStyle"

@@ -78,7 +78,6 @@ namespace Uno.UI.ToolkitLib
 			{
 				container.Click += OnTabBarItemClick;
 				container.IsSelectedChanged += OnTabBarIsSelectedChanged;
-				container.Style = ItemContainerStyle ?? ItemContainerStyleSelector?.SelectStyle(item, container);
 			}
 		}
 

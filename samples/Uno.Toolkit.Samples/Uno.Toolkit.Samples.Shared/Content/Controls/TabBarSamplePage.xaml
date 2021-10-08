@@ -22,7 +22,7 @@
 							Style="{StaticResource MaterialOutlinedButtonStyle}" />
 
 					<toolkit:TabBar SelectedIndex="1"
-									Style="{StaticResource MaterialTabBarStyle}">
+									Style="{StaticResource MaterialTopTabBarStyle}">
 						<toolkit:TabBar.Items>
 							<toolkit:TabBarItem Content="HOME">
 								<toolkit:TabBarItem.Icon>
@@ -45,7 +45,7 @@
 
 					<TextBlock Text="Adding Items as TabBarItems directly" />
 					<toolkit:TabBar SelectedIndex="2"
-									Style="{StaticResource MaterialTabBarStyle}">
+									Style="{StaticResource MaterialTopTabBarStyle}">
 						<toolkit:TabBar.Items>
 							<toolkit:TabBarItem Icon="Accept"
 												Content="Tab with Icon" />
@@ -57,10 +57,10 @@
 					<TextBlock Text="Using ItemsSource" />
 					<toolkit:TabBar SelectedIndex="3"
 									ItemsSource="{Binding Data.Items}"
-									Style="{StaticResource MaterialTabBarStyle}" />
+									Style="{StaticResource MaterialTopTabBarStyle}" />
 
 					<TextBlock Text="TabBarItem Command" />
-					<toolkit:TabBar Style="{StaticResource MaterialTabBarStyle}">
+					<toolkit:TabBar Style="{StaticResource MaterialTopTabBarStyle}">
 						<toolkit:TabBar.Items>
 							<toolkit:TabBarItem Content="Tab 1"
 												x:Name="TabBarWithCommand_Tab1"

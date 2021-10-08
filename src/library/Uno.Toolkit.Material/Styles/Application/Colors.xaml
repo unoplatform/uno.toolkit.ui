@@ -18,7 +18,7 @@
 					<!-- Tab Bar -->
 					<SolidColorBrush x:Key="MaterialTabBarItemUnselectedForegroundBrush"
 									 Color="{ThemeResource MaterialOnPrimaryColor}"
-									 Opacity="0.60" />
+									 Opacity="0.70" />
 				</ResourceDictionary>
 
 				<!-- Dark Theme -->
@@ -26,7 +26,7 @@
 					<!-- Tab Bar -->
 					<SolidColorBrush x:Key="MaterialTabBarItemUnselectedForegroundBrush"
 									 Color="{ThemeResource MaterialOnPrimaryColor}"
-									 Opacity="0.60" />
+									 Opacity="0.70" />
 				</ResourceDictionary>
 
 			</ResourceDictionary.ThemeDictionaries>

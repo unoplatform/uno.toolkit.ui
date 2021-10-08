@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Uno.UI.ToolkitLib.Extensions;
 using Windows.Foundation;
+using System.Linq;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -29,7 +30,10 @@ namespace Uno.UI.ToolkitLib
 				child.Measure(cellSize);
 			}
 
-			return availableSize.FiniteOrDefault(default);
+			var maxHeight = Children.Max(x => x.DesiredSize.Height);
+
+			var size = new Size(availableSize.Width, maxHeight);
+			return size.FiniteOrDefault(default);
 		}
 
 		protected override Size ArrangeOverride(Size finalSize)

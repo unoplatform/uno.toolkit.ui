@@ -159,7 +159,7 @@ namespace Uno.UI.ToolkitLib
 				_indicatorSlideStoryboard.Stop();
 				_indicatorSlideStoryboard.Children.Clear();
 
-				var easing = new ExponentialEase();
+				var easing = new CubicEase();
 
 				var transform = child.RenderTransform as CompositeTransform;
 				if (transform == null)

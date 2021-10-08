@@ -18,9 +18,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Cupertino.WinUI" Version="1.0.0-dev.830" />
-		<PackageReference Include="Uno.Material.WinUI" Version="1.0.0-dev.830" />
-		<PackageReference Include="Uno.WinUI" Version="3.11.0-dev.270" />
+		<PackageReference Include="Uno.Cupertino.WinUI" Version="1.0.0-dev.846" />
+		<PackageReference Include="Uno.Material.WinUI" Version="1.0.0-dev.846" />
+		<PackageReference Include="Uno.WinUI" Version="3.11.0-dev.487" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.18362.16" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.16" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
 	</ItemGroup>
