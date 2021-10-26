@@ -4,99 +4,137 @@
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
+	  xmlns:toolkitLib="using:Uno.UI.ToolkitLib"
+	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:toolkitB="using:Uno.UI.ToolkitLib.Behaviors"
 	  xmlns:toolkitE="using:Uno.Material.Extensions"
-	  mc:Ignorable="d"
+	  xmlns:toolkitControls="using:Uno.Toolkit.Material.Controls"
+	  xmlns:ios="http://uno.ui/ios"
+	  mc:Ignorable="d ios"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<FlipView x:Name="SlideFlipView">
-			<FlipView.Items>
-				<FlipViewItem>
-					<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-						<StackPanel HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xE80F;" />
-							<TextBlock Text="Home"
-									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-				<FlipViewItem>
-					<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-						<StackPanel HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xe721;" />
-							<TextBlock Text="Search"
-									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-				<FlipViewItem>
-					<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-						<StackPanel HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xE8F2;" />
-							<TextBlock Text="Support"
-									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-				<FlipViewItem>
-					<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-						<StackPanel HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xE946;" />
-							<TextBlock Text="About"
-									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-			</FlipView.Items>
-		</FlipView>
-
-		<toolkit:TabBar Grid.Row="1"
-						SelectedIndex="1"
-						Style="{StaticResource MaterialBottomTabBarStyle}"
-						toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}">
-			<toolkit:TabBar.Items>
-				<toolkit:TabBarItem Content="Home">
-					<toolkit:TabBarItem.Icon>
+		<CommandBar Content="Material Bottom TabBar Sample Page"
+					toolkit:VisibleBoundsPadding.PaddingMask="Top"
+					Style="{StaticResource MaterialCommandBarStyle}">
+			<toolkit:CommandBarExtensions.NavigationCommand>
+				<AppBarButton Click="NavigateBack"
+							  Style="{StaticResource MaterialAppBarButton}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/BackButton.png"
+									ShowAsMonochrome="False" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</toolkit:CommandBarExtensions.NavigationCommand>
+		</CommandBar>
+		<Grid x:Name="PageContainer"
+			  Grid.Row="1">
+			<Grid x:Name="Home"
+				  Visibility="Collapsed">
+				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
 						<FontIcon Glyph="&#xE80F;" />
-					</toolkit:TabBarItem.Icon>
-				</toolkit:TabBarItem>
-				<toolkit:TabBarItem Content="Search">
-					<toolkit:TabBarItem.Icon>
+						<TextBlock Text="Home"
+								   TextAlignment="Center" />
+					</StackPanel>
+				</Border>
+			</Grid>
+			<Grid x:Name="Search"
+				  Visibility="Collapsed">
+				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
 						<FontIcon Glyph="&#xe721;" />
-					</toolkit:TabBarItem.Icon>
-				</toolkit:TabBarItem>
-				<toolkit:TabBarItem Content="Support">
-					<toolkit:TabBarItem.Icon>
+						<TextBlock Text="Search"
+								   TextAlignment="Center" />
+					</StackPanel>
+				</Border>
+			</Grid>
+			<Grid x:Name="Support"
+				  Visibility="Collapsed">
+				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
 						<FontIcon Glyph="&#xE8F2;" />
-					</toolkit:TabBarItem.Icon>
-				</toolkit:TabBarItem>
-				<toolkit:TabBarItem Content="About">
-					<toolkit:TabBarItem.Icon>
+						<TextBlock Text="Support"
+								   TextAlignment="Center" />
+					</StackPanel>
+				</Border>
+			</Grid>
+			<Grid x:Name="About"
+				  Visibility="Collapsed">
+				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
 						<FontIcon Glyph="&#xE946;" />
-					</toolkit:TabBarItem.Icon>
-				</toolkit:TabBarItem>
-			</toolkit:TabBar.Items>
-		</toolkit:TabBar>
+						<TextBlock Text="About"
+								   TextAlignment="Center" />
+					</StackPanel>
+				</Border>
+			</Grid>
+		</Grid>
 
-		<Button Grid.RowSpan="2"
-				Margin="0,0,0,40"
-				VerticalAlignment="Bottom"
-				HorizontalAlignment="Center"
-				Style="{StaticResource MaterialSecondaryFabStyle}">
-			<toolkitE:ControlExtensions.Icon>
-				<SymbolIcon Symbol="Add" />
-			</toolkitE:ControlExtensions.Icon>
-		</Button>
+		<toolkitLib:TabBar Grid.Row="2"
+						   SelectedIndex="1"
+						   SelectionChanged="OnSelectionChanged"
+						   toolkit:VisibleBoundsPadding.PaddingMask="Bottom"
+						   Style="{StaticResource MaterialBottomTabBarStyle}">
+			<toolkitLib:TabBar.Items>
+				<toolkitLib:TabBarItem Tag="Home"
+									   Content="Home">
+					<toolkitLib:TabBarItem.Icon>
+						<FontIcon Glyph="&#xE80F;" />
+					</toolkitLib:TabBarItem.Icon>
+				</toolkitLib:TabBarItem>
+				<toolkitLib:TabBarItem Tag="Search"
+									   Content="Search">
+					<toolkitLib:TabBarItem.Icon>
+						<FontIcon Glyph="&#xe721;" />
+					</toolkitLib:TabBarItem.Icon>
+				</toolkitLib:TabBarItem>
+				<toolkitLib:TabBarItem Style="{StaticResource MaterialBottomFabTabBarItemStyle}">
+					<toolkitLib:TabBarItem.Flyout>
+						<MenuFlyout Placement="Top" MenuFlyoutPresenterStyle="{StaticResource MaterialMenuFlyoutPresenterStyle}">
+
+							<MenuFlyoutItem Text="Like"
+											Style="{StaticResource MaterialMenuFlyoutItemStyle}">
+								<MenuFlyoutItem.Icon>
+									<SymbolIcon Symbol="Like" />
+								</MenuFlyoutItem.Icon>
+							</MenuFlyoutItem>
+
+							<MenuFlyoutItem Text="Dislike"
+											Style="{StaticResource MaterialMenuFlyoutItemStyle}">
+								<MenuFlyoutItem.Icon>
+									<SymbolIcon Symbol="Dislike" />
+								</MenuFlyoutItem.Icon>
+							</MenuFlyoutItem>
+						</MenuFlyout>
+					</toolkitLib:TabBarItem.Flyout>
+					<toolkitLib:TabBarItem.Icon>
+						<SymbolIcon Symbol="Add" />
+					</toolkitLib:TabBarItem.Icon>
+				</toolkitLib:TabBarItem>
+				<toolkitLib:TabBarItem Tag="Support"
+									   Content="Support">
+					<toolkitLib:TabBarItem.Icon>
+						<FontIcon Glyph="&#xE8F2;" />
+					</toolkitLib:TabBarItem.Icon>
+				</toolkitLib:TabBarItem>
+				<toolkitLib:TabBarItem Tag="About"
+									   Content="About">
+					<toolkitLib:TabBarItem.Icon>
+						<FontIcon Glyph="&#xE946;" />
+					</toolkitLib:TabBarItem.Icon>
+				</toolkitLib:TabBarItem>
+			</toolkitLib:TabBar.Items>
+		</toolkitLib:TabBar>
 	</Grid>
 </Page>

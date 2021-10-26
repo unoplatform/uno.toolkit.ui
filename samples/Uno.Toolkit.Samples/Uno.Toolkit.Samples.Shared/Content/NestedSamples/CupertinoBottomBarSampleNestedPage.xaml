@@ -4,7 +4,8 @@
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
+	  xmlns:toolkitLib="using:Uno.UI.ToolkitLib"
+	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:toolkitB="using:Uno.UI.ToolkitLib.Behaviors"
 	  xmlns:toolkitE="using:Uno.Material.Extensions"
 	  mc:Ignorable="d"
@@ -12,83 +13,99 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+		<CommandBar Content="Material Bottom TabBar Sample Page"
+					toolkit:VisibleBoundsPadding.PaddingMask="Top">
+			<toolkit:CommandBarExtensions.NavigationCommand>
+				<AppBarButton Click="NavigateBack">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/BackButton.png"
+									ShowAsMonochrome="False" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</toolkit:CommandBarExtensions.NavigationCommand>
+		</CommandBar>
+		<Grid x:Name="PageContainer"
+			  Grid.Row="1">
+			<Grid x:Name="Home"
+				  Visibility="Collapsed">
+				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
+						<FontIcon Glyph="&#xE80F;" />
+						<TextBlock Text="Home"
+								   TextAlignment="Center" />
+					</StackPanel>
+				</Border>
+			</Grid>
+			<Grid x:Name="Search"
+				  Visibility="Collapsed">
+				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
+						<FontIcon Glyph="&#xe721;" />
+						<TextBlock Text="Search"
+								   TextAlignment="Center" />
+					</StackPanel>
+				</Border>
+			</Grid>
+			<Grid x:Name="Support"
+				  Visibility="Collapsed">
+				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
+						<FontIcon Glyph="&#xE8F2;" />
+						<TextBlock Text="Support"
+								   TextAlignment="Center" />
+					</StackPanel>
+				</Border>
+			</Grid>
+			<Grid x:Name="About"
+				  Visibility="Collapsed">
+				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+					<StackPanel HorizontalAlignment="Center"
+								VerticalAlignment="Center">
+						<FontIcon Glyph="&#xE946;" />
+						<TextBlock Text="About"
+								   TextAlignment="Center" />
+					</StackPanel>
+				</Border>
+			</Grid>
+		</Grid>
 
-		<FlipView x:Name="SlideFlipView">
-			<FlipView.Items>
-				<FlipViewItem>
-					<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-						<StackPanel HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xE80F;" />
-							<TextBlock Text="Home"
-									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-				<FlipViewItem>
-					<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-						<StackPanel HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xe721;" />
-							<TextBlock Text="Search"
-									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-				<FlipViewItem>
-					<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-						<StackPanel HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xE8F2;" />
-							<TextBlock Text="Support"
-									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-				<FlipViewItem>
-					<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-						<StackPanel HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xE946;" />
-							<TextBlock Text="About"
-									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-			</FlipView.Items>
-		</FlipView>
 
-		<toolkit:TabBar Grid.Row="1"
+		<toolkitLib:TabBar Grid.Row="2"
 						SelectedIndex="1"
 						BorderBrush="{StaticResource CupertinoPrimaryGrayBrush}"
 						BorderThickness="0,1,0,0"
-						Style="{StaticResource CupertinoBottomTabBarStyle}"
-						toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}">
-			<toolkit:TabBar.Items>
-				<toolkit:TabBarItem Content="Home">
-					<toolkit:TabBarItem.Icon>
+						SelectionChanged="OnSelectionChanged"
+						toolkit:VisibleBoundsPadding.PaddingMask="Bottom"
+						Style="{StaticResource CupertinoBottomTabBarStyle}">
+			<toolkitLib:TabBar.Items>
+				<toolkitLib:TabBarItem Content="Home">
+					<toolkitLib:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE80F;" />
-					</toolkit:TabBarItem.Icon>
-				</toolkit:TabBarItem>
-				<toolkit:TabBarItem Content="Search">
-					<toolkit:TabBarItem.Icon>
+					</toolkitLib:TabBarItem.Icon>
+				</toolkitLib:TabBarItem>
+				<toolkitLib:TabBarItem Content="Search">
+					<toolkitLib:TabBarItem.Icon>
 						<FontIcon Glyph="&#xe721;" />
-					</toolkit:TabBarItem.Icon>
-				</toolkit:TabBarItem>
-				<toolkit:TabBarItem Content="Support">
-					<toolkit:TabBarItem.Icon>
+					</toolkitLib:TabBarItem.Icon>
+				</toolkitLib:TabBarItem>
+				<toolkitLib:TabBarItem Content="Support">
+					<toolkitLib:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE8F2;" />
-					</toolkit:TabBarItem.Icon>
-				</toolkit:TabBarItem>
-				<toolkit:TabBarItem Content="About">
-					<toolkit:TabBarItem.Icon>
+					</toolkitLib:TabBarItem.Icon>
+				</toolkitLib:TabBarItem>
+				<toolkitLib:TabBarItem Content="About">
+					<toolkitLib:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE946;" />
-					</toolkit:TabBarItem.Icon>
-				</toolkit:TabBarItem>
-			</toolkit:TabBar.Items>
-		</toolkit:TabBar>
+					</toolkitLib:TabBarItem.Icon>
+				</toolkitLib:TabBarItem>
+			</toolkitLib:TabBar.Items>
+		</toolkitLib:TabBar>
 	</Grid>
 </Page>

@@ -93,15 +93,13 @@
 	<Thickness x:Key="TabBarItemContentMargin">0,0,0,12</Thickness>
 	<Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
 
-	<!--Cupertino Bottom TabBar-->
+	<!-- Cupertino Bottom TabBar -->
 	<Style x:Key="CupertinoBottomTabBarStyle"
 		   TargetType="toolkit:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource CupertinoTabBarBackground}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
-		<Setter Property="Height"
-				Value="{StaticResource TabBarHeight}" />
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
 				<ItemsPanelTemplate>
@@ -116,8 +114,8 @@
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
-						  Height="{TemplateBinding Height}">
-						<ItemsPresenter Padding="{TemplateBinding Padding}" />
+						  Padding="{TemplateBinding Padding}">
+						<ItemsPresenter Height="{TemplateBinding TabBarHeight}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

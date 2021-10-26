@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.UI" Version="3.11.0-dev.270" />
+		<PackageReference Include="Uno.UI" Version="3.11.0-dev.487" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">

@@ -97,7 +97,7 @@
 	<Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
 
 	<!--Material TabBar Item -->
-	<Style x:Key="MaterialTabBarItemStyle"
+	<Style x:Key="MaterialTopTabBarItemStyle"
 		   TargetType="toolkitlib:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialTabBarBackground}" />
@@ -276,7 +276,7 @@
 	</Style>
 
 	<!--Material TabBar-->
-	<Style x:Key="MaterialTabBarStyle"
+	<Style x:Key="MaterialTopTabBarStyle"
 		   TargetType="toolkitlib:TabBar">
 		<Setter Property="Background"
 				Value="{StaticResource MaterialTabBarBackground}" />
@@ -285,7 +285,7 @@
 		<Setter Property="Height"
 				Value="{StaticResource TabBarHeight}" />
 		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource MaterialTabBarItemStyle}" />
+				Value="{StaticResource MaterialTopTabBarItemStyle}" />
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
 				<ItemsPanelTemplate>

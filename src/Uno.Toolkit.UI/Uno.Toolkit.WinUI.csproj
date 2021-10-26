@@ -18,7 +18,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" Version="3.11.0-dev.270" />
+		<PackageReference Include="Uno.WinUI" Version="3.11.0-dev.487" />
 	</ItemGroup>
 
 	<Choose>
