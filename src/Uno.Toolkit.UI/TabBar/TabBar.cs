@@ -6,6 +6,7 @@ using System.Linq;
 using Uno.Disposables;
 using Uno.Extensions.Specialized;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -38,8 +39,8 @@ namespace Uno.UI.ToolkitLib
 		private Grid? _tabBarGrid;
 		private bool _isSynchronizingSelection = false;
 		private object? _previouslySelectedItem = null;
-
-		public TabBarTemplateSettings TemplateSettings { get; }
+		private bool _isLoaded = false;
+		private bool _isUpdatingSelectedItem = false;
 
 		public TabBar()
 		{
@@ -76,10 +77,16 @@ namespace Uno.UI.ToolkitLib
 
 			if (element is TabBarItem container)
 			{
+				
+				container.IsSelected = IsSelected(IndexFromContainer(element));
 				container.Click += OnTabBarItemClick;
 				container.IsSelectedChanged += OnTabBarIsSelectedChanged;
-				container.Style = ItemContainerStyle ?? ItemContainerStyleSelector?.SelectStyle(item, container);
 			}
+		}
+
+		internal virtual bool IsSelected(int index)
+		{
+			return SelectedIndex == index;
 		}
 
 		protected override void ClearContainerForItemOverride(DependencyObject element, object item)
@@ -96,21 +103,66 @@ namespace Uno.UI.ToolkitLib
 
 		protected override void OnItemsChanged(object e)
 		{
-			base.OnItemsChanged(e);
-
-			var selectedContainer = GetItemContainers().FirstOrDefault(x => x.IsSelected);
-			if (selectedContainer != null)
+			if (
+				// When ItemsSource is set, we get collection changes from it directly (and it's not possible to directly modify Items)
+				ItemsSource == null &&
+				e is IVectorChangedEventArgs iVCE
+			)
 			{
-				TemplateSettings.SelectionIndicatorWidth = selectedContainer.Width;
+				if (iVCE.CollectionChange == CollectionChange.ItemChanged
+					|| (iVCE.CollectionChange == CollectionChange.ItemInserted && iVCE.Index < Items.Count))
+				{
+					var item = Items[(int)iVCE.Index];
+
+					if (item is TabBarItem tabBarItem && tabBarItem.IsSelected)
+					{
+						SelectedItem = tabBarItem;
+					}
+				}
+				else if (iVCE.CollectionChange == CollectionChange.ItemRemoved)
+				{
+					// If the removed item is the currently selected one, Set SelectedIndex to -1
+					if ((int)iVCE.Index == SelectedIndex)
+					{
+						SelectedIndex = -1;
+					}
+					// But if it's before the currently selected one, decrement SelectedIndex
+					else if ((int)iVCE.Index < SelectedIndex)
+					{
+						SelectedIndex--;
+					}
+				}
+			}
+			SynchronizeInitialSelection();
+
+			var itemContainer = GetItemContainers().FirstOrDefault();
+			if (itemContainer != null)
+			{
+				TemplateSettings.SelectionIndicatorWidth = itemContainer.Width;
+			}
+		}
+
+		private void SynchronizeInitialSelection()
+		{
+			if (!IsReady)
+			{
+				return;
 			}
 
-			UpdateSelection(selectedContainer);
+			if (SelectedItem != null)
+			{
+				OnSelectedItemChanged(null);
+			} 
+			else if (SelectedIndex >= 0)
+			{
+				OnSelectedIndexChanged(null);
+			}
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			var selectedContainer = GetItemContainers().FirstOrDefault(x => x.IsSelected);
-			UpdateSelection(selectedContainer);
+			_isLoaded = true;
+			SynchronizeInitialSelection();
 		}
 
 		private void OnTabBarItemClick(object sender, RoutedEventArgs e)
@@ -128,7 +180,7 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnTabBarIsSelectedChanged(object sender, RoutedEventArgs e)
 		{
-			if (_isSynchronizingSelection)
+			if (_isSynchronizingSelection || _isUpdatingSelectedItem)
 			{
 				return;
 			}
@@ -136,7 +188,7 @@ namespace Uno.UI.ToolkitLib
 			if (sender is TabBarItem container)
 			{
 				_previouslySelectedItem = SelectedItem;
-				UpdateSelection(container);
+				SynchronizeSelection(container);
 			}
 		}
 
@@ -156,48 +208,69 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnItemsSourceChanged()
 		{
-			var selectedContainer = GetItemContainers().FirstOrDefault(x => x.IsSelected);
-			UpdateSelection(selectedContainer);
+			SynchronizeInitialSelection();
 		}
 
-		private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs args)
+		private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs? args)
 		{
 			if (_isSynchronizingSelection)
 			{
 				return;
 			}
 
-			ChangeSelection(args.OldValue, args.NewValue);
+			var newlySelectedItem = SelectedItem as TabBarItem;
+			if (!IsReady && newlySelectedItem != null)
+			{
+				return;
+			}
+
+			UpdateTabBarItemSelectedState(args?.OldValue, newlySelectedItem);
+			SynchronizeSelection(newlySelectedItem);
 		}
 
-		private void OnSelectedIndexChanged(DependencyPropertyChangedEventArgs args)
+		private void OnSelectedIndexChanged(DependencyPropertyChangedEventArgs? args)
 		{
 			if (_isSynchronizingSelection)
 			{
 				return;
 			}
 
-			var oldItem = FindContainerByIndex((int)args.OldValue);
-			var newItem = FindContainerByIndex((int)args.NewValue);
+			TabBarItem? oldItem = null;
+			if (args?.OldValue is int oldIndex)
+			{
+				oldItem = FindContainerByIndex(oldIndex);
+			}
 
-			ChangeSelection(oldItem, newItem);
+			var newItem = FindContainerByIndex(SelectedIndex);
+
+			UpdateTabBarItemSelectedState(oldItem, newItem);
+			SynchronizeSelection(newItem);
 		}
 
-		private void ChangeSelection(object? oldItem, object? newItem)
+		//Update the IsSelected state for the TabBarItem
+		private void UpdateTabBarItemSelectedState(object? oldItem, object? newItem)
 		{
-			_previouslySelectedItem = oldItem;
-
-			var container = FindContainer(newItem);
-			if (container?.IsSelectable ?? false)
+			try
 			{
-				container.IsSelected = true;
+				_isUpdatingSelectedItem = true;
+				_previouslySelectedItem = oldItem;
+
+				var container = FindContainer(newItem);
+				if (container?.IsSelectable ?? false)
+				{
+					container.IsSelected = true;
+				}
+			}
+			finally
+			{
+				_isUpdatingSelectedItem = false;
 			}
 		}
 
-
-		private void UpdateSelection(TabBarItem item)
+		//Sync the SelectedIndex and the SelectedItem properties for TabBar as well as the IsSelected states of the TabBarItems
+		private void SynchronizeSelection(TabBarItem? item)
 		{
-			if (ItemsPanelRoot == null || _isSynchronizingSelection)
+			if (!IsReady || _isSynchronizingSelection)
 			{
 				return;
 			}
@@ -253,6 +326,10 @@ namespace Uno.UI.ToolkitLib
 				ContainerFromItem(item) as TabBarItem;
 		}
 
+		private bool IsReady => _isLoaded && HasItems;
+
+		private bool HasItems => GetItems().Any();
+
 		/// <summary>
 		/// Get the item containers.
 		/// </summary>
@@ -260,10 +337,13 @@ namespace Uno.UI.ToolkitLib
 		private IEnumerable<TabBarItem> GetItemContainers() =>
 			ItemsPanelRoot?.Children.OfType<TabBarItem>() ??
 			Enumerable.Empty<TabBarItem>();
+		private IEnumerable GetItems() =>
+			ItemsSource as IEnumerable ??
+			(ItemsSource as CollectionViewSource)?.View ??
+			Items ??
+			Enumerable.Empty<object>();
 
-		private TabBarItem? FindContainerByIndex(int index)
-		{
-			return GetItemContainers().ElementAtOrDefault(index);
-		}
+		private TabBarItem? FindContainerByIndex(int index) => 
+			GetItems()?.OfType<TabBarItem>().Skip(index).FirstOrDefault();
 	}
 }

@@ -19,6 +19,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\SegmentedControlSamplePage.xaml.cs">
+      <DependentUpon>SegmentedControlSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarBehaviorSamplePage.xaml.cs">
       <DependentUpon>TabBarBehaviorSamplePage.xaml</DependentUpon>
     </Compile>
@@ -63,6 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\SegmentedControlSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
