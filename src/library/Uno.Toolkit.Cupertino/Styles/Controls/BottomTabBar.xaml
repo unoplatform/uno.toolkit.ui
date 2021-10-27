@@ -11,8 +11,12 @@
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Dark">
+					<Color x:Key="CupertinoInactiveColor">#757575</Color>
+					<Color x:Key="CupertinoTabBarBackgroundColor">#F0161616</Color>
+					<Color x:Key="CupertinoTabBarBorderColor">#29000000</Color>
+
 					<StaticResource x:Key="CupertinoTabBarBackground"
-									ResourceKey="SystemControlTransparentBrush" />
+									ResourceKey="CupertinoTabBarBackgroundBrush" />
 
 					<StaticResource x:Key="TabBarItemBackground"
 									ResourceKey="SystemControlTransparentBrush" />
@@ -28,11 +32,11 @@
 									ResourceKey="SystemControlTransparentBrush" />
 
 					<StaticResource x:Key="TabBarItemForeground"
-									ResourceKey="CupertinoSecondaryLabelBrush" />
+									ResourceKey="CupertinoInactiveBrush" />
 					<StaticResource x:Key="TabBarItemForegroundPointerOver"
-									ResourceKey="CupertinoSecondaryLabelBrush" />
+									ResourceKey="CupertinoInactiveBrush" />
 					<StaticResource x:Key="TabBarItemForegroundPressed"
-									ResourceKey="CupertinoSecondaryLabelBrush" />
+									ResourceKey="CupertinoInactiveBrush" />
 					<StaticResource x:Key="TabBarItemForegroundDisabled"
 									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 					<StaticResource x:Key="TabBarItemForegroundSelected"
@@ -47,8 +51,12 @@
 				</ResourceDictionary>
 
 				<ResourceDictionary x:Key="Light">
+					<Color x:Key="CupertinoInactiveColor">#999999</Color>
+					<Color x:Key="CupertinoTabBarBackgroundColor">#F0F9F9F9</Color>
+					<Color x:Key="CupertinoTabBarBorderColor">#4C000000</Color>
+
 					<StaticResource x:Key="CupertinoTabBarBackground"
-									ResourceKey="SystemControlTransparentBrush" />
+									ResourceKey="CupertinoTabBarBackgroundBrush" />
 
 					<StaticResource x:Key="TabBarItemBackground"
 									ResourceKey="SystemControlTransparentBrush" />
@@ -64,11 +72,11 @@
 									ResourceKey="SystemControlTransparentBrush" />
 
 					<StaticResource x:Key="TabBarItemForeground"
-									ResourceKey="CupertinoSecondaryLabelBrush" />
+									ResourceKey="CupertinoInactiveBrush" />
 					<StaticResource x:Key="TabBarItemForegroundPointerOver"
-									ResourceKey="CupertinoSecondaryLabelBrush" />
+									ResourceKey="CupertinoInactiveBrush" />
 					<StaticResource x:Key="TabBarItemForegroundPressed"
-									ResourceKey="CupertinoSecondaryLabelBrush" />
+									ResourceKey="CupertinoInactiveBrush" />
 					<StaticResource x:Key="TabBarItemForegroundDisabled"
 									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 					<StaticResource x:Key="TabBarItemForegroundSelected"
@@ -85,6 +93,12 @@
 		</ResourceDictionary>
 	</ResourceDictionary.MergedDictionaries>
 
+	<SolidColorBrush x:Key="CupertinoInactiveBrush"
+					 Color="{ThemeResource CupertinoInactiveColor}" />
+	<SolidColorBrush x:Key="CupertinoTabBarBackgroundBrush"
+					 Color="{ThemeResource CupertinoTabBarBackgroundColor}" />
+	<SolidColorBrush x:Key="CupertinoTabBarBorderBrush"
+					 Color="{ThemeResource CupertinoTabBarBorderColor}" />
 	<x:Double x:Key="CupertinoTabBarFontSize">12</x:Double>
 	<FontFamily x:Key="CupertinoTabBarFontFamily">SF Pro</FontFamily>
 	<x:Double x:Key="TabBarHeight">64</x:Double>
@@ -100,6 +114,8 @@
 				Value="{ThemeResource CupertinoTabBarBackground}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
+		<Setter Property="BorderBrush"
+				Value="{ThemeResource CupertinoTabBarBorderBrush}" />
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
 				<ItemsPanelTemplate>
@@ -107,6 +123,8 @@
 				</ItemsPanelTemplate>
 			</Setter.Value>
 		</Setter>
+		<Setter Property="ItemContainerStyle"
+				Value="{StaticResource CupertinoBottomTabBarItemStyle}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkit:TabBar">
@@ -115,13 +133,12 @@
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Padding="{TemplateBinding Padding}">
-						<ItemsPresenter Height="{TemplateBinding TabBarHeight}" />
+						<ItemsPresenter Height="{StaticResource TabBarHeight}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource CupertinoBottomTabBarItemStyle}" />
+
 	</Style>
 
 	<Style x:Key="CupertinoBottomTabBarItemStyle"

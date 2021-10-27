@@ -140,9 +140,9 @@
 							<toolkit:ElevatedView Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}"
 												  Height="28"
 												  Background="Transparent"
-												  CornerRadius="6"
-												  Elevation="3"
-												  ShadowColor="{StaticResource ShadowColor}">
+												  CornerRadius="8"
+												  Elevation="5"
+												  ShadowColor="#CC94949A">
 								<Rectangle Fill="{ThemeResource SystemBackgroundColor}"
 										   VerticalAlignment="Stretch"
 										   HorizontalAlignment="Stretch"

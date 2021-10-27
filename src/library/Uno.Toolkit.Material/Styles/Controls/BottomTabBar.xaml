@@ -112,9 +112,8 @@
 				</ItemsPanelTemplate>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="ItemContainerStyle" Value="{StaticResource MaterialBottomTabBarItemStyle}">
-			
-		</Setter>
+		<Setter Property="ItemContainerStyle"
+				Value="{StaticResource MaterialBottomTabBarItemStyle}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkitlib:TabBar">
@@ -128,7 +127,7 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-		
+
 	</Style>
 
 
@@ -158,14 +157,15 @@
 				Value="{StaticResource MaterialFabLargeCorderRadius}" />
 		<Setter Property="Padding"
 				Value="{StaticResource MaterialFabLargePadding}" />
+		<Setter Property="RenderTransform">
+			<Setter.Value>
+				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
+			</Setter.Value>
+		</Setter>
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkitlib:TabBarItem">
 					<Grid>
-						<Grid.RenderTransform>
-							<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
-						</Grid.RenderTransform>
-
 						<toolkit:ElevatedView x:Name="ElevatedView"
 											  Margin="0,0,6,6"
 											  Elevation="6"
