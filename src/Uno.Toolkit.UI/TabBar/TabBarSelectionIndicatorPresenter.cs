@@ -43,6 +43,7 @@ namespace Uno.UI.ToolkitLib
 	{
 		private readonly SerialDisposable _tabBarSelectionChangedRevoker = new SerialDisposable();
 		private readonly SerialDisposable _tabBarItemSizeChangedRevoker = new SerialDisposable();
+		private readonly SerialDisposable _indicatorSizeChangedRevoker = new SerialDisposable();
 		private readonly SerialDisposable _offsetChangedRevoker = new SerialDisposable();
 		private readonly Storyboard _indicatorSlideStoryboard = new Storyboard();
 
@@ -58,6 +59,25 @@ namespace Uno.UI.ToolkitLib
 		public TabBarSelectionIndicatorPresenter()
 		{
 			SizeChanged += OnSizeChanged;
+			Loaded += OnLoaded;
+			Unloaded += OnUnloaded;
+		}
+
+		private void OnUnloaded(object sender, RoutedEventArgs e)
+		{
+			_tabBarSelectionChangedRevoker.Disposable = null;
+			_tabBarItemSizeChangedRevoker.Disposable = null;
+			_indicatorSizeChangedRevoker.Disposable = null;
+			_offsetChangedRevoker.Disposable = null;
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			if (GetSelectionIndicator() is FrameworkElement child)
+			{
+				child.SizeChanged += OnSizeChanged;
+				_indicatorSizeChangedRevoker.Disposable = Disposable.Create(() => child.SizeChanged -= OnSizeChanged);
+			}
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs args)

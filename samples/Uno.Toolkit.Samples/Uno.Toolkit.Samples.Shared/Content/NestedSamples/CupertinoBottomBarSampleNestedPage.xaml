@@ -17,7 +17,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<CommandBar Content="Material Bottom TabBar Sample Page"
+		<CommandBar Content="Cupertino Bottom TabBar Sample Page"
 					toolkit:VisibleBoundsPadding.PaddingMask="Top">
 			<toolkit:CommandBarExtensions.NavigationCommand>
 				<AppBarButton Click="NavigateBack">
@@ -78,29 +78,32 @@
 
 
 		<toolkitLib:TabBar Grid.Row="2"
-						SelectedIndex="1"
-						BorderBrush="{StaticResource CupertinoPrimaryGrayBrush}"
-						BorderThickness="0,1,0,0"
-						SelectionChanged="OnSelectionChanged"
-						toolkit:VisibleBoundsPadding.PaddingMask="Bottom"
-						Style="{StaticResource CupertinoBottomTabBarStyle}">
+						   SelectedIndex="1"
+						   SelectionChanged="OnSelectionChanged"
+						   toolkit:VisibleBoundsPadding.PaddingMask="Bottom"
+						   BorderThickness="0,1,0,0"
+						   Style="{StaticResource CupertinoBottomTabBarStyle}">
 			<toolkitLib:TabBar.Items>
-				<toolkitLib:TabBarItem Content="Home">
+				<toolkitLib:TabBarItem Tag="Home"
+									   Content="Home">
 					<toolkitLib:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE80F;" />
 					</toolkitLib:TabBarItem.Icon>
 				</toolkitLib:TabBarItem>
-				<toolkitLib:TabBarItem Content="Search">
+				<toolkitLib:TabBarItem Tag="Search"
+									   Content="Search">
 					<toolkitLib:TabBarItem.Icon>
 						<FontIcon Glyph="&#xe721;" />
 					</toolkitLib:TabBarItem.Icon>
 				</toolkitLib:TabBarItem>
-				<toolkitLib:TabBarItem Content="Support">
+				<toolkitLib:TabBarItem Tag="Support"
+									   Content="Support">
 					<toolkitLib:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE8F2;" />
 					</toolkitLib:TabBarItem.Icon>
 				</toolkitLib:TabBarItem>
-				<toolkitLib:TabBarItem Content="About">
+				<toolkitLib:TabBarItem Tag="About"
+									   Content="About">
 					<toolkitLib:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE946;" />
 					</toolkitLib:TabBarItem.Icon>
