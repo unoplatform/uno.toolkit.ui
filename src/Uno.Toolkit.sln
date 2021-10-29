@@ -321,6 +321,7 @@ Global
 		{B16ADBC5-5DD4-4982-B56B-01F568E44572}.Debug|ARM64.ActiveCfg = Debug|iPhoneSimulator
 		{B16ADBC5-5DD4-4982-B56B-01F568E44572}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{B16ADBC5-5DD4-4982-B56B-01F568E44572}.Debug|iPhone.Build.0 = Debug|iPhone
+		{B16ADBC5-5DD4-4982-B56B-01F568E44572}.Debug|iPhone.Deploy.0 = Debug|iPhone
 		{B16ADBC5-5DD4-4982-B56B-01F568E44572}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
 		{B16ADBC5-5DD4-4982-B56B-01F568E44572}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
 		{B16ADBC5-5DD4-4982-B56B-01F568E44572}.Debug|x64.ActiveCfg = Debug|iPhoneSimulator

@@ -2,36 +2,26 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Controls.Primitives;
+
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Controls.Primitives;
+
 #endif
+using System;
+using Windows.UI.Core;
+using Windows.UI.Input;
 
 namespace Uno.UI.ToolkitLib
 {
 	/// <summary>
 	/// An item to be contained within a <see cref="TabBar"/>
 	/// </summary>
-	public partial class TabBarItem : Button
+	public partial class TabBarItem : SelectorItem
 	{
-		private static class CommonStates
-		{
-			public const string Selected = "Selected";
-			public const string Normal = "Normal";
-			public const string Over = "PointerOver";
-			public const string Pressed = "Pressed";
-			public const string OverSelected = "PointerOverSelected";
-			public const string PressedSelected = "PressedSelected";
-			public const string Unselectable = "Unselectable";
-		}
-
-		private static class DisabledStates
-		{
-			public const string Enabled = "Enabled";
-			public const string Disabled = "Disabled";
-		}
-
 		private static class TabBarIconPositionStates
 		{
 			public const string IconOnTop = "IconOnTop";
@@ -40,43 +30,47 @@ namespace Uno.UI.ToolkitLib
 		}
 
 		internal event RoutedEventHandler? IsSelectedChanged;
+		public event RoutedEventHandler? Click;
+
+		private bool m_hasPointerCaptured;
 
 		public TabBarItem()
 		{
 			DefaultStyleKey = typeof(TabBarItem);
-			Loaded += OnLoaded;
-            LostFocus += OnLostFocus;
+			Unloaded += OnUnloaded;
+			Tapped += OnTap;
+			this.RegisterPropertyChangedCallback(SelectorItem.IsSelectedProperty, OnIsSelectedChanged);
 		}
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+		private void OnTap(object sender, TappedRoutedEventArgs e)
 		{
-			UpdateCommonStates();
+			Click?.Invoke(this, null);
+			ExecuteCommand();
+			Flyout?.ShowAt(this);
 		}
 
-		protected override void OnPointerEntered(PointerRoutedEventArgs args)
+		private void OnIsSelectedChanged(DependencyObject sender, DependencyProperty dp)
 		{
-			base.OnPointerEntered(args);
-			UpdateCommonStates();
+			if (dp == SelectorItem.IsSelectedProperty)
+			{
+				IsSelectedChanged?.Invoke(this, null);
+			}
 		}
 
-
-		protected override void OnPointerExited(PointerRoutedEventArgs args)
+		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
-			base.OnPointerExited(args);
-			UpdateCommonStates();
+			Flyout?.Hide();
 		}
 
-		protected override void OnPointerPressed(PointerRoutedEventArgs args)
+		private void ExecuteCommand()
 		{
-			base.OnPointerPressed(args);
-			UpdateCommonStates();
-		}
+			var command = Command;
+			var parameter = CommandParameter;
 
-
-		protected override void OnPointerReleased(PointerRoutedEventArgs args)
-		{
-			base.OnPointerReleased(args);
-			UpdateCommonStates();
+			if (command != null && command.CanExecute(parameter))
+			{
+				command.Execute(parameter);
+			}
 		}
 
 		protected override void OnApplyTemplate()
@@ -92,15 +86,6 @@ namespace Uno.UI.ToolkitLib
 			{
 				UpdateLocalVisualState();
 			}
-			else if (property == IsSelectedProperty)
-			{
-				IsSelectedChanged?.Invoke(this, null);
-				UpdateCommonStates();
-			}
-			else if (property == IsSelectableProperty)
-			{
-				UpdateCommonStates();
-			}
 		}
 
 		private void UpdateLocalVisualState()
@@ -113,8 +98,8 @@ namespace Uno.UI.ToolkitLib
 
 		private void UpdateVisualStateForIconAndContent(bool showIcon, bool showContent)
 		{
-			var stateName = showIcon 
-				? (showContent ? TabBarIconPositionStates.IconOnTop : TabBarIconPositionStates.IconOnly) 
+			var stateName = showIcon
+				? (showContent ? TabBarIconPositionStates.IconOnTop : TabBarIconPositionStates.IconOnly)
 				: TabBarIconPositionStates.ContentOnly;
 
 			VisualStateManager.GoToState(this, stateName, useTransitions: true);
@@ -128,57 +113,6 @@ namespace Uno.UI.ToolkitLib
 		private bool ShouldShowContent()
 		{
 			return Content != null;
-		}
-
-		private void UpdateCommonStates()
-		{
-			var state = GetState(IsEnabled, IsSelected, IsPointerOver, IsPressed);
-			VisualStateManager.GoToState(this, state, useTransitions: true);
-		}
-
-		private string GetState(bool isEnabled, bool isSelected, bool isOver, bool isPressed)
-		{
-			var state = CommonStates.Normal;
-
-			if (isEnabled)
-			{
-				if (isSelected && isPressed)
-				{
-					state = CommonStates.PressedSelected;
-				}
-				else if (isSelected && isOver)
-				{
-					state = CommonStates.OverSelected;
-				}
-				else if (isSelected)
-				{
-					state = CommonStates.Selected;
-				}
-				else if (isPressed)
-				{
-					state = CommonStates.Pressed;
-				}
-				else if (isOver)
-				{
-					state = CommonStates.Over;
-				}
-			}
-			else
-			{
-				// If item is disabled, we only care about selection state
-				if (isSelected)
-				{
-					state = CommonStates.Selected;
-				}
-			}
-
-			return state;
-		}
-
-		private void OnLostFocus(object sender, RoutedEventArgs e)
-		{
-			// Prevent VisualState from being reset to Normal upon lost focus
-			UpdateCommonStates();
 		}
 	}
 }
