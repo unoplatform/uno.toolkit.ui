@@ -12,7 +12,7 @@
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<sample:SamplePageLayout x:Name="SamplePageLayout">
-			<sample:SamplePageLayout.SampleTemplate>
+			<sample:SamplePageLayout.MaterialTemplate>
 				<DataTemplate>
 					<ScrollViewer HorizontalScrollMode="Disabled">
 						<StackPanel>
@@ -83,7 +83,7 @@
 						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>
-			</sample:SamplePageLayout.SampleTemplate>
+			</sample:SamplePageLayout.MaterialTemplate>
 		</sample:SamplePageLayout>
 	</Grid>
 </Page>

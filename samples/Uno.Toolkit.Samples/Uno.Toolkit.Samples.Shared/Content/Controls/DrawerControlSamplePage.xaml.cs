@@ -43,13 +43,13 @@ namespace Uno.Toolkit.Samples.Content.Controls
 
 		private void SetupOptions()
 		{
-			var sampleDrawerControl = SamplePageLayout.GetSampleChild<DrawerControl>("SampleDrawerControl");
-			var optionOpenDirection = SamplePageLayout.GetSampleChild<ComboBox>("OptionOpenDirection");
-			var optionDrawerDepthLengthIsNull = SamplePageLayout.GetSampleChild<CheckBox>("OptionDrawerDepthLengthIsNull");
-			var optionDrawerDepthValue = SamplePageLayout.GetSampleChild<Slider>("OptionDrawerDepthValue");
-			var optionLightDismissOverlayBackground = SamplePageLayout.GetSampleChild<ComboBox>("OptionLightDismissOverlayBackground");
-			var optionEdgeSwipeDetectionLengthIsNull = SamplePageLayout.GetSampleChild<CheckBox>("OptionEdgeSwipeDetectionLengthIsNull");
-			var optionEdgeSwipeDetectionLengthValue = SamplePageLayout.GetSampleChild<Slider>("OptionEdgeSwipeDetectionLengthValue");
+			var sampleDrawerControl = SamplePageLayout.GetSampleChild<DrawerControl>(Design.Material, "SampleDrawerControl");
+			var optionOpenDirection = SamplePageLayout.GetSampleChild<ComboBox>(Design.Material, "OptionOpenDirection");
+			var optionDrawerDepthLengthIsNull = SamplePageLayout.GetSampleChild<CheckBox>(Design.Material, "OptionDrawerDepthLengthIsNull");
+			var optionDrawerDepthValue = SamplePageLayout.GetSampleChild<Slider>(Design.Material, "OptionDrawerDepthValue");
+			var optionLightDismissOverlayBackground = SamplePageLayout.GetSampleChild<ComboBox>(Design.Material, "OptionLightDismissOverlayBackground");
+			var optionEdgeSwipeDetectionLengthIsNull = SamplePageLayout.GetSampleChild<CheckBox>(Design.Material, "OptionEdgeSwipeDetectionLengthIsNull");
+			var optionEdgeSwipeDetectionLengthValue = SamplePageLayout.GetSampleChild<Slider>(Design.Material, "OptionEdgeSwipeDetectionLengthValue");
 
 			optionOpenDirection.ItemsSource = typeof(DrawerOpenDirection).GetEnumValues();
 			optionOpenDirection.SelectedIndex = 0;
