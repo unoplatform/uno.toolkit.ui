@@ -117,7 +117,7 @@ namespace Uno.UI.ToolkitLib
 				? (showContent ? TabBarIconPositionStates.IconOnTop : TabBarIconPositionStates.IconOnly) 
 				: TabBarIconPositionStates.ContentOnly;
 
-			VisualStateManager.GoToState(this, stateName, useTransitions: false);
+			VisualStateManager.GoToState(this, stateName, useTransitions: true);
 		}
 
 		private bool ShouldShowIcon()
@@ -133,7 +133,7 @@ namespace Uno.UI.ToolkitLib
 		private void UpdateCommonStates()
 		{
 			var state = GetState(IsEnabled, IsSelected, IsPointerOver, IsPressed);
-			VisualStateManager.GoToState(this, state, useTransitions: false);
+			VisualStateManager.GoToState(this, state, useTransitions: true);
 		}
 
 		private string GetState(bool isEnabled, bool isSelected, bool isOver, bool isPressed)

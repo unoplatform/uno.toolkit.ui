@@ -10,6 +10,7 @@
 	  xmlns:toolkitE="using:Uno.UI.ToolkitLib.Extensions"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
 	<Page.Resources>
 		<Style x:Key="TabBarWithSlideIndicatorStyle"
 			   TargetType="toolkit:TabBar">
@@ -34,8 +35,8 @@
 							  Height="{TemplateBinding Height}">
 							<ItemsPresenter Padding="{TemplateBinding Padding}" />
 							<toolkit:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-																 IndicatorTransitionMode="Slide"
-																 Opacity="0">
+																	   IndicatorTransitionMode="Slide"
+																	   Opacity="0">
 								<Rectangle Fill="Purple"
 										   x:Name="TestingRect"
 										   AutomationProperties.AutomationId="TestingRect"
@@ -71,8 +72,8 @@
 							  Height="{TemplateBinding Height}">
 							<ItemsPresenter Padding="{TemplateBinding Padding}" />
 							<toolkit:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-																 IndicatorTransitionMode="Snap"
-																 Opacity="0">
+																	   IndicatorTransitionMode="Snap"
+																	   Opacity="0">
 								<Rectangle Fill="Purple"
 										   x:Name="TestingRect"
 										   AutomationProperties.AutomationId="TestingRect"
@@ -88,13 +89,9 @@
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<sample:SamplePageLayout>
-			<sample:SamplePageLayout.SampleTemplate>
-				<DataTemplate>
-					<ScrollViewer>
-
-						<StackPanel Spacing="20">
-							<!--<Border Padding="20"
+		<ScrollViewer>
+			<StackPanel Spacing="20">
+				<!--<Border Padding="20"
 									BorderThickness="2"
 									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
 								<StackPanel>
@@ -141,53 +138,53 @@
 								</StackPanel>
 							</Border>-->
 
-							<Border Padding="20"
-									BorderThickness="2"
-									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
-								<StackPanel>
-									<TextBlock Text="TabBar + FlipView with Slide Indicator"
-											   Style="{StaticResource BodyTextBlockStyle}" />
-									<toolkit:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
-													x:Name="SlideTabBar"
-													AutomationProperties.AutomationId="SlideTabBar"
-													toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
-													Background="LightBlue">
-										<toolkit:TabBar.Items>
-											<toolkit:TabBarItem Content="Tab 1"
-																AutomationProperties.AutomationId="SlideTab1" />
-											<toolkit:TabBarItem Content="Tab 2"
-																AutomationProperties.AutomationId="SlideTab2" />
-											<toolkit:TabBarItem Content="Tab 3"
-																AutomationProperties.AutomationId="SlideTab3" />
-										</toolkit:TabBar.Items>
-									</toolkit:TabBar>
-									<FlipView x:Name="SlideFlipView"
-											  AutomationProperties.AutomationId="SlideFlipView"
-											  Height="100">
-										<FlipView.Items>
-											<FlipViewItem AutomationProperties.AutomationId="SlidePage1">
-												<Grid AutomationProperties.AutomationId="SlidePage1Content"
-													  Background="Blue"
-													  Width="100"
-													  Height="100" />
-											</FlipViewItem>
-											<FlipViewItem AutomationProperties.AutomationId="SlidePage2">
-												<Grid AutomationProperties.AutomationId="SlidePage2Content"
-													  Background="Red"
-													  Width="100"
-													  Height="100" />
-											</FlipViewItem>
-											<FlipViewItem AutomationProperties.AutomationId="SlidePage3">
-												<Grid AutomationProperties.AutomationId="SlidePage3Content"
-													  Background="Green"
-													  Width="100"
-													  Height="100" />
-											</FlipViewItem>
-										</FlipView.Items>
-									</FlipView>
-								</StackPanel>
-							</Border>
-							<!--<Border Padding="20"
+				<Border Padding="20"
+						BorderThickness="2"
+						BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+					<StackPanel>
+						<TextBlock Text="TabBar + FlipView with Slide Indicator"
+								   Style="{StaticResource BodyTextBlockStyle}" />
+						<toolkit:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
+										x:Name="SlideTabBar"
+										AutomationProperties.AutomationId="SlideTabBar"
+										toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
+										Background="LightBlue">
+							<toolkit:TabBar.Items>
+								<toolkit:TabBarItem Content="Tab 1"
+													AutomationProperties.AutomationId="SlideTab1" />
+								<toolkit:TabBarItem Content="Tab 2"
+													AutomationProperties.AutomationId="SlideTab2" />
+								<toolkit:TabBarItem Content="Tab 3"
+													AutomationProperties.AutomationId="SlideTab3" />
+							</toolkit:TabBar.Items>
+						</toolkit:TabBar>
+						<FlipView x:Name="SlideFlipView"
+								  AutomationProperties.AutomationId="SlideFlipView"
+								  Height="100">
+							<FlipView.Items>
+								<FlipViewItem AutomationProperties.AutomationId="SlidePage1">
+									<Grid AutomationProperties.AutomationId="SlidePage1Content"
+										  Background="Blue"
+										  Width="100"
+										  Height="100" />
+								</FlipViewItem>
+								<FlipViewItem AutomationProperties.AutomationId="SlidePage2">
+									<Grid AutomationProperties.AutomationId="SlidePage2Content"
+										  Background="Red"
+										  Width="100"
+										  Height="100" />
+								</FlipViewItem>
+								<FlipViewItem AutomationProperties.AutomationId="SlidePage3">
+									<Grid AutomationProperties.AutomationId="SlidePage3Content"
+										  Background="Green"
+										  Width="100"
+										  Height="100" />
+								</FlipViewItem>
+							</FlipView.Items>
+						</FlipView>
+					</StackPanel>
+				</Border>
+				<!--<Border Padding="20"
 									BorderThickness="2"
 									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
 								<StackPanel>
@@ -336,10 +333,7 @@
 									</FlipView>
 								</StackPanel>
 							</Border>-->
-						</StackPanel>
-					</ScrollViewer>
-				</DataTemplate>
-			</sample:SamplePageLayout.SampleTemplate>
-		</sample:SamplePageLayout>
+			</StackPanel>
+		</ScrollViewer>
 	</Grid>
 </Page>

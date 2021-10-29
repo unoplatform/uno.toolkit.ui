@@ -41,10 +41,11 @@ namespace Uno.UI.ToolkitLib
 	/// </summary>
 	public partial class TabBarSelectionIndicatorPresenter : Canvas
 	{
-		private readonly SerialDisposable _tabBarSelectionChangedRevoker = new();
-		private readonly SerialDisposable _tabBarItemSizeChangedRevoker = new();
-		private readonly SerialDisposable _offsetChangedRevoker = new();
-		private readonly Storyboard _indicatorSlideStoryboard = new();
+		private readonly SerialDisposable _tabBarSelectionChangedRevoker = new SerialDisposable();
+		private readonly SerialDisposable _tabBarItemSizeChangedRevoker = new SerialDisposable();
+		private readonly SerialDisposable _indicatorSizeChangedRevoker = new SerialDisposable();
+		private readonly SerialDisposable _offsetChangedRevoker = new SerialDisposable();
+		private readonly Storyboard _indicatorSlideStoryboard = new Storyboard();
 
 		/// <summary>
 		/// Return the view within the Panel being used as the selection indicator
@@ -58,6 +59,25 @@ namespace Uno.UI.ToolkitLib
 		public TabBarSelectionIndicatorPresenter()
 		{
 			SizeChanged += OnSizeChanged;
+			Loaded += OnLoaded;
+			Unloaded += OnUnloaded;
+		}
+
+		private void OnUnloaded(object sender, RoutedEventArgs e)
+		{
+			_tabBarSelectionChangedRevoker.Disposable = null;
+			_tabBarItemSizeChangedRevoker.Disposable = null;
+			_indicatorSizeChangedRevoker.Disposable = null;
+			_offsetChangedRevoker.Disposable = null;
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			if (GetSelectionIndicator() is FrameworkElement child)
+			{
+				child.SizeChanged += OnSizeChanged;
+				_indicatorSizeChangedRevoker.Disposable = Disposable.Create(() => child.SizeChanged -= OnSizeChanged);
+			}
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs args)
@@ -80,34 +100,30 @@ namespace Uno.UI.ToolkitLib
 			_tabBarSelectionChangedRevoker.Disposable = null;
 			_offsetChangedRevoker.Disposable = null;
 
-			if (Owner is not { } tabBar)
+			if (Owner is TabBar tabBar)
 			{
-				return;
+				var selectionOffsetSubscription = tabBar.RegisterPropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, OnSelectionOffsetChanged);
+				_offsetChangedRevoker.Disposable = Disposable.Create(() => tabBar.UnregisterPropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, selectionOffsetSubscription));
+
+				tabBar.SelectionChanged += OnTabBarSelectionChanged;
+				_tabBarSelectionChangedRevoker.Disposable = Disposable.Create(() => tabBar.SelectionChanged -= OnTabBarSelectionChanged);
+
+				var selectedItem = Owner?.SelectedItem as TabBarItem;
+				MoveSelectionIndicator(selectedItem);
 			}
-
-			var selectionOffsetSubscription = tabBar.RegisterPropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, OnSelectionOffsetChanged);
-			_offsetChangedRevoker.Disposable = Disposable.Create(() => tabBar.UnregisterPropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, selectionOffsetSubscription));
-			
-			tabBar.SelectionChanged += OnTabBarSelectionChanged;
-			_tabBarSelectionChangedRevoker.Disposable = Disposable.Create(() => tabBar.SelectionChanged -= OnTabBarSelectionChanged);
-
-			var selectedItem = Owner?.SelectedItem as TabBarItem;
-			MoveSelectionIndicator(selectedItem);
 		}
 
 		private void OnSelectionOffsetChanged(DependencyObject sender, DependencyProperty dp)
 		{
-			if (sender is not TabBar tabBar
-				|| GetSelectionIndicator() is not { } selectionIndicator
-				|| !_isSelectorPresent)
+			if (sender is TabBar tabBar
+				&& GetSelectionIndicator() is { } selectionIndicator
+				&& _isSelectorPresent)
 			{
-				return;
+				selectionIndicator.RenderTransform = new TranslateTransform
+				{
+					X = SelectorExtensions.GetSelectionOffset(tabBar)
+				};
 			}
-
-			selectionIndicator.RenderTransform = new TranslateTransform
-			{
-				X = SelectorExtensions.GetSelectionOffset(tabBar)
-			};
 		}
 
 		private void OnSelectedTabBarItemSizeChanged(object sender, object e)
@@ -120,28 +136,28 @@ namespace Uno.UI.ToolkitLib
 		{
 			_tabBarItemSizeChangedRevoker.Disposable = null;
 
-			if (args.NewItem is not TabBarItem tabBarItem)
+			if (args.NewItem is TabBarItem tabBarItem)
 			{
-				return;
-			}
+				tabBarItem.SizeChanged += OnSelectedTabBarItemSizeChanged;
+				_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => tabBarItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
 
-			tabBarItem.SizeChanged += OnSelectedTabBarItemSizeChanged;
-			_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => tabBarItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
-
-			//If a selection is being made for the first time, start showing the indicator
-			if (!_isSelectorPresent
-				|| args.OldItem == null)
-			{
-				Opacity = 1f;
-				MoveSelectionIndicator(tabBarItem);
+				//If a selection is being made for the first time, start showing the indicator
+				if (!_isSelectorPresent
+					|| args.OldItem == null)
+				{
+					Opacity = 1f;
+					MoveSelectionIndicator(tabBarItem);
+				}
 			}
 		}
 
 		private void MoveSelectionIndicator(TabBarItem? selectedItem)
 		{
+			UIElement? child;
+
 			if (selectedItem == null
 				|| Owner == null
-				|| GetSelectionIndicator() is not { } child)
+				|| (child = GetSelectionIndicator()) is null)
 			{
 				return;
 			}
@@ -151,6 +167,9 @@ namespace Uno.UI.ToolkitLib
 
 			var nextPosPoint = selectedItem.TransformToVisual(Owner)
 				.TransformPoint(point);
+
+			var currentPoint = child.TransformToVisual(Owner)
+				.TransformPoint(new Point(0, 0));
 
 			nextPos = nextPosPoint.X + (selectedItem.ActualWidth / 2);
 
@@ -163,7 +182,7 @@ namespace Uno.UI.ToolkitLib
 				_indicatorSlideStoryboard.Stop();
 				_indicatorSlideStoryboard.Children.Clear();
 
-				var easing = new ExponentialEase();
+				var easing = new CubicEase();
 
 				var transform = child.RenderTransform as CompositeTransform;
 				if (transform == null)
@@ -176,7 +195,7 @@ namespace Uno.UI.ToolkitLib
 				var db = new DoubleAnimation
 				{
 					To = nextPos - (child.ActualSize.X / 2),
-					From = null,
+					From = currentPoint.X,
 					EasingFunction = easing,
 					Duration = TimeSpan.FromMilliseconds(400)
 				};

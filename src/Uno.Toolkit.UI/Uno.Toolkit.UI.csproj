@@ -12,15 +12,15 @@
 		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
 		<PackageId>Uno.UI.Toolkit</PackageId>
 	  <Nullable>enable</Nullable>
-	  <LangVersion>Latest</LangVersion>
+	  <LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.UI" Version="3.10.0-dev.593" />
+		<PackageReference Include="Uno.UI" Version="4.0.0-dev.5407" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
-		<PackageReference Include="Microsoft.UI.Xaml" Version="2.4" />
+		<PackageReference Include="Microsoft.UI.Xaml" Version="2.6.0-prerelease.210623001" />
 	</ItemGroup>
 	
   <ItemGroup>

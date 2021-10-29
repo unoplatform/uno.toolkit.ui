@@ -5,27 +5,27 @@
 	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
 	-->
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0;monoandroid10.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0;monoandroid10.0</TargetFrameworks>
 		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362.0</TargetFrameworks>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
-    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<AssemblyName>Uno.WinUI.ToolkitLib</AssemblyName>
 		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
 		<PackageId>Uno.UI.Toolkit</PackageId>
 	  <Nullable>enable</Nullable>
-	  <LangVersion>Latest</LangVersion>
+	  <LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" Version="3.10.0-dev.390" />
+		<PackageReference Include="Uno.WinUI" Version="4.0.0-dev.5407" />
 	</ItemGroup>
 
 	<Choose>
 		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362.0'">
 			
 			<ItemGroup>
-				<PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.0" />
+				<PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.6" />
 			</ItemGroup>
 			
 		</When>

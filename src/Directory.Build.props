@@ -52,6 +52,9 @@
 	<PropertyGroup>
 		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.Toolkit.UI.csproj</_AdjustedOutputProjects>
 		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.Toolkit.WinUI.csproj</_AdjustedOutputProjects>
+		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.Toolkit.Cupertino.csproj</_AdjustedOutputProjects>
+		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.Toolkit.Cupertino.WinUI.csproj</_AdjustedOutputProjects>
+		<_AdjustedOutputProjects>$(_AdjustedOutputProjects);Uno.Toolkit.Material.WinUI.csproj</_AdjustedOutputProjects>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(_AdjustedOutputProjects.Contains('$(MSBuildProjectFile)'))">

@@ -121,8 +121,10 @@ namespace Uno.UI.ToolkitLib.Behaviors
 
 		public void UpdateOffset(int position, double progress, double totalOffset)
 		{
+			UIElement? selectionIndicator;
+
 			if (totalOffset == _lastOffsetX
-				|| VisualTreeHelperEx.FindChild<TabBarSelectionIndicatorPresenter>(TabBar)?.GetSelectionIndicator() is not { } selectionIndicator)
+				|| (selectionIndicator = VisualTreeHelperEx.FindChild<TabBarSelectionIndicatorPresenter>(TabBar)?.GetSelectionIndicator()) is null)
 			{
 				return;
 			}
@@ -138,20 +140,20 @@ namespace Uno.UI.ToolkitLib.Behaviors
 			var toRight = totalOffset > _lastOffsetX && progress > 0;
 			_lastOffsetX = totalOffset;
 
-			var mappedPreviousIndex = toRight ? MapIndexToTabBar(position) : MapIndexToTabBar(position + 1);
-			if (mappedPreviousIndex is not { } previousIndex || previousIndex < 0 || previousIndex >= TabBar.Items.Count)
+			var previousIndex = toRight ? MapIndexToTabBar(position) : MapIndexToTabBar(position + 1);
+			if (previousIndex == null || previousIndex < 0 || previousIndex >= TabBar.Items.Count)
 			{
 				return;
 			}
 
-			var mappedNextIndex = toRight ? MapIndexToTabBar(position + 1) : MapIndexToTabBar(position);
-			if (mappedNextIndex is not { } nextTabIndex || nextTabIndex < 0 || nextTabIndex >= TabBar.Items.Count)
+			var nextTabIndex = toRight ? MapIndexToTabBar(position + 1) : MapIndexToTabBar(position);
+			if (nextTabIndex == null || nextTabIndex < 0 || nextTabIndex >= TabBar.Items.Count)
 			{
 				return;
 			}
 
-			var selectedTabBarItem = TabBar.ContainerFromIndex(previousIndex) as TabBarItem;
-			var nextTabBarItem = TabBar.ContainerFromIndex(nextTabIndex) as TabBarItem;
+			var selectedTabBarItem = TabBar.ContainerFromIndex(previousIndex.Value) as TabBarItem;
+			var nextTabBarItem = TabBar.ContainerFromIndex(nextTabIndex.Value) as TabBarItem;
 
 			var currentX = GetRelativeX(selectedTabBarItem);
 			var nextX = GetRelativeX(nextTabBarItem);
@@ -170,13 +172,11 @@ namespace Uno.UI.ToolkitLib.Behaviors
 
 		private void UpdateOffsetToPosition(int position, UIElement selectionIndicator)
 		{
-			if (MapIndexToTabBar(position) is not { } index || index < 0 || index >= TabBar.Items.Count)
+			if (MapIndexToTabBar(position) is { } index && index >= 0 && index < TabBar.Items.Count)
 			{
-				return;
+				var tabItem = TabBar.ContainerFromIndex(index) as TabBarItem;
+				SelectorExtensions.SetSelectionOffset(TabBar, GetRelativeX(tabItem) + ((tabItem?.ActualWidth ?? 0) / 2) - (selectionIndicator.ActualSize.X / 2));
 			}
-
-			var tabItem = TabBar.ContainerFromIndex(index) as TabBarItem;
-			SelectorExtensions.SetSelectionOffset(TabBar, GetRelativeX(tabItem) + ((tabItem?.ActualWidth ?? 0) / 2) - (selectionIndicator.ActualSize.X / 2));
 		}
 
 		private void OnTabBarSelectionChanged(TabBar sender, TabBarSelectionChangedEventArgs args)
@@ -196,13 +196,11 @@ namespace Uno.UI.ToolkitLib.Behaviors
 				var tabBarIndex = TabBar.SelectedIndex;
 				var mappedIndex = MapIndexToSelector(tabBarIndex);
 
-				if (mappedIndex is not { } index || index < 0 || index >= Selector.Items.Count)
+				if (mappedIndex is { } index && index >= 0 && index < Selector.Items.Count)
 				{
-					return;
+					_isSynchronizing = true;
+					Selector.SelectedIndex = index;
 				}
-
-				_isSynchronizing = true;
-				Selector.SelectedIndex = index;
 			}
 			finally
 			{
@@ -227,13 +225,11 @@ namespace Uno.UI.ToolkitLib.Behaviors
 				var selectorIndex = Selector.SelectedIndex;
 				var mappedIndex = MapIndexToTabBar(selectorIndex);
 
-				if (mappedIndex is not { } index || index < 0 || index >= TabBar.Items.Count)
+				if (mappedIndex is { } index && index >= 0 && index < TabBar.Items.Count)
 				{
-					return;
+					_isSynchronizing = true;
+					TabBar.SelectedIndex = index;
 				}
-
-				_isSynchronizing = true;
-				TabBar.SelectedIndex = index;
 			}
 			finally
 			{

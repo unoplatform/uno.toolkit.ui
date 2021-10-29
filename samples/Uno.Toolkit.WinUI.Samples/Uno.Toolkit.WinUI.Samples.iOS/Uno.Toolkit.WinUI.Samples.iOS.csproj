@@ -12,7 +12,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\Uno.Toolkit.WinUI.Samples.Shared\Strings</ResourcesDirectory>
-    <LangVersion>Latest</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -119,8 +119,8 @@
     <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.WinUI" Version="3.10.0-dev.593" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Version="3.10.0-dev.593" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.WinUI" Version="4.0.0-dev.5407" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.0.0-dev.5407" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Uno.Extensions.Logging.OSLog " Version="1.1.0" />
   </ItemGroup>
@@ -154,6 +154,14 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.WinUI.csproj">
+      <Project>{9a3d0e59-f740-4221-9474-332c0fdb7e79}</Project>
+      <Name>Uno.Toolkit.Cupertino.WinUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.Material.WinUI.csproj">
+      <Project>{04a5011f-dc76-4bd6-9994-fc1c9e937a6d}</Project>
+      <Name>Uno.Toolkit.Material.WinUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj">
       <Project>{50ea1339-d38d-47f7-848a-8a827a959691}</Project>
       <Name>Uno.Toolkit.WinUI</Name>

@@ -83,7 +83,7 @@ namespace Uno.Toolkit.Samples
 			AddNavigationItems(nv);
 
 			// landing navigation
-			ShellNavigateTo<TabBarSamplePage>(
+			ShellNavigateTo<SlidingSegmentedControlSamplePage>(
 #if WINDOWS_UWP
 				// note: on uwp, NavigationView.SelectedItem MUST be set on launch to avoid entering compact-mode
 				trySynchronizeCurrentItem: true

@@ -22,21 +22,23 @@ namespace Uno.UI.ToolkitLib.Behaviors
 	public partial class TabBarSelectorBehavior
 	{
 		private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d == null)
-			{
-				return;
-			}	
+        {
+            if (d == null)
+            {
+                return;
+            }
 
-			if (d is not TabBar tabBar)
-			{
-				throw new InvalidOperationException("TabBarSelectorBehavior must be attached to a TabBar control");
-			}
+            if (d is TabBar tabBar)
+            {
+                UpdateState(tabBar);
+            }
+            else
+            {
+                throw new InvalidOperationException("TabBarSelectorBehavior must be attached to a TabBar control");
+            }
+        }
 
-			UpdateState(tabBar);
-		}
-
-		private static void UpdateState(TabBar tabBar)
+        private static void UpdateState(TabBar tabBar)
 		{
 			var selector = GetSelector(tabBar);
 			
