@@ -21,9 +21,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\NestedPages\NavigationBarSample_NestedPage1.xaml.cs">
       <DependentUpon>NavigationBarSample_NestedPage1.xaml</DependentUpon>
+      </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\SegmentedControlSamplePage.xaml.cs">
       <DependentUpon>SegmentedControlSamplePage.xaml</DependentUpon>
     </Compile>
+    
     <Compile Include="$(MSBuildThisFileDirectory)Views\NestedPages\NavigationBarSample_NestedPage2.xaml.cs">
       <DependentUpon>NavigationBarSample_NestedPage2.xaml</DependentUpon>
     </Compile>
@@ -78,6 +80,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\NestedPages\NavigationBarSample_NestedPage2.xaml">
+          <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
