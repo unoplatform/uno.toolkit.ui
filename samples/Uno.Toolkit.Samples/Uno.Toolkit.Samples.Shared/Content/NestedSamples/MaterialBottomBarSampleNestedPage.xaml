@@ -19,20 +19,20 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-
-		<CommandBar Content="Material Bottom TabBar Sample Page"
-					toolkit:VisibleBoundsPadding.PaddingMask="Top"
-					Style="{StaticResource MaterialCommandBarStyle}">
-			<toolkit:CommandBarExtensions.NavigationCommand>
-				<AppBarButton Click="NavigateBack"
-							  Style="{StaticResource MaterialAppBarButton}">
+		<toolkitLib:NavigationBar Content="Material Bottom TabBar Sample Page"
+								  Style="{StaticResource MaterialNavigationBarStyle}"
+								  LeftCommandMode="Action">
+			<toolkitLib:NavigationBar.LeftCommand>
+				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
+							  Click="NavigateBack">
 					<AppBarButton.Icon>
-						<BitmapIcon UriSource="ms-appx:///Assets/BackButton.png"
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-			</toolkit:CommandBarExtensions.NavigationCommand>
-		</CommandBar>
+			</toolkitLib:NavigationBar.LeftCommand>
+		</toolkitLib:NavigationBar>
+
 		<Grid x:Name="PageContainer"
 			  Grid.Row="1">
 			<Grid x:Name="Home"
@@ -84,7 +84,6 @@
 		<toolkitLib:TabBar Grid.Row="2"
 						   SelectedIndex="1"
 						   SelectionChanged="OnSelectionChanged"
-						   toolkit:VisibleBoundsPadding.PaddingMask="Bottom"
 						   Style="{StaticResource MaterialBottomTabBarStyle}">
 			<toolkitLib:TabBar.Items>
 				<toolkitLib:TabBarItem Tag="Home"
@@ -101,7 +100,8 @@
 				</toolkitLib:TabBarItem>
 				<toolkitLib:TabBarItem Style="{StaticResource MaterialBottomFabTabBarItemStyle}">
 					<toolkitLib:TabBarItem.Flyout>
-						<MenuFlyout Placement="Top" MenuFlyoutPresenterStyle="{StaticResource MaterialMenuFlyoutPresenterStyle}">
+						<MenuFlyout Placement="Top"
+									MenuFlyoutPresenterStyle="{StaticResource MaterialMenuFlyoutPresenterStyle}">
 
 							<MenuFlyoutItem Text="Like"
 											Style="{StaticResource MaterialMenuFlyoutItemStyle}">

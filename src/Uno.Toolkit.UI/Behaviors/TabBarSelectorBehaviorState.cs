@@ -124,7 +124,7 @@ namespace Uno.UI.ToolkitLib.Behaviors
 			UIElement? selectionIndicator;
 
 			if (totalOffset == _lastOffsetX
-				|| (selectionIndicator = VisualTreeHelperEx.FindChild<TabBarSelectionIndicatorPresenter>(TabBar)?.GetSelectionIndicator()) is null)
+				|| (selectionIndicator = TabBar.FindChild<TabBarSelectionIndicatorPresenter>()?.GetSelectionIndicator()) is null)
 			{
 				return;
 			}

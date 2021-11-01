@@ -3,20 +3,14 @@
 
 	<ResourceDictionary.ThemeDictionaries>
 
-		<!--Light Theme-->
+		<!-- Light Theme -->
 		<ResourceDictionary x:Key="Light">
-
-			<!--Not a color but we needed 2 different images for light and dark theme-->
-			<!--<x:String x:Key="OverviewImageSource">ms-appx:///Assets/uno-banner-light.png</x:String>-->
-
+			<x:String x:Key="BackButtonImageSource">ms-appx:///Assets/BackButton.png</x:String>
 		</ResourceDictionary>
 
-		<!--Dark Theme-->
+		<!-- Dark Theme -->
 		<ResourceDictionary x:Key="Dark">
-
-			<!--Not a color but we needed 2 different images for light and dark theme-->
-			<!--<x:String x:Key="OverviewImageSource">ms-appx:///Assets/uno-banner-dark.png</x:String>-->
-
+			<x:String x:Key="BackButtonImageSource">ms-appx:///Assets/BackButton-Dark.png</x:String>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 

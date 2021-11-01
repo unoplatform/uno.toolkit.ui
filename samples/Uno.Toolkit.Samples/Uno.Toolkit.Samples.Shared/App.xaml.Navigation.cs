@@ -21,6 +21,7 @@ using Uno.Toolkit.Samples.Content.Controls;
 using Uno.Toolkit.Samples.Helpers;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using Uno.Toolkit.Samples.Content.NestedSamples;
 
 namespace Uno.Toolkit.Samples
 {
@@ -83,7 +84,7 @@ namespace Uno.Toolkit.Samples
 			AddNavigationItems(nv);
 
 			// landing navigation
-			ShellNavigateTo<SlidingSegmentedControlSamplePage>(
+			ShellNavigateTo<TabBarSamplePage>(
 #if WINDOWS_UWP
 				// note: on uwp, NavigationView.SelectedItem MUST be set on launch to avoid entering compact-mode
 				trySynchronizeCurrentItem: true

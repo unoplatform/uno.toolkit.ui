@@ -17,17 +17,18 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<CommandBar Content="Cupertino Bottom TabBar Sample Page"
-					toolkit:VisibleBoundsPadding.PaddingMask="Top">
-			<toolkit:CommandBarExtensions.NavigationCommand>
+		<toolkitLib:NavigationBar Content="Cupertino Bottom TabBar Sample Page"
+								  toolkit:VisibleBoundsPadding.PaddingMask="Top"
+								  LeftCommandMode="Action">
+			<toolkitLib:NavigationBar.LeftCommand>
 				<AppBarButton Click="NavigateBack">
 					<AppBarButton.Icon>
-						<BitmapIcon UriSource="ms-appx:///Assets/BackButton.png"
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-			</toolkit:CommandBarExtensions.NavigationCommand>
-		</CommandBar>
+			</toolkitLib:NavigationBar.LeftCommand>
+		</toolkitLib:NavigationBar>
 		<Grid x:Name="PageContainer"
 			  Grid.Row="1">
 			<Grid x:Name="Home"
@@ -80,7 +81,6 @@
 		<toolkitLib:TabBar Grid.Row="2"
 						   SelectedIndex="1"
 						   SelectionChanged="OnSelectionChanged"
-						   toolkit:VisibleBoundsPadding.PaddingMask="Bottom"
 						   BorderThickness="0,1,0,0"
 						   Style="{StaticResource CupertinoBottomTabBarStyle}">
 			<toolkitLib:TabBar.Items>

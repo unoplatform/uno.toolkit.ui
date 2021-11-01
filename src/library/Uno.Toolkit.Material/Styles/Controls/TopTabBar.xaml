@@ -282,6 +282,8 @@
 				Value="{StaticResource MaterialTabBarBackground}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
+		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+				Value="Top" />
 		<Setter Property="Height"
 				Value="{StaticResource TabBarHeight}" />
 		<Setter Property="ItemContainerStyle"

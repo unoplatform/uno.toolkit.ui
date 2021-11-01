@@ -16,9 +16,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Cupertino" Version="1.0.0-dev.851" />
-		<PackageReference Include="Uno.Material" Version="1.0.0-dev.851" />
-		<PackageReference Include="Uno.UI" Version="4.0.0-dev.5407" />
+		<PackageReference Include="Uno.Cupertino" Version="1.1.0-dev.5" />
+		<PackageReference Include="Uno.Material" Version="1.1.0-dev.5" />
+		<PackageReference Include="Uno.UI" Version="4.0.0-dev.5441" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
@@ -35,7 +35,7 @@
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
 		<EmbeddedResource Include="LinkerConfig.xml">
 			<LogicalName>$(AssemblyName).xml</LogicalName>

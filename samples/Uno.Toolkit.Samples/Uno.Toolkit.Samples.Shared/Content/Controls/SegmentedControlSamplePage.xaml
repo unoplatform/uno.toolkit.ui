@@ -1,4 +1,4 @@
-﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.SlidingSegmentedControlSamplePage"
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.SegmentedControlSamplePage"
 	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"

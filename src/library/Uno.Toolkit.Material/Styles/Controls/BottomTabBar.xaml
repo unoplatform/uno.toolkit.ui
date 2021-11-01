@@ -105,6 +105,8 @@
 				Value="{ThemeResource MaterialTabBarBackground}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
+		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+				Value="Bottom" />
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
 				<ItemsPanelTemplate>

@@ -19,6 +19,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\NavigationBarSamplePage.xaml.cs">
+      <DependentUpon>NavigationBarSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\DrawerControlSamplePage.xaml.cs">
       <DependentUpon>DrawerControlSamplePage.xaml</DependentUpon>
     </Compile>
@@ -39,6 +42,12 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialTopBarSampleNestedPage.xaml.cs">
       <DependentUpon>MaterialTopBarSampleNestedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_NestedPage1.xaml.cs">
+      <DependentUpon>NavigationBarSample_NestedPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_NestedPage2.xaml.cs">
+      <DependentUpon>NavigationBarSample_NestedPage2.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ControlExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\OverviewSampleView.cs" />
@@ -77,6 +86,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\NavigationBarSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\SegmentedControlSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -98,6 +111,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialTopBarSampleNestedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_NestedPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_NestedPage2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -156,7 +177,13 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-300.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\BackButton-Dark.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\BackButton.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\CloseIcon.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\CloseIcon.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\CloseIcon.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\CloseIcon.scale-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\CloseIcon.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\DownArrowIcon.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\MaterialIcon_Small.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\MaterialIcon_Small.scale-150.png" />
