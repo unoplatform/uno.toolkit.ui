@@ -12,8 +12,6 @@ using Windows.UI.ViewManagement;
 using Windows.Foundation.Collections;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.Extensions;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
-using ICommandBarElement = Microsoft.UI.Xaml.Controls.ICommandBarElement;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -46,7 +44,8 @@ namespace Uno.UI.ToolkitLib
 
 		protected override IEnumerable<IDisposable> Initialize()
 		{
-			if (Element is not { } element)
+			var element = Element;
+			if (element == null)
 			{
 				yield break;
 			}

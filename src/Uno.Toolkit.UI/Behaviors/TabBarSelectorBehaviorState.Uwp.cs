@@ -42,7 +42,7 @@ namespace Uno.UI.ToolkitLib.Behaviors
 		private void OnFlipViewLoaded(object sender, RoutedEventArgs e)
 		{
 			if (sender is FlipView flipView
-				&& VisualTreeHelperEx.FindChild<ScrollViewer>(flipView) is { } scrollViewer)
+				&& flipView.FindChild<ScrollViewer>() is { } scrollViewer)
 			{
 				scrollViewer.ViewChanged += OnScrolViewerViewChanged;
 				_viewChangedRevoker.Disposable = Disposable.Create(() => scrollViewer.ViewChanged -= OnScrolViewerViewChanged);

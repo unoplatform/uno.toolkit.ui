@@ -9,11 +9,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-
 using Uno.Disposables;
 using Windows.Foundation;
 using Windows.UI.Core;
-
+using Uno.UI.ToolkitLib.Extensions;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -44,7 +43,7 @@ namespace Uno.UI.ToolkitLib
 		public event EventHandler<object>? Opened;
 		public event EventHandler<object>? Closing;
 		public event EventHandler<object>? Opening;
-		public event TypedEventHandler<NavigationBar, Microsoft.UI.Xaml.Controls.DynamicOverflowItemsChangingEventArgs?>? DynamicOverflowItemsChanging;
+		public event TypedEventHandler<NavigationBar, DynamicOverflowItemsChangingEventArgs?>? DynamicOverflowItemsChanging;
 
 		private const string MoreButton = "MoreButton";
 		private const string PrimaryItemsControl = "PrimaryItemsControl";
@@ -62,7 +61,7 @@ namespace Uno.UI.ToolkitLib
 
 		public NavigationBar()
 		{
-			LeftCommand ??= new Microsoft.UI.Xaml.Controls.AppBarButton() { Visibility = Visibility.Collapsed, Icon = new SymbolIcon(Symbol.Back) };
+			LeftCommand ??= new AppBarButton() { Visibility = Visibility.Collapsed, Icon = new SymbolIcon(Symbol.Back) };
 			PrimaryCommands ??= new NavigationBarElementCollection();
 			SecondaryCommands ??= new NavigationBarElementCollection();
 
@@ -98,7 +97,7 @@ namespace Uno.UI.ToolkitLib
 
 		internal bool PerformBack()
 		{
-			var page = this.FindFirstParent<Page>();
+			var page = this.GetFirstParent<Page>(includeCurrent: false);
 
 			if (page?.Frame is { Visibility: Visibility.Visible } frame
 				&& frame.CurrentSourcePageType == page.GetType()
@@ -124,7 +123,7 @@ namespace Uno.UI.ToolkitLib
 		internal void RaiseOpenedEvent(object e)
 			=> Opened?.Invoke(this, e);
 
-		internal void RaiseDynamicOverflowItemsChanging(Microsoft.UI.Xaml.Controls.DynamicOverflowItemsChangingEventArgs args)
+		internal void RaiseDynamicOverflowItemsChanging(DynamicOverflowItemsChangingEventArgs args)
 			=> DynamicOverflowItemsChanging?.Invoke(this, args);
 		#endregion
 
@@ -139,7 +138,7 @@ namespace Uno.UI.ToolkitLib
 			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
 
-			var frame = this.FindFirstParent<Frame>();
+			var frame = this.GetFirstParent<Frame>();
 			if (frame?.BackStack is ObservableCollection<PageStackEntry> backStack)
 			{
 				backStack.CollectionChanged += OnBackStackChanged;
@@ -147,14 +146,14 @@ namespace Uno.UI.ToolkitLib
 			}
 		}
 
-		private void OnBackStackChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private void OnBackStackChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			UpdateLeftCommandVisibility();
 		}
 
 		private void UpdateLeftCommandVisibility()
 		{
-			var frame = this.FindFirstParent<Frame>();
+			var frame = this.GetFirstParent<Frame>();
 			var buttonVisibility = (frame?.CanGoBack ?? false)
 				? Visibility.Visible
 				: Visibility.Collapsed;
@@ -162,7 +161,7 @@ namespace Uno.UI.ToolkitLib
 			LeftCommand.Visibility = buttonVisibility;
 		}
 
-		private void OnBackRequested(object sender, BackRequestedEventArgs e)
+		private void OnBackRequested(object? sender, BackRequestedEventArgs e)
 		{
 			e.Handled = PerformBack();
 		}

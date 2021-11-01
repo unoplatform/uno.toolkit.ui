@@ -21,7 +21,6 @@ using Android.Content;
 
 using Windows.UI;
 using ColorHelper = Uno.UI.ToolkitLib.Helpers.ColorHelper;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -31,8 +30,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Automation.Peers;
-using Uno.WinUI.Extensions;
-using Uno.WinUI.ToolkitLib.Helpers;
+using Uno.UI.Extensions;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -43,7 +41,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Automation.Peers;
 using Uno.UI.Extensions;
-using Uno.UI.ToolkitLib.Helpers;
 #endif
 
 namespace Uno.UI.ToolkitLib
@@ -87,8 +84,8 @@ namespace Uno.UI.ToolkitLib
 		protected override IEnumerable<IDisposable> Initialize()
 		{
 			var native = Native;
-			_originalBackground = native.Background;
-			_originalTitleTextColor = native.GetTitleTextColor();
+			_originalBackground = native?.Background;
+			_originalTitleTextColor = native?.GetTitleTextColor();
 
 			// Content
 			// This allows custom Content to be properly laid out inside the native Toolbar.
@@ -120,7 +117,7 @@ namespace Uno.UI.ToolkitLib
 			yield return Disposable.Create(() => native.NavigationClick -= Native_NavigationClick);
 
 			// Commands
-			VectorChangedEventHandler<AppBarButton> OnVectorChanged = (s, e) => Invalidate();
+			VectorChangedEventHandler<ICommandBarElement> OnVectorChanged = (s, e) => Invalidate();
 			if (Element is { } element)
 			{
 				if (element.PrimaryCommands is { } primaryCommands)
@@ -156,9 +153,9 @@ namespace Uno.UI.ToolkitLib
 					new[] { NavigationBar.OpacityProperty },
 					new[] { NavigationBar.SubtitleProperty },
 					new[] { NavigationBar.LeftCommandProperty },
-					new[] { NavigationBar.LeftCommandProperty, Microsoft.UI.Xaml.Controls.AppBarButton.VisibilityProperty },
-					new[] { NavigationBar.LeftCommandProperty, Microsoft.UI.Xaml.Controls.AppBarButton.ForegroundProperty },
-					new[] { NavigationBar.LeftCommandProperty, Microsoft.UI.Xaml.Controls.AppBarButton.IconProperty }
+					new[] { NavigationBar.LeftCommandProperty, AppBarButton.VisibilityProperty },
+					new[] { NavigationBar.LeftCommandProperty, AppBarButton.ForegroundProperty },
+					new[] { NavigationBar.LeftCommandProperty, AppBarButton.IconProperty }
 				);
 			}
 		}
@@ -170,7 +167,8 @@ namespace Uno.UI.ToolkitLib
 				throw new InvalidOperationException();
 			}
 			var native = Native;
-			if (Element is not { } element)
+			var element = Element;
+			if (Element == null)
 			{
 				return;
 			}
@@ -232,7 +230,7 @@ namespace Uno.UI.ToolkitLib
 				}
 			}
 
-			var mainCommand = element.GetValue(NavigationBar.LeftCommandProperty) as Microsoft.UI.Xaml.Controls.AppBarButton;
+			var mainCommand = element.GetValue(NavigationBar.LeftCommandProperty) as AppBarButton;
 			// CommandBarExtensions.NavigationCommand
 			if (mainCommand is { })
 			{
@@ -273,7 +271,7 @@ namespace Uno.UI.ToolkitLib
 			var hashCode = e.Item.ItemId;
 			var appBarButton = Element?.PrimaryCommands
 				.Concat(Element?.SecondaryCommands)
-				.OfType<Microsoft.UI.Xaml.Controls.AppBarButton>()
+				.OfType<AppBarButton>()
 				.FirstOrDefault(c => hashCode == c.GetHashCode());
 
 			appBarButton?.RaiseClick();
@@ -283,7 +281,7 @@ namespace Uno.UI.ToolkitLib
 		{
 			CloseKeyboard();
 
-			if (Element?.LeftCommand is Microsoft.UI.Xaml.Controls.AppBarButton navigationCommand)
+			if (Element?.LeftCommand is AppBarButton navigationCommand)
 			{
 				navigationCommand.RaiseClick();
 			}

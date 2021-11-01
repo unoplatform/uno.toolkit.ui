@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 using Uno.Disposables;
 using Uno.UI.ToolkitLib.Extensions;
 using Windows.Foundation.Collections;
-using CommandBar = Microsoft.UI.Xaml.Controls.CommandBar;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
-using ICommandBarElement = Microsoft.UI.Xaml.Controls.ICommandBarElement;
-using Uno.UI.DataBinding;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -52,7 +48,7 @@ namespace Uno.UI.ToolkitLib
 
 		private void InitializeCommandBar(NavigationBar? navigationBar)
 		{
-			if (_weakNavBar?.Target == navigationBar)
+			if (GetNavBar() == navigationBar)
 			{
 				return;
 			}
@@ -68,19 +64,21 @@ namespace Uno.UI.ToolkitLib
 
 		private void SetBindings()
 		{
-			var navigationBar = _weakNavBar?.Target as NavigationBar; 
+			var navigationBar = GetNavBar(); 
 			if (_commandBar != null
 				&& navigationBar != null)
 			{
 				void setBinding(UIElement target, object source, DependencyProperty property, string path, BindingMode mode = BindingMode.TwoWay)
-					=> target?.SetBinding(
-						property,
-						new Binding
-						{
-							Path = new PropertyPath(path),
-							Source = source,
-							Mode = mode
-						});
+				{
+					var binding = new Binding
+					{
+						Path = new PropertyPath(path),
+						Source = source,
+						Mode = mode
+					};
+
+					BindingOperations.SetBinding(target, property, binding);
+				}
 
 				foreach (var command in navigationBar.PrimaryCommands)
 				{
@@ -125,12 +123,12 @@ namespace Uno.UI.ToolkitLib
 
 		private void OnCommandBarLeftCommandClicked(object sender, RoutedEventArgs e)
 		{
-			_weakNavBar?.Target?.PerformBack();
+			GetNavBar()?.PerformBack();
 		}
 
 		private void RegisterEvents()
 		{
-			var navigationBar = _weakNavBar?.Target;
+			var navigationBar = GetNavBar();
 			if (navigationBar != null)
 			{
 				UnregisterEvents();
@@ -163,34 +161,34 @@ namespace Uno.UI.ToolkitLib
 			}
 		}
 
-		private void OnCommandBarDynamicOverflowItemsChanging(CommandBar sender, Microsoft.UI.Xaml.Controls.DynamicOverflowItemsChangingEventArgs args)
+		private void OnCommandBarDynamicOverflowItemsChanging(CommandBar sender, DynamicOverflowItemsChangingEventArgs args)
 		{
-			_weakNavBar?.Target?.RaiseDynamicOverflowItemsChanging(args);
+			GetNavBar()?.RaiseDynamicOverflowItemsChanging(args);
 		}
 
-		private void OnCommandBarClosing(object sender, object e)
+		private void OnCommandBarClosing(object? sender, object e)
 		{
-			_weakNavBar?.Target?.RaiseClosingEvent(e);
+			GetNavBar()?.RaiseClosingEvent(e);
 		}
 
-		private void OnCommandBarClosed(object sender, object e)
+		private void OnCommandBarClosed(object? sender, object e)
 		{
-			_weakNavBar?.Target?.RaiseClosedEvent(e);
+			GetNavBar()?.RaiseClosedEvent(e);
 		}
 
-		private void OnCommandBarOpening(object sender, object e)
+		private void OnCommandBarOpening(object? sender, object e)
 		{
-			_weakNavBar?.Target?.RaiseOpeningEvent(e);
+			GetNavBar()?.RaiseOpeningEvent(e);
 		}
 
-		private void OnCommandBarOpened(object sender, object e)
+		private void OnCommandBarOpened(object? sender, object e)
 		{
-			_weakNavBar?.Target?.RaiseOpenedEvent(e);
+			GetNavBar()?.RaiseOpenedEvent(e);
 		}
 
 		private void UnregisterEvents()
 		{
-			if (_weakNavBar?.Target != null)
+			if (GetNavBar() != null)
 			{
 				_navBarCommandsChangedHandler.Disposable = null;
 			}
@@ -199,6 +197,22 @@ namespace Uno.UI.ToolkitLib
 			{
 				_leftCommandClickedHandler.Disposable = null;
 			}
+		}
+
+		private NavigationBar? GetNavBar()
+		{
+			if (_weakNavBar == null)
+			{
+				return null;
+			}
+
+			NavigationBar? targetNavBar = null;
+			if (_weakNavBar.TryGetTarget(out targetNavBar))
+			{
+				return targetNavBar;
+			}
+
+			return null;
 		}
 
 		private void OnNavBarPrimaryCommandsChanged(IObservableVector<ICommandBarElement> sender, IVectorChangedEventArgs args)

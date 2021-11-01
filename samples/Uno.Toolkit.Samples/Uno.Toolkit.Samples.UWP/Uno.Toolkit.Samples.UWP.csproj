@@ -10,7 +10,7 @@
       -->
       <Version>6.2.11</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.6.0-prerelease.210623001" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.0-prerelease.210927001" />
     <PackageReference Include="Uno.Core" Version="2.4.0" />
     <PackageReference Include="Uno.Cupertino">
       <Version>1.1.0-dev.5</Version>

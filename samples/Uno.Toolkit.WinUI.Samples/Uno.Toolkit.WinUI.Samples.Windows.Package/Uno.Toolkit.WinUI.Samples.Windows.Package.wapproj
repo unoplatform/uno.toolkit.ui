@@ -78,10 +78,10 @@
     <EntryPointProjectUniqueName>..\Uno.Toolkit.WinUI.Samples.Windows.Desktop\Uno.Toolkit.WinUI.Samples.Windows.Desktop.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.ProjectReunion" Version="[0.5.6]" GeneratePathProperty="true">
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.5" GeneratePathProperty="true">
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="[0.5.6]" GeneratePathProperty="true">
+    <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.5" GeneratePathProperty="true">
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
   </ItemGroup>

@@ -13,7 +13,6 @@ using Uno.Logging;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.UI.ToolkitLib.Helpers;
 using Windows.Foundation;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -65,6 +64,11 @@ namespace Uno.UI.ToolkitLib
 		{
 			var native = Native;
 			var element = Element;
+
+			if (native == null)
+			{
+				return;
+			}
 
 			// Visibility
 			if (element?.Visibility == Visibility.Visible)

@@ -4,7 +4,6 @@
 					xmlns:toolkit="using:Uno.UI.ToolkitLib"
 					xmlns:ios="http://uno.ui/ios"
 					xmlns:android="http://uno.ui/android"
-					xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 					xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
 					xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)"
 					xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
@@ -52,7 +51,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkit:NavigationBar">
-					<NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
+					<toolkit:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -67,7 +66,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkit:NavigationBar">
-					<NavigationBarPresenter x:Name="NavigationBarPresenter" />
+					<toolkit:NavigationBarPresenter x:Name="NavigationBarPresenter" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -77,7 +76,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkit:NavigationBarPresenter">
-					<muxc:CommandBar x:Name="XamlNavigationBarCommandBar"
+					<CommandBar x:Name="XamlNavigationBarCommandBar"
 									 Style="{StaticResource NavigationBarCommandBar}" />
 				</ControlTemplate>
 			</Setter.Value>
@@ -85,7 +84,7 @@
 	</Style>
 
 	<Style x:Key="NavigationBarCommandBar"
-		   TargetType="muxc:CommandBar">
+		   TargetType="CommandBar">
 		<Setter Property="Background"
 				Value="{ThemeResource CommandBarBackground}" />
 		<Setter Property="Foreground"
@@ -108,11 +107,11 @@
 				Value="False" />
 		<Setter Property="CommandBarOverflowPresenterStyle"
 				Value="{ThemeResource DefaultCommandBarOverflowPresenterStyle}" />
-		<contract7Present:Setter Property="CornerRadius"
+		<contract7NotPresent:Setter Property="CornerRadius"
 								 Value="{ThemeResource ControlCornerRadius}" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="muxc:CommandBar">
+				<ControlTemplate TargetType="CommandBar">
 					<Grid x:Name="LayoutRoot">
 						<Grid.Resources>
 							<Visibility x:Key="AppBarButtonHasFlyoutChevronVisibility">Collapsed</Visibility>
@@ -134,9 +133,9 @@
 														  Value="0" />
 								</DoubleAnimationUsingKeyFrames>
 							</Storyboard>
-							<Style TargetType="muxc:SplitButton"
+							<Style TargetType="SplitButton"
 								   BasedOn="{StaticResource SplitButtonCommandBarStyle}" />
-							<Style TargetType="muxc:ToggleSplitButton"
+							<Style TargetType="ToggleSplitButton"
 								   BasedOn="{StaticResource SplitButtonCommandBarStyle}" />
 						</Grid.Resources>
 						<VisualStateManager.VisualStateGroups>
@@ -1408,8 +1407,7 @@
 									contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}" />
 						</Grid>
 						<!-- UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands -->
-						<Popup x:Name="OverflowPopup"
-							   IsTabStop="False">
+						<Popup x:Name="OverflowPopup">
 							<Popup.RenderTransform>
 								<TransformGroup>
 									<TranslateTransform x:Name="OverflowContentRootMarginOffsetTransform" />
@@ -1425,7 +1423,7 @@
 									<RowDefinition />
 									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
-								<contract12NotPresent:Grid.Clip>
+								<!--<contract12NotPresent:Grid.Clip>
 									<RectangleGeometry Rect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentClipRect}">
 										<RectangleGeometry.Transform>
 											<TransformGroup>
@@ -1441,14 +1439,14 @@
 										<TranslateTransform x:Name="OverflowContentTransform" />
 									</CommandBarOverflowPresenter.RenderTransform>
 									<CommandBarOverflowPresenter.Resources>
-										<Style TargetType="muxc:AppBarButton"
+										<Style TargetType="AppBarButton"
 											   BasedOn="{StaticResource AppBarButtonOverflowStyle}" />
-										<Style TargetType="muxc:AppBarToggleButton"
+										<Style TargetType="AppBarToggleButton"
 											   BasedOn="{StaticResource AppBarToggleButtonOverflowStyle}" />
 									</CommandBarOverflowPresenter.Resources>
-								</contract12NotPresent:CommandBarOverflowPresenter>
+								</contract12NotPresent:CommandBarOverflowPresenter>-->
 								<!-- For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow. -->
-								<contract12Present:Grid x:Name="SecondaryItemsControlShadowWrapper"
+								<Grid x:Name="SecondaryItemsControlShadowWrapper"
 														contract7Present:CornerRadius="{ThemeResource OverlayCornerRadius}"
 														contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}">
 									<Grid.Clip>
@@ -1460,20 +1458,20 @@
 											</RectangleGeometry.Transform>
 										</RectangleGeometry>
 									</Grid.Clip>
-									<muxc:CommandBarOverflowPresenter x:Name="SecondaryItemsControl"
+									<CommandBarOverflowPresenter x:Name="SecondaryItemsControl"
 																	  Style="{TemplateBinding CommandBarOverflowPresenterStyle}"
 																	  IsTabStop="False">
-										<muxc:CommandBarOverflowPresenter.RenderTransform>
+										<CommandBarOverflowPresenter.RenderTransform>
 											<TranslateTransform x:Name="OverflowContentTransform" />
-										</muxc:CommandBarOverflowPresenter.RenderTransform>
-										<muxc:CommandBarOverflowPresenter.Resources>
-											<Style TargetType="muxc:AppBarButton"
+										</CommandBarOverflowPresenter.RenderTransform>
+										<CommandBarOverflowPresenter.Resources>
+											<Style TargetType="AppBarButton"
 												   BasedOn="{StaticResource AppBarButtonOverflowStyle}" />
-											<Style TargetType="muxc:AppBarToggleButton"
+											<Style TargetType="AppBarToggleButton"
 												   BasedOn="{StaticResource AppBarToggleButtonOverflowStyle}" />
-										</muxc:CommandBarOverflowPresenter.Resources>
-									</muxc:CommandBarOverflowPresenter>
-								</contract12Present:Grid>
+										</CommandBarOverflowPresenter.Resources>
+									</CommandBarOverflowPresenter>
+								</Grid>
 								<!--
 									In order to give us extra space in the windowed popup to translate things down,
 									we add a rectangle to make the HWND taller than it otherwise would be.
@@ -1490,7 +1488,7 @@
 	</Style>
 
 	<Style x:Key="DefaultLeftCommandStyle"
-		   TargetType="muxc:AppBarButton">
+		   TargetType="AppBarButton">
 		<Setter Property="Background"
 				Value="{ThemeResource AppBarButtonBackground}" />
 		<Setter Property="Foreground"
@@ -1521,14 +1519,14 @@
 								 Value="InnerBorderEdge" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="muxc:AppBarButton">
+				<ControlTemplate TargetType="AppBarButton">
 					<Grid x:Name="Root"
 						  Background="Transparent"
 						  MinWidth="{TemplateBinding MinWidth}"
 						  MaxWidth="{TemplateBinding MaxWidth}">
 						<contract5NotPresent:Grid.Resources>
 							<Style x:Name="LabelOnRightStyle"
-								   TargetType="muxc:AppBarButton">
+								   TargetType="AppBarButton">
 								<Setter Property="Width"
 										Value="NaN" />
 							</Style>

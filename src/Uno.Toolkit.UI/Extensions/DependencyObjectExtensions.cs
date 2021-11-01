@@ -8,15 +8,15 @@ using Uno.Disposables;
 using Uno.Extensions;
 
 #if IS_WINUI
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
 #else
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 #endif
 
 namespace Uno.UI.ToolkitLib.Extensions
@@ -78,6 +78,50 @@ namespace Uno.UI.ToolkitLib.Extensions
 
 			var token = instance.RegisterPropertyChangedCallback(property, callback);
 			return Disposable.Create(() => instance.UnregisterPropertyChangedCallback(property, token));
+		}
+
+		public static T? FindChild<T>(this DependencyObject depObj)
+		where T :
+#if HAS_UNO
+			class,
+#endif
+			DependencyObject
+		{
+			if (depObj == null) return default(T);
+
+			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+			{
+				var child = VisualTreeHelper.GetChild(depObj, i);
+
+
+				var result = (child is T t) ? t : FindChild<T>(child);
+				if (result != null) return result;
+			}
+			return default(T);
+		}
+		public static T? GetFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
+		where T :
+#if HAS_UNO
+			class,
+#endif
+			DependencyObject
+		{
+			return element.GetParentHierarchy(includeCurrent).OfType<T>().FirstOrDefault();
+		}
+
+		public static IEnumerable<DependencyObject> GetParentHierarchy(this DependencyObject element, bool includeCurrent = true)
+		{
+			if (includeCurrent)
+			{
+				yield return element;
+			}
+
+			for (var parent = (element as FrameworkElement).SelectOrDefault(e => e.Parent) ?? VisualTreeHelper.GetParent(element);
+				 parent != null;
+				 parent = VisualTreeHelper.GetParent(parent))
+			{
+				yield return parent;
+			}
 		}
 	}
 }

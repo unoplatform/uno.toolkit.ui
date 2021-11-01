@@ -262,7 +262,7 @@ namespace Uno.UI.ToolkitLib
 							case NavigationMode.Back:
 								if (this.Log().IsEnabled(LogLevel.Debug))
 								{
-									this.Log().Debug("Poping ViewController to replicate Frame's back navigation.");
+									this.Log().Debug("Popping ViewController to replicate Frame's back navigation.");
 								}
 								NavigationController.PopViewController(isAnimated);
 								break;
@@ -642,7 +642,7 @@ namespace Uno.UI.ToolkitLib
 				PageType = e.SourcePageType;
 				TransitionInfo = e.NavigationTransitionInfo;
 
-				if (frame is not { })
+				if (frame == null)
 				{
 					return;
 				}

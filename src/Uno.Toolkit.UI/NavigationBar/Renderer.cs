@@ -28,11 +28,15 @@ using Windows.UI.Xaml.Navigation;
 namespace Uno.UI.ToolkitLib
 {
 	internal abstract class Renderer<TElement, TNative> : IDisposable
-			where TElement : DependencyObject
+			where TElement :
+#if HAS_UNO
+			class,
+#endif
+			DependencyObject
 			where TNative : class
 	{
 		private CompositeDisposable _subscriptions = new CompositeDisposable();
-		private readonly WeakReference _element;
+		private readonly WeakReference<TElement> _element;
 		private TNative? _native;
 		private bool _isRendering;
 
@@ -43,10 +47,21 @@ namespace Uno.UI.ToolkitLib
 				throw new ArgumentNullException(nameof(element));
 			}
 
-			_element = new WeakReference(element);
+			_element = new WeakReference<TElement>(element);
 		}
 
-		public TElement? Element => (TElement?)_element.Target;
+		public TElement? Element
+		{
+			get
+			{
+				if (_element.TryGetTarget(out var element) && element != null)
+				{
+					return element;
+				}
+
+				return default(TElement);
+			}
+		}
 
 		public TNative? Native
 		{

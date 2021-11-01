@@ -12,7 +12,7 @@ using Uno.Logging;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.UI.ToolkitLib.Helpers;
 using Windows.Foundation;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -53,7 +53,8 @@ namespace Uno.UI.ToolkitLib
 			// Content
 			_appBarButtonWrapper = new AppBarButtonWrapper();
 
-			if (Element is not { } element)
+			var element = Element;
+			if (element == null)
 			{
 				yield break;
 			}

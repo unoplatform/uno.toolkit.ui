@@ -3,7 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Windows.Foundation.Collections;
-using ICommandBarElement = Microsoft.UI.Xaml.Controls.ICommandBarElement;
+
+#if IS_WINUI
+using Microsoft.UI.Xaml.Controls;
+#else
+using Windows.UI.Xaml.Controls;
+#endif
 
 namespace Uno.UI.ToolkitLib
 {

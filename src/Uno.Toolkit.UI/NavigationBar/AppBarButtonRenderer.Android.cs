@@ -12,7 +12,6 @@ using Uno.Logging;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.UI.ToolkitLib.Helpers;
 using Windows.Foundation;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

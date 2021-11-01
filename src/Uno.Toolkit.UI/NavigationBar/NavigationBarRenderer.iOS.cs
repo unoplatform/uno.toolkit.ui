@@ -11,7 +11,6 @@ using Uno.Extensions;
 using Uno.UI.ToolkitLib.Extensions;
 using Uno.UI.ToolkitLib.Helpers;
 using Windows.Foundation;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -51,7 +50,7 @@ namespace Uno.UI.ToolkitLib
 
 		protected override IEnumerable<IDisposable> Initialize()
 		{
-			if (Element is not { })
+			if (Element == null)
 			{
 				yield break;
 			}

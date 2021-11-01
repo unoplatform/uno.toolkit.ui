@@ -30,7 +30,7 @@ namespace Uno.UI.ToolkitLib.Extensions
 {
 	internal static class AppBarButtonExtensions
 	{
-		public static void RaiseClick(this Microsoft.UI.Xaml.Controls.AppBarButton? button)
+		public static void RaiseClick(this AppBarButton? button)
 		{
 			var peer = button?.GetAutomationPeer() as ButtonAutomationPeer;
 			peer?.Invoke();

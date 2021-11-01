@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
-using ICommandBarElement = Microsoft.UI.Xaml.Controls.ICommandBarElement;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
