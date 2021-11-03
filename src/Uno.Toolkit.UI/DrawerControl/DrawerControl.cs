@@ -114,12 +114,12 @@ namespace Uno.UI.ToolkitLib
 
 				_lightDismissOverlay.Tapped += OnLightDismissOverlayTapped;
 			}
-
+			
+			_isReady = _drawerContentControl != null;
 			if (DrawerDepth != 0)
 			{
-				UpdateIsOpen(IsOpen, animate: false);
+				Loaded += (s, e) => UpdateIsOpen(IsOpen, animate: false);
 			}
-			_isReady = _drawerContentControl != null;
 
 			void ResetPreviousTemplate()
 			{
@@ -252,7 +252,11 @@ namespace Uno.UI.ToolkitLib
 
 		private void UpdateIsOpen(bool willBeOpen, bool animate = true)
 		{
+			if (!_isReady) return;
+
 			var length = GetActualDrawerDepth();
+			if (length == 0) return;
+
 			var currentOffset = TranslateOffset;
 			var targetOffset = GetSnappingOffsetFor(willBeOpen);
 			var relativeDistanceRatio = Math.Abs(Math.Abs(currentOffset) - Math.Abs(targetOffset)) / length;
