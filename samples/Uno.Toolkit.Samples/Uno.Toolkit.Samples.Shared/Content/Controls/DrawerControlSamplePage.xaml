@@ -1,0 +1,89 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.DrawerControlSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
+	  xmlns:behaviors="using:Uno.UI.ToolkitLib.Behaviors"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<sample:SamplePageLayout x:Name="SamplePageLayout">
+			<sample:SamplePageLayout.MaterialTemplate>
+				<DataTemplate>
+					<ScrollViewer HorizontalScrollMode="Disabled">
+						<StackPanel>
+							<TextBlock Text="Use a DrawerControl to display additional content, in a hidden pane that can be revealed using swipe gesture, like a drawer."
+									   Style="{StaticResource BodyTextBlockStyle}" />
+
+							<!-- basic usage -->
+							<TextBlock Text="A basic DrawerControl."
+									   Margin="0,24,0,0"
+									   Style="{StaticResource TitleTextBlockStyle}" />
+							<TextBlock Text="note: Normally, this should be used as a full window-sized control or, at least, the side where the drawer closes should be placed on the edge of screen."
+									   Style="{StaticResource BodyTextBlockStyle}" />
+							<sample:ControlExample>
+								<sample:ControlExample.Content>
+									<toolkit:DrawerControl x:Name="SampleDrawerControl"
+														   Content="Content"
+														   DrawerContent="DrawerContent"
+														   IsOpen="{Binding ElementName=OptionIsOpen, Path=IsChecked, Mode=TwoWay}"
+														   OpenDirection="{Binding ElementName=OptionOpenDirection, Path=SelectedItem}"
+														   IsGestureEnabled="{Binding ElementName=OptionIsGestureEnabled, Path=IsChecked}"
+														   FitToDrawerContent="{Binding ElementName=OptionFitToDrawerContent, Path=IsChecked}"
+														   MinHeight="300" />
+								</sample:ControlExample.Content>
+
+								<sample:ControlExample.Options>
+									<StackPanel>
+										<ToggleButton x:Name="OptionIsOpen"
+													  Content="IsOpen"
+													  IsChecked="False" />
+										<ComboBox x:Name="OptionOpenDirection"
+												  Header="OpenDirection" />
+
+										<TextBlock>
+											<Run Text="OptionDrawerDepth:" />
+											<Run Text="{Binding ElementName=SampleDrawerControl, Path=DrawerDepth,TargetNullValue='(null)'}" />
+										</TextBlock>
+										<CheckBox x:Name="OptionDrawerDepthLengthIsNull"
+												  Content="IsNull"
+												  IsChecked="True" />
+										<Slider x:Name="OptionDrawerDepthValue"
+												Minimum="10"
+												Maximum="500"
+												Value="320" />
+										<ToggleButton x:Name="OptionFitToDrawerContent"
+													  Content="FitToDrawerContent"
+													  IsChecked="True" />
+										
+										<ComboBox x:Name="OptionLightDismissOverlayBackground"
+												  Header="LightDismissOverlayBackground" />
+										<ToggleButton x:Name="OptionIsGestureEnabled"
+													  Content="IsGestureEnabled"
+													  IsChecked="True" />
+										<TextBlock>
+											<Run Text="EdgeSwipeDetectionLength:" />
+											<Run Text="{Binding ElementName=SampleDrawerControl, Path=EdgeSwipeDetectionLength,TargetNullValue='(null)'}" />
+										</TextBlock>
+										<CheckBox x:Name="OptionEdgeSwipeDetectionLengthIsNull"
+												  Content="IsNull"
+												  IsChecked="False" />
+										<Slider x:Name="OptionEdgeSwipeDetectionLengthValue"
+												Minimum="0"
+												Maximum="150"
+												Value="50"
+												IsEnabled="{Binding ElementName=OptionEdgeSwipeDetectionLengthIsNull, Path=IsChecked, Converter={StaticResource NotTrue}}" />
+									</StackPanel>
+								</sample:ControlExample.Options>
+							</sample:ControlExample>
+						</StackPanel>
+					</ScrollViewer>
+				</DataTemplate>
+			</sample:SamplePageLayout.MaterialTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>

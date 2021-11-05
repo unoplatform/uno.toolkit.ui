@@ -35,6 +35,7 @@
 				<ResourceDictionary Source="ms-appx:///Styles/Application/Colors.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/Application/Fonts.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/Button.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/ControlExample.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/RadioButton.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/ToggleButton.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/SamplePageLayout.xaml" />
