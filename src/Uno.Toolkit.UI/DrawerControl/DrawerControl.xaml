@@ -35,6 +35,9 @@
 							<ContentControl x:Name="DrawerContentControl"
 											Content="{TemplateBinding DrawerContent}" />
 						</Border>
+						<Border x:Name="GestureInterceptor"
+								Background="Transparent"
+								Visibility="{Binding IsGestureEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisible}}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
