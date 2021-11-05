@@ -3,7 +3,8 @@
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:toolkit="using:Uno.UI.ToolkitLib"
 					xmlns:not_win="http://uno.ui/not_win"
-					mc:Ignorable="not_win">
+					xmlns:todo="what should be done"
+					mc:Ignorable="not_win todo">
 
 	<StaticResource x:Key="DrawerControlDrawerBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush" />
 	<SolidColorBrush x:Key="DrawerControlLightDismissOverlayBackgroundBrush" Color="#99000000" />
@@ -25,20 +26,15 @@
 										  not_win:Content="{TemplateBinding Content}" />
 						<Border x:Name="LightDismissOverlay"
 								Background="{TemplateBinding LightDismissOverlayBackground}" />
-						<ContentControl x:Name="DrawerContentControl"
-										Content="{TemplateBinding DrawerContent}"
-										Background="{TemplateBinding DrawerBackground}">
-							<ContentControl.Template>
-								<ControlTemplate TargetType="ContentControl">
-									<Border Background="{TemplateBinding Background}">
-										<ContentPresenter not_win:Content="{TemplateBinding Content}" />
-									</Border>
-								</ControlTemplate>
-							</ContentControl.Template>
-							<ContentControl.RenderTransform>
+						<Border x:Name="DrawerContentWrapper"
+								Background="{TemplateBinding DrawerBackground}">
+							<Border.RenderTransform>
 								<TranslateTransform />
-							</ContentControl.RenderTransform>
-						</ContentControl>
+							</Border.RenderTransform>
+
+							<ContentControl x:Name="DrawerContentControl"
+											Content="{TemplateBinding DrawerContent}" />
+						</Border>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

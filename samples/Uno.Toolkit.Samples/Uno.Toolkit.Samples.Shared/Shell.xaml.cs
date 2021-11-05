@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Windows.UI.Core;
 using Uno.Toolkit.Samples.Helpers;
 
@@ -199,9 +199,11 @@ namespace Uno.Toolkit.Samples
 
 		private void NavigationViewControl_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			// disabling the code below, as the drawer nav-view supports only the overlay mode now
-			// and there is no longer needs to open the pane due to size changes with a single pane mode left.
-#if false
+#if __IOS__ || __ANDROID__
+			// disabling the code below, as the drawer nav-view style will be used for these platforms
+			// which only supports only the overlay pane mode for now
+			// so, there is no needs to respond to size changes
+#else
 			// This could be done using VisualState with Adaptive triggers, but an issue prevents this currently - https://github.com/unoplatform/uno/issues/5168
 			var desktopWidth = (double)Application.Current.Resources["DesktopAdaptiveThresholdWidth"];
 			if (e.NewSize.Width >= desktopWidth && NavigationViewControl.PaneDisplayMode != MUXC.NavigationViewPaneDisplayMode.Left)

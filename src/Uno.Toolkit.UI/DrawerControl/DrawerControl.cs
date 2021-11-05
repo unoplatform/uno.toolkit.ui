@@ -1,4 +1,4 @@
-﻿#if HAS_UNO
+#if HAS_UNO
 #define STORYBOARD_RETARGET_ISSUE // https://github.com/unoplatform/uno/issues/6960
 #define MANIPULATION_ABSOLUTE_COORD_ISSUE // https://github.com/unoplatform/uno/issues/6964
 #endif
@@ -31,6 +31,7 @@ namespace Uno.UI.ToolkitLib
 	/// and another view that can be revealed with swipe gesture.
 	/// </summary>
 	[TemplatePart(Name = TemplateParts.MainContentPresenterName, Type = typeof(ContentPresenter))]
+	[TemplatePart(Name = TemplateParts.DrawerContentWrapperName, Type = typeof(Border))]
 	[TemplatePart(Name = TemplateParts.DrawerContentControlName, Type = typeof(ContentControl))]
 	[TemplatePart(Name = TemplateParts.LightDismissOverlayName, Type = typeof(Border))]
 	public partial class DrawerControl : ContentControl
@@ -38,6 +39,7 @@ namespace Uno.UI.ToolkitLib
 		public static class TemplateParts
 		{
 			public const string MainContentPresenterName = "MainContentPresenter";
+			public const string DrawerContentWrapperName = "DrawerContentWrapper";
 			public const string DrawerContentControlName = "DrawerContentControl";
 			public const string LightDismissOverlayName = "LightDismissOverlay";
 		}
@@ -48,11 +50,12 @@ namespace Uno.UI.ToolkitLib
 
 		// template parts
 		private ContentPresenter? _mainContentPresenter;
+		private Border? _drawerContentWrapper;
 		private ContentControl? _drawerContentControl;
 		private Border? _lightDismissOverlay;
 
 		// references
-		private TranslateTransform? _drawerContentPresenterTransform;
+		private TranslateTransform? _drawerTransform;
 		private Storyboard _storyboard = new Storyboard();
 		private DoubleAnimation? _translateAnimation, _opacityAnimation;
 
@@ -75,21 +78,22 @@ namespace Uno.UI.ToolkitLib
 			base.OnApplyTemplate();
 
 			_mainContentPresenter = GetTemplateChild(TemplateParts.MainContentPresenterName) as ContentPresenter;
+			_drawerContentWrapper = GetTemplateChild(TemplateParts.DrawerContentWrapperName) as Border;
 			_drawerContentControl = GetTemplateChild(TemplateParts.DrawerContentControlName) as ContentControl;
 			_lightDismissOverlay = GetTemplateChild(TemplateParts.LightDismissOverlayName) as Border;
 
-			if (_drawerContentControl != null)
+			if (_drawerContentWrapper != null && _drawerContentControl != null)
 			{
 				UpdateSwipeContentPresenterSize();
 				UpdateSwipeContentPresenterLayout();
-				_drawerContentControl.RenderTransform = _drawerContentPresenterTransform = new TranslateTransform();
+				_drawerContentWrapper.RenderTransform = _drawerTransform = new TranslateTransform();
 
 #if !STORYBOARD_RETARGET_ISSUE
 				_translateAnimation = new DoubleAnimation
 				{
 					Duration = new Duration(AnimationDuration),
 				};
-				Storyboard.SetTarget(_translateAnimation, _drawerContentPresenterTransform);
+				Storyboard.SetTarget(_translateAnimation, _drawerTransform);
 				UpdateTranslateAnimationTargetProperty();
 				_storyboard.Children.Add(_translateAnimation);
 #else
@@ -128,7 +132,7 @@ namespace Uno.UI.ToolkitLib
 				_storyboard.Children.Clear();
 				_storyboard = new Storyboard();
 
-				_drawerContentPresenterTransform = null;
+				_drawerTransform = null;
 				_translateAnimation = null;
 				_opacityAnimation = null;
 
@@ -177,7 +181,7 @@ namespace Uno.UI.ToolkitLib
 			UpdateSwipeContentPresenterSize();
 			UpdateSwipeContentPresenterLayout();
 
-			_drawerContentControl?.UpdateLayout();
+			_drawerContentWrapper?.UpdateLayout();
 			UpdateIsOpen(IsOpen, animate: false);
 		}
 
@@ -353,49 +357,61 @@ namespace Uno.UI.ToolkitLib
 			switch (OpenDirection)
 			{
 				case DrawerOpenDirection.Left:
-					_drawerContentControl.HorizontalAlignment = HorizontalAlignment.Right;
-					_drawerContentControl.VerticalAlignment = VerticalAlignment.Stretch;
-					_drawerContentControl.HorizontalContentAlignment = FitToDrawerContent ? HorizontalAlignment.Right : HorizontalAlignment.Stretch;
-					_drawerContentControl.VerticalContentAlignment = VerticalAlignment.Stretch;
+					UpdateLayout(HorizontalAlignment.Right, VerticalAlignment.Stretch);
 					break;
 
 				case DrawerOpenDirection.Down:
-					_drawerContentControl.HorizontalAlignment = HorizontalAlignment.Stretch;
-					_drawerContentControl.VerticalAlignment = VerticalAlignment.Top;
-					_drawerContentControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-					_drawerContentControl.VerticalContentAlignment = FitToDrawerContent ? VerticalAlignment.Top : VerticalAlignment.Stretch;
+					UpdateLayout(HorizontalAlignment.Stretch, VerticalAlignment.Top);
 					break;
 
 				case DrawerOpenDirection.Up:
-					_drawerContentControl.HorizontalAlignment = HorizontalAlignment.Stretch;
-					_drawerContentControl.VerticalAlignment = VerticalAlignment.Bottom;
-					_drawerContentControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-					_drawerContentControl.VerticalContentAlignment = FitToDrawerContent ? VerticalAlignment.Bottom : VerticalAlignment.Stretch;
+					UpdateLayout(HorizontalAlignment.Stretch, VerticalAlignment.Bottom);
 					break;
 
 				case DrawerOpenDirection.Right:
 				default:
-					_drawerContentControl.HorizontalAlignment = HorizontalAlignment.Left;
-					_drawerContentControl.VerticalAlignment = VerticalAlignment.Stretch;
-					_drawerContentControl.HorizontalContentAlignment = FitToDrawerContent ? HorizontalAlignment.Left : HorizontalAlignment.Stretch;
-					_drawerContentControl.VerticalContentAlignment = VerticalAlignment.Stretch;
+					UpdateLayout(HorizontalAlignment.Left, VerticalAlignment.Stretch);
 					break;
+			}
+
+			void UpdateLayout(HorizontalAlignment horizontalPreference, VerticalAlignment verticalPreference)
+			{
+				if (_drawerContentWrapper != null)
+				{
+					_drawerContentWrapper.HorizontalAlignment = horizontalPreference;
+					_drawerContentWrapper.VerticalAlignment = verticalPreference;
+				}
+				if (_drawerContentControl != null)
+				{
+					_drawerContentControl.HorizontalAlignment = horizontalPreference;
+					_drawerContentControl.VerticalAlignment = verticalPreference;
+					if (IsOpenDirectionHorizontal())
+					{
+						_drawerContentControl.HorizontalContentAlignment = FitToDrawerContent ? horizontalPreference : HorizontalAlignment.Stretch;
+						_drawerContentControl.VerticalContentAlignment = VerticalAlignment.Stretch;
+					}
+					else
+					{
+						_drawerContentControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+						_drawerContentControl.VerticalContentAlignment = FitToDrawerContent ? verticalPreference : VerticalAlignment.Stretch;
+					}
+				}
 			}
 		}
 
 		private void UpdateSwipeContentPresenterSize()
 		{
-			if (_drawerContentControl == null) return;
+			if (_drawerContentWrapper == null) return;
 
 			if (IsOpenDirectionHorizontal())
 			{
-				_drawerContentControl.Height = double.NaN;
-				_drawerContentControl.Width = DrawerDepth ?? (FitToDrawerContent ? double.NaN : ActualWidth);
+				_drawerContentWrapper.Height = double.NaN;
+				_drawerContentWrapper.Width = DrawerDepth ?? (FitToDrawerContent ? double.NaN : ActualWidth);
 			}
 			else
 			{
-				_drawerContentControl.Height = DrawerDepth ?? (FitToDrawerContent ? double.NaN : ActualHeight);
-				_drawerContentControl.Width = double.NaN;
+				_drawerContentWrapper.Height = DrawerDepth ?? (FitToDrawerContent ? double.NaN : ActualHeight);
+				_drawerContentWrapper.Width = double.NaN;
 			}
 		}
 
@@ -404,7 +420,7 @@ namespace Uno.UI.ToolkitLib
 		{
 			if (_translateAnimation == null) return;
 
-			var property = IsOpenDirectionHorizontal() ? nameof(_drawerContentPresenterTransform.X) : nameof(_drawerContentPresenterTransform.Y);
+			var property = IsOpenDirectionHorizontal() ? nameof(_drawerTransform.X) : nameof(_drawerTransform.Y);
 			Storyboard.SetTargetProperty(_translateAnimation, property);
 		}
 #else
@@ -421,7 +437,7 @@ namespace Uno.UI.ToolkitLib
 				Duration = new Duration(AnimationDuration),
 			};
 			var property = IsOpenDirectionHorizontal() ? nameof(TranslateTransform.X) : nameof(TranslateTransform.Y);
-			Storyboard.SetTarget(_translateAnimation, _drawerContentPresenterTransform);
+			Storyboard.SetTarget(_translateAnimation, _drawerTransform);
 			Storyboard.SetTargetProperty(_translateAnimation, property);
 
 			_storyboard.Children.Add(_translateAnimation);
@@ -432,22 +448,22 @@ namespace Uno.UI.ToolkitLib
 		{
 			if (IsOpenDirectionHorizontal())
 			{
-				_drawerContentPresenterTransform.Y = 0;
+				_drawerTransform.Y = 0;
 			}
 			else
 			{
-				_drawerContentPresenterTransform.X = 0;
+				_drawerTransform.X = 0;
 			}
 		}
 
 		// helpers
 		private double TranslateOffset
 		{
-			get => IsOpenDirectionHorizontal() ? _drawerContentPresenterTransform.X : _drawerContentPresenterTransform.Y;
+			get => IsOpenDirectionHorizontal() ? _drawerTransform.X : _drawerTransform.Y;
 			set
 			{
-				if (IsOpenDirectionHorizontal()) _drawerContentPresenterTransform.X = value;
-				else _drawerContentPresenterTransform.Y = value;
+				if (IsOpenDirectionHorizontal()) _drawerTransform.X = value;
+				else _drawerTransform.Y = value;
 			}
 		}
 
@@ -506,8 +522,8 @@ namespace Uno.UI.ToolkitLib
 			);
 
 			FrameworkElement GetDrawerContentSizeReferenceElement() => FitToDrawerContent
-				? (GetDrawerContentElement() ?? _drawerContentControl)
-				: _drawerContentControl;
+				? (GetDrawerContentElement() ?? _drawerContentWrapper)
+				: _drawerContentWrapper;
 			FrameworkElement? GetDrawerContentElement() =>
 				_drawerContentControl.Content as FrameworkElement ??
 				(VisualTreeHelper.GetChildrenCount(_drawerContentControl) > 0

@@ -42,8 +42,9 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="SplitView">
 					<toolkit:DrawerControl IsOpen="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsPaneOpen, Mode=TwoWay}"
-										   DrawerBackground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.DrawerBackground)}"
-										   DrawerDepth="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=OpenPaneLength, Mode=TwoWay}"
+										   DrawerContent="{TemplateBinding Pane}"
+										   DrawerBackground="{TemplateBinding PaneBackground}"
+										   DrawerDepth="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=OpenPaneLength, Mode=OneWay}"
 										   OpenDirection="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.OpenDirection)}"
 										   LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.LightDismissOverlayBackground)}"
 										   EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
@@ -59,15 +60,6 @@
 											VerticalAlignment="Stretch"
 											VerticalContentAlignment="Stretch" />
 						</toolkit:DrawerControl.Content>
-						<toolkit:DrawerControl.DrawerContent>
-							<Border Background="{TemplateBinding PaneBackground}">
-								<ContentControl Content="{TemplateBinding Pane}"
-												HorizontalAlignment="Stretch"
-												HorizontalContentAlignment="Stretch"
-												VerticalAlignment="Stretch"
-												VerticalContentAlignment="Stretch" />
-							</Border>
-						</toolkit:DrawerControl.DrawerContent>
 					</toolkit:DrawerControl>
 				</ControlTemplate>
 			</Setter.Value>
@@ -83,7 +75,6 @@
 		<Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}" />
 
 		<Setter Property="behaviors:DrawerControlBehavior.OpenDirection" Value="Right" />
-		<Setter Property="behaviors:DrawerControlBehavior.DrawerBackground" Value="{StaticResource DrawerControlDrawerBackgroundBrush}" />
 		<Setter Property="behaviors:DrawerControlBehavior.LightDismissOverlayBackground" Value="{StaticResource NavigationViewDrawerLightDismissOverlayBackgroundBrush}" />
 		<Setter Property="behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength" Value="50" />
 		<Setter Property="behaviors:DrawerControlBehavior.IsGestureEnabled" Value="True" />
@@ -118,7 +109,6 @@
 									   PaneBackground="{ThemeResource NavigationViewDefaultPaneBackground}"
 									   IsPaneOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPaneOpen, Mode=TwoWay}"
 									   behaviors:DrawerControlBehavior.OpenDirection="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.OpenDirection)}"
-									   behaviors:DrawerControlBehavior.DrawerBackground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.DrawerBackground)}"
 									   behaviors:DrawerControlBehavior.LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.LightDismissOverlayBackground)}"
 									   behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
 									   behaviors:DrawerControlBehavior.IsGestureEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.IsGestureEnabled)}"
