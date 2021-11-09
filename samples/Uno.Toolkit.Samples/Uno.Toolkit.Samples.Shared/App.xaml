@@ -39,6 +39,7 @@
 				<ResourceDictionary Source="ms-appx:///Styles/RadioButton.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/ToggleButton.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/SamplePageLayout.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/SplitView.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/ToggleSwitch.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/OverviewSampleView.xaml" />

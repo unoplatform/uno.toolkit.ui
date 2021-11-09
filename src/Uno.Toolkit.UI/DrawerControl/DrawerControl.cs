@@ -71,6 +71,11 @@ namespace Uno.UI.ToolkitLib
 		public DrawerControl()
 		{
 			DefaultStyleKey = typeof(DrawerControl);
+#if HAS_UNO
+			Loaded += (s, e) => SynchronizeContentTemplatedParent();
+			RegisterPropertyChangedCallback(ContentProperty, (s, e) => SynchronizeContentTemplatedParent());
+			RegisterPropertyChangedCallback(TemplatedParentProperty, (s, e) => SynchronizeContentTemplatedParent());
+#endif
 		}
 
 		protected override void OnApplyTemplate()
@@ -520,6 +525,16 @@ namespace Uno.UI.ToolkitLib
 			{
 				_drawerTransform.X = 0;
 			}
+		}
+
+		private void SynchronizeContentTemplatedParent()
+		{
+#if HAS_UNO
+			if (Content is FrameworkElement contentFE)
+			{
+				contentFE.TemplatedParent = this.TemplatedParent;
+			}
+#endif
 		}
 
 		// helpers

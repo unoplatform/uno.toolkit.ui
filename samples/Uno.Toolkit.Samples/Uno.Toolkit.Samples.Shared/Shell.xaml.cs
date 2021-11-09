@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Uno.Toolkit.Samples.Helpers;
 
 #if IS_WINUI
@@ -23,6 +24,7 @@ using Windows.UI.Xaml.Navigation;
 using XamlLaunchActivatedEventArgs = Windows.ApplicationModel.Activation.LaunchActivatedEventArgs;
 using XamlWindow = Windows.UI.Xaml.Window;
 #endif
+
 using MUXC = Microsoft.UI.Xaml.Controls;
 
 
@@ -35,6 +37,9 @@ namespace Uno.Toolkit.Samples
 			this.InitializeComponent();
 
 			InitializeSafeArea();
+#if __ANDROID__
+			EnableDuoNavViewSupport();
+#endif
 			this.Loaded += OnLoaded;
 
 			NestedSampleFrame.RegisterPropertyChangedCallback(ContentControl.ContentProperty, OnNestedSampleFrameChanged);
@@ -218,5 +223,31 @@ namespace Uno.Toolkit.Samples
 			}
 #endif
 		}
+
+#if __ANDROID__
+		private void EnableDuoNavViewSupport()
+		{
+			// check for duo-screen capability
+			if (!ApplicationView.GetForCurrentView().IsViewModeSupported(ApplicationViewMode.Spanning)) return;
+
+			// replacing the RootSplitView implementation (via its style template) of the nav-view
+			// will allow us to inject or remove the support for duo-screen
+			if (NavigationView.GetTemplateChild("RootSplitView") is SplitView rootSP)
+			{
+				var twoPaneSPStyle = Application.Current.Resources["TwoPaneSplitViewStyle"] as Style ?? throw new Exception("Missing resource: TwoPaneSplitViewStyle");
+				var oldStyle = rootSP.Style;
+
+				XamlWindow.Current.SizeChanged += (s, e) =>
+				{
+					var targetStyle = ApplicationView.GetForCurrentView().ViewMode == ApplicationViewMode.Spanning
+						? twoPaneSPStyle : oldStyle;
+					if (rootSP.Style != targetStyle)
+					{
+						rootSP.Style = targetStyle;
+					}
+				};
+			}
+		}
+#endif
 	}
 }
