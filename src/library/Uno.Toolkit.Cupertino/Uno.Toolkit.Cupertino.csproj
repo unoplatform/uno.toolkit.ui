@@ -18,7 +18,7 @@
 	<ItemGroup>
 		<PackageReference Include="Uno.Cupertino" Version="1.1.0-dev.7" />
 		<PackageReference Include="Uno.Material" Version="1.1.0-dev.7" />
-		<PackageReference Include="Uno.UI" Version="4.0.0-dev.5483" />
+		<PackageReference Include="Uno.UI" Version="4.0.0-dev.5485" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">

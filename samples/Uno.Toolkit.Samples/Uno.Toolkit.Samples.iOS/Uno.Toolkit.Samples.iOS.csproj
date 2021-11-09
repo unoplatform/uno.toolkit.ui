@@ -186,8 +186,8 @@
     <PackageReference Include="Uno.Material">
       <Version>1.1.0-dev.7</Version>
     </PackageReference>
-    <PackageReference Include="Uno.UI" Version="4.0.0-dev.5483" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.0-dev.5483" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI" Version="4.0.0-dev.5485" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.0-dev.5485" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Uno.Extensions.Logging.OSLog " Version="1.1.0" />
   </ItemGroup>
