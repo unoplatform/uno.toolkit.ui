@@ -26,9 +26,15 @@ namespace Uno.Toolkit.UI.Cupertino
 
 		public CupertinoToolkitResources()
 		{
+#if __IOS__ || __ANDROID__
+			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/BottomTabBar.Mobile.xaml") });
+			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SlidingSegmentedControl.Mobile.xaml") });
+			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SegmentedControl.Mobile.xaml") });
+#else
 			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/BottomTabBar.xaml") });
 			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SlidingSegmentedControl.xaml") });
 			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SegmentedControl.xaml") });
+#endif
 		}
 	}
 }

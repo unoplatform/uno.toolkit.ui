@@ -6,132 +6,47 @@
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:toolkitlib="using:Uno.Toolkit.UI.Controls"
 					mc:Ignorable="d">
-
-	<ResourceDictionary.MergedDictionaries>
-		<MaterialColors xmlns="using:Uno.Material" />
+    
+    <ResourceDictionary.MergedDictionaries>
+        <MaterialColors xmlns="using:Uno.Material" />
         <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-		<ResourceDictionary>
-			<ResourceDictionary.ThemeDictionaries>
-				<ResourceDictionary x:Key="Dark">
-					<StaticResource x:Key="MaterialTabBarBackground"
-									ResourceKey="MaterialPrimaryBrush" />
+        <ResourceDictionary Source="BottomTabBar.Base.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-					<StaticResource x:Key="TabBarItemBackground"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelected"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-
-					<StaticResource x:Key="TabBarItemForeground"
-									ResourceKey="MaterialTabBarItemUnselectedForegroundBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPointerOver"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPressed"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundDisabled"
-									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelected"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
-									ResourceKey="MaterialOnPrimaryBrush" />
-
-					<StaticResource x:Key="TabBarItemBorderBrush"
-									ResourceKey="SystemControlTransparentBrush" />
-				</ResourceDictionary>
-
-				<ResourceDictionary x:Key="Light">
-					<StaticResource x:Key="MaterialTabBarBackground"
-									ResourceKey="MaterialPrimaryBrush" />
-
-					<StaticResource x:Key="TabBarItemBackground"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelected"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-
-					<StaticResource x:Key="TabBarItemForeground"
-									ResourceKey="MaterialTabBarItemUnselectedForegroundBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPointerOver"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPressed"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundDisabled"
-									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelected"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
-									ResourceKey="MaterialOnPrimaryBrush" />
-
-					<StaticResource x:Key="TabBarItemBorderBrush"
-									ResourceKey="SystemControlTransparentBrush" />
-				</ResourceDictionary>
-			</ResourceDictionary.ThemeDictionaries>
-		</ResourceDictionary>
-	</ResourceDictionary.MergedDictionaries>
-
-	<x:Double x:Key="MaterialTabBarFontSize">14</x:Double>
-	<FontFamily x:Key="MaterialTabBarFontFamily">Roboto</FontFamily>
-	<x:Double x:Key="TabBarHeight">64</x:Double>
-	<x:Double x:Key="FabItemVerticalOffset">-32</x:Double>
-	<x:Double x:Key="TabBarItemIconHeight">22</x:Double>
-	<x:Double x:Key="TabBarItemIconWidth">22</x:Double>
-	<Thickness x:Key="TabBarItemContentMargin">0,0,0,6</Thickness>
-	<Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
-
-	<!-- Material Bottom TabBar -->
-	<Style x:Key="MaterialBottomTabBarStyle"
+    <!-- Material Bottom TabBar -->
+    <Style x:Key="MaterialBottomTabBarStyle"
 		   TargetType="toolkitlib:TabBar">
-		<Setter Property="Background"
+        <Setter Property="Background"
 				Value="{ThemeResource MaterialTabBarBackground}" />
-		<Setter Property="IsTabStop"
+        <Setter Property="IsTabStop"
 				Value="False" />
-		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
 				Value="Bottom" />
-		<Setter Property="ItemsPanel">
-			<Setter.Value>
-				<ItemsPanelTemplate>
-					<toolkitlib:TabBarListPanel />
-				</ItemsPanelTemplate>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="ItemContainerStyle"
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <toolkitlib:TabBarListPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle"
 				Value="{StaticResource MaterialBottomTabBarItemStyle}" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="toolkitlib:TabBar">
-					<Grid x:Name="TabBarGrid"
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="toolkitlib:TabBar">
+                    <Grid x:Name="TabBarGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Padding="{TemplateBinding Padding}">
-						<ItemsPresenter Height="{StaticResource TabBarHeight}" />
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
+                        <ItemsPresenter Height="{StaticResource TabBarHeight}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-	</Style>
-
-
-	<Style x:Key="MaterialBottomFabTabBarItemStyle"
+    <Style x:Key="MaterialBottomFabTabBarItemStyle"
 		   TargetType="toolkitlib:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialSecondaryBrush}" />

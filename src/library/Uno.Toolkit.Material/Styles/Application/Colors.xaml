@@ -14,20 +14,12 @@
 			<ResourceDictionary.ThemeDictionaries>
 
 				<!-- Light Theme -->
-				<ResourceDictionary x:Key="Light">
-					<!-- Tab Bar -->
-					<SolidColorBrush x:Key="MaterialTabBarItemUnselectedForegroundBrush"
-									 Color="{ThemeResource MaterialOnPrimaryColor}"
-									 Opacity="0.70" />
-				</ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                </ResourceDictionary>
 
 				<!-- Dark Theme -->
-				<ResourceDictionary x:Key="Dark">
-					<!-- Tab Bar -->
-					<SolidColorBrush x:Key="MaterialTabBarItemUnselectedForegroundBrush"
-									 Color="{ThemeResource MaterialOnPrimaryColor}"
-									 Opacity="0.70" />
-				</ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                </ResourceDictionary>
 
 			</ResourceDictionary.ThemeDictionaries>
 		</ResourceDictionary>
