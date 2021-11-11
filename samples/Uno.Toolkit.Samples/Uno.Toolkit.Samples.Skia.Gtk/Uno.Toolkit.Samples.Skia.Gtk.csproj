@@ -19,8 +19,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Include="Uno.Cupertino" Version="1.1.0-dev.7" />
     <PackageReference Include="Uno.Material" Version="1.1.0-dev.7" />
-    <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.0.0-dev.5485" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.0-dev.5485" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.0.0-dev.5489" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.0-dev.5489" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.UI.Cupertino.csproj" />

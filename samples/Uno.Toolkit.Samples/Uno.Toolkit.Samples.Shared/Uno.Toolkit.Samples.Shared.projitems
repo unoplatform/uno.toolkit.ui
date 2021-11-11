@@ -25,6 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\NavigationBarSamplePage.xaml.cs">
       <DependentUpon>NavigationBarSamplePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\DividerSamplePage.xaml.cs">
+      <DependentUpon>DividerSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\DrawerControlSamplePage.xaml.cs">
       <DependentUpon>DrawerControlSamplePage.xaml</DependentUpon>
     </Compile>
@@ -87,6 +90,10 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\DividerSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\DrawerControlSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
