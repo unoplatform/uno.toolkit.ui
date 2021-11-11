@@ -118,11 +118,14 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkitlib:TabBar">
 					<Grid x:Name="TabBarGrid"
-						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Padding="{TemplateBinding Padding}">
-						<ItemsPresenter Height="{StaticResource TabBarHeight}" />
+						<Border x:Name="BackgroundBorder"
+								VerticalAlignment="Bottom"
+								Background="{TemplateBinding Background}"
+								Height="{StaticResource TabBarHeight}" />
+						<ItemsPresenter />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -157,11 +160,13 @@
 				Value="{StaticResource MaterialFabLargeCorderRadius}" />
 		<Setter Property="Padding"
 				Value="{StaticResource MaterialFabLargePadding}" />
-		<Setter Property="RenderTransform">
+		<!--<Setter Property="RenderTransform">
 			<Setter.Value>
 				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
 			</Setter.Value>
-		</Setter>
+		</Setter>-->
+		<Setter Property="Margin"
+				Value="0,0,0,32" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkitlib:TabBarItem">

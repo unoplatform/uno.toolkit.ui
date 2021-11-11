@@ -99,7 +99,7 @@
 						<FontIcon Glyph="&#xe721;" />
 					</toolkitLib:TabBarItem.Icon>
 				</toolkitLib:TabBarItem>
-				<toolkitLib:TabBarItem Style="{StaticResource MaterialBottomFabTabBarItemStyle}">
+				<toolkitLib:TabBarItem x:Name="FABItem" Style="{StaticResource MaterialBottomFabTabBarItemStyle}">
 					<toolkitLib:TabBarItem.Flyout>
 						<MenuFlyout Placement="Top" MenuFlyoutPresenterStyle="{StaticResource MaterialMenuFlyoutPresenterStyle}">
 
@@ -123,6 +123,8 @@
 					</toolkitLib:TabBarItem.Icon>
 				</toolkitLib:TabBarItem>
 				<toolkitLib:TabBarItem Tag="Support"
+									   VerticalAlignment="Bottom"
+									   Height="64"
 									   Content="Support">
 					<toolkitLib:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE8F2;" />
