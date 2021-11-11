@@ -18,7 +18,7 @@ namespace Uno.UI.ToolkitLib
 				AutoLayoutRelativeAlignment.Center => HorizontalAlignment.Center,
 				AutoLayoutRelativeAlignment.End => HorizontalAlignment.Right,
 				AutoLayoutRelativeAlignment.Stretch => HorizontalAlignment.Stretch,
-				_ => throw new ArgumentException(@"Unknown AutoLayoutRelativeAlignment", nameof(relativeAlignment)),
+				_ => throw new ArgumentException($"Unknown {nameof(AutoLayoutRelativeAlignment)}: {relativeAlignment}", nameof(relativeAlignment)),
 			};
 		}
 
@@ -30,7 +30,7 @@ namespace Uno.UI.ToolkitLib
 				AutoLayoutRelativeAlignment.Center => VerticalAlignment.Center,
 				AutoLayoutRelativeAlignment.End => VerticalAlignment.Bottom,
 				AutoLayoutRelativeAlignment.Stretch => VerticalAlignment.Stretch,
-				_ => throw new ArgumentException(@"Unknown AutoLayoutRelativeAlignment", nameof(relativeAlignment)),
+				_ => throw new ArgumentException($"Unknown {nameof(AutoLayoutRelativeAlignment)}: {relativeAlignment}", nameof(relativeAlignment)),
 			};
 		}
 
@@ -42,7 +42,7 @@ namespace Uno.UI.ToolkitLib
 				AutoLayoutAlignment.Center => HorizontalAlignment.Center,
 				AutoLayoutAlignment.End => HorizontalAlignment.Right,
 				AutoLayoutAlignment.Stretch => HorizontalAlignment.Stretch,
-				_ => throw new ArgumentException(@"Unknown AutoLayoutAlignment", nameof(layoutAlignment)),
+				_ => throw new ArgumentException($"Unknown {nameof(AutoLayoutAlignment)}: {layoutAlignment}", nameof(layoutAlignment)),
 			};
 		}
 
@@ -54,7 +54,7 @@ namespace Uno.UI.ToolkitLib
 				AutoLayoutAlignment.Center => VerticalAlignment.Center,
 				AutoLayoutAlignment.End => VerticalAlignment.Bottom,
 				AutoLayoutAlignment.Stretch => VerticalAlignment.Stretch,
-				_ => throw new ArgumentException(@"Unknown AutoLayoutAlignment", nameof(layoutAlignment)),
+				_ => throw new ArgumentException($"Unknown {nameof(AutoLayoutAlignment)}: {layoutAlignment}", nameof(layoutAlignment)),
 			};
 		}
 	}
