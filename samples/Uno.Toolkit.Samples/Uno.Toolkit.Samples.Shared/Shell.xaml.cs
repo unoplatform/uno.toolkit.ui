@@ -165,7 +165,8 @@ namespace Uno.Toolkit.Samples
 
 			if (NestedSampleFrame.CanGoBack)
 			{
-				NestedSampleFrame.GoBack();
+				//Let the NavigationBar within the nested page handle the back nav logic
+				return false;
 			}
 			else
 			{
@@ -177,6 +178,9 @@ namespace Uno.Toolkit.Samples
 				// When revisiting the page1 again, the previous page1 is still in the UINavigationController stack
 				// causing a back button to appear that takes us back to the previous page1
 				NestedSampleFrame.BackStack.Add(default);
+				NestedSampleFrame.BackStack.Clear();
+#endif
+#if __ANDROID__
 				NestedSampleFrame.BackStack.Clear();
 #endif
 			}

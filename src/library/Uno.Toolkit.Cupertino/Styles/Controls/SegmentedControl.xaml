@@ -15,7 +15,6 @@
 	<ResourceDictionary.MergedDictionaries>
 		<CupertinoColors xmlns="using:Uno.Cupertino" />
 		<ToolkitResources xmlns="using:Uno.UI.ToolkitLib" />
-
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Dark">

@@ -1,0 +1,95 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:toolkitLib="using:Uno.UI.ToolkitLib"
+					xmlns:toolkit="using:Uno.UI.Toolkit"
+					xmlns:ios="http://uno.ui/ios"
+					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:android="http://uno.ui/android"
+					xmlns:netstdref="http://uno.ui/netstdref"
+					mc:Ignorable="android ios netstdref">
+
+	<ios:Style x:Key="NativeDefaultNavigationBar"
+			   TargetType="toolkitLib:NavigationBar">
+		<Setter Property="Background"
+				Value="{x:Null}" />
+		<Setter Property="Foreground"
+				Value="{x:Null}" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Top" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="toolkitLib:NavigationBar">
+					<!-- We use BorderBrush instead of Background to ensure that semi-transparent background of Grid and NativeNavigationBarPresenter don't add up -->
+					<Border BorderBrush="{TemplateBinding Background}"
+							BorderThickness="{TemplateBinding Padding}">
+						<!-- TODO: 1px line -->
+						<toolkitLib:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</ios:Style>
+
+	<android:Style x:Key="NativeDefaultNavigationBar"
+				   TargetType="toolkitLib:NavigationBar">
+		<Setter Property="Background"
+				Value="{x:Null}" />
+		<Setter Property="Foreground"
+				Value="{x:Null}" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+				Value="Top" />
+		<Setter Property="VerticalAlignment"
+				Value="Top" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="toolkitLib:NavigationBar">
+					<toolkitLib:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</android:Style>
+
+	<ios:Style x:Key="NativeDefaultToolkitFrame"
+			   TargetType="Frame">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Frame">
+					<toolkitLib:NativeFramePresenter Background="{TemplateBinding Background}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</ios:Style>
+
+	<android:Style x:Key="NativeDefaultToolkitFrame"
+				   TargetType="Frame">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Frame">
+					<toolkitLib:NativeFramePresenter Background="{TemplateBinding Background}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</android:Style>
+
+	<!-- Default native NavigationBar styles -->
+	<ios:Style TargetType="toolkitLib:NavigationBar"
+			   BasedOn="{StaticResource NativeDefaultNavigationBar}" />
+
+	<android:Style TargetType="toolkitLib:NavigationBar"
+				   BasedOn="{StaticResource NativeDefaultNavigationBar}" />
+
+	<!-- Default native Frame styles -->
+	<ios:Style TargetType="Frame"
+			   ios:IsNativeStyle="True"
+			   BasedOn="{StaticResource NativeDefaultToolkitFrame}" />
+
+	<android:Style TargetType="Frame"
+				   android:IsNativeStyle="True"
+				   BasedOn="{StaticResource NativeDefaultToolkitFrame}" />
+
+</ResourceDictionary>

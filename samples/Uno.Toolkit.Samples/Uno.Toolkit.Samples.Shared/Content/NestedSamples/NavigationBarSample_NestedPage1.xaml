@@ -1,0 +1,90 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.NavigationBarSample_NestedPage1"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<toolkit:NavigationBar Content="First Page"
+							   LeftCommandMode="Action"
+							   Style="{StaticResource MaterialNavigationBarStyle}">
+			<toolkit:NavigationBar.LeftCommand>
+				<AppBarButton Label="Close"
+							  Style="{StaticResource MaterialAppBarButton}"
+							  Click="NavigateBack">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
+									ShowAsMonochrome="False" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</toolkit:NavigationBar.LeftCommand>
+			<toolkit:NavigationBar.PrimaryCommands>
+				<AppBarButton Label="More"
+							  Style="{StaticResource MaterialAppBarButton}"
+							  Command="{Binding Primary1CountCommand}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
+									ShowAsMonochrome="False" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+				<AppBarButton Label="More"
+							  Style="{StaticResource MaterialAppBarButton}"
+							  Command="{Binding Primary2CountCommand}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
+									ShowAsMonochrome="False" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</toolkit:NavigationBar.PrimaryCommands>
+			<toolkit:NavigationBar.SecondaryCommands>
+				<AppBarButton Label="More"
+							  Command="{Binding Secondary1CountCommand}" />
+				<AppBarButton Label="More"
+							  Command="{Binding Secondary2CountCommand}" />
+				<AppBarButton Label="More"
+							  Command="{Binding Secondary3CountCommand}" />
+			</toolkit:NavigationBar.SecondaryCommands>
+		</toolkit:NavigationBar>
+		<StackPanel Spacing="8"
+					Grid.Row="1"
+					VerticalAlignment="Center"
+					Padding="16,0">
+			<Button Content="Exit sample"
+					Click="NavigateBack" />
+			<Button Click="NavigateToNextPage"
+					Content="Navigate To Second Page" />
+			<TextBlock HorizontalAlignment="Center"
+					   Style="{StaticResource MaterialCaption}">
+				<Run Text="Primary Command 1 clicked count:" />
+				<Run x:Name="Primary1_Count"
+					 AutomationProperties.AutomationId="Primary1_Count"
+					 Text="{Binding PrimaryCommand1Count}" />
+				<Run Text="/ Primary Command 2 clicked count:" />
+				<Run x:Name="Primary2_Count"
+					 AutomationProperties.AutomationId="Primary2_Count"
+					 Text="{Binding PrimaryCommand2Count}" />
+				<Run Text="/ Secondary Command 1 clicked count:" />
+				<Run x:Name="Secondary1_Count"
+					 AutomationProperties.AutomationId="Secondary1_Count"
+					 Text="{Binding SecondaryCommand1Count}" />
+				<Run Text="/ Secondary Command 2 clicked count:" />
+				<Run x:Name="Secondary2_Count"
+					 AutomationProperties.AutomationId="Secondary2_Count"
+					 Text="{Binding SecondaryCommand2Count}" />
+				<Run Text="/ Secondary Command 3 clicked count:" />
+				<Run x:Name="Secondary3_Count"
+					 AutomationProperties.AutomationId="Secondary3_Count"
+					 Text="{Binding SecondaryCommand3Count}" />
+			</TextBlock>
+
+		</StackPanel>
+	</Grid>
+</Page>

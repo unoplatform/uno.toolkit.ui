@@ -19,19 +19,19 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<CommandBar Content="Material Top TabBar Sample Page"
-					toolkit:VisibleBoundsPadding.PaddingMask="Top"
-					Style="{StaticResource MaterialCommandBarStyle}">
-			<toolkit:CommandBarExtensions.NavigationCommand>
-				<AppBarButton Click="NavigateBack"
-							  Style="{StaticResource MaterialAppBarButton}">
+		<toolkitLib:NavigationBar Content="Material Top TabBar Sample Page"
+								  Style="{StaticResource MaterialNavigationBarStyle}"
+								  LeftCommandMode="Action">
+			<toolkitLib:NavigationBar.LeftCommand>
+				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
+							  Click="NavigateBack">
 					<AppBarButton.Icon>
-						<BitmapIcon UriSource="ms-appx:///Assets/BackButton.png"
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-			</toolkit:CommandBarExtensions.NavigationCommand>
-		</CommandBar>
+			</toolkitLib:NavigationBar.LeftCommand>
+		</toolkitLib:NavigationBar>
 
 		<toolkitLib:TabBar Grid.Row="1"
 						   SelectedIndex="1"

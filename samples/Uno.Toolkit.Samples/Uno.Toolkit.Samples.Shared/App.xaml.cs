@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Uno.UI;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -52,6 +53,10 @@ namespace Uno.Toolkit.Samples
 
 #if HAS_UNO || NETFX_CORE
             this.Suspending += OnSuspending;
+#endif
+
+#if HAS_UNO
+			FeatureConfiguration.Style.SetUWPDefaultStylesOverride<Frame>(false);
 #endif
 		}
 

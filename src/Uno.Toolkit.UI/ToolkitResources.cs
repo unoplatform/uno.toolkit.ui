@@ -28,6 +28,11 @@ namespace Uno.UI.ToolkitLib
 				"DrawerControl/DrawerControl.xaml",
 				"DrawerControl/DrawerControl.Enhanced.xaml",
 				"TabBar/TabBar.xaml",
+#if __IOS__ || __ANDROID__
+				"NavigationBar/NavigationBar.Native.xaml",
+#else
+				"NavigationBar/NavigationBar.xaml",
+#endif
 			};
 			foreach (var dict in dicts)
 			{

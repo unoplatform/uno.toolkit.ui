@@ -6,8 +6,8 @@
 					mc:Ignorable="d">
 
 	<ResourceDictionary.MergedDictionaries>
-		<CupertinoColors xmlns="using:Uno.Cupertino" />
 		<ToolkitResources xmlns="using:Uno.UI.ToolkitLib" />
+		<CupertinoColors xmlns="using:Uno.Cupertino" />
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Dark">
