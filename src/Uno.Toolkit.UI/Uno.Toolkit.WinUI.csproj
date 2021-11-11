@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <!--
 	Adding project references to this project requires some manual adjustments.
@@ -13,6 +12,8 @@
 		<AssemblyName>Uno.WinUI.ToolkitLib</AssemblyName>
 		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
 		<PackageId>Uno.UI.Toolkit</PackageId>
+	  <Nullable>enable</Nullable>
+	  <LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
