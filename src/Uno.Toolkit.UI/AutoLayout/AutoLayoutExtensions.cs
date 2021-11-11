@@ -10,30 +10,6 @@ namespace Uno.UI.ToolkitLib
 {
 	internal static class AutoLayoutExtensions
 	{
-		internal static HorizontalAlignment ToHorizontalAlignment(this AutoLayoutRelativeAlignment relativeAlignment)
-		{
-			return relativeAlignment switch
-			{
-				AutoLayoutRelativeAlignment.Start => HorizontalAlignment.Left,
-				AutoLayoutRelativeAlignment.Center => HorizontalAlignment.Center,
-				AutoLayoutRelativeAlignment.End => HorizontalAlignment.Right,
-				AutoLayoutRelativeAlignment.Stretch => HorizontalAlignment.Stretch,
-				_ => throw new ArgumentException($"Unknown {nameof(AutoLayoutRelativeAlignment)}: {relativeAlignment}", nameof(relativeAlignment)),
-			};
-		}
-
-		internal static VerticalAlignment ToVerticalAlignment(this AutoLayoutRelativeAlignment relativeAlignment)
-		{
-			return relativeAlignment switch
-			{
-				AutoLayoutRelativeAlignment.Start => VerticalAlignment.Top,
-				AutoLayoutRelativeAlignment.Center => VerticalAlignment.Center,
-				AutoLayoutRelativeAlignment.End => VerticalAlignment.Bottom,
-				AutoLayoutRelativeAlignment.Stretch => VerticalAlignment.Stretch,
-				_ => throw new ArgumentException($"Unknown {nameof(AutoLayoutRelativeAlignment)}: {relativeAlignment}", nameof(relativeAlignment)),
-			};
-		}
-
 		internal static HorizontalAlignment ToHorizontalAlignment(this AutoLayoutAlignment layoutAlignment)
 		{
 			return layoutAlignment switch

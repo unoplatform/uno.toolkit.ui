@@ -88,18 +88,18 @@ namespace Uno.UI.ToolkitLib
 
 		public static readonly DependencyProperty CounterAlignmentProperty = DependencyProperty.RegisterAttached(
 			"CounterAlignment",
-			typeof(AutoLayoutRelativeAlignment),
+			typeof(AutoLayoutAlignment),
 			typeof(AutoLayout),
-			new PropertyMetadata(default(AutoLayoutRelativeAlignment), propertyChangedCallback: UpdateAttachedCallback));
+			new PropertyMetadata(default(AutoLayoutAlignment), propertyChangedCallback: UpdateAttachedCallback));
 
-		public static void SetCounterAlignment(DependencyObject element, AutoLayoutRelativeAlignment value)
+		public static void SetCounterAlignment(DependencyObject element, AutoLayoutAlignment value)
 		{
 			element.SetValue(CounterAlignmentProperty, value);
 		}
 
-		public static AutoLayoutRelativeAlignment GetCounterAlignment(DependencyObject element)
+		public static AutoLayoutAlignment GetCounterAlignment(DependencyObject element)
 		{
-			return (AutoLayoutRelativeAlignment)element.GetValue(CounterAlignmentProperty);
+			return (AutoLayoutAlignment)element.GetValue(CounterAlignmentProperty);
 		}
 
 		public static readonly DependencyProperty PrimaryLengthProperty = DependencyProperty.RegisterAttached(
