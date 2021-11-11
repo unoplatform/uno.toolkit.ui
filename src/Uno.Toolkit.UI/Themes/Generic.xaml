@@ -2,6 +2,10 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:toolkit="using:Uno.UI.ToolkitLib">
 
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="/AutoLayout/AutoLayout.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+	
 	<!-- TabBar -->
 	<Style TargetType="toolkit:TabBar"
 		   BasedOn="{StaticResource DefaultTabBarStyle}" />
