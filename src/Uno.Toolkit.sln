@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.UI", "Uno.Toolkit.UI\Uno.Toolkit.UI.csproj", "{AEED47ED-BD21-4F03-A7A9-124CF63E4B1C}"
 EndProject
@@ -54,6 +54,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.Cupertino.WinUI", "library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.WinUI.csproj", "{9A3D0E59-F740-4221-9474-332C0FDB7E79}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.Material.WinUI", "library\Uno.Toolkit.Material\Uno.Toolkit.Material.WinUI.csproj", "{04A5011F-DC76-4BD6-9994-FC1C9E937A6D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{BA0C538E-B7EE-47EF-8892-6096E7F0EB41}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

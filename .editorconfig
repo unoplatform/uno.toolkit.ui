@@ -1,0 +1,42 @@
+root = true
+
+[*]
+end_of_line = crlf
+tab_width = 4
+indent_size=4
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.csproj]
+indent_style = tab
+tab_width = 2
+indent_size = 2
+
+[*.yml]
+indent_style = space
+
+[*.md]
+indent_style = space
+
+[{*.cs, *.xaml, *.xml, *.targets, *.props}]
+indent_style = tab
+
+# Code Style
+dotnet_style_operator_placement_when_wrapping=beginning_of_line
+csharp_new_line_before_open_brace=all
+csharp_new_line_before_else=true
+csharp_new_line_before_catch=true
+csharp_new_line_before_finally=true
+csharp_new_line_before_members_in_object_initializers=true
+csharp_new_line_before_members_in_anonymous_types=true
+csharp_new_line_between_query_expression_clauses=true
+csharp_space_after_keywords_in_control_flow_statements=true
+csharp_space_after_colon_in_inheritance_clause=true
+csharp_space_before_dot=false
+csharp_space_before_comma=false
+csharp_space_after_comma=true
+csharp_space_after_dot=false
+csharp_space_before_semicolon_in_for_statement=false
+csharp_space_around_binary_operators=before_and_after
+csharp_preserve_single_line_blocks=true
+csharp_preserve_single_line_statements=true

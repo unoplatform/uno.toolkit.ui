@@ -11,8 +11,6 @@
 		<AssemblyName>Uno.UI.Toolkit.Cupertino</AssemblyName>
 		<RootNamespace>Uno.UI.Toolkit.Cupertino</RootNamespace>
 		<PackageId>Uno.UI.Toolkit.Cupertino</PackageId>
-		<Nullable>enable</Nullable>
-		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

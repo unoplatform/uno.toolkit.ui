@@ -13,8 +13,6 @@
 		<AssemblyName>Uno.WinUI.Toolkit.Cupertino</AssemblyName>
 		<RootNamespace>Uno.UI.Toolkit.Cupertino</RootNamespace>
 		<PackageId>Uno.WinUI.Toolkit.Cupertino</PackageId>
-	  <Nullable>enable</Nullable>
-	  <LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

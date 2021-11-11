@@ -13,8 +13,6 @@
 		<AssemblyName>Uno.WinUI.ToolkitLib</AssemblyName>
 		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
 		<PackageId>Uno.UI.Toolkit</PackageId>
-	  <Nullable>enable</Nullable>
-	  <LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
