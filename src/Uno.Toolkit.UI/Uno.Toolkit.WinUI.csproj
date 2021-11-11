@@ -12,7 +12,7 @@
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<AssemblyName>Uno.WinUI.ToolkitLib</AssemblyName>
 		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
-		<PackageId>Uno.UI.Toolkit</PackageId>
+		<PackageId>Uno.WinUI.Toolkit</PackageId>
 	  <Nullable>enable</Nullable>
 	  <LangVersion>8.0</LangVersion>
 	</PropertyGroup>
