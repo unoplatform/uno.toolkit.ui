@@ -35,6 +35,10 @@ jobs:
   steps:
   - template: templates/gitversion.yml
 
+   # This SDK version is needed as long as `uap10.0` will be supported in Uno.Core
+  - powershell: .\build\Install-WindowsSdkISO.ps1 18362
+    displayName: Install Windows SDK 18362
+
   - task: MSBuild@1
     inputs:
       solution: src/Uno.Toolkit.sln
@@ -43,10 +47,6 @@ jobs:
       restoreNugetPackages: false
       logProjectEvents: false
       createLogFile: false
-
-   # This SDK version is needed as long as `uap10.0` will be supported in Uno.Core
-  - powershell: .\build\Install-WindowsSdkISO.ps1 18362
-    displayName: Install Windows SDK 18362
 
   - task: DotNetCoreInstaller@0
     inputs:
