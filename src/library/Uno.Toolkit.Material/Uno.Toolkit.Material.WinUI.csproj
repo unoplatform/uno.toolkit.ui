@@ -13,8 +13,6 @@
 		<AssemblyName>Uno.WinUI.Toolkit.Material</AssemblyName>
 		<RootNamespace>Uno.UI.Toolkit.Material</RootNamespace>
 		<PackageId>Uno.WinUI.Toolkit.Material</PackageId>
-	  <Nullable>enable</Nullable>
-	  <LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

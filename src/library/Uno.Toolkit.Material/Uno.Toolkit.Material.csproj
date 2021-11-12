@@ -11,8 +11,6 @@
 		<AssemblyName>Uno.UI.Toolkit.Material</AssemblyName>
 		<RootNamespace>Uno.UI.Toolkit.Material</RootNamespace>
 		<PackageId>Uno.UI.Toolkit.Material</PackageId>
-		<Nullable>enable</Nullable>
-		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
