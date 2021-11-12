@@ -65,5 +65,7 @@
 				Click="NavViewToggleButton_Click"
 				HorizontalAlignment="Left"
 				Style="{StaticResource PaneToggleButtonStyle}" />
-	</Grid>
+
+        <local:ModalDialog x:Name="ModalDialog" />
+    </Grid>
 </UserControl>

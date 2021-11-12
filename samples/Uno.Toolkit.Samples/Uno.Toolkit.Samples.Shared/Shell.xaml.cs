@@ -1,6 +1,8 @@
 ﻿using System;
 using Windows.UI.Core;
 using Uno.Toolkit.Samples.Helpers;
+using System.Threading.Tasks;
+using Uno.Toolkit.Samples.Content.NestedSamples;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -36,7 +38,7 @@ namespace Uno.Toolkit.Samples
 
 			InitializeSafeArea();
 			this.Loaded += OnLoaded;
-
+			
 			NestedSampleFrame.RegisterPropertyChangedCallback(ContentControl.ContentProperty, OnNestedSampleFrameChanged);
 			SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) => e.Handled = BackNavigateFromNestedSample();
 		}
@@ -154,6 +156,17 @@ namespace Uno.Toolkit.Samples
 			{
 				NestedSampleFrame.BackStack.Clear();
 			}
+		}
+
+		public async Task ShowModal<TPage>() where TPage : Page
+		{
+			ModalDialog.FirstPage = typeof(NavigationBarSample_ModalPage1);
+			await ModalDialog.ShowAsync();
+		}
+
+        public void CloseModal()
+		{
+			ModalDialog.Hide();
 		}
 
 		public bool BackNavigateFromNestedSample()
