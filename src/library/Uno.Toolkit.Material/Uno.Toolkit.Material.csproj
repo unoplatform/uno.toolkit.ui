@@ -46,4 +46,14 @@
 			<Name>Uno.Toolkit.UI</Name>
 		</ProjectReference>
 	</ItemGroup>
+
+	<!-- Workaround for missing UAP assets when building from the CLI -->
+	<Target Name="IncludeUAPAssets" BeforeTargets="_IntermediatePack" Condition="'$(TargetFramework)'==''">
+		<ItemGroup>
+			<Content Include="Bin\$(Configuration)\uap10.0.18362\$(AssemblyName)\**\*.xaml"
+							 Pack="true"
+							 PackagePath="lib\uap10.0.18362\$(AssemblyName)\%(RecursiveDir)%(FileName)%(Extension)" />
+		</ItemGroup>
+	</Target>
+
 </Project>
