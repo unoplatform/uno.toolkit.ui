@@ -1,0 +1,35 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.NavigationBarSample_ModalPage1"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+    <toolkit:NavigationBar Style="{StaticResource MaterialModalNavigationBarStyle}"
+                               Content="Hello"
+                               VerticalAlignment="Top">
+        <toolkit:NavigationBar.LeftCommand>
+            <AppBarButton Label="Test"
+                          Click="CloseModal">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
+									ShowAsMonochrome="False" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </toolkit:NavigationBar.LeftCommand>
+    </toolkit:NavigationBar>
+
+    <StackPanel Spacing="8"
+					    Grid.Row="1"
+					    VerticalAlignment="Center"
+					    Padding="16,0">
+            <Button Content="Exit sample"
+					    Click="CloseModal" />
+            <Button Click="NavigateToNextPage"
+					    Content="Navigate To Second Page" />
+        </StackPanel>
+    </Grid>
+</Page>

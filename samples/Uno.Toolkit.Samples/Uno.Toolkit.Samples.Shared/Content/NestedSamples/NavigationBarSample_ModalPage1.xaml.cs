@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Uno.Toolkit.Samples.Entities;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Uno.Toolkit.Samples.Content.NestedSamples;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -25,25 +23,26 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Uno.Toolkit.Samples.Content.Controls
+namespace Uno.Toolkit.Samples.Content.NestedSamples
 {
-    [SamplePage(SampleCategory.Controls, "NavigationBar")]
-    public sealed partial class NavigationBarSamplePage : Page
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class NavigationBarSample_ModalPage1 : Page
     {
-        public NavigationBarSamplePage()
+        public NavigationBarSample_ModalPage1()
         {
             this.InitializeComponent();
         }
-
-        private void LaunchFullScreenSample(object sender, RoutedEventArgs e)
+        private void CloseModal(object sender, RoutedEventArgs e)
         {
-            Shell.GetForCurrentView().ShowNestedSample<NavigationBarSample_NestedPage1>(clearStack: true);
+            Shell.GetForCurrentView().CloseModal();
         }
 
-        private async void LaunchModalSample(object sender, RoutedEventArgs e)
-        {
-            await Shell.GetForCurrentView().ShowModal<NavigationBarSample_ModalPage1>();
-        }
+        private void NavigateToNextPage(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(NavigationBarSample_ModalPage2));
+
+        private void NavigateBack(object sender, RoutedEventArgs e) => Shell.GetForCurrentView().BackNavigateFromNestedSample();
     }
 }

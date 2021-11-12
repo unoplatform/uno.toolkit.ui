@@ -4,6 +4,7 @@
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:android="http://nventive.com/android"
 					xmlns:ios="http://nventive.com/ios"
+                    xmlns:not_win="http://uno.ui/not_win"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:toolkitLib="using:Uno.UI.ToolkitLib"
 					xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
@@ -15,14 +16,10 @@
 					xmlns:contract12NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,12)"
 					xmlns:contract6NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,6)"
 					xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
-					mc:Ignorable="android ios">
-	<ResourceDictionary.MergedDictionaries>
-		<MaterialColors xmlns="using:Uno.Material" />
-		<ToolkitResources xmlns="using:Uno.UI.ToolkitLib" />
-	</ResourceDictionary.MergedDictionaries>
+					mc:Ignorable="android ios not_win">
 
 
-	<x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
+    <x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
 	<x:Double x:Key="MaterialNavigationBarHeight">48</x:Double>
 
 	<ios:ControlTemplate x:Key="NativeNavigationBarTemplate"
@@ -1480,5 +1477,25 @@
 		<android:Setter Property="Template"
 						Value="{StaticResource NativeNavigationBarTemplate}" />
 	</Style>
+
+    <Style x:Key="MaterialModalLeftCommandStyle"
+           TargetType="AppBarButton"
+           BasedOn="{StaticResource MaterialAppBarButton}">
+        <Setter Property="Foreground"
+                Value="{ThemeResource MaterialOnSurfaceBrush}" />
+    </Style>
+    
+    <Style x:Key="MaterialModalNavigationBarStyle"
+           TargetType="toolkitLib:NavigationBar"
+           BasedOn="{StaticResource MaterialNavigationBarStyle}">
+        <Setter Property="LeftCommandStyle"
+                Value="{StaticResource MaterialModalLeftCommandStyle}" />
+        <Setter Property="LeftCommandMode"
+                Value="Action" />
+        <Setter Property="Background"
+                Value="{ThemeResource MaterialSurfaceBrush}" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource MaterialOnSurfaceBrush}"/>
+    </Style>
 
 </ResourceDictionary>
