@@ -30,4 +30,40 @@
 		  DestinationFiles="@(_OutputRefFiles->'$(_TargetNugetRefFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 
+
+	<!-- Workaround for missing UAP assets when building from the CLI -->
+	<Target Name="IncludeUAPAssets"
+		  BeforeTargets="_IntermediatePack"
+		  Condition="'$(TargetFramework)'=='' and '$(TargetFrameworks)'!='' and $(TargetFrameworks.Contains('uap10.'))">
+		
+		<PropertyGroup>
+			<_PackableTargetFramework>uap10.0.18362</_PackableTargetFramework>
+		</PropertyGroup>
+
+		<Message Text="Packing $(OutputPath)\$(_PackableTargetFramework)\$(AssemblyName) -> lib\$(_PackableTargetFramework)\$(AssemblyName)" />
+		<ItemGroup>
+			<Content Include="$(OutputPath)\$(_PackableTargetFramework)\$(AssemblyName)\**\*.xaml"
+							 Pack="true"
+							 PackagePath="lib\$(_PackableTargetFramework)\$(AssemblyName)\%(RecursiveDir)%(FileName)%(Extension)" />
+		</ItemGroup>
+	</Target>
+
+	<!-- Workaround for missing WinUI assets when building from the CLI -->
+	<Target Name="IncludeWinUIAssets"
+		  BeforeTargets="_IntermediatePack"
+		  Condition="'$(TargetFramework)'=='' and '$(TargetFrameworks)'!='' and $(TargetFrameworks.Contains('net5.0-windows10.0.18362.0'))">
+		<PropertyGroup>
+			<_PackableTargetFramework>net5.0-windows10.0.18362.0</_PackableTargetFramework>
+			<_PackableTargetFrameworkTarget>net5.0-windows10.0.18362</_PackableTargetFrameworkTarget>
+		</PropertyGroup>
+		
+		<Message Text="Packing $(OutputPath)\$(_PackableTargetFramework)\$(AssemblyName) -> lib\$(_PackableTargetFramework)" />
+		<ItemGroup>
+			<Content Include="$(OutputPath)\$(_PackableTargetFramework)\**\*.xaml"
+							 Pack="true"
+							 PackagePath="lib\$(_PackableTargetFrameworkTarget)\%(RecursiveDir)%(FileName)%(Extension)" />
+		</ItemGroup>
+	</Target>
+
+
 </Project>
