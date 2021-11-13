@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UIKit;
 
-namespace Uno.UI.ToolkitLib.Extensions
+namespace Uno.Toolkit.UI.Extensions
 {
 	internal static class UIColorExtensions
 	{

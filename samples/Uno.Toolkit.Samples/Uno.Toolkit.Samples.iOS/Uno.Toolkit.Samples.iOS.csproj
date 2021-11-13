@@ -192,13 +192,13 @@
     <PackageReference Include="Uno.Extensions.Logging.OSLog " Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.csproj">
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.UI.Cupertino.csproj">
       <Project>{a49b9100-805e-4a8d-bb0a-c313609b2e82}</Project>
-      <Name>Uno.Toolkit.Cupertino</Name>
+      <Name>Uno.Toolkit.UI.Cupertino</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.Material.csproj">
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj">
       <Project>{3aa9542b-f033-4c56-ba9f-5b359e0b55f8}</Project>
-      <Name>Uno.Toolkit.Material</Name>
+      <Name>Uno.Toolkit.UI.Material</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj">
       <Project>{aeed47ed-bd21-4f03-a7a9-124cf63e4b1c}</Project>

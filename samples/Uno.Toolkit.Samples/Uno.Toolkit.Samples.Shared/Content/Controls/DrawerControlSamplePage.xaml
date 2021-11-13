@@ -5,8 +5,8 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
-	  xmlns:toolkit="using:Uno.UI.ToolkitLib"
-	  xmlns:behaviors="using:Uno.UI.ToolkitLib.Behaviors"
+	  xmlns:toolkit="using:Uno.Toolkit.UI"
+	  xmlns:behaviors="using:Uno.Toolkit.UI.Behaviors"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 

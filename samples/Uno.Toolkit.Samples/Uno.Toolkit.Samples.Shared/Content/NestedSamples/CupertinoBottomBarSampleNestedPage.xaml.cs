@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Uno.UI.ToolkitLib;
+using Uno.Toolkit.UI;
+using Uno.Toolkit.UI.Controls;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 #if IS_WINUI
@@ -28,7 +29,7 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples
             this.InitializeComponent();
         }
 
-        private void OnSelectionChanged(UI.ToolkitLib.TabBar sender, UI.ToolkitLib.TabBarSelectionChangedEventArgs args)
+        private void OnSelectionChanged(TabBar sender, TabBarSelectionChangedEventArgs args)
         {
             if (args.NewItem is TabBarItem tabBarItem)
             {

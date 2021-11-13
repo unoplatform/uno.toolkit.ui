@@ -23,8 +23,8 @@
     <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.0-dev.5485" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.csproj" />
-    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.Material.csproj" />
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.UI.Cupertino.csproj" />
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj" />
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" />
   </ItemGroup>
   <Import Project="..\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />

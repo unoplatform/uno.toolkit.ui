@@ -13,15 +13,15 @@ using Windows.UI.Xaml;
 /// <summary>
 /// Cupertino resources
 /// </summary>
-namespace Uno.Toolkit.Cupertino
+namespace Uno.Toolkit.UI.Cupertino
 {
 	public sealed class CupertinoToolkitResources : ResourceDictionary
 	{
 		private const string PackageName =
 #if IS_WINUI
-			"Uno.WinUI.Toolkit.Cupertino";
+			"Uno.Toolkit.WinUI.Cupertino";
 #else
-			"Uno.UI.Toolkit.Cupertino";
+			"Uno.Toolkit.UI.Cupertino";
 #endif
 
 		public CupertinoToolkitResources()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Uno.Toolkit.UI.Controls;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -14,7 +15,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 #endif
 
-namespace Uno.UI.ToolkitLib.Behaviors
+namespace Uno.Toolkit.UI.Behaviors
 {
 	/// <summary>
 	/// This class contains the attached properties that can be used to access/modify the same named dependency properties on <see cref="DrawerControl"/>

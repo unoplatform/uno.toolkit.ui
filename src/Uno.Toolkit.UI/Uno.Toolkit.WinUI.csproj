@@ -9,8 +9,8 @@
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
-		<AssemblyName>Uno.WinUI.ToolkitLib</AssemblyName>
-		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
+		<AssemblyName>Uno.Toolkit.WinUI</AssemblyName>
+		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

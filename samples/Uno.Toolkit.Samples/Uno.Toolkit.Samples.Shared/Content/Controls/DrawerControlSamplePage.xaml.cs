@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
 using Uno.Toolkit.Samples.Entities;
-using Uno.UI.ToolkitLib;
+using Uno.Toolkit.UI.Controls;
 
 #if IS_WINUI
 using Microsoft.UI;

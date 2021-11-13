@@ -4,12 +4,12 @@
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:controls="using:Uno.Material.Controls"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
-					xmlns:toolkitlib="using:Uno.UI.ToolkitLib"
+					xmlns:toolkitlib="using:Uno.Toolkit.UI.Controls"
 					mc:Ignorable="d">
 
 	<ResourceDictionary.MergedDictionaries>
 		<MaterialColors xmlns="using:Uno.Material" />
-		<ToolkitResources xmlns="using:Uno.UI.ToolkitLib" />
+        <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Dark">

@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
+					xmlns:not_win="http://uno.ui/not_win"
+					mc:Ignorable="not_win">
+
+	<StaticResource x:Key="DrawerControlDrawerBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush" />
+	<SolidColorBrush x:Key="DrawerControlLightDismissOverlayBackgroundBrush" Color="#99000000" />
+
+	<Style TargetType="toolkit:DrawerControl">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="DrawerBackground" Value="{StaticResource DrawerControlDrawerBackgroundBrush}" />
+		<Setter Property="OpenDirection" Value="Right" />
+		<Setter Property="FitToDrawerContent" Value="True" />
+		<Setter Property="EdgeSwipeDetectionLength" Value="50" />
+		<Setter Property="LightDismissOverlayBackground" Value="{StaticResource DrawerControlLightDismissOverlayBackgroundBrush}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="toolkit:DrawerControl">
+					<Grid x:Name="RootPanel"
+						  Background="{TemplateBinding Background}">
+						<ContentPresenter x:Name="MainContentPresenter"
+										  not_win:Content="{TemplateBinding Content}" />
+						<Border x:Name="LightDismissOverlay"
+								Background="{TemplateBinding LightDismissOverlayBackground}" />
+						<ContentControl x:Name="DrawerContentControl"
+										Content="{TemplateBinding DrawerContent}"
+										Background="{TemplateBinding DrawerBackground}">
+							<ContentControl.Template>
+								<ControlTemplate TargetType="ContentControl">
+									<Border Background="{TemplateBinding Background}">
+										<ContentPresenter not_win:Content="{TemplateBinding Content}" />
+									</Border>
+								</ControlTemplate>
+							</ContentControl.Template>
+							<ContentControl.RenderTransform>
+								<TranslateTransform />
+							</ContentControl.RenderTransform>
+						</ContentControl>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

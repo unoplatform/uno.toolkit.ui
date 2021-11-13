@@ -19,7 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 #endif
 
-namespace Uno.UI.ToolkitLib.Extensions
+namespace Uno.Toolkit.UI.Extensions
 {
 	internal static class DependencyObjectExtensions
 	{

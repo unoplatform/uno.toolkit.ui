@@ -52,8 +52,8 @@
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.csproj" />
-		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.Material.csproj" />
+		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.UI.Cupertino.csproj" />
+		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj" />
 		<ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" />
 	</ItemGroup>
 	<Import Project="..\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" Condition="Exists('..\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems')" />

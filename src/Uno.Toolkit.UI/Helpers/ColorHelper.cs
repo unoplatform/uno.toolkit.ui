@@ -25,7 +25,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-namespace Uno.UI.ToolkitLib.Helpers
+namespace Uno.Toolkit.UI.Helpers
 {
 	internal static class ColorHelper
 	{
