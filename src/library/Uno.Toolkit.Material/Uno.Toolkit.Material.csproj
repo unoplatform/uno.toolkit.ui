@@ -49,11 +49,11 @@
 
 	<!-- Workaround for missing UAP assets when building from the CLI -->
 	<Target Name="IncludeUAPAssets" BeforeTargets="_IntermediatePack" Condition="'$(TargetFramework)'==''">
+		<Message Text="Packing $(OutputPath)\uap10.0.18362\$(AssemblyName) -> lib\uap10.0.18362\$(AssemblyName)" />
 		<ItemGroup>
-			<Content Include="Bin\$(Configuration)\uap10.0.18362\$(AssemblyName)\**\*.xaml"
+			<Content Include="$(OutputPath)\uap10.0.18362\$(AssemblyName)\**\*.xaml"
 							 Pack="true"
 							 PackagePath="lib\uap10.0.18362\$(AssemblyName)\%(RecursiveDir)%(FileName)%(Extension)" />
 		</ItemGroup>
 	</Target>
-
 </Project>

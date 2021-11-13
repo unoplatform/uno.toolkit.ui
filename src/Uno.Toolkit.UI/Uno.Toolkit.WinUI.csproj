@@ -36,6 +36,7 @@
 			
 		</Otherwise>
 	</Choose>
+	
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
