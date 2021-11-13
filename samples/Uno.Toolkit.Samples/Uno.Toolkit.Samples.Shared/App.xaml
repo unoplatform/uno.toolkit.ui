@@ -19,14 +19,14 @@
 				<MaterialResources xmlns="using:Uno.Material" />
 
 				<!-- Load Material Toolkit resources -->
-				<MaterialToolkitColors xmlns="using:Uno.Toolkit.Material"
-									   ColorPaletteOverrideSource="ms-appx:///ColorPaletteOverride.xaml" />
-				<MaterialToolkitResources xmlns="using:Uno.Toolkit.Material" />
+				<MaterialToolkitColors xmlns="using:Uno.Toolkit.UI.Material"
+									   OverrideSource="ms-appx:///ColorPaletteOverride.xaml" />
+				<MaterialToolkitResources xmlns="using:Uno.Toolkit.UI.Material" />
 
 				<!-- Load Cupertino resources -->
 				<CupertinoColors xmlns="using:Uno.Cupertino" />
 				<CupertinoResources xmlns="using:Uno.Cupertino" />
-				<CupertinoToolkitResources xmlns="using:Uno.Toolkit.Cupertino" />
+				<CupertinoToolkitResources xmlns="using:Uno.Toolkit.UI.Cupertino" />
 
 				<!-- Converters -->
                 <ResourceDictionary Source="Converters.xaml" />
