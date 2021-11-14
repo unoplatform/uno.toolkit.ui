@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml;
 #endif
 
-namespace Uno.UI.Toolkit.Cupertino.Converters
+namespace Uno.Toolkit.UI.Cupertino.Converters
 {
 	internal class InflateDimensionConverter : IValueConverter
 	{

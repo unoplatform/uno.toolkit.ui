@@ -13,15 +13,15 @@ using Windows.UI.Xaml;
 /// <summary>
 /// Material Toolkit resources
 /// </summary>
-namespace Uno.Toolkit.Material
+namespace Uno.Toolkit.UI.Material
 {
 	public sealed class MaterialToolkitResources : ResourceDictionary
 	{
 		private const string PackageName =
 #if IS_WINUI
-			"Uno.WinUI.Toolkit.Material";
+			"Uno.Toolkit.WinUI.Material";
 #else
-			"Uno.UI.Toolkit.Material";
+			"Uno.Toolkit.UI.Material";
 #endif
 
 		public MaterialToolkitResources()

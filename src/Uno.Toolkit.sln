@@ -45,15 +45,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.UITest", "Uno.T
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "library", "library", "{6C395E29-B2C7-4E8B-A853-58FD44A5A28A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.Cupertino", "library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.csproj", "{A49B9100-805E-4A8D-BB0A-C313609B2E82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.UI.Cupertino", "library\Uno.Toolkit.Cupertino\Uno.Toolkit.UI.Cupertino.csproj", "{A49B9100-805E-4A8D-BB0A-C313609B2E82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.Material", "library\Uno.Toolkit.Material\Uno.Toolkit.Material.csproj", "{3AA9542B-F033-4C56-BA9F-5B359E0B55F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.UI.Material", "library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj", "{3AA9542B-F033-4C56-BA9F-5B359E0B55F8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinUI", "WinUI", "{39BDC5B9-2807-409B-A8CB-B41B33E05C5D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.Cupertino.WinUI", "library\Uno.Toolkit.Cupertino\Uno.Toolkit.Cupertino.WinUI.csproj", "{9A3D0E59-F740-4221-9474-332C0FDB7E79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.WinUI.Cupertino", "library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj", "{9A3D0E59-F740-4221-9474-332C0FDB7E79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.Material.WinUI", "library\Uno.Toolkit.Material\Uno.Toolkit.Material.WinUI.csproj", "{04A5011F-DC76-4BD6-9994-FC1C9E937A6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.WinUI.Material", "library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj", "{04A5011F-DC76-4BD6-9994-FC1C9E937A6D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{BA0C538E-B7EE-47EF-8892-6096E7F0EB41}"
 	ProjectSection(SolutionItems) = preProject

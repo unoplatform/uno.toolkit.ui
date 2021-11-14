@@ -9,42 +9,43 @@ using Windows.UI.Xaml;
 /// <summary>
 /// Material Colors resources
 /// </summary>
-namespace Uno.Toolkit.Material
+namespace Uno.Toolkit.UI.Material
 {
 	public sealed partial class MaterialToolkitColors : ResourceDictionary
 	{
-		private static string OverrideSource;
+		private static string? ColorPaletteOverrideSource;
+
 		private const string PackageName =
 #if IS_WINUI
-			"Uno.WinUI.Toolkit.Material";
+			"Uno.Toolkit.WinUI.Material";
 #else
-			"Uno.UI.Toolkit.Material";
+			"Uno.Toolkit.UI.Material";
 #endif
 
-		public string ColorPaletteOverrideSource
+		public string OverrideSource
 		{
-			get => (string)GetValue(ColorPaletteOverrideSourceProperty);
-			set => SetValue(ColorPaletteOverrideSourceProperty, value);
+			get => (string)GetValue(OverrideSourceProperty);
+			set => SetValue(OverrideSourceProperty, value);
 		}
 
-		public static DependencyProperty ColorPaletteOverrideSourceProperty { get; } =
+		public static DependencyProperty OverrideSourceProperty { get; } =
 			DependencyProperty.Register(
-				nameof(ColorPaletteOverrideSource),
+				nameof(OverrideSource),
 				typeof(string),
 				typeof(MaterialToolkitColors),
 				new PropertyMetadata(null, OnColorPaletteOverrideSourceChanged));
 
 		private static void OnColorPaletteOverrideSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 		{
-			OverrideSource = args.NewValue as string;
+			ColorPaletteOverrideSource = args.NewValue as string;
 		}
 
 		public MaterialToolkitColors()
 		{
 			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Application/ColorPalette.xaml") });
-			if (!string.IsNullOrWhiteSpace(OverrideSource))
+			if (!string.IsNullOrWhiteSpace(ColorPaletteOverrideSource))
 			{
-				MergedDictionaries.Add(new ResourceDictionary { Source = new Uri(OverrideSource) });
+				MergedDictionaries.Add(new ResourceDictionary { Source = new Uri(ColorPaletteOverrideSource) });
 			}
 
 			this.InitializeComponent();

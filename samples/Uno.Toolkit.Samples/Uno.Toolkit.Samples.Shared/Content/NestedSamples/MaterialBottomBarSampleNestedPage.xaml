@@ -4,11 +4,10 @@
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  xmlns:toolkitLib="using:Uno.UI.ToolkitLib"
+	  xmlns:toolkitLib="using:Uno.Toolkit.UI.Controls"
 	  xmlns:toolkit="using:Uno.UI.Toolkit"
-	  xmlns:toolkitB="using:Uno.UI.ToolkitLib.Behaviors"
+	  xmlns:toolkitB="using:Uno.Toolkit.UI.Behaviors"
 	  xmlns:toolkitE="using:Uno.Material.Extensions"
-	  xmlns:toolkitControls="using:Uno.Toolkit.Material.Controls"
 	  xmlns:ios="http://uno.ui/ios"
 	  mc:Ignorable="d ios"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

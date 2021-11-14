@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-namespace Uno.UI.ToolkitLib.Extensions
+namespace Uno.Toolkit.UI.Extensions
 {
 	internal static class AppBarButtonExtensions
 	{

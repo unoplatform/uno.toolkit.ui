@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
+	<!--
+	Adding project references to this project requires some manual adjustments.
+	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
+	-->
+	<PropertyGroup>
+    	<TargetFrameworks>netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0;monoandroid10.0</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362.0</TargetFrameworks>
+		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+    	<GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
+		<AssemblyName>Uno.Toolkit.WinUI.Cupertino</AssemblyName>
+		<RootNamespace>Uno.Toolkit.UI.Cupertino</RootNamespace>
+		<PackageId>Uno.Toolkit.WinUI.Cupertino</PackageId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.Cupertino.WinUI" Version="1.1.0-dev.7" />
+		<PackageReference Include="Uno.Material.WinUI" Version="1.1.0-dev.7" />
+		<PackageReference Include="Uno.WinUI" Version="4.0.0-dev.5485" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.18362.16" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.16" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
+	</ItemGroup>
+
+	<Choose>
+		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362.0'">
+			
+			<ItemGroup>
+				<PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.5.6" />
+			</ItemGroup>
+			
+		</When>
+		<Otherwise>
+			
+			<ItemGroup>
+				<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+				<Compile Update="**\*.xaml.cs">
+					<DependentUpon>%(Filename)</DependentUpon>
+				</Compile>
+			</ItemGroup>
+			
+		</Otherwise>
+	</Choose>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+  </ItemGroup>
+</Project>

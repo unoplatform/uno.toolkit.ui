@@ -8,9 +8,9 @@
     <TargetFrameworks>uap10.0.18362;netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0;monoandroid10.0</TargetFrameworks>
     <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
-		<AssemblyName>Uno.UI.ToolkitLib</AssemblyName>
-		<RootNamespace>Uno.UI.ToolkitLib</RootNamespace>
-		<PackageId>Uno.UI.Toolkit</PackageId>
+		<AssemblyName>Uno.Toolkit.UI</AssemblyName>
+		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
+		<PackageId>Uno.Toolkit.UI</PackageId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -30,6 +30,10 @@
 	
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
 
 </Project>

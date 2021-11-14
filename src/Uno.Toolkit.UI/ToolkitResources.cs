@@ -10,15 +10,15 @@ using Microsoft.UI.Xaml;
 using Windows.UI.Xaml;
 #endif
 
-namespace Uno.UI.ToolkitLib
+namespace Uno.Toolkit.UI
 {
 	public sealed class ToolkitResources : ResourceDictionary
 	{
 		private const string PackageName =
 #if IS_WINUI
-			"Uno.WinUI.ToolkitLib";
+			"Uno.Toolkit.WinUI";
 #else
-			"Uno.UI.ToolkitLib";
+			"Uno.Toolkit.UI";
 #endif
 
 		public ToolkitResources()
@@ -38,7 +38,7 @@ namespace Uno.UI.ToolkitLib
 			{
 				MergedDictionaries.Add(new ResourceDictionary
 				{
-					Source = new Uri($"ms-appx:///{PackageName}/{dict}")
+					Source = new Uri($"ms-appx:///{PackageName}/Controls/{dict}")
 				});
 			}
 		}

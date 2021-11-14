@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Uno.Toolkit.UI.Controls;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -14,7 +15,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 #endif
 
-namespace Uno.UI.ToolkitLib.Behaviors
+namespace Uno.Toolkit.UI.Behaviors
 {
 	/// <summary>
 	/// A behavior that, when attached to a <see cref="TabBar"/>, synchronizes the SelectedIndex of the <see cref="TabBar"/> to the specified <see cref="TabBarSelectorBehavior.SelectorProperty"/>

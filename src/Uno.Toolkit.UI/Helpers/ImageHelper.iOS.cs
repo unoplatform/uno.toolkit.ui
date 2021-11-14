@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UIKit;
 
-namespace Uno.UI.ToolkitLib.Helpers
+namespace Uno.Toolkit.UI.Helpers
 {
 	internal static class ImageHelper
 	{
