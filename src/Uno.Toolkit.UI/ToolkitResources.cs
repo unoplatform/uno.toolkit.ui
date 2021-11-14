@@ -28,6 +28,7 @@ namespace Uno.Toolkit.UI
 				"DrawerControl/DrawerControl.xaml",
 				"DrawerControl/DrawerControl.Enhanced.xaml",
 				"TabBar/TabBar.xaml",
+				"AutoLayout/AutoLayout.xaml",
 #if __IOS__ || __ANDROID__
 				"NavigationBar/NavigationBar.Native.xaml",
 #else

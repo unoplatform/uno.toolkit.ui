@@ -8,15 +8,5 @@
 					xmlns:netstdref="http://uno.ui/netstdref"
 					mc:Ignorable="android ios netstdref">
 
-	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="/Controls/AutoLayout/AutoLayout.xaml" />
-	</ResourceDictionary.MergedDictionaries>
-	
-	<!-- TabBar -->
-	<Style TargetType="toolkit:TabBar"
-		   BasedOn="{StaticResource DefaultTabBarStyle}" />
-
-	<!-- TabBarItem -->
-	<Style TargetType="toolkit:TabBarItem"
-		   BasedOn="{StaticResource DefaultTabBarItemStyle}" />
+	<!-- Add default styles in the ToolkitResources class -->
 </ResourceDictionary>
