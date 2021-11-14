@@ -264,4 +264,12 @@
 		</Setter>
 	</Style>
 
+	<!-- TabBar -->
+	<Style TargetType="toolkit:TabBar"
+		   BasedOn="{StaticResource DefaultTabBarStyle}" />
+
+	<!-- TabBarItem -->
+	<Style TargetType="toolkit:TabBarItem"
+		   BasedOn="{StaticResource DefaultTabBarItemStyle}" />
+
 </ResourceDictionary>
