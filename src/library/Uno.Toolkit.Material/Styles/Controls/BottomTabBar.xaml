@@ -5,11 +5,13 @@
 					xmlns:controls="using:Uno.Material.Controls"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:toolkitlib="using:Uno.Toolkit.UI.Controls"
-					mc:Ignorable="d">
+					xmlns:android="http://uno.ui/android"
+					xmlns:not_android="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					mc:Ignorable="d android">
 
 	<ResourceDictionary.MergedDictionaries>
 		<MaterialColors xmlns="using:Uno.Material" />
-        <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Dark">
@@ -103,6 +105,8 @@
 				Value="{ThemeResource MaterialTabBarBackground}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
+		<Setter Property="VerticalContentAlignment"
+				Value="Bottom" />
 		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
 				Value="Bottom" />
 		<Setter Property="ItemsPanel">
@@ -117,12 +121,23 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkitlib:TabBar">
-					<Grid x:Name="TabBarGrid"
+					<!-- Code can be uncommented when this issue is fixed in Uno: -->
+					<!-- https://github.com/unoplatform/uno/issues/7393 -->
+					<!--<Grid x:Name="TabBarGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
-						  BorderThickness="{TemplateBinding BorderThickness}"
-						  Padding="{TemplateBinding Padding}">
+						  BorderThickness="{TemplateBinding BorderThickness}">
 						<ItemsPresenter Height="{StaticResource TabBarHeight}" />
+					</Grid>-->
+					<!-- Workaround until the above issue is fixed, can be removed after -->
+					<Grid x:Name="TabBarGrid">
+						<Border x:Name="BackgroundBorder"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								Height="{StaticResource TabBarHeight}" />
+						<ItemsPresenter />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -157,18 +172,67 @@
 				Value="{StaticResource MaterialFabLargeCorderRadius}" />
 		<Setter Property="Padding"
 				Value="{StaticResource MaterialFabLargePadding}" />
-		<Setter Property="RenderTransform">
+		<!-- Code can be uncommented when this issue is fixed in Uno: -->
+		<!-- https://github.com/unoplatform/uno/issues/7393 -->
+		<!--<Setter Property="RenderTransform">
 			<Setter.Value>
 				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
 			</Setter.Value>
-		</Setter>
+		</Setter>-->
+		<!-- Workaround until the above issue is fixed, can be removed after -->
+		<not_android:Setter Property="Margin"
+							Value="0,0,0,32" />
+		<android:Setter Property="Margin"
+						Value="0,0,0,64" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkitlib:TabBarItem">
 					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+
+								<VisualState x:Name="Normal" />
+
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="FabFocusBorder.Background"
+												Value="{StaticResource MaterialOnSurfaceHoverBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+
+										<Setter Target="Root.Background"
+												Value="{StaticResource ButtonFabLowFabBackgroundColorBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="FocusStates">
+
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="FabFocusBorder.Background"
+												Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="PointerFocused">
+									<VisualState.Setters>
+										<Setter Target="FabFocusBorder.Background"
+												Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Unfocused" />
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
 						<toolkit:ElevatedView x:Name="ElevatedView"
 											  Margin="0,0,6,6"
 											  Elevation="6"
+											  VerticalAlignment="Center"
 											  HorizontalAlignment="Center"
 											  CornerRadius="{TemplateBinding CornerRadius}"
 											  Background="Transparent">
@@ -217,47 +281,6 @@
 								</Grid>
 							</controls:Ripple>
 						</toolkit:ElevatedView>
-
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-
-								<VisualState x:Name="Normal" />
-
-								<VisualState x:Name="PointerOver">
-									<VisualState.Setters>
-										<Setter Target="FabFocusBorder.Background"
-												Value="{StaticResource MaterialOnSurfaceHoverBrush}" />
-									</VisualState.Setters>
-								</VisualState>
-
-								<VisualState x:Name="Disabled">
-									<VisualState.Setters>
-
-										<Setter Target="Root.Background"
-												Value="{StaticResource ButtonFabLowFabBackgroundColorBrush}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-
-							<VisualStateGroup x:Name="FocusStates">
-
-								<VisualState x:Name="Focused">
-									<VisualState.Setters>
-										<Setter Target="FabFocusBorder.Background"
-												Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
-									</VisualState.Setters>
-								</VisualState>
-
-								<VisualState x:Name="PointerFocused">
-									<VisualState.Setters>
-										<Setter Target="FabFocusBorder.Background"
-												Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
-									</VisualState.Setters>
-								</VisualState>
-
-								<VisualState x:Name="Unfocused" />
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -282,6 +305,12 @@
 				Value="True" />
 		<Setter Property="HorizontalContentAlignment"
 				Value="Center" />
+		<!-- Workaround until this issue is fixed, can be removed after -->
+		<!-- https://github.com/unoplatform/uno/issues/7393 -->
+		<Setter Property="Height"
+				Value="{StaticResource TabBarHeight}" />
+		<Setter Property="VerticalAlignment"
+				Value="Bottom" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="toolkitlib:TabBarItem">
