@@ -215,7 +215,7 @@ namespace Uno.Toolkit.UI.Controls
 				{
 					if (_grid.Children.Count > i)
 					{
-						_grid.Children[i] = child;
+						_grid.Children.Insert(i, child);
 					}
 					else
 					{
