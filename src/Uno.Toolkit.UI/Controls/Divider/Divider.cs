@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 #endif
 
-namespace Uno.Toolkit.Material.Controls
+namespace Uno.Toolkit.UI.Controls
 {
 	public partial class Divider : Control
 	{
