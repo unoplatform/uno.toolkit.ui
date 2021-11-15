@@ -15,6 +15,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Uno.UI" Version="4.0.0-dev.5594" />
+		<PackageReference Include="Uno.Core.Extensions.Collections" Version="4.0.0-dev.7" />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.0-dev.7" />
+		<PackageReference Include="Uno.Core.Extensions.Logging" Version="4.0.0-dev.7" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">

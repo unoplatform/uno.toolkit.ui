@@ -60,7 +60,9 @@ namespace Uno.Toolkit.UI.Controls
 		{
 			// TODO: Find a proper way to decide whether a NavigationBar exists on canvas (within Page), or is mapped to the UINavigationController's NavigationBar.
 
-			var navBar = _navBar?.Target;
+			NavigationBar? navBar = null;
+
+			_navBar?.TryGetTarget(out navBar);
 
 			if (navBar == null)
 			{
@@ -112,7 +114,14 @@ namespace Uno.Toolkit.UI.Controls
 			}
 		}
 
-		NavigationBarRenderer RendererFactory() => new NavigationBarRenderer(_navBar?.Target);
+		NavigationBarRenderer RendererFactory()
+		{
+			NavigationBar? navBar = null;
+
+			_navBar?.TryGetTarget(out navBar);
+
+			return new NavigationBarRenderer(navBar!);
+		}
 
 		protected override Size MeasureOverride(Size size)
 		{
