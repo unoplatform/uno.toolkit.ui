@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Uno.Toolkit.Material.Controls;
 using Uno.Toolkit.Samples.Entities;
+using Uno.Toolkit.UI.Controls;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 #if IS_WINUI
