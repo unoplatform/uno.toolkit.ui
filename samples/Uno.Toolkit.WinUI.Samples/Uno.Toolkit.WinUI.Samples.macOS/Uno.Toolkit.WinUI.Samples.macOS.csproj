@@ -73,8 +73,8 @@
     <Reference Include="System.Memory" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.WinUI" Version="4.0.0-dev.5489" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.0.0-dev.5489" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.WinUI" Version="4.0.0-dev.5485" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.0.0-dev.5485" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
   </ItemGroup>
