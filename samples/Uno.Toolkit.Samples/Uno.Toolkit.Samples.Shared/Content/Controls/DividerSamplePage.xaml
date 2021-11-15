@@ -1,7 +1,7 @@
 ﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.DividerSamplePage"
 	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	  xmlns:controls="using:Uno.Toolkit.Material.Controls"
+	  xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -70,7 +70,7 @@
 										Margin="8">
                             <ContentControl ContentTemplate="{StaticResource DefaultItemTemplate}" />
 
-                            <controls:Divider Style="{StaticResource MaterialDividerStyle}" />
+                            <toolkit:Divider Style="{StaticResource MaterialDividerStyle}" />
 
                             <ContentControl ContentTemplate="{StaticResource DefaultItemTemplate}" />
                         </StackPanel>
@@ -80,7 +80,7 @@
 
                             <ContentControl ContentTemplate="{StaticResource DefaultItemTemplate}" />
 
-                            <controls:Divider Style="{StaticResource MaterialDividerStyle}"
+                            <toolkit:Divider Style="{StaticResource MaterialDividerStyle}"
 												  SubHeader="SubHeader" />
 
                             <ContentControl ContentTemplate="{StaticResource DefaultItemTemplate}" />
@@ -91,7 +91,7 @@
 
                             <ContentControl ContentTemplate="{StaticResource CustomItemTemplate}" />
 
-                            <controls:Divider Style="{StaticResource MaterialDividerStyle}"
+                            <toolkit:Divider Style="{StaticResource MaterialDividerStyle}"
 												  Foreground="{StaticResource MaterialOnPrimaryLowBrush}" />
 
                             <ContentControl ContentTemplate="{StaticResource CustomItemTemplate}" />
@@ -103,7 +103,7 @@
 
                             <ContentControl ContentTemplate="{StaticResource CustomItemTemplate}" />
 
-                            <controls:Divider Style="{StaticResource MaterialDividerStyle}"
+                            <toolkit:Divider Style="{StaticResource MaterialDividerStyle}"
 												  SubHeader="SubHeader"
 												  Foreground="{StaticResource MaterialOnPrimaryLowBrush}"
 												  SubHeaderForeground="{StaticResource MaterialOnPrimaryBrush}" />
@@ -124,7 +124,7 @@
                                         <ItemsControl ItemsSource="{Binding Data.SubItems}"
 														  ItemTemplate="{StaticResource ChildItemTemplate}" />
 
-                                        <controls:Divider Style="{StaticResource MaterialDividerStyle}"
+                                        <toolkit:Divider Style="{StaticResource MaterialDividerStyle}"
 															  Grid.Row="1" />
                                     </Grid>
                                 </DataTemplate>
