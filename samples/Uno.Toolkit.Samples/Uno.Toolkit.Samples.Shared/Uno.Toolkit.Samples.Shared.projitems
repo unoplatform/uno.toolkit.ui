@@ -19,6 +19,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ChipSamplePage.xaml.cs">
+      <DependentUpon>ChipSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ModalDialog.xaml.cs">
       <DependentUpon>ModalDialog.xaml</DependentUpon>
     </Compile>
@@ -67,6 +70,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SamplePageLayout.Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumDescriptionConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FromBoolToValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\FromNullToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FromStringToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Data\TestCollections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Design.cs" />
@@ -90,6 +94,10 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ChipSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\DividerSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -205,6 +213,11 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-300.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Avatar.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Avatar.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Avatar.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Avatar.scale-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Avatar.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\BackButton-Dark.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\BackButton.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\CloseIcon.scale-100.png" />

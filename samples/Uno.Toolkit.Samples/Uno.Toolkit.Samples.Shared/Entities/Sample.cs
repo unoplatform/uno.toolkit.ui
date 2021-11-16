@@ -22,6 +22,7 @@ namespace Uno.Toolkit.Samples.Entities
 			Description = attribute.Description;
 			DocumentationLink = attribute.DocumentationLink;
 			Data = CreateData(attribute.DataType);
+			Source = attribute.Source;
 			SortOrder = attribute.SortOrder;
 
 			ViewType = viewType;
