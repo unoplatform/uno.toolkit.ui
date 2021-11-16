@@ -97,7 +97,7 @@
 						<FontIcon Glyph="&#xe721;" />
 					</toolkitLib:TabBarItem.Icon>
 				</toolkitLib:TabBarItem>
-				<toolkitLib:TabBarItem Style="{StaticResource MaterialBottomFabTabBarItemStyle}">
+				<toolkitLib:TabBarItem Style="{StaticResource MaterialBottomTabBarItemFabStyle}">
 					<toolkitLib:TabBarItem.Flyout>
 						<MenuFlyout Placement="Top"
 									MenuFlyoutPresenterStyle="{StaticResource MaterialMenuFlyoutPresenterStyle}">

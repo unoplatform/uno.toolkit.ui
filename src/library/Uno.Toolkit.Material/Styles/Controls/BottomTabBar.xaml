@@ -46,7 +46,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MaterialBottomFabTabBarItemStyle"
+	<Style x:Key="MaterialBottomTabBarItemFabStyle"
 		   TargetType="toolkitlib:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialSecondaryBrush}" />
