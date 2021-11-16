@@ -81,8 +81,11 @@
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
       <Version>2.3.1.1</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.0-dev.5594" />
+		<PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.0-dev.7" />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.0-dev.7" />
+	</ItemGroup>
+	<ItemGroup>
     <Compile Include="MainActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
