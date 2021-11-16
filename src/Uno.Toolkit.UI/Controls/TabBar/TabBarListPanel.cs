@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Uno.Toolkit.UI.Extensions;
-using Windows.Foundation;
 using System.Linq;
+using System.Text;
+using Windows.Foundation;
+using Uno.Toolkit.UI.Extensions;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -15,22 +15,23 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.UI.Controls
 {
-    public partial class TabBarListPanel : Panel
-    {
+	public partial class TabBarListPanel : Panel
+	{
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			if (Children.Count < 1)
+			var count = Children.Count(IsVisible);
+			if (count < 1)
 			{
 				return availableSize.FiniteOrDefault(default);
 			}
 
-			Size cellSize = new Size(availableSize.Width / Children.Count, availableSize.Height);
+			Size cellSize = new Size(availableSize.Width / count, availableSize.Height);
 			foreach (var child in Children)
 			{
 				child.Measure(cellSize);
 			}
 
-			var maxHeight = Children.Max(x => x.DesiredSize.Height);
+			var maxHeight = Children.Where(IsVisible).Max(x => x.DesiredSize.Height);
 
 			var size = new Size(availableSize.Width, maxHeight);
 			return size.FiniteOrDefault(default);
@@ -38,15 +39,16 @@ namespace Uno.Toolkit.UI.Controls
 
 		protected override Size ArrangeOverride(Size finalSize)
 		{
-			if (Children.Count < 1)
+			var count = Children.Count(IsVisible);
+			if (count < 1)
 			{
 				return finalSize;
 			}
 
-			Size cellSize = new Size(finalSize.Width / Children.Count, finalSize.Height);
+			Size cellSize = new Size(finalSize.Width / count, finalSize.Height);
 			int col = 0;
 
-			foreach (var child in Children)
+			foreach (var child in Children.Where(IsVisible))
 			{
 				child.Arrange(new Rect(new Point(cellSize.Width * col, 0), cellSize));
 				col++;
@@ -54,5 +56,7 @@ namespace Uno.Toolkit.UI.Controls
 
 			return finalSize;
 		}
+
+		private bool IsVisible(UIElement x) => x.Visibility == Visibility.Visible;
 	}
 }
