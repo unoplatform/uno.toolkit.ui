@@ -7,10 +7,11 @@ namespace Uno.Toolkit.Samples.Entities
 	[AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
 	public sealed class SamplePageAttribute : Attribute
 	{
-		public SamplePageAttribute(SampleCategory category, string title)
+		public SamplePageAttribute(SampleCategory category, string title, SourceSdk source = SourceSdk.WinUI)
 		{
 			Category = category;
 			Title = title;
+			Source = source;
 		}
 
 		/// <summary>
@@ -25,6 +26,8 @@ namespace Uno.Toolkit.Samples.Entities
 		public string DocumentationLink { get; set; }
 
 		public Type DataType { get; set; }
+
+		public SourceSdk Source { get; }
 
 		/// <summary>
 		/// Sort order with the same <see cref="Category"/>.
