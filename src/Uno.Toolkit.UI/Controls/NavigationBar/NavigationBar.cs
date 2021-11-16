@@ -35,6 +35,7 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.ViewManagement;
+using Windows.UI;
 #endif
 
 namespace Uno.Toolkit.UI.Controls
@@ -72,9 +73,9 @@ namespace Uno.Toolkit.UI.Controls
 
 			LeftCommand ??= new AppBarButton()
 			{
-				Visibility = Visibility.Collapsed,
+				Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)),
 #if !HAS_NATIVE_NAVBAR
-				Icon = new SymbolIcon(Symbol.Back),
+				Icon = new SymbolIcon(Symbol.Cancel),
 #endif
 			};
 			PrimaryCommands ??= new NavigationBarElementCollection();
@@ -175,19 +176,38 @@ namespace Uno.Toolkit.UI.Controls
 
 		internal void UpdateLeftCommandVisibility()
 		{
-			if (LeftCommandMode != LeftCommandMode.Back)
+			if (LeftCommandMode == LeftCommandMode.Action)
 			{
-				return;
+				if (this.GetFirstParent<FlyoutPresenter>(includeCurrent: false) is FlyoutPresenter)
+				{
+					Page? page = null;
+					if ((_pageRef?.TryGetTarget(out page) ?? false) && LeftCommand is { })
+					{
+						if (!page?.Frame?.CanGoBack ?? false)
+						{
+#if !HAS_NATIVE_NAVBAR
+							LeftCommand.Icon = new SymbolIcon(Symbol.Cancel);
+#else
+							LeftCommand.Icon = new BitmapIcon
+							{
+								UriSource = new Uri("embedded://Uno.Toolkit.UI.Material/Uno.Toolkit.UI.Material.Assets.CloseIcon.png"),
+							};
+#endif
+						}
+					}
+				}
 			}
-
-			Page? page = null;
-			if ((_pageRef?.TryGetTarget(out page) ?? false) && LeftCommand is { })
+			else if (LeftCommandMode == LeftCommandMode.Back)
 			{
-				var buttonVisibility = (page?.Frame?.CanGoBack ?? false)
-					? Visibility.Visible
-					: Visibility.Collapsed;
+				Page? page = null;
+				if ((_pageRef?.TryGetTarget(out page) ?? false) && LeftCommand is { })
+				{
+					var buttonVisibility = (page?.Frame?.CanGoBack ?? false)
+						? Visibility.Visible
+						: Visibility.Collapsed;
 
-				LeftCommand.Visibility = buttonVisibility;
+					LeftCommand.Visibility = buttonVisibility;
+				}
 			}
 		}
 

@@ -34,9 +34,16 @@ namespace Uno.Toolkit.Samples.Content.Controls
         public NavigationBarSamplePage()
         {
             this.InitializeComponent();
-        }
+			ModalFlyout.Opened += Flyout_Opened;
 
-        private void LaunchFullScreenSample(object sender, RoutedEventArgs e)
+		}
+
+		private void Flyout_Opened(object sender, object e)
+		{
+			ModalFrame.Navigate(typeof(NavigationBarSample_ModalPage1));
+		}
+
+		private void LaunchFullScreenSample(object sender, RoutedEventArgs e)
         {
             Shell.GetForCurrentView().ShowNestedSample<NavigationBarSample_NestedPage1>(clearStack: true);
         }

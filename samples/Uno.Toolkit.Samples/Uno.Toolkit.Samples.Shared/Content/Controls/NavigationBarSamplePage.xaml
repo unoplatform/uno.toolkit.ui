@@ -9,20 +9,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <sample:SamplePageLayout x:Name="SamplePageLayout">
-			<sample:SamplePageLayout.MaterialTemplate>
-                <DataTemplate>
-                    <StackPanel Spacing="8">
-                        <Button Content="Show Sample"
+        <StackPanel Spacing="8">
+                <Button Content="Show Sample"
                                 Style="{StaticResource MaterialContainedButtonStyle}"
 							Click="LaunchFullScreenSample" />
 
-                        <Button Content="Show Modal Sample"
-                                Style="{StaticResource MaterialContainedButtonStyle}"
-							Click="LaunchModalSample" />
-                    </StackPanel>
-                </DataTemplate>
-			</sample:SamplePageLayout.MaterialTemplate>
-		</sample:SamplePageLayout>
-	</Grid>
+                <Button Content="Show Modal Sample"
+                                x:Name="ModalButton"
+                                Style="{StaticResource MaterialContainedButtonStyle}">
+                    <Button.Flyout>
+                        <Flyout x:Name="ModalFlyout">
+                            <Frame x:Name="ModalFrame"/>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+    </Grid>
 </Page>

@@ -8,18 +8,17 @@
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
     <toolkit:NavigationBar Style="{StaticResource MaterialModalNavigationBarStyle}"
                                Content="Hello"
                                VerticalAlignment="Top">
         <toolkit:NavigationBar.LeftCommand>
-            <AppBarButton Label="Test"
-                          Click="CloseModal">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
-									ShowAsMonochrome="False" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-        </toolkit:NavigationBar.LeftCommand>
+                <AppBarButton Label="Test"
+                          Click="CloseModal" />
+            </toolkit:NavigationBar.LeftCommand>
     </toolkit:NavigationBar>
 
     <StackPanel Spacing="8"
