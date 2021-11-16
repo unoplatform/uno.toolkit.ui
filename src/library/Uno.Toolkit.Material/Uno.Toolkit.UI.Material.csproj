@@ -33,7 +33,12 @@
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
+
 	<ItemGroup>
+	  <None Remove="Assets\CloseIcon.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Assets\CloseIcon.png" />
 		<EmbeddedResource Include="LinkerConfig.xml">
 			<LogicalName>$(AssemblyName).xml</LogicalName>
 		</EmbeddedResource>
