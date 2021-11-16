@@ -46,4 +46,14 @@
 			<Name>Uno.Toolkit.UI</Name>
 		</ProjectReference>
 	</ItemGroup>
+
+	<!-- Workaround to avoid including Uno.Toolkit.UI XBFs in the PRI file -->
+	<Target Name="AdjustGetPackagingOutputs" BeforeTargets="GetPackagingOutputs">
+		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
+		<ItemGroup>
+			<_UnoToolkitUIFiles Include="@(ProjectReferenceWithConfiguration)" Condition="'%(ProjectReferenceWithConfiguration.Name)'=='Uno.Toolkit.UI'" />
+			<ProjectReferenceWithConfiguration Remove="@(_UnoToolkitUIFiles)" />
+		</ItemGroup>
+	</Target>
+
 </Project>
