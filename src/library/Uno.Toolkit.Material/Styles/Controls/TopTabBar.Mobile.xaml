@@ -42,6 +42,23 @@
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Height="{TemplateBinding Height}">
                         <ItemsPresenter Padding="{TemplateBinding Padding}" />
+                        <toolkitlib:TabBarSelectionIndicatorPresenter VerticalAlignment="Bottom"
+																	  Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+																	  x:Name="SelectionIndicatorPresenter"
+																	  AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+																	  IndicatorTransitionMode="Snap"
+																	  Height="2"
+																	  Opacity="0">
+                            <Border Background="{ThemeResource MaterialOnPrimaryBrush}"
+									x:Name="SelectionIndicatorRect"
+									AutomationProperties.AutomationId="SelectionIndicatorRect"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Stretch"
+									Margin="0,0,0,2"
+									Height="2"
+									MinWidth="{StaticResource MaterialTabBarSelectionMinWidthIndicator}"
+									Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" />
+                        </toolkitlib:TabBarSelectionIndicatorPresenter>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
