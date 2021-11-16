@@ -16,7 +16,7 @@
                                Content="Hello"
                                VerticalAlignment="Top">
         <toolkit:NavigationBar.LeftCommand>
-                <AppBarButton Label="Test"
+                <AppBarButton
                           Click="CloseModal" />
             </toolkit:NavigationBar.LeftCommand>
     </toolkit:NavigationBar>
