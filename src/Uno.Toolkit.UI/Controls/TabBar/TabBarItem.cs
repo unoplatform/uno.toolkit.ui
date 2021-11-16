@@ -105,6 +105,8 @@ namespace Uno.Toolkit.UI.Controls
 			VisualStateManager.GoToState(this, stateName, useTransitions: true);
 		}
 
+
+
 		private bool ShouldShowIcon()
 		{
 			return Icon != null;
