@@ -15,7 +15,7 @@
 
 				<!-- Load Material resources -->
 				<MaterialColors xmlns="using:Uno.Material"
-								ColorPaletteOverrideSource="ms-appx:///ColorPaletteOverride.xaml" />
+								OverrideSource="ms-appx:///ColorPaletteOverride.xaml" />
 				<MaterialResources xmlns="using:Uno.Material" />
 
 				<!-- Load Material Toolkit resources -->
