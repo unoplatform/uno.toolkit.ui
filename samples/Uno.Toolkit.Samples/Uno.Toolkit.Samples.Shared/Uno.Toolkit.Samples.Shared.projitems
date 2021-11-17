@@ -80,7 +80,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SourceSdk.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HierarchyHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SystemThemeHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelperEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>

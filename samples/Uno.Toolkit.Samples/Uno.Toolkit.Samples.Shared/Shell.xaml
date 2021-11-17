@@ -43,7 +43,7 @@
 						   HorizontalAlignment="Left"
 						   Margin="16,8,0,12" />
 
-					<ToggleButton x:Name="DarkLightModeToggle"
+					<ToggleButton x:Name="DarkModeToggle"
 								  Content="Light and Dark"
 								  Style="{StaticResource DarkLightToggleTheme}"
 								  Click="ToggleButton_Click"
