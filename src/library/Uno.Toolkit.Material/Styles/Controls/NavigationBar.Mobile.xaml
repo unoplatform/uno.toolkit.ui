@@ -1,7 +1,12 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:toolkitLib="using:Uno.Toolkit.UI.Controls">
+    xmlns:toolkit="using:Uno.UI.Toolkit"
+    xmlns:toolkitLib="using:Uno.Toolkit.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:android="http://nventive.com/android"
+    xmlns:ios="http://nventive.com/ios"
+    mc:Ignorable="android ios">
 
     <ResourceDictionary.MergedDictionaries>
         <MaterialColors xmlns="using:Uno.Material" />
@@ -11,17 +16,17 @@
 
     <Style x:Key="MaterialLeftCommandStyle"
            TargetType="AppBarButton"
-           BasedOn="{StaticResource BaseMaterialLeftCommandStyle}">
-        <Setter Property="Icon">
-            <Setter.Value>
-                <SymbolIcon Symbol="Back" />
-            </Setter.Value>
-        </Setter>
-    </Style>
+           BasedOn="{StaticResource BaseMaterialLeftCommandStyle}" />
 
     <Style x:Key="MaterialNavigationBarStyle"
 		   TargetType="toolkitLib:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
+        <ios:Setter Property="Height"
+					Value="NaN" />
+        <ios:Setter Property="Template"
+					Value="{StaticResource NativeNavigationBarTemplate}" />
+        <android:Setter Property="Template"
+						Value="{StaticResource NativeNavigationBarTemplate}" />
         <Setter Property="LeftCommandStyle"
 				Value="{StaticResource MaterialLeftCommandStyle}" />
     </Style>
@@ -31,13 +36,9 @@
            BasedOn="{StaticResource BaseMaterialLeftCommandStyle}">
         <Setter Property="Foreground"
                 Value="{ThemeResource MaterialOnSurfaceBrush}" />
-        <Setter Property="Icon">
-            <Setter.Value>
-                <SymbolIcon Symbol="Back" />
-            </Setter.Value>
-        </Setter>
     </Style>
-    
+
+
     <Style x:Key="MaterialModalNavigationBarStyle"
            TargetType="toolkitLib:NavigationBar"
            BasedOn="{StaticResource BaseMaterialModalNavigationBarStyle}">
