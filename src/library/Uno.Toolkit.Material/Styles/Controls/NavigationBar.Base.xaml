@@ -76,7 +76,7 @@
 		<Setter Property="HorizontalAlignment"
 				Value="Stretch" />
 		<Setter Property="HorizontalContentAlignment"
-				Value="Left" />
+				Value="Center" />
 		<Setter Property="VerticalContentAlignment"
 				Value="Top" />
 		<Setter Property="ClosedDisplayMode"
