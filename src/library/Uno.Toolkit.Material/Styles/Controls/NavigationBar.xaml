@@ -1490,8 +1490,6 @@
            BasedOn="{StaticResource MaterialNavigationBarStyle}">
         <Setter Property="LeftCommandStyle"
                 Value="{StaticResource MaterialModalLeftCommandStyle}" />
-        <Setter Property="LeftCommandMode"
-                Value="Action" />
         <Setter Property="Background"
                 Value="{ThemeResource MaterialSurfaceBrush}" />
         <Setter Property="Foreground"
