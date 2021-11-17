@@ -14,7 +14,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.UI" Version="4.0.0-dev.5594" />
+		<PackageReference Include="Uno.UI" Version="4.0.0-dev.5612" />
 		<PackageReference Include="Uno.Core.Extensions.Collections" Version="4.0.0-dev.7" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.0-dev.7" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" Version="4.0.0-dev.7" />
