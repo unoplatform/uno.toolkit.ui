@@ -69,14 +69,7 @@ namespace Uno.Toolkit.UI.Controls
 
 		public NavigationBar()
 		{
-
-			LeftCommand ??= new AppBarButton()
-			{
-				Visibility = Visibility.Collapsed,
-#if !HAS_NATIVE_NAVBAR
-				Icon = new SymbolIcon(Symbol.Back),
-#endif
-			};
+			LeftCommand ??= new AppBarButton();
 			PrimaryCommands ??= new NavigationBarElementCollection();
 			SecondaryCommands ??= new NavigationBarElementCollection();
 
