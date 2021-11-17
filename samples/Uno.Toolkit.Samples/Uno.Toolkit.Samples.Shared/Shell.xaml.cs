@@ -1,8 +1,8 @@
 ﻿using System;
 using Windows.UI.Core;
-using Uno.Toolkit.Samples.Helpers;
 using System.Threading.Tasks;
 using Uno.Toolkit.Samples.Content.NestedSamples;
+using Uno.Toolkit.UI.Helpers;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -64,20 +64,7 @@ namespace Uno.Toolkit.Samples
 		private void SetDarkLightToggleInitialState()
 		{
 			// Initialize the toggle to the current theme.
-			var root = XamlWindow.Current.Content as FrameworkElement;
-
-			switch (root.ActualTheme)
-			{
-				case ElementTheme.Default:
-					DarkLightModeToggle.IsChecked = SystemThemeHelper.GetSystemApplicationTheme() == ApplicationTheme.Dark;
-					break;
-				case ElementTheme.Light:
-					DarkLightModeToggle.IsChecked = false;
-					break;
-				case ElementTheme.Dark:
-					DarkLightModeToggle.IsChecked = true;
-					break;
-			}
+			DarkModeToggle.IsChecked = SystemThemeHelper.IsAppInDarkMode();
 		}
 
 		/// <summary>
@@ -99,34 +86,21 @@ namespace Uno.Toolkit.Samples
 		private void ToggleButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Set theme for window root.
-			if (XamlWindow.Current.Content is FrameworkElement root)
+			if (DarkModeToggle.IsChecked is { } value)
 			{
-				switch (root.ActualTheme)
-				{
-					case ElementTheme.Default:
-						if (SystemThemeHelper.GetSystemApplicationTheme() == ApplicationTheme.Dark)
-						{
-							root.RequestedTheme = ElementTheme.Light;
-						}
-						else
-						{
-							root.RequestedTheme = ElementTheme.Dark;
-						}
-						break;
-					case ElementTheme.Light:
-						root.RequestedTheme = ElementTheme.Dark;
-						break;
-					case ElementTheme.Dark:
-						root.RequestedTheme = ElementTheme.Light;
-						break;
-				}
+				SystemThemeHelper.SetApplicationTheme(darkMode: value);
+			}
+			else
+			{
+				SystemThemeHelper.ToggleApplicationTheme();
+				DarkModeToggle.IsChecked = SystemThemeHelper.IsAppInDarkMode();
+			}
 
-				if (NavigationViewControl.PaneDisplayMode == MUXC.NavigationViewPaneDisplayMode.LeftMinimal)
-				{
-					// Close navigation view when changing the theme
-					// to allow the user to see the difference between the themes.
-					NavigationViewControl.IsPaneOpen = false;
-				}
+			if (NavigationViewControl.PaneDisplayMode == MUXC.NavigationViewPaneDisplayMode.LeftMinimal)
+			{
+				// Close navigation view when changing the theme
+				// to allow the user to see the difference between the themes.
+				NavigationViewControl.IsPaneOpen = false;
 			}
 		}
 
