@@ -1451,13 +1451,14 @@
 				Value="{StaticResource MaterialNavigationBarHeight}" />
 		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
 				Value="Top" />
-
-		<Setter Property="HorizontalAlignment"
+        <Setter Property="Padding"
+                Value="16,0,0,0"/>
+        <Setter Property="HorizontalAlignment"
 				Value="Stretch" />
 		<Setter Property="VerticalAlignment"
 				Value="Top" />
 		<Setter Property="HorizontalContentAlignment"
-				Value="Center" />
+				Value="Left" />
 		<Setter Property="VerticalContentAlignment"
 				Value="Center" />
 
@@ -1480,7 +1481,7 @@
 
     <Style x:Key="BaseMaterialModalNavigationBarStyle"
            TargetType="toolkitLib:NavigationBar"
-           BasedOn="{StaticResource MaterialNavigationBarStyle}">
+           BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
         <Setter Property="LeftCommandStyle"
                 Value="{StaticResource MaterialModalLeftCommandStyle}" />
         <Setter Property="Background"
