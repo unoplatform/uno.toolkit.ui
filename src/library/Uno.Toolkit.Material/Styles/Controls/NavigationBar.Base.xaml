@@ -25,6 +25,7 @@
 
     <x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
 	<x:Double x:Key="MaterialNavigationBarHeight">48</x:Double>
+    <Thickness x:Key="MaterialNavigationBarContentMargin">16,0,0,0</Thickness>
 
 	<ios:ControlTemplate x:Key="NativeNavigationBarTemplate"
 						 TargetType="toolkitLib:NavigationBar">
@@ -1309,7 +1310,7 @@
 
 								<ContentControl x:Name="ContentControl"
 												Grid.Column="1"
-												Margin="{TemplateBinding Padding}"
+												Margin="{StaticResource MaterialNavigationBarContentMargin}"
 												Content="{TemplateBinding Content}"
 												ContentTemplate="{TemplateBinding ContentTemplate}"
 												ContentTransitions="{TemplateBinding ContentTransitions}"
