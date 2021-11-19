@@ -71,10 +71,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.Cupertino">
-      <Version>1.1.0-dev.15</Version>
+      <Version>1.1.0-dev.31</Version>
     </PackageReference>
     <PackageReference Include="Uno.Material">
-      <Version>1.1.0-dev.15</Version>
+      <Version>1.1.0-dev.31</Version>
     </PackageReference>
     <PackageReference Include="Uno.UI" Version="4.0.0-dev.5612" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.0-dev.5612" Condition="'$(Configuration)'=='Debug'" />
