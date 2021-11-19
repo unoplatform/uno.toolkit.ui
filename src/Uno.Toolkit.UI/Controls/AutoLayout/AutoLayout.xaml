@@ -7,12 +7,13 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="layout:AutoLayout">
-					<Grid x:Name="PART_RootGrid"
-						  Padding="{TemplateBinding Padding}"
-						  Background="{TemplateBinding Background}"
-						  BorderThickness="{TemplateBinding BorderThickness}"
-						  BorderBrush="{TemplateBinding BorderBrush}"
-						  CornerRadius="{TemplateBinding CornerRadius}"/>
+					<Border Background="{TemplateBinding Background}"
+							Padding="{TemplateBinding Padding}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							CornerRadius="{TemplateBinding CornerRadius}">
+						<Grid x:Name="PART_RootGrid"/>
+					</Border>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

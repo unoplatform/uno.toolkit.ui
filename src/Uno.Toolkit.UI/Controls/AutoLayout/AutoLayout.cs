@@ -302,11 +302,21 @@ namespace Uno.Toolkit.UI.Controls
 				}
 
 				// Process "space between"
-				if (isSpaceBetween && !atLeastOneChildFillAvailableSpaceInPrimaryAxis)
+				if (isSpaceBetween)
 				{
-					for (var i = 1; i < gridDefinitionsCount; i += 2)
+					if (atLeastOneChildFillAvailableSpaceInPrimaryAxis)
 					{
-						_grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
+						for (var i = 1; i < gridDefinitionsCount; i += 2)
+						{
+							_grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Auto);
+						}
+					}
+					else
+					{
+						for (var i = 1; i < gridDefinitionsCount; i += 2)
+						{
+							_grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
+						}
 					}
 				}
 			}
@@ -368,11 +378,21 @@ namespace Uno.Toolkit.UI.Controls
 				}
 
 				// Process "space between"
-				if (isSpaceBetween && !atLeastOneChildFillAvailableSpaceInPrimaryAxis)
+				if (isSpaceBetween)
 				{
-					for (var i = 1; i < gridDefinitionsCount; i += 2)
+					if (atLeastOneChildFillAvailableSpaceInPrimaryAxis)
 					{
-						_grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+						for (var i = 1; i < gridDefinitionsCount; i += 2)
+						{
+							_grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Auto);
+						}
+					}
+					else
+					{
+						for (var i = 1; i < gridDefinitionsCount; i += 2)
+						{
+							_grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+						}
 					}
 				}
 			}
