@@ -302,7 +302,7 @@ namespace Uno.Toolkit.UI.Controls
 				}
 
 				// Process "space between"
-				if (isSpaceBetween)
+				if (isSpaceBetween && !atLeastOneChildFillAvailableSpaceInPrimaryAxis)
 				{
 					for (var i = 1; i < gridDefinitionsCount; i += 2)
 					{
@@ -368,7 +368,7 @@ namespace Uno.Toolkit.UI.Controls
 				}
 
 				// Process "space between"
-				if (isSpaceBetween)
+				if (isSpaceBetween && !atLeastOneChildFillAvailableSpaceInPrimaryAxis)
 				{
 					for (var i = 1; i < gridDefinitionsCount; i += 2)
 					{
@@ -380,7 +380,7 @@ namespace Uno.Toolkit.UI.Controls
 			// Set container alignments
 			if (isVertical)
 			{
-				if (atLeastOneChildFillAvailableSpaceInPrimaryAxis)
+				if (atLeastOneChildFillAvailableSpaceInPrimaryAxis || isSpaceBetween)
 				{
 					_grid.ClearValue(VerticalAlignmentProperty);
 				}
@@ -392,7 +392,7 @@ namespace Uno.Toolkit.UI.Controls
 			}
 			else
 			{
-				if (atLeastOneChildFillAvailableSpaceInPrimaryAxis)
+				if (atLeastOneChildFillAvailableSpaceInPrimaryAxis || isSpaceBetween)
 				{
 					_grid.ClearValue(HorizontalAlignmentProperty);
 				}
