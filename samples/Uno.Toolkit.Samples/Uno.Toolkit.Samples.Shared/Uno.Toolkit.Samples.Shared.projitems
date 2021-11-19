@@ -34,6 +34,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\DrawerControlSamplePage.xaml.cs">
       <DependentUpon>DrawerControlSamplePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\CardContentControlSamplePage.xaml.cs">
+      <DependentUpon>CardContentControlSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\SegmentedControlSamplePage.xaml.cs">
       <DependentUpon>SegmentedControlSamplePage.xaml</DependentUpon>
     </Compile>
@@ -114,6 +117,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\NavigationBarSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\CardContentControlSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -230,6 +237,16 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\MaterialIcon_Small.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\MaterialIcon_Small.scale-300.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\MaterialIcon_Small.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\LargeMedia.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\LargeMedia.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\LargeMedia.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\LargeMedia.scale-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\LargeMedia.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\UnoLogo.png" />
   </ItemGroup>
 </Project>

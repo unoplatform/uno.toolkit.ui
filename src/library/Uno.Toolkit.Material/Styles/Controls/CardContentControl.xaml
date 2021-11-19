@@ -1,0 +1,338 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:controls="using:Uno.Material.Controls"
+					xmlns:toolkitlib="using:Uno.UI.ToolkitLib"
+					xmlns:toolkit="using:Uno.UI.Toolkit">
+
+	<ResourceDictionary.MergedDictionaries>
+		<MaterialColors xmlns="using:Uno.Material" />
+	</ResourceDictionary.MergedDictionaries>
+
+	<Style x:Key="MaterialOutlinedCardContentControlStyle"
+		   TargetType="toolkitlib:CardContentControl">
+		<Setter Property="MinHeight"
+				Value="72" />
+		<Setter Property="MaxWidth"
+				Value="344" />
+		<Setter Property="Margin"
+				Value="{StaticResource MaterialCardElevationMargin}" />
+		<Setter Property="Background"
+				Value="{StaticResource MaterialSurfaceBrush}" />
+		<Setter Property="BorderBrush"
+				Value="{ThemeResource MaterialOnSurfaceMediumBrush}" />
+		<Setter Property="BorderThickness"
+				Value="{StaticResource MaterialCardBorderThickness}" />
+		<Setter Property="CornerRadius"
+				Value="{StaticResource MaterialCardCornerRadius}" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="toolkitlib:CardContentControl">
+					<Grid x:Name="GridRoot"
+						  MinWidth="{TemplateBinding MinWidth}"
+						  MinHeight="{TemplateBinding MinHeight}"
+						  MaxWidth="{TemplateBinding MaxWidth}"
+						  MaxHeight="{TemplateBinding MaxHeight}"
+						  Background="{TemplateBinding Background}"
+						  BorderBrush="{TemplateBinding BorderBrush}"
+						  CornerRadius="{TemplateBinding CornerRadius}"
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal">
+									<VisualState.Setters>
+										<Setter Target="HoverOverlay.Opacity"
+												Value="0" />
+										<Setter Target="FocusedOverlay.Opacity"
+												Value="0" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOver">
+									<Storyboard>
+										<DoubleAnimation Storyboard.TargetName="HoverOverlay"
+														 Storyboard.TargetProperty="Opacity"
+														 Duration="{StaticResource MaterialDelayedBeginTime}"
+														 From="0"
+														 To="1">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+									</Storyboard>
+								</VisualState>
+
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<DoubleAnimation Storyboard.TargetName="HoverPressed"
+														 Storyboard.TargetProperty="Opacity"
+														 Duration="{StaticResource MaterialDelayedBeginTime}"
+														 From="0"
+														 To="1">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+										
+										<DoubleAnimation Storyboard.TargetName="HoverOverlay"
+														 Storyboard.TargetProperty="Opacity"
+														 Duration="{StaticResource MaterialDelayedBeginTime}"
+														 To="0">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+
+										<DoubleAnimation Storyboard.TargetName="FocusedOverlay"
+														 Storyboard.TargetProperty="Opacity"
+														 Duration="{StaticResource MaterialDelayedBeginTime}"
+														 To="0">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+									</Storyboard>
+								</VisualState>
+
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="HoverOverlay.Opacity"
+												Value="0" />
+										<Setter Target="FocusedOverlay.Opacity"
+												Value="0" />
+										<Setter Target="GridRoot.Opacity"
+												Value="0.38" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="FocusedOverlay.Opacity"
+												Value="1" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerFocused" />
+								<VisualState x:Name="Unfocused">
+									<VisualState.Setters>
+										<Setter Target="FocusedOverlay.Opacity"
+												Value="0" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
+						<!--  Ripple effect  -->
+						<!-- Will add the ripple effect later on when this issue is taken care of: -->
+						<!-- https://github.com/unoplatform/uno.ui.toolkit/issues/88 -->
+						<!--<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
+										 BorderBrush="{TemplateBinding BorderBrush}"
+										 BorderThickness="{TemplateBinding BorderThickness}"
+										 CornerRadius="{StaticResource MaterialCardCornerRadius}"
+										 Padding="{TemplateBinding Padding}"
+										 AutomationProperties.AccessibilityView="Raw" />-->
+
+						<!--  Main ContentPresenter  -->
+						<ContentPresenter x:Name="ContentPresenter"
+										  Padding="{TemplateBinding Padding}"
+										  Content="{TemplateBinding Content}"
+										  ContentTemplate="{TemplateBinding ContentTemplate}"
+										  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+										  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+										  AutomationProperties.AccessibilityView="Raw" />
+
+						<!--  Border for Pressed State  -->
+						<Border x:Name="HoverPressed"
+								Background="{StaticResource MaterialOnSurfacePressedBrush}"
+								IsHitTestVisible="False"
+								Opacity="0" />
+
+						<!--  Border for PointerOver State  -->
+						<Border x:Name="HoverOverlay"
+								Background="{StaticResource MaterialOnSurfaceHoverBrush}"
+								IsHitTestVisible="False"
+								Opacity="0" />
+
+						<!--  Border for Focused State  -->
+						<Border x:Name="FocusedOverlay"
+								Background="{StaticResource MaterialOnSurfaceFocusedBrush}"
+								IsHitTestVisible="False"
+								Opacity="0" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="MaterialElevatedCardContentControlStyle"
+		   TargetType="toolkitlib:CardContentControl">
+		<Setter Property="MinHeight"
+				Value="72" />
+		<Setter Property="MaxWidth"
+				Value="344" />
+		<Setter Property="Background"
+				Value="{StaticResource MaterialSurfaceBrush}" />
+		<Setter Property="CornerRadius"
+				Value="{StaticResource MaterialCardCornerRadius}" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="Margin"
+				Value="{StaticResource MaterialCardElevationMargin}" />
+		<Setter Property="Elevation"
+				Value="{StaticResource MaterialCardElevation}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="toolkitlib:CardContentControl">
+					<!--  Elevated View  -->
+					<toolkit:ElevatedView x:Name="ElevatedRoot"
+										  MinWidth="{TemplateBinding MinWidth}"
+										  MinHeight="{TemplateBinding MinHeight}"
+										  MaxWidth="{TemplateBinding MaxWidth}"
+										  MaxHeight="{TemplateBinding MaxHeight}"
+										  Background="{TemplateBinding Background}"
+										  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+										  VerticalAlignment="{TemplateBinding VerticalAlignment}"
+										  CornerRadius="{TemplateBinding CornerRadius}"
+										  Elevation="{TemplateBinding Elevation}"
+										  ShadowColor="{TemplateBinding ShadowColor}">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal">
+									<VisualState.Setters>
+										<Setter Target="HoverOverlay.Opacity"
+												Value="0" />
+										<Setter Target="FocusedOverlay.Opacity"
+												Value="0" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOver">
+									<Storyboard>
+										<DoubleAnimation Storyboard.TargetName="HoverOverlay"
+														 Storyboard.TargetProperty="Opacity"
+														 Duration="{StaticResource MaterialDelayedBeginTime}"
+														 From="0"
+														 To="1">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<DoubleAnimation Storyboard.TargetName="HoverPressed"
+														 Storyboard.TargetProperty="Opacity"
+														 Duration="{StaticResource MaterialDelayedBeginTime}"
+														 From="0"
+														 To="1">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+										
+										<DoubleAnimation Storyboard.TargetName="HoverOverlay"
+														 Storyboard.TargetProperty="Opacity"
+														 Duration="{StaticResource MaterialDelayedBeginTime}"
+														 To="0">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+
+										<DoubleAnimation Storyboard.TargetName="FocusedOverlay"
+														 Storyboard.TargetProperty="Opacity"
+														 Duration="{StaticResource MaterialDelayedBeginTime}"
+														 To="0">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="HoverOverlay.Opacity"
+												Value="0" />
+										<Setter Target="FocusedOverlay.Opacity"
+												Value="0" />
+										<Setter Target="GridRoot.Opacity"
+												Value="0.38" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="FocusedOverlay.Opacity"
+												Value="1" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerFocused" />
+								<VisualState x:Name="Unfocused">
+									<VisualState.Setters>
+										<Setter Target="FocusedOverlay.Opacity"
+												Value="0" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
+						<Grid x:Name="GridRoot"
+							  CornerRadius="{TemplateBinding CornerRadius}">
+
+							<!--  Ripple effect  -->
+							<!-- Will add the ripple effect later on when this issue is taken care of: -->
+							<!-- https://github.com/unoplatform/uno.ui.toolkit/issues/88 -->
+							<!--<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
+											 CornerRadius="{StaticResource MaterialCardCornerRadius}"
+											 Padding="{TemplateBinding Padding}"
+											 AutomationProperties.AccessibilityView="Raw" />-->
+
+							<!--  Main ContentPresenter  -->
+							<ContentPresenter x:Name="ContentPresenter"
+											  Padding="{TemplateBinding Padding}"
+											  Content="{TemplateBinding Content}"
+											  ContentTemplate="{TemplateBinding ContentTemplate}"
+											  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+											  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+											  AutomationProperties.AccessibilityView="Raw" />
+
+							<!--  Border for Pressed State  -->
+							<Border x:Name="HoverPressed"
+									Background="{StaticResource MaterialOnSurfacePressedBrush}"
+									IsHitTestVisible="False"
+									Opacity="0" />
+
+							<!--  Border for PointerOver State  -->
+							<Border x:Name="HoverOverlay"
+									Background="{StaticResource MaterialOnSurfaceHoverBrush}"
+									IsHitTestVisible="False"
+									Opacity="0" />
+
+							<!--  Border for Focused State  -->
+							<Border x:Name="FocusedOverlay"
+									Background="{StaticResource MaterialOnSurfaceFocusedBrush}"
+									IsHitTestVisible="False"
+									Opacity="0" />
+						</Grid>
+					</toolkit:ElevatedView>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
