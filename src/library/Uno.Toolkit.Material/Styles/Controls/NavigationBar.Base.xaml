@@ -397,13 +397,18 @@
 									Grid.Column="2"
 									Control.IsTemplateKeyTipTarget="True"
 									IsAccessKeyScope="True">
-                                <PathIcon x:Name="EllipsisIcon"
+								<FontIcon x:Name="EllipsisIcon"
 										  VerticalAlignment="Center"
-										  Data="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-										  Height="24"
-                                          Width="24">
-                                </PathIcon>
-							</Button>
+										  FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										  FontSize="20"
+										  Glyph="&#xe712;"
+										  Height="20"
+                                          RenderTransformOrigin="0.5, 0.5">
+									<FontIcon.RenderTransform>
+										<RotateTransform Angle="90" />
+									</FontIcon.RenderTransform>
+								</FontIcon>
+                            </Button>
 							<!-- UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events -->
 							<Rectangle x:Name="HighContrastBorder"
 									   x:DeferLoadStrategy="Lazy"
