@@ -329,7 +329,7 @@ namespace Uno.Toolkit.UI.Controls
 			var page = FrameNavigationHelper.GetInstance(pageEntry);
 
 			var navBar = page?.FindFirstChild<NavigationBar>();
-			navBar?.UpdateLeftCommandVisibility();
+			navBar?.UpdateMainCommandVisibility();
 
 			var collection = _frame?.BackStack ?? new List<PageStackEntry>();
 			if (CorrelatesNavigatingRequest())

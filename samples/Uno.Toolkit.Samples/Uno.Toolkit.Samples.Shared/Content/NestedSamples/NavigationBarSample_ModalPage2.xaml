@@ -17,11 +17,11 @@
         </Grid.RowDefinitions>
         <toolkit:NavigationBar Style="{StaticResource MaterialModalNavigationBarStyle}"
 							   Content="Second Page"
-                               LeftCommandMode="Back">
-            <toolkit:NavigationBar.LeftCommand>
+                               MainCommandMode="Back">
+            <toolkit:NavigationBar.MainCommand>
                 <AppBarButton Click="NavigateBack">
                 </AppBarButton>
-            </toolkit:NavigationBar.LeftCommand>
+            </toolkit:NavigationBar.MainCommand>
             <toolkit:NavigationBar.PrimaryCommands>
                 <AppBarButton Style="{StaticResource MaterialAppBarButton}"
 							  Label="More" />

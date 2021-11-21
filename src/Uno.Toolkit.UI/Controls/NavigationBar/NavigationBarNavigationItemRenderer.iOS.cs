@@ -81,9 +81,9 @@ namespace Uno.Toolkit.UI.Controls
 				(s, e) => RegisterCommandVisibilityAndInvalidate(),
 				new[] { NavigationBar.PrimaryCommandsProperty },
 				new[] { NavigationBar.ContentProperty },
-				new[] { NavigationBar.LeftCommandProperty },
-				new[] { NavigationBar.LeftCommandProperty, AppBarButton.VisibilityProperty },
-				new[] { NavigationBar.LeftCommandProperty, AppBarButton.ContentProperty }
+				new[] { NavigationBar.MainCommandProperty },
+				new[] { NavigationBar.MainCommandProperty, AppBarButton.VisibilityProperty },
+				new[] { NavigationBar.MainCommandProperty, AppBarButton.ContentProperty }
 			);
 
 			RegisterCommandVisibilityAndInvalidate();
@@ -119,11 +119,11 @@ namespace Uno.Toolkit.UI.Controls
 				.ToArray();
 
 			// CommandBarExtensions.NavigationCommand
-			var navigationCommand = element.GetValue(NavigationBar.LeftCommandProperty) as AppBarButton;
+			var navigationCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
 			if (navigationCommand?.Visibility == Visibility.Visible)
 			{
-				var mode = (LeftCommandMode)element.GetValue(NavigationBar.LeftCommandModeProperty);
-				if (mode == LeftCommandMode.Back)
+				var mode = (MainCommandMode)element.GetValue(NavigationBar.MainCommandModeProperty);
+				if (mode == MainCommandMode.Back)
 				{
 					if (navigationCommand.Icon == null && (navigationCommand.Content == null || navigationCommand.Content is string))
 					{

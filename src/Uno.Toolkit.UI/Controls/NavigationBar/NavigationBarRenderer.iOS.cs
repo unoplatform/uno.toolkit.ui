@@ -66,8 +66,8 @@ namespace Uno.Toolkit.UI.Controls
 				new[] { NavigationBar.BackgroundProperty },
 				new[] { NavigationBar.BackgroundProperty, SolidColorBrush.ColorProperty },
 				new[] { NavigationBar.BackgroundProperty, SolidColorBrush.OpacityProperty },
-				new[] { NavigationBar.LeftCommandProperty, AppBarButton.ForegroundProperty },
-				new[] { NavigationBar.LeftCommandProperty, AppBarButton.IconProperty }
+				new[] { NavigationBar.MainCommandProperty, AppBarButton.ForegroundProperty },
+				new[] { NavigationBar.MainCommandProperty, AppBarButton.IconProperty }
 			);
 		}
 
@@ -126,7 +126,7 @@ namespace Uno.Toolkit.UI.Controls
 					break;
 			}
 
-			var mainCommand = Element.GetValue(NavigationBar.LeftCommandProperty) as AppBarButton;
+			var mainCommand = Element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
 
 			// CommandBarExtensions.BackButtonForeground
 			ColorHelper.TryGetColorWithOpacity(mainCommand?.Foreground, out var backButtonForeground);

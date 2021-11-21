@@ -9,9 +9,9 @@
         <ResourceDictionary Source="NavigationBar.Base.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="MaterialLeftCommandStyle"
+    <Style x:Key="MaterialMainCommandStyle"
            TargetType="AppBarButton"
-           BasedOn="{StaticResource BaseMaterialLeftCommandStyle}">
+           BasedOn="{StaticResource BaseMaterialMainCommandStyle}">
         <Setter Property="Icon">
             <Setter.Value>
                 <SymbolIcon Symbol="Back" />
@@ -22,13 +22,13 @@
     <Style x:Key="MaterialNavigationBarStyle"
 		   TargetType="toolkitLib:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
-        <Setter Property="LeftCommandStyle"
-				Value="{StaticResource MaterialLeftCommandStyle}" />
+        <Setter Property="MainCommandStyle"
+				Value="{StaticResource MaterialMainCommandStyle}" />
     </Style>
 
-    <Style x:Key="MaterialModalLeftCommandStyle"
+    <Style x:Key="MaterialModalMainCommandStyle"
            TargetType="AppBarButton"
-           BasedOn="{StaticResource BaseMaterialLeftCommandStyle}">
+           BasedOn="{StaticResource BaseMaterialMainCommandStyle}">
         <Setter Property="Foreground"
                 Value="{ThemeResource MaterialOnSurfaceBrush}" />
         <Setter Property="Icon">
@@ -41,7 +41,7 @@
     <Style x:Key="MaterialModalNavigationBarStyle"
            TargetType="toolkitLib:NavigationBar"
            BasedOn="{StaticResource BaseMaterialModalNavigationBarStyle}">
-        <Setter Property="LeftCommandStyle"
-                Value="{StaticResource MaterialModalLeftCommandStyle}" />
+        <Setter Property="MainCommandStyle"
+                Value="{StaticResource MaterialModalMainCommandStyle}" />
     </Style>
 </ResourceDictionary>
