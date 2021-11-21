@@ -342,15 +342,15 @@
 							</Grid.RenderTransform>
 							<Grid>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition x:Name="LeftCommandColumnDefinition"
+									<ColumnDefinition x:Name="MainCommandColumnDefinition"
 													  Width="Auto" />
 									<ColumnDefinition x:Name="ContentControlColumnDefinition"
 													  Width="*" />
 									<ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition"
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
-                                <ContentPresenter x:Name="LeftCommandPresenter"
-												  Content="{Binding Path=(toolkitLib:CommandBarExtensions.LeftCommand), RelativeSource={RelativeSource TemplatedParent}}">
+                                <ContentPresenter x:Name="MainCommandPresenter"
+												  Content="{Binding Path=(toolkitLib:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
                                     <ContentPresenter.Resources>
                                         <x:Double x:Key="AppBarButtonContentHeight">16</x:Double>
                                     </ContentPresenter.Resources>
@@ -579,7 +579,7 @@
 	</Style>
 
 
-    <Style x:Key="BaseMaterialLeftCommandStyle"
+    <Style x:Key="BaseMaterialMainCommandStyle"
            TargetType="AppBarButton"
            BasedOn="{StaticResource MaterialAppBarButton}">
         <Setter Property="Foreground"
@@ -589,8 +589,8 @@
     <Style x:Key="BaseMaterialModalNavigationBarStyle"
            TargetType="toolkitLib:NavigationBar"
            BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
-        <Setter Property="LeftCommandStyle"
-                Value="{StaticResource MaterialModalLeftCommandStyle}" />
+        <Setter Property="MainCommandStyle"
+                Value="{StaticResource MaterialModalMainCommandStyle}" />
         <Setter Property="Background"
                 Value="{ThemeResource MaterialSurfaceBrush}" />
         <Setter Property="Foreground"

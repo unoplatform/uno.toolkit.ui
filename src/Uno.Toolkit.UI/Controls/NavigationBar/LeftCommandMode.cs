@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Uno.Toolkit.UI.Controls
 {
-	public enum LeftCommandMode
+	public enum MainCommandMode
 	{
 		Back,
 		Action,

@@ -41,9 +41,9 @@ namespace Uno.Toolkit.UI.Controls
 {
 	internal class NavigationAppBarButtonRenderer : Renderer<AppBarButton, Toolbar>
 	{
-		private readonly LeftCommandMode _mode;
+		private readonly MainCommandMode _mode;
 
-		public NavigationAppBarButtonRenderer(AppBarButton element, LeftCommandMode mode) : base(element) 
+		public NavigationAppBarButtonRenderer(AppBarButton element, MainCommandMode mode) : base(element) 
 		{
 			_mode = mode;
 		}
@@ -102,7 +102,7 @@ namespace Uno.Toolkit.UI.Controls
 						DrawableCompat.SetTintList(native.NavigationIcon, null);
 					}
 				}
-				else if (_mode == LeftCommandMode.Back)
+				else if (_mode == MainCommandMode.Back)
 				{
 					var navIcon = new AndroidX.AppCompat.Graphics.Drawable.DrawerArrowDrawable(ContextHelper.Current)
 					{

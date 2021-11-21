@@ -69,7 +69,7 @@ namespace Uno.Toolkit.UI.Controls
 
 		public NavigationBar()
 		{
-			LeftCommand ??= new AppBarButton();
+			MainCommand ??= new AppBarButton();
 			PrimaryCommands ??= new NavigationBarElementCollection();
 			SecondaryCommands ??= new NavigationBarElementCollection();
 
@@ -93,7 +93,7 @@ namespace Uno.Toolkit.UI.Controls
 
 		internal bool TryPerformBack()
 		{
-			if (LeftCommandMode != LeftCommandMode.Back)
+			if (MainCommandMode != MainCommandMode.Back)
 			{
 				return false;
 			}
@@ -155,38 +155,38 @@ namespace Uno.Toolkit.UI.Controls
 				}
 			}
 #endif
-			UpdateLeftCommandVisibility();
+			UpdateMainCommandVisibility();
 		}
 
 
 #if !HAS_NATIVE_NAVBAR
 		private void OnBackStackChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			UpdateLeftCommandVisibility();
+			UpdateMainCommandVisibility();
 		}
 #endif
 
-		internal void UpdateLeftCommandVisibility()
+		internal void UpdateMainCommandVisibility()
 		{
-			if (LeftCommandMode != LeftCommandMode.Back)
+			if (MainCommandMode != MainCommandMode.Back)
 			{
 				return;
 			}
 
 			Page? page = null;
-			if ((_pageRef?.TryGetTarget(out page) ?? false) && LeftCommand is { })
+			if ((_pageRef?.TryGetTarget(out page) ?? false) && MainCommand is { })
 			{
 				var buttonVisibility = (page?.Frame?.CanGoBack ?? false)
 					? Visibility.Visible
 					: Visibility.Collapsed;
 
-				LeftCommand.Visibility = buttonVisibility;
+				MainCommand.Visibility = buttonVisibility;
 			}
 		}
 
 		private void OnBackRequested(object? sender, BackRequestedEventArgs e)
 		{
-			if (!e.Handled && LeftCommandMode == LeftCommandMode.Back)
+			if (!e.Handled && MainCommandMode == MainCommandMode.Back)
 			{
 				e.Handled = TryPerformBack();
 			}
@@ -194,20 +194,20 @@ namespace Uno.Toolkit.UI.Controls
 
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
 		{
-			if (args.Property == LeftCommandProperty)
+			if (args.Property == MainCommandProperty)
 			{
-				UpdateLeftCommandVisibility();
+				UpdateMainCommandVisibility();
 			}
-			else if (args.Property == LeftCommandModeProperty)
+			else if (args.Property == MainCommandModeProperty)
 			{
-				UpdateLeftCommandVisibility();
+				UpdateMainCommandVisibility();
 			}
-			else if (args.Property == LeftCommandStyleProperty)
+			else if (args.Property == MainCommandStyleProperty)
 			{
-				var leftCommand = LeftCommand;
-				if (leftCommand != null)
+				var mainCommand = MainCommand;
+				if (MainCommand != null)
 				{
-					leftCommand.Style = args.NewValue as Style;
+					MainCommand.Style = args.NewValue as Style;
 				}
 			}
 		}

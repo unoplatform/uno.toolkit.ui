@@ -1293,15 +1293,15 @@
 							</Grid.RenderTransform>
 							<Grid>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition x:Name="LeftCommandColumnDefinition"
+									<ColumnDefinition x:Name="MainCommandColumnDefinition"
 													  Width="Auto" />
 									<ColumnDefinition x:Name="ContentControlColumnDefinition"
 													  Width="*" />
 									<ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition"
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
-								<ContentPresenter x:Name="LeftCommandPresenter"
-												  Content="{Binding Path=(toolkitLib:CommandBarExtensions.LeftCommand), RelativeSource={RelativeSource TemplatedParent}}" />
+								<ContentPresenter x:Name="MainCommandPresenter"
+												  Content="{Binding Path=(toolkitLib:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
 
 								<!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false

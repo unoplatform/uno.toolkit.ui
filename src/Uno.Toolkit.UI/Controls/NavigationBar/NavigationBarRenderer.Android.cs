@@ -153,11 +153,11 @@ namespace Uno.Toolkit.UI.Controls
 					new[] { NavigationBar.VerticalContentAlignmentProperty },
 					new[] { NavigationBar.OpacityProperty },
 					new[] { NavigationBar.SubtitleProperty },
-					new[] { NavigationBar.LeftCommandProperty },
-					new[] { NavigationBar.LeftCommandProperty, AppBarButton.VisibilityProperty },
-					new[] { NavigationBar.LeftCommandProperty, AppBarButton.ForegroundProperty },
-					new[] { NavigationBar.LeftCommandProperty, AppBarButton.IconProperty },
-					new[] { NavigationBar.LeftCommandModeProperty }
+					new[] { NavigationBar.MainCommandProperty },
+					new[] { NavigationBar.MainCommandProperty, AppBarButton.VisibilityProperty },
+					new[] { NavigationBar.MainCommandProperty, AppBarButton.ForegroundProperty },
+					new[] { NavigationBar.MainCommandProperty, AppBarButton.IconProperty },
+					new[] { NavigationBar.MainCommandModeProperty }
 				);
 			}
 		}
@@ -243,12 +243,12 @@ namespace Uno.Toolkit.UI.Controls
 				}
 			}
 
-			var leftCommand = element.GetValue(NavigationBar.LeftCommandProperty) as AppBarButton;
-			var leftCommandMode = (LeftCommandMode)element.GetValue(NavigationBar.LeftCommandModeProperty);
+			var MainCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
+			var MainCommandMode = (MainCommandMode)element.GetValue(NavigationBar.MainCommandModeProperty);
 
-			if (leftCommand is { })
+			if (MainCommand is { })
 			{
-				var renderer = leftCommand.GetRenderer(() => new NavigationAppBarButtonRenderer(leftCommand, leftCommandMode));
+				var renderer = MainCommand.GetRenderer(() => new NavigationAppBarButtonRenderer(MainCommand, MainCommandMode));
 				renderer.Native = native;
 			}
 			else
@@ -295,7 +295,7 @@ namespace Uno.Toolkit.UI.Controls
 		{
 			CloseKeyboard();
 
-			if (Element?.LeftCommand is AppBarButton navigationCommand)
+			if (Element?.MainCommand is AppBarButton navigationCommand)
 			{
 				navigationCommand.RaiseClick();
 			}

@@ -19,15 +19,15 @@
 		</Grid.RowDefinitions>
 		<toolkitLib:NavigationBar Content="Cupertino Bottom TabBar Sample Page"
 								  toolkit:VisibleBoundsPadding.PaddingMask="Top"
-								  LeftCommandMode="Action">
-			<toolkitLib:NavigationBar.LeftCommand>
+								  MainCommandMode="Action">
+			<toolkitLib:NavigationBar.MainCommand>
 				<AppBarButton Click="NavigateBack">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-			</toolkitLib:NavigationBar.LeftCommand>
+			</toolkitLib:NavigationBar.MainCommand>
 		</toolkitLib:NavigationBar>
 		<Grid x:Name="PageContainer"
 			  Grid.Row="1">

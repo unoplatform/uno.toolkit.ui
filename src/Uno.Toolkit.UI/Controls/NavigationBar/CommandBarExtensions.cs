@@ -16,18 +16,18 @@ namespace Uno.Toolkit.UI.Controls
 	[Bindable]
 	public static class CommandBarExtensions
 	{
-		#region Property: LeftCommand
+		#region Property: MainCommand
 
-		public static DependencyProperty LeftCommandProperty { get; } = DependencyProperty.RegisterAttached(
-			"LeftCommand",
+		public static DependencyProperty MainCommandProperty { get; } = DependencyProperty.RegisterAttached(
+			"MainCommand",
 			typeof(AppBarButton),
 			typeof(CommandBarExtensions),
 			new PropertyMetadata(default(AppBarButton?)));
 
 
 
-		public static AppBarButton? GetLeftCommand(DependencyObject? obj) => obj?.GetValue(LeftCommandProperty) as AppBarButton;
-		public static void SetLeftCommand(DependencyObject? obj, AppBarButton? value) => obj?.SetValue(LeftCommandProperty, value);
+		public static AppBarButton? GetMainCommand(DependencyObject? obj) => obj?.GetValue(MainCommandProperty) as AppBarButton;
+		public static void SetMainCommand(DependencyObject? obj, AppBarButton? value) => obj?.SetValue(MainCommandProperty, value);
 
 		#endregion
 	}

@@ -11,7 +11,7 @@
     <toolkit:NavigationBar Style="{StaticResource MaterialModalNavigationBarStyle}"
                                Content="Hello"
                                VerticalAlignment="Top">
-        <toolkit:NavigationBar.LeftCommand>
+        <toolkit:NavigationBar.MainCommand>
             <AppBarButton Label="Test"
                           Click="CloseModal">
                 <AppBarButton.Icon>
@@ -19,7 +19,7 @@
 									ShowAsMonochrome="False" />
                 </AppBarButton.Icon>
             </AppBarButton>
-        </toolkit:NavigationBar.LeftCommand>
+        </toolkit:NavigationBar.MainCommand>
     </toolkit:NavigationBar>
 
     <StackPanel Spacing="8"

@@ -14,9 +14,9 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<toolkit:NavigationBar Content="First Page"
-							   LeftCommandMode="Action"
+							   MainCommandMode="Action"
 							   Style="{StaticResource MaterialNavigationBarStyle}">
-			<toolkit:NavigationBar.LeftCommand>
+			<toolkit:NavigationBar.MainCommand>
 				<AppBarButton Label="Close"
 							  Style="{StaticResource MaterialAppBarButton}"
 							  Click="NavigateBack">
@@ -25,7 +25,7 @@
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-			</toolkit:NavigationBar.LeftCommand>
+			</toolkit:NavigationBar.MainCommand>
 			<toolkit:NavigationBar.PrimaryCommands>
 				<AppBarButton Label="More"
 							  Style="{StaticResource MaterialAppBarButton}"

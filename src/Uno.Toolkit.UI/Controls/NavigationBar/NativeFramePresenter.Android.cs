@@ -85,7 +85,7 @@ namespace Uno.Toolkit.UI.Controls
 			var page = FrameNavigationHelper.GetInstance(pageEntry);
 
 			var navBar = page?.FindFirstChild<NavigationBar>();
-			navBar?.UpdateLeftCommandVisibility();
+			navBar?.UpdateMainCommandVisibility();
 		}
 
 		private void OnNavigated(object sender, NavigationEventArgs e)

@@ -20,8 +20,8 @@
 		</Grid.RowDefinitions>
 		<toolkitLib:NavigationBar Content="Material Bottom TabBar Sample Page"
 								  Style="{StaticResource MaterialNavigationBarStyle}"
-								  LeftCommandMode="Action">
-			<toolkitLib:NavigationBar.LeftCommand>
+								  MainCommandMode="Action">
+			<toolkitLib:NavigationBar.MainCommand>
 				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
 							  Click="NavigateBack">
 					<AppBarButton.Icon>
@@ -29,7 +29,7 @@
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-			</toolkitLib:NavigationBar.LeftCommand>
+			</toolkitLib:NavigationBar.MainCommand>
 		</toolkitLib:NavigationBar>
 
 		<Grid x:Name="PageContainer"

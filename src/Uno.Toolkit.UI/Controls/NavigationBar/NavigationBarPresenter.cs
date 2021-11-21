@@ -34,7 +34,7 @@ namespace Uno.Toolkit.UI.Controls
 		private CommandBar? _commandBar;
 		private WeakReference<NavigationBar?>? _weakNavBar;
 		private SerialDisposable _navBarCommandsChangedHandler = new SerialDisposable();
-		private SerialDisposable _leftCommandClickedHandler = new SerialDisposable();
+		private SerialDisposable _MainCommandClickedHandler = new SerialDisposable();
 
 		public NavigationBarPresenter()
 		{
@@ -112,18 +112,18 @@ namespace Uno.Toolkit.UI.Controls
 				setBinding(_commandBar, navigationBar, CommandBar.FontSizeProperty, nameof(navigationBar.FontSize));
 				setBinding(_commandBar, navigationBar, CommandBar.WidthProperty, nameof(navigationBar.Width));
 				setBinding(_commandBar, navigationBar, CommandBar.UseSystemFocusVisualsProperty, nameof(navigationBar.UseSystemFocusVisuals));
-				setBinding(_commandBar, navigationBar, CommandBarExtensions.LeftCommandProperty, nameof(navigationBar.LeftCommand));
+				setBinding(_commandBar, navigationBar, CommandBarExtensions.MainCommandProperty, nameof(navigationBar.MainCommand));
 
-				var leftCommand = CommandBarExtensions.GetLeftCommand(_commandBar);
-				if (leftCommand != null)
+				var MainCommand = CommandBarExtensions.GetMainCommand(_commandBar);
+				if (MainCommand != null)
 				{
-					setBinding(leftCommand, navigationBar, AppBarButton.StyleProperty, nameof(navigationBar.LeftCommandStyle));
+					setBinding(MainCommand, navigationBar, AppBarButton.StyleProperty, nameof(navigationBar.MainCommandStyle));
 				}
 			}
 		}
 
 
-		private void OnCommandBarLeftCommandClicked(object sender, RoutedEventArgs e)
+		private void OnCommandBarMainCommandClicked(object sender, RoutedEventArgs e)
 		{
 			GetNavBar()?.TryPerformBack();
 		}
@@ -146,11 +146,11 @@ namespace Uno.Toolkit.UI.Controls
 			}
 
 			
-			var commandBarLeftCommand = CommandBarExtensions.GetLeftCommand(_commandBar);
-			if (commandBarLeftCommand != null)
+			var commandBarMainCommand = CommandBarExtensions.GetMainCommand(_commandBar);
+			if (commandBarMainCommand != null)
 			{
-				commandBarLeftCommand.Click += OnCommandBarLeftCommandClicked;
-				_leftCommandClickedHandler.Disposable = Disposable.Create(() => commandBarLeftCommand.Click -= OnCommandBarLeftCommandClicked);
+				commandBarMainCommand.Click += OnCommandBarMainCommandClicked;
+				_MainCommandClickedHandler.Disposable = Disposable.Create(() => commandBarMainCommand.Click -= OnCommandBarMainCommandClicked);
 			}
 
 			if (_commandBar != null)
@@ -195,9 +195,9 @@ namespace Uno.Toolkit.UI.Controls
 				_navBarCommandsChangedHandler.Disposable = null;
 			}
 
-			if (CommandBarExtensions.GetLeftCommand(_commandBar) != null)
+			if (CommandBarExtensions.GetMainCommand(_commandBar) != null)
 			{
-				_leftCommandClickedHandler.Disposable = null;
+				_MainCommandClickedHandler.Disposable = null;
 			}
 		}
 

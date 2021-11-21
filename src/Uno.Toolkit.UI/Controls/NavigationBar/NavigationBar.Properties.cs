@@ -209,32 +209,32 @@ namespace Uno.Toolkit.UI.Controls
 
 		#endregion
 
-		#region LeftCommand
+		#region MainCommand
 		/// <summary>
 		/// Gets or sets an AppBarButton to be used for back-navigation or invoking a custom command.
 		/// </summary>
-		public AppBarButton LeftCommand
+		public AppBarButton MainCommand
 		{
-			get { return (AppBarButton)GetValue(LeftCommandProperty); }
-			set { SetValue(LeftCommandProperty, value); }
+			get { return (AppBarButton)GetValue(MainCommandProperty); }
+			set { SetValue(MainCommandProperty, value); }
 		}
 
-		public static DependencyProperty LeftCommandProperty { get; } =
-			DependencyProperty.Register(nameof(LeftCommand), typeof(AppBarButton), typeof(NavigationBar), new PropertyMetadata(default(AppBarButton), OnPropertyChanged));
+		public static DependencyProperty MainCommandProperty { get; } =
+			DependencyProperty.Register(nameof(MainCommand), typeof(AppBarButton), typeof(NavigationBar), new PropertyMetadata(default(AppBarButton), OnPropertyChanged));
 		#endregion
 
-		#region LeftCommandMode
+		#region MainCommandMode
 		/// <summary>
-		/// Gets or sets a value to indicate whether or not the LeftCommand will be used for back-navigation or custom logic.
+		/// Gets or sets a value to indicate whether or not the MainCommand will be used for back-navigation or custom logic.
 		/// </summary>
-		public LeftCommandMode LeftCommandMode
+		public MainCommandMode MainCommandMode
 		{
-			get { return (LeftCommandMode)GetValue(LeftCommandModeProperty); }
-			set { SetValue(LeftCommandModeProperty, value); }
+			get { return (MainCommandMode)GetValue(MainCommandModeProperty); }
+			set { SetValue(MainCommandModeProperty, value); }
 		}
 
-		public static DependencyProperty LeftCommandModeProperty { get; } =
-			DependencyProperty.Register(nameof(LeftCommandMode), typeof(LeftCommandMode), typeof(NavigationBar), new PropertyMetadata(LeftCommandMode.Back, OnPropertyChanged));
+		public static DependencyProperty MainCommandModeProperty { get; } =
+			DependencyProperty.Register(nameof(MainCommandMode), typeof(MainCommandMode), typeof(NavigationBar), new PropertyMetadata(MainCommandMode.Back, OnPropertyChanged));
 		#endregion
 
 		#region Subtitle
@@ -251,18 +251,18 @@ namespace Uno.Toolkit.UI.Controls
 			DependencyProperty.Register(nameof(Subtitle), typeof(string), typeof(NavigationBar), new PropertyMetadata(default(string?), OnPropertyChanged));
 		#endregion
 
-		#region LeftCommandStyle
+		#region MainCommandStyle
 		/// <summary>
-		/// Gets or sets the Style for the LeftCommand
+		/// Gets or sets the Style for the MainCommand
 		/// </summary>
-		public Style LeftCommandStyle
+		public Style MainCommandStyle
 		{
-			get { return (Style)GetValue(LeftCommandStyleProperty); }
-			set { SetValue(LeftCommandStyleProperty, value); }
+			get { return (Style)GetValue(MainCommandStyleProperty); }
+			set { SetValue(MainCommandStyleProperty, value); }
 		}
 
-		public static DependencyProperty LeftCommandStyleProperty { get; } =
-			DependencyProperty.Register(nameof(LeftCommandStyle), typeof(Style), typeof(NavigationBar), new PropertyMetadata(default(Style), OnPropertyChanged));
+		public static DependencyProperty MainCommandStyleProperty { get; } =
+			DependencyProperty.Register(nameof(MainCommandStyle), typeof(Style), typeof(NavigationBar), new PropertyMetadata(default(Style), OnPropertyChanged));
 		#endregion
 
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
