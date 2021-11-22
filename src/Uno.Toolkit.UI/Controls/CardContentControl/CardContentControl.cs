@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 #endif
 
-namespace Uno.UI.ToolkitLib
+namespace Uno.Toolkit.UI.Controls
 {
 	public partial class CardContentControl : ContentControl
 	{
