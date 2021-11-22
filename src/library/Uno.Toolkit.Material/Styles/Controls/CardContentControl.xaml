@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:controls="using:Uno.Material.Controls"
-					xmlns:toolkitlib="using:Uno.UI.ToolkitLib"
+                    xmlns:toolkitlib="using:Uno.Toolkit.UI.Controls"
 					xmlns:toolkit="using:Uno.UI.Toolkit">
 
 	<ResourceDictionary.MergedDictionaries>
