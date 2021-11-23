@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Input;
 
 namespace Uno.Toolkit.UI.Controls
 {
+	/// <summary>
+	/// Represents a control used to visually group related child elements and information.
+	/// </summary>
 	public partial class CardContentControl : ContentControl
 	{
 #if __ANDROID__
