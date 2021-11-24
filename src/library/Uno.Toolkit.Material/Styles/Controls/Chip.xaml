@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-					xmlns:toolkitLib="using:Uno.Toolkit.UI.Controls"
+					xmlns:utu="using:Uno.Toolkit.UI.Controls"
 					xmlns:controls="using:Uno.Material.Controls"
 					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:not_win="http://uno.ui/not_win"
@@ -83,7 +83,7 @@
 	</Style>
 
 	<Style x:Key="BaseMaterialFilledChipStyle"
-		   TargetType="toolkitLib:Chip">
+		   TargetType="utu:Chip">
 		<Setter Property="VerticalAlignment"
 				Value="Stretch" />
 		<Setter Property="VerticalContentAlignment"
@@ -99,10 +99,10 @@
 		<Setter Property="Padding"
 				Value="4,0" />
 		<Setter Property="FontFamily"
-				Value="{StaticResource MaterialFontFamily}" />
+				Value="{StaticResource MaterialRegularFontFamily}" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitLib:Chip">
+				<ControlTemplate TargetType="utu:Chip">
 					<Grid>
 
 						<VisualStateManager.VisualStateGroups>
@@ -220,7 +220,7 @@
 	</Style>
 
 	<Style x:Key="BaseMaterialOutlinedChipStyle"
-		   TargetType="toolkitLib:Chip">
+		   TargetType="utu:Chip">
 		<Setter Property="VerticalAlignment"
 				Value="Stretch" />
 		<Setter Property="VerticalContentAlignment"
@@ -240,10 +240,10 @@
 		<Setter Property="Padding"
 				Value="4,0" />
 		<Setter Property="FontFamily"
-				Value="{StaticResource MaterialFontFamily}" />
+				Value="{StaticResource MaterialRegularFontFamily}" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitLib:Chip">
+				<ControlTemplate TargetType="utu:Chip">
 					<Grid>
 
 						<VisualStateManager.VisualStateGroups>
@@ -357,7 +357,7 @@
 
 	<!-- Begin Input Chip -->
 	<Style x:Name="MaterialFilledInputChipStyle"
-		   TargetType="toolkitLib:Chip"
+		   TargetType="utu:Chip"
 		   BasedOn="{StaticResource BaseMaterialFilledChipStyle}">
 		<Style.Setters>
 			<Setter Property="CanRemove"
@@ -368,7 +368,7 @@
 	</Style>
 
 	<Style x:Name="MaterialOutlinedInputChipStyle"
-		   TargetType="toolkitLib:Chip"
+		   TargetType="utu:Chip"
 		   BasedOn="{StaticResource BaseMaterialOutlinedChipStyle}">
 		<Style.Setters>
 			<Setter Property="CanRemove"
@@ -379,7 +379,7 @@
 
 	<!-- Begin Choice Chip -->
 	<Style x:Key="MaterialFilledChoiceChipStyle"
-		   TargetType="toolkitLib:Chip"
+		   TargetType="utu:Chip"
 		   BasedOn="{StaticResource BaseMaterialFilledChipStyle}">
 		<Setter Property="Background"
 				Value="{StaticResource MaterialOnSurfacePressedBrush}" />
@@ -391,7 +391,7 @@
 				Value="True" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitLib:Chip">
+				<ControlTemplate TargetType="utu:Chip">
 					<Grid>
 
 						<VisualStateManager.VisualStateGroups>
@@ -484,7 +484,7 @@
 	</Style>
 
 	<Style x:Key="MaterialOutlinedChoiceChipStyle"
-		   TargetType="toolkitLib:Chip"
+		   TargetType="utu:Chip"
 		   BasedOn="{StaticResource BaseMaterialOutlinedChipStyle}">
 		<Setter Property="Background"
 				Value="{StaticResource MaterialSurfaceBrush}" />
@@ -498,7 +498,7 @@
 				Value="False" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitLib:Chip">
+				<ControlTemplate TargetType="utu:Chip">
 					<Grid>
 
 						<VisualStateManager.VisualStateGroups>
@@ -597,7 +597,7 @@
 
 	<!-- Begin Filter Chip -->
 	<Style x:Key="MaterialFilledFilterChipStyle"
-		   TargetType="toolkitLib:Chip"
+		   TargetType="utu:Chip"
 		   BasedOn="{StaticResource BaseMaterialFilledChipStyle}">
 		<Setter Property="CanRemove"
 				Value="False" />
@@ -605,7 +605,7 @@
 				Value="True" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitLib:Chip">
+				<ControlTemplate TargetType="utu:Chip">
 					<Grid>
 
 						<VisualStateManager.VisualStateGroups>
@@ -713,7 +713,7 @@
 	</Style>
 
 	<Style x:Key="MaterialOutlinedFilterChipStyle"
-		   TargetType="toolkitLib:Chip"
+		   TargetType="utu:Chip"
 		   BasedOn="{StaticResource BaseMaterialOutlinedChipStyle}">
 		<Setter Property="CanRemove"
 				Value="False" />
@@ -721,7 +721,7 @@
 				Value="True" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitLib:Chip">
+				<ControlTemplate TargetType="utu:Chip">
 					<Grid>
 
 						<VisualStateManager.VisualStateGroups>
@@ -826,11 +826,11 @@
 
 	<!-- Begin Action Chip -->
 	<Style x:Key="MaterialFilledActionChipStyle"
-		   TargetType="toolkitLib:Chip"
+		   TargetType="utu:Chip"
 		   BasedOn="{StaticResource BaseMaterialFilledChipStyle}">
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitLib:Chip">
+				<ControlTemplate TargetType="utu:Chip">
 					<Grid>
 
 						<VisualStateManager.VisualStateGroups>
@@ -925,10 +925,10 @@
 
 	<Style x:Key="MaterialOutlinedActionChipStyle"
 		   BasedOn="{StaticResource BaseMaterialOutlinedChipStyle}"
-		   TargetType="toolkitLib:Chip">
+		   TargetType="utu:Chip">
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitLib:Chip">
+				<ControlTemplate TargetType="utu:Chip">
 					<Grid>
 
 						<VisualStateManager.VisualStateGroups>
