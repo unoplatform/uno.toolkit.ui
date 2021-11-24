@@ -90,7 +90,7 @@ namespace Uno.Toolkit.UI.Controls
 			"CounterAlignment",
 			typeof(AutoLayoutAlignment),
 			typeof(AutoLayout),
-			new PropertyMetadata(default(AutoLayoutAlignment), propertyChangedCallback: UpdateAttachedCallback));
+			new PropertyMetadata(AutoLayoutAlignment.Stretch, propertyChangedCallback: UpdateAttachedCallback));
 
 		public static void SetCounterAlignment(DependencyObject element, AutoLayoutAlignment value)
 		{
