@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:controls="using:Uno.Material.Controls"
-                    xmlns:toolkitlib="using:Uno.Toolkit.UI.Controls"
+					xmlns:utu="using:Uno.Toolkit.UI.Controls"
 					xmlns:toolkit="using:Uno.UI.Toolkit">
 
 	<ResourceDictionary.MergedDictionaries>
@@ -9,7 +9,7 @@
 	</ResourceDictionary.MergedDictionaries>
 
 	<Style x:Key="MaterialOutlinedCardContentControlStyle"
-		   TargetType="toolkitlib:CardContentControl">
+		   TargetType="utu:CardContentControl">
 		<Setter Property="MinHeight"
 				Value="72" />
 		<Setter Property="MaxWidth"
@@ -34,7 +34,7 @@
 				Value="Stretch" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitlib:CardContentControl">
+				<ControlTemplate TargetType="utu:CardContentControl">
 					<Grid x:Name="GridRoot"
 						  MinWidth="{TemplateBinding MinWidth}"
 						  MinHeight="{TemplateBinding MinHeight}"
@@ -80,7 +80,7 @@
 												<CubicEase EasingMode="EaseIn" />
 											</DoubleAnimation.EasingFunction>
 										</DoubleAnimation>
-										
+
 										<DoubleAnimation Storyboard.TargetName="HoverOverlay"
 														 Storyboard.TargetProperty="Opacity"
 														 Duration="{StaticResource MaterialDelayedBeginTime}"
@@ -172,7 +172,7 @@
 	</Style>
 
 	<Style x:Key="MaterialElevatedCardContentControlStyle"
-		   TargetType="toolkitlib:CardContentControl">
+		   TargetType="utu:CardContentControl">
 		<Setter Property="MinHeight"
 				Value="72" />
 		<Setter Property="MaxWidth"
@@ -196,7 +196,7 @@
 
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitlib:CardContentControl">
+				<ControlTemplate TargetType="utu:CardContentControl">
 					<!--  Elevated View  -->
 					<toolkit:ElevatedView x:Name="ElevatedRoot"
 										  MinWidth="{TemplateBinding MinWidth}"
@@ -243,7 +243,7 @@
 												<CubicEase EasingMode="EaseIn" />
 											</DoubleAnimation.EasingFunction>
 										</DoubleAnimation>
-										
+
 										<DoubleAnimation Storyboard.TargetName="HoverOverlay"
 														 Storyboard.TargetProperty="Opacity"
 														 Duration="{StaticResource MaterialDelayedBeginTime}"

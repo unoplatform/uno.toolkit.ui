@@ -1,99 +1,93 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Uno.Material.Controls"
-    xmlns:toolkit="using:Uno.UI.Toolkit"
-    xmlns:toolkitlib="using:Uno.Toolkit.UI.Controls">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <ResourceDictionary.MergedDictionaries>
-        <MaterialColors xmlns="using:Uno.Material" />
-        <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-        <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Dark">
-                    <StaticResource x:Key="MaterialTabBarBackground"
+	<ResourceDictionary.MergedDictionaries>
+		<MaterialColors xmlns="using:Uno.Material" />
+		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Dark">
+					<StaticResource x:Key="MaterialTabBarBackground"
 									ResourceKey="MaterialPrimaryBrush" />
 
-                    <StaticResource x:Key="TabBarItemBackground"
+					<StaticResource x:Key="TabBarItemBackground"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundPointerOver"
+					<StaticResource x:Key="TabBarItemBackgroundPointerOver"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundPressed"
+					<StaticResource x:Key="TabBarItemBackgroundPressed"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundSelected"
+					<StaticResource x:Key="TabBarItemBackgroundSelected"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
+					<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
+					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
 									ResourceKey="SystemControlTransparentBrush" />
 
-                    <StaticResource x:Key="TabBarItemForeground"
+					<StaticResource x:Key="TabBarItemForeground"
 									ResourceKey="MaterialTabBarItemUnselectedForegroundBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundPointerOver"
+					<StaticResource x:Key="TabBarItemForegroundPointerOver"
 									ResourceKey="MaterialOnPrimaryBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundPressed"
+					<StaticResource x:Key="TabBarItemForegroundPressed"
 									ResourceKey="MaterialOnPrimaryBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundDisabled"
+					<StaticResource x:Key="TabBarItemForegroundDisabled"
 									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundSelected"
+					<StaticResource x:Key="TabBarItemForegroundSelected"
 									ResourceKey="MaterialOnPrimaryBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
+					<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
 									ResourceKey="MaterialOnPrimaryBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundSelectedPressed"
+					<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
 									ResourceKey="MaterialOnPrimaryBrush" />
 
-                    <StaticResource x:Key="TabBarItemBorderBrush"
+					<StaticResource x:Key="TabBarItemBorderBrush"
 									ResourceKey="SystemControlTransparentBrush" />
-                </ResourceDictionary>
+				</ResourceDictionary>
 
-                <ResourceDictionary x:Key="Light">
-                    <StaticResource x:Key="MaterialTabBarBackground"
+				<ResourceDictionary x:Key="Light">
+					<StaticResource x:Key="MaterialTabBarBackground"
 									ResourceKey="MaterialPrimaryBrush" />
 
-                    <StaticResource x:Key="TabBarItemBackground"
+					<StaticResource x:Key="TabBarItemBackground"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundPointerOver"
+					<StaticResource x:Key="TabBarItemBackgroundPointerOver"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundPressed"
+					<StaticResource x:Key="TabBarItemBackgroundPressed"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundSelected"
+					<StaticResource x:Key="TabBarItemBackgroundSelected"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
+					<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
 									ResourceKey="SystemControlTransparentBrush" />
-                    <StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
+					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
 									ResourceKey="SystemControlTransparentBrush" />
 
-                    <StaticResource x:Key="TabBarItemForeground"
+					<StaticResource x:Key="TabBarItemForeground"
 									ResourceKey="MaterialTabBarItemUnselectedForegroundBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundPointerOver"
+					<StaticResource x:Key="TabBarItemForegroundPointerOver"
 									ResourceKey="MaterialOnPrimaryBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundPressed"
+					<StaticResource x:Key="TabBarItemForegroundPressed"
 									ResourceKey="MaterialOnPrimaryBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundDisabled"
+					<StaticResource x:Key="TabBarItemForegroundDisabled"
 									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundSelected"
+					<StaticResource x:Key="TabBarItemForegroundSelected"
 									ResourceKey="MaterialOnPrimaryBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
+					<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
 									ResourceKey="MaterialOnPrimaryBrush" />
-                    <StaticResource x:Key="TabBarItemForegroundSelectedPressed"
+					<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
 									ResourceKey="MaterialOnPrimaryBrush" />
 
-                    <StaticResource x:Key="TabBarItemBorderBrush"
+					<StaticResource x:Key="TabBarItemBorderBrush"
 									ResourceKey="SystemControlTransparentBrush" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
-    </ResourceDictionary.MergedDictionaries>
-    
-    <x:Double x:Key="MaterialTabBarFontSize">14</x:Double>
-    <FontFamily x:Key="MaterialTabBarFontFamily">Roboto</FontFamily>
-    <x:Double x:Key="TabBarHeight">64</x:Double>
-    <x:Double x:Key="FabItemVerticalOffset">-32</x:Double>
-    <x:Double x:Key="TabBarItemIconHeight">22</x:Double>
-    <x:Double x:Key="TabBarItemIconWidth">22</x:Double>
-    <Thickness x:Key="TabBarItemContentMargin">0,0,0,6</Thickness>
-    <Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+	</ResourceDictionary.MergedDictionaries>
 
-    
+	<x:Double x:Key="MaterialTabBarFontSize">14</x:Double>
+	<FontFamily x:Key="MaterialTabBarFontFamily">Roboto</FontFamily>
+	<x:Double x:Key="TabBarHeight">64</x:Double>
+	<x:Double x:Key="FabItemVerticalOffset">-32</x:Double>
+	<x:Double x:Key="TabBarItemIconHeight">22</x:Double>
+	<x:Double x:Key="TabBarItemIconWidth">22</x:Double>
+	<Thickness x:Key="TabBarItemContentMargin">0,0,0,6</Thickness>
+	<Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
 
 </ResourceDictionary>

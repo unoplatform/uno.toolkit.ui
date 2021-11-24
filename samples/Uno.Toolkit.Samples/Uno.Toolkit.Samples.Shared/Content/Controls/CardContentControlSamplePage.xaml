@@ -5,7 +5,7 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
-      xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI.Controls"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -18,8 +18,8 @@
 					<TextBlock Text="Outlined CardContentControl Style"
 							   Style="{StaticResource MaterialHeadline6}" />
 
-					<toolkit:CardContentControl Style="{StaticResource MaterialOutlinedCardContentControlStyle}">
-						<toolkit:CardContentControl.ContentTemplate>
+					<utu:CardContentControl Style="{StaticResource MaterialOutlinedCardContentControlStyle}">
+						<utu:CardContentControl.ContentTemplate>
 							<DataTemplate>
 								<Grid>
 									<Grid.RowDefinitions>
@@ -65,15 +65,15 @@
 									</StackPanel>
 								</Grid>
 							</DataTemplate>
-						</toolkit:CardContentControl.ContentTemplate>
-					</toolkit:CardContentControl>
+						</utu:CardContentControl.ContentTemplate>
+					</utu:CardContentControl>
 
 					<!-- Material Elevated CardContentControl Style -->
 					<TextBlock Text="Elevated CardContentControl Style"
 							   Style="{StaticResource MaterialHeadline6}" />
 
-					<toolkit:CardContentControl Style="{StaticResource MaterialElevatedCardContentControlStyle}">
-						<toolkit:CardContentControl.ContentTemplate>
+					<utu:CardContentControl Style="{StaticResource MaterialElevatedCardContentControlStyle}">
+						<utu:CardContentControl.ContentTemplate>
 							<DataTemplate>
 								<Grid>
 									<Grid.RowDefinitions>
@@ -119,8 +119,8 @@
 									</StackPanel>
 								</Grid>
 							</DataTemplate>
-						</toolkit:CardContentControl.ContentTemplate>
-					</toolkit:CardContentControl>
+						</utu:CardContentControl.ContentTemplate>
+					</utu:CardContentControl>
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.MaterialTemplate>

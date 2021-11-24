@@ -5,7 +5,7 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  xmlns:toolkitLib="using:Uno.Toolkit.UI.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI.Controls"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -15,35 +15,35 @@
 				<DataTemplate>
 					<Grid>
 						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="*"/>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
-						<toolkitLib:TabBar Style="{StaticResource CupertinoSegmentedStyle}"
-										   Margin="10"
-										   SelectedIndex="0"
-										   x:Name="segControl">
-							<toolkitLib:TabBar.Items>
-								<toolkitLib:TabBarItem Content="ORANGE" />
-								<toolkitLib:TabBarItem Content="PURPLE" />
-								<toolkitLib:TabBarItem Content="BLUE" />
-							</toolkitLib:TabBar.Items>
-						</toolkitLib:TabBar>
-						<toolkitLib:TabBar x:Name="slidingSegControl"
-										   Grid.Row="1"
-										   Margin="10"
-										   SelectedIndex="{Binding SelectedIndex, ElementName=segControl, Mode=TwoWay}"
-										   Style="{StaticResource CupertinoSlidingSegmentedStyle}">
-							<toolkitLib:TabBar.Items>
-								<toolkitLib:TabBarItem Content="ORANGE" />
-								<toolkitLib:TabBarItem Content="PURPLE" />
-								<toolkitLib:TabBarItem Content="BLUE" />
-							</toolkitLib:TabBar.Items>
-						</toolkitLib:TabBar>
+						<utu:TabBar Style="{StaticResource CupertinoSegmentedStyle}"
+									Margin="10"
+									SelectedIndex="0"
+									x:Name="segControl">
+							<utu:TabBar.Items>
+								<utu:TabBarItem Content="ORANGE" />
+								<utu:TabBarItem Content="PURPLE" />
+								<utu:TabBarItem Content="BLUE" />
+							</utu:TabBar.Items>
+						</utu:TabBar>
+						<utu:TabBar x:Name="slidingSegControl"
+									Grid.Row="1"
+									Margin="10"
+									SelectedIndex="{Binding SelectedIndex, ElementName=segControl, Mode=TwoWay}"
+									Style="{StaticResource CupertinoSlidingSegmentedStyle}">
+							<utu:TabBar.Items>
+								<utu:TabBarItem Content="ORANGE" />
+								<utu:TabBarItem Content="PURPLE" />
+								<utu:TabBarItem Content="BLUE" />
+							</utu:TabBar.Items>
+						</utu:TabBar>
 						<TextBlock HorizontalAlignment="Center"
 								   VerticalAlignment="Center"
 								   Grid.Row="2"
-								   Text="{Binding SelectedItem.Content, ElementName=segControl}"/> 
+								   Text="{Binding SelectedItem.Content, ElementName=segControl}" />
 					</Grid>
 				</DataTemplate>
 			</sample:SamplePageLayout.CupertinoTemplate>

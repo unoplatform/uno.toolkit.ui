@@ -5,7 +5,7 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
-	  xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI.Controls"
 	  xmlns:toolkitB="using:Uno.Toolkit.UI.Behaviors"
 	  xmlns:toolkitE="using:Uno.Toolkit.UI.Extensions"
 	  mc:Ignorable="d"
@@ -13,7 +13,7 @@
 
 	<Page.Resources>
 		<Style x:Key="TabBarWithSlideIndicatorStyle"
-			   TargetType="toolkit:TabBar">
+			   TargetType="utu:TabBar">
 			<Setter Property="IsTabStop"
 					Value="False" />
 			<Setter Property="Height"
@@ -21,28 +21,28 @@
 			<Setter Property="ItemsPanel">
 				<Setter.Value>
 					<ItemsPanelTemplate>
-						<toolkit:TabBarListPanel />
+						<utu:TabBarListPanel />
 					</ItemsPanelTemplate>
 				</Setter.Value>
 			</Setter>
 			<Setter Property="Template">
 				<Setter.Value>
-					<ControlTemplate TargetType="toolkit:TabBar">
+					<ControlTemplate TargetType="utu:TabBar">
 						<Grid x:Name="TabBarGrid"
 							  Background="{TemplateBinding Background}"
 							  BorderBrush="{TemplateBinding BorderBrush}"
 							  BorderThickness="{TemplateBinding BorderThickness}"
 							  Height="{TemplateBinding Height}">
 							<ItemsPresenter Padding="{TemplateBinding Padding}" />
-							<toolkit:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-																	   IndicatorTransitionMode="Slide"
-																	   Opacity="0">
+							<utu:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+																   IndicatorTransitionMode="Slide"
+																   Opacity="0">
 								<Rectangle Fill="Purple"
 										   x:Name="TestingRect"
 										   AutomationProperties.AutomationId="TestingRect"
 										   Height="5"
 										   Width="30" />
-							</toolkit:TabBarSelectionIndicatorPresenter>
+							</utu:TabBarSelectionIndicatorPresenter>
 						</Grid>
 					</ControlTemplate>
 				</Setter.Value>
@@ -50,7 +50,7 @@
 		</Style>
 
 		<Style x:Key="TabBarWithSnapIndicatorStyle"
-			   TargetType="toolkit:TabBar">
+			   TargetType="utu:TabBar">
 			<Setter Property="IsTabStop"
 					Value="False" />
 			<Setter Property="Height"
@@ -58,29 +58,29 @@
 			<Setter Property="ItemsPanel">
 				<Setter.Value>
 					<ItemsPanelTemplate>
-						<toolkit:TabBarListPanel />
+						<utu:TabBarListPanel />
 					</ItemsPanelTemplate>
 				</Setter.Value>
 			</Setter>
 			<Setter Property="Template">
 				<Setter.Value>
-					<ControlTemplate TargetType="toolkit:TabBar">
+					<ControlTemplate TargetType="utu:TabBar">
 						<Grid x:Name="TabBarGrid"
 							  Background="{TemplateBinding Background}"
 							  BorderBrush="{TemplateBinding BorderBrush}"
 							  BorderThickness="{TemplateBinding BorderThickness}"
 							  Height="{TemplateBinding Height}">
 							<ItemsPresenter Padding="{TemplateBinding Padding}" />
-							<toolkit:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-																	   IndicatorTransitionMode="Snap"
-																	   Opacity="0">
+							<utu:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+																   IndicatorTransitionMode="Snap"
+																   Opacity="0">
 								<Rectangle Fill="Purple"
 										   x:Name="TestingRect"
 										   AutomationProperties.AutomationId="TestingRect"
 										   Margin="0,0,0,10"
 										   Height="5"
 										   Width="30" />
-							</toolkit:TabBarSelectionIndicatorPresenter>
+							</utu:TabBarSelectionIndicatorPresenter>
 						</Grid>
 					</ControlTemplate>
 				</Setter.Value>
@@ -97,20 +97,20 @@
 								<StackPanel>
 									<TextBlock Text="TabBar + FlipView with Snap Indicator"
 											   Style="{StaticResource BodyTextBlockStyle}" />
-									<toolkit:TabBar Style="{StaticResource TabBarWithSnapIndicatorStyle}"
+									<utu:TabBar Style="{StaticResource TabBarWithSnapIndicatorStyle}"
 													x:Name="SnapTabBar"
 													AutomationProperties.AutomationId="SnapTabBar"
 													toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SnapFlipView}"
 													Background="LightBlue">
-										<toolkit:TabBar.Items>
-											<toolkit:TabBarItem Content="Tab 1"
+										<utu:TabBar.Items>
+											<utu:TabBarItem Content="Tab 1"
 																AutomationProperties.AutomationId="SnapTab1" />
-											<toolkit:TabBarItem Content="Tab 2"
+											<utu:TabBarItem Content="Tab 2"
 																AutomationProperties.AutomationId="SnapTab2" />
-											<toolkit:TabBarItem Content="Tab 3"
+											<utu:TabBarItem Content="Tab 3"
 																AutomationProperties.AutomationId="SnapTab3" />
-										</toolkit:TabBar.Items>
-									</toolkit:TabBar>
+										</utu:TabBar.Items>
+									</utu:TabBar>
 									<FlipView x:Name="SnapFlipView"
 											  AutomationProperties.AutomationId="SnapFlipView"
 											  Height="100">
@@ -144,20 +144,20 @@
 					<StackPanel>
 						<TextBlock Text="TabBar + FlipView with Slide Indicator"
 								   Style="{StaticResource BodyTextBlockStyle}" />
-						<toolkit:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
-										x:Name="SlideTabBar"
-										AutomationProperties.AutomationId="SlideTabBar"
-										toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
-										Background="LightBlue">
-							<toolkit:TabBar.Items>
-								<toolkit:TabBarItem Content="Tab 1"
-													AutomationProperties.AutomationId="SlideTab1" />
-								<toolkit:TabBarItem Content="Tab 2"
-													AutomationProperties.AutomationId="SlideTab2" />
-								<toolkit:TabBarItem Content="Tab 3"
-													AutomationProperties.AutomationId="SlideTab3" />
-							</toolkit:TabBar.Items>
-						</toolkit:TabBar>
+						<utu:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
+									x:Name="SlideTabBar"
+									AutomationProperties.AutomationId="SlideTabBar"
+									toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
+									Background="LightBlue">
+							<utu:TabBar.Items>
+								<utu:TabBarItem Content="Tab 1"
+												AutomationProperties.AutomationId="SlideTab1" />
+								<utu:TabBarItem Content="Tab 2"
+												AutomationProperties.AutomationId="SlideTab2" />
+								<utu:TabBarItem Content="Tab 3"
+												AutomationProperties.AutomationId="SlideTab3" />
+							</utu:TabBar.Items>
+						</utu:TabBar>
 						<FlipView x:Name="SlideFlipView"
 								  AutomationProperties.AutomationId="SlideFlipView"
 								  Height="100">
@@ -190,21 +190,21 @@
 								<StackPanel>
 									<TextBlock Text="TabBar + ListView"
 											   Style="{StaticResource BodyTextBlockStyle}" />
-									<toolkit:TabBar x:Name="ListViewTabBar"
+									<utu:TabBar x:Name="ListViewTabBar"
 													AutomationProperties.AutomationId="ListViewTabBar"
 													toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=ListView}"
 													Background="LightBlue">
-										<toolkit:TabBar.Items>
-											<toolkit:TabBarItem Content="Tab 1"
+										<utu:TabBar.Items>
+											<utu:TabBarItem Content="Tab 1"
 																AutomationProperties.AutomationId="ListViewTab1" />
-											<toolkit:TabBarItem Content="Tab 2"
+											<utu:TabBarItem Content="Tab 2"
 																AutomationProperties.AutomationId="ListViewTab2" />
-											<toolkit:TabBarItem Content="Tab 3"
+											<utu:TabBarItem Content="Tab 3"
 																AutomationProperties.AutomationId="ListViewTab3" />
-											<toolkit:TabBarItem Content="Tab 4"
+											<utu:TabBarItem Content="Tab 4"
 																AutomationProperties.AutomationId="ListViewTab4" />
-										</toolkit:TabBar.Items>
-									</toolkit:TabBar>
+										</utu:TabBar.Items>
+									</utu:TabBar>
 									<ListView x:Name="ListView"
 											  AutomationProperties.AutomationId="ListView"
 											  SelectionMode="Single">
@@ -240,22 +240,22 @@
 								<StackPanel>
 									<TextBlock Text="TabBar + ListView with 2nd Tab Unselectable"
 											   Style="{StaticResource BodyTextBlockStyle}" />
-									<toolkit:TabBar x:Name="ListViewSkipTabBar"
+									<utu:TabBar x:Name="ListViewSkipTabBar"
 													AutomationProperties.AutomationId="ListViewSkipTabBar"
 													toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SkipListView}"
 													Background="LightBlue">
-										<toolkit:TabBar.Items>
-											<toolkit:TabBarItem Content="Tab 1"
+										<utu:TabBar.Items>
+											<utu:TabBarItem Content="Tab 1"
 																AutomationProperties.AutomationId="ListViewSkipTab1" />
-											<toolkit:TabBarItem Content="Tab 2"
+											<utu:TabBarItem Content="Tab 2"
 																IsSelectable="False"
 																AutomationProperties.AutomationId="ListViewSkipTab2" />
-											<toolkit:TabBarItem Content="Tab 3"
+											<utu:TabBarItem Content="Tab 3"
 																AutomationProperties.AutomationId="ListViewSkipTab3" />
-											<toolkit:TabBarItem Content="Tab 4"
+											<utu:TabBarItem Content="Tab 4"
 																AutomationProperties.AutomationId="ListViewSkipTab4" />
-										</toolkit:TabBar.Items>
-									</toolkit:TabBar>
+										</utu:TabBar.Items>
+									</utu:TabBar>
 									<ListView x:Name="SkipListView"
 											  AutomationProperties.AutomationId="SkipListView"
 											  SelectionMode="Single">
@@ -291,23 +291,23 @@
 								<StackPanel>
 									<TextBlock Text="TabBar + FlipView with 2nd Tab Unselectable"
 											   Style="{StaticResource BodyTextBlockStyle}" />
-									<toolkit:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
+									<utu:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
 													x:Name="SlideSkipTabBar"
 													AutomationProperties.AutomationId="SlideSkipTabBar"
 													toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideSkipFlipView}"
 													Background="LightBlue">
-										<toolkit:TabBar.Items>
-											<toolkit:TabBarItem Content="Tab 1"
+										<utu:TabBar.Items>
+											<utu:TabBarItem Content="Tab 1"
 																AutomationProperties.AutomationId="SlideSkipTab1" />
-											<toolkit:TabBarItem Content="Tab 2"
+											<utu:TabBarItem Content="Tab 2"
 																IsSelectable="False"
 																AutomationProperties.AutomationId="SlideSkipTab2" />
-											<toolkit:TabBarItem Content="Tab 3"
+											<utu:TabBarItem Content="Tab 3"
 																AutomationProperties.AutomationId="SlideSkipTab3" />
-											<toolkit:TabBarItem Content="Tab 4"
+											<utu:TabBarItem Content="Tab 4"
 																AutomationProperties.AutomationId="SlideSkipTab4" />
-										</toolkit:TabBar.Items>
-									</toolkit:TabBar>
+										</utu:TabBar.Items>
+									</utu:TabBar>
 									<FlipView x:Name="SlideSkipFlipView"
 											  AutomationProperties.AutomationId="SlideSkipFlipView">
 										<FlipView.Items>

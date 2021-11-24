@@ -13,27 +13,27 @@ There are two segmented control styles that you can use to theme `TabBar` and it
 ### Sliding Segmented Control
 
 ```xml
-xmlns:toolkitLib="using:Uno.UI.ToolkitLib"
+xmlns:utu="using:Uno.Toolkit.UI.Controls"
 ...
-<toolkitLib:TabBar Style="{StaticResource CupertinoSlidingSegmentedStyle}">
-	<toolkitLib:TabBar.Items>
-		<toolkitLib:TabBarItem Content="Item One" />
-		<toolkitLib:TabBarItem Content="Item Two" />
-		<toolkitLib:TabBarItem Content="Item Three" />
-	</toolkitLib:TabBar.Items>
-</toolkitLib:TabBar>
+<utu:TabBar Style="{StaticResource CupertinoSlidingSegmentedStyle}">
+	<utu:TabBar.Items>
+		<utu:TabBarItem Content="Item One" />
+		<utu:TabBarItem Content="Item Two" />
+		<utu:TabBarItem Content="Item Three" />
+	</utu:TabBar.Items>
+</utu:TabBar>
 ```
 
 ### Segmented Control
 
 ```xml
-xmlns:toolkitLib="using:Uno.UI.ToolkitLib"
+xmlns:utu="using:Uno.Toolkit.UI.Controls"
 ...
-<toolkitLib:TabBar Style="{StaticResource CupertinoSegmentedStyle}">
-	<toolkitLib:TabBar.Items>
-		<toolkitLib:TabBarItem Content="Item One" />
-		<toolkitLib:TabBarItem Content="Item Two" />
-		<toolkitLib:TabBarItem Content="Item Three" />
-	</toolkitLib:TabBar.Items>
-</toolkitLib:TabBar>
+<utu:TabBar Style="{StaticResource CupertinoSegmentedStyle}">
+	<utu:TabBar.Items>
+		<utu:TabBarItem Content="Item One" />
+		<utu:TabBarItem Content="Item Two" />
+		<utu:TabBarItem Content="Item Three" />
+	</utu:TabBar.Items>
+</utu:TabBar>
 ```
