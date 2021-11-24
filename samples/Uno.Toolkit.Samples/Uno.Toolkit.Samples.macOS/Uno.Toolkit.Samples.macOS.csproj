@@ -71,19 +71,19 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.Cupertino">
-      <Version>1.1.0-dev.31</Version>
+      <Version>1.1.0-dev.43</Version>
     </PackageReference>
     <PackageReference Include="Uno.Material">
-      <Version>1.1.0-dev.31</Version>
+      <Version>1.1.0-dev.43</Version>
     </PackageReference>
     <PackageReference Include="Uno.UI" Version="4.0.0-dev.5612" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.0-dev.5612" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.0-dev.5612" />
-		<PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.0-dev.7" />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.0-dev.7" />
-	</ItemGroup>
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.0-dev.5612" />
+    <PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.0-dev.7" />
+    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.0-dev.7" />
+  </ItemGroup>
   <Import Project="..\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -105,8 +105,10 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
-    <AndroidAsset Include="Resources\Fonts\Cupertino\SF-Pro.ttf" />
-    <None Include="Resources\Fonts\Material\RobotoMono-VariableFont_wght.ttf" />
+    <BundleResource Include="Resources\Fonts\SF-Pro.ttf" />
+    <BundleResource Include="Resources\Fonts\Roboto-Light.ttf" />
+    <BundleResource Include="Resources\Fonts\Roboto-Medium.ttf" />
+    <BundleResource Include="Resources\Fonts\Roboto-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
