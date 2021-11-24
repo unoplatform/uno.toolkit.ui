@@ -5,7 +5,7 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
-	  xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI.Controls"
 	  xmlns:behaviors="using:Uno.Toolkit.UI.Behaviors"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -27,14 +27,14 @@
 									   Style="{StaticResource BodyTextBlockStyle}" />
 							<sample:ControlExample>
 								<sample:ControlExample.Content>
-									<toolkit:DrawerControl x:Name="SampleDrawerControl"
-														   Content="Content"
-														   DrawerContent="DrawerContent"
-														   IsOpen="{Binding ElementName=OptionIsOpen, Path=IsChecked, Mode=TwoWay}"
-														   OpenDirection="{Binding ElementName=OptionOpenDirection, Path=SelectedItem}"
-														   IsGestureEnabled="{Binding ElementName=OptionIsGestureEnabled, Path=IsChecked}"
-														   FitToDrawerContent="{Binding ElementName=OptionFitToDrawerContent, Path=IsChecked}"
-														   MinHeight="300" />
+									<utu:DrawerControl x:Name="SampleDrawerControl"
+													   Content="Content"
+													   DrawerContent="DrawerContent"
+													   IsOpen="{Binding ElementName=OptionIsOpen, Path=IsChecked, Mode=TwoWay}"
+													   OpenDirection="{Binding ElementName=OptionOpenDirection, Path=SelectedItem}"
+													   IsGestureEnabled="{Binding ElementName=OptionIsGestureEnabled, Path=IsChecked}"
+													   FitToDrawerContent="{Binding ElementName=OptionFitToDrawerContent, Path=IsChecked}"
+													   MinHeight="300" />
 								</sample:ControlExample.Content>
 
 								<sample:ControlExample.Options>
@@ -59,7 +59,7 @@
 										<ToggleButton x:Name="OptionFitToDrawerContent"
 													  Content="FitToDrawerContent"
 													  IsChecked="True" />
-										
+
 										<ComboBox x:Name="OptionLightDismissOverlayBackground"
 												  Header="LightDismissOverlayBackground" />
 										<ToggleButton x:Name="OptionIsGestureEnabled"

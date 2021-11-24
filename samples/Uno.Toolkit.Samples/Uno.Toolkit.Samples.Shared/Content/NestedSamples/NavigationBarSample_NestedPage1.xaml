@@ -4,7 +4,7 @@
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI.Controls"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -13,10 +13,10 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<toolkit:NavigationBar Content="First Page"
-							   MainCommandMode="Action"
-							   Style="{StaticResource MaterialNavigationBarStyle}">
-			<toolkit:NavigationBar.MainCommand>
+		<utu:NavigationBar Content="First Page"
+						   MainCommandMode="Action"
+						   Style="{StaticResource MaterialNavigationBarStyle}">
+			<utu:NavigationBar.MainCommand>
 				<AppBarButton Label="Close"
 							  Style="{StaticResource MaterialAppBarButton}"
 							  Click="NavigateBack">
@@ -25,8 +25,8 @@
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-			</toolkit:NavigationBar.MainCommand>
-			<toolkit:NavigationBar.PrimaryCommands>
+			</utu:NavigationBar.MainCommand>
+			<utu:NavigationBar.PrimaryCommands>
 				<AppBarButton Label="More"
 							  Style="{StaticResource MaterialAppBarButton}"
 							  Command="{Binding Primary1CountCommand}">
@@ -43,16 +43,16 @@
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-			</toolkit:NavigationBar.PrimaryCommands>
-			<toolkit:NavigationBar.SecondaryCommands>
+			</utu:NavigationBar.PrimaryCommands>
+			<utu:NavigationBar.SecondaryCommands>
 				<AppBarButton Label="More"
 							  Command="{Binding Secondary1CountCommand}" />
 				<AppBarButton Label="More"
 							  Command="{Binding Secondary2CountCommand}" />
 				<AppBarButton Label="More"
 							  Command="{Binding Secondary3CountCommand}" />
-			</toolkit:NavigationBar.SecondaryCommands>
-		</toolkit:NavigationBar>
+			</utu:NavigationBar.SecondaryCommands>
+		</utu:NavigationBar>
 		<StackPanel Spacing="8"
 					Grid.Row="1"
 					VerticalAlignment="Center"

@@ -5,7 +5,7 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-	  xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI.Controls"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -14,23 +14,23 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<toolkit:NavigationBar Style="{StaticResource MaterialNavigationBarStyle}"
-							   Content="Second Page">
-			<toolkit:NavigationBar.PrimaryCommands>
+		<utu:NavigationBar Style="{StaticResource MaterialNavigationBarStyle}"
+						   Content="Second Page">
+			<utu:NavigationBar.PrimaryCommands>
 				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
 							  Label="More" />
 				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
 							  Label="More" />
-			</toolkit:NavigationBar.PrimaryCommands>
-			<toolkit:NavigationBar.SecondaryCommands>
+			</utu:NavigationBar.PrimaryCommands>
+			<utu:NavigationBar.SecondaryCommands>
 				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
 							  Label="More" />
 				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
 							  Label="More" />
 				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
 							  Label="More" />
-			</toolkit:NavigationBar.SecondaryCommands>
-		</toolkit:NavigationBar>
+			</utu:NavigationBar.SecondaryCommands>
+		</utu:NavigationBar>
 		<StackPanel Grid.Row="1"
 					Spacing="8"
 					VerticalAlignment="Center"

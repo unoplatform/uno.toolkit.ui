@@ -7,20 +7,20 @@
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:not_android="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:not_win="http://uno.ui/not_win"
-					xmlns:toolkitlib="using:Uno.Toolkit.UI.Controls"
+					xmlns:utu="using:Uno.Toolkit.UI.Controls"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:wasm="http://uno.ui/wasm"
 					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:converters="using:Uno.Toolkit.UI.Cupertino.Converters"
 					mc:Ignorable="d ios android wasm not_win">
-    <ResourceDictionary.MergedDictionaries>
-        <CupertinoColors xmlns="using:Uno.Cupertino" />
-        <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-        <ResourceDictionary Source="SlidingSegmentedControl.Base.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-    
-    <Style x:Key="CupertinoSlidingSegmentedItemStyle"
-		   TargetType="toolkitlib:TabBarItem">
+	<ResourceDictionary.MergedDictionaries>
+		<CupertinoColors xmlns="using:Uno.Cupertino" />
+		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+		<ResourceDictionary Source="SlidingSegmentedControl.Base.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+
+	<Style x:Key="CupertinoSlidingSegmentedItemStyle"
+		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource TabBarItemBackground}" />
 		<Setter Property="BorderBrush"
@@ -39,7 +39,7 @@
 				Value="6" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitlib:TabBarItem">
+				<ControlTemplate TargetType="utu:TabBarItem">
 					<Grid x:Name="LayoutRoot"
 						  Background="Transparent"
 						  BorderBrush="{TemplateBinding BorderBrush}"
@@ -182,58 +182,58 @@
 		</Setter>
 	</Style>
 
-    <!-- Styles -->
-    <Style x:Key="CupertinoSlidingSegmentedStyle"
-		   TargetType="toolkitlib:TabBar">
-        <Setter Property="Background"
+	<!-- Styles -->
+	<Style x:Key="CupertinoSlidingSegmentedStyle"
+		   TargetType="utu:TabBar">
+		<Setter Property="Background"
 				Value="{ThemeResource CupertinoTertiarySystemFillBrush}" />
-        <Setter Property="IsTabStop"
+		<Setter Property="IsTabStop"
 				Value="False" />
-        <Setter Property="Height"
+		<Setter Property="Height"
 				Value="{StaticResource TabBarHeight}" />
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <toolkitlib:TabBarListPanel />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemContainerStyle"
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<utu:TabBarListPanel />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource CupertinoSlidingSegmentedItemStyle}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="toolkitlib:TabBar">
-                    <Grid x:Name="TabBarGrid"
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:TabBar">
+					<Grid x:Name="TabBarGrid"
 						  CornerRadius="8"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Height="{TemplateBinding Height}">
-                        <toolkitlib:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-																	  x:Name="SelectionIndicatorPresenter"
-																	  AutomationProperties.AutomationId="SelectionIndicatorPresenter"
-																	  IndicatorTransitionMode="Slide"
-																	  Opacity="0">
-                            <toolkit:ElevatedView Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}"
+						<utu:TabBarSelectionIndicatorPresenter Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+															   x:Name="SelectionIndicatorPresenter"
+															   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+															   IndicatorTransitionMode="Slide"
+															   Opacity="0">
+							<toolkit:ElevatedView Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}"
 												  Height="28"
 												  Background="Transparent"
 												  CornerRadius="8"
 												  Elevation="5"
 												  ShadowColor="#CC94949A">
-                                <Rectangle Fill="{ThemeResource SystemBackgroundColor}"
+								<Rectangle Fill="{ThemeResource SystemBackgroundColor}"
 										   VerticalAlignment="Stretch"
 										   HorizontalAlignment="Stretch"
 										   RadiusX="8"
 										   RadiusY="8"
 										   Height="24"
 										   Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth, Converter={StaticResource DeflateWidthConverter}}" />
-                            </toolkit:ElevatedView>
-                        </toolkitlib:TabBarSelectionIndicatorPresenter>
+							</toolkit:ElevatedView>
+						</utu:TabBarSelectionIndicatorPresenter>
 
-                        <ItemsPresenter Padding="{TemplateBinding Padding}" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+						<ItemsPresenter Padding="{TemplateBinding Padding}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 </ResourceDictionary>

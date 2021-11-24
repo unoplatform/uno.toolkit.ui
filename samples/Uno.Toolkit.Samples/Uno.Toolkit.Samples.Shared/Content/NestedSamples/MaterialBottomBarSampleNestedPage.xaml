@@ -4,7 +4,7 @@
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  xmlns:toolkitLib="using:Uno.Toolkit.UI.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI.Controls"
 	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:toolkitB="using:Uno.Toolkit.UI.Behaviors"
 	  xmlns:toolkitE="using:Uno.Material.Extensions"
@@ -18,10 +18,10 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<toolkitLib:NavigationBar Content="Material Bottom TabBar Sample Page"
-								  Style="{StaticResource MaterialNavigationBarStyle}"
-								  MainCommandMode="Action">
-			<toolkitLib:NavigationBar.MainCommand>
+		<utu:NavigationBar Content="Material Bottom TabBar Sample Page"
+						   Style="{StaticResource MaterialNavigationBarStyle}"
+						   MainCommandMode="Action">
+			<utu:NavigationBar.MainCommand>
 				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
 							  Click="NavigateBack">
 					<AppBarButton.Icon>
@@ -29,8 +29,8 @@
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-			</toolkitLib:NavigationBar.MainCommand>
-		</toolkitLib:NavigationBar>
+			</utu:NavigationBar.MainCommand>
+		</utu:NavigationBar>
 
 		<Grid x:Name="PageContainer"
 			  Grid.Row="1">
@@ -80,25 +80,25 @@
 			</Grid>
 		</Grid>
 
-		<toolkitLib:TabBar Grid.Row="2"
-						   SelectedIndex="1"
-						   SelectionChanged="OnSelectionChanged"
-						   Style="{StaticResource MaterialBottomTabBarStyle}">
-			<toolkitLib:TabBar.Items>
-				<toolkitLib:TabBarItem Tag="Home"
-									   Content="Home">
-					<toolkitLib:TabBarItem.Icon>
+		<utu:TabBar Grid.Row="2"
+					SelectedIndex="1"
+					SelectionChanged="OnSelectionChanged"
+					Style="{StaticResource MaterialBottomTabBarStyle}">
+			<utu:TabBar.Items>
+				<utu:TabBarItem Tag="Home"
+								Content="Home">
+					<utu:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE80F;" />
-					</toolkitLib:TabBarItem.Icon>
-				</toolkitLib:TabBarItem>
-				<toolkitLib:TabBarItem Tag="Search"
-									   Content="Search">
-					<toolkitLib:TabBarItem.Icon>
+					</utu:TabBarItem.Icon>
+				</utu:TabBarItem>
+				<utu:TabBarItem Tag="Search"
+								Content="Search">
+					<utu:TabBarItem.Icon>
 						<FontIcon Glyph="&#xe721;" />
-					</toolkitLib:TabBarItem.Icon>
-				</toolkitLib:TabBarItem>
-				<toolkitLib:TabBarItem Style="{StaticResource MaterialBottomTabBarItemFabStyle}">
-					<toolkitLib:TabBarItem.Flyout>
+					</utu:TabBarItem.Icon>
+				</utu:TabBarItem>
+				<utu:TabBarItem Style="{StaticResource MaterialBottomTabBarItemFabStyle}">
+					<utu:TabBarItem.Flyout>
 						<MenuFlyout Placement="Top"
 									MenuFlyoutPresenterStyle="{StaticResource MaterialMenuFlyoutPresenterStyle}">
 
@@ -116,24 +116,24 @@
 								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
 						</MenuFlyout>
-					</toolkitLib:TabBarItem.Flyout>
-					<toolkitLib:TabBarItem.Icon>
+					</utu:TabBarItem.Flyout>
+					<utu:TabBarItem.Icon>
 						<SymbolIcon Symbol="Add" />
-					</toolkitLib:TabBarItem.Icon>
-				</toolkitLib:TabBarItem>
-				<toolkitLib:TabBarItem Tag="Support"
-									   Content="Support">
-					<toolkitLib:TabBarItem.Icon>
+					</utu:TabBarItem.Icon>
+				</utu:TabBarItem>
+				<utu:TabBarItem Tag="Support"
+								Content="Support">
+					<utu:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE8F2;" />
-					</toolkitLib:TabBarItem.Icon>
-				</toolkitLib:TabBarItem>
-				<toolkitLib:TabBarItem Tag="About"
-									   Content="About">
-					<toolkitLib:TabBarItem.Icon>
+					</utu:TabBarItem.Icon>
+				</utu:TabBarItem>
+				<utu:TabBarItem Tag="About"
+								Content="About">
+					<utu:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE946;" />
-					</toolkitLib:TabBarItem.Icon>
-				</toolkitLib:TabBarItem>
-			</toolkitLib:TabBar.Items>
-		</toolkitLib:TabBar>
+					</utu:TabBarItem.Icon>
+				</utu:TabBarItem>
+			</utu:TabBar.Items>
+		</utu:TabBar>
 	</Grid>
 </Page>

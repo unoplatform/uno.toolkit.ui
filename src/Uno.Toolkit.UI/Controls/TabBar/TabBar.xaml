@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:toolkit="using:Uno.Toolkit.UI.Controls">
+					xmlns:utu="using:Uno.Toolkit.UI.Controls">
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Dark">
@@ -79,25 +79,25 @@
 	<Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
 
 	<Style x:Key="DefaultTabBarStyle"
-		   TargetType="toolkit:TabBar">
+		   TargetType="utu:TabBar">
 		<Setter Property="IsTabStop"
 				Value="False" />
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
 				<ItemsPanelTemplate>
-					<toolkit:TabBarListPanel />
+					<utu:TabBarListPanel />
 				</ItemsPanelTemplate>
 			</Setter.Value>
 		</Setter>
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkit:TabBar">
+				<ControlTemplate TargetType="utu:TabBar">
 					<Grid x:Name="TabBarGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Padding="{TemplateBinding Padding}">
-						<ItemsPresenter  />
+						<ItemsPresenter />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -105,7 +105,7 @@
 	</Style>
 
 	<Style x:Key="DefaultTabBarItemStyle"
-		   TargetType="toolkit:TabBarItem">
+		   TargetType="utu:TabBarItem">
 		<Setter Property="Foreground"
 				Value="{ThemeResource TabBarItemForeground}" />
 		<Setter Property="Background"
@@ -124,7 +124,7 @@
 				Value="Center" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkit:TabBarItem">
+				<ControlTemplate TargetType="utu:TabBarItem">
 					<Grid x:Name="LayoutRoot"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
@@ -265,11 +265,11 @@
 	</Style>
 
 	<!-- TabBar -->
-	<Style TargetType="toolkit:TabBar"
+	<Style TargetType="utu:TabBar"
 		   BasedOn="{StaticResource DefaultTabBarStyle}" />
 
 	<!-- TabBarItem -->
-	<Style TargetType="toolkit:TabBarItem"
+	<Style TargetType="utu:TabBarItem"
 		   BasedOn="{StaticResource DefaultTabBarItemStyle}" />
 
 </ResourceDictionary>

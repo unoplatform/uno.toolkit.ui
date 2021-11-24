@@ -34,46 +34,48 @@
 ### Chip
 
 ```xml
-
+xmlns:utu="using:Uno.Toolkit.UI.Controls"
+...
 <!-- Filled Input Material chip -->
-<toolkit:Chip Content="Chip"
+<utu:Chip Content="Chip"
             CanRemove="True"
 			Style="{StaticResource MaterialFilledInputChipStyle}"/>
 
 <!-- Filled Input Material chip chip with icon-->
-<toolkit:Chip Content="Chip"
+<utu:Chip Content="Chip"
 			   Style="{StaticResource MaterialFilledInputChipStyle}">
-	<toolkit:Chip.Icon>
+	<utu:Chip.Icon>
 		<!-- Icon -->
-	</toolkit:Chip.Icon>
-</toolkit:Chip>
+	</utu:Chip.Icon>
+</utu:Chip>
 
 ```
 
 ### ChipGroup
 
 ```xml
-
+xmlns:utu="using:Uno.Toolkit.UI.Controls"
+...
 <!-- Filled Input Material ChipGroup with static items -->
-<toolkit:ChipGroup Style="{StaticResource MaterialFilledInputChipGroupStyle}">
-    <toolkit:Chip Content="Chip" />
-    <toolkit:Chip Content="Chip"
+<utu:ChipGroup Style="{StaticResource MaterialFilledInputChipGroupStyle}">
+    <utu:Chip Content="Chip" />
+    <utu:Chip Content="Chip"
                    IsChecked="True" />
-    <toolkit:Chip Content="Chip" />
-</toolkit:ChipGroup>
+    <utu:Chip Content="Chip" />
+</utu:ChipGroup>
 
 <!-- Filled Choice Material ChipGroup with dynamic items -->
-<toolkit:ChipGroup ItemsSource="{Binding Items}"
+<utu:ChipGroup ItemsSource="{Binding Items}"
                  Style="{StaticResource MaterialFilledChoiceChipGroupStyle}">
 
 <!-- Outlined Input ChipGroup with custom thumbnail template -->
-<toolkit:ChipGroup ItemsSource="{Binding Items}"
+<utu:ChipGroup ItemsSource="{Binding Items}"
                  Style="{StaticResource MaterialOutlinedInputChipGroupStyle}">
                  
-    <toolkit:ChipGroup.IconTemplate>
+    <utu:ChipGroup.IconTemplate>
         <DataTemplate>
              <!-- IconTemplate -->
         </DataTemplate>
-    </toolkit:ChipGroup.IconTemplate>
-</toolkit:ChipGroup>
+    </utu:ChipGroup.IconTemplate>
+</utu:ChipGroup>
 ```

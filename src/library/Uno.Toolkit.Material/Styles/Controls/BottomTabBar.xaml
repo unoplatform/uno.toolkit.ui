@@ -4,50 +4,50 @@
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:controls="using:Uno.Material.Controls"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
-					xmlns:toolkitlib="using:Uno.Toolkit.UI.Controls"
+					xmlns:utu="using:Uno.Toolkit.UI.Controls"
 					mc:Ignorable="d">
-    
-    <ResourceDictionary.MergedDictionaries>
-        <MaterialColors xmlns="using:Uno.Material" />
-        <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-        <ResourceDictionary Source="BottomTabBar.Base.xaml" />
-    </ResourceDictionary.MergedDictionaries>
 
-    <!-- Material Bottom TabBar -->
-    <Style x:Key="MaterialBottomTabBarStyle"
-		   TargetType="toolkitlib:TabBar">
-        <Setter Property="Background"
+	<ResourceDictionary.MergedDictionaries>
+		<MaterialColors xmlns="using:Uno.Material" />
+		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+		<ResourceDictionary Source="BottomTabBar.Base.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+
+	<!-- Material Bottom TabBar -->
+	<Style x:Key="MaterialBottomTabBarStyle"
+		   TargetType="utu:TabBar">
+		<Setter Property="Background"
 				Value="{ThemeResource MaterialTabBarBackground}" />
-        <Setter Property="IsTabStop"
+		<Setter Property="IsTabStop"
 				Value="False" />
-        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
 				Value="Bottom" />
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <toolkitlib:TabBarListPanel />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemContainerStyle"
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<utu:TabBarListPanel />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource MaterialBottomTabBarItemStyle}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="toolkitlib:TabBar">
-                    <Grid x:Name="TabBarGrid"
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:TabBar">
+					<Grid x:Name="TabBarGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Padding="{TemplateBinding Padding}">
-                        <ItemsPresenter Height="{StaticResource TabBarHeight}" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+						<ItemsPresenter Height="{StaticResource TabBarHeight}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
 	<Style x:Key="MaterialBottomTabBarItemFabStyle"
-		   TargetType="toolkitlib:TabBarItem">
+		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialSecondaryBrush}" />
 		<Setter Property="Foreground"
@@ -79,7 +79,7 @@
 		</Setter>
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitlib:TabBarItem">
+				<ControlTemplate TargetType="utu:TabBarItem">
 					<Grid>
 						<toolkit:ElevatedView x:Name="ElevatedView"
 											  Margin="0,0,6,6"
@@ -180,7 +180,7 @@
 	</Style>
 
 	<Style x:Key="MaterialBottomTabBarItemStyle"
-		   TargetType="toolkitlib:TabBarItem">
+		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource TabBarItemBackground}" />
 		<Setter Property="Foreground"
@@ -199,7 +199,7 @@
 				Value="Center" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkitlib:TabBarItem">
+				<ControlTemplate TargetType="utu:TabBarItem">
 					<Grid x:Name="LayoutRoot"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"

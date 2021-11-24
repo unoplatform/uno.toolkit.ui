@@ -2,49 +2,49 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-					xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
+					xmlns:utu="using:Uno.Toolkit.UI.Controls"
 					mc:Ignorable="d">
-    <ResourceDictionary.MergedDictionaries>
-        <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-        <CupertinoColors xmlns="using:Uno.Cupertino" />
-        <ResourceDictionary Source="BottomTabBar.Base.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+	<ResourceDictionary.MergedDictionaries>
+		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+		<CupertinoColors xmlns="using:Uno.Cupertino" />
+		<ResourceDictionary Source="BottomTabBar.Base.xaml" />
+	</ResourceDictionary.MergedDictionaries>
 
-    <!-- Cupertino Bottom TabBar -->
-    <Style x:Key="CupertinoBottomTabBarStyle"
-		   TargetType="toolkit:TabBar">
-        <Setter Property="Background"
+	<!-- Cupertino Bottom TabBar -->
+	<Style x:Key="CupertinoBottomTabBarStyle"
+		   TargetType="utu:TabBar">
+		<Setter Property="Background"
 				Value="{ThemeResource CupertinoTabBarBackground}" />
-        <Setter Property="IsTabStop"
+		<Setter Property="IsTabStop"
 				Value="False" />
-        <Setter Property="BorderBrush"
+		<Setter Property="BorderBrush"
 				Value="{ThemeResource CupertinoTabBarBorderBrush}" />
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <toolkit:TabBarListPanel />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemContainerStyle"
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<utu:TabBarListPanel />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource CupertinoBottomTabBarItemStyle}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="toolkit:TabBar">
-                    <Grid x:Name="TabBarGrid"
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:TabBar">
+					<Grid x:Name="TabBarGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Padding="{TemplateBinding Padding}">
-                        <ItemsPresenter Height="{StaticResource TabBarHeight}" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+						<ItemsPresenter Height="{StaticResource TabBarHeight}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
-    <Style x:Key="CupertinoBottomTabBarItemStyle"
-		   TargetType="toolkit:TabBarItem">
+	<Style x:Key="CupertinoBottomTabBarItemStyle"
+		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource TabBarItemBackground}" />
 		<Setter Property="Foreground"
@@ -63,7 +63,7 @@
 				Value="Center" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="toolkit:TabBarItem">
+				<ControlTemplate TargetType="utu:TabBarItem">
 					<Grid x:Name="LayoutRoot"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
