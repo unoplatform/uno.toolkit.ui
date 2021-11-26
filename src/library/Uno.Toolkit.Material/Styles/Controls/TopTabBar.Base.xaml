@@ -23,8 +23,6 @@
 					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
 									ResourceKey="SystemControlTransparentBrush" />
 
-					<StaticResource x:Key="TabBarItemForeground"
-									ResourceKey="MaterialTabBarItemUnselectedForegroundBrush" />
 					<StaticResource x:Key="TabBarItemForegroundPointerOver"
 									ResourceKey="MaterialOnPrimaryBrush" />
 					<StaticResource x:Key="TabBarItemForegroundPressed"
@@ -59,8 +57,6 @@
 					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
 									ResourceKey="SystemControlTransparentBrush" />
 
-					<StaticResource x:Key="TabBarItemForeground"
-									ResourceKey="MaterialTabBarItemUnselectedForegroundBrush" />
 					<StaticResource x:Key="TabBarItemForegroundPointerOver"
 									ResourceKey="MaterialOnPrimaryBrush" />
 					<StaticResource x:Key="TabBarItemForegroundPressed"
@@ -81,9 +77,9 @@
 		</ResourceDictionary>
 	</ResourceDictionary.MergedDictionaries>
 
-	<SolidColorBrush x:Key="MaterialTabBarItemUnselectedForegroundBrush"
-					 Color="{ThemeResource MaterialOnPrimaryColor}"
-					 Opacity="0.70" />
+	<SolidColorBrush x:Key="TabBarItemForeground"
+					  Color="{ThemeResource MaterialOnPrimaryColor}"
+					  Opacity="0.70" />
 	<x:Double x:Key="MaterialTabBarFontSize">14</x:Double>
 	<FontFamily x:Key="MaterialTabBarFontFamily">Roboto</FontFamily>
 	<x:Double x:Key="TabBarHeight">48</x:Double>
