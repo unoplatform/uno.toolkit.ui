@@ -335,7 +335,7 @@
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto"
-												  MinWidth="{ThemeResource AppBarMoreButtonColumnMinWidth}" />
+												  not_win:MinWidth="{ThemeResource AppBarMoreButtonColumnMinWidth}" />
 							</Grid.ColumnDefinitions>
 							<Grid.RenderTransform>
 								<TranslateTransform x:Name="ContentTransform" />
