@@ -120,9 +120,9 @@
 								   BasedOn="{StaticResource SplitButtonCommandBarStyle}" />
 							<Style TargetType="AppBarButton"
 								   BasedOn="{StaticResource MaterialAppBarButton}">
-								<Setter Property="Padding"
+                                <Setter Property="Padding"
 										Value="12,16,12,16" />
-							</Style>
+                            </Style>
 						</Grid.Resources>
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
@@ -335,7 +335,7 @@
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto"
-												  MinWidth="{ThemeResource AppBarMoreButtonColumnMinWidth}" />
+												  MinWidth="6" />
 							</Grid.ColumnDefinitions>
 							<Grid.RenderTransform>
 								<TranslateTransform x:Name="ContentTransform" />
