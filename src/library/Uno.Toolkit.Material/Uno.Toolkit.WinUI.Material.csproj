@@ -6,7 +6,7 @@
 	-->
 	<PropertyGroup>
     	<TargetFrameworks>netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0;monoandroid10.0</TargetFrameworks>
-		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362.0</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
     	<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
@@ -19,12 +19,12 @@
 		<PackageReference Include="Uno.Material.WinUI" Version="1.1.0-dev.57" />
 		<PackageReference Include="Uno.Cupertino.WinUI" Version="1.1.0-dev.57" />
 		<PackageReference Include="Uno.WinUI" Version="4.0.0-dev.5688" />
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.18362.16" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.16" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.18362.22" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.22" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
 	</ItemGroup>
 
 	<Choose>
-		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362.0'">
+		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
 			
 			<ItemGroup>
 				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
