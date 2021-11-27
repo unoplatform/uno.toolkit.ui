@@ -1363,8 +1363,6 @@
 									Grid.ColumnSpan="3"
 									Visibility="Collapsed"
 									VerticalAlignment="Stretch"
-									BorderThickness="{ThemeResource CommandBarBorderThicknessOpen}"
-									BorderBrush="{ThemeResource CommandBarBorderBrushOpen}"
 									contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
 									contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}" />
 						</Grid>
