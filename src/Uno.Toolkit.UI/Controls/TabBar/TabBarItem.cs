@@ -22,6 +22,16 @@ namespace Uno.Toolkit.UI.Controls
 	/// </summary>
 	public partial class TabBarItem : SelectorItem
 	{
+		private static class CommonStates
+		{
+			public const string Selected = "Selected";
+			public const string Normal = "Normal";
+			public const string Over = "PointerOver";
+			public const string Pressed = "Pressed";
+			public const string OverSelected = "PointerOverSelected"; // "SelectedPointerOver" for ListBoxItem, ComboBoxItem and PivotHeaderItem
+			public const string PressedSelected = "PressedSelected"; // "SelectedPressed" for ListBoxItem, ComboBoxItem and PivotHeaderItem
+		}
+
 		private static class TabBarIconPositionStates
 		{
 			public const string IconOnTop = "IconOnTop";
@@ -33,6 +43,8 @@ namespace Uno.Toolkit.UI.Controls
 		public event RoutedEventHandler? Click;
 
 		private bool m_hasPointerCaptured;
+		private bool _isPointerOver = false;
+		private bool _isPointerPressed = false;
 
 		public TabBarItem()
 		{
@@ -43,6 +55,11 @@ namespace Uno.Toolkit.UI.Controls
 		}
 
 		private void OnTap(object sender, TappedRoutedEventArgs e)
+		{
+			ExecuteTap();
+		}
+
+		private void ExecuteTap()
 		{
 			Click?.Invoke(this, null);
 			ExecuteCommand();
@@ -79,6 +96,46 @@ namespace Uno.Toolkit.UI.Controls
 			UpdateLocalVisualState();
 		}
 
+		/// <inheritdoc />
+		protected override void OnPointerEntered(PointerRoutedEventArgs args)
+		{
+			base.OnPointerEntered(args);
+			_isPointerOver = true;
+			UpdateLocalVisualState();
+		}
+
+		/// <inheritdoc />
+		protected override void OnPointerPressed(PointerRoutedEventArgs args)
+		{
+			base.OnPointerPressed(args);
+			_isPointerPressed = true;
+			UpdateLocalVisualState();
+		}
+
+		/// <inheritdoc />
+		protected override void OnPointerReleased(PointerRoutedEventArgs args)
+		{
+			base.OnPointerReleased(args);
+			_isPointerPressed = false;
+			UpdateLocalVisualState();
+		}
+
+		/// <inheritdoc />
+		protected override void OnPointerExited(PointerRoutedEventArgs args)
+		{
+			base.OnPointerExited(args);
+			_isPointerOver = false;
+			UpdateLocalVisualState();
+		}
+
+		protected override void OnPointerCanceled(PointerRoutedEventArgs e)
+		{
+			base.OnPointerCanceled(e);
+			_isPointerPressed = false;
+			_isPointerOver = false;
+			UpdateLocalVisualState();
+		}
+
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
 		{
 			var property = args.Property;
@@ -94,6 +151,51 @@ namespace Uno.Toolkit.UI.Controls
 			bool shouldShowContent = ShouldShowContent();
 
 			UpdateVisualStateForIconAndContent(shouldShowIcon, shouldShowContent);
+
+			UpdateCommonStates();
+		}
+
+		private void UpdateCommonStates(bool useTransitions = true)
+		{
+			var isEnabled = IsEnabled;
+			var isPressed = _isPointerPressed;
+			var isPointerOver = _isPointerOver;
+			var focusState = FocusState;
+
+			// Update the Interaction state group
+			if (!isEnabled)
+			{
+				VisualStateManager.GoToState(this, "Disabled", useTransitions);
+			}
+			else if (isPressed)
+			{
+				VisualStateManager.GoToState(this, "Pressed", useTransitions);
+			}
+			else if (isPointerOver)
+			{
+				VisualStateManager.GoToState(this, "PointerOver", useTransitions);
+			}
+			else
+			{
+				VisualStateManager.GoToState(this, "Normal", useTransitions);
+			}
+
+			// Update the Focus group
+			if (focusState != FocusState.Unfocused && isEnabled)
+			{
+				if (focusState == FocusState.Pointer)
+				{
+					VisualStateManager.GoToState(this, "PointerFocused", useTransitions);
+				}
+				else
+				{
+					VisualStateManager.GoToState(this, "Focused", useTransitions);
+				}
+			}
+			else
+			{
+				VisualStateManager.GoToState(this, "Unfocused", useTransitions);
+			}
 		}
 
 		private void UpdateVisualStateForIconAndContent(bool showIcon, bool showContent)
@@ -105,8 +207,6 @@ namespace Uno.Toolkit.UI.Controls
 			VisualStateManager.GoToState(this, stateName, useTransitions: true);
 		}
 
-
-
 		private bool ShouldShowIcon()
 		{
 			return Icon != null;
@@ -115,6 +215,18 @@ namespace Uno.Toolkit.UI.Controls
 		private bool ShouldShowContent()
 		{
 			return Content != null;
+		}
+
+		protected override void OnKeyDown(KeyRoutedEventArgs e)
+		{
+			base.OnKeyDown(e);
+			if (!e.Handled)
+			{
+				if (e.OriginalKey == Windows.System.VirtualKey.Enter)
+				{
+					ExecuteTap();
+				}
+			}
 		}
 	}
 }
