@@ -416,7 +416,6 @@
 									   Visibility="Collapsed"
 									   IsHitTestVisible="False"
 									   VerticalAlignment="Stretch"
-									   Stroke="{ThemeResource CommandBarHighContrastBorder}"
 									   StrokeThickness="1" />
 							<Border x:Name="OpenBorder"
 									Grid.ColumnSpan="3"
