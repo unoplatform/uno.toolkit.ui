@@ -34,7 +34,7 @@
 ### Chip
 
 ```xml
-xmlns:utu="using:Uno.Toolkit.UI.Controls"
+xmlns:utu="using:Uno.Toolkit.UI"
 ...
 <!-- Filled Input Material chip -->
 <utu:Chip Content="Chip"
@@ -54,7 +54,7 @@ xmlns:utu="using:Uno.Toolkit.UI.Controls"
 ### ChipGroup
 
 ```xml
-xmlns:utu="using:Uno.Toolkit.UI.Controls"
+xmlns:utu="using:Uno.Toolkit.UI"
 ...
 <!-- Filled Input Material ChipGroup with static items -->
 <utu:ChipGroup Style="{StaticResource MaterialFilledInputChipGroupStyle}">

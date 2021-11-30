@@ -5,9 +5,7 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
-	  xmlns:utu="using:Uno.Toolkit.UI.Controls"
-	  xmlns:toolkitB="using:Uno.Toolkit.UI.Behaviors"
-	  xmlns:toolkitE="using:Uno.Toolkit.UI.Extensions"
+	  xmlns:utu="using:Uno.Toolkit.UI"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -100,7 +98,7 @@
 									<utu:TabBar Style="{StaticResource TabBarWithSnapIndicatorStyle}"
 													x:Name="SnapTabBar"
 													AutomationProperties.AutomationId="SnapTabBar"
-													toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SnapFlipView}"
+													utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SnapFlipView}"
 													Background="LightBlue">
 										<utu:TabBar.Items>
 											<utu:TabBarItem Content="Tab 1"
@@ -147,7 +145,7 @@
 						<utu:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
 									x:Name="SlideTabBar"
 									AutomationProperties.AutomationId="SlideTabBar"
-									toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
+									utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
 									Background="LightBlue">
 							<utu:TabBar.Items>
 								<utu:TabBarItem Content="Tab 1"
@@ -192,7 +190,7 @@
 											   Style="{StaticResource BodyTextBlockStyle}" />
 									<utu:TabBar x:Name="ListViewTabBar"
 													AutomationProperties.AutomationId="ListViewTabBar"
-													toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=ListView}"
+													utu:TabBarSelectorBehavior.Selector="{Binding ElementName=ListView}"
 													Background="LightBlue">
 										<utu:TabBar.Items>
 											<utu:TabBarItem Content="Tab 1"
@@ -242,7 +240,7 @@
 											   Style="{StaticResource BodyTextBlockStyle}" />
 									<utu:TabBar x:Name="ListViewSkipTabBar"
 													AutomationProperties.AutomationId="ListViewSkipTabBar"
-													toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SkipListView}"
+													utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SkipListView}"
 													Background="LightBlue">
 										<utu:TabBar.Items>
 											<utu:TabBarItem Content="Tab 1"
@@ -294,7 +292,7 @@
 									<utu:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
 													x:Name="SlideSkipTabBar"
 													AutomationProperties.AutomationId="SlideSkipTabBar"
-													toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideSkipFlipView}"
+													utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideSkipFlipView}"
 													Background="LightBlue">
 										<utu:TabBar.Items>
 											<utu:TabBarItem Content="Tab 1"

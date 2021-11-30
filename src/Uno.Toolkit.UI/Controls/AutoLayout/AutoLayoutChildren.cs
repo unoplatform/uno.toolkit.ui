@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 using Windows.UI.Xaml;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	public partial class AutoLayoutChildren : List<FrameworkElement>
 	{

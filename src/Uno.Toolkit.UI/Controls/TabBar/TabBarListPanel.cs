@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Windows.Foundation;
-using Uno.Toolkit.UI.Extensions;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -13,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	public partial class TabBarListPanel : Panel
 	{

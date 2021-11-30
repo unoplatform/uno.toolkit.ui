@@ -1,4 +1,4 @@
-﻿namespace Uno.Toolkit.UI.Controls
+﻿namespace Uno.Toolkit.UI
 {
 	public enum AutoLayoutJustify
 	{

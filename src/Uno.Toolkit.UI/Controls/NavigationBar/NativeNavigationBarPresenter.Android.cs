@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	public partial class NativeNavigationBarPresenter : ContentPresenter, INavigationBarPresenter
 	{

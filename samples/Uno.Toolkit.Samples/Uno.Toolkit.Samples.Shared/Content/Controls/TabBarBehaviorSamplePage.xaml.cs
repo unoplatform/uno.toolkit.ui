@@ -7,8 +7,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
 using Uno.Toolkit.Samples.Entities;
 using Uno.Toolkit.Samples.ViewModels;
-using Uno.Toolkit.UI;
-using Uno.Toolkit.UI.Behaviors;
+
+
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 

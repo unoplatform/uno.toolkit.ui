@@ -13,7 +13,7 @@ There are two segmented control styles that you can use to theme `TabBar` and it
 ### Sliding Segmented Control
 
 ```xml
-xmlns:utu="using:Uno.Toolkit.UI.Controls"
+xmlns:utu="using:Uno.Toolkit.UI"
 ...
 <utu:TabBar Style="{StaticResource CupertinoSlidingSegmentedStyle}">
 	<utu:TabBar.Items>
@@ -27,7 +27,7 @@ xmlns:utu="using:Uno.Toolkit.UI.Controls"
 ### Segmented Control
 
 ```xml
-xmlns:utu="using:Uno.Toolkit.UI.Controls"
+xmlns:utu="using:Uno.Toolkit.UI"
 ...
 <utu:TabBar Style="{StaticResource CupertinoSegmentedStyle}">
 	<utu:TabBar.Items>

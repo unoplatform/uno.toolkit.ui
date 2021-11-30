@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	#region Chip event handlers
 	public delegate void ChipRemovingEventHandler(object sender, ChipRemovingEventArgs e);

@@ -6,7 +6,7 @@
 					xmlns:ios="http://nventive.com/ios"
 					xmlns:not_win="http://uno.ui/not_win"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
-					xmlns:utu="using:Uno.Toolkit.UI.Controls"
+					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:controls="using:Uno.Material.Controls"
 					xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
 					xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)"

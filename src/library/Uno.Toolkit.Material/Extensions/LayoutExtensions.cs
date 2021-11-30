@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 
-namespace Uno.Toolkit.UI.Material.Extensions
+namespace Uno.Toolkit.UI
 {
 	internal static class LayoutExtensions
 	{

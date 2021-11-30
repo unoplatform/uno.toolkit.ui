@@ -9,8 +9,6 @@ using UIKit;
 using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Logging;
-using Uno.Toolkit.UI.Extensions;
-using Uno.Toolkit.UI.Helpers;
 using Windows.Foundation;
 
 #if IS_WINUI
@@ -34,7 +32,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	internal class AppBarButtonRenderer : Renderer<AppBarButton, UIBarButtonItem>
 	{

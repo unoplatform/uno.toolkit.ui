@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 #endif
 
-namespace Uno.Toolkit.UI.Extensions
+namespace Uno.Toolkit.UI
 {
 	/// <summary>
 	/// Extensions for <see cref="Selector"/>

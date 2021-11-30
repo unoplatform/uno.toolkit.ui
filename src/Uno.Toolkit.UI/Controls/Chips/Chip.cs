@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	[TemplatePart(Name = RemoveButtonName, Type = typeof(Button))]
 	public partial class Chip : ToggleButton

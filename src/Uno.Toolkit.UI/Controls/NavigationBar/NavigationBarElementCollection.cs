@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	internal class NavigationBarElementCollection : IObservableVector<ICommandBarElement>
 	{

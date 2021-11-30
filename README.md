@@ -11,7 +11,7 @@ To use styles, just find the name of the style from our documentation or sample 
 
 Here is how to use our custom controls like a Card
 ```xaml
-xmlns:utu="using:Uno.Toolkit.UI.Controls"
+xmlns:utu="using:Uno.Toolkit.UI"
 
 [...]
 

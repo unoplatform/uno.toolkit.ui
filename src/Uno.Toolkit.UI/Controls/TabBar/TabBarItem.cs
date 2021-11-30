@@ -15,7 +15,7 @@ using System;
 using Windows.UI.Core;
 using Windows.UI.Input;
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	/// <summary>
 	/// An item to be contained within a <see cref="TabBar"/>

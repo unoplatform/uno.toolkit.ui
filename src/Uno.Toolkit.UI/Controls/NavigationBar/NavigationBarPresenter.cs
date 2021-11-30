@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Uno.Disposables;
-using Uno.Toolkit.UI.Extensions;
 using Windows.Foundation.Collections;
 
 #if IS_WINUI
@@ -25,7 +24,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	public partial class NavigationBarPresenter : Control, INavigationBarPresenter
 	{
