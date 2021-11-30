@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - master
+      - main
       - beta
       - release/beta/*
       - stable
@@ -10,7 +10,7 @@ trigger:
 pr: 
   branches:
     include:
-      - master
+      - main
       - beta
       - release/beta/*
       - stable
@@ -21,7 +21,7 @@ variables:
   PackageOutputPath: $(Build.ArtifactStagingDirectory)
 
   IsCanaryBranch: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries/')]
-  IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
+  IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
 
   ANDROID_NDK_HOME: C:\Microsoft\AndroidNDK64\android-ndk-r16b
   ANDROID_NDK_PATH: C:\Microsoft\AndroidNDK64\android-ndk-r16b

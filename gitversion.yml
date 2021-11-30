@@ -7,9 +7,9 @@ mode: Mainline
 # next-version: 3.0
 
 branches:
-  master:
+  main:
     mode: ContinuousDeployment
-    regex: master
+    regex: main
     tag: dev
     increment: Minor
     is-source-branch-for: ['beta', 'stable']
@@ -26,32 +26,32 @@ branches:
     regex: ^release/beta/.*
     tag: beta
     increment: none
-    source-branches: ['master']
+    source-branches: ['main']
 
   stable:
     regex: ^release/stable/.*
     tag: ''
     increment: Patch
-    source-branches: ['master','beta']
+    source-branches: ['main','beta']
     is-mainline: true
 
   dev:
     mode: ContinuousDeployment
     regex: ^dev/.*?/(.*?)
     tag: dev.{BranchName}
-    source-branches: ['master', 'stable', 'projects', 'feature']
+    source-branches: ['main', 'stable', 'projects', 'feature']
     increment: none
 
   projects:
     tag: proj-{BranchName}
     regex: ^projects/(.*?)
-    source-branches: ['master']
+    source-branches: ['main']
     increment: none
 
   feature:
     tag: feature.{BranchName}
     regex: ^feature/(.*?)
-    source-branches: ['master']
+    source-branches: ['main']
     increment: none
 
   release:
