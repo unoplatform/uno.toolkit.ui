@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-					xmlns:utu="using:Uno.Toolkit.UI.Controls"
-					xmlns:behaviors="using:Uno.Toolkit.UI.Behaviors"
+					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 					xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
 					xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
@@ -39,30 +38,30 @@
 		<Setter Property="OpenPaneLength"
 				Value="320" />
 
-		<Setter Property="behaviors:DrawerControlBehavior.OpenDirection"
+		<Setter Property="utu:DrawerControlBehavior.OpenDirection"
 				Value="Right" />
-		<Setter Property="behaviors:DrawerControlBehavior.DrawerBackground"
+		<Setter Property="utu:DrawerControlBehavior.DrawerBackground"
 				Value="{StaticResource DrawerControlDrawerBackgroundBrush}" />
-		<Setter Property="behaviors:DrawerControlBehavior.LightDismissOverlayBackground"
+		<Setter Property="utu:DrawerControlBehavior.LightDismissOverlayBackground"
 				Value="{StaticResource SplitViewDrawerLightDismissOverlayBackgroundBrush}" />
-		<Setter Property="behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength"
+		<Setter Property="utu:DrawerControlBehavior.EdgeSwipeDetectionLength"
 				Value="50" />
-		<Setter Property="behaviors:DrawerControlBehavior.IsGestureEnabled"
+		<Setter Property="utu:DrawerControlBehavior.IsGestureEnabled"
 				Value="True" />
-		<Setter Property="behaviors:DrawerControlBehavior.FitToDrawerContent"
+		<Setter Property="utu:DrawerControlBehavior.FitToDrawerContent"
 				Value="False" />
 
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="SplitView">
 					<utu:DrawerControl IsOpen="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsPaneOpen, Mode=TwoWay}"
-									   DrawerBackground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.DrawerBackground)}"
+									   DrawerBackground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.DrawerBackground)}"
 									   DrawerDepth="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=OpenPaneLength, Mode=TwoWay}"
-									   OpenDirection="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.OpenDirection)}"
-									   LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.LightDismissOverlayBackground)}"
-									   EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
-									   IsGestureEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.IsGestureEnabled)}"
-									   FitToDrawerContent="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(behaviors:DrawerControlBehavior.FitToDrawerContent)}"
+									   OpenDirection="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.OpenDirection)}"
+									   LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.LightDismissOverlayBackground)}"
+									   EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
+									   IsGestureEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.IsGestureEnabled)}"
+									   FitToDrawerContent="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.FitToDrawerContent)}"
 									   Background="{TemplateBinding Background}">
 						<utu:DrawerControl.Content>
 							<!-- workaround: required to prevent ios black screen when used inside a muxc:NavigationView -->
@@ -100,17 +99,17 @@
 		<Setter Property="CompactPaneLength"
 				Value="{ThemeResource NavigationViewCompactPaneLength}" />
 
-		<Setter Property="behaviors:DrawerControlBehavior.OpenDirection"
+		<Setter Property="utu:DrawerControlBehavior.OpenDirection"
 				Value="Right" />
-		<Setter Property="behaviors:DrawerControlBehavior.DrawerBackground"
+		<Setter Property="utu:DrawerControlBehavior.DrawerBackground"
 				Value="{StaticResource DrawerControlDrawerBackgroundBrush}" />
-		<Setter Property="behaviors:DrawerControlBehavior.LightDismissOverlayBackground"
+		<Setter Property="utu:DrawerControlBehavior.LightDismissOverlayBackground"
 				Value="{StaticResource NavigationViewDrawerLightDismissOverlayBackgroundBrush}" />
-		<Setter Property="behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength"
+		<Setter Property="utu:DrawerControlBehavior.EdgeSwipeDetectionLength"
 				Value="50" />
-		<Setter Property="behaviors:DrawerControlBehavior.IsGestureEnabled"
+		<Setter Property="utu:DrawerControlBehavior.IsGestureEnabled"
 				Value="True" />
-		<Setter Property="behaviors:DrawerControlBehavior.FitToDrawerContent"
+		<Setter Property="utu:DrawerControlBehavior.FitToDrawerContent"
 				Value="False" />
 
 		<Setter Property="Template">
@@ -141,12 +140,12 @@
 									   OpenPaneLength="{TemplateBinding OpenPaneLength}"
 									   PaneBackground="{ThemeResource NavigationViewDefaultPaneBackground}"
 									   IsPaneOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPaneOpen, Mode=TwoWay}"
-									   behaviors:DrawerControlBehavior.OpenDirection="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.OpenDirection)}"
-									   behaviors:DrawerControlBehavior.DrawerBackground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.DrawerBackground)}"
-									   behaviors:DrawerControlBehavior.LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.LightDismissOverlayBackground)}"
-									   behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
-									   behaviors:DrawerControlBehavior.IsGestureEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.IsGestureEnabled)}"
-									   behaviors:DrawerControlBehavior.FitToDrawerContent="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(behaviors:DrawerControlBehavior.FitToDrawerContent)}"
+									   utu:DrawerControlBehavior.OpenDirection="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.OpenDirection)}"
+									   utu:DrawerControlBehavior.DrawerBackground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.DrawerBackground)}"
+									   utu:DrawerControlBehavior.LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.LightDismissOverlayBackground)}"
+									   utu:DrawerControlBehavior.EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
+									   utu:DrawerControlBehavior.IsGestureEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.IsGestureEnabled)}"
+									   utu:DrawerControlBehavior.FitToDrawerContent="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.FitToDrawerContent)}"
 									   Style="{StaticResource DrawerSplitViewStyle}">
 
 								<SplitView.Pane>

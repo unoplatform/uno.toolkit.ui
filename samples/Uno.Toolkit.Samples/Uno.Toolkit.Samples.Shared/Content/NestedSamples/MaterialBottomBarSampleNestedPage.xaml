@@ -4,10 +4,7 @@
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  xmlns:utu="using:Uno.Toolkit.UI.Controls"
-	  xmlns:toolkit="using:Uno.UI.Toolkit"
-	  xmlns:toolkitB="using:Uno.Toolkit.UI.Behaviors"
-	  xmlns:toolkitE="using:Uno.Material.Extensions"
+	  xmlns:utu="using:Uno.Toolkit.UI"
 	  xmlns:ios="http://uno.ui/ios"
 	  mc:Ignorable="d ios"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

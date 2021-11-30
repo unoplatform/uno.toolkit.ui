@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Uno.Disposables;
 using Windows.Foundation;
-using Uno.Toolkit.UI.Extensions;
-using Uno.Toolkit.UI.Controls;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -20,7 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 #endif
 
-namespace Uno.Toolkit.UI.Behaviors
+namespace Uno.Toolkit.UI
 {
 	internal partial class TabBarSelectorBehaviorState
 	{

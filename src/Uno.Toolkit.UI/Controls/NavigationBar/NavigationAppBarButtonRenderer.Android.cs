@@ -11,8 +11,6 @@ using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Helpers;
 using Uno.Logging;
-using Uno.Toolkit.UI.Extensions;
-using Uno.Toolkit.UI.Helpers;
 using Uno.UI;
 using Windows.Foundation;
 using DrawableHelper = Uno.UI.DrawableHelper;
@@ -37,7 +35,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	internal class NavigationAppBarButtonRenderer : Renderer<AppBarButton, Toolbar>
 	{

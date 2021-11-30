@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:converters="using:Uno.Toolkit.UI.Cupertino.Converters">
+					xmlns:utu="using:Uno.Toolkit.UI">
 
 	<ResourceDictionary.MergedDictionaries>
 		<CupertinoColors xmlns="using:Uno.Cupertino" />
@@ -90,7 +90,7 @@
 		</ResourceDictionary>
 	</ResourceDictionary.MergedDictionaries>
 
-	<converters:InflateDimensionConverter x:Key="DeflateWidthConverter"
-										  Inflation="-4" />
+	<utu:InflateDimensionConverter x:Key="DeflateWidthConverter"
+								   Inflation="-4" />
 
 </ResourceDictionary>

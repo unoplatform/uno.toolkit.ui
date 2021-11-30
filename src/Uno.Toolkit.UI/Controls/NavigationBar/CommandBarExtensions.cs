@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Controls;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	[Bindable]
 	public static class CommandBarExtensions

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Windows.Foundation.Collections;
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	internal class VectorChangedEventArgs : IVectorChangedEventArgs
 	{

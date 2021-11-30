@@ -10,7 +10,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Uno.Toolkit.Samples.Entities.Data;
 using Uno.Toolkit.Samples.Entities;
-using Uno.Toolkit.UI.Controls;
+using Uno.Toolkit.UI;
+
 #if IS_WINUI
 using Microsoft.UI;
 using Microsoft.UI.Xaml;

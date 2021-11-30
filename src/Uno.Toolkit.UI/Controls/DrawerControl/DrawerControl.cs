@@ -24,7 +24,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	/// <summary>
 	/// Represents a container with two views; one view for the main content, 

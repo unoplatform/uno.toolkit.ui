@@ -2,7 +2,8 @@
 using Windows.UI.Core;
 using System.Threading.Tasks;
 using Uno.Toolkit.Samples.Content.NestedSamples;
-using Uno.Toolkit.UI.Helpers;
+using Uno.Toolkit.UI;
+
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;

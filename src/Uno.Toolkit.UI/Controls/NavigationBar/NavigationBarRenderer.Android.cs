@@ -12,7 +12,6 @@ using Android.Views;
 using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Logging;
-using Uno.Toolkit.UI.Extensions;
 using Windows.Foundation.Collections;
 using AndroidX.Core.Graphics.Drawable;
 using Windows.UI.Core;
@@ -20,7 +19,7 @@ using Android.Views.InputMethods;
 using Android.Content;
 using Uno.UI;
 using Windows.UI;
-using ColorHelper = Uno.Toolkit.UI.Helpers.ColorHelper;
+using ColorHelper = Uno.Toolkit.UI.ColorHelper;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -44,7 +43,7 @@ using Windows.UI.Xaml.Automation.Peers;
 using Uno.UI.Extensions;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	internal partial class NavigationBarRenderer : Renderer<NavigationBar, Toolbar>
 	{

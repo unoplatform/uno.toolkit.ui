@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	[ContentProperty(Name = nameof(Children))]
 	[TemplatePart(Name = PART_RootGrid, Type = typeof(Grid))]

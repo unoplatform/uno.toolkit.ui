@@ -38,7 +38,7 @@ using Windows.UI.Xaml.Media.Animation;
 #endif
 
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	public partial class NativeFramePresenter : FrameworkElement
 	{

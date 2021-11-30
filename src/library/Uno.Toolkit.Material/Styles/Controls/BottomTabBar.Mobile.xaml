@@ -6,7 +6,7 @@
 					xmlns:toolkitControls="using:Uno.Toolkit.Material.Controls"
 					xmlns:materialToolkit="using:Uno.Toolkit.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
-					xmlns:utu="using:Uno.Toolkit.UI.Controls"
+					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
 
 	<ResourceDictionary.MergedDictionaries>

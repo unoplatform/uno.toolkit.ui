@@ -8,7 +8,6 @@ using AndroidX.ViewPager.Widget;
 using System.Diagnostics;
 using Windows.Foundation;
 using Uno.Disposables;
-using Uno.Toolkit.UI.Controls;
 using Uno.UI;
 
 #if IS_WINUI
@@ -23,7 +22,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml;
 #endif
 
-namespace Uno.Toolkit.UI.Behaviors
+namespace Uno.Toolkit.UI
 {
 	partial class TabBarSelectorBehaviorState
 	{

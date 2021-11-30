@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Uno.Disposables;
 using Windows.Foundation;
-using Uno.Toolkit.UI.Extensions;
-using Uno.Toolkit.UI.Behaviors;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -32,7 +30,7 @@ using Windows.UI;
 using Windows.UI.Xaml.Media.Animation;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	/// <summary>
 	/// A Panel that is used to contain and translate a view being used as a selection indicator for a <see cref="TabBar"/>

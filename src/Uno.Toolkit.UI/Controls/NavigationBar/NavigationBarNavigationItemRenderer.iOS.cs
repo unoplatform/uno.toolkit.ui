@@ -10,7 +10,6 @@ using Uno.Disposables;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.Foundation.Collections;
-using Uno.Toolkit.UI.Extensions;
 using Uno.Extensions;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -30,7 +29,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	internal partial class NavigationBarNavigationItemRenderer : Renderer<NavigationBar, UINavigationItem>
 	{

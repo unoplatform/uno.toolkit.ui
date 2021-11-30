@@ -12,7 +12,6 @@ using System.Linq;
 using Uno.Disposables;
 using Windows.Foundation;
 using Windows.UI.Core;
-using Uno.Toolkit.UI.Extensions;
 #if HAS_UNO
 using Uno.UI.Helpers;
 #endif
@@ -37,7 +36,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.ViewManagement;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	/// <summary>
 	/// Represents a specialized app bar that provides layout for AppBarButton and navigation logic.

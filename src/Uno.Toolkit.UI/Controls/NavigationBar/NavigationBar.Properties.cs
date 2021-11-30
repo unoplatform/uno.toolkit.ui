@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Navigation;
 #endif
 
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	partial class NavigationBar
 	{

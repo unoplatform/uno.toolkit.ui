@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UIKit;
 
-namespace Uno.Toolkit.UI.Extensions
+namespace Uno.Toolkit.UI
 {
 	internal static class UIBarButtonItemExtensions
 	{

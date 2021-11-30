@@ -32,7 +32,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media.Animation;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	public partial class NativeFramePresenter : Grid // Inheriting from Grid is a hack to remove 1 visual layer (Android 4.4 stack size limits)
 	{

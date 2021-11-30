@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using UIKit;
 using Uno.Disposables;
 using System.Diagnostics;
-using Uno.Toolkit.UI.Controls;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -21,7 +20,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml;
 #endif
 
-namespace Uno.Toolkit.UI.Behaviors
+namespace Uno.Toolkit.UI
 {
 	partial class TabBarSelectorBehaviorState
 	{

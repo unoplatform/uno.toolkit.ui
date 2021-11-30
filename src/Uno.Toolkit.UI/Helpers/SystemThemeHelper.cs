@@ -15,7 +15,7 @@ using XamlWindow = Windows.UI.Xaml.Window;
 #endif
 
 
-namespace Uno.Toolkit.UI.Helpers
+namespace Uno.Toolkit.UI
 {
 	public static class SystemThemeHelper
 	{
