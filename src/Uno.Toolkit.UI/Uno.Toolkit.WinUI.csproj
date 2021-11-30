@@ -14,10 +14,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" Version="4.0.0-dev.5688" />
-		<PackageReference Include="Uno.Core.Extensions.Collections" Version="4.0.0-dev.7" />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.0-dev.7" />
-		<PackageReference Include="Uno.Core.Extensions.Logging" Version="4.0.0-dev.7" />
+		<PackageReference Include="Uno.WinUI" Version="4.0.7" />
+		<PackageReference Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
+		<PackageReference Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
 	</ItemGroup>
 
 	<Choose>
