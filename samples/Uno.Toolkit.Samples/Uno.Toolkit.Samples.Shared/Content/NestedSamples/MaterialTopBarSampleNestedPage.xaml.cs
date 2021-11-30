@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Uno.Toolkit.UI;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 #if IS_WINUI
@@ -27,7 +28,22 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples
             this.InitializeComponent();
         }
 
-        private void NavigateBack(object sender, RoutedEventArgs e)
+		private void OnSelectionChanged(TabBar sender, TabBarSelectionChangedEventArgs args)
+		{
+			if (args.NewItem is TabBarItem tabBarItem)
+			{
+				foreach (var page in PageContainer.Children)
+				{
+					var pageGrid = page as Grid;
+					if (pageGrid != null)
+					{
+						pageGrid.Visibility = pageGrid.Name == (string)tabBarItem.Tag ? Visibility.Visible : Visibility.Collapsed;
+					}
+				}
+			}
+		}
+
+		private void NavigateBack(object sender, RoutedEventArgs e)
         {
             // Normally we would've just called `Frame.GoBack();` if we only have a single frame.
             // However, a nested frame is used to show-case fullscreen sample, so we need some

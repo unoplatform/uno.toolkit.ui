@@ -35,60 +35,62 @@
 
 		<utu:TabBar Grid.Row="1"
 					SelectedIndex="1"
-					Style="{StaticResource MaterialTopTabBarStyle}"
-					toolkitB:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}">
+					SelectionChanged="OnSelectionChanged"
+					Style="{StaticResource MaterialTopTabBarStyle}">
 			<utu:TabBar.Items>
-				<utu:TabBarItem Content="Home" />
-				<utu:TabBarItem Content="Search" />
-				<utu:TabBarItem Content="Support" />
-				<utu:TabBarItem Content="About" />
+				<utu:TabBarItem Tag="Home"  Content="Home" />
+				<utu:TabBarItem Tag="Search" Content="Search" />
+				<utu:TabBarItem Tag="Support" Content="Support" />
+				<utu:TabBarItem Tag="About" Content="About" />
 			</utu:TabBar.Items>
 		</utu:TabBar>
 
-		<FlipView x:Name="SlideFlipView"
+		<Grid x:Name="PageContainer"
 				  Grid.Row="2">
-			<FlipView.Items>
-				<FlipViewItem>
-					<Border Background="LightGray">
-						<StackPanel HorizontalAlignment="Center"
+			<Grid x:Name="Home"
+				  Visibility="Collapsed">
+				<Border Background="LightGray">
+					<StackPanel HorizontalAlignment="Center"
 									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xE80F;" />
-							<TextBlock Text="Home"
+						<FontIcon Glyph="&#xE80F;" />
+						<TextBlock Text="Home"
 									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-				<FlipViewItem>
-					<Border Background="LightGray">
-						<StackPanel HorizontalAlignment="Center"
+					</StackPanel>
+				</Border>
+			</Grid>
+			<Grid x:Name="Search"
+				  Visibility="Collapsed">
+				<Border Background="LightGray">
+					<StackPanel HorizontalAlignment="Center"
 									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xe721;" />
-							<TextBlock Text="Search"
+						<FontIcon Glyph="&#xe721;" />
+						<TextBlock Text="Search"
 									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-				<FlipViewItem>
-					<Border Background="LightGray">
-						<StackPanel HorizontalAlignment="Center"
+					</StackPanel>
+				</Border>
+			</Grid>
+			<Grid x:Name="Support"
+				  Visibility="Collapsed">
+				<Border Background="LightGray">
+					<StackPanel HorizontalAlignment="Center"
 									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xE8F2;" />
-							<TextBlock Text="Support"
+						<FontIcon Glyph="&#xE8F2;" />
+						<TextBlock Text="Support"
 									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-				<FlipViewItem>
-					<Border Background="LightGray">
-						<StackPanel HorizontalAlignment="Center"
+					</StackPanel>
+				</Border>
+			</Grid>
+			<Grid x:Name="About"
+				  Visibility="Collapsed">
+				<Border Background="LightGray">
+					<StackPanel HorizontalAlignment="Center"
 									VerticalAlignment="Center">
-							<FontIcon Glyph="&#xE946;" />
-							<TextBlock Text="About"
+						<FontIcon Glyph="&#xE946;" />
+						<TextBlock Text="About"
 									   TextAlignment="Center" />
-						</StackPanel>
-					</Border>
-				</FlipViewItem>
-			</FlipView.Items>
-		</FlipView>
+					</StackPanel>
+				</Border>
+			</Grid>
+		</Grid>
 	</Grid>
 </Page>
