@@ -13,31 +13,31 @@ Currently, there are two [Material](https://material.io/components/cards)-themed
 ### MaterialElevatedCardContentControlStyle
 
 ```xml
-xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
+xmlns:utu="using:Uno.Toolkit.UI"
 ...
-<toolkit:CardContentControl Style="{StaticResource MaterialElevatedCardContentControlStyle}">
-	<toolkit:CardContentControl.ContentTemplate>
+<utu:CardContentControl Style="{StaticResource MaterialElevatedCardContentControlStyle}">
+	<utu:CardContentControl.ContentTemplate>
 		<DataTemplate>
 			<Grid>
 			    <TextBlock Text="Elevated card" MaxLines="1" Style="{StaticResource MaterialHeadline6}" />
 			</Grid>
 		</DataTemplate>
-	</toolkit:CardContentControl.ContentTemplate>
-</toolkit:CardContentControl>
+	</utu:CardContentControl.ContentTemplate>
+</utu:CardContentControl>
 ```
 
 ### MaterialOutlinedCardContentControlStyle
 
 ```xml
-xmlns:toolkit="using:Uno.Toolkit.UI.Controls"
+xmlns:utu="using:Uno.Toolkit.UI"
 ...
-<toolkit:CardContentControl Style="{StaticResource MaterialOutlinedCardContentControlStyle}">
-	<toolkit:CardContentControl.ContentTemplate>
+<utu:CardContentControl Style="{StaticResource MaterialOutlinedCardContentControlStyle}">
+	<utu:CardContentControl.ContentTemplate>
 		<DataTemplate>
 			<Grid>
 			    <TextBlock Text="Outlined card" MaxLines="1" Style="{StaticResource MaterialHeadline6}" />
 			</Grid>
 		</DataTemplate>
-	</toolkit:CardContentControl.ContentTemplate>
-</toolkit:CardContentControl>
+	</utu:CardContentControl.ContentTemplate>
+</utu:CardContentControl>
 ```

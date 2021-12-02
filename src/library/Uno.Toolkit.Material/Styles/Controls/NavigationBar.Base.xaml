@@ -7,7 +7,7 @@
 					xmlns:not_win="http://uno.ui/not_win"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:utu="using:Uno.Toolkit.UI"
-					xmlns:controls="using:Uno.Material.Controls"
+					xmlns:um="using:Uno.Material"
 					xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
 					xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)"
 					xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
@@ -527,7 +527,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
 					<Grid Background="Transparent">
-						<controls:Ripple Feedback="{TemplateBinding Foreground}"
+						<um:Ripple Feedback="{TemplateBinding Foreground}"
 										 FeedbackOpacity="{StaticResource MaterialPressedOpacity}">
 							<ContentPresenter x:Name="ContentPresenter"
 											  Background="{TemplateBinding Background}"
@@ -543,7 +543,7 @@
 											  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
 											  AutomationProperties.AccessibilityView="Raw"
 											  Control.IsTemplateFocusTarget="True" />
-						</controls:Ripple>
+						</um:Ripple>
 
 					</Grid>
 

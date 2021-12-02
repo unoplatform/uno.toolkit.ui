@@ -2,7 +2,7 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:utu="using:Uno.Toolkit.UI"
-					xmlns:controls="using:Uno.Material.Controls"
+					xmlns:um="using:Uno.Material"
 					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:not_win="http://uno.ui/not_win"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
@@ -160,7 +160,7 @@
 
 							<Grid CornerRadius="{TemplateBinding CornerRadius}">
 
-								<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceLowBrush}"
+								<um:Ripple Feedback="{StaticResource MaterialOnSurfaceLowBrush}"
 												 CornerRadius="{TemplateBinding CornerRadius}"
 												 Padding="{TemplateBinding Padding}">
 									<Grid>
@@ -210,7 +210,7 @@
 												Margin="0,0,4,0"
 												Grid.Column="2" />
 									</Grid>
-								</controls:Ripple>
+								</um:Ripple>
 							</Grid>
 						</toolkit:ElevatedView>
 					</Grid>
@@ -296,7 +296,7 @@
 
 							<Grid CornerRadius="{TemplateBinding CornerRadius}">
 
-								<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
+								<um:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 												 CornerRadius="{TemplateBinding CornerRadius}"
 												 Padding="{TemplateBinding Padding}">
 									<Grid>
@@ -346,7 +346,7 @@
 												Margin="0,0,4,0"
 												Grid.Column="2" />
 									</Grid>
-								</controls:Ripple>
+								</um:Ripple>
 							</Grid>
 						</toolkit:ElevatedView>
 					</Grid>
@@ -455,7 +455,7 @@
 
 							<Grid CornerRadius="{TemplateBinding CornerRadius}">
 
-								<controls:Ripple x:Name="RippleRoot"
+								<um:Ripple x:Name="RippleRoot"
 												 Feedback="{StaticResource MaterialPrimaryFocusedBrush}"
 												 CornerRadius="{TemplateBinding CornerRadius}"
 												 Padding="{TemplateBinding Padding}">
@@ -474,7 +474,7 @@
 														  AutomationProperties.AccessibilityView="Raw"
 														  Margin="8,0" />
 									</Grid>
-								</controls:Ripple>
+								</um:Ripple>
 							</Grid>
 						</toolkit:ElevatedView>
 					</Grid>
@@ -566,7 +566,7 @@
 
 							<Grid CornerRadius="{TemplateBinding CornerRadius}">
 
-								<controls:Ripple x:Name="RippleRoot"
+								<um:Ripple x:Name="RippleRoot"
 												 Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 												 CornerRadius="{TemplateBinding CornerRadius}"
 												 Padding="{TemplateBinding Padding}">
@@ -585,7 +585,7 @@
 														  AutomationProperties.AccessibilityView="Raw"
 														  Margin="8,0" />
 									</Grid>
-								</controls:Ripple>
+								</um:Ripple>
 							</Grid>
 						</toolkit:ElevatedView>
 					</Grid>
@@ -663,7 +663,7 @@
 
 							<Grid CornerRadius="{TemplateBinding CornerRadius}">
 
-								<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceLowBrush}"
+								<um:Ripple Feedback="{StaticResource MaterialOnSurfaceLowBrush}"
 												 CornerRadius="{TemplateBinding CornerRadius}"
 												 Padding="{TemplateBinding Padding}">
 									<Grid>
@@ -703,7 +703,7 @@
 														  Margin="8,0"
 														  Grid.Column="1" />
 									</Grid>
-								</controls:Ripple>
+								</um:Ripple>
 							</Grid>
 						</toolkit:ElevatedView>
 					</Grid>
@@ -774,7 +774,7 @@
 
 							<Grid CornerRadius="{TemplateBinding CornerRadius}">
 
-								<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
+								<um:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 												 CornerRadius="{TemplateBinding CornerRadius}"
 												 Padding="{TemplateBinding Padding}">
 									<Grid>
@@ -814,7 +814,7 @@
 														  Margin="8,0"
 														  Grid.Column="1" />
 									</Grid>
-								</controls:Ripple>
+								</um:Ripple>
 							</Grid>
 						</toolkit:ElevatedView>
 					</Grid>
@@ -884,7 +884,7 @@
 
 							<Grid CornerRadius="{TemplateBinding CornerRadius}">
 
-								<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceLowBrush}"
+								<um:Ripple Feedback="{StaticResource MaterialOnSurfaceLowBrush}"
 												 CornerRadius="{TemplateBinding CornerRadius}"
 												 Padding="{TemplateBinding Padding}">
 									<Grid>
@@ -914,7 +914,7 @@
 														  Margin="8,0"
 														  Grid.Column="1" />
 									</Grid>
-								</controls:Ripple>
+								</um:Ripple>
 							</Grid>
 						</toolkit:ElevatedView>
 					</Grid>
@@ -977,7 +977,7 @@
 
 							<Grid CornerRadius="{TemplateBinding CornerRadius}">
 
-								<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
+								<um:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 												 CornerRadius="{TemplateBinding CornerRadius}"
 												 Padding="{TemplateBinding Padding}">
 									<Grid>
@@ -1007,7 +1007,7 @@
 														  Margin="8,0"
 														  Grid.Column="1" />
 									</Grid>
-								</controls:Ripple>
+								</um:Ripple>
 							</Grid>
 						</toolkit:ElevatedView>
 					</Grid>
