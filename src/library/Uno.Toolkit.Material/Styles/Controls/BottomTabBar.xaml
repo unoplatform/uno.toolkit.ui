@@ -2,7 +2,7 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-					xmlns:controls="using:Uno.Material.Controls"
+					xmlns:um="using:Uno.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
@@ -88,7 +88,7 @@
 											  CornerRadius="{TemplateBinding CornerRadius}"
 											  Background="Transparent">
 
-							<controls:Ripple x:Name="Ripple"
+							<um:Ripple x:Name="Ripple"
 											 CornerRadius="{TemplateBinding CornerRadius}"
 											 Feedback="{TemplateBinding Foreground}"
 											 FeedbackOpacity="{StaticResource MaterialPressedOpacity}">
@@ -130,7 +130,7 @@
 
 									<Border x:Name="FabFocusBorder" />
 								</Grid>
-							</controls:Ripple>
+							</um:Ripple>
 						</toolkit:ElevatedView>
 
 						<VisualStateManager.VisualStateGroups>
@@ -305,7 +305,7 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-						<controls:Ripple x:Name="RippleControl"
+						<um:Ripple x:Name="RippleControl"
 										 Feedback="{ThemeResource MaterialOnPrimaryBrush}"
 										 FeedbackOpacity="{StaticResource MaterialPressedOpacity}"
 										 BorderBrush="{TemplateBinding BorderBrush}"
@@ -313,7 +313,7 @@
 										 CornerRadius="{TemplateBinding CornerRadius}"
 										 Padding="{TemplateBinding Padding}"
 										 AutomationProperties.AccessibilityView="Raw">
-							<controls:Ripple.Content>
+							<um:Ripple.Content>
 								<Grid>
 									<Rectangle x:Name="PointerRectangle"
 											   Fill="Transparent"
@@ -348,8 +348,8 @@
 														  AutomationProperties.AccessibilityView="Raw" />
 									</Grid>
 								</Grid>
-							</controls:Ripple.Content>
-						</controls:Ripple>
+							</um:Ripple.Content>
+						</um:Ripple>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

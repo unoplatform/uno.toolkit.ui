@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:utu="using:Uno.Toolkit.UI"
-					xmlns:controls="using:Uno.Material.Controls"
+					xmlns:um="using:Uno.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit">
 
 	<!--  Card Variables  -->
@@ -247,7 +247,7 @@
 										  Visibility="{Binding SubHeaderContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
 
 						<!--  Ripple effect  -->
-						<controls:Ripple Grid.RowSpan="4"
+						<um:Ripple Grid.RowSpan="4"
 										 Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 										 BorderBrush="{TemplateBinding BorderBrush}"
 										 BorderThickness="{TemplateBinding BorderThickness}"
@@ -448,7 +448,7 @@
 											  Visibility="{Binding SubHeaderContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
 
 							<!--  Ripple effect  -->
-							<controls:Ripple Grid.RowSpan="4"
+							<um:Ripple Grid.RowSpan="4"
 											 Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 											 CornerRadius="{StaticResource MaterialCardCornerRadius}"
 											 Padding="{TemplateBinding Padding}"
@@ -653,7 +653,7 @@
 						</StackPanel>
 
 						<!--  Ripple effect  -->
-						<controls:Ripple Grid.RowSpan="3"
+						<um:Ripple Grid.RowSpan="3"
 										 Grid.ColumnSpan="3"
 										 Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 										 BorderBrush="{TemplateBinding BorderBrush}"
@@ -875,7 +875,7 @@
 												  Visibility="{Binding SubHeaderContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
 							</StackPanel>
 							<!--  Ripple effect  -->
-							<controls:Ripple Grid.RowSpan="3"
+							<um:Ripple Grid.RowSpan="3"
 											 Grid.ColumnSpan="3"
 											 Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 											 CornerRadius="{StaticResource MaterialCardCornerRadius}"
@@ -1097,7 +1097,7 @@
 						</StackPanel>
 
 						<!--  Ripple effect  -->
-						<controls:Ripple Grid.RowSpan="3"
+						<um:Ripple Grid.RowSpan="3"
 										 Grid.ColumnSpan="3"
 										 Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 										 BorderBrush="{TemplateBinding BorderBrush}"
@@ -1312,7 +1312,7 @@
 							</StackPanel>
 
 							<!--  Ripple effect  -->
-							<controls:Ripple Grid.RowSpan="3"
+							<um:Ripple Grid.RowSpan="3"
 											 Grid.ColumnSpan="3"
 											 Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 											 CornerRadius="{StaticResource MaterialCardCornerRadius}"

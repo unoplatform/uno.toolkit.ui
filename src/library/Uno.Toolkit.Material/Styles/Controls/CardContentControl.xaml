@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:controls="using:Uno.Material.Controls"
+					xmlns:um="using:Uno.Material"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:toolkit="using:Uno.UI.Toolkit">
 
@@ -132,7 +132,7 @@
 						<!--  Ripple effect  -->
 						<!-- Will add the ripple effect later on when this issue is taken care of: -->
 						<!-- https://github.com/unoplatform/uno.ui.toolkit/issues/88 -->
-						<!--<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
+						<!--<um:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 										 BorderBrush="{TemplateBinding BorderBrush}"
 										 BorderThickness="{TemplateBinding BorderThickness}"
 										 CornerRadius="{StaticResource MaterialCardCornerRadius}"
@@ -297,7 +297,7 @@
 							<!--  Ripple effect  -->
 							<!-- Will add the ripple effect later on when this issue is taken care of: -->
 							<!-- https://github.com/unoplatform/uno.ui.toolkit/issues/88 -->
-							<!--<controls:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
+							<!--<um:Ripple Feedback="{StaticResource MaterialOnSurfaceFocusedBrush}"
 											 CornerRadius="{StaticResource MaterialCardCornerRadius}"
 											 Padding="{TemplateBinding Padding}"
 											 AutomationProperties.AccessibilityView="Raw" />-->

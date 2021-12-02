@@ -70,6 +70,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Uno.Material.WinUI">
+      <Version>1.1.0-dev.70</Version>
+    </PackageReference>
     <PackageReference Include="Uno.WinUI" Version="4.0.7" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.0.7" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.35" />
@@ -81,11 +84,11 @@
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
       <Version>2.3.1.1</Version>
     </PackageReference>
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.7" />
-		<PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-	</ItemGroup>
-	<ItemGroup>
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.7" />
+    <PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
+    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="MainActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />

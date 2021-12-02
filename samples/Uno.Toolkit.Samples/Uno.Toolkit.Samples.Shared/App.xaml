@@ -1,8 +1,7 @@
 ﻿<Application x:Class="Uno.Toolkit.Samples.App"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:local="using:Uno.Toolkit.Samples"
-			 xmlns:toolkit="using:Uno.Toolkit.UI">
+			 xmlns:local="using:Uno.Toolkit.Samples">
 
 	<Application.Resources>
 		<ResourceDictionary>

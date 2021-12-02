@@ -183,10 +183,10 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Uno.Cupertino">
-      <Version>1.1.0-dev.57</Version>
+      <Version>1.1.0-dev.70</Version>
     </PackageReference>
     <PackageReference Include="Uno.Material">
-      <Version>1.1.0-dev.57</Version>
+      <Version>1.1.0-dev.70</Version>
     </PackageReference>
     <PackageReference Include="Uno.UI" Version="4.0.7" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.7" Condition="'$(Configuration)'=='Debug'" />
