@@ -39,6 +39,8 @@ namespace Uno.Toolkit.Samples
 	/// </summary>
 	public sealed partial class App : Application
 	{
+		private XamlWindow _window;
+
 		private Shell _shell;
 
 		/// <summary>
@@ -78,14 +80,20 @@ namespace Uno.Toolkit.Samples
 			Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(320, 568)); // (size of the iPhone SE)
 #endif
 
-			var window = XamlWindow.Current;
-			if (!(window.Content is Shell))
+#if IS_WINUI
+			_window = new XamlWindow();
+			_window.Activate();
+#else
+			_window = Windows.UI.Xaml.Window.Current;
+#endif
+
+			if (!(_window.Content is Shell))
 			{
-				window.Content = _shell = BuildShell();
+				_window.Content = _shell = BuildShell();
 			}
 
 			// Ensure the current window is active
-			window.Activate();
+			_window.Activate();
 		}
 
 		/// <summary>

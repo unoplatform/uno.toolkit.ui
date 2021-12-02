@@ -41,7 +41,10 @@ namespace Uno.Toolkit.Samples
 			this.Loaded += OnLoaded;
 			
 			NestedSampleFrame.RegisterPropertyChangedCallback(ContentControl.ContentProperty, OnNestedSampleFrameChanged);
+
+#if !IS_WINUI
 			SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) => e.Handled = BackNavigateFromNestedSample();
+#endif
 		}
 
 		public static Shell GetForCurrentView() => (Shell)XamlWindow.Current.Content;
@@ -64,8 +67,10 @@ namespace Uno.Toolkit.Samples
 
 		private void SetDarkLightToggleInitialState()
 		{
+#if !IS_WINUI
 			// Initialize the toggle to the current theme.
 			DarkModeToggle.IsChecked = SystemThemeHelper.IsAppInDarkMode();
+#endif
 		}
 
 		/// <summary>
@@ -73,6 +78,7 @@ namespace Uno.Toolkit.Samples
 		/// </summary>
 		private void InitializeSafeArea()
 		{
+#if !IS_WINUI
 			var full = XamlWindow.Current.Bounds;
 			var bounds = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().VisibleBounds;
 
@@ -82,6 +88,7 @@ namespace Uno.Toolkit.Samples
 			{
 				TopPaddingRow.Height = new GridLength(topPadding);
 			}
+#endif
 		}
 
 		private void ToggleButton_Click(object sender, RoutedEventArgs e)
