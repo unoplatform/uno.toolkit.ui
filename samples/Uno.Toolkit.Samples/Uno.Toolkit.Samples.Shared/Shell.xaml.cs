@@ -153,7 +153,6 @@ namespace Uno.Toolkit.Samples
 			ModalDialog.Hide();
 		}
 
-#if !IS_WINUI
 		public bool BackNavigateFromNestedSample()
 		{
 			if (NestedSampleFrame.Content == null)
@@ -185,7 +184,6 @@ namespace Uno.Toolkit.Samples
 
 			return true;
 		}
-#endif
 
 		private void NavViewToggleButton_Click(object sender, RoutedEventArgs e)
 		{
