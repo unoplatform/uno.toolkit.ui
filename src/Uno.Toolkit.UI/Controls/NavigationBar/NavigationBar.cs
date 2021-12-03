@@ -139,8 +139,10 @@ namespace Uno.Toolkit.UI
 		{
 			_pageRef = new WeakReference<Page?>(this.GetFirstParent<Page>());
 
+#if !IS_WINUI
 			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
+#endif
 
 #if !HAS_NATIVE_NAVBAR
 			Page? page = null;
@@ -183,6 +185,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+#if !IS_WINUI
 		private void OnBackRequested(object? sender, BackRequestedEventArgs e)
 		{
 			if (!e.Handled && MainCommandMode == MainCommandMode.Back)
@@ -190,6 +193,7 @@ namespace Uno.Toolkit.UI
 				e.Handled = TryPerformBack();
 			}
 		}
+#endif
 
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
 		{

@@ -125,10 +125,12 @@ namespace Uno.Toolkit.Samples
 				? Visibility.Visible
 				: Visibility.Collapsed;
 
+#if !IS_WINUI
 			// toggle built-in back button for wasm (from browser) and uwp (on title bar)
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = isInsideNestedSample
 				? AppViewBackButtonVisibility.Visible
 				: AppViewBackButtonVisibility.Collapsed;
+#endif
 		}
 
 		public void ShowNestedSample<TPage>(bool? clearStack = null) where TPage : Page
