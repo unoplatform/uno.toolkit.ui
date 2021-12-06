@@ -25,19 +25,17 @@
 				Value="{StaticResource MaterialMainCommandStyle}" />
 	</Style>
 
-	<Style x:Key="MaterialModalMainCommandStyle"
+    <Style x:Key="MaterialModalMainCommandStyle"
 		   TargetType="AppBarButton"
-		   BasedOn="{StaticResource BaseMaterialMainCommandStyle}">
-		<Setter Property="Foreground"
-				Value="{ThemeResource MaterialOnSurfaceBrush}" />
-		<Setter Property="Icon">
-			<Setter.Value>
-				<SymbolIcon Symbol="Back" />
-			</Setter.Value>
-		</Setter>
-	</Style>
+		   BasedOn="{StaticResource BaseMaterialModalMainCommandStyle}">
+        <Setter Property="Icon">
+            <Setter.Value>
+                <SymbolIcon Symbol="Back" />
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-	<Style x:Key="MaterialModalNavigationBarStyle"
+    <Style x:Key="MaterialModalNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialModalNavigationBarStyle}">
 		<Setter Property="MainCommandStyle"
