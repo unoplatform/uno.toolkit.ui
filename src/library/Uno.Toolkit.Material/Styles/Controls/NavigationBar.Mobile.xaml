@@ -17,29 +17,32 @@
 		   TargetType="AppBarButton"
 		   BasedOn="{StaticResource BaseMaterialMainCommandStyle}" />
 
-	<Style x:Key="MaterialNavigationBarStyle"
+    <Style x:Key="MaterialModalMainCommandStyle"
+		   TargetType="AppBarButton"
+		   BasedOn="{StaticResource BaseMaterialModalMainCommandStyle}" />
+
+    <Style x:Key="MaterialNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
-		<ios:Setter Property="Height"
+        <ios:Setter Property="Height"
 					Value="NaN" />
-		<ios:Setter Property="Template"
+        <ios:Setter Property="Template"
 					Value="{StaticResource NativeNavigationBarTemplate}" />
-		<android:Setter Property="Template"
+        <android:Setter Property="Template"
 						Value="{StaticResource NativeNavigationBarTemplate}" />
-		<Setter Property="MainCommandStyle"
+        <Setter Property="MainCommandStyle"
 				Value="{StaticResource MaterialMainCommandStyle}" />
-	</Style>
+    </Style>
 
-	<Style x:Key="MaterialModalMainCommandStyle"
-		   TargetType="AppBarButton"
-		   BasedOn="{StaticResource BaseMaterialMainCommandStyle}">
-		<Setter Property="Foreground"
-				Value="{ThemeResource MaterialOnSurfaceBrush}" />
-	</Style>
-
-	<Style x:Key="MaterialModalNavigationBarStyle"
+    <Style x:Key="MaterialModalNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialModalNavigationBarStyle}">
+        <ios:Setter Property="Height"
+					Value="NaN" />
+        <ios:Setter Property="Template"
+					Value="{StaticResource NativeNavigationBarTemplate}" />
+        <android:Setter Property="Template"
+						Value="{StaticResource NativeNavigationBarTemplate}" />
 		<Setter Property="MainCommandStyle"
 				Value="{StaticResource MaterialModalMainCommandStyle}" />
 	</Style>

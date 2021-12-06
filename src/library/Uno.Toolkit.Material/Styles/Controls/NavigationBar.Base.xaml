@@ -607,11 +607,18 @@
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
 		<Setter Property="MainCommandStyle"
-				Value="{StaticResource MaterialModalMainCommandStyle}" />
+				Value="{StaticResource BaseMaterialModalMainCommandStyle}" />
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialSurfaceBrush}" />
 		<Setter Property="Foreground"
 				Value="{ThemeResource MaterialOnSurfaceBrush}" />
 	</Style>
+
+    <Style x:Key="BaseMaterialModalMainCommandStyle"
+		   TargetType="AppBarButton"
+		   BasedOn="{StaticResource BaseMaterialMainCommandStyle}">
+        <Setter Property="Foreground"
+				Value="{ThemeResource MaterialOnSurfaceBrush}" />
+    </Style>
 
 </ResourceDictionary>
