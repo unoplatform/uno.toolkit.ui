@@ -45,7 +45,6 @@
 				<ResourceDictionary Source="ms-appx:///Styles/ToggleButton.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/SamplePageLayout.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
-				<ResourceDictionary Source="ms-appx:///Styles/ToggleSwitch.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/OverviewSampleView.xaml" />
 				<ResourceDictionary>
 					<x:Double x:Key="DesktopAdaptiveThresholdWidth">720</x:Double>
