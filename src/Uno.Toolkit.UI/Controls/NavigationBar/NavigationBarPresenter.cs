@@ -47,7 +47,7 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			_weakNavBar = new WeakReference<NavigationBar?>(owner);
+			_weakNavBar = new WeakReference<NavigationBar?>(owner);	
 		}
 		protected override void OnApplyTemplate()
 		{
@@ -124,7 +124,7 @@ namespace Uno.Toolkit.UI
 
 		private void OnCommandBarMainCommandClicked(object sender, RoutedEventArgs e)
 		{
-			GetNavBar()?.TryPerformBack();
+			GetNavBar()?.TryPerformMainCommand();
 		}
 
 		private void RegisterEvents()

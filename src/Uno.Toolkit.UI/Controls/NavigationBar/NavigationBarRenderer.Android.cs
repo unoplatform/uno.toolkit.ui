@@ -298,9 +298,6 @@ namespace Uno.Toolkit.UI
 			{
 				navigationCommand.RaiseClick();
 			}
-
-			var frame = Element?.FindFirstParent<Frame>();
-			frame?.GoBack();
 		}
 
 

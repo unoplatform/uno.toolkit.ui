@@ -12,23 +12,19 @@
 						   Content="Hello"
 						   VerticalAlignment="Top">
 			<utu:NavigationBar.MainCommand>
-				<AppBarButton Label="Test"
-							  Click="CloseModal">
+				<AppBarButton Label="Test">
 					<AppBarButton.Icon>
-						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
-									ShowAsMonochrome="False" />
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 			</utu:NavigationBar.MainCommand>
 		</utu:NavigationBar>
 
-		<StackPanel Spacing="8"
+        <StackPanel Spacing="8"
 					Grid.Row="1"
 					VerticalAlignment="Center"
 					Padding="16,0">
-			<Button Content="Exit sample"
-					Click="CloseModal" />
-			<Button Click="NavigateToNextPage"
+            <Button Click="NavigateToNextPage"
 					Content="Navigate To Second Page" />
 		</StackPanel>
 	</Grid>
