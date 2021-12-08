@@ -43,7 +43,7 @@
 					Value="{StaticResource NativeNavigationBarTemplate}" />
         <android:Setter Property="Template"
 						Value="{StaticResource NativeNavigationBarTemplate}" />
-		<Setter Property="MainCommandStyle"
+        <Setter Property="MainCommandStyle"
 				Value="{StaticResource MaterialModalMainCommandStyle}" />
 	</Style>
 </ResourceDictionary>

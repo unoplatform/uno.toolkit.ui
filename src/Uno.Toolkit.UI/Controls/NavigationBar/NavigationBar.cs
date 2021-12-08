@@ -14,6 +14,7 @@ using Windows.Foundation;
 using Windows.UI.Core;
 #if HAS_UNO
 using Uno.UI.Helpers;
+using Uno.UI;
 #endif
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -24,6 +25,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
+using XamlWindow = Microsoft.UI.Xaml.Window;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,6 +36,8 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.ViewManagement;
+using XamlWindow = Windows.UI.Xaml.Window;
+
 #endif
 
 namespace Uno.Toolkit.UI
@@ -56,6 +60,7 @@ namespace Uno.Toolkit.UI
 		private const string SecondaryItemsControl = "SecondaryItemsControl";
 		private const string NavigationBarPresenter = "NavigationBarPresenter";
 
+		private Popup? _popupHost;
 
 #if HAS_NATIVE_NAVBAR
 		private bool _isNativeTemplate;
@@ -90,29 +95,38 @@ namespace Uno.Toolkit.UI
 #endif
 		}
 
-		internal bool TryPerformBack()
+		internal bool TryPerformMainCommand()
 		{
-			if (MainCommandMode != MainCommandMode.Back)
+			if (MainCommandMode == MainCommandMode.Action)
 			{
 				return false;
 			}
 
-			Page? page = null;
-			if (_pageRef?.TryGetTarget(out page) ?? false)
+			if (GetPage() is { } page)
 			{
-				if (page?.Frame is { Visibility: Visibility.Visible } frame
-					&& frame.CurrentSourcePageType == page.GetType()
-					&& frame.CanGoBack)
+				if (page.Frame is { Visibility: Visibility.Visible } frame
+					&& frame.CurrentSourcePageType == page.GetType())
 				{
-					frame.GoBack();
-					return true;
+					if (MainCommandMode == MainCommandMode.Back)
+					{
+						if (frame.CanGoBack == false && _popupHost is { })
+						{
+							_popupHost.IsOpen = false;
+							return true;
+						}
+						else if (frame.CanGoBack)
+						{
+							frame.GoBack();
+							return true;
+						}
+						
+					}
 				}
 			}
-
 			return false;
 		}
 
-		#region Event Raising
+#region Event Raising
 		internal void RaiseClosingEvent(object e) 
 			=> Closing?.Invoke(this, e);
 
@@ -127,7 +141,7 @@ namespace Uno.Toolkit.UI
 
 		internal void RaiseDynamicOverflowItemsChanging(DynamicOverflowItemsChangingEventArgs args)
 			=> DynamicOverflowItemsChanging?.Invoke(this, args);
-		#endregion
+#endregion
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
@@ -139,14 +153,14 @@ namespace Uno.Toolkit.UI
 		{
 			_pageRef = new WeakReference<Page?>(this.GetFirstParent<Page>());
 
+			_popupHost = Uno.Toolkit.UI.DependencyObjectExtensions.FindFirstParent<Popup>(this);
 #if !IS_WINUI
 			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
 #endif
 
 #if !HAS_NATIVE_NAVBAR
-			Page? page = null;
-			if (_pageRef?.TryGetTarget(out page) ?? false)
+			if (GetPage() is { } page)
 			{
 				var frame = page?.Frame;
 				if (frame?.BackStack is ObservableCollection<PageStackEntry> backStack)
@@ -174,24 +188,26 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			Page? page = null;
-			if ((_pageRef?.TryGetTarget(out page) ?? false) && MainCommand is { })
+			var buttonVisibility = Visibility.Collapsed;
+			if (GetPage() is { } page && MainCommand is { } mainCommand)
 			{
-				var buttonVisibility = (page?.Frame?.CanGoBack ?? false)
-					? Visibility.Visible
-					: Visibility.Collapsed;
+				if (page.Frame.CanGoBack)
+				{
+					buttonVisibility = Visibility.Visible;
+				}
+				else
+				{
+					buttonVisibility = _popupHost is { } ? Visibility.Visible : Visibility.Collapsed;
+				}
 
-				MainCommand.Visibility = buttonVisibility;
+				mainCommand.Visibility = buttonVisibility;
 			}
 		}
 
 #if !IS_WINUI
 		private void OnBackRequested(object? sender, BackRequestedEventArgs e)
 		{
-			if (!e.Handled && MainCommandMode == MainCommandMode.Back)
-			{
-				e.Handled = TryPerformBack();
-			}
+			e.Handled = TryPerformMainCommand();
 		}
 #endif
 
@@ -207,10 +223,9 @@ namespace Uno.Toolkit.UI
 			}
 			else if (args.Property == MainCommandStyleProperty)
 			{
-				var mainCommand = MainCommand;
-				if (MainCommand != null)
+				if (MainCommand is { } mainCommand)
 				{
-					MainCommand.Style = args.NewValue as Style;
+					mainCommand.Style = args.NewValue as Style;
 				}
 			}
 		}
@@ -218,6 +233,17 @@ namespace Uno.Toolkit.UI
 		private void GetTemplatePart<T>(string name, out T? element) where T : class
 		{
 			element = GetTemplateChild(name) as T;
+		}
+
+		private Page? GetPage()
+		{
+			Page? page = null;
+			if ((_pageRef?.TryGetTarget(out page) ?? false))
+			{
+				return page;
+			}
+
+			return null;
 		}
 	}
 }

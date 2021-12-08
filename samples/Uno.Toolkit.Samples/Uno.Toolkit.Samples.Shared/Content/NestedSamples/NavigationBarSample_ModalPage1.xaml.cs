@@ -36,10 +36,6 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples
         {
             this.InitializeComponent();
         }
-        private void CloseModal(object sender, RoutedEventArgs e)
-        {
-            Shell.GetForCurrentView().CloseModal();
-        }
 
         private void NavigateToNextPage(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(NavigationBarSample_ModalPage2));
 

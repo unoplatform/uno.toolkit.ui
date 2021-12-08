@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Uno.Disposables;
 using Uno.Extensions;
+using Uno.UI;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -94,12 +95,12 @@ namespace Uno.Toolkit.UI
 			{
 				var child = VisualTreeHelper.GetChild(depObj, i);
 
-
 				var result = (child is T t) ? t : FindChild<T>(child);
 				if (result != null) return result;
 			}
 			return default(T);
 		}
+
 		public static T? GetFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
 		where T :
 #if HAS_UNO
@@ -124,5 +125,37 @@ namespace Uno.Toolkit.UI
 				yield return element = parent;
 			}
 		}
+
+		/// <summary>
+		/// ** Recursively ** gets an enumerable sequence of all the parent objects of a given element.
+		/// Parents are ordered from bottom to the top, i.e. from direct parent to the root of the window.
+		/// </summary>
+		/// <param name="element">The element to search from</param>
+		/// <param name="includeCurrent">Determines if the current <paramref name="element"/> should be included or not.</param>
+		public static IEnumerable<DependencyObject> GetAllParents(this DependencyObject element, bool includeCurrent = true)
+		{
+			if (includeCurrent)
+			{
+				yield return element;
+			}
+
+			for (var parent = (element as FrameworkElement)?.Parent ?? VisualTreeHelper.GetParent(element);
+				parent != null;
+				parent = (parent as FrameworkElement)?.Parent ??  VisualTreeHelper.GetParent(parent))
+			{
+				yield return parent;
+			}
+		}
+
+		/// <summary>
+		/// Search for the first parent of the given type.
+		/// </summary>
+		/// <typeparam name="T">The type of child we are looking for</typeparam>
+		/// <param name="element">The element to search from</param>
+		/// <param name="includeCurrent">Determines if the current <paramref name="element"/> should be tested or not.</param>
+		/// <returns>The first found parent that is of the given type.</returns>
+		public static T FindFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
+			where T : DependencyObject
+			=> element.GetAllParents(includeCurrent).OfType<T>().FirstOrDefault();
 	}
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -27,9 +28,17 @@ namespace Uno.Toolkit.UI
 {
 	public partial class NativeNavigationBarPresenter : ContentPresenter, INavigationBarPresenter
 	{
+		private SerialDisposable _mainCommandClickHandler = new SerialDisposable();
+
 		public NativeNavigationBarPresenter()
 		{
 			Loaded += OnLoaded;
+			Unloaded += OnUnloaded;
+		}
+
+		private void OnUnloaded(object sender, RoutedEventArgs e)
+		{
+			_mainCommandClickHandler.Disposable = null;
 		}
 
 		public void SetOwner(NavigationBar navigationBar)
@@ -40,7 +49,19 @@ namespace Uno.Toolkit.UI
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			var navBar = TemplatedParent as NavigationBar;
-			Content = navBar?.GetRenderer(() => new NavigationBarRenderer(navBar)).Native;
+			if (navBar is { })
+			{
+				Content = navBar.GetRenderer(() => new NavigationBarRenderer(navBar)).Native;
+				navBar.MainCommand.Click += OnMainCommandClicked;
+				_mainCommandClickHandler.Disposable = null;
+				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClicked);
+			}
+		}
+
+		private void OnMainCommandClicked(object sender, RoutedEventArgs e)
+		{
+			var navBar = TemplatedParent as NavigationBar;
+			navBar?.TryPerformMainCommand();
 		}
 	}
 }

@@ -34,7 +34,8 @@ namespace Uno.Toolkit.UI
 	{
 		private readonly SerialDisposable _statusBarSubscription = new SerialDisposable();
 		private readonly SerialDisposable _orientationSubscription = new SerialDisposable();
-		private WeakReference<NavigationBar?>? _navBar;
+		private SerialDisposable _mainCommandClickHandler = new SerialDisposable();
+		private WeakReference<NavigationBar?>? _navBarRef;
 
 		private UINavigationBar? _navigationBar;
 		private readonly bool _isPhone = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone;
@@ -54,6 +55,7 @@ namespace Uno.Toolkit.UI
 		{
 			_statusBarSubscription.Disposable = null;
 			_orientationSubscription.Disposable = null;
+			_mainCommandClickHandler.Disposable = null;
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
@@ -62,12 +64,12 @@ namespace Uno.Toolkit.UI
 
 			NavigationBar? navBar = null;
 
-			_navBar?.TryGetTarget(out navBar);
+			_navBarRef?.TryGetTarget(out navBar);
 
 			if (navBar == null)
 			{
 				navBar = TemplatedParent as NavigationBar;
-				_navBar = new WeakReference<NavigationBar?>(navBar);
+				_navBarRef = new WeakReference<NavigationBar?>(navBar);
 
 				_navigationBar = navBar?.GetRenderer(RendererFactory).Native;
 
@@ -75,6 +77,13 @@ namespace Uno.Toolkit.UI
 			else
 			{
 				_navigationBar = navBar?.ResetRenderer(RendererFactory).Native;
+			}
+
+			if (navBar is { })
+			{
+				navBar.MainCommand.Click += OnMainCommandClick;
+				_mainCommandClickHandler.Disposable = null;
+				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClick);
 			}
 
 			if (_navigationBar == null)
@@ -114,11 +123,20 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		private void OnMainCommandClick(object sender, RoutedEventArgs e)
+		{
+			NavigationBar? navBar = null;
+			if (_navBarRef?.TryGetTarget(out navBar) ?? false)
+			{
+				navBar?.TryPerformMainCommand();
+			}
+		}
+
 		NavigationBarRenderer RendererFactory()
 		{
 			NavigationBar? navBar = null;
 
-			_navBar?.TryGetTarget(out navBar);
+			_navBarRef?.TryGetTarget(out navBar);
 
 			return new NavigationBarRenderer(navBar!);
 		}

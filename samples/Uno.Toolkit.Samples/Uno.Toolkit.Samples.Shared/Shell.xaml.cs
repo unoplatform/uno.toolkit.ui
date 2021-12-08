@@ -142,17 +142,6 @@ namespace Uno.Toolkit.Samples
 			}
 		}
 
-		public async Task ShowModal<TPage>() where TPage : Page
-		{
-			ModalDialog.FirstPage = typeof(NavigationBarSample_ModalPage1);
-			await ModalDialog.ShowAsync();
-		}
-
-        public void CloseModal()
-		{
-			ModalDialog.Hide();
-		}
-
 		public bool BackNavigateFromNestedSample()
 		{
 			if (NestedSampleFrame.Content == null)
