@@ -94,7 +94,7 @@
 						<FontIcon Glyph="&#xe721;" />
 					</utu:TabBarItem.Icon>
 				</utu:TabBarItem>
-				<utu:TabBarItem Style="{StaticResource MaterialBottomTabBarItemFabStyle}">
+                <utu:TabBarItem Style="{StaticResource MaterialBottomTabBarItemFabStyle}">
 					<utu:TabBarItem.Flyout>
 						<MenuFlyout Placement="Top"
 									MenuFlyoutPresenterStyle="{StaticResource MaterialMenuFlyoutPresenterStyle}">
