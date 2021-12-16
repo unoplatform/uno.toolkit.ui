@@ -191,7 +191,7 @@ namespace Uno.Toolkit.UI
 			var buttonVisibility = Visibility.Collapsed;
 			if (GetPage() is { } page && MainCommand is { } mainCommand)
 			{
-				if (page.Frame.CanGoBack)
+				if (page.Frame?.CanGoBack ?? false)
 				{
 					buttonVisibility = Visibility.Visible;
 				}
