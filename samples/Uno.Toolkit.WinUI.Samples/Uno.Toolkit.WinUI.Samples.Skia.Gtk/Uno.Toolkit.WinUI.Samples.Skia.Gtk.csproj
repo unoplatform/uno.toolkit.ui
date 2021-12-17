@@ -16,7 +16,17 @@
     <UpToDateCheckInput Include="..\Uno.Toolkit.WinUI.Samples.Shared\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Fonts\Cupertino\SF-Pro.ttf" />
+    <None Remove="Assets\Fonts\Material\Roboto-Light.ttf" />
+    <None Remove="Assets\Fonts\Material\Roboto-Medium.ttf" />
+    <None Remove="Assets\Fonts\Material\Roboto-Regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="..\Uno.Toolkit.WinUI.Samples.Windows.Package\Images\StoreLogo.png" Link="Assets\StoreLogo.png" />
+    <Content Include="Assets\Fonts\Cupertino\SF-Pro.ttf" />
+    <Content Include="Assets\Fonts\Material\Roboto-Light.ttf" />
+    <Content Include="Assets\Fonts\Material\Roboto-Medium.ttf" />
+    <Content Include="Assets\Fonts\Material\Roboto-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Uno.Toolkit.WinUI.Samples.Windows.Package\Package.appxmanifest" Link="Package.appxmanifest" />
