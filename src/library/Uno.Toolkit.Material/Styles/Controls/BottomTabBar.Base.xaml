@@ -1,81 +1,75 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<ResourceDictionary.MergedDictionaries>
-		<MaterialColors xmlns="using:Uno.Material" />
-		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-		<ResourceDictionary>
-			<ResourceDictionary.ThemeDictionaries>
-				<ResourceDictionary x:Key="Dark">
-					<StaticResource x:Key="MaterialTabBarBackground"
-									ResourceKey="MaterialPrimaryBrush" />
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Dark">
+			<StaticResource x:Key="MaterialTabBarBackground"
+							ResourceKey="MaterialPrimaryBrush" />
 
-					<StaticResource x:Key="TabBarItemBackground"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelected"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
-									ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackground"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPointerOver"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPressed"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelected"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
+							ResourceKey="SystemControlTransparentBrush" />
 
-					<StaticResource x:Key="TabBarItemForegroundPointerOver"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPressed"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundDisabled"
-									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelected"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
-									ResourceKey="MaterialOnPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundPointerOver"
+							ResourceKey="MaterialOnPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundPressed"
+							ResourceKey="MaterialOnPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundDisabled"
+							ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected"
+							ResourceKey="MaterialOnPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
+							ResourceKey="MaterialOnPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
+							ResourceKey="MaterialOnPrimaryBrush" />
 
-					<StaticResource x:Key="TabBarItemBorderBrush"
-									ResourceKey="SystemControlTransparentBrush" />
-				</ResourceDictionary>
-
-				<ResourceDictionary x:Key="Light">
-					<StaticResource x:Key="MaterialTabBarBackground"
-									ResourceKey="MaterialPrimaryBrush" />
-
-					<StaticResource x:Key="TabBarItemBackground"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelected"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-
-					<StaticResource x:Key="TabBarItemForegroundPointerOver"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPressed"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundDisabled"
-									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelected"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
-									ResourceKey="MaterialOnPrimaryBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
-									ResourceKey="MaterialOnPrimaryBrush" />
-
-					<StaticResource x:Key="TabBarItemBorderBrush"
-									ResourceKey="SystemControlTransparentBrush" />
-				</ResourceDictionary>
-			</ResourceDictionary.ThemeDictionaries>
+			<StaticResource x:Key="TabBarItemBorderBrush"
+							ResourceKey="SystemControlTransparentBrush" />
 		</ResourceDictionary>
-	</ResourceDictionary.MergedDictionaries>
+
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="MaterialTabBarBackground"
+							ResourceKey="MaterialPrimaryBrush" />
+
+			<StaticResource x:Key="TabBarItemBackground"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPointerOver"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPressed"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelected"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
+							ResourceKey="SystemControlTransparentBrush" />
+
+			<StaticResource x:Key="TabBarItemForegroundPointerOver"
+							ResourceKey="MaterialOnPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundPressed"
+							ResourceKey="MaterialOnPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundDisabled"
+							ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected"
+							ResourceKey="MaterialOnPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
+							ResourceKey="MaterialOnPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
+							ResourceKey="MaterialOnPrimaryBrush" />
+
+			<StaticResource x:Key="TabBarItemBorderBrush"
+							ResourceKey="SystemControlTransparentBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
 
 
 	<SolidColorBrush x:Key="TabBarItemForeground"

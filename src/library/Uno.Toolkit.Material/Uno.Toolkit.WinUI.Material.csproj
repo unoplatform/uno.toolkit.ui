@@ -22,6 +22,10 @@
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.22" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
 	</ItemGroup>
 
+	<PropertyGroup>
+		<XamlMergeOutputFile>Generated\mergedpages.winui.xaml</XamlMergeOutputFile>
+	</PropertyGroup>
+
 	<Choose>
 		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
 			
@@ -50,4 +54,5 @@
 
 	<Import Project="..\..\winappsdk-workaround.targets"/>
 
+	<Import Project="xamlmerge.props" />
 </Project>

@@ -4,10 +4,6 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:toolkit="using:Uno.UI.Toolkit">
 
-	<ResourceDictionary.MergedDictionaries>
-		<MaterialColors xmlns="using:Uno.Material" />
-	</ResourceDictionary.MergedDictionaries>
-
 	<Style x:Key="MaterialOutlinedCardContentControlStyle"
 		   TargetType="utu:CardContentControl">
 		<Setter Property="MinHeight"

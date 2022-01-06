@@ -1,92 +1,86 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<ResourceDictionary.MergedDictionaries>
-		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-		<CupertinoColors xmlns="using:Uno.Cupertino" />
-		<ResourceDictionary>
-			<ResourceDictionary.ThemeDictionaries>
-				<ResourceDictionary x:Key="Dark">
-					<Color x:Key="CupertinoInactiveColor">#757575</Color>
-					<Color x:Key="CupertinoTabBarBackgroundColor">#F0161616</Color>
-					<Color x:Key="CupertinoTabBarBorderColor">#29000000</Color>
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Dark">
+			<Color x:Key="CupertinoInactiveColor">#757575</Color>
+			<Color x:Key="CupertinoTabBarBackgroundColor">#F0161616</Color>
+			<Color x:Key="CupertinoTabBarBorderColor">#29000000</Color>
 
-					<StaticResource x:Key="CupertinoTabBarBackground"
-									ResourceKey="CupertinoTabBarBackgroundBrush" />
+			<StaticResource x:Key="CupertinoTabBarBackground"
+							ResourceKey="CupertinoTabBarBackgroundBrush" />
 
-					<StaticResource x:Key="TabBarItemBackground"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelected"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
-									ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackground"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPointerOver"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPressed"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelected"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
+							ResourceKey="SystemControlTransparentBrush" />
 
-					<StaticResource x:Key="TabBarItemForeground"
-									ResourceKey="CupertinoInactiveBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPointerOver"
-									ResourceKey="CupertinoInactiveBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPressed"
-									ResourceKey="CupertinoInactiveBrush" />
-					<StaticResource x:Key="TabBarItemForegroundDisabled"
-									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelected"
-									ResourceKey="CupertinoBlueBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
-									ResourceKey="CupertinoBlueBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
-									ResourceKey="CupertinoBlueBrush" />
+			<StaticResource x:Key="TabBarItemForeground"
+							ResourceKey="CupertinoInactiveBrush" />
+			<StaticResource x:Key="TabBarItemForegroundPointerOver"
+							ResourceKey="CupertinoInactiveBrush" />
+			<StaticResource x:Key="TabBarItemForegroundPressed"
+							ResourceKey="CupertinoInactiveBrush" />
+			<StaticResource x:Key="TabBarItemForegroundDisabled"
+							ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected"
+							ResourceKey="CupertinoBlueBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
+							ResourceKey="CupertinoBlueBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
+							ResourceKey="CupertinoBlueBrush" />
 
-					<StaticResource x:Key="TabBarItemBorderBrush"
-									ResourceKey="SystemControlTransparentBrush" />
-				</ResourceDictionary>
-
-				<ResourceDictionary x:Key="Light">
-					<Color x:Key="CupertinoInactiveColor">#999999</Color>
-					<Color x:Key="CupertinoTabBarBackgroundColor">#F0F9F9F9</Color>
-					<Color x:Key="CupertinoTabBarBorderColor">#4C000000</Color>
-
-					<StaticResource x:Key="CupertinoTabBarBackground"
-									ResourceKey="CupertinoTabBarBackgroundBrush" />
-
-					<StaticResource x:Key="TabBarItemBackground"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelected"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
-									ResourceKey="SystemControlTransparentBrush" />
-					<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
-									ResourceKey="SystemControlTransparentBrush" />
-
-					<StaticResource x:Key="TabBarItemForeground"
-									ResourceKey="CupertinoInactiveBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPointerOver"
-									ResourceKey="CupertinoInactiveBrush" />
-					<StaticResource x:Key="TabBarItemForegroundPressed"
-									ResourceKey="CupertinoInactiveBrush" />
-					<StaticResource x:Key="TabBarItemForegroundDisabled"
-									ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelected"
-									ResourceKey="CupertinoBlueBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
-									ResourceKey="CupertinoBlueBrush" />
-					<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
-									ResourceKey="CupertinoBlueBrush" />
-
-					<StaticResource x:Key="TabBarItemBorderBrush"
-									ResourceKey="SystemControlTransparentBrush" />
-				</ResourceDictionary>
-			</ResourceDictionary.ThemeDictionaries>
+			<StaticResource x:Key="TabBarItemBorderBrush"
+							ResourceKey="SystemControlTransparentBrush" />
 		</ResourceDictionary>
-	</ResourceDictionary.MergedDictionaries>
+
+		<ResourceDictionary x:Key="Light">
+			<Color x:Key="CupertinoInactiveColor">#999999</Color>
+			<Color x:Key="CupertinoTabBarBackgroundColor">#F0F9F9F9</Color>
+			<Color x:Key="CupertinoTabBarBorderColor">#4C000000</Color>
+
+			<StaticResource x:Key="CupertinoTabBarBackground"
+							ResourceKey="CupertinoTabBarBackgroundBrush" />
+
+			<StaticResource x:Key="TabBarItemBackground"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPointerOver"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPressed"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelected"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver"
+							ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundSelectedPressed"
+							ResourceKey="SystemControlTransparentBrush" />
+
+			<StaticResource x:Key="TabBarItemForeground"
+							ResourceKey="CupertinoInactiveBrush" />
+			<StaticResource x:Key="TabBarItemForegroundPointerOver"
+							ResourceKey="CupertinoInactiveBrush" />
+			<StaticResource x:Key="TabBarItemForegroundPressed"
+							ResourceKey="CupertinoInactiveBrush" />
+			<StaticResource x:Key="TabBarItemForegroundDisabled"
+							ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected"
+							ResourceKey="CupertinoBlueBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver"
+							ResourceKey="CupertinoBlueBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPressed"
+							ResourceKey="CupertinoBlueBrush" />
+
+			<StaticResource x:Key="TabBarItemBorderBrush"
+							ResourceKey="SystemControlTransparentBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
 
 	<SolidColorBrush x:Key="CupertinoInactiveBrush"
 					 Color="{ThemeResource CupertinoInactiveColor}" />

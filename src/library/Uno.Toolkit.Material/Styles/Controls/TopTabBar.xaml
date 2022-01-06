@@ -7,12 +7,6 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
 
-	<ResourceDictionary.MergedDictionaries>
-		<MaterialColors xmlns="using:Uno.Material" />
-		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-		<ResourceDictionary Source="TopTabBar.Base.xaml" />
-	</ResourceDictionary.MergedDictionaries>
-
 	<!--Material TabBar-->
 	<Style x:Key="MaterialTopTabBarStyle"
 		   TargetType="utu:TabBar">

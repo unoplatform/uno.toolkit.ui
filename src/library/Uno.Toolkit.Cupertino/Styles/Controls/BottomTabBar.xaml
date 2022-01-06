@@ -4,11 +4,6 @@
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
-	<ResourceDictionary.MergedDictionaries>
-		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-		<CupertinoColors xmlns="using:Uno.Cupertino" />
-		<ResourceDictionary Source="BottomTabBar.Base.xaml" />
-	</ResourceDictionary.MergedDictionaries>
 
 	<!-- Cupertino Bottom TabBar -->
 	<Style x:Key="CupertinoBottomTabBarStyle"

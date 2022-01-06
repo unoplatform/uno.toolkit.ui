@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:utu="using:Uno.Toolkit.UI"
+					xmlns:um="using:Uno.Material"
+					xmlns:toolkit="using:Uno.UI.Toolkit">
+
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="ms-appx:///Uno.Toolkit.UI.Material/Styles/Application/Colors.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

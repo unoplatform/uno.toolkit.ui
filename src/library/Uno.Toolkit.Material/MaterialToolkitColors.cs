@@ -42,7 +42,6 @@ namespace Uno.Toolkit.UI.Material
 
 		public MaterialToolkitColors()
 		{
-			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Application/ColorPalette.xaml") });
 			if (!string.IsNullOrWhiteSpace(ColorPaletteOverrideSource))
 			{
 				MergedDictionaries.Add(new ResourceDictionary { Source = new Uri(ColorPaletteOverrideSource) });
