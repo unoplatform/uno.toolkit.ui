@@ -33,6 +33,9 @@
 				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
 			</ItemGroup>
 			
+			<ItemGroup>
+				<Page Remove="Generated\*.xaml" />
+			</ItemGroup>
 		</When>
 		<Otherwise>
 			

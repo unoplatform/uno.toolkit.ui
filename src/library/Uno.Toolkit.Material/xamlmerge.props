@@ -11,7 +11,7 @@
 		<XamlMergeInput Include="Styles\**\*.xaml" />
 		<XamlMergeInput Remove="Styles\Application\Colors.xaml" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<_PageToRemove Include="Generated\*.xaml" Exclude="$(XamlMergeOutputFile)" />
 		<Page Remove="@(_PageToRemove)" />

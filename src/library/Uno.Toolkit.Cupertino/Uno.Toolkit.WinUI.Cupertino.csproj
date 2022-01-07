@@ -33,6 +33,9 @@
 				<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.22" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
 			</ItemGroup>
 			
+			<ItemGroup>
+				<Page Remove="Generated\*.xaml" />
+			</ItemGroup>
 		</When>
 		<Otherwise>
 			
