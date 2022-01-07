@@ -19,6 +19,10 @@
 		<PackageReference Include="Uno.Cupertino.WinUI" Version="1.2.0" />
 		<PackageReference Include="Uno.WinUI" Version="4.0.9" />
 	</ItemGroup>
+	
+	<PropertyGroup>
+		<XamlMergeOutputFile>Generated\mergedpages.uwp.xaml</XamlMergeOutputFile>
+	</PropertyGroup>
 
 	<Choose>
 		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
@@ -29,6 +33,9 @@
 				<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.22" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
 			</ItemGroup>
 			
+			<ItemGroup>
+				<Page Remove="Generated\*.xaml" />
+			</ItemGroup>
 		</When>
 		<Otherwise>
 			
@@ -49,5 +56,5 @@
   </ItemGroup>
 
 	<Import Project="..\..\winappsdk-workaround.targets"/>
-
+	<Import Project="xamlmerge.props" />
 </Project>

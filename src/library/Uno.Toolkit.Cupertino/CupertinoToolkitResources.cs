@@ -17,24 +17,21 @@ namespace Uno.Toolkit.UI.Cupertino
 {
 	public sealed class CupertinoToolkitResources : ResourceDictionary
 	{
-		private const string PackageName =
 #if IS_WINUI
+		private const string PackageName =
 			"Uno.Toolkit.WinUI.Cupertino";
+		private const string PackageNameSuffix =
+			"winui";
 #else
+		private const string PackageName =
 			"Uno.Toolkit.UI.Cupertino";
+		private const string PackageNameSuffix =
+			"uwp";
 #endif
 
 		public CupertinoToolkitResources()
 		{
-#if __IOS__ || __ANDROID__
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/BottomTabBar.Mobile.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SlidingSegmentedControl.Mobile.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SegmentedControl.Mobile.xaml") });
-#else
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/BottomTabBar.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SlidingSegmentedControl.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/SegmentedControl.xaml") });
-#endif
+			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.xaml");
 		}
 	}
 }

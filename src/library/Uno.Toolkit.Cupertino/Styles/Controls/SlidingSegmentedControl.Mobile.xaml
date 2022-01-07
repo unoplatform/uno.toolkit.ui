@@ -12,12 +12,6 @@
 					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					mc:Ignorable="d ios android wasm not_win">
 
-	<ResourceDictionary.MergedDictionaries>
-		<CupertinoColors xmlns="using:Uno.Cupertino" />
-		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-		<ResourceDictionary Source="SlidingSegmentedControl.Base.xaml" />
-	</ResourceDictionary.MergedDictionaries>
-
 	<!-- Styles -->
 	<Style x:Key="CupertinoSlidingSegmentedStyle"
 		   TargetType="utu:TabBar">

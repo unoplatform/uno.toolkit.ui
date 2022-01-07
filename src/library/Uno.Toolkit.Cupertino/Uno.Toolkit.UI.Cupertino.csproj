@@ -17,6 +17,10 @@
 		<PackageReference Include="Uno.Cupertino" Version="1.2.0" />
 		<PackageReference Include="Uno.UI" Version="4.0.9" />
 	</ItemGroup>
+	
+	<PropertyGroup>
+		<XamlMergeOutputFile>Generated\mergedpages.uwp.xaml</XamlMergeOutputFile>
+	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
 		<PackageReference Include="Microsoft.UI.Xaml" Version="2.6.0-prerelease.210623001" />
@@ -46,6 +50,10 @@
 		</ProjectReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Generated\" />
+	</ItemGroup>
+
 	<!-- Workaround to avoid including Uno.Toolkit.UI XBFs in the PRI file -->
 	<Target Name="AdjustGetPackagingOutputs" BeforeTargets="GetPackagingOutputs">
 		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
@@ -54,5 +62,6 @@
 			<ProjectReferenceWithConfiguration Remove="@(_UnoToolkitUIFiles)" />
 		</ItemGroup>
 	</Target>
-
+	
+	<Import Project="xamlmerge.props" />
 </Project>

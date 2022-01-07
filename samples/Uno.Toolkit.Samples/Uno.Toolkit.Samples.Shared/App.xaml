@@ -46,10 +46,9 @@
 				<ResourceDictionary Source="ms-appx:///Styles/SamplePageLayout.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/OverviewSampleView.xaml" />
-				<ResourceDictionary>
-					<x:Double x:Key="DesktopAdaptiveThresholdWidth">720</x:Double>
-				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
+			
+			<x:Double x:Key="DesktopAdaptiveThresholdWidth">720</x:Double>
 		</ResourceDictionary>
 	</Application.Resources>
 

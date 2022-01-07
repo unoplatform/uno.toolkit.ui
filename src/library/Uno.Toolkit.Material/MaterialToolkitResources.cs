@@ -17,30 +17,21 @@ namespace Uno.Toolkit.UI.Material
 {
 	public sealed class MaterialToolkitResources : ResourceDictionary
 	{
-		private const string PackageName =
 #if IS_WINUI
+		private const string PackageName =
 			"Uno.Toolkit.WinUI.Material";
+		private const string PackageNameSuffix =
+			"winui";
 #else
+		private const string PackageName =
 			"Uno.Toolkit.UI.Material";
+		private const string PackageNameSuffix =
+			"uwp";
 #endif
 
 		public MaterialToolkitResources()
 		{
-#if __IOS__ || __ANDROID__
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/BottomTabBar.Mobile.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/TopTabBar.Mobile.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/NavigationBar.Mobile.xaml") });
-#else
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/BottomTabBar.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/TopTabBar.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/NavigationBar.xaml") });
-#endif
-
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/Card.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/CardContentControl.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/Chip.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/ChipGroup.xaml") });
-			this.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{PackageName}/Styles/Controls/Divider.xaml") });
+			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.xaml");
 		}
 	}
 }

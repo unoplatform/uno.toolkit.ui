@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+
+	<PropertyGroup>
+		<_Uno_XamlMerge_Task_Version>0.1.0-dev.46</_Uno_XamlMerge_Task_Version>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Uno.XamlMerge.Task" Version="$(_Uno_XamlMerge_Task_Version)" />
+	</ItemGroup>
+	<ItemGroup>
+		<XamlMergeInput Include="Styles\**\*.xaml" />
+		<XamlMergeInput Remove="Styles\Application\Colors.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<_PageToRemove Include="Generated\*.xaml" Exclude="$(XamlMergeOutputFile)" />
+		<Page Remove="@(_PageToRemove)" />
+	</ItemGroup>
+
+	<Import Project="$(NuGetPackageRoot)\uno.xamlmerge.task\$(_Uno_XamlMerge_Task_Version)\build\Uno.XamlMerge.Task.targets"
+					Condition="'$(TargetFramework)' == '' and exists('$(NuGetPackageRoot)\uno.xamlmerge.task\$(_Uno_XamlMerge_Task_Version)')" />
+
+	<Target Name="_GenerateMergedXaml"
+					DependsOnTargets="GenerateMergedXaml"
+					BeforeTargets="DispatchToInnerBuilds"
+					Condition="'$(TargetFramework)' == '' and exists('$(NuGetPackageRoot)\uno.xamlmerge.task\$(_Uno_XamlMerge_Task_Version)')">
+	</Target>
+
+</Project>

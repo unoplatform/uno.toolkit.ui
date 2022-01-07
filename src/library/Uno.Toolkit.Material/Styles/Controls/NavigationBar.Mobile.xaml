@@ -3,15 +3,9 @@
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-					xmlns:android="http://nventive.com/android"
-					xmlns:ios="http://nventive.com/ios"
+					xmlns:android="http://uno.ui/android"
+					xmlns:ios="http://uno.ui/ios"
 					mc:Ignorable="android ios">
-
-	<ResourceDictionary.MergedDictionaries>
-		<MaterialColors xmlns="using:Uno.Material" />
-		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-		<ResourceDictionary Source="NavigationBar.Base.xaml" />
-	</ResourceDictionary.MergedDictionaries>
 
 	<Style x:Key="MaterialMainCommandStyle"
 		   TargetType="AppBarButton"

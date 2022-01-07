@@ -5,12 +5,6 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
 
-	<ResourceDictionary.MergedDictionaries>
-		<CupertinoColors xmlns="using:Uno.Cupertino" />
-		<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-		<ResourceDictionary Source="BottomTabBar.Base.xaml" />
-	</ResourceDictionary.MergedDictionaries>
-
 	<!-- Cupertino Bottom TabBar -->
 	<Style x:Key="CupertinoBottomTabBarStyle"
 		   TargetType="utu:TabBar">
