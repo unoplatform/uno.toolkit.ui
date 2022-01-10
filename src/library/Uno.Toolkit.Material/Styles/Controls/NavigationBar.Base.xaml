@@ -350,6 +350,7 @@
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<ContentPresenter x:Name="MainCommandPresenter"
+                                                  Margin="{TemplateBinding Padding}"
 												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
 									<ContentPresenter.Resources>
 										<x:Double x:Key="AppBarButtonContentHeight">16</x:Double>
