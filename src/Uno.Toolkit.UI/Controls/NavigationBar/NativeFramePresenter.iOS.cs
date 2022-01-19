@@ -842,6 +842,24 @@ namespace Uno.Toolkit.UI
 
 				return base.PopViewController(animated);
 			}
+
+			public override void PushViewController(UIViewController viewController, bool animated)
+			{
+				base.PushViewController(viewController, animated);
+
+				// If navigating from ViewController A to ViewController B, B's back button text is determined by A's NavigationBar.MainCommand.Label.
+				if (viewController is PageViewController pvc)
+				{
+					var pushedNavBar = pvc.GetNavigationBar();
+					if (pushedNavBar?.MainCommandMode == MainCommandMode.Back
+						&& pushedNavBar?.MainCommand?.Label is string backButtonTitle
+						&& LowerController?.NavigationItem is { } previousNavItem)
+					{
+						previousNavItem.BackButtonTitle = backButtonTitle;
+					}
+				}
+				
+			}
 		}
 
 		private class ControllerDelegate : UINavigationControllerDelegate

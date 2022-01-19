@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:utu="using:Uno.Toolkit.UI">
 
-	<Style x:Key="MaterialMainCommandStyle"
+    <not_mobile:Style x:Key="MaterialMainCommandStyle"
 		   TargetType="AppBarButton"
 		   BasedOn="{StaticResource BaseMaterialMainCommandStyle}">
 		<Setter Property="Icon">
@@ -10,16 +11,16 @@
 				<SymbolIcon Symbol="Back" />
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</not_mobile:Style>
 
-	<Style x:Key="MaterialNavigationBarStyle"
+    <not_mobile:Style x:Key="MaterialNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
 		<Setter Property="MainCommandStyle"
 				Value="{StaticResource MaterialMainCommandStyle}" />
-	</Style>
+	</not_mobile:Style>
 
-    <Style x:Key="MaterialModalMainCommandStyle"
+    <not_mobile:Style x:Key="MaterialModalMainCommandStyle"
 		   TargetType="AppBarButton"
 		   BasedOn="{StaticResource BaseMaterialModalMainCommandStyle}">
         <Setter Property="Icon">
@@ -27,12 +28,12 @@
                 <SymbolIcon Symbol="Back" />
             </Setter.Value>
         </Setter>
-    </Style>
+    </not_mobile:Style>
 
-    <Style x:Key="MaterialModalNavigationBarStyle"
+    <not_mobile:Style x:Key="MaterialModalNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialModalNavigationBarStyle}">
 		<Setter Property="MainCommandStyle"
 				Value="{StaticResource MaterialModalMainCommandStyle}" />
-	</Style>
+	</not_mobile:Style>
 </ResourceDictionary>

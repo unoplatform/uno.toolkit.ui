@@ -14,11 +14,13 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Content="First Page"
+                           AutomationProperties.AutomationId="Page1NavBar"
 						   MainCommandMode="Action"
 						   Style="{StaticResource MaterialNavigationBarStyle}">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Label="Close"
                               Click="NavigateBack"
+                              AutomationProperties.AutomationId="NavBar_Close_Button"
 							  Style="{StaticResource MaterialAppBarButton}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
@@ -31,7 +33,7 @@
 							  Style="{StaticResource MaterialAppBarButton}"
 							  Command="{Binding Primary1CountCommand}">
 					<AppBarButton.Icon>
-						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
+						<BitmapIcon UriSource="ms-appx:///Assets/MaterialIcon_Small.png"
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
@@ -39,7 +41,7 @@
 							  Style="{StaticResource MaterialAppBarButton}"
 							  Command="{Binding Primary2CountCommand}">
 					<AppBarButton.Icon>
-						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
+						<BitmapIcon UriSource="ms-appx:///Assets/AppleIcon_Small.png"
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
@@ -60,6 +62,7 @@
 			<Button Content="Exit sample"
 					Click="NavigateBack" />
 			<Button Click="NavigateToNextPage"
+                    AutomationProperties.AutomationId="Page1_Navigate_To_Page2"
 					Content="Navigate To Second Page" />
 			<TextBlock HorizontalAlignment="Center"
 					   Style="{StaticResource MaterialCaption}">

@@ -18,6 +18,21 @@
 		<XamlMergeOutputFile>Generated\mergedpages.uwp.xaml</XamlMergeOutputFile>
 	</PropertyGroup>
 
+	<Choose>
+		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid10.0' or '$(TargetFramework)'=='monoandroid11.0'">
+			<ItemGroup>
+				<IncludeXamlNamespaces Include="mobile" />
+				<ExcludeXamlNamespaces Include="not_mobile" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<IncludeXamlNamespaces Include="not_mobile" />
+				<ExcludeXamlNamespaces Include="mobile" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+
 	<ItemGroup>
 		<PackageReference Include="Uno.Material" Version="1.2.0" />
 		<PackageReference Include="Uno.UI" Version="4.0.9" />

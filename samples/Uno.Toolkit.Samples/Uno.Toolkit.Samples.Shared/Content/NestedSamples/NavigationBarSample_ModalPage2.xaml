@@ -16,9 +16,11 @@
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Style="{StaticResource MaterialModalNavigationBarStyle}"
 						   Content="Second Page"
+                           AutomationProperties.AutomationId="Page2NavBar"
 						   MainCommandMode="Back">
 			<utu:NavigationBar.MainCommand>
-				<AppBarButton Click="NavigateBack">
+				<AppBarButton Click="NavigateBack"
+                              Label="Back">
 				</AppBarButton>
 			</utu:NavigationBar.MainCommand>
 			<utu:NavigationBar.PrimaryCommands>

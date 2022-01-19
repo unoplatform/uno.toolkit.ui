@@ -26,10 +26,7 @@
 
 	<ios:ControlTemplate x:Key="NativeNavigationBarTemplate"
 						 TargetType="utu:NavigationBar">
-		<!-- We use BorderBrush instead of Background to ensure that semi-transparent background of Grid and NativeCommandBarPresenter don't add up -->
-		<Border BorderBrush="{TemplateBinding Background}"
-				BorderThickness="{TemplateBinding Padding}"
-				Background="{TemplateBinding Background}">
+		<Border BorderThickness="{TemplateBinding Padding}">
 			<utu:NativeNavigationBarPresenter Height="44"
 											  x:Name="NavigationBarPresenter" />
 		</Border>
@@ -568,11 +565,9 @@
 				Value="{StaticResource MaterialOnPrimaryBrush}" />
 		<android:Setter Property="(toolkit:UIElementExtensions.Elevation)"
 						Value="{StaticResource MaterialNavigationBarElevation}" />
-		<Setter Property="Height"
+        <Setter Property="Height"
 				Value="{StaticResource MaterialNavigationBarHeight}" />
-		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
-				Value="Top" />
-		<Setter Property="Padding"
+        <Setter Property="Padding"
 				Value="16,0,0,0" />
 		<Setter Property="HorizontalAlignment"
 				Value="Stretch" />
