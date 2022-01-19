@@ -9,11 +9,12 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:wasm="http://uno.ui/wasm"
+                    xmlns:mobile="http://uno.ui/mobile"
 					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					mc:Ignorable="d ios android wasm not_win">
+					mc:Ignorable="d ios android wasm not_win mobile">
 
 	<!-- Styles -->
-	<Style x:Key="CupertinoSlidingSegmentedStyle"
+    <mobile:Style x:Key="CupertinoSlidingSegmentedStyle"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource CupertinoTertiarySystemFillBrush}" />
@@ -65,9 +66,9 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</mobile:Style>
 
-	<Style x:Key="CupertinoSlidingSegmentedItemStyle"
+    <mobile:Style x:Key="CupertinoSlidingSegmentedItemStyle"
 		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource TabBarItemBackground}" />
@@ -180,5 +181,5 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</mobile:Style>
 </ResourceDictionary>
