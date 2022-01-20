@@ -1965,7 +1965,7 @@
                   <ColumnDefinition x:Name="ContentControlColumnDefinition" Width="*" />
                   <ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition" Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ContentPresenter x:Name="MainCommandPresenter" Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
+                <ContentPresenter x:Name="MainCommandPresenter" Margin="{TemplateBinding Padding}" Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
                   <ContentPresenter.Resources>
                     <x:Double x:Key="AppBarButtonContentHeight">16</x:Double>
                   </ContentPresenter.Resources>

@@ -14,25 +14,9 @@
                     Content="Show Sample"
                     Style="{StaticResource MaterialContainedButtonStyle}" />
 
-            <Button x:Name="ModalButton"
-                    Content="Show Modal Sample"
-                    
-                    Style="{StaticResource MaterialContainedButtonStyle}">
-                <Button.Flyout>
-                    <Flyout x:Name="ModalFlyout" Placement="Bottom">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="MinWidth" Value="200" />
-                                <Setter Property="MinHeight" Value="200" />
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-
-                        <Grid>
-                            <Frame x:Name="ModalFrame" />
-                        </Grid>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
+            <Button Content="Show Modal Sample"
+                                Style="{StaticResource MaterialContainedButtonStyle}"
+							Click="LaunchModalSample" />
         </StackPanel>
     </Grid>
 </Page>

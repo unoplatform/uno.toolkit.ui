@@ -12,8 +12,9 @@
 						   Content="Hello"
 						   VerticalAlignment="Top">
 			<utu:NavigationBar.MainCommand>
-				<AppBarButton Label="Test">
-					<AppBarButton.Icon>
+                <AppBarButton Label="Test"
+							  Click="CloseModal">
+                    <AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
 					</AppBarButton.Icon>
 				</AppBarButton>
