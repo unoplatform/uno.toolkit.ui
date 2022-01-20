@@ -18,8 +18,8 @@
 						   Style="{StaticResource MaterialNavigationBarStyle}">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Label="Close"
-                              Click="NavigateBack"
-							  Style="{StaticResource MaterialAppBarButton}">
+							  Style="{StaticResource MaterialAppBarButton}"
+							  Click="NavigateBack">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
 									ShowAsMonochrome="False" />
