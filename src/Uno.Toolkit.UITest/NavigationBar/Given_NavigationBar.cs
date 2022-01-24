@@ -52,12 +52,13 @@ namespace Uno.Toolkit.UITest.NavigationBar
 		{
 			App.WaitThenTap("NavigationBar_Launch_Sample_Button");
 
-			PlatformHelpers.On(
-				iOS: () => App.WaitForElement(q => q.Class("navigationBar"), "Timed out waiting for no Nav Bar"),
-				Android: () => App.WaitForElement("Page1NavBar", "Timed out waiting for no Nav Bar")
-			);
+			App.WaitForElement("Page1NavBar", "Timed out waiting for Page 1 Nav Bar");
 
-			App.Tap(q => q.Marked("Page1NavBar").Descendant("AppCompatImageButton"));
+			PlatformHelpers.On(
+				iOS: () => App.Tap("BackButton"),
+				Android: () => App.Tap(q => q.Marked("Page1NavBar").Descendant("AppCompatImageButton"))
+			);
+			;
 
 			PlatformHelpers.On(
 				iOS: () => App.WaitForNoElement(q => q.Class("navigationBar"), "Timed out waiting for Nav Bar"),
@@ -70,17 +71,11 @@ namespace Uno.Toolkit.UITest.NavigationBar
 		{
 			App.WaitThenTap("NavigationBar_Launch_Sample_Button");
 
-			PlatformHelpers.On(
-				iOS: () => App.WaitForNoElement(q => q.Class("navigationBar"), "Timed out waiting for no Page 2 Nav Bar"),
-				Android: () => App.WaitForNoElement("Page2NavBar", "Timed out waiting for no Page 2 Nav Bar")
-			);
+			App.WaitForNoElement("Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
 
 			App.Tap("Page1_Navigate_To_Page2");
 
-			PlatformHelpers.On(
-				iOS: () => App.WaitForElement(q => q.Class("navigationBar"), "Timed out waiting for Page 2 Nav Bar"),
-				Android: () => App.WaitForElement("Page2NavBar", "Timed out waiting for Page 2 Nav Bar")
-			);
+			App.WaitForElement("Page2NavBar", "Timed out waiting for Page 2 Nav Bar");
 
 			var nativeBar = PlatformHelpers.On<IAppResult>(
 				iOS: () => App.CreateQuery(x => x.WithClass("navigationBar")).FirstResult(),
@@ -96,29 +91,19 @@ namespace Uno.Toolkit.UITest.NavigationBar
 		{
 			App.WaitThenTap("NavigationBar_Launch_Sample_Button");
 
-			PlatformHelpers.On(
-				iOS: () => App.WaitForNoElement(q => q.Class("navigationBar"), "Timed out waiting for no Page 2 Nav Bar"),
-				Android: () => App.WaitForNoElement("Page2NavBar", "Timed out waiting for no Page 2 Nav Bar")
-			);
+			App.WaitForNoElement("Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
 
 			App.Tap("Page1_Navigate_To_Page2");
 
-			PlatformHelpers.On(
-				iOS: () => App.WaitForElement(q => q.Class("navigationBar"), "Timed out waiting for Page 2 Nav Bar"),
-				Android: () => App.WaitForElement("Page2NavBar", "Timed out waiting for Page 2 Nav Bar")
-			);
+			App.WaitForElement("Page2NavBar", "Timed out waiting for Page 2 Nav Bar");
 
 			App.Repl();
 			PlatformHelpers.On(
 				iOS: () => App.Tap(q => q.Class("navigationBar").Descendant("")),
 				Android: () => App.Tap(q => q.Marked("Page2NavBar").Descendant("AppCompatImageButton"))
 			);
-			;
 
-			PlatformHelpers.On(
-				iOS: () => App.WaitForNoElement(q => q.Class("navigationBar"), "Timed out waiting for no Page 2 Nav Bar"),
-				Android: () => App.WaitForNoElement("Page2NavBar", "Timed out waiting for no Page 2 Nav Bar")
-			);
+			App.WaitForNoElement("Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
 		}
 
 		private IAppResult GetNativeBar()
