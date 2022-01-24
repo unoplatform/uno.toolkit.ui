@@ -14,11 +14,13 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Content="First Page"
+                           AutomationProperties.AutomationId="Page1NavBar"
 						   MainCommandMode="Action"
 						   Style="{StaticResource MaterialNavigationBarStyle}">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Label="Close"
                               Click="NavigateBack"
+                              AutomationProperties.AutomationId="NavBar_Close_Button"
 							  Style="{StaticResource MaterialAppBarButton}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
@@ -60,6 +62,7 @@
 			<Button Content="Exit sample"
 					Click="NavigateBack" />
 			<Button Click="NavigateToNextPage"
+                    AutomationProperties.AutomationId="Page1_Navigate_To_Page2"
 					Content="Navigate To Second Page" />
 			<TextBlock HorizontalAlignment="Center"
 					   Style="{StaticResource MaterialCaption}">

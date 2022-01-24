@@ -14,6 +14,6 @@ namespace Uno.Toolkit.UITest
         public readonly static string AndroidAppName = "Uno.Toolkit.Samples";
         public readonly static string iOSDeviceNameOrId = "iPad Pro (12.9-inch) (4th generation)";
 
-        public readonly static Platform CurrentPlatform = Platform.Browser;
+        public readonly static Platform CurrentPlatform = Platform.Android;
     }
 }
