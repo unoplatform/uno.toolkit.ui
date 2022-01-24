@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Uno.UITest;
 using Uno.UITest.Helpers;
 using Uno.UITest.Helpers.Queries;
+using Uno.UITests.Helpers;
 
 namespace Uno.Toolkit.UITest.NavigationBar
 {
@@ -16,6 +17,12 @@ namespace Uno.Toolkit.UITest.NavigationBar
 		[SetUp]
 		public override void SetUpTest()
 		{
+			if (AppInitializer.GetLocalPlatform() != Platform.Android
+				&& AppInitializer.GetLocalPlatform() != Platform.iOS)
+			{
+				Assert.Ignore("Test is only valid for iOS and Android");
+			}
+
 			base.SetUpTest();
 			NavigateToSample("NavigationBar");
 		}
