@@ -33,7 +33,7 @@
 							  Style="{StaticResource MaterialAppBarButton}"
 							  Command="{Binding Primary1CountCommand}">
 					<AppBarButton.Icon>
-						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
+						<BitmapIcon UriSource="ms-appx:///Assets/MaterialIcon_Small.png"
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
@@ -41,7 +41,7 @@
 							  Style="{StaticResource MaterialAppBarButton}"
 							  Command="{Binding Primary2CountCommand}">
 					<AppBarButton.Icon>
-						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
+						<BitmapIcon UriSource="ms-appx:///Assets/AppleIcon_Small.png"
 									ShowAsMonochrome="False" />
 					</AppBarButton.Icon>
 				</AppBarButton>
