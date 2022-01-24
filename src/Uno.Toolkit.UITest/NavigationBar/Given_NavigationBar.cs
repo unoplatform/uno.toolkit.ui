@@ -55,7 +55,7 @@ namespace Uno.Toolkit.UITest.NavigationBar
 			App.WaitForElement("Page1NavBar", "Timed out waiting for Page 1 Nav Bar");
 
 			PlatformHelpers.On(
-				iOS: () => App.Tap(q => q.Class("navigationBar").Descendant("")),
+				iOS: () => App.Tap("CloseIcon"),
 				Android: () => App.Tap(q => q.Marked("Page1NavBar").Descendant("AppCompatImageButton"))
 			);
 			;
@@ -97,7 +97,6 @@ namespace Uno.Toolkit.UITest.NavigationBar
 
 			App.WaitForElement("Page2NavBar", "Timed out waiting for Page 2 Nav Bar");
 
-			App.Repl();
 			PlatformHelpers.On(
 				iOS: () => App.Tap("BackButton"),
 				Android: () => App.Tap(q => q.Marked("Page2NavBar").Descendant("AppCompatImageButton"))
