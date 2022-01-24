@@ -15,6 +15,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Style="{StaticResource MaterialNavigationBarStyle}"
+                           AutomationProperties.AutomationId="Page2NavBar"
 						   Content="Second Page">
 			<utu:NavigationBar.PrimaryCommands>
 				<AppBarButton Style="{StaticResource MaterialAppBarButton}"

@@ -17,14 +17,14 @@
 				Value="Stretch" />
 		<Setter Property="VerticalAlignment"
 				Value="Top" />
+        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:NavigationBar">
-					<!-- We use BorderBrush instead of Background to ensure that semi-transparent background of Grid and NativeNavigationBarPresenter don't add up -->
-					<Border BorderBrush="{TemplateBinding Background}"
-							BorderThickness="{TemplateBinding Padding}">
-						<!-- TODO: 1px line -->
-						<utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
+                    <Border BorderThickness="{TemplateBinding Padding}">
+                        <utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter"
+                                                          Height="44" />
+                        <!-- TODO: 1px line -->
 					</Border>
 				</ControlTemplate>
 			</Setter.Value>

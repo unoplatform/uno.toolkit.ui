@@ -12,6 +12,7 @@
         <StackPanel Spacing="8" Margin="50">
             <Button Click="LaunchFullScreenSample"
                     Content="Show Sample"
+                    AutomationProperties.AutomationId="NavigationBar_Launch_Sample_Button"
                     Style="{StaticResource MaterialContainedButtonStyle}" />
 
             <Button x:Name="ModalButton"

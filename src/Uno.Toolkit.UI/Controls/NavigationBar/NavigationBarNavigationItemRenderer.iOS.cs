@@ -117,35 +117,18 @@ namespace Uno.Toolkit.UI
 				.Reverse()
 				.ToArray();
 
-			// CommandBarExtensions.NavigationCommand
+			// MainCommand
 			var navigationCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
 			if (navigationCommand?.Visibility == Visibility.Visible)
 			{
 				var mode = (MainCommandMode)element.GetValue(NavigationBar.MainCommandModeProperty);
-				if (mode == MainCommandMode.Back)
-				{
-					if (navigationCommand.Icon == null && (navigationCommand.Content == null || navigationCommand.Content is string))
-					{
-						native.BackBarButtonItem = new UIBarButtonItem(navigationCommand?.Content as string ?? " ", UIBarButtonItemStyle.Plain, null);
-						//native.BackBarButtonItem = navigationCommand?.GetRenderer(() => new AppBarButtonRenderer(navigationCommand)).Native;
-						native.LeftBarButtonItem = null;
-					}
-					else
-					{
-						native.LeftBarButtonItem = navigationCommand?.GetRenderer(() => new AppBarButtonRenderer(navigationCommand)).Native;
-						native.BackBarButtonItem = null;
-					}
-				}
-				else
+				if (mode == MainCommandMode.Action)
 				{
 					native.LeftBarButtonItem = navigationCommand.GetRenderer(() => new AppBarButtonRenderer(navigationCommand)).Native;
-					native.BackBarButtonItem = null;
 				}
-
 			}
 			else
 			{
-				native.BackBarButtonItem = null;
 				native.LeftBarButtonItem = null;
 			}
 		}
