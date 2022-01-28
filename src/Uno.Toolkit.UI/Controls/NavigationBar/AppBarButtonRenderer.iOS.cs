@@ -10,6 +10,7 @@ using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Logging;
 using Windows.Foundation;
+using Windows.UI.ViewManagement;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -50,14 +51,27 @@ namespace Uno.Toolkit.UI
 		{
 			// Content
 			_appBarButtonWrapper = new AppBarButtonWrapper();
-
 			var element = Element;
 			if (element == null)
 			{
 				yield break;
 			}
 
-			yield return Disposable.Create(() => _appBarButtonWrapper = null);
+			if (element.Content is FrameworkElement content && content.Visibility == Visibility.Visible)
+			{
+				_appBarButtonWrapper.SetParent(element.Parent);
+				_appBarButtonWrapper.ParentChanged += OnAppBarButtonWrapperParentChanged;
+
+				yield return Disposable.Create(() =>
+				{
+					_appBarButtonWrapper.ParentChanged -= OnAppBarButtonWrapperParentChanged;
+				});
+			}
+
+			yield return Disposable.Create(() =>
+			{
+				_appBarButtonWrapper = null;
+			});
 
 			yield return element.RegisterDisposableNestedPropertyChangedCallback(
 				(s, e) => Invalidate(),
@@ -77,6 +91,19 @@ namespace Uno.Toolkit.UI
 
 			Native.Clicked += OnNativeClicked;
 			yield return Disposable.Create(() => { Native.Clicked -= OnNativeClicked; });
+		}
+
+		private void OnAppBarButtonWrapperParentChanged(object sender, EventArgs e)
+		{
+			// Even though we set the NavigationBar as the parent of the _appBarButtonWrapper,
+			// it will change to the native control when the view is added.
+			// This control is the visual parent but is not a DependencyObject and will not propagate the DataContext.
+			// In order to ensure the DataContext is propagated properly, we restore the NavigationBar
+			// parent that can propagate the DataContext.
+			if (!ReferenceEquals(_appBarButtonWrapper?.Parent, Element.Parent))
+			{
+				_appBarButtonWrapper?.SetParent(Element.Parent);
+			}
 		}
 
 		protected override void Render()
@@ -123,12 +150,13 @@ namespace Uno.Toolkit.UI
 						break;
 
 					case FrameworkElement fe:
+						var currentParent = element.Parent;
 						_appBarButtonWrapper.Child = element;
 
 						//Restore the original parent if any, as we
-						// want the DataContext to flow properly from the
-						// CommandBar.
-
+						//want the DataContext to flow properly from the
+						//NavigationBar.
+						element.SetParent(currentParent);
 						native.Image = null;
 						native.CustomView = fe.Visibility == Visibility.Visible ? _appBarButtonWrapper : null;
 						// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set.
@@ -198,14 +226,28 @@ namespace Uno.Toolkit.UI
 	/// </summary>
 	internal partial class AppBarButtonWrapper : Border
 	{
+		internal event EventHandler? ParentChanged;
+
 		public AppBarButtonWrapper()
 		{
+		}
+
+		// Even though we set the Navigation as the parent of the AppBarButtonWrapper,
+		// it will change to the native control when the view is added (once MovedToSuperview is called).
+		// This native control is the visual parent but is not a DependencyObject and will not propagate the DataContext.
+		// In order to ensure the DataContext is propagated properly, we need to notify the renderer that this change has occured
+		// so we can restore the NavigationBar parent that can propagate the DataContext.
+		public override void MovedToSuperview()
+		{
+			base.MovedToSuperview();
+
+			ParentChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
 			// Giving it full available space so that its child can properly be measured and positioned after
-			availableSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
+			availableSize = new Size(double.PositiveInfinity, 44);
 
 			// The frame needs to be explicitly set in order to render the CustomView of the UIBarButtonItem.
 			var childSize = base.MeasureOverride(availableSize);

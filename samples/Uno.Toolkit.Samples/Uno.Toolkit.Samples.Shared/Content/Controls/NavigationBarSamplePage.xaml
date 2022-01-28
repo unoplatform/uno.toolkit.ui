@@ -15,6 +15,11 @@
                     AutomationProperties.AutomationId="NavigationBar_Launch_Sample_Button"
                     Style="{StaticResource MaterialContainedButtonStyle}" />
 
+            <Button Click="LaunchFullScreenDataContextSample"
+                    Content="Show DataContext Sample"
+                    AutomationProperties.AutomationId="NavigationBar_Launch_DataContext_Sample_Button"
+                    Style="{StaticResource MaterialContainedButtonStyle}" />
+
             <Button x:Name="ModalButton"
                     Content="Show Modal Sample"
                     

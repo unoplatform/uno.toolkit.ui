@@ -45,5 +45,10 @@ namespace Uno.Toolkit.Samples.Content.Controls
         {
             Shell.GetForCurrentView().ShowNestedSample<NavigationBarSample_NestedPage1>(clearStack: true);
         }
+
+		private void LaunchFullScreenDataContextSample(object sender, RoutedEventArgs e)
+		{
+			Shell.GetForCurrentView().ShowNestedSample<NavigationBarSample_DataContext_NestedPage1>(clearStack: true);
+		}
 	}
 }
