@@ -81,68 +81,85 @@ namespace Uno.Toolkit.UI
 			var appearance = new UINavigationBarAppearance();
 
 			// Background
-			ColorHelper.TryGetColorWithOpacity(Element.Background, out var backgroundColor);
-			switch (backgroundColor)
+			if (ColorHelper.TryGetColorWithOpacity(Element.Background, out var backgroundColor))
 			{
-				case { } opaqueColor when opaqueColor.A == byte.MaxValue:
-					if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
-					{
-						appearance.ConfigureWithOpaqueBackground();
-						appearance.BackgroundColor = opaqueColor;
-					}
-					else
-					{
-						// Prefer BarTintColor because it supports smooth transitions
-						Native.BarTintColor = opaqueColor;
-						Native.Translucent = false; //Make fully opaque for consistency with SetBackgroundImage
-						Native.SetBackgroundImage(null, UIBarMetrics.Default);
-						Native.ShadowImage = null;
-					}
-					break;
-				case { } semiTransparentColor when semiTransparentColor.A > 0:
-					if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
-					{
-						appearance.ConfigureWithDefaultBackground();
-						appearance.BackgroundColor = semiTransparentColor;
-					}
-					else
-					{
-						Native.BarTintColor = null;
-						// Use SetBackgroundImage as hack to support semi-transparent background
-						Native.SetBackgroundImage(((UIColor)semiTransparentColor).ToUIImage(), UIBarMetrics.Default);
-						Native.Translucent = true;
-						Native.ShadowImage = null;
-					}
-					break;
-				case { } transparent when transparent.A == 0:
-					if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
-					{
-						appearance.ConfigureWithTransparentBackground();
-						appearance.BackgroundColor = transparent;
-					}
-					else
-					{
-						Native.BarTintColor = null;
-						Native.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
-						// We make sure a transparent bar doesn't cast a shadow.
-						Native.ShadowImage = new UIImage(); // Removes the default 1px line
-						Native.Translucent = true;
-					}
-					break;
-				default: //Background is null
-					if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
-					{
-						appearance.ConfigureWithDefaultBackground();
-						appearance.BackgroundColor = null;
-					}
-					else
-					{
-						Native.BarTintColor = null;
-						Native.SetBackgroundImage(null, UIBarMetrics.Default); // Restores the default blurry background
-						Native.ShadowImage = null; // Restores the default 1px line
-						Native.Translucent = true;
-					}
-					break;
+				switch (backgroundColor)
+				{
+					case { } opaqueColor when opaqueColor.A == byte.MaxValue:
+						if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+						{
+							appearance.ConfigureWithOpaqueBackground();
+							appearance.BackgroundColor = opaqueColor;
+						}
+						else
+						{
+							// Prefer BarTintColor because it supports smooth transitions
+							Native.BarTintColor = opaqueColor;
+							Native.Translucent = false; //Make fully opaque for consistency with SetBackgroundImage
+							Native.SetBackgroundImage(null, UIBarMetrics.Default);
+							Native.ShadowImage = null;
+						}
+						break;
+					case { } semiTransparentColor when semiTransparentColor.A > 0:
+						if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+						{
+							appearance.ConfigureWithDefaultBackground();
+							appearance.BackgroundColor = semiTransparentColor;
+						}
+						else
+						{
+							Native.BarTintColor = null;
+							// Use SetBackgroundImage as hack to support semi-transparent background
+							Native.SetBackgroundImage(((UIColor)semiTransparentColor).ToUIImage(), UIBarMetrics.Default);
+							Native.Translucent = true;
+							Native.ShadowImage = null;
+						}
+						break;
+					case { } transparent when transparent.A == 0:
+						if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+						{
+							appearance.ConfigureWithTransparentBackground();
+							appearance.BackgroundColor = transparent;
+						}
+						else
+						{
+							Native.BarTintColor = null;
+							Native.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
+							// We make sure a transparent bar doesn't cast a shadow.
+							Native.ShadowImage = new UIImage(); // Removes the default 1px line
+							Native.Translucent = true;
+						}
+						break;
+					default: //Background is null
+						if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+						{
+							appearance.ConfigureWithDefaultBackground();
+							appearance.BackgroundColor = null;
+						}
+						else
+						{
+							Native.BarTintColor = null;
+							Native.SetBackgroundImage(null, UIBarMetrics.Default); // Restores the default blurry background
+							Native.ShadowImage = null; // Restores the default 1px line
+							Native.Translucent = true;
+						}
+						break;
+				}
+			}
+			else
+			{
+				if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+				{
+					appearance.ConfigureWithDefaultBackground();
+					appearance.BackgroundColor = null;
+				}
+				else
+				{
+					Native.BarTintColor = null;
+					Native.SetBackgroundImage(null, UIBarMetrics.Default); // Restores the default blurry background
+					Native.ShadowImage = null; // Restores the default 1px line
+					Native.Translucent = true;
+				}
 			}
 
 			// Foreground
@@ -184,8 +201,14 @@ namespace Uno.Toolkit.UI
 			var mainCommand = Element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
 
 			// MainCommand.Foreground
-			ColorHelper.TryGetColorWithOpacity(mainCommand?.Foreground, out var mainCommandForeground);
-			Native.TintColor = mainCommandForeground;
+			Windows.UI.Color? mainForeground = null;
+
+			if (mainCommand is { }
+				&& mainCommand.ReadLocalValue(AppBarButton.ForegroundProperty) != DependencyProperty.UnsetValue
+				&& ColorHelper.TryGetColorWithOpacity(mainCommand.Foreground, out var mainCommandForeground))
+			{
+				Native.TintColor = mainForeground = mainCommandForeground;
+			}
 
 			// MainCommand.Icon
 			var mainCommandIcon = mainCommand?.Icon is BitmapIcon bitmapIcon
@@ -196,7 +219,7 @@ namespace Uno.Toolkit.UI
 			{
 				var backButtonAppearance = new UIBarButtonItemAppearance(UIBarButtonItemStyle.Plain);
 
-				if (mainCommandForeground is { } foreground)
+				if (mainForeground is { } foreground)
 				{
 					var titleTextAttributes = new UIStringAttributes
 					{
@@ -250,8 +273,6 @@ namespace Uno.Toolkit.UI
 				Native.Superview?.SetNeedsLayout();
 			}
 		}
-
-	
 	}
 
 }
