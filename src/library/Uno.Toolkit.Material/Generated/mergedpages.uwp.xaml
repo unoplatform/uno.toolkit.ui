@@ -1,6 +1,8 @@
 <ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d not_win android ios wasm macos mobile" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:um="using:Uno.Material" xmlns:toolkit="using:Uno.UI.Toolkit" xmlns:utu="using:Uno.Toolkit.UI" xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:not_win="http://uno.ui/not_win" xmlns:android="http://uno.ui/android" xmlns:ios="http://uno.ui/ios" xmlns:wasm="http://uno.ui/wasm" xmlns:macos="http://uno.ui/macos" xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)" xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)" xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)" xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)" xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)" xmlns:contract12Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,12)" xmlns:contract12NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,12)" xmlns:contract6NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,6)" xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)" xmlns:mobile="http://uno.ui/mobile" xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="ms-appx:///Uno.Toolkit.UI.Material/Styles/Application/Colors.xaml" />
+    <um:MaterialFonts />
+    <um:MaterialColors />
   </ResourceDictionary.MergedDictionaries>
   <ResourceDictionary.ThemeDictionaries>
     <ResourceDictionary x:Key="Default">
@@ -2138,7 +2140,6 @@
     <Setter Property="MainCommandStyle" Value="{StaticResource MaterialModalMainCommandStyle}" />
   </not_mobile:Style>
   <!--origin: Styles\Controls\TopTabBar.Base.xaml-->
-  <x:Double x:Key="MaterialTabBarSelectionMinWidthIndicator">120</x:Double>
   <!--origin: Styles\Controls\TopTabBar.Mobile.xaml-->
   <Style x:Key="MaterialTopTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{StaticResource MaterialTabBarBackground}" />
@@ -2159,7 +2160,7 @@
           <Grid x:Name="TabBarGrid" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Height="{TemplateBinding Height}">
             <ItemsPresenter Padding="{TemplateBinding Padding}" />
             <utu:TabBarSelectionIndicatorPresenter VerticalAlignment="Bottom" Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}" x:Name="SelectionIndicatorPresenter" AutomationProperties.AutomationId="SelectionIndicatorPresenter" IndicatorTransitionMode="Snap" Height="2" Opacity="0">
-              <Border Background="{ThemeResource MaterialOnPrimaryBrush}" x:Name="SelectionIndicatorRect" AutomationProperties.AutomationId="SelectionIndicatorRect" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,2" Height="2" MinWidth="{StaticResource MaterialTabBarSelectionMinWidthIndicator}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" />
+              <Border Background="{ThemeResource MaterialOnPrimaryBrush}" x:Name="SelectionIndicatorRect" AutomationProperties.AutomationId="SelectionIndicatorRect" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,2" Height="2" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" />
             </utu:TabBarSelectionIndicatorPresenter>
           </Grid>
         </ControlTemplate>

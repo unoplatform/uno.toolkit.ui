@@ -6,6 +6,8 @@
 
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="ms-appx:///Uno.Toolkit.UI.Material/Styles/Application/Colors.xaml" />
+		<um:MaterialFonts />
+		<um:MaterialColors />
 	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
