@@ -42,10 +42,25 @@ namespace Uno.Toolkit.UI
 	{
 		private AppBarButtonWrapper? _appBarButtonWrapper;
 		private bool _isInOverflow = false;
+		private DependencyObject? _elementParent;
 
 		public AppBarButtonRenderer(AppBarButton element, bool isInOverflow = false) : base(element)
 		{
 			_isInOverflow = isInOverflow;
+			element.ViewAttachedToWindow += OnElementAttachedToWindow;
+		}
+
+		private void OnElementAttachedToWindow(object sender, View.ViewAttachedToWindowEventArgs e)
+		{
+			if (Element is { } element && element.Parent == _appBarButtonWrapper)
+			{
+				// if the new Parent is the wrapper, restore it to
+				// its original value.
+				if (_elementParent != null)
+				{
+					element.SetParent(_elementParent);
+				}
+			}
 		}
 
 		protected override IMenuItem CreateNativeInstance() => throw new NotSupportedException("Cannot create instance of IMenuItem.");
@@ -54,6 +69,16 @@ namespace Uno.Toolkit.UI
 		{
 			// Content
 			_appBarButtonWrapper = new AppBarButtonWrapper();
+			if (Element?.Content is FrameworkElement content && content.Visibility == Visibility.Visible)
+			{
+				var elementsParent = Element.Parent;
+				_appBarButtonWrapper.SetParent(elementsParent);
+
+				yield return Disposable.Create(() =>
+				{
+					Element.ViewAttachedToWindow -= OnElementAttachedToWindow;
+				});
+			}
 
 			yield return Disposable.Create(() => _appBarButtonWrapper = null);
 
@@ -133,8 +158,11 @@ namespace Uno.Toolkit.UI
 
 					case FrameworkElement fe:
 						if (_appBarButtonWrapper is { })
+						{
+							_elementParent = element.Parent;
 							_appBarButtonWrapper.Child = element;
-
+							element.SetParent(_elementParent);
+						}
 						native?.SetIcon(null);
 						native?.SetActionView(fe.Visibility == Visibility.Visible ? _appBarButtonWrapper : null);
 						native?.SetTitle(null);

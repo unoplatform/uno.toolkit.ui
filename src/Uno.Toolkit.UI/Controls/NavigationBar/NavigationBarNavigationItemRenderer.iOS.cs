@@ -33,7 +33,7 @@ namespace Uno.Toolkit.UI
 {
 	internal partial class NavigationBarNavigationItemRenderer : Renderer<NavigationBar, UINavigationItem>
 	{
-		private ContentPresenter? _contentPresenter;
+		private TitleView? _titleView;
 
 		private readonly SerialDisposable _visibilitySubscriptions = new SerialDisposable();
 
@@ -50,11 +50,10 @@ namespace Uno.Toolkit.UI
 			}
 
 			// Content
-			var titleView = new TitleView();
-			_contentPresenter = new ContentPresenter();
-			_contentPresenter.Content = titleView;
-			//_titleView.SetParent(element);
-			//_titleView.RegisterParentChangedCallback(this, OnTitleViewParentChanged);
+			_titleView = new TitleView();
+
+			_titleView.SetParent(element);
+			_titleView.ParentChanged += OnTitleViewParentChanged;
 
 			// Commands
 			void OnVectorChanged(IObservableVector<ICommandBarElement> s, IVectorChangedEventArgs e)
@@ -67,8 +66,9 @@ namespace Uno.Toolkit.UI
 
 			void Unregister()
 			{
+				_titleView.ParentChanged -= OnTitleViewParentChanged;
 				_visibilitySubscriptions.Disposable = null;
-				_contentPresenter = null;
+				_titleView = null;
 				element.PrimaryCommands.VectorChanged -= OnVectorChanged;
 				element.SecondaryCommands.VectorChanged -= OnVectorChanged;
 			}
@@ -88,6 +88,16 @@ namespace Uno.Toolkit.UI
 			RegisterCommandVisibilityAndInvalidate();
 		}
 
+		private void OnTitleViewParentChanged(object sender, EventArgs e)
+		{
+			// Even though we set the NavigationBar as the parent of the TitleView,
+			// it will change to the native control when the view is added.
+			// This control is the visual parent but is not a DependencyObject and will not propagate the DataContext.
+			// In order to ensure the DataContext is propagated properly, we restore the NavigationBar
+			// parent that can propagate the DataContext.
+			_titleView?.SetParent(Element);
+		}
+
 		protected override void Render()
 		{
 			var native = Native;
@@ -99,13 +109,13 @@ namespace Uno.Toolkit.UI
 			}
 
 			// Content
-			var content = element?.Content;
+			var content = element.Content;
 
 			native.Title = content as string;
-			native.TitleView = content is UIElement ? _contentPresenter : null;
-			if (_contentPresenter?.Content is TitleView titleView)
+			native.TitleView = content is UIElement ? _titleView : null;
+			if (_titleView != null)
 			{
-				titleView.Child = content as UIElement;
+				_titleView.Child = content as UIElement;
 			}
 
 			// PrimaryCommands
@@ -113,6 +123,7 @@ namespace Uno.Toolkit.UI
 				.PrimaryCommands
 				.OfType<AppBarButton>()
 				.Where(btn => btn.Visibility == Visibility.Visible && (((btn.Content as FrameworkElement)?.Visibility ?? Visibility.Visible) == Visibility.Visible))
+				.Do(btn => btn.SetParent(Element))
 				.Select(appBarButton => appBarButton.GetRenderer(() => new AppBarButtonRenderer(appBarButton)).Native)
 				.Reverse()
 				.ToArray();
@@ -121,6 +132,8 @@ namespace Uno.Toolkit.UI
 			var navigationCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
 			if (navigationCommand?.Visibility == Visibility.Visible)
 			{
+				navigationCommand.SetParent(Element);
+
 				var mode = (MainCommandMode)element.GetValue(NavigationBar.MainCommandModeProperty);
 				if (mode == MainCommandMode.Action)
 				{
@@ -159,6 +172,8 @@ namespace Uno.Toolkit.UI
 		private Size _childSize;
 		private Size? _lastAvailableSize;
 
+		internal event EventHandler? ParentChanged;
+
 		public override void SetSuperviewNeedsLayout()
 		{
 			// Skip the base invocation because the base fetches the native parent
@@ -167,6 +182,18 @@ namespace Uno.Toolkit.UI
 			// to fail to release an already released native reference.
 			//
 			// See https://github.com/unoplatform/uno/issues/7012 for more details.
+		}
+
+		// Even though we set the Navigation as the parent of the TitleView,
+		// it will change to the native control when the view is added (once MovedToSuperview is called).
+		// This native control is the visual parent but is not a DependencyObject and will not propagate the DataContext.
+		// In order to ensure the DataContext is propagated properly, we need to notify the renderer that this change has occured
+		// so we can restore the NavigationBar parent that can propagate the DataContext
+		public override void MovedToSuperview()
+		{
+			base.MovedToSuperview();
+
+			ParentChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		internal TitleView()

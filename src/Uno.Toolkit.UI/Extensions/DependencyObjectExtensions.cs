@@ -157,5 +157,20 @@ namespace Uno.Toolkit.UI
 		public static T FindFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
 			where T : DependencyObject
 			=> element.GetAllParents(includeCurrent).OfType<T>().FirstOrDefault();
+
+#if HAS_UNO
+		/// <summary>
+		/// Set the parent of the specified dependency object
+		/// </summary>
+		internal static void SetParent(this DependencyObject dependencyObject, object? parent)
+		{
+			if (parent != null
+				&& dependencyObject is IDependencyObjectStoreProvider storeProvider
+				&& (!ReferenceEquals(storeProvider.Store.Parent, parent)))
+			{
+				storeProvider.Store.Parent = parent;
+			}
+		}
+#endif
 	}
 }

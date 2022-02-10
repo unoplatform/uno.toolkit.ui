@@ -105,8 +105,14 @@ namespace Uno.Toolkit.UI
 				HorizontalAlignment = HorizontalAlignment.Left,
 			};
 
+			_contentContainer.SetParent(Element);
+			_contentContainer.ViewAttachedToWindow += OnContentAttachedToWindow;
+
 			native.AddView(_contentContainer);
+
+			yield return Disposable.Create(() => _contentContainer.ViewAttachedToWindow -= OnContentAttachedToWindow);
 			yield return Disposable.Create(() => native.RemoveView(_contentContainer));
+
 
 			// Commands.Click
 			native.MenuItemClick += Native_MenuItemClick;
@@ -158,6 +164,19 @@ namespace Uno.Toolkit.UI
 					new[] { NavigationBar.MainCommandProperty, AppBarButton.IconProperty },
 					new[] { NavigationBar.MainCommandModeProperty }
 				);
+			}
+		}
+
+		private void OnContentAttachedToWindow(object sender, View.ViewAttachedToWindowEventArgs e)
+		{
+			// Even though we set the CommandBar as the parent of the _contentContainer,
+			// it will change to the native control when the view is added.
+			// This control is the visual parent but is not a DependencyObject and will not propagate the DataContext.
+			// In order to ensure the DataContext is propagated properly, we restore the CommandBar
+			// parent that can propagate the DataContext.
+			if (_contentContainer?.Parent != Element)
+			{
+				_contentContainer.SetParent(Element);
 			}
 		}
 
@@ -225,8 +244,12 @@ namespace Uno.Toolkit.UI
 #pragma warning restore 618
 					if (menuItem is { })
 					{
+						// This ensures that Behaviors expecting this button to be in the logical tree work.
+						primaryCommand.SetParent(Element);
 						var renderer = primaryCommand.GetRenderer(() => new AppBarButtonRenderer(primaryCommand));
 						renderer.Native = menuItem;
+
+						
 					}
 				}
 				foreach (var secondaryCommand in element.SecondaryCommands.Safe().OfType<AppBarButton>())
@@ -236,8 +259,12 @@ namespace Uno.Toolkit.UI
 #pragma warning restore 618
 					if (menuItem is { })
 					{
+						// This ensures that Behaviors expecting this button to be in the logical tree work. 
+						secondaryCommand.SetParent(Element);
 						var renderer = secondaryCommand.GetRenderer(() => new AppBarButtonRenderer(secondaryCommand, isInOverflow: true));
 						renderer.Native = menuItem;
+
+						
 					}
 				}
 			}
@@ -245,9 +272,11 @@ namespace Uno.Toolkit.UI
 			var MainCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
 			var MainCommandMode = (MainCommandMode)element.GetValue(NavigationBar.MainCommandModeProperty);
 
-			if (MainCommand is { })
+			if (MainCommand is { } mainCommand)
 			{
-				var renderer = MainCommand.GetRenderer(() => new NavigationAppBarButtonRenderer(MainCommand, MainCommandMode));
+				// This ensures that Behaviors expecting this button to be in the logical tree work. 
+				mainCommand.SetParent(Element);
+				var renderer = mainCommand.GetRenderer(() => new NavigationAppBarButtonRenderer(mainCommand, MainCommandMode));
 				renderer.Native = native;
 			}
 			else
@@ -299,7 +328,6 @@ namespace Uno.Toolkit.UI
 				navigationCommand.RaiseClick();
 			}
 		}
-
 
 		private void CloseKeyboard()
 		{

@@ -119,6 +119,5 @@ namespace Uno.Toolkit.UITest.NavigationBar
 				Android: () => App.Marked("Page1NavBar").Descendant("Toolbar").FirstResult()
 			);
 		}
-			
 	}
 }
