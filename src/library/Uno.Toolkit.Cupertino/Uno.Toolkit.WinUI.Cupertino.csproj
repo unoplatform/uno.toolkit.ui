@@ -17,7 +17,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Uno.Cupertino.WinUI" Version="1.2.0" />
-		<PackageReference Include="Uno.WinUI" Version="4.0.9" />
+		<PackageReference Include="Uno.WinUI" Version="4.0.13" />
 	</ItemGroup>
 	
 	<PropertyGroup>
@@ -55,6 +55,6 @@
     <ProjectReference Include="..\..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
   </ItemGroup>
 
-	<Import Project="..\..\winappsdk-workaround.targets"/>
+	<Import Project="..\..\winappsdk-workaround.targets" />
 	<Import Project="xamlmerge.props" />
 </Project>
