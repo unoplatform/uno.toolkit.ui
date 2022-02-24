@@ -5,10 +5,11 @@
 					xmlns:um="using:Uno.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:utu="using:Uno.Toolkit.UI"
+                    xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					mc:Ignorable="d">
 
 	<!--Material TabBar-->
-	<Style x:Key="MaterialTopTabBarStyle"
+    <not_mobile:Style x:Key="MaterialTopTabBarStyle"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{StaticResource MaterialTabBarBackground}" />
@@ -56,10 +57,10 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</not_mobile:Style>
 
 	<!--Material TabBar Item -->
-	<Style x:Key="MaterialTopTabBarItemStyle"
+    <not_mobile:Style x:Key="MaterialTopTabBarItemStyle"
 		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialTabBarBackground}" />
@@ -235,6 +236,6 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</not_mobile:Style>
 
 </ResourceDictionary>
