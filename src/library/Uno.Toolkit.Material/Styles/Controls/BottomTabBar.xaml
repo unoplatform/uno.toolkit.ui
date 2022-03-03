@@ -4,11 +4,12 @@
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:um="using:Uno.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
+                    xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
 
 	<!-- Material Bottom TabBar -->
-	<Style x:Key="MaterialBottomTabBarStyle"
+	<not_mobile:Style x:Key="MaterialBottomTabBarStyle"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialTabBarBackground}" />
@@ -25,22 +26,47 @@
 		</Setter>
 		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource MaterialBottomTabBarItemStyle}" />
-		<Setter Property="Template">
+        <!-- Workaround until this issue is fixed, can be removed after -->
+        <!-- https://github.com/unoplatform/uno/issues/7393 -->
+        <Setter Property="VerticalContentAlignment"	
+				Value="Bottom" />
+        <Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="utu:TabBar">
-					<Grid x:Name="TabBarGrid"
-						  Background="{TemplateBinding Background}"
-						  BorderBrush="{TemplateBinding BorderBrush}"
-						  BorderThickness="{TemplateBinding BorderThickness}"
-						  Padding="{TemplateBinding Padding}">
-						<ItemsPresenter Height="{StaticResource TabBarHeight}" />
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
+                <ControlTemplate TargetType="utu:TabBar">
+                    <!-- Code can be uncommented when this issue is fixed in Uno: -->
+                    <!-- https://github.com/unoplatform/uno/issues/7393 -->
+                    <!--<Grid x:Name="TabBarGrid"	
+						  Background="{TemplateBinding Background}"	
+						  BorderBrush="{TemplateBinding BorderBrush}"	
+						  BorderThickness="{TemplateBinding BorderThickness}"	
+						  Padding="{TemplateBinding Padding}">	
+						<ItemsPresenter Height="{StaticResource TabBarHeight}" />	
+					</Grid>-->
+                    <!-- Workaround until the above issue is fixed, can be removed after -->
+                    <Grid x:Name="TabBarGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="{StaticResource TabBarHeight}" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="1"	
+								x:Name="BackgroundBorder"	
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"	
+								Background="{TemplateBinding Background}"	
+								Height="{StaticResource TabBarHeight}" />
+                        <ItemsPresenter Grid.RowSpan="2"	
+										Height="{StaticResource AjustedTabBarHeight}" />
+                        <Border Grid.Row="2"	
+								x:Name="VisibleBoundsBorder"	
+								Background="{TemplateBinding Background}"	
+								Padding="{TemplateBinding Padding}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
 		</Setter>
-	</Style>
+	</not_mobile:Style>
 
-	<Style x:Key="MaterialBottomTabBarItemFabStyle"
+    <not_mobile:Style x:Key="MaterialBottomTabBarItemFabStyle"
 		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialSecondaryBrush}" />
@@ -66,15 +92,20 @@
 				Value="{StaticResource MaterialFabLargeCorderRadius}" />
 		<Setter Property="Padding"
 				Value="{StaticResource MaterialFabLargePadding}" />
-		<Setter Property="RenderTransform">
-			<Setter.Value>
-				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
-			</Setter.Value>
-		</Setter>
-		<Setter Property="Template">
+        <!-- Code can be uncommented when this issue is fixed in Uno: -->
+        <!-- https://github.com/unoplatform/uno/issues/7393 -->
+        <!--<Setter Property="RenderTransform">	
+			<Setter.Value>	
+				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />	
+			</Setter.Value>	
+		</Setter>-->
+        <!-- Workaround until the above issue is fixed, can be removed after -->
+        <Setter Property="VerticalAlignment"	
+				Value="Top" />
+        <Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarItem">
-					<Grid>
+                    <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}">
 						<toolkit:ElevatedView x:Name="ElevatedView"
 											  Margin="0,0,6,6"
 											  Elevation="6"
@@ -171,9 +202,9 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</not_mobile:Style>
 
-	<Style x:Key="MaterialBottomTabBarItemStyle"
+    <not_mobile:Style x:Key="MaterialBottomTabBarItemStyle"
 		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource TabBarItemBackground}" />
@@ -191,7 +222,13 @@
 				Value="True" />
 		<Setter Property="HorizontalContentAlignment"
 				Value="Center" />
-		<Setter Property="Template">
+        <!-- Workaround with these two properties until this issue is fixed, can be removed after -->
+        <!-- https://github.com/unoplatform/uno/issues/7393 -->
+        <Setter Property="Height"	
+				Value="{StaticResource TabBarHeight}" />
+        <Setter Property="VerticalAlignment"	
+				Value="Bottom" />
+        <Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarItem">
 					<Grid x:Name="LayoutRoot"
@@ -348,5 +385,5 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</not_mobile:Style>
 </ResourceDictionary>

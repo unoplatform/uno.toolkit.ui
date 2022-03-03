@@ -5,7 +5,8 @@
 					xmlns:um="using:Uno.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:utu="using:Uno.Toolkit.UI"
-					mc:Ignorable="d">
+                    xmlns:mobile="http://uno.ui/mobile" 
+					mc:Ignorable="d mobile">
 
 
 	<!-- Code can be removed when this issue is fixed in Uno: -->
@@ -14,7 +15,7 @@
 	<x:Double x:Key="AjustedTabBarHeight">92</x:Double>
 
 	<!-- Material Bottom TabBar -->
-	<Style x:Key="MaterialBottomTabBarStyle"
+    <mobile:Style x:Key="MaterialBottomTabBarStyle"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialTabBarBackground}" />
@@ -73,9 +74,9 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</mobile:Style>
 
-	<Style x:Key="MaterialBottomTabBarItemFabStyle"
+    <mobile:Style x:Key="MaterialBottomTabBarItemFabStyle"
 		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource MaterialSecondaryBrush}" />
@@ -211,9 +212,9 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</mobile:Style>
 
-	<Style x:Key="MaterialBottomTabBarItemStyle"
+    <mobile:Style x:Key="MaterialBottomTabBarItemStyle"
 		   TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 				Value="{ThemeResource TabBarItemBackground}" />
@@ -346,5 +347,5 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</mobile:Style>
 </ResourceDictionary>
