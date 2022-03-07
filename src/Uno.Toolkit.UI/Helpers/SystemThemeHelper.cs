@@ -55,13 +55,13 @@ namespace Uno.Toolkit.UI
 		/// Get if the application is currently in dark mode.
 		/// </summary>
 		public static bool IsAppInDarkMode()
-			=> GetRootTheme(null) == ApplicationTheme.Dark;
+			=> GetRootTheme(GetWindowRoot().XamlRoot) == ApplicationTheme.Dark;
 
 		public static bool IsRootInDarkMode(XamlRoot root)
 			=> GetRootTheme(root) == ApplicationTheme.Dark;
 
 		public static void SetApplicationTheme(bool darkMode)
-			=> SetRootTheme(GetWindowRoot()?.XamlRoot, darkMode);
+			=> SetRootTheme(GetWindowRoot().XamlRoot, darkMode);
 
 		/// <summary>
 		/// Sets the theme for the provided XamlRoot
@@ -74,7 +74,7 @@ namespace Uno.Toolkit.UI
 		public static void SetApplicationTheme(XamlRoot? root, ElementTheme theme)
 		{
 			if (root?.Content is FrameworkElement fe)
-			{ 
+			{
 				fe.RequestedTheme = theme;
 			}
 		}
