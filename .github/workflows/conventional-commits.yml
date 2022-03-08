@@ -3,7 +3,7 @@ name: Conventional Commits
 on:
   pull_request:
     branches:
-      - master
+      - main
       - release/* 
 
 env:
