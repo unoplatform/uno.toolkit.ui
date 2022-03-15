@@ -4,9 +4,8 @@
 					xmlns:um="using:Uno.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit">
 
-	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="ms-appx:///Uno.Toolkit.UI.Material/Styles/Application/Colors.xaml" />
-		<um:MaterialFonts />
+    <ResourceDictionary.MergedDictionaries>
+        <um:MaterialFonts />
 		<um:MaterialColors />
 	</ResourceDictionary.MergedDictionaries>
 

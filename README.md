@@ -21,7 +21,7 @@ The steps to bootstrap Uno.Toolkit.UI into your application is very similar to t
 	</ResourceDictionary>
 </Application.Resources>
 ```
-3. (Optional) The Uno Toolkit also comes packaged with Material and Cupertino styles for many of its controls. If you wish to use the styles in your application, add the following to your `App.xaml`. Again, the order in which the resources are laoded is important:
+3. (Optional) The Uno Toolkit also comes packaged with Material and Cupertino styles for many of its controls. If you wish to use the styles in your application, add the following to your `App.xaml`. Again, the order in which the resources are loaded is important:
 
 > ⚠️
 >  Please note that you will need to install and initialize the Uno.Material and/or the Uno.Cupertino packages before you can use the Material/Cupertino Toolkit styles.
@@ -45,7 +45,6 @@ The steps to bootstrap Uno.Toolkit.UI into your application is very similar to t
 +			<CupertinoResources xmlns="using:Uno.Cupertino" />
 
 +			<!--  Load Material Toolkit resources  -->
-+			<MaterialToolkitColors xmlns="using:Uno.Toolkit.UI.Material" />
 +			<MaterialToolkitResources xmlns="using:Uno.Toolkit.UI.Material" />
 
 +			<!--  Load Cupertino Toolkit resources  -->

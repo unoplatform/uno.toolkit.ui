@@ -20,8 +20,6 @@
 				<MaterialResources xmlns="using:Uno.Material" />
 
 				<!-- Load Material Toolkit resources -->
-				<MaterialToolkitColors xmlns="using:Uno.Toolkit.UI.Material"
-									   OverrideSource="ms-appx:///ColorPaletteOverride.xaml" />
 				<MaterialToolkitResources xmlns="using:Uno.Toolkit.UI.Material" />
 
 				<!-- Load Cupertino resources -->
