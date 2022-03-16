@@ -13,6 +13,7 @@
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\Uno.Toolkit.Samples.Shared\Strings</ResourcesDirectory>
     <LangVersion>8.0</LangVersion>
+    <ProvisioningType>automatic</ProvisioningType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
