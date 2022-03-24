@@ -21,7 +21,7 @@
 	</ItemGroup>
 	
 	<PropertyGroup>
-		<XamlMergeOutputFile>Generated\mergedpages.uwp.xaml</XamlMergeOutputFile>
+		<XamlMergeOutputFile>Generated\mergedpages.winui.xaml</XamlMergeOutputFile>
 	</PropertyGroup>
 
 	<Choose>
