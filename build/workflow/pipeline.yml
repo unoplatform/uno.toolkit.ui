@@ -93,7 +93,7 @@ jobs:
       provProfileSecureFile: UnoToolkit.mobileprovision
 
   - template: templates/gitversion.yml
-  - template: templates/dotnet6-install-macos.yml
+  - template: templates/dotnet6-install-mac.yml
 
   - task: MSBuild@1
     inputs:
