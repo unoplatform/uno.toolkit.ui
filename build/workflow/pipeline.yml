@@ -34,7 +34,7 @@ jobs:
   
   steps:
   - template: templates/gitversion.yml
-  - template: templates/dotnet-install-windows.yml
+  - template: templates/dotnet6-install-windows.yml
 
    # This SDK version is needed as long as `uap10.0` will be supported in Uno.Core
   - powershell: .\build\Install-WindowsSdkISO.ps1 18362
@@ -93,7 +93,7 @@ jobs:
       provProfileSecureFile: UnoToolkit.mobileprovision
 
   - template: templates/gitversion.yml
-  - template: templates/dotnet-install-macos.yml
+  - template: templates/dotnet6-install-macos.yml
 
   - task: MSBuild@1
     inputs:
