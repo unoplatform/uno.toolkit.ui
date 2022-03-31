@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Cupertino.WinUI" Version="1.2.0" />
+		<PackageReference Include="Uno.Cupertino.WinUI" Version="1.4.0-dev.30" />
 		<PackageReference Include="Uno.WinUI" Version="4.2.0-dev.515" />
 	</ItemGroup>
 	
