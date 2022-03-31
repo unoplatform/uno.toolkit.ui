@@ -95,12 +95,8 @@ jobs:
   - template: templates/gitversion.yml
   - template: templates/dotnet6-install-mac.yml
 
-  - task: MSBuild@1
-    inputs:
-      solution: samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.iOS/Uno.Toolkit.Samples.iOS.csproj
-      configuration: Release
-      platform: iPhone
-      msbuildArguments: /ds /m /r /p:ApplicationVersion=$(MajorMinorPatch) /p:DisableNet6MobileTargets=true
+  - bash: |
+      mono '/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/msbuild.dll' /ds /m /r /p:Configuration=Release /p:Platform=iPhone /p:ApplicationVersion=$(MajorMinorPatch) /p:DisableNet6MobileTargets=true samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.iOS/Uno.Toolkit.Samples.iOS.csproj
 
   - task: PublishBuildArtifacts@1
     inputs:
