@@ -5,7 +5,7 @@
 	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
 	-->
 	<PropertyGroup>
-		<TargetFrameworks>uap10.0.18362;netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0;monoandroid10.0</TargetFrameworks>
+		<TargetFrameworks>uap10.0.18362;netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0</TargetFrameworks>
 		<TargetFrameworks Condition="'$(DisableNet6MobileTargets)'==''">$(TargetFrameworks);net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
@@ -24,7 +24,7 @@
 	</PropertyGroup>
 
 	<Choose>
-		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid10.0' or '$(TargetFramework)'=='monoandroid11.0'">
+		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid11.0'">
 			<ItemGroup>
 				<IncludeXamlNamespaces Include="mobile" />
 				<ExcludeXamlNamespaces Include="not_mobile" />
