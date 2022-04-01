@@ -12,6 +12,10 @@ using Uno.Logging;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 
+#if NET6_0_IOS || NET6_0_MACCATALYST
+using nfloat = System.Runtime.InteropServices.NFloat;
+#endif
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

@@ -17,8 +17,10 @@
 
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
 		<DefaultLanguage>en-US</DefaultLanguage>
-		<LangVersion>9</LangVersion>
+		<LangVersion>9.0</LangVersion>
 		<Nullable>enable</Nullable>
+
+		<NoNFloatUsing>true</NoNFloatUsing>
 	</PropertyGroup>
 
 	<PropertyGroup>
