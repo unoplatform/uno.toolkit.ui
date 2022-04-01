@@ -12,7 +12,7 @@ using Uno.Logging;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 
-#if NET6_0_OR_GREATER
+#if NET6_0_IOS
 using nfloat = System.Runtime.InteropServices.NFloat;
 #endif
 
