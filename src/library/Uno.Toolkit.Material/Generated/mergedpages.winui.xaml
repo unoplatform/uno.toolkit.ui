@@ -22,6 +22,7 @@
   <x:Double x:Key="MaterialBottomTabBarFontSize">14</x:Double>
   <FontFamily x:Key="MaterialBottomTabBarFontFamily">Roboto</FontFamily>
   <x:Double x:Key="MaterialBottomTabBarHeight">64</x:Double>
+  <GridLength x:Key="MaterialBottomTabBarGridLengthHeight">64</GridLength>
   <x:Double x:Key="FabItemVerticalOffset">-32</x:Double>
   <x:Double x:Key="MaterialBottomTabBarItemIconHeight">22</x:Double>
   <x:Double x:Key="MaterialBottomTabBarItemIconWidth">22</x:Double>
@@ -59,7 +60,7 @@
           <Grid x:Name="TabBarGrid">
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
-              <RowDefinition Height="{StaticResource MaterialBottomTabBarHeight}" />
+              <RowDefinition Height="{StaticResource MaterialBottomTabBarGridLengthHeight}" />
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border Grid.Row="1" x:Name="BackgroundBorder" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{TemplateBinding Background}" Height="{StaticResource MaterialBottomTabBarHeight}" />
@@ -257,7 +258,7 @@
           <Grid x:Name="TabBarGrid">
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
-              <RowDefinition Height="{StaticResource MaterialBottomTabBarHeight}" />
+              <RowDefinition Height="{StaticResource MaterialBottomTabBarGridLengthHeight}" />
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border Grid.Row="1" x:Name="BackgroundBorder" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{TemplateBinding Background}" Height="{StaticResource MaterialBottomTabBarHeight}" />
