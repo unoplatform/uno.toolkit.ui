@@ -15,15 +15,18 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <utu:NavigationBar AutomationProperties.AutomationId="Page1DataContextNavBar"
-                           MainCommandMode="Action">
-            <utu:NavigationBar.Content>
-                <Grid VerticalAlignment="Center"
-                      ios:HorizontalAlignment="Center">
-                    <TextBlock ios:TextAlignment="Center"
-                               Foreground="Black"
-                               Text="{Binding ViewModelName}" />
-                </Grid>
-            </utu:NavigationBar.Content>
+                           MainCommandMode="Action"
+                           Content="{Binding ViewModelName}">
+            <utu:NavigationBar.ContentTemplate>
+                <DataTemplate>
+                    <Grid VerticalAlignment="Center"
+                          ios:HorizontalAlignment="Center">
+                        <TextBlock ios:TextAlignment="Center"
+                                   Foreground="Black"
+                                   Text="{Binding}" />
+                    </Grid>
+                </DataTemplate>
+            </utu:NavigationBar.ContentTemplate>
             <utu:NavigationBar.MainCommand>
                 <AppBarButton AutomationProperties.AutomationId="NavBar_DataContext_Close_Button"
                               Click="NavigateBack"
