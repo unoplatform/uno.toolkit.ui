@@ -1316,7 +1316,7 @@
   <CornerRadius x:Key="ChipCornerRadius">16</CornerRadius>
   <x:Double x:Key="IconSize">24</x:Double>
   <CornerRadius x:Key="IconCornerRadius">12</CornerRadius>
-  <Style x:Name="DeleteButtonStyle" TargetType="Button">
+  <Style x:Key="DeleteButtonStyle" TargetType="Button">
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="Button">
@@ -1498,13 +1498,13 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Name="MaterialFilledInputChipStyle" TargetType="utu:Chip" BasedOn="{StaticResource BaseMaterialFilledChipStyle}">
+  <Style x:Key="MaterialFilledInputChipStyle" TargetType="utu:Chip" BasedOn="{StaticResource BaseMaterialFilledChipStyle}">
     <Style.Setters>
       <Setter Property="CanRemove" Value="True" />
       <Setter Property="IsCheckable" Value="True" />
     </Style.Setters>
   </Style>
-  <Style x:Name="MaterialOutlinedInputChipStyle" TargetType="utu:Chip" BasedOn="{StaticResource BaseMaterialOutlinedChipStyle}">
+  <Style x:Key="MaterialOutlinedInputChipStyle" TargetType="utu:Chip" BasedOn="{StaticResource BaseMaterialOutlinedChipStyle}">
     <Style.Setters>
       <Setter Property="CanRemove" Value="True" />
     </Style.Setters>

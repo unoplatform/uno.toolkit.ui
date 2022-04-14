@@ -116,6 +116,17 @@ namespace Uno.Toolkit.UI
 			set => SetValue(RemovedCommandParameterProperty, value);
 		}
 
+		#endregion
+
+#region DependencyProperty: Elevation
+		public double Elevation
+		{
+			get { return (double)GetValue(ElevationProperty); }
+			set { SetValue(ElevationProperty, value); }
+		}
+
+		public static readonly DependencyProperty ElevationProperty =
+			DependencyProperty.Register("Elevation", typeof(double), typeof(Chip), new PropertyMetadata(0d));
 #endregion
 
 		private bool _isMuted = false;

@@ -6,19 +6,18 @@
 										   Check="IsNullOrEmpty"
 										   TrueValue="Collapsed"
 										   FalseValue="Visible" />
-
-	<converters:EnumDescriptionConverter x:Name="EnumToDescription" />
-
-    <converters:FromBoolToValueConverter x:Key="TrueToVisible"
-										 TrueValue="Visible"
-										 NullOrFalseValue="Collapsed" />
-
-    <converters:FromStringToValueConverter x:Key="SelectedItemToVisible"
+	<converters:FromStringToValueConverter x:Key="SelectedItemToVisible"
 										   Check="IsEqualToParameterValue"
 										   TrueValue="Visible"
 										   FalseValue="Collapsed" />
 
-    <converters:FromBoolToValueConverter x:Key="NotTrue"
+	<converters:EnumDescriptionConverter x:Name="EnumToDescription" />
+
+	<converters:FromBoolToValueConverter x:Key="TrueToVisible"
+										 TrueValue="Visible"
+										 NullOrFalseValue="Collapsed" />
+
+	<converters:FromBoolToValueConverter x:Key="NotTrue"
 										 TrueValue="False"
 										 NullOrFalseValue="True" />
     
