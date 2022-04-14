@@ -1,4 +1,4 @@
-﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.NavigationBarSample_NestedPage2"
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.M3MaterialNavigationBarSample_NestedPage2"
 	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
@@ -14,21 +14,21 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<utu:NavigationBar Style="{StaticResource MaterialNavigationBarStyle}"
-                           AutomationProperties.AutomationId="Page2NavBar"
+		<utu:NavigationBar Style="{StaticResource M3MaterialNavigationBarStyle}"
+                           AutomationProperties.AutomationId="M3Page2NavBar"
 						   Content="Second Page">
 			<utu:NavigationBar.PrimaryCommands>
-				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
+				<AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
 							  Label="More" />
-				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
+                <AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
 							  Label="More" />
 			</utu:NavigationBar.PrimaryCommands>
 			<utu:NavigationBar.SecondaryCommands>
-				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
+                <AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
 							  Label="More" />
-				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
+                <AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
 							  Label="More" />
-				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
+                <AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
 							  Label="More" />
 			</utu:NavigationBar.SecondaryCommands>
 		</utu:NavigationBar>

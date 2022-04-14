@@ -1,4 +1,4 @@
-﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.NavigationBarSample_NestedPage1"
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.MaterialNavigationBarSample_NestedPage1"
 	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
@@ -61,33 +61,10 @@
 					Padding="16,0">
 			<Button Content="Exit sample"
 					Click="NavigateBack" />
-			<Button Click="NavigateToNextPage"
+            <Button Click="NavigateToNextPage"
                     AutomationProperties.AutomationId="Page1_Navigate_To_Page2"
 					Content="Navigate To Second Page" />
-			<TextBlock HorizontalAlignment="Center"
-					   Style="{StaticResource MaterialCaption}">
-				<Run Text="Primary Command 1 clicked count:" />
-				<Run x:Name="Primary1_Count"
-					 AutomationProperties.AutomationId="Primary1_Count"
-					 Text="{Binding PrimaryCommand1Count}" />
-				<Run Text="/ Primary Command 2 clicked count:" />
-				<Run x:Name="Primary2_Count"
-					 AutomationProperties.AutomationId="Primary2_Count"
-					 Text="{Binding PrimaryCommand2Count}" />
-				<Run Text="/ Secondary Command 1 clicked count:" />
-				<Run x:Name="Secondary1_Count"
-					 AutomationProperties.AutomationId="Secondary1_Count"
-					 Text="{Binding SecondaryCommand1Count}" />
-				<Run Text="/ Secondary Command 2 clicked count:" />
-				<Run x:Name="Secondary2_Count"
-					 AutomationProperties.AutomationId="Secondary2_Count"
-					 Text="{Binding SecondaryCommand2Count}" />
-				<Run Text="/ Secondary Command 3 clicked count:" />
-				<Run x:Name="Secondary3_Count"
-					 AutomationProperties.AutomationId="Secondary3_Count"
-					 Text="{Binding SecondaryCommand3Count}" />
-			</TextBlock>
 
-		</StackPanel>
+        </StackPanel>
 	</Grid>
 </Page>

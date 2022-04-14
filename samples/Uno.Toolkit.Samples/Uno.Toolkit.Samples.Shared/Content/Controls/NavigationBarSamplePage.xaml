@@ -8,37 +8,85 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
-    <Grid>
-        <StackPanel Spacing="8" Margin="50">
-            <Button Click="LaunchFullScreenSample"
-                    Content="Show Sample"
-                    AutomationProperties.AutomationId="NavigationBar_Launch_Sample_Button"
-                    Style="{StaticResource MaterialContainedButtonStyle}" />
 
-            <Button Click="LaunchFullScreenDataContextSample"
-                    Content="Show DataContext Sample"
-                    AutomationProperties.AutomationId="NavigationBar_Launch_DataContext_Sample_Button"
-                    Style="{StaticResource MaterialContainedButtonStyle}" />
+    <sample:SamplePageLayout x:Name="NavBarSamplePageLayout">
+        <sample:SamplePageLayout.MaterialTemplate>
+            <DataTemplate>
+                <StackPanel Margin="50"
+                            Spacing="8">
+                    <Button AutomationProperties.AutomationId="Material_NavigationBar_Launch_Sample_Button"
+                            Click="LaunchFullScreenMaterialSample"
+                            Content="Show Sample"
+                            Style="{StaticResource MaterialContainedButtonStyle}" />
 
-            <Button x:Name="ModalButton"
-                    Content="Show Modal Sample"
-                    
-                    Style="{StaticResource MaterialContainedButtonStyle}">
-                <Button.Flyout>
-                    <Flyout x:Name="ModalFlyout" Placement="Bottom">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="MinWidth" Value="200" />
-                                <Setter Property="MinHeight" Value="200" />
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
+                    <Button AutomationProperties.AutomationId="Material_NavigationBar_Launch_DataContext_Sample_Button"
+                            Click="LaunchFullScreenMaterialDataContextSample"
+                            Content="Show DataContext Sample"
+                            Style="{StaticResource MaterialContainedButtonStyle}" />
 
-                        <Grid>
-                            <Frame x:Name="ModalFrame" />
-                        </Grid>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-        </StackPanel>
-    </Grid>
+                    <Button x:Name="ModalButton"
+                            Content="Show Modal Sample"
+                            Style="{StaticResource MaterialContainedButtonStyle}">
+                        <Button.Flyout>
+                            <Flyout x:Name="ModalFlyout"
+                                    Opened="ModalFlyout_Opened"
+                                    Placement="Bottom">
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style TargetType="FlyoutPresenter">
+                                        <Setter Property="MinWidth"
+                                                Value="200" />
+                                        <Setter Property="MinHeight"
+                                                Value="200" />
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+
+                                <Grid>
+                                    <Frame x:Name="ModalFrame" />
+                                </Grid>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </DataTemplate>
+        </sample:SamplePageLayout.MaterialTemplate>
+        <sample:SamplePageLayout.M3MaterialTemplate>
+            <DataTemplate>
+                <StackPanel Margin="50"
+                            Spacing="8">
+                    <Button AutomationProperties.AutomationId="Material_M3_NavigationBar_Launch_Sample_Button"
+                            Click="LaunchFullScreenM3MaterialSample"
+                            Content="Show Sample"
+                            Style="{StaticResource MaterialContainedButtonStyle}" />
+
+                    <Button AutomationProperties.AutomationId="Material_M3_NavigationBar_Launch_DataContext_Sample_Button"
+                            Click="LaunchFullScreenM3MaterialDataContextSample"
+                            Content="Show DataContext Sample"
+                            Style="{StaticResource MaterialContainedButtonStyle}" />
+
+                    <Button x:Name="M3ModalButton"
+                            Content="Show Modal Sample"
+                            Style="{StaticResource MaterialContainedButtonStyle}">
+                        <Button.Flyout>
+                            <Flyout x:Name="M3ModalFlyout"
+                                    Opened="M3ModalFlyout_Opened"
+                                    Placement="Bottom">
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style TargetType="FlyoutPresenter">
+                                        <Setter Property="MinWidth"
+                                                Value="200" />
+                                        <Setter Property="MinHeight"
+                                                Value="200" />
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+
+                                <Grid>
+                                    <Frame x:Name="M3ModalFrame" />
+                                </Grid>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </DataTemplate>
+        </sample:SamplePageLayout.M3MaterialTemplate>
+    </sample:SamplePageLayout>
 </Page>

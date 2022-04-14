@@ -1,28 +1,22 @@
-﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.NavigationBarSample_ModalPage2"
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.MaterialNavigationBarSample_NestedPage2"
 	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
 
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<utu:NavigationBar Style="{StaticResource MaterialModalNavigationBarStyle}"
-						   Content="Second Page"
+		<utu:NavigationBar Style="{StaticResource MaterialNavigationBarStyle}"
                            AutomationProperties.AutomationId="Page2NavBar"
-						   MainCommandMode="Back">
-			<utu:NavigationBar.MainCommand>
-				<AppBarButton Click="NavigateBack"
-                              Label="Back">
-				</AppBarButton>
-			</utu:NavigationBar.MainCommand>
+						   Content="Second Page">
 			<utu:NavigationBar.PrimaryCommands>
 				<AppBarButton Style="{StaticResource MaterialAppBarButton}"
 							  Label="More" />
