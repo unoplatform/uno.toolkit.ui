@@ -15,7 +15,7 @@ using Windows.UI.Xaml;
 /// </summary>
 namespace Uno.Toolkit.UI.Material
 {
-	public sealed class MaterialToolkitResources : ResourceDictionary
+	public sealed class MaterialToolkitResourcesV2 : ResourceDictionary
 	{
 #if IS_WINUI
 		private const string PackageName =
@@ -29,9 +29,9 @@ namespace Uno.Toolkit.UI.Material
 			"uwp";
 #endif
 
-		public MaterialToolkitResources()
+		public MaterialToolkitResourcesV2()
 		{
-			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.v1.xaml");
+			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.v2.xaml");
 		}
 	}
 }

@@ -15,7 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" Version="4.2.0-dev.515" />
+		<PackageReference Include="Uno.WinUI" Version="4.2.0-dev.622" />
 		<PackageReference Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" Version="4.0.1" />

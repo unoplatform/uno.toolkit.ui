@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Uno.Toolkit.Samples.Content.NestedSamples
@@ -30,15 +31,13 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class NavigationBarSample_ModalPage1 : Page
+    public sealed partial class MaterialNavigationBarSample_NestedPage2 : Page
     {
-        public NavigationBarSample_ModalPage1()
+        public MaterialNavigationBarSample_NestedPage2()
         {
             this.InitializeComponent();
         }
 
-        private void NavigateToNextPage(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(NavigationBarSample_ModalPage2));
-
-        private void NavigateBack(object sender, RoutedEventArgs e) => Shell.GetForCurrentView().BackNavigateFromNestedSample();
+        private void NavigateBack(object sender, RoutedEventArgs e) => Frame.GoBack();
     }
 }

@@ -25,8 +25,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ChipSamplePage.xaml.cs">
       <DependentUpon>ChipSamplePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_DataContext_NestedPage1.xaml.cs">
-      <DependentUpon>NavigationBarSample_DataContext_NestedPage1.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_DataContext_NestedPage1.xaml.cs">
+      <DependentUpon>M3MaterialNavigationBarSample_DataContext_NestedPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_ModalPage1.xaml.cs">
+      <DependentUpon>M3MaterialNavigationBarSample_ModalPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_ModalPage2.xaml.cs">
+      <DependentUpon>M3MaterialNavigationBarSample_ModalPage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_NestedPage1.xaml.cs">
+      <DependentUpon>M3MaterialNavigationBarSample_NestedPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_NestedPage2.xaml.cs">
+      <DependentUpon>M3MaterialNavigationBarSample_NestedPage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_DataContext_NestedPage1.xaml.cs">
+      <DependentUpon>MaterialNavigationBarSample_DataContext_NestedPage1.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ModalDialog.xaml.cs">
       <DependentUpon>ModalDialog.xaml</DependentUpon>
@@ -61,17 +76,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialTopBarSampleNestedPage.xaml.cs">
       <DependentUpon>MaterialTopBarSampleNestedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_ModalPage1.xaml.cs">
-      <DependentUpon>NavigationBarSample_ModalPage1.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_ModalPage1.xaml.cs">
+      <DependentUpon>MaterialNavigationBarSample_ModalPage1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_ModalPage2.xaml.cs">
-      <DependentUpon>NavigationBarSample_ModalPage2.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_ModalPage2.xaml.cs">
+      <DependentUpon>MaterialNavigationBarSample_ModalPage2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_NestedPage1.xaml.cs">
-      <DependentUpon>NavigationBarSample_NestedPage1.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_NestedPage1.xaml.cs">
+      <DependentUpon>MaterialNavigationBarSample_NestedPage1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_NestedPage2.xaml.cs">
-      <DependentUpon>NavigationBarSample_NestedPage2.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_NestedPage2.xaml.cs">
+      <DependentUpon>MaterialNavigationBarSample_NestedPage2.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ControlExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\OverviewSampleView.cs" />
@@ -122,7 +137,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_DataContext_NestedPage1.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_DataContext_NestedPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_ModalPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_ModalPage2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_NestedPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialNavigationBarSample_NestedPage2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_DataContext_NestedPage1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,19 +197,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_ModalPage1.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_ModalPage1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_ModalPage2.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_ModalPage2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_NestedPage1.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_NestedPage1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NavigationBarSample_NestedPage2.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_NestedPage2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -266,5 +301,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-300.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\UnoLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NewFolder\" />
   </ItemGroup>
 </Project>

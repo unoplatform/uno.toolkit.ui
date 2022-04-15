@@ -3,7 +3,7 @@
     <um:MaterialFonts />
     <um:MaterialColors />
   </ResourceDictionary.MergedDictionaries>
-  <!--origin: Styles\Controls\BottomTabBar.xaml-->
+  <!--origin: Styles\Controls\v1\BottomTabBar.xaml-->
   <StaticResource x:Key="MaterialBottomTabBarBackground" ResourceKey="MaterialPrimaryBrush" />
   <StaticResource x:Key="MaterialBottomTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
   <StaticResource x:Key="MaterialBottomTabBarItemBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
@@ -457,7 +457,7 @@
       </Setter.Value>
     </Setter>
   </not_mobile:Style>
-  <!--origin: Styles\Controls\Card.xaml-->
+  <!--origin: Styles\Controls\v1\Card.xaml-->
   <CornerRadius x:Key="MaterialCardCornerRadius">4</CornerRadius>
   <Thickness x:Key="MaterialCardBorderThickness">1</Thickness>
   <x:Double x:Key="MaterialCardElevation">6</x:Double>
@@ -1114,7 +1114,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <!--origin: Styles\Controls\CardContentControl.xaml-->
+  <!--origin: Styles\Controls\v1\CardContentControl.xaml-->
   <Style x:Key="MaterialOutlinedCardContentControlStyle" TargetType="utu:CardContentControl">
     <Setter Property="MinHeight" Value="72" />
     <Setter Property="MaxWidth" Value="344" />
@@ -1307,7 +1307,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <!--origin: Styles\Controls\Chip.xaml-->
+  <!--origin: Styles\Controls\v1\Chip.xaml-->
   <x:String x:Key="ClearGlyphPathData">M10.661012,7.5689991L7.5990001,10.650999 12.939089,15.997999 7.5990001,21.336999 10.661012,24.405 16.007082,19.065 21.369997,24.405 24.430058,21.336999 24.429081,21.336 19.088991,15.998999 24.429081,10.662001 21.345095,7.5819996 16.007082,12.919001z M15.997072,0C24.828983,0 31.994999,7.1770013 31.994999,15.999998 31.994999,24.826997 24.828007,31.999999 15.997072,31.999999 7.1569835,31.999999 1.5270052E-07,24.826997 0,15.999998 1.5270052E-07,7.1799997 7.1569835,0 15.997072,0z</x:String>
   <x:String x:Key="CheckGlyphPathStyle">M28.718018,0L32,3.2819897 10.666016,24.616999 0,13.951997 3.2810059,10.670007 10.666016,18.055033z</x:String>
   <x:Double x:Key="ChipHeight">32</x:Double>
@@ -1889,7 +1889,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <!--origin: Styles\Controls\ChipGroup.xaml-->
+  <!--origin: Styles\Controls\v1\ChipGroup.xaml-->
   <ItemsPanelTemplate x:Key="MaterialHorizontalChipGroupItemsPanel">
     <StackPanel Orientation="Horizontal" Spacing="8" />
   </ItemsPanelTemplate>
@@ -1936,7 +1936,7 @@
     <Setter Property="CanRemove" Value="False" />
     <Setter Property="SelectionMode" Value="None" />
   </Style>
-  <!--origin: Styles\Controls\Divider.xaml-->
+  <!--origin: Styles\Controls\v1\Divider.xaml-->
   <x:Double x:Key="MaterialDividerHeight">1</x:Double>
   <Style x:Key="MaterialDividerStyle" TargetType="utu:Divider">
     <Setter Property="Foreground" Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
@@ -1956,7 +1956,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <!--origin: Styles\Controls\NavigationBar.xaml-->
+  <!--origin: Styles\Controls\v1\NavigationBar.xaml-->
   <mobile:Style x:Key="MaterialMainCommandStyle" BasedOn="{StaticResource BaseMaterialMainCommandStyle}" TargetType="AppBarButton" />
   <mobile:Style x:Key="MaterialModalMainCommandStyle" BasedOn="{StaticResource BaseMaterialModalMainCommandStyle}" TargetType="AppBarButton" />
   <mobile:Style x:Key="MaterialNavigationBarStyle" BasedOn="{StaticResource BaseMaterialNavigationBarStyle}" TargetType="utu:NavigationBar">
@@ -2341,7 +2341,7 @@
   <Style x:Key="BaseMaterialModalMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource BaseMaterialMainCommandStyle}">
     <Setter Property="Foreground" Value="{ThemeResource MaterialOnSurfaceBrush}" />
   </Style>
-  <!--origin: Styles\Controls\TopTabBar.xaml-->
+  <!--origin: Styles\Controls\v1\TopTabBar.xaml-->
   <StaticResource x:Key="MaterialTopTabBarBackground" ResourceKey="MaterialPrimaryBrush" />
   <StaticResource x:Key="MaterialTopTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
   <StaticResource x:Key="MaterialTopTabBarItemBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
@@ -2596,5 +2596,5 @@
       </Setter.Value>
     </Setter>
   </not_mobile:Style>
-  <!--origin: Styles\Controls\_Common.xaml-->
+  <!--origin: Styles\Controls\v1\_Common.xaml-->
 </ResourceDictionary>
