@@ -58,7 +58,58 @@
 							Grid.Column="1" />
 			</Grid>
 		</DataTemplate>
-	</Page.Resources>
+
+        <DataTemplate x:Key="M3DefaultItemTemplate">
+            <Grid Width="200"
+				  Padding="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Item"
+						   Foreground="{StaticResource OnBackgroundBrush}" />
+
+                <SymbolIcon Symbol="Favorite"
+							Foreground="{StaticResource OnBackgroundBrush}"
+							Grid.Column="1" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="M3CustomItemTemplate">
+            <Grid Width="200"
+				  Padding="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Item"
+						   Foreground="{StaticResource OnPrimaryBrush}" />
+
+                <SymbolIcon Symbol="Favorite"
+							Foreground="{StaticResource OnPrimaryBrush}"
+							Grid.Column="1" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="M3ChildItemTemplate">
+            <Grid Width="200"
+				  Padding="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding}"
+						   Foreground="{StaticResource OnBackgroundBrush}" />
+
+                <SymbolIcon Symbol="Add"
+							Foreground="{StaticResource OnBackgroundBrush}"
+							Grid.Column="1" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<sample:SamplePageLayout>
@@ -133,6 +184,77 @@
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.MaterialTemplate>
+			<sample:SamplePageLayout.M3MaterialTemplate>
+				<DataTemplate>
+					<StackPanel Padding="0,8">
+
+						<StackPanel Background="{StaticResource SurfaceBrush}"
+									Margin="8">
+                            <ContentControl ContentTemplate="{StaticResource M3DefaultItemTemplate}" />
+
+							<utu:Divider Style="{StaticResource M3MaterialDividerStyle}" />
+
+                            <ContentControl ContentTemplate="{StaticResource M3DefaultItemTemplate}" />
+						</StackPanel>
+
+						<StackPanel Background="{StaticResource SurfaceBrush}"
+									Margin="8">
+
+                            <ContentControl ContentTemplate="{StaticResource M3DefaultItemTemplate}" />
+
+							<utu:Divider Style="{StaticResource M3MaterialDividerStyle}"
+										 SubHeader="SubHeader" />
+
+							<ContentControl ContentTemplate="{StaticResource M3DefaultItemTemplate}" />
+						</StackPanel>
+
+						<StackPanel Background="{StaticResource PrimaryBrush}"
+									Margin="8">
+
+                            <ContentControl ContentTemplate="{StaticResource M3CustomItemTemplate}" />
+
+							<utu:Divider Style="{StaticResource M3MaterialDividerStyle}"
+										 Foreground="{StaticResource OnPrimaryLowBrush}" />
+
+                            <ContentControl ContentTemplate="{StaticResource M3CustomItemTemplate}" />
+						</StackPanel>
+
+
+						<StackPanel Background="{StaticResource PrimaryBrush}"
+									Margin="8">
+
+                            <ContentControl ContentTemplate="{StaticResource M3CustomItemTemplate}" />
+
+							<utu:Divider Style="{StaticResource M3MaterialDividerStyle}"
+										 SubHeader="SubHeader"
+										 Foreground="{StaticResource OnPrimaryLowBrush}"
+										 SubHeaderForeground="{StaticResource OnPrimaryBrush}" />
+
+							<ContentControl ContentTemplate="{StaticResource M3CustomItemTemplate}" />
+						</StackPanel>
+
+						<ListView ItemsSource="{Binding Data.Items}"
+								  SelectionMode="None">
+							<ListView.ItemTemplate>
+								<DataTemplate>
+									<Grid Width="200">
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="*" />
+										</Grid.RowDefinitions>
+
+										<ItemsControl ItemsSource="{Binding Data.SubItems}"
+													  ItemTemplate="{StaticResource M3ChildItemTemplate}" />
+
+										<utu:Divider Style="{StaticResource M3MaterialDividerStyle}"
+													 Grid.Row="1" />
+									</Grid>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.M3MaterialTemplate>
 		</sample:SamplePageLayout>
 	</Grid>
 </Page>

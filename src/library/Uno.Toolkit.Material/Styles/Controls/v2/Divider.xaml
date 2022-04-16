@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:utu="using:Uno.Toolkit.UI">
+
+	<x:Double x:Key="M3MaterialDividerHeight">1</x:Double>
+
+	<Style x:Key="M3MaterialDividerStyle"
+		   TargetType="utu:Divider">
+
+		<Setter Property="Foreground"
+				Value="{StaticResource OnSurfaceFocusedBrush}" />
+		<Setter Property="SubHeaderForeground"
+				Value="{StaticResource OnSurfaceLowBrush}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:Divider">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<Rectangle Fill="{TemplateBinding Foreground}"
+								   Height="{StaticResource M3MaterialDividerHeight}" />
+
+						<TextBlock Text="{TemplateBinding SubHeader}"
+								   Visibility="{Binding SubHeader, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed}"
+								   Style="{StaticResource M3MaterialBodySmall}"
+								   Foreground="{TemplateBinding SubHeaderForeground}"
+								   Margin="0,4,0,0"
+								   Grid.Row="1" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>
