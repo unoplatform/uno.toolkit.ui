@@ -6,7 +6,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <um:MaterialFonts />
-		<um:MaterialColorsV2 />
-	</ResourceDictionary.MergedDictionaries>
+        <um:MaterialColorsV2 />
+        <um:MaterialResourcesV2 />
+    </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
