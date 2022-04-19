@@ -10,13 +10,13 @@
     <ios:Setter Property="Height" Value="NaN" />
     <Setter Property="MainCommandStyle" Value="{StaticResource M3MaterialMainCommandStyle}" />
     <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
-    <Setter Property="Template" Value="{StaticResource NativeNavigationBarTemplate}" />
+    <Setter Property="Template" Value="{StaticResource M3MaterialNativeNavigationBarTemplate}" />
   </mobile:Style>
   <mobile:Style x:Key="M3MaterialModalNavigationBarStyle" BasedOn="{StaticResource BaseM3MaterialModalNavigationBarStyle}" TargetType="utu:NavigationBar">
     <ios:Setter Property="Height" Value="NaN" />
     <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
     <Setter Property="MainCommandStyle" Value="{StaticResource M3MaterialModalMainCommandStyle}" />
-    <Setter Property="Template" Value="{StaticResource NativeNavigationBarTemplate}" />
+    <Setter Property="Template" Value="{StaticResource M3MaterialNativeNavigationBarTemplate}" />
   </mobile:Style>
   <not_mobile:Style x:Key="M3MaterialMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource BaseM3MaterialMainCommandStyle}">
     <Setter Property="Icon">
@@ -42,12 +42,12 @@
   <x:Double x:Key="M3MaterialNavigationBarHeight">48</x:Double>
   <Thickness x:Key="M3MaterialNavigationBarContentMargin">16,0,0,0</Thickness>
   <Thickness x:Key="M3MaterialAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
-  <ios:ControlTemplate x:Key="NativeNavigationBarTemplate" TargetType="utu:NavigationBar">
+  <ios:ControlTemplate x:Key="M3MaterialNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
     <Border BorderThickness="{TemplateBinding Padding}">
       <utu:NativeNavigationBarPresenter Height="44" x:Name="NavigationBarPresenter" />
     </Border>
   </ios:ControlTemplate>
-  <android:ControlTemplate x:Key="NativeNavigationBarTemplate" TargetType="utu:NavigationBar">
+  <android:ControlTemplate x:Key="M3MaterialNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
     <utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
   </android:ControlTemplate>
   <ControlTemplate x:Key="XamlM3MaterialNavigationBarTemplate" TargetType="utu:NavigationBar">
@@ -94,7 +94,7 @@
                   <SplineDoubleKeyFrame KeyTime="{StaticResource ControlFastAnimationDuration}" KeySpline="{StaticResource ControlFastOutSlowInKeySpline}" Value="0" />
                 </DoubleAnimationUsingKeyFrames>
               </Storyboard>
-              <x:Double x:Key="AppBarButtonContentHeight">24</x:Double>
+              <x:Double x:Key="M3MaterialAppBarButtonContentHeight">24</x:Double>
               <x:Double x:Key="AppBarThemeCompactHeight">56</x:Double>
               <Style TargetType="SplitButton" BasedOn="{StaticResource SplitButtonCommandBarStyle}" />
               <Style TargetType="ToggleSplitButton" BasedOn="{StaticResource SplitButtonCommandBarStyle}" />
@@ -253,7 +253,7 @@
                 </Grid.ColumnDefinitions>
                 <ContentPresenter x:Name="MainCommandPresenter" Margin="{TemplateBinding Padding}" Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
                   <ContentPresenter.Resources>
-                    <x:Double x:Key="AppBarButtonContentHeight">16</x:Double>
+                    <x:Double x:Key="M3MaterialAppBarButtonContentHeight">16</x:Double>
                   </ContentPresenter.Resources>
                 </ContentPresenter>
                 <!--
@@ -309,7 +309,7 @@
                       <TranslateTransform x:Name="OverflowContentTransform" />
                     </CommandBarOverflowPresenter.RenderTransform>
                     <CommandBarOverflowPresenter.Resources>
-                      <Style TargetType="AppBarButton" BasedOn="{StaticResource AppBarButtonOverflowStyle}" />
+                      <Style TargetType="AppBarButton" BasedOn="{StaticResource M3MaterialAppBarButtonOverflowStyle}" />
                       <Style TargetType="AppBarToggleButton" BasedOn="{StaticResource AppBarToggleButtonOverflowStyle}" />
                     </CommandBarOverflowPresenter.Resources>
                   </CommandBarOverflowPresenter>
@@ -325,6 +325,10 @@
         </ControlTemplate>
       </Setter.Value>
     </Setter>
+  </Style>
+  <Style x:Key="M3MaterialAppBarButtonOverflowStyle" TargetType="AppBarButton" BasedOn="{StaticResource AppBarButtonOverflowStyle}">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
   </Style>
   <Style x:Key="M3MaterialEllipsisButton" TargetType="Button">
     <Setter Property="Background" Value="Transparent" />
@@ -377,29 +381,7 @@
     <Setter Property="IsDynamicOverflowEnabled" Value="False" />
     <Setter Property="Template" Value="{StaticResource XamlM3MaterialNavigationBarTemplate}" />
   </Style>
-  <x:Double x:Key="MaterialCommandBarElevation">4</x:Double>
-  <x:Double x:Key="MaterialCommandBarHeight">48</x:Double>
-  <Style x:Key="M3MaterialAppBarButtonStyle" TargetType="AppBarButton">
-    <Setter Property="Height" Value="{StaticResource M3MaterialNavigationBarHeight}" />
-    <Setter Property="Width" Value="{StaticResource M3MaterialNavigationBarHeight}" />
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{StaticResource OnSurfaceVariantBrush}" />
-    <Setter Property="HorizontalAlignment" Value="Center" />
-    <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="IsCompact" Value="True" />
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="AppBarButton">
-          <um:Ripple Feedback="{TemplateBinding Foreground}" FeedbackOpacity="{StaticResource PressedOpacity}">
-            <Viewbox x:Name="ContentViewbox" Height="{ThemeResource AppBarButtonContentHeight}" Width="{ThemeResource AppBarButtonContentHeight}" Margin="0,12" HorizontalAlignment="Stretch" AutomationProperties.AccessibilityView="Raw">
-              <ContentPresenter x:Name="Content" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}" />
-            </Viewbox>
-          </um:Ripple>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
-  <Style x:Key="BaseM3MaterialMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource M3MaterialAppBarButtonStyle}">
+  <Style x:Key="BaseM3MaterialMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource M3MaterialAppBarButton}">
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
   </Style>
   <Style x:Key="BaseM3MaterialModalNavigationBarStyle" TargetType="utu:NavigationBar" BasedOn="{StaticResource BaseM3MaterialNavigationBarStyle}">

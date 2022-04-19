@@ -71,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.Material.WinUI">
-      <Version>2.0.0-dev.154</Version>
+      <Version>2.0.0-dev.156</Version>
     </PackageReference>
     <PackageReference Include="Uno.WinUI" Version="4.2.0-dev.622" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.2.0-dev.622" Condition="'$(Configuration)'=='Debug'" />
