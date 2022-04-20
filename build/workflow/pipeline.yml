@@ -77,12 +77,13 @@ jobs:
     vmImage: macos-10.15
   
   variables:
-  - group: apple.appstore.distribution # Variables for certificate
+  - group: unoplatform.apple.ios.appstore.distribution
 
   steps:
   - task: InstallAppleCertificate@2
+    displayName: Install Certificate
     inputs:
-      certSecureFile: apple.appstore.distribution.p12
+      certSecureFile: UnoPlatform-Apple-Distribution.p12
       certPwd: '$(appleappstorecertificatepassword)'
       keychain: temp
       deleteCert: true
@@ -90,7 +91,7 @@ jobs:
   - task: InstallAppleProvisioningProfile@1
     inputs:
       provisioningProfileLocation: secureFiles
-      provProfileSecureFile: UnoToolkit.mobileprovision
+      provProfileSecureFile: Uno_Toolkit_iOS.mobileprovision
 
   - template: templates/gitversion.yml
   - template: templates/dotnet6-install-mac.yml
