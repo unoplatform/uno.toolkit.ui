@@ -91,7 +91,7 @@ jobs:
   - task: InstallAppleProvisioningProfile@1
     inputs:
       provisioningProfileLocation: secureFiles
-      provProfileSecureFile: UnoToolkit.mobileprovision
+      provProfileSecureFile: Uno_Toolkit_iOS.mobileprovision
 
   - template: templates/gitversion.yml
   - template: templates/dotnet6-install-mac.yml
