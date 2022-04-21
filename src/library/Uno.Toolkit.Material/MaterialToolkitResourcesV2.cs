@@ -90,9 +90,11 @@ namespace Uno.Toolkit.UI.Material
 		private IEnumerable<(string ResourceKey, string SharedKey, bool IsDefaultStyle)> GetStyleInfos()
 		{
 			var result = new List<(string ResourceKey, string SharedKey, bool IsDefaultStyle)>();
-
+			
 			Add("M3MaterialDividerStyle", isImplicit: true);
 			Add("M3MaterialNavigationBarStyle", isImplicit: true);
+			Add("M3MaterialTopTabBarStyle");
+			Add("M3MaterialColoredTopTabBarStyle");
 
 			return result;
 
