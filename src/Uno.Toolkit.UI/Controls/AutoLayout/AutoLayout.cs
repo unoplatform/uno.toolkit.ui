@@ -140,19 +140,6 @@ namespace Uno.Toolkit.UI
 			set => SetValue(PrimaryAxisAlignmentProperty, value);
 		}
 
-		public static readonly DependencyProperty CounterAxisAlignmentProperty = DependencyProperty.RegisterAttached(
-			"CounterAxisAlignment", typeof(AutoLayoutAlignment), typeof(AutoLayout), new PropertyMetadata(default(AutoLayoutAlignment)));
-
-		public static void SetCounterAxisAlignment(DependencyObject element, AutoLayoutAlignment value)
-		{
-			element.SetValue(CounterAxisAlignmentProperty, value);
-		}
-
-		public static AutoLayoutAlignment GetCounterAxisAlignment(DependencyObject element)
-		{
-			return (AutoLayoutAlignment)element.GetValue(CounterAxisAlignmentProperty);
-		}
-
 		private static void UpdateCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is AutoLayout al)
