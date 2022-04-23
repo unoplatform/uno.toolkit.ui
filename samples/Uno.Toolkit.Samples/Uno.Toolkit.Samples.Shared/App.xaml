@@ -21,7 +21,7 @@
 
 				<!-- Load Uno.Material v2 resources (Material Design 3) -->
 				<MaterialColorsV2 xmlns="using:Uno.Material" />
-				<MaterialResourcesV2 xmlns="using:Uno.Material" />
+                <MaterialResourcesV2 xmlns="using:Uno.Material" />
 
 				<!-- Load Material Toolkit resources (Material Design 2) -->
                 <MaterialToolkitResources xmlns="using:Uno.Toolkit.UI.Material" />

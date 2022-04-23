@@ -29,9 +29,75 @@ namespace Uno.Toolkit.UI.Material
 			"uwp";
 #endif
 
+		private const string StylePrefix = "M3Material";
+		private ResourceDictionary _implicitResources = new ResourceDictionary();
+
 		public MaterialToolkitResourcesV2()
 		{
 			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.v2.xaml");
+
+			MapStyleInfo();
+		}
+
+		public bool WithImplicitStyles { set => ExportImplicitStyles(value); }
+
+		private void MapStyleInfo()
+		{
+			var aliasedResources = new ResourceDictionary();
+			foreach (var (resKey, sharedKey, isDefaultStyle) in GetStyleInfos())
+			{
+				var style = GetStyle(resKey);
+
+				if (isDefaultStyle)
+				{
+					_implicitResources.Add(style.TargetType, style);
+				}
+
+				aliasedResources.Add(sharedKey, style);
+			}
+
+			// UWP don't allow for res-dict with Source set to contain resource directly:
+			// > Local values are not allowed in resource dictionary with Source set
+			// but, we can add them through merged-dict instead.
+			this.MergedDictionaries.Add(aliasedResources);
+		}
+
+		private void ExportImplicitStyles(bool value)
+		{
+			if (!value) return; // we don't support teardown
+
+			this.MergedDictionaries.Add(_implicitResources);
+		}
+
+		private Style GetStyle(string key)
+		{
+			if (!this.TryGetValue(key, out var resource) || !(resource is Style style))
+			{
+				// uwp: If the {key} style is clearly defined, but we can't find it here.
+				// And, that it only happens on uwp, and not other uno platforms.
+				// It means that the style references resources that are not directly included.
+				// note: Resources used on Style.Setters need to be directly defined/included, those used in Style.Template dont have to be.
+				throw new ArgumentException($"Missing resource: key={key}");
+			}
+			if (style.TargetType == null)
+			{
+				throw new InvalidOperationException($"Missing TargetType on style: key={key}");
+			}
+
+			return style;
+		}
+
+		private IEnumerable<(string ResourceKey, string SharedKey, bool IsDefaultStyle)> GetStyleInfos()
+		{
+			var result = new List<(string ResourceKey, string SharedKey, bool IsDefaultStyle)>();
+
+			Add("M3MaterialDividerStyle", isImplicit: true);
+			Add("M3MaterialNavigationBarStyle", isImplicit: true);
+
+			return result;
+
+			void Add(string key, string? alias = null, bool isImplicit = false) =>
+				result.Add((key, alias ?? key.Substring(StylePrefix.Length), isImplicit));
 		}
 	}
 }

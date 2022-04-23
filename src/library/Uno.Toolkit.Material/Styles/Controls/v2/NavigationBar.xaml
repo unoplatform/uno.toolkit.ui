@@ -58,14 +58,14 @@
 				<SymbolIcon Symbol="Back" />
 			</Setter.Value>
 		</Setter>
-	</not_mobile:Style>
+    </not_mobile:Style>
 
     <not_mobile:Style x:Key="M3MaterialNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseM3MaterialNavigationBarStyle}">
-		<Setter Property="MainCommandStyle"
+        <Setter Property="MainCommandStyle"
 				Value="{StaticResource M3MaterialMainCommandStyle}" />
-	</not_mobile:Style>
+    </not_mobile:Style>
 
     <not_mobile:Style x:Key="M3MaterialModalMainCommandStyle"
 		   TargetType="AppBarButton"
@@ -181,7 +181,7 @@
                             <Style TargetType="ToggleSplitButton"
 								   BasedOn="{StaticResource SplitButtonCommandBarStyle}" />
                             <Style TargetType="AppBarButton"
-								   BasedOn="{StaticResource M3MaterialAppBarButton}">
+								   BasedOn="{StaticResource M3MaterialAppBarButtonStyle}">
                                 <Setter Property="Padding"
 										Value="12,16,12,16" />
                             </Style>
@@ -663,7 +663,7 @@
 
     <Style x:Key="BaseM3MaterialMainCommandStyle"
 		   TargetType="AppBarButton"
-		   BasedOn="{StaticResource M3MaterialAppBarButton}">
+           BasedOn="{StaticResource M3MaterialAppBarButtonStyle}">
         <Setter Property="Foreground"
 				Value="{ThemeResource OnSurfaceBrush}" />
     </Style>

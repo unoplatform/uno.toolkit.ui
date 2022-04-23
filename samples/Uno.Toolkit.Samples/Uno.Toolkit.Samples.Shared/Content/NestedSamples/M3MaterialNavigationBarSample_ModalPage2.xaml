@@ -24,17 +24,17 @@
                 </AppBarButton>
             </utu:NavigationBar.MainCommand>
             <utu:NavigationBar.PrimaryCommands>
-                <AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
+                <AppBarButton Style="{StaticResource M3MaterialAppBarButtonStyle}"
 							  Label="More" />
-                <AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
+                <AppBarButton Style="{StaticResource M3MaterialAppBarButtonStyle}"
 							  Label="More" />
             </utu:NavigationBar.PrimaryCommands>
             <utu:NavigationBar.SecondaryCommands>
-                <AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
+                <AppBarButton Style="{StaticResource M3MaterialAppBarButtonStyle}"
 							  Label="More" />
-                <AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
+                <AppBarButton Style="{StaticResource M3MaterialAppBarButtonStyle}"
 							  Label="More" />
-                <AppBarButton Style="{StaticResource M3MaterialAppBarButton}"
+                <AppBarButton Style="{StaticResource M3MaterialAppBarButtonStyle}"
 							  Label="More" />
             </utu:NavigationBar.SecondaryCommands>
         </utu:NavigationBar>
