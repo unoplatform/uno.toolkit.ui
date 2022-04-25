@@ -302,7 +302,4 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\UnoLogo.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Content\NestedSamples\NewFolder\" />
-  </ItemGroup>
 </Project>
