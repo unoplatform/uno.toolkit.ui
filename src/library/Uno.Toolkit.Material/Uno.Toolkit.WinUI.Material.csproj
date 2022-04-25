@@ -23,6 +23,21 @@
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.24" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
 	</ItemGroup>
 
+	<Choose>
+		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid11.0'">
+			<ItemGroup>
+				<IncludeXamlNamespaces Include="mobile" />
+				<ExcludeXamlNamespaces Include="not_mobile" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<IncludeXamlNamespaces Include="not_mobile" />
+				<ExcludeXamlNamespaces Include="mobile" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+
 	<ItemGroup>
 		<XamlMergeOutputFiles Include="Generated\mergedpages.winui.v1.xaml" />
 		<XamlMergeOutputFiles Include="Generated\mergedpages.winui.v2.xaml" />

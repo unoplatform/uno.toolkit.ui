@@ -20,7 +20,22 @@
 		<PackageReference Include="Uno.Cupertino.WinUI" Version="2.0.0-dev.172" />
 		<PackageReference Include="Uno.WinUI" Version="4.2.0-dev.622" />
 	</ItemGroup>
-	
+
+	<Choose>
+		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid11.0'">
+			<ItemGroup>
+				<IncludeXamlNamespaces Include="mobile" />
+				<ExcludeXamlNamespaces Include="not_mobile" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<IncludeXamlNamespaces Include="not_mobile" />
+				<ExcludeXamlNamespaces Include="mobile" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+
 	<PropertyGroup>
 		<XamlMergeOutputFile>Generated\mergedpages.winui.xaml</XamlMergeOutputFile>
 	</PropertyGroup>
