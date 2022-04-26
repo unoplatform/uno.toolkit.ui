@@ -33,7 +33,7 @@
 
 		<utu:TabBar Grid.Row="1"
 					SelectedIndex="1"
-					Style="{StaticResource MaterialTopTabBarStyle}"
+					Style="{StaticResource MaterialColoredTopTabBarStyle}"
 					utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}">
 			<utu:TabBar.Items>
 				<utu:TabBarItem Content="Home" />

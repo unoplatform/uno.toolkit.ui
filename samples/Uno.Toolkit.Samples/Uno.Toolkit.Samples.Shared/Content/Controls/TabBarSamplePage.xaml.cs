@@ -41,7 +41,12 @@ namespace Uno.Toolkit.Samples.Content.Controls
             this.InitializeComponent();
         }
 
-        private void ShowMaterialTopBarSampleInNestedFrame(object sender, RoutedEventArgs e)
+		private void ShowM3MaterialTopBarSampleInNestedFrame(object sender, RoutedEventArgs e)
+		{
+			Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialTopBarSampleNestedPage>(clearStack: true);
+		}
+
+		private void ShowMaterialTopBarSampleInNestedFrame(object sender, RoutedEventArgs e)
         {
             Shell.GetForCurrentView()?.ShowNestedSample<MaterialTopBarSampleNestedPage>(clearStack: true);
         }

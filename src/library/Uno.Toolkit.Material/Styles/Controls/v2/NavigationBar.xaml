@@ -663,7 +663,7 @@
 
     <Style x:Key="BaseM3MaterialMainCommandStyle"
 		   TargetType="AppBarButton"
-           BasedOn="{StaticResource M3MaterialAppBarButtonStyle}">
+		   BasedOn="{StaticResource M3MaterialAppBarButtonStyle}">
         <Setter Property="Foreground"
 				Value="{ThemeResource OnSurfaceBrush}" />
     </Style>

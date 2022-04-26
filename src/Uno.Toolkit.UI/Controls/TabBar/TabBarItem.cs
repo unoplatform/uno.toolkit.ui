@@ -71,6 +71,7 @@ namespace Uno.Toolkit.UI
 			if (dp == SelectorItem.IsSelectedProperty)
 			{
 				IsSelectedChanged?.Invoke(this, null);
+				UpdateCommonStates();
 			}
 		}
 
@@ -161,6 +162,7 @@ namespace Uno.Toolkit.UI
 			var isPressed = _isPointerPressed;
 			var isPointerOver = _isPointerOver;
 			var focusState = FocusState;
+			var isSelected = IsSelected;
 
 			// Update the Interaction state group
 			if (!isEnabled)
@@ -169,15 +171,15 @@ namespace Uno.Toolkit.UI
 			}
 			else if (isPressed)
 			{
-				VisualStateManager.GoToState(this, "Pressed", useTransitions);
+				VisualStateManager.GoToState(this, isSelected ? "PressedSelected" : "Pressed", useTransitions);
 			}
 			else if (isPointerOver)
 			{
-				VisualStateManager.GoToState(this, "PointerOver", useTransitions);
+				VisualStateManager.GoToState(this, isSelected ? "PointerOverSelected" : "PointerOver", useTransitions);
 			}
 			else
 			{
-				VisualStateManager.GoToState(this, "Normal", useTransitions);
+				VisualStateManager.GoToState(this, isSelected ? "Selected" : "Normal", useTransitions);
 			}
 
 			// Update the Focus group
