@@ -93,6 +93,9 @@ namespace Uno.Toolkit.UI.Material
 			
 			Add("M3MaterialDividerStyle", isImplicit: true);
 			Add("M3MaterialNavigationBarStyle", isImplicit: true);
+			Add("M3MaterialModalNavigationBarStyle");
+			Add("M3MaterialMainCommandStyle", isImplicit: true);
+			Add("M3MaterialModalMainCommandStyle");
 			Add("M3MaterialTopTabBarStyle");
 			Add("M3MaterialColoredTopTabBarStyle");
 
