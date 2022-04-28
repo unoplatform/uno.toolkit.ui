@@ -140,11 +140,9 @@
 				Value="Top" />
         <Setter Property="ClosedDisplayMode"
 				Value="Compact" />
-        <Setter Property="ExitDisplayModeOnAccessKeyInvoked"
+		<Setter Property="ExitDisplayModeOnAccessKeyInvoked"
 				Value="False" />
-        <Setter Property="CommandBarOverflowPresenterStyle"
-				Value="{ThemeResource DefaultCommandBarOverflowPresenterStyle}" />
-        <Setter Property="CornerRadius"
+		<Setter Property="CornerRadius"
 				Value="{ThemeResource ControlCornerRadius}" />
 
         <Setter Property="utu:CommandBarExtensions.MainCommand"

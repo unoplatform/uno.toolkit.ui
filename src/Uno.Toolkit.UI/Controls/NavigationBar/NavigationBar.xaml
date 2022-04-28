@@ -64,8 +64,6 @@
 				Value="Compact" />
 		<Setter Property="ExitDisplayModeOnAccessKeyInvoked"
 				Value="False" />
-		<Setter Property="CommandBarOverflowPresenterStyle"
-				Value="{ThemeResource DefaultCommandBarOverflowPresenterStyle}" />
 		<Setter Property="CornerRadius"
 				Value="{ThemeResource ControlCornerRadius}" />
 
