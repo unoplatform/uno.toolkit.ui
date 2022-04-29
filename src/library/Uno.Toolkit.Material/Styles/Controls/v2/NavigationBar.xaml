@@ -142,7 +142,7 @@
 				Value="Compact" />
 		<Setter Property="ExitDisplayModeOnAccessKeyInvoked"
 				Value="False" />
-		<Setter Property="CornerRadius"
+		<not_win:Setter Property="CornerRadius"
 				Value="{ThemeResource ControlCornerRadius}" />
 
         <Setter Property="utu:CommandBarExtensions.MainCommand"
@@ -522,13 +522,13 @@
                                         <CommandBarOverflowPresenter.RenderTransform>
                                             <TranslateTransform x:Name="OverflowContentTransform" />
                                         </CommandBarOverflowPresenter.RenderTransform>
-                                        <CommandBarOverflowPresenter.Resources>
-                                            <Style TargetType="AppBarButton"
-												   BasedOn="{StaticResource M3MaterialAppBarButtonOverflowStyle}" />
-                                            <Style TargetType="AppBarToggleButton"
-												   BasedOn="{StaticResource AppBarToggleButtonOverflowStyle}" />
-                                        </CommandBarOverflowPresenter.Resources>
-                                    </CommandBarOverflowPresenter>
+										<CommandBarOverflowPresenter.ItemContainerStyle>
+											<Style TargetType="FrameworkElement">
+												<Setter Property="HorizontalAlignment" Value="Stretch" />
+												<Setter Property="Width" Value="NaN" />
+											</Style>
+										</CommandBarOverflowPresenter.ItemContainerStyle>
+									</CommandBarOverflowPresenter>
                                 </Grid>
 
                                 <!--
