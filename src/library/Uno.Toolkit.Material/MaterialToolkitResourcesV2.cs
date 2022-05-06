@@ -98,7 +98,20 @@ namespace Uno.Toolkit.UI.Material
 			Add("M3MaterialModalMainCommandStyle");
 			Add("M3MaterialTopTabBarStyle");
 			Add("M3MaterialColoredTopTabBarStyle");
-
+			Add("M3MaterialElevatedSuggestionChipStyle");
+			Add("M3MaterialSuggestionChipStyle");
+			Add("M3MaterialInputChipStyle");
+			Add("M3MaterialElevatedFilterChipStyle");
+			Add("M3MaterialFilterChipStyle");
+			Add("M3MaterialElevatedAssistChipStyle");
+			Add("M3MaterialAssistChipStyle");
+			Add("M3MaterialElevatedSuggestionChipGroupStyle");
+			Add("M3MaterialSuggestionChipGroupStyle");
+			Add("M3MaterialInputChipGroupStyle");
+			Add("M3MaterialElevatedFilterChipGroupStyle");
+			Add("M3MaterialFilterChipGroupStyle");
+			Add("M3MaterialElevatedAssistChipGroupStyle");
+			Add("M3MaterialAssistChipGroupStyle");
 			return result;
 
 			void Add(string key, string? alias = null, bool isImplicit = false) =>

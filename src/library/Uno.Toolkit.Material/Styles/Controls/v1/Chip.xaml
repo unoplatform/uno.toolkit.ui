@@ -19,7 +19,7 @@
 	<x:Double x:Key="IconSize">24</x:Double>
 	<CornerRadius x:Key="IconCornerRadius">12</CornerRadius>
 
-	<Style x:Name="DeleteButtonStyle"
+	<Style x:Key="DeleteButtonStyle"
 		   TargetType="Button">
 		<Setter Property="Template">
 			<Setter.Value>
@@ -351,7 +351,7 @@
 	</Style>
 
 	<!-- Begin Input Chip -->
-	<Style x:Name="MaterialFilledInputChipStyle"
+	<Style x:Key="MaterialFilledInputChipStyle"
 		   TargetType="utu:Chip"
 		   BasedOn="{StaticResource BaseMaterialFilledChipStyle}">
 		<Style.Setters>
@@ -362,7 +362,7 @@
 		</Style.Setters>
 	</Style>
 
-	<Style x:Name="MaterialOutlinedInputChipStyle"
+	<Style x:Key="MaterialOutlinedInputChipStyle"
 		   TargetType="utu:Chip"
 		   BasedOn="{StaticResource BaseMaterialOutlinedChipStyle}">
 		<Style.Setters>
