@@ -10,28 +10,28 @@ using Microsoft.UI.Xaml;
 using Windows.UI.Xaml;
 #endif
 
-namespace Uno.Toolkit.UI.Cupertino
+namespace Uno.Toolkit.UI.Material
 {
 	/// <summary>
-	/// Cupertino styles for the controls in the Uno.Toolkit.UI library.
+	/// Material (Material Design 2) styles for the controls in the Uno.Toolkit.UI library.
 	/// </summary>
-	public sealed class CupertinoToolkitResources : ResourceDictionary
+	public class MaterialToolkitResourcesV1 : ResourceDictionary
 	{
 #if IS_WINUI
 		private const string PackageName =
-			"Uno.Toolkit.WinUI.Cupertino";
+			"Uno.Toolkit.WinUI.Material";
 		private const string PackageNameSuffix =
 			"winui";
 #else
 		private const string PackageName =
-			"Uno.Toolkit.UI.Cupertino";
+			"Uno.Toolkit.UI.Material";
 		private const string PackageNameSuffix =
 			"uwp";
 #endif
 
-		public CupertinoToolkitResources()
+		public MaterialToolkitResourcesV1()
 		{
-			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.xaml");
+			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.v1.xaml");
 		}
 	}
 }

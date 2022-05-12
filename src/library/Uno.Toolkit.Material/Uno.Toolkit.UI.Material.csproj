@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/3.0.38">
 	<!--
 	Adding project references to this project requires some manual adjustments.
@@ -14,7 +14,7 @@
 		<PackageId>Uno.Toolkit.UI.Material</PackageId>
 		<IncludeLayoutFilesInPackage>true</IncludeLayoutFilesInPackage>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<XamlMergeOutputFiles Include="Generated\mergedpages.uwp.v1.xaml" />
 		<XamlMergeOutputFiles Include="Generated\mergedpages.uwp.v2.xaml" />
@@ -39,10 +39,10 @@
 	</Choose>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Material" Version="2.0.0-dev.181" />
+		<PackageReference Include="Uno.Material" Version="2.0.0-dev.195" />
 		<PackageReference Include="Uno.UI" Version="4.2.0-dev.622" />
 	</ItemGroup>
-	
+
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
 		<PackageReference Include="Microsoft.UI.Xaml" Version="2.6.0-prerelease.210623001" />
 	</ItemGroup>
@@ -69,7 +69,7 @@
 			<Name>Uno.Toolkit.UI</Name>
 		</ProjectReference>
 	</ItemGroup>
-	
+
 	<!-- Workaround to avoid including Uno.Toolkit.UI XBFs in the PRI file -->
 	<Target Name="AdjustGetPackagingOutputs" BeforeTargets="GetPackagingOutputs">
 		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />

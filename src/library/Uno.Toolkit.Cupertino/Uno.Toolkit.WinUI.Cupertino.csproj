@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/3.0.38">
 	<!--
 	Adding project references to this project requires some manual adjustments.
@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Cupertino.WinUI" Version="2.0.0-dev.181" />
+		<PackageReference Include="Uno.Cupertino.WinUI" Version="2.0.0-dev.195" />
 		<PackageReference Include="Uno.WinUI" Version="4.2.0-dev.622" />
 	</ItemGroup>
 
@@ -42,26 +42,26 @@
 
 	<Choose>
 		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
-			
+
 			<ItemGroup>
 				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
 				<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.24" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
 				<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.24" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
 			</ItemGroup>
-			
+
 			<ItemGroup>
 				<Page Remove="Generated\*.xaml" />
 			</ItemGroup>
 		</When>
 		<Otherwise>
-			
+
 			<ItemGroup>
 				<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 				<Compile Update="**\*.xaml.cs">
 					<DependentUpon>%(Filename)</DependentUpon>
 				</Compile>
 			</ItemGroup>
-			
+
 		</Otherwise>
 	</Choose>
   <ItemGroup>

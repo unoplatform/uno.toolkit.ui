@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
   <!--
 	Adding project references to this project requires some manual adjustments.
 	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
@@ -23,24 +23,24 @@
 
 	<Choose>
 		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
-			
+
 			<ItemGroup>
 				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
 			</ItemGroup>
-			
+
 		</When>
 		<Otherwise>
-			
+
 			<ItemGroup>
 				<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 				<Compile Update="**\*.xaml.cs">
 					<DependentUpon>%(Filename)</DependentUpon>
 				</Compile>
 			</ItemGroup>
-			
+
 		</Otherwise>
 	</Choose>
-	
+
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>

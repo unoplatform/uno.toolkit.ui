@@ -12,6 +12,9 @@ using Windows.UI.Xaml;
 
 namespace Uno.Toolkit.UI
 {
+	/// <summary>
+	/// Default styles for the controls in the Uno.Toolkit.UI library.
+	/// </summary>
 	public sealed class ToolkitResources : ResourceDictionary
 	{
 		private const string PackageName =
