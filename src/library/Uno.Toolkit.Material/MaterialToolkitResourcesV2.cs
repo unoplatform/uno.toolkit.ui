@@ -10,12 +10,12 @@ using Microsoft.UI.Xaml;
 using Windows.UI.Xaml;
 #endif
 
-/// <summary>
-/// Material Toolkit resources
-/// </summary>
 namespace Uno.Toolkit.UI.Material
 {
-	public sealed class MaterialToolkitResourcesV2 : ResourceDictionary
+	/// <summary>
+	/// Material (Material Design 3) styles for the controls in the Uno.Toolkit.UI library.
+	/// </summary>
+	public class MaterialToolkitResourcesV2 : ResourceDictionary
 	{
 #if IS_WINUI
 		private const string PackageName =
