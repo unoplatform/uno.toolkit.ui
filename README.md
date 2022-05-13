@@ -28,7 +28,7 @@ This project is licensed under the Apache 2.0 license - see the
 - [Material Design](https://material.io/design)
 - [WinUI](https://microsoft.github.io/microsoft-ui-xaml/)
 
-# Contributors
+## Contributors
 Thanks goes to these wonderful people (List made with [contrib.rocks](https://contrib.rocks)):
 
 [![Uno.Toolkit.UI Contributors](https://contrib.rocks/image?repo=unoplatform/uno.toolkit.ui)](https://github.com/unoplatform/uno.toolkit.ui/graphs/contributors)
