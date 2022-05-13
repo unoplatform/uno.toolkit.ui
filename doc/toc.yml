@@ -6,7 +6,7 @@ items:
 
 - name: Controls
   items:
-    - name: CardContentControl
-      href: controls/CardContentControl.md
+    - name: Cards
+      href: controls/CardAndCardContentControl.md
     - name: Chip
       href: controls/Chip.md
