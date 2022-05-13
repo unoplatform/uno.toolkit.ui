@@ -19,12 +19,6 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ChipGroup : ItemsControl
 	{
-		public event ChipItemEventHandler ItemClick;
-		public event ChipItemEventHandler ItemChecked;
-		public event ChipItemEventHandler ItemUnchecked;
-		public event ChipItemRemovingEventHandler ItemRemoving;
-		public event ChipItemEventHandler ItemRemoved;
-
 		private bool _isLoaded = false;
 		private bool _isSynchronizingSelection = false;
 		private bool _isUpdatingSelection = false;

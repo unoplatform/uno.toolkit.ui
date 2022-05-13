@@ -1,81 +1,131 @@
 # Chip
 
 ## Summary
+`Chip` is a control that can be used for selection, filtering, or performing action from a list.
+`ChipGroup` is a container that can house a collection of `Chip`s.
 
-`Chip` is a compact `ToggleButton` can be used for selection, filters or for a list of action to trigger. `ChipGroup` can be used to display a list of `Chip`. 
+## Chip
 
-## Features
+`Chip` is derived from `ToggleButton`, a control that a user can select (check) or clear (uncheck).
 
-### Chip
+### Properties
+Properties|Type|Description
+-|-|-
+CanRemove|bool|Gets or sets whether the remove button is visible.
+Elevation|double|Gets or sets the elevation of the `Chip`.
+Icon|object|Gets or sets the icon of the `Chip`.
+IconTemplate|DataTemplate|Gets or sets the data template that is used to display the icon of the `Chip`.
+IsCheckable|bool|Gets or sets whether the chip can be checked. Used to prevent showing selection state.<br/>note: When nested under the `ChipGroup`, this property will be overwritten by `ChipGroup.SelectionMode`.
+RemovedCommand|ICommand|Gets or sets the command to invoke when the remove button is pressed.
+RemovedCommandParameter|object|Gets or sets the parameter to pass to the RemovedCommand property.
 
-| Properties         | Type         | Description                                                | Supported       |
-|--------------------|--------------|------------------------------------------------------------|-----------------|
-| IsCheckable        | bool         | Whether the chip can be checked. note: When used inside a ChipGroup, this property will be overwritten by ChipGroup's SelectionMode. | All platforms   |
-| Icon          | object       | Icon to display on the chip.                          | All platforms   |
-| IconTemplate  | DataTemplate | Template to display as the chip icon.                 | All platforms   |
-| CanRemove          | bool         | Whether there's a remove icon on the chip.                 | All platforms   |
-| RemoveCommand      | TODO         | TODO                                                       | Not implemented |
-| RemoveEvent        | TODO         | TODO                                                       | Not implemented |
+### Events
+Events|Type|Description
+-|-|-
+Removed|RoutedEventHandler|Occurs when the remove button is pressed.
+Removing|ChipRemovingEventHandler|Occurs when the remove button is pressed, but before `Removed` event allowing for cancellation.
 
-### ChipGroup
+note: When used outside of a `ChipGroup`, the `Removed` event does not cause itself to be removed from the view.
 
-| Properties         | Type              | Description                                                   | Supported       |
-|--------------------|-------------------|---------------------------------------------------------------|-----------------|
-| SelectionMode      | ChipSelectionMode | Gets or sets the selection behavior. (None, Single, Multiple) | All platforms   |
-| SelectedItem       | object            | Current selected item. (SelectionMode = Single)               | All platforms   |
-| SelectedItems      | IList             | Current selected items. (SelectionMode = Multiple)            | All platforms   |
-| IconTemplate  | DataTemplate      | IconTemplate to use for each `Chip`.                     | All platforms   |
-| CanRemove          | bool              | Whether we display a remove icon for each `Chip`              | All platforms   |
-| RemoveCommand      | TODO              | TODO                                                          | Not implemented |
-| RemoveEvent        | TODO              | TODO                                                          | Not implemented |
+```cs
+delegate void ChipRemovingEventHandler(object sender, ChipRemovingEventArgs e);
+sealed class ChipRemovingEventArgs : EventArgs
+{
+    // Gets or sets whether the Chip.Removed" event should be canceled.
+    public bool Cancel { get; set; }
+}
+```
+
+## ChipGroup
+`ChipGroup` is a specialized `ItemsControl` used to present a collection of `Chip`s.
+
+### Properties
+Properties|Type|Description
+-|-|-
+CanRemove|bool|Gets or sets the value of each `Chip.CanRemove`.
+IconTemplate|DataTemplate|Gets or sets the value of each `Chip.IconTemplate`.
+SelectedItem|object|Gets or sets the selected item. <br/> note: This property only works for `ChipSelectionMode.Single`.
+SelectedItems|IList|Gets or sets the selected items. <br/> note: The value will be null if the selection is empty. This property only works for `ChipSelectionMode.Multiple`.
+SelectionMemberPath|string|Gets or sets the path which each `Chip.IsChecked` is data-bind to.
+SelectionMode|ChipSelectionMode|Gets or sets the selection behavior: `None`, `Single`, `Multiple` <br/> note: Changing this value will cause `SelectedItem` and `SelectedItems` to be re-coerced.
+
+### Events
+All events below are forwarded from the nested `Chip`s:
+Events|Type|Description
+-|-|-
+ItemClick|ChipItemEventHandler|Occurs when a `Chip` item is pressed.
+ItemChecked|ChipItemEventHandler|Occurs when a `Chip` item is checked.
+ItemUnchecked|ChipItemEventHandler|Occurs when a `Chip` item is unchecked.
+ItemRemoved|ChipItemEventHandler|Occurs when a `Chip` is removed.
+ItemRemoving|ChipItemRemovingEventHandler|Occurs when a `Chip` item is about to be removed.
+
+
+```cs
+delegate void ChipItemEventHandler(object sender, ChipItemEventArgs e);
+delegate void ChipItemRemovingEventHandler(object sender, ChipItemRemovingEventHandler e);
+
+class ChipItemEventArgs : EventArgs
+{
+    // Gets the item associated with the event
+    object Item { get; }
+}
+class ChipItemRemovingEventHandler : ChipItemEventHandler
+{
+    // Gets or sets whether the ItemRemoved event should be canceled.
+    bool Cancel { get; set; }
+}
+```
+
 
 ## Usage
 
 ### Chip
-
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
-<!-- Filled Input Material chip -->
-<utu:Chip Content="Chip"
-            CanRemove="True"
-			Style="{StaticResource MaterialFilledInputChipStyle}"/>
 
-<!-- Filled Input Material chip chip with icon-->
-<utu:Chip Content="Chip"
-			   Style="{StaticResource MaterialFilledInputChipStyle}">
+<utu:Chip Content="Assist Chip" Style="{StaticResource AssistChipStyle}" />
+<utu:Chip Content="Input Chip" IsChecked="True" Style="{StaticResource InputChipStyle}" />
+<utu:Chip Content="Filter Chip" IsChecked="True" Style="{StaticResource FilterChipStyle}" />
+<utu:Chip Content="Suggestion Chip" IsChecked="True" Style="{StaticResource SuggestionChipStyle}" />
+
+<!-- with icon -->
+<utu:Chip Content="Chip" Style="{StaticResource M3MaterialChipStyle}">
 	<utu:Chip.Icon>
-		<!-- Icon -->
+		<Image Source="ms-appx:///Assets/Avatar.png" />
 	</utu:Chip.Icon>
 </utu:Chip>
-
 ```
 
 ### ChipGroup
-
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
-<!-- Filled Input Material ChipGroup with static items -->
-<utu:ChipGroup Style="{StaticResource MaterialFilledInputChipGroupStyle}">
+<!-- example with event -->
+<utu:ChipGroup ItemClick="ChipGroup_ItemClick" Style="{StaticResource InputChipGroupStyle}">
     <utu:Chip Content="Chip" />
-    <utu:Chip Content="Chip"
-                   IsChecked="True" />
+    <utu:Chip Content="Chip" IsChecked="True" />
     <utu:Chip Content="Chip" />
 </utu:ChipGroup>
 
-<!-- Filled Choice Material ChipGroup with dynamic items -->
-<utu:ChipGroup ItemsSource="{Binding Items}"
-                 Style="{StaticResource MaterialFilledChoiceChipGroupStyle}">
-
-<!-- Outlined Input ChipGroup with custom thumbnail template -->
-<utu:ChipGroup ItemsSource="{Binding Items}"
-                 Style="{StaticResource MaterialOutlinedInputChipGroupStyle}">
-                 
-    <utu:ChipGroup.IconTemplate>
+<!-- example with binding -->
+<utu:ChipGroup ItemsSource="{Binding Items}" Style="{StaticResource SuggestionChipGroupStyle}">
+    <utu:ChipGroup.ItemTemplate>
         <DataTemplate>
-             <!-- IconTemplate -->
+            <TextBlock Text="{Binding Name}" />
         </DataTemplate>
-    </utu:ChipGroup.IconTemplate>
+    </utu:ChipGroup.ItemTemplate>
 </utu:ChipGroup>
+
+<!-- single selection with binding -->
+<utu:ChipGroup ItemsSource="{Binding Items}"
+               SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+               SelectionMode="Single"
+               Style="{StaticResource SuggestionChipGroupStyle}" />
+
+<!-- multi-selection with binding -->
+<utu:ChipGroup ItemsSource="{Binding Items}"
+               SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
+               SelectionMode="Multiple"
+               Style="{StaticResource SuggestionChipGroupStyle}" />
 ```
