@@ -14,3 +14,5 @@ items:
       href: controls/DrawerControl.md
     - name: NavigationBar
       href: controls/NavigationBar.md
+    - name: TabBar
+      href: controls/TabBar.md
