@@ -5,7 +5,7 @@ The `Uno.Toolkit.UI` library adds the follows controls:
 - [`Chip` and `ChipGroup`](controls\Chip.md): \[Material control\] Chips are compact elements that represent an input, attribute, or action.
 - `Divider`: \[Material control\] A divider is a thin line that groups content in lists and layouts.
 - [`DrawerControl`](controls\DrawerControl.md): A container to display additional content, in a hidden pane that can be revealed using swipe gesture, like a drawer.
-- `NavigationBar`: todo
+- [`NavigationBar`](controls\NavigationBar.md): A custom control that helps implement navigation logic for your application.  
 - `TabBar`: todo
 
 # Helpers

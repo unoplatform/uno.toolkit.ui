@@ -12,3 +12,5 @@ items:
       href: controls/Chip.md
     - name: DrawerControl
       href: controls/DrawerControl.md
+    - name: NavigationBar
+      href: controls/NavigationBar.md
