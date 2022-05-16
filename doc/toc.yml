@@ -10,3 +10,5 @@ items:
       href: controls/CardAndCardContentControl.md
     - name: Chip
       href: controls/Chip.md
+    - name: DrawerControl
+      href: controls/DrawerControl.md
