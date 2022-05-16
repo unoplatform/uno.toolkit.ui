@@ -19,7 +19,7 @@ namespace Uno.Toolkit.UI
 	public partial class DrawerControl
 	{
 		/* DrawerContent: ...
-		 * DrawerDepth: The depth (width or height depending on the OpenDirection) of the drawer. 
+		 * DrawerDepth: The depth (width or height depending on the OpenDirection) of the drawer.
 		 *		The default value is null which enables fully stretched or fit to content (see FitToDrawerContent).
 		 *		Alternatively, a concrete value can be set for a fixed depth.
 		 * DrawerBackground: ...
@@ -185,7 +185,7 @@ namespace Uno.Toolkit.UI
 		/// Gets or sets the length (width or height depending on the <see cref="OpenDirection"/>) of the area allowed for opening swipe gesture.
 		/// </summary>
 		/// <remarks>
-		/// By default, this value is null allowing the drawer to be swiped opened from anywhere. Setting a positive value will enforce the edge swipe for openning.
+		/// By default, this value is null allowing the drawer to be swiped open from anywhere. Setting a positive value will enforce the edge swipe for opening.
 		/// </remarks>
 		public double? EdgeSwipeDetectionLength
 		{
