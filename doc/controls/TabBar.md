@@ -1,0 +1,227 @@
+# TabBar
+
+## Summary
+
+Represents a control that provides a list of `TabItem`s to select from. The `TabBar` selection can be used to trigger frame navigation or to toggle the visibility of views.
+
+## TabBarItem
+`TabBarItem` is a specialized `SelectorItem` that includes functionality such as triggering an `ICommand` on click/tap or displaying a flyout.
+
+### Properties
+Properties|Type|Description
+-|-|-
+Command|ICommand|Gets or sets the command to invoke when the `TabBarItem` is pressed.
+CommandParameter|object|Gets or sets the parameter to pass to the Command property.
+Flyout|double|Gets or sets the flyout associated with this `TabBarItem`.
+Icon|IconElement|Gets or sets the icon of the `TabBarItem`.
+IsSelectable|bool|Gets or sets whether the `TabBarItem` can be selected.
+
+### Events
+Events|Type|Description
+-|-|-
+Click|RoutedEventHandler|Occurs when the `TabBarItem` is pressed.
+
+## TabBar
+`TabBar` is a specialized `ItemsControl` used to present a collection of `TabBarItem`s.
+
+### Properties
+Properties|Type|Description
+-|-|-
+SelectedIndex|int|Gets or sets the index of the selected `TabBarItem`.
+SelectedItem|object|Gets or sets the selected `TabBarItem`.
+
+> Note: `TabBar` only supports single selection mode.
+
+### Events
+All events below are forwarded from the nested `TabBarItem`s:
+Events|Type|Description
+-|-|-
+SelectionChanged|`TypedEventHandler<TabBar, TabBarSelectionChangedEventArgs>`|Occurs when a `TabBarItem`'s selection state has changed.
+
+```cs
+class TabBarSelectionChangedEventArgs : EventArgs
+{
+    // Gets the newly selected TabBarItem
+    object? NewItem { get; }
+
+    // Gets the previously selected TabBarItem
+    object? OldItem { get; }
+}
+```
+
+## Styling `TabBar` & `TabBarItem`
+Toolkit provides a barebones default style for `TabBar` and `TabBarItem`. It is recommended to use either:
+* [One of the pre-built styles](../controls-styles.md#control-styles) that come packaged within the `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` libraries
+* A custom built style that is defined within the consuming application
+
+The styles that exist within the Toolkit Theming Libraries are built for the most common scenarios in which a `TabBar` could be used.
+
+### "Top" `TabBar` Style
+
+A common use for a `TabBar` would be to use it as a means of navigation between two or more views/pages that are all at the same level of hierarchy (Lateral Navigation). If the goal is to provide lateral navigation for destinations that are at **any** level of the hierachy, a `TabBar` styled as a `TopTabBar` is most appropriate. 
+
+Currently, the Material Theme Toolkit Library contains two styles for this purpose: `ColoredTopTabBarStyle` and `TopTabBarStyle`.
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBar SelectedIndex="1"
+			Style="{StaticResource ColoredTopTabBarStyle}">
+	<utu:TabBar.Items>
+		<utu:TabBarItem Content="Home" />
+		<utu:TabBarItem Content="Search" />
+		<utu:TabBarItem Content="Support" />
+		<utu:TabBarItem Content="About" />
+	</utu:TabBar.Items>
+</utu:TabBar>
+```
+
+![](../assets/tabbar-android-top.png)
+![](../assets/tabbar-ios-top.png)
+
+### "Bottom" `TabBar` Style
+
+Following the explanation of Lateral Navigation and the use case for "Top" `TabBar` styles, another common scenario is to use `TabBar` as an application's primary navigation component. In this case, we want a component that would provide lateral navigation to all **top-level** destinations. In this case, a `TabBar` styled as a `BottomTabBar` is most appropriate.
+
+Currently, both the Material and Cupertino Theme Toolkit Libraries contain a `BottomTabBarStyle`.
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBar SelectedIndex="1"
+		    Style="{StaticResource BottomTabBarStyle}">
+	<utu:TabBarItem>
+		<utu:TabBarItem.Icon>
+			<SymbolIcon Symbol="Home" />
+		</utu:TabBarItem.Icon>
+	</utu:TabBarItem>
+	<utu:TabBarItem>
+		<utu:TabBarItem.Icon>
+			<SymbolIcon Symbol="Find" />
+		</utu:TabBarItem.Icon>
+	</utu:TabBarItem>
+	<utu:TabBarItem>
+		<utu:TabBarItem.Icon>
+			<SymbolIcon Symbol="Help" />
+		</utu:TabBarItem.Icon>
+	</utu:TabBarItem>
+	<utu:TabBarItem>
+		<utu:TabBarItem.Icon>
+			<SymbolIcon Symbol="Flag" />
+		</utu:TabBarItem.Icon>
+	</utu:TabBarItem>
+</utu:TabBar>
+```
+
+#### Material
+
+![](../assets/tabbar-android-material-bottom.png)
+![](../assets/tabbar-ios-material-bottom.png)
+
+
+#### Cupertino
+
+![](../assets/tabbar-android-cupertino-bottom.png)
+![](../assets/tabbar-ios-cupertino-bottom.png)
+
+There are some styles that are built specifically for the Cupertino theme. These styles are used to emulate a [`UISegmentedControl`](https://developer.apple.com/documentation/uikit/uisegmentedcontrol)
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBar Style="{StaticResource SegmentedStyle}">
+	<utu:TabBar.Items>
+		<utu:TabBarItem Content="ORANGE" />
+		<utu:TabBarItem Content="PURPLE" />
+		<utu:TabBarItem Content="BLUE" />
+	</utu:TabBar.Items>
+</utu:TabBar>
+
+<utu:TabBar Style="{StaticResource SlidingSegmentedStyle}">
+	<utu:TabBar.Items>
+		<utu:TabBarItem Content="ORANGE" />
+		<utu:TabBarItem Content="PURPLE" />
+		<utu:TabBarItem Content="BLUE" />
+	</utu:TabBar.Items>
+</utu:TabBar>
+```
+
+![](../assets/tabbar-android-segmented.png)
+![](../assets/tabbar-android-sliding-segmented.png)
+
+
+### `TabBarItem` Style
+The Uno Toolkit provides several styles of `TabBarItem` for both Material and Cupertino themes.
+
+Style Key|Material|Cupertino
+-|-|-
+BottomTabBarItemFabStyle|&check;|
+BottomTabBarItemStyle|&check;|&check;|
+ColoredTopTabBarItemStyle|&check;|
+SegmentedItemStyle||&check;|
+SlidingSegmentedItemStyle|&check;|
+TopTabBarItemStyle|&check;|
+
+These pre-built styles can be used for more complex `TabBar` scenarios. For example, using the BottomTabBarItemFabStyle, we can embed Floating Action Buttons into the `TabBar`.
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBar SelectedIndex="1"
+		    Style="{StaticResource BottomTabBarStyle}">
+	<utu:TabBar.Items>
+		<utu:TabBarItem Content="Home">
+			<utu:TabBarItem.Icon>
+				<FontIcon Glyph="&#xE80F;" />
+			</utu:TabBarItem.Icon>
+		</utu:TabBarItem>
+		<utu:TabBarItem Content="Search">
+			<utu:TabBarItem.Icon>
+				<FontIcon Glyph="&#xe721;" />
+			</utu:TabBarItem.Icon>
+		</utu:TabBarItem>
+		<utu:TabBarItem Style="{StaticResource BottomTabBarItemFabStyle}">
+			<utu:TabBarItem.Flyout>
+				<MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutPresenterStyle}"
+						    Placement="Top">
+
+					<MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
+							        Text="Like">
+						<MenuFlyoutItem.Icon>
+							<SymbolIcon Symbol="Like" />
+						</MenuFlyoutItem.Icon>
+					</MenuFlyoutItem>
+
+					<MenuFlyoutItem Style="{StaticResource MenuFlyoutItemStyle}"
+							        Text="Dislike">
+						<MenuFlyoutItem.Icon>
+							<SymbolIcon Symbol="Dislike" />
+						</MenuFlyoutItem.Icon>
+					</MenuFlyoutItem>
+				</MenuFlyout>
+			</utu:TabBarItem.Flyout>
+			<utu:TabBarItem.Icon>
+				<SymbolIcon Symbol="Add" />
+			</utu:TabBarItem.Icon>
+		</utu:TabBarItem>
+		<utu:TabBarItem Content="Support">
+			<utu:TabBarItem.Icon>
+				<FontIcon Glyph="&#xE8F2;" />
+			</utu:TabBarItem.Icon>
+		</utu:TabBarItem>
+		<utu:TabBarItem Content="About">
+			<utu:TabBarItem.Icon>
+				<FontIcon Glyph="&#xE946;" />
+			</utu:TabBarItem.Icon>
+		</utu:TabBarItem>
+	</utu:TabBar.Items>
+</utu:TabBar>
+```
+
+
+![](../assets/tabbar-android-material-bottom-fab.png)
+![](../assets/tabbar-android-material-bottom-fab-flyout.png)
