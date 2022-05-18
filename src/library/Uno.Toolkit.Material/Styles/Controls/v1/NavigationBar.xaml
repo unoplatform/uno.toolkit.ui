@@ -20,14 +20,6 @@
 					xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
                     mc:Ignorable="android ios not_win mobile">
 
-    <mobile:Style x:Key="MaterialMainCommandStyle"
-           BasedOn="{StaticResource BaseMaterialMainCommandStyle}"
-           TargetType="AppBarButton" />
-
-    <mobile:Style x:Key="MaterialModalMainCommandStyle"
-           BasedOn="{StaticResource BaseMaterialModalMainCommandStyle}"
-           TargetType="AppBarButton" />
-
     <mobile:Style x:Key="MaterialNavigationBarStyle"
            BasedOn="{StaticResource BaseMaterialNavigationBarStyle}"
            TargetType="utu:NavigationBar">
@@ -39,45 +31,25 @@
 
     </mobile:Style>
 
-    <mobile:Style x:Key="MaterialModalNavigationBarStyle"
+	<mobile:Style x:Key="MaterialModalNavigationBarStyle"
            BasedOn="{StaticResource BaseMaterialModalNavigationBarStyle}"
            TargetType="utu:NavigationBar">
-        <ios:Setter Property="Height"
+		<ios:Setter Property="Height"
                     Value="NaN" />
-        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
-        <Setter Property="MainCommandStyle" Value="{StaticResource MaterialModalMainCommandStyle}" />
-        <Setter Property="Template" Value="{StaticResource NativeNavigationBarTemplate}" />
+		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+		<Setter Property="MainCommandStyle" Value="{StaticResource MaterialModalMainCommandStyle}" />
+		<Setter Property="Template" Value="{StaticResource NativeNavigationBarTemplate}" />
 
-    </mobile:Style>
-    
-    <not_mobile:Style x:Key="MaterialMainCommandStyle"
-		   TargetType="AppBarButton"
-		   BasedOn="{StaticResource BaseMaterialMainCommandStyle}">
-		<Setter Property="Icon">
-			<Setter.Value>
-				<SymbolIcon Symbol="Back" />
-			</Setter.Value>
-		</Setter>
-	</not_mobile:Style>
+	</mobile:Style>
 
-    <not_mobile:Style x:Key="MaterialNavigationBarStyle"
+	<not_mobile:Style x:Key="MaterialNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
 		<Setter Property="MainCommandStyle"
 				Value="{StaticResource MaterialMainCommandStyle}" />
 	</not_mobile:Style>
-
-    <not_mobile:Style x:Key="MaterialModalMainCommandStyle"
-		   TargetType="AppBarButton"
-		   BasedOn="{StaticResource BaseMaterialModalMainCommandStyle}">
-        <Setter Property="Icon">
-            <Setter.Value>
-                <SymbolIcon Symbol="Back" />
-            </Setter.Value>
-        </Setter>
-    </not_mobile:Style>
-
-    <not_mobile:Style x:Key="MaterialModalNavigationBarStyle"
+	
+	<not_mobile:Style x:Key="MaterialModalNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialModalNavigationBarStyle}">
 		<Setter Property="MainCommandStyle"
@@ -650,7 +622,7 @@
 				Value="{StaticResource XamlMaterialNavigationBarTemplate}" />
     </Style>
 
-    <Style x:Key="BaseMaterialMainCommandStyle"
+    <Style x:Key="MaterialMainCommandStyle"
 		   TargetType="AppBarButton"
 		   BasedOn="{StaticResource MaterialAppBarButton}">
         <Setter Property="Foreground"
@@ -661,16 +633,16 @@
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
         <Setter Property="MainCommandStyle"
-				Value="{StaticResource BaseMaterialModalMainCommandStyle}" />
+				Value="{StaticResource MaterialModalMainCommandStyle}" />
         <Setter Property="Background"
 				Value="{ThemeResource MaterialSurfaceBrush}" />
         <Setter Property="Foreground"
 				Value="{ThemeResource MaterialOnSurfaceBrush}" />
     </Style>
 
-    <Style x:Key="BaseMaterialModalMainCommandStyle"
+    <Style x:Key="MaterialModalMainCommandStyle"
 		   TargetType="AppBarButton"
-		   BasedOn="{StaticResource BaseMaterialMainCommandStyle}">
+		   BasedOn="{StaticResource MaterialMainCommandStyle}">
         <Setter Property="Foreground"
 				Value="{ThemeResource MaterialOnSurfaceBrush}" />
     </Style>
