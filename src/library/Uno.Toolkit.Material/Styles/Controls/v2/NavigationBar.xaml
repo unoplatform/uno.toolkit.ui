@@ -20,14 +20,6 @@
 					xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
                     mc:Ignorable="android ios not_win mobile">
 
-    <mobile:Style x:Key="M3MaterialMainCommandStyle"
-           BasedOn="{StaticResource BaseM3MaterialMainCommandStyle}"
-           TargetType="AppBarButton" />
-
-    <mobile:Style x:Key="M3MaterialModalMainCommandStyle"
-           BasedOn="{StaticResource BaseM3MaterialModalMainCommandStyle}"
-           TargetType="AppBarButton" />
-
     <mobile:Style x:Key="M3MaterialNavigationBarStyle"
            BasedOn="{StaticResource BaseM3MaterialNavigationBarStyle}"
            TargetType="utu:NavigationBar">
@@ -39,45 +31,25 @@
 
     </mobile:Style>
 
-    <mobile:Style x:Key="M3MaterialModalNavigationBarStyle"
+	<mobile:Style x:Key="M3MaterialModalNavigationBarStyle"
            BasedOn="{StaticResource BaseM3MaterialModalNavigationBarStyle}"
            TargetType="utu:NavigationBar">
-        <ios:Setter Property="Height"
+		<ios:Setter Property="Height"
                     Value="NaN" />
-        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
-        <Setter Property="MainCommandStyle" Value="{StaticResource M3MaterialModalMainCommandStyle}" />
-        <Setter Property="Template" Value="{StaticResource M3MaterialNativeNavigationBarTemplate}" />
+		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+		<Setter Property="MainCommandStyle" Value="{StaticResource M3MaterialModalMainCommandStyle}" />
+		<Setter Property="Template" Value="{StaticResource M3MaterialNativeNavigationBarTemplate}" />
 
-    </mobile:Style>
-    
-    <not_mobile:Style x:Key="M3MaterialMainCommandStyle"
-		   TargetType="AppBarButton"
-		   BasedOn="{StaticResource BaseM3MaterialMainCommandStyle}">
-		<Setter Property="Icon">
-			<Setter.Value>
-				<SymbolIcon Symbol="Back" />
-			</Setter.Value>
-		</Setter>
-    </not_mobile:Style>
+	</mobile:Style>
 
-    <not_mobile:Style x:Key="M3MaterialNavigationBarStyle"
+	<not_mobile:Style x:Key="M3MaterialNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseM3MaterialNavigationBarStyle}">
-        <Setter Property="MainCommandStyle"
+		<Setter Property="MainCommandStyle"
 				Value="{StaticResource M3MaterialMainCommandStyle}" />
-    </not_mobile:Style>
+	</not_mobile:Style>
 
-    <not_mobile:Style x:Key="M3MaterialModalMainCommandStyle"
-		   TargetType="AppBarButton"
-		   BasedOn="{StaticResource BaseM3MaterialModalMainCommandStyle}">
-        <Setter Property="Icon">
-            <Setter.Value>
-                <SymbolIcon Symbol="Back" />
-            </Setter.Value>
-        </Setter>
-    </not_mobile:Style>
-
-    <not_mobile:Style x:Key="M3MaterialModalNavigationBarStyle"
+	<not_mobile:Style x:Key="M3MaterialModalNavigationBarStyle"
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseM3MaterialModalNavigationBarStyle}">
 		<Setter Property="MainCommandStyle"
@@ -659,7 +631,7 @@
 				Value="{StaticResource XamlM3MaterialNavigationBarTemplate}" />
     </Style>
 
-    <Style x:Key="BaseM3MaterialMainCommandStyle"
+    <Style x:Key="M3MaterialMainCommandStyle"
 		   TargetType="AppBarButton"
 		   BasedOn="{StaticResource M3MaterialAppBarButtonStyle}">
         <Setter Property="Foreground"
@@ -670,16 +642,16 @@
 		   TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource BaseM3MaterialNavigationBarStyle}">
         <Setter Property="MainCommandStyle"
-				Value="{StaticResource BaseM3MaterialModalMainCommandStyle}" />
+				Value="{StaticResource M3MaterialModalMainCommandStyle}" />
         <Setter Property="Background"
 				Value="{ThemeResource SurfaceBrush}" />
         <Setter Property="Foreground"
 				Value="{ThemeResource OnSurfaceBrush}" />
     </Style>
 
-    <Style x:Key="BaseM3MaterialModalMainCommandStyle"
+    <Style x:Key="M3MaterialModalMainCommandStyle"
 		   TargetType="AppBarButton"
-		   BasedOn="{StaticResource BaseM3MaterialMainCommandStyle}">
+		   BasedOn="{StaticResource M3MaterialMainCommandStyle}">
         <Setter Property="Foreground"
 				Value="{ThemeResource OnSurfaceBrush}" />
     </Style>
