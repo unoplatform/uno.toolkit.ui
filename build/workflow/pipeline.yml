@@ -7,6 +7,16 @@ trigger:
       - stable
       - release/stable/*
 
+  paths:
+    include:
+    - '/'
+    exclude:
+    - .dependabot/
+    - .github/
+    # don't trigger the CI if only docs files are changed
+    - doc/*
+    - '**/*.md'
+
 pr: 
   branches:
     include:
@@ -15,6 +25,16 @@ pr:
       - release/beta/*
       - stable
       - release/stable/*
+
+  paths:
+    include:
+    - '/'
+    exclude:
+    - .dependabot/
+    - .github/
+    # don't trigger the CI if only docs files are changed
+    - doc/*
+    - '**/*.md'
 
 variables:
   # Path where packages (nuget or app packages) will be copied to.
