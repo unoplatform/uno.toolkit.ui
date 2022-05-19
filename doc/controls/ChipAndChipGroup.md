@@ -29,7 +29,7 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 | Chip()      | Initializes a new instance of the `Chip` class. |
 
 ### Properties
-Properties|Type|Description
+Property|Type|Description
 -|-|-
 CanRemove|bool|Gets or sets whether the remove button is visible.
 Elevation|double|Gets or sets the elevation of the `Chip`.
@@ -40,7 +40,7 @@ RemovedCommand|ICommand|Gets or sets the command to invoke when the remove butto
 RemovedCommandParameter|object|Gets or sets the parameter to pass to the RemovedCommand property.
 
 ### Events
-Events|Type|Description
+Event|Type|Description
 -|-|-
 Removed|RoutedEventHandler|Occurs when the remove button is pressed.
 Removing|ChipRemovingEventHandler|Occurs when the remove button is pressed, but before the `Removed` event allowing for cancellation.
@@ -55,6 +55,7 @@ sealed class ChipRemovingEventArgs : EventArgs
     public bool Cancel { get; set; }
 }
 ```
+
 ### Usage
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -102,7 +103,7 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 | ChipGroup()  | Initializes a new instance of the `ChipGroup` class. |
 
 ### Properties
-Properties|Type|Description
+Property|Type|Description
 -|-|-
 CanRemove|bool|Gets or sets the value of each `Chip.CanRemove`.
 IconTemplate|DataTemplate|Gets or sets the value of each `Chip.IconTemplate`.
@@ -113,7 +114,7 @@ SelectionMode|ChipSelectionMode|Gets or sets the selection behavior: `None`, `Si
 
 ### Events
 All events below are forwarded from the nested `Chip`s:
-Events|Type|Description
+Event|Type|Description
 -|-|-
 ItemClick|ChipItemEventHandler|Occurs when a `Chip` item is pressed.
 ItemChecked|ChipItemEventHandler|Occurs when a `Chip` item is checked.

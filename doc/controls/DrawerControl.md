@@ -35,7 +35,7 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 | DrawerControl() | Initializes a new instance of the `DrawerControl` class. |
 
 ### Properties
-Properties|Type|Description
+Property|Type|Description
 -|-|-
 DrawerBackground|Brush|Gets or sets the background of the drawer.
 DrawerContent|object|Gets or sets the drawer content.

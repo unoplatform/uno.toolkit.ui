@@ -35,7 +35,6 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 |----------------|-------------------------------------------------------|
 | Card()         | Initializes a new instance of the `Card` class.       |
 
-
 ### Properties
 The Card control comes with all the built-in properties of a `Control`, and also a few additional properties listed below that let you tailor the content to be displayed:
 
