@@ -93,6 +93,7 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 ```
 
 From the `NavigationView`, the properties of the `DrawerControl` can be accessed through the same/similarly named properties or via attached properties:
+
 DrawerControl|NavigationView
 -|-
 DrawerBackground|utu:DrawerControlBehavior.DrawerBackground
