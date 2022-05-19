@@ -1,18 +1,27 @@
-items:
-- name: Getting Started
+# ******************* Overview *******************
+- name: Overview
   href: getting-started.md
-- name: Controls and Styles
-  href: controls-styles.md
 
-- name: Controls
+# ******************* Learn **********************
+- name: Learn
+  items: #ToDo
+
+# ******************* Reference ******************
+- name: Reference
   items:
+  # ***************** Controls *******************
+  - name: Controls
+    items:
     - name: Cards
       href: controls/CardAndCardContentControl.md
-    - name: Chip
-      href: controls/Chip.md
+    - name: Chip and ChipGroup
+      href: controls/ChipAndChipGroup.md
     - name: DrawerControl
       href: controls/DrawerControl.md
     - name: NavigationBar
       href: controls/NavigationBar.md
-    - name: TabBar
-      href: controls/TabBar.md
+    - name: TabBar and TabBarItem
+      href: controls/TabBarAndTabBarItem.md
+  # ***************** Styles **********************
+  - name: Styles
+    href: controls-styles.md

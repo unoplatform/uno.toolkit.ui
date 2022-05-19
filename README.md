@@ -1,5 +1,5 @@
 # Uno Toolkit
-A set of custom controls for the UWP, WinUI and the Uno Platform not offered out of the box by WinUI, such as Card, TabBar, NavigationBar, etc.
+Uno Toolkit provides a set of higher-level UI Controls designed specifically for multi-platform, responsive applications.
 
 Package|Stable|Preview
 -|-|-
@@ -11,17 +11,14 @@ Uno.Toolkit.WinUI.Material|[![NuGet stable](https://img.shields.io/nuget/v/Uno.T
 Uno.Toolkit.WinUI.Cupertino|[![NuGet stable](https://img.shields.io/nuget/v/Uno.Toolkit.WinUI.Cupertino?label=stable)](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Cupertino)|[![NuGet preview](https://img.shields.io/nuget/vpre/Uno.Toolkit.WinUI.Cupertino?label=preview)](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Cupertino)
 
 ## Getting Started
-See the complete [Getting Started](doc/getting-started.md) guide for starting with this library.
+See the complete [documentation](#documentation) for starting with this library.
 For a larger example and features demo, visit the [Uno Gallery](https://github.com/unoplatform/uno.gallery) repository.
 
 ## Documentation
-
-All documentation for Uno.Themes can be found [here](doc/) or on [Uno Platform documentation](https://platform.uno/docs/articles/intro.html).
+All documentation for `Uno.Toolkit.UI` can be found on our [website](https://platform.uno).
 
 ## License
-
-This project is licensed under the Apache 2.0 license - see the
-[LICENSE](LICENSE) file for details.
+This project is licensed under the Apache 2.0 license - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 - [Uno Platform](https://platform.uno)
@@ -29,7 +26,7 @@ This project is licensed under the Apache 2.0 license - see the
 - [WinUI](https://microsoft.github.io/microsoft-ui-xaml/)
 
 ## Contributors
-Thanks goes to these wonderful people (List made with [contrib.rocks](https://contrib.rocks)):
+Thanks go to these wonderful people (List made with [contrib.rocks](https://contrib.rocks)):
 
 [![Uno.Toolkit.UI Contributors](https://contrib.rocks/image?repo=unoplatform/uno.toolkit.ui)](https://github.com/unoplatform/uno.toolkit.ui/graphs/contributors)
 

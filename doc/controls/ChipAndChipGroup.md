@@ -1,12 +1,32 @@
-# Chip
+# Chip & ChipGroup
 
 ## Summary
-`Chip` is a control that can be used for selection, filtering, or performing action from a list.
+`Chip` is a control that can be used for selection, filtering, or performing an action from a list.
 `ChipGroup` is a container that can house a collection of `Chip`s.
 
 ## Chip
-
 `Chip` is derived from `ToggleButton`, a control that a user can select (check) or clear (uncheck).
+
+### C#
+```csharp
+public partial class Chip : ToggleButton
+```
+
+### XAML
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:Chip .../>
+```
+
+### Inheritance 
+Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; ButtonBase &#8594; ToggleButton &#8594; Chip
+
+### Constructors
+| Constructor | Description                                     |
+|-------------|-------------------------------------------------|
+| Chip()      | Initializes a new instance of the `Chip` class. |
 
 ### Properties
 Properties|Type|Description
@@ -23,11 +43,11 @@ RemovedCommandParameter|object|Gets or sets the parameter to pass to the Removed
 Events|Type|Description
 -|-|-
 Removed|RoutedEventHandler|Occurs when the remove button is pressed.
-Removing|ChipRemovingEventHandler|Occurs when the remove button is pressed, but before `Removed` event allowing for cancellation.
+Removing|ChipRemovingEventHandler|Occurs when the remove button is pressed, but before the `Removed` event allowing for cancellation.
 
 note: When used outside of a `ChipGroup`, the `Removed` event does not cause itself to be removed from the view.
 
-```cs
+```csharp
 delegate void ChipRemovingEventHandler(object sender, ChipRemovingEventArgs e);
 sealed class ChipRemovingEventArgs : EventArgs
 {
@@ -35,9 +55,51 @@ sealed class ChipRemovingEventArgs : EventArgs
     public bool Cancel { get; set; }
 }
 ```
+### Usage
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:Chip Content="Assist Chip" Style="{StaticResource AssistChipStyle}" />
+<utu:Chip Content="Input Chip" IsChecked="True" Style="{StaticResource InputChipStyle}" />
+<utu:Chip Content="Filter Chip" IsChecked="True" Style="{StaticResource FilterChipStyle}" />
+<utu:Chip Content="Suggestion Chip" IsChecked="True" Style="{StaticResource SuggestionChipStyle}" />
+
+<!-- with icon -->
+<utu:Chip Content="Chip" Style="{StaticResource M3MaterialChipStyle}">
+	<utu:Chip.Icon>
+		<Image Source="ms-appx:///Assets/Avatar.png" />
+	</utu:Chip.Icon>
+</utu:Chip>
+```
 
 ## ChipGroup
 `ChipGroup` is a specialized `ItemsControl` used to present a collection of `Chip`s.
+
+### C#
+```csharp
+public partial class ChipGroup : ItemsControl
+```
+
+### XAML
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:ChipGroup .../>
+-or-
+<utu:ChipGroup>
+    oneOrMoreItems
+</utu:ChipGroup>
+```
+
+### Inheritance 
+Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ItemsControl &#8594; ChipGroup
+
+### Constructors
+| Constructor  | Description                                          |
+|--------------|------------------------------------------------------|
+| ChipGroup()  | Initializes a new instance of the `ChipGroup` class. |
 
 ### Properties
 Properties|Type|Description
@@ -59,8 +121,7 @@ ItemUnchecked|ChipItemEventHandler|Occurs when a `Chip` item is unchecked.
 ItemRemoved|ChipItemEventHandler|Occurs when a `Chip` is removed.
 ItemRemoving|ChipItemRemovingEventHandler|Occurs when a `Chip` item is about to be removed.
 
-
-```cs
+```csharp
 delegate void ChipItemEventHandler(object sender, ChipItemEventArgs e);
 delegate void ChipItemRemovingEventHandler(object sender, ChipItemRemovingEventHandler e);
 
@@ -76,28 +137,7 @@ class ChipItemRemovingEventHandler : ChipItemEventHandler
 }
 ```
 
-
-## Usage
-
-### Chip
-```xml
-xmlns:utu="using:Uno.Toolkit.UI"
-...
-
-<utu:Chip Content="Assist Chip" Style="{StaticResource AssistChipStyle}" />
-<utu:Chip Content="Input Chip" IsChecked="True" Style="{StaticResource InputChipStyle}" />
-<utu:Chip Content="Filter Chip" IsChecked="True" Style="{StaticResource FilterChipStyle}" />
-<utu:Chip Content="Suggestion Chip" IsChecked="True" Style="{StaticResource SuggestionChipStyle}" />
-
-<!-- with icon -->
-<utu:Chip Content="Chip" Style="{StaticResource M3MaterialChipStyle}">
-	<utu:Chip.Icon>
-		<Image Source="ms-appx:///Assets/Avatar.png" />
-	</utu:Chip.Icon>
-</utu:Chip>
-```
-
-### ChipGroup
+### Usage
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
