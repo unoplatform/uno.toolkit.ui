@@ -1,17 +1,41 @@
-# TabBar
+# TabBar & TabBarItem
 
 ## Summary
-
 Represents a control that provides a list of `TabItem`s to select from. The `TabBar` selection can be used to trigger frame navigation or to toggle the visibility of views.
 
 ## TabBarItem
 `TabBarItem` is a specialized `SelectorItem` that includes functionality such as triggering an `ICommand` on click/tap or displaying a flyout.
 
+### C#
+```csharp
+public partial class TabBarItem : SelectorItem
+```
+
+### XAML
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBarItem .../>
+-or-
+<utu:TabBarItem ...>
+	content
+</utu:TabBarItem>
+```
+
+### Inheritance 
+Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; SelectorItem &#8594; TabBarItem
+
+### Constructors
+| Constructor  | Description                                           |
+|--------------|-------------------------------------------------------|
+| TabBarItem() | Initializes a new instance of the `TabBarItem` class. |
+
 ### Properties
 Properties|Type|Description
 -|-|-
 Command|ICommand|Gets or sets the command to invoke when the `TabBarItem` is pressed.
-CommandParameter|object|Gets or sets the parameter to pass to the Command property.
+CommandParameter|object|Gets or sets the parameter to pass to the `Command` property.
 Flyout|double|Gets or sets the flyout associated with this `TabBarItem`.
 Icon|IconElement|Gets or sets the icon of the `TabBarItem`.
 IsSelectable|bool|Gets or sets whether the `TabBarItem` can be selected.
@@ -24,13 +48,44 @@ Click|RoutedEventHandler|Occurs when the `TabBarItem` is pressed.
 ## TabBar
 `TabBar` is a specialized `ItemsControl` used to present a collection of `TabBarItem`s.
 
+### C#
+```csharp
+public partial class TabBar : ItemsControl
+```
+
+### XAML
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBar .../>
+-or-
+<utu:TabBar ...>
+	oneOrMoreItems
+</utu:TabBar>
+-or-
+<utu:TabBar ...>
+	<utu:TabBar.Items>
+  		oneOrMoreItems
+  	</utu:TabBar.Items>
+</utu:TabBar>
+```
+
+### Inheritance 
+Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ItemsControl &#8594; TabBar
+
+### Constructors
+| Constructor | Description                                       |
+|-------------|---------------------------------------------------|
+| TabBar()    | Initializes a new instance of the `TabBar` class. |
+
 ### Properties
 Properties|Type|Description
 -|-|-
 SelectedIndex|int|Gets or sets the index of the selected `TabBarItem`.
 SelectedItem|object|Gets or sets the selected `TabBarItem`.
 
-> Note: `TabBar` only supports single selection mode.
+> Note: `TabBar` only supports a single selection mode.
 
 ### Events
 All events below are forwarded from the nested `TabBarItem`s:
@@ -52,13 +107,13 @@ class TabBarSelectionChangedEventArgs : EventArgs
 ## Styling `TabBar` & `TabBarItem`
 Toolkit provides a barebones default style for `TabBar` and `TabBarItem`. It is recommended to use either:
 * [One of the pre-built styles](../controls-styles.md#control-styles) that come packaged within the `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` libraries
-* A custom built style that is defined within the consuming application
+* A custom-built style that is defined within the consuming application
 
 The styles that exist within the Toolkit Theming Libraries are built for the most common scenarios in which a `TabBar` could be used.
 
 ### "Top" `TabBar` Style
 
-A common use for a `TabBar` would be to use it as a means of navigation between two or more views/pages that are all at the same level of hierarchy (Lateral Navigation). If the goal is to provide lateral navigation for destinations that are at **any** level of the hierachy, a `TabBar` styled as a `TopTabBar` is most appropriate. 
+A common use for a `TabBar` would be to use it as a means of navigation between two or more views/pages that are all at the same level of hierarchy (Lateral Navigation). If the goal is to provide lateral navigation for destinations that are at **any** level of the hierarchy, a `TabBar` styled as a `TopTabBar` is most appropriate. 
 
 Currently, the Material Theme Toolkit Library contains two styles for this purpose: `ColoredTopTabBarStyle` and `TopTabBarStyle`.
 

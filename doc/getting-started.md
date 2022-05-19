@@ -1,8 +1,11 @@
-# Getting Started
+# Getting Started with Uno Toolkit
+
+## Uno Toolkit Material Library
 The Uno.Toolkit.Material library is available as NuGet packages that can be added to any new or existing Uno solution.
 
 1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
-2. In Solution Explorer panel, right click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose [`Uno.Toolkit.UI.Material`](https://www.nuget.org/packages/Uno.Toolkit.UI.Material) package for Uno UWP solution or Choose the [`Uno.Toolkit.WinUI.Material`](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material) package for Uno WinUI solution. And, select the follow projects to include it:
+2. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`.
+Choose [`Uno.Toolkit.UI.Material`](https://www.nuget.org/packages/Uno.Toolkit.UI.Material) package for Uno UWP solution or Choose the [`Uno.Toolkit.WinUI.Material`](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material) package for Uno WinUI solution. And, select the following projects to include:
 	- `PROJECT_NAME.Wasm.csproj`
 	- `PROJECT_NAME.Mobile.csproj` (or `PROJECT_NAME.iOS.csproj`, `PROJECT_NAME.Droid.csproj`, `PROJECT_NAME.macOS.csproj` if you have an existing project)
 	- `PROJECT_NAME.Skia.Gtk.csproj`
@@ -35,7 +38,8 @@ The Uno.Toolkit.Material library is available as NuGet packages that can be adde
 		</Application.Resources>
 	</Application>
 	```
-	> The styles for the new controls are found in both ToolkitResources (design-agnostic variants) and MaterialToolkitResources(Material Design variants).
+	> [!TIP]
+	> The styles for the new controls are found in both ToolkitResources (design-agnostic variants) and MaterialToolkitResources (Material Design variants).
 
-# Customization
+## Customization
 For instruction on changing the default color palette or the font family, please refer to [this guide](https://github.com/unoplatform/Uno.Themes/blob/master/doc/getting-started.md#customization).

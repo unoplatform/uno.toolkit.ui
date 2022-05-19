@@ -1,8 +1,30 @@
 # NavigationBar
 
-The `NavigationBar` represents a specialized app bar that provides layout for `AppBarButton` and navigation logic.
+## Summary
+The `NavigationBar` represents a specialized app bar that provides the layout for `AppBarButton` and navigation logic.
 
 This document highlights some of the differences you might encounter when working with the native mode of `NavigationBar` on either **iOS** or **Android**.
+
+### C#
+```csharp
+public partial class NavigationBar : ContentControl
+```
+
+### XAML
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:NavigationBar .../>
+```
+
+### Inheritance 
+Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; NavigationBar
+
+### Constructors
+| Constructor     | Description                                              |
+|-----------------|----------------------------------------------------------|
+| NavigationBar() | Initializes a new instance of the `NavigationBar` class. |
 
 ## Modes
 
@@ -15,7 +37,7 @@ The `NavigationBar` supports 2 different modes:
 
 ### Windows
 
-Under the hood, this mode uses a custom styled `CommandBar`. It is templatable and supports a template that's almost identical to **UWP**'s default `CommandBar`, except for the addition of a leading `AppBarButton` named `MainCommand`.
+Under the hood, this mode uses a custom-styled `CommandBar`. It is templatable and supports a template that's almost identical to **UWP**'s default `CommandBar`, except for the addition of a leading `AppBarButton` named `MainCommand`.
 
 ![](../assets/navbar-windows-page1.png)
 
@@ -106,7 +128,7 @@ Remarks:
 
 The `Content` is processed differently whether it is of type `string` or `FrameworkElement`.
 
-When `Content` is a `string`, it's displayed using the platform's default font family, font size, font style and text alignment. Only the foreground color can be changed, using `Foreground`.
+When `Content` is a `string`, it's displayed using the platform's default font family, font size, font style, and text alignment. Only the foreground color can be changed, using `Foreground`.
 
 ![](../assets/navbar-android-content-string.png)
 
@@ -275,7 +297,7 @@ If no `MainCommand` is provided in the XAML, the `NavigationBar` will render the
 
 ![](../assets/navbar-ios-backbutton.png)
 
-`MainCommand` is typically used for customizing the back button, displaying a different icon, and/or for invoking some type of custom action other than back navigation when clicked.
+`MainCommand` is typically used for customizing the back button, displaying a different icon, and/or invoking some type of custom action other than back navigation when clicked.
 
 On **Android**, only icons are supported (`AppBarButton.Icon`). This is due to a platform limitation, which can be explained by the fact that `NavigationBar.Content` is left-aligned.
 
@@ -389,7 +411,7 @@ To ensure everything works properly, you must follow a few rules:
 
 ## Extensibility
 
-The `NavigationBar` is automatically managed by the `Frame` control, however you can still use the "native" mode of the `NavigationBar` with your own navigation mechanism.
+The `NavigationBar` is automatically managed by the `Frame` control, however, you can still use the "native" mode of the `NavigationBar` with your own navigation mechanism.
 
 On **iOS** a `NavigationBarHelper` is available for this purpose, you only have to invoke each of the provided methods in your own `UIViewController` implementation.
 
@@ -448,7 +470,7 @@ Remarks:
 
 * When given a `string`, its text will be displayed instead of the icon.
 * When given a `FrameworkElement`:
-	* it will be displayed instead of the `Icon`, if the latter is not set
+	* it will be displayed instead of the `Icon` if the latter is not set
 	* the native pressed state and tooltip (Android only) won't work
 * Make sure to set `Icon` to null, as it takes priority over `Content`.
 
