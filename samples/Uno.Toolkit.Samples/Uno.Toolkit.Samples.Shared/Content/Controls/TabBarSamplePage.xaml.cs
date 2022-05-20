@@ -51,6 +51,11 @@ namespace Uno.Toolkit.Samples.Content.Controls
             Shell.GetForCurrentView()?.ShowNestedSample<MaterialTopBarSampleNestedPage>(clearStack: true);
         }
 
+		private void ShowM3MaterialBottomBarSampleInNestedFrame(object sender, RoutedEventArgs e)
+        {
+            Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialBottomBarSampleNestedPage>(clearStack: true);
+        }
+
         private void ShowMaterialBottomBarSampleInNestedFrame(object sender, RoutedEventArgs e)
         {
             Shell.GetForCurrentView()?.ShowNestedSample<MaterialBottomBarSampleNestedPage>(clearStack: true);

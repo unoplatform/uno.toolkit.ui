@@ -112,6 +112,10 @@ namespace Uno.Toolkit.UI.Material
 			Add("M3MaterialFilterChipGroupStyle");
 			Add("M3MaterialElevatedAssistChipGroupStyle");
 			Add("M3MaterialAssistChipGroupStyle");
+			Add("M3MaterialBottomTabBarStyle");
+			Add("M3MaterialBottomTabBarItemStyle");
+			Add("M3MaterialBottomFabTabBarItemStyle");
+			
 			return result;
 
 			void Add(string key, string? alias = null, bool isImplicit = false) =>
