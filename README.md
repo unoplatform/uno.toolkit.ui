@@ -1,6 +1,12 @@
 # Uno Toolkit
+
+[![Open Uno in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/unoplatform/uno.toolkit.ui) 
+[![Azure DevOps](https://uno-platform.visualstudio.com/Uno%20Platform/_apis/build/status/Uno%20Platform/Uno.WindowsCommunityToolkit%20-%20CI?branchName=unorel%2F7.1)](https://uno-platform.visualstudio.com/Uno%20Platform/_build/latest?definitionId=14&branchName=unorel%2F7.1)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
 Uno Toolkit provides a set of higher-level UI Controls designed specifically for multi-platform, responsive applications.
 
+## Packages
 Package|Stable|Preview
 -|-|-
 Uno.Toolkit.UI|[![NuGet stable](https://img.shields.io/nuget/v/Uno.Toolkit.UI?label=stable)](https://www.nuget.org/packages/Uno.Toolkit.UI)|[![NuGet preview](https://img.shields.io/nuget/vpre/Uno.Toolkit.UI?label=preview)](https://www.nuget.org/packages/Uno.Toolkit.UI)
@@ -17,13 +23,23 @@ For a larger example and features demo, visit the [Uno Gallery](https://github.c
 ## Documentation
 All documentation for `Uno.Toolkit.UI` can be found on our [website](https://platform.uno).
 
-## License
-This project is licensed under the Apache 2.0 license - see the [LICENSE](LICENSE) file for details.
+## Contributing
+Please read our [contributing guide](https://github.com/unoplatform/uno/blob/master/CONTRIBUTING.md) to learn about our development process and how to propose bug fixes and improvements. 
+Come visit us on our [Discord Channel #uno-platform](https://discord.gg/eBHZSKG) for help on how to contribute!
+
+Contribute to Uno in your browser using [GitPod.io](https://gitpod.io), follow [our guide here](https://platform.uno/docs/articles/features/working-with-gitpod.html).
+
+Be also mindful of our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Acknowledgments
 - [Uno Platform](https://platform.uno)
+- [Material Design 3](https://m3.material.io/)
 - [Material Design](https://material.io/design)
+- [Cupertino - Human Interface Guideline styling](https://developer.apple.com/design/human-interface-guidelines)
 - [WinUI](https://microsoft.github.io/microsoft-ui-xaml/)
+
+## License
+This project is licensed under the Apache 2.0 license - see the [LICENSE](LICENSE) file for details.
 
 ## Contributors
 Thanks go to these wonderful people (List made with [contrib.rocks](https://contrib.rocks)):

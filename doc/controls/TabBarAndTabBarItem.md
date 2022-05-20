@@ -32,7 +32,7 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 | TabBarItem() | Initializes a new instance of the `TabBarItem` class. |
 
 ### Properties
-Properties|Type|Description
+Property|Type|Description
 -|-|-
 Command|ICommand|Gets or sets the command to invoke when the `TabBarItem` is pressed.
 CommandParameter|object|Gets or sets the parameter to pass to the `Command` property.
@@ -41,7 +41,7 @@ Icon|IconElement|Gets or sets the icon of the `TabBarItem`.
 IsSelectable|bool|Gets or sets whether the `TabBarItem` can be selected.
 
 ### Events
-Events|Type|Description
+Event|Type|Description
 -|-|-
 Click|RoutedEventHandler|Occurs when the `TabBarItem` is pressed.
 
@@ -80,7 +80,7 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 | TabBar()    | Initializes a new instance of the `TabBar` class. |
 
 ### Properties
-Properties|Type|Description
+Property|Type|Description
 -|-|-
 SelectedIndex|int|Gets or sets the index of the selected `TabBarItem`.
 SelectedItem|object|Gets or sets the selected `TabBarItem`.
@@ -89,7 +89,7 @@ SelectedItem|object|Gets or sets the selected `TabBarItem`.
 
 ### Events
 All events below are forwarded from the nested `TabBarItem`s:
-Events|Type|Description
+Event|Type|Description
 -|-|-
 SelectionChanged|`TypedEventHandler<TabBar, TabBarSelectionChangedEventArgs>`|Occurs when a `TabBarItem`'s selection state has changed.
 
@@ -133,7 +133,6 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 ![](../assets/tabbar-android-top.png)
-![](../assets/tabbar-ios-top.png)
 
 ### "Bottom" `TabBar` Style
 
@@ -171,14 +170,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 #### Material
-
 ![](../assets/tabbar-android-material-bottom.png)
-![](../assets/tabbar-ios-material-bottom.png)
 
 
 #### Cupertino
-
-![](../assets/tabbar-android-cupertino-bottom.png)
 ![](../assets/tabbar-ios-cupertino-bottom.png)
 
 There are some styles that are built specifically for the Cupertino theme. These styles are used to emulate a [`UISegmentedControl`](https://developer.apple.com/documentation/uikit/uisegmentedcontrol)
