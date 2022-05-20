@@ -4,10 +4,11 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:mobile="http://uno.ui/mobile"
                     xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:todo="what should be done"
                     xmlns:toolkit="using:Uno.UI.Toolkit"
                     xmlns:um="using:Uno.Material"
                     xmlns:utu="using:Uno.Toolkit.UI"
-                    mc:Ignorable="d mobile">
+                    mc:Ignorable="d mobile todo">
 
 	<StaticResource x:Key="M3MaterialBottomTabBarBackground"
 	                ResourceKey="SurfaceBrush" />
@@ -89,10 +90,8 @@
 	<CornerRadius x:Key="M3MaterialBottomFabTabBarItemCornerRadius">16</CornerRadius>
 	<x:Double x:Key="M3MaterialBottomFabTabBarItemIconTextPadding">12</x:Double>
 
-
-	<!--  Material Bottom TabBar  -->
-	<mobile:Style x:Key="M3MaterialBottomTabBarStyle"
-	              TargetType="utu:TabBar">
+	<Style x:Key="M3MaterialBottomTabBarStyle"
+	       TargetType="utu:TabBar">
 		<Setter Property="Background"
 		        Value="{ThemeResource M3MaterialBottomTabBarBackground}" />
 		<Setter Property="IsTabStop"
@@ -115,16 +114,15 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBar">
-					<!--  Code can be uncommented when this issue is fixed in Uno:  -->
+					<!--  Code can be used when this issue is fixed in Uno:  -->
 					<!--  https://github.com/unoplatform/uno/issues/7393  -->
-					<!--<Grid x:Name="TabBarGrid"
-						  Background="{TemplateBinding Background}"
-						  BorderBrush="{TemplateBinding BorderBrush}"
-						  BorderThickness="{TemplateBinding BorderThickness}"
-						  Padding="{TemplateBinding Padding}">
+					<todo:Grid x:Name="TabBarGrid"
+					           Padding="{TemplateBinding Padding}"
+					           Background="{TemplateBinding Background}"
+					           BorderBrush="{TemplateBinding BorderBrush}"
+					           BorderThickness="{TemplateBinding BorderThickness}">
 						<ItemsPresenter Height="{StaticResource M3MaterialBottomTabBarHeight}" />
-					</Grid>-->
-
+					</todo:Grid>
 					<!--  Workaround until the above issue is fixed, can be removed after  -->
 					<Grid x:Name="TabBarGrid">
 						<Grid.RowDefinitions>
@@ -132,12 +130,16 @@
 							<RowDefinition Height="{StaticResource M3MaterialBottomTabBarGridLengthHeight}" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
-
 						<Border x:Name="BackgroundBorder"
 						        Grid.Row="1"
 						        Height="{StaticResource M3MaterialBottomTabBarHeight}"
 						        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 						        Background="{TemplateBinding Background}" />
+
+						<Border Grid.Row="1"
+						        Height="{StaticResource M3MaterialBottomTabBarHeight}"
+						        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+						        Background="{StaticResource M3MaterialBottomTabBarBackgroundTint}" />
 
 						<ItemsPresenter Grid.RowSpan="2"
 						                Height="{StaticResource AjustedMaterialBottomTabBarHeight}" />
@@ -146,176 +148,22 @@
 						        Grid.Row="2"
 						        Padding="{TemplateBinding Padding}"
 						        Background="{TemplateBinding Background}" />
+
+						<Border Grid.Row="2"
+						        Padding="{TemplateBinding Padding}"
+						        Background="{StaticResource M3MaterialBottomTabBarBackgroundTint}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</mobile:Style>
-
-	<mobile:Style x:Key="M3MaterialBottomTabBarItemStyle"
-	              TargetType="utu:TabBarItem">
-		<Setter Property="Background"
-		        Value="{ThemeResource M3MaterialBottomTabBarItemBackground}" />
-		<Setter Property="Foreground"
-		        Value="{ThemeResource M3MaterialBottomTabBarItemForeground}" />
-		<Setter Property="BorderBrush"
-		        Value="{ThemeResource M3MaterialBottomTabBarItemBorderBrush}" />
-		<Setter Property="FontFamily"
-		        Value="{StaticResource MaterialMediumFontFamily}" />
-		<Setter Property="FontSize"
-		        Value="{StaticResource M3MaterialBottomTabBarFontSize}" />
-		<Setter Property="FontWeight"
-		        Value="{StaticResource M3MaterialBottomTabBarFontWeight}" />
-		<Setter Property="UseSystemFocusVisuals"
-		        Value="True" />
-		<Setter Property="HorizontalContentAlignment"
-		        Value="Center" />
-		<!--  Workaround with these two properties until this issue is fixed, can be removed after  -->
-		<!--  https://github.com/unoplatform/uno/issues/7393  -->
-		<Setter Property="Height"
-		        Value="{StaticResource M3MaterialBottomTabBarHeight}" />
-		<Setter Property="VerticalAlignment"
-		        Value="Bottom" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="utu:TabBarItem">
-					<Grid x:Name="LayoutRoot"
-					      Background="{TemplateBinding Background}"
-					      BorderBrush="{TemplateBinding BorderBrush}"
-					      BorderThickness="{TemplateBinding BorderThickness}"
-					      Control.IsTemplateFocusTarget="True">
-
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="PointerStates">
-								<VisualState x:Name="Normal" />
-								<VisualState x:Name="Selected">
-									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
-										<Setter Target="StateOverlay.Background"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelected}" />
-										<Setter Target="PointerRectangle.Fill"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelected}" />
-										<Setter Target="Icon.Foreground"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemIconForegroundSelected}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelected}" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="PressedSelected">
-									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
-										<Setter Target="StateOverlay.Background"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelectedPressed}" />
-										<Setter Target="PointerRectangle.Fill"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelectedPressed}" />
-										<Setter Target="Icon.Foreground"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelectedPressed}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelectedPressed}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-							<VisualStateGroup x:Name="DisabledStates">
-								<VisualState x:Name="Enabled" />
-								<VisualState x:Name="Disabled">
-									<VisualState.Setters>
-										<Setter Target="Icon.Foreground"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemForegroundDisabled}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{ThemeResource M3MaterialBottomTabBarItemForegroundDisabled}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-							<VisualStateGroup x:Name="TabBarIconPositionStates">
-								<VisualState x:Name="IconOnTop" />
-								<VisualState x:Name="IconOnly">
-									<VisualState.Setters>
-										<Setter Target="PointerRectangle.Visibility"
-										        Value="Visible" />
-										<Setter Target="ContentPresenter.Visibility"
-										        Value="Collapsed" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="ContentOnly">
-									<VisualState.Setters>
-										<Setter Target="IconBox.Visibility"
-										        Value="Collapsed" />
-										<Setter Target="ContentPresenter.Margin"
-										        Value="{StaticResource M3MaterialBottomTabBarItemContentOnlyMargin}" />
-										<Setter Target="IconRow.Height"
-										        Value="0" />
-										<Setter Target="ContentRow.Height"
-										        Value="*" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-						<um:Ripple x:Name="RippleControl"
-						           Padding="{TemplateBinding Padding}"
-						           AutomationProperties.AccessibilityView="Raw"
-						           BorderBrush="{TemplateBinding BorderBrush}"
-						           BorderThickness="{TemplateBinding BorderThickness}"
-						           CornerRadius="{TemplateBinding CornerRadius}"
-						           Feedback="{ThemeResource OnSurfaceBrush}"
-						           FeedbackOpacity="{StaticResource PressedOpacity}">
-							<um:Ripple.Content>
-								<Grid>
-									<Rectangle x:Name="PointerRectangle"
-									           Fill="Transparent"
-									           Visibility="Collapsed" />
-
-									<Grid x:Name="ContentGrid">
-										<Grid.RowDefinitions>
-											<RowDefinition x:Name="IconRow"
-											               Height="*" />
-											<RowDefinition x:Name="ContentRow"
-											               Height="Auto" />
-										</Grid.RowDefinitions>
-
-										<Grid x:Name="ActiveIndicator"
-										      Padding="{StaticResource M3MaterialBottomTabBarItemActiveIndicatorPadding}"
-										      CornerRadius="{StaticResource M3MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
-											<Viewbox x:Name="IconBox"
-											         Width="{StaticResource M3MaterialBottomTabBarItemIconWidth}"
-											         Height="{StaticResource M3MaterialBottomTabBarItemIconHeight}">
-												<ContentPresenter x:Name="Icon"
-												                  Content="{TemplateBinding Icon}"
-												                  Foreground="{StaticResource M3MaterialBottomTabBarItemIconForeground}" />
-											</Viewbox>
-										</Grid>
-										<Border x:Name="StateOverlay"
-										        CornerRadius="{StaticResource M3MaterialBottomTabBarItemActiveIndicatorCornerRadius}" />
-										<ContentPresenter x:Name="ContentPresenter"
-										                  Grid.Row="1"
-										                  Margin="{StaticResource M3MaterialBottomTabBarItemContentMargin}"
-										                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-										                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-										                  AutomationProperties.AccessibilityView="Raw"
-										                  Content="{TemplateBinding Content}"
-										                  ContentTemplate="{TemplateBinding ContentTemplate}"
-										                  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-										                  ContentTransitions="{TemplateBinding ContentTransitions}"
-										                  FontSize="{TemplateBinding FontSize}"
-										                  Foreground="{TemplateBinding Foreground}"
-										                  TextWrapping="NoWrap" />
-									</Grid>
-								</Grid>
-							</um:Ripple.Content>
-						</um:Ripple>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</mobile:Style>
+	</Style>
 
 	<Style x:Key="M3MaterialBottomFabTabBarItemStyle"
 	       TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 		        Value="{ThemeResource PrimaryBrush}" />
 		<Setter Property="Foreground"
-		        Value="{ThemeResource MaterialOnPrimaryBrush}" />
+		        Value="{ThemeResource OnPrimaryBrush}" />
 		<Setter Property="BorderBrush"
 		        Value="{ThemeResource M3MaterialBottomTabBarItemBorderBrush}" />
 		<Setter Property="FontFamily"
@@ -452,65 +300,8 @@
 		</Setter>
 	</Style>
 
-	<not_mobile:Style x:Key="M3MaterialBottomTabBarStyle"
-	                  TargetType="utu:TabBar">
-		<Setter Property="Background"
-		        Value="{ThemeResource M3MaterialBottomTabBarBackground}" />
-		<Setter Property="IsTabStop"
-		        Value="False" />
-		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
-		        Value="Bottom" />
-		<Setter Property="ItemsPanel">
-			<Setter.Value>
-				<ItemsPanelTemplate>
-					<utu:TabBarListPanel />
-				</ItemsPanelTemplate>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="ItemContainerStyle"
-		        Value="{StaticResource M3MaterialBottomTabBarItemStyle}" />
-		<!--  Workaround until this issue is fixed, can be removed after  -->
-		<!--  https://github.com/unoplatform/uno/issues/7393  -->
-		<Setter Property="VerticalContentAlignment"
-		        Value="Bottom" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="utu:TabBar">
-					<!--  Code can be uncommented when this issue is fixed in Uno:  -->
-					<!--  https://github.com/unoplatform/uno/issues/7393  -->
-					<!--<Grid x:Name="TabBarGrid"	
-						  Background="{TemplateBinding Background}"	
-						  BorderBrush="{TemplateBinding BorderBrush}"	
-						  BorderThickness="{TemplateBinding BorderThickness}"	
-						  Padding="{TemplateBinding Padding}">	
-						<ItemsPresenter Height="{StaticResource M3MaterialBottomTabBarHeight}" />	
-					</Grid>-->
-					<!--  Workaround until the above issue is fixed, can be removed after  -->
-					<Grid x:Name="TabBarGrid">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="{StaticResource M3MaterialBottomTabBarGridLengthHeight}" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Border x:Name="BackgroundBorder"
-						        Grid.Row="1"
-						        Height="{StaticResource M3MaterialBottomTabBarHeight}"
-						        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-						        Background="{TemplateBinding Background}" />
-						<ItemsPresenter Grid.RowSpan="2"
-						                Height="{StaticResource AjustedMaterialBottomTabBarHeight}" />
-						<Border x:Name="VisibleBoundsBorder"
-						        Grid.Row="2"
-						        Padding="{TemplateBinding Padding}"
-						        Background="{TemplateBinding Background}" />
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</not_mobile:Style>
-
-	<not_mobile:Style x:Key="M3MaterialBottomTabBarItemStyle"
-	                  TargetType="utu:TabBarItem">
+	<Style x:Key="M3MaterialBottomTabBarItemStyle"
+	       TargetType="utu:TabBarItem">
 		<Setter Property="Background"
 		        Value="{ThemeResource M3MaterialBottomTabBarItemBackground}" />
 		<Setter Property="Foreground"
@@ -545,7 +336,7 @@
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="PointerStates">
 								<VisualState x:Name="Normal" />
-								<VisualState x:Name="PointerOver">
+								<not_mobile:VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="StateOverlay.Background"
 										        Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundPointerOver}" />
@@ -556,7 +347,7 @@
 										<Setter Target="ContentPresenter.Foreground"
 										        Value="{ThemeResource M3MaterialBottomTabBarItemForegroundPointerOver}" />
 									</VisualState.Setters>
-								</VisualState>
+								</not_mobile:VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="StateOverlay.Background"
@@ -583,7 +374,7 @@
 										        Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelected}" />
 									</VisualState.Setters>
 								</VisualState>
-								<VisualState x:Name="PointerOverSelected">
+								<not_mobile:VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
 										<Setter Target="ActiveIndicator.Background"
 										        Value="{ThemeResource M3MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
@@ -596,7 +387,7 @@
 										<Setter Target="ContentPresenter.Foreground"
 										        Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelectedPointerOver}" />
 									</VisualState.Setters>
-								</VisualState>
+								</not_mobile:VisualState>
 								<VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
 										<Setter Target="ActiveIndicator.Background"
@@ -703,5 +494,5 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</not_mobile:Style>
+	</Style>
 </ResourceDictionary>
