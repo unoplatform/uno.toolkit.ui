@@ -116,6 +116,18 @@ namespace Uno.Toolkit.UI.Material
 			Add("M3MaterialBottomTabBarItemStyle");
 			Add("M3MaterialBottomFabTabBarItemStyle");
 			
+			Add("M3MaterialOutlinedCardStyle");
+			Add("M3MaterialFilledCardStyle");
+			Add("M3MaterialElevatedCardStyle");
+			Add("M3MaterialAvatarOutlinedCardStyle");
+			Add("M3MaterialAvatarFilledCardStyle");
+			Add("M3MaterialAvatarElevatedCardStyle");
+			Add("M3MaterialSmallMediaOutlinedCardStyle");
+			Add("M3MaterialSmallMediaFilledCardStyle");
+			Add("M3MaterialSmallMediaElevatedCardStyle");
+			Add("M3MaterialOutlinedCardContentControlStyle");
+			Add("M3MaterialFilledCardContentControlStyle");
+			Add("M3MaterialElevatedCardContentControlStyle");
 			return result;
 
 			void Add(string key, string? alias = null, bool isImplicit = false) =>
