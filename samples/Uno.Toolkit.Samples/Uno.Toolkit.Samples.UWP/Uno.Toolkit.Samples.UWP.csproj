@@ -24,6 +24,11 @@
     <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
   </ItemGroup>
   <PropertyGroup>
+	<!-- This is a visual studio 17.2 Preview 3 issue
+	     Tempory workaround here for this issue: https://github.com/unoplatform/uno/discussions/5007#discussioncomment-2583741 -->
+	<SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
+  </PropertyGroup>
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{C2264DB6-2DBD-449F-A28D-83B4F7E7E5E5}</ProjectGuid>

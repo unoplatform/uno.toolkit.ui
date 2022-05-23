@@ -79,6 +79,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 		  Style="{StaticResource OutlinedCardStyle}" />
 ```
 
+### Examples
+![](../assets/card-samples.png)
+
 ## CardContentControl
 The `CardContentControl` is based on `ContentControl` and allows you to customize the entire content through `DataTemplate` to fit your needs.
 
@@ -157,3 +160,6 @@ xmlns:utu="using:Uno.Toolkit.UI"
 	</utu:CardContentControl.ContentTemplate>
 </utu:CardContentControl>
 ```
+
+### Examples
+![](../assets/cardcontentcontrol-samples.png)
