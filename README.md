@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="doc/assets/material-toolkit-design-system.png">
+</p>
+
 # Uno Toolkit
 
 [![Open Uno in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/unoplatform/uno.toolkit.ui) 
