@@ -511,7 +511,7 @@
 	<StaticResource x:Key="M3MaterialColoredTopTabBarBackground"
 	                ResourceKey="PrimaryBrush" />
 	<StaticResource x:Key="M3MaterialColoredTopTabBarIndicator"
-	                ResourceKey="OnPrimaryBrush" />
+	                ResourceKey="PrimaryBrush" />
 
 	<!--  Colored TabBarItem Selected State Brushes  -->
 	<!--  Background  -->
@@ -525,13 +525,13 @@
 	                ResourceKey="M3MaterialColoredTopTabBarItemOnPrimaryFocusedBrush" />
 	<!--  Foreground  -->
 	<StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundSelected"
-	                ResourceKey="OnPrimaryBrush" />
+	                ResourceKey="PrimaryBrush" />
 	<StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundSelectedPointerOver"
-	                ResourceKey="OnPrimaryBrush" />
+	                ResourceKey="PrimaryBrush" />
 	<StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundSelectedPressed"
-	                ResourceKey="OnPrimaryBrush" />
+	                ResourceKey="PrimaryBrush" />
 	<StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundSelectedFocused"
-	                ResourceKey="OnPrimaryBrush" />
+	                ResourceKey="PrimaryBrush" />
 
 	<!--  Colored TabBarItem Unselected State Brushes  -->
 	<!--  Background  -->
