@@ -39,8 +39,8 @@
 	</Choose>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Material" Version="2.0.0-dev.216" />
-		<PackageReference Include="Uno.UI" Version="4.2.0-dev.622" />
+		<PackageReference Include="Uno.Material" Version="2.0.0" />
+		<PackageReference Include="Uno.UI" Version="4.3.6" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
