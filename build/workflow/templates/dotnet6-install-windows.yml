@@ -16,12 +16,12 @@ steps:
   #   errorActionPreference: stop
   #   retryCountOnTaskFailure: 3
   - task: UseDotNet@2
-   displayName: 'Use .NET Core SDK ${{ parameters.DotNetVersion }}'
-   retryCountOnTaskFailure: 3
-   inputs:
-     packageType: sdk
-     version: ${{ parameters.DotNetVersion }}
-     includePreviewVersions: true
+    displayName: 'Use .NET Core SDK ${{ parameters.DotNetVersion }}'
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: sdk
+      version: ${{ parameters.DotNetVersion }}
+      includePreviewVersions: true
 
   - template: jdk-setup.yml
     
