@@ -29,7 +29,7 @@ namespace Uno.Toolkit.UI.Material
 			"uwp";
 #endif
 
-		private const string StylePrefix = "M3Material";
+		private const string StylePrefix = "Material";
 		private ResourceDictionary _implicitResources = new ResourceDictionary();
 
 		public MaterialToolkitResourcesV2()
@@ -91,42 +91,42 @@ namespace Uno.Toolkit.UI.Material
 		{
 			var result = new List<(string ResourceKey, string SharedKey, bool IsDefaultStyle)>();
 			
-			Add("M3MaterialDividerStyle", isImplicit: true);
-			Add("M3MaterialNavigationBarStyle", isImplicit: true);
-			Add("M3MaterialModalNavigationBarStyle");
-			Add("M3MaterialMainCommandStyle", isImplicit: true);
-			Add("M3MaterialModalMainCommandStyle");
-			Add("M3MaterialTopTabBarStyle");
-			Add("M3MaterialColoredTopTabBarStyle");
-			Add("M3MaterialElevatedSuggestionChipStyle");
-			Add("M3MaterialSuggestionChipStyle");
-			Add("M3MaterialInputChipStyle");
-			Add("M3MaterialElevatedFilterChipStyle");
-			Add("M3MaterialFilterChipStyle");
-			Add("M3MaterialElevatedAssistChipStyle");
-			Add("M3MaterialAssistChipStyle");
-			Add("M3MaterialElevatedSuggestionChipGroupStyle");
-			Add("M3MaterialSuggestionChipGroupStyle");
-			Add("M3MaterialInputChipGroupStyle");
-			Add("M3MaterialElevatedFilterChipGroupStyle");
-			Add("M3MaterialFilterChipGroupStyle");
-			Add("M3MaterialElevatedAssistChipGroupStyle");
-			Add("M3MaterialAssistChipGroupStyle");
-			Add("M3MaterialBottomTabBarStyle");
-			Add("M3MaterialBottomTabBarItemStyle");
-			Add("M3MaterialBottomFabTabBarItemStyle");
-			Add("M3MaterialOutlinedCardStyle");
-			Add("M3MaterialFilledCardStyle");
-			Add("M3MaterialElevatedCardStyle");
-			Add("M3MaterialAvatarOutlinedCardStyle");
-			Add("M3MaterialAvatarFilledCardStyle");
-			Add("M3MaterialAvatarElevatedCardStyle");
-			Add("M3MaterialSmallMediaOutlinedCardStyle");
-			Add("M3MaterialSmallMediaFilledCardStyle");
-			Add("M3MaterialSmallMediaElevatedCardStyle");
-			Add("M3MaterialOutlinedCardContentControlStyle");
-			Add("M3MaterialFilledCardContentControlStyle");
-			Add("M3MaterialElevatedCardContentControlStyle");
+			Add("MaterialDividerStyle", isImplicit: true);
+			Add("MaterialNavigationBarStyle", isImplicit: true);
+			Add("MaterialModalNavigationBarStyle");
+			Add("MaterialMainCommandStyle", isImplicit: true);
+			Add("MaterialModalMainCommandStyle");
+			Add("MaterialTopTabBarStyle");
+			Add("MaterialColoredTopTabBarStyle");
+			Add("MaterialElevatedSuggestionChipStyle");
+			Add("MaterialSuggestionChipStyle");
+			Add("MaterialInputChipStyle");
+			Add("MaterialElevatedFilterChipStyle");
+			Add("MaterialFilterChipStyle");
+			Add("MaterialElevatedAssistChipStyle");
+			Add("MaterialAssistChipStyle");
+			Add("MaterialElevatedSuggestionChipGroupStyle");
+			Add("MaterialSuggestionChipGroupStyle");
+			Add("MaterialInputChipGroupStyle");
+			Add("MaterialElevatedFilterChipGroupStyle");
+			Add("MaterialFilterChipGroupStyle");
+			Add("MaterialElevatedAssistChipGroupStyle");
+			Add("MaterialAssistChipGroupStyle");
+			Add("MaterialBottomTabBarStyle");
+			Add("MaterialBottomTabBarItemStyle");
+			Add("MaterialBottomFabTabBarItemStyle");
+			Add("MaterialOutlinedCardStyle");
+			Add("MaterialFilledCardStyle");
+			Add("MaterialElevatedCardStyle");
+			Add("MaterialAvatarOutlinedCardStyle");
+			Add("MaterialAvatarFilledCardStyle");
+			Add("MaterialAvatarElevatedCardStyle");
+			Add("MaterialSmallMediaOutlinedCardStyle");
+			Add("MaterialSmallMediaFilledCardStyle");
+			Add("MaterialSmallMediaElevatedCardStyle");
+			Add("MaterialOutlinedCardContentControlStyle");
+			Add("MaterialFilledCardContentControlStyle");
+			Add("MaterialElevatedCardContentControlStyle");
 			return result;
 
 			void Add(string key, string? alias = null, bool isImplicit = false) =>

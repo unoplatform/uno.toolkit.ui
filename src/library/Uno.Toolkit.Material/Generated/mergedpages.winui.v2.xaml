@@ -5,49 +5,49 @@
     <um:MaterialResourcesV2 />
   </ResourceDictionary.MergedDictionaries>
   <!--origin: Styles\Controls\v2\BottomTabBar.xaml-->
-  <StaticResource x:Key="M3MaterialBottomTabBarBackground" ResourceKey="SurfaceBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemBackgroundPointerOver" ResourceKey="OnSurfaceVariantHoverBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemBackgroundPressed" ResourceKey="OnSurfaceVariantPressedBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemBackgroundSelectedPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemBackgroundSelectedPressed" ResourceKey="OnSurfacePressedBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemForeground" ResourceKey="OnSurfaceVariantBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemForegroundPointerOver" ResourceKey="OnSurfaceVariantBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemForegroundPressed" ResourceKey="OnSurfaceVariantBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemForegroundSelected" ResourceKey="OnSurfaceBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemForegroundSelectedPointerOver" ResourceKey="OnSurfaceBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemForegroundSelectedPressed" ResourceKey="OnSurfaceBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemIconForeground" ResourceKey="OnSurfaceVariantBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemIconForegroundSelected" ResourceKey="OnSecondaryContainerBrush" />
-  <StaticResource x:Key="M3MaterialBottomTabBarItemActiveIndicatorBackgroundSelected" ResourceKey="SecondaryContainerBrush" />
-  <SolidColorBrush x:Key="M3MaterialBottomTabBarBackgroundTint" Opacity="0.08" Color="{ThemeResource PrimaryColor}" />
-  <StaticResource x:Key="M3MaterialBottomFabTabBarItemDisabledBackground" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialBottomFabTabBarItemDisabledForeground" ResourceKey="OnSurfaceDisabledBrush" />
-  <StaticResource x:Key="M3MaterialBottomFabTabBarItemPointerOverStateOverlay" ResourceKey="OnPrimaryContainerHoverBrush" />
-  <StaticResource x:Key="M3MaterialBottomFabTabBarItemFocusedStateOverlay" ResourceKey="OnPrimaryContainerFocusedBrush" />
-  <StaticResource x:Key="M3MaterialBottomFabTabBarItemPressedStateOverlay" ResourceKey="OnPrimaryContainerPressedBrush" />
-  <StaticResource x:Key="M3MaterialBottomFabTabBarItemDisabledStateOverlay" ResourceKey="OnSurfaceDisabledLowBrush" />
-  <x:Double x:Key="M3MaterialBottomTabBarFontSize">12</x:Double>
-  <FontWeight x:Key="M3MaterialBottomTabBarFontWeight">Medium</FontWeight>
-  <x:Double x:Key="M3MaterialBottomTabBarHeight">80</x:Double>
-  <GridLength x:Key="M3MaterialBottomTabBarGridLengthHeight">80</GridLength>
+  <StaticResource x:Key="MaterialBottomTabBarBackground" ResourceKey="SurfaceBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemBackgroundPointerOver" ResourceKey="OnSurfaceVariantHoverBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemBackgroundPressed" ResourceKey="OnSurfaceVariantPressedBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemBackgroundSelectedPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemBackgroundSelectedPressed" ResourceKey="OnSurfacePressedBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemForeground" ResourceKey="OnSurfaceVariantBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemForegroundPointerOver" ResourceKey="OnSurfaceVariantBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemForegroundPressed" ResourceKey="OnSurfaceVariantBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemForegroundSelected" ResourceKey="OnSurfaceBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemForegroundSelectedPointerOver" ResourceKey="OnSurfaceBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemForegroundSelectedPressed" ResourceKey="OnSurfaceBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemIconForeground" ResourceKey="OnSurfaceVariantBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemIconForegroundSelected" ResourceKey="OnSecondaryContainerBrush" />
+  <StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundSelected" ResourceKey="SecondaryContainerBrush" />
+  <SolidColorBrush x:Key="MaterialBottomTabBarBackgroundTint" Opacity="0.08" Color="{ThemeResource PrimaryColor}" />
+  <StaticResource x:Key="MaterialBottomFabTabBarItemDisabledBackground" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialBottomFabTabBarItemDisabledForeground" ResourceKey="OnSurfaceDisabledBrush" />
+  <StaticResource x:Key="MaterialBottomFabTabBarItemPointerOverStateOverlay" ResourceKey="OnPrimaryContainerHoverBrush" />
+  <StaticResource x:Key="MaterialBottomFabTabBarItemFocusedStateOverlay" ResourceKey="OnPrimaryContainerFocusedBrush" />
+  <StaticResource x:Key="MaterialBottomFabTabBarItemPressedStateOverlay" ResourceKey="OnPrimaryContainerPressedBrush" />
+  <StaticResource x:Key="MaterialBottomFabTabBarItemDisabledStateOverlay" ResourceKey="OnSurfaceDisabledLowBrush" />
+  <x:Double x:Key="MaterialBottomTabBarFontSize">12</x:Double>
+  <FontWeight x:Key="MaterialBottomTabBarFontWeight">Medium</FontWeight>
+  <x:Double x:Key="MaterialBottomTabBarHeight">80</x:Double>
+  <GridLength x:Key="MaterialBottomTabBarGridLengthHeight">80</GridLength>
   <x:Double x:Key="FabItemVerticalOffset">-32</x:Double>
-  <x:Double x:Key="M3MaterialBottomTabBarItemIconHeight">16</x:Double>
-  <x:Double x:Key="M3MaterialBottomTabBarItemIconWidth">16</x:Double>
-  <Thickness x:Key="M3MaterialBottomTabBarItemContentMargin">0,0,0,6</Thickness>
-  <Thickness x:Key="M3MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
-  <CornerRadius x:Key="M3MaterialBottomTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
-  <Thickness x:Key="M3MaterialBottomTabBarItemActiveIndicatorPadding">26,10</Thickness>
+  <x:Double x:Key="MaterialBottomTabBarItemIconHeight">16</x:Double>
+  <x:Double x:Key="MaterialBottomTabBarItemIconWidth">16</x:Double>
+  <Thickness x:Key="MaterialBottomTabBarItemContentMargin">0,0,0,6</Thickness>
+  <Thickness x:Key="MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
+  <CornerRadius x:Key="MaterialBottomTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
+  <Thickness x:Key="MaterialBottomTabBarItemActiveIndicatorPadding">26,10</Thickness>
   <x:Double x:Key="AjustedMaterialBottomTabBarHeight">108</x:Double>
-  <Thickness x:Key="M3MaterialBottomFabTabBarItemPadding">16</Thickness>
-  <x:Double x:Key="M3MaterialBottomFabTabBarItemContentWidthOrHeight">18</x:Double>
-  <CornerRadius x:Key="M3MaterialBottomFabTabBarItemCornerRadius">16</CornerRadius>
-  <x:Double x:Key="M3MaterialBottomFabTabBarItemIconTextPadding">12</x:Double>
-  <Style x:Key="M3MaterialBottomTabBarStyle" TargetType="utu:TabBar">
-    <Setter Property="Background" Value="{ThemeResource M3MaterialBottomTabBarBackground}" />
+  <Thickness x:Key="MaterialBottomFabTabBarItemPadding">16</Thickness>
+  <x:Double x:Key="MaterialBottomFabTabBarItemContentWidthOrHeight">18</x:Double>
+  <CornerRadius x:Key="MaterialBottomFabTabBarItemCornerRadius">16</CornerRadius>
+  <x:Double x:Key="MaterialBottomFabTabBarItemIconTextPadding">12</x:Double>
+  <Style x:Key="MaterialBottomTabBarStyle" TargetType="utu:TabBar">
+    <Setter Property="Background" Value="{ThemeResource MaterialBottomTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
     <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Bottom" />
     <Setter Property="ItemsPanel">
@@ -57,7 +57,7 @@
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialBottomTabBarItemStyle}" />
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialBottomTabBarItemStyle}" />
     <!--  Workaround until this issue is fixed, can be removed after  -->
     <!--  https://github.com/unoplatform/uno/issues/7393  -->
     <Setter Property="VerticalContentAlignment" Value="Bottom" />
@@ -67,38 +67,38 @@
           <!--  Code can be used when this issue is fixed in Uno:  -->
           <!--  https://github.com/unoplatform/uno/issues/7393  -->
           <todo:Grid x:Name="TabBarGrid" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-            <ItemsPresenter Height="{StaticResource M3MaterialBottomTabBarHeight}" />
+            <ItemsPresenter Height="{StaticResource MaterialBottomTabBarHeight}" />
           </todo:Grid>
           <!--  Workaround until the above issue is fixed, can be removed after  -->
           <Grid x:Name="TabBarGrid">
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
-              <RowDefinition Height="{StaticResource M3MaterialBottomTabBarGridLengthHeight}" />
+              <RowDefinition Height="{StaticResource MaterialBottomTabBarGridLengthHeight}" />
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Border x:Name="BackgroundBorder" Grid.Row="1" Height="{StaticResource M3MaterialBottomTabBarHeight}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{TemplateBinding Background}" />
-            <Border Grid.Row="1" Height="{StaticResource M3MaterialBottomTabBarHeight}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{StaticResource M3MaterialBottomTabBarBackgroundTint}" />
+            <Border x:Name="BackgroundBorder" Grid.Row="1" Height="{StaticResource MaterialBottomTabBarHeight}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{TemplateBinding Background}" />
+            <Border Grid.Row="1" Height="{StaticResource MaterialBottomTabBarHeight}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{StaticResource MaterialBottomTabBarBackgroundTint}" />
             <ItemsPresenter Grid.RowSpan="2" Height="{StaticResource AjustedMaterialBottomTabBarHeight}" />
             <Border x:Name="VisibleBoundsBorder" Grid.Row="2" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" />
-            <Border Grid.Row="2" Padding="{TemplateBinding Padding}" Background="{StaticResource M3MaterialBottomTabBarBackgroundTint}" />
+            <Border Grid.Row="2" Padding="{TemplateBinding Padding}" Background="{StaticResource MaterialBottomTabBarBackgroundTint}" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialBottomFabTabBarItemStyle" TargetType="utu:TabBarItem">
+  <Style x:Key="MaterialBottomFabTabBarItemStyle" TargetType="utu:TabBarItem">
     <Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
     <Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
-    <Setter Property="BorderBrush" Value="{ThemeResource M3MaterialBottomTabBarItemBorderBrush}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource MaterialBottomTabBarItemBorderBrush}" />
     <Setter Property="FontFamily" Value="{StaticResource MaterialMediumFontFamily}" />
-    <Setter Property="FontSize" Value="{StaticResource M3MaterialBottomTabBarFontSize}" />
+    <Setter Property="FontSize" Value="{StaticResource MaterialBottomTabBarFontSize}" />
     <Setter Property="FontWeight" Value="Normal" />
     <Setter Property="IsSelectable" Value="False" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
-    <Setter Property="CornerRadius" Value="{StaticResource M3MaterialBottomFabTabBarItemCornerRadius}" />
-    <Setter Property="Padding" Value="{StaticResource M3MaterialBottomFabTabBarItemPadding}" />
+    <Setter Property="CornerRadius" Value="{StaticResource MaterialBottomFabTabBarItemCornerRadius}" />
+    <Setter Property="Padding" Value="{StaticResource MaterialBottomFabTabBarItemPadding}" />
     <!--  Code can be uncommented when this issue is fixed in Uno:  -->
     <!--  https://github.com/unoplatform/uno/issues/7393  -->
     <!--<Setter Property="RenderTransform">	
@@ -117,12 +117,12 @@
                 <Grid x:Name="Root" Background="{TemplateBinding Background}">
                   <StackPanel x:Name="ContentPanel" Margin="{TemplateBinding Padding}" Orientation="Horizontal">
                     <!--  Icon  -->
-                    <Viewbox Width="{StaticResource M3MaterialBottomFabTabBarItemContentWidthOrHeight}" Height="{StaticResource M3MaterialBottomFabTabBarItemContentWidthOrHeight}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                    <Viewbox Width="{StaticResource MaterialBottomFabTabBarItemContentWidthOrHeight}" Height="{StaticResource MaterialBottomFabTabBarItemContentWidthOrHeight}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
                       <ContentPresenter x:Name="IconPresenter" Content="{TemplateBinding Icon}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Viewbox>
                     <!--  Icon/Content spacing  -->
                     <Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
-                      <Border Width="{StaticResource M3MaterialBottomFabTabBarItemIconTextPadding}" Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
+                      <Border Width="{StaticResource MaterialBottomFabTabBarItemIconTextPadding}" Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
                     </Border>
                     <!--  Content  -->
                     <ContentPresenter x:Name="ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" />
@@ -136,27 +136,27 @@
                 <VisualState x:Name="Normal" />
                 <VisualState x:Name="PointerOver">
                   <VisualState.Setters>
-                    <Setter Target="StateOverlay.Background" Value="{StaticResource M3MaterialBottomFabTabBarItemPointerOverStateOverlay}" />
+                    <Setter Target="StateOverlay.Background" Value="{StaticResource MaterialBottomFabTabBarItemPointerOverStateOverlay}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                   <VisualState.Setters>
-                    <Setter Target="StateOverlay.Background" Value="{StaticResource M3MaterialBottomFabTabBarItemPressedStateOverlay}" />
+                    <Setter Target="StateOverlay.Background" Value="{StaticResource MaterialBottomFabTabBarItemPressedStateOverlay}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Disabled">
                   <VisualState.Setters>
-                    <Setter Target="IconPresenter.Foreground" Value="{StaticResource M3MaterialBottomFabTabBarItemDisabledForeground}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource M3MaterialBottomFabTabBarItemDisabledForeground}" />
-                    <Setter Target="Root.Background" Value="{StaticResource M3MaterialBottomFabTabBarItemDisabledBackground}" />
-                    <Setter Target="StateOverlay.Background" Value="{StaticResource M3MaterialBottomFabTabBarItemDisabledStateOverlay}" />
+                    <Setter Target="IconPresenter.Foreground" Value="{StaticResource MaterialBottomFabTabBarItemDisabledForeground}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource MaterialBottomFabTabBarItemDisabledForeground}" />
+                    <Setter Target="Root.Background" Value="{StaticResource MaterialBottomFabTabBarItemDisabledBackground}" />
+                    <Setter Target="StateOverlay.Background" Value="{StaticResource MaterialBottomFabTabBarItemDisabledStateOverlay}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
               <VisualStateGroup x:Name="FocusStates">
                 <VisualState x:Name="Focused">
                   <VisualState.Setters>
-                    <Setter Target="StateOverlay.Background" Value="{StaticResource M3MaterialBottomFabTabBarItemFocusedStateOverlay}" />
+                    <Setter Target="StateOverlay.Background" Value="{StaticResource MaterialBottomFabTabBarItemFocusedStateOverlay}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PointerFocused" />
@@ -168,18 +168,18 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialBottomTabBarItemStyle" TargetType="utu:TabBarItem">
-    <Setter Property="Background" Value="{ThemeResource M3MaterialBottomTabBarItemBackground}" />
-    <Setter Property="Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForeground}" />
-    <Setter Property="BorderBrush" Value="{ThemeResource M3MaterialBottomTabBarItemBorderBrush}" />
+  <Style x:Key="MaterialBottomTabBarItemStyle" TargetType="utu:TabBarItem">
+    <Setter Property="Background" Value="{ThemeResource MaterialBottomTabBarItemBackground}" />
+    <Setter Property="Foreground" Value="{ThemeResource MaterialBottomTabBarItemForeground}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource MaterialBottomTabBarItemBorderBrush}" />
     <Setter Property="FontFamily" Value="{StaticResource MaterialMediumFontFamily}" />
-    <Setter Property="FontSize" Value="{StaticResource M3MaterialBottomTabBarFontSize}" />
-    <Setter Property="FontWeight" Value="{StaticResource M3MaterialBottomTabBarFontWeight}" />
+    <Setter Property="FontSize" Value="{StaticResource MaterialBottomTabBarFontSize}" />
+    <Setter Property="FontWeight" Value="{StaticResource MaterialBottomTabBarFontWeight}" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <!--  Workaround with these two properties until this issue is fixed, can be removed after  -->
     <!--  https://github.com/unoplatform/uno/issues/7393  -->
-    <Setter Property="Height" Value="{StaticResource M3MaterialBottomTabBarHeight}" />
+    <Setter Property="Height" Value="{StaticResource MaterialBottomTabBarHeight}" />
     <Setter Property="VerticalAlignment" Value="Bottom" />
     <Setter Property="Template">
       <Setter.Value>
@@ -190,45 +190,45 @@
                 <VisualState x:Name="Normal" />
                 <not_mobile:VisualState x:Name="PointerOver">
                   <VisualState.Setters>
-                    <Setter Target="StateOverlay.Background" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundPointerOver}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundPointerOver}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundPointerOver}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundPointerOver}" />
+                    <Setter Target="StateOverlay.Background" Value="{ThemeResource MaterialBottomTabBarItemBackgroundPointerOver}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialBottomTabBarItemBackgroundPointerOver}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundPointerOver}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundPointerOver}" />
                   </VisualState.Setters>
                 </not_mobile:VisualState>
                 <VisualState x:Name="Pressed">
                   <VisualState.Setters>
-                    <Setter Target="StateOverlay.Background" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundPressed}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundPressed}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundPressed}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundPressed}" />
+                    <Setter Target="StateOverlay.Background" Value="{ThemeResource MaterialBottomTabBarItemBackgroundPressed}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialBottomTabBarItemBackgroundPressed}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundPressed}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundPressed}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Selected">
                   <VisualState.Setters>
-                    <Setter Target="ActiveIndicator.Background" Value="{ThemeResource M3MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
-                    <Setter Target="StateOverlay.Background" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelected}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelected}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemIconForegroundSelected}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelected}" />
+                    <Setter Target="ActiveIndicator.Background" Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
+                    <Setter Target="StateOverlay.Background" Value="{ThemeResource MaterialBottomTabBarItemBackgroundSelected}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialBottomTabBarItemBackgroundSelected}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialBottomTabBarItemIconForegroundSelected}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundSelected}" />
                   </VisualState.Setters>
                 </VisualState>
                 <not_mobile:VisualState x:Name="PointerOverSelected">
                   <VisualState.Setters>
-                    <Setter Target="ActiveIndicator.Background" Value="{ThemeResource M3MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
-                    <Setter Target="StateOverlay.Background" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelectedPointerOver}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelectedPointerOver}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelectedPointerOver}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelectedPointerOver}" />
+                    <Setter Target="ActiveIndicator.Background" Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
+                    <Setter Target="StateOverlay.Background" Value="{ThemeResource MaterialBottomTabBarItemBackgroundSelectedPointerOver}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialBottomTabBarItemBackgroundSelectedPointerOver}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPointerOver}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPointerOver}" />
                   </VisualState.Setters>
                 </not_mobile:VisualState>
                 <VisualState x:Name="PressedSelected">
                   <VisualState.Setters>
-                    <Setter Target="ActiveIndicator.Background" Value="{ThemeResource M3MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
-                    <Setter Target="StateOverlay.Background" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelectedPressed}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialBottomTabBarItemBackgroundSelectedPressed}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelectedPressed}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundSelectedPressed}" />
+                    <Setter Target="ActiveIndicator.Background" Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
+                    <Setter Target="StateOverlay.Background" Value="{ThemeResource MaterialBottomTabBarItemBackgroundSelectedPressed}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialBottomTabBarItemBackgroundSelectedPressed}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPressed}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPressed}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
@@ -236,8 +236,8 @@
                 <VisualState x:Name="Enabled" />
                 <VisualState x:Name="Disabled">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundDisabled}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialBottomTabBarItemForegroundDisabled}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundDisabled}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialBottomTabBarItemForegroundDisabled}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
@@ -252,7 +252,7 @@
                 <VisualState x:Name="ContentOnly">
                   <VisualState.Setters>
                     <Setter Target="IconBox.Visibility" Value="Collapsed" />
-                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource M3MaterialBottomTabBarItemContentOnlyMargin}" />
+                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource MaterialBottomTabBarItemContentOnlyMargin}" />
                     <Setter Target="IconRow.Height" Value="0" />
                     <Setter Target="ContentRow.Height" Value="*" />
                   </VisualState.Setters>
@@ -268,13 +268,13 @@
                       <RowDefinition x:Name="IconRow" Height="*" />
                       <RowDefinition x:Name="ContentRow" Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid x:Name="ActiveIndicator" Padding="{StaticResource M3MaterialBottomTabBarItemActiveIndicatorPadding}" CornerRadius="{StaticResource M3MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
-                      <Viewbox x:Name="IconBox" Width="{StaticResource M3MaterialBottomTabBarItemIconWidth}" Height="{StaticResource M3MaterialBottomTabBarItemIconHeight}">
-                        <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{StaticResource M3MaterialBottomTabBarItemIconForeground}" />
+                    <Grid x:Name="ActiveIndicator" Padding="{StaticResource MaterialBottomTabBarItemActiveIndicatorPadding}" CornerRadius="{StaticResource MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
+                      <Viewbox x:Name="IconBox" Width="{StaticResource MaterialBottomTabBarItemIconWidth}" Height="{StaticResource MaterialBottomTabBarItemIconHeight}">
+                        <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{StaticResource MaterialBottomTabBarItemIconForeground}" />
                       </Viewbox>
                     </Grid>
-                    <Border x:Name="StateOverlay" CornerRadius="{StaticResource M3MaterialBottomTabBarItemActiveIndicatorCornerRadius}" />
-                    <ContentPresenter x:Name="ContentPresenter" Grid.Row="1" Margin="{StaticResource M3MaterialBottomTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
+                    <Border x:Name="StateOverlay" CornerRadius="{StaticResource MaterialBottomTabBarItemActiveIndicatorCornerRadius}" />
+                    <ContentPresenter x:Name="ContentPresenter" Grid.Row="1" Margin="{StaticResource MaterialBottomTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
                   </Grid>
                 </Grid>
               </um:Ripple.Content>
@@ -285,17 +285,17 @@
     </Setter>
   </Style>
   <!--origin: Styles\Controls\v2\Card.xaml-->
-  <StaticResource x:Key="M3MaterialElevatedCardBackground" ResourceKey="SurfaceBrush" />
-  <StaticResource x:Key="M3MaterialFilledCardBackground" ResourceKey="SurfaceVariantBrush" />
-  <StaticResource x:Key="M3MaterialOutlinedCardBackground" ResourceKey="SurfaceBrush" />
-  <StaticResource x:Key="M3MaterialOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
-  <x:Double x:Key="M3MaterialCardMinHeight">72</x:Double>
-  <x:Double x:Key="M3MaterialCardMaxWidth">344</x:Double>
-  <Thickness x:Key="M3MaterialCardPadding">16</Thickness>
-  <Thickness x:Key="M3MaterialCardBorderThickness">1</Thickness>
-  <CornerRadius x:Key="M3MaterialCardCornerRadius">12</CornerRadius>
-  <x:Double x:Key="M3MaterialCardElevation">6</x:Double>
-  <Thickness x:Key="M3MaterialCardElevationMargin">6</Thickness>
+  <StaticResource x:Key="MaterialElevatedCardBackground" ResourceKey="SurfaceBrush" />
+  <StaticResource x:Key="MaterialFilledCardBackground" ResourceKey="SurfaceVariantBrush" />
+  <StaticResource x:Key="MaterialOutlinedCardBackground" ResourceKey="SurfaceBrush" />
+  <StaticResource x:Key="MaterialOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
+  <x:Double x:Key="MaterialCardMinHeight">72</x:Double>
+  <x:Double x:Key="MaterialCardMaxWidth">344</x:Double>
+  <Thickness x:Key="MaterialCardPadding">16</Thickness>
+  <Thickness x:Key="MaterialCardBorderThickness">1</Thickness>
+  <CornerRadius x:Key="MaterialCardCornerRadius">12</CornerRadius>
+  <x:Double x:Key="MaterialCardElevation">6</x:Double>
+  <Thickness x:Key="MaterialCardElevationMargin">6</Thickness>
   <DataTemplate x:Key="M3DefaultHeaderContentTemplate">
     <TextBlock Text="{Binding}" MaxLines="1" Margin="16,16,16,0" Style="{ThemeResource TitleMedium}" />
   </DataTemplate>
@@ -322,12 +322,12 @@
   <DataTemplate x:Key="M3DefaultAvatarContentTemplate">
     <Image Source="{Binding}" Stretch="Uniform" MaxHeight="40" />
   </DataTemplate>
-  <Style x:Key="M3MaterialBaseCardStyle" TargetType="utu:Card">
-    <Setter Property="MinHeight" Value="{StaticResource M3MaterialCardMinHeight}" />
-    <Setter Property="MaxWidth" Value="{StaticResource M3MaterialCardMaxWidth}" />
-    <Setter Property="CornerRadius" Value="{StaticResource M3MaterialCardCornerRadius}" />
-    <Setter Property="Margin" Value="{StaticResource M3MaterialCardElevationMargin}" />
-    <Setter Property="Padding" Value="{StaticResource M3MaterialCardPadding}" />
+  <Style x:Key="MaterialBaseCardStyle" TargetType="utu:Card">
+    <Setter Property="MinHeight" Value="{StaticResource MaterialCardMinHeight}" />
+    <Setter Property="MaxWidth" Value="{StaticResource MaterialCardMaxWidth}" />
+    <Setter Property="CornerRadius" Value="{StaticResource MaterialCardCornerRadius}" />
+    <Setter Property="Margin" Value="{StaticResource MaterialCardElevationMargin}" />
+    <Setter Property="Padding" Value="{StaticResource MaterialCardPadding}" />
     <Setter Property="HeaderContentTemplate" Value="{StaticResource M3DefaultHeaderContentTemplate}" />
     <Setter Property="SubHeaderContentTemplate" Value="{StaticResource M3DefaultSubHeaderContentTemplate}" />
     <Setter Property="SupportingContentTemplate" Value="{StaticResource M3DefaultSupportingContentTemplate}" />
@@ -335,19 +335,19 @@
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
   </Style>
-  <Style x:Key="M3MaterialAvatarBaseCardStyle" BasedOn="{StaticResource M3MaterialBaseCardStyle}" TargetType="utu:Card">
+  <Style x:Key="MaterialAvatarBaseCardStyle" BasedOn="{StaticResource MaterialBaseCardStyle}" TargetType="utu:Card">
     <Setter Property="SupportingContentTemplate" Value="{StaticResource M3DefaultAvatarSupportingContentTemplate}" />
     <Setter Property="AvatarContentTemplate" Value="{StaticResource M3DefaultAvatarContentTemplate}" />
   </Style>
-  <Style x:Key="M3MaterialSmallMediaBaseCardStyle" BasedOn="{StaticResource M3MaterialBaseCardStyle}" TargetType="utu:Card">
+  <Style x:Key="MaterialSmallMediaBaseCardStyle" BasedOn="{StaticResource MaterialBaseCardStyle}" TargetType="utu:Card">
     <Setter Property="Padding" Value="0" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
     <Setter Property="MediaContentTemplate" Value="{StaticResource M3DefaultSmallMediaContentTemplate}" />
     <Setter Property="SupportingContentTemplate" Value="{StaticResource M3DefaultSmallMediaSupportingContentTemplate}" />
   </Style>
-  <Style x:Key="M3MaterialFilledCardStyle" TargetType="utu:Card" BasedOn="{StaticResource M3MaterialBaseCardStyle}">
-    <Setter Property="Background" Value="{StaticResource M3MaterialFilledCardBackground}" />
+  <Style x:Key="MaterialFilledCardStyle" TargetType="utu:Card" BasedOn="{StaticResource MaterialBaseCardStyle}">
+    <Setter Property="Background" Value="{StaticResource MaterialFilledCardBackground}" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
     <Setter Property="Template">
@@ -424,7 +424,7 @@
             <!--  SubHeader part  -->
             <ContentPresenter Grid.Row="2" x:Name="SubHeaderContentPresenter" Content="{TemplateBinding SubHeaderContent}" ContentTemplate="{TemplateBinding SubHeaderContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SubHeaderContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
             <!--  Ripple effect  -->
-            <um:Ripple Grid.RowSpan="4" Feedback="{StaticResource OnSurfaceFocusedBrush}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource M3MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
+            <um:Ripple Grid.RowSpan="4" Feedback="{StaticResource OnSurfaceFocusedBrush}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
             <!--  Supporting Content part  -->
             <ContentPresenter Grid.Row="3" x:Name="SupportingContentPresenter" Content="{TemplateBinding SupportingContent}" ContentTemplate="{TemplateBinding SupportingContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SupportingContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
             <!--  Icons section part  -->
@@ -434,16 +434,16 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialOutlinedCardStyle" TargetType="utu:Card" BasedOn="{StaticResource M3MaterialFilledCardStyle}">
-    <Setter Property="Background" Value="{StaticResource M3MaterialOutlinedCardBackground}" />
-    <Setter Property="BorderBrush" Value="{ThemeResource M3MaterialOutlinedCardBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{StaticResource M3MaterialCardBorderThickness}" />
+  <Style x:Key="MaterialOutlinedCardStyle" TargetType="utu:Card" BasedOn="{StaticResource MaterialFilledCardStyle}">
+    <Setter Property="Background" Value="{StaticResource MaterialOutlinedCardBackground}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{StaticResource MaterialCardBorderThickness}" />
   </Style>
-  <Style x:Key="M3MaterialElevatedCardStyle" BasedOn="{StaticResource M3MaterialBaseCardStyle}" TargetType="utu:Card">
-    <Setter Property="Background" Value="{StaticResource M3MaterialElevatedCardBackground}" />
+  <Style x:Key="MaterialElevatedCardStyle" BasedOn="{StaticResource MaterialBaseCardStyle}" TargetType="utu:Card">
+    <Setter Property="Background" Value="{StaticResource MaterialElevatedCardBackground}" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
-    <Setter Property="Elevation" Value="{StaticResource M3MaterialCardElevation}" />
+    <Setter Property="Elevation" Value="{StaticResource MaterialCardElevation}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:Card">
@@ -520,7 +520,7 @@
               <!--  SubHeader part  -->
               <ContentPresenter Grid.Row="2" x:Name="SubHeaderContentPresenter" Content="{TemplateBinding SubHeaderContent}" ContentTemplate="{TemplateBinding SubHeaderContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SubHeaderContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
               <!--  Ripple effect  -->
-              <um:Ripple Grid.RowSpan="4" Feedback="{StaticResource OnSurfaceFocusedBrush}" CornerRadius="{StaticResource M3MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
+              <um:Ripple Grid.RowSpan="4" Feedback="{StaticResource OnSurfaceFocusedBrush}" CornerRadius="{StaticResource MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
               <!--  Supporting Content part  -->
               <ContentPresenter Grid.Row="3" x:Name="SupportingContentPresenter" Content="{TemplateBinding SupportingContent}" ContentTemplate="{TemplateBinding SupportingContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SupportingContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
               <!--  Icons section part  -->
@@ -531,8 +531,8 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialAvatarFilledCardStyle" BasedOn="{StaticResource M3MaterialAvatarBaseCardStyle}" TargetType="utu:Card">
-    <Setter Property="Background" Value="{StaticResource M3MaterialFilledCardBackground}" />
+  <Style x:Key="MaterialAvatarFilledCardStyle" BasedOn="{StaticResource MaterialAvatarBaseCardStyle}" TargetType="utu:Card">
+    <Setter Property="Background" Value="{StaticResource MaterialFilledCardBackground}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:Card">
@@ -613,7 +613,7 @@
               <ContentPresenter x:Name="SubHeaderContentPresenter" Content="{TemplateBinding SubHeaderContent}" ContentTemplate="{TemplateBinding SubHeaderContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SubHeaderContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
             </StackPanel>
             <!--  Ripple effect  -->
-            <um:Ripple Grid.RowSpan="3" Grid.ColumnSpan="3" Feedback="{StaticResource OnSurfaceFocusedBrush}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource M3MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
+            <um:Ripple Grid.RowSpan="3" Grid.ColumnSpan="3" Feedback="{StaticResource OnSurfaceFocusedBrush}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
             <!--  Icons section part  -->
             <ContentPresenter Grid.Column="2" x:Name="IconsContentPresenter" Content="{TemplateBinding IconsContent}" ContentTemplate="{TemplateBinding IconsContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding IconsContentTemplate, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
             <!--  Media content part  -->
@@ -625,14 +625,14 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialAvatarOutlinedCardStyle" BasedOn="{StaticResource M3MaterialAvatarFilledCardStyle}" TargetType="utu:Card">
-    <Setter Property="Background" Value="{StaticResource M3MaterialOutlinedCardBackground}" />
-    <Setter Property="BorderBrush" Value="{ThemeResource M3MaterialOutlinedCardBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{StaticResource M3MaterialCardBorderThickness}" />
+  <Style x:Key="MaterialAvatarOutlinedCardStyle" BasedOn="{StaticResource MaterialAvatarFilledCardStyle}" TargetType="utu:Card">
+    <Setter Property="Background" Value="{StaticResource MaterialOutlinedCardBackground}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{StaticResource MaterialCardBorderThickness}" />
   </Style>
-  <Style x:Key="M3MaterialAvatarElevatedCardStyle" BasedOn="{StaticResource M3MaterialAvatarBaseCardStyle}" TargetType="utu:Card">
-    <Setter Property="Background" Value="{StaticResource M3MaterialElevatedCardBackground}" />
-    <Setter Property="Elevation" Value="{StaticResource M3MaterialCardElevation}" />
+  <Style x:Key="MaterialAvatarElevatedCardStyle" BasedOn="{StaticResource MaterialAvatarBaseCardStyle}" TargetType="utu:Card">
+    <Setter Property="Background" Value="{StaticResource MaterialElevatedCardBackground}" />
+    <Setter Property="Elevation" Value="{StaticResource MaterialCardElevation}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:Card">
@@ -715,7 +715,7 @@
                 <ContentPresenter x:Name="SubHeaderContentPresenter" Content="{TemplateBinding SubHeaderContent}" ContentTemplate="{TemplateBinding SubHeaderContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SubHeaderContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
               </StackPanel>
               <!--  Ripple effect  -->
-              <um:Ripple Grid.RowSpan="3" Grid.ColumnSpan="3" Feedback="{StaticResource OnSurfaceFocusedBrush}" CornerRadius="{StaticResource M3MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
+              <um:Ripple Grid.RowSpan="3" Grid.ColumnSpan="3" Feedback="{StaticResource OnSurfaceFocusedBrush}" CornerRadius="{StaticResource MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
               <!--  Icons section part  -->
               <ContentPresenter Grid.Column="2" x:Name="IconsContentPresenter" Content="{TemplateBinding IconsContent}" ContentTemplate="{TemplateBinding IconsContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding IconsContentTemplate, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}}" />
               <!--  Media content part  -->
@@ -728,8 +728,8 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialSmallMediaFilledCardStyle" BasedOn="{StaticResource M3MaterialSmallMediaBaseCardStyle}" TargetType="utu:Card">
-    <Setter Property="Background" Value="{StaticResource M3MaterialFilledCardBackground}" />
+  <Style x:Key="MaterialSmallMediaFilledCardStyle" BasedOn="{StaticResource MaterialSmallMediaBaseCardStyle}" TargetType="utu:Card">
+    <Setter Property="Background" Value="{StaticResource MaterialFilledCardBackground}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:Card">
@@ -810,7 +810,7 @@
               <ContentPresenter x:Name="SubHeaderContentPresenter" Content="{TemplateBinding SubHeaderContent}" ContentTemplate="{TemplateBinding SubHeaderContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SubHeaderContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
             </StackPanel>
             <!--  Ripple effect  -->
-            <um:Ripple Grid.RowSpan="3" Grid.ColumnSpan="3" Feedback="{StaticResource OnSurfaceFocusedBrush}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource M3MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
+            <um:Ripple Grid.RowSpan="3" Grid.ColumnSpan="3" Feedback="{StaticResource OnSurfaceFocusedBrush}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
             <!--  Supporting Content part  -->
             <ContentPresenter Grid.Row="1" Grid.ColumnSpan="3" x:Name="SupportingContentPresenter" Content="{TemplateBinding SupportingContent}" ContentTemplate="{TemplateBinding SupportingContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SupportingContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
             <!--  Icons section part  -->
@@ -820,15 +820,15 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialSmallMediaOutlinedCardStyle" BasedOn="{StaticResource M3MaterialSmallMediaFilledCardStyle}" TargetType="utu:Card">
+  <Style x:Key="MaterialSmallMediaOutlinedCardStyle" BasedOn="{StaticResource MaterialSmallMediaFilledCardStyle}" TargetType="utu:Card">
     <Setter Property="Padding" Value="0" />
-    <Setter Property="Background" Value="{StaticResource M3MaterialOutlinedCardBackground}" />
-    <Setter Property="BorderBrush" Value="{ThemeResource M3MaterialOutlinedCardBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{StaticResource M3MaterialCardBorderThickness}" />
+    <Setter Property="Background" Value="{StaticResource MaterialOutlinedCardBackground}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{StaticResource MaterialCardBorderThickness}" />
   </Style>
-  <Style x:Key="M3MaterialSmallMediaElevatedCardStyle" BasedOn="{StaticResource M3MaterialSmallMediaBaseCardStyle}" TargetType="utu:Card">
-    <Setter Property="Background" Value="{StaticResource M3MaterialElevatedCardBackground}" />
-    <Setter Property="Elevation" Value="{StaticResource M3MaterialCardElevation}" />
+  <Style x:Key="MaterialSmallMediaElevatedCardStyle" BasedOn="{StaticResource MaterialSmallMediaBaseCardStyle}" TargetType="utu:Card">
+    <Setter Property="Background" Value="{StaticResource MaterialElevatedCardBackground}" />
+    <Setter Property="Elevation" Value="{StaticResource MaterialCardElevation}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:Card">
@@ -911,7 +911,7 @@
                 <ContentPresenter x:Name="SubHeaderContentPresenter" Content="{TemplateBinding SubHeaderContent}" ContentTemplate="{TemplateBinding SubHeaderContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SubHeaderContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
               </StackPanel>
               <!--  Ripple effect  -->
-              <um:Ripple Grid.RowSpan="3" Grid.ColumnSpan="3" Feedback="{StaticResource OnSurfaceFocusedBrush}" CornerRadius="{StaticResource M3MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
+              <um:Ripple Grid.RowSpan="3" Grid.ColumnSpan="3" Feedback="{StaticResource OnSurfaceFocusedBrush}" CornerRadius="{StaticResource MaterialCardCornerRadius}" Padding="{TemplateBinding Padding}" AutomationProperties.AccessibilityView="Raw" />
               <!--  Supporting Content part  -->
               <ContentPresenter Grid.Row="1" Grid.ColumnSpan="3" x:Name="SupportingContentPresenter" Content="{TemplateBinding SupportingContent}" ContentTemplate="{TemplateBinding SupportingContentTemplate}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Visibility="{Binding SupportingContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
               <!--  Icons section part  -->
@@ -923,18 +923,18 @@
     </Setter>
   </Style>
   <!--origin: Styles\Controls\v2\CardContentControl.xaml-->
-  <Style x:Key="M3MaterialBaseCardContentControlStyle" TargetType="utu:CardContentControl">
-    <Setter Property="MinHeight" Value="{StaticResource M3MaterialCardMinHeight}" />
-    <Setter Property="MaxWidth" Value="{StaticResource M3MaterialCardMaxWidth}" />
-    <Setter Property="Margin" Value="{StaticResource M3MaterialCardElevationMargin}" />
-    <Setter Property="CornerRadius" Value="{StaticResource M3MaterialCardCornerRadius}" />
+  <Style x:Key="MaterialBaseCardContentControlStyle" TargetType="utu:CardContentControl">
+    <Setter Property="MinHeight" Value="{StaticResource MaterialCardMinHeight}" />
+    <Setter Property="MaxWidth" Value="{StaticResource MaterialCardMaxWidth}" />
+    <Setter Property="Margin" Value="{StaticResource MaterialCardElevationMargin}" />
+    <Setter Property="CornerRadius" Value="{StaticResource MaterialCardCornerRadius}" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
   </Style>
-  <Style x:Key="M3MaterialFilledCardContentControlStyle" BasedOn="{StaticResource M3MaterialBaseCardContentControlStyle}" TargetType="utu:CardContentControl">
-    <Setter Property="Background" Value="{StaticResource M3MaterialFilledCardBackground}" />
+  <Style x:Key="MaterialFilledCardContentControlStyle" BasedOn="{StaticResource MaterialBaseCardContentControlStyle}" TargetType="utu:CardContentControl">
+    <Setter Property="Background" Value="{StaticResource MaterialFilledCardBackground}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:CardContentControl">
@@ -1003,7 +1003,7 @@
             <!--<um:Ripple Feedback="{StaticResource OnSurfaceFocusedBrush}"
 										 BorderBrush="{TemplateBinding BorderBrush}"
 										 BorderThickness="{TemplateBinding BorderThickness}"
-										 CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+										 CornerRadius="{StaticResource MaterialCardCornerRadius}"
 										 Padding="{TemplateBinding Padding}"
 										 AutomationProperties.AccessibilityView="Raw" />-->
             <!--  Main ContentPresenter  -->
@@ -1019,14 +1019,14 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialOutlinedCardContentControlStyle" BasedOn="{StaticResource M3MaterialFilledCardContentControlStyle}" TargetType="utu:CardContentControl">
-    <Setter Property="Background" Value="{StaticResource M3MaterialOutlinedCardBackground}" />
-    <Setter Property="BorderBrush" Value="{ThemeResource M3MaterialOutlinedCardBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{StaticResource M3MaterialCardBorderThickness}" />
+  <Style x:Key="MaterialOutlinedCardContentControlStyle" BasedOn="{StaticResource MaterialFilledCardContentControlStyle}" TargetType="utu:CardContentControl">
+    <Setter Property="Background" Value="{StaticResource MaterialOutlinedCardBackground}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{StaticResource MaterialCardBorderThickness}" />
   </Style>
-  <Style x:Key="M3MaterialElevatedCardContentControlStyle" BasedOn="{StaticResource M3MaterialBaseCardContentControlStyle}" TargetType="utu:CardContentControl">
-    <Setter Property="Background" Value="{StaticResource M3MaterialElevatedCardBackground}" />
-    <Setter Property="Elevation" Value="{StaticResource M3MaterialCardElevation}" />
+  <Style x:Key="MaterialElevatedCardContentControlStyle" BasedOn="{StaticResource MaterialBaseCardContentControlStyle}" TargetType="utu:CardContentControl">
+    <Setter Property="Background" Value="{StaticResource MaterialElevatedCardBackground}" />
+    <Setter Property="Elevation" Value="{StaticResource MaterialCardElevation}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:CardContentControl">
@@ -1095,7 +1095,7 @@
               <!-- Will add the ripple effect later on when this issue is taken care of: -->
               <!-- https://github.com/unoplatform/uno.ui.toolkit/issues/88 -->
               <!--<um:Ripple Feedback="{StaticResource OnSurfaceFocusedBrush}"
-											 CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+											 CornerRadius="{StaticResource MaterialCardCornerRadius}"
 											 Padding="{TemplateBinding Padding}"
 											 AutomationProperties.AccessibilityView="Raw" />-->
               <!--  Main ContentPresenter  -->
@@ -1113,59 +1113,59 @@
     </Setter>
   </Style>
   <!--origin: Styles\Controls\v2\Chip.xaml-->
-  <x:String x:Key="M3MaterialChipDeleteIcon">M11.25 1.8075L10.1925 0.75L6 4.9425L1.8075 0.75L0.75 1.8075L4.9425 6L0.75 10.1925L1.8075 11.25L6 7.0575L10.1925 11.25L11.25 10.1925L7.0575 6L11.25 1.8075Z</x:String>
-  <x:String x:Key="M3MaterialCheckGlyphPathData">M28.718018,0L32,3.2819897 10.666016,24.616999 0,13.951997 3.2810059,10.670007 10.666016,18.055033z</x:String>
-  <StaticResource x:Key="M3MaterialChipBackground" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialChipSelectedBackground" ResourceKey="SecondaryContainerBrush" />
-  <StaticResource x:Key="M3MaterialChipPointerOverStateOverlay" ResourceKey="OnSurfaceVariantHoverBrush" />
-  <StaticResource x:Key="M3MaterialChipFocusedStateOverlay" ResourceKey="OnSurfaceVariantFocusedBrush" />
-  <StaticResource x:Key="M3MaterialChipPressedStateOverlay" ResourceKey="OnSurfaceVariantPressedBrush" />
-  <StaticResource x:Key="M3MaterialChipSelectedPointerOverStateOverlay" ResourceKey="OnSecondaryContainerHoverBrush" />
-  <StaticResource x:Key="M3MaterialChipSelectedFocusedStateOverlay" ResourceKey="OnSecondaryContainerFocusedBrush" />
-  <StaticResource x:Key="M3MaterialChipSelectedPressedStateOverlay" ResourceKey="OnSecondaryContainerSelectedBrush" />
-  <StaticResource x:Key="M3MaterialChipForeground" ResourceKey="OnSurfaceVariantBrush" />
-  <StaticResource x:Key="M3MaterialChipPointerOverForeground" ResourceKey="OnSurfaceVariantBrush" />
-  <StaticResource x:Key="M3MaterialChipFocusedForeground" ResourceKey="OnSurfaceVariantBrush" />
-  <StaticResource x:Key="M3MaterialChipPressedForeground" ResourceKey="OnSurfaceVariantBrush" />
-  <StaticResource x:Key="M3MaterialChipSelectedForeground" ResourceKey="OnSecondaryContainerBrush" />
-  <StaticResource x:Key="M3MaterialChipSelectedPointerOverForeground" ResourceKey="OnSecondaryContainerBrush" />
-  <StaticResource x:Key="M3MaterialChipSelectedFocusedForeground" ResourceKey="OnSecondaryContainerBrush" />
-  <StaticResource x:Key="M3MaterialChipSelectedPressedForeground" ResourceKey="OnSecondaryContainerBrush" />
-  <StaticResource x:Key="M3MaterialChipIconForeground" ResourceKey="PrimaryBrush" />
-  <StaticResource x:Key="M3MaterialChipIconDisabledForeground" ResourceKey="OnSurfaceDisabledBrush" />
-  <StaticResource x:Key="M3MaterialChipDisabledForeground" ResourceKey="OnSurfaceDisabledBrush" />
-  <StaticResource x:Key="M3MaterialChipDisabledBackground" ResourceKey="OnSurfaceDisabledLowBrush" />
-  <StaticResource x:Key="M3MaterialChipDisabledBorderBrush" ResourceKey="OnSurfaceVariantDisabledLowBrush" />
-  <x:Double x:Key="M3MaterialChipHeight">32</x:Double>
-  <x:Double x:Key="M3MaterialChipContentMinHeight">20</x:Double>
-  <x:Double x:Key="M3MaterialChipSize">12</x:Double>
-  <x:Double x:Key="M3MaterialChipDeleteIconContainerLength">18</x:Double>
-  <x:Double x:Key="M3MaterialChipDeleteIconLength">11</x:Double>
-  <x:Double x:Key="M3MaterialChipBorderThickness">1</x:Double>
+  <x:String x:Key="MaterialChipDeleteIcon">M11.25 1.8075L10.1925 0.75L6 4.9425L1.8075 0.75L0.75 1.8075L4.9425 6L0.75 10.1925L1.8075 11.25L6 7.0575L10.1925 11.25L11.25 10.1925L7.0575 6L11.25 1.8075Z</x:String>
+  <x:String x:Key="MaterialCheckGlyphPathData">M28.718018,0L32,3.2819897 10.666016,24.616999 0,13.951997 3.2810059,10.670007 10.666016,18.055033z</x:String>
+  <StaticResource x:Key="MaterialChipBackground" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialChipSelectedBackground" ResourceKey="SecondaryContainerBrush" />
+  <StaticResource x:Key="MaterialChipPointerOverStateOverlay" ResourceKey="OnSurfaceVariantHoverBrush" />
+  <StaticResource x:Key="MaterialChipFocusedStateOverlay" ResourceKey="OnSurfaceVariantFocusedBrush" />
+  <StaticResource x:Key="MaterialChipPressedStateOverlay" ResourceKey="OnSurfaceVariantPressedBrush" />
+  <StaticResource x:Key="MaterialChipSelectedPointerOverStateOverlay" ResourceKey="OnSecondaryContainerHoverBrush" />
+  <StaticResource x:Key="MaterialChipSelectedFocusedStateOverlay" ResourceKey="OnSecondaryContainerFocusedBrush" />
+  <StaticResource x:Key="MaterialChipSelectedPressedStateOverlay" ResourceKey="OnSecondaryContainerSelectedBrush" />
+  <StaticResource x:Key="MaterialChipForeground" ResourceKey="OnSurfaceVariantBrush" />
+  <StaticResource x:Key="MaterialChipPointerOverForeground" ResourceKey="OnSurfaceVariantBrush" />
+  <StaticResource x:Key="MaterialChipFocusedForeground" ResourceKey="OnSurfaceVariantBrush" />
+  <StaticResource x:Key="MaterialChipPressedForeground" ResourceKey="OnSurfaceVariantBrush" />
+  <StaticResource x:Key="MaterialChipSelectedForeground" ResourceKey="OnSecondaryContainerBrush" />
+  <StaticResource x:Key="MaterialChipSelectedPointerOverForeground" ResourceKey="OnSecondaryContainerBrush" />
+  <StaticResource x:Key="MaterialChipSelectedFocusedForeground" ResourceKey="OnSecondaryContainerBrush" />
+  <StaticResource x:Key="MaterialChipSelectedPressedForeground" ResourceKey="OnSecondaryContainerBrush" />
+  <StaticResource x:Key="MaterialChipIconForeground" ResourceKey="PrimaryBrush" />
+  <StaticResource x:Key="MaterialChipIconDisabledForeground" ResourceKey="OnSurfaceDisabledBrush" />
+  <StaticResource x:Key="MaterialChipDisabledForeground" ResourceKey="OnSurfaceDisabledBrush" />
+  <StaticResource x:Key="MaterialChipDisabledBackground" ResourceKey="OnSurfaceDisabledLowBrush" />
+  <StaticResource x:Key="MaterialChipDisabledBorderBrush" ResourceKey="OnSurfaceVariantDisabledLowBrush" />
+  <x:Double x:Key="MaterialChipHeight">32</x:Double>
+  <x:Double x:Key="MaterialChipContentMinHeight">20</x:Double>
+  <x:Double x:Key="MaterialChipSize">12</x:Double>
+  <x:Double x:Key="MaterialChipDeleteIconContainerLength">18</x:Double>
+  <x:Double x:Key="MaterialChipDeleteIconLength">11</x:Double>
+  <x:Double x:Key="MaterialChipBorderThickness">1</x:Double>
   <x:Double x:Key="M3MateriaChipCheckGlyphSize">20</x:Double>
-  <x:Double x:Key="M3MaterialChipElevation">4</x:Double>
-  <x:Double x:Key="M3MaterialChipIconSize">24</x:Double>
-  <CornerRadius x:Key="M3MaterialChipCornerRadius">8</CornerRadius>
-  <Thickness x:Key="M3MaterialChipElevationMargin">4</Thickness>
-  <Style x:Key="M3MaterialChipDeleteIconButtonStyle" TargetType="Button">
+  <x:Double x:Key="MaterialChipElevation">4</x:Double>
+  <x:Double x:Key="MaterialChipIconSize">24</x:Double>
+  <CornerRadius x:Key="MaterialChipCornerRadius">8</CornerRadius>
+  <Thickness x:Key="MaterialChipElevationMargin">4</Thickness>
+  <Style x:Key="MaterialChipDeleteIconButtonStyle" TargetType="Button">
     <Setter Property="Foreground" Value="{StaticResource OnSurfaceVariantBrush}" />
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="Button">
-          <Border x:Name="BorderRoot" Width="{StaticResource M3MaterialChipDeleteIconContainerLength}" Height="{StaticResource M3MaterialChipDeleteIconContainerLength}" Background="{TemplateBinding Background}">
-            <Path x:Name="GlyphElement" Width="{StaticResource M3MaterialChipDeleteIconLength}" Height="{StaticResource M3MaterialChipDeleteIconLength}" HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.AccessibilityView="Raw" Data="{StaticResource M3MaterialChipDeleteIcon}" Fill="{TemplateBinding Foreground}" Stretch="Uniform" />
+          <Border x:Name="BorderRoot" Width="{StaticResource MaterialChipDeleteIconContainerLength}" Height="{StaticResource MaterialChipDeleteIconContainerLength}" Background="{TemplateBinding Background}">
+            <Path x:Name="GlyphElement" Width="{StaticResource MaterialChipDeleteIconLength}" Height="{StaticResource MaterialChipDeleteIconLength}" HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.AccessibilityView="Raw" Data="{StaticResource MaterialChipDeleteIcon}" Fill="{TemplateBinding Foreground}" Stretch="Uniform" />
           </Border>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialChipStyle" TargetType="utu:Chip">
-    <Setter Property="Foreground" Value="{StaticResource M3MaterialChipForeground}" />
-    <Setter Property="Background" Value="{StaticResource M3MaterialChipBackground}" />
+  <Style x:Key="MaterialChipStyle" TargetType="utu:Chip">
+    <Setter Property="Foreground" Value="{StaticResource MaterialChipForeground}" />
+    <Setter Property="Background" Value="{StaticResource MaterialChipBackground}" />
     <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}" />
-    <Setter Property="BorderThickness" Value="{StaticResource M3MaterialChipBorderThickness}" />
-    <Setter Property="CornerRadius" Value="{StaticResource M3MaterialChipCornerRadius}" />
+    <Setter Property="BorderThickness" Value="{StaticResource MaterialChipBorderThickness}" />
+    <Setter Property="CornerRadius" Value="{StaticResource MaterialChipCornerRadius}" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="Padding" Value="8,0" />
@@ -1179,56 +1179,56 @@
                 <VisualState x:Name="Normal" />
                 <VisualState x:Name="PointerOver">
                   <VisualState.Setters>
-                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource M3MaterialChipBackground}" />
-                    <Setter Target="StateOverlay.Background" Value="{StaticResource M3MaterialChipPointerOverStateOverlay}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource M3MaterialChipPointerOverForeground}" />
+                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource MaterialChipBackground}" />
+                    <Setter Target="StateOverlay.Background" Value="{StaticResource MaterialChipPointerOverStateOverlay}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource MaterialChipPointerOverForeground}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                   <VisualState.Setters>
-                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource M3MaterialChipBackground}" />
-                    <Setter Target="StateOverlay.Background" Value="{StaticResource M3MaterialChipPressedStateOverlay}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource M3MaterialChipPressedForeground}" />
+                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource MaterialChipBackground}" />
+                    <Setter Target="StateOverlay.Background" Value="{StaticResource MaterialChipPressedStateOverlay}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource MaterialChipPressedForeground}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Disabled">
                   <VisualState.Setters>
                     <Setter Target="ElevatedRoot.Elevation" Value="0" />
-                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource M3MaterialChipDisabledBackground}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource M3MaterialChipDisabledForeground}" />
-                    <Setter Target="PART_RemoveButton.Foreground" Value="{StaticResource M3MaterialChipIconDisabledForeground}" />
-                    <Setter Target="ElevatedRoot.BorderBrush" Value="{StaticResource M3MaterialChipDisabledBorderBrush}" />
-                    <Setter Target="IconPresenter.Foreground" Value="{StaticResource M3MaterialChipIconDisabledForeground}" />
+                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource MaterialChipDisabledBackground}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource MaterialChipDisabledForeground}" />
+                    <Setter Target="PART_RemoveButton.Foreground" Value="{StaticResource MaterialChipIconDisabledForeground}" />
+                    <Setter Target="ElevatedRoot.BorderBrush" Value="{StaticResource MaterialChipDisabledBorderBrush}" />
+                    <Setter Target="IconPresenter.Foreground" Value="{StaticResource MaterialChipIconDisabledForeground}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Checked">
                   <VisualState.Setters>
-                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource M3MaterialChipSelectedBackground}" />
-                    <Setter Target="StateOverlay.Background" Value="{StaticResource M3MaterialChipSelectedBackground}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource M3MaterialChipSelectedForeground}" />
-                    <Setter Target="IconPresenter.Foreground" Value="{StaticResource M3MaterialChipIconForeground}" />
+                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource MaterialChipSelectedBackground}" />
+                    <Setter Target="StateOverlay.Background" Value="{StaticResource MaterialChipSelectedBackground}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource MaterialChipSelectedForeground}" />
+                    <Setter Target="IconPresenter.Foreground" Value="{StaticResource MaterialChipIconForeground}" />
                     <Setter Target="CheckGlyphElement.Visibility" Value="Visible" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="CheckedPointerOver">
                   <VisualState.Setters>
-                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource M3MaterialChipSelectedBackground}" />
-                    <Setter Target="StateOverlay.Background" Value="{StaticResource M3MaterialChipSelectedPointerOverStateOverlay}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource M3MaterialChipSelectedPointerOverForeground}" />
+                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource MaterialChipSelectedBackground}" />
+                    <Setter Target="StateOverlay.Background" Value="{StaticResource MaterialChipSelectedPointerOverStateOverlay}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource MaterialChipSelectedPointerOverForeground}" />
                     <Setter Target="CheckGlyphElement.Visibility" Value="Visible" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="CheckedPressed">
                   <VisualState.Setters>
-                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource M3MaterialChipSelectedBackground}" />
-                    <Setter Target="StateOverlay.Background" Value="{StaticResource M3MaterialChipSelectedPressedStateOverlay}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource M3MaterialChipSelectedPressedForeground}" />
+                    <Setter Target="ElevatedRoot.Background" Value="{StaticResource MaterialChipSelectedBackground}" />
+                    <Setter Target="StateOverlay.Background" Value="{StaticResource MaterialChipSelectedPressedStateOverlay}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{StaticResource MaterialChipSelectedPressedForeground}" />
                     <Setter Target="CheckGlyphElement.Visibility" Value="Visible" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <toolkit:ElevatedView x:Name="ElevatedRoot" Height="{StaticResource M3MaterialChipHeight}" Margin="{StaticResource M3MaterialChipElevationMargin}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}" Elevation="{TemplateBinding Elevation}">
+            <toolkit:ElevatedView x:Name="ElevatedRoot" Height="{StaticResource MaterialChipHeight}" Margin="{StaticResource MaterialChipElevationMargin}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}" Elevation="{TemplateBinding Elevation}">
               <Grid CornerRadius="{TemplateBinding CornerRadius}">
                 <Border x:Name="StateOverlay" Background="Transparent" CornerRadius="{TemplateBinding CornerRadius}" />
                 <um:Ripple Padding="{TemplateBinding Padding}" CornerRadius="{TemplateBinding CornerRadius}" Feedback="{StaticResource OnSurfaceFocusedBrush}">
@@ -1241,14 +1241,14 @@
                     </Grid.ColumnDefinitions>
                     <!--  C0: Leading Icon / Check Glyph  -->
                     <!--  fixme: ContentControl/Presenter template-binding to icon would crash on uwp  -->
-                    <ContentPresenter x:Name="IconPresenter" Grid.Column="0" Width="{StaticResource M3MaterialChipIconSize}" Height="{StaticResource M3MaterialChipIconSize}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Icon}" ContentTemplate="{TemplateBinding IconTemplate}" Foreground="{StaticResource M3MaterialChipIconForeground}" Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed}" />
+                    <ContentPresenter x:Name="IconPresenter" Grid.Column="0" Width="{StaticResource MaterialChipIconSize}" Height="{StaticResource MaterialChipIconSize}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Icon}" ContentTemplate="{TemplateBinding IconTemplate}" Foreground="{StaticResource MaterialChipIconForeground}" Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed}" />
                     <Grid x:Name="CheckGlyphElement" Grid.Column="0" Width="{StaticResource M3MateriaChipCheckGlyphSize}" Height="{StaticResource M3MateriaChipCheckGlyphSize}" Padding="2" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="Collapsed">
-                      <Path HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.AccessibilityView="Raw" Data="{StaticResource M3MaterialCheckGlyphPathData}" Fill="{TemplateBinding Foreground}" Stretch="Uniform" Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToVisible}, FallbackValue=Collapsed}" />
+                      <Path HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.AccessibilityView="Raw" Data="{StaticResource MaterialCheckGlyphPathData}" Fill="{TemplateBinding Foreground}" Stretch="Uniform" Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToVisible}, FallbackValue=Collapsed}" />
                     </Grid>
                     <!--  C1: Content  -->
                     <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" Margin="8,0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" CharacterSpacing="7" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" FontFamily="{StaticResource MaterialMediumFontFamily}" Foreground="{TemplateBinding Foreground}" />
                     <!--  C2: Remove Button  -->
-                    <Button x:Name="PART_RemoveButton" Grid.Column="2" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Foreground="{TemplateBinding Foreground}" Style="{StaticResource M3MaterialChipDeleteIconButtonStyle}" Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialTrueToVisible}, FallbackValue=Collapsed}" />
+                    <Button x:Name="PART_RemoveButton" Grid.Column="2" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Foreground="{TemplateBinding Foreground}" Style="{StaticResource MaterialChipDeleteIconButtonStyle}" Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialTrueToVisible}, FallbackValue=Collapsed}" />
                   </Grid>
                 </um:Ripple>
               </Grid>
@@ -1258,47 +1258,47 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialAssistChipStyle" BasedOn="{StaticResource M3MaterialChipStyle}" TargetType="utu:Chip">
+  <Style x:Key="MaterialAssistChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
     <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="IsCheckable" Value="False" />
     <Setter Property="CanRemove" Value="False" />
   </Style>
-  <Style x:Key="M3MaterialElevatedAssistChipStyle" BasedOn="{StaticResource M3MaterialChipStyle}" TargetType="utu:Chip">
+  <Style x:Key="MaterialElevatedAssistChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Elevation" Value="{StaticResource M3MaterialChipElevation}" />
+    <Setter Property="Elevation" Value="{StaticResource MaterialChipElevation}" />
     <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
     <Setter Property="IsCheckable" Value="False" />
     <Setter Property="CanRemove" Value="False" />
   </Style>
-  <Style x:Key="M3MaterialInputChipStyle" BasedOn="{StaticResource M3MaterialChipStyle}" TargetType="utu:Chip">
+  <Style x:Key="MaterialInputChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
     <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="CanRemove" Value="True" />
     <Setter Property="IsCheckable" Value="True" />
   </Style>
-  <Style x:Key="M3MaterialFilterChipStyle" BasedOn="{StaticResource M3MaterialChipStyle}" TargetType="utu:Chip">
+  <Style x:Key="MaterialFilterChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
     <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="CanRemove" Value="True" />
     <Setter Property="IsCheckable" Value="True" />
   </Style>
-  <Style x:Key="M3MaterialElevatedFilterChipStyle" BasedOn="{StaticResource M3MaterialChipStyle}" TargetType="utu:Chip">
+  <Style x:Key="MaterialElevatedFilterChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Elevation" Value="{StaticResource M3MaterialChipElevation}" />
+    <Setter Property="Elevation" Value="{StaticResource MaterialChipElevation}" />
     <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
     <Setter Property="CanRemove" Value="True" />
     <Setter Property="IsCheckable" Value="True" />
   </Style>
-  <Style x:Key="M3MaterialSuggestionChipStyle" BasedOn="{StaticResource M3MaterialChipStyle}" TargetType="utu:Chip">
+  <Style x:Key="MaterialSuggestionChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
     <Setter Property="BorderBrush" Value="{StaticResource OutlineBrush}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="CanRemove" Value="False" />
     <Setter Property="IsCheckable" Value="True" />
   </Style>
-  <Style x:Key="M3MaterialElevatedSuggestionChipStyle" BasedOn="{StaticResource M3MaterialChipStyle}" TargetType="utu:Chip">
+  <Style x:Key="MaterialElevatedSuggestionChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Elevation" Value="{StaticResource M3MaterialChipElevation}" />
+    <Setter Property="Elevation" Value="{StaticResource MaterialChipElevation}" />
     <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
     <Setter Property="CanRemove" Value="False" />
     <Setter Property="IsCheckable" Value="True" />
@@ -1307,47 +1307,47 @@
   <ItemsPanelTemplate x:Key="MaterialHorizontalChipGroupItemsPanel">
     <StackPanel Orientation="Horizontal" Spacing="8" />
   </ItemsPanelTemplate>
-  <Style x:Key="M3MaterialBaseChipGroupStyle" TargetType="utu:ChipGroup">
+  <Style x:Key="MaterialBaseChipGroupStyle" TargetType="utu:ChipGroup">
     <Setter Property="ItemsPanel" Value="{StaticResource MaterialHorizontalChipGroupItemsPanel}" />
   </Style>
-  <Style x:Key="M3MaterialInputChipGroupStyle" BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialInputChipStyle}" />
+  <Style x:Key="MaterialInputChipGroupStyle" BasedOn="{StaticResource MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialInputChipStyle}" />
     <Setter Property="CanRemove" Value="True" />
     <Setter Property="SelectionMode" Value="Multiple" />
   </Style>
-  <Style x:Key="M3MaterialElevatedSuggestionChipGroupStyle" BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialElevatedSuggestionChipStyle}" />
+  <Style x:Key="MaterialElevatedSuggestionChipGroupStyle" BasedOn="{StaticResource MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialElevatedSuggestionChipStyle}" />
     <Setter Property="CanRemove" Value="False" />
     <Setter Property="SelectionMode" Value="Single" />
   </Style>
-  <Style x:Key="M3MaterialSuggestionChipGroupStyle" BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialSuggestionChipStyle}" />
+  <Style x:Key="MaterialSuggestionChipGroupStyle" BasedOn="{StaticResource MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialSuggestionChipStyle}" />
     <Setter Property="CanRemove" Value="False" />
     <Setter Property="SelectionMode" Value="Single" />
   </Style>
-  <Style x:Key="M3MaterialElevatedFilterChipGroupStyle" BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialElevatedFilterChipStyle}" />
+  <Style x:Key="MaterialElevatedFilterChipGroupStyle" BasedOn="{StaticResource MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialElevatedFilterChipStyle}" />
     <Setter Property="CanRemove" Value="False" />
     <Setter Property="SelectionMode" Value="Multiple" />
   </Style>
-  <Style x:Key="M3MaterialFilterChipGroupStyle" BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialFilterChipStyle}" />
+  <Style x:Key="MaterialFilterChipGroupStyle" BasedOn="{StaticResource MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialFilterChipStyle}" />
     <Setter Property="CanRemove" Value="False" />
     <Setter Property="SelectionMode" Value="Multiple" />
   </Style>
-  <Style x:Key="M3MaterialElevatedAssistChipGroupStyle" BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialElevatedAssistChipStyle}" />
+  <Style x:Key="MaterialElevatedAssistChipGroupStyle" BasedOn="{StaticResource MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialElevatedAssistChipStyle}" />
     <Setter Property="CanRemove" Value="False" />
     <Setter Property="SelectionMode" Value="None" />
   </Style>
-  <Style x:Key="M3MaterialAssistChipGroupStyle" BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialAssistChipStyle}" />
+  <Style x:Key="MaterialAssistChipGroupStyle" BasedOn="{StaticResource MaterialBaseChipGroupStyle}" TargetType="utu:ChipGroup">
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialAssistChipStyle}" />
     <Setter Property="CanRemove" Value="False" />
     <Setter Property="SelectionMode" Value="None" />
   </Style>
   <!--origin: Styles\Controls\v2\Divider.xaml-->
-  <x:Double x:Key="M3MaterialDividerHeight">1</x:Double>
-  <Style x:Key="M3MaterialDividerStyle" TargetType="utu:Divider">
+  <x:Double x:Key="MaterialDividerHeight">1</x:Double>
+  <Style x:Key="MaterialDividerStyle" TargetType="utu:Divider">
     <Setter Property="Foreground" Value="{StaticResource OnSurfaceFocusedBrush}" />
     <Setter Property="SubHeaderForeground" Value="{StaticResource OnSurfaceLowBrush}" />
     <Setter Property="Template">
@@ -1358,57 +1358,57 @@
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Rectangle Fill="{TemplateBinding Foreground}" Height="{StaticResource M3MaterialDividerHeight}" />
-            <TextBlock Text="{TemplateBinding SubHeader}" Visibility="{Binding SubHeader, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed}" Style="{StaticResource M3MaterialBodySmall}" Foreground="{TemplateBinding SubHeaderForeground}" Margin="0,4,0,0" Grid.Row="1" />
+            <Rectangle Fill="{TemplateBinding Foreground}" Height="{StaticResource MaterialDividerHeight}" />
+            <TextBlock Text="{TemplateBinding SubHeader}" Visibility="{Binding SubHeader, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed}" Style="{StaticResource BodySmall}" Foreground="{TemplateBinding SubHeaderForeground}" Margin="0,4,0,0" Grid.Row="1" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </Style>
   <!--origin: Styles\Controls\v2\NavigationBar.xaml-->
-  <mobile:Style x:Key="M3MaterialNavigationBarStyle" BasedOn="{StaticResource BaseM3MaterialNavigationBarStyle}" TargetType="utu:NavigationBar">
+  <mobile:Style x:Key="MaterialNavigationBarStyle" BasedOn="{StaticResource BaseMaterialNavigationBarStyle}" TargetType="utu:NavigationBar">
     <ios:Setter Property="Height" Value="NaN" />
-    <Setter Property="MainCommandStyle" Value="{StaticResource M3MaterialMainCommandStyle}" />
+    <Setter Property="MainCommandStyle" Value="{StaticResource MaterialMainCommandStyle}" />
     <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
-    <Setter Property="Template" Value="{StaticResource M3MaterialNativeNavigationBarTemplate}" />
+    <Setter Property="Template" Value="{StaticResource MaterialNativeNavigationBarTemplate}" />
   </mobile:Style>
-  <mobile:Style x:Key="M3MaterialModalNavigationBarStyle" BasedOn="{StaticResource BaseM3MaterialModalNavigationBarStyle}" TargetType="utu:NavigationBar">
+  <mobile:Style x:Key="MaterialModalNavigationBarStyle" BasedOn="{StaticResource BaseMaterialModalNavigationBarStyle}" TargetType="utu:NavigationBar">
     <ios:Setter Property="Height" Value="NaN" />
     <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
-    <Setter Property="MainCommandStyle" Value="{StaticResource M3MaterialModalMainCommandStyle}" />
-    <Setter Property="Template" Value="{StaticResource M3MaterialNativeNavigationBarTemplate}" />
+    <Setter Property="MainCommandStyle" Value="{StaticResource MaterialModalMainCommandStyle}" />
+    <Setter Property="Template" Value="{StaticResource MaterialNativeNavigationBarTemplate}" />
   </mobile:Style>
-  <not_mobile:Style x:Key="M3MaterialNavigationBarStyle" TargetType="utu:NavigationBar" BasedOn="{StaticResource BaseM3MaterialNavigationBarStyle}">
-    <Setter Property="MainCommandStyle" Value="{StaticResource M3MaterialMainCommandStyle}" />
+  <not_mobile:Style x:Key="MaterialNavigationBarStyle" TargetType="utu:NavigationBar" BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
+    <Setter Property="MainCommandStyle" Value="{StaticResource MaterialMainCommandStyle}" />
   </not_mobile:Style>
-  <not_mobile:Style x:Key="M3MaterialModalNavigationBarStyle" TargetType="utu:NavigationBar" BasedOn="{StaticResource BaseM3MaterialModalNavigationBarStyle}">
-    <Setter Property="MainCommandStyle" Value="{StaticResource M3MaterialModalMainCommandStyle}" />
+  <not_mobile:Style x:Key="MaterialModalNavigationBarStyle" TargetType="utu:NavigationBar" BasedOn="{StaticResource BaseMaterialModalNavigationBarStyle}">
+    <Setter Property="MainCommandStyle" Value="{StaticResource MaterialModalMainCommandStyle}" />
   </not_mobile:Style>
-  <x:Double x:Key="M3MaterialNavigationBarElevation">4</x:Double>
-  <x:Double x:Key="M3MaterialNavigationBarHeight">48</x:Double>
-  <Thickness x:Key="M3MaterialNavigationBarContentMargin">16,0,0,0</Thickness>
-  <Thickness x:Key="M3MaterialAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
-  <ios:ControlTemplate x:Key="M3MaterialNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
+  <x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
+  <x:Double x:Key="MaterialNavigationBarHeight">48</x:Double>
+  <Thickness x:Key="MaterialNavigationBarContentMargin">16,0,0,0</Thickness>
+  <Thickness x:Key="MaterialAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
+  <ios:ControlTemplate x:Key="MaterialNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
     <Border BorderThickness="{TemplateBinding Padding}">
       <utu:NativeNavigationBarPresenter Height="44" x:Name="NavigationBarPresenter" />
     </Border>
   </ios:ControlTemplate>
-  <android:ControlTemplate x:Key="M3MaterialNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
+  <android:ControlTemplate x:Key="MaterialNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
     <utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
   </android:ControlTemplate>
-  <ControlTemplate x:Key="XamlM3MaterialNavigationBarTemplate" TargetType="utu:NavigationBar">
-    <utu:NavigationBarPresenter Style="{StaticResource M3MaterialNavigationBarPresenter}" x:Name="NavigationBarPresenter" />
+  <ControlTemplate x:Key="XamlMaterialNavigationBarTemplate" TargetType="utu:NavigationBar">
+    <utu:NavigationBarPresenter Style="{StaticResource MaterialNavigationBarPresenter}" x:Name="NavigationBarPresenter" />
   </ControlTemplate>
-  <Style x:Key="M3MaterialNavigationBarPresenter" TargetType="utu:NavigationBarPresenter">
+  <Style x:Key="MaterialNavigationBarPresenter" TargetType="utu:NavigationBarPresenter">
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:NavigationBarPresenter">
-          <CommandBar x:Name="XamlNavigationBarCommandBar" Style="{StaticResource M3MaterialNavigationBarCommandBar}" />
+          <CommandBar x:Name="XamlNavigationBarCommandBar" Style="{StaticResource MaterialNavigationBarCommandBar}" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialNavigationBarCommandBar" TargetType="CommandBar">
+  <Style x:Key="MaterialNavigationBarCommandBar" TargetType="CommandBar">
     <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
     <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}" />
     <Setter Property="Padding" Value="4,0,0,0" />
@@ -1439,11 +1439,11 @@
                   <SplineDoubleKeyFrame KeyTime="{StaticResource ControlFastAnimationDuration}" KeySpline="{StaticResource ControlFastOutSlowInKeySpline}" Value="0" />
                 </DoubleAnimationUsingKeyFrames>
               </Storyboard>
-              <x:Double x:Key="M3MaterialAppBarButtonContentHeight">24</x:Double>
+              <x:Double x:Key="MaterialAppBarButtonContentHeight">24</x:Double>
               <x:Double x:Key="AppBarThemeCompactHeight">56</x:Double>
               <Style TargetType="SplitButton" BasedOn="{StaticResource SplitButtonCommandBarStyle}" />
               <Style TargetType="ToggleSplitButton" BasedOn="{StaticResource SplitButtonCommandBarStyle}" />
-              <Style TargetType="AppBarButton" BasedOn="{StaticResource M3MaterialAppBarButtonStyle}">
+              <Style TargetType="AppBarButton" BasedOn="{StaticResource MaterialAppBarButtonStyle}">
                 <Setter Property="Padding" Value="12,16,12,16" />
               </Style>
             </Grid.Resources>
@@ -1598,14 +1598,14 @@
                 </Grid.ColumnDefinitions>
                 <ContentPresenter x:Name="MainCommandPresenter" Margin="{TemplateBinding Padding}" Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
                   <ContentPresenter.Resources>
-                    <x:Double x:Key="M3MaterialAppBarButtonContentHeight">16</x:Double>
+                    <x:Double x:Key="MaterialAppBarButtonContentHeight">16</x:Double>
                   </ContentPresenter.Resources>
                 </ContentPresenter>
                 <!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
 									in the Minimal/HiddenClosed states to remove it from being a tab-stop candidate.
 								-->
-                <ContentControl x:Name="ContentControl" Grid.Column="1" Margin="{StaticResource M3MaterialNavigationBarContentMargin}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Foreground="{TemplateBinding Foreground}" FontFamily="{StaticResource MaterialRegularFontFamily}" FontSize="20" FontWeight="Medium" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsTabStop="False" />
+                <ContentControl x:Name="ContentControl" Grid.Column="1" Margin="{StaticResource MaterialNavigationBarContentMargin}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Foreground="{TemplateBinding Foreground}" FontFamily="{StaticResource MaterialRegularFontFamily}" FontSize="20" FontWeight="Medium" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsTabStop="False" />
                 <ItemsControl x:Name="PrimaryItemsControl" HorizontalAlignment="Center" MinHeight="{ThemeResource AppBarThemeCompactHeight}" IsTabStop="False" Grid.Column="2">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -1614,7 +1614,7 @@
                   </ItemsControl.ItemsPanel>
                 </ItemsControl>
               </Grid>
-              <Button x:Name="MoreButton" Foreground="{TemplateBinding Foreground}" Style="{StaticResource M3MaterialEllipsisButton}" Padding="{ThemeResource CommandBarMoreButtonMargin}" MinHeight="{ThemeResource AppBarThemeCompactHeight}" VerticalAlignment="Top" Grid.Column="2" Control.IsTemplateKeyTipTarget="True" IsAccessKeyScope="True">
+              <Button x:Name="MoreButton" Foreground="{TemplateBinding Foreground}" Style="{StaticResource MaterialEllipsisButton}" Padding="{ThemeResource CommandBarMoreButtonMargin}" MinHeight="{ThemeResource AppBarThemeCompactHeight}" VerticalAlignment="Top" Grid.Column="2" Control.IsTemplateKeyTipTarget="True" IsAccessKeyScope="True">
                 <FontIcon x:Name="EllipsisIcon" VerticalAlignment="Center" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="20" Glyph="&#xe712;" Height="20" RenderTransformOrigin="0.5, 0.5">
                   <FontIcon.RenderTransform>
                     <RotateTransform Angle="90" />
@@ -1673,11 +1673,11 @@
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="M3MaterialAppBarButtonOverflowStyle" TargetType="AppBarButton" BasedOn="{StaticResource AppBarButtonOverflowStyle}">
+  <Style x:Key="MaterialAppBarButtonOverflowStyle" TargetType="AppBarButton" BasedOn="{StaticResource AppBarButtonOverflowStyle}">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
   </Style>
-  <Style x:Key="M3MaterialEllipsisButton" TargetType="Button">
+  <Style x:Key="MaterialEllipsisButton" TargetType="Button">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
@@ -1698,27 +1698,27 @@
         <ControlTemplate TargetType="Button">
           <Grid Background="Transparent">
             <um:Ripple Feedback="{TemplateBinding Foreground}" FeedbackOpacity="{StaticResource PressedOpacity}">
-              <ContentPresenter x:Name="ContentPresenter" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" contract7Present:CornerRadius="{TemplateBinding CornerRadius}" ContentTransitions="{TemplateBinding ContentTransitions}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Margin="{StaticResource M3MaterialAppBarEllipsisButtonInnerBorderMargin}" Padding="0" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Control.IsTemplateFocusTarget="True" />
+              <ContentPresenter x:Name="ContentPresenter" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" contract7Present:CornerRadius="{TemplateBinding CornerRadius}" ContentTransitions="{TemplateBinding ContentTransitions}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Margin="{StaticResource MaterialAppBarEllipsisButtonInnerBorderMargin}" Padding="0" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Control.IsTemplateFocusTarget="True" />
             </um:Ripple>
           </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </Style>
-  <Style x:Key="BaseM3MaterialNavigationBarStyle" TargetType="utu:NavigationBar">
+  <Style x:Key="BaseMaterialNavigationBarStyle" TargetType="utu:NavigationBar">
     <!-- Setting content to empty to avoid getting the datacontext -->
     <Setter Property="Content" Value="" />
     <Setter Property="ContentTemplate">
       <Setter.Value>
         <DataTemplate>
-          <TextBlock Text="{Binding}" Style="{StaticResource M3MaterialTitleLarge}" />
+          <TextBlock Text="{Binding}" Style="{StaticResource TitleLarge}" />
         </DataTemplate>
       </Setter.Value>
     </Setter>
     <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
     <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}" />
-    <android:Setter Property="(toolkit:UIElementExtensions.Elevation)" Value="{StaticResource M3MaterialNavigationBarElevation}" />
-    <Setter Property="Height" Value="{StaticResource M3MaterialNavigationBarHeight}" />
+    <android:Setter Property="(toolkit:UIElementExtensions.Elevation)" Value="{StaticResource MaterialNavigationBarElevation}" />
+    <Setter Property="Height" Value="{StaticResource MaterialNavigationBarHeight}" />
     <Setter Property="Padding" Value="16,0,0,0" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Top" />
@@ -1726,52 +1726,52 @@
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="OverflowButtonVisibility" Value="Collapsed" />
     <Setter Property="IsDynamicOverflowEnabled" Value="False" />
-    <Setter Property="Template" Value="{StaticResource XamlM3MaterialNavigationBarTemplate}" />
+    <Setter Property="Template" Value="{StaticResource XamlMaterialNavigationBarTemplate}" />
   </Style>
-  <Style x:Key="M3MaterialMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource M3MaterialAppBarButtonStyle}">
+  <Style x:Key="MaterialMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource MaterialAppBarButtonStyle}">
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
   </Style>
-  <Style x:Key="BaseM3MaterialModalNavigationBarStyle" TargetType="utu:NavigationBar" BasedOn="{StaticResource BaseM3MaterialNavigationBarStyle}">
-    <Setter Property="MainCommandStyle" Value="{StaticResource M3MaterialModalMainCommandStyle}" />
+  <Style x:Key="BaseMaterialModalNavigationBarStyle" TargetType="utu:NavigationBar" BasedOn="{StaticResource BaseMaterialNavigationBarStyle}">
+    <Setter Property="MainCommandStyle" Value="{StaticResource MaterialModalMainCommandStyle}" />
     <Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
   </Style>
-  <Style x:Key="M3MaterialModalMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource M3MaterialMainCommandStyle}">
+  <Style x:Key="MaterialModalMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource MaterialMainCommandStyle}">
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
   </Style>
   <!--origin: Styles\Controls\v2\TopTabBar.xaml-->
-  <StaticResource x:Key="M3MaterialTopTabBarBackground" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarIndicator" ResourceKey="PrimaryBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemBackgroundSelectedPointerOver" ResourceKey="PrimaryHoverBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemBackgroundSelectedPressed" ResourceKey="PrimaryPressedBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemBackgroundSelectedFocused" ResourceKey="M3MaterialTopTabBarItemPrimaryFocusedBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemForegroundSelected" ResourceKey="PrimaryBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemForegroundSelectedPointerOver" ResourceKey="PrimaryBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemForegroundSelectedPressed" ResourceKey="PrimaryBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemForegroundSelectedFocused" ResourceKey="PrimaryBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemBackgroundPointerOver" ResourceKey="PrimaryHoverBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemBackgroundPressed" ResourceKey="PrimaryPressedBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemBackgroundFocused" ResourceKey="M3MaterialTopTabBarItemPrimaryFocusedBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemForeground" ResourceKey="OnSurfaceMediumBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemForegroundPointerOver" ResourceKey="OnSurfaceMediumBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemForegroundPressed" ResourceKey="OnSurfaceMediumBrush" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-  <SolidColorBrush x:Key="M3MaterialTopTabBarItemPrimaryFocusedBrush" Opacity="0.3" Color="{ThemeResource PrimaryColor}" />
-  <StaticResource x:Key="M3MaterialTopTabBarItemBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-  <x:Double x:Key="M3MaterialTopTabBarFontSize">14</x:Double>
-  <x:Double x:Key="M3MaterialTopTabBarHeight">48</x:Double>
-  <x:Double x:Key="M3MaterialTopTabBarItemIconHeight">20</x:Double>
-  <x:Double x:Key="M3MaterialTopTabBarItemIconWidth">20</x:Double>
-  <Thickness x:Key="M3MaterialTopTabBarItemContentMargin">0,0,0,0</Thickness>
-  <Thickness x:Key="M3MaterialTopTabBarItemContentOnlyMargin">12,0</Thickness>
-  <mobile:Style x:Key="M3MaterialTopTabBarStyle" TargetType="utu:TabBar">
-    <Setter Property="Background" Value="{StaticResource M3MaterialTopTabBarBackground}" />
+  <StaticResource x:Key="MaterialTopTabBarBackground" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialTopTabBarIndicator" ResourceKey="PrimaryBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemBackgroundSelectedPointerOver" ResourceKey="PrimaryHoverBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemBackgroundSelectedPressed" ResourceKey="PrimaryPressedBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemBackgroundSelectedFocused" ResourceKey="MaterialTopTabBarItemPrimaryFocusedBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemForegroundSelected" ResourceKey="PrimaryBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemForegroundSelectedPointerOver" ResourceKey="PrimaryBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemForegroundSelectedPressed" ResourceKey="PrimaryBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemForegroundSelectedFocused" ResourceKey="PrimaryBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemBackgroundPointerOver" ResourceKey="PrimaryHoverBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemBackgroundPressed" ResourceKey="PrimaryPressedBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemBackgroundFocused" ResourceKey="MaterialTopTabBarItemPrimaryFocusedBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemForeground" ResourceKey="OnSurfaceMediumBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemForegroundPointerOver" ResourceKey="OnSurfaceMediumBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemForegroundPressed" ResourceKey="OnSurfaceMediumBrush" />
+  <StaticResource x:Key="MaterialTopTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+  <SolidColorBrush x:Key="MaterialTopTabBarItemPrimaryFocusedBrush" Opacity="0.3" Color="{ThemeResource PrimaryColor}" />
+  <StaticResource x:Key="MaterialTopTabBarItemBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+  <x:Double x:Key="MaterialTopTabBarFontSize">14</x:Double>
+  <x:Double x:Key="MaterialTopTabBarHeight">48</x:Double>
+  <x:Double x:Key="MaterialTopTabBarItemIconHeight">20</x:Double>
+  <x:Double x:Key="MaterialTopTabBarItemIconWidth">20</x:Double>
+  <Thickness x:Key="MaterialTopTabBarItemContentMargin">0,0,0,0</Thickness>
+  <Thickness x:Key="MaterialTopTabBarItemContentOnlyMargin">12,0</Thickness>
+  <mobile:Style x:Key="MaterialTopTabBarStyle" TargetType="utu:TabBar">
+    <Setter Property="Background" Value="{StaticResource MaterialTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
     <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
-    <Setter Property="Height" Value="{StaticResource M3MaterialTopTabBarHeight}" />
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialTopTabBarItemStyle}" />
+    <Setter Property="Height" Value="{StaticResource MaterialTopTabBarHeight}" />
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
@@ -1785,19 +1785,19 @@
           <Grid x:Name="TabBarGrid" Height="{TemplateBinding Height}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
             <ItemsPresenter Padding="{TemplateBinding Padding}" />
             <utu:TabBarSelectionIndicatorPresenter x:Name="SelectionIndicatorPresenter" Height="2" VerticalAlignment="Bottom" AutomationProperties.AutomationId="SelectionIndicatorPresenter" IndicatorTransitionMode="Snap" Opacity="0" Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-              <Border x:Name="SelectionIndicatorRect" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" Height="2" Margin="0,0,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.AutomationId="SelectionIndicatorRect" Background="{ThemeResource M3MaterialTopTabBarIndicator}" />
+              <Border x:Name="SelectionIndicatorRect" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" Height="2" Margin="0,0,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.AutomationId="SelectionIndicatorRect" Background="{ThemeResource MaterialTopTabBarIndicator}" />
             </utu:TabBarSelectionIndicatorPresenter>
           </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </mobile:Style>
-  <not_mobile:Style x:Key="M3MaterialTopTabBarStyle" TargetType="utu:TabBar">
-    <Setter Property="Background" Value="{StaticResource M3MaterialTopTabBarBackground}" />
+  <not_mobile:Style x:Key="MaterialTopTabBarStyle" TargetType="utu:TabBar">
+    <Setter Property="Background" Value="{StaticResource MaterialTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
     <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
-    <Setter Property="Height" Value="{StaticResource M3MaterialTopTabBarHeight}" />
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialTopTabBarItemStyle}" />
+    <Setter Property="Height" Value="{StaticResource MaterialTopTabBarHeight}" />
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
@@ -1811,19 +1811,19 @@
           <Grid x:Name="TabBarGrid" Height="{TemplateBinding Height}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
             <ItemsPresenter Padding="{TemplateBinding Padding}" />
             <utu:TabBarSelectionIndicatorPresenter x:Name="SelectionIndicatorPresenter" Height="2" VerticalAlignment="Bottom" AutomationProperties.AutomationId="SelectionIndicatorPresenter" IndicatorTransitionMode="Snap" Opacity="0" Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-              <Border x:Name="SelectionIndicatorRect" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" Height="2" Margin="0,0,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.AutomationId="SelectionIndicatorRect" Background="{ThemeResource M3MaterialTopTabBarIndicator}" />
+              <Border x:Name="SelectionIndicatorRect" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" Height="2" Margin="0,0,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.AutomationId="SelectionIndicatorRect" Background="{ThemeResource MaterialTopTabBarIndicator}" />
             </utu:TabBarSelectionIndicatorPresenter>
           </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </not_mobile:Style>
-  <mobile:Style x:Key="M3MaterialTopTabBarItemStyle" TargetType="utu:TabBarItem">
-    <Setter Property="Background" Value="{ThemeResource M3MaterialTopTabBarItemBackground}" />
-    <Setter Property="Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForeground}" />
-    <Setter Property="BorderBrush" Value="{StaticResource M3MaterialTopTabBarItemBorderBrush}" />
+  <mobile:Style x:Key="MaterialTopTabBarItemStyle" TargetType="utu:TabBarItem">
+    <Setter Property="Background" Value="{ThemeResource MaterialTopTabBarItemBackground}" />
+    <Setter Property="Foreground" Value="{ThemeResource MaterialTopTabBarItemForeground}" />
+    <Setter Property="BorderBrush" Value="{StaticResource MaterialTopTabBarItemBorderBrush}" />
     <Setter Property="FontFamily" Value="{StaticResource MaterialRegularFontFamily}" />
-    <Setter Property="FontSize" Value="{StaticResource M3MaterialTopTabBarFontSize}" />
+    <Setter Property="FontSize" Value="{StaticResource MaterialTopTabBarFontSize}" />
     <Setter Property="FontWeight" Value="Normal" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -1836,10 +1836,10 @@
                 <VisualState x:Name="Normal" />
                 <VisualState x:Name="Selected">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundSelected}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundSelected}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundSelected}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundSelected}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialTopTabBarItemBackgroundSelected}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialTopTabBarItemBackgroundSelected}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundSelected}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundSelected}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
@@ -1847,8 +1847,8 @@
                 <VisualState x:Name="Enabled" />
                 <VisualState x:Name="Disabled">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundDisabled}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundDisabled}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundDisabled}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundDisabled}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
@@ -1863,7 +1863,7 @@
                 <VisualState x:Name="ContentOnly">
                   <VisualState.Setters>
                     <Setter Target="IconBox.Visibility" Value="Collapsed" />
-                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource M3MaterialTopTabBarItemContentOnlyMargin}" />
+                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource MaterialTopTabBarItemContentOnlyMargin}" />
                     <Setter Target="IconRow.Width" Value="0" />
                     <Setter Target="ContentRow.Width" Value="*" />
                   </VisualState.Setters>
@@ -1872,8 +1872,8 @@
               <VisualStateGroup x:Name="FocusStates">
                 <VisualState x:Name="Focused">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundFocused}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundFocused}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialTopTabBarItemBackgroundFocused}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialTopTabBarItemBackgroundFocused}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PointerFocused" />
@@ -1889,10 +1889,10 @@
                       <ColumnDefinition x:Name="IconRow" Width="*" />
                       <ColumnDefinition x:Name="ContentRow" Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Viewbox x:Name="IconBox" Width="{StaticResource M3MaterialTopTabBarItemIconWidth}" Height="{StaticResource M3MaterialTopTabBarItemIconHeight}">
+                    <Viewbox x:Name="IconBox" Width="{StaticResource MaterialTopTabBarItemIconWidth}" Height="{StaticResource MaterialTopTabBarItemIconHeight}">
                       <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}" />
                     </Viewbox>
-                    <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" Margin="{StaticResource M3MaterialTopTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
+                    <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" Margin="{StaticResource MaterialTopTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
                   </Grid>
                 </Grid>
               </um:Ripple.Content>
@@ -1902,12 +1902,12 @@
       </Setter.Value>
     </Setter>
   </mobile:Style>
-  <not_mobile:Style x:Key="M3MaterialTopTabBarItemStyle" TargetType="utu:TabBarItem">
-    <Setter Property="Background" Value="{ThemeResource M3MaterialTopTabBarItemBackground}" />
-    <Setter Property="Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForeground}" />
-    <Setter Property="BorderBrush" Value="{ThemeResource M3MaterialTopTabBarItemBorderBrush}" />
+  <not_mobile:Style x:Key="MaterialTopTabBarItemStyle" TargetType="utu:TabBarItem">
+    <Setter Property="Background" Value="{ThemeResource MaterialTopTabBarItemBackground}" />
+    <Setter Property="Foreground" Value="{ThemeResource MaterialTopTabBarItemForeground}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource MaterialTopTabBarItemBorderBrush}" />
     <Setter Property="FontFamily" Value="{StaticResource MaterialRegularFontFamily}" />
-    <Setter Property="FontSize" Value="{StaticResource M3MaterialTopTabBarFontSize}" />
+    <Setter Property="FontSize" Value="{StaticResource MaterialTopTabBarFontSize}" />
     <Setter Property="FontWeight" Value="Normal" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -1920,50 +1920,50 @@
                 <VisualState x:Name="Normal" />
                 <VisualState x:Name="PointerOver">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundPointerOver}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundPointerOver}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundPointerOver}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundPointerOver}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialTopTabBarItemBackgroundPointerOver}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialTopTabBarItemBackgroundPointerOver}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundPointerOver}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundPointerOver}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundPressed}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundPressed}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundPressed}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundPressed}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialTopTabBarItemBackgroundPressed}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialTopTabBarItemBackgroundPressed}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundPressed}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundPressed}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Selected">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundSelected}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundSelected}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundSelected}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundSelected}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialTopTabBarItemBackgroundSelected}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialTopTabBarItemBackgroundSelected}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundSelected}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundSelected}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PointerOverSelected">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundSelectedPointerOver}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundSelectedPointerOver}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundSelectedPointerOver}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundSelectedPointerOver}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialTopTabBarItemBackgroundSelectedPointerOver}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialTopTabBarItemBackgroundSelectedPointerOver}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundSelectedPointerOver}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundSelectedPointerOver}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PressedSelected">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundSelectedPressed}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundSelectedPressed}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundSelectedPressed}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundSelectedPressed}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialTopTabBarItemBackgroundSelectedPressed}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialTopTabBarItemBackgroundSelectedPressed}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundSelectedPressed}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundSelectedPressed}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
               <VisualStateGroup x:Name="FocusStates">
                 <VisualState x:Name="Focused">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundFocused}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialTopTabBarItemBackgroundFocused}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialTopTabBarItemBackgroundFocused}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialTopTabBarItemBackgroundFocused}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PointerFocused" />
@@ -1973,8 +1973,8 @@
                 <VisualState x:Name="Enabled" />
                 <VisualState x:Name="Disabled">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundDisabled}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialTopTabBarItemForegroundDisabled}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundDisabled}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialTopTabBarItemForegroundDisabled}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
@@ -1989,7 +1989,7 @@
                 <VisualState x:Name="ContentOnly">
                   <VisualState.Setters>
                     <Setter Target="IconBox.Visibility" Value="Collapsed" />
-                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource M3MaterialTopTabBarItemContentOnlyMargin}" />
+                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource MaterialTopTabBarItemContentOnlyMargin}" />
                     <Setter Target="IconRow.Width" Value="0" />
                     <Setter Target="ContentRow.Width" Value="*" />
                   </VisualState.Setters>
@@ -2005,10 +2005,10 @@
                       <ColumnDefinition x:Name="IconRow" Width="*" />
                       <ColumnDefinition x:Name="ContentRow" Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Viewbox x:Name="IconBox" Width="{StaticResource M3MaterialTopTabBarItemIconWidth}" Height="{StaticResource M3MaterialTopTabBarItemIconHeight}">
+                    <Viewbox x:Name="IconBox" Width="{StaticResource MaterialTopTabBarItemIconWidth}" Height="{StaticResource MaterialTopTabBarItemIconHeight}">
                       <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}" />
                     </Viewbox>
-                    <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" Margin="{StaticResource M3MaterialTopTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
+                    <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" Margin="{StaticResource MaterialTopTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
                   </Grid>
                 </Grid>
               </um:Ripple.Content>
@@ -2018,39 +2018,39 @@
       </Setter.Value>
     </Setter>
   </not_mobile:Style>
-  <StaticResource x:Key="M3MaterialColoredTopTabBarBackground" ResourceKey="PrimaryBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarIndicator" ResourceKey="OnPrimaryBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemBackgroundSelectedPointerOver" ResourceKey="OnPrimaryHoverBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemBackgroundSelectedPressed" ResourceKey="OnPrimaryPressedBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemBackgroundSelectedFocused" ResourceKey="M3MaterialColoredTopTabBarItemOnPrimaryFocusedBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundSelected" ResourceKey="OnPrimaryBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundSelectedPointerOver" ResourceKey="OnPrimaryBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundSelectedPressed" ResourceKey="OnPrimaryBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundSelectedFocused" ResourceKey="OnPrimaryBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemBackgroundPointerOver" ResourceKey="OnPrimaryHoverBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemBackgroundPressed" ResourceKey="OnPrimaryPressedBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemBackgroundFocused" ResourceKey="M3MaterialColoredTopTabBarItemOnPrimaryFocusedBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemForeground" ResourceKey="M3MaterialColoredTopTabBarItemOnPrimaryBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundPointerOver" ResourceKey="M3MaterialColoredTopTabBarItemOnPrimaryBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundPressed" ResourceKey="M3MaterialColoredTopTabBarItemOnPrimaryBrush" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-  <SolidColorBrush x:Key="M3MaterialColoredTopTabBarItemOnPrimaryFocusedBrush" Opacity="0.30" Color="{ThemeResource OnPrimaryColor}" />
-  <SolidColorBrush x:Key="M3MaterialColoredTopTabBarItemOnPrimaryBrush" Opacity="0.60" Color="{ThemeResource OnPrimaryColor}" />
-  <StaticResource x:Key="M3MaterialColoredTopTabBarItemBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-  <x:Double x:Key="M3MaterialColoredTopTabBarFontSize">14</x:Double>
-  <x:Double x:Key="M3MaterialColoredTopTabBarHeight">48</x:Double>
-  <x:Double x:Key="M3MaterialColoredTopTabBarItemIconHeight">20</x:Double>
-  <x:Double x:Key="M3MaterialColoredTopTabBarItemIconWidth">20</x:Double>
-  <Thickness x:Key="M3MaterialColoredTopTabBarItemContentMargin">0,0,0,0</Thickness>
-  <Thickness x:Key="M3MaterialColoredTopTabBarItemContentOnlyMargin">12,0</Thickness>
-  <mobile:Style x:Key="M3MaterialColoredTopTabBarStyle" TargetType="utu:TabBar">
-    <Setter Property="Background" Value="{StaticResource M3MaterialColoredTopTabBarBackground}" />
+  <StaticResource x:Key="MaterialColoredTopTabBarBackground" ResourceKey="PrimaryBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarIndicator" ResourceKey="OnPrimaryBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemBackgroundSelectedPointerOver" ResourceKey="OnPrimaryHoverBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemBackgroundSelectedPressed" ResourceKey="OnPrimaryPressedBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemBackgroundSelectedFocused" ResourceKey="MaterialColoredTopTabBarItemOnPrimaryFocusedBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemForegroundSelected" ResourceKey="OnPrimaryBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemForegroundSelectedPointerOver" ResourceKey="OnPrimaryBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemForegroundSelectedPressed" ResourceKey="OnPrimaryBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemForegroundSelectedFocused" ResourceKey="OnPrimaryBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemBackgroundPointerOver" ResourceKey="OnPrimaryHoverBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemBackgroundPressed" ResourceKey="OnPrimaryPressedBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemBackgroundFocused" ResourceKey="MaterialColoredTopTabBarItemOnPrimaryFocusedBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemForeground" ResourceKey="MaterialColoredTopTabBarItemOnPrimaryBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemForegroundPointerOver" ResourceKey="MaterialColoredTopTabBarItemOnPrimaryBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemForegroundPressed" ResourceKey="MaterialColoredTopTabBarItemOnPrimaryBrush" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+  <SolidColorBrush x:Key="MaterialColoredTopTabBarItemOnPrimaryFocusedBrush" Opacity="0.30" Color="{ThemeResource OnPrimaryColor}" />
+  <SolidColorBrush x:Key="MaterialColoredTopTabBarItemOnPrimaryBrush" Opacity="0.60" Color="{ThemeResource OnPrimaryColor}" />
+  <StaticResource x:Key="MaterialColoredTopTabBarItemBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+  <x:Double x:Key="MaterialColoredTopTabBarFontSize">14</x:Double>
+  <x:Double x:Key="MaterialColoredTopTabBarHeight">48</x:Double>
+  <x:Double x:Key="MaterialColoredTopTabBarItemIconHeight">20</x:Double>
+  <x:Double x:Key="MaterialColoredTopTabBarItemIconWidth">20</x:Double>
+  <Thickness x:Key="MaterialColoredTopTabBarItemContentMargin">0,0,0,0</Thickness>
+  <Thickness x:Key="MaterialColoredTopTabBarItemContentOnlyMargin">12,0</Thickness>
+  <mobile:Style x:Key="MaterialColoredTopTabBarStyle" TargetType="utu:TabBar">
+    <Setter Property="Background" Value="{StaticResource MaterialColoredTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
     <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
-    <Setter Property="Height" Value="{StaticResource M3MaterialColoredTopTabBarHeight}" />
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialColoredTopTabBarItemStyle}" />
+    <Setter Property="Height" Value="{StaticResource MaterialColoredTopTabBarHeight}" />
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialColoredTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
@@ -2064,19 +2064,19 @@
           <Grid x:Name="TabBarGrid" Height="{TemplateBinding Height}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
             <ItemsPresenter Padding="{TemplateBinding Padding}" />
             <utu:TabBarSelectionIndicatorPresenter x:Name="SelectionIndicatorPresenter" Height="2" VerticalAlignment="Bottom" AutomationProperties.AutomationId="SelectionIndicatorPresenter" IndicatorTransitionMode="Snap" Opacity="0" Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-              <Border x:Name="SelectionIndicatorRect" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" Height="2" Margin="0,0,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.AutomationId="SelectionIndicatorRect" Background="{ThemeResource M3MaterialColoredTopTabBarIndicator}" />
+              <Border x:Name="SelectionIndicatorRect" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" Height="2" Margin="0,0,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.AutomationId="SelectionIndicatorRect" Background="{ThemeResource MaterialColoredTopTabBarIndicator}" />
             </utu:TabBarSelectionIndicatorPresenter>
           </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </mobile:Style>
-  <not_mobile:Style x:Key="M3MaterialColoredTopTabBarStyle" TargetType="utu:TabBar">
-    <Setter Property="Background" Value="{StaticResource M3MaterialColoredTopTabBarBackground}" />
+  <not_mobile:Style x:Key="MaterialColoredTopTabBarStyle" TargetType="utu:TabBar">
+    <Setter Property="Background" Value="{StaticResource MaterialColoredTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
     <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
-    <Setter Property="Height" Value="{StaticResource M3MaterialColoredTopTabBarHeight}" />
-    <Setter Property="ItemContainerStyle" Value="{StaticResource M3MaterialColoredTopTabBarItemStyle}" />
+    <Setter Property="Height" Value="{StaticResource MaterialColoredTopTabBarHeight}" />
+    <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialColoredTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
@@ -2090,19 +2090,19 @@
           <Grid x:Name="TabBarGrid" Height="{TemplateBinding Height}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
             <ItemsPresenter Padding="{TemplateBinding Padding}" />
             <utu:TabBarSelectionIndicatorPresenter x:Name="SelectionIndicatorPresenter" Height="2" VerticalAlignment="Bottom" AutomationProperties.AutomationId="SelectionIndicatorPresenter" IndicatorTransitionMode="Snap" Opacity="0" Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-              <Border x:Name="SelectionIndicatorRect" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" Height="2" Margin="0,0,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.AutomationId="SelectionIndicatorRect" Background="{ThemeResource M3MaterialColoredTopTabBarIndicator}" />
+              <Border x:Name="SelectionIndicatorRect" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}" Height="2" Margin="0,0,0,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.AutomationId="SelectionIndicatorRect" Background="{ThemeResource MaterialColoredTopTabBarIndicator}" />
             </utu:TabBarSelectionIndicatorPresenter>
           </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
   </not_mobile:Style>
-  <mobile:Style x:Key="M3MaterialColoredTopTabBarItemStyle" TargetType="utu:TabBarItem">
-    <Setter Property="Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackground}" />
-    <Setter Property="Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForeground}" />
-    <Setter Property="BorderBrush" Value="{StaticResource M3MaterialColoredTopTabBarItemBorderBrush}" />
+  <mobile:Style x:Key="MaterialColoredTopTabBarItemStyle" TargetType="utu:TabBarItem">
+    <Setter Property="Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackground}" />
+    <Setter Property="Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForeground}" />
+    <Setter Property="BorderBrush" Value="{StaticResource MaterialColoredTopTabBarItemBorderBrush}" />
     <Setter Property="FontFamily" Value="{StaticResource MaterialRegularFontFamily}" />
-    <Setter Property="FontSize" Value="{StaticResource M3MaterialColoredTopTabBarFontSize}" />
+    <Setter Property="FontSize" Value="{StaticResource MaterialColoredTopTabBarFontSize}" />
     <Setter Property="FontWeight" Value="Normal" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -2115,10 +2115,10 @@
                 <VisualState x:Name="Normal" />
                 <VisualState x:Name="Selected">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundSelected}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundSelected}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundSelected}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundSelected}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundSelected}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundSelected}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundSelected}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundSelected}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
@@ -2126,8 +2126,8 @@
                 <VisualState x:Name="Enabled" />
                 <VisualState x:Name="Disabled">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundDisabled}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundDisabled}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundDisabled}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundDisabled}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
@@ -2142,7 +2142,7 @@
                 <VisualState x:Name="ContentOnly">
                   <VisualState.Setters>
                     <Setter Target="IconBox.Visibility" Value="Collapsed" />
-                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource M3MaterialColoredTopTabBarItemContentOnlyMargin}" />
+                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource MaterialColoredTopTabBarItemContentOnlyMargin}" />
                     <Setter Target="IconRow.Width" Value="0" />
                     <Setter Target="ContentRow.Width" Value="*" />
                   </VisualState.Setters>
@@ -2151,8 +2151,8 @@
               <VisualStateGroup x:Name="FocusStates">
                 <VisualState x:Name="Focused">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundFocused}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundFocused}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundFocused}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundFocused}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PointerFocused" />
@@ -2168,10 +2168,10 @@
                       <ColumnDefinition x:Name="IconRow" Width="*" />
                       <ColumnDefinition x:Name="ContentRow" Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Viewbox x:Name="IconBox" Width="{StaticResource M3MaterialColoredTopTabBarItemIconWidth}" Height="{StaticResource M3MaterialColoredTopTabBarItemIconHeight}">
+                    <Viewbox x:Name="IconBox" Width="{StaticResource MaterialColoredTopTabBarItemIconWidth}" Height="{StaticResource MaterialColoredTopTabBarItemIconHeight}">
                       <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}" />
                     </Viewbox>
-                    <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" Margin="{StaticResource M3MaterialColoredTopTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
+                    <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" Margin="{StaticResource MaterialColoredTopTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
                   </Grid>
                 </Grid>
               </um:Ripple.Content>
@@ -2181,12 +2181,12 @@
       </Setter.Value>
     </Setter>
   </mobile:Style>
-  <not_mobile:Style x:Key="M3MaterialColoredTopTabBarItemStyle" TargetType="utu:TabBarItem">
-    <Setter Property="Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackground}" />
-    <Setter Property="Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForeground}" />
-    <Setter Property="BorderBrush" Value="{ThemeResource M3MaterialColoredTopTabBarItemBorderBrush}" />
+  <not_mobile:Style x:Key="MaterialColoredTopTabBarItemStyle" TargetType="utu:TabBarItem">
+    <Setter Property="Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackground}" />
+    <Setter Property="Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForeground}" />
+    <Setter Property="BorderBrush" Value="{ThemeResource MaterialColoredTopTabBarItemBorderBrush}" />
     <Setter Property="FontFamily" Value="{StaticResource MaterialRegularFontFamily}" />
-    <Setter Property="FontSize" Value="{StaticResource M3MaterialColoredTopTabBarFontSize}" />
+    <Setter Property="FontSize" Value="{StaticResource MaterialColoredTopTabBarFontSize}" />
     <Setter Property="FontWeight" Value="Normal" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -2199,50 +2199,50 @@
                 <VisualState x:Name="Normal" />
                 <VisualState x:Name="PointerOver">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundPointerOver}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundPointerOver}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundPointerOver}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundPointerOver}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundPointerOver}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundPointerOver}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundPointerOver}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundPointerOver}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Pressed">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundPressed}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundPressed}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundPressed}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundPressed}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundPressed}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundPressed}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundPressed}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundPressed}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Selected">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundSelected}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundSelected}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundSelected}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundSelected}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundSelected}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundSelected}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundSelected}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundSelected}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PointerOverSelected">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundSelectedPointerOver}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundSelectedPointerOver}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundSelectedPointerOver}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundSelectedPointerOver}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundSelectedPointerOver}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundSelectedPointerOver}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundSelectedPointerOver}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundSelectedPointerOver}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PressedSelected">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundSelectedPressed}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundSelectedPressed}" />
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundSelectedPressed}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundSelectedPressed}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundSelectedPressed}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundSelectedPressed}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundSelectedPressed}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundSelectedPressed}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
               <VisualStateGroup x:Name="FocusStates">
                 <VisualState x:Name="Focused">
                   <VisualState.Setters>
-                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundFocused}" />
-                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource M3MaterialColoredTopTabBarItemBackgroundFocused}" />
+                    <Setter Target="LayoutRoot.Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundFocused}" />
+                    <Setter Target="PointerRectangle.Fill" Value="{ThemeResource MaterialColoredTopTabBarItemBackgroundFocused}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PointerFocused" />
@@ -2252,8 +2252,8 @@
                 <VisualState x:Name="Enabled" />
                 <VisualState x:Name="Disabled">
                   <VisualState.Setters>
-                    <Setter Target="Icon.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundDisabled}" />
-                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource M3MaterialColoredTopTabBarItemForegroundDisabled}" />
+                    <Setter Target="Icon.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundDisabled}" />
+                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForegroundDisabled}" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
@@ -2268,7 +2268,7 @@
                 <VisualState x:Name="ContentOnly">
                   <VisualState.Setters>
                     <Setter Target="IconBox.Visibility" Value="Collapsed" />
-                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource M3MaterialColoredTopTabBarItemContentOnlyMargin}" />
+                    <Setter Target="ContentPresenter.Margin" Value="{StaticResource MaterialColoredTopTabBarItemContentOnlyMargin}" />
                     <Setter Target="IconRow.Width" Value="0" />
                     <Setter Target="ContentRow.Width" Value="*" />
                   </VisualState.Setters>
@@ -2284,10 +2284,10 @@
                       <ColumnDefinition x:Name="IconRow" Width="*" />
                       <ColumnDefinition x:Name="ContentRow" Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Viewbox x:Name="IconBox" Width="{StaticResource M3MaterialColoredTopTabBarItemIconWidth}" Height="{StaticResource M3MaterialColoredTopTabBarItemIconHeight}">
+                    <Viewbox x:Name="IconBox" Width="{StaticResource MaterialColoredTopTabBarItemIconWidth}" Height="{StaticResource MaterialColoredTopTabBarItemIconHeight}">
                       <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}" />
                     </Viewbox>
-                    <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" Margin="{StaticResource M3MaterialColoredTopTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
+                    <ContentPresenter x:Name="ContentPresenter" Grid.Column="1" Margin="{StaticResource MaterialColoredTopTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
                   </Grid>
                 </Grid>
               </um:Ripple.Content>

@@ -15,18 +15,18 @@
 					Spacing="8" />
 	</ItemsPanelTemplate>
 
-	<Style x:Key="M3MaterialBaseChipGroupStyle"
+	<Style x:Key="MaterialBaseChipGroupStyle"
 		   TargetType="utu:ChipGroup">
 		<Setter Property="ItemsPanel"
 				Value="{StaticResource MaterialHorizontalChipGroupItemsPanel}" />
 	</Style>
 
 	<!--#region Input Chip Group Style -->
-	<Style x:Key="M3MaterialInputChipGroupStyle"
-		   BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}"
+	<Style x:Key="MaterialInputChipGroupStyle"
+		   BasedOn="{StaticResource MaterialBaseChipGroupStyle}"
 		   TargetType="utu:ChipGroup">
 		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource M3MaterialInputChipStyle}" />
+				Value="{StaticResource MaterialInputChipStyle}" />
 		<Setter Property="CanRemove"
 				Value="True" />
 		<Setter Property="SelectionMode"
@@ -35,22 +35,22 @@
 	<!--#endregion -->
 
 	<!--#region Suggestion Chip Group Style -->
-	<Style x:Key="M3MaterialElevatedSuggestionChipGroupStyle"
-		   BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}"
+	<Style x:Key="MaterialElevatedSuggestionChipGroupStyle"
+		   BasedOn="{StaticResource MaterialBaseChipGroupStyle}"
 		   TargetType="utu:ChipGroup">
 		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource M3MaterialElevatedSuggestionChipStyle}" />
+				Value="{StaticResource MaterialElevatedSuggestionChipStyle}" />
 		<Setter Property="CanRemove"
 				Value="False" />
 		<Setter Property="SelectionMode"
 				Value="Single" />
 	</Style>
 
-	<Style x:Key="M3MaterialSuggestionChipGroupStyle"
-		   BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}"
+	<Style x:Key="MaterialSuggestionChipGroupStyle"
+		   BasedOn="{StaticResource MaterialBaseChipGroupStyle}"
 		   TargetType="utu:ChipGroup">
 		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource M3MaterialSuggestionChipStyle}" />
+				Value="{StaticResource MaterialSuggestionChipStyle}" />
 		<Setter Property="CanRemove"
 				Value="False" />
 		<Setter Property="SelectionMode"
@@ -59,22 +59,22 @@
 	<!--#endregion-->
 
 	<!--#region Filter Chip Group Style -->
-	<Style x:Key="M3MaterialElevatedFilterChipGroupStyle"
-		   BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}"
+	<Style x:Key="MaterialElevatedFilterChipGroupStyle"
+		   BasedOn="{StaticResource MaterialBaseChipGroupStyle}"
 		   TargetType="utu:ChipGroup">
 		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource M3MaterialElevatedFilterChipStyle}" />
+				Value="{StaticResource MaterialElevatedFilterChipStyle}" />
 		<Setter Property="CanRemove"
 				Value="False" />
 		<Setter Property="SelectionMode"
 				Value="Multiple" />
 	</Style>
 
-	<Style x:Key="M3MaterialFilterChipGroupStyle"
-		   BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}"
+	<Style x:Key="MaterialFilterChipGroupStyle"
+		   BasedOn="{StaticResource MaterialBaseChipGroupStyle}"
 		   TargetType="utu:ChipGroup">
 		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource M3MaterialFilterChipStyle}" />
+				Value="{StaticResource MaterialFilterChipStyle}" />
 		<Setter Property="CanRemove"
 				Value="False" />
 		<Setter Property="SelectionMode"
@@ -83,22 +83,22 @@
 	<!--#endregion-->
 
 	<!-- #region Assist Chip Group Style -->
-	<Style x:Key="M3MaterialElevatedAssistChipGroupStyle"
-		   BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}"
+	<Style x:Key="MaterialElevatedAssistChipGroupStyle"
+		   BasedOn="{StaticResource MaterialBaseChipGroupStyle}"
 		   TargetType="utu:ChipGroup">
 		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource M3MaterialElevatedAssistChipStyle}" />
+				Value="{StaticResource MaterialElevatedAssistChipStyle}" />
 		<Setter Property="CanRemove"
 				Value="False" />
 		<Setter Property="SelectionMode"
 				Value="None" />
 	</Style>
 
-	<Style x:Key="M3MaterialAssistChipGroupStyle"
-		   BasedOn="{StaticResource M3MaterialBaseChipGroupStyle}"
+	<Style x:Key="MaterialAssistChipGroupStyle"
+		   BasedOn="{StaticResource MaterialBaseChipGroupStyle}"
 		   TargetType="utu:ChipGroup">
 		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource M3MaterialAssistChipStyle}" />
+				Value="{StaticResource MaterialAssistChipStyle}" />
 		<Setter Property="CanRemove"
 				Value="False" />
 		<Setter Property="SelectionMode"

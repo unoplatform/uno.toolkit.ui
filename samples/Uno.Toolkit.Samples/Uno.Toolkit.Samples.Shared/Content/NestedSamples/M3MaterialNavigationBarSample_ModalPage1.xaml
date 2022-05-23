@@ -8,7 +8,7 @@
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid>
-        <utu:NavigationBar Style="{StaticResource M3MaterialModalNavigationBarStyle}"
+        <utu:NavigationBar Style="{StaticResource MaterialModalNavigationBarStyle}"
 						   Content="Hello"
 						   VerticalAlignment="Top">
             <utu:NavigationBar.MainCommand>

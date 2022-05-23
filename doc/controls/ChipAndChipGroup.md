@@ -67,7 +67,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <utu:Chip Content="Suggestion Chip" IsChecked="True" Style="{StaticResource SuggestionChipStyle}" />
 
 <!-- with icon -->
-<utu:Chip Content="Chip" Style="{StaticResource M3MaterialChipStyle}">
+<utu:Chip Content="Chip" Style="{StaticResource MaterialChipStyle}">
 	<utu:Chip.Icon>
 		<Image Source="ms-appx:///Assets/Avatar.png" />
 	</utu:Chip.Icon>

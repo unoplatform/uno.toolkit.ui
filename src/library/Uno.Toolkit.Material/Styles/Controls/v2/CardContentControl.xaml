@@ -5,16 +5,16 @@
                                       xmlns:toolkit="using:Uno.UI.Toolkit">
 
     <!--  CardContentControl Base Style  -->
-    <Style x:Key="M3MaterialBaseCardContentControlStyle"
+    <Style x:Key="MaterialBaseCardContentControlStyle"
            TargetType="utu:CardContentControl">
         <Setter Property="MinHeight"
-                Value="{StaticResource M3MaterialCardMinHeight}" />
+                Value="{StaticResource MaterialCardMinHeight}" />
         <Setter Property="MaxWidth"
-                Value="{StaticResource M3MaterialCardMaxWidth}" />
+                Value="{StaticResource MaterialCardMaxWidth}" />
         <Setter Property="Margin"
-                Value="{StaticResource M3MaterialCardElevationMargin}" />
+                Value="{StaticResource MaterialCardElevationMargin}" />
         <Setter Property="CornerRadius"
-                Value="{StaticResource M3MaterialCardCornerRadius}" />
+                Value="{StaticResource MaterialCardCornerRadius}" />
         <Setter Property="HorizontalAlignment"
                 Value="Stretch" />
         <Setter Property="HorizontalContentAlignment"
@@ -26,11 +26,11 @@
     </Style>
 
         <!-- Filled -->
-    <Style x:Key="M3MaterialFilledCardContentControlStyle"
-           BasedOn="{StaticResource M3MaterialBaseCardContentControlStyle}"
+    <Style x:Key="MaterialFilledCardContentControlStyle"
+           BasedOn="{StaticResource MaterialBaseCardContentControlStyle}"
            TargetType="utu:CardContentControl">
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialFilledCardBackground}" />
+                Value="{StaticResource MaterialFilledCardBackground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="utu:CardContentControl">
@@ -134,7 +134,7 @@
                         <!--<um:Ripple Feedback="{StaticResource OnSurfaceFocusedBrush}"
 										 BorderBrush="{TemplateBinding BorderBrush}"
 										 BorderThickness="{TemplateBinding BorderThickness}"
-										 CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+										 CornerRadius="{StaticResource MaterialCardCornerRadius}"
 										 Padding="{TemplateBinding Padding}"
 										 AutomationProperties.AccessibilityView="Raw" />-->
 
@@ -171,25 +171,25 @@
     </Style>
 
     <!-- Outlined -->
-    <Style x:Key="M3MaterialOutlinedCardContentControlStyle"
-           BasedOn="{StaticResource M3MaterialFilledCardContentControlStyle}"
+    <Style x:Key="MaterialOutlinedCardContentControlStyle"
+           BasedOn="{StaticResource MaterialFilledCardContentControlStyle}"
            TargetType="utu:CardContentControl">
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialOutlinedCardBackground}" />
+                Value="{StaticResource MaterialOutlinedCardBackground}" />
         <Setter Property="BorderBrush"
-                Value="{ThemeResource M3MaterialOutlinedCardBorderBrush}" />
+                Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
         <Setter Property="BorderThickness"
-                Value="{StaticResource M3MaterialCardBorderThickness}" />
+                Value="{StaticResource MaterialCardBorderThickness}" />
     </Style>
 
     <!-- Elevated -->
-    <Style x:Key="M3MaterialElevatedCardContentControlStyle"
-           BasedOn="{StaticResource M3MaterialBaseCardContentControlStyle}"
+    <Style x:Key="MaterialElevatedCardContentControlStyle"
+           BasedOn="{StaticResource MaterialBaseCardContentControlStyle}"
            TargetType="utu:CardContentControl">
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialElevatedCardBackground}" />
+                Value="{StaticResource MaterialElevatedCardBackground}" />
         <Setter Property="Elevation"
-                Value="{StaticResource M3MaterialCardElevation}" />
+                Value="{StaticResource MaterialCardElevation}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -295,7 +295,7 @@
                             <!-- Will add the ripple effect later on when this issue is taken care of: -->
                             <!-- https://github.com/unoplatform/uno.ui.toolkit/issues/88 -->
                             <!--<um:Ripple Feedback="{StaticResource OnSurfaceFocusedBrush}"
-											 CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+											 CornerRadius="{StaticResource MaterialCardCornerRadius}"
 											 Padding="{TemplateBinding Padding}"
 											 AutomationProperties.AccessibilityView="Raw" />-->
 

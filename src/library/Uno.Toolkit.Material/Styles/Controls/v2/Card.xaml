@@ -6,34 +6,34 @@
 
     <!-- Card Brushes Resources -->
     <!-- Elevated -->
-    <StaticResource x:Key="M3MaterialElevatedCardBackground"
+    <StaticResource x:Key="MaterialElevatedCardBackground"
 	                ResourceKey="SurfaceBrush" />
 
     <!-- Filled -->
-    <StaticResource x:Key="M3MaterialFilledCardBackground"
+    <StaticResource x:Key="MaterialFilledCardBackground"
 	                ResourceKey="SurfaceVariantBrush" />
     
     <!-- Outlined -->
-    <StaticResource x:Key="M3MaterialOutlinedCardBackground"
+    <StaticResource x:Key="MaterialOutlinedCardBackground"
 	                ResourceKey="SurfaceBrush" />
-    <StaticResource x:Key="M3MaterialOutlinedCardBorderBrush"
+    <StaticResource x:Key="MaterialOutlinedCardBorderBrush"
 	                ResourceKey="OutlineBrush" />
 
     <!--  Card Other Resources  -->
     <!-- Double -->
-    <x:Double x:Key="M3MaterialCardMinHeight">72</x:Double>
-    <x:Double x:Key="M3MaterialCardMaxWidth">344</x:Double>
+    <x:Double x:Key="MaterialCardMinHeight">72</x:Double>
+    <x:Double x:Key="MaterialCardMaxWidth">344</x:Double>
 
     <!-- Thickness -->
-    <Thickness x:Key="M3MaterialCardPadding">16</Thickness>
-    <Thickness x:Key="M3MaterialCardBorderThickness">1</Thickness>
+    <Thickness x:Key="MaterialCardPadding">16</Thickness>
+    <Thickness x:Key="MaterialCardBorderThickness">1</Thickness>
 
     <!-- Corner Radius -->
-    <CornerRadius x:Key="M3MaterialCardCornerRadius">12</CornerRadius>
+    <CornerRadius x:Key="MaterialCardCornerRadius">12</CornerRadius>
 
     <!--  Card Elevation Variables  -->
-    <x:Double x:Key="M3MaterialCardElevation">6</x:Double>
-    <Thickness x:Key="M3MaterialCardElevationMargin">6</Thickness>
+    <x:Double x:Key="MaterialCardElevation">6</x:Double>
+    <Thickness x:Key="MaterialCardElevationMargin">6</Thickness>
 
     <!--  Card Templates  -->
     <DataTemplate x:Key="M3DefaultHeaderContentTemplate">
@@ -96,18 +96,18 @@
 
 
     <!--  Card Base Style  -->
-    <Style x:Key="M3MaterialBaseCardStyle"
+    <Style x:Key="MaterialBaseCardStyle"
            TargetType="utu:Card">
         <Setter Property="MinHeight"
-                Value="{StaticResource M3MaterialCardMinHeight}" />
+                Value="{StaticResource MaterialCardMinHeight}" />
         <Setter Property="MaxWidth"
-                Value="{StaticResource M3MaterialCardMaxWidth}" />
+                Value="{StaticResource MaterialCardMaxWidth}" />
         <Setter Property="CornerRadius"
-                Value="{StaticResource M3MaterialCardCornerRadius}" />
+                Value="{StaticResource MaterialCardCornerRadius}" />
         <Setter Property="Margin"
-                Value="{StaticResource M3MaterialCardElevationMargin}" />
+                Value="{StaticResource MaterialCardElevationMargin}" />
         <Setter Property="Padding"
-                Value="{StaticResource M3MaterialCardPadding}" />
+                Value="{StaticResource MaterialCardPadding}" />
         <Setter Property="HeaderContentTemplate"
                 Value="{StaticResource M3DefaultHeaderContentTemplate}" />
         <Setter Property="SubHeaderContentTemplate"
@@ -123,8 +123,8 @@
     </Style>
 
     <!--  Card Base Style with Avatar  -->
-    <Style x:Key="M3MaterialAvatarBaseCardStyle"
-           BasedOn="{StaticResource M3MaterialBaseCardStyle}"
+    <Style x:Key="MaterialAvatarBaseCardStyle"
+           BasedOn="{StaticResource MaterialBaseCardStyle}"
            TargetType="utu:Card">
 
         <Setter Property="SupportingContentTemplate"
@@ -134,8 +134,8 @@
     </Style>
 
     <!--  Card Base Style with Small media  -->
-    <Style x:Key="M3MaterialSmallMediaBaseCardStyle"
-           BasedOn="{StaticResource M3MaterialBaseCardStyle}"
+    <Style x:Key="MaterialSmallMediaBaseCardStyle"
+           BasedOn="{StaticResource MaterialBaseCardStyle}"
            TargetType="utu:Card">
 
         <Setter Property="Padding"
@@ -150,11 +150,11 @@
                 Value="{StaticResource M3DefaultSmallMediaSupportingContentTemplate}" />
     </Style>
 
-    <Style x:Key="M3MaterialFilledCardStyle"
+    <Style x:Key="MaterialFilledCardStyle"
            TargetType="utu:Card"
-           BasedOn="{StaticResource M3MaterialBaseCardStyle}">
+           BasedOn="{StaticResource MaterialBaseCardStyle}">
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialFilledCardBackground}" />
+                Value="{StaticResource MaterialFilledCardBackground}" />
         <Setter Property="VerticalAlignment"
                 Value="Stretch" />
         <Setter Property="VerticalContentAlignment"
@@ -303,7 +303,7 @@
                                    Feedback="{StaticResource OnSurfaceFocusedBrush}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                   CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+                                   CornerRadius="{StaticResource MaterialCardCornerRadius}"
                                    Padding="{TemplateBinding Padding}"
                                    AutomationProperties.AccessibilityView="Raw" />
 
@@ -332,29 +332,29 @@
         </Setter>
     </Style>
 
-    <Style x:Key="M3MaterialOutlinedCardStyle"
+    <Style x:Key="MaterialOutlinedCardStyle"
            TargetType="utu:Card"
-           BasedOn="{StaticResource M3MaterialFilledCardStyle}">
+           BasedOn="{StaticResource MaterialFilledCardStyle}">
 
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialOutlinedCardBackground}" />
+                Value="{StaticResource MaterialOutlinedCardBackground}" />
         <Setter Property="BorderBrush"
-                Value="{ThemeResource M3MaterialOutlinedCardBorderBrush}" />
+                Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
         <Setter Property="BorderThickness"
-                Value="{StaticResource M3MaterialCardBorderThickness}" />
+                Value="{StaticResource MaterialCardBorderThickness}" />
     </Style>
 
-    <Style x:Key="M3MaterialElevatedCardStyle"
-           BasedOn="{StaticResource M3MaterialBaseCardStyle}"
+    <Style x:Key="MaterialElevatedCardStyle"
+           BasedOn="{StaticResource MaterialBaseCardStyle}"
            TargetType="utu:Card">
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialElevatedCardBackground}" />
+                Value="{StaticResource MaterialElevatedCardBackground}" />
         <Setter Property="VerticalAlignment"
                 Value="Stretch" />
         <Setter Property="VerticalContentAlignment"
                 Value="Stretch" />
         <Setter Property="Elevation"
-                Value="{StaticResource M3MaterialCardElevation}" />
+                Value="{StaticResource MaterialCardElevation}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -499,7 +499,7 @@
                             <!--  Ripple effect  -->
                             <um:Ripple Grid.RowSpan="4"
                                        Feedback="{StaticResource OnSurfaceFocusedBrush}"
-                                       CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+                                       CornerRadius="{StaticResource MaterialCardCornerRadius}"
                                        Padding="{TemplateBinding Padding}"
                                        AutomationProperties.AccessibilityView="Raw" />
 
@@ -529,12 +529,12 @@
         </Setter>
     </Style>
 
-    <Style x:Key="M3MaterialAvatarFilledCardStyle"
-           BasedOn="{StaticResource M3MaterialAvatarBaseCardStyle}"
+    <Style x:Key="MaterialAvatarFilledCardStyle"
+           BasedOn="{StaticResource MaterialAvatarBaseCardStyle}"
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialFilledCardBackground}" />
+                Value="{StaticResource MaterialFilledCardBackground}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -686,7 +686,7 @@
                                    Feedback="{StaticResource OnSurfaceFocusedBrush}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                   CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+                                   CornerRadius="{StaticResource MaterialCardCornerRadius}"
                                    Padding="{TemplateBinding Padding}"
                                    AutomationProperties.AccessibilityView="Raw" />
 
@@ -728,26 +728,26 @@
         </Setter>
     </Style>
 
-    <Style x:Key="M3MaterialAvatarOutlinedCardStyle"
-           BasedOn="{StaticResource M3MaterialAvatarFilledCardStyle}"
+    <Style x:Key="MaterialAvatarOutlinedCardStyle"
+           BasedOn="{StaticResource MaterialAvatarFilledCardStyle}"
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialOutlinedCardBackground}" />
+                Value="{StaticResource MaterialOutlinedCardBackground}" />
         <Setter Property="BorderBrush"
-                Value="{ThemeResource M3MaterialOutlinedCardBorderBrush}" />
+                Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
         <Setter Property="BorderThickness"
-                Value="{StaticResource M3MaterialCardBorderThickness}" />
+                Value="{StaticResource MaterialCardBorderThickness}" />
     </Style>
 
-    <Style x:Key="M3MaterialAvatarElevatedCardStyle"
-           BasedOn="{StaticResource M3MaterialAvatarBaseCardStyle}"
+    <Style x:Key="MaterialAvatarElevatedCardStyle"
+           BasedOn="{StaticResource MaterialAvatarBaseCardStyle}"
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialElevatedCardBackground}" />
+                Value="{StaticResource MaterialElevatedCardBackground}" />
         <Setter Property="Elevation"
-                Value="{StaticResource M3MaterialCardElevation}" />
+                Value="{StaticResource MaterialCardElevation}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -901,7 +901,7 @@
                             <um:Ripple Grid.RowSpan="3"
                                        Grid.ColumnSpan="3"
                                        Feedback="{StaticResource OnSurfaceFocusedBrush}"
-                                       CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+                                       CornerRadius="{StaticResource MaterialCardCornerRadius}"
                                        Padding="{TemplateBinding Padding}"
                                        AutomationProperties.AccessibilityView="Raw" />
 
@@ -944,12 +944,12 @@
         </Setter>
     </Style>
 
-    <Style x:Key="M3MaterialSmallMediaFilledCardStyle"
-           BasedOn="{StaticResource M3MaterialSmallMediaBaseCardStyle}"
+    <Style x:Key="MaterialSmallMediaFilledCardStyle"
+           BasedOn="{StaticResource MaterialSmallMediaBaseCardStyle}"
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialFilledCardBackground}" />
+                Value="{StaticResource MaterialFilledCardBackground}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -1099,7 +1099,7 @@
                                    Feedback="{StaticResource OnSurfaceFocusedBrush}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                   CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+                                   CornerRadius="{StaticResource MaterialCardCornerRadius}"
                                    Padding="{TemplateBinding Padding}"
                                    AutomationProperties.AccessibilityView="Raw" />
 
@@ -1130,28 +1130,28 @@
         </Setter>
     </Style>
 
-    <Style x:Key="M3MaterialSmallMediaOutlinedCardStyle"
-           BasedOn="{StaticResource M3MaterialSmallMediaFilledCardStyle}"
+    <Style x:Key="MaterialSmallMediaOutlinedCardStyle"
+           BasedOn="{StaticResource MaterialSmallMediaFilledCardStyle}"
            TargetType="utu:Card">
 
         <Setter Property="Padding"
                 Value="0" />
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialOutlinedCardBackground}" />
+                Value="{StaticResource MaterialOutlinedCardBackground}" />
         <Setter Property="BorderBrush"
-                Value="{ThemeResource M3MaterialOutlinedCardBorderBrush}" />
+                Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
         <Setter Property="BorderThickness"
-                Value="{StaticResource M3MaterialCardBorderThickness}" />
+                Value="{StaticResource MaterialCardBorderThickness}" />
     </Style>
 
-    <Style x:Key="M3MaterialSmallMediaElevatedCardStyle"
-           BasedOn="{StaticResource M3MaterialSmallMediaBaseCardStyle}"
+    <Style x:Key="MaterialSmallMediaElevatedCardStyle"
+           BasedOn="{StaticResource MaterialSmallMediaBaseCardStyle}"
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource M3MaterialElevatedCardBackground}" />
+                Value="{StaticResource MaterialElevatedCardBackground}" />
         <Setter Property="Elevation"
-                Value="{StaticResource M3MaterialCardElevation}" />
+                Value="{StaticResource MaterialCardElevation}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -1304,7 +1304,7 @@
                             <um:Ripple Grid.RowSpan="3"
                                        Grid.ColumnSpan="3"
                                        Feedback="{StaticResource OnSurfaceFocusedBrush}"
-                                       CornerRadius="{StaticResource M3MaterialCardCornerRadius}"
+                                       CornerRadius="{StaticResource MaterialCardCornerRadius}"
                                        Padding="{TemplateBinding Padding}"
                                        AutomationProperties.AccessibilityView="Raw" />
 

@@ -20,10 +20,10 @@
         <utu:NavigationBar Content="Material Top TabBar Sample Page"
                            MainCommandMode="Action"
 						   Background="{StaticResource PrimaryBrush}"
-                           Style="{StaticResource M3MaterialNavigationBarStyle}">
+                           Style="{StaticResource MaterialNavigationBarStyle}">
             <utu:NavigationBar.MainCommand>
                 <AppBarButton Click="NavigateBack"
-                              Style="{StaticResource M3MaterialAppBarButtonStyle}">
+                              Style="{StaticResource MaterialAppBarButtonStyle}">
                     <AppBarButton.Icon>
                         <BitmapIcon ShowAsMonochrome="False"
                                     UriSource="ms-appx:///Assets/CloseIcon.png" />
@@ -35,7 +35,7 @@
         <utu:TabBar Grid.Row="1"
                     utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
                     SelectedIndex="1"
-                    Style="{StaticResource M3MaterialColoredTopTabBarStyle}">
+                    Style="{StaticResource MaterialColoredTopTabBarStyle}">
             <utu:TabBar.Items>
                 <utu:TabBarItem Content="Home" />
                 <utu:TabBarItem Content="Search" />

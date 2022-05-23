@@ -77,7 +77,7 @@
 	<!-- M3 resources -->
 		<!-- M3 Sample Button Styles  -->
 		<Style x:Key="M3IconsSampleButtonStyle"
-			   BasedOn="{StaticResource M3MaterialIconButtonStyle}"
+			   BasedOn="{StaticResource MaterialIconButtonStyle}"
 			   TargetType="Button">
 			<Setter Property="Margin"
 					Value="16" />
@@ -98,9 +98,9 @@
 							Spacing="8"
 							Orientation="Horizontal">
 					<Button Content="ACTION 1"
-							Style="{StaticResource M3MaterialFilledButtonStyle}" />
+							Style="{StaticResource MaterialFilledButtonStyle}" />
 					<Button Content="ACTION 2"
-							Style="{StaticResource M3MaterialOutlinedButtonStyle}" />
+							Style="{StaticResource MaterialOutlinedButtonStyle}" />
 				</StackPanel>
 			</StackPanel>
 		</DataTemplate>
@@ -307,92 +307,92 @@
 						<!--  Card Outlined  -->
 						<utu:Card HeaderContent="Outlined card"
 								  SubHeaderContent="With title and subtitle only"
-								  Style="{StaticResource M3MaterialOutlinedCardStyle}" />
+								  Style="{StaticResource OutlinedCardStyle}" />
 
 						<!--  Outlined disabled Card  -->
 						<utu:Card HeaderContent="Outlined disabled Card"
 								  SubHeaderContent="With title and subtitle only"
-								  Style="{StaticResource M3MaterialOutlinedCardStyle}"
+								  Style="{StaticResource OutlinedCardStyle}"
 								  IsEnabled="False" />
 
 						<!--  Card Filled  -->
 						<utu:Card HeaderContent="Filled card"
 								  SubHeaderContent="With title and subtitle only"
-								  Style="{StaticResource M3MaterialFilledCardStyle}" />
+								  Style="{StaticResource FilledCardStyle}" />
 
 						<!--  Filled disabled Card  -->
 						<utu:Card HeaderContent="Filled disabled Card"
 								  SubHeaderContent="With title and subtitle only"
-								  Style="{StaticResource M3MaterialFilledCardStyle}"
+								  Style="{StaticResource FilledCardStyle}"
 								  IsEnabled="False" />
 
 						<!--  Card Elevated  -->
 						<utu:Card HeaderContent="Elevated card"
 								  SubHeaderContent="With title and subtitle only"
-								  Style="{StaticResource M3MaterialElevatedCardStyle}" />
+								  Style="{StaticResource ElevatedCardStyle}" />
 
 						<!--  Elevated disabled Card  -->
 						<utu:Card HeaderContent="Elevated disabled Card"
 								  SubHeaderContent="With title and subtitle only"
-								  Style="{StaticResource M3MaterialElevatedCardStyle}"
+								  Style="{StaticResource ElevatedCardStyle}"
 								  IsEnabled="False" />
 
 						<!--  Card Outlined With supporting text  -->
 						<utu:Card HeaderContent="Outlined card"
 								  SubHeaderContent="With supporting text"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialOutlinedCardStyle}" />
+								  Style="{StaticResource OutlinedCardStyle}" />
 
 						<!--  Card Filled With supporting text  -->
 						<utu:Card HeaderContent="Filled card"
 								  SubHeaderContent="With supporting text"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialFilledCardStyle}" />
+								  Style="{StaticResource FilledCardStyle}" />
 
 						<!--  Card Elevated With supporting text  -->
 						<utu:Card HeaderContent="Elevated card"
 								  SubHeaderContent="With supporting text"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialElevatedCardStyle}" />
+								  Style="{StaticResource ElevatedCardStyle}" />
 
 						<!--  Card Outlined with media  -->
 						<utu:Card HeaderContent="Outlined card"
 								  SubHeaderContent="With media"
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
-								  Style="{StaticResource M3MaterialOutlinedCardStyle}" />
+								  Style="{StaticResource OutlinedCardStyle}" />
 
 						<!--  Card Filled with media  -->
 						<utu:Card HeaderContent="Filled card"
 								  SubHeaderContent="With media"
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
-								  Style="{StaticResource M3MaterialFilledCardStyle}" />
+								  Style="{StaticResource FilledCardStyle}" />
 
 						<!--  Card Elevated with media  -->
 						<utu:Card HeaderContent="Elevated card"
 								  SubHeaderContent="With media"
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
-								  Style="{StaticResource M3MaterialElevatedCardStyle}" />
+								  Style="{StaticResource ElevatedCardStyle}" />
 
 						<!--  Card Outlined with media and supporting text  -->
 						<utu:Card HeaderContent="Outlined card"
 								  SubHeaderContent="With media and supporting text"
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialOutlinedCardStyle}" />
+								  Style="{StaticResource OutlinedCardStyle}" />
 
 						<!--  Card Filled with media and supporting text  -->
 						<utu:Card HeaderContent="Filled card"
 								  SubHeaderContent="With media and supporting text"
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialFilledCardStyle}" />
+								  Style="{StaticResource FilledCardStyle}" />
 
 						<!--  Card Elevated with media and supporting text  -->
 						<utu:Card HeaderContent="Elevated card"
 								  SubHeaderContent="With media and supporting text"
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialElevatedCardStyle}" />
+								  Style="{StaticResource ElevatedCardStyle}" />
 
 						<!--  Card Outlined with media, supporting text and action buttons  -->
 						<utu:Card HeaderContent="Outlined card"
@@ -400,7 +400,7 @@
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  SupportingContentTemplate="{StaticResource M3SupportingWithButtonsTemplate}"
-								  Style="{StaticResource M3MaterialOutlinedCardStyle}" />
+								  Style="{StaticResource OutlinedCardStyle}" />
 
 						<!--  Card Filled with media, supporting text and action buttons  -->
 						<utu:Card HeaderContent="Filled card"
@@ -408,7 +408,7 @@
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  SupportingContentTemplate="{StaticResource M3SupportingWithButtonsTemplate}"
-								  Style="{StaticResource M3MaterialFilledCardStyle}" />
+								  Style="{StaticResource FilledCardStyle}" />
 
 						<!--  Card Elevated with media, supporting text and action buttons  -->
 						<utu:Card HeaderContent="Elevated card"
@@ -416,7 +416,7 @@
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  SupportingContentTemplate="{StaticResource M3SupportingWithButtonsTemplate}"
-								  Style="{StaticResource M3MaterialElevatedCardStyle}" />
+								  Style="{StaticResource ElevatedCardStyle}" />
 
 						<!--  Card Outlined with media, supporting text, action buttons and supplemental action buttons  -->
 						<utu:Card HeaderContent="Outlined card"
@@ -425,7 +425,7 @@
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  SupportingContentTemplate="{StaticResource M3SupportingWithButtonsTemplate}"
 								  IconsContentTemplate="{StaticResource M3BottomIconTemplate}"
-								  Style="{StaticResource M3MaterialOutlinedCardStyle}" />
+								  Style="{StaticResource OutlinedCardStyle}" />
 
 						<!--  Card Filled with media, supporting text, action buttons and supplemental action buttons  -->
 						<utu:Card HeaderContent="Filled card"
@@ -434,7 +434,7 @@
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  SupportingContentTemplate="{StaticResource M3SupportingWithButtonsTemplate}"
 								  IconsContentTemplate="{StaticResource M3BottomIconTemplate}"
-								  Style="{StaticResource M3MaterialFilledCardStyle}" />
+								  Style="{StaticResource FilledCardStyle}" />
 
 						<!--  Card Elevated with media, supporting text, action buttons and supplemental action buttons  -->
 						<utu:Card HeaderContent="Elevated card"
@@ -443,21 +443,21 @@
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  SupportingContentTemplate="{StaticResource M3SupportingWithButtonsTemplate}"
 								  IconsContentTemplate="{StaticResource M3BottomIconTemplate}"
-								  Style="{StaticResource M3MaterialElevatedCardStyle}" />
+								  Style="{StaticResource ElevatedCardStyle}" />
 
 						<!--  Card Outlined with small media and supporting text  -->
 						<utu:Card HeaderContent="Outlined card"
 								  SubHeaderContent="With small media and supporting text"
 								  MediaContent="ms-appx:///Assets/Media/SmallMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialSmallMediaOutlinedCardStyle}" />
+								  Style="{StaticResource SmallMediaOutlinedCardStyle}" />
 
 						<!--  Card Outlined disabled with small media and supporting text  -->
 						<utu:Card HeaderContent="Disabled outlined card"
 								  SubHeaderContent="With small media and supporting text"
 								  MediaContent="ms-appx:///Assets/Media/SmallMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialSmallMediaOutlinedCardStyle}"
+								  Style="{StaticResource SmallMediaOutlinedCardStyle}"
 								  IsEnabled="False" />
 
 						<!--  Card Filled with small media and supporting text  -->
@@ -465,14 +465,14 @@
 								  SubHeaderContent="With small media and supporting text"
 								  MediaContent="ms-appx:///Assets/Media/SmallMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialSmallMediaFilledCardStyle}" />
+								  Style="{StaticResource SmallMediaFilledCardStyle}" />
 
 						<!--  Card Filled disabled with small media and supporting text  -->
 						<utu:Card HeaderContent="Disabled filled card"
 								  SubHeaderContent="With small media and supporting text"
 								  MediaContent="ms-appx:///Assets/Media/SmallMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialSmallMediaFilledCardStyle}"
+								  Style="{StaticResource SmallMediaFilledCardStyle}"
 								  IsEnabled="False" />
 
 						<!--  Card Elevated with small media and supporting text  -->
@@ -480,14 +480,14 @@
 								  SubHeaderContent="With small media and supporting text"
 								  MediaContent="ms-appx:///Assets/Media/SmallMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialSmallMediaElevatedCardStyle}" />
+								  Style="{StaticResource SmallMediaElevatedCardStyle}" />
 
 						<!--  Card Elevated disabled with small media and supporting text  -->
 						<utu:Card HeaderContent="Disabled elevated card"
 								  SubHeaderContent="With small media and supporting text"
 								  MediaContent="ms-appx:///Assets/Media/SmallMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
-								  Style="{StaticResource M3MaterialSmallMediaElevatedCardStyle}"
+								  Style="{StaticResource SmallMediaElevatedCardStyle}"
 								  IsEnabled="False" />
 
 						<!--  Card Outlined with Avatar  -->
@@ -497,7 +497,7 @@
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  IconsContentTemplate="{StaticResource M3TopIconsTemplate}"
-								  Style="{StaticResource M3MaterialAvatarOutlinedCardStyle}" />
+								  Style="{StaticResource AvatarOutlinedCardStyle}" />
 
 						<!--  Card Outlined disabled with Avatar  -->
 						<utu:Card HeaderContent="Disabled outlined card"
@@ -506,7 +506,7 @@
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  IconsContentTemplate="{StaticResource M3TopIconsTemplate}"
-								  Style="{StaticResource M3MaterialAvatarOutlinedCardStyle}"
+								  Style="{StaticResource AvatarOutlinedCardStyle}"
 								  IsEnabled="False" />
 
 						<!--  Card Filled with Avatar  -->
@@ -516,7 +516,7 @@
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  IconsContentTemplate="{StaticResource M3TopIconsTemplate}"
-								  Style="{StaticResource M3MaterialAvatarFilledCardStyle}" />
+								  Style="{StaticResource AvatarFilledCardStyle}" />
 
 						<!--  Card Filled disabled with Avatar  -->
 						<utu:Card HeaderContent="Disabled filled card"
@@ -525,7 +525,7 @@
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  IconsContentTemplate="{StaticResource M3TopIconsTemplate}"
-								  Style="{StaticResource M3MaterialAvatarFilledCardStyle}"
+								  Style="{StaticResource AvatarFilledCardStyle}"
 								  IsEnabled="False" />
 
 						<!--  Card Elevated with Avatar  -->
@@ -535,7 +535,7 @@
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  IconsContentTemplate="{StaticResource M3TopIconsTemplate}"
-								  Style="{StaticResource M3MaterialAvatarElevatedCardStyle}" />
+								  Style="{StaticResource AvatarElevatedCardStyle}" />
 
 						<!--  Card Elevated disabled with Avatar  -->
 						<utu:Card HeaderContent="Disabled elevated card"
@@ -544,7 +544,7 @@
 								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 								  SupportingContent="{StaticResource SupportingTextSample}"
 								  IconsContentTemplate="{StaticResource M3TopIconsTemplate}"
-								  Style="{StaticResource M3MaterialAvatarElevatedCardStyle}"
+								  Style="{StaticResource AvatarElevatedCardStyle}"
 								  IsEnabled="False" />
 					</StackPanel>
 				</DataTemplate>

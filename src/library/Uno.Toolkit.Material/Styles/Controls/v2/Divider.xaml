@@ -2,9 +2,9 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:utu="using:Uno.Toolkit.UI">
 
-	<x:Double x:Key="M3MaterialDividerHeight">1</x:Double>
+	<x:Double x:Key="MaterialDividerHeight">1</x:Double>
 
-	<Style x:Key="M3MaterialDividerStyle"
+	<Style x:Key="MaterialDividerStyle"
 		   TargetType="utu:Divider">
 
 		<Setter Property="Foreground"
@@ -22,11 +22,11 @@
 						</Grid.RowDefinitions>
 
 						<Rectangle Fill="{TemplateBinding Foreground}"
-								   Height="{StaticResource M3MaterialDividerHeight}" />
+								   Height="{StaticResource MaterialDividerHeight}" />
 
 						<TextBlock Text="{TemplateBinding SubHeader}"
 								   Visibility="{Binding SubHeader, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed}"
-								   Style="{StaticResource M3MaterialBodySmall}"
+								   Style="{StaticResource BodySmall}"
 								   Foreground="{TemplateBinding SubHeaderForeground}"
 								   Margin="0,4,0,0"
 								   Grid.Row="1" />

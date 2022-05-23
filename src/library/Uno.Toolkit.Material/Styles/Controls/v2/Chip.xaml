@@ -9,73 +9,73 @@
                     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     mc:Ignorable="not_win todo">
 	
-	<x:String x:Key="M3MaterialChipDeleteIcon">M11.25 1.8075L10.1925 0.75L6 4.9425L1.8075 0.75L0.75 1.8075L4.9425 6L0.75 10.1925L1.8075 11.25L6 7.0575L10.1925 11.25L11.25 10.1925L7.0575 6L11.25 1.8075Z</x:String>
-	<x:String x:Key="M3MaterialCheckGlyphPathData">M28.718018,0L32,3.2819897 10.666016,24.616999 0,13.951997 3.2810059,10.670007 10.666016,18.055033z</x:String>
+	<x:String x:Key="MaterialChipDeleteIcon">M11.25 1.8075L10.1925 0.75L6 4.9425L1.8075 0.75L0.75 1.8075L4.9425 6L0.75 10.1925L1.8075 11.25L6 7.0575L10.1925 11.25L11.25 10.1925L7.0575 6L11.25 1.8075Z</x:String>
+	<x:String x:Key="MaterialCheckGlyphPathData">M28.718018,0L32,3.2819897 10.666016,24.616999 0,13.951997 3.2810059,10.670007 10.666016,18.055033z</x:String>
 
-	<StaticResource x:Key="M3MaterialChipBackground"
+	<StaticResource x:Key="MaterialChipBackground"
 	                ResourceKey="SystemControlTransparentBrush" />
-	<StaticResource x:Key="M3MaterialChipSelectedBackground"
+	<StaticResource x:Key="MaterialChipSelectedBackground"
 	                ResourceKey="SecondaryContainerBrush" />
 
-	<StaticResource x:Key="M3MaterialChipPointerOverStateOverlay"
+	<StaticResource x:Key="MaterialChipPointerOverStateOverlay"
 	                ResourceKey="OnSurfaceVariantHoverBrush" />
-	<StaticResource x:Key="M3MaterialChipFocusedStateOverlay"
+	<StaticResource x:Key="MaterialChipFocusedStateOverlay"
 	                ResourceKey="OnSurfaceVariantFocusedBrush" />
-	<StaticResource x:Key="M3MaterialChipPressedStateOverlay"
+	<StaticResource x:Key="MaterialChipPressedStateOverlay"
 	                ResourceKey="OnSurfaceVariantPressedBrush" />
 
 
-	<StaticResource x:Key="M3MaterialChipSelectedPointerOverStateOverlay"
+	<StaticResource x:Key="MaterialChipSelectedPointerOverStateOverlay"
 	                ResourceKey="OnSecondaryContainerHoverBrush" />
-	<StaticResource x:Key="M3MaterialChipSelectedFocusedStateOverlay"
+	<StaticResource x:Key="MaterialChipSelectedFocusedStateOverlay"
 	                ResourceKey="OnSecondaryContainerFocusedBrush" />
-	<StaticResource x:Key="M3MaterialChipSelectedPressedStateOverlay"
+	<StaticResource x:Key="MaterialChipSelectedPressedStateOverlay"
 	                ResourceKey="OnSecondaryContainerSelectedBrush" />
 
-	<StaticResource x:Key="M3MaterialChipForeground"
+	<StaticResource x:Key="MaterialChipForeground"
 	                ResourceKey="OnSurfaceVariantBrush" />
-	<StaticResource x:Key="M3MaterialChipPointerOverForeground"
+	<StaticResource x:Key="MaterialChipPointerOverForeground"
 	                ResourceKey="OnSurfaceVariantBrush" />
-	<StaticResource x:Key="M3MaterialChipFocusedForeground"
+	<StaticResource x:Key="MaterialChipFocusedForeground"
 	                ResourceKey="OnSurfaceVariantBrush" />
-	<StaticResource x:Key="M3MaterialChipPressedForeground"
+	<StaticResource x:Key="MaterialChipPressedForeground"
 	                ResourceKey="OnSurfaceVariantBrush" />
 
-	<StaticResource x:Key="M3MaterialChipSelectedForeground"
+	<StaticResource x:Key="MaterialChipSelectedForeground"
 	                ResourceKey="OnSecondaryContainerBrush" />
-	<StaticResource x:Key="M3MaterialChipSelectedPointerOverForeground"
+	<StaticResource x:Key="MaterialChipSelectedPointerOverForeground"
 	                ResourceKey="OnSecondaryContainerBrush" />
-	<StaticResource x:Key="M3MaterialChipSelectedFocusedForeground"
+	<StaticResource x:Key="MaterialChipSelectedFocusedForeground"
 	                ResourceKey="OnSecondaryContainerBrush" />
-	<StaticResource x:Key="M3MaterialChipSelectedPressedForeground"
+	<StaticResource x:Key="MaterialChipSelectedPressedForeground"
 	                ResourceKey="OnSecondaryContainerBrush" />
 
-	<StaticResource x:Key="M3MaterialChipIconForeground"
+	<StaticResource x:Key="MaterialChipIconForeground"
 	                ResourceKey="PrimaryBrush" />
-	<StaticResource x:Key="M3MaterialChipIconDisabledForeground"
+	<StaticResource x:Key="MaterialChipIconDisabledForeground"
 	                ResourceKey="OnSurfaceDisabledBrush" />
-	<StaticResource x:Key="M3MaterialChipDisabledForeground"
+	<StaticResource x:Key="MaterialChipDisabledForeground"
 	                ResourceKey="OnSurfaceDisabledBrush" />
-	<StaticResource x:Key="M3MaterialChipDisabledBackground"
+	<StaticResource x:Key="MaterialChipDisabledBackground"
 	                ResourceKey="OnSurfaceDisabledLowBrush" />
-	<StaticResource x:Key="M3MaterialChipDisabledBorderBrush"
+	<StaticResource x:Key="MaterialChipDisabledBorderBrush"
 	                ResourceKey="OnSurfaceVariantDisabledLowBrush" />
 
-	<x:Double x:Key="M3MaterialChipHeight">32</x:Double>
-	<x:Double x:Key="M3MaterialChipContentMinHeight">20</x:Double>
-	<x:Double x:Key="M3MaterialChipSize">12</x:Double>
-	<x:Double x:Key="M3MaterialChipDeleteIconContainerLength">18</x:Double>
-	<x:Double x:Key="M3MaterialChipDeleteIconLength">11</x:Double>
-	<x:Double x:Key="M3MaterialChipBorderThickness">1</x:Double>
+	<x:Double x:Key="MaterialChipHeight">32</x:Double>
+	<x:Double x:Key="MaterialChipContentMinHeight">20</x:Double>
+	<x:Double x:Key="MaterialChipSize">12</x:Double>
+	<x:Double x:Key="MaterialChipDeleteIconContainerLength">18</x:Double>
+	<x:Double x:Key="MaterialChipDeleteIconLength">11</x:Double>
+	<x:Double x:Key="MaterialChipBorderThickness">1</x:Double>
 	<x:Double x:Key="M3MateriaChipCheckGlyphSize">20</x:Double>
-	<x:Double x:Key="M3MaterialChipElevation">4</x:Double>
-	<x:Double x:Key="M3MaterialChipIconSize">24</x:Double>
+	<x:Double x:Key="MaterialChipElevation">4</x:Double>
+	<x:Double x:Key="MaterialChipIconSize">24</x:Double>
 
-	<CornerRadius x:Key="M3MaterialChipCornerRadius">8</CornerRadius>
-	<Thickness x:Key="M3MaterialChipElevationMargin">4</Thickness>
+	<CornerRadius x:Key="MaterialChipCornerRadius">8</CornerRadius>
+	<Thickness x:Key="MaterialChipElevationMargin">4</Thickness>
 
 
-	<Style x:Key="M3MaterialChipDeleteIconButtonStyle"
+	<Style x:Key="MaterialChipDeleteIconButtonStyle"
 	       TargetType="Button">
 		<Setter Property="Foreground"
 		        Value="{StaticResource OnSurfaceVariantBrush}" />
@@ -86,17 +86,17 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
 					<Border x:Name="BorderRoot"
-					        Width="{StaticResource M3MaterialChipDeleteIconContainerLength}"
-					        Height="{StaticResource M3MaterialChipDeleteIconContainerLength}"
+					        Width="{StaticResource MaterialChipDeleteIconContainerLength}"
+					        Height="{StaticResource MaterialChipDeleteIconContainerLength}"
 					        Background="{TemplateBinding Background}">
 
 						<Path x:Name="GlyphElement"
-						      Width="{StaticResource M3MaterialChipDeleteIconLength}"
-						      Height="{StaticResource M3MaterialChipDeleteIconLength}"
+						      Width="{StaticResource MaterialChipDeleteIconLength}"
+						      Height="{StaticResource MaterialChipDeleteIconLength}"
 						      HorizontalAlignment="Center"
 						      VerticalAlignment="Center"
 						      AutomationProperties.AccessibilityView="Raw"
-						      Data="{StaticResource M3MaterialChipDeleteIcon}"
+						      Data="{StaticResource MaterialChipDeleteIcon}"
 						      Fill="{TemplateBinding Foreground}"
 						      Stretch="Uniform" />
 					</Border>
@@ -105,18 +105,18 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="M3MaterialChipStyle"
+	<Style x:Key="MaterialChipStyle"
 	       TargetType="utu:Chip">
 		<Setter Property="Foreground"
-		        Value="{StaticResource M3MaterialChipForeground}" />
+		        Value="{StaticResource MaterialChipForeground}" />
 		<Setter Property="Background"
-		        Value="{StaticResource M3MaterialChipBackground}" />
+		        Value="{StaticResource MaterialChipBackground}" />
 		<Setter Property="BorderBrush"
 		        Value="{StaticResource OutlineBrush}" />
 		<Setter Property="BorderThickness"
-		        Value="{StaticResource M3MaterialChipBorderThickness}" />
+		        Value="{StaticResource MaterialChipBorderThickness}" />
 		<Setter Property="CornerRadius"
-		        Value="{StaticResource M3MaterialChipCornerRadius}" />
+		        Value="{StaticResource MaterialChipCornerRadius}" />
 		<Setter Property="VerticalAlignment"
 		        Value="Stretch" />
 		<Setter Property="VerticalContentAlignment"
@@ -137,21 +137,21 @@
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="ElevatedRoot.Background"
-										        Value="{StaticResource M3MaterialChipBackground}" />
+										        Value="{StaticResource MaterialChipBackground}" />
 										<Setter Target="StateOverlay.Background"
-										        Value="{StaticResource M3MaterialChipPointerOverStateOverlay}" />
+										        Value="{StaticResource MaterialChipPointerOverStateOverlay}" />
 										<Setter Target="ContentPresenter.Foreground"
-										        Value="{StaticResource M3MaterialChipPointerOverForeground}" />
+										        Value="{StaticResource MaterialChipPointerOverForeground}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="ElevatedRoot.Background"
-										        Value="{StaticResource M3MaterialChipBackground}" />
+										        Value="{StaticResource MaterialChipBackground}" />
 										<Setter Target="StateOverlay.Background"
-										        Value="{StaticResource M3MaterialChipPressedStateOverlay}" />
+										        Value="{StaticResource MaterialChipPressedStateOverlay}" />
 										<Setter Target="ContentPresenter.Foreground"
-										        Value="{StaticResource M3MaterialChipPressedForeground}" />
+										        Value="{StaticResource MaterialChipPressedForeground}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
@@ -159,27 +159,27 @@
 										<Setter Target="ElevatedRoot.Elevation"
 										        Value="0" />
 										<Setter Target="ElevatedRoot.Background"
-										        Value="{StaticResource M3MaterialChipDisabledBackground}" />
+										        Value="{StaticResource MaterialChipDisabledBackground}" />
 										<Setter Target="ContentPresenter.Foreground"
-										        Value="{StaticResource M3MaterialChipDisabledForeground}" />
+										        Value="{StaticResource MaterialChipDisabledForeground}" />
 										<Setter Target="PART_RemoveButton.Foreground"
-										        Value="{StaticResource M3MaterialChipIconDisabledForeground}" />
+										        Value="{StaticResource MaterialChipIconDisabledForeground}" />
 										<Setter Target="ElevatedRoot.BorderBrush"
-										        Value="{StaticResource M3MaterialChipDisabledBorderBrush}" />
+										        Value="{StaticResource MaterialChipDisabledBorderBrush}" />
 										<Setter Target="IconPresenter.Foreground"
-										        Value="{StaticResource M3MaterialChipIconDisabledForeground}" />
+										        Value="{StaticResource MaterialChipIconDisabledForeground}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Checked">
 									<VisualState.Setters>
 										<Setter Target="ElevatedRoot.Background"
-										        Value="{StaticResource M3MaterialChipSelectedBackground}" />
+										        Value="{StaticResource MaterialChipSelectedBackground}" />
 										<Setter Target="StateOverlay.Background"
-										        Value="{StaticResource M3MaterialChipSelectedBackground}" />
+										        Value="{StaticResource MaterialChipSelectedBackground}" />
 										<Setter Target="ContentPresenter.Foreground"
-										        Value="{StaticResource M3MaterialChipSelectedForeground}" />
+										        Value="{StaticResource MaterialChipSelectedForeground}" />
 										<Setter Target="IconPresenter.Foreground"
-										        Value="{StaticResource M3MaterialChipIconForeground}" />
+										        Value="{StaticResource MaterialChipIconForeground}" />
 										<Setter Target="CheckGlyphElement.Visibility"
 										        Value="Visible" />
 									</VisualState.Setters>
@@ -187,11 +187,11 @@
 								<VisualState x:Name="CheckedPointerOver">
 									<VisualState.Setters>
 										<Setter Target="ElevatedRoot.Background"
-										        Value="{StaticResource M3MaterialChipSelectedBackground}" />
+										        Value="{StaticResource MaterialChipSelectedBackground}" />
 										<Setter Target="StateOverlay.Background"
-										        Value="{StaticResource M3MaterialChipSelectedPointerOverStateOverlay}" />
+										        Value="{StaticResource MaterialChipSelectedPointerOverStateOverlay}" />
 										<Setter Target="ContentPresenter.Foreground"
-										        Value="{StaticResource M3MaterialChipSelectedPointerOverForeground}" />
+										        Value="{StaticResource MaterialChipSelectedPointerOverForeground}" />
 										<Setter Target="CheckGlyphElement.Visibility"
 										        Value="Visible" />
 									</VisualState.Setters>
@@ -199,11 +199,11 @@
 								<VisualState x:Name="CheckedPressed">
 									<VisualState.Setters>
 										<Setter Target="ElevatedRoot.Background"
-										        Value="{StaticResource M3MaterialChipSelectedBackground}" />
+										        Value="{StaticResource MaterialChipSelectedBackground}" />
 										<Setter Target="StateOverlay.Background"
-										        Value="{StaticResource M3MaterialChipSelectedPressedStateOverlay}" />
+										        Value="{StaticResource MaterialChipSelectedPressedStateOverlay}" />
 										<Setter Target="ContentPresenter.Foreground"
-										        Value="{StaticResource M3MaterialChipSelectedPressedForeground}" />
+										        Value="{StaticResource MaterialChipSelectedPressedForeground}" />
 										<Setter Target="CheckGlyphElement.Visibility"
 										        Value="Visible" />
 									</VisualState.Setters>
@@ -212,8 +212,8 @@
 						</VisualStateManager.VisualStateGroups>
 
 						<toolkit:ElevatedView x:Name="ElevatedRoot"
-											  Height="{StaticResource M3MaterialChipHeight}"
-											  Margin="{StaticResource M3MaterialChipElevationMargin}"
+											  Height="{StaticResource MaterialChipHeight}"
+											  Margin="{StaticResource MaterialChipElevationMargin}"
 						                      Background="{TemplateBinding Background}"
 						                      BorderBrush="{TemplateBinding BorderBrush}"
 						                      BorderThickness="{TemplateBinding BorderThickness}"
@@ -243,12 +243,12 @@
 										<!--  fixme: ContentControl/Presenter template-binding to icon would crash on uwp  -->
 										<ContentPresenter x:Name="IconPresenter"
 										                  Grid.Column="0"
-										                  Width="{StaticResource M3MaterialChipIconSize}"
-										                  Height="{StaticResource M3MaterialChipIconSize}"
+										                  Width="{StaticResource MaterialChipIconSize}"
+										                  Height="{StaticResource MaterialChipIconSize}"
 										                  AutomationProperties.AccessibilityView="Raw"
 										                  Content="{TemplateBinding Icon}"
 										                  ContentTemplate="{TemplateBinding IconTemplate}"
-										                  Foreground="{StaticResource M3MaterialChipIconForeground}"
+										                  Foreground="{StaticResource MaterialChipIconForeground}"
 										                  Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed}" />
 
 										<Grid x:Name="CheckGlyphElement"
@@ -261,7 +261,7 @@
 											<Path HorizontalAlignment="Center"
 											      VerticalAlignment="Center"
 											      AutomationProperties.AccessibilityView="Raw"
-											      Data="{StaticResource M3MaterialCheckGlyphPathData}"
+											      Data="{StaticResource MaterialCheckGlyphPathData}"
 											      Fill="{TemplateBinding Foreground}"
 											      Stretch="Uniform"
 											      Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToVisible}, FallbackValue=Collapsed}" />
@@ -286,7 +286,7 @@
 										        Grid.Column="2"
 										        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 										        Foreground="{TemplateBinding Foreground}"
-										        Style="{StaticResource M3MaterialChipDeleteIconButtonStyle}"
+										        Style="{StaticResource MaterialChipDeleteIconButtonStyle}"
 										        Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialTrueToVisible}, FallbackValue=Collapsed}" />
 									</Grid>
 								</um:Ripple>
@@ -298,8 +298,8 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="M3MaterialAssistChipStyle"
-	       BasedOn="{StaticResource M3MaterialChipStyle}"
+	<Style x:Key="MaterialAssistChipStyle"
+	       BasedOn="{StaticResource MaterialChipStyle}"
 	       TargetType="utu:Chip">
 		<Setter Property="BorderBrush"
 		        Value="{StaticResource OutlineBrush}" />
@@ -311,13 +311,13 @@
 		        Value="False" />
 	</Style>
 
-	<Style x:Key="M3MaterialElevatedAssistChipStyle"
-	       BasedOn="{StaticResource M3MaterialChipStyle}"
+	<Style x:Key="MaterialElevatedAssistChipStyle"
+	       BasedOn="{StaticResource MaterialChipStyle}"
 	       TargetType="utu:Chip">
 		<Setter Property="BorderThickness"
 		        Value="0" />
 		<Setter Property="Elevation"
-		        Value="{StaticResource M3MaterialChipElevation}" />
+		        Value="{StaticResource MaterialChipElevation}" />
 		<Setter Property="Background"
 		        Value="{StaticResource SurfaceBrush}" />
 		<Setter Property="IsCheckable"
@@ -326,8 +326,8 @@
 		        Value="False" />
 	</Style>
 
-	<Style x:Key="M3MaterialInputChipStyle"
-	       BasedOn="{StaticResource M3MaterialChipStyle}"
+	<Style x:Key="MaterialInputChipStyle"
+	       BasedOn="{StaticResource MaterialChipStyle}"
 	       TargetType="utu:Chip">
 		<Setter Property="BorderBrush"
 		        Value="{StaticResource OutlineBrush}" />
@@ -339,8 +339,8 @@
 		        Value="True" />
 	</Style>
 
-	<Style x:Key="M3MaterialFilterChipStyle"
-	       BasedOn="{StaticResource M3MaterialChipStyle}"
+	<Style x:Key="MaterialFilterChipStyle"
+	       BasedOn="{StaticResource MaterialChipStyle}"
 	       TargetType="utu:Chip">
 		<Setter Property="BorderBrush"
 		        Value="{StaticResource OutlineBrush}" />
@@ -352,13 +352,13 @@
 		        Value="True" />
 	</Style>
 
-	<Style x:Key="M3MaterialElevatedFilterChipStyle"
-	       BasedOn="{StaticResource M3MaterialChipStyle}"
+	<Style x:Key="MaterialElevatedFilterChipStyle"
+	       BasedOn="{StaticResource MaterialChipStyle}"
 	       TargetType="utu:Chip">
 		<Setter Property="BorderThickness"
 		        Value="0" />
 		<Setter Property="Elevation"
-		        Value="{StaticResource M3MaterialChipElevation}" />
+		        Value="{StaticResource MaterialChipElevation}" />
 		<Setter Property="Background"
 		        Value="{StaticResource SurfaceBrush}" />
 		<Setter Property="CanRemove"
@@ -368,8 +368,8 @@
 	</Style>
 
 
-	<Style x:Key="M3MaterialSuggestionChipStyle"
-	       BasedOn="{StaticResource M3MaterialChipStyle}"
+	<Style x:Key="MaterialSuggestionChipStyle"
+	       BasedOn="{StaticResource MaterialChipStyle}"
 	       TargetType="utu:Chip">
 		<Setter Property="BorderBrush"
 		        Value="{StaticResource OutlineBrush}" />
@@ -381,13 +381,13 @@
 		        Value="True" />
 	</Style>
 
-	<Style x:Key="M3MaterialElevatedSuggestionChipStyle"
-	       BasedOn="{StaticResource M3MaterialChipStyle}"
+	<Style x:Key="MaterialElevatedSuggestionChipStyle"
+	       BasedOn="{StaticResource MaterialChipStyle}"
 	       TargetType="utu:Chip">
 		<Setter Property="BorderThickness"
 		        Value="0" />
 		<Setter Property="Elevation"
-		        Value="{StaticResource M3MaterialChipElevation}" />
+		        Value="{StaticResource MaterialChipElevation}" />
 		<Setter Property="Background"
 		        Value="{StaticResource SurfaceBrush}" />
 		<Setter Property="CanRemove"

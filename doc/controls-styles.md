@@ -13,22 +13,22 @@ The `Uno.Toolkit.UI` library adds the following helper classes:
 - `SystemThemeHelper`: Provides a set of helper methods to check the current operating system theme, and manipulate the application dark/light theme.
 
 ## Control Styles
-Control|Style Key|Implicit Style*|
+Control|Style Key|IsDefaultStyle*|
 -|-|-
-AppBarButton|MainCommandStyle|implicit
+AppBarButton|MainCommandStyle|True|
 AppBarButton|ModalMainCommandStyle|
-utu:Card|M3MaterialOutlinedCardStyle|
-utu:Card|M3MaterialFilledCardStyle|
-utu:Card|M3MaterialElevatedCardStyle|
-utu:Card|M3MaterialAvatarOutlinedCardStyle|
-utu:Card|M3MaterialAvatarFilledCardStyle|
-utu:Card|M3MaterialAvatarElevatedCardStyle|
-utu:Card|M3MaterialSmallMediaOutlinedCardStyle|
-utu:Card|M3MaterialSmallMediaFilledCardStyle|
-utu:Card|M3MaterialSmallMediaElevatedCardStyle|
-utu:CardContentControl|"M3MaterialOutlinedCardContentControlStyle|
-utu:CardContentControl|"M3MaterialFilledCardContentControlStyle|
-utu:CardContentControl|"M3MaterialElevatedCardContentControlStyle|
+utu:Card|FilledCardStyle|
+utu:Card|OutlinedCardStyle|
+utu:Card|ElevatedCardStyle|
+utu:Card|AvatarFilledCardStyle|
+utu:Card|AvatarOutlinedCardStyle|
+utu:Card|AvatarElevatedCardStyle|
+utu:Card|SmallMediaFilledCardStyle|
+utu:Card|SmallMediaOutlinedCardStyle|
+utu:Card|SmallMediaElevatedCardStyle|
+utu:CardContentControl|FilledCardContentControlStyle|
+utu:CardContentControl|OutlinedCardContentControlStyle|
+utu:CardContentControl|ElevatedCardContentControlStyle|
 utu:Chip|AssistChipStyle|
 utu:Chip|ElevatedAssistChipStyle|
 utu:Chip|InputChipStyle|
@@ -43,13 +43,13 @@ utu:ChipGroup|ElevatedFilterChipGroupStyle|
 utu:ChipGroup|FilterChipGroupStyle|
 utu:ChipGroup|ElevatedAssistChipGroupStyle|
 utu:ChipGroup|AssistChipGroupStyle|
-utu:Divider|DividerStyle|implicit
-utu:NavigationBar|NavigationBarStyle|implicit
+utu:Divider|DividerStyle|True|
+utu:NavigationBar|NavigationBarStyle|True|
 utu:NavigationBar|ModalNavigationBarStyle|
+utu:TabBar|BottomTabBarStyle|
 utu:TabBar|TopTabBarStyle|
 utu:TabBar|ColoredTopTabBarStyle|
+utu:TabBarItem|BottomFabTabBarItemStyle|
+utu:TabBarItem|BottomTabBarItemStyle|
 
-Implicit Style*: Styles marked with `implicit` can be made into the default implicit styles by setting the `WithImplicitStyles` flag to `True`:
-```xml
-<MaterialToolkitResources xmlns="using:Uno.Toolkit.UI.Material" WithImplicitStyles="True" />
-```
+IsDefaultStyle*: Styles in this column will be set as the default implicit style for the matching control
