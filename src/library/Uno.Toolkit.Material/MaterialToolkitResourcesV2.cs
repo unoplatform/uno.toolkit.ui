@@ -115,7 +115,6 @@ namespace Uno.Toolkit.UI.Material
 			Add("M3MaterialBottomTabBarStyle");
 			Add("M3MaterialBottomTabBarItemStyle");
 			Add("M3MaterialBottomFabTabBarItemStyle");
-			
 			Add("M3MaterialOutlinedCardStyle");
 			Add("M3MaterialFilledCardStyle");
 			Add("M3MaterialElevatedCardStyle");

@@ -1,6 +1,10 @@
 # Getting Started with Uno Toolkit
 
 ## Uno Toolkit Material Library
+<p align="center">
+  <img src="assets/material-toolkit-design-system.png">
+</p>
+
 The Uno.Toolkit.Material library is available as NuGet packages that can be added to any new or existing Uno solution.
 
 1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
