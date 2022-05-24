@@ -533,7 +533,7 @@
 							<StackPanel Orientation="Horizontal"
 							            Spacing="8">
 								<utu:Chip Content="Enabled"
-								          Style="{StaticResource M3MaterialInputChipStyle}">
+								          Style="{StaticResource InputChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -541,7 +541,7 @@
 
 								<utu:Chip Content="Disabled"
 								          IsEnabled="False"
-								          Style="{StaticResource M3MaterialInputChipStyle}">
+								          Style="{StaticResource InputChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -549,7 +549,7 @@
 
 								<utu:Chip Content="Selected"
 								          IsChecked="True"
-								          Style="{StaticResource M3MaterialInputChipStyle}" />
+								          Style="{StaticResource InputChipStyle}" />
 							</StackPanel>
 						</ScrollViewer>
 
@@ -561,15 +561,15 @@
 							<StackPanel Orientation="Horizontal"
 							            Spacing="8">
 								<utu:Chip Content="Enabled"
-								          Style="{StaticResource M3MaterialElevatedSuggestionChipStyle}" />
+								          Style="{StaticResource ElevatedSuggestionChipStyle}" />
 
 								<utu:Chip Content="Disabled"
 								          IsEnabled="False"
-								          Style="{StaticResource M3MaterialElevatedSuggestionChipStyle}" />
+								          Style="{StaticResource ElevatedSuggestionChipStyle}" />
 
 								<utu:Chip Content="Selected"
 								          IsChecked="True"
-								          Style="{StaticResource M3MaterialElevatedSuggestionChipStyle}" />
+								          Style="{StaticResource ElevatedSuggestionChipStyle}" />
 							</StackPanel>
 						</ScrollViewer>
 
@@ -580,7 +580,7 @@
 							<StackPanel Orientation="Horizontal"
 							            Spacing="8">
 								<utu:Chip Content="Enabled"
-								          Style="{StaticResource M3MaterialSuggestionChipStyle}">
+								          Style="{StaticResource SuggestionChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -588,7 +588,7 @@
 
 								<utu:Chip Content="Disabled"
 								          IsEnabled="False"
-								          Style="{StaticResource M3MaterialSuggestionChipStyle}">
+								          Style="{StaticResource SuggestionChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -596,7 +596,7 @@
 
 								<utu:Chip Content="Selected"
 								          IsChecked="True"
-								          Style="{StaticResource M3MaterialSuggestionChipStyle}">
+								          Style="{StaticResource SuggestionChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -611,7 +611,7 @@
 							<StackPanel Orientation="Horizontal"
 							            Spacing="8">
 								<utu:Chip Content="Enabled"
-								          Style="{StaticResource M3MaterialElevatedFilterChipStyle}">
+								          Style="{StaticResource ElevatedFilterChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -619,7 +619,7 @@
 
 								<utu:Chip Content="Disabled"
 								          IsEnabled="False"
-								          Style="{StaticResource M3MaterialElevatedFilterChipStyle}">
+								          Style="{StaticResource ElevatedFilterChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -627,7 +627,7 @@
 
 								<utu:Chip Content="Selected"
 								          IsChecked="True"
-								          Style="{StaticResource M3MaterialElevatedFilterChipStyle}" />
+								          Style="{StaticResource ElevatedFilterChipStyle}" />
 							</StackPanel>
 						</ScrollViewer>
 
@@ -638,7 +638,7 @@
 							<StackPanel Orientation="Horizontal"
 							            Spacing="8">
 								<utu:Chip Content="Enabled"
-								          Style="{StaticResource M3MaterialFilterChipStyle}">
+								          Style="{StaticResource FilterChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -646,7 +646,7 @@
 
 								<utu:Chip Content="Disabled"
 								          IsEnabled="False"
-								          Style="{StaticResource M3MaterialFilterChipStyle}">
+								          Style="{StaticResource FilterChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -654,7 +654,7 @@
 
 								<utu:Chip Content="Selected"
 								          IsChecked="True"
-								          Style="{StaticResource M3MaterialFilterChipStyle}" />
+								          Style="{StaticResource FilterChipStyle}" />
 							</StackPanel>
 						</ScrollViewer>
 
@@ -666,7 +666,7 @@
 							<StackPanel Orientation="Horizontal"
 							            Spacing="8">
 								<utu:Chip Content="Enabled"
-								          Style="{StaticResource M3MaterialElevatedAssistChipStyle}">
+								          Style="{StaticResource ElevatedAssistChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -674,7 +674,7 @@
 
 								<utu:Chip Content="Disabled"
 								          IsEnabled="False"
-								          Style="{StaticResource M3MaterialElevatedAssistChipStyle}">
+								          Style="{StaticResource ElevatedAssistChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -689,7 +689,7 @@
 							<StackPanel Orientation="Horizontal"
 							            Spacing="8">
 								<utu:Chip Content="Enabled"
-								          Style="{StaticResource M3MaterialAssistChipStyle}">
+								          Style="{StaticResource AssistChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -697,7 +697,7 @@
 
 								<utu:Chip Content="Disabled"
 								          IsEnabled="False"
-								          Style="{StaticResource M3MaterialAssistChipStyle}">
+								          Style="{StaticResource AssistChipStyle}">
 									<utu:Chip.Icon>
 										<Image Source="ms-appx:///Assets/Avatar.png" />
 									</utu:Chip.Icon>
@@ -721,7 +721,7 @@
 							<utu:ChipGroup Margin="8,0,8,8"
 							               ItemRemoved="RemoveChipItem"
 							               ItemsSource="{Binding Data.MutableTestCollection}"
-							               Style="{StaticResource M3MaterialInputChipGroupStyle}">
+							               Style="{StaticResource InputChipGroupStyle}">
 
 								<utu:ChipGroup.IconTemplate>
 									<DataTemplate>
@@ -751,7 +751,7 @@
 
 							<utu:ChipGroup Margin="8,0,8,8"
 							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource M3MaterialElevatedSuggestionChipGroupStyle}">
+							               Style="{StaticResource ElevatedSuggestionChipGroupStyle}">
 
 								<utu:ChipGroup.ItemTemplate>
 									<DataTemplate>
@@ -768,7 +768,7 @@
 							<utu:ChipGroup Margin="8,0,8,8"
 							               ItemsSource="{Binding Data.TestCollection}"
 							               SelectionMode="Single"
-							               Style="{StaticResource M3MaterialSuggestionChipGroupStyle}">
+							               Style="{StaticResource SuggestionChipGroupStyle}">
 
 								<utu:ChipGroup.ItemTemplate>
 									<DataTemplate>
@@ -788,7 +788,7 @@
 
 							<utu:ChipGroup Margin="8,0,8,8"
 							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource M3MaterialElevatedFilterChipGroupStyle}">
+							               Style="{StaticResource ElevatedFilterChipGroupStyle}">
 
 								<utu:ChipGroup.ItemTemplate>
 									<DataTemplate>
@@ -804,7 +804,7 @@
 
 							<utu:ChipGroup Margin="8,0,8,8"
 							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource M3MaterialFilterChipGroupStyle}">
+							               Style="{StaticResource FilterChipGroupStyle}">
 
 								<utu:ChipGroup.IconTemplate>
 									<DataTemplate>
@@ -830,7 +830,7 @@
 
 							<utu:ChipGroup Margin="8,0,8,8"
 							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource M3MaterialElevatedAssistChipGroupStyle}">
+							               Style="{StaticResource ElevatedAssistChipGroupStyle}">
 								<utu:ChipGroup.IconTemplate>
 									<DataTemplate>
 										<Image Source="{Binding Image}" />
@@ -851,7 +851,7 @@
 
 							<utu:ChipGroup Margin="8,0,8,8"
 							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource M3MaterialAssistChipGroupStyle}">
+							               Style="{StaticResource AssistChipGroupStyle}">
 
 								<utu:ChipGroup.IconTemplate>
 									<DataTemplate>
@@ -882,7 +882,7 @@
 							               Margin="8,0,8,8"
 							               ItemsSource="{Binding Data.TestArray}"
 							               SelectedItem="{Binding Data.TestItem}"
-							               Style="{StaticResource M3MaterialElevatedSuggestionChipGroupStyle}">
+							               Style="{StaticResource ElevatedSuggestionChipGroupStyle}">
 
 								<utu:ChipGroup.ItemTemplate>
 									<DataTemplate>
@@ -906,7 +906,7 @@
 							               Margin="8,0,8,8"
 							               ItemsSource="{Binding Data.TestEnumArray}"
 							               SelectedItem="{Binding Data.TestEnumItem}"
-							               Style="{StaticResource M3MaterialElevatedSuggestionChipGroupStyle}">
+							               Style="{StaticResource ElevatedSuggestionChipGroupStyle}">
 
 								<utu:ChipGroup.ItemTemplate>
 									<DataTemplate>
@@ -948,7 +948,7 @@
 							               Margin="8,0,8,8"
 							               ItemsSource="{Binding Data.TestArray}"
 							               SelectedItems="{Binding Data.TestSelectedItems}"
-							               Style="{StaticResource M3MaterialElevatedFilterChipGroupStyle}">
+							               Style="{StaticResource ElevatedFilterChipGroupStyle}">
 
 								<utu:ChipGroup.ItemTemplate>
 									<DataTemplate>

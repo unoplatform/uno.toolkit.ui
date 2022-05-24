@@ -16,12 +16,12 @@
 		<utu:NavigationBar Content="First Page"
                            AutomationProperties.AutomationId="M3Page1NavBar"
 						   MainCommandMode="Action"
-						   Style="{StaticResource M3MaterialNavigationBarStyle}">
+						   Style="{StaticResource MaterialNavigationBarStyle}">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Label="Close"
                               Click="NavigateBack"
                               AutomationProperties.AutomationId="M3_NavBar_Close_Button"
-							  Style="{StaticResource M3MaterialAppBarButtonStyle}">
+							  Style="{StaticResource MaterialAppBarButtonStyle}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
 					</AppBarButton.Icon>
@@ -29,14 +29,14 @@
 			</utu:NavigationBar.MainCommand>
 			<utu:NavigationBar.PrimaryCommands>
 				<AppBarButton Label="More"
-							  Style="{StaticResource M3MaterialAppBarButtonStyle}"
+							  Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Command="{Binding Primary1CountCommand}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/MaterialIcon_Small.png" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 				<AppBarButton Label="More"
-							  Style="{StaticResource M3MaterialAppBarButtonStyle}"
+							  Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Command="{Binding Primary2CountCommand}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/AppleIcon_Small.png" />
@@ -45,13 +45,13 @@
 			</utu:NavigationBar.PrimaryCommands>
 			<utu:NavigationBar.SecondaryCommands>
 				<AppBarButton Label="More"
-                              Style="{StaticResource M3MaterialAppBarButtonStyle}"
+                              Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Command="{Binding Secondary1CountCommand}" />
 				<AppBarButton Label="More"
-                              Style="{StaticResource M3MaterialAppBarButtonStyle}"
+                              Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Command="{Binding Secondary2CountCommand}" />
 				<AppBarButton Label="More"
-                              Style="{StaticResource M3MaterialAppBarButtonStyle}"
+                              Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Command="{Binding Secondary3CountCommand}" />
 			</utu:NavigationBar.SecondaryCommands>
 		</utu:NavigationBar>

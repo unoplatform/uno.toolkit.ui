@@ -254,14 +254,14 @@
 
 					<!-- Standard Top TabBar Style -->
                     <TextBlock Text="Standard TabBar Style"
-							   Style="{StaticResource M3MaterialHeadlineSmall}" />
+							   Style="{StaticResource HeadlineSmall}" />
 
                     <Button Content="Show Top TabBar Sample"
 							Click="ShowM3MaterialTopBarSampleInNestedFrame"
-							Style="{StaticResource M3MaterialOutlinedButtonStyle}" />
+							Style="{StaticResource OutlinedButtonStyle}" />
 
                     <utu:TabBar SelectedIndex="1"
-								Style="{StaticResource M3MaterialTopTabBarStyle}">
+								Style="{StaticResource TopTabBarStyle}">
                         <utu:TabBar.Items>
                             <utu:TabBarItem Content="HOME">
                                 <utu:TabBarItem.Icon>
@@ -284,7 +284,7 @@
 
                     <TextBlock Text="Adding Items as TabBarItems directly" />
                     <utu:TabBar SelectedIndex="2"
-								Style="{StaticResource M3MaterialTopTabBarStyle}">
+								Style="{StaticResource TopTabBarStyle}">
                         <utu:TabBar.Items>
                             <utu:TabBarItem Icon="Accept"
 											Content="Tab with Icon" />
@@ -296,10 +296,10 @@
                     <TextBlock Text="Using ItemsSource" />
                     <utu:TabBar SelectedIndex="3"
 								ItemsSource="{Binding Data.Items}"
-								Style="{StaticResource M3MaterialTopTabBarStyle}" />
+								Style="{StaticResource TopTabBarStyle}" />
 
                     <TextBlock Text="TabBarItem Command" />
-                    <utu:TabBar Style="{StaticResource M3MaterialTopTabBarStyle}">
+                    <utu:TabBar Style="{StaticResource TopTabBarStyle}">
                         <utu:TabBar.Items>
                             <utu:TabBarItem Content="Tab 1"
 											x:Name="M3_TabBarWithCommand_Tab1"
@@ -316,7 +316,7 @@
                         </utu:TabBar.Items>
                     </utu:TabBar>
                     <TextBlock HorizontalAlignment="Center"
-							   Style="{StaticResource M3MaterialLabelSmall}">
+							   Style="{StaticResource LabelSmall}">
 							<Run Text="Tab 1 clicked count:" />
 							<Run x:Name="Tab1_Count"
 								 AutomationProperties.AutomationId="M3_Tab1_Count"
@@ -333,10 +333,10 @@
 
 					<!-- Colored TabBar Style -->
 					<TextBlock Text="Top TabBar Colored Style"
-							   Style="{StaticResource M3MaterialHeadlineSmall}" />
+							   Style="{StaticResource HeadlineSmall}" />
 
 					<utu:TabBar SelectedIndex="1"
-								Style="{StaticResource M3MaterialColoredTopTabBarStyle}">
+								Style="{StaticResource ColoredTopTabBarStyle}">
 						<utu:TabBar.Items>
 							<utu:TabBarItem Content="HOME">
 								<utu:TabBarItem.Icon>
@@ -359,7 +359,7 @@
 
 					<TextBlock Text="Adding Items as TabBarItems directly" />
 					<utu:TabBar SelectedIndex="2"
-								Style="{StaticResource M3MaterialColoredTopTabBarStyle}">
+								Style="{StaticResource ColoredTopTabBarStyle}">
 						<utu:TabBar.Items>
 							<utu:TabBarItem Icon="Accept"
 											Content="Tab with Icon" />
@@ -371,10 +371,10 @@
 					<TextBlock Text="Using ItemsSource" />
 					<utu:TabBar SelectedIndex="3"
 								ItemsSource="{Binding Data.Items}"
-								Style="{StaticResource M3MaterialColoredTopTabBarStyle}" />
+								Style="{StaticResource ColoredTopTabBarStyle}" />
 
 					<TextBlock Text="TabBarItem Command" />
-					<utu:TabBar Style="{StaticResource M3MaterialColoredTopTabBarStyle}">
+					<utu:TabBar Style="{StaticResource ColoredTopTabBarStyle}">
 						<utu:TabBar.Items>
 							<utu:TabBarItem Content="Tab 1"
 											x:Name="M3_Colored_TabBarWithCommand_Tab1"
@@ -391,7 +391,7 @@
 						</utu:TabBar.Items>
 					</utu:TabBar>
 					<TextBlock HorizontalAlignment="Center"
-							   Style="{StaticResource M3MaterialLabelSmall}">
+							   Style="{StaticResource LabelSmall}">
 							<Run Text="Tab 1 clicked count:" />
 							<Run x:Name="Colored_Tab1_Count"
 								 AutomationProperties.AutomationId="M3_Colored_Tab1_Count"
@@ -408,13 +408,13 @@
 
 					<!-- Bottom TabBar Style-->
 					<TextBlock Text="Bottom TabBar Style"
-							   Style="{StaticResource M3MaterialHeadlineSmall}" />
+							   Style="{StaticResource HeadlineSmall}" />
 
 					<Button Content="Show Bottom TabBar Sample"
 							Click="ShowM3MaterialBottomBarSampleInNestedFrame"
-							Style="{StaticResource M3MaterialOutlinedButtonStyle}" />
+							Style="{StaticResource OutlinedButtonStyle}" />
 
-					<utu:TabBar Style="{StaticResource M3MaterialBottomTabBarStyle}">
+					<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
 						<utu:TabBar.Items>
 							<utu:TabBarItem Content="Home">
 								<utu:TabBarItem.Icon>
@@ -437,7 +437,7 @@
 
 					<TextBlock Text="Adding Items as TabBarItems directly" />
 					<utu:TabBar SelectedIndex="1"
-								Style="{StaticResource M3MaterialBottomTabBarStyle}">
+								Style="{StaticResource BottomTabBarStyle}">
 						<utu:TabBar.Items>
 							<utu:TabBarItem Icon="Accept"
 											Content="Tab with Icon" />
@@ -448,10 +448,10 @@
 
 					<TextBlock Text="Using ItemsSource" />
 					<utu:TabBar ItemsSource="{Binding Data.Items}"
-								Style="{StaticResource M3MaterialBottomTabBarStyle}" />
+								Style="{StaticResource BottomTabBarStyle}" />
 
 					<TextBlock Text="TabBarItem Command" />
-					<utu:TabBar Style="{StaticResource M3MaterialBottomTabBarStyle}">
+					<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
 						<utu:TabBar.Items>
 							<utu:TabBarItem Content="Tab 1"
 											x:Name="MaterialBottomTabBarWithCommand_Tab1"
@@ -468,7 +468,7 @@
 						</utu:TabBar.Items>
 					</utu:TabBar>
 					<TextBlock HorizontalAlignment="Center"
-							   Style="{StaticResource M3MaterialLabelSmall}">
+							   Style="{StaticResource LabelSmall}">
 							<Run Text="Tab 1 clicked count:" />
 							<Run x:Name="MaterialBottomTab1_Count"
 								 AutomationProperties.AutomationId="MaterialBottomTab1_Count"

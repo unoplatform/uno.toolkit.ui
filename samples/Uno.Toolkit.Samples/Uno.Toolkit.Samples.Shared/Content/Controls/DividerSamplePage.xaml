@@ -192,7 +192,7 @@
 									Margin="8">
                             <ContentControl ContentTemplate="{StaticResource M3DefaultItemTemplate}" />
 
-							<utu:Divider Style="{StaticResource M3MaterialDividerStyle}" />
+							<utu:Divider Style="{StaticResource DividerStyle}" />
 
                             <ContentControl ContentTemplate="{StaticResource M3DefaultItemTemplate}" />
 						</StackPanel>
@@ -202,7 +202,7 @@
 
                             <ContentControl ContentTemplate="{StaticResource M3DefaultItemTemplate}" />
 
-							<utu:Divider Style="{StaticResource M3MaterialDividerStyle}"
+							<utu:Divider Style="{StaticResource DividerStyle}"
 										 SubHeader="SubHeader" />
 
 							<ContentControl ContentTemplate="{StaticResource M3DefaultItemTemplate}" />
@@ -213,7 +213,7 @@
 
                             <ContentControl ContentTemplate="{StaticResource M3CustomItemTemplate}" />
 
-							<utu:Divider Style="{StaticResource M3MaterialDividerStyle}"
+							<utu:Divider Style="{StaticResource DividerStyle}"
 										 Foreground="{StaticResource OnPrimaryLowBrush}" />
 
                             <ContentControl ContentTemplate="{StaticResource M3CustomItemTemplate}" />
@@ -225,7 +225,7 @@
 
                             <ContentControl ContentTemplate="{StaticResource M3CustomItemTemplate}" />
 
-							<utu:Divider Style="{StaticResource M3MaterialDividerStyle}"
+							<utu:Divider Style="{StaticResource DividerStyle}"
 										 SubHeader="SubHeader"
 										 Foreground="{StaticResource OnPrimaryLowBrush}"
 										 SubHeaderForeground="{StaticResource OnPrimaryBrush}" />
@@ -246,7 +246,7 @@
 										<ItemsControl ItemsSource="{Binding Data.SubItems}"
 													  ItemTemplate="{StaticResource M3ChildItemTemplate}" />
 
-										<utu:Divider Style="{StaticResource M3MaterialDividerStyle}"
+										<utu:Divider Style="{StaticResource DividerStyle}"
 													 Grid.Row="1" />
 									</Grid>
 								</DataTemplate>

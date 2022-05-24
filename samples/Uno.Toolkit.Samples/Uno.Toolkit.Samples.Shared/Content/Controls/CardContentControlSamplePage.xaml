@@ -132,7 +132,7 @@
 					<TextBlock Text="Outlined CardContentControl Style"
 							   Style="{StaticResource TitleLarge}" />
 
-					<utu:CardContentControl Style="{StaticResource M3MaterialOutlinedCardContentControlStyle}">
+					<utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}">
 						<utu:CardContentControl.ContentTemplate>
 							<DataTemplate>
 								<Grid>
@@ -170,9 +170,9 @@
 										<StackPanel Spacing="8"
 													Orientation="Horizontal">
 											<Button Content="ACTION 1"
-													Style="{StaticResource M3MaterialFilledButtonStyle}" />
+													Style="{StaticResource FilledButtonStyle}" />
 											<Button Content="ACTION 2"
-													Style="{StaticResource M3MaterialOutlinedButtonStyle}" />
+													Style="{StaticResource OutlinedButtonStyle}" />
 										</StackPanel>
 
 									</StackPanel>
@@ -185,7 +185,7 @@
 					<TextBlock Text="Filled CardContentControl Style"
 							   Style="{StaticResource TitleLarge}" />
 
-					<utu:CardContentControl Style="{StaticResource M3MaterialFilledCardContentControlStyle}">
+					<utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}">
 						<utu:CardContentControl.ContentTemplate>
 							<DataTemplate>
 								<Grid>
@@ -223,9 +223,9 @@
 										<StackPanel Spacing="8"
 													Orientation="Horizontal">
 											<Button Content="ACTION 1"
-													Style="{StaticResource M3MaterialFilledButtonStyle}" />
+													Style="{StaticResource FilledButtonStyle}" />
 											<Button Content="ACTION 2"
-													Style="{StaticResource M3MaterialOutlinedButtonStyle}" />
+													Style="{StaticResource OutlinedButtonStyle}" />
 										</StackPanel>
 
 									</StackPanel>
@@ -238,7 +238,7 @@
 					<TextBlock Text="Elevated CardContentControl Style"
 							   Style="{StaticResource TitleLarge}" />
 
-					<utu:CardContentControl Style="{StaticResource M3MaterialElevatedCardContentControlStyle}">
+					<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}">
 						<utu:CardContentControl.ContentTemplate>
 							<DataTemplate>
 								<Grid>
@@ -276,9 +276,9 @@
 										<StackPanel Spacing="8"
 													Orientation="Horizontal">
 											<Button Content="ACTION 1"
-													Style="{StaticResource M3MaterialFilledButtonStyle}" />
+													Style="{StaticResource FilledButtonStyle}" />
 											<Button Content="ACTION 2"
-													Style="{StaticResource M3MaterialOutlinedButtonStyle}" />
+													Style="{StaticResource OutlinedButtonStyle}" />
 										</StackPanel>
 
 									</StackPanel>
