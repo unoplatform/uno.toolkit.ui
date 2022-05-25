@@ -25,3 +25,5 @@
   # ***************** Styles **********************
   - name: Styles
     href: controls-styles.md
+  - name: Migrate to Uno Material v2
+  href: material-migration.md
