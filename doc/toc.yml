@@ -22,6 +22,11 @@
       href: controls/NavigationBar.md
     - name: TabBar and TabBarItem
       href: controls/TabBarAndTabBarItem.md
+  # ***************** Helpers *******************
+  - name: Helpers
+    items:
+    - name: AncestorBinding and ItemsControlBinding
+      href: helpers/ancestor-itemscontrol-binding.md
   # ***************** Styles **********************
   - name: Styles
     href: controls-styles.md
