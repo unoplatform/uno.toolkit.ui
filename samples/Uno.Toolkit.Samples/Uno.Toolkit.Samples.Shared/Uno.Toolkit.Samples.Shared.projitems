@@ -25,6 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ChipSamplePage.xaml.cs">
       <DependentUpon>ChipSamplePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Helpers\BindingExtensionsSamplePage.xaml.cs">
+      <DependentUpon>BindingExtensionsSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialBottomBarSampleNestedPage.xaml.cs">
       <DependentUpon>M3MaterialBottomBarSampleNestedPage.xaml</DependentUpon>
     </Compile>
@@ -140,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Helpers\BindingExtensionsSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

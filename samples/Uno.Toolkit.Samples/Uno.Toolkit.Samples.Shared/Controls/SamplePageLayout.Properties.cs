@@ -74,6 +74,36 @@ namespace Uno.Toolkit.Samples
 		}
 
 		#endregion
+		#region Property: IsDesignAgnostic
+
+		public static DependencyProperty IsDesignAgnosticProperty { get; } = DependencyProperty.Register(
+			nameof(IsDesignAgnostic),
+			typeof(bool),
+			typeof(SamplePageLayout),
+			new PropertyMetadata(default(bool)));
+
+		public bool IsDesignAgnostic
+		{
+			get => (bool)GetValue(IsDesignAgnosticProperty);
+			set => SetValue(IsDesignAgnosticProperty, value);
+		}
+
+		#endregion
+
+		#region Property: HeaderTemplate
+		/// <summary>
+		/// The Header is the part above the design tabs (Material|Fluent|Native).
+		/// It contains the Description and the Source in the default style.
+		/// </summary>
+		public DataTemplate HeaderTemplate
+		{
+			get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
+			set { SetValue(HeaderTemplateProperty, value); }
+		}
+
+		public static readonly DependencyProperty HeaderTemplateProperty =
+			DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(SamplePageLayout), new PropertyMetadata(null));
+		#endregion
 
 		#region Property: CupertinoTemplate
 
@@ -120,20 +150,20 @@ namespace Uno.Toolkit.Samples
 		}
 
 		#endregion
+		#region Property: DesignAgnosticTemplate
 
-		#region Property: HeaderTemplate
-		/// <summary>
-		/// The Header is the part above the design tabs (Material|Fluent|Native).
-		/// It contains the Description and the Source in the default style.
-		/// </summary>
-		public DataTemplate HeaderTemplate
+		public static DependencyProperty DesignAgnosticTemplateProperty { get; } = DependencyProperty.Register(
+			nameof(DesignAgnosticTemplate),
+			typeof(DataTemplate),
+			typeof(SamplePageLayout),
+			new PropertyMetadata(default(DataTemplate)));
+
+		public DataTemplate DesignAgnosticTemplate
 		{
-			get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
-			set { SetValue(HeaderTemplateProperty, value); }
+			get => (DataTemplate)GetValue(DesignAgnosticTemplateProperty);
+			set => SetValue(DesignAgnosticTemplateProperty, value);
 		}
 
-		public static readonly DependencyProperty HeaderTemplateProperty =
-			DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(SamplePageLayout), new PropertyMetadata(null));
 		#endregion
 	}
 }

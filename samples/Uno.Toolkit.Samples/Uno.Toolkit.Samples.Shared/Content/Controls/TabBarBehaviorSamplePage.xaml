@@ -6,8 +6,7 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  mc:Ignorable="d"
-	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	  mc:Ignorable="d">
 
 	<Page.Resources>
 		<Style x:Key="TabBarWithSlideIndicatorStyle"
@@ -87,9 +86,13 @@
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<ScrollViewer>
-			<StackPanel Spacing="20">
-				<!--<Border Padding="20"
+		<sample:SamplePageLayout IsDesignAgnostic="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<ScrollViewer>
+						<StackPanel Spacing="20">
+
+							<!--<Border Padding="20"
 									BorderThickness="2"
 									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
 								<StackPanel>
@@ -135,194 +138,44 @@
 									</FlipView>
 								</StackPanel>
 							</Border>-->
-
-				<Border Padding="20"
-						BorderThickness="2"
-						BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
-					<StackPanel>
-						<TextBlock Text="TabBar + FlipView with Slide Indicator"
-								   Style="{StaticResource BodyTextBlockStyle}" />
-						<utu:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
-									x:Name="SlideTabBar"
-									AutomationProperties.AutomationId="SlideTabBar"
-									utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
-									Background="LightBlue">
-							<utu:TabBar.Items>
-								<utu:TabBarItem Content="Tab 1"
-												AutomationProperties.AutomationId="SlideTab1" />
-								<utu:TabBarItem Content="Tab 2"
-												AutomationProperties.AutomationId="SlideTab2" />
-								<utu:TabBarItem Content="Tab 3"
-												AutomationProperties.AutomationId="SlideTab3" />
-							</utu:TabBar.Items>
-						</utu:TabBar>
-						<FlipView x:Name="SlideFlipView"
-								  AutomationProperties.AutomationId="SlideFlipView"
-								  Height="100">
-							<FlipView.Items>
-								<FlipViewItem AutomationProperties.AutomationId="SlidePage1">
-									<Grid AutomationProperties.AutomationId="SlidePage1Content"
-										  Background="Blue"
-										  Width="100"
-										  Height="100" />
-								</FlipViewItem>
-								<FlipViewItem AutomationProperties.AutomationId="SlidePage2">
-									<Grid AutomationProperties.AutomationId="SlidePage2Content"
-										  Background="Red"
-										  Width="100"
-										  Height="100" />
-								</FlipViewItem>
-								<FlipViewItem AutomationProperties.AutomationId="SlidePage3">
-									<Grid AutomationProperties.AutomationId="SlidePage3Content"
-										  Background="Green"
-										  Width="100"
-										  Height="100" />
-								</FlipViewItem>
-							</FlipView.Items>
-						</FlipView>
-					</StackPanel>
-				</Border>
-				<!--<Border Padding="20"
-									BorderThickness="2"
-									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
-								<StackPanel>
-									<TextBlock Text="TabBar + ListView"
-											   Style="{StaticResource BodyTextBlockStyle}" />
-									<utu:TabBar x:Name="ListViewTabBar"
-													AutomationProperties.AutomationId="ListViewTabBar"
-													utu:TabBarSelectorBehavior.Selector="{Binding ElementName=ListView}"
-													Background="LightBlue">
-										<utu:TabBar.Items>
-											<utu:TabBarItem Content="Tab 1"
-																AutomationProperties.AutomationId="ListViewTab1" />
-											<utu:TabBarItem Content="Tab 2"
-																AutomationProperties.AutomationId="ListViewTab2" />
-											<utu:TabBarItem Content="Tab 3"
-																AutomationProperties.AutomationId="ListViewTab3" />
-											<utu:TabBarItem Content="Tab 4"
-																AutomationProperties.AutomationId="ListViewTab4" />
-										</utu:TabBar.Items>
-									</utu:TabBar>
-									<ListView x:Name="ListView"
-											  AutomationProperties.AutomationId="ListView"
-											  SelectionMode="Single">
-										<ListView.ItemsPanel>
-											<ItemsPanelTemplate>
-												<StackPanel Orientation="Horizontal" />
-											</ItemsPanelTemplate>
-										</ListView.ItemsPanel>
-										<ListView.Items>
-											<ListViewItem AutomationProperties.AutomationId="ListViewItem1">
-												<Grid Background="Blue"
-													  Width="100"
-													  Height="100" />
-											</ListViewItem>
-											<ListViewItem AutomationProperties.AutomationId="ListViewItem2">
-												<Grid Background="Red"
-													  Width="100"
-													  Height="100" />
-											</ListViewItem>
-											<ListViewItem AutomationProperties.AutomationId="ListViewItem3">
-												<Grid Background="Green"
-													  Width="100"
-													  Height="100" />
-											</ListViewItem>
-										</ListView.Items>
-									</ListView>
-								</StackPanel>
-							</Border>
-
 							<Border Padding="20"
 									BorderThickness="2"
 									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
 								<StackPanel>
-									<TextBlock Text="TabBar + ListView with 2nd Tab Unselectable"
-											   Style="{StaticResource BodyTextBlockStyle}" />
-									<utu:TabBar x:Name="ListViewSkipTabBar"
-													AutomationProperties.AutomationId="ListViewSkipTabBar"
-													utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SkipListView}"
-													Background="LightBlue">
-										<utu:TabBar.Items>
-											<utu:TabBarItem Content="Tab 1"
-																AutomationProperties.AutomationId="ListViewSkipTab1" />
-											<utu:TabBarItem Content="Tab 2"
-																IsSelectable="False"
-																AutomationProperties.AutomationId="ListViewSkipTab2" />
-											<utu:TabBarItem Content="Tab 3"
-																AutomationProperties.AutomationId="ListViewSkipTab3" />
-											<utu:TabBarItem Content="Tab 4"
-																AutomationProperties.AutomationId="ListViewSkipTab4" />
-										</utu:TabBar.Items>
-									</utu:TabBar>
-									<ListView x:Name="SkipListView"
-											  AutomationProperties.AutomationId="SkipListView"
-											  SelectionMode="Single">
-										<ListView.ItemsPanel>
-											<ItemsPanelTemplate>
-												<StackPanel Orientation="Horizontal" />
-											</ItemsPanelTemplate>
-										</ListView.ItemsPanel>
-										<ListView.Items>
-											<ListViewItem AutomationProperties.AutomationId="ListViewSkipItem1">
-												<Grid Background="Blue"
-													  Width="100"
-													  Height="100" />
-											</ListViewItem>
-											<ListViewItem AutomationProperties.AutomationId="ListViewSkipItem2">
-												<Grid Background="Red"
-													  Width="100"
-													  Height="100" />
-											</ListViewItem>
-											<ListViewItem AutomationProperties.AutomationId="ListViewSkipItem3">
-												<Grid Background="Green"
-													  Width="100"
-													  Height="100" />
-											</ListViewItem>
-										</ListView.Items>
-									</ListView>
-								</StackPanel>
-							</Border>
-
-							<Border Padding="20"
-									BorderThickness="2"
-									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
-								<StackPanel>
-									<TextBlock Text="TabBar + FlipView with 2nd Tab Unselectable"
+									<TextBlock Text="TabBar + FlipView with Slide Indicator"
 											   Style="{StaticResource BodyTextBlockStyle}" />
 									<utu:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
-													x:Name="SlideSkipTabBar"
-													AutomationProperties.AutomationId="SlideSkipTabBar"
-													utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideSkipFlipView}"
-													Background="LightBlue">
+												x:Name="SlideTabBar"
+												AutomationProperties.AutomationId="SlideTabBar"
+												utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
+												Background="LightBlue">
 										<utu:TabBar.Items>
 											<utu:TabBarItem Content="Tab 1"
-																AutomationProperties.AutomationId="SlideSkipTab1" />
+															AutomationProperties.AutomationId="SlideTab1" />
 											<utu:TabBarItem Content="Tab 2"
-																IsSelectable="False"
-																AutomationProperties.AutomationId="SlideSkipTab2" />
+															AutomationProperties.AutomationId="SlideTab2" />
 											<utu:TabBarItem Content="Tab 3"
-																AutomationProperties.AutomationId="SlideSkipTab3" />
-											<utu:TabBarItem Content="Tab 4"
-																AutomationProperties.AutomationId="SlideSkipTab4" />
+															AutomationProperties.AutomationId="SlideTab3" />
 										</utu:TabBar.Items>
 									</utu:TabBar>
-									<FlipView x:Name="SlideSkipFlipView"
-											  AutomationProperties.AutomationId="SlideSkipFlipView">
+									<FlipView x:Name="SlideFlipView"
+											  AutomationProperties.AutomationId="SlideFlipView"
+											  Height="100">
 										<FlipView.Items>
-											<FlipViewItem AutomationProperties.AutomationId="SlideSkipPage1">
-												<Grid AutomationProperties.AutomationId="SlideSkipPage1Content"
+											<FlipViewItem AutomationProperties.AutomationId="SlidePage1">
+												<Grid AutomationProperties.AutomationId="SlidePage1Content"
 													  Background="Blue"
 													  Width="100"
 													  Height="100" />
 											</FlipViewItem>
-											<FlipViewItem AutomationProperties.AutomationId="SlideSkipPage2">
-												<Grid AutomationProperties.AutomationId="SlideSkipPage2Content"
+											<FlipViewItem AutomationProperties.AutomationId="SlidePage2">
+												<Grid AutomationProperties.AutomationId="SlidePage2Content"
 													  Background="Red"
 													  Width="100"
 													  Height="100" />
 											</FlipViewItem>
-											<FlipViewItem AutomationProperties.AutomationId="SlideSkipPage3">
-												<Grid AutomationProperties.AutomationId="SlideSkipPage3Content"
+											<FlipViewItem AutomationProperties.AutomationId="SlidePage3">
+												<Grid AutomationProperties.AutomationId="SlidePage3Content"
 													  Background="Green"
 													  Width="100"
 													  Height="100" />
@@ -330,8 +183,161 @@
 										</FlipView.Items>
 									</FlipView>
 								</StackPanel>
-							</Border>-->
-			</StackPanel>
-		</ScrollViewer>
+							</Border>
+							<!--<Border Padding="20"
+												BorderThickness="2"
+												BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+											<StackPanel>
+												<TextBlock Text="TabBar + ListView"
+														   Style="{StaticResource BodyTextBlockStyle}" />
+												<utu:TabBar x:Name="ListViewTabBar"
+																AutomationProperties.AutomationId="ListViewTabBar"
+																utu:TabBarSelectorBehavior.Selector="{Binding ElementName=ListView}"
+																Background="LightBlue">
+													<utu:TabBar.Items>
+														<utu:TabBarItem Content="Tab 1"
+																			AutomationProperties.AutomationId="ListViewTab1" />
+														<utu:TabBarItem Content="Tab 2"
+																			AutomationProperties.AutomationId="ListViewTab2" />
+														<utu:TabBarItem Content="Tab 3"
+																			AutomationProperties.AutomationId="ListViewTab3" />
+														<utu:TabBarItem Content="Tab 4"
+																			AutomationProperties.AutomationId="ListViewTab4" />
+													</utu:TabBar.Items>
+												</utu:TabBar>
+												<ListView x:Name="ListView"
+														  AutomationProperties.AutomationId="ListView"
+														  SelectionMode="Single">
+													<ListView.ItemsPanel>
+														<ItemsPanelTemplate>
+															<StackPanel Orientation="Horizontal" />
+														</ItemsPanelTemplate>
+													</ListView.ItemsPanel>
+													<ListView.Items>
+														<ListViewItem AutomationProperties.AutomationId="ListViewItem1">
+															<Grid Background="Blue"
+																  Width="100"
+																  Height="100" />
+														</ListViewItem>
+														<ListViewItem AutomationProperties.AutomationId="ListViewItem2">
+															<Grid Background="Red"
+																  Width="100"
+																  Height="100" />
+														</ListViewItem>
+														<ListViewItem AutomationProperties.AutomationId="ListViewItem3">
+															<Grid Background="Green"
+																  Width="100"
+																  Height="100" />
+														</ListViewItem>
+													</ListView.Items>
+												</ListView>
+											</StackPanel>
+										</Border>
+
+										<Border Padding="20"
+												BorderThickness="2"
+												BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+											<StackPanel>
+												<TextBlock Text="TabBar + ListView with 2nd Tab Unselectable"
+														   Style="{StaticResource BodyTextBlockStyle}" />
+												<utu:TabBar x:Name="ListViewSkipTabBar"
+																AutomationProperties.AutomationId="ListViewSkipTabBar"
+																utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SkipListView}"
+																Background="LightBlue">
+													<utu:TabBar.Items>
+														<utu:TabBarItem Content="Tab 1"
+																			AutomationProperties.AutomationId="ListViewSkipTab1" />
+														<utu:TabBarItem Content="Tab 2"
+																			IsSelectable="False"
+																			AutomationProperties.AutomationId="ListViewSkipTab2" />
+														<utu:TabBarItem Content="Tab 3"
+																			AutomationProperties.AutomationId="ListViewSkipTab3" />
+														<utu:TabBarItem Content="Tab 4"
+																			AutomationProperties.AutomationId="ListViewSkipTab4" />
+													</utu:TabBar.Items>
+												</utu:TabBar>
+												<ListView x:Name="SkipListView"
+														  AutomationProperties.AutomationId="SkipListView"
+														  SelectionMode="Single">
+													<ListView.ItemsPanel>
+														<ItemsPanelTemplate>
+															<StackPanel Orientation="Horizontal" />
+														</ItemsPanelTemplate>
+													</ListView.ItemsPanel>
+													<ListView.Items>
+														<ListViewItem AutomationProperties.AutomationId="ListViewSkipItem1">
+															<Grid Background="Blue"
+																  Width="100"
+																  Height="100" />
+														</ListViewItem>
+														<ListViewItem AutomationProperties.AutomationId="ListViewSkipItem2">
+															<Grid Background="Red"
+																  Width="100"
+																  Height="100" />
+														</ListViewItem>
+														<ListViewItem AutomationProperties.AutomationId="ListViewSkipItem3">
+															<Grid Background="Green"
+																  Width="100"
+																  Height="100" />
+														</ListViewItem>
+													</ListView.Items>
+												</ListView>
+											</StackPanel>
+										</Border>
+
+										<Border Padding="20"
+												BorderThickness="2"
+												BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+											<StackPanel>
+												<TextBlock Text="TabBar + FlipView with 2nd Tab Unselectable"
+														   Style="{StaticResource BodyTextBlockStyle}" />
+												<utu:TabBar Style="{StaticResource TabBarWithSlideIndicatorStyle}"
+																x:Name="SlideSkipTabBar"
+																AutomationProperties.AutomationId="SlideSkipTabBar"
+																utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideSkipFlipView}"
+																Background="LightBlue">
+													<utu:TabBar.Items>
+														<utu:TabBarItem Content="Tab 1"
+																			AutomationProperties.AutomationId="SlideSkipTab1" />
+														<utu:TabBarItem Content="Tab 2"
+																			IsSelectable="False"
+																			AutomationProperties.AutomationId="SlideSkipTab2" />
+														<utu:TabBarItem Content="Tab 3"
+																			AutomationProperties.AutomationId="SlideSkipTab3" />
+														<utu:TabBarItem Content="Tab 4"
+																			AutomationProperties.AutomationId="SlideSkipTab4" />
+													</utu:TabBar.Items>
+												</utu:TabBar>
+												<FlipView x:Name="SlideSkipFlipView"
+														  AutomationProperties.AutomationId="SlideSkipFlipView">
+													<FlipView.Items>
+														<FlipViewItem AutomationProperties.AutomationId="SlideSkipPage1">
+															<Grid AutomationProperties.AutomationId="SlideSkipPage1Content"
+																  Background="Blue"
+																  Width="100"
+																  Height="100" />
+														</FlipViewItem>
+														<FlipViewItem AutomationProperties.AutomationId="SlideSkipPage2">
+															<Grid AutomationProperties.AutomationId="SlideSkipPage2Content"
+																  Background="Red"
+																  Width="100"
+																  Height="100" />
+														</FlipViewItem>
+														<FlipViewItem AutomationProperties.AutomationId="SlideSkipPage3">
+															<Grid AutomationProperties.AutomationId="SlideSkipPage3Content"
+																  Background="Green"
+																  Width="100"
+																  Height="100" />
+														</FlipViewItem>
+													</FlipView.Items>
+												</FlipView>
+											</StackPanel>
+										</Border>-->
+
+						</StackPanel>
+					</ScrollViewer>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
 	</Grid>
 </Page>

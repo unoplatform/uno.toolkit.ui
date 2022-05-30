@@ -4,6 +4,7 @@ using Windows.Foundation;
 using System.Linq;
 using System.Text;
 using Uno.Disposables;
+using Uno.Extensions;
 using Uno.Toolkit.Samples.Entities;
 using Uno.Toolkit.Samples.Helpers;
 
@@ -21,6 +22,7 @@ namespace Uno.Toolkit.Samples
 	{
 		private const string VisualStateMaterial = nameof(Design.Material);
 		private const string VisualStateCupertino = nameof(Design.Cupertino);
+		private const string VisualStateAgnostic = nameof(Design.Agnostic);
 
 		private const string MaterialRadioButtonPartName = "PART_MaterialRadioButton";
 		private const string CupertinoRadioButtonPartName = "PART_CupertinoRadioButton";
@@ -36,9 +38,9 @@ namespace Uno.Toolkit.Samples
 
 		private IReadOnlyCollection<LayoutModeMapping> LayoutModeMappings => new List<LayoutModeMapping>
 		{
-			new LayoutModeMapping(Design.Material, _materialRadioButton, _stickyMaterialRadioButton, VisualStateMaterial, MaterialTemplate),
-			new LayoutModeMapping(Design.Cupertino, _cupertinoRadioButton, _stickyCupertinoRadioButton, VisualStateCupertino, CupertinoTemplate),
-
+			new LayoutModeMapping(Design.Material, () => !IsDesignAgnostic, _materialRadioButton, _stickyMaterialRadioButton, VisualStateMaterial, MaterialTemplate),
+			new LayoutModeMapping(Design.Cupertino, () => !IsDesignAgnostic, _cupertinoRadioButton, _stickyCupertinoRadioButton, VisualStateCupertino, CupertinoTemplate),
+			new LayoutModeMapping(Design.Agnostic, () => IsDesignAgnostic, null, null, VisualStateAgnostic, DesignAgnosticTemplate),
 		};
 
 		private RadioButton _materialRadioButton;
@@ -141,19 +143,23 @@ namespace Uno.Toolkit.Samples
 			var mappings = LayoutModeMappings;
 			var previouslySelected = default(LayoutModeMapping);
 
+			bool IsAvailable(LayoutModeMapping mapping) => mapping.Predicate() && mapping.Template != null;
+
 			foreach (var mapping in mappings)
 			{
-				var visibility = mapping.Template != null ? Visibility.Visible : Visibility.Collapsed;
-				mapping.RadioButton.Visibility = visibility;
-				mapping.StickyRadioButton.Visibility = visibility;
-				if (mapping.Template != null && mapping.Design == _design)
+				var available = IsAvailable(mapping);
+				var visibility = available ? Visibility.Visible : Visibility.Collapsed;
+				mapping.RadioButton?.Apply(x => x.Visibility = visibility);
+				mapping.StickyRadioButton?.Apply(x => x.Visibility = visibility);
+
+				if (mapping.Design == _design && available)
 				{
 					previouslySelected = mapping;
 				}
 			}
 
 			// selected mode is based on previous selection and availability (whether the template is defined)
-			var selected = previouslySelected ?? mappings.FirstOrDefault(x => x.Template != null);
+			var selected = previouslySelected ?? mappings.FirstOrDefault(IsAvailable);
 			if (selected != null)
 			{
 				UpdateLayoutMode(transitionTo: selected.Design);
@@ -162,7 +168,8 @@ namespace Uno.Toolkit.Samples
 
 		private void OnLayoutRadioButtonChecked(object sender, RoutedEventArgs e)
 		{
-			if (sender is RadioButton radio && LayoutModeMappings.FirstOrDefault(x => x.RadioButton == radio || x.StickyRadioButton == radio) is LayoutModeMapping mapping)
+			if (sender is RadioButton radio &&
+				LayoutModeMappings.FirstOrDefault(x => x.RadioButton == radio || x.StickyRadioButton == radio) is LayoutModeMapping mapping)
 			{
 				_design = mapping.Design;
 				UpdateLayoutMode();
@@ -176,8 +183,8 @@ namespace Uno.Toolkit.Samples
 			var current = LayoutModeMappings.FirstOrDefault(x => x.Design == design);
 			if (current != null)
 			{
-				current.RadioButton.IsChecked = true;
-				current.StickyRadioButton.IsChecked = true;
+				current.RadioButton?.Apply(x => x.IsChecked = true);
+				current.StickyRadioButton?.Apply(x => x.IsChecked = true);
 
 				VisualStateManager.GoToState(this, current.VisualStateName, useTransitions: true);
 			}
@@ -211,7 +218,14 @@ namespace Uno.Toolkit.Samples
 		public T GetSampleChild<T>(Design mode, string name)
 			where T : FrameworkElement
 		{
-			var presenter = (ContentPresenter)GetTemplateChild($"{mode}ContentPresenter");
+			var presenterName = mode switch
+			{
+				// M2/3 update broke this. Controls in MaterialTemplate(M2) are still not loaded (not until the combo is switched m2).
+				Design.Material => //"MaterialContentPanel",
+					throw new InvalidOperationException(),
+				_ => $"{mode}ContentPresenter",
+			};
+			var presenter = GetTemplateChild(presenterName);
 
 			return VisualTreeHelperEx.GetFirstDescendant<T>(presenter, x => x.Name == name);
 		}
@@ -219,14 +233,19 @@ namespace Uno.Toolkit.Samples
 		private class LayoutModeMapping
 		{
 			public Design Design { get; set; }
+			public Func<bool> Predicate { get; set; }
 			public RadioButton RadioButton { get; set; }
 			public RadioButton StickyRadioButton { get; set; }
 			public string VisualStateName { get; set; }
 			public DataTemplate Template { get; set; }
 
-			public LayoutModeMapping(Design design, RadioButton radioButton, RadioButton stickyRadioButton, string visualStateName, DataTemplate template)
+			public LayoutModeMapping(
+				Design design, Func<bool> predicate,
+				RadioButton radioButton, RadioButton stickyRadioButton, string visualStateName, DataTemplate template
+			)
 			{
 				Design = design;
+				Predicate = predicate;
 				RadioButton = radioButton;
 				StickyRadioButton = stickyRadioButton;
 				VisualStateName = visualStateName;
