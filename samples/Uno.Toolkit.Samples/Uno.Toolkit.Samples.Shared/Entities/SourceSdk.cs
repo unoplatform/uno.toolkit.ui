@@ -9,6 +9,8 @@ namespace Uno.Toolkit.Samples.Entities
 	{
 		[Description("WinUI/Uno.UI")]
 		WinUI,
+		[Description("Uno")]
+		Uno,
 		[Description("Uno.Material")]
 		UnoMaterial,
 		[Description("Uno.Cupertino")]

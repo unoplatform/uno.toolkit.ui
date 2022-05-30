@@ -166,38 +166,47 @@
 
 									<Grid>
 
-                                        <!-- Material Content -->
-                                        <StackPanel x:Name="MaterialContent"
+										<!-- Material Content -->
+										<StackPanel x:Name="MaterialContentPanel"
 													Visibility="Collapsed">
 
-                                            <ComboBox x:Name="MaterialVersionComboBox"
+											<ComboBox x:Name="MaterialVersionComboBox"
 													  Header="Material Design Version:"
 													  Margin="0,20,0,0">
-                                                <x:String>M2</x:String>
-                                                <x:String>M3</x:String>
-                                            </ComboBox>
+												<x:String>M2</x:String>
+												<x:String>M3</x:String>
+											</ComboBox>
 
-                                            <!-- Material M2 Content -->
-                                            <ContentPresenter x:Name="M2MaterialContentPresenter"
+											<!-- Material M2 Content -->
+											<ContentPresenter x:Name="M2MaterialContentPresenter"
 															  Content="{TemplateBinding Content}"
 															  ContentTemplate="{TemplateBinding MaterialTemplate}"
 															  VerticalAlignment="Stretch"
 															  HorizontalAlignment="Stretch"
 															  Visibility="{Binding SelectedItem, ElementName=MaterialVersionComboBox, Converter={StaticResource SelectedItemToVisible}, ConverterParameter='M2', Mode=OneWay}"/>
 
-                                            <!-- Material M3 Content -->
-                                            <ContentPresenter x:Name="M3MaterialContentPresenter"
+											<!-- Material M3 Content -->
+											<ContentPresenter x:Name="M3MaterialContentPresenter"
 															  Content="{TemplateBinding Content}"
 															  ContentTemplate="{TemplateBinding M3MaterialTemplate}"
 															  VerticalAlignment="Stretch"
 															  HorizontalAlignment="Stretch"
 															  Visibility="{Binding SelectedItem, ElementName=MaterialVersionComboBox, Converter={StaticResource SelectedItemToVisible}, ConverterParameter='M3', Mode=OneWay}" />
-                                        </StackPanel>
+										</StackPanel>
 
-                                        <!-- Cupertino Content -->
+										<!-- Cupertino Content -->
 										<ContentPresenter x:Name="CupertinoContentPresenter"
 														  Content="{TemplateBinding Content}"
 														  ContentTemplate="{TemplateBinding CupertinoTemplate}"
+														  VerticalAlignment="Stretch"
+														  HorizontalAlignment="Stretch"
+														  Padding="{StaticResource SampleContentPadding}"
+														  Visibility="Collapsed" />
+
+										<!-- Agnostic Content -->
+										<ContentPresenter x:Name="AgnosticContentPresenter"
+														  Content="{TemplateBinding Content}"
+														  ContentTemplate="{TemplateBinding DesignAgnosticTemplate}"
 														  VerticalAlignment="Stretch"
 														  HorizontalAlignment="Stretch"
 														  Padding="{StaticResource SampleContentPadding}"
@@ -215,7 +224,7 @@
 												   Opacity="0.8"
 												   Margin="0,0,0,16">
 										<Run Text="For more information refer to the " />
-					
+
 										<Hyperlink NavigateUri="{Binding DocumentationLink}">
 											<Run Text="official documentation." />
 										</Hyperlink>
@@ -330,17 +339,20 @@
 
 								<VisualState x:Name="Material">
 									<VisualState.Setters>
-                                        <Setter Target="MaterialContent.Visibility"
-												Value="Visible" />
+										<Setter Target="MaterialContentPanel.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Cupertino">
+									<VisualState.Setters>
+										<Setter Target="CupertinoContentPresenter.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Agnostic">
+									<VisualState.Setters>
+										<Setter Target="AgnosticContentPresenter.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 
-								<VisualState x:Name="Cupertino">
-									<VisualState.Setters>
-										<Setter Target="CupertinoContentPresenter.Visibility"
-												Value="Visible" />
-									</VisualState.Setters>
-								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 					</Grid>
