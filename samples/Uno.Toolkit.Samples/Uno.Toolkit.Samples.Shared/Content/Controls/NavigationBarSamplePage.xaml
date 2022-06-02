@@ -58,34 +58,39 @@
                             Content="Show Sample"
                             Style="{StaticResource FilledButtonStyle}" />
 
-                    <Button AutomationProperties.AutomationId="Material_M3_NavigationBar_Launch_DataContext_Sample_Button"
+					<Button AutomationProperties.AutomationId="Material_M3_Primary_NavigationBar_Launch_Sample_Button"
+                            Click="LaunchFullScreenM3MaterialPrimarySample"
+                            Content="Show Primary Sample"
+                            Style="{StaticResource FilledButtonStyle}" />
+
+					<Button AutomationProperties.AutomationId="Material_M3_NavigationBar_Launch_DataContext_Sample_Button"
                             Click="LaunchFullScreenM3MaterialDataContextSample"
                             Content="Show DataContext Sample"
                             Style="{StaticResource FilledButtonStyle}" />
 
-                    <Button x:Name="M3ModalButton"
+					<Button x:Name="M3ModalButton"
                             Content="Show Modal Sample"
                             Style="{StaticResource FilledButtonStyle}">
-                        <Button.Flyout>
-                            <Flyout x:Name="M3ModalFlyout"
+						<Button.Flyout>
+							<Flyout x:Name="M3ModalFlyout"
                                     Opened="M3ModalFlyout_Opened"
                                     Placement="Bottom">
-                                <Flyout.FlyoutPresenterStyle>
-                                    <Style TargetType="FlyoutPresenter">
-                                        <Setter Property="MinWidth"
+								<Flyout.FlyoutPresenterStyle>
+									<Style TargetType="FlyoutPresenter">
+										<Setter Property="MinWidth"
                                                 Value="200" />
-                                        <Setter Property="MinHeight"
+										<Setter Property="MinHeight"
                                                 Value="200" />
-                                    </Style>
-                                </Flyout.FlyoutPresenterStyle>
+									</Style>
+								</Flyout.FlyoutPresenterStyle>
 
-                                <Grid>
-                                    <Frame x:Name="M3ModalFrame" />
-                                </Grid>
-                            </Flyout>
-                        </Button.Flyout>
-                    </Button>
-                </StackPanel>
+								<Grid>
+									<Frame x:Name="M3ModalFrame" />
+								</Grid>
+							</Flyout>
+						</Button.Flyout>
+					</Button>
+				</StackPanel>
             </DataTemplate>
         </sample:SamplePageLayout.M3MaterialTemplate>
     </sample:SamplePageLayout>

@@ -74,5 +74,11 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		{
 			Shell.GetForCurrentView().ShowNestedSample<M3MaterialNavigationBarSample_DataContext_NestedPage1>(clearStack: true);
 		}
+
+		private void LaunchFullScreenM3MaterialPrimarySample(object sender, RoutedEventArgs e)
+		{
+			Shell.GetForCurrentView().ShowNestedSample<M3MaterialNavigationBarSample_Primary>(clearStack: true);
+		}
+
 	}
 }

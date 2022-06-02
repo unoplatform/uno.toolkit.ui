@@ -18,6 +18,9 @@ Control|Style Key|IsDefaultStyle*|
 -|-|-
 AppBarButton|MainCommandStyle|True|
 AppBarButton|ModalMainCommandStyle|
+AppBarButton|PrimaryMainCommandStyle|
+AppBarButton|PrimaryModalMainCommandStyle|
+AppBarButton|PrimaryAppBarButtonStyle|
 utu:Card|FilledCardStyle|
 utu:Card|OutlinedCardStyle|
 utu:Card|ElevatedCardStyle|
@@ -47,6 +50,8 @@ utu:ChipGroup|AssistChipGroupStyle|
 utu:Divider|DividerStyle|True|
 utu:NavigationBar|NavigationBarStyle|True|
 utu:NavigationBar|ModalNavigationBarStyle|
+utu:NavigationBar|PrimaryNavigationBarStyle|
+utu:NavigationBar|PrimaryModalNavigationBarStyle|
 utu:TabBar|BottomTabBarStyle|
 utu:TabBar|TopTabBarStyle|
 utu:TabBar|ColoredTopTabBarStyle|
