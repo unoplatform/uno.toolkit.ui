@@ -482,6 +482,62 @@
 								 AutomationProperties.AutomationId="MaterialBottomTab3_Count"
 								 Text="{Binding Data.MaterialBottomTab3Count}" />
 					</TextBlock>
+
+
+					<utu:TabBar 
+					Style="{StaticResource MaterialBottomTabBarStyle}">
+						<utu:TabBar.Items>
+							<utu:TabBarItem Tag="Home"
+								Content="Home">
+								<utu:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE80F;" />
+								</utu:TabBarItem.Icon>
+							</utu:TabBarItem>
+							<utu:TabBarItem Tag="Search"
+								Content="Search">
+								<utu:TabBarItem.Icon>
+									<FontIcon Glyph="&#xe721;" />
+								</utu:TabBarItem.Icon>
+							</utu:TabBarItem>
+							<utu:TabBarItem Style="{StaticResource MaterialBottomFabTabBarItemStyle}">
+								<utu:TabBarItem.Flyout>
+									<MenuFlyout Placement="Top"
+									MenuFlyoutPresenterStyle="{StaticResource MaterialMenuFlyoutPresenterStyle}">
+
+										<MenuFlyoutItem Text="Like"
+											Style="{StaticResource MaterialMenuFlyoutItemStyle}">
+											<MenuFlyoutItem.Icon>
+												<SymbolIcon Symbol="Like" />
+											</MenuFlyoutItem.Icon>
+										</MenuFlyoutItem>
+
+										<MenuFlyoutItem Text="Dislike"
+											Style="{StaticResource MaterialMenuFlyoutItemStyle}">
+											<MenuFlyoutItem.Icon>
+												<SymbolIcon Symbol="Dislike" />
+											</MenuFlyoutItem.Icon>
+										</MenuFlyoutItem>
+									</MenuFlyout>
+								</utu:TabBarItem.Flyout>
+								<utu:TabBarItem.Icon>
+									<SymbolIcon Symbol="Add" />
+								</utu:TabBarItem.Icon>
+							</utu:TabBarItem>
+							<utu:TabBarItem Tag="Support"
+								Content="Support">
+								<utu:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE8F2;" />
+								</utu:TabBarItem.Icon>
+							</utu:TabBarItem>
+							<utu:TabBarItem Tag="About"
+								Content="About">
+								<utu:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE946;" />
+								</utu:TabBarItem.Icon>
+							</utu:TabBarItem>
+						</utu:TabBar.Items>
+					</utu:TabBar>
+
 				</StackPanel>
             </DataTemplate>
         </sample:SamplePageLayout.M3MaterialTemplate>
@@ -567,6 +623,8 @@
 								 AutomationProperties.AutomationId="CupertinoBottomTab3_Count"
 								 Text="{Binding Data.CupertinoBottomTab3Count}" />
 					</TextBlock>
+
+				
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.CupertinoTemplate>
