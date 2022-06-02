@@ -25,7 +25,7 @@ See the complete [documentation](#documentation) for starting with this library.
 For a larger example and features demo, visit the [Uno Gallery](https://github.com/unoplatform/uno.gallery) repository.
 
 ## Documentation
-All documentation for `Uno.Toolkit.UI` can be found on our [website](https://platform.uno).
+All documentation for `Uno.Toolkit.UI` can be found on our [website](https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html).
 
 ## Contributing
 Please read our [contributing guide](https://github.com/unoplatform/uno/blob/master/CONTRIBUTING.md) to learn about our development process and how to propose bug fixes and improvements. 
