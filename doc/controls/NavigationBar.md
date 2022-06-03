@@ -1,5 +1,8 @@
 # NavigationBar
 
+> [!TIP] 
+> This guide covers details for `NavigationBar` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
+
 ## Summary
 The `NavigationBar` represents a specialized app bar that provides the layout for `AppBarButton` and navigation logic.
 
