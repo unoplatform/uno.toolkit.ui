@@ -1,7 +1,7 @@
 # Chip & ChipGroup
 
 > [!TIP] 
-> This guide covers details for `Chip` and `ChipGroup` specifically. If you just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) to make sure you have the initial correct setup in place.
+> This guide covers details for `Chip` and `ChipGroup` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 
 ## Summary
 `Chip` is a control that can be used for selection, filtering, or performing an action from a list.

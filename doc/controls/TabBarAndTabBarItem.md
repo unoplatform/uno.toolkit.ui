@@ -1,7 +1,7 @@
 # TabBar & TabBarItem
 
 > [!TIP] 
-> This guide covers details for `TabBar` and `TabBarItem` specifically. If you just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) to make sure you have the initial correct setup in place.
+> This guide covers details for `TabBar` and `TabBarItem` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 
 ## Summary
 Represents a control that provides a list of `TabItem`s to select from. The `TabBar` selection can be used to trigger frame navigation or to toggle the visibility of views.
