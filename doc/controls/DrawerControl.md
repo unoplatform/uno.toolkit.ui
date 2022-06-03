@@ -1,5 +1,8 @@
 # DrawerControl
 
+> [!TIP] 
+> This guide covers details for `DrawerControl` specifically. If you just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) to make sure you have the initial correct setup in place.
+
 ## Summary
 `DrawerControl` is a container with two views; one view for the main content, and another view that can be revealed with a swipe gesture.
 

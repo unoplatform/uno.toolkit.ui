@@ -9,7 +9,7 @@ The Uno.Toolkit.Material library is available as NuGet packages that can be adde
 
 1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
 2. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`.
-Choose [`Uno.Toolkit.UI.Material`](https://www.nuget.org/packages/Uno.Toolkit.UI.Material) package for Uno UWP solution or Choose the [`Uno.Toolkit.WinUI.Material`](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material) package for Uno WinUI solution. And, select the following projects to include:
+Choose [**`Uno.Toolkit.UI.Material`**](https://www.nuget.org/packages/Uno.Toolkit.UI.Material) package for Uno **UWP** solution **or** Choose the [**`Uno.Toolkit.WinUI.Material`**](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material) package for Uno **WinUI** solution. And, select the following projects to include:
 	- `PROJECT_NAME.Wasm.csproj`
 	- `PROJECT_NAME.Mobile.csproj` (or `PROJECT_NAME.iOS.csproj`, `PROJECT_NAME.Droid.csproj`, `PROJECT_NAME.macOS.csproj` if you have an existing project)
 	- `PROJECT_NAME.Skia.Gtk.csproj`

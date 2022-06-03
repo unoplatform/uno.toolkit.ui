@@ -1,5 +1,8 @@
 # Card & CardContentControl
 
+> [!TIP] 
+> This guide covers details for `Card` and `CardContentControl` specifically. If you just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) to make sure you have the initial correct setup in place.
+
 ## Summary
 `Card` and `CardContentControl` represent controls identifiable as a single, contained unit used to visually group related child content and actions that relate information about a subject.
 A card's layout and dimensions depend on its contents.

@@ -1,5 +1,8 @@
 # Segmented Controls
 
+> [!TIP] 
+> This guide covers details for `Segmented Controls` specifically. If you just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) to make sure you have the initial correct setup in place.
+
 ## Summary
 
 Represents a set of styles that can be used to customize the appearance of `TabBar` to be a Cupertino-themed segmented control.
