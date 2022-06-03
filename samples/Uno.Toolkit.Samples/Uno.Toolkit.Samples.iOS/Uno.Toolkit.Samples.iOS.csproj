@@ -14,7 +14,7 @@
     <ResourcesDirectory>..\Uno.Toolkit.Samples.Shared\Strings</ResourcesDirectory>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
-    <PropertyGroup>
+  <PropertyGroup>
     <!-- Workaround for https://github.com/unoplatform/uno/discussions/5007 -->
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
   </PropertyGroup>
@@ -191,10 +191,10 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Uno.Cupertino">
-      <Version>2.0.0</Version>
+      <Version>2.1.0-dev.31</Version>
     </PackageReference>
     <PackageReference Include="Uno.Material">
-      <Version>2.0.0</Version>
+      <Version>2.1.0-dev.31</Version>
     </PackageReference>
     <PackageReference Include="Uno.UI" Version="4.3.6" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="4.3.6" Condition="'$(Configuration)'=='Debug'" />
