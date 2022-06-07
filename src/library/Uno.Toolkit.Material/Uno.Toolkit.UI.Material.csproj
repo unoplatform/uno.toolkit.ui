@@ -39,7 +39,7 @@
 	</Choose>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Material" Version="2.1.0-dev.31" />
+		<PackageReference Include="Uno.Material" Version="2.1.0-dev.40" />
 		<PackageReference Include="Uno.UI" Version="4.3.6" />
 	</ItemGroup>
 

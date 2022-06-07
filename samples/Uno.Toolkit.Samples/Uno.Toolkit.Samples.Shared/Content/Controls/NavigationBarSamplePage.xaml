@@ -56,16 +56,16 @@
                     <Button AutomationProperties.AutomationId="Material_M3_NavigationBar_Launch_Sample_Button"
                             Click="LaunchFullScreenM3MaterialSample"
                             Content="Show Sample"
-                            Style="{StaticResource ContainedButtonStyle}" />
+                            Style="{StaticResource FilledButtonStyle}" />
 
                     <Button AutomationProperties.AutomationId="Material_M3_NavigationBar_Launch_DataContext_Sample_Button"
                             Click="LaunchFullScreenM3MaterialDataContextSample"
                             Content="Show DataContext Sample"
-                            Style="{StaticResource ContainedButtonStyle}" />
+                            Style="{StaticResource FilledButtonStyle}" />
 
                     <Button x:Name="M3ModalButton"
                             Content="Show Modal Sample"
-                            Style="{StaticResource ContainedButtonStyle}">
+                            Style="{StaticResource FilledButtonStyle}">
                         <Button.Flyout>
                             <Flyout x:Name="M3ModalFlyout"
                                     Opened="M3ModalFlyout_Opened"
