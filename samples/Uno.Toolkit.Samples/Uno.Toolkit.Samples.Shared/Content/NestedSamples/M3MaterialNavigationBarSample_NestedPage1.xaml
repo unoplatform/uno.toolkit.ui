@@ -61,9 +61,9 @@
 					Padding="16,0">
 			<Button Content="Exit sample"
 					Click="NavigateBack" />
-            <Button Click="NavigateToNextPage"
+			<Button Click="NavigateToNextPage"
                     AutomationProperties.AutomationId="M3_Page1_Navigate_To_Page2"
 					Content="Navigate To Second Page" />
-        </StackPanel>
+		</StackPanel>
 	</Grid>
 </Page>
