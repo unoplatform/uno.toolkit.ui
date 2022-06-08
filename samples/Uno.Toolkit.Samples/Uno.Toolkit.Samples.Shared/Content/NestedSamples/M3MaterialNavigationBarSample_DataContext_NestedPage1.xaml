@@ -15,19 +15,19 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <utu:NavigationBar AutomationProperties.AutomationId="M3Page1DataContextNavBar"
-                           MainCommandMode="Action">
+                            MainCommandMode="Action">
             <utu:NavigationBar.Content>
                 <Grid VerticalAlignment="Center"
-                      ios:HorizontalAlignment="Center">
+                        ios:HorizontalAlignment="Center">
                     <TextBlock ios:TextAlignment="Center"
-                               Foreground="Black"
-                               Text="{Binding ViewModelName}" />
+                                Foreground="Black"
+                                Text="{Binding ViewModelName}" />
                 </Grid>
             </utu:NavigationBar.Content>
             <utu:NavigationBar.MainCommand>
                 <AppBarButton AutomationProperties.AutomationId="NavBar_DataContext_Close_Button"
-                              Click="NavigateBack"
-                              Label="Close">
+                                Click="NavigateBack"
+                                Label="Close">
                     <AppBarButton.Icon>
                         <BitmapIcon ShowAsMonochrome="False"
                                     UriSource="ms-appx:///Assets/CloseIcon.png" />
@@ -37,20 +37,20 @@
             <utu:NavigationBar.PrimaryCommands>
                 <AppBarButton AutomationProperties.AutomationId="DataContext_AppBarButton">
                     <TextBlock Foreground="Black"
-                               AutomationProperties.AutomationId="DataContext_TextBlock"
-                               Text="{Binding ViewModelName}" />
+                                AutomationProperties.AutomationId="DataContext_TextBlock"
+                                Text="{Binding ViewModelName}" />
                 </AppBarButton>
             </utu:NavigationBar.PrimaryCommands>
         </utu:NavigationBar>
-        <StackPanel Grid.Row="1"
-                    Padding="16,0"
-                    VerticalAlignment="Center"
-                    Spacing="8">
-            <Button Click="NavigateBack"
-                    Content="Exit sample" />
-            <TextBlock HorizontalAlignment="Center"
-                       Text="Right side button should contain a TextBlock with Text=Page1VM" />
+                <StackPanel Grid.Row="1"
+                            Padding="16,0"
+                            VerticalAlignment="Center"
+                            Spacing="8">
+                    <Button Click="NavigateBack"
+                            Content="Exit sample" />
+			    <TextBlock HorizontalAlignment="Center"
+                               Text="Right side button should contain a TextBlock with Text=Page1VM" /> 
 
-        </StackPanel>
+		</StackPanel>
     </Grid>
 </Page>

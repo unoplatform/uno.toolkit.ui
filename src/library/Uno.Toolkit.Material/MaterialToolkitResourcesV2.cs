@@ -94,8 +94,13 @@ namespace Uno.Toolkit.UI.Material
 			Add("MaterialDividerStyle", isImplicit: true);
 			Add("MaterialNavigationBarStyle", isImplicit: true);
 			Add("MaterialModalNavigationBarStyle");
+			Add("MaterialPrimaryNavigationBarStyle");
+			Add("MaterialPrimaryModalNavigationBarStyle");
 			Add("MaterialMainCommandStyle", isImplicit: true);
 			Add("MaterialModalMainCommandStyle");
+			Add("MaterialPrimaryMainCommandStyle");
+			Add("MaterialPrimaryModalMainCommandStyle");
+			Add("MaterialPrimaryAppBarButtonStyle");
 			Add("MaterialTopTabBarStyle");
 			Add("MaterialColoredTopTabBarStyle");
 			Add("MaterialElevatedSuggestionChipStyle");
