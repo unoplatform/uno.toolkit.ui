@@ -21,6 +21,7 @@
                     mc:Ignorable="android ios not_win mobile">
 
 	<x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
+	<x:Double x:Key="MaterialXamlNavigationBarHeight">64</x:Double>
 	<x:Double x:Key="MaterialNavigationBarHeight">48</x:Double>
 	<Thickness x:Key="MaterialNavigationBarContentMargin">16,0,0,0</Thickness>
 	<Thickness x:Key="MaterialAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
@@ -41,8 +42,10 @@
 
 		<android:Setter Property="(toolkit:UIElementExtensions.Elevation)"
 						Value="{StaticResource MaterialNavigationBarElevation}" />
-		<Setter Property="Height"
+		<mobile:Setter Property="Height"
 				Value="{StaticResource MaterialNavigationBarHeight}" />
+		<not_mobile:Setter Property="Height"
+				Value="{StaticResource MaterialXamlNavigationBarHeight}" />
 		<Setter Property="Padding"
 				Value="16,0,0,0" />
 		<Setter Property="HorizontalAlignment"
@@ -161,10 +164,6 @@
 								   BasedOn="{StaticResource MaterialAppBarButtonStyle}">
 								<Setter Property="Padding"
 										Value="12,16,12,16" />
-								<Setter Property="Foreground"
-										Value="{TemplateBinding Foreground}" />
-								<Setter Property="Background"
-										Value="{TemplateBinding Background}" />
 							</Style>
 						</Grid.Resources>
 						<VisualStateManager.VisualStateGroups>
