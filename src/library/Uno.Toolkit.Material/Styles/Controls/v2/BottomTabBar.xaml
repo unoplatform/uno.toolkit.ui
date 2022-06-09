@@ -444,15 +444,17 @@
 											VerticalAlignment="Center"
 											HorizontalAlignment="Center"
 											Padding="{StaticResource MaterialBottomTabBarItemActiveIndicatorPadding}"
-										    CornerRadius="{StaticResource MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
-										<Viewbox x:Name="IconBox"
-											        Width="{StaticResource MaterialBottomTabBarItemIconWidth}"
+											CornerRadius="{StaticResource MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
+											<Border  Width="{StaticResource MaterialBottomTabBarItemIconWidth}"
 											        Height="{StaticResource MaterialBottomTabBarItemIconHeight}">
-											<ContentPresenter x:Name="Icon"
-												                Content="{TemplateBinding Icon}"
-												                Foreground="{StaticResource MaterialBottomTabBarItemIconForeground}" />
-										</Viewbox>
-									</Grid>
+												<Viewbox x:Name="IconBox"
+														 HorizontalAlignment="Center">
+													<ContentPresenter x:Name="Icon"
+																	  Content="{TemplateBinding Icon}"
+																	  Foreground="{StaticResource MaterialBottomTabBarItemIconForeground}" />
+												</Viewbox>
+											</Border>
+										</Grid>
 									<ContentPresenter x:Name="ContentPresenter"
 										                Grid.Row="1"
 										                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
