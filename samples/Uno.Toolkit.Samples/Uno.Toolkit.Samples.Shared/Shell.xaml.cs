@@ -3,6 +3,7 @@ using Windows.UI.Core;
 using System.Threading.Tasks;
 using Uno.Toolkit.Samples.Content.NestedSamples;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.Samples.Content.Controls;
 
 
 #if IS_WINUI
@@ -149,6 +150,7 @@ namespace Uno.Toolkit.Samples
 				return false;
 			}
 
+			var sender = NestedSampleFrame.Content;
 			if (NestedSampleFrame.CanGoBack)
 			{
 				//Let the NavigationBar within the nested page handle the back nav logic
@@ -169,6 +171,14 @@ namespace Uno.Toolkit.Samples
 #if __ANDROID__
 				NestedSampleFrame.BackStack.Clear();
 #endif
+			}
+
+			if (NavigationView.Content is IExitNestedSampleHandler handler)
+			{
+				// Allows the page to be able to handle back navigation that exited nested sample.
+				// There is no other ways of knowing this, since this "navigation" effectively
+				// just changes the visibility of the nested frame that overlays everything.
+				handler.OnExitedFromNestedSample(sender);
 			}
 
 			return true;

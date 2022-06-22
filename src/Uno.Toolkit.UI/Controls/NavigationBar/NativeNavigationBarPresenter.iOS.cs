@@ -8,7 +8,6 @@ using UIKit;
 using Uno.Disposables;
 using Uno.UI;
 using Windows.Foundation;
-using Windows.UI.ViewManagement;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -27,6 +26,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
+
+using XamlStatusBar = Windows.UI.ViewManagement.StatusBar;
 
 namespace Uno.Toolkit.UI
 {
@@ -104,7 +105,7 @@ namespace Uno.Toolkit.UI
 				Content = _navigationBar;
 			}
 
-			var statusBar = StatusBar.GetForCurrentView();
+			var statusBar = XamlStatusBar.GetForCurrentView();
 
 			statusBar.Showing += OnStatusBarChanged;
 			statusBar.Hiding += OnStatusBarChanged;
@@ -116,7 +117,7 @@ namespace Uno.Toolkit.UI
 			});
 
 			// iOS doesn't automatically update the navigation bar position when the status bar visibility changes.
-			void OnStatusBarChanged(StatusBar sender, object args)
+			void OnStatusBarChanged(XamlStatusBar sender, object args)
 			{
 				_navigationBar!.SetNeedsLayout();
 				_navigationBar!.Superview.SetNeedsLayout();
