@@ -27,13 +27,22 @@
 							<sample:ControlExample>
 								<sample:ControlExample.Content>
 									<utu:DrawerControl x:Name="SampleDrawerControl"
-													   Content="Content"
-													   DrawerContent="DrawerContent"
 													   IsOpen="{Binding ElementName=OptionIsOpen, Path=IsChecked, Mode=TwoWay}"
 													   OpenDirection="{Binding ElementName=OptionOpenDirection, Path=SelectedItem}"
 													   IsGestureEnabled="{Binding ElementName=OptionIsGestureEnabled, Path=IsChecked}"
 													   FitToDrawerContent="{Binding ElementName=OptionFitToDrawerContent, Path=IsChecked}"
-													   MinHeight="300" />
+													   MinHeight="300">
+
+										<TextBlock Text="Main Content" />
+
+										<utu:DrawerControl.DrawerContent>
+											<StackPanel>
+												<ToggleButton Content="IsOpen" IsChecked="{Binding ElementName=SampleDrawerControl, Path=IsOpen}" />
+												<TextBlock Text="Drawer Content" />
+											</StackPanel>
+										</utu:DrawerControl.DrawerContent>
+
+									</utu:DrawerControl>
 								</sample:ControlExample.Content>
 
 								<sample:ControlExample.Options>

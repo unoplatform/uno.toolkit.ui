@@ -35,7 +35,9 @@
 								Background="{TemplateBinding LightDismissOverlayBackground}" />
 						<ContentControl x:Name="DrawerContentControl"
 										Content="{TemplateBinding DrawerContent}"
-										Background="{TemplateBinding DrawerBackground}">
+										Background="{TemplateBinding DrawerBackground}"
+										HorizontalContentAlignment="{TemplateBinding HorizontalAlignment}"
+										VerticalContentAlignment="{TemplateBinding VerticalAlignment}">
 							<ContentControl.Template>
 								<ControlTemplate TargetType="ContentControl">
 									<Border Background="{TemplateBinding Background}">
@@ -47,6 +49,13 @@
 								<TranslateTransform />
 							</ContentControl.RenderTransform>
 						</ContentControl>
+
+						<!-- workaround for edge swipe to work on top of other control (eg: SwipeControl) -->
+						<!-- see: https://github.com/unoplatform/nventive-private/issues/271 -->
+						<Border x:Name="GestureInterceptor"
+								Background="Transparent"
+								Visibility="{Binding IsGestureEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisible}}"
+								Margin="{TemplateBinding GestureInterceptorMargin}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
