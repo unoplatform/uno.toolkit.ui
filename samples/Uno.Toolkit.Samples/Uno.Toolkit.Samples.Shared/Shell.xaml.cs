@@ -40,7 +40,8 @@ namespace Uno.Toolkit.Samples
 
 			InitializeSafeArea();
 			this.Loaded += OnLoaded;
-			
+			this.SizeChanged += (s, e) => InitializeSafeArea();
+
 			NestedSampleFrame.RegisterPropertyChangedCallback(ContentControl.ContentProperty, OnNestedSampleFrameChanged);
 
 #if !IS_WINUI
