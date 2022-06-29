@@ -36,12 +36,13 @@
   <x:Double x:Key="MaterialBottomTabBarHeight">80</x:Double>
   <GridLength x:Key="MaterialBottomTabBarGridLengthHeight">80</GridLength>
   <x:Double x:Key="FabItemVerticalOffset">-32</x:Double>
-  <x:Double x:Key="MaterialBottomTabBarItemIconHeight">20</x:Double>
-  <x:Double x:Key="MaterialBottomTabBarItemIconWidth">20</x:Double>
+  <x:Double x:Key="MaterialBottomTabBarItemIconHeight">18</x:Double>
+  <x:Double x:Key="MaterialBottomTabBarItemIconWidth">18</x:Double>
   <Thickness x:Key="MaterialBottomTabBarItemContentMargin">0,0,0,6</Thickness>
+  <Thickness x:Key="MaterialBottomTabBarItemPadding">0,12,0,16</Thickness>
   <Thickness x:Key="MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
-  <CornerRadius x:Key="MaterialBottomTabBarItemActiveIndicatorCornerRadius">12</CornerRadius>
-  <Thickness x:Key="MaterialBottomTabBarItemActiveIndicatorPadding">18,2</Thickness>
+  <CornerRadius x:Key="MaterialBottomTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
+  <Thickness x:Key="MaterialBottomTabBarItemActiveIndicatorPadding">22,7</Thickness>
   <x:Double x:Key="AjustedMaterialBottomTabBarHeight">108</x:Double>
   <Thickness x:Key="MaterialBottomFabTabBarItemPadding">20</Thickness>
   <x:Double x:Key="MaterialBottomFabTabBarItemContentWidthOrHeight">16</x:Double>
@@ -176,6 +177,7 @@
     <Setter Property="FontWeight" Value="{StaticResource MaterialBottomTabBarFontWeight}" />
     <Setter Property="UseSystemFocusVisuals" Value="True" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Padding" Value="{StaticResource MaterialBottomTabBarItemPadding}" />
     <!--  Workaround with these two properties until this issue is fixed, can be removed after  -->
     <!--  https://github.com/unoplatform/uno/issues/7393  -->
     <Setter Property="Height" Value="{StaticResource MaterialBottomTabBarHeight}" />
@@ -237,6 +239,7 @@
                 <VisualState x:Name="IconOnly">
                   <VisualState.Setters>
                     <Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
+                    <Setter Target="ContentGrid.RowSpacing" Value="0" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="ContentOnly">
@@ -253,17 +256,19 @@
               <um:Ripple.Content>
                 <Grid>
                   <Rectangle x:Name="PointerRectangle" Fill="Transparent" Visibility="Collapsed" />
-                  <Grid x:Name="ContentGrid">
+                  <Grid x:Name="ContentGrid" RowSpacing="4">
                     <Grid.RowDefinitions>
                       <RowDefinition x:Name="IconRow" Height="*" />
                       <RowDefinition x:Name="ContentRow" Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid x:Name="ActiveIndicator" Background="{StaticResource MaterialBottomTabBarItemActiveIndicatorBackground}" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="{StaticResource MaterialBottomTabBarItemActiveIndicatorPadding}" CornerRadius="{StaticResource MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
-                      <Viewbox x:Name="IconBox" Width="{StaticResource MaterialBottomTabBarItemIconWidth}" Height="{StaticResource MaterialBottomTabBarItemIconHeight}">
-                        <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{StaticResource MaterialBottomTabBarItemIconForeground}" />
-                      </Viewbox>
+                      <Border Width="{StaticResource MaterialBottomTabBarItemIconWidth}" Height="{StaticResource MaterialBottomTabBarItemIconHeight}">
+                        <Viewbox x:Name="IconBox" HorizontalAlignment="Center">
+                          <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{StaticResource MaterialBottomTabBarItemIconForeground}" />
+                        </Viewbox>
+                      </Border>
                     </Grid>
-                    <ContentPresenter x:Name="ContentPresenter" Grid.Row="1" Margin="{StaticResource MaterialBottomTabBarItemContentMargin}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
+                    <ContentPresenter x:Name="ContentPresenter" Grid.Row="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
                   </Grid>
                 </Grid>
               </um:Ripple.Content>
@@ -1133,7 +1138,7 @@
   <x:Double x:Key="MaterialChipBorderThickness">1</x:Double>
   <x:Double x:Key="M3MateriaChipCheckGlyphSize">20</x:Double>
   <x:Double x:Key="MaterialChipElevation">4</x:Double>
-  <x:Double x:Key="MaterialChipIconSize">24</x:Double>
+  <x:Double x:Key="MaterialChipIconSize">18</x:Double>
   <CornerRadius x:Key="MaterialChipCornerRadius">8</CornerRadius>
   <Thickness x:Key="MaterialChipElevationMargin">4</Thickness>
   <Style x:Key="MaterialChipDeleteIconButtonStyle" TargetType="Button">
@@ -1230,7 +1235,7 @@
                     </Grid.ColumnDefinitions>
                     <!--  C0: Leading Icon / Check Glyph  -->
                     <!--  fixme: ContentControl/Presenter template-binding to icon would crash on uwp  -->
-                    <ContentPresenter x:Name="IconPresenter" Grid.Column="0" Width="{StaticResource MaterialChipIconSize}" Height="{StaticResource MaterialChipIconSize}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Icon}" ContentTemplate="{TemplateBinding IconTemplate}" Foreground="{StaticResource MaterialChipIconForeground}" Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed}" />
+                    <ContentPresenter x:Name="IconPresenter" Grid.Column="0" Width="{StaticResource MaterialChipIconSize}" Height="{StaticResource MaterialChipIconSize}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Icon}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" ContentTemplate="{TemplateBinding IconTemplate}" Foreground="{StaticResource MaterialChipIconForeground}" Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed}" />
                     <Grid x:Name="CheckGlyphElement" Grid.Column="0" Width="{StaticResource M3MateriaChipCheckGlyphSize}" Height="{StaticResource M3MateriaChipCheckGlyphSize}" Padding="2" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="Collapsed">
                       <Path HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.AccessibilityView="Raw" Data="{StaticResource MaterialCheckGlyphPathData}" Fill="{TemplateBinding Foreground}" Stretch="Uniform" Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToVisible}, FallbackValue=Collapsed}" />
                     </Grid>
@@ -1356,6 +1361,7 @@
   </Style>
   <!--origin: Styles\Controls\v2\NavigationBar.xaml-->
   <x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
+  <x:Double x:Key="MaterialXamlNavigationBarHeight">64</x:Double>
   <x:Double x:Key="MaterialNavigationBarHeight">48</x:Double>
   <Thickness x:Key="MaterialNavigationBarContentMargin">16,0,0,0</Thickness>
   <Thickness x:Key="MaterialAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
@@ -1370,7 +1376,8 @@
       </Setter.Value>
     </Setter>
     <android:Setter Property="(toolkit:UIElementExtensions.Elevation)" Value="{StaticResource MaterialNavigationBarElevation}" />
-    <Setter Property="Height" Value="{StaticResource MaterialNavigationBarHeight}" />
+    <mobile:Setter Property="Height" Value="{StaticResource MaterialNavigationBarHeight}" />
+    <not_mobile:Setter Property="Height" Value="{StaticResource MaterialXamlNavigationBarHeight}" />
     <Setter Property="Padding" Value="16,0,0,0" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Top" />
@@ -1437,8 +1444,6 @@
               <Style TargetType="ToggleSplitButton" BasedOn="{StaticResource SplitButtonCommandBarStyle}" />
               <Style TargetType="AppBarButton" BasedOn="{StaticResource MaterialAppBarButtonStyle}">
                 <Setter Property="Padding" Value="12,16,12,16" />
-                <Setter Property="Foreground" Value="{TemplateBinding Foreground}" />
-                <Setter Property="Background" Value="{TemplateBinding Background}" />
               </Style>
             </Grid.Resources>
             <VisualStateManager.VisualStateGroups>
