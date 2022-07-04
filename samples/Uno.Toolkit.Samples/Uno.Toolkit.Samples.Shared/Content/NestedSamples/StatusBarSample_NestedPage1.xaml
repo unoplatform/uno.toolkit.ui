@@ -5,7 +5,7 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  mc:Ignorable="d"
-	  utu:StatusBar.ForegroundTheme="Light"
+	  utu:StatusBar.Foreground="Light"
 	  utu:StatusBar.Background="DarkRed"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 

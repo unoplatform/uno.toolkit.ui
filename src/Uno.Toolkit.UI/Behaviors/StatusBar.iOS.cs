@@ -18,7 +18,9 @@ namespace Uno.Toolkit.UI
 
 		static partial void SetBackgroundCore(XamlColor value)
 		{
+			// random unique tag to avoid recreating the view
 			const int StatusBarViewTag = 38482;
+
 			foreach (var window in UIApplication.SharedApplication.Windows)
 			{
 				var sbar = window.ViewWithTag(StatusBarViewTag) ?? new UIView(UIApplication.SharedApplication.StatusBarFrame) { Tag = StatusBarViewTag };

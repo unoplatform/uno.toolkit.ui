@@ -23,20 +23,28 @@ using XamlColor = Windows.UI.Color;
 
 namespace Uno.Toolkit.UI
 {
-	public enum StatusBarTheme { None, Light, Dark, Auto, AutoInverse }
-
 	public static partial class StatusBar
 	{
-		#region DependencyProperty: ForegroundTheme
+		private static readonly HashSet<Frame> _frames = new();
+		private static readonly List<Page> _pages = new();
+		private static IDisposable? _colorValueChangedSubscription;
+		private static UISettings _uiSettings = new();
+		private static Page? _lastActivePage;
+		private static ElementTheme? _lastAppliedTheme;
 
-		public static DependencyProperty ForegroundThemeProperty { get; } = DependencyProperty.RegisterAttached(
-			"ForegroundTheme",
-			typeof(StatusBarTheme),
+		#region DependencyProperty: Foreground
+
+		public static DependencyProperty ForegroundProperty { get; } = DependencyProperty.RegisterAttached(
+			"Foreground",
+			typeof(StatusBarForegroundTheme),
 			typeof(StatusBar),
-			new PropertyMetadata(default(StatusBarTheme), OnForegroundThemeChanged));
+			new PropertyMetadata(default(StatusBarForegroundTheme), OnForegroundChanged));
 
-		public static StatusBarTheme GetForegroundTheme(Page obj) => (StatusBarTheme)obj.GetValue(ForegroundThemeProperty);
-		public static void SetForegroundTheme(Page obj, StatusBarTheme value) => obj.SetValue(ForegroundThemeProperty, value);
+		public static StatusBarForegroundTheme GetForeground(Page obj) => (StatusBarForegroundTheme)obj.GetValue(ForegroundProperty);
+		/// <summary>
+		/// Sets the foreground color for the text and icons on the status bar.
+		/// </summary>
+		public static void SetForeground(Page obj, StatusBarForegroundTheme value) => obj.SetValue(ForegroundProperty, value);
 
 		#endregion
 		#region DependencyProperty: Background
@@ -48,6 +56,12 @@ namespace Uno.Toolkit.UI
 			new PropertyMetadata(default(Brush), OnBackgroundChanged));
 
 		public static Brush GetBackground(Page obj) => (Brush)obj.GetValue(BackgroundProperty);
+		/// <summary>
+		/// Sets the background color for the status bar.
+		/// </summary>
+		/// <remarks>
+		/// Due to platform limitations, only <see cref="SolidColorBrush"/>es are accepted.
+		/// </remarks>
 		public static void SetBackground(Page obj, Brush value) => obj.SetValue(BackgroundProperty, value);
 
 		#endregion
@@ -64,13 +78,13 @@ namespace Uno.Toolkit.UI
 
 		#endregion
 
-		private static void OnForegroundThemeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => OnForeOrBackgroundChanged(sender, e);
+		private static void OnForegroundChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => OnForeOrBackgroundChanged(sender, e);
 		private static void OnBackgroundChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => OnForeOrBackgroundChanged(sender, e);
 		private static void OnForeOrBackgroundChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
 			if (sender is not Page page) return;
 
-			if ((GetForegroundTheme(page) is { } theme && theme != StatusBarTheme.None) ||
+			if ((GetForeground(page) is { } theme && theme != StatusBarForegroundTheme.None) ||
 				(GetBackground(page) is SolidColorBrush brush))
 			{
 				// if either of fore/background is applicable, subscribe if not already.
@@ -135,17 +149,17 @@ namespace Uno.Toolkit.UI
 
 		private static void UpdateStatusBar(Page page)
 		{
-			if (GetForegroundTheme(page) is { } theme && theme != StatusBarTheme.None) SetForegroundCore(GetForegroundValue(page, theme));
+			if (GetForeground(page) is { } theme && theme != StatusBarForegroundTheme.None) SetForegroundCore(GetForegroundValue(page, theme));
 			if (GetBackground(page) is SolidColorBrush brush) SetBackgroundCore(brush.Color);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static void SetForegroundTheme(StatusBarTheme value)
+		public static void SetForeground(StatusBarForegroundTheme value)
 		{
 			var color = value switch
 			{
-				StatusBarTheme.Light => Colors.White,
-				StatusBarTheme.Dark => Colors.Black,
+				StatusBarForegroundTheme.Light => Colors.White,
+				StatusBarForegroundTheme.Dark => Colors.Black,
 
 				_ => (XamlColor?)null,
 			};
@@ -164,35 +178,25 @@ namespace Uno.Toolkit.UI
 		static partial void SetForegroundCore(XamlColor value);
 		static partial void SetBackgroundCore(XamlColor value);
 
-		private static XamlColor GetForegroundValue(Page page, StatusBarTheme theme)
+		private static XamlColor GetForegroundValue(Page page, StatusBarForegroundTheme theme)
 		{
 			var pageTheme = page.ActualTheme == ElementTheme.Default
 				? GetSystemTheme()
 				: page.ActualTheme;
 			var light = (pageTheme, theme) switch
 			{
-				(_, StatusBarTheme.Light) => true,
-				(_, StatusBarTheme.Dark) => false,
-				(ElementTheme.Light, StatusBarTheme.Auto) => false,
-				(ElementTheme.Light, StatusBarTheme.AutoInverse) => true,
-				(ElementTheme.Dark, StatusBarTheme.Auto) => true,
-				(ElementTheme.Dark, StatusBarTheme.AutoInverse) => false,
+				(_, StatusBarForegroundTheme.Light) => true,
+				(_, StatusBarForegroundTheme.Dark) => false,
+				(ElementTheme.Light, StatusBarForegroundTheme.Auto) => false,
+				(ElementTheme.Light, StatusBarForegroundTheme.AutoInverse) => true,
+				(ElementTheme.Dark, StatusBarForegroundTheme.Auto) => true,
+				(ElementTheme.Dark, StatusBarForegroundTheme.AutoInverse) => false,
 
 				_ => false,
 			};
 
 			return light ? Colors.White : Colors.Black;
 		}
-	}
-
-	public static partial class StatusBar
-	{
-		private static readonly HashSet<Frame> _frames = new();
-		private static readonly List<Page> _pages = new();
-		private static IDisposable? _colorValueChangedSubscription;
-		private static UISettings _uiSettings = new();
-		private static Page? _lastActivePage;
-		private static ElementTheme? _lastAppliedTheme;
 
 		private static void SubscribeToSystemThemeIfNeeded()
 		{
@@ -212,7 +216,7 @@ namespace Uno.Toolkit.UI
 			if (_lastActivePage is { } page)
 			{
 				if (GetSubscription(page) != null &&
-					GetForegroundTheme(page) is StatusBarTheme.Auto or StatusBarTheme.AutoInverse &&
+					GetForeground(page) is StatusBarForegroundTheme.Auto or StatusBarForegroundTheme.AutoInverse &&
 					GetSystemTheme() is var theme && theme != _lastAppliedTheme)
 				{
 					// this will prevent deadlock, as setting the XamlStatusBar.Foreground will trigger ColorValuesChanged

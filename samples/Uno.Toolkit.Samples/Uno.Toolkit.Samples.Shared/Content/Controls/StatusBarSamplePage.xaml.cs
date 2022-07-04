@@ -41,7 +41,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
 
 		public void OnExitedFromNestedSample(object sender)
 		{
-			StatusBar.SetForegroundTheme(StatusBarTheme.Light);
+			StatusBar.SetForeground(StatusBarForegroundTheme.Light);
 			StatusBar.SetBackground(Colors.Gray);
 		}
 
