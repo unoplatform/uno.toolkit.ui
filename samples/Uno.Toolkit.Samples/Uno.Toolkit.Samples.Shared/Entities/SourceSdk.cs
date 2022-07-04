@@ -15,5 +15,7 @@ namespace Uno.Toolkit.Samples.Entities
 		UnoMaterial,
 		[Description("Uno.Cupertino")]
 		UnoCupertino,
+		[Description("Uno.Toolkit")]
+		UnoToolkit,
 	}
 }
