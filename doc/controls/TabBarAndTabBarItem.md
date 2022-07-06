@@ -211,14 +211,14 @@ The Uno Toolkit provides several styles of `TabBarItem` for both Material and Cu
 
 Style Key|Material|Cupertino
 -|-|-
-BottomTabBarItemFabStyle|&check;|
+BottomFabTabBarItemStyle|&check;|
 BottomTabBarItemStyle|&check;|&check;|
 ColoredTopTabBarItemStyle|&check;|
 SegmentedItemStyle||&check;|
 SlidingSegmentedItemStyle|&check;|
 TopTabBarItemStyle|&check;|
 
-These pre-built styles can be used for more complex `TabBar` scenarios. For example, using the BottomTabBarItemFabStyle, we can embed Floating Action Buttons into the `TabBar`.
+These pre-built styles can be used for more complex `TabBar` scenarios. For example, using the BottomFabTabBarItemStyle, we can embed Floating Action Buttons into the `TabBar`.
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -237,7 +237,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 				<FontIcon Glyph="&#xe721;" />
 			</utu:TabBarItem.Icon>
 		</utu:TabBarItem>
-		<utu:TabBarItem Style="{StaticResource BottomTabBarItemFabStyle}">
+		<utu:TabBarItem Style="{StaticResource BottomFabTabBarItemStyle}">
 			<utu:TabBarItem.Flyout>
 				<MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutPresenterStyle}"
 						    Placement="Top">
