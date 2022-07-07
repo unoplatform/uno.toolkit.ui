@@ -25,6 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ChipSamplePage.xaml.cs">
       <DependentUpon>ChipSamplePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\DrawerFlyoutSamplePage.xaml.cs">
+      <DependentUpon>DrawerFlyoutSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\IExitNestedSampleHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\StatusBarSamplePage.xaml.cs">
       <DependentUpon>StatusBarSamplePage.xaml</DependentUpon>
@@ -156,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)ColorPaletteOverride.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\DrawerFlyoutSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
