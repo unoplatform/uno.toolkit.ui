@@ -5,6 +5,7 @@ The `Uno.Toolkit.UI` library adds the following controls:
 - [`Chip` and `ChipGroup`](controls\ChipAndChipGroup.md): \[Material control\] Chips are compact elements that represent an input, attribute, or action.
 - `Divider`: \[Material control\] A divider is a thin line that groups content in lists and layouts.
 - [`DrawerControl`](controls\DrawerControl.md): A container to display additional content, in a hidden pane that can be revealed using a swipe gesture, like a drawer.
+- [`DrawerFlyoutPresenter`](controls\DrawerFlyoutPresenter.md): A specialized `ContentPresenter` to be used in the template of a `FlyoutPresenter` to enable gesture support.
 - [`TabBar` and `TabBarItem`](controls\TabBarAndTabBarItem.md): A list of selectable items that can be used to facilitate lateral navigation within an application.
 - [`NavigationBar`](controls\NavigationBar.md): A custom control that helps implement navigation logic for your application.
 
@@ -15,9 +16,9 @@ The `Uno.Toolkit.UI` library adds the following helper classes:
 - [`StatusBar`](helpers\StatusBar-extensions.md): Provides two attached properties on `Page` to controls the visual of the status bar on mobile platforms.
 
 ## Control Styles
-Control|Style Key|IsDefaultStyle*|
+Control|Style Key|IsDefaultStyle*
 -|-|-
-AppBarButton|MainCommandStyle|True|
+AppBarButton|MainCommandStyle|True
 AppBarButton|ModalMainCommandStyle|
 AppBarButton|PrimaryMainCommandStyle|
 AppBarButton|PrimaryModalMainCommandStyle|
@@ -48,8 +49,12 @@ utu:ChipGroup|ElevatedFilterChipGroupStyle|
 utu:ChipGroup|FilterChipGroupStyle|
 utu:ChipGroup|ElevatedAssistChipGroupStyle|
 utu:ChipGroup|AssistChipGroupStyle|
-utu:Divider|DividerStyle|True|
-utu:NavigationBar|NavigationBarStyle|True|
+utu:Divider|DividerStyle|True
+FlyoutPresenter|LeftDrawerFlyoutPresenterStyle|
+FlyoutPresenter|TopDrawerFlyoutPresenterStyle|
+FlyoutPresenter|RightDrawerFlyoutPresenterStyle|
+FlyoutPresenter|BottomDrawerFlyoutPresenterStyle|
+utu:NavigationBar|NavigationBarStyle|True
 utu:NavigationBar|ModalNavigationBarStyle|
 utu:NavigationBar|PrimaryNavigationBarStyle|
 utu:NavigationBar|PrimaryModalNavigationBarStyle|

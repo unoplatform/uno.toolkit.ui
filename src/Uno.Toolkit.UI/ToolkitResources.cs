@@ -30,6 +30,7 @@ namespace Uno.Toolkit.UI
 			{
 				"DrawerControl/DrawerControl.xaml",
 				"DrawerControl/DrawerControl.Enhanced.xaml",
+				"DrawerFlyout/DrawerFlyoutPresenter.xaml",
 				"TabBar/TabBar.xaml",
 				"AutoLayout/AutoLayout.xaml",
 #if __IOS__ || __ANDROID__
