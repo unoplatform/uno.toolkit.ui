@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Uno.Toolkit.UITest.Extensions;
 using Uno.UITest.Helpers;
 using Uno.UITest.Helpers.Queries;
 
-namespace Uno.Toolkit.UITest.TabBar
+namespace Uno.Toolkit.UITest.Controls.TabBar
 {
 	public class Given_TabBar : TestBase
 	{
@@ -21,18 +22,12 @@ namespace Uno.Toolkit.UITest.TabBar
 			const string TabBarItemPrefix = "TopTabBar_Item_";
 
 			NavigateToNestedSample("M3MaterialTopBarSampleNestedPage");
-			App.WaitForElement("TopTabBar");
+			App.WaitForElementWithMessage("TopTabBar");
 
 			foreach (var section in _sections)
 			{
-				var currentTabBarItem = App.Marked($"{TabBarItemPrefix}{section}");
-
-				currentTabBarItem.FastTap();
-				var c = $"{FlipViewItemTextPrefix}{section}";
-				App.WaitForElement(c, timeout: TimeSpan.FromMinutes(5), timeoutMessage: "Why are you here");
-
-				App.WaitForDependencyPropertyValue(currentTabBarItem, "IsSelected", true);
-				App.WaitForText($"{FlipViewItemTextPrefix}{section}", section);
+				App.FastTap($"{TabBarItemPrefix}{section}");
+				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: TimeSpan.FromMinutes(5));
 			}
 		}
 
@@ -43,18 +38,12 @@ namespace Uno.Toolkit.UITest.TabBar
 			const string TabBarItemPrefix = "BottomTabBar_Item_";
 
 			NavigateToNestedSample("M3MaterialBottomBarSampleNestedPage");
-			App.WaitForElement("BottomTabBar");
+			App.WaitForElementWithMessage("BottomTabBar");
 
 			foreach (var section in _sections)
 			{
-				var currentTabBarItem = App.Marked($"{TabBarItemPrefix}{section}");
-
-				currentTabBarItem.FastTap();
-				var c = $"{FlipViewItemTextPrefix}{section}";
-				App.WaitForElement(c, timeout: TimeSpan.FromMinutes(5), timeoutMessage: "Why are you here");
-
-				App.WaitForDependencyPropertyValue(currentTabBarItem, "IsSelected", true);
-				App.WaitForText($"{FlipViewItemTextPrefix}{section}", section);
+				App.FastTap($"{TabBarItemPrefix}{section}");
+				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: TimeSpan.FromMinutes(5));
 			}
 		}
 	}

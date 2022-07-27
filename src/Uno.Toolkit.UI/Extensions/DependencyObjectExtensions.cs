@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Uno.Disposables;
 using Uno.Extensions;
 using Uno.UI;
+using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -24,6 +26,8 @@ namespace Uno.Toolkit.UI
 {
 	internal static class DependencyObjectExtensions
 	{
+		private static Dictionary<(Type type, string property), DependencyProperty?> _dependencyPropertyReflectionCache = new Dictionary<(Type, string), DependencyProperty?>(2);
+
 #if HAS_UNO
 		/// <summary>
 		/// Registers a notification function for listening to changes to a tree of DependencyProperties relative to this DependencyObject instance.
@@ -141,7 +145,7 @@ namespace Uno.Toolkit.UI
 
 			for (var parent = (element as FrameworkElement)?.Parent ?? VisualTreeHelper.GetParent(element);
 				parent != null;
-				parent = (parent as FrameworkElement)?.Parent ??  VisualTreeHelper.GetParent(parent))
+				parent = (parent as FrameworkElement)?.Parent ?? VisualTreeHelper.GetParent(parent))
 			{
 				yield return parent;
 			}
@@ -172,5 +176,38 @@ namespace Uno.Toolkit.UI
 			}
 		}
 #endif
+
+		public static DependencyProperty? FindDependencyPropertyUsingReflection<TProperty>(this DependencyObject dependencyObject, string propertyName)
+		{
+			var type = dependencyObject.GetType();
+			var propertyType = typeof(TProperty);
+			var key = (ownerType: type, propertyName);
+
+			if (_dependencyPropertyReflectionCache.TryGetValue(key, out var property))
+			{
+				return property;
+			}
+
+			property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static)?.GetValue(null) as DependencyProperty
+				?? type.GetField(propertyName, BindingFlags.Public | BindingFlags.Static)?.GetValue(null) as DependencyProperty;
+
+			if (property == null)
+			{
+#if HAS_UNO
+				dependencyObject.Log().LogWarning($"The {propertyName} dependency property does not exist on {type}");
+#endif
+			}
+#if HAS_UNO
+			else if (property.GetType() != propertyType)
+			{
+				dependencyObject.Log().LogWarning($"The {propertyName} dependency property {type} is not of the {propertyType} Type.");
+				property = null;
+			}
+#endif
+
+			_dependencyPropertyReflectionCache[key] = property;
+
+			return property;
+		}
 	}
 }

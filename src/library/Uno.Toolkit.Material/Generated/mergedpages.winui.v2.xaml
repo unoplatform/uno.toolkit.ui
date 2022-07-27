@@ -61,7 +61,7 @@
   <Style x:Key="MaterialBottomTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{ThemeResource MaterialBottomTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Bottom" />
+    <Setter Property="utu:SafeArea.Insets" Value="Bottom" />
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
@@ -259,14 +259,14 @@
                           <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{StaticResource MaterialBottomTabBarItemIconForeground}" />
                         </Viewbox>
                       </Border>
-                      <!-- BADGE -->
-                      <!-- This part can be replaced when InfoBadge will be available in WinUI3 -->
-                      <!-- See this commit for the implementation: c935919b2c390014dd8509cc50e16b1549511ffa -->
-                      <!-- (Related Branch: dev/agzi/I274-InfoBadgeImplementationForTBI) -->
+                      <!--  BADGE  -->
+                      <!--  This part can be replaced when InfoBadge will be available in WinUI3  -->
+                      <!--  See this commit for the implementation: c935919b2c390014dd8509cc50e16b1549511ffa  -->
+                      <!--  (Related Branch: dev/agzi/I274-InfoBadgeImplementationForTBI)  -->
                       <Grid Visibility="{TemplateBinding BadgeVisibility}">
-                        <!-- Small Badge -->
+                        <!--  Small Badge  -->
                         <Ellipse Height="{StaticResource MaterialBottomTabBarItemSmallBadgeHeight}" Width="{StaticResource MaterialBottomTabBarItemSmallBadgeWidth}" Margin="{StaticResource MaterialBottomTabBarItemSmallBadgeMargin}" HorizontalAlignment="Right" VerticalAlignment="Top" Fill="{StaticResource MaterialBottomTabBarItemBadgeBackground}" Visibility="{Binding BadgeValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToVisible}}" />
-                        <!-- Large Badge -->
+                        <!--  Large Badge  -->
                         <Border Height="{StaticResource MaterialBottomTabBarItemLargeBadgeHeight}" MinWidth="{StaticResource MaterialBottomTabBarItemLargeBadgeMinWidth}" Padding="{StaticResource MaterialBottomTabBarItemLargeBadgePadding}" Margin="{StaticResource MaterialBottomTabBarItemLargeBadgeMargin}" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="{StaticResource MaterialBottomTabBarItemLargeBadgeCornerRadius}" Background="{StaticResource MaterialBottomTabBarItemBadgeBackground}" Visibility="{Binding BadgeValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}">
                           <TextBlock Text="{TemplateBinding BadgeValue}" MaxLines="1" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource MaterialBottomTabBarItemBadgeForeground}" Style="{StaticResource LabelExtraSmall}" />
                         </Border>
@@ -1370,7 +1370,7 @@
   <Thickness x:Key="MaterialNavigationBarContentMargin">16,0,0,0</Thickness>
   <Thickness x:Key="MaterialAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
   <Style x:Key="BaseMaterialNavigationBarStyle" TargetType="utu:NavigationBar">
-    <!-- Setting content to empty to avoid getting the datacontext -->
+    <!--  Setting content to empty to avoid getting the datacontext  -->
     <Setter Property="Content" Value="" />
     <Setter Property="ContentTemplate">
       <Setter.Value>
@@ -1380,19 +1380,17 @@
       </Setter.Value>
     </Setter>
     <android:Setter Property="(toolkit:UIElementExtensions.Elevation)" Value="{StaticResource MaterialNavigationBarElevation}" />
-    <mobile:Setter Property="Height" Value="{StaticResource MaterialNavigationBarHeight}" />
     <not_mobile:Setter Property="Height" Value="{StaticResource MaterialXamlNavigationBarHeight}" />
-    <Setter Property="Padding" Value="16,0,0,0" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Top" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="OverflowButtonVisibility" Value="Collapsed" />
     <Setter Property="IsDynamicOverflowEnabled" Value="False" />
-    <mobile:Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+    <mobile:Setter Property="utu:SafeArea.Insets" Value="Top" />
     <mobile:Setter Property="Template" Value="{StaticResource MaterialNativeNavigationBarTemplate}" />
     <not_mobile:Setter Property="Template" Value="{StaticResource XamlMaterialNavigationBarTemplate}" />
-    <ios:Setter Property="Height" Value="NaN" />
+    <mobile:Setter Property="Height" Value="NaN" />
   </Style>
   <Style x:Key="MaterialMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource MaterialAppBarButtonStyle}">
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
@@ -1463,7 +1461,7 @@
               </VisualStateGroup>
               <VisualStateGroup x:Name="DisplayModeStates">
                 <contract8Present:VisualStateGroup.Transitions>
-                  <!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+                  <!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
                   <VisualTransition From="CompactClosed" To="CompactOpenDown" GeneratedDuration="00:00:00.250">
                     <Storyboard>
                       <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
@@ -1488,7 +1486,7 @@
                       </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                   </VisualTransition>
-                  <!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+                  <!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
                   <VisualTransition From="CompactOpenDown" To="CompactClosed" GeneratedDuration="00:00:00.167">
                     <Storyboard>
                       <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
@@ -1624,11 +1622,11 @@
                   </FontIcon.RenderTransform>
                 </FontIcon>
               </Button>
-              <!-- UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events -->
+              <!--  UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events  -->
               <Rectangle x:Name="HighContrastBorder" x:DeferLoadStrategy="Lazy" Grid.ColumnSpan="3" Visibility="Collapsed" IsHitTestVisible="False" VerticalAlignment="Stretch" StrokeThickness="1" />
               <Border x:Name="OpenBorder" Grid.ColumnSpan="3" Visibility="Collapsed" VerticalAlignment="Stretch" contract7Present:CornerRadius="{TemplateBinding CornerRadius}" contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}" />
             </Grid>
-            <!-- UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands -->
+            <!--  UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands  -->
             <Popup x:Name="OverflowPopup">
               <Popup.RenderTransform>
                 <TransformGroup>
@@ -1641,7 +1639,7 @@
                   <RowDefinition />
                   <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <!-- For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow. -->
+                <!--  For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow.  -->
                 <Grid x:Name="SecondaryItemsControlShadowWrapper" contract7Present:CornerRadius="{ThemeResource OverlayCornerRadius}" contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}">
                   <Grid.Clip>
                     <RectangleGeometry Rect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentClipRect}">
@@ -1754,7 +1752,7 @@
               </VisualStateGroup>
               <VisualStateGroup x:Name="DisplayModeStates">
                 <contract8Present:VisualStateGroup.Transitions>
-                  <!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+                  <!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
                   <VisualTransition From="CompactClosed" To="CompactOpenDown" GeneratedDuration="00:00:00.250">
                     <Storyboard>
                       <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
@@ -1779,7 +1777,7 @@
                       </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                   </VisualTransition>
-                  <!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+                  <!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
                   <VisualTransition From="CompactOpenDown" To="CompactClosed" GeneratedDuration="00:00:00.167">
                     <Storyboard>
                       <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
@@ -1915,11 +1913,11 @@
                   </FontIcon.RenderTransform>
                 </FontIcon>
               </Button>
-              <!-- UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events -->
+              <!--  UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events  -->
               <Rectangle x:Name="HighContrastBorder" x:DeferLoadStrategy="Lazy" Grid.ColumnSpan="3" Visibility="Collapsed" IsHitTestVisible="False" VerticalAlignment="Stretch" StrokeThickness="1" />
               <Border x:Name="OpenBorder" Grid.ColumnSpan="3" Visibility="Collapsed" VerticalAlignment="Stretch" contract7Present:CornerRadius="{TemplateBinding CornerRadius}" contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}" />
             </Grid>
-            <!-- UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands -->
+            <!--  UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands  -->
             <Popup x:Name="OverflowPopup">
               <Popup.RenderTransform>
                 <TransformGroup>
@@ -1932,7 +1930,7 @@
                   <RowDefinition />
                   <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <!-- For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow. -->
+                <!--  For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow.  -->
                 <Grid x:Name="SecondaryItemsControlShadowWrapper" contract7Present:CornerRadius="{ThemeResource OverlayCornerRadius}" contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}">
                   <Grid.Clip>
                     <RectangleGeometry Rect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentClipRect}">
@@ -2054,7 +2052,7 @@
   <mobile:Style x:Key="MaterialTopTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{StaticResource MaterialTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+    <Setter Property="utu:SafeArea.Insets" Value="Top" />
     <Setter Property="Height" Value="{StaticResource MaterialTopTabBarHeight}" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">
@@ -2080,7 +2078,7 @@
   <not_mobile:Style x:Key="MaterialTopTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{StaticResource MaterialTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+    <Setter Property="utu:SafeArea.Insets" Value="Top" />
     <Setter Property="Height" Value="{StaticResource MaterialTopTabBarHeight}" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">
@@ -2333,7 +2331,7 @@
   <mobile:Style x:Key="MaterialColoredTopTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{StaticResource MaterialColoredTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+    <Setter Property="utu:SafeArea.Insets" Value="Top" />
     <Setter Property="Height" Value="{StaticResource MaterialColoredTopTabBarHeight}" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialColoredTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">

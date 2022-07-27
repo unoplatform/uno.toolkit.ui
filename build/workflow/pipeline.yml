@@ -117,7 +117,7 @@ jobs:
   - template: templates/dotnet6-install-mac.yml
 
   - bash: |
-      mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /ds /m /r /p:Configuration=Release /p:Platform=iPhone /p:ApplicationVersion=$(MajorMinorPatch) /p:DisableNet6MobileTargets=true samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.iOS/Uno.Toolkit.Samples.iOS.csproj
+      mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /ds /m /r /p:Configuration=Release /p:Platform=iPhone /p:ApplicationVersion=$(MajorMinorPatch) /p:DisableNet6MobileTargets=true /p:UnoUIUseRoslynSourceGenerators=False samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.iOS/Uno.Toolkit.Samples.iOS.csproj
 
   - task: PublishBuildArtifacts@1
     inputs:

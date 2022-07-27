@@ -12,7 +12,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\Uno.Toolkit.Samples.Shared\Strings</ResourcesDirectory>
-    <LangVersion>8.0</LangVersion>
+    
     <ProvisioningType>manual</ProvisioningType>
   </PropertyGroup>
   <PropertyGroup>

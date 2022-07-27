@@ -11,7 +11,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using MUXC = Microsoft.UI.Xaml.Controls;
 using Uno.Toolkit.Samples.Entities;
-using static Uno.UI.FeatureConfiguration;
+using System.Globalization;
+using Windows.Graphics.Display;
 
 #if __IOS__
 using Foundation;
@@ -64,11 +65,14 @@ namespace Uno.Toolkit.Samples
 			this.InitializeComponent();
 
 #if HAS_UNO || NETFX_CORE
-            this.Suspending += OnSuspending;
+			this.Suspending += OnSuspending;
 #endif
 
 #if HAS_UNO
 			FeatureConfiguration.Style.SetUWPDefaultStylesOverride<Frame>(false);
+#endif
+#if __ANDROID__ && USE_UITESTS
+			FeatureConfiguration.NativeFramePresenter.AndroidUnloadInactivePages = true;
 #endif
 		}
 
@@ -125,11 +129,11 @@ namespace Uno.Toolkit.Samples
 			var factory = LoggerFactory.Create(builder =>
 			{
 #if __WASM__
-                builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
+				builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
 #elif __IOS__
-                builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
+				builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
 #elif NETFX_CORE
-                builder.AddDebug();
+				builder.AddDebug();
 #else
 				builder.AddConsole();
 #endif
@@ -178,6 +182,7 @@ namespace Uno.Toolkit.Samples
 		public static void ForceNavigation(string sampleName) => (Application.Current as App)?.ForceSampleNavigation(sampleName);
 		public static void ExitNestedSample() => Shell.GetForCurrentView()?.ExitNestedSample();
 		public static void NavigateToNestedSample(string pageName) => (Application.Current as App)?.NavigateToNestedSampleCore(pageName);
+		public static string GetDisplayScreenScaling(string value) => (DisplayInformation.GetForCurrentView().LogicalDpi * 100f / 96f).ToString(CultureInfo.InvariantCulture);
 
 #if __IOS__
 		[Export("navBackFromNestedPage:")]
@@ -191,6 +196,9 @@ namespace Uno.Toolkit.Samples
 
 		[Export("navigateToNestedSample:")]
 		public void NavigateToNestedSampleBackdoor(NSString value) => NavigateToNestedSample(value);
+
+		[Export("getDisplayScreenScaling:")]
+		public NSString GetDisplayScreenScalingBackdoor(NSString value) => new NSString(GetDisplayScreenScaling(value));
 #endif
 #endif
 	}

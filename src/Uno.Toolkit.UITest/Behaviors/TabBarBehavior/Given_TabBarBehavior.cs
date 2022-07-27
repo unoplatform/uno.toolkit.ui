@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Uno.Toolkit.UITest.Extensions;
 using Uno.UITest.Helpers;
 using Uno.UITest.Helpers.Queries;
 
-namespace Uno.Toolkit.UITest.TabBarBehavior
+namespace Uno.Toolkit.UITest.Behaviors.TabBarBehavior
 {
 	public class Given_TabBarBehavior : TestBase
 	{
@@ -27,8 +28,8 @@ namespace Uno.Toolkit.UITest.TabBarBehavior
 			App.FastTap(tab1);
 
 			Assert.IsTrue(tab1.GetDependencyPropertyValue<bool>("IsSelected"));
-			Assert.IsTrue(item1.GetDependencyPropertyValue<bool>("IsSelected")); 
-			
+			Assert.IsTrue(item1.GetDependencyPropertyValue<bool>("IsSelected"));
+
 			App.FastTap(tab2);
 
 			Assert.IsTrue(tab2.GetDependencyPropertyValue<bool>("IsSelected"));

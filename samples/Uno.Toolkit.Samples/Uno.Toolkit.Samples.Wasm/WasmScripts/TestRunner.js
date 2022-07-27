@@ -7,6 +7,7 @@
             this._navBackFromNestedPage = this.getMethod("[Uno.Toolkit.Samples.Wasm] Uno.Toolkit.Samples.App:NavBackFromNestedPage");
             this._exitNestedSample = this.getMethod("[Uno.Toolkit.Samples.Wasm] Uno.Toolkit.Samples.App:ExitNestedSample");
             this._navigateToNestedSample = this.getMethod("[Uno.Toolkit.Samples.Wasm] Uno.Toolkit.Samples.App:NavigateToNestedSample");
+            this._getDisplayScreenScaling = this.getMethod("[Uno.Toolkit.Samples.Wasm] Uno.Toolkit.Samples.App:GetDisplayScreenScaling");
         }
     }
 
@@ -38,5 +39,10 @@
     static NavigateToNestedSample(pageName) {
         SampleRunner.init();
         return this._navigateToNestedSample(pageName);
+    }
+
+    static GetDisplayScreenScaling(value) {
+        SampleRunner.init();
+        return this._getDisplayScreenScaling(value);
     }
 }

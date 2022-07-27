@@ -15,7 +15,7 @@ export UNO_ORIGINAL_TEST_RESULTS=$BUILD_SOURCESDIRECTORY/build/TestResult-origin
 export UNO_TESTS_RESPONSE_FILE=$BUILD_SOURCESDIRECTORY/build/nunit.response
 export UNO_UITEST_SIMULATOR_VERSION="com.apple.CoreSimulator.SimRuntime.iOS-15-2"
 export UNO_UITEST_SIMULATOR_NAME="iPad Pro (12.9-inch) (4th generation)"
-export UITEST_IOSDEVICE_ID="651C50DA-98B5-447C-998D-8F3CC7B6444B"
+export UITEST_IOSDEVICE_ID="iPad Pro (12.9-inch) (4th generation)"
 
 echo "Listing iOS simulators"
 xcrun simctl list devices --json
@@ -25,7 +25,7 @@ xcrun simctl list devices --json
 cd $BUILD_SOURCESDIRECTORY
 
 mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release $UNO_UITEST_PROJECT
-mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:IsUiAutomationMappingEnabled=True /p:DisableNet6MobileTargets=True $UNO_UITEST_IOS_PROJECT 
+mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:IsUiAutomationMappingEnabled=True /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet6MobileTargets=True $UNO_UITEST_IOS_PROJECT 
 
 # echo "Current system date"
 # date

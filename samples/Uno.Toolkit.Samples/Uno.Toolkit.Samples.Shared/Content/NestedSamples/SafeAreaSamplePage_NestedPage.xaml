@@ -1,0 +1,105 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.SafeAreaSamplePage_NestedPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:um="using:Uno.Material"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:toolkit="using:Uno.UI.Toolkit"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="Green"
+	  mc:Ignorable="d">
+	<Grid AutomationProperties.AutomationId="WrappingGrid"
+		  x:Name="WrappingGrid">
+		<Border x:Name="MyBorder"
+				AutomationProperties.AutomationId="MyBorder"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				Background="Red"
+				BorderBrush="Yellow"
+				BorderThickness="{Binding RelativeSource={RelativeSource Self}, Path=Padding}">
+			<StackPanel HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Spacing="10">
+				<Button AutomationProperties.AutomationId="ExitSampleButton"
+						Content="Exit Sample"
+						HorizontalAlignment="Center"
+						Click="ExitSample">
+					<um:ControlExtensions.Icon>
+						<SymbolIcon Symbol="Cancel" />
+					</um:ControlExtensions.Icon>
+				</Button>
+				<muxc:RadioButtons HorizontalAlignment="Center"
+								   Header="Inset Mode:">
+					<RadioButton x:Name="PaddingMode"
+								 AutomationProperties.AutomationId="PaddingMode"
+								 Checked="PaddingChecked"
+								 Content="Padding"
+								 IsChecked="True" />
+					<RadioButton x:Name="MarginMode"
+								 AutomationProperties.AutomationId="MarginMode"
+								 Checked="MarginChecked"
+								 Content="Margin" />
+				</muxc:RadioButtons>
+				<TextBlock HorizontalAlignment="Center"
+						   Text="Inset Mask:" />
+				<StackPanel HorizontalAlignment="Center"
+							Orientation="Horizontal">
+					<CheckBox x:Name="LeftMask"
+							  AutomationProperties.AutomationId="LeftMask"
+							  Checked="LeftChecked"
+							  Content="Left"
+							  Unchecked="LeftUnchecked" />
+					<CheckBox x:Name="TopMask"
+							  AutomationProperties.AutomationId="TopMask"
+							  Checked="TopChecked"
+							  Content="Top"
+							  Unchecked="TopUnchecked" />
+					<CheckBox x:Name="RightMask"
+							  AutomationProperties.AutomationId="RightMask"
+							  Checked="RightChecked"
+							  Content="Right"
+							  Unchecked="RightUnchecked" />
+					<CheckBox x:Name="BottomMask"
+							  AutomationProperties.AutomationId="BottomMask"
+							  Checked="BottomChecked"
+							  Content="Bottom"
+							  Unchecked="BottomUnchecked" />
+				</StackPanel>
+				<Button AutomationProperties.AutomationId="ClearMasks"
+						HorizontalAlignment="Center"
+						Click="ClearAllMasks"
+						Content="Clear Masks" />
+				<Button AutomationProperties.AutomationId="SetAllTwenty"
+						HorizontalAlignment="Center"
+						Click="AllTwenty"
+						Content="All 20" />
+				<TextBlock HorizontalAlignment="Center"
+						   Text="SafeArea Override:" />
+				<Border utu:SafeArea.Insets="SoftInput">
+					<StackPanel HorizontalAlignment="Center"
+								Orientation="Horizontal"
+								Spacing="10">
+						<TextBox x:Name="OverrideInsetLeft"
+								 AutomationProperties.AutomationId="OverrideInsetLeft"
+								 Header="Left"
+								 TextChanged="UpdateInsets" />
+						<TextBox x:Name="OverrideInsetTop"
+								 AutomationProperties.AutomationId="OverrideInsetTop"
+								 Header="Top"
+								 TextChanged="UpdateInsets" />
+						<TextBox x:Name="OverrideInsetRight"
+								 AutomationProperties.AutomationId="OverrideInsetRight"
+								 Header="Right"
+								 TextChanged="UpdateInsets" />
+						<TextBox x:Name="OverrideInsetBottom"
+								 AutomationProperties.AutomationId="OverrideInsetBottom"
+								 Header="Bottom"
+								 TextChanged="UpdateInsets" />
+					</StackPanel>
+				</Border>
+			</StackPanel>
+		</Border>
+	</Grid>
+</Page>

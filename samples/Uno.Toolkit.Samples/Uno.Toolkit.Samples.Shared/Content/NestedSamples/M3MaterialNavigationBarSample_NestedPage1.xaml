@@ -14,13 +14,13 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Content="First Page"
-                           AutomationProperties.AutomationId="M3Page1NavBar"
+						   AutomationProperties.AutomationId="M3Page1NavBar"
 						   MainCommandMode="Action"
 						   Style="{StaticResource MaterialNavigationBarStyle}">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Label="Close"
-                              Click="NavigateBack"
-                              AutomationProperties.AutomationId="M3_NavBar_Close_Button"
+							  Click="NavigateBack"
+							  AutomationProperties.AutomationId="M3_NavBar_Close_Button"
 							  Style="{StaticResource MaterialAppBarButtonStyle}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
@@ -45,24 +45,26 @@
 			</utu:NavigationBar.PrimaryCommands>
 			<utu:NavigationBar.SecondaryCommands>
 				<AppBarButton Label="More"
-                              Style="{StaticResource MaterialAppBarButtonStyle}"
+							  Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Command="{Binding Secondary1CountCommand}" />
 				<AppBarButton Label="More"
-                              Style="{StaticResource MaterialAppBarButtonStyle}"
+							  Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Command="{Binding Secondary2CountCommand}" />
 				<AppBarButton Label="More"
-                              Style="{StaticResource MaterialAppBarButtonStyle}"
+							  Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Command="{Binding Secondary3CountCommand}" />
 			</utu:NavigationBar.SecondaryCommands>
 		</utu:NavigationBar>
 		<StackPanel Spacing="8"
+					BorderThickness="20"
+					BorderBrush="Red"
+					Background="Yellow"
 					Grid.Row="1"
-					VerticalAlignment="Center"
-					Padding="16,0">
+					VerticalAlignment="Stretch">
 			<Button Content="Exit sample"
 					Click="NavigateBack" />
 			<Button Click="NavigateToNextPage"
-                    AutomationProperties.AutomationId="M3_Page1_Navigate_To_Page2"
+					AutomationProperties.AutomationId="M3_Page1_Navigate_To_Page2"
 					Content="Navigate To Second Page" />
 		</StackPanel>
 	</Grid>

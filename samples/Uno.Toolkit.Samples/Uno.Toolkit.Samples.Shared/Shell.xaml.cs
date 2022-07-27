@@ -150,7 +150,7 @@ namespace Uno.Toolkit.Samples
 				return false;
 			}
 
-			
+
 			if (NestedSampleFrame.CanGoBack)
 			{
 				//Let the NavigationBar within the nested page handle the back nav logic
