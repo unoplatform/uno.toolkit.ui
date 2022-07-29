@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using static Uno.UI.Toolkit.VisibleBoundsPadding;
+using Uno.Toolkit.UI.Helpers;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -22,7 +23,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	public partial class SafeArea : ContentControl
 	{
@@ -121,6 +122,13 @@ namespace Uno.Toolkit.UI.Controls
 			}
 #endif
 		}
+
+		/// <summary>
+		/// If false, ApplicationView.VisibleBounds and Window.Current.Bounds have different aspect ratios (eg portrait vs landscape) which 
+		/// might arise transiently when the screen orientation changes.
+		/// </summary>
+		private static bool AreBoundsAspectRatiosConsistent
+			=> ApplicationView.GetForCurrentView().VisibleBounds.GetOrientation() == Window.Current?.Bounds.GetOrientation();
 
 		public class VisibleBoundsDetails
 		{
