@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
+using Microsoft.Extensions.Logging;
+using Uno.Extensions;
 using static Uno.UI.Toolkit.VisibleBoundsPadding;
-using Uno.Toolkit.UI.Helpers;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -15,12 +16,14 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
+using XamlWindow = Microsoft.UI.Xaml.Window;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using XamlWindow = Windows.UI.Xaml.Window;
 #endif
 
 namespace Uno.Toolkit.UI
@@ -37,7 +40,7 @@ namespace Uno.Toolkit.UI
 			Bottom = 2,
 			Left = 4,
 			Right = 8,
-			SoftInput = 10
+			SoftInput = 16
 		}
 
 		public enum InsetMode
@@ -46,8 +49,12 @@ namespace Uno.Toolkit.UI
 			Margin
 		}
 
+#if HAS_UNO
+		private static readonly ILogger _log = typeof(SafeArea).Log();
+#endif
+
 		/// <summary>
-		/// The padding of the safe area relative to the entire window.
+		/// The padding of the safe area relative to the entire XamlWindow.
 		/// </summary>
 		/// <remarks>This will be 0 if the entire window is 'safe' for content.</remarks>
 		public static Thickness WindowPadding
@@ -58,7 +65,7 @@ namespace Uno.Toolkit.UI
 				return new();
 #else
 				var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
-				var bounds = Window.Current?.Bounds ?? Rect.Empty;
+				var bounds = XamlWindow.Current?.Bounds ?? Rect.Empty;
 				var result = new Thickness {
 					Left = visibleBounds.Left - bounds.Left,
 					Top = visibleBounds.Top - bounds.Top,
@@ -88,9 +95,10 @@ namespace Uno.Toolkit.UI
 #if WINUI
 				return new();
 #else
+				
 				var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
 
-				if (Window.Current is Window window)
+				if (XamlWindow.Current is XamlWindow window)
 				{
 					var bounds = window.Bounds;
 					visibleBounds.X -= bounds.X;
@@ -116,7 +124,7 @@ namespace Uno.Toolkit.UI
 #if HAS_UNO // Is building using Uno.UI
 				if (dependencyObject.Log().IsEnabled(LogLevel.Debug))
 				{
-					dependencyObject.Log().LogDebug($"PaddingMask is only supported on FrameworkElement (Found {dependencyObject?.GetType()})");
+					dependencyObject.Log().LogDebug($"InsetMask is only supported on FrameworkElement (Found {dependencyObject?.GetType()})");
 				}
 #endif
 			}
@@ -124,11 +132,11 @@ namespace Uno.Toolkit.UI
 		}
 
 		/// <summary>
-		/// If false, ApplicationView.VisibleBounds and Window.Current.Bounds have different aspect ratios (eg portrait vs landscape) which 
+		/// If false, ApplicationView.VisibleBounds and XamlWindow.Current.Bounds have different aspect ratios (eg portrait vs landscape) which 
 		/// might arise transiently when the screen orientation changes.
 		/// </summary>
 		private static bool AreBoundsAspectRatiosConsistent
-			=> ApplicationView.GetForCurrentView().VisibleBounds.GetOrientation() == Window.Current?.Bounds.GetOrientation();
+			=> true; // ApplicationView.GetForCurrentView().VisibleBounds.GetOrientation() == XamlWindow.Current?.Bounds.GetOrientation();
 
 		public class VisibleBoundsDetails
 		{
@@ -147,7 +155,7 @@ namespace Uno.Toolkit.UI
 				_originalInsets = _insetMode switch
 				{
 					InsetMode.Margin => owner.Margin,
-					_ or InsetMode.Padding => owner.GetPadding(),
+					_ or InsetMode.Padding => PaddingHelper.GetPadding(owner),
 				};
 
 				_visibleBoundsChanged = (s2, e2) => UpdatePadding();
@@ -172,7 +180,7 @@ namespace Uno.Toolkit.UI
 
 			private void UpdatePadding()
 			{
-				if (Window.Current?.Content == null)
+				if (XamlWindow.Current?.Content == null)
 				{
 					return;
 				}
@@ -199,7 +207,7 @@ namespace Uno.Toolkit.UI
 					// If the owner view is scrollable, the visibility of interest is that of the scroll viewport.
 					var fixedControl = scrollAncestor ?? Owner;
 
-					var controlBounds = GetRelativeBounds(fixedControl, Window.Current.Content);
+					var controlBounds = GetRelativeBounds(fixedControl, XamlWindow.Current.Content);
 
 					visibilityPadding = CalculateVisibilityPadding(OffsetVisibleBounds, controlBounds);
 
@@ -219,9 +227,9 @@ namespace Uno.Toolkit.UI
 			}
 
 			/// <summary>
-			/// Calculate the padding required to keep the view entirely within the 'safe' visible bounds of the window.
+			/// Calculate the padding required to keep the view entirely within the 'safe' visible bounds of the XamlWindow.
 			/// </summary>
-			/// <param name="visibleBounds">The safe visible bounds of the window.</param>
+			/// <param name="visibleBounds">The safe visible bounds of the XamlWindow.</param>
 			/// <param name="controlBounds">The bounds of the control, in the window's coordinates.</param>
 			private Thickness CalculateVisibilityPadding(Rect visibleBounds, Rect controlBounds)
 			{
@@ -271,27 +279,27 @@ namespace Uno.Toolkit.UI
 			}
 
 			/// <summary>
-			/// Calculate the padding to apply to the view, based on the selected PaddingMask.
+			/// Calculate the padding to apply to the view, based on the selected InsetMask.
 			/// </summary>
-			/// <param name="mask">The PaddingMask settings.</param>
-			/// <param name="visibilityPadding">The padding required to keep the view entirely within the 'safe' visible bounds of the window.</param>
+			/// <param name="mask">The InsetMask settings.</param>
+			/// <param name="visibilityPadding">The padding required to keep the view entirely within the 'safe' visible bounds of the XamlWindow.</param>
 			/// <returns>The padding that will actually be set on the view.</returns>
 			private Thickness CalculateAppliedInsets(InsetMask mask, Thickness visibilityPadding)
 			{
-				// Apply left padding if the PaddingMask is "left" or "all"
-				var left = mask.HasFlag(PaddingMask.Left)
+				// Apply left padding if the InsetMask is "left" or "all"
+				var left = mask.HasFlag(InsetMask.Left)
 					? Math.Max(_originalInsets.Left, visibilityPadding.Left)
 					: _originalInsets.Left;
-				// Apply top padding if the PaddingMask is "top" or "all"
-				var top = mask.HasFlag(PaddingMask.Top)
+				// Apply top padding if the InsetMask is "top" or "all"
+				var top = mask.HasFlag(InsetMask.Top)
 					? Math.Max(_originalInsets.Top, visibilityPadding.Top)
 					: _originalInsets.Top;
-				// Apply right padding if the PaddingMask is "right" or "all"
-				var right = mask.HasFlag(PaddingMask.Right)
+				// Apply right padding if the InsetMask is "right" or "all"
+				var right = mask.HasFlag(InsetMask.Right)
 					? Math.Max(_originalInsets.Right, visibilityPadding.Right)
 					: _originalInsets.Right;
-				// Apply bottom padding if the PaddingMask is "bottom" or "all"
-				var bottom = mask.HasFlag(PaddingMask.Bottom)
+				// Apply bottom padding if the InsetMask is "bottom" or "all"
+				var bottom = mask.HasFlag(InsetMask.Bottom)
 					? Math.Max(_originalInsets.Bottom, visibilityPadding.Bottom)
 					: _originalInsets.Bottom;
 
@@ -307,7 +315,7 @@ namespace Uno.Toolkit.UI
 			{
 #if HAS_UNO // Is building using Uno.UI
 				if (Owner is { } owner
-					&& owner.SetPadding(padding)
+					&& PaddingHelper.SetPadding(owner, padding)
 					&& _log.IsEnabled(LogLevel.Debug))
 				{
 					_log.LogDebug($"ApplyPadding={padding}");

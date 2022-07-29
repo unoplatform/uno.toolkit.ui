@@ -35,7 +35,7 @@ namespace Uno.Toolkit.UI
 		public static DependencyProperty InsetsProperty { get; } = DependencyProperty.RegisterAttached(
 			nameof(Insets),
 			typeof(InsetMask),
-			typeof(SafeAreaBehavior),
+			typeof(SafeArea),
 			new PropertyMetadata(InsetMask.None, OnInsetsChanged));
 
 		public static InsetMask GetInsets(DependencyObject obj) => (InsetMask)obj.GetValue(InsetsProperty);
@@ -52,7 +52,7 @@ namespace Uno.Toolkit.UI
 		public static DependencyProperty ModeProperty { get; } = DependencyProperty.RegisterAttached(
 			nameof(Mode),
 			typeof(InsetMode),
-			typeof(SafeAreaBehavior),
+			typeof(SafeArea),
 			new PropertyMetadata(InsetMode.Padding));
 
 		public static InsetMode GetInsetMode(DependencyObject obj) => (InsetMode)obj.GetValue(ModeProperty);

@@ -8,6 +8,7 @@ using Uno.Disposables;
 using Uno.Extensions;
 using Uno.UI;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -202,13 +203,13 @@ namespace Uno.Toolkit.UI
 			if (property == null)
 			{
 #if HAS_UNO
-				dependencyObject.Log().Warn($"The {propertyName} dependency property does not exist on {type}");
+				dependencyObject.Log().LogWarning($"The {propertyName} dependency property does not exist on {type}");
 #endif
 			}
 #if HAS_UNO
-			else if (property.Type != propertyType)
+			else if (property.GetType() != propertyType)
 			{
-				dependencyObject.Log().Warn($"The {propertyName} dependency property {type} is not of the {propertyType} Type.");
+				dependencyObject.Log().LogWarning($"The {propertyName} dependency property {type} is not of the {propertyType} Type.");
 				property = null;
 			}
 #endif
