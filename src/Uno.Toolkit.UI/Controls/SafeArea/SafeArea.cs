@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using static Uno.UI.Toolkit.VisibleBoundsPadding;
-using System.Runtime.CompilerServices;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -24,9 +22,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 #endif
 
-namespace Uno.Toolkit.UI
+namespace Uno.Toolkit.UI.Controls
 {
-	public static partial class SafeAreaBehavior
+	public partial class SafeArea : ContentControl
 	{
 		[Flags]
 		public enum InsetMask
@@ -79,7 +77,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-				/// <summary>
+		/// <summary>
 		/// VisibleBounds offset to the reference frame of the window Bounds.
 		/// </summary>
 		private static Rect OffsetVisibleBounds
@@ -207,7 +205,7 @@ namespace Uno.Toolkit.UI
 					visibilityPadding = default(Thickness);
 				}
 
-				var padding = CalculateAppliedPadding(_insetMask, visibilityPadding);
+				var padding = CalculateAppliedInsets(_insetMask, visibilityPadding);
 
 				ApplyPadding(padding);
 			}
