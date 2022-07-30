@@ -10,6 +10,7 @@
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 		<PackageReference Include="NUnit" Version="3.13.0" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.0.0-beta.1" />
+		<PackageReference Include="Uno.SourceGenerationTasks" Version="4.1.0-dev.9" />
 		<PackageReference Include="Uno.UITest.Helpers" Version="1.1.0-dev.32" />
 		<PackageReference Include="Xamarin.UITest" Version="3.0.13" />
 	</ItemGroup>

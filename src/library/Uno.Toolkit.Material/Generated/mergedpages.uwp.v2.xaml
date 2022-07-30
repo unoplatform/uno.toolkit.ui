@@ -51,7 +51,7 @@
   <Style x:Key="MaterialBottomTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{ThemeResource MaterialBottomTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Bottom" />
+    <Setter Property="utu:SafeArea.Insets" Value="Bottom" />
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
@@ -1385,7 +1385,7 @@
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="OverflowButtonVisibility" Value="Collapsed" />
     <Setter Property="IsDynamicOverflowEnabled" Value="False" />
-    <mobile:Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+    <mobile:Setter Property="utu:SafeArea.Insets" Value="Top" />
     <mobile:Setter Property="Template" Value="{StaticResource MaterialNativeNavigationBarTemplate}" />
     <not_mobile:Setter Property="Template" Value="{StaticResource XamlMaterialNavigationBarTemplate}" />
     <ios:Setter Property="Height" Value="NaN" />
@@ -2050,7 +2050,7 @@
   <mobile:Style x:Key="MaterialTopTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{StaticResource MaterialTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+    <Setter Property="utu:SafeArea.Insets" Value="Top" />
     <Setter Property="Height" Value="{StaticResource MaterialTopTabBarHeight}" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">
@@ -2076,7 +2076,7 @@
   <not_mobile:Style x:Key="MaterialTopTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{StaticResource MaterialTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+    <Setter Property="utu:SafeArea.Insets" Value="Top" />
     <Setter Property="Height" Value="{StaticResource MaterialTopTabBarHeight}" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">
@@ -2329,7 +2329,7 @@
   <mobile:Style x:Key="MaterialColoredTopTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{StaticResource MaterialColoredTopTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+    <Setter Property="utu:SafeArea.Insets" Value="Top" />
     <Setter Property="Height" Value="{StaticResource MaterialColoredTopTabBarHeight}" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialColoredTopTabBarItemStyle}" />
     <Setter Property="ItemsPanel">

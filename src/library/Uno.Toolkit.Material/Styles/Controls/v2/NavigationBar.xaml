@@ -60,7 +60,7 @@
 				Value="Collapsed" />
 		<Setter Property="IsDynamicOverflowEnabled"
 				Value="False" />
-		<mobile:Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+		<mobile:Setter Property="utu:SafeArea.Insets"
 					   Value="Top" />
 		<mobile:Setter Property="Template"
 					   Value="{StaticResource MaterialNativeNavigationBarTemplate}" />

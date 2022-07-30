@@ -19,6 +19,7 @@
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageReference Include="Uno.Material.WinUI" Version="2.2.0" />
+		<PackageReference Include="Uno.SourceGenerationTasks" Version="4.1.0-dev.9" />
 	</ItemGroup>
 
 	<ItemGroup>

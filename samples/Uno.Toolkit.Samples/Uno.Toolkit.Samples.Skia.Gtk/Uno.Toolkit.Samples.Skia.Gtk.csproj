@@ -29,6 +29,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+    <PackageReference Include="Uno.SourceGenerationTasks" Version="4.1.0-dev.9" />
     <PackageReference Include="Uno.Cupertino" Version="2.2.0" />
     <PackageReference Include="Uno.Material" Version="2.2.0" />
     <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.3.6" />
