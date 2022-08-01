@@ -9,6 +9,7 @@ using Windows.UI.ViewManagement;
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
 using static Uno.UI.Toolkit.VisibleBoundsPadding;
+using Uno.UI;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -66,13 +67,14 @@ namespace Uno.Toolkit.UI
 #else
 				var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
 				var bounds = XamlWindow.Current?.Bounds ?? Rect.Empty;
+
+
 				var result = new Thickness {
 					Left = visibleBounds.Left - bounds.Left,
 					Top = visibleBounds.Top - bounds.Top,
 					Right = bounds.Right - visibleBounds.Right,
-					Bottom = bounds.Bottom - visibleBounds.Bottom
+					Bottom = bounds.Bottom - visibleBounds.Bottom,
 				};
-
 #if HAS_UNO
 				if (_log.IsEnabled(LogLevel.Debug))
 				{
@@ -147,6 +149,7 @@ namespace Uno.Toolkit.UI
 			private InsetMask _insetMask;
 			private InsetMode _insetMode = InsetMode.Padding;
 			private readonly Thickness _originalInsets;
+			private readonly InputPane? _inputPane;
 
 			internal VisibleBoundsDetails(FrameworkElement owner)
 			{
@@ -159,6 +162,7 @@ namespace Uno.Toolkit.UI
 				};
 
 				_visibleBoundsChanged = (s2, e2) => UpdatePadding();
+				var inputPane = InputPane.GetForCurrentView();
 
 #if __IOS__
 				// For iOS, it's required to react on SizeChanged to prevent weird alignment
@@ -172,8 +176,25 @@ namespace Uno.Toolkit.UI
 				{
 					UpdatePadding();
 					ApplicationView.GetForCurrentView().VisibleBoundsChanged += _visibleBoundsChanged;
+					if (_inputPane is { })
+					{
+						_inputPane.Showing += OnInputPaneChanged;
+						_inputPane.Hiding += OnInputPaneChanged;
+					}
 				};
-				owner.Unloaded += (s, e) => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= _visibleBoundsChanged;
+				owner.Unloaded += (s, e) =>
+				{
+					if (_inputPane is { })
+					{
+						_inputPane.Showing -= OnInputPaneChanged;
+						_inputPane.Hiding -= OnInputPaneChanged;
+					}
+				};
+			}
+
+			private void OnInputPaneChanged(InputPane sender, InputPaneVisibilityEventArgs args)
+			{
+				UpdatePadding();
 			}
 
 			private FrameworkElement? Owner => _owner.Target as FrameworkElement;
@@ -234,11 +255,31 @@ namespace Uno.Toolkit.UI
 			private Thickness CalculateVisibilityPadding(Rect visibleBounds, Rect controlBounds)
 			{
 				var windowPadding = WindowPadding;
+				var inputRect = Rect.Empty;
+				if (_insetMask.HasFlag(InsetMask.SoftInput))
+				{
+					inputRect = InputPane.GetForCurrentView().OccludedRect;
+#if MONOANDROID || NET6_0_ANDROID
+					var x = ContextHelper.Current as Android.App.Activity;
+					if (x != null)
+					{
+						var windowMetrics = x.WindowManager.CurrentWindowMetrics;
+						var imeInsets = windowMetrics.WindowInsets.GetInsets(Android.Views.WindowInsets.Type.Ime());
+						var windowBottom = windowMetrics.Bounds.Bottom;
+						var keyboardHeight = windowBottom - imeInsets.Bottom;
+						var keyboardRect = keyboardHeight > 0 ? new Rect(0, keyboardHeight, windowMetrics.Bounds.Right, windowBottom) : new Rect();
+						inputRect = ViewHelper.PhysicalToLogicalPixels(keyboardRect);
+					}
+#endif
+				}
+
+				windowPadding.Bottom = inputRect.IsEmpty ? windowPadding.Bottom : inputRect.Top;
+				var vbBottom = inputRect.IsEmpty ? visibleBounds.Bottom : inputRect.Top;
 
 				var left = Math.Min(visibleBounds.Left - controlBounds.Left, windowPadding.Left);
 				var top = Math.Min(visibleBounds.Top - controlBounds.Top, windowPadding.Top);
 				var right = Math.Min(controlBounds.Right - visibleBounds.Right, windowPadding.Right);
-				var bottom = Math.Min(controlBounds.Bottom - visibleBounds.Bottom, windowPadding.Bottom);
+				var bottom = Math.Min(controlBounds.Bottom - vbBottom, windowPadding.Bottom);
 
 				return new Thickness {
 					Left = left,
@@ -299,7 +340,7 @@ namespace Uno.Toolkit.UI
 					? Math.Max(_originalInsets.Right, visibilityPadding.Right)
 					: _originalInsets.Right;
 				// Apply bottom padding if the InsetMask is "bottom" or "all"
-				var bottom = mask.HasFlag(InsetMask.Bottom)
+				var bottom = mask.HasFlag(InsetMask.Bottom) || mask.HasFlag(InsetMask.SoftInput)
 					? Math.Max(_originalInsets.Bottom, visibilityPadding.Bottom)
 					: _originalInsets.Bottom;
 

@@ -1376,9 +1376,7 @@
       </Setter.Value>
     </Setter>
     <android:Setter Property="(toolkit:UIElementExtensions.Elevation)" Value="{StaticResource MaterialNavigationBarElevation}" />
-    <mobile:Setter Property="Height" Value="{StaticResource MaterialNavigationBarHeight}" />
     <not_mobile:Setter Property="Height" Value="{StaticResource MaterialXamlNavigationBarHeight}" />
-    <Setter Property="Padding" Value="16,0,0,0" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Top" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -1388,7 +1386,7 @@
     <mobile:Setter Property="utu:SafeArea.Insets" Value="Top" />
     <mobile:Setter Property="Template" Value="{StaticResource MaterialNativeNavigationBarTemplate}" />
     <not_mobile:Setter Property="Template" Value="{StaticResource XamlMaterialNavigationBarTemplate}" />
-    <ios:Setter Property="Height" Value="NaN" />
+    <mobile:Setter Property="Height" Value="NaN" />
   </Style>
   <Style x:Key="MaterialMainCommandStyle" TargetType="AppBarButton" BasedOn="{StaticResource MaterialAppBarButtonStyle}">
     <Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />

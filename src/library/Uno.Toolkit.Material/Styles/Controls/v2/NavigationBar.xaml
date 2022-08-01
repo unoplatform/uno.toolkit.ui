@@ -42,12 +42,8 @@
 
 		<android:Setter Property="(toolkit:UIElementExtensions.Elevation)"
 						Value="{StaticResource MaterialNavigationBarElevation}" />
-		<mobile:Setter Property="Height"
-				Value="{StaticResource MaterialNavigationBarHeight}" />
 		<not_mobile:Setter Property="Height"
 				Value="{StaticResource MaterialXamlNavigationBarHeight}" />
-		<Setter Property="Padding"
-				Value="16,0,0,0" />
 		<Setter Property="HorizontalAlignment"
 				Value="Stretch" />
 		<Setter Property="VerticalAlignment"
@@ -66,7 +62,7 @@
 					   Value="{StaticResource MaterialNativeNavigationBarTemplate}" />
 		<not_mobile:Setter Property="Template"
 						   Value="{StaticResource XamlMaterialNavigationBarTemplate}" />
-		<ios:Setter Property="Height"
+		<mobile:Setter Property="Height"
                     Value="NaN" />
 	</Style>
 

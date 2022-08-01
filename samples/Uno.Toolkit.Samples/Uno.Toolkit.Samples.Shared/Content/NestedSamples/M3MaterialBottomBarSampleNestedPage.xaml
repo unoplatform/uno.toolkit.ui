@@ -16,10 +16,10 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Content="Material Bottom TabBar Sample Page"
-						   Style="{StaticResource MaterialNavigationBarStyle}"
+						   Style="{StaticResource MaterialPrimaryNavigationBarStyle}"
 						   MainCommandMode="Action">
 			<utu:NavigationBar.MainCommand>
-				<AppBarButton Style="{StaticResource MaterialAppBarButtonStyle}"
+				<AppBarButton Style="{StaticResource MaterialPrimaryAppBarButtonStyle}"
 							  Click="NavigateBack">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png"
@@ -47,6 +47,7 @@
 				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 					<StackPanel HorizontalAlignment="Center"
 								VerticalAlignment="Center">
+						<TextBox PlaceholderText="Hello"/>
 						<FontIcon Glyph="&#xe721;" />
 						<TextBlock Text="Search"
 								   TextAlignment="Center" />
@@ -80,6 +81,8 @@
 		<utu:TabBar Grid.Row="2"
 					SelectedIndex="1"
 					SelectionChanged="OnSelectionChanged"
+					utu:SafeArea.Insets="Bottom,SoftInput"
+					Background="{StaticResource MaterialPrimaryBrush}"
 					Style="{StaticResource MaterialBottomTabBarStyle}">
 			<utu:TabBar.Items>
 				<utu:TabBarItem Tag="Home"
