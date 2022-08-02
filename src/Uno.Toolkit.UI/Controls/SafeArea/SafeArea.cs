@@ -149,7 +149,6 @@ namespace Uno.Toolkit.UI
 			private InsetMask _insetMask;
 			private InsetMode _insetMode = InsetMode.Padding;
 			private readonly Thickness _originalInsets;
-			private readonly InputPane? _inputPane;
 
 			internal VisibleBoundsDetails(FrameworkElement owner)
 			{
@@ -162,8 +161,6 @@ namespace Uno.Toolkit.UI
 				};
 
 				_visibleBoundsChanged = (s2, e2) => UpdatePadding();
-				var inputPane = InputPane.GetForCurrentView();
-
 #if __IOS__
 				// For iOS, it's required to react on SizeChanged to prevent weird alignment
 				// problems with Text using the LayoutManager (NSTextContainer).
@@ -176,25 +173,27 @@ namespace Uno.Toolkit.UI
 				{
 					UpdatePadding();
 					ApplicationView.GetForCurrentView().VisibleBoundsChanged += _visibleBoundsChanged;
-					if (_inputPane is { })
+
+					if (InputPane.GetForCurrentView() is { } inputPane)
 					{
-						_inputPane.Showing += OnInputPaneChanged;
-						_inputPane.Hiding += OnInputPaneChanged;
+						inputPane.Showing += OnInputPaneChanged;
 					}
 				};
 				owner.Unloaded += (s, e) =>
 				{
-					if (_inputPane is { })
+					if (InputPane.GetForCurrentView() is { } inputPane)
 					{
-						_inputPane.Showing -= OnInputPaneChanged;
-						_inputPane.Hiding -= OnInputPaneChanged;
+						inputPane.Showing -= OnInputPaneChanged;
 					}
 				};
 			}
 
 			private void OnInputPaneChanged(InputPane sender, InputPaneVisibilityEventArgs args)
 			{
-				UpdatePadding();
+				if (_insetMask.HasFlag(InsetMask.SoftInput))
+				{
+					UpdatePadding();
+				}
 			}
 
 			private FrameworkElement? Owner => _owner.Target as FrameworkElement;
@@ -255,25 +254,9 @@ namespace Uno.Toolkit.UI
 			private Thickness CalculateVisibilityPadding(Rect visibleBounds, Rect controlBounds)
 			{
 				var windowPadding = WindowPadding;
-				var inputRect = Rect.Empty;
-				if (_insetMask.HasFlag(InsetMask.SoftInput))
-				{
-					inputRect = InputPane.GetForCurrentView().OccludedRect;
-#if MONOANDROID || NET6_0_ANDROID
-					var x = ContextHelper.Current as Android.App.Activity;
-					if (x != null)
-					{
-						var windowMetrics = x.WindowManager.CurrentWindowMetrics;
-						var imeInsets = windowMetrics.WindowInsets.GetInsets(Android.Views.WindowInsets.Type.Ime());
-						var windowBottom = windowMetrics.Bounds.Bottom;
-						var keyboardHeight = windowBottom - imeInsets.Bottom;
-						var keyboardRect = keyboardHeight > 0 ? new Rect(0, keyboardHeight, windowMetrics.Bounds.Right, windowBottom) : new Rect();
-						inputRect = ViewHelper.PhysicalToLogicalPixels(keyboardRect);
-					}
-#endif
-				}
+				var inputRect = _insetMask.HasFlag(InsetMask.SoftInput) ? InputPane.GetForCurrentView().OccludedRect : Rect.Empty;
 
-				windowPadding.Bottom = inputRect.IsEmpty ? windowPadding.Bottom : inputRect.Top;
+				windowPadding.Bottom = inputRect.IsEmpty ? windowPadding.Bottom : inputRect.Height;
 				var vbBottom = inputRect.IsEmpty ? visibleBounds.Bottom : inputRect.Top;
 
 				var left = Math.Min(visibleBounds.Left - controlBounds.Left, windowPadding.Left);
@@ -370,8 +353,6 @@ namespace Uno.Toolkit.UI
 			internal void OnInsetsChanged(InsetMask oldValue, InsetMask newValue)
 			{
 				_insetMask = newValue;
-
-				UpdatePadding();
 			}
 
 			private ScrollViewer? GetScrollAncestor()
