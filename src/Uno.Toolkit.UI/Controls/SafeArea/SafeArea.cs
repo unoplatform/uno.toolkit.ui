@@ -177,6 +177,7 @@ namespace Uno.Toolkit.UI
 					if (InputPane.GetForCurrentView() is { } inputPane)
 					{
 						inputPane.Showing += OnInputPaneChanged;
+						inputPane.Hiding += OnInputPaneChanged;
 					}
 				};
 				owner.Unloaded += (s, e) =>
@@ -184,6 +185,7 @@ namespace Uno.Toolkit.UI
 					if (InputPane.GetForCurrentView() is { } inputPane)
 					{
 						inputPane.Showing -= OnInputPaneChanged;
+						inputPane.Hiding -= OnInputPaneChanged;
 					}
 				};
 			}
@@ -256,8 +258,8 @@ namespace Uno.Toolkit.UI
 				var windowPadding = WindowPadding;
 				var inputRect = _insetMask.HasFlag(InsetMask.SoftInput) ? InputPane.GetForCurrentView().OccludedRect : Rect.Empty;
 
-				windowPadding.Bottom = inputRect.IsEmpty ? windowPadding.Bottom : inputRect.Height;
-				var vbBottom = inputRect.IsEmpty ? visibleBounds.Bottom : inputRect.Top;
+				windowPadding.Bottom = Math.Max(windowPadding.Bottom, inputRect.Height);
+				var vbBottom = Math.Min(visibleBounds.Bottom, inputRect.Top);
 
 				var left = Math.Min(visibleBounds.Left - controlBounds.Left, windowPadding.Left);
 				var top = Math.Min(visibleBounds.Top - controlBounds.Top, windowPadding.Top);
