@@ -1,4 +1,4 @@
-#if HAS_UNO
+﻿#if HAS_UNO
 //#define STORYBOARD_RETARGET_ISSUE // PATCHED https://github.com/unoplatform/uno/issues/6960
 #define MANIPULATION_ABSOLUTE_COORD_ISSUE // https://github.com/unoplatform/uno/issues/6964
 #endif
@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -68,6 +69,8 @@ namespace Uno.Toolkit.UI.Controls
 		private double _startingTranslateOffset = 0;
 		private bool _suppressIsOpenHandler = false;
 
+		private Size? _lastMeasuredFlyoutContentSize;
+
 		public DrawerFlyoutPresenter()
 		{
 			DefaultStyleKey = typeof(DrawerFlyoutPresenter);
@@ -117,6 +120,7 @@ namespace Uno.Toolkit.UI.Controls
 							_popup.IsOpen = false;
 						}
 					};
+					_drawerContentPresenter.SizeChanged += DrawerContentPresenterSizeChanged;
 				}
 			};
 
@@ -126,6 +130,11 @@ namespace Uno.Toolkit.UI.Controls
 			LayoutUpdated += OnLayoutUpdated;
 
 			_isReady = true;
+		}
+
+		private void DrawerContentPresenterSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			_lastMeasuredFlyoutContentSize = e.NewSize;
 		}
 
 		private void OnLayoutUpdated(object sender, object e)
@@ -273,10 +282,31 @@ namespace Uno.Toolkit.UI.Controls
 		{
 			if (_storyboard == null) return;
 
-			var toRatio = willBeOpen ? 0 : 1;
 			if (_translateAnimation != null)
 			{
 				var vectoredLength = GetVectoredLength();
+				var toRatio = willBeOpen ? 0 : 1;
+
+				// windows: _drawerContentPresenter is not measured on reopening
+				// in such case, all numerical values here are invalid
+				if (_drawerContentPresenter.ActualSize == default)
+				{
+					// attempt to recover with last measured size,
+					// which normally shouldnt change in common scenario...
+					if (_lastMeasuredFlyoutContentSize is { } lastMeasured)
+					{
+						// note: despite having the right values here to play the animation,
+						// the drawer still blink into existence without the slide-in effect
+						vectoredLength = IsOpenDirectionHorizontal() ? lastMeasured.Width : lastMeasured.Height;
+						fromRatio = TranslateOffset / vectoredLength;
+					}
+					else
+					{
+						// the assumption is false, the control is openning for the first time
+						// this is unsalvageable
+						return;
+					}
+				}
 
 				_translateAnimation.From = fromRatio * vectoredLength;
 				_translateAnimation.To = toRatio * vectoredLength;
