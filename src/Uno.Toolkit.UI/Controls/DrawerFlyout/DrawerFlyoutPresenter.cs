@@ -1,4 +1,4 @@
-﻿#if HAS_UNO
+#if HAS_UNO
 //#define STORYBOARD_RETARGET_ISSUE // PATCHED https://github.com/unoplatform/uno/issues/6960
 #define MANIPULATION_ABSOLUTE_COORD_ISSUE // https://github.com/unoplatform/uno/issues/6964
 #endif
@@ -434,7 +434,11 @@ namespace Uno.Toolkit.UI.Controls
 			if (VisualTreeHelper.GetParent(this) is FlyoutPresenter parent)
 			{
 				return VisualTreeHelper
+#if IS_WINUI
+					.GetOpenPopupsForXamlRoot(XamlRoot)
+#else
 					.GetOpenPopups(XamlWindow.Current)
+#endif
 					.FirstOrDefault(x => x.Child == parent);
 			}
 
