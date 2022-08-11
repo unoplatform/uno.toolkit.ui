@@ -81,10 +81,6 @@
 	<Thickness x:Key="MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
 	<CornerRadius x:Key="MaterialBottomTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
 	<Thickness x:Key="MaterialBottomTabBarItemActiveIndicatorPadding">22,7</Thickness>
-	<!--  Code can be removed when this issue is fixed in Uno:  -->
-	<!--  https://github.com/unoplatform/uno/issues/7393  -->
-	<!--  AjustedMaterialBottomTabBarHeight = MaterialBottomTabBarHeight + Half size of the Fab TabBarItem (including ElevatedView margin)  -->
-	<x:Double x:Key="AjustedMaterialBottomTabBarHeight">108</x:Double>
 	<Thickness x:Key="MaterialBottomFabTabBarItemPadding">20</Thickness>
 	<x:Double x:Key="MaterialBottomFabTabBarItemContentWidthOrHeight">16</x:Double>
 	<CornerRadius x:Key="MaterialBottomFabTabBarItemCornerRadius">16</CornerRadius>
@@ -100,6 +96,7 @@
 		        Value="Bottom" />
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
+
 				<ItemsPanelTemplate>
 					<utu:TabBarListPanel />
 				</ItemsPanelTemplate>
@@ -107,44 +104,16 @@
 		</Setter>
 		<Setter Property="ItemContainerStyle"
 		        Value="{StaticResource MaterialBottomTabBarItemStyle}" />
-		<!--  Workaround until this issue is fixed, can be removed after  -->
-		<!--  https://github.com/unoplatform/uno/issues/7393  -->
-		<Setter Property="VerticalContentAlignment"
-		        Value="Bottom" />
+
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBar">
-					<!--  Code can be used when this issue is fixed in Uno:  -->
-					<!--  https://github.com/unoplatform/uno/issues/7393  -->
-					<todo:Grid x:Name="TabBarGrid"
+					<Grid x:Name="TabBarGrid"
 					           Padding="{TemplateBinding Padding}"
 					           Background="{TemplateBinding Background}"
 					           BorderBrush="{TemplateBinding BorderBrush}"
 					           BorderThickness="{TemplateBinding BorderThickness}">
 						<ItemsPresenter Height="{StaticResource MaterialBottomTabBarHeight}" />
-					</todo:Grid>
-					<!--  Workaround until the above issue is fixed, can be removed after  -->
-					<Grid x:Name="TabBarGrid">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="{StaticResource MaterialBottomTabBarGridLengthHeight}" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Border x:Name="BackgroundBorder"
-						        Grid.Row="1"
-						        Height="{StaticResource MaterialBottomTabBarHeight}"
-						        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-						        Background="{TemplateBinding Background}" />
-
-
-						<ItemsPresenter Grid.RowSpan="2"
-						                Height="{StaticResource AjustedMaterialBottomTabBarHeight}" />
-
-						<Border x:Name="VisibleBoundsBorder"
-						        Grid.Row="2"
-						        Padding="{TemplateBinding Padding}"
-						        Background="{TemplateBinding Background}" />
-
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -175,23 +144,20 @@
 		        Value="{StaticResource MaterialBottomFabTabBarItemCornerRadius}" />
 		<Setter Property="Padding"
 		        Value="{StaticResource MaterialBottomFabTabBarItemPadding}" />
-		<!--  Code can be uncommented when this issue is fixed in Uno:  -->
+		<!--  KNOWN ISSUE: The part of the FAB that is translated outside of the TabBar bounds is not clickable  -->
 		<!--  https://github.com/unoplatform/uno/issues/7393  -->
-		<!--<Setter Property="RenderTransform">	
-			<Setter.Value>	
-				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />	
-			</Setter.Value>	
-		</Setter>-->
-		<!--  Workaround until the above issue is fixed, can be removed after  -->
-		<Setter Property="VerticalAlignment"
-		        Value="Top" />
+		<Setter Property="RenderTransform">
+			<Setter.Value>
+				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
+			</Setter.Value>
+		</Setter>
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarItem">
 					<Grid VerticalAlignment="{TemplateBinding VerticalAlignment}">
 						<toolkit:ElevatedView x:Name="ElevatedView"
-						                      Margin="0,0,6,6"
 						                      HorizontalAlignment="Center"
+						                      VerticalAlignment="Center"
 						                      Background="Transparent"
 						                      CornerRadius="{TemplateBinding CornerRadius}"
 						                      Elevation="6">

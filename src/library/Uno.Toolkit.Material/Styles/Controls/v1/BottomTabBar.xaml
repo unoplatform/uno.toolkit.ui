@@ -49,14 +49,9 @@
     <x:Double x:Key="MaterialBottomTabBarItemIconHeight">22</x:Double>
     <x:Double x:Key="MaterialBottomTabBarItemIconWidth">22</x:Double>
     <Thickness x:Key="MaterialBottomTabBarItemContentMargin">0,0,0,6</Thickness>
-    <Thickness x:Key="MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
+	<Thickness x:Key="MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
 
-    <!-- Code can be removed when this issue is fixed in Uno: -->
-    <!-- https://github.com/unoplatform/uno/issues/7393 -->
-    <!-- AjustedMaterialBottomTabBarHeight = MaterialBottomTabBarHeight + Half size of the Fab TabBarItem (including ElevatedView margin) -->
-    <x:Double x:Key="AjustedMaterialBottomTabBarHeight">92</x:Double>
-
-    <!-- Material Bottom TabBar -->
+	<!-- Material Bottom TabBar -->
     <mobile:Style x:Key="MaterialBottomTabBarStyle"
 		   TargetType="utu:TabBar">
         <Setter Property="Background"
@@ -80,39 +75,14 @@
 				Value="Bottom" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="utu:TabBar">
-                    <!-- Code can be uncommented when this issue is fixed in Uno: -->
-                    <!-- https://github.com/unoplatform/uno/issues/7393 -->
-                    <!--<Grid x:Name="TabBarGrid"
+				<ControlTemplate TargetType="utu:TabBar">
+					<Grid x:Name="TabBarGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Padding="{TemplateBinding Padding}">
 						<ItemsPresenter Height="{StaticResource MaterialBottomTabBarHeight}" />
-					</Grid>-->
-
-                    <!-- Workaround until the above issue is fixed, can be removed after -->
-                    <Grid x:Name="TabBarGrid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="{StaticResource MaterialBottomTabBarGridLengthHeight}" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Border Grid.Row="1"
-								x:Name="BackgroundBorder"
-								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								Background="{TemplateBinding Background}"
-								Height="{StaticResource MaterialBottomTabBarHeight}" />
-
-                        <ItemsPresenter Grid.RowSpan="2"
-										Height="{StaticResource AjustedMaterialBottomTabBarHeight}" />
-
-                        <Border Grid.Row="2"
-								x:Name="VisibleBoundsBorder"
-								Background="{TemplateBinding Background}"
-								Padding="{TemplateBinding Padding}" />
-                    </Grid>
+					</Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -144,24 +114,21 @@
 				Value="{StaticResource MaterialFabLargeCorderRadius}" />
         <Setter Property="Padding"
 				Value="{StaticResource MaterialFabLargePadding}" />
-        <!-- Code can be uncommented when this issue is fixed in Uno: -->
-        <!-- https://github.com/unoplatform/uno/issues/7393 -->
-        <!--<Setter Property="RenderTransform">
+		<!--  KNOWN ISSUE: The part of the FAB that is translated outside of the TabBar bounds is not clickable  -->
+		<!--  https://github.com/unoplatform/uno/issues/7393  -->
+		<Setter Property="RenderTransform">
 			<Setter.Value>
 				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
 			</Setter.Value>
-		</Setter>-->
-        <!-- Workaround until the above issue is fixed, can be removed after -->
-        <Setter Property="VerticalAlignment"
-				Value="Top" />
-        <Setter Property="Template">
+		</Setter>
+		<Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="utu:TabBarItem">
                     <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}">
                         <toolkit:ElevatedView x:Name="ElevatedView"
-											  Margin="0,0,6,6"
 											  Elevation="6"
 											  HorizontalAlignment="Center"
+											  VerticalAlignment="Center"
 											  CornerRadius="{TemplateBinding CornerRadius}"
 											  Background="Transparent">
 
@@ -487,7 +454,7 @@
         <Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarItem">
-                    <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                    
 						<toolkit:ElevatedView x:Name="ElevatedView"
 											  Margin="0,0,6,6"
 											  Elevation="6"
@@ -540,47 +507,46 @@
 							</um:Ripple>
 						</toolkit:ElevatedView>
 
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
+					<VisualStateManager.VisualStateGroups>
+						<VisualStateGroup x:Name="CommonStates">
 
-								<VisualState x:Name="Normal" />
+							<VisualState x:Name="Normal" />
 
-								<VisualState x:Name="PointerOver">
-									<VisualState.Setters>
-										<Setter Target="FabFocusBorder.Background"
+							<VisualState x:Name="PointerOver">
+								<VisualState.Setters>
+									<Setter Target="FabFocusBorder.Background"
 												Value="{StaticResource MaterialOnSurfaceHoverBrush}" />
-									</VisualState.Setters>
-								</VisualState>
+								</VisualState.Setters>
+							</VisualState>
 
-								<VisualState x:Name="Disabled">
-									<VisualState.Setters>
+							<VisualState x:Name="Disabled">
+								<VisualState.Setters>
 
-										<Setter Target="Root.Background"
+									<Setter Target="Root.Background"
 												Value="{StaticResource ButtonFabLowFabBackgroundColorBrush}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
+								</VisualState.Setters>
+							</VisualState>
+						</VisualStateGroup>
 
-							<VisualStateGroup x:Name="FocusStates">
+						<VisualStateGroup x:Name="FocusStates">
 
-								<VisualState x:Name="Focused">
-									<VisualState.Setters>
-										<Setter Target="FabFocusBorder.Background"
+							<VisualState x:Name="Focused">
+								<VisualState.Setters>
+									<Setter Target="FabFocusBorder.Background"
 												Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
-									</VisualState.Setters>
-								</VisualState>
+								</VisualState.Setters>
+							</VisualState>
 
-								<VisualState x:Name="PointerFocused">
-									<VisualState.Setters>
-										<Setter Target="FabFocusBorder.Background"
+							<VisualState x:Name="PointerFocused">
+								<VisualState.Setters>
+									<Setter Target="FabFocusBorder.Background"
 												Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
-									</VisualState.Setters>
-								</VisualState>
+								</VisualState.Setters>
+							</VisualState>
 
-								<VisualState x:Name="Unfocused" />
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-					</Grid>
+							<VisualState x:Name="Unfocused" />
+						</VisualStateGroup>
+					</VisualStateManager.VisualStateGroups>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
