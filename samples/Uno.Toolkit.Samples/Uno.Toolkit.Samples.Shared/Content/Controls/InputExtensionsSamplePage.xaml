@@ -1,0 +1,61 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.InputExtensionsSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:toolkit="using:Uno.UI.Toolkit"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+	<Grid Background="{ThemeResource SurfaceBrush}">
+		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<StackPanel Spacing="40">
+
+						<StackPanel Spacing="8">
+							<TextBlock Text="AutoFocusNext and AutoFocusNextElement can be used to move focus on enter." />
+							<TextBox x:Name="Input1"
+									 Text="Input1 (focus next)"
+									 utu:InputExtensions.AutoFocusNext="True" />
+							<TextBox x:Name="Input2"
+									 Text="Input2 (focus Input4)"
+									 utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=Input4}" />
+							<TextBox x:Name="Input3"
+									 Text="Input3 (focus Input1)"
+									 utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=Input1}" />
+							<TextBox x:Name="Input4"
+									 Text="Input4 (focus Input3)"
+									 utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=Input3}" />
+						</StackPanel>
+
+						<StackPanel Spacing="8">
+							<TextBlock Text="Dismiss soft-keyboard on enter" />
+							<TextBox utu:InputExtensions.AutoDismiss="True" />
+						</StackPanel>
+
+						<StackPanel Spacing="8">
+							<TextBlock Text="Execute a command on enter" />
+							<TextBlock Text="{Binding Data.DebugText}" />
+							<TextBox x:Name="UsernameInput"
+									 PlaceholderText="Username"
+									 Text="{Binding Data.Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+									 utu:InputExtensions.AutoFocusNext="True" />
+							<PasswordBox x:Name="PasswordInput"
+										 PlaceholderText="Password"
+										 Password="{Binding Data.Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+										 utu:InputExtensions.EnterCommand="{Binding LoginCommand}" />
+
+							<Button x:Name="LoginButton"
+									Content="Login"
+									Command="{Binding Data.LoginCommand}" />
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>

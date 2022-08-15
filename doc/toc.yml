@@ -29,6 +29,8 @@
     items:
     - name: AncestorBinding and ItemsControlBinding
       href: helpers/ancestor-itemscontrol-binding.md
+    - name: InputExtensions attached properties
+      href: helpers/Input-extensions.md
     - name: StatusBar attached properties
       href: helpers/StatusBar-extensions.md
   # ***************** Styles **********************
