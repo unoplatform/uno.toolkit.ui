@@ -7,9 +7,13 @@ Property|Type|Description
 AutoDismiss|bool|Whether the soft-keyboard will be dismissed when the enter key is pressed.
 AutoFocusNext|bool|Whether the focus will move to the next focusable element when the enter key is pressed.\*
 AutoFocusNextElement|Control|Sets the next control to focus when the enter key is pressed.\*
-EnterCommand|ICommand|Sets the command to execute when the enter key is pressed. Having this set will also cause the keyboard dismiss on enter.
 
-AutoFocusNext and AutoFocusNextElement\*: Having either or both of the two properties set will enable the focus next behavior. `AutoFocusNextElement` will take precedences over `AutoFocusNext`.
+AutoFocusNext and AutoFocusNextElement\*: Having either or both of the two properties set will enable the focus next behavior. AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
+
+### Remarks
+- AutoFocusNext and AutoFocusNextElement have different focus target:
+  - AutoFocusNext is determined by `FocusManager.FindNextFocusableElement`
+  - AutoFocusNextElement is provided by the value.
 
 ## Usage
 ```xml
@@ -21,7 +25,4 @@ AutoFocusNext and AutoFocusNextElement\*: Having either or both of the two prope
 
 <!-- Dismiss soft-keyboard on enter -->
 <TextBox utu:InputExtensions.AutoDismiss="True" />
-
-<!-- Execute command on enter -->
-<PasswordBox x:Name="Password" utu:InputExtensions.EnterCommand="{Binding Login}" />
 ```

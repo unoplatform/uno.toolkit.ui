@@ -13,33 +13,12 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Behaviors, nameof(InputExtensions), SourceSdk.UnoToolkit, DataType = typeof(InputExtensionsSamplePageVM))]
+	[SamplePage(SampleCategory.Behaviors, nameof(InputExtensions), SourceSdk.UnoToolkit)]
 	public sealed partial class InputExtensionsSamplePage : Page
 	{
 		public InputExtensionsSamplePage()
 		{
 			this.InitializeComponent();
-		}
-
-		public class InputExtensionsSamplePageVM : ViewModelBase
-		{
-			public string Username { get => GetProperty<string>(); set => SetProperty(value); }
-			public string Password { get => GetProperty<string>(); set => SetProperty(value); }
-
-			public string DebugText { get => GetProperty<string>(); set => SetProperty(value); }
-			
-			public ICommand LoginCommand => new Command(Login);
-
-			private void Login(object parameter)
-			{
-				DebugText = string.Concat(new[]
-				{
-					$"{DateTime.Now} Logged in",
-					Username?.Length > 0 ? $" as ({Username}" : null,
-					Username?.Length > 0 && Password?.Length > 0 ? $":{Password}" : null,
-					Username?.Length > 0 ? ")" : null,
-				}.Where(x => x != null));
-			}
 		}
 	}
 }

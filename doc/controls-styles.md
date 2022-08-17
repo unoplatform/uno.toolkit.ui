@@ -13,7 +13,8 @@ The `Uno.Toolkit.UI` library adds the following controls:
 The `Uno.Toolkit.UI` library adds the following helper classes:
 - `SystemThemeHelper`: Provides a set of helper methods to check the current operating system theme, and manipulate the application dark/light theme.
 - [`AncestorBinding` and `ItemsControlBinding`](helpers\ancestor-itemscontrol-binding.md): These markup extensions provides relative binding based on ancestor type. If you are familiar with WPF, they are very similar to `{RelativeSource Mode=FindAncestor}`.
-- [`InputExtensions`](helpers\Input-extensions.md): Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
+- [`ControlExtensions`](helpers\control-extensions.md): Provides various attached properties for common controls.
+- [`InputExtensions`](helpers\input-extensions.md): Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
 - [`StatusBar`](helpers\StatusBar-extensions.md): Provides two attached properties on `Page` to controls the visual of the status bar on mobile platforms.
 
 ## Control Styles

@@ -6,9 +6,7 @@
 	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  mc:Ignorable="d"
-	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+	  mc:Ignorable="d">
 
 	<Grid Background="{ThemeResource SurfaceBrush}">
 		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
@@ -37,22 +35,6 @@
 							<TextBox utu:InputExtensions.AutoDismiss="True" />
 						</StackPanel>
 
-						<StackPanel Spacing="8">
-							<TextBlock Text="Execute a command on enter" />
-							<TextBlock Text="{Binding Data.DebugText}" />
-							<TextBox x:Name="UsernameInput"
-									 PlaceholderText="Username"
-									 Text="{Binding Data.Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-									 utu:InputExtensions.AutoFocusNext="True" />
-							<PasswordBox x:Name="PasswordInput"
-										 PlaceholderText="Password"
-										 Password="{Binding Data.Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-										 utu:InputExtensions.EnterCommand="{Binding LoginCommand}" />
-
-							<Button x:Name="LoginButton"
-									Content="Login"
-									Command="{Binding Data.LoginCommand}" />
-						</StackPanel>
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,6 +57,7 @@ namespace Uno.Toolkit.UI
 		public static void SetAutoFocusNextElement(DependencyObject obj, Control value) => obj.SetValue(AutoFocusNextElementProperty, value);
 
 		#endregion
+#if false // The property is now forwarded from ControlExtensions.Command
 		#region DependencyProperty: EnterCommand
 
 		public static DependencyProperty EnterCommandProperty { get; } = DependencyProperty.RegisterAttached(
@@ -69,15 +70,24 @@ namespace Uno.Toolkit.UI
 		public static void SetEnterCommand(DependencyObject obj, ICommand value) => obj.SetValue(EnterCommandProperty, value);
 
 		#endregion
+#endif
+
+		/// <summary>
+		/// Check if InputExtensions contains the <see cref="ControlExtensions.CommandProperty" /> implementations for <paramref name="host"/>.
+		/// </summary>
+		internal static bool IsEnterCommandSupportedFor(DependencyObject host)
+		{
+			return host is TextBox || host is PasswordBox;
+		}
 
 		private static void OnAutoDismissChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
 		private static void OnAutoFocusNextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
 		private static void OnAutoFocusNextElementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
-		private static void OnEnterCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
+		internal static void OnEnterCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
 
 		private static void UpdateSubscription(DependencyObject sender)
 		{
-			if (sender is Control control && (sender is TextBox || sender is PasswordBox))
+			if (sender is Control control && IsEnterCommandSupportedFor(sender))
 			{
 				// note: on android, UIElement.KeyUp and Control.KeyUp are not the same event, and the UIElement one doesnt work.
 				control.KeyUp -= OnUIElementKeyUp;
@@ -91,24 +101,24 @@ namespace Uno.Toolkit.UI
 				GetAutoDismiss(sender) ||
 				GetAutoFocusNext(sender) ||
 				GetAutoFocusNextElement(sender) != null ||
-				GetEnterCommand(sender) != null;
+				ControlExtensions.GetCommand(sender) != null;
 		}
 
 		private static void OnUIElementKeyUp(object sender, KeyRoutedEventArgs e)
 		{
-			if (sender is not DependencyObject owner) return;
+			if (sender is not DependencyObject host) return;
 			if (e.Key != VirtualKey.Enter) return;
 
 			// handle enter command
-			var command = GetEnterCommand(owner);
+			var command = ControlExtensions.GetCommand(host);
 			if (command != null &&
-				GetCommandParameter() is var parameter && // this is not really needed, but we throw it in just for good measure
+				(ControlExtensions.GetCommandParameter(host) ?? GetInputParameter()) is var parameter &&
 				command.CanExecute(parameter))
 			{
 				command.Execute(parameter);
 			}
 
-			object? GetCommandParameter() => sender switch
+			object? GetInputParameter() => sender switch
 			{
 				TextBox tb => tb.Text,
 #if !HAS_UNO // note: on uno, PasswordBox inherits from TextBox which isnt the case on uwp...
@@ -119,15 +129,15 @@ namespace Uno.Toolkit.UI
 			};
 
 			// dismiss keyboard
-			if (GetAutoDismiss(owner) ||
+			if (GetAutoDismiss(host) ||
 				command != null) // we should also dismiss keyboard if a command has been executed (even if CanExecute failed)
 			{
 				InputPane.GetForCurrentView().TryHide();
 			}
 
 			// change focus
-			var target = GetAutoFocusNextElement(owner);
-			if (GetAutoFocusNext(owner) || target != null) // either property can be used to enable this feature
+			var target = GetAutoFocusNextElement(host);
+			if (GetAutoFocusNext(host) || target != null) // either property can be used to enable this feature
 			{
 				target ??= FocusManager.FindNextFocusableElement(FocusNavigationDirection.Next) as Control;
 
