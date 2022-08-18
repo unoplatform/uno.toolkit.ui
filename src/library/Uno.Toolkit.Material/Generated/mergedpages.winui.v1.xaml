@@ -28,7 +28,6 @@
   <x:Double x:Key="MaterialBottomTabBarItemIconWidth">22</x:Double>
   <Thickness x:Key="MaterialBottomTabBarItemContentMargin">0,0,0,6</Thickness>
   <Thickness x:Key="MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
-  <x:Double x:Key="AjustedMaterialBottomTabBarHeight">92</x:Double>
   <mobile:Style x:Key="MaterialBottomTabBarStyle" TargetType="utu:TabBar">
     <Setter Property="Background" Value="{ThemeResource MaterialBottomTabBarBackground}" />
     <Setter Property="IsTabStop" Value="False" />
@@ -47,25 +46,8 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:TabBar">
-          <!-- Code can be uncommented when this issue is fixed in Uno: -->
-          <!-- https://github.com/unoplatform/uno/issues/7393 -->
-          <!--<Grid x:Name="TabBarGrid"
-						  Background="{TemplateBinding Background}"
-						  BorderBrush="{TemplateBinding BorderBrush}"
-						  BorderThickness="{TemplateBinding BorderThickness}"
-						  Padding="{TemplateBinding Padding}">
-						<ItemsPresenter Height="{StaticResource MaterialBottomTabBarHeight}" />
-					</Grid>-->
-          <!-- Workaround until the above issue is fixed, can be removed after -->
-          <Grid x:Name="TabBarGrid">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="{StaticResource MaterialBottomTabBarGridLengthHeight}" />
-              <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Border Grid.Row="1" x:Name="BackgroundBorder" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{TemplateBinding Background}" Height="{StaticResource MaterialBottomTabBarHeight}" />
-            <ItemsPresenter Grid.RowSpan="2" Height="{StaticResource AjustedMaterialBottomTabBarHeight}" />
-            <Border Grid.Row="2" x:Name="VisibleBoundsBorder" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" />
+          <Grid x:Name="TabBarGrid" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+            <ItemsPresenter Height="{StaticResource MaterialBottomTabBarHeight}" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>
@@ -84,20 +66,18 @@
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="CornerRadius" Value="{StaticResource MaterialFabLargeCorderRadius}" />
     <Setter Property="Padding" Value="{StaticResource MaterialFabLargePadding}" />
-    <!-- Code can be uncommented when this issue is fixed in Uno: -->
-    <!-- https://github.com/unoplatform/uno/issues/7393 -->
-    <!--<Setter Property="RenderTransform">
-			<Setter.Value>
-				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
-			</Setter.Value>
-		</Setter>-->
-    <!-- Workaround until the above issue is fixed, can be removed after -->
-    <Setter Property="VerticalAlignment" Value="Top" />
+    <!--  KNOWN ISSUE: The part of the FAB that is translated outside of the TabBar bounds is not clickable  -->
+    <!--  https://github.com/unoplatform/uno/issues/7393  -->
+    <Setter Property="RenderTransform">
+      <Setter.Value>
+        <TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
+      </Setter.Value>
+    </Setter>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:TabBarItem">
           <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}">
-            <toolkit:ElevatedView x:Name="ElevatedView" Margin="0,0,6,6" Elevation="6" HorizontalAlignment="Center" CornerRadius="{TemplateBinding CornerRadius}" Background="Transparent">
+            <toolkit:ElevatedView x:Name="ElevatedView" Elevation="6" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="{TemplateBinding CornerRadius}" Background="Transparent">
               <um:Ripple x:Name="Ripple" CornerRadius="{TemplateBinding CornerRadius}" Feedback="{TemplateBinding Foreground}" FeedbackOpacity="{StaticResource MaterialPressedOpacity}">
                 <Grid x:Name="Root" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
                   <StackPanel x:Name="ContentPanel" Orientation="Horizontal" Margin="{TemplateBinding Padding}">
@@ -294,55 +274,53 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:TabBarItem">
-          <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}">
-            <toolkit:ElevatedView x:Name="ElevatedView" Margin="0,0,6,6" Elevation="6" HorizontalAlignment="Center" CornerRadius="{TemplateBinding CornerRadius}" Background="Transparent">
-              <um:Ripple x:Name="Ripple" CornerRadius="{TemplateBinding CornerRadius}" Feedback="{TemplateBinding Foreground}" FeedbackOpacity="{StaticResource MaterialPressedOpacity}">
-                <Grid x:Name="Root" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
-                  <StackPanel x:Name="ContentPanel" Orientation="Horizontal" Margin="{TemplateBinding Padding}">
-                    <!-- Icon -->
-                    <Viewbox Height="{StaticResource MaterialFabContentWidthOrHeight}" Width="{StaticResource MaterialFabContentWidthOrHeight}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
-                      <ContentPresenter Content="{TemplateBinding Icon}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
-                    </Viewbox>
-                    <!-- Icon/Content spacing -->
-                    <Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
-                      <Border Width="{StaticResource MaterialFabIconTextPadding}" Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
-                    </Border>
-                    <!-- Content -->
-                    <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" CornerRadius="{StaticResource MaterialButtonCornerRadius}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                  </StackPanel>
-                  <Border x:Name="FabFocusBorder" />
-                </Grid>
-              </um:Ripple>
-            </toolkit:ElevatedView>
-            <VisualStateManager.VisualStateGroups>
-              <VisualStateGroup x:Name="CommonStates">
-                <VisualState x:Name="Normal" />
-                <VisualState x:Name="PointerOver">
-                  <VisualState.Setters>
-                    <Setter Target="FabFocusBorder.Background" Value="{StaticResource MaterialOnSurfaceHoverBrush}" />
-                  </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Disabled">
-                  <VisualState.Setters>
-                    <Setter Target="Root.Background" Value="{StaticResource ButtonFabLowFabBackgroundColorBrush}" />
-                  </VisualState.Setters>
-                </VisualState>
-              </VisualStateGroup>
-              <VisualStateGroup x:Name="FocusStates">
-                <VisualState x:Name="Focused">
-                  <VisualState.Setters>
-                    <Setter Target="FabFocusBorder.Background" Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
-                  </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="PointerFocused">
-                  <VisualState.Setters>
-                    <Setter Target="FabFocusBorder.Background" Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
-                  </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Unfocused" />
-              </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-          </Grid>
+          <toolkit:ElevatedView x:Name="ElevatedView" Margin="0,0,6,6" Elevation="6" HorizontalAlignment="Center" CornerRadius="{TemplateBinding CornerRadius}" Background="Transparent">
+            <um:Ripple x:Name="Ripple" CornerRadius="{TemplateBinding CornerRadius}" Feedback="{TemplateBinding Foreground}" FeedbackOpacity="{StaticResource MaterialPressedOpacity}">
+              <Grid x:Name="Root" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
+                <StackPanel x:Name="ContentPanel" Orientation="Horizontal" Margin="{TemplateBinding Padding}">
+                  <!-- Icon -->
+                  <Viewbox Height="{StaticResource MaterialFabContentWidthOrHeight}" Width="{StaticResource MaterialFabContentWidthOrHeight}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                    <ContentPresenter Content="{TemplateBinding Icon}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+                  </Viewbox>
+                  <!-- Icon/Content spacing -->
+                  <Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                    <Border Width="{StaticResource MaterialFabIconTextPadding}" Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
+                  </Border>
+                  <!-- Content -->
+                  <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" CornerRadius="{StaticResource MaterialButtonCornerRadius}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </StackPanel>
+                <Border x:Name="FabFocusBorder" />
+              </Grid>
+            </um:Ripple>
+          </toolkit:ElevatedView>
+          <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+              <VisualState x:Name="Normal" />
+              <VisualState x:Name="PointerOver">
+                <VisualState.Setters>
+                  <Setter Target="FabFocusBorder.Background" Value="{StaticResource MaterialOnSurfaceHoverBrush}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Disabled">
+                <VisualState.Setters>
+                  <Setter Target="Root.Background" Value="{StaticResource ButtonFabLowFabBackgroundColorBrush}" />
+                </VisualState.Setters>
+              </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="FocusStates">
+              <VisualState x:Name="Focused">
+                <VisualState.Setters>
+                  <Setter Target="FabFocusBorder.Background" Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="PointerFocused">
+                <VisualState.Setters>
+                  <Setter Target="FabFocusBorder.Background" Value="{StaticResource MaterialOnSurfaceFocusedBrush}" />
+                </VisualState.Setters>
+              </VisualState>
+              <VisualState x:Name="Unfocused" />
+            </VisualStateGroup>
+          </VisualStateManager.VisualStateGroups>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
