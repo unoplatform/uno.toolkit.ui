@@ -94,7 +94,7 @@ jobs:
 
 - job: macOS
   pool:
-    vmImage: macos-10.15
+    vmImage: 'macOS-11'
   
   variables:
   - group: unoplatform.apple.ios.appstore.distribution
@@ -117,8 +117,12 @@ jobs:
   - template: templates/dotnet6-install-mac.yml
 
   - bash: |
-      mono '/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop/bin/MSBuild/Current/bin/msbuild.dll' /ds /m /r /p:Configuration=Release /p:Platform=iPhone /p:ApplicationVersion=$(MajorMinorPatch) /p:DisableNet6MobileTargets=true samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.iOS/Uno.Toolkit.Samples.iOS.csproj
+      mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /ds /m /r /p:Configuration=Release /p:Platform=iPhone /p:ApplicationVersion=$(MajorMinorPatch) /p:DisableNet6MobileTargets=true samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.iOS/Uno.Toolkit.Samples.iOS.csproj
 
   - task: PublishBuildArtifacts@1
     inputs:
       artifactName: iOS
+      
+- template: stage-uitests-wasm.yml
+- template: stage-uitests-ios.yml
+- template: stage-uitests-android.yml

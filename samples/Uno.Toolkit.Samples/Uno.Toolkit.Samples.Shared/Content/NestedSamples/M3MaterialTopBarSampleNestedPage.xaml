@@ -33,18 +33,20 @@
         </utu:NavigationBar>
 
         <utu:TabBar Grid.Row="1"
+					AutomationProperties.AutomationId="TopTabBar"
                     utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
                     SelectedIndex="1"
                     Style="{StaticResource MaterialColoredTopTabBarStyle}">
             <utu:TabBar.Items>
-                <utu:TabBarItem Content="Home" />
-                <utu:TabBarItem Content="Search" />
-                <utu:TabBarItem Content="Support" />
-                <utu:TabBarItem Content="About" />
+				<utu:TabBarItem Content="Home" AutomationProperties.AutomationId="TopTabBar_Item_Home"/>
+				<utu:TabBarItem Content="Search" AutomationProperties.AutomationId="TopTabBar_Item_Search"/>
+				<utu:TabBarItem Content="Support" AutomationProperties.AutomationId="TopTabBar_Item_Support" />
+				<utu:TabBarItem Content="About" AutomationProperties.AutomationId="TopTabBar_Item_About"/>
             </utu:TabBar.Items>
         </utu:TabBar>
 
         <FlipView x:Name="SlideFlipView"
+				  AutomationProperties.AutomationId="TopTabBar_FlipView"
                   Grid.Row="2">
             <FlipView.Items>
                 <FlipViewItem>
@@ -53,6 +55,7 @@
                                     VerticalAlignment="Center">
                             <FontIcon Glyph="&#xE80F;" />
                             <TextBlock Text="Home"
+									   AutomationProperties.AutomationId="TopTabBar_FlipView_Item_Text_Home"
                                        TextAlignment="Center" />
                         </StackPanel>
                     </Border>
@@ -63,6 +66,7 @@
                                     VerticalAlignment="Center">
                             <FontIcon Glyph="&#xe721;" />
                             <TextBlock Text="Search"
+									   AutomationProperties.AutomationId="TopTabBar_FlipView_Item_Text_Search"
                                        TextAlignment="Center" />
                         </StackPanel>
                     </Border>
@@ -73,6 +77,7 @@
                                     VerticalAlignment="Center">
                             <FontIcon Glyph="&#xE8F2;" />
                             <TextBlock Text="Support"
+									   AutomationProperties.AutomationId="TopTabBar_FlipView_Item_Text_Support"
                                        TextAlignment="Center" />
                         </StackPanel>
                     </Border>
@@ -83,6 +88,7 @@
                                     VerticalAlignment="Center">
                             <FontIcon Glyph="&#xE946;" />
                             <TextBlock Text="About"
+									   AutomationProperties.AutomationId="TopTabBar_FlipView_Item_Text_About"
                                        TextAlignment="Center" />
                         </StackPanel>
                     </Border>

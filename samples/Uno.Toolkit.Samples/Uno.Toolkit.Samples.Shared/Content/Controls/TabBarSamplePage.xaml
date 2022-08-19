@@ -248,74 +248,75 @@
             </DataTemplate>
         </sample:SamplePageLayout.MaterialTemplate>
         <sample:SamplePageLayout.M3MaterialTemplate>
-            <DataTemplate>
+			<DataTemplate>
 				<StackPanel Padding="0,20"
 							Spacing="20">
 
 					<!-- Standard Top TabBar Style -->
-                    <TextBlock Text="Standard TabBar Style"
+					<TextBlock Text="Standard TabBar Style"
 							   Style="{StaticResource HeadlineSmall}" />
 
-                    <Button Content="Show Top TabBar Sample"
+					<Button Content="Show Top TabBar Sample"
+							AutomationProperties.AutomationId="TopTabBar_Launch_Sample_Button"
 							Click="ShowM3MaterialTopBarSampleInNestedFrame"
 							Style="{StaticResource OutlinedButtonStyle}" />
 
-                    <utu:TabBar SelectedIndex="1"
+					<utu:TabBar SelectedIndex="1"
 								Style="{StaticResource TopTabBarStyle}">
-                        <utu:TabBar.Items>
-                            <utu:TabBarItem Content="HOME">
-                                <utu:TabBarItem.Icon>
-                                    <FontIcon Glyph="&#xE80F;" />
-                                </utu:TabBarItem.Icon>
-                            </utu:TabBarItem>
-                            <utu:TabBarItem Content="SUPPORT">
-                                <utu:TabBarItem.Icon>
-                                    <FontIcon Glyph="&#xE8F2;" />
-                                </utu:TabBarItem.Icon>
-                            </utu:TabBarItem>
-                            <utu:TabBarItem Content="ABOUT">
-                                <utu:TabBarItem.Icon>
-                                    <FontIcon Glyph="&#xE946;" />
-                                </utu:TabBarItem.Icon>
-                            </utu:TabBarItem>
+						<utu:TabBar.Items>
+							<utu:TabBarItem Content="HOME">
+								<utu:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE80F;" />
+								</utu:TabBarItem.Icon>
+							</utu:TabBarItem>
+							<utu:TabBarItem Content="SUPPORT">
+								<utu:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE8F2;" />
+								</utu:TabBarItem.Icon>
+							</utu:TabBarItem>
+							<utu:TabBarItem Content="ABOUT">
+								<utu:TabBarItem.Icon>
+									<FontIcon Glyph="&#xE946;" />
+								</utu:TabBarItem.Icon>
+							</utu:TabBarItem>
 
-                        </utu:TabBar.Items>
-                    </utu:TabBar>
+						</utu:TabBar.Items>
+					</utu:TabBar>
 
-                    <TextBlock Text="Adding Items as TabBarItems directly" />
-                    <utu:TabBar SelectedIndex="2"
+					<TextBlock Text="Adding Items as TabBarItems directly" />
+					<utu:TabBar SelectedIndex="2"
 								Style="{StaticResource TopTabBarStyle}">
-                        <utu:TabBar.Items>
-                            <utu:TabBarItem Icon="Accept"
+						<utu:TabBar.Items>
+							<utu:TabBarItem Icon="Accept"
 											Content="Tab with Icon" />
-                            <utu:TabBarItem Icon="Accept" />
-                            <utu:TabBarItem Content="Content only" />
-                        </utu:TabBar.Items>
-                    </utu:TabBar>
+							<utu:TabBarItem Icon="Accept" />
+							<utu:TabBarItem Content="Content only" />
+						</utu:TabBar.Items>
+					</utu:TabBar>
 
-                    <TextBlock Text="Using ItemsSource" />
-                    <utu:TabBar SelectedIndex="3"
+					<TextBlock Text="Using ItemsSource" />
+					<utu:TabBar SelectedIndex="3"
 								ItemsSource="{Binding Data.Items}"
 								Style="{StaticResource TopTabBarStyle}" />
 
-                    <TextBlock Text="TabBarItem Command" />
-                    <utu:TabBar Style="{StaticResource TopTabBarStyle}">
-                        <utu:TabBar.Items>
-                            <utu:TabBarItem Content="Tab 1"
+					<TextBlock Text="TabBarItem Command" />
+					<utu:TabBar Style="{StaticResource TopTabBarStyle}">
+						<utu:TabBar.Items>
+							<utu:TabBarItem Content="Tab 1"
 											x:Name="M3_TabBarWithCommand_Tab1"
 											AutomationProperties.AutomationId="M3_TabBarWithCommand_Tab1"
 											Command="{Binding Data.Tab1CountCommand}" />
-                            <utu:TabBarItem Content="Tab 2"
+							<utu:TabBarItem Content="Tab 2"
 											x:Name="M3_TabBarWithCommand_Tab2"
 											AutomationProperties.AutomationId="M3_TabBarWithCommand_Tab2"
 											Command="{Binding Data.Tab2CountCommand}" />
-                            <utu:TabBarItem Content="Tab 3"
+							<utu:TabBarItem Content="Tab 3"
 											x:Name="M3_TabBarWithCommand_Tab3"
 											AutomationProperties.AutomationId="M3_TabBarWithCommand_Tab3"
 											Command="{Binding Data.Tab3CountCommand}" />
-                        </utu:TabBar.Items>
-                    </utu:TabBar>
-                    <TextBlock HorizontalAlignment="Center"
+						</utu:TabBar.Items>
+					</utu:TabBar>
+					<TextBlock HorizontalAlignment="Center"
 							   Style="{StaticResource LabelSmall}">
 							<Run Text="Tab 1 clicked count:" />
 							<Run x:Name="Tab1_Count"
@@ -329,7 +330,7 @@
 							<Run x:Name="Tab3_Count"
 								 AutomationProperties.AutomationId="M3_Tab3_Count"
 								 Text="{Binding Data.Tab3Count}" />
-                    </TextBlock>
+					</TextBlock>
 
 					<!-- Colored TabBar Style -->
 					<TextBlock Text="Top TabBar Colored Style"
@@ -411,6 +412,7 @@
 							   Style="{StaticResource HeadlineSmall}" />
 
 					<Button Content="Show Bottom TabBar Sample"
+							AutomationProperties.AutomationId="BottomTabBar_Launch_Sample_Button"
 							Click="ShowM3MaterialBottomBarSampleInNestedFrame"
 							Style="{StaticResource OutlinedButtonStyle}" />
 
@@ -548,7 +550,7 @@
 					</utu:TabBar>
 
 				</StackPanel>
-            </DataTemplate>
+			</DataTemplate>
         </sample:SamplePageLayout.M3MaterialTemplate>
 
         <sample:SamplePageLayout.CupertinoTemplate>

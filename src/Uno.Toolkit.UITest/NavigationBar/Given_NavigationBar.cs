@@ -11,30 +11,19 @@ using Uno.UITests.Helpers;
 
 namespace Uno.Toolkit.UITest.NavigationBar
 {
-
+	[ActivePlatforms(Platform.Android, Platform.iOS)]
 	public class Given_NavigationBar : TestBase
 	{
-		[SetUp]
-		public override void SetUpTest()
-		{
-			if (AppInitializer.GetLocalPlatform() != Platform.Android
-				&& AppInitializer.GetLocalPlatform() != Platform.iOS)
-			{
-				Assert.Ignore("Test is only valid for iOS and Android");
-			}
-
-			base.SetUpTest();
-			NavigateToSample("NavigationBar");
-		}
+		protected override string SampleName => "NavigationBar";
 
 		[Test]
 		public void NavBar_Has_Size()
 		{
-			App.WaitThenTap("NavigationBar_Launch_Sample_Button");
+			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
 
 			var nativeBar = PlatformHelpers.On<IAppResult>(
 				iOS: () => App.CreateQuery(x => x.WithClass("navigationBar")).FirstResult(),
-				Android: () => App.Marked("Page1NavBar").Descendant("Toolbar").FirstResult()
+				Android: () => App.Marked("M3Page1NavBar").Descendant("Toolbar").FirstResult()
 			);
 
 			Assert.NotZero(nativeBar.Rect.Height);
@@ -44,11 +33,11 @@ namespace Uno.Toolkit.UITest.NavigationBar
 		[Test]
 		public void NavBar_Has_Title()
 		{
-			App.WaitThenTap("NavigationBar_Launch_Sample_Button");
+			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
 
 			var title = PlatformHelpers.On<IAppResult>(
 				iOS: () => App.CreateQuery(x => x.WithClass("navigationBar").Descendant("label")).FirstResult(),
-				Android: () => App.Marked("Page1NavBar").Descendant("AppCompatTextView").FirstResult()
+				Android: () => App.Marked("M3Page1NavBar").Descendant("AppCompatTextView").FirstResult()
 			);
 
 			Assert.AreEqual("First Page", title.Text);
@@ -57,36 +46,36 @@ namespace Uno.Toolkit.UITest.NavigationBar
 		[Test]
 		public void NavBar_Can_Close_From_First_Page()
 		{
-			App.WaitThenTap("NavigationBar_Launch_Sample_Button");
+			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
 
-			App.WaitForElement("Page1NavBar", "Timed out waiting for Page 1 Nav Bar");
+			App.WaitForElement("M3Page1NavBar", "Timed out waiting for Page 1 Nav Bar");
 
 			PlatformHelpers.On(
-				iOS: () => App.Tap("CloseIcon"),
-				Android: () => App.Tap(q => q.Marked("Page1NavBar").Descendant("AppCompatImageButton"))
+				iOS: () => App.FastTap("CloseIcon"),
+				Android: () => App.FastTap(q => q.Marked("M3Page1NavBar").Descendant("AppCompatImageButton"))
 			);
 			;
 
 			PlatformHelpers.On(
 				iOS: () => App.WaitForNoElement(q => q.Class("navigationBar"), "Timed out waiting for Nav Bar"),
-				Android: () => App.WaitForNoElement("Page1NavBar", "Timed out waiting for Nav Bar")
+				Android: () => App.WaitForNoElement("M3Page1NavBar", "Timed out waiting for Nav Bar")
 			);
 		}
 
 		[Test]
 		public void NavBar_Page2_NavBar_Exists()
 		{
-			App.WaitThenTap("NavigationBar_Launch_Sample_Button");
+			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
 
-			App.WaitForNoElement("Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
+			App.WaitForNoElement("M3Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
 
-			App.Tap("Page1_Navigate_To_Page2");
+			App.FastTap("M3_Page1_Navigate_To_Page2");
 
-			App.WaitForElement("Page2NavBar", "Timed out waiting for Page 2 Nav Bar");
+			App.WaitForElement("M3Page2NavBar", "Timed out waiting for Page 2 Nav Bar");
 
 			var nativeBar = PlatformHelpers.On<IAppResult>(
 				iOS: () => App.CreateQuery(x => x.WithClass("navigationBar")).FirstResult(),
-				Android: () => App.Marked("Page1NavBar").Descendant("Toolbar").FirstResult()
+				Android: () => App.Marked("M3Page1NavBar").Descendant("Toolbar").FirstResult()
 			);
 
 			Assert.NotZero(nativeBar.Rect.Height);
@@ -96,28 +85,20 @@ namespace Uno.Toolkit.UITest.NavigationBar
 		[Test]
 		public void NavBar_Page_Can_Go_Back()
 		{
-			App.WaitThenTap("NavigationBar_Launch_Sample_Button");
+			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
 
-			App.WaitForNoElement("Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
+			App.WaitForNoElement("M3Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
 
-			App.Tap("Page1_Navigate_To_Page2");
+			App.FastTap("M3_Page1_Navigate_To_Page2");
 
-			App.WaitForElement("Page2NavBar", "Timed out waiting for Page 2 Nav Bar");
+			App.WaitForElement("M3Page2NavBar", "Timed out waiting for Page 2 Nav Bar");
 
 			PlatformHelpers.On(
-				iOS: () => App.Tap("BackButton"),
-				Android: () => App.Tap(q => q.Marked("Page2NavBar").Descendant("AppCompatImageButton"))
+				iOS: () => App.FastTap("BackButton"),
+				Android: () => App.FastTap(q => q.Marked("M3Page2NavBar").Descendant("AppCompatImageButton"))
 			);
 
-			App.WaitForNoElement("Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
-		}
-
-		private IAppResult GetNativeBar()
-		{
-			return PlatformHelpers.On<IAppResult>(
-				iOS: () => App.CreateQuery(x => x.WithClass("navigationBar")).FirstResult(),
-				Android: () => App.Marked("Page1NavBar").Descendant("Toolbar").FirstResult()
-			);
+			App.WaitForNoElement("M3Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
 		}
 	}
 }

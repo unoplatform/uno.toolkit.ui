@@ -56,6 +56,7 @@
 
 		<!-- Nested frame for samples that needs to be fullscreen -->
 		<Frame x:Name="NestedSampleFrame"
+			   AutomationProperties.AutomationId="NestedSampleFrame"
 			   Grid.RowSpan="3"
 			   Visibility="Collapsed" />
 

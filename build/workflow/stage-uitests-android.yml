@@ -1,0 +1,64 @@
+﻿jobs:
+- job: Android_Tests
+  displayName: 'Android UI Tests'
+  variables:
+    CI_Build: true
+    SourceLinkEnabled: false
+    XamarinSDKVersion: 6_12_12
+
+  pool:
+    vmImage: 'macOS-11'
+
+  steps:
+  - checkout: self
+    clean: true
+
+  - task: UseDotNet@2 
+    displayName: 'Use .NET 5.0.406' 
+    retryCountOnTaskFailure: 3 
+    inputs: 
+      packageType: runtime 
+      version: 5.0.15 
+
+  - task: UseDotNet@2 
+    displayName: 'Use .NET runtime 2.2.x' 
+    retryCountOnTaskFailure: 3 
+    inputs: 
+      packageType: runtime 
+      version: 2.2.x
+
+  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
+    displayName: Select Xamarin Version
+
+  - task: PowerShell@2
+    displayName: 'Install coreutils'
+    inputs:
+      targetType: inline
+      script: |
+        brew install coreutils
+
+  - bash: |
+      chmod +x $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
+      $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
+    displayName: Build and Run Android Tests
+    retryCountOnTaskFailure: 3
+    env:
+      BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
+      BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
+
+  - task: PublishTestResults@2
+    condition: always()
+    retryCountOnTaskFailure: 3
+    inputs:
+      testRunTitle: 'Android Test Run'
+      testResultsFormat: 'NUnit'
+      testResultsFiles: '$(build.sourcesdirectory)/build/TestResult-original.xml'
+      failTaskOnFailedTests: true
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    retryCountOnTaskFailure: 3
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: uno-uitest-tests
+      ArtifactType: Container

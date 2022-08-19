@@ -6,15 +6,15 @@
 		<NoWarn>NU1701</NoWarn>
 		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
-	<PropertyGroup>
-		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
-		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
-	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
 		<MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
 		<DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
 		<DebugType>portable</DebugType>
 		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
+		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
+		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
 		<Content Include="Assets\SplashScreen.png" />
@@ -23,8 +23,10 @@
 		<UpToDateCheckInput Include="..\Uno.Toolkit.Samples.Shared\**\*.xaml" />
 	</ItemGroup>
 	<ItemGroup>
-		<EmbeddedResource Include="WasmCSS\Fonts.css" />
-		<EmbeddedResource Include="WasmScripts\AppManifest.js" />
+		<EmbeddedResource Include="WasmCSS\**\*.css" />
+		<EmbeddedResource Include="WasmScripts\**\*.js" />
+		<UpToDateCheckInput Include="WasmCSS\**\*" />
+		<UpToDateCheckInput Include="WasmScripts\**\*" />
 	</ItemGroup>
 	<ItemGroup>
 		<LinkerDescriptor Include="LinkerConfig.xml" />

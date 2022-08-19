@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -15,6 +16,8 @@ namespace Uno.Toolkit.UITest
     [TestFixture]
     public abstract class TestBase
     {
+		protected abstract string SampleName { get; }
+
         private IApp _app;
 
         static TestBase()
@@ -29,6 +32,10 @@ namespace Uno.Toolkit.UITest
 #if DEBUG
             AppInitializer.TestEnvironment.WebAssemblyHeadless = false;
 #endif
+
+			// Uncomment to align with your own environment
+			// Environment.SetEnvironmentVariable("ANDROID_HOME", @"C:\Program Files (x86)\Android\android-sdk");
+			// Environment.SetEnvironmentVariable("JAVA_HOME", @"C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot");
 
             AppInitializer.ColdStartApp();
         }
@@ -46,28 +53,106 @@ namespace Uno.Toolkit.UITest
         [SetUp]
         public virtual void SetUpTest()
         {
-            App = AppInitializer.AttachToApp();
-        }
+			App = AppInitializer.AttachToApp();
 
-        [TearDown]
+			// Check if the test needs to be ignore or not
+			// If nothing specified, it is considered as a global test
+			var platforms = GetActivePlatforms()?.Distinct().ToArray() ?? Array.Empty<Platform>();
+			if (platforms.Length != 0)
+			{
+				// Otherwise, we need to define on which platform the test is running and compare it with targeted platform
+				var shouldIgnore = false;
+				var currentPlatform = AppInitializer.GetLocalPlatform();
+
+				if (_app is Uno.UITest.Xamarin.XamarinApp xa)
+				{
+					if (Xamarin.UITest.TestEnvironment.Platform == Xamarin.UITest.TestPlatform.Local)
+					{
+						shouldIgnore = !platforms.Contains(currentPlatform);
+					}
+					else
+					{
+						var testCloudPlatform = Xamarin.UITest.TestEnvironment.Platform == Xamarin.UITest.TestPlatform.TestCloudiOS
+							? Platform.iOS
+							: Platform.Android;
+
+						shouldIgnore = !platforms.Contains(testCloudPlatform);
+					}
+				}
+				else
+				{
+					shouldIgnore = !platforms.Contains(currentPlatform);
+				}
+
+				if (shouldIgnore)
+				{
+					var list = string.Join(", ", platforms.Select(p => p.ToString()));
+
+					Assert.Ignore($"This test is ignored on this platform (runs on {list})");
+				}
+			}
+
+			App.WaitForElement("AppShell");
+			NavigateToSample(SampleName);
+		}
+
+		[TearDown]
         public void TearDownTest()
         {
             TakeScreenshot("teardown");
+
+			//var isNestedFrameVisible = App.Marked("NestedSampleFrame")
+			//	.GetDependencyPropertyValue<string>("Visibility")
+			//	?.Equals("Visible", StringComparison.OrdinalIgnoreCase) ?? false;
+
+			if (App.Marked("NestedSampleFrame").HasResults())
+			{
+				ExitNestedSample();
+			}
+		}
+
+		protected void NavigateBackFromNestedSample()
+		{
+			InvokeBackdoor("browser:SampleRunner|NavBackFromNestedPage");
+		}
+
+		protected void NavigateToSample(string sample)
+        {
+			InvokeBackdoor("browser:SampleRunner|ForceNavigation", sample);
         }
 
-        protected void NavigateToSample(string sample)
-        {
-            var shell = App.Marked("AppShell").WaitUntilExists();
-            shell.SetDependencyPropertyValue("CurrentSampleBackdoor", sample);
-        }
+		protected void NavigateToNestedSample(string pageName)
+		{
+			InvokeBackdoor("browser:SampleRunner|NavigateToNestedSample", pageName);
+		}
 
-        public FileInfo TakeScreenshot(string stepName)
+		protected void ExitNestedSample()
+		{
+			InvokeBackdoor("browser:SampleRunner|ExitNestedSample");
+		}
+
+		private void InvokeBackdoor(string methodName, object? arg = null)
+		{
+			if(AppInitializer.GetLocalPlatform() == Platform.iOS)
+			{
+				arg ??= string.Empty;
+			}
+			_app?.InvokeGeneric(methodName, arg);
+		}
+
+        public FileInfo? TakeScreenshot(string stepName)
         {
+			if (_app == null)
+			{
+				Console.WriteLine($"Skipping TakeScreenshot _app is not available");
+				return null;
+			}
+
             var title = $"{TestContext.CurrentContext.Test.Name}_{stepName}"
                 .Replace(" ", "_")
                 .Replace(".", "_");
 
-            var fileInfo = _app.Screenshot(title);
+            var fileInfo = GetNativeScreenshot(title);
 
             var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileInfo.Name);
             if (fileNameWithoutExt != title)
@@ -94,5 +179,68 @@ namespace Uno.Toolkit.UITest
             return fileInfo;
         }
 
+		private IEnumerable<Platform> GetActivePlatforms()
+		{
+			var currentTest = TestContext.CurrentContext.Test;
+			if (currentTest.ClassName == null)
+			{
+				yield break;
+			}
+			if (Type.GetType(currentTest.ClassName) is { } classType)
+			{
+				if (classType.GetCustomAttributes(typeof(ActivePlatformsAttribute), false) is
+					ActivePlatformsAttribute[] classAttributes)
+				{
+					foreach (var attr in classAttributes)
+					{
+						if (attr.Platforms == null)
+						{
+							continue;
+						}
+
+						foreach (var platform in attr.Platforms)
+						{
+							yield return platform;
+						}
+					}
+				}
+
+				if (currentTest.MethodName is { })
+				{
+					var testMethodInfo = classType.GetMethod(currentTest.MethodName);
+
+					if (testMethodInfo is { } mi &&
+					    mi.GetCustomAttributes(typeof(ActivePlatformsAttribute), false) is
+						    ActivePlatformsAttribute[] methodAttributes)
+					{
+						foreach (var attr in methodAttributes)
+						{
+							if (attr.Platforms == null)
+							{
+								continue;
+							}
+
+							foreach (var platform in attr.Platforms)
+							{
+								yield return platform;
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		private FileInfo GetNativeScreenshot(string title)
+		{
+			if (AppInitializer.GetLocalPlatform() == Platform.Android)
+			{
+				return _app.GetInAppScreenshot();
+			}
+			else
+			{
+				return _app.Screenshot(title);
+			}
+		}
     }
 }
