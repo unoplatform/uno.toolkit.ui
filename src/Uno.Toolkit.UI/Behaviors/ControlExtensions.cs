@@ -27,6 +27,19 @@ namespace Uno.Toolkit.UI
 
 		#region DependencyProperty: Command
 
+		/// <summary>
+		/// Backing property for the command to execute when <see cref="TextBox"/>/<see cref="PasswordBox"/> enter key is pressed, <see cref="ListViewBase.ItemClick" /> and <see cref="NavigationView.ItemInvoked"/>.
+		/// </summary>
+		/// <remarks>
+		/// For Command, the relevant parameter is also provided for the <see cref="ICommand.CanExecute(object)"/> and <see cref="ICommand.Execute(object)"/> call:
+		/// <list type="bullet">
+		///   <item><see cref="TextBox.Text"/></item>
+		///   <item><see cref="PasswordBox.Password"/></item>
+		///   <item><see cref="ItemClickEventArgs.ClickedItem"/> from <see cref="ListViewBase.ItemClick"/></item>
+		///   <item><see cref="NavigationViewItemInvokedEventArgs.InvokedItem"/> from <see cref="NavigationView.ItemInvoked"/> </item>
+		/// </list>
+		/// Unless <see cref="CommandParameterProperty"/> is set, which replaces the above.
+		/// </remarks>
 		public static DependencyProperty CommandProperty { get; } = DependencyProperty.RegisterAttached(
 			"Command",
 			typeof(ICommand),
@@ -39,6 +52,9 @@ namespace Uno.Toolkit.UI
 		#endregion
 		#region DependencyProperty: CommandParameter
 
+		/// <summary>
+		/// Backing property for the parameter to pass to the <see cref="CommandProperty"/>.
+		/// </summary>
 		public static DependencyProperty CommandParameterProperty { get; } = DependencyProperty.RegisterAttached(
 			"CommandParameter",
 			typeof(object),
@@ -76,6 +92,13 @@ namespace Uno.Toolkit.UI
 				if (GetCommand(sender) is { } command)
 				{
 					nv.ItemInvoked += OnNavigationViewItemInvoked;
+				}
+			}
+			else
+			{
+				if (_logger.IsEnabled(LogLevel.Warning))
+				{
+					_logger.Warn($"ControlExtensions.Command is not supported on '{sender.GetType().FullName}'.");
 				}
 			}
 		}

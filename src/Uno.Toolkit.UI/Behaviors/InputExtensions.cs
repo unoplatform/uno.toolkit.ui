@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
+using Uno.Extensions;
+using Uno.Logging;
 using Windows.System;
 using Windows.UI.ViewManagement;
 
@@ -21,8 +24,13 @@ namespace Uno.Toolkit.UI
 {
 	public static class InputExtensions
 	{
+		private static readonly ILogger _logger = typeof(InputExtensions).Log();
+
 		#region DependencyProperty: AutoDismiss
 
+		/// <summary>
+		/// Backing property for whether the soft-keyboard will be dismissed when the enter key is pressed.
+		/// </summary>
 		public static DependencyProperty AutoDismissProperty { get; } = DependencyProperty.RegisterAttached(
 			"AutoDismiss",
 			typeof(bool),
@@ -35,6 +43,13 @@ namespace Uno.Toolkit.UI
 		#endregion
 		#region DependencyProperty: AutoFocusNext
 
+		/// <summary>
+		/// Backing property for whether the focus will move to the next focusable element when the enter key is pressed.
+		/// </summary>
+		/// <remarks>
+		/// Having either or both of the <see cref="AutoFocusNextProperty"/> and <see cref="AutoFocusNextElementProperty"/> set will enable the focus next behavior.
+		/// AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
+		/// </remarks>
 		public static DependencyProperty AutoFocusNextProperty { get; } = DependencyProperty.RegisterAttached(
 			"AutoFocusNext",
 			typeof(bool),
@@ -47,6 +62,13 @@ namespace Uno.Toolkit.UI
 		#endregion
 		#region DependencyProperty: AutoFocusNextElement
 
+		/// <summary>
+		/// Sets the next control to focus when the enter key is pressed.
+		/// </summary>
+		/// <remarks>
+		/// Having either or both of the <see cref="AutoFocusNextProperty"/> and <see cref="AutoFocusNextElementProperty"/> set will enable the focus next behavior.
+		/// AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
+		/// </remarks>
 		public static DependencyProperty AutoFocusNextElementProperty { get; } = DependencyProperty.RegisterAttached(
 			"AutoFocusNextElement",
 			typeof(DependencyObject),
@@ -87,13 +109,20 @@ namespace Uno.Toolkit.UI
 
 		private static void UpdateSubscription(DependencyObject sender)
 		{
-			if (sender is Control control && IsEnterCommandSupportedFor(sender))
+			if (sender is Control control && (sender is TextBox || sender is PasswordBox))
 			{
 				// note: on android, UIElement.KeyUp and Control.KeyUp are not the same event, and the UIElement one doesnt work.
 				control.KeyUp -= OnUIElementKeyUp;
 				if (GetIsBehaviorActive())
 				{
 					control.KeyUp += OnUIElementKeyUp;
+				}
+			}
+			else
+			{
+				if (_logger.IsEnabled(LogLevel.Warning))
+				{
+					_logger.Warn($"This property is not supported on '{sender.GetType().FullName}'.");
 				}
 			}
 
