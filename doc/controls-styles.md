@@ -16,6 +16,7 @@ The `Uno.Toolkit.UI` library adds the following helper classes:
 - [`ControlExtensions`](helpers\control-extensions.md): Provides various attached properties for common controls.
 - [`InputExtensions`](helpers\input-extensions.md): Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
 - [`StatusBar`](helpers\StatusBar-extensions.md): Provides two attached properties on `Page` to controls the visual of the status bar on mobile platforms.
+- [`TabBarItemExtensions`](helpers\TabBarItem-extensions.md): Provides additional features for `TabBarItem`.
 
 ## Control Styles
 Control|Style Key|IsDefaultStyle*
