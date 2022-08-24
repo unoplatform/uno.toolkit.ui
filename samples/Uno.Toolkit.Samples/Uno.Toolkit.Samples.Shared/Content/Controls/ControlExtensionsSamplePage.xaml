@@ -1,0 +1,60 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.ControlExtensionsSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:toolkit="using:Uno.UI.Toolkit"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+	<Grid Background="{ThemeResource SurfaceBrush}">
+		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<StackPanel DataContext="{Binding Data}" Spacing="20">
+						<TextBlock>The Command attached property allows an ICommand to be associated to:</TextBlock>
+
+						<!-- Text/PasswordBox[Command] example -->
+						<StackPanel Spacing="8">
+							<TextBlock Text="- TextBox/PasswordBox enter key press:" />
+							<TextBlock Text="{Binding InputDebugText}" />
+							<TextBox utu:ControlExtensions.Command="{Binding DebugInputCommand}" />
+						</StackPanel>
+
+						<!-- ListView[Command] example -->
+						<StackPanel Spacing="8">
+							<TextBlock Text="- ListView item click:" />
+							<TextBlock Text="{Binding SelectionDebugText}" />
+							<ListView ItemsSource="123"
+									  IsItemClickEnabled="True"
+									  utu:ControlExtensions.Command="{Binding DebugSelectionCommand}">
+								<ListView.ItemTemplate>
+									<DataTemplate>
+										<TextBlock>Item #<Run Text="{Binding}" /></TextBlock>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</StackPanel>
+
+						<!-- NavigationView[Command] example -->
+						<StackPanel>
+							<TextBlock Text="- NavigationView item invoke" />
+							<TextBlock Text="{Binding NavigationDebugText}" />
+							<NavigationView utu:ControlExtensions.Command="{Binding DebugNavigationCommand}">
+								<NavigationView.MenuItems>
+									<NavigationViewItem Content="Apple" />
+									<NavigationViewItem Content="Banana" />
+									<NavigationViewItem Content="Cactus" />
+								</NavigationView.MenuItems>
+							</NavigationView>
+						</StackPanel>
+
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>
