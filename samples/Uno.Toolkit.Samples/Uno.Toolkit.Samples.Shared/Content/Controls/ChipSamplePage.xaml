@@ -10,958 +10,1121 @@
       xmlns:utu="using:Uno.Toolkit.UI"
       mc:Ignorable="d android ios">
 
-	<Page.Resources>
-		<converters:FromNullToValueConverter x:Key="SingleSelectionToValueConverter"
-		                                     NotNullValue="Selected Item: #"
-		                                     NullValue="No selection" />
+    <Page.Resources>
+        <converters:FromNullToValueConverter x:Key="SingleSelectionToValueConverter"
+                                             NotNullValue="Selected Item: #"
+                                             NullValue="No selection" />
 
-		<converters:FromNullToValueConverter x:Key="MultipleSelectionToValueConverter"
-		                                     NotNullValue="Selected Items:"
-		                                     NullValue="No selection" />
+        <converters:FromNullToValueConverter x:Key="MultipleSelectionToValueConverter"
+                                             NotNullValue="Selected Items:"
+                                             NullValue="No selection" />
 
-		<Style x:Key="HorizontalScrollViewerStyle"
-		       TargetType="ScrollViewer">
-			<Setter Property="HorizontalScrollMode"
-			        Value="Auto" />
-			<Setter Property="HorizontalScrollBarVisibility"
-			        Value="Auto" />
-			<Setter Property="VerticalScrollMode"
-			        Value="Disabled" />
-			<Setter Property="VerticalScrollBarVisibility"
-			        Value="Hidden" />
-			<Setter Property="Margin"
-			        Value="0,10" />
-		</Style>
-	</Page.Resources>
+        <Style x:Key="HorizontalScrollViewerStyle"
+               TargetType="ScrollViewer">
+            <Setter Property="HorizontalScrollMode"
+                    Value="Auto" />
+            <Setter Property="HorizontalScrollBarVisibility"
+                    Value="Auto" />
+            <Setter Property="VerticalScrollMode"
+                    Value="Disabled" />
+            <Setter Property="VerticalScrollBarVisibility"
+                    Value="Hidden" />
+            <Setter Property="Margin"
+                    Value="0,10" />
+        </Style>
+    </Page.Resources>
 
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<sample:SamplePageLayout>
-			<sample:SamplePageLayout.MaterialTemplate>
-				<DataTemplate>
-					<StackPanel>
-						<!--  MaterialFilledInputChipStyle  -->
-						<TextBlock Margin="0,20,0,0"
-						           Style="{StaticResource MaterialSubtitle1}"
-						           Text="Input - Filled" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource MaterialFilledInputChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <sample:SamplePageLayout>
+            <sample:SamplePageLayout.MaterialTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <!--  MaterialFilledInputChipStyle  -->
+                        <TextBlock Margin="0,20,0,0"
+                                   Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Input - Filled" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource MaterialFilledInputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource MaterialFilledInputChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource MaterialFilledInputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource MaterialFilledInputChipStyle}" />
-							</StackPanel>
-						</ScrollViewer>
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource MaterialFilledInputChipStyle}" />
+                            </StackPanel>
+                        </ScrollViewer>
 
-						<!--  MaterialOutlinedInputChipStyle  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Input - Outlined" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource MaterialOutlinedInputChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
+                        <!--  MaterialOutlinedInputChipStyle  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Input - Outlined" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource MaterialOutlinedInputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource MaterialOutlinedInputChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource MaterialOutlinedInputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource MaterialOutlinedInputChipStyle}" />
-							</StackPanel>
-						</ScrollViewer>
-
-
-						<!--  MaterialFilledChoiceChipStyle  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Choice - Filled" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource MaterialFilledChoiceChipStyle}" />
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource MaterialFilledChoiceChipStyle}" />
-
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource MaterialFilledChoiceChipStyle}" />
-							</StackPanel>
-						</ScrollViewer>
-
-						<!--  MaterialOutlinedChoiceChipStyle  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Choice - Outlined" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource MaterialOutlinedChoiceChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource MaterialOutlinedChoiceChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource MaterialOutlinedChoiceChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-							</StackPanel>
-						</ScrollViewer>
-
-						<!--  MaterialFilledFilterChipStyle  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Filter - Filled" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource MaterialFilledFilterChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource MaterialFilledFilterChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource MaterialFilledFilterChipStyle}" />
-							</StackPanel>
-						</ScrollViewer>
-
-						<!--  MaterialOutlinedFilterChipStyle  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Filter - Outlined" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource MaterialOutlinedFilterChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource MaterialOutlinedFilterChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource MaterialOutlinedFilterChipStyle}" />
-							</StackPanel>
-						</ScrollViewer>
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource MaterialOutlinedInputChipStyle}" />
+                            </StackPanel>
+                        </ScrollViewer>
 
 
-						<!--  MaterialFilledActionChipStyle  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Action - Filled" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource MaterialFilledActionChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
+                        <!--  MaterialFilledChoiceChipStyle  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Choice - Filled" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource MaterialFilledChoiceChipStyle}" />
 
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource MaterialFilledActionChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-							</StackPanel>
-						</ScrollViewer>
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource MaterialFilledChoiceChipStyle}" />
 
-						<!--  MaterialOutlinedActionChipStyle  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Action - Outlined" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource MaterialOutlinedActionChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource MaterialFilledChoiceChipStyle}" />
+                            </StackPanel>
+                        </ScrollViewer>
 
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource MaterialOutlinedActionChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-							</StackPanel>
-						</ScrollViewer>
+                        <!--  MaterialOutlinedChoiceChipStyle  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Choice - Outlined" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource MaterialOutlinedChoiceChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-						<!--  ### ChipGroup  -->
-						<TextBlock Margin="0,36,0,20"
-						           Style="{StaticResource MaterialHeadline6}"
-						           Text="ChipGroup" />
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource MaterialOutlinedChoiceChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-						<!--  ChipGroup Input  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Input" />
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource MaterialOutlinedChoiceChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </StackPanel>
+                        </ScrollViewer>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <!--  MaterialFilledFilterChipStyle  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Filter - Filled" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource MaterialFilledFilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemRemoved="RemoveChipItem"
-							               ItemsSource="{Binding Data.MutableTestCollection}"
-							               Style="{StaticResource MaterialFilledInputChipGroupStyle}">
-								<utu:ChipGroup.IconTemplate>
-									<DataTemplate>
-										<Image Source="{Binding Image}" />
-									</DataTemplate>
-								</utu:ChipGroup.IconTemplate>
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource MaterialFilledFilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource MaterialFilledFilterChipStyle}" />
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!--  MaterialOutlinedFilterChipStyle  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Filter - Outlined" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource MaterialOutlinedFilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource MaterialOutlinedFilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource MaterialOutlinedFilterChipStyle}" />
+                            </StackPanel>
+                        </ScrollViewer>
+
+
+                        <!--  MaterialFilledActionChipStyle  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Action - Filled" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource MaterialFilledActionChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource MaterialFilledActionChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!--  MaterialOutlinedActionChipStyle  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Action - Outlined" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource MaterialOutlinedActionChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource MaterialOutlinedActionChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!--  ### ChipGroup  -->
+                        <TextBlock Margin="0,36,0,20"
+                                   Style="{StaticResource MaterialHeadline6}"
+                                   Text="ChipGroup" />
+
+                        <!--  ChipGroup Input  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Input" />
+
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemRemoved="RemoveChipItem"
+                                           ItemsSource="{Binding Data.MutableTestCollection}"
+                                           Style="{StaticResource MaterialFilledInputChipGroupStyle}">
+                                <utu:ChipGroup.IconTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.IconTemplate>
+
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemRemoved="RemoveChipItem"
-							               ItemsSource="{Binding Data.MutableTestCollection}"
-							               Style="{StaticResource MaterialOutlinedInputChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemRemoved="RemoveChipItem"
+                                           ItemsSource="{Binding Data.MutableTestCollection}"
+                                           Style="{StaticResource MaterialOutlinedInputChipGroupStyle}">
 
-								<utu:ChipGroup.IconTemplate>
-									<DataTemplate>
-										<Image Source="{Binding Image}" />
-									</DataTemplate>
-								</utu:ChipGroup.IconTemplate>
+                                <utu:ChipGroup.IconTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.IconTemplate>
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<Button Margin="0,10,0,20"
-						        Click="ResetChipItems"
-						        Content="Reset chip items" />
+                        <Button Margin="0,10,0,20"
+                                Click="ResetChipItems"
+                                Content="Reset chip items" />
 
-						<!--  ChipGroup Choice  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Choice" />
+                        <!--  ChipGroup Choice  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Choice" />
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource MaterialFilledChoiceChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource MaterialFilledChoiceChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               SelectionMode="Single"
-							               Style="{StaticResource MaterialOutlinedChoiceChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           SelectionMode="Single"
+                                           Style="{StaticResource MaterialOutlinedChoiceChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<!--  ChipGroup Filter  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Filter" />
+                        <!--  ChipGroup Filter  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Filter" />
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource MaterialFilledFilterChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource MaterialFilledFilterChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource MaterialOutlinedFilterChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource MaterialOutlinedFilterChipGroupStyle}">
 
-								<utu:ChipGroup.IconTemplate>
-									<DataTemplate>
-										<Border Background="{StaticResource MaterialSecondaryBrush}" />
-									</DataTemplate>
-								</utu:ChipGroup.IconTemplate>
+                                <utu:ChipGroup.IconTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{StaticResource MaterialSecondaryBrush}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.IconTemplate>
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<!--  ChipGroup Action  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Action" />
+                        <!--  ChipGroup Action  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Action" />
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource MaterialFilledActionChipGroupStyle}">
-								<utu:ChipGroup.IconTemplate>
-									<DataTemplate>
-										<Image Source="{Binding Image}" />
-									</DataTemplate>
-								</utu:ChipGroup.IconTemplate>
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource MaterialFilledActionChipGroupStyle}">
+                                <utu:ChipGroup.IconTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.IconTemplate>
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource MaterialOutlinedActionChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource MaterialOutlinedActionChipGroupStyle}">
 
-								<utu:ChipGroup.IconTemplate>
-									<DataTemplate>
-										<Image Source="{Binding Image}" />
-									</DataTemplate>
-								</utu:ChipGroup.IconTemplate>
+                                <utu:ChipGroup.IconTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.IconTemplate>
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<!--  ChipGroup Selection  -->
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Single Selection with Choice chips" />
-						<TextBlock Style="{StaticResource MaterialSubtitle2}">
+                        <!--  ChipGroup Selection  -->
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Single Selection with Choice chips" />
+                        <TextBlock Style="{StaticResource MaterialSubtitle2}">
 							<Run Text="{Binding ElementName=SingleSelectionChipGroup, Path=SelectedItem, Mode=TwoWay, Converter={StaticResource SingleSelectionToValueConverter}}" /><Run Text="{Binding ElementName=SingleSelectionChipGroup, Path=SelectedItem.Index, Mode=TwoWay}" />
-						</TextBlock>
+                        </TextBlock>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup x:Name="SingleSelectionChipGroup"
-							               Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestArray}"
-							               SelectedItem="{Binding Data.TestItem}"
-							               Style="{StaticResource MaterialFilledChoiceChipGroupStyle}">
+                            <utu:ChipGroup x:Name="SingleSelectionChipGroup"
+                                           Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestArray}"
+                                           SelectedItem="{Binding Data.TestItem}"
+                                           Style="{StaticResource MaterialFilledChoiceChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Single Selection with Enum and Choice chips" />
-						<TextBlock Style="{StaticResource MaterialSubtitle2}">
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Single Selection with Enum and Choice chips" />
+                        <TextBlock Style="{StaticResource MaterialSubtitle2}">
 							<Run Text="{Binding ElementName=SingleEnumSelectionChipGroup, Path=SelectedItem, Mode=TwoWay, Converter={StaticResource SingleSelectionToValueConverter}}" /><Run Text="{Binding ElementName=SingleEnumSelectionChipGroup, Path=SelectedItem, Mode=TwoWay}" />
-						</TextBlock>
+                        </TextBlock>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup x:Name="SingleEnumSelectionChipGroup"
-							               Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestEnumArray}"
-							               SelectedItem="{Binding Data.TestEnumItem}"
-							               Style="{StaticResource MaterialFilledChoiceChipGroupStyle}">
+                            <utu:ChipGroup x:Name="SingleEnumSelectionChipGroup"
+                                           Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestEnumArray}"
+                                           SelectedItem="{Binding Data.TestEnumItem}"
+                                           Style="{StaticResource MaterialFilledChoiceChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}"
-										           Text="{Binding}" />
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}"
+                                                   Text="{Binding}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<TextBlock Style="{StaticResource MaterialSubtitle1}"
-						           Text="Multiple selection with Filter chips" />
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="0,0,4,0"
-							           VerticalAlignment="Center"
-							           Style="{StaticResource MaterialSubtitle2}"
-							           Text="{Binding ElementName=MultipleSelectionChipGroup, Path=SelectedItems, Mode=TwoWay, Converter={StaticResource MultipleSelectionToValueConverter}}" />
-							<ItemsControl VerticalAlignment="Center"
-							              ItemsSource="{Binding ElementName=MultipleSelectionChipGroup, Path=SelectedItems, Mode=TwoWay}">
-								<ItemsControl.ItemsPanel>
-									<ItemsPanelTemplate>
-										<StackPanel Orientation="Horizontal" />
-									</ItemsPanelTemplate>
-								</ItemsControl.ItemsPanel>
-								<ItemsControl.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Margin="0,0,2,0"
-										           Style="{StaticResource MaterialSubtitle2}">
+                        <TextBlock Style="{StaticResource MaterialSubtitle1}"
+                                   Text="Multiple selection with Filter chips" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0,0,4,0"
+                                       VerticalAlignment="Center"
+                                       Style="{StaticResource MaterialSubtitle2}"
+                                       Text="{Binding ElementName=MultipleSelectionChipGroup, Path=SelectedItems, Mode=TwoWay, Converter={StaticResource MultipleSelectionToValueConverter}}" />
+                            <ItemsControl VerticalAlignment="Center"
+                                          ItemsSource="{Binding ElementName=MultipleSelectionChipGroup, Path=SelectedItems, Mode=TwoWay}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="0,0,2,0"
+                                                   Style="{StaticResource MaterialSubtitle2}">
 											<Run Text="#" /><Run Text="{Binding Index}" /><Run Text="," />
-										</TextBlock>
-									</DataTemplate>
-								</ItemsControl.ItemTemplate>
-							</ItemsControl>
-						</StackPanel>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup x:Name="MultipleSelectionChipGroup"
-							               Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestArray}"
-							               SelectedItems="{Binding Data.TestSelectedItems}"
-							               Style="{StaticResource MaterialFilledFilterChipGroupStyle}">
+                            <utu:ChipGroup x:Name="MultipleSelectionChipGroup"
+                                           Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestArray}"
+                                           SelectedItems="{Binding Data.TestSelectedItems}"
+                                           Style="{StaticResource MaterialFilledFilterChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource MaterialBody1}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource MaterialBody1}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
-					</StackPanel>
-				</DataTemplate>
-			</sample:SamplePageLayout.MaterialTemplate>
-			<sample:SamplePageLayout.M3MaterialTemplate>
-				<DataTemplate>
-					<StackPanel>
-						<!--  M3MaterialInputChipStyle  -->
-						<TextBlock Style="{StaticResource TitleSmall}"
-						           Text="Input" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource InputChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
+                    </StackPanel>
+                </DataTemplate>
+            </sample:SamplePageLayout.MaterialTemplate>
+            <sample:SamplePageLayout.M3MaterialTemplate>
+                <DataTemplate>
+                    <StackPanel>
 
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource InputChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
+                        <StackPanel Background="{ThemeResource BackgroundBrush}"
+                                    Spacing="10"
+                                    Padding="10,10,10,10">
+                            <StackPanel.Resources>
+                                <x:String x:Key="Icon_Card_Travel">F1 M 13.5 3 L 11.25 3 L 11.25 1.5 C 11.25 0.6674999892711639 10.582500010728836 0 9.75 0 L 5.25 0 C 4.417499989271164 0 3.75 0.6674999892711639 3.75 1.5 L 3.75 3 L 1.5 3 C 0.6674999892711639 3 0 3.667499989271164 0 4.5 L 0 12.75 C 0 13.582500010728836 0.6674999892711639 14.25 1.5 14.25 L 13.5 14.25 C 14.332500010728836 14.25 15 13.582500010728836 15 12.75 L 15 4.5 C 15 3.667499989271164 14.332500010728836 3 13.5 3 Z M 5.25 1.5 L 9.75 1.5 L 9.75 3 L 5.25 3 L 5.25 1.5 Z M 13.5 12.75 L 1.5 12.75 L 1.5 11.25 L 13.5 11.25 L 13.5 12.75 Z M 13.5 9 L 1.5 9 L 1.5 4.5 L 3.75 4.5 L 3.75 6 L 5.25 6 L 5.25 4.5 L 9.75 4.5 L 9.75 6 L 11.25 6 L 11.25 4.5 L 13.5 4.5 L 13.5 9 Z</x:String>
+                                <x:String x:Key="Icon_Chat">F1 M 13.5 0 L 1.5 0 C 0.6749999821186066 0 0.007499992847442627 0.6749999821186066 0.007499992847442627 1.5 L 0 15 L 3 12 L 13.5 12 C 14.325000017881393 12 15 11.325000017881393 15 10.5 L 15 1.5 C 15 0.6749999821186066 14.325000017881393 0 13.5 0 Z M 3 5.25 L 12 5.25 L 12 6.75 L 3 6.75 L 3 5.25 Z M 9 9 L 3 9 L 3 7.5 L 9 7.5 L 9 9 Z M 12 4.5 L 3 4.5 L 3 3 L 12 3 L 12 4.5 Z</x:String>
+                                <x:String x:Key="Icon_Check">F1 M 4.192500114440918 7.934999942779541 L 1.0649998784065247 4.807499885559082 L 0 5.864999771118164 L 4.192500114440918 10.057499885559082 L 13.192500114440918 1.057499885559082 L 12.135000228881836 0 L 4.192500114440918 7.934999942779541 Z</x:String>
+                                <x:String x:Key="Icon_Checkroom">F1 M 14.701659679412842 10.652316278229568 L 8.251659393310547 5.814815871464952 L 8.251659393310547 5.132315958790994 C 9.489159375429153 4.764815937038117 10.351659625768661 3.5048155686910603 10.074159622192383 2.0948155162497843 C 9.87915962934494 1.1123155201316215 9.099159121513367 0.2948156693730263 8.116659164428711 0.0698156514933577 C 6.406659185886383 -0.3201843496957443 4.876659393310547 0.977315464700335 4.876659393310547 2.627315566015581 L 6.376659393310547 2.627315566015581 C 6.376659393310547 2.0048155538014023 6.879159405827522 1.5023155213207233 7.501659393310547 1.5023155213207233 C 8.124159380793571 1.5023155213207233 8.626659393310547 2.0048155538014023 8.626659393310547 2.627315566015581 C 8.626659393310547 3.257315571375168 8.10915957391262 3.767315789785035 7.479159593582153 3.75231578952438 C 7.074159577488899 3.7448157893940524 6.751659393310547 4.089815615178198 6.751659393310547 4.494815647361602 L 6.751659393310547 5.814815871464952 L 0.3016594424843788 10.652316278229568 C -0.27584054321050644 11.087316282994603 0.031659409403800964 12.00231647491455 0.7516593933105469 12.00231647491455 L 7.501659393310547 12.00231647491455 L 14.251659393310547 12.00231647491455 C 14.971659377217293 12.00231647491455 15.279159665107727 11.087316282994603 14.701659679412842 10.652316278229568 Z M 3.001659393310547 10.502315700065642 L 7.501659393310547 7.127315565981069 L 12.001659393310547 10.502315700065642 L 3.001659393310547 10.502315700065642 Z</x:String>
+                                <x:String x:Key="Icon_Child_Care">M 1.875 0.9375 C 1.875 1.4552669674158096 1.4552669674158096 1.875 0.9375 1.875 C 0.41973303258419037 1.875 0 1.4552669674158096 0 0.9375 C 0 0.41973303258419037 0.41973303258419037 0 0.9375 0 C 1.4552669674158096 0 1.875 0.41973303258419037 1.875 0.9375 Z</x:String>
+                                <x:String x:Key="Icon_Cloud">F1 M 14.512500286102295 4.5299999713897705 C 14.002500280737877 1.9424999356269836 11.730000078678131 0 9 0 C 6.832499921321869 0 4.949999928474426 1.2299998998641968 4.012499928474426 3.0299999713897705 C 1.7549999356269836 3.2699999660253525 0 5.182500064373016 0 7.5 C 0 9.982499957084656 2.0175000429153442 12 4.5 12 L 14.25 12 C 16.319999992847443 12 18 10.319999992847443 18 8.25 C 18 6.269999921321869 16.46250021457672 4.6649999767541885 14.512500286102295 4.5299999713897705 Z</x:String>
+                                <x:String x:Key="Icon_Coronavirus">F1 M 14.437499081639176 6.375 C 14.129999103881278 6.375 13.874999117419469 6.630000002682209 13.874999117419469 6.9375 L 12.71999850424287 6.9375 C 12.60749850692858 5.909999996423721 12.202499611832415 4.9649999141693115 11.579999663946246 4.199999928474426 L 12.397499726386467 3.382500171661377 L 12.404999897570763 3.3899999856948853 C 12.62249987747723 3.6074999794363976 12.982499466551628 3.6074999794363976 13.199999446458095 3.3899999856948853 C 13.417499426364563 3.172499991953373 13.417499426364563 2.812500022351742 13.199999446458095 2.5950000286102295 L 12.404999897570763 1.8000000715255737 C 12.187499917664296 1.5825000777840614 11.827498898078511 1.5825000777840614 11.609998918172044 1.8000000715255737 C 11.392498938265577 2.017500065267086 11.392498759451655 2.3699998632073402 11.602498746987749 2.5874998569488525 L 10.78499868454753 3.4049999713897705 C 10.01999874751384 2.7899999767541885 9.082499254182467 2.3850001618266106 8.054999315964855 2.272500157356262 L 8.054999315964855 1.125 L 8.06249948714915 1.125 C 8.369999464907048 1.125 8.62499945136886 0.869999997317791 8.62499945136886 0.5625 C 8.624999451368861 0.255000002682209 8.369999464907048 0 8.06249948714915 0 L 6.937499558709734 0 C 6.629999580951836 0 6.374999594490026 0.255000002682209 6.374999594490026 0.5625 C 6.374999594490026 0.869999997317791 6.62249940976754 1.117500000167638 6.929999387525439 1.125 L 6.929999387525439 2.2875001430511475 C 5.902499449307827 2.3925001434981823 4.964999598348608 2.804999962449074 4.199999661314918 3.4199999570846558 L 3.3824999565025444 2.602499842643738 L 3.3899997700589943 2.5950000286102295 C 3.607499749965461 2.377500034868717 3.607499749965461 2.017500065267086 3.3899997700589943 1.8000000715255737 C 3.1724997901525276 1.5825000777840614 2.812499843450281 1.5825000777840614 2.5949998635438147 1.8000000715255737 L 1.7999999570286354 2.5950000286102295 C 1.5824999771221688 2.812500022351742 1.5824999771221688 3.172499991953373 1.7999999570286354 3.3899999856948853 C 2.017499936935102 3.6074999794363976 2.369999712453053 3.607500158250332 2.5874996923595193 3.397500157356262 L 3.4049997547997393 4.2149999141693115 C 2.789999799283943 4.979999899864197 2.3849998201283698 5.909999996423721 2.279999826360323 6.9375 L 1.1249999284394163 6.9375 C 1.1249999284394163 6.630000002682209 0.8699999419776064 6.375 0.5624999642197082 6.375 C 0.2549999864618099 6.375 0 6.630000002682209 0 6.9375 L 0 8.0625 C 0 8.369999997317791 0.2549999864618099 8.625 0.5624999642197082 8.625 C 0.8699999419776064 8.625 1.1249999284394163 8.369999997317791 1.1249999284394163 8.0625 L 2.279999826360323 8.0625 C 2.3924998236746124 9.090000003576279 2.797499791654315 10.019999384880066 3.4049997547997393 10.784999370574951 L 2.5874996923595193 11.60249948501587 C 2.369999712453053 11.384999491274357 2.017499936935102 11.392499662935734 1.7999999570286354 11.609999656677246 C 1.5824999771221688 11.827499650418758 1.5824999771221688 12.187500692903996 1.7999999570286354 12.405000686645508 L 2.5949998635438147 13.200000286102295 C 2.812499843450281 13.417500279843807 3.1724997901525276 13.417500279843807 3.3899997700589943 13.200000286102295 C 3.607499749965461 12.982500292360783 3.607499749965461 12.62250068038702 3.3899997700589943 12.405000686645508 L 3.3824999565025444 12.39750051498413 L 4.199999661314918 11.580000400543213 C 4.964999598348608 12.195000395178795 5.894999278123532 12.600000567734241 6.922499216341143 12.71250057220459 L 6.922499216341143 13.875 C 6.614999238583245 13.882499999832362 6.3674994233057305 14.130000002682209 6.3674994233057305 14.4375 C 6.3674994233057305 14.744999997317791 6.62249940976754 15 6.929999387525439 15 L 8.054999315964855 15 C 8.362499293722752 15 8.617499280184564 14.744999997317791 8.617499280184564 14.4375 C 8.617499280184564 14.130000002682209 8.362499293722752 13.875 8.054999315964855 13.875 L 8.04749914478056 13.875 L 8.04749914478056 12.719999313354492 C 9.074999082998172 12.614999312907457 10.012500006840929 12.202500566840172 10.777499943874618 11.58750057220459 L 11.594998575803453 12.405000686645508 C 11.377498595896986 12.62250068038702 11.384998767081282 12.975000120699406 11.602498746987749 13.192500114440918 C 11.819998726894216 13.41000010818243 12.17999974648 13.41000010818243 12.397499726386467 13.192500114440918 L 13.1924992752738 12.39750051498413 C 13.409999255180267 12.180000521242619 13.409999255180267 11.819999478757381 13.1924992752738 11.60249948501587 C 12.974999295367333 11.384999491274357 12.614999706292934 11.384999491274357 12.397499726386467 11.60249948501587 L 12.389999555202172 11.609999656677246 L 11.572499492761951 10.792499542236328 C 12.187499448277748 10.027499556541443 12.599999766255669 9.089999824762344 12.712499763569959 8.054999828338623 L 13.867498946235173 8.054999828338623 C 13.867498946235173 8.362499825656414 14.122498932696983 8.617499828338623 14.42999891045488 8.617499828338623 C 14.737498888212778 8.617499828338623 14.99249887467459 8.362499825656414 14.99249887467459 8.054999828338623 L 14.99249887467459 6.929999828338623 C 14.999998874029881 6.629999823868275 14.744999059397074 6.375 14.437499081639176 6.375 Z M 8.812499439442094 4.5 C 9.22499942214391 4.5 9.56249939173504 4.837499991059303 9.56249939173504 5.25 C 9.56249939173504 5.662500008940697 9.22499942214391 6 8.812499439442094 6 C 8.399999456740279 6 8.06249948714915 5.662500008940697 8.06249948714915 5.25 C 8.06249948714915 4.837499991059303 8.399999456740279 4.5 8.812499439442094 4.5 Z M 7.499999522929443 8.25 C 7.087499540227627 8.25 6.749999570636498 7.912500008940697 6.749999570636498 7.5 C 6.749999570636498 7.087499991059303 7.087499540227627 6.75 7.499999522929443 6.75 C 7.912499505631258 6.75 8.249999475222387 7.087499991059303 8.249999475222387 7.5 C 8.249999475222387 7.912500008940697 7.912499505631258 8.25 7.499999522929443 8.25 Z M 6.18749960641679 4.5 C 6.599999589118606 4.5 6.937499558709734 4.837499991059303 6.937499558709734 5.25 C 6.937499558709734 5.662500008940697 6.599999589118606 6 6.18749960641679 6 C 5.774999623714975 6 5.437499654123846 5.662500008940697 5.437499654123846 5.25 C 5.437499654123846 4.837499991059303 5.774999623714975 4.5 6.18749960641679 4.5 Z M 4.874999689904137 8.25 C 4.462499707202322 8.25 4.124999737611193 7.912500008940697 4.124999737611193 7.5 C 4.124999737611193 7.087499991059303 4.462499707202322 6.75 4.874999689904137 6.75 C 5.287499672605953 6.75 5.624999642197082 7.087499991059303 5.624999642197082 7.5 C 5.624999642197082 7.912500008940697 5.287499672605953 8.25 4.874999689904137 8.25 Z M 6.18749960641679 10.5 C 5.774999623714975 10.5 5.437499654123846 10.162500008940697 5.437499654123846 9.75 C 5.437499654123846 9.337499991059303 5.774999623714975 9 6.18749960641679 9 C 6.599999589118606 9 6.937499558709734 9.337499991059303 6.937499558709734 9.75 C 6.937499558709734 10.162500008940697 6.599999589118606 10.5 6.18749960641679 10.5 Z M 8.812499439442094 10.5 C 8.399999456740279 10.5 8.06249948714915 10.162500008940697 8.06249948714915 9.75 C 8.06249948714915 9.337499991059303 8.399999456740279 9 8.812499439442094 9 C 9.22499942214391 9 9.56249939173504 9.337499991059303 9.56249939173504 9.75 C 9.56249939173504 10.162500008940697 9.22499942214391 10.5 8.812499439442094 10.5 Z M 9.374999403661803 7.5 C 9.374999403661803 7.087499991059303 9.712499373252932 6.75 10.124999355954747 6.75 C 10.537499338656563 6.75 10.874999308247691 7.087499991059303 10.874999308247691 7.5 C 10.874999308247691 7.912500008940697 10.537499338656563 8.25 10.124999355954747 8.25 C 9.712499373252932 8.25 9.374999403661803 7.912500008940697 9.374999403661803 7.5 Z</x:String>
+                                <x:String x:Key="Icon_Create">F1 M 0 10.689374307777618 L 0 13.501874923706055 L 2.8125 13.501874923706055 L 11.107499599456787 5.206874544314932 L 8.295000314712524 2.394375001270064 L 0 10.689374307777618 Z M 13.282499313354492 3.03187490723031 C 13.574999302625656 2.7393749282891826 13.574999302625656 2.266875037959408 13.282499313354492 1.97437505901828 L 11.527500629425049 0.21937498420584567 C 11.235000640153885 -0.07312499473528189 10.762499302625656 -0.07312499473528189 10.469999313354492 0.21937498420584567 L 9.097500085830688 1.591874900865419 L 11.909999370574951 4.404374801538142 L 13.282499313354492 3.03187490723031 L 13.282499313354492 3.03187490723031 Z</x:String>
+                                <x:String x:Key="Icon_Dashboard">F1 M 0 7.5 L 6 7.5 L 6 0 L 0 0 L 0 7.5 Z M 0 13.5 L 6 13.5 L 6 9 L 0 9 L 0 13.5 Z M 7.5 13.5 L 13.5 13.5 L 13.5 6 L 7.5 6 L 7.5 13.5 Z M 7.5 0 L 7.5 4.5 L 13.5 4.5 L 13.5 0 L 7.5 0 Z</x:String>
+                                <x:String x:Key="Icon_Delete">F1 M 0.75 12 C 0.75 12.825000017881393 1.4249999821186066 13.5 2.25 13.5 L 8.25 13.5 C 9.075000017881393 13.5 9.75 12.825000017881393 9.75 12 L 9.75 3 L 0.75 3 L 0.75 12 Z M 10.5 0.75 L 7.875 0.75 L 7.125 0 L 3.375 0 L 2.625 0.75 L 0 0.75 L 0 2.25 L 10.5 2.25 L 10.5 0.75 Z</x:String>
+                            </StackPanel.Resources>
 
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource InputChipStyle}" />
-							</StackPanel>
-						</ScrollViewer>
-
-
-						<!--  M3MaterialElevatedSuggestionChipStyle  -->
-						<TextBlock Style="{StaticResource TitleSmall}"
-						           Text="Suggestion - Elevated" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource ElevatedSuggestionChipStyle}" />
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource ElevatedSuggestionChipStyle}" />
-
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource ElevatedSuggestionChipStyle}" />
-							</StackPanel>
-						</ScrollViewer>
-
-						<!--  M3MaterialSuggestionChipStyle  -->
-						<TextBlock Style="{StaticResource TitleSmall}"
-						           Text="Suggestion" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource SuggestionChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource SuggestionChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource SuggestionChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-							</StackPanel>
-						</ScrollViewer>
-
-						<!--  M3MaterialElevatedFilterChipStyle  -->
-						<TextBlock Style="{StaticResource TitleSmall}"
-						           Text="Filter - Elevated" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource ElevatedFilterChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource ElevatedFilterChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource ElevatedFilterChipStyle}" />
-							</StackPanel>
-						</ScrollViewer>
-
-						<!--  M3MaterialFilterChipStyle  -->
-						<TextBlock Style="{StaticResource TitleSmall}"
-						           Text="Filter" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource FilterChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource FilterChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Selected"
-								          IsChecked="True"
-								          Style="{StaticResource FilterChipStyle}" />
-							</StackPanel>
-						</ScrollViewer>
-
-
-						<!--  M3MaterialElevatedAssistChipStyle  -->
-						<TextBlock Style="{StaticResource TitleSmall}"
-						           Text="Assist - Elevated" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource ElevatedAssistChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource ElevatedAssistChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-							</StackPanel>
-						</ScrollViewer>
-
-						<!--  M3MaterialAssistChipStyle  -->
-						<TextBlock Style="{StaticResource TitleSmall}"
-						           Text="Assist" />
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
-							<StackPanel Orientation="Horizontal"
-							            Spacing="8">
-								<utu:Chip Content="Enabled"
-								          Style="{StaticResource AssistChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-
-								<utu:Chip Content="Disabled"
-								          IsEnabled="False"
-								          Style="{StaticResource AssistChipStyle}">
-									<utu:Chip.Icon>
-										<Image Source="ms-appx:///Assets/Avatar.png" />
-									</utu:Chip.Icon>
-								</utu:Chip>
-							</StackPanel>
-						</ScrollViewer>
+                            <TextBlock Foreground="{ThemeResource PrimaryBrush}"
+                                       Text="Assist Chips"
+                                       utu:AutoLayout.CounterAlignment="Start"
+                                       Style="{StaticResource HeadlineMedium}" />
+                            
+                            <utu:ChipGroup Style="{StaticResource AssistChipGroupStyle}">
+                                <utu:Chip Content="Outlined"
+                                          Style="{StaticResource AssistChipStyle}" />
+                                <utu:Chip Content="Outlined + Icon"
+                                          Style="{StaticResource AssistChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Card_Travel}"
+                                                  Foreground="{ThemeResource PrimaryBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                                
+                                <utu:Chip Content="Elevated"
+                                          Style="{StaticResource ElevatedAssistChipStyle}" />
+                                <utu:Chip Content="Elevated + Icon"
+                                          Style="{StaticResource ElevatedAssistChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Coronavirus}"
+                                                  Foreground="{ThemeResource PrimaryBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </utu:ChipGroup>
+                            
+                            <TextBlock Foreground="{ThemeResource PrimaryBrush}"
+                                       Text="Filter Chips"
+                                       utu:AutoLayout.CounterAlignment="Start"
+                                       Style="{StaticResource HeadlineMedium}" />
+                            
+                            <utu:ChipGroup Style="{StaticResource FilterChipGroupStyle}">
+                                <utu:Chip Content="Outlined"
+                                          Style="{StaticResource FilterChipStyle}" />
+                                
+                                <utu:Chip Content="Outlined (Selected)"
+                                          Style="{StaticResource FilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Check}"
+                                                  Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                                
+                                <utu:Chip Content="Outlined + Icon"
+                                          Style="{StaticResource FilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Cloud}"
+                                                  Foreground="{ThemeResource PrimaryBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                                
+                                <utu:Chip Content="Outlined + Icon (Sel.)"
+                                          Style="{StaticResource FilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Check}"
+                                                  Foreground="{ThemeResource OnSecondaryContainerBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                                
+                                <utu:Chip Content="Elevated"
+                                          Style="{StaticResource ElevatedFilterChipStyle}" />
+                                <utu:Chip Content="Elevated + Icon"
+                                          Style="{StaticResource ElevatedFilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Dashboard}"
+                                                  Foreground="{ThemeResource SecondaryBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </utu:ChipGroup>
+                            
+                            <TextBlock Foreground="{ThemeResource PrimaryBrush}"
+                                       Text="Input Chips (only Outlined)"
+                                       utu:AutoLayout.CounterAlignment="Start"
+                                       Style="{StaticResource HeadlineMedium}" />
+                            <utu:ChipGroup Style="{StaticResource InputChipGroupStyle}">
+                                <utu:Chip CanRemove="false"
+                                          IsCheckable="false"
+                                          Content="Normal"
+                                          Style="{StaticResource InputChipStyle}" />
+                                <utu:Chip IsCheckable="false"
+                                          Content="Removabled"
+                                          Style="{StaticResource InputChipStyle}" />
+                                <utu:Chip CanRemove="false"
+                                          IsCheckable="false"
+                                          Content="Icon"
+                                          Style="{StaticResource InputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Create}"
+                                                  Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                                <utu:Chip IsCheckable="false"
+                                          Content="Icon + Removable"
+                                          Style="{StaticResource InputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Create}"
+                                                  Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                                <utu:Chip CanRemove="false"
+                                          Content="Selectable"
+                                          Style="{StaticResource InputChipStyle}" />
+                                <utu:Chip CanRemove="false"
+                                          Content="Selectable + Icon"
+                                          Style="{StaticResource InputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Delete}"
+                                                  Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                                <utu:Chip Content="Selectable + Icon + Removable"
+                                          Style="{StaticResource InputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Child_Care}"
+                                                  Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </utu:ChipGroup>
+                            <TextBlock Foreground="{ThemeResource PrimaryBrush}"
+                                       Text="Suggestion Chips"
+                                       utu:AutoLayout.CounterAlignment="Start"
+                                       Style="{StaticResource HeadlineMedium}" />
+                            <utu:ChipGroup Style="{StaticResource SuggestionChipGroupStyle}">
+                                <utu:Chip Content="Outlined"
+                                          Style="{StaticResource SuggestionChipStyle}" />
+                                <utu:Chip Content="Outlined + Icon"
+                                          Style="{StaticResource SuggestionChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Chat}"
+                                                  Foreground="{ThemeResource PrimaryBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                                <utu:Chip Content="Elevated"
+                                          Style="{StaticResource ElevatedSuggestionChipStyle}" />
+                                <utu:Chip Content="Elevated + Icon"
+                                          Style="{StaticResource ElevatedSuggestionChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <PathIcon Data="{StaticResource Icon_Checkroom}"
+                                                  Foreground="{ThemeResource PrimaryBrush}" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </utu:ChipGroup>
+                        </StackPanel>
 
 
+                        <!--  M3MaterialInputChipStyle  -->
+                        <TextBlock Style="{StaticResource TitleSmall}"
+                                   Text="Input" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource InputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-						<!--  ### ChipGroup  -->
-						<TextBlock Margin="0,36,0,20"
-						           Style="{StaticResource TitleLarge}"
-						           Text="ChipGroup" />
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource InputChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
 
-						<!--  ChipGroup Input  -->
-						<TextBlock Style="{StaticResource TitleMedium}"
-						           Text="Input" />
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource InputChipStyle}" />
+                            </StackPanel>
+                        </ScrollViewer>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemRemoved="RemoveChipItem"
-							               ItemsSource="{Binding Data.MutableTestCollection}"
-							               Style="{StaticResource InputChipGroupStyle}">
+                        <!--  M3MaterialElevatedSuggestionChipStyle  -->
+                        <TextBlock Style="{StaticResource TitleSmall}"
+                                   Text="Suggestion - Elevated" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource ElevatedSuggestionChipStyle}" />
 
-								<utu:ChipGroup.IconTemplate>
-									<DataTemplate>
-										<Image Source="{Binding Image}" />
-									</DataTemplate>
-								</utu:ChipGroup.IconTemplate>
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource ElevatedSuggestionChipStyle}" />
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource LabelLarge}">
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource ElevatedSuggestionChipStyle}" />
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!--  M3MaterialSuggestionChipStyle  -->
+                        <TextBlock Style="{StaticResource TitleSmall}"
+                                   Text="Suggestion" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource SuggestionChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource SuggestionChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource SuggestionChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!--  M3MaterialElevatedFilterChipStyle  -->
+                        <TextBlock Style="{StaticResource TitleSmall}"
+                                   Text="Filter - Elevated" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource ElevatedFilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource ElevatedFilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource ElevatedFilterChipStyle}" />
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!--  M3MaterialFilterChipStyle  -->
+                        <TextBlock Style="{StaticResource TitleSmall}"
+                                   Text="Filter" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource FilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource FilterChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Selected"
+                                          IsChecked="True"
+                                          Style="{StaticResource FilterChipStyle}" />
+                            </StackPanel>
+                        </ScrollViewer>
+
+
+                        <!--  M3MaterialElevatedAssistChipStyle  -->
+                        <TextBlock Style="{StaticResource TitleSmall}"
+                                   Text="Assist - Elevated" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource ElevatedAssistChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource ElevatedAssistChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!--  M3MaterialAssistChipStyle  -->
+                        <TextBlock Style="{StaticResource TitleSmall}"
+                                   Text="Assist" />
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="8">
+                                <utu:Chip Content="Enabled"
+                                          Style="{StaticResource AssistChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+
+                                <utu:Chip Content="Disabled"
+                                          IsEnabled="False"
+                                          Style="{StaticResource AssistChipStyle}">
+                                    <utu:Chip.Icon>
+                                        <Image Source="ms-appx:///Assets/Avatar.png" />
+                                    </utu:Chip.Icon>
+                                </utu:Chip>
+                            </StackPanel>
+                        </ScrollViewer>
+
+
+
+                        <!--  ### ChipGroup  -->
+                        <TextBlock Margin="0,36,0,20"
+                                   Style="{StaticResource TitleLarge}"
+                                   Text="ChipGroup" />
+
+                        <!--  ChipGroup Input  -->
+                        <TextBlock Style="{StaticResource TitleMedium}"
+                                   Text="Input" />
+
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemRemoved="RemoveChipItem"
+                                           ItemsSource="{Binding Data.MutableTestCollection}"
+                                           Style="{StaticResource InputChipGroupStyle}">
+
+                                <utu:ChipGroup.IconTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.IconTemplate>
+
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource LabelLarge}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<Button Margin="0,10,0,20"
-						        Click="ResetChipItems"
-						        Content="Reset chip items" />
+                        <Button Margin="0,10,0,20"
+                                Click="ResetChipItems"
+                                Content="Reset chip items" />
 
-						<!--  ChipGroup Suggestion  -->
-						<TextBlock Style="{StaticResource TitleMedium}"
-						           Text="Suggestion" />
+                        <!--  ChipGroup Suggestion  -->
+                        <TextBlock Style="{StaticResource TitleMedium}"
+                                   Text="Suggestion" />
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource ElevatedSuggestionChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource ElevatedSuggestionChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource BodyLarge}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource BodyLarge}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               SelectionMode="Single"
-							               Style="{StaticResource SuggestionChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           SelectionMode="Single"
+                                           Style="{StaticResource SuggestionChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource BodyLarge}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource BodyLarge}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<!--  ChipGroup Filter  -->
-						<TextBlock Style="{StaticResource TitleMedium}"
-						           Text="Filter" />
+                        <!--  ChipGroup Filter  -->
+                        <TextBlock Style="{StaticResource TitleMedium}"
+                                   Text="Filter" />
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource ElevatedFilterChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource ElevatedFilterChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource BodyLarge}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource BodyLarge}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource FilterChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource FilterChipGroupStyle}">
 
-								<utu:ChipGroup.IconTemplate>
-									<DataTemplate>
-										<Border Background="{StaticResource SecondaryBrush}" />
-									</DataTemplate>
-								</utu:ChipGroup.IconTemplate>
+                                <utu:ChipGroup.IconTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{StaticResource SecondaryBrush}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.IconTemplate>
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource BodyLarge}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource BodyLarge}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<!--  ChipGroup Assist  -->
-						<TextBlock Style="{StaticResource TitleMedium}"
-						           Text="Assist" />
+                        <!--  ChipGroup Assist  -->
+                        <TextBlock Style="{StaticResource TitleMedium}"
+                                   Text="Assist" />
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource ElevatedAssistChipGroupStyle}">
-								<utu:ChipGroup.IconTemplate>
-									<DataTemplate>
-										<Image Source="{Binding Image}" />
-									</DataTemplate>
-								</utu:ChipGroup.IconTemplate>
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource ElevatedAssistChipGroupStyle}">
+                                <utu:ChipGroup.IconTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.IconTemplate>
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource BodyLarge}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource BodyLarge}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestCollection}"
-							               Style="{StaticResource AssistChipGroupStyle}">
+                            <utu:ChipGroup Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestCollection}"
+                                           Style="{StaticResource AssistChipGroupStyle}">
 
-								<utu:ChipGroup.IconTemplate>
-									<DataTemplate>
-										<Image Source="{Binding Image}" />
-									</DataTemplate>
-								</utu:ChipGroup.IconTemplate>
+                                <utu:ChipGroup.IconTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Image}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.IconTemplate>
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource BodyLarge}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource BodyLarge}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<!--  ChipGroup Selection  -->
-						<TextBlock Style="{StaticResource TitleMedium}"
-						           Text="Single Selection with Suggestion chips" />
-						<TextBlock Style="{StaticResource TitleSmall}">
+                        <!--  ChipGroup Selection  -->
+                        <TextBlock Style="{StaticResource TitleMedium}"
+                                   Text="Single Selection with Suggestion chips" />
+                        <TextBlock Style="{StaticResource TitleSmall}">
 							<Run Text="{Binding ElementName=SingleSelectionChipGroup, Path=SelectedItem, Mode=TwoWay, Converter={StaticResource SingleSelectionToValueConverter}}" /><Run Text="{Binding ElementName=SingleSelectionChipGroup, Path=SelectedItem.Index, Mode=TwoWay}" />
-						</TextBlock>
+                        </TextBlock>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup x:Name="SingleSelectionChipGroup"
-							               Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestArray}"
-							               SelectedItem="{Binding Data.TestItem}"
-							               Style="{StaticResource ElevatedSuggestionChipGroupStyle}">
+                            <utu:ChipGroup x:Name="SingleSelectionChipGroup"
+                                           Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestArray}"
+                                           SelectedItem="{Binding Data.TestItem}"
+                                           Style="{StaticResource ElevatedSuggestionChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource BodyLarge}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource BodyLarge}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<TextBlock Style="{StaticResource TitleMedium}"
-						           Text="Single Selection with Enum and Suggestion chips" />
-						<TextBlock Style="{StaticResource TitleSmall}">
+                        <TextBlock Style="{StaticResource TitleMedium}"
+                                   Text="Single Selection with Enum and Suggestion chips" />
+                        <TextBlock Style="{StaticResource TitleSmall}">
 							<Run Text="{Binding ElementName=SingleEnumSelectionChipGroup, Path=SelectedItem, Mode=TwoWay, Converter={StaticResource SingleSelectionToValueConverter}}" /><Run Text="{Binding ElementName=SingleEnumSelectionChipGroup, Path=SelectedItem, Mode=TwoWay}" />
-						</TextBlock>
+                        </TextBlock>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup x:Name="SingleEnumSelectionChipGroup"
-							               Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestEnumArray}"
-							               SelectedItem="{Binding Data.TestEnumItem}"
-							               Style="{StaticResource ElevatedSuggestionChipGroupStyle}">
+                            <utu:ChipGroup x:Name="SingleEnumSelectionChipGroup"
+                                           Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestEnumArray}"
+                                           SelectedItem="{Binding Data.TestEnumItem}"
+                                           Style="{StaticResource ElevatedSuggestionChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource BodyLarge}"
-										           Text="{Binding}" />
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource BodyLarge}"
+                                                   Text="{Binding}" />
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
 
-						<TextBlock Style="{StaticResource TitleMedium}"
-						           Text="Multiple selection with Filter chips" />
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="0,0,4,0"
-							           VerticalAlignment="Center"
-							           Style="{StaticResource TitleSmall}"
-							           Text="{Binding ElementName=MultipleSelectionChipGroup, Path=SelectedItems, Mode=TwoWay, Converter={StaticResource MultipleSelectionToValueConverter}}" />
-							<ItemsControl VerticalAlignment="Center"
-							              ItemsSource="{Binding ElementName=MultipleSelectionChipGroup, Path=SelectedItems, Mode=TwoWay}">
-								<ItemsControl.ItemsPanel>
-									<ItemsPanelTemplate>
-										<StackPanel Orientation="Horizontal" />
-									</ItemsPanelTemplate>
-								</ItemsControl.ItemsPanel>
-								<ItemsControl.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Margin="0,0,2,0"
-										           Style="{StaticResource TitleSmall}">
+                        <TextBlock Style="{StaticResource TitleMedium}"
+                                   Text="Multiple selection with Filter chips" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0,0,4,0"
+                                       VerticalAlignment="Center"
+                                       Style="{StaticResource TitleSmall}"
+                                       Text="{Binding ElementName=MultipleSelectionChipGroup, Path=SelectedItems, Mode=TwoWay, Converter={StaticResource MultipleSelectionToValueConverter}}" />
+                            <ItemsControl VerticalAlignment="Center"
+                                          ItemsSource="{Binding ElementName=MultipleSelectionChipGroup, Path=SelectedItems, Mode=TwoWay}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="0,0,2,0"
+                                                   Style="{StaticResource TitleSmall}">
 											<Run Text="#" /><Run Text="{Binding Index}" /><Run Text="," />
-										</TextBlock>
-									</DataTemplate>
-								</ItemsControl.ItemTemplate>
-							</ItemsControl>
-						</StackPanel>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
 
-						<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+                        <ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
 
-							<utu:ChipGroup x:Name="MultipleSelectionChipGroup"
-							               Margin="8,0,8,8"
-							               ItemsSource="{Binding Data.TestArray}"
-							               SelectedItems="{Binding Data.TestSelectedItems}"
-							               Style="{StaticResource ElevatedFilterChipGroupStyle}">
+                            <utu:ChipGroup x:Name="MultipleSelectionChipGroup"
+                                           Margin="8,0,8,8"
+                                           ItemsSource="{Binding Data.TestArray}"
+                                           SelectedItems="{Binding Data.TestSelectedItems}"
+                                           Style="{StaticResource ElevatedFilterChipGroupStyle}">
 
-								<utu:ChipGroup.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Style="{StaticResource BodyLarge}">
+                                <utu:ChipGroup.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource BodyLarge}">
 											<Run Text="Item #" /><Run Text="{Binding Index}" />
-										</TextBlock>
-									</DataTemplate>
-								</utu:ChipGroup.ItemTemplate>
-							</utu:ChipGroup>
-						</ScrollViewer>
-					</StackPanel>
-				</DataTemplate>
-			</sample:SamplePageLayout.M3MaterialTemplate>
-		</sample:SamplePageLayout>
-	</Grid>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </utu:ChipGroup.ItemTemplate>
+                            </utu:ChipGroup>
+                        </ScrollViewer>
+                    </StackPanel>
+                </DataTemplate>
+            </sample:SamplePageLayout.M3MaterialTemplate>
+        </sample:SamplePageLayout>
+    </Grid>
 </Page>

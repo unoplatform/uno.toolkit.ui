@@ -117,6 +117,21 @@
                 Value="{StaticResource MaterialChipBorderThickness}" />
         <Setter Property="CornerRadius"
                 Value="{StaticResource MaterialChipCornerRadius}" />
+
+        <!-- Start: Label Body Large  -->
+        <Setter Property="FontSize"
+                Value="16" />
+        <Setter Property="FontWeight"
+                Value="Medium" />
+        <Setter Property="FontFamily"
+                Value="{StaticResource MaterialMediumFontFamily}" />
+        <!--  Tracking: 0.15 px  -->
+        <!--  Diverging from Material M3 guidelines value. Source of truth Uno Figma file  -->
+        <!--  Compromise between the official M3 and Uno's Figma M3 design to ensure compatibility with all design systems styles  -->
+        <Setter Property="CharacterSpacing"
+                Value="9.375" />
+        <!-- End: Label: End Body Large  -->
+
         <Setter Property="VerticalAlignment"
                 Value="Stretch" />
         <Setter Property="VerticalContentAlignment"
