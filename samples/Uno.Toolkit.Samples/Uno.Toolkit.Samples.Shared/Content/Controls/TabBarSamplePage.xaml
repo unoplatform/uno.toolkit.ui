@@ -6,7 +6,8 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  mc:Ignorable="d">
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      mc:Ignorable="d">
 
 	<sample:SamplePageLayout>
         <sample:SamplePageLayout.MaterialTemplate>
@@ -425,12 +426,19 @@
 								<utu:TabBarItem.Icon>
 									<FontIcon Glyph="&#xE8F2;" />
 								</utu:TabBarItem.Icon>
-							</utu:TabBarItem>
+                                <utu:TabBarItem.InfoBadge>
+                                    <muxc:InfoBadge Style="{StaticResource MaterialSmallInfoBadgeBottomTabBarItemStyle}" />
+                                </utu:TabBarItem.InfoBadge>
+                            </utu:TabBarItem>
 							<utu:TabBarItem Content="About">
 								<utu:TabBarItem.Icon>
 									<FontIcon Glyph="&#xE946;" />
 								</utu:TabBarItem.Icon>
-							</utu:TabBarItem>
+                                <utu:TabBarItem.InfoBadge>
+                                    <muxc:InfoBadge Value="42"
+                                                    Style="{StaticResource MaterialLargeInfoBadgeBottomTabBarItemStyle}" />
+                                </utu:TabBarItem.InfoBadge>
+                            </utu:TabBarItem>
 
 						</utu:TabBar.Items>
 					</utu:TabBar>

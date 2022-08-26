@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
@@ -27,6 +28,17 @@ namespace Uno.Toolkit.UI
 
 		public static readonly DependencyProperty IconProperty =
 			DependencyProperty.Register(nameof(Icon), typeof(IconElement), typeof(TabBarItem), new PropertyMetadata(null, OnPropertyChanged));
+		#endregion
+
+		#region InfoBadge
+		public Control InfoBadge
+		{
+			get { return (Control)GetValue(InfoBadgeProperty); }
+			set { SetValue(InfoBadgeProperty, value); }
+		}
+
+		public static readonly DependencyProperty InfoBadgeProperty =
+			DependencyProperty.Register("InfoBadge", typeof(Control), typeof(TabBarItem), new PropertyMetadata(null, OnPropertyChanged));
 		#endregion
 
 		#region IsSelectable

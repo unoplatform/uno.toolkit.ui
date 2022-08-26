@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d mobile todo not_win android ios wasm macos" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mobile="http://uno.ui/mobile" xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:todo="what should be done" xmlns:toolkit="using:Uno.UI.Toolkit" xmlns:um="using:Uno.Material" xmlns:utu="using:Uno.Toolkit.UI" xmlns:not_win="http://uno.ui/not_win" xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:android="http://uno.ui/android" xmlns:ios="http://uno.ui/ios" xmlns:wasm="http://uno.ui/wasm" xmlns:macos="http://uno.ui/macos" xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)" xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)" xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)" xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)" xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)" xmlns:contract12Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,12)" xmlns:contract12NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,12)" xmlns:contract6NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,6)" xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d mobile todo not_win android ios wasm macos" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mobile="http://uno.ui/mobile" xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:todo="what should be done" xmlns:toolkit="using:Uno.UI.Toolkit" xmlns:um="using:Uno.Material" xmlns:utu="using:Uno.Toolkit.UI" xmlns:controls="using:Microsoft.UI.Xaml.Controls" xmlns:not_win="http://uno.ui/not_win" xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:android="http://uno.ui/android" xmlns:ios="http://uno.ui/ios" xmlns:wasm="http://uno.ui/wasm" xmlns:macos="http://uno.ui/macos" xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)" xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)" xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)" xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)" xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)" xmlns:contract12Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,12)" xmlns:contract12NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,12)" xmlns:contract6NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,6)" xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
   <ResourceDictionary.MergedDictionaries>
     <um:MaterialFonts />
     <um:MaterialColorsV2 />
@@ -42,7 +42,8 @@
   <Thickness x:Key="MaterialBottomTabBarItemPadding">0,12,0,16</Thickness>
   <Thickness x:Key="MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
   <CornerRadius x:Key="MaterialBottomTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
-  <Thickness x:Key="MaterialBottomTabBarItemActiveIndicatorPadding">22,7</Thickness>
+  <x:Double x:Key="MaterialBottomTabBarItemActiveIndicatorWidth">64</x:Double>
+  <x:Double x:Key="MaterialBottomTabBarItemActiveIndicatorHeight">32</x:Double>
   <Thickness x:Key="MaterialBottomFabTabBarItemPadding">20</Thickness>
   <x:Double x:Key="MaterialBottomFabTabBarItemContentWidthOrHeight">16</x:Double>
   <CornerRadius x:Key="MaterialBottomFabTabBarItemCornerRadius">16</CornerRadius>
@@ -242,12 +243,14 @@
                       <RowDefinition x:Name="IconRow" Height="*" />
                       <RowDefinition x:Name="ContentRow" Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid x:Name="ActiveIndicator" Background="{StaticResource MaterialBottomTabBarItemActiveIndicatorBackground}" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="{StaticResource MaterialBottomTabBarItemActiveIndicatorPadding}" CornerRadius="{StaticResource MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
-                      <Border Width="{StaticResource MaterialBottomTabBarItemIconWidth}" Height="{StaticResource MaterialBottomTabBarItemIconHeight}">
+                    <Grid x:Name="ActiveIndicator" Background="{StaticResource MaterialBottomTabBarItemActiveIndicatorBackground}" Height="{StaticResource MaterialBottomTabBarItemActiveIndicatorHeight}" Width="{StaticResource MaterialBottomTabBarItemActiveIndicatorWidth}" VerticalAlignment="Center" HorizontalAlignment="Center" CornerRadius="{StaticResource MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
+                      <Border Width="{StaticResource MaterialBottomTabBarItemIconWidth}" Height="{StaticResource MaterialBottomTabBarItemIconHeight}" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Viewbox x:Name="IconBox" HorizontalAlignment="Center">
                           <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" Foreground="{StaticResource MaterialBottomTabBarItemIconForeground}" />
                         </Viewbox>
                       </Border>
+                      <!--  InfoBadge Presenter  -->
+                      <ContentPresenter x:Name="InfoBadgePresenter" Content="{TemplateBinding InfoBadge}" Visibility="{Binding InfoBadge, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
                     </Grid>
                     <ContentPresenter x:Name="ContentPresenter" Grid.Row="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" ContentTransitions="{TemplateBinding ContentTransitions}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" Foreground="{TemplateBinding Foreground}" TextWrapping="NoWrap" />
                   </Grid>
@@ -1339,6 +1342,38 @@
         </ControlTemplate>
       </Setter.Value>
     </Setter>
+  </Style>
+  <!--origin: Styles\Controls\v2\InfoBadge.xaml-->
+  <StaticResource x:Key="MaterialInfoBadgeBottomTabBarItemBackground" ResourceKey="ErrorBrush" />
+  <StaticResource x:Key="MaterialInfoBadgeBottomTabBarItemForeground" ResourceKey="OnErrorBrush" />
+  <x:Double x:Key="MaterialSmallInfoBadgeBottomTabBarItemHeight">6</x:Double>
+  <x:Double x:Key="MaterialSmallInfoBadgeBottomTabBarItemWidth">6</x:Double>
+  <Thickness x:Key="MaterialSmallInfoBadgeBottomTabBarItemMargin">0,4,20,0</Thickness>
+  <x:Double x:Key="MaterialLargeInfoBadgeBottomTabBarItemHeight">16</x:Double>
+  <Thickness x:Key="MaterialLargeInfoBadgeBottomTabBarItemMargin">32,4,0,0</Thickness>
+  <CornerRadius x:Key="MaterialLargeInfoBadgeBottomTabBarItemCornerRadius">8</CornerRadius>
+  <Style x:Key="MaterialSmallInfoBadgeBottomTabBarItemStyle" TargetType="controls:InfoBadge">
+    <Setter Property="Background" Value="{ThemeResource MaterialInfoBadgeBottomTabBarItemBackground}" />
+    <Setter Property="HorizontalAlignment" Value="Right" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="Height" Value="{ThemeResource MaterialSmallInfoBadgeBottomTabBarItemHeight}" />
+    <Setter Property="Width" Value="{ThemeResource MaterialSmallInfoBadgeBottomTabBarItemWidth}" />
+    <Setter Property="Margin" Value="{ThemeResource MaterialSmallInfoBadgeBottomTabBarItemMargin}" />
+  </Style>
+  <Style x:Key="MaterialLargeInfoBadgeBottomTabBarItemStyle" TargetType="controls:InfoBadge">
+    <Setter Property="Background" Value="{ThemeResource MaterialInfoBadgeBottomTabBarItemBackground}" />
+    <Setter Property="Foreground" Value="{ThemeResource MaterialInfoBadgeBottomTabBarItemForeground}" />
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Height" Value="{ThemeResource MaterialLargeInfoBadgeBottomTabBarItemHeight}" />
+    <Setter Property="Margin" Value="{ThemeResource MaterialLargeInfoBadgeBottomTabBarItemMargin}" />
+    <Setter Property="CornerRadius" Value="{ThemeResource MaterialLargeInfoBadgeBottomTabBarItemCornerRadius}" />
+    <!--  Label ExtraSmall  -->
+    <Setter Property="FontFamily" Value="{StaticResource MaterialLabelSmallFontFamily}" />
+    <Setter Property="FontWeight" Value="{StaticResource MaterialLabelSmallFontWeight}" />
+    <Setter Property="FontSize" Value="{StaticResource MaterialLabelSmallFontSize}" />
+    <Setter Property="CharacterSpacing" Value="{StaticResource MaterialLabelSmallCharacterSpacing}" />
   </Style>
   <!--origin: Styles\Controls\v2\NavigationBar.xaml-->
   <x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>

@@ -132,6 +132,8 @@ namespace Uno.Toolkit.UI.Material
 			Add("MaterialOutlinedCardContentControlStyle");
 			Add("MaterialFilledCardContentControlStyle");
 			Add("MaterialElevatedCardContentControlStyle");
+			Add("MaterialSmallInfoBadgeBottomTabBarItemStyle");
+			Add("MaterialLargeInfoBadgeBottomTabBarItemStyle");
 			return result;
 
 			void Add(string key, string? alias = null, bool isImplicit = false) =>

@@ -8,440 +8,452 @@
                     xmlns:toolkit="using:Uno.UI.Toolkit"
                     xmlns:um="using:Uno.Material"
                     xmlns:utu="using:Uno.Toolkit.UI"
+                    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
                     mc:Ignorable="d mobile todo">
 
-	<StaticResource x:Key="MaterialBottomTabBarBackground"
-	                ResourceKey="SurfaceBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarBackground"
+                    ResourceKey="SurfaceBrush" />
 
-	<StaticResource x:Key="MaterialBottomTabBarItemBackground"
-	                ResourceKey="SystemControlTransparentBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemBackground"
+                    ResourceKey="SystemControlTransparentBrush" />
 
-	<StaticResource x:Key="MaterialBottomTabBarItemForeground"
-	                ResourceKey="OnSurfaceVariantBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemForegroundPointerOver"
-	                ResourceKey="OnSurfaceVariantBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemForegroundPressed"
-	                ResourceKey="OnSurfaceVariantBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemForegroundDisabled"
-	                ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemForegroundSelected"
-	                ResourceKey="OnSecondaryContainerBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemForegroundSelectedPointerOver"
-	                ResourceKey="OnSecondaryContainerBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemForegroundSelectedPressed"
-	                ResourceKey="OnSecondaryContainerBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemForeground"
+                    ResourceKey="OnSurfaceVariantBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemForegroundPointerOver"
+                    ResourceKey="OnSurfaceVariantBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemForegroundPressed"
+                    ResourceKey="OnSurfaceVariantBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemForegroundDisabled"
+                    ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemForegroundSelected"
+                    ResourceKey="OnSecondaryContainerBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemForegroundSelectedPointerOver"
+                    ResourceKey="OnSecondaryContainerBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemForegroundSelectedPressed"
+                    ResourceKey="OnSecondaryContainerBrush" />
 
-	<StaticResource x:Key="MaterialBottomTabBarItemBorderBrush"
-	                ResourceKey="SystemControlTransparentBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemBorderBrush"
+                    ResourceKey="SystemControlTransparentBrush" />
 
-	<StaticResource x:Key="MaterialBottomTabBarItemIconForeground"
-	                ResourceKey="OnSurfaceVariantBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemIconForegroundSelected"
-	                ResourceKey="OnSecondaryContainerBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemIconForeground"
+                    ResourceKey="OnSurfaceVariantBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemIconForegroundSelected"
+                    ResourceKey="OnSecondaryContainerBrush" />
 
-	<StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackground"
-	                ResourceKey="SystemControlTransparentBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundPointerOver"
-	                ResourceKey="OnSurfaceVariantHoverBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundFocused"
-	                ResourceKey="OnSurfaceVariantFocusedBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundPressed"
-	                ResourceKey="OnSurfaceVariantPressedBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackground"
+                    ResourceKey="SystemControlTransparentBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundPointerOver"
+                    ResourceKey="OnSurfaceVariantHoverBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundFocused"
+                    ResourceKey="OnSurfaceVariantFocusedBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundPressed"
+                    ResourceKey="OnSurfaceVariantPressedBrush" />
 
-	<StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundSelected"
-	                ResourceKey="SecondaryContainerBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedPointerOver"
-	                ResourceKey="OnSurfaceHoverBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedFocused"
-	                ResourceKey="OnSurfaceFocusedBrush" />
-	<StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedPressed"
-	                ResourceKey="OnSurfacePressedBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundSelected"
+                    ResourceKey="SecondaryContainerBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedPointerOver"
+                    ResourceKey="OnSurfaceHoverBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedFocused"
+                    ResourceKey="OnSurfaceFocusedBrush" />
+    <StaticResource x:Key="MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedPressed"
+                    ResourceKey="OnSurfacePressedBrush" />
 
-	<StaticResource x:Key="MaterialBottomFabTabBarItemDisabledBackground"
-	                ResourceKey="OnSurfaceDisabledLowBrush" />
-	<StaticResource x:Key="MaterialBottomFabTabBarItemDisabledForeground"
-	                ResourceKey="OnSurfaceDisabledBrush" />
-	<StaticResource x:Key="MaterialBottomFabTabBarItemPointerOverBackground"
-	                ResourceKey="OnPrimaryContainerHoverBrush" />
-	<StaticResource x:Key="MaterialBottomFabTabBarItemFocusedBackground"
-	                ResourceKey="OnPrimaryContainerFocusedBrush" />
-	<StaticResource x:Key="MaterialBottomFabTabBarItemPressedBackground"
-	                ResourceKey="OnPrimaryContainerPressedBrush" />
+    <StaticResource x:Key="MaterialBottomFabTabBarItemDisabledBackground"
+                    ResourceKey="OnSurfaceDisabledLowBrush" />
+    <StaticResource x:Key="MaterialBottomFabTabBarItemDisabledForeground"
+                    ResourceKey="OnSurfaceDisabledBrush" />
+    <StaticResource x:Key="MaterialBottomFabTabBarItemPointerOverBackground"
+                    ResourceKey="OnPrimaryContainerHoverBrush" />
+    <StaticResource x:Key="MaterialBottomFabTabBarItemFocusedBackground"
+                    ResourceKey="OnPrimaryContainerFocusedBrush" />
+    <StaticResource x:Key="MaterialBottomFabTabBarItemPressedBackground"
+                    ResourceKey="OnPrimaryContainerPressedBrush" />
 
-	<x:Double x:Key="MaterialBottomTabBarFontSize">12</x:Double>
-	<x:Double x:Key="MaterialBottomFabTabBarFontSize">14</x:Double>
-	<FontWeight x:Key="MaterialBottomTabBarFontWeight">Medium</FontWeight>
-	<x:Double x:Key="MaterialBottomTabBarHeight">80</x:Double>
-	<GridLength x:Key="MaterialBottomTabBarGridLengthHeight">80</GridLength>
-	<x:Double x:Key="FabItemVerticalOffset">-32</x:Double>
-	<x:Double x:Key="MaterialBottomTabBarItemIconHeight">18</x:Double>
-	<x:Double x:Key="MaterialBottomTabBarItemIconWidth">18</x:Double>
-	<Thickness x:Key="MaterialBottomTabBarItemContentMargin">0,0,0,6</Thickness>
-	<Thickness x:Key="MaterialBottomTabBarItemPadding">0,12,0,16</Thickness>
-	<Thickness x:Key="MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
-	<CornerRadius x:Key="MaterialBottomTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
-	<Thickness x:Key="MaterialBottomTabBarItemActiveIndicatorPadding">22,7</Thickness>
-	<Thickness x:Key="MaterialBottomFabTabBarItemPadding">20</Thickness>
-	<x:Double x:Key="MaterialBottomFabTabBarItemContentWidthOrHeight">16</x:Double>
-	<CornerRadius x:Key="MaterialBottomFabTabBarItemCornerRadius">16</CornerRadius>
-	<x:Double x:Key="MaterialBottomFabTabBarItemIconTextPadding">12</x:Double>
+    <x:Double x:Key="MaterialBottomTabBarFontSize">12</x:Double>
+    <x:Double x:Key="MaterialBottomFabTabBarFontSize">14</x:Double>
+    <FontWeight x:Key="MaterialBottomTabBarFontWeight">Medium</FontWeight>
+    <x:Double x:Key="MaterialBottomTabBarHeight">80</x:Double>
+    <GridLength x:Key="MaterialBottomTabBarGridLengthHeight">80</GridLength>
+    <x:Double x:Key="FabItemVerticalOffset">-32</x:Double>
+    <x:Double x:Key="MaterialBottomTabBarItemIconHeight">18</x:Double>
+    <x:Double x:Key="MaterialBottomTabBarItemIconWidth">18</x:Double>
+    <Thickness x:Key="MaterialBottomTabBarItemContentMargin">0,0,0,6</Thickness>
+    <Thickness x:Key="MaterialBottomTabBarItemPadding">0,12,0,16</Thickness>
+    <Thickness x:Key="MaterialBottomTabBarItemContentOnlyMargin">12,0</Thickness>
+    <CornerRadius x:Key="MaterialBottomTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
+    <x:Double x:Key="MaterialBottomTabBarItemActiveIndicatorWidth">64</x:Double>
+    <x:Double x:Key="MaterialBottomTabBarItemActiveIndicatorHeight">32</x:Double>
+    <Thickness x:Key="MaterialBottomFabTabBarItemPadding">20</Thickness>
+    <x:Double x:Key="MaterialBottomFabTabBarItemContentWidthOrHeight">16</x:Double>
+    <CornerRadius x:Key="MaterialBottomFabTabBarItemCornerRadius">16</CornerRadius>
+    <x:Double x:Key="MaterialBottomFabTabBarItemIconTextPadding">12</x:Double>
 
-	<Style x:Key="MaterialBottomTabBarStyle"
-	       TargetType="utu:TabBar">
-		<Setter Property="Background"
-		        Value="{ThemeResource MaterialBottomTabBarBackground}" />
-		<Setter Property="IsTabStop"
-		        Value="False" />
-		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
-		        Value="Bottom" />
-		<Setter Property="ItemsPanel">
-			<Setter.Value>
+    <Style x:Key="MaterialBottomTabBarStyle"
+           TargetType="utu:TabBar">
+        <Setter Property="Background"
+                Value="{ThemeResource MaterialBottomTabBarBackground}" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+                Value="Bottom" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
 
-				<ItemsPanelTemplate>
-					<utu:TabBarListPanel />
-				</ItemsPanelTemplate>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="ItemContainerStyle"
-		        Value="{StaticResource MaterialBottomTabBarItemStyle}" />
+                <ItemsPanelTemplate>
+                    <utu:TabBarListPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle"
+                Value="{StaticResource MaterialBottomTabBarItemStyle}" />
 
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="utu:TabBar">
-					<Grid x:Name="TabBarGrid"
-					           Padding="{TemplateBinding Padding}"
-					           Background="{TemplateBinding Background}"
-					           BorderBrush="{TemplateBinding BorderBrush}"
-					           BorderThickness="{TemplateBinding BorderThickness}">
-						<ItemsPresenter Height="{StaticResource MaterialBottomTabBarHeight}" />
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="utu:TabBar">
+                    <Grid x:Name="TabBarGrid"
+                          Padding="{TemplateBinding Padding}"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter Height="{StaticResource MaterialBottomTabBarHeight}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-	<Style x:Key="MaterialBottomFabTabBarItemStyle"
-	       TargetType="utu:TabBarItem">
-		<Setter Property="Background"
-		        Value="{ThemeResource PrimaryContainerBrush}" />
-		<Setter Property="Foreground"
-		        Value="{ThemeResource OnPrimaryContainerBrush}" />
-		<Setter Property="FontFamily"
-		        Value="{StaticResource MaterialMediumFontFamily}" />
-		<Setter Property="FontSize"
-		        Value="{StaticResource MaterialBottomFabTabBarFontSize}" />
-		<Setter Property="FontWeight"
-		        Value="Medium" />
-		<Setter Property="IsSelectable"
-		        Value="False" />
-		<Setter Property="UseSystemFocusVisuals"
-		        Value="True" />
-		<Setter Property="VerticalContentAlignment"
-		        Value="Center" />
-		<Setter Property="HorizontalContentAlignment"
-		        Value="Center" />
-		<Setter Property="CornerRadius"
-		        Value="{StaticResource MaterialBottomFabTabBarItemCornerRadius}" />
-		<Setter Property="Padding"
-		        Value="{StaticResource MaterialBottomFabTabBarItemPadding}" />
-		<!--  KNOWN ISSUE: The part of the FAB that is translated outside of the TabBar bounds is not clickable  -->
-		<!--  https://github.com/unoplatform/uno/issues/7393  -->
-		<Setter Property="RenderTransform">
-			<Setter.Value>
-				<TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
-			</Setter.Value>
-		</Setter>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="utu:TabBarItem">
-					<Grid VerticalAlignment="{TemplateBinding VerticalAlignment}">
-						<toolkit:ElevatedView x:Name="ElevatedView"
-						                      HorizontalAlignment="Center"
-						                      VerticalAlignment="Center"
-						                      Background="Transparent"
-						                      CornerRadius="{TemplateBinding CornerRadius}"
-						                      Elevation="6">
+    <Style x:Key="MaterialBottomFabTabBarItemStyle"
+           TargetType="utu:TabBarItem">
+        <Setter Property="Background"
+                Value="{ThemeResource PrimaryContainerBrush}" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource OnPrimaryContainerBrush}" />
+        <Setter Property="FontFamily"
+                Value="{StaticResource MaterialMediumFontFamily}" />
+        <Setter Property="FontSize"
+                Value="{StaticResource MaterialBottomFabTabBarFontSize}" />
+        <Setter Property="FontWeight"
+                Value="Medium" />
+        <Setter Property="IsSelectable"
+                Value="False" />
+        <Setter Property="UseSystemFocusVisuals"
+                Value="True" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Center" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
+        <Setter Property="CornerRadius"
+                Value="{StaticResource MaterialBottomFabTabBarItemCornerRadius}" />
+        <Setter Property="Padding"
+                Value="{StaticResource MaterialBottomFabTabBarItemPadding}" />
+        <!--  KNOWN ISSUE: The part of the FAB that is translated outside of the TabBar bounds is not clickable  -->
+        <!--  https://github.com/unoplatform/uno/issues/7393  -->
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TranslateTransform Y="{StaticResource FabItemVerticalOffset}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="utu:TabBarItem">
+                    <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                        <toolkit:ElevatedView x:Name="ElevatedView"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Background="Transparent"
+                                              CornerRadius="{TemplateBinding CornerRadius}"
+                                              Elevation="6">
 
-							<um:Ripple x:Name="Ripple"
-							           CornerRadius="{TemplateBinding CornerRadius}"
-							           Feedback="{TemplateBinding Foreground}"
-							           FeedbackOpacity="{StaticResource PressedOpacity}">
-								<Grid CornerRadius="{TemplateBinding CornerRadius}">
-									<Grid x:Name="Root"
-										  Background="{TemplateBinding Background}">
-										<StackPanel x:Name="ContentPanel"
-													Margin="{TemplateBinding Padding}"
-													Orientation="Horizontal">
+                            <um:Ripple x:Name="Ripple"
+                                       CornerRadius="{TemplateBinding CornerRadius}"
+                                       Feedback="{TemplateBinding Foreground}"
+                                       FeedbackOpacity="{StaticResource PressedOpacity}">
+                                <Grid CornerRadius="{TemplateBinding CornerRadius}">
+                                    <Grid x:Name="Root"
+                                          Background="{TemplateBinding Background}">
+                                        <StackPanel x:Name="ContentPanel"
+                                                    Margin="{TemplateBinding Padding}"
+                                                    Orientation="Horizontal">
 
-											<!--  Icon  -->
-											<Viewbox Width="{StaticResource MaterialBottomFabTabBarItemContentWidthOrHeight}"
-													 Height="{StaticResource MaterialBottomFabTabBarItemContentWidthOrHeight}"
-													 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-													 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-													 Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
-												<ContentPresenter x:Name="IconPresenter"
-																  Content="{TemplateBinding Icon}"
-																  Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
-											</Viewbox>
+                                            <!--  Icon  -->
+                                            <Viewbox Width="{StaticResource MaterialBottomFabTabBarItemContentWidthOrHeight}"
+                                                     Height="{StaticResource MaterialBottomFabTabBarItemContentWidthOrHeight}"
+                                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                     Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                                                <ContentPresenter x:Name="IconPresenter"
+                                                                  Content="{TemplateBinding Icon}"
+                                                                  Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </Viewbox>
 
-											<!--  Icon/Content spacing  -->
-											<Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
-												<Border Width="{StaticResource MaterialBottomFabTabBarItemIconTextPadding}"
-														Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
-											</Border>
+                                            <!--  Icon/Content spacing  -->
+                                            <Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                                                <Border Width="{StaticResource MaterialBottomFabTabBarItemIconTextPadding}"
+                                                        Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
+                                            </Border>
 
-											<!--  Content  -->
-											<ContentPresenter x:Name="ContentPresenter"
-															  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-															  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-															  Content="{TemplateBinding Content}"
-															  ContentTemplate="{TemplateBinding ContentTemplate}"
-															  ContentTransitions="{TemplateBinding ContentTransitions}"
-															  FontFamily="{TemplateBinding FontFamily}"
-															  FontWeight="{TemplateBinding FontWeight}"
-															  FontSize="{TemplateBinding FontSize}" />
-										</StackPanel>
-									</Grid>
-									<Border x:Name="StateOverlay"
-											Background="Transparent"
-											CornerRadius="{TemplateBinding CornerRadius}" />
-								</Grid>
-							</um:Ripple>
-						</toolkit:ElevatedView>
+                                            <!--  Content  -->
+                                            <ContentPresenter x:Name="ContentPresenter"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              Content="{TemplateBinding Content}"
+                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                              FontFamily="{TemplateBinding FontFamily}"
+                                                              FontWeight="{TemplateBinding FontWeight}"
+                                                              FontSize="{TemplateBinding FontSize}" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border x:Name="StateOverlay"
+                                            Background="Transparent"
+                                            CornerRadius="{TemplateBinding CornerRadius}" />
+                                </Grid>
+                            </um:Ripple>
+                        </toolkit:ElevatedView>
 
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
 
-								<VisualState x:Name="Normal" />
+                                <VisualState x:Name="Normal" />
 
-								<VisualState x:Name="PointerOver">
-									<VisualState.Setters>
-										<Setter Target="StateOverlay.Background"
-										        Value="{StaticResource MaterialBottomFabTabBarItemPointerOverBackground}" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="Pressed">
-									<VisualState.Setters>
-										<Setter Target="StateOverlay.Background"
-										        Value="{StaticResource MaterialBottomFabTabBarItemPressedBackground}" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="Disabled">
-									<VisualState.Setters>
-										<Setter Target="IconPresenter.Foreground"
-										        Value="{StaticResource MaterialBottomFabTabBarItemDisabledForeground}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{StaticResource MaterialBottomFabTabBarItemDisabledForeground}" />
-										<Setter Target="StateOverlay.Background"
-										        Value="{StaticResource MaterialBottomFabTabBarItemDisabledBackground}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="StateOverlay.Background"
+                                                Value="{StaticResource MaterialBottomFabTabBarItemPointerOverBackground}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="StateOverlay.Background"
+                                                Value="{StaticResource MaterialBottomFabTabBarItemPressedBackground}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="IconPresenter.Foreground"
+                                                Value="{StaticResource MaterialBottomFabTabBarItemDisabledForeground}" />
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{StaticResource MaterialBottomFabTabBarItemDisabledForeground}" />
+                                        <Setter Target="StateOverlay.Background"
+                                                Value="{StaticResource MaterialBottomFabTabBarItemDisabledBackground}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
 
-							<VisualStateGroup x:Name="FocusStates">
+                            <VisualStateGroup x:Name="FocusStates">
 
-								<VisualState x:Name="Focused">
-									<VisualState.Setters>
-										<Setter Target="StateOverlay.Background"
-										        Value="{StaticResource MaterialBottomFabTabBarItemFocusedBackground}" />
-									</VisualState.Setters>
-								</VisualState>
+                                <VisualState x:Name="Focused">
+                                    <VisualState.Setters>
+                                        <Setter Target="StateOverlay.Background"
+                                                Value="{StaticResource MaterialBottomFabTabBarItemFocusedBackground}" />
+                                    </VisualState.Setters>
+                                </VisualState>
 
-								<VisualState x:Name="PointerFocused" />
+                                <VisualState x:Name="PointerFocused" />
 
-								<VisualState x:Name="Unfocused" />
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+                                <VisualState x:Name="Unfocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-	<Style x:Key="MaterialBottomTabBarItemStyle"
-	       TargetType="utu:TabBarItem">
-		<Setter Property="Background"
-		        Value="{ThemeResource MaterialBottomTabBarItemBackground}" />
-		<Setter Property="Foreground"
-		        Value="{ThemeResource MaterialBottomTabBarItemForeground}" />
-		<Setter Property="BorderBrush"
-		        Value="{ThemeResource MaterialBottomTabBarItemBorderBrush}" />
-		<Setter Property="FontFamily"
-		        Value="{StaticResource MaterialMediumFontFamily}" />
-		<Setter Property="FontSize"
-		        Value="{StaticResource MaterialBottomTabBarFontSize}" />
-		<Setter Property="FontWeight"
-		        Value="{StaticResource MaterialBottomTabBarFontWeight}" />
-		<Setter Property="UseSystemFocusVisuals"
-		        Value="True" />
-		<Setter Property="HorizontalContentAlignment"
-		        Value="Center" />
-		<Setter Property="Padding"
-		        Value="{StaticResource MaterialBottomTabBarItemPadding}" />
-		<!--  Workaround with these two properties until this issue is fixed, can be removed after  -->
-		<!--  https://github.com/unoplatform/uno/issues/7393  -->
-		<Setter Property="Height"
-		        Value="{StaticResource MaterialBottomTabBarHeight}" />
-		<Setter Property="VerticalAlignment"
-		        Value="Bottom" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="utu:TabBarItem">
-					<Grid x:Name="LayoutRoot"
-					      Background="{TemplateBinding Background}"
-					      BorderBrush="{TemplateBinding BorderBrush}"
-					      BorderThickness="{TemplateBinding BorderThickness}"
-					      Control.IsTemplateFocusTarget="True">
+    <Style x:Key="MaterialBottomTabBarItemStyle"
+           TargetType="utu:TabBarItem">
+        <Setter Property="Background"
+                Value="{ThemeResource MaterialBottomTabBarItemBackground}" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource MaterialBottomTabBarItemForeground}" />
+        <Setter Property="BorderBrush"
+                Value="{ThemeResource MaterialBottomTabBarItemBorderBrush}" />
+        <Setter Property="FontFamily"
+                Value="{StaticResource MaterialMediumFontFamily}" />
+        <Setter Property="FontSize"
+                Value="{StaticResource MaterialBottomTabBarFontSize}" />
+        <Setter Property="FontWeight"
+                Value="{StaticResource MaterialBottomTabBarFontWeight}" />
+        <Setter Property="UseSystemFocusVisuals"
+                Value="True" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
+        <Setter Property="Padding"
+                Value="{StaticResource MaterialBottomTabBarItemPadding}" />
+        <!--  Workaround with these two properties until this issue is fixed, can be removed after  -->
+        <!--  https://github.com/unoplatform/uno/issues/7393  -->
+        <Setter Property="Height"
+                Value="{StaticResource MaterialBottomTabBarHeight}" />
+        <Setter Property="VerticalAlignment"
+                Value="Bottom" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="utu:TabBarItem">
+                    <Grid x:Name="LayoutRoot"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Control.IsTemplateFocusTarget="True">
 
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="PointerStates">
-								<VisualState x:Name="Normal" />
-								<not_mobile:VisualState x:Name="PointerOver">
-									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-										        Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundPointerOver}" />
-										<Setter Target="Icon.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundPointerOver}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundPointerOver}" />
-									</VisualState.Setters>
-								</not_mobile:VisualState>
-								<VisualState x:Name="Pressed">
-									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-										        Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundPressed}" />
-										<Setter Target="Icon.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundPressed}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundPressed}" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="Selected">
-									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-										        Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
-										<Setter Target="Icon.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemIconForegroundSelected}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundSelected}" />
-									</VisualState.Setters>
-								</VisualState>
-								<not_mobile:VisualState x:Name="PointerOverSelected">
-									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-										        Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedPointerOver}" />
-										<Setter Target="Icon.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPointerOver}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPointerOver}" />
-									</VisualState.Setters>
-								</not_mobile:VisualState>
-								<VisualState x:Name="PressedSelected">
-									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-										        Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedPressed}" />
-										<Setter Target="Icon.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPressed}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPressed}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-							<VisualStateGroup x:Name="DisabledStates">
-								<VisualState x:Name="Enabled" />
-								<VisualState x:Name="Disabled">
-									<VisualState.Setters>
-										<Setter Target="Icon.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundDisabled}" />
-										<Setter Target="ContentPresenter.Foreground"
-										        Value="{ThemeResource MaterialBottomTabBarItemForegroundDisabled}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-							<VisualStateGroup x:Name="TabBarIconPositionStates">
-								<VisualState x:Name="IconOnTop" />
-								<VisualState x:Name="IconOnly">
-									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Visibility"
-										        Value="Collapsed" />
-										<Setter Target="ContentGrid.RowSpacing"
-										        Value="0" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="ContentOnly">
-									<VisualState.Setters>
-										<Setter Target="IconBox.Visibility"
-										        Value="Collapsed" />
-										<Setter Target="ContentPresenter.Margin"
-										        Value="{StaticResource MaterialBottomTabBarItemContentOnlyMargin}" />
-										<Setter Target="IconRow.Height"
-										        Value="0" />
-										<Setter Target="ContentRow.Height"
-										        Value="*" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-					<um:Ripple x:Name="RippleControl"
-						        Padding="{TemplateBinding Padding}"
-						        AutomationProperties.AccessibilityView="Raw"
-						        BorderBrush="{TemplateBinding BorderBrush}"
-						        BorderThickness="{TemplateBinding BorderThickness}"
-						        CornerRadius="{TemplateBinding CornerRadius}"
-						        Feedback="{ThemeResource OnSurfaceBrush}"
-						        FeedbackOpacity="{StaticResource PressedOpacity}">
-						<um:Ripple.Content>
-							<Grid>
-								<Rectangle x:Name="PointerRectangle"
-									        Fill="Transparent"
-									        Visibility="Collapsed" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="PointerStates">
+                                <VisualState x:Name="Normal" />
+                                <not_mobile:VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="ActiveIndicator.Background"
+                                                Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundPointerOver}" />
+                                        <Setter Target="Icon.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundPointerOver}" />
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundPointerOver}" />
+                                    </VisualState.Setters>
+                                </not_mobile:VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ActiveIndicator.Background"
+                                                Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundPressed}" />
+                                        <Setter Target="Icon.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundPressed}" />
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundPressed}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Target="ActiveIndicator.Background"
+                                                Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundSelected}" />
+                                        <Setter Target="Icon.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemIconForegroundSelected}" />
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundSelected}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <not_mobile:VisualState x:Name="PointerOverSelected">
+                                    <VisualState.Setters>
+                                        <Setter Target="ActiveIndicator.Background"
+                                                Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedPointerOver}" />
+                                        <Setter Target="Icon.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPointerOver}" />
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPointerOver}" />
+                                    </VisualState.Setters>
+                                </not_mobile:VisualState>
+                                <VisualState x:Name="PressedSelected">
+                                    <VisualState.Setters>
+                                        <Setter Target="ActiveIndicator.Background"
+                                                Value="{ThemeResource MaterialBottomTabBarItemActiveIndicatorBackgroundSelectedPressed}" />
+                                        <Setter Target="Icon.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPressed}" />
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundSelectedPressed}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DisabledStates">
+                                <VisualState x:Name="Enabled" />
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="Icon.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundDisabled}" />
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{ThemeResource MaterialBottomTabBarItemForegroundDisabled}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="TabBarIconPositionStates">
+                                <VisualState x:Name="IconOnTop" />
+                                <VisualState x:Name="IconOnly">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Visibility"
+                                                Value="Collapsed" />
+                                        <Setter Target="ContentGrid.RowSpacing"
+                                                Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="ContentOnly">
+                                    <VisualState.Setters>
+                                        <Setter Target="IconBox.Visibility"
+                                                Value="Collapsed" />
+                                        <Setter Target="ContentPresenter.Margin"
+                                                Value="{StaticResource MaterialBottomTabBarItemContentOnlyMargin}" />
+                                        <Setter Target="IconRow.Height"
+                                                Value="0" />
+                                        <Setter Target="ContentRow.Height"
+                                                Value="*" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <um:Ripple x:Name="RippleControl"
+                                   Padding="{TemplateBinding Padding}"
+                                   AutomationProperties.AccessibilityView="Raw"
+                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                   CornerRadius="{TemplateBinding CornerRadius}"
+                                   Feedback="{ThemeResource OnSurfaceBrush}"
+                                   FeedbackOpacity="{StaticResource PressedOpacity}">
+                            <um:Ripple.Content>
+                                <Grid>
+                                    <Rectangle x:Name="PointerRectangle"
+                                               Fill="Transparent"
+                                               Visibility="Collapsed" />
 
-								<Grid x:Name="ContentGrid"
-									  RowSpacing="4">
-									<Grid.RowDefinitions>
-										<RowDefinition x:Name="IconRow"
-											            Height="*" />
-										<RowDefinition x:Name="ContentRow"
-											            Height="Auto" />
-									</Grid.RowDefinitions>
+                                    <Grid x:Name="ContentGrid"
+                                          RowSpacing="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition x:Name="IconRow"
+                                                           Height="*" />
+                                            <RowDefinition x:Name="ContentRow"
+                                                           Height="Auto" />
+                                        </Grid.RowDefinitions>
 
-									<Grid x:Name="ActiveIndicator"
-											Background="{StaticResource MaterialBottomTabBarItemActiveIndicatorBackground}"
-											VerticalAlignment="Center"
-											HorizontalAlignment="Center"
-											Padding="{StaticResource MaterialBottomTabBarItemActiveIndicatorPadding}"
-											CornerRadius="{StaticResource MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
-											<Border  Width="{StaticResource MaterialBottomTabBarItemIconWidth}"
-											        Height="{StaticResource MaterialBottomTabBarItemIconHeight}">
-												<Viewbox x:Name="IconBox"
-														 HorizontalAlignment="Center">
-													<ContentPresenter x:Name="Icon"
-																	  Content="{TemplateBinding Icon}"
-																	  Foreground="{StaticResource MaterialBottomTabBarItemIconForeground}" />
-												</Viewbox>
-											</Border>
-										</Grid>
-									<ContentPresenter x:Name="ContentPresenter"
-										                Grid.Row="1"
-										                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-										                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-										                AutomationProperties.AccessibilityView="Raw"
-										                Content="{TemplateBinding Content}"
-										                ContentTemplate="{TemplateBinding ContentTemplate}"
-										                ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-										                ContentTransitions="{TemplateBinding ContentTransitions}"
-										                FontSize="{TemplateBinding FontSize}"
-										                FontFamily="{TemplateBinding FontFamily}"
-										                FontWeight="{TemplateBinding FontWeight}"
-										                Foreground="{TemplateBinding Foreground}"
-										                TextWrapping="NoWrap" />
-								</Grid>
-							</Grid>
-						</um:Ripple.Content>
-						</um:Ripple>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+                                        <Grid x:Name="ActiveIndicator"
+                                              Background="{StaticResource MaterialBottomTabBarItemActiveIndicatorBackground}"
+                                              Height="{StaticResource MaterialBottomTabBarItemActiveIndicatorHeight}"
+                                              Width="{StaticResource MaterialBottomTabBarItemActiveIndicatorWidth}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              CornerRadius="{StaticResource MaterialBottomTabBarItemActiveIndicatorCornerRadius}">
+                                            <Border  Width="{StaticResource MaterialBottomTabBarItemIconWidth}"
+                                                     Height="{StaticResource MaterialBottomTabBarItemIconHeight}"
+                                                     HorizontalAlignment="Center"
+                                                     VerticalAlignment="Center">
+                                                <Viewbox x:Name="IconBox"
+                                                         HorizontalAlignment="Center">
+                                                    <ContentPresenter x:Name="Icon"
+                                                                      Content="{TemplateBinding Icon}"
+                                                                      Foreground="{StaticResource MaterialBottomTabBarItemIconForeground}" />
+                                                </Viewbox>
+                                            </Border>
+
+                                            <!--  InfoBadge Presenter  -->
+                                            <ContentPresenter x:Name="InfoBadgePresenter"
+                                                              Content="{TemplateBinding InfoBadge}"
+                                                              Visibility="{Binding InfoBadge, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
+                                        </Grid>
+
+                                        <ContentPresenter x:Name="ContentPresenter"
+                                                          Grid.Row="1"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          AutomationProperties.AccessibilityView="Raw"
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                          FontSize="{TemplateBinding FontSize}"
+                                                          FontFamily="{TemplateBinding FontFamily}"
+                                                          FontWeight="{TemplateBinding FontWeight}"
+                                                          Foreground="{TemplateBinding Foreground}"
+                                                          TextWrapping="NoWrap" />
+
+                                    </Grid>
+                                </Grid>
+                            </um:Ripple.Content>
+                        </um:Ripple>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
