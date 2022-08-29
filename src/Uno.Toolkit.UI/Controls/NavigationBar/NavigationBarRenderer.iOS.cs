@@ -49,25 +49,23 @@ namespace Uno.Toolkit.UI
 
 		protected override IEnumerable<IDisposable> Initialize()
 		{
-			if (Element == null)
+			if (Element is { } element)
 			{
-				yield break;
-			}
+				yield return element.RegisterDisposableNestedPropertyChangedCallback(
+					OnPropertyChanged,
+					new[] { NavigationBar.VisibilityProperty },
+					new[] { NavigationBar.PrimaryCommandsProperty },
+					new[] { NavigationBar.ContentProperty },
+					new[] { NavigationBar.ForegroundProperty },
+					new[] { NavigationBar.BackgroundProperty },
+					new[] { NavigationBar.MainCommandProperty, AppBarButton.ForegroundProperty },
+					new[] { NavigationBar.MainCommandProperty, AppBarButton.IconProperty }
+				);
 
-			yield return Element.RegisterDisposableNestedPropertyChangedCallback(
-				(s, e) => Invalidate(),
-				new[] { NavigationBar.VisibilityProperty },
-				new[] { NavigationBar.PrimaryCommandsProperty },
-				new[] { NavigationBar.ContentProperty },
-				new[] { NavigationBar.ForegroundProperty },
-				new[] { NavigationBar.ForegroundProperty, SolidColorBrush.ColorProperty },
-				new[] { NavigationBar.ForegroundProperty, SolidColorBrush.OpacityProperty },
-				new[] { NavigationBar.BackgroundProperty },
-				new[] { NavigationBar.BackgroundProperty, SolidColorBrush.ColorProperty },
-				new[] { NavigationBar.BackgroundProperty, SolidColorBrush.OpacityProperty },
-				new[] { NavigationBar.MainCommandProperty, AppBarButton.ForegroundProperty },
-				new[] { NavigationBar.MainCommandProperty, AppBarButton.IconProperty }
-			);
+				yield return (element.MainCommand?.Icon as BitmapIcon).SubscribeNestedPropertyChangedCallback(OnPropertyChanged);
+				yield return (element.Background as SolidColorBrush).SubscribeNestedPropertyChangedCallback(OnPropertyChanged);
+				yield return (element.Foreground as SolidColorBrush).SubscribeNestedPropertyChangedCallback(OnPropertyChanged);
+			}
 		}
 
 		protected override void Render()
@@ -279,6 +277,11 @@ namespace Uno.Toolkit.UI
 				Native.SetNeedsLayout();
 				Native.Superview?.SetNeedsLayout();
 			}
+		}
+
+		private void OnPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+		{
+			Invalidate();
 		}
 	}
 

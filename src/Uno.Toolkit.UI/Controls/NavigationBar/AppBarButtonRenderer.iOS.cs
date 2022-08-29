@@ -77,21 +77,7 @@ namespace Uno.Toolkit.UI
 				_appBarButtonWrapper = null;
 			});
 
-			yield return element.RegisterDisposableNestedPropertyChangedCallback(
-				(s, e) => Invalidate(),
-				new[] { AppBarButton.LabelProperty },
-				new[] { AppBarButton.IconProperty },
-				new[] { AppBarButton.IconProperty, BitmapIcon.UriSourceProperty },
-				new[] { AppBarButton.ContentProperty },
-				new[] { AppBarButton.ContentProperty, FrameworkElement.VisibilityProperty },
-				new[] { AppBarButton.OpacityProperty },
-				new[] { AppBarButton.ForegroundProperty },
-				new[] { AppBarButton.ForegroundProperty, SolidColorBrush.ColorProperty },
-				new[] { AppBarButton.ForegroundProperty, SolidColorBrush.OpacityProperty },
-				new[] { AppBarButton.VisibilityProperty },
-				new[] { AppBarButton.IsEnabledProperty },
-				new[] { AppBarButton.IsInOverflowProperty }
-			);
+			yield return element.SubscribeNestedPropertyChangedCallback((s, e) => Invalidate());
 
 			Native.Clicked += OnNativeClicked;
 			yield return Disposable.Create(() => { Native.Clicked -= OnNativeClicked; });

@@ -141,16 +141,12 @@ namespace Uno.Toolkit.UI
 
 				// Properties
 				yield return element.RegisterDisposableNestedPropertyChangedCallback(
-					(s, e) => Invalidate(),
+					OnPropertyChanged,
 					new[] { NavigationBar.PrimaryCommandsProperty },
 					new[] { NavigationBar.SecondaryCommandsProperty },
 					new[] { NavigationBar.ContentProperty },
 					new[] { NavigationBar.ForegroundProperty },
-					new[] { NavigationBar.ForegroundProperty, SolidColorBrush.ColorProperty },
-					new[] { NavigationBar.ForegroundProperty, SolidColorBrush.OpacityProperty },
 					new[] { NavigationBar.BackgroundProperty },
-					new[] { NavigationBar.BackgroundProperty, SolidColorBrush.ColorProperty },
-					new[] { NavigationBar.BackgroundProperty, SolidColorBrush.OpacityProperty },
 					new[] { NavigationBar.VisibilityProperty },
 					new[] { NavigationBar.PaddingProperty },
 					new[] { NavigationBar.OpacityProperty },
@@ -164,6 +160,12 @@ namespace Uno.Toolkit.UI
 					new[] { NavigationBar.MainCommandProperty, AppBarButton.IconProperty },
 					new[] { NavigationBar.MainCommandModeProperty }
 				);
+
+
+				yield return (element.MainCommand?.Icon as BitmapIcon).SubscribeNestedPropertyChangedCallback(OnPropertyChanged);
+				yield return (element.Background as SolidColorBrush).SubscribeNestedPropertyChangedCallback(OnPropertyChanged);
+				yield return (element.Foreground as SolidColorBrush).SubscribeNestedPropertyChangedCallback(OnPropertyChanged);
+
 			}
 		}
 
@@ -336,6 +338,11 @@ namespace Uno.Toolkit.UI
 				var imm = ContextHelper.Current.GetSystemService(Context.InputMethodService) as InputMethodManager;
 				imm?.HideSoftInputFromWindow(focused.WindowToken, HideSoftInputFlags.None);
 			}
+		}
+
+		private void OnPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+		{
+			Invalidate();
 		}
 	}
 }

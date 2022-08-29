@@ -85,6 +85,7 @@ namespace Uno.Toolkit.UI
 				new[] { NavigationBar.MainCommandProperty, AppBarButton.ContentProperty }
 			);
 
+			yield return (element.MainCommand?.Icon as BitmapIcon).SubscribeNestedPropertyChangedCallback((s, e) => RegisterCommandVisibilityAndInvalidate());
 			RegisterCommandVisibilityAndInvalidate();
 		}
 
