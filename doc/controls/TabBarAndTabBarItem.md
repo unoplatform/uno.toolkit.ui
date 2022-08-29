@@ -37,6 +37,8 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 ### Properties
 Property|Type|Description
 -|-|-
+BadgeValue|string|Gets or sets the value to be displayed in the badge of the `TabBarItem`. If a value is set the large badge will be displayed otherwise it will be the small badge. (Currently only usable with the Material Theme Toolkit Library with the `BottomTabBarItem` style)
+BadgeVisibility|Visibility|Gets or sets the badge visibility of the `TabBarItem`. (Currently only usable with the Material Theme Toolkit Library with the `BottomTabBarItem` style)
 Command|ICommand|Gets or sets the command to invoke when the `TabBarItem` is pressed.
 CommandParameter|object|Gets or sets the parameter to pass to the `Command` property.
 Flyout|double|Gets or sets the flyout associated with this `TabBarItem`.
@@ -278,3 +280,49 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ![](../assets/tabbar-android-material-bottom-fab.png)
 ![](../assets/tabbar-android-material-bottom-fab-flyout.png)
+
+#### Badge usage for the Material `BottomTabBarItem` Style
+Icons in `TabBar` items can display badges in their upper right corners. 
+
+Badges can contain dynamic information, such as the number of new messages.
+
+Currently, only the Material Theme Toolkit Library contains a `BottomTabBarItemStyle` that you can use to display a badge (which is optional).
+
+![](../assets/tabbaritem-winui-material-badges.png)
+
+##### Small Badge
+A small badge uses only shape to indicate a status change or new notification.
+
+![](../assets/tabbaritem-winui-material-smallbadge.png)
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBarItem Content="Favorites"
+				BadgeVisibility="Visible"
+				Style="{StaticResource BottomTabBarItemStyle}">
+	<utu:TabBarItem.Icon>
+		<FontIcon Glyph="&#xE113;" />
+	</utu:TabBarItem.Icon>
+</utu:TabBarItem>
+```
+
+##### Large Badge
+A large badge displays a number within a container to indicate a quantifiable status change related to a destination.
+
+![](../assets/tabbaritem-winui-material-largebadge.png)
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBarItem Content="Mail"
+				BadgeValue="8"
+				BadgeVisibility="Visible"
+				Style="{StaticResource BottomTabBarItemStyle}">
+	<utu:TabBarItem.Icon>
+		<FontIcon Glyph="&#xE119;" />
+	</utu:TabBarItem.Icon>
+</utu:TabBarItem>
+```
