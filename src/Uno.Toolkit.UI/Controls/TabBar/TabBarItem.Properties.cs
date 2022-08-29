@@ -29,6 +29,28 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register(nameof(Icon), typeof(IconElement), typeof(TabBarItem), new PropertyMetadata(null, OnPropertyChanged));
 		#endregion
 
+		#region BadgeVisibility
+		public Visibility BadgeVisibility
+		{
+			get { return (Visibility)GetValue(BadgeVisibilityProperty); }
+			set { SetValue(BadgeVisibilityProperty, value); }
+		}
+
+		public static readonly DependencyProperty BadgeVisibilityProperty =
+			DependencyProperty.Register("BadgeVisibility", typeof(Visibility), typeof(TabBarItem), new PropertyMetadata(Visibility.Collapsed, OnPropertyChanged));
+		#endregion
+
+		#region BadgeValue
+		public string? BadgeValue
+		{
+			get { return (string)GetValue(BadgeValueProperty); }
+			set { SetValue(BadgeValueProperty, value); }
+		}
+
+		public static readonly DependencyProperty BadgeValueProperty =
+			DependencyProperty.Register("BadgeValue", typeof(string), typeof(TabBarItem), new PropertyMetadata(default(string?), OnPropertyChanged));
+		#endregion
+
 		#region IsSelectable
 		public bool IsSelectable
 		{

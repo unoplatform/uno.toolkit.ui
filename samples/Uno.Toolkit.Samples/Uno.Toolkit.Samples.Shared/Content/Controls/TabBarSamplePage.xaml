@@ -421,12 +421,22 @@
 									<FontIcon Glyph="&#xE80F;" />
 								</utu:TabBarItem.Icon>
 							</utu:TabBarItem>
-							<utu:TabBarItem Content="Support">
+							<utu:TabBarItem Content="Favorites"
+											BadgeVisibility="Visible">
 								<utu:TabBarItem.Icon>
-									<FontIcon Glyph="&#xE8F2;" />
+									<FontIcon Glyph="&#xE113;" />
 								</utu:TabBarItem.Icon>
 							</utu:TabBarItem>
-							<utu:TabBarItem Content="About">
+							<utu:TabBarItem Content="Mail"
+											BadgeValue="8"
+											BadgeVisibility="Visible">
+								<utu:TabBarItem.Icon>
+										<FontIcon Glyph="&#xE119;" />
+								</utu:TabBarItem.Icon>
+							</utu:TabBarItem>
+							<utu:TabBarItem Content="About"
+											BadgeValue="42"
+											BadgeVisibility="Visible">
 								<utu:TabBarItem.Icon>
 									<FontIcon Glyph="&#xE946;" />
 								</utu:TabBarItem.Icon>
