@@ -130,8 +130,11 @@ namespace Uno.Toolkit.UI
 				switch (element.Icon)
 				{
 					case BitmapIcon bitmap:
-						var drawable = DrawableHelper.FromUri(bitmap.UriSource);
-						native?.SetIcon(drawable);
+						if (bitmap.UriSource is { } uriSource)
+						{
+							var drawable = DrawableHelper.FromUri(uriSource);
+							native?.SetIcon(drawable);
+						}
 						break;
 
 					case FontIcon font: // not supported
