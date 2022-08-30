@@ -280,12 +280,6 @@ namespace Uno.Toolkit.UI
 					{
 						child.Width = width;
 					}
-					else
-					{
-						child.ClearValue(WidthProperty);
-					}
-
-					child.ClearValue(HeightProperty);
 				}
 
 				// Process "space between"
@@ -356,12 +350,6 @@ namespace Uno.Toolkit.UI
 					{
 						child.Height = height;
 					}
-					else
-					{
-						child.ClearValue(HeightProperty);
-					}
-
-					child.ClearValue(WidthProperty);
 				}
 
 				// Process "space between"

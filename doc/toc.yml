@@ -12,6 +12,8 @@
   # ***************** Controls *******************
   - name: Controls
     items:
+    - name: AutoLayout
+      href: controls/AutoLayoutControl.md
     - name: Cards
       href: controls/CardAndCardContentControl.md
     - name: Chip and ChipGroup
