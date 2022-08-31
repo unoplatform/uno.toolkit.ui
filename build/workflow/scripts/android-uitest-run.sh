@@ -89,9 +89,11 @@ $ANDROID_HOME/platform-tools/adb shell settings put global hidden_api_policy 1
 
 echo "Emulator started"
 
+cd $BUILD_SOURCESDIRECTORY
+
 # build the sample, while the emulator is starting
 mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release $UNO_UITEST_PROJECT
-mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release /p:IsUiAutomationMappingEnabled=True /p:AotAssemblies=false /p:DisableNet6MobileTargets=True /t:SignAndroidPackage $UNO_UITEST_ANDROID_PROJECT
+mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release /p:IsUiAutomationMappingEnabled=True /p:DisableNet6MobileTargets=True /p:AndroidBuildApplicationPackage=True /p:AndroidUseLatestPlatformSdk=true $UNO_UITEST_ANDROID_PROJECT
 
 cd $BUILD_SOURCESDIRECTORY/build
 
