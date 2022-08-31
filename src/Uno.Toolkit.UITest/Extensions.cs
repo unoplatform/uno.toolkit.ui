@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,5 +43,62 @@ namespace Uno.Toolkit.UITest
 			=> new QueryEx(q => q.All().Marked(elementName));
 
 		public static QueryEx ToQueryEx(this Func<IAppQuery, IAppQuery> query) => new QueryEx(query);
+
+		
+		public static void FastTap(this IApp app, string elementName)
+		{
+			var tapPosition = app.GetRect(elementName);
+			app.TapCoordinates(tapPosition.CenterX, tapPosition.CenterY);
+		}
+
+		public static void FastTap(this IApp app, QueryEx query)
+		{
+			var tapPosition = app.GetRect(query);
+			app.TapCoordinates(tapPosition.CenterX, tapPosition.CenterY);
+		}
+
+		public static void FastTap(this IApp app, Func<IAppQuery, IAppQuery> query)
+		{
+			var tapPosition = app.GetRect(query);
+			app.TapCoordinates(tapPosition.CenterX, tapPosition.CenterY);
+		}
+
+		public static QueryEx FastTap(this QueryEx query)
+		{
+			Helpers.App.FastTap(query);
+			return query;
+		}
+
+				/// <summary>
+		/// Get bounds rect for an element.
+		/// </summary>
+		public static IAppRect GetRect(this IApp app, string elementName)
+		{
+			return app.WaitForElement(elementName).First().Rect;
+		}
+		public static IAppRect GetRect(this IApp app, QueryEx query)
+		{
+			return app.WaitForElement(query).First().Rect;
+		}
+		public static IAppRect GetRect(this IApp app, Func<IAppQuery, IAppQuery> query)
+		{
+			return app.WaitForElement(query).First().Rect;
+		}
+
+		public static FileInfo GetInAppScreenshot(this IApp app)
+		{ 
+			var byte64Image = app.InvokeGeneric("browser:SampleRunner|GetScreenshot", "0")?.ToString();
+
+			var array = Convert.FromBase64String(byte64Image);
+
+			var outputFile = Path.GetTempFileName();
+			File.WriteAllBytes(outputFile, array);
+
+			var finalPath = Path.ChangeExtension(outputFile, ".png");
+
+			File.Move(outputFile, finalPath);
+
+			return new FileInfo(finalPath);
+		}
 	}
 }

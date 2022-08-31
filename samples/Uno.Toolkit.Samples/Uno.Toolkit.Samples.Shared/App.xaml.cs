@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +9,13 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using MUXC = Microsoft.UI.Xaml.Controls;
+using Uno.Toolkit.Samples.Entities;
+using static Uno.UI.FeatureConfiguration;
+
+#if __IOS__
+using Foundation;
+#endif
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -20,6 +27,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using XamlLaunchActivatedEventArgs = Microsoft.UI.Xaml.LaunchActivatedEventArgs;
 using XamlWindow = Microsoft.UI.Xaml.Window;
+using Page = Microsoft.UI.Xaml.Controls.Page;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,6 +38,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using XamlLaunchActivatedEventArgs = Windows.ApplicationModel.Activation.LaunchActivatedEventArgs;
 using XamlWindow = Windows.UI.Xaml.Window;
+using Page = Windows.UI.Xaml.Controls.Page;
+using Uno.Extensions;
 #endif
 
 namespace Uno.Toolkit.Samples
@@ -69,14 +79,8 @@ namespace Uno.Toolkit.Samples
 		/// <param name="e">Details about the launch request and process.</param>
 		protected override void OnLaunched(XamlLaunchActivatedEventArgs e)
 		{
-#if __IOS__ && !NET6_0
+#if __IOS__ && !NET6_0 && USE_UITESTS
 			Xamarin.Calabash.Start();
-#endif
-#if DEBUG
-			if (System.Diagnostics.Debugger.IsAttached)
-			{
-				// this.DebugSettings.EnableFrameRateCounter = true;
-			}
 #endif
 
 #if WINDOWS_UWP
@@ -168,5 +172,26 @@ namespace Uno.Toolkit.Samples
 
 			global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
 		}
+
+#if USE_UITESTS
+		public static void NavBackFromNestedPage() => Shell.GetForCurrentView()?.BackNavigateFromNestedSample();
+		public static void ForceNavigation(string sampleName) => (Application.Current as App)?.ForceSampleNavigation(sampleName);
+		public static void ExitNestedSample() => Shell.GetForCurrentView()?.ExitNestedSample();
+		public static void NavigateToNestedSample(string pageName) => (Application.Current as App)?.NavigateToNestedSampleCore(pageName);
+
+#if __IOS__
+		[Export("navBackFromNestedPage:")]
+		public void NavBackFromNestedPageBackdoor(NSString value) => NavBackFromNestedPage();
+
+		[Export("forceNavigation:")]
+		public void ForceNavigationBackdoor(NSString value) => ForceNavigation(value);
+
+		[Export("exitNestedSample:")]
+		public void ExitNestedSampleBackdoor(NSString value) => ExitNestedSample();
+
+		[Export("navigateToNestedSample:")]
+		public void NavigateToNestedSampleBackdoor(NSString value) => NavigateToNestedSample(value);
+#endif
+#endif
 	}
 }

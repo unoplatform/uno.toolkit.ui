@@ -38,6 +38,7 @@
 								VerticalAlignment="Center">
 						<FontIcon Glyph="&#xE80F;" />
 						<TextBlock Text="Home"
+								   AutomationProperties.AutomationId="BottomTabBar_FlipView_Item_Text_Home"
 								   TextAlignment="Center" />
 					</StackPanel>
 				</Border>
@@ -49,6 +50,7 @@
 								VerticalAlignment="Center">
 						<FontIcon Glyph="&#xe721;" />
 						<TextBlock Text="Search"
+								   AutomationProperties.AutomationId="BottomTabBar_FlipView_Item_Text_Search"
 								   TextAlignment="Center" />
 					</StackPanel>
 				</Border>
@@ -60,6 +62,7 @@
 								VerticalAlignment="Center">
 						<FontIcon Glyph="&#xE8F2;" />
 						<TextBlock Text="Support"
+								   AutomationProperties.AutomationId="BottomTabBar_FlipView_Item_Text_Support"
 								   TextAlignment="Center" />
 					</StackPanel>
 				</Border>
@@ -71,6 +74,7 @@
 								VerticalAlignment="Center">
 						<FontIcon Glyph="&#xE946;" />
 						<TextBlock Text="About"
+								   AutomationProperties.AutomationId="BottomTabBar_FlipView_Item_Text_About"
 								   TextAlignment="Center" />
 					</StackPanel>
 				</Border>
@@ -80,15 +84,18 @@
 		<utu:TabBar Grid.Row="2"
 					SelectedIndex="1"
 					SelectionChanged="OnSelectionChanged"
+					AutomationProperties.AutomationId="BottomTabBar"
 					Style="{StaticResource MaterialBottomTabBarStyle}">
 			<utu:TabBar.Items>
 				<utu:TabBarItem Tag="Home"
+								AutomationProperties.AutomationId="BottomTabBar_Item_Home"
 								Content="Home">
 					<utu:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE80F;" />
 					</utu:TabBarItem.Icon>
 				</utu:TabBarItem>
 				<utu:TabBarItem Tag="Search"
+								AutomationProperties.AutomationId="BottomTabBar_Item_Search"
 								Content="Search">
 					<utu:TabBarItem.Icon>
 						<FontIcon Glyph="&#xe721;" />
@@ -119,12 +126,14 @@
 					</utu:TabBarItem.Icon>
 				</utu:TabBarItem>
 				<utu:TabBarItem Tag="Support"
+								AutomationProperties.AutomationId="BottomTabBar_Item_Support"
 								Content="Support">
 					<utu:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE8F2;" />
 					</utu:TabBarItem.Icon>
 				</utu:TabBarItem>
 				<utu:TabBarItem Tag="About"
+								AutomationProperties.AutomationId="BottomTabBar_Item_About"
 								Content="About">
 					<utu:TabBarItem.Icon>
 						<FontIcon Glyph="&#xE946;" />

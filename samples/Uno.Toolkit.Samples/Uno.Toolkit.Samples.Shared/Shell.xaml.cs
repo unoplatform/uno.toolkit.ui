@@ -5,6 +5,9 @@ using Uno.Toolkit.Samples.Content.NestedSamples;
 using Uno.Toolkit.UI;
 using Uno.Toolkit.Samples.Content.Controls;
 
+#if __IOS__
+using Foundation;
+#endif
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -52,15 +55,6 @@ namespace Uno.Toolkit.Samples
 		public static Shell GetForCurrentView() => (Shell)XamlWindow.Current.Content;
 
 		public MUXC.NavigationView NavigationView => NavigationViewControl;
-
-		public string CurrentSampleBackdoor
-		{
-			get { return (string)GetValue(CurrentSampleBackdoorProperty); }
-			set { SetValue(CurrentSampleBackdoorProperty, value); }
-		}
-
-		public static DependencyProperty CurrentSampleBackdoorProperty { get; } =
-			DependencyProperty.Register(nameof(CurrentSampleBackdoor), typeof(string), typeof(Shell), new PropertyMetadata(null));
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
@@ -135,13 +129,18 @@ namespace Uno.Toolkit.Samples
 #endif
 		}
 
-		public void ShowNestedSample<TPage>(bool? clearStack = null) where TPage : Page
+		public void ShowNestedSample(Type pageType, bool? clearStack = null)
 		{
 			var wasFrameEmpty = NestedSampleFrame.Content == null;
-			if (NestedSampleFrame.Navigate(typeof(TPage)) && (clearStack ?? wasFrameEmpty))
+			if (NestedSampleFrame.Navigate(pageType) && (clearStack ?? wasFrameEmpty))
 			{
 				NestedSampleFrame.BackStack.Clear();
 			}
+		}
+
+		public void ShowNestedSample<TPage>(bool? clearStack = null) where TPage : Page
+		{
+			ShowNestedSample(typeof(TPage), clearStack);
 		}
 
 		public bool BackNavigateFromNestedSample()
@@ -151,7 +150,7 @@ namespace Uno.Toolkit.Samples
 				return false;
 			}
 
-			var sender = NestedSampleFrame.Content;
+			
 			if (NestedSampleFrame.CanGoBack)
 			{
 				//Let the NavigationBar within the nested page handle the back nav logic
@@ -159,20 +158,28 @@ namespace Uno.Toolkit.Samples
 			}
 			else
 			{
-				NestedSampleFrame.Content = null;
+				ExitNestedSample();
+			}
+
+			return true;
+		}
+
+		public void ExitNestedSample()
+		{
+			var sender = NestedSampleFrame.Content;
+			NestedSampleFrame.Content = null;
 
 #if __IOS__
-				// This will force reset the UINavigationController, to prevent the back button from appearing when the stack is supposely empty.
-				// note: Merely setting the Frame.Content to null, doesnt fully reset the stack.
-				// When revisiting the page1 again, the previous page1 is still in the UINavigationController stack
-				// causing a back button to appear that takes us back to the previous page1
-				NestedSampleFrame.BackStack.Add(default);
-				NestedSampleFrame.BackStack.Clear();
+			// This will force reset the UINavigationController, to prevent the back button from appearing when the stack is supposely empty.
+			// note: Merely setting the Frame.Content to null, doesnt fully reset the stack.
+			// When revisiting the page1 again, the previous page1 is still in the UINavigationController stack
+			// causing a back button to appear that takes us back to the previous page1
+			NestedSampleFrame.BackStack.Add(default);
+			NestedSampleFrame.BackStack.Clear();
 #endif
 #if __ANDROID__
-				NestedSampleFrame.BackStack.Clear();
+			NestedSampleFrame.BackStack.Clear();
 #endif
-			}
 
 			if (NavigationView.Content is IExitNestedSampleHandler handler)
 			{
@@ -181,8 +188,6 @@ namespace Uno.Toolkit.Samples
 				// just changes the visibility of the nested frame that overlays everything.
 				handler.OnExitedFromNestedSample(sender);
 			}
-
-			return true;
 		}
 
 		private void NavViewToggleButton_Click(object sender, RoutedEventArgs e)

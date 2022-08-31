@@ -28,6 +28,7 @@ namespace Uno.Toolkit.Samples
 	partial class App
 	{
 		private static Sample[] _samples;
+		private static IDictionary<string, Type> _nestedSampleMap;
 
 		/// <summary>
 		/// Invoked when Navigation to a certain page fails
@@ -79,7 +80,6 @@ namespace Uno.Toolkit.Samples
 		{
 			_shell = new Shell();
 			AutomationProperties.SetAutomationId(_shell, "AppShell");
-			_shell.RegisterPropertyChangedCallback(Shell.CurrentSampleBackdoorProperty, OnCurrentSampleBackdoorChanged);
 			var nv = _shell.NavigationView;
 			AddNavigationItems(nv);
 
@@ -100,19 +100,32 @@ namespace Uno.Toolkit.Samples
 			return _shell;
 		}
 
-		private void OnCurrentSampleBackdoorChanged(DependencyObject sender, DependencyProperty dp)
+#if USE_UITESTS
+		private void ForceSampleNavigation(string sampleName)
 		{
 			var sample = GetSamples()
-				.FirstOrDefault(x => string.Equals(x.Title, _shell.CurrentSampleBackdoor, StringComparison.OrdinalIgnoreCase));
+				.FirstOrDefault(x => string.Equals(x.Title, sampleName, StringComparison.OrdinalIgnoreCase));
 
 			if (sample == null)
 			{
-				this.Log().LogWarning($"No SampleAttribute found with a Title that matches: {_shell.CurrentSampleBackdoor}");
+				typeof(App).Log().LogWarning($"No SampleAttribute found with a Title that matches: {sampleName}");
 				return;
 			}
 
-			ShellNavigateTo(sample);
+			var page = (Page)Activator.CreateInstance(sample.ViewType);
+			page.DataContext = sample;
+
+			_shell.NavigationView.Content = page;
 		}
+
+		private void NavigateToNestedSampleCore(string sampleName)
+		{
+			if (GetNestedSamples().TryGetValue(sampleName, out var pageType))
+			{
+				_shell.ShowNestedSample(pageType, clearStack: true);
+			}
+		}
+#endif
 
 		private void OnNavigationItemInvoked(MUXC.NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs e)
 		{
@@ -184,5 +197,11 @@ namespace Uno.Toolkit.Samples
 				.Where(x => x.SamplePageAttribute != null)
 				.Select(x => new Sample(x.SamplePageAttribute, x.TypeInfo.AsType()))
 				.ToArray();
+
+		public static IDictionary<string, Type> GetNestedSamples()
+			=> _nestedSampleMap = _nestedSampleMap ?? Assembly.GetExecutingAssembly()
+				.GetTypes()
+				.Where(t => typeof(Page).IsAssignableFrom(t) && t.Namespace.Equals("Uno.Toolkit.Samples.Content.NestedSamples", StringComparison.OrdinalIgnoreCase))
+				.ToDictionary(t => t.Name);
 	}
 }

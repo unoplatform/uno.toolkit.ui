@@ -13,6 +13,7 @@
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\Uno.Toolkit.Samples.Shared\Strings</ResourcesDirectory>
     <LangVersion>8.0</LangVersion>
+    <ProvisioningType>manual</ProvisioningType>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Workaround for https://github.com/unoplatform/uno/discussions/5007 -->
@@ -33,7 +34,7 @@
     <MtouchExtraArgs>--setenv=MONO_LOG_LEVEL=debug --setenv=MONO_LOG_MASK=gc --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
-    <DebugType>portable</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -180,16 +181,6 @@
     <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="nventive.Nimue.Application.Packaging">
-      <Version>0.1.0-alpha.58</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="nventive.Nimue.Application.Versioning">
-      <Version>0.1.0-alpha.58</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Uno.Cupertino">
       <Version>2.3.0-dev.6</Version>
     </PackageReference>
@@ -204,7 +195,7 @@
     <PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
     <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
     <PackageReference Include="Xamarin.TestCloud.Agent">
-      <Version>0.23.1</Version>
+      <Version>0.23.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
