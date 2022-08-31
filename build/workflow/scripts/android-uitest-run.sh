@@ -104,16 +104,18 @@ cd $UNO_UITEST_SCREENSHOT_PATH
 
 ## Build the NUnit configuration file
 echo "--trace=Verbose" > $UNO_TESTS_RESPONSE_FILE
+echo "--framework=mono" >> $UNO_TESTS_RESPONSE_FILE
 echo "--inprocess" >> $UNO_TESTS_RESPONSE_FILE
 echo "--agents=1" >> $UNO_TESTS_RESPONSE_FILE
 echo "--workers=1" >> $UNO_TESTS_RESPONSE_FILE
-echo "--timeout=2700000" >> $UNO_TESTS_RESPONSE_FILE
 echo "--result=$UNO_ORIGINAL_TEST_RESULTS" >> $UNO_TESTS_RESPONSE_FILE
 echo "$UNO_UITEST_BINARY" >> $UNO_TESTS_RESPONSE_FILE
 
+echo Response file:
+cat $UNO_TESTS_RESPONSE_FILE
+
 mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.$UNO_UITEST_NUNIT_VERSION/tools/nunit3-console.exe \
-	@$UNO_TESTS_RESPONSE_FILE || true
-	
+    @$UNO_TESTS_RESPONSE_FILE || true
 
 ## Dump the emulator's system log
 $ANDROID_HOME/platform-tools/adb shell logcat -d > $BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/android/android-device-log.txt
