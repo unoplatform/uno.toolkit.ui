@@ -15,6 +15,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Uno.Toolkit\Uno.Toolkit.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Uno.UI" Version="4.5.0-dev.797" />
 		<PackageReference Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
@@ -37,14 +41,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Controls\LoadingView\LoadingView.xaml" />
 	  <None Remove="Controls\SafeArea\SafeArea.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <UpToDateCheckInput Remove="Controls\LoadingView\LoadingView.xaml" />
 	  <UpToDateCheckInput Remove="Controls\SafeArea\SafeArea.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Page Update="Controls\LoadingView\LoadingView.xaml">
+	    <SubType>Designer</SubType>
+	  </Page>
 	  <Page Update="Controls\SafeArea\SafeArea.xaml">
 	    <SubType>Designer</SubType>
 	  </Page>

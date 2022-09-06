@@ -15,6 +15,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Uno.Toolkit\Uno.Toolkit.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Uno.WinUI" Version="4.5.0-dev.797" />
 		<PackageReference Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
@@ -44,7 +48,6 @@
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
-
 
 	<Import Project="..\winappsdk-workaround.targets" />
 

@@ -22,6 +22,8 @@
       href: controls/DrawerControl.md
     - name: DrawerFlyoutPresenter
       href: controls/DrawerFlyoutPresenter.md
+    - name: LoadingView
+      href: controls/LoadingView.md
     - name: NavigationBar
       href: controls/NavigationBar.md
     - name: TabBar and TabBarItem

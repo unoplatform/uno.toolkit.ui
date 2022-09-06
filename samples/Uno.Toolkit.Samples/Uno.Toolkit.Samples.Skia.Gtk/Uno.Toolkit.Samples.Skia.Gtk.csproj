@@ -4,7 +4,7 @@
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    
+
   </PropertyGroup>
   <ItemGroup Condition="exists('..\Uno.Toolkit.Samples.UWP')">
     <EmbeddedResource Include="..\Uno.Toolkit.Samples.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
@@ -43,6 +43,7 @@
     <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.UI.Cupertino.csproj" />
     <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj" />
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj" />
   </ItemGroup>
   <Import Project="..\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
 </Project>

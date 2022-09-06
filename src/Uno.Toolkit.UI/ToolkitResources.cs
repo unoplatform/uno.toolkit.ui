@@ -28,16 +28,17 @@ namespace Uno.Toolkit.UI
 		{
 			var dicts = new string[]
 			{
+				"AutoLayout/AutoLayout.xaml",
 				"DrawerControl/DrawerControl.xaml",
 				"DrawerControl/DrawerControl.Enhanced.xaml",
 				"DrawerFlyout/DrawerFlyoutPresenter.xaml",
-				"TabBar/TabBar.xaml",
-				"AutoLayout/AutoLayout.xaml",
+				"LoadingView/LoadingView.xaml",
 #if __IOS__ || __ANDROID__
 				"NavigationBar/NavigationBar.Native.xaml",
 #else
 				"NavigationBar/NavigationBar.xaml",
 #endif
+				"TabBar/TabBar.xaml",
 			};
 			foreach (var dict in dicts)
 			{
