@@ -32,13 +32,16 @@ namespace Uno.Toolkit.Samples.Droid
 		[Export("NavigateToNestedSample")]
 		public void NavigateToNestedSample(string pageName) => App.NavigateToNestedSample(pageName);
 
+		[Export("GetDisplayScreenScaling")]
+		public string GetDisplayScreenScaling(string value) => App.GetDisplayScreenScaling(value);
+
 		/// <summary>
 		/// Returns a base64 encoded PNG file
 		/// </summary>
 		[Export("GetScreenshot")]
 		public string GetScreenshot(string displayId)
 		{
-			var rootView = Windows.UI.Xaml.Window.Current.Content as View;
+			var rootView = this.ContentView;
 
 			var bitmap = Android.Graphics.Bitmap.CreateBitmap(rootView.Width, rootView.Height, Android.Graphics.Bitmap.Config.Argb8888);
 			var locationOfViewInWindow = new int[2];
@@ -64,7 +67,7 @@ namespace Uno.Toolkit.Samples.Droid
 
 			// PixelCopy.Request returns the actual rendering of the screen location
 			// for the app, incliing OpenGL content.
-			PixelCopy.Request(Window, scope, bitmap, listener, new Android.OS.Handler(_pixelCopyHandlerThread.Looper));
+			PixelCopy.Request(Window, srcRect: null, bitmap, listener, new Android.OS.Handler(_pixelCopyHandlerThread.Looper));
 
 			listener.WaitOne();
 

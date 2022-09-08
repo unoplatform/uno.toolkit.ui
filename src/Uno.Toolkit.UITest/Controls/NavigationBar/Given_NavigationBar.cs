@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Uno.Toolkit.UITest.Extensions;
+using Uno.Toolkit.UITest.Framework;
 using Uno.UITest;
 using Uno.UITest.Helpers;
 using Uno.UITest.Helpers.Queries;
 using Uno.UITests.Helpers;
 
-namespace Uno.Toolkit.UITest.NavigationBar
+namespace Uno.Toolkit.UITest.Controls.NavigationBar
 {
 	[ActivePlatforms(Platform.Android, Platform.iOS)]
 	public class Given_NavigationBar : TestBase
@@ -48,7 +50,7 @@ namespace Uno.Toolkit.UITest.NavigationBar
 		{
 			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
 
-			App.WaitForElement("M3Page1NavBar", "Timed out waiting for Page 1 Nav Bar");
+			App.WaitForElementWithMessage("M3Page1NavBar");
 
 			PlatformHelpers.On(
 				iOS: () => App.FastTap("CloseIcon"),
@@ -71,7 +73,7 @@ namespace Uno.Toolkit.UITest.NavigationBar
 
 			App.FastTap("M3_Page1_Navigate_To_Page2");
 
-			App.WaitForElement("M3Page2NavBar", "Timed out waiting for Page 2 Nav Bar");
+			App.WaitForElementWithMessage("M3Page2NavBar");
 
 			var nativeBar = PlatformHelpers.On<IAppResult>(
 				iOS: () => App.CreateQuery(x => x.WithClass("navigationBar")).FirstResult(),
@@ -91,7 +93,7 @@ namespace Uno.Toolkit.UITest.NavigationBar
 
 			App.FastTap("M3_Page1_Navigate_To_Page2");
 
-			App.WaitForElement("M3Page2NavBar", "Timed out waiting for Page 2 Nav Bar");
+			App.WaitForElementWithMessage("M3Page2NavBar");
 
 			PlatformHelpers.On(
 				iOS: () => App.FastTap("BackButton"),

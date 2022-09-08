@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Uno.Toolkit.UITest.Extensions;
+using Uno.Toolkit.UITest.Framework;
 using Uno.UITest;
 using Uno.UITest.Helpers;
 using Uno.UITest.Helpers.Queries;
@@ -13,46 +15,46 @@ using Uno.UITests.Helpers;
 
 namespace Uno.Toolkit.UITest
 {
-    [TestFixture]
-    public abstract class TestBase
-    {
+	[TestFixture]
+	public abstract class TestBase
+	{
 		protected abstract string SampleName { get; }
 
-        private IApp _app;
+		private IApp _app;
 
-        static TestBase()
-        {
-            AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
-            AppInitializer.TestEnvironment.WebAssemblyDefaultUri = Constants.WebAssemblyDefaultUri;
-            AppInitializer.TestEnvironment.iOSAppName = Constants.iOSAppName;
-            AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
-            AppInitializer.TestEnvironment.iOSDeviceNameOrId = Constants.iOSDeviceNameOrId;
-            AppInitializer.TestEnvironment.CurrentPlatform = Constants.CurrentPlatform;
+		static TestBase()
+		{
+			AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
+			AppInitializer.TestEnvironment.WebAssemblyDefaultUri = Constants.WebAssemblyDefaultUri;
+			AppInitializer.TestEnvironment.iOSAppName = Constants.iOSAppName;
+			AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
+			AppInitializer.TestEnvironment.iOSDeviceNameOrId = Constants.iOSDeviceNameOrId;
+			AppInitializer.TestEnvironment.CurrentPlatform = Constants.CurrentPlatform;
 
 #if DEBUG
-            AppInitializer.TestEnvironment.WebAssemblyHeadless = false;
+			AppInitializer.TestEnvironment.WebAssemblyHeadless = false;
 #endif
 
 			// Uncomment to align with your own environment
 			// Environment.SetEnvironmentVariable("ANDROID_HOME", @"C:\Program Files (x86)\Android\android-sdk");
 			// Environment.SetEnvironmentVariable("JAVA_HOME", @"C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot");
 
-            AppInitializer.ColdStartApp();
-        }
+			AppInitializer.ColdStartApp();
+		}
 
-        protected IApp App
-        {
-            get => _app;
-            private set
-            {
-                _app = value;
-                Uno.UITest.Helpers.Queries.Helpers.App = value;
-            }
-        }
+		protected IApp App
+		{
+			get => _app;
+			private set
+			{
+				_app = value;
+				Uno.UITest.Helpers.Queries.Helpers.App = value;
+			}
+		}
 
-        [SetUp]
-        public virtual void SetUpTest()
-        {
+		[SetUp]
+		public virtual void SetUpTest()
+		{
 			App = AppInitializer.AttachToApp();
 
 			// Check if the test needs to be ignore or not
@@ -92,14 +94,14 @@ namespace Uno.Toolkit.UITest
 				}
 			}
 
-			App.WaitForElement("AppShell");
+			App.WaitForElementWithMessage("AppShell");
 			NavigateToSample(SampleName);
 		}
 
 		[TearDown]
-        public void TearDownTest()
-        {
-            TakeScreenshot("teardown");
+		public void TearDownTest()
+		{
+			TakeScreenshot("teardown");
 
 			//var isNestedFrameVisible = App.Marked("NestedSampleFrame")
 			//	.GetDependencyPropertyValue<string>("Visibility")
@@ -117,9 +119,9 @@ namespace Uno.Toolkit.UITest
 		}
 
 		protected void NavigateToSample(string sample)
-        {
+		{
 			InvokeBackdoor("browser:SampleRunner|ForceNavigation", sample);
-        }
+		}
 
 		protected void NavigateToNestedSample(string pageName)
 		{
@@ -133,51 +135,50 @@ namespace Uno.Toolkit.UITest
 
 		private void InvokeBackdoor(string methodName, object? arg = null)
 		{
-			if(AppInitializer.GetLocalPlatform() == Platform.iOS)
+			if (AppInitializer.GetLocalPlatform() == Platform.iOS)
 			{
 				arg ??= string.Empty;
 			}
 			_app?.InvokeGeneric(methodName, arg);
 		}
 
-        public FileInfo? TakeScreenshot(string stepName)
-        {
+		public ScreenshotInfo TakeScreenshot(string stepName)
+		{
 			if (_app == null)
 			{
-				Console.WriteLine($"Skipping TakeScreenshot _app is not available");
-				return null;
+				throw new InvalidOperationException("App must be set before test code runs");
 			}
 
-            var title = $"{TestContext.CurrentContext.Test.Name}_{stepName}"
-                .Replace(" ", "_")
-                .Replace(".", "_");
+			var title = $"{TestContext.CurrentContext.Test.Name}_{stepName}"
+				.Replace(" ", "_")
+				.Replace(".", "_");
 
-            var fileInfo = GetNativeScreenshot(title);
+			var fileInfo = GetNativeScreenshot(title);
 
-            var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileInfo.Name);
-            if (fileNameWithoutExt != title)
-            {
-                var destFileName = Path
-                    .Combine(Path.GetDirectoryName(fileInfo.FullName), title + Path.GetExtension(fileInfo.Name));
+			var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileInfo.Name);
+			if (fileNameWithoutExt != title)
+			{
+				var destFileName = Path
+					.Combine(Path.GetDirectoryName(fileInfo.FullName), title + Path.GetExtension(fileInfo.Name));
 
-                if (File.Exists(destFileName))
-                {
-                    File.Delete(destFileName);
-                }
+				if (File.Exists(destFileName))
+				{
+					File.Delete(destFileName);
+				}
 
-                File.Move(fileInfo.FullName, destFileName);
+				File.Move(fileInfo.FullName, destFileName);
 
-                TestContext.AddTestAttachment(destFileName, stepName);
+				TestContext.AddTestAttachment(destFileName, stepName);
 
-                fileInfo = new FileInfo(destFileName);
-            }
-            else
-            {
-                TestContext.AddTestAttachment(fileInfo.FullName, stepName);
-            }
+				fileInfo = new FileInfo(destFileName);
+			}
+			else
+			{
+				TestContext.AddTestAttachment(fileInfo.FullName, stepName);
+			}
 
-            return fileInfo;
-        }
+			return new ScreenshotInfo(fileInfo, stepName);
+		}
 
 		private IEnumerable<Platform> GetActivePlatforms()
 		{
@@ -210,8 +211,8 @@ namespace Uno.Toolkit.UITest
 					var testMethodInfo = classType.GetMethod(currentTest.MethodName);
 
 					if (testMethodInfo is { } mi &&
-					    mi.GetCustomAttributes(typeof(ActivePlatformsAttribute), false) is
-						    ActivePlatformsAttribute[] methodAttributes)
+						mi.GetCustomAttributes(typeof(ActivePlatformsAttribute), false) is
+							ActivePlatformsAttribute[] methodAttributes)
 					{
 						foreach (var attr in methodAttributes)
 						{
@@ -233,14 +234,15 @@ namespace Uno.Toolkit.UITest
 
 		private FileInfo GetNativeScreenshot(string title)
 		{
-			if (AppInitializer.GetLocalPlatform() == Platform.Android)
-			{
-				return _app.GetInAppScreenshot();
-			}
-			else
-			{
-				return _app.Screenshot(title);
-			}
+			return _app.Screenshot(title);
+			//if (AppInitializer.GetLocalPlatform() == Platform.Android)
+			//{
+			//	return _app.GetInAppScreenshot();
+			//}
+			//else
+			//{
+			//	return _app.Screenshot(title);
+			//}
 		}
-    }
+	}
 }

@@ -1,5 +1,4 @@
 <Project ToolsVersion="15.0">
-
 	<PropertyGroup>
 		<DebugType>portable</DebugType>
 		<DebugSymbols>True</DebugSymbols>
@@ -17,7 +16,7 @@
 
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
 		<DefaultLanguage>en-US</DefaultLanguage>
-		<LangVersion>9.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 
 		<NoNFloatUsing>true</NoNFloatUsing>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Uno.UITest.Helpers.Queries;
 
-namespace Uno.Toolkit.UITest
+namespace Uno.Toolkit.UITest.Framework
 {
 	/// <summary>
 	/// Defines a list of platforms for which the test will be executed. Other platforms will mark the test as ignored.

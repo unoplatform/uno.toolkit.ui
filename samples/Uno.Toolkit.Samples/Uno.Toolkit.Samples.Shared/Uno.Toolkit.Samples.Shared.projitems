@@ -35,6 +35,9 @@
       <DependentUpon>DrawerFlyoutSamplePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\IExitNestedSampleHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\SafeAreaSamplePage.xaml.cs">
+      <DependentUpon>SafeAreaSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\InputExtensionsSamplePage.xaml.cs">
       <DependentUpon>InputExtensionsSamplePage.xaml</DependentUpon>
     </Compile>
@@ -70,6 +73,15 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_DataContext_NestedPage1.xaml.cs">
       <DependentUpon>MaterialNavigationBarSample_DataContext_NestedPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\SafeAreaSamplePage_NestedPage.xaml.cs">
+      <DependentUpon>SafeAreaSamplePage_NestedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\SafeArea_Control_NestedPage.xaml.cs">
+      <DependentUpon>SafeArea_Control_NestedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\SafeArea_SoftInput_NestedPage.xaml.cs">
+      <DependentUpon>SafeArea_SoftInput_NestedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\StatusBarSample_NestedPage1.xaml.cs">
       <DependentUpon>StatusBarSample_NestedPage1.xaml</DependentUpon>
@@ -183,6 +195,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\SafeAreaSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\InputExtensionsSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,6 +244,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\MaterialNavigationBarSample_DataContext_NestedPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\SafeAreaSamplePage_NestedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\SafeArea_Control_NestedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\SafeArea_SoftInput_NestedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

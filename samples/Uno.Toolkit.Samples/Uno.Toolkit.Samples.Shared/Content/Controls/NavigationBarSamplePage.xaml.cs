@@ -9,6 +9,7 @@ using Windows.Foundation.Collections;
 using Uno.Toolkit.Samples.Content.NestedSamples;
 using Uno.Toolkit.UI;
 using Uno.Toolkit.Samples.Helpers;
+using VisualTreeHelperEx = Uno.Toolkit.Samples.Helpers.VisualTreeHelperEx;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,15 +31,15 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-    [SamplePage(SampleCategory.Controls, nameof(NavigationBar))]
-    public sealed partial class NavigationBarSamplePage : Page
-    {
+	[SamplePage(SampleCategory.Controls, nameof(NavigationBar))]
+	public sealed partial class NavigationBarSamplePage : Page
+	{
 		private Frame _modalFrame;
 		private Frame _modalFrameM3;
 
 		public NavigationBarSamplePage()
-        {
-            this.InitializeComponent();
+		{
+			this.InitializeComponent();
 		}
 
 		private void ModalFlyout_Opened(object sender, object e)
@@ -56,9 +57,9 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		}
 
 		private void LaunchFullScreenMaterialSample(object sender, RoutedEventArgs e)
-        {
-            Shell.GetForCurrentView().ShowNestedSample<MaterialNavigationBarSample_NestedPage1>(clearStack: true);
-        }
+		{
+			Shell.GetForCurrentView().ShowNestedSample<MaterialNavigationBarSample_NestedPage1>(clearStack: true);
+		}
 
 		private void LaunchFullScreenMaterialDataContextSample(object sender, RoutedEventArgs e)
 		{

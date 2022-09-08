@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Uno.UITest.Helpers.Queries;
 using Uno.UITest;
 using Uno.UITest.Helpers;
-using Uno.UITest.Helpers.Queries;
 
-namespace Uno.Toolkit.UITest
+namespace Uno.Toolkit.UITest.Extensions
 {
-	public static class Extensions
+	internal static class QueryExtensions
 	{
 		public static Func<IAppQuery, IAppQuery> WaitThenTap(this IApp app, Func<IAppQuery, IAppQuery> query, TimeSpan? timeout = null)
 		{
@@ -20,7 +20,7 @@ namespace Uno.Toolkit.UITest
 			return query;
 		}
 
-		public static Func<IAppQuery, IAppQuery> WaitThenTap(this IApp app, string marked, TimeSpan? timeout = null) 
+		public static Func<IAppQuery, IAppQuery> WaitThenTap(this IApp app, string marked, TimeSpan? timeout = null)
 			=> WaitThenTap(app, q => q.All().Marked(marked), timeout);
 
 		/// <summary>
@@ -39,12 +39,40 @@ namespace Uno.Toolkit.UITest
 			app.WaitForText(element, expectedText);
 		}
 
-		public static QueryEx MarkedAnywhere(this IApp app, string elementName) 
+		/// <summary>
+		/// Calls the <see cref="IApp.WaitForElement(string, string, TimeSpan?, TimeSpan?, TimeSpan?)"/> method with a timeout message that specifies
+		/// the element name, which is useful when multiple elements are waited upon in the same test.
+		/// </summary>
+		public static IAppResult[] WaitForElementWithMessage(this IApp app, string elementName, string additionalMessage = null, TimeSpan? timeout = null)
+		{
+			var timeoutMessage = $"Timed out waiting for element '{elementName}'";
+
+			if (additionalMessage != null)
+			{
+				timeoutMessage = $"{timeoutMessage} - {additionalMessage}";
+			}
+
+			return app.WaitForElement(elementName, timeoutMessage: timeoutMessage, timeout: timeout);
+		}
+
+		public static QueryEx MarkedAnywhere(this IApp app, string elementName)
 			=> new QueryEx(q => q.All().Marked(elementName));
+
+		public static QueryEx TypeInto(this IApp app, string textBoxName, string inputText)
+		{
+			var tb = app.WaitThenTap(textBoxName).ToQueryEx();
+
+			app.EnterText(inputText);
+			app.WaitFor(() => inputText == GetText(tb));
+
+			return tb;
+		}
+		public static string GetText(QueryEx textBox) => textBox.GetDependencyPropertyValue<string>("Text");
+
 
 		public static QueryEx ToQueryEx(this Func<IAppQuery, IAppQuery> query) => new QueryEx(query);
 
-		
+
 		public static void FastTap(this IApp app, string elementName)
 		{
 			var tapPosition = app.GetRect(elementName);
@@ -69,12 +97,12 @@ namespace Uno.Toolkit.UITest
 			return query;
 		}
 
-				/// <summary>
+		/// <summary>
 		/// Get bounds rect for an element.
 		/// </summary>
 		public static IAppRect GetRect(this IApp app, string elementName)
 		{
-			return app.WaitForElement(elementName).First().Rect;
+			return app.WaitForElementWithMessage(elementName).First().Rect;
 		}
 		public static IAppRect GetRect(this IApp app, QueryEx query)
 		{
@@ -86,7 +114,7 @@ namespace Uno.Toolkit.UITest
 		}
 
 		public static FileInfo GetInAppScreenshot(this IApp app)
-		{ 
+		{
 			var byte64Image = app.InvokeGeneric("browser:SampleRunner|GetScreenshot", "0")?.ToString();
 
 			var array = Convert.FromBase64String(byte64Image);
