@@ -26,7 +26,7 @@
 				<MaterialToolkitResourcesV1 xmlns="using:Uno.Toolkit.UI.Material" />
 				<MaterialToolkitResourcesV2 xmlns="using:Uno.Toolkit.UI.Material" />
 				<CupertinoToolkitResources xmlns="using:Uno.Toolkit.UI.Cupertino" />
-input
+
 				<!-- Load application resources -->
 				<ResourceDictionary Source="Converters.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/Application/Colors.xaml" />

@@ -12,7 +12,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\Uno.Toolkit.Samples.Shared\Strings</ResourcesDirectory>
-    
+
     <ProvisioningType>manual</ProvisioningType>
   </PropertyGroup>
   <PropertyGroup>
@@ -32,6 +32,9 @@
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <MtouchExtraArgs>--setenv=MONO_LOG_LEVEL=debug --setenv=MONO_LOG_MASK=gc --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
+
+    <!-- uno#9430: Building for the iOS Simulator requires the use of the static registrar. -->
+    <MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -43,6 +46,9 @@
     <MtouchArch>x86_64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <MtouchExtraArgs>--setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
+
+    <!-- uno#9430: Building for the iOS Simulator requires the use of the static registrar. -->
+    <MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -182,16 +188,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.Cupertino">
-      <Version>2.3.0-dev.6</Version>
+      <Version>2.3.0-dev.12</Version>
     </PackageReference>
     <PackageReference Include="Uno.Material">
-      <Version>2.3.0-dev.6</Version>
+      <Version>2.3.0-dev.12</Version>
     </PackageReference>
-    <PackageReference Include="Uno.UI" Version="4.5.0-dev.453" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.5.0-dev.453" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI" Version="4.5.0-dev.797" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.5.0-dev.797" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Uno.Extensions.Logging.OSLog " Version="1.3.0-dev.1" />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.0-dev.453" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.0-dev.797" />
     <PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
     <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
     <PackageReference Include="Xamarin.TestCloud.Agent">

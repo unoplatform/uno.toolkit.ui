@@ -15,7 +15,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
     <PackageReference Include="Uno.WinUI">
-      <Version>4.2.0-dev.622</Version>
+      <Version>4.5.0-dev.797</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup>

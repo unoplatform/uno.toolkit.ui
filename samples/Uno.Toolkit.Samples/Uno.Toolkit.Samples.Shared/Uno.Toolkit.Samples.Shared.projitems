@@ -44,6 +44,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\StatusBarSamplePage.xaml.cs">
       <DependentUpon>StatusBarSamplePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarItemExtensionsSamplePage.xaml.cs">
+      <DependentUpon>TabBarItemExtensionsSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Helpers\BindingExtensionsSamplePage.xaml.cs">
       <DependentUpon>BindingExtensionsSamplePage.xaml</DependentUpon>
     </Compile>
@@ -88,6 +91,12 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\StatusBarSample_NestedPage2.xaml.cs">
       <DependentUpon>StatusBarSample_NestedPage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\TabBarItemExtensions_NestedPage1.xaml.cs">
+      <DependentUpon>TabBarItemExtensions_NestedPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\TabBarItemExtensions_NestedPage2.xaml.cs">
+      <DependentUpon>TabBarItemExtensions_NestedPage2.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ModalDialog.xaml.cs">
       <DependentUpon>ModalDialog.xaml</DependentUpon>
@@ -207,6 +216,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarItemExtensionsSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Helpers\BindingExtensionsSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -264,6 +277,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\StatusBarSample_NestedPage2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\TabBarItemExtensions_NestedPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\TabBarItemExtensions_NestedPage2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
