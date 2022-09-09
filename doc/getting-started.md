@@ -46,4 +46,4 @@ Choose [**`Uno.Toolkit.UI.Material`**](https://www.nuget.org/packages/Uno.Toolki
 	> The styles for the new controls are found in both ToolkitResources (design-agnostic variants) and MaterialToolkitResources (Material Design variants).
 
 ## Customization
-For instruction on changing the default color palette or the font family, please refer to [this guide](https://github.com/unoplatform/Uno.Themes/blob/master/doc/getting-started.md#customization).
+For instruction on changing the default color palette or the font family, please refer to [this guide](https://platform.uno/docs/articles/external/uno.themes/doc/material-getting-started.html#customization).
