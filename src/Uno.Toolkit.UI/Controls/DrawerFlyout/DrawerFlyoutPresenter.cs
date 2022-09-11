@@ -32,7 +32,7 @@ using Windows.UI.Xaml.Media.Animation;
 using XamlWindow = Windows.UI.Xaml.Window;
 #endif
 
-namespace Uno.Toolkit.UI.Controls
+namespace Uno.Toolkit.UI
 {
 	public partial class DrawerFlyoutPresenter
 	{

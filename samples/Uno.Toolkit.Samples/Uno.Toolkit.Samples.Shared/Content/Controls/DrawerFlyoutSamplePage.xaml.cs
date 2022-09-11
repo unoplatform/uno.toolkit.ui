@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Uno.Toolkit.Samples.Entities;
-using Uno.Toolkit.UI.Controls;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
