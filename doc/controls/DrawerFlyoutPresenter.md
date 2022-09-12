@@ -6,7 +6,7 @@
 ### Remarks
 All of the properties below can be used both as a dependency property or as an attached property, much like the `ScrollViewer` properties:
 ```xml
-xmlns:utu="using:Uno.Toolkit.UI.Controls"
+xmlns:utu="using:Uno.Toolkit.UI"
 
 <Style x:Key="CustomDrawerFlyoutPresenterStyle"
        BasedOn="{StaticResource DrawerFlyoutPresenterStyle}"
