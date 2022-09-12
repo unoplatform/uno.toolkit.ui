@@ -70,7 +70,20 @@ namespace Uno.Toolkit.UI
 		{
 			var source = Source;
 
-			_subscription.Disposable = source?.BindIsExecuting(x => IsExecuting = x, propagateInitialValue: false);
+			void Update() => IsExecuting = Source.IsExecuting;
+			void UpdateOnDispatcher()
+			{
+				if (Dispatcher.HasThreadAccess)
+				{
+					Update();
+				}
+				else
+				{
+					_ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, Update);
+				}
+			}
+
+			_subscription.Disposable = source?.BindIsExecuting(UpdateOnDispatcher, propagateInitialValue: false);
 			IsExecuting = source?.IsExecuting ?? false;
 		}
 	}

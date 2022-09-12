@@ -9,16 +9,16 @@ namespace Uno.Toolkit.UI
 {
 	internal static class LoadableExtension
 	{
-		public static IDisposable BindIsExecuting(this ILoadable source, Action update, bool propagateInitialValue = true) => source.BindIsExecuting(_ => update(), propagateInitialValue);
+		public static IDisposable BindIsExecuting(this ILoadable source, Action<bool> update, bool propagateInitialValue = true) => source.BindIsExecuting(() => update(source.IsExecuting), propagateInitialValue);
 
-		public static IDisposable BindIsExecuting(this ILoadable source, Action<bool> update, bool propagateInitialValue = true)
+		public static IDisposable BindIsExecuting(this ILoadable source, Action update, bool propagateInitialValue = true)
 		{
-			if (propagateInitialValue) update(source.IsExecuting);
+			if (propagateInitialValue) update();
 
 			source.IsExecutingChanged += OnIsExecutingChanged;
 			return Disposable.Create(() => source.IsExecutingChanged -= OnIsExecutingChanged);
 
-			void OnIsExecutingChanged(object sender, EventArgs e) => update(source.IsExecuting);
+			void OnIsExecutingChanged(object sender, EventArgs e) => update();
 		}
 	}
 }

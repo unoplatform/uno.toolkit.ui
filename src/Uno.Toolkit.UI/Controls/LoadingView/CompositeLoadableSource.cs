@@ -27,7 +27,7 @@ namespace Uno.Toolkit.UI
 	{
 		public event EventHandler? IsExecutingChanged;
 
-		#region DependencyProperty: Sources
+		#region DependencyProperty: Sources [get-only]
 
 		public static DependencyProperty SourcesProperty { get; } = DependencyProperty.Register(
 			nameof(Sources),
@@ -41,7 +41,7 @@ namespace Uno.Toolkit.UI
 		public ObservableCollection<ILoadable> Sources
 		{
 			get => (ObservableCollection<ILoadable>)GetValue(SourcesProperty);
-			set => SetValue(SourcesProperty, value);
+			private set => SetValue(SourcesProperty, value);
 		}
 
 		#endregion
@@ -61,28 +61,37 @@ namespace Uno.Toolkit.UI
 
 		#endregion
 
-		private readonly ConcurrentDictionary<ILoadable, IDisposable> _sourceSubcriptions = new();
+		private readonly ConcurrentDictionary<ILoadable, IDisposable> _sourcesInnerSubcriptions = new();
 		private readonly SerialDisposable _sourceCollectionSubscription = new();
 
 		public CompositeLoadableSource()
 		{
 			Sources = new ObservableCollection<ILoadable>();
+			Loaded += (s, e) => SubscribeAll();
+			Unloaded += (s, e) => UnsubscribeAll();
 		}
 
 		private void OnSourcesChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (e.OldValue is ObservableCollection<ILoadable> oldCollection)
+			UnsubscribeAll();
+			SubscribeAll();
+		}
+
+		private void SubscribeAll()
+		{
+			if (Sources is { })
 			{
-				oldCollection.CollectionChanged -= OnSourcesCollectionChanged;
-				ClearSubscriptions();
-			}
-			if (e.NewValue is ObservableCollection<ILoadable> newCollection)
-			{
-				newCollection.CollectionChanged += OnSourcesCollectionChanged;
+				Sources.CollectionChanged += OnSourcesCollectionChanged;
 
 				// there would be items already in the collection from xaml collection initializer (uno-specific)
-				AddSubscriptions(newCollection);
+				AddInnerSubscriptions(Sources);
 			}
+		}
+
+		private void UnsubscribeAll()
+		{
+			_sourceCollectionSubscription.Disposable = null;
+			ClearInnerSubscriptions();
 		}
 
 		private void OnSourcesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -90,46 +99,58 @@ namespace Uno.Toolkit.UI
 			if (e.Action == NotifyCollectionChangedAction.Move) return;
 			if (e.Action == NotifyCollectionChangedAction.Reset)
 			{
-				ClearSubscriptions();
+				ClearInnerSubscriptions();
 
 				// normally, reset is caused by clear, but just in case...
-				AddSubscriptions(Sources);
+				AddInnerSubscriptions(Sources);
 			}
 			else
 			{
-				AddSubscriptions(e.NewItems?.Cast<ILoadable>() ?? Enumerable.Empty<ILoadable>());
-				RemoveSubscriptions(e.OldItems?.Cast<ILoadable>() ?? Enumerable.Empty<ILoadable>());
+				AddInnerSubscriptions(e.NewItems?.Cast<ILoadable>() ?? Enumerable.Empty<ILoadable>());
+				RemoveInnerSubscriptions(e.OldItems?.Cast<ILoadable>() ?? Enumerable.Empty<ILoadable>());
 			}
 		}
 
-		private void AddSubscriptions(IEnumerable<ILoadable> items)
+		private void AddInnerSubscriptions(IEnumerable<ILoadable> items)
 		{
 			foreach (var item in items)
 			{
 				(item as FrameworkElement)?.InheritDataContextFrom(this);
-				_sourceSubcriptions.GetOrAdd(item, x => x.BindIsExecuting(Update, propagateInitialValue: true));
+				_sourcesInnerSubcriptions.GetOrAdd(item, x => x.BindIsExecuting(UpdateOnDispatcher, propagateInitialValue: true));
+			}
+			
+			void UpdateOnDispatcher()
+			{
+				if (Dispatcher.HasThreadAccess)
+				{
+					Update();
+				}
+				else
+				{
+					_ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, Update);
+				}
 			}
 		}
 
-		private void RemoveSubscriptions(IEnumerable<ILoadable> items)
+		private void RemoveInnerSubscriptions(IEnumerable<ILoadable> items)
 		{
 			foreach (var item in items)
 			{
 				(item as FrameworkElement)?.ClearValue(FrameworkElement.DataContextProperty);
-				if (_sourceSubcriptions.TryGetValue(item, out var disposable))
+				if (_sourcesInnerSubcriptions.TryGetValue(item, out var disposable))
 					disposable.Dispose();
 			}
 		}
 
-		private void ClearSubscriptions()
+		private void ClearInnerSubscriptions()
 		{
-			foreach (var kvp in _sourceSubcriptions)
+			foreach (var kvp in _sourcesInnerSubcriptions)
 			{
 				(kvp.Key as FrameworkElement)?.ClearValue(FrameworkElement.DataContextProperty);
 				kvp.Value.Dispose();
 			}
 
-			_sourceSubcriptions.Clear();
+			_sourcesInnerSubcriptions.Clear();
 		}
 
 		private void OnIsExecutingChanged(DependencyPropertyChangedEventArgs e) => IsExecutingChanged?.Invoke(this, new());
