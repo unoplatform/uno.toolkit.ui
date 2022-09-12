@@ -328,4 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-/src/nuget_override.props
+
+/src/crosstargeting_override.props

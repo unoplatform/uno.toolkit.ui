@@ -4,7 +4,7 @@
 		<DebugSymbols>True</DebugSymbols>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-		
+
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 		<GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
 
@@ -62,4 +62,5 @@
 		<DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
 	</PropertyGroup>
 
+	<Import Project="Uno.CrossTargeting.props" />
 </Project>
