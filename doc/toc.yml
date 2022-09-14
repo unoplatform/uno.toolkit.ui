@@ -24,6 +24,8 @@
       href: controls/DrawerFlyoutPresenter.md
     - name: NavigationBar
       href: controls/NavigationBar.md
+    - name: SafeArea
+      href: controls/SafeArea.md
     - name: TabBar and TabBarItem
       href: controls/TabBarAndTabBarItem.md
   # ***************** Helpers *******************
@@ -37,6 +39,8 @@
       href: helpers/input-extensions.md
     - name: StatusBar attached properties
       href: helpers/StatusBar-extensions.md
+    - name: TabBarItem attached properties
+      href: helpers/TabBarItem-extensions.md
   # ***************** Styles **********************
   - name: Styles
     href: controls-styles.md
