@@ -34,6 +34,15 @@ namespace Uno.Toolkit.UI
 			UpdateAlignments();
 		}
 
+		public static readonly DependencyProperty IsReverseZIndexProperty = DependencyProperty.Register(
+			"IsReverseZIndex", typeof(bool), typeof(AutoLayout), new PropertyMetadata(default(bool), propertyChangedCallback: UpdateCallback));
+
+		public bool IsReverseZIndex
+		{
+			get => (bool)GetValue(IsReverseZIndexProperty);
+			set => SetValue(IsReverseZIndexProperty, value);         
+		}
+
 		public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
 			"Orientation", typeof(Orientation), typeof(AutoLayout), new PropertyMetadata(default(Orientation), propertyChangedCallback: UpdateCallback));
 
@@ -184,7 +193,7 @@ namespace Uno.Toolkit.UI
 			// Inject & Move elements in the inner grid
 			for (var i = 0; i < childrenCount; i++)
 			{
-				var child = Children[i];
+				var child = Children[IsReverseZIndex ? childrenCount-i-1 : i];
 
 				if (child.Parent != null)
 				{

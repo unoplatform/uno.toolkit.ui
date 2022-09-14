@@ -35,6 +35,7 @@ Spacing | double | Gets or sets the uniform distance (in pixels) between grid. E
 Justify | AutoLayoutJustify | Either Stack, space between children behave like a `StackPanel`, or SpaceBetween, between each children a equal space is added assuring that all the `AutoLayout` space is occupy. Note : if a child has his `PrimaryAlignment` set to Stretch, it will default to Stack.
 Children |  AutoLayoutChildren | List of FrameworkElement that are the AutoLayout children
 PrimaryAxisAlignment | AutoLayoutAlignment | Indicates where the content be displayed on the axis of the AutoLayout orientation
+IsReverseZIndex | bool | Reverse the Z-index of all the children
 
 ### Attached Properties
 Property|Type|Description
