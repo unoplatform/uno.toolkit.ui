@@ -31,6 +31,24 @@
                                 <TextBlock Text="Margin work With Width and Height" TextAlignment="Center"/>
                                 <Rectangle Margin="20" Width="100" Height="100" Fill="Pink"/>
                             </utu:AutoLayout>
+
+                            <TextBlock Text="AutoLayout with negative spacing"
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+                            
+                            <utu:AutoLayout Spacing="-10" Padding="10">
+                                <Rectangle Width="232" Fill="Red" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="73" utu:AutoLayout.CounterLength="232" />
+                                <Rectangle Width="163" Fill="Yellow" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="66" utu:AutoLayout.CounterLength="163" />
+                                <Rectangle Width="271" Fill="Blue" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="85" utu:AutoLayout.CounterLength="271" />
+                                <Rectangle Width="329" Fill="Green" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="83" utu:AutoLayout.CounterLength="329" />
+                            </utu:AutoLayout>
+
+                            <utu:AutoLayout Spacing="-10" Padding="10" IsReverseZIndex="True">
+                                <Rectangle Width="232" Fill="Red" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="73" utu:AutoLayout.CounterLength="232" />
+                                <Rectangle Width="163" Fill="Yellow" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="66" utu:AutoLayout.CounterLength="163" />
+                                <Rectangle Width="271" Fill="Blue" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="85" utu:AutoLayout.CounterLength="271" />
+                                <Rectangle Width="329" Fill="Green" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="83" utu:AutoLayout.CounterLength="329" />
+                            </utu:AutoLayout>
                         </StackPanel>
                     </ScrollViewer>
                 </DataTemplate>
