@@ -11,7 +11,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
-    
+
   </PropertyGroup>
   <PropertyGroup>
     <!-- Workaround for https://github.com/unoplatform/uno/discussions/5007 -->
@@ -135,6 +135,10 @@
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj">
       <Project>{aeed47ed-bd21-4f03-a7a9-124cf63e4b1c}</Project>
       <Name>Uno.Toolkit.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj">
+      <Project>{58a935f8-7720-4f95-80b2-0399e41d6d3e}</Project>
+      <Name>Uno.Toolkit</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />

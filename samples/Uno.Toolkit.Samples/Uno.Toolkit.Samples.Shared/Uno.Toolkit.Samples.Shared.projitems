@@ -35,6 +35,9 @@
       <DependentUpon>DrawerFlyoutSamplePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\IExitNestedSampleHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\LoadingViewSample.xaml.cs">
+      <DependentUpon>LoadingViewSample.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\SafeAreaSamplePage.xaml.cs">
       <DependentUpon>SafeAreaSamplePage.xaml</DependentUpon>
     </Compile>
@@ -201,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\DrawerFlyoutSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\LoadingViewSample.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

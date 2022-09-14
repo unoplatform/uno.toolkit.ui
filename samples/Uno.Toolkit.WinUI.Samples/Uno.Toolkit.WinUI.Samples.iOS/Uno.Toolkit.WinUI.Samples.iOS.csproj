@@ -12,7 +12,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\Uno.Toolkit.WinUI.Samples.Shared\Strings</ResourcesDirectory>
-    
+
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -175,6 +175,10 @@
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj">
       <Project>{50ea1339-d38d-47f7-848a-8a827a959691}</Project>
       <Name>Uno.Toolkit.WinUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj">
+      <Project>{58a935f8-7720-4f95-80b2-0399e41d6d3e}</Project>
+      <Name>Uno.Toolkit</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyName>Uno.Toolkit</AssemblyName>
+		<RootNamespace>Uno.Toolkit</RootNamespace>
+		<PackageId>Uno.Toolkit</PackageId>
+		<Description>Primitives shared by Uno Toolkit.</Description>
+	</PropertyGroup>
+
+</Project>
