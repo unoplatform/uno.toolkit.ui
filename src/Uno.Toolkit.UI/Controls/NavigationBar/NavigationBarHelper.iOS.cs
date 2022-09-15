@@ -33,7 +33,7 @@ namespace Uno.Toolkit.UI
 		/// <param name="pageController">The controller of the page</param>
 		public static void PageCreated(UIViewController pageController)
 		{
-			var topNavigationBar = pageController.FindTopNavigationBar();
+			var topNavigationBar = pageController.View.FindTopNavigationBar();
 			if (topNavigationBar == null)
 			{
 				// The default NavigationBar style contains information that might be relevant to all pages, including those without a NavigationBar.
@@ -57,7 +57,7 @@ namespace Uno.Toolkit.UI
 		/// <param name="pageController">The controller of the page</param>
 		public static void PageDestroyed(UIViewController pageController)
 		{
-			if (pageController.FindTopNavigationBar() is { } topNavigationBar)
+			if (pageController.View.FindTopNavigationBar() is { } topNavigationBar)
 			{
 				SetNavigationItem(topNavigationBar, null);
 			}
@@ -69,7 +69,7 @@ namespace Uno.Toolkit.UI
 		/// <param name="pageController">The controller of the page</param>
 		public static void PageWillAppear(UIViewController pageController)
 		{
-			var topNavigationBar = pageController.FindTopNavigationBar();
+			var topNavigationBar = pageController.View.FindTopNavigationBar();
 			if (topNavigationBar != null)
 			{
 				if (topNavigationBar.Visibility == Visibility.Visible)
@@ -105,7 +105,7 @@ namespace Uno.Toolkit.UI
 		/// <param name="pageController">The controller of the page</param>
 		public static void PageDidDisappear(UIViewController pageController)
 		{
-			if (pageController.FindTopNavigationBar() is { } topNavigationBar)
+			if (pageController.View.FindTopNavigationBar() is { } topNavigationBar)
 			{
 				// Set the native navigation bar to null so it does not render when the page is not visible
 				SetNavigationBar(topNavigationBar, null);
@@ -114,16 +114,22 @@ namespace Uno.Toolkit.UI
 
 		public static void PageWillDisappear(UIViewController pageController)
 		{
-			if (pageController.FindTopNavigationBar() is { } topNavigationBar)
+			if (pageController.View.FindTopNavigationBar() is { } topNavigationBar)
 			{
 				// Set the native navigation bar to null so it does not render when the page is not visible
 				SetNavigationBar(topNavigationBar, null);
 			}
 		}
 
-		private static NavigationBar? FindTopNavigationBar(this UIViewController controller)
+		internal static NavigationBar? FindTopNavigationBar(this UIView? view)
 		{
-			return controller.View.FindFirstChild<NavigationBar?>();
+			if (view is null) return default;
+
+			return VisualTreeHelperEx.Native.GetFirstDescendant<NavigationBar>(
+				view,
+				x => x is not Frame, // prevent looking into the nested page
+				_ => true
+			);
 		}
 	}
 }

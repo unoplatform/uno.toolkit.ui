@@ -1,4 +1,4 @@
-﻿#if __IOS__
+#if __IOS__
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -810,9 +810,9 @@ namespace Uno.Toolkit.UI
 			/// </summary>
 			public List<NavigationRequest> AssociatedRequests { get; } = new List<NavigationRequest>();
 
-			internal NavigationBar GetNavigationBar()
+			internal NavigationBar? GetNavigationBar()
 			{
-				return Page.FindFirstChild<NavigationBar>();
+				return Page?.FindTopNavigationBar();
 			}
 
 			public override string ToString()
