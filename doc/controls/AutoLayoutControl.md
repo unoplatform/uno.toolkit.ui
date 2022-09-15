@@ -44,3 +44,4 @@ PrimaryAlignment|AutoLayoutPrimaryAlignment|Either Auto, the child grid take onl
 CounterAlignment|AutoLayoutAlignment|Indicates where an element should be displayed on the counter axis of the parent orientation relative to the allocated layout slot of the parent element
 PrimaryLength|double| Set the grid size in parent orientation [Deprecated should Height and Width instead] 
 CounterLength|double|Sets the child size in parent counter orientation [Deprecated should Height and Width instead] 
+IsIndependentLayout  | bool | Make the child independent of the AutoLayout positioning. Should not be used with other Attached Properties. Reflect the Absolute Position option from Figma
