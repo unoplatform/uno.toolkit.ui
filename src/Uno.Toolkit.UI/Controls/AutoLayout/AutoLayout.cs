@@ -1,4 +1,5 @@
-﻿#if IS_WINUI
+﻿using System.Linq;
+#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
@@ -86,7 +87,7 @@ namespace Uno.Toolkit.UI
 			new PropertyMetadata(default(AutoLayoutPrimaryAlignment), propertyChangedCallback: UpdateAttachedCallback));
 
 		public static void SetPrimaryAlignment(DependencyObject element, AutoLayoutPrimaryAlignment value)
-		{
+		{ 
 			element.SetValue(PrimaryAlignmentProperty, value);
 		}
 
@@ -109,6 +110,19 @@ namespace Uno.Toolkit.UI
 		public static AutoLayoutAlignment GetCounterAlignment(DependencyObject element)
 		{
 			return (AutoLayoutAlignment)element.GetValue(CounterAlignmentProperty);
+		}
+
+		public static readonly DependencyProperty IsIndependentLayoutProperty = DependencyProperty.RegisterAttached(
+			"IsIndependentLayout", typeof(bool), typeof(AutoLayout), new PropertyMetadata(default(bool), propertyChangedCallback: UpdateAttachedCallback));
+
+		public static void SetIsIndependentLayout(DependencyObject element, bool value)
+		{
+			element.SetValue(IsIndependentLayoutProperty, value);
+		}
+
+		public static bool GetIsIndependentLayout(DependencyObject element)
+		{
+			return (bool)element.GetValue(IsIndependentLayoutProperty);
 		}
 
 		public static readonly DependencyProperty PrimaryLengthProperty = DependencyProperty.RegisterAttached(
@@ -188,7 +202,9 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			var gridDefinitionsCount = isSpaceBetween ? (childrenCount * 2) - 1 : childrenCount;
+			var independentLayoutCount = Children.Where(child => GetIsIndependentLayout(child)).Count();
+
+			var gridDefinitionsCount = isSpaceBetween ? ((childrenCount - independentLayoutCount) * 2) - 1 : (childrenCount - independentLayoutCount);
 
 			// Inject & Move elements in the inner grid
 			for (var i = 0; i < childrenCount; i++)
@@ -256,15 +272,23 @@ namespace Uno.Toolkit.UI
 					_grid.RowDefinitions.RemoveAt(_grid.RowDefinitions.Count - 1);
 				}
 
+				var rawChildIndex = 0;
+
 				// Process children
 				for (var i = 0; i < childrenCount; i++)
 				{
 					var child = Children[i];
-					var gridIndex = isSpaceBetween ? i * 2 : i;
 
-					var gridDefinition = _grid.RowDefinitions[gridIndex];
+					if (GetIsIndependentLayout(child))
+					{
+						Grid.SetRow(child, 0);
+						Grid.SetRowSpan(child, gridDefinitionsCount);
+						continue;
+					}
 
+					var gridIndex = isSpaceBetween ? rawChildIndex * 2 : rawChildIndex;
 					Grid.SetRow(child, gridIndex);
+					var gridDefinition = _grid.RowDefinitions[gridIndex];
 
 					// Get relative alignment or default if not set + set on child element
 					var primaryAlignment = GetPrimaryAlignment(child);
@@ -289,6 +313,7 @@ namespace Uno.Toolkit.UI
 					{
 						child.Width = width;
 					}
+					rawChildIndex++;
 				}
 
 				// Process "space between"
@@ -326,14 +351,22 @@ namespace Uno.Toolkit.UI
 					_grid.ColumnDefinitions.RemoveAt(_grid.ColumnDefinitions.Count - 1);
 				}
 
+				var rawChildIndex = 0;
+
 				// Process children
 				for (var i = 0; i < childrenCount; i++)
 				{
 					var child = Children[i];
-					var gridIndex = isSpaceBetween ? i * 2 : i;
 
+					if (GetIsIndependentLayout(child))
+					{
+						Grid.SetColumn(child, 0);
+						Grid.SetColumnSpan(child, gridDefinitionsCount);
+						continue;
+					}
+
+					var gridIndex = isSpaceBetween ? rawChildIndex * 2 : rawChildIndex;
 					var gridDefinition = _grid.ColumnDefinitions[gridIndex];
-
 					Grid.SetColumn(child, gridIndex);
 
 					// Get relative alignment or default if not set + set on child element
@@ -359,6 +392,7 @@ namespace Uno.Toolkit.UI
 					{
 						child.Height = height;
 					}
+					rawChildIndex++;
 				}
 
 				// Process "space between"
