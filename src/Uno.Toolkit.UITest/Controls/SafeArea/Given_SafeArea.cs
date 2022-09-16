@@ -192,6 +192,39 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 			}
 		}
 
+		[Test]
+		[ActivePlatforms(Platform.iOS)]
+		public void When_Inside_Modal()
+		{
+			const string Blue = "#0000FF";
+
+			App.FastTap("SafeArea_Launch_Modal_Button");
+
+			App.WaitForElement("ContainerGrid");
+			App.FastTap("ChangeLayoutButton");
+
+			var containerGrid = App.GetPhysicalRect("ContainerGrid");
+			var testRectangle = App.GetPhysicalRect("TestRectangle");
+
+			using var screenshot = TakeScreenshot("SafeArea_Modal_After_Relayout");
+
+			var safeAreaBottomInset = containerGrid.Bottom - testRectangle.Bottom;
+
+			Assert.AreEqual(30.LogicalToPhysicalPixels(App), safeAreaBottomInset);
+
+			for (int i = 1; i < safeAreaBottomInset; i++)
+			{
+				ImageAssert.HasPixels(
+					screenshot,
+					ExpectedPixels
+						.At(containerGrid.CenterX / 2, containerGrid.Bottom - i)
+						.Named($"SafeArea_Modal_Bottom_{i}")
+						.Pixel(Blue));
+			}
+
+			App.FastTap("CloseModalButton");
+		}
+
 		private void ClearMasks()
 		{
 			App.FastTap("ClearMasks");

@@ -354,7 +354,9 @@ namespace Uno.Toolkit.UI
 					// If the owner view is scrollable, the visibility of interest is that of the scroll viewport.
 					var fixedControl = scrollAncestor ?? Owner;
 
-					var controlBounds = GetRelativeBounds(fixedControl, XamlWindow.Current.Content);
+					// Using relativeTo: null instead of Window.Current.Content since there are cases when the current UIElement
+					// may be outside the bounds of the current Window content, for example, when the element is hosted in a modal window.
+					var controlBounds = GetRelativeBounds(fixedControl, relativeTo: null);
 
 					visibilityPadding = CalculateVisibilityInsets(OffsetVisibleBounds, controlBounds);
 
@@ -528,7 +530,7 @@ namespace Uno.Toolkit.UI
 				return Owner?.FindFirstParent<ScrollViewer>();
 			}
 
-			private static Rect GetRelativeBounds(FrameworkElement boundsOf, UIElement relativeTo)
+			private static Rect GetRelativeBounds(FrameworkElement boundsOf, UIElement? relativeTo)
 			{
 				return boundsOf
 					.TransformToVisual(relativeTo)

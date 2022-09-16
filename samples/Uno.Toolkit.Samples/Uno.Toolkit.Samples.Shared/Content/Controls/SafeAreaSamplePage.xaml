@@ -32,6 +32,12 @@
 							Click="LaunchSoftInputSample"
 							Content="Show SoftInput Sample" />
 
+					<Button HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							AutomationProperties.AutomationId="SafeArea_Launch_Modal_Button"
+							Click="LaunchModalSample"
+							Content="Show Modal Sample" />
+
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.DesignAgnosticTemplate>
