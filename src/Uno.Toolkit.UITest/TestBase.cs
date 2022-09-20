@@ -103,10 +103,6 @@ namespace Uno.Toolkit.UITest
 		{
 			TakeScreenshot("teardown");
 
-			//var isNestedFrameVisible = App.Marked("NestedSampleFrame")
-			//	.GetDependencyPropertyValue<string>("Visibility")
-			//	?.Equals("Visible", StringComparison.OrdinalIgnoreCase) ?? false;
-
 			if (App.Marked("NestedSampleFrame").HasResults())
 			{
 				ExitNestedSample();
