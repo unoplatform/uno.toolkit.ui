@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples")]
 #if IS_WINUI
+[assembly: InternalsVisibleTo("Uno.Toolkit.WinUI.Samples")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.WinUI.Samples.Droid")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.WinUI.Samples.iOS")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.WinUI.Samples.Windows.Desktop")]

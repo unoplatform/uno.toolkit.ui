@@ -44,12 +44,23 @@ public static class VisualStateManagerExtensions
 		typeof(VisualStateManagerExtensions),
 		new PropertyMetadata(default(string), OnOverrideStatesChanged));
 
+	// We need to include both a Set{PropertyName} and a Get{PropertyName} method for attached properties on Windows.
+	// Otherwise, you may end up with errors such as "System.Void should not be used in C#"
+	// See: https://learn.microsoft.com/en-us/windows/uwp/xaml-platform/custom-attached-properties#registering-a-custom-attached-property
+
 	/// <summary>
 	/// Sets the visual states of the control.
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <param name="value">A space, comma or semi-colon separated list of visual state names</param>
 	public static void SetOverrideStates(Control obj, string value) => obj.SetValue(OverrideStatesProperty, value);
+
+	
+	/// <summary>
+	/// Gets the overridden visual states of the control.
+	/// </summary>
+	/// <param name="obj"></param>
+	public static string GetOverrideStates(Control obj) => (string)obj.GetValue(OverrideStatesProperty);
 
 	#endregion
 

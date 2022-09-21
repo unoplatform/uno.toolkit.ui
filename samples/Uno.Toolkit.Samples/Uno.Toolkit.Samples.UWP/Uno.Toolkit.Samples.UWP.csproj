@@ -43,7 +43,6 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Uno.Toolkit.Samples.Uwp_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -168,7 +167,6 @@
     <Content Include="Assets\Fonts\Material\Roboto-Light.ttf" />
     <Content Include="Assets\Fonts\Material\Roboto-Medium.ttf" />
     <Content Include="Assets\Fonts\Material\Roboto-Regular.ttf" />
-    <None Include="Uno.Toolkit.Samples.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

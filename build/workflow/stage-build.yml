@@ -1,0 +1,18 @@
+steps:
+  - task: MSBuild@1
+    displayName: 'Build solution in Release | $(ApplicationPlatform)'
+    retryCountOnTaskFailure: 3
+    inputs:
+      solution: src/Uno.Toolkit.sln
+      configuration: Release
+      platform: $(ApplicationPlatform)
+      msbuildLocationMethod: version
+      msbuildVersion: latest
+      maximumCpuCount: true
+      msbuildArguments: /m /r /p:PackageVersion=$(SemVer) /p:DisableNet6MobileTargets=$(DisableNet6MobileTargets) /p:GeneratePackageOnBuild=$(GeneratePackageOnBuild) "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary /bl:$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform).binlog
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    displayName: 'Publish artifact'
+    inputs:
+      ArtifactName: $(ArtifactName)

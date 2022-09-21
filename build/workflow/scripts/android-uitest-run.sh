@@ -7,9 +7,9 @@ set -x
 
 export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/android
 export UNO_UITEST_PLATFORM=Android
-export UNO_UITEST_ANDROIDAPK_PATH=$BUILD_SOURCESDIRECTORY/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.Droid/bin/Release/Uno.Toolkit.Samples-Signed.apk
+export UNO_UITEST_ANDROIDAPK_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.Droid/bin/Release/$SAMPLE_PROJECT_NAME-Signed.apk
 export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/Uno.Toolkit.UITest.csproj
-export UNO_UITEST_ANDROID_PROJECT=$BUILD_SOURCESDIRECTORY/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.Droid/Uno.Toolkit.Samples.Droid.csproj
+export UNO_UITEST_ANDROID_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.Droid/$SAMPLE_PROJECT_NAME.Droid.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/bin/Uno.Toolkit.UITest/Release/Uno.Toolkit.UITest.dll
 export UNO_UITEST_NUNIT_VERSION=3.12.0
 export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
