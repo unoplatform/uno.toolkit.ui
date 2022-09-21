@@ -1,6 +1,9 @@
 ﻿#if __IOS__ || __ANDROID__
 #define HAS_NATIVE_NAVBAR
 #endif
+#if !IS_WINUI || HAS_UNO
+#define SYS_NAV_MGR_SUPPORTED
+#endif
 #if __IOS__
 using UIKit;
 #endif
@@ -154,7 +157,8 @@ namespace Uno.Toolkit.UI
 			_pageRef = new WeakReference<Page?>(this.GetFirstParent<Page>());
 
 			_popupHost = Uno.Toolkit.UI.DependencyObjectExtensions.FindFirstParent<Popup>(this);
-#if !IS_WINUI
+
+#if SYS_NAV_MGR_SUPPORTED
 			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
 #endif
@@ -204,10 +208,13 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-#if !IS_WINUI
+#if SYS_NAV_MGR_SUPPORTED
 		private void OnBackRequested(object? sender, BackRequestedEventArgs e)
 		{
-			e.Handled = TryPerformMainCommand();
+			if (!e.Handled)
+			{
+				e.Handled = TryPerformMainCommand();
+			}
 		}
 #endif
 

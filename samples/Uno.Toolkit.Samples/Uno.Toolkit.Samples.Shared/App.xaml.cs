@@ -53,6 +53,8 @@ namespace Uno.Toolkit.Samples
 		private XamlWindow _window;
 
 		private Shell _shell;
+		public static App Instance => Current as App;
+		public XamlWindow Window => _window;
 
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
