@@ -1,4 +1,7 @@
-﻿using System;
+﻿#if !IS_WINUI || HAS_UNO
+#define SYS_NAV_MGR_SUPPORTED
+#endif
+using System;
 using Windows.UI.Core;
 using System.Threading.Tasks;
 using Uno.Toolkit.Samples.Content.NestedSamples;
@@ -47,12 +50,12 @@ namespace Uno.Toolkit.Samples
 
 			NestedSampleFrame.RegisterPropertyChangedCallback(ContentControl.ContentProperty, OnNestedSampleFrameChanged);
 
-#if !IS_WINUI
+#if SYS_NAV_MGR_SUPPORTED
 			SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) => e.Handled = BackNavigateFromNestedSample();
 #endif
 		}
 
-		public static Shell GetForCurrentView() => (Shell)XamlWindow.Current.Content;
+		public static Shell GetForCurrentView() => (Shell)App.Instance.Window.Content;
 
 		public MUXC.NavigationView NavigationView => NavigationViewControl;
 
@@ -121,7 +124,7 @@ namespace Uno.Toolkit.Samples
 				? Visibility.Visible
 				: Visibility.Collapsed;
 
-#if !IS_WINUI
+#if SYS_NAV_MGR_SUPPORTED
 			// toggle built-in back button for wasm (from browser) and uwp (on title bar)
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = isInsideNestedSample
 				? AppViewBackButtonVisibility.Visible
