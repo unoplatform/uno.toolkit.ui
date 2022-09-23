@@ -20,23 +20,64 @@
 
 	<Style x:Key="XamlDefaultNavigationBar"
 		   TargetType="utu:NavigationBar">
-		<Setter Property="ClosedDisplayMode"
-				Value="Compact" />
+		<Setter Property="ClosedDisplayMode" Value="Compact" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:NavigationBar">
-					<utu:NavigationBarPresenter x:Name="NavigationBarPresenter" />
+					<utu:NavigationBarPresenter x:Name="NavigationBarPresenter"
+												NavigationBarContent="{TemplateBinding Content}"
+												IsSticky="{TemplateBinding IsSticky}"
+												IsOpen="{TemplateBinding IsOpen}"
+												LightDismissOverlayMode="{TemplateBinding LightDismissOverlayMode}"
+												IsDynamicOverflowEnabled="{TemplateBinding IsDynamicOverflowEnabled}"
+												Foreground="{TemplateBinding Foreground}"
+												Background="{TemplateBinding Background}"
+												BorderThickness="{TemplateBinding BorderThickness}"
+												Padding="{TemplateBinding Padding}"
+												HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+												HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalAlignment="{TemplateBinding VerticalAlignment}"
+												VerticalContentAlignment="{TemplateBinding IsSVerticalContentAlignmentticky}"
+												FontFamily="{TemplateBinding FontFamily}"
+												FontSize="{TemplateBinding FontSize}"
+												Width="{TemplateBinding Width}"
+												Height="{TemplateBinding Height}"
+												UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}"
+												MainCommand="{TemplateBinding MainCommand}"
+												MainCommandStyle="{TemplateBinding MainCommandStyle}"/>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
 
-	<Style TargetType="utu:NavigationBarPresenter">
+	<Style x:Key="DefaultNavigationBarPresenterStyle"
+		   TargetType="utu:NavigationBarPresenter">
+		<Setter Property="MainCommandStyle"
+				Value="{StaticResource NavigationBarCommandBar}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:NavigationBarPresenter">
 					<CommandBar x:Name="XamlNavigationBarCommandBar"
-								Style="{StaticResource NavigationBarCommandBar}" />
+								Style="{TemplateBinding CommandBarStyle}"
+								Content="{TemplateBinding NavigationBarContent}"
+								IsSticky="{TemplateBinding IsSticky}"
+								IsOpen="{TemplateBinding IsOpen}"
+								LightDismissOverlayMode="{TemplateBinding LightDismissOverlayMode}"
+								IsDynamicOverflowEnabled="{TemplateBinding IsDynamicOverflowEnabled}"
+								Foreground="{TemplateBinding Foreground}"
+								Background="{TemplateBinding Background}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								Padding="{TemplateBinding Padding}"
+								HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalAlignment}"
+								VerticalContentAlignment="{TemplateBinding IsSVerticalContentAlignmentticky}"
+								FontFamily="{TemplateBinding FontFamily}"
+								FontSize="{TemplateBinding FontSize}"
+								Width="{TemplateBinding Width}"
+								Height="{TemplateBinding Height}"
+								UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}"
+								utu:CommandBarExtensions.MainCommand="{TemplateBinding MainCommand}" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -44,32 +85,20 @@
 
 	<Style x:Key="NavigationBarCommandBar"
 		   TargetType="CommandBar">
-		<Setter Property="Background"
-				Value="{ThemeResource CommandBarBackground}" />
-		<Setter Property="Foreground"
-				Value="{ThemeResource CommandBarForeground}" />
-		<Setter Property="Padding"
-				Value="4,0,0,0" />
-		<Setter Property="IsTabStop"
-				Value="False" />
-		<Setter Property="VerticalAlignment"
-				Value="Top" />
-		<Setter Property="HorizontalAlignment"
-				Value="Stretch" />
-		<Setter Property="HorizontalContentAlignment"
-				Value="Left" />
-		<Setter Property="VerticalContentAlignment"
-				Value="Top" />
-		<Setter Property="ClosedDisplayMode"
-				Value="Compact" />
-		<Setter Property="ExitDisplayModeOnAccessKeyInvoked"
-				Value="False" />
-		<Setter Property="CornerRadius"
-				Value="{ThemeResource ControlCornerRadius}" />
+		<Setter Property="Background" Value="{ThemeResource CommandBarBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource CommandBarForeground}" />
+		<Setter Property="Padding" Value="4,0,0,0" />
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="VerticalContentAlignment" Value="Top" />
+		<Setter Property="ClosedDisplayMode" Value="Compact" />
+		<Setter Property="ExitDisplayModeOnAccessKeyInvoked" Value="False" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 
-		<!-- Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/6388 -->
-		<Setter Property="utu:CommandBarExtensions.MainCommand"
-				Value="{x:Null}" />
+		<!--  Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/6388  -->
+		<Setter Property="utu:CommandBarExtensions.MainCommand" Value="{x:Null}" />
 
 		<Setter Property="Template">
 			<Setter.Value>
@@ -115,7 +144,7 @@
 							</VisualStateGroup>
 							<VisualStateGroup x:Name="DisplayModeStates">
 								<contract8Present:VisualStateGroup.Transitions>
-									<!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="CompactClosed"
 													  To="CompactOpenUp"
 													  GeneratedDuration="00:00:00.250">
@@ -191,7 +220,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="CompactOpenUp"
 													  To="CompactClosed"
 													  GeneratedDuration="00:00:00.167">
@@ -249,7 +278,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="CompactClosed"
 													  To="CompactOpenDown"
 													  GeneratedDuration="00:00:00.250">
@@ -289,7 +318,7 @@
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0"
 																		Value="1" />
 											</DoubleAnimationUsingKeyFrames>
-											<!-- UNO WORKAROUND: ClipGeometryTransform.Y not being set to final value of the SplineDoubleKeyFrame -->
+											<!--  UNO WORKAROUND: ClipGeometryTransform.Y not being set to final value of the SplineDoubleKeyFrame  -->
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ClipGeometryTransform"
 																		   Storyboard.TargetProperty="Y">
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0"
@@ -316,7 +345,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="CompactOpenDown"
 													  To="CompactClosed"
 													  GeneratedDuration="00:00:00.167">
@@ -338,7 +367,7 @@
 												<DiscreteDoubleKeyFrame KeyTime="{StaticResource ControlFastAnimationDuration}"
 																		Value="0" />
 											</DoubleAnimationUsingKeyFrames>
-											<!-- UNO WORKAROUND: ClipGeometryTransform.Y not being set to final value of the SplineDoubleKeyFrame -->
+											<!--  UNO WORKAROUND: ClipGeometryTransform.Y not being set to final value of the SplineDoubleKeyFrame  -->
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ClipGeometryTransform"
 																		   Storyboard.TargetProperty="Y">
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0"
@@ -365,7 +394,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="MinimalClosed"
 													  To="MinimalOpenUp"
 													  GeneratedDuration="00:00:00.250">
@@ -452,7 +481,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="MinimalOpenUp"
 													  To="MinimalClosed"
 													  GeneratedDuration="00:00:00.167">
@@ -541,7 +570,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="MinimalClosed"
 													  To="MinimalOpenDown"
 													  GeneratedDuration="00:00:00.250">
@@ -613,7 +642,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="MinimalOpenDown"
 													  To="MinimalClosed"
 													  GeneratedDuration="00:00:00.167">
@@ -687,7 +716,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="HiddenClosed"
 													  To="HiddenOpenUp"
 													  GeneratedDuration="00:00:00.250">
@@ -748,7 +777,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="HiddenOpenUp"
 													  To="HiddenClosed"
 													  GeneratedDuration="00:00:00.167">
@@ -811,7 +840,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="HiddenClosed"
 													  To="HiddenOpenDown"
 													  GeneratedDuration="00:00:00.250">
@@ -857,7 +886,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition From="HiddenOpenDown"
 													  To="HiddenClosed"
 													  GeneratedDuration="00:00:00.167">
@@ -1265,10 +1294,8 @@
 								<VisualState x:Name="DynamicOverflowDisabled" />
 								<VisualState x:Name="DynamicOverflowEnabled">
 									<VisualState.Setters>
-										<Setter Target="ContentControlColumnDefinition.Width"
-												Value="Auto" />
-										<Setter Target="PrimaryItemsControlColumnDefinition.Width"
-												Value="*" />
+										<Setter Target="ContentControlColumnDefinition.Width" Value="Auto" />
+										<Setter Target="PrimaryItemsControlColumnDefinition.Width" Value="*" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -1276,8 +1303,7 @@
 						<Grid.Clip>
 							<RectangleGeometry Rect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClipRect}">
 								<RectangleGeometry.Transform>
-									<TranslateTransform x:Name="ClipGeometryTransform"
-														Y="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactVerticalDelta}" />
+									<TranslateTransform x:Name="ClipGeometryTransform" Y="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactVerticalDelta}" />
 								</RectangleGeometry.Transform>
 							</RectangleGeometry>
 						</Grid.Clip>
@@ -1304,9 +1330,9 @@
 									<ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition"
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
-								<ContentPresenter x:Name="MainCommandPresenter"
-                                                  Margin="{TemplateBinding Padding}"
-												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
+								<ContentControl x:Name="MainCommandPresenter"
+												Margin="{TemplateBinding Padding}"
+												Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
 
 								<!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
@@ -1353,7 +1379,7 @@
 										  Glyph="&#xe712;"
 										  Height="20" />
 							</Button>
-							<!-- UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events -->
+							<!--  UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events  -->
 							<Rectangle x:Name="HighContrastBorder"
 									   x:DeferLoadStrategy="Lazy"
 									   Grid.ColumnSpan="3"
@@ -1369,13 +1395,12 @@
 									contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
 									contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}" />
 						</Grid>
-						<!-- UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands -->
+						<!--  UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands  -->
 						<Popup x:Name="OverflowPopup">
 							<Popup.RenderTransform>
 								<TransformGroup>
 									<TranslateTransform x:Name="OverflowContentRootMarginOffsetTransform" />
-									<TranslateTransform x:Name="OverflowContentRootTransform"
-														X="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentHorizontalOffset}" />
+									<TranslateTransform x:Name="OverflowContentRootTransform" X="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentHorizontalOffset}" />
 								</TransformGroup>
 							</Popup.RenderTransform>
 							<Grid x:Name="OverflowContentRoot"
@@ -1387,7 +1412,7 @@
 									<RowDefinition />
 									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
-								<!-- For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow. -->
+								<!--  For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow.  -->
 								<Grid x:Name="SecondaryItemsControlShadowWrapper"
 									  contract7Present:CornerRadius="{ThemeResource OverlayCornerRadius}"
 									  contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}">
@@ -1430,6 +1455,9 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+
+	<Style TargetType="utu:NavigationBarPresenter"
+		   BasedOn="{StaticResource DefaultNavigationBarPresenterStyle}" />
 
 	<Style TargetType="utu:NavigationBar"
 		   BasedOn="{StaticResource XamlDefaultNavigationBar}" />

@@ -13,10 +13,11 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<utu:NavigationBar Content="First Page"
+		<utu:NavigationBar 
 						   AutomationProperties.AutomationId="M3Page1NavBar"
 						   MainCommandMode="Action"
 						   Style="{StaticResource MaterialNavigationBarStyle}">
+			
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Label="Close"
 							  Click="NavigateBack"
@@ -54,6 +55,9 @@
 							  Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Command="{Binding Secondary3CountCommand}" />
 			</utu:NavigationBar.SecondaryCommands>
+			<utu:NavigationBar.Content>
+				<TextBlock Foreground="Red" Text="Testing content" />
+			</utu:NavigationBar.Content>
 		</utu:NavigationBar>
 		<StackPanel Spacing="8"
 					BorderThickness="20"

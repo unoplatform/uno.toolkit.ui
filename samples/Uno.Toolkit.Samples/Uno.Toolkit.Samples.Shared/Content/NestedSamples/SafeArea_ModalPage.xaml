@@ -9,7 +9,6 @@
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Grid utu:SafeArea.Insets="VisibleBounds"
-		  utu:SafeArea.SafeAreaOverride="0,0,0,30"
 		  Background="Blue"
 		  AutomationProperties.AutomationId="ContainerGrid">
 		<Rectangle Fill="Red"

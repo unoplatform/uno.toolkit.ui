@@ -76,15 +76,10 @@
 	</Style>
 
 	<Style x:Key="MaterialNavigationBarPresenter"
-		   TargetType="utu:NavigationBarPresenter">
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="utu:NavigationBarPresenter">
-					<CommandBar x:Name="XamlNavigationBarCommandBar"
-								Style="{StaticResource MaterialNavigationBarCommandBar}" />
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
+		   TargetType="utu:NavigationBarPresenter"
+		   BasedOn="{StaticResource DefaultNavigationBarPresenterStyle}">
+		<Setter Property="MainCommandStyle"
+				Value="{StaticResource MaterialNavigationBarCommandBar}" />
 	</Style>
 
 	<Style x:Key="MaterialNavigationBarCommandBar"
@@ -362,13 +357,13 @@
 									<ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition"
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
-								<ContentPresenter x:Name="MainCommandPresenter"
+								<ContentControl x:Name="MainCommandPresenter"
 												  Margin="{TemplateBinding Padding}"
 												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
-									<ContentPresenter.Resources>
+									<ContentControl.Resources>
 										<x:Double x:Key="MaterialAppBarButtonContentHeight">16</x:Double>
-									</ContentPresenter.Resources>
-								</ContentPresenter>
+									</ContentControl.Resources>
+								</ContentControl>
 
 								<!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
@@ -534,19 +529,15 @@
 	</Style>
 
 	<Style x:Key="MaterialPrimaryNavigationBarPresenter"
-		   TargetType="utu:NavigationBarPresenter">
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="utu:NavigationBarPresenter">
-					<CommandBar x:Name="XamlNavigationBarCommandBar"
-								Style="{StaticResource MaterialPrimaryNavigationBarCommandBar}" />
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
+		TargetType="utu:NavigationBarPresenter"
+	   BasedOn="{StaticResource MaterialNavigationBarPresenter}">
+		<Setter Property="CommandBarStyle"
+			Value="{StaticResource MaterialPrimaryNavigationBarCommandBar}" />
 	</Style>
 
 	<Style x:Key="MaterialPrimaryNavigationBarCommandBar"
-		   TargetType="CommandBar">
+		   TargetType="CommandBar"
+		   BasedOn="">
 		<Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
 		<Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}" />
 		<Setter Property="Padding" Value="4,0,0,0" />
@@ -820,13 +811,13 @@
 									<ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition"
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
-								<ContentPresenter x:Name="MainCommandPresenter"
+								<ContentControl x:Name="MainCommandPresenter"
 												  Margin="{TemplateBinding Padding}"
 												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
-									<ContentPresenter.Resources>
+									<ContentControl.Resources>
 										<x:Double x:Key="MaterialAppBarButtonContentHeight">16</x:Double>
-									</ContentPresenter.Resources>
-								</ContentPresenter>
+									</ContentControl.Resources>
+								</ContentControl>
 
 								<!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
@@ -836,7 +827,6 @@
 								<ContentControl x:Name="ContentControl"
 												Grid.Column="1"
 												Margin="{StaticResource MaterialNavigationBarContentMargin}"
-												Content="{TemplateBinding Content}"
 												ContentTemplate="{TemplateBinding ContentTemplate}"
 												ContentTransitions="{TemplateBinding ContentTransitions}"
 												Foreground="{TemplateBinding Foreground}"
@@ -1053,12 +1043,14 @@
 	<ControlTemplate x:Key="XamlMaterialNavigationBarTemplate"
 					 TargetType="utu:NavigationBar">
 		<utu:NavigationBarPresenter Style="{StaticResource MaterialNavigationBarPresenter}"
+									NavigationBarContent="{TemplateBinding Content}"
 									x:Name="NavigationBarPresenter" />
 	</ControlTemplate>
 
-	<ControlTemplate x:Key="XamlMaterialPrimaryNavigationBarTemplate"
-					 TargetType="utu:NavigationBar">
-		<utu:NavigationBarPresenter Style="{StaticResource MaterialPrimaryNavigationBarPresenter}"
-									x:Name="NavigationBarPresenter" />
-	</ControlTemplate>
+<ControlTemplate x:Key="XamlMaterialPrimaryNavigationBarTemplate"
+					TargetType="utu:NavigationBar">
+	<utu:NavigationBarPresenter Style="{StaticResource MaterialPrimaryNavigationBarPresenter}"
+								NavigationBarContent="{TemplateBinding Content}"
+								x:Name="NavigationBarPresenter" />
+</ControlTemplate>
 </ResourceDictionary>

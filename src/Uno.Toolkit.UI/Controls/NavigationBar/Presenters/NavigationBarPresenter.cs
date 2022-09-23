@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.UI
 {
-	public partial class NavigationBarPresenter : Control, INavigationBarPresenter
+	public partial class NavigationBarPresenter : ContentControl, INavigationBarPresenter
 	{
 		private const string XamlNavigationBarCommandBar = "XamlNavigationBarCommandBar";
 
@@ -49,6 +49,15 @@ namespace Uno.Toolkit.UI
 
 			_weakNavBar = new WeakReference<NavigationBar?>(owner);	
 		}
+
+		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
+		{
+			if (args.Property == MainCommandProperty || args.Property == MainCommandStyleProperty)
+			{
+				ApplyMainCommandStyle();
+			}
+		}
+
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -69,21 +78,8 @@ namespace Uno.Toolkit.UI
 		private void SetBindings()
 		{
 			var navigationBar = GetNavBar(); 
-			if (_commandBar != null
-				&& navigationBar != null)
+			if (_commandBar != null && navigationBar != null)
 			{
-				void setBinding(UIElement target, object source, DependencyProperty property, string path, BindingMode mode = BindingMode.TwoWay)
-				{
-					var binding = new Binding
-					{
-						Path = new PropertyPath(path),
-						Source = source,
-						Mode = mode
-					};
-
-					BindingOperations.SetBinding(target, property, binding);
-				}
-
 				foreach (var command in navigationBar.PrimaryCommands)
 				{
 					_commandBar.PrimaryCommands.Add(command);
@@ -94,34 +90,17 @@ namespace Uno.Toolkit.UI
 					_commandBar.SecondaryCommands.Add(command);
 				}
 
-				setBinding(_commandBar, navigationBar, CommandBar.ContentProperty, nameof(navigationBar.Content));
-				setBinding(_commandBar, navigationBar, CommandBar.IsStickyProperty, nameof(navigationBar.IsSticky));
-				setBinding(_commandBar, navigationBar, CommandBar.IsOpenProperty, nameof(navigationBar.IsOpen));
-				setBinding(_commandBar, navigationBar, CommandBar.LightDismissOverlayModeProperty, nameof(navigationBar.LightDismissOverlayMode));
-				setBinding(_commandBar, navigationBar, CommandBar.IsDynamicOverflowEnabledProperty, nameof(navigationBar.IsDynamicOverflowEnabled));
-				setBinding(_commandBar, navigationBar, CommandBar.ForegroundProperty, nameof(navigationBar.Foreground));
-				setBinding(_commandBar, navigationBar, CommandBar.BackgroundProperty, nameof(navigationBar.Background));
-				setBinding(_commandBar, navigationBar, CommandBar.BorderThicknessProperty, nameof(navigationBar.BorderThickness));
-				setBinding(_commandBar, navigationBar, CommandBar.PaddingProperty, nameof(navigationBar.Padding));
-				setBinding(_commandBar, navigationBar, CommandBar.HorizontalAlignmentProperty, nameof(navigationBar.HorizontalAlignment));
-				setBinding(_commandBar, navigationBar, CommandBar.HorizontalContentAlignmentProperty, nameof(navigationBar.HorizontalContentAlignment));
-				setBinding(_commandBar, navigationBar, CommandBar.VerticalAlignmentProperty, nameof(navigationBar.VerticalAlignment));
-				setBinding(_commandBar, navigationBar, CommandBar.VerticalContentAlignmentProperty, nameof(navigationBar.VerticalContentAlignment));
-				setBinding(_commandBar, navigationBar, CommandBar.FontFamilyProperty, nameof(navigationBar.FontFamily));
-				setBinding(_commandBar, navigationBar, CommandBar.FontSizeProperty, nameof(navigationBar.FontSize));
-				setBinding(_commandBar, navigationBar, CommandBar.WidthProperty, nameof(navigationBar.Width));
-				setBinding(_commandBar, navigationBar, CommandBar.HeightProperty, nameof(navigationBar.Height));
-				setBinding(_commandBar, navigationBar, CommandBar.UseSystemFocusVisualsProperty, nameof(navigationBar.UseSystemFocusVisuals));
-				setBinding(_commandBar, navigationBar, CommandBarExtensions.MainCommandProperty, nameof(navigationBar.MainCommand));
-
-				var MainCommand = CommandBarExtensions.GetMainCommand(_commandBar);
-				if (MainCommand != null)
-				{
-					setBinding(MainCommand, navigationBar, AppBarButton.StyleProperty, nameof(navigationBar.MainCommandStyle));
-				}
+				ApplyMainCommandStyle();
 			}
 		}
 
+		private void ApplyMainCommandStyle()
+		{
+			if (MainCommandStyle is { } mainCommandStyle && MainCommand is { } mainCommand)
+			{
+				mainCommand.Style = mainCommandStyle;
+			}
+		}
 
 		private void OnCommandBarMainCommandClicked(object sender, RoutedEventArgs e)
 		{
