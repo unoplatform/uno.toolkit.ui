@@ -75,8 +75,14 @@
                             <utu:AutoLayout Spacing="-10" Padding="10">
                                 <Rectangle Fill="Red" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="73" utu:AutoLayout.CounterLength="232" />
                                 <Rectangle Fill="Yellow" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="66" utu:AutoLayout.CounterLength="163" />
-                                <Rectangle Fill="Blue" Margin="20" Width="100" Height="100" utu:AutoLayout.IsIndependentLayout="True" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                                <Rectangle Fill="Blue" Margin="108,69,0,0" Width="100" Height="100" utu:AutoLayout.IsIndependentLayout="True" VerticalAlignment="Top" HorizontalAlignment="Right" />
                                 <Rectangle Fill="Green" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="20" utu:AutoLayout.CounterLength="20" />
+                            </utu:AutoLayout>
+
+                            <utu:AutoLayout IsReverseZIndex="true">
+                                <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Orientation="Horizontal" IsIndependentLayout="true" VerticalAlignment="Top" HorizontalAlignment="Left" Width="250" Height="46" Margin="42,217,0,0" />
+                                <utu:AutoLayout Background="{ThemeResource PrimaryBrush}" PrimaryAxisAlignment="Center" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Center" Width="246" Height="11" />
+                                <utu:AutoLayout Background="{ThemeResource OnPrimaryContainerBrush}" PrimaryAxisAlignment="Center" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Center" Width="397" Height="135" />
                             </utu:AutoLayout>
 
                         </StackPanel>

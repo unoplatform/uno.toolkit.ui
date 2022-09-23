@@ -282,7 +282,8 @@ namespace Uno.Toolkit.UI
 					if (GetIsIndependentLayout(child))
 					{
 						Grid.SetRow(child, 0);
-						Grid.SetRowSpan(child, gridDefinitionsCount);
+						// One extra count for the row span as if there is no star row we will need to one for the Independent Layout to work as expected
+						Grid.SetRowSpan(child, gridDefinitionsCount + 1);
 						continue;
 					}
 
@@ -334,6 +335,12 @@ namespace Uno.Toolkit.UI
 						}
 					}
 				}
+
+				if (independentLayoutCount > 0 && atLeastOneChildFillAvailableSpaceInPrimaryAxis is not true)
+				{
+					//We need to make sure that the independent layout can span all across his parent
+					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+				}
 			}
 			else // Horizontal
 			{
@@ -361,7 +368,8 @@ namespace Uno.Toolkit.UI
 					if (GetIsIndependentLayout(child))
 					{
 						Grid.SetColumn(child, 0);
-						Grid.SetColumnSpan(child, gridDefinitionsCount);
+						// One extra count for the row span as if there is no star row we will need to one for the Independent Layout to work as expected
+						Grid.SetColumnSpan(child, gridDefinitionsCount + 1);
 						continue;
 					}
 
@@ -412,6 +420,12 @@ namespace Uno.Toolkit.UI
 							_grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
 						}
 					}
+				}
+
+				if (independentLayoutCount > 0 && atLeastOneChildFillAvailableSpaceInPrimaryAxis is not true)
+				{
+					//We need to make sure that the independent layout can span all across his parent
+					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 				}
 			}
 
