@@ -75,7 +75,6 @@ namespace Uno.Toolkit.UI
 		private Android.Graphics.Color? _originalTitleTextColor;
 		private Android.Graphics.Drawables.Drawable? _originalBackground;
 		private Border? _contentContainer;
-		private bool _backButtonVisible;
 
 		public NavigationBarRenderer(NavigationBar element) : base(element) { }
 
@@ -108,7 +107,7 @@ namespace Uno.Toolkit.UI
 			_contentContainer.SetParent(Element);
 			_contentContainer.ViewAttachedToWindow += OnContentAttachedToWindow;
 
-			native.AddView(_contentContainer);
+			native!.AddView(_contentContainer);
 
 			yield return Disposable.Create(() => _contentContainer.ViewAttachedToWindow -= OnContentAttachedToWindow);
 			yield return Disposable.Create(() => native.RemoveView(_contentContainer));
@@ -167,7 +166,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void OnContentAttachedToWindow(object sender, View.ViewAttachedToWindowEventArgs e)
+		private void OnContentAttachedToWindow(object? sender, View.ViewAttachedToWindowEventArgs e)
 		{
 			// Even though we set the CommandBar as the parent of the _contentContainer,
 			// it will change to the native control when the view is added.
@@ -176,7 +175,7 @@ namespace Uno.Toolkit.UI
 			// parent that can propagate the DataContext.
 			if (_contentContainer?.Parent != Element)
 			{
-				_contentContainer.SetParent(Element);
+				_contentContainer!.SetParent(Element);
 			}
 		}
 
@@ -195,7 +194,7 @@ namespace Uno.Toolkit.UI
 
 			// Content
 			var content = element.Content;
-			native.Title = content as string;
+			native!.Title = content as string;
 			_contentContainer.Child = content as UIElement;
 			_contentContainer.VerticalAlignment = element.VerticalContentAlignment;
 			_contentContainer.HorizontalAlignment = element.HorizontalContentAlignment;
@@ -298,7 +297,7 @@ namespace Uno.Toolkit.UI
 			native.Alpha = (float)element.Opacity;
 		}
 
-		private IEnumerable<IMenuItem?> GetMenuItems(Android.Views.IMenu menu)
+		private static IEnumerable<IMenuItem?> GetMenuItems(Android.Views.IMenu menu)
 		{
 			for (int i = 0; i < menu.Size(); i++)
 			{
@@ -312,7 +311,7 @@ namespace Uno.Toolkit.UI
 
 			var hashCode = e.Item.ItemId;
 			var appBarButton = Element?.PrimaryCommands
-				.Concat(Element?.SecondaryCommands)
+				.Concat(Element?.SecondaryCommands!)
 				.OfType<AppBarButton>()
 				.FirstOrDefault(c => hashCode == c.GetHashCode());
 
@@ -329,7 +328,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void CloseKeyboard()
+		private static void CloseKeyboard()
 		{
 			if ((ContextHelper.Current as Activity)?.CurrentFocus is { } focused)
 			{

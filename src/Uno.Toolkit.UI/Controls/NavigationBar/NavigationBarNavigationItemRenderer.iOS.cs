@@ -88,7 +88,7 @@ namespace Uno.Toolkit.UI
 			RegisterCommandVisibilityAndInvalidate();
 		}
 
-		private void OnTitleViewParentChanged(object sender, EventArgs e)
+		private void OnTitleViewParentChanged(object? sender, EventArgs e)
 		{
 			// Even though we set the NavigationBar as the parent of the TitleView,
 			// it will change to the native control when the view is added.
@@ -109,7 +109,7 @@ namespace Uno.Toolkit.UI
 			}
 
 			// Content
-			var content = element.Content;
+			var content = element!.Content;
 
 			native.Title = content as string;
 			native.TitleView = content is UIElement ? _titleView : null;
@@ -126,10 +126,10 @@ namespace Uno.Toolkit.UI
 				.Do(btn => btn.SetParent(Element))
 				.Select(appBarButton => appBarButton.GetRenderer(() => new AppBarButtonRenderer(appBarButton)).Native)
 				.Reverse()
-				.ToArray();
+				.ToArray()!;
 
 			// MainCommand
-			var navigationCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
+			var navigationCommand = element!.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
 			if (navigationCommand?.Visibility == Visibility.Visible)
 			{
 				navigationCommand.SetParent(Element);

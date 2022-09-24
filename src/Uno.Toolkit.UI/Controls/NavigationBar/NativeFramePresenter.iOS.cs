@@ -13,6 +13,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using ObjCRuntime;
 using Uno.UI.Controls;
+using System.Diagnostics.CodeAnalysis;
 
 
 #if IS_WINUI
@@ -323,7 +324,7 @@ namespace Uno.Toolkit.UI
 		/// This is called on <see cref="Frame.BackStack"/> changed.
 		/// We use this handler to detect BackStack manipulations (like removing previous pages) and reset the <see cref="UINavigationController.ViewControllers"/> when applicable.
 		/// </summary>
-		private void OnFrameBackStackChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private void OnFrameBackStackChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			var pageEntry = FrameNavigationHelper.GetCurrentEntry(_frame);
 			var page = FrameNavigationHelper.GetInstance(pageEntry);
@@ -362,11 +363,11 @@ namespace Uno.Toolkit.UI
 							// The only "Add" on the BackStack that can correlate a Navigating event is a forward navigation.
 
 							// Check whether the Add is at the end of the list.
-							var newItem = e.NewItems[0] as PageStackEntry;
+							var newItem = e.NewItems![0] as PageStackEntry;
 							if (newItem != null
 								&& e.NewStartingIndex == (collection.Count - 1)
 								&& (frameRequest.NavigationMode == NavigationMode.New || frameRequest.NavigationMode == NavigationMode.Forward)
-								&& newItem.SourcePageType == frameRequest.BackStackPageTypes.LastOrDefault())
+								&& newItem.SourcePageType == (frameRequest.BackStackPageTypes!.Count == 0 ? null : frameRequest.BackStackPageTypes[frameRequest.BackStackPageTypes.Count - 1]))
 							{
 								return true;
 							}
@@ -411,7 +412,7 @@ namespace Uno.Toolkit.UI
 						: new PageViewController(null))
 				.ToArray() ?? Array.Empty<PageViewController>();
 
-			if (!viewControllers.SequenceEqual(NavigationController.ViewControllers))
+			if (!viewControllers.SequenceEqual(NavigationController.ViewControllers!))
 			{
 				if (this.Log().IsEnabled(LogLevel.Debug))
 				{
@@ -433,7 +434,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private bool GetIsAnimated(NavigationTransitionInfo transitionInfo)
+		private static bool GetIsAnimated(NavigationTransitionInfo transitionInfo)
 		{
 			return !(transitionInfo is SuppressNavigationTransitionInfo);
 
@@ -483,7 +484,7 @@ namespace Uno.Toolkit.UI
 
 					// Check if the native operation is a native back
 					if (frameControllers.Length - 1 == (navigationController.ViewControllers?.Length ?? 0)
-						&& frameControllers.Take(frameControllers.Length - 1).SequenceEqual(navigationController.ViewControllers))
+						&& frameControllers.Take(frameControllers.Length - 1).SequenceEqual(navigationController.ViewControllers!))
 					{
 						var coordinator = navigationController.TopViewController?.GetTransitionCoordinator();
 						var isBackSwipe = coordinator != null && coordinator.InitiallyInteractive;
@@ -619,13 +620,13 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private static bool TryGetFirst(LinkedList<NavigationRequest> navigationRequests, out NavigationRequest firstValue)
+		private static bool TryGetFirst(LinkedList<NavigationRequest> navigationRequests, [NotNullWhen(true)] out NavigationRequest? firstValue)
 		{
 			firstValue = navigationRequests.FirstOrDefault();
 			return firstValue != null;
 		}
 
-		private static bool TryGetLast(LinkedList<NavigationRequest> navigationRequests, out NavigationRequest lastValue)
+		private static bool TryGetLast(LinkedList<NavigationRequest> navigationRequests, [NotNullWhen(true)] out NavigationRequest? lastValue)
 		{
 			lastValue = navigationRequests.LastOrDefault();
 			return lastValue != null;
@@ -733,12 +734,12 @@ namespace Uno.Toolkit.UI
 			{
 				return request1.PageType == request2.PageType
 					&& request1.NavigationMode == request2.NavigationMode
-					&& request1.BackStackPageTypes.SequenceEqual(request2.BackStackPageTypes);
+					&& request1.BackStackPageTypes!.SequenceEqual(request2.BackStackPageTypes!);
 			}
 
 			public override string ToString()
 			{
-				return $"{PageType.Name}, NavigationMode.{NavigationMode}, BackStack: [{(BackStackPageTypes.Any() ? string.Join(", ", BackStackPageTypes.Select(t => t.Name)) : ("Empty"))}] {(WasHandledByFrame ? ("WasHandledByFrame") : string.Empty)} {(WasHandledByController ? ("WasHandledByController") : string.Empty)}";
+				return $"{PageType.Name}, NavigationMode.{NavigationMode}, BackStack: [{(BackStackPageTypes!.Any() ? string.Join(", ", BackStackPageTypes!.Select(t => t.Name)) : ("Empty"))}] {(WasHandledByFrame ? ("WasHandledByFrame") : string.Empty)} {(WasHandledByController ? ("WasHandledByController") : string.Empty)}";
 			}
 		}
 
@@ -749,12 +750,14 @@ namespace Uno.Toolkit.UI
 				// Apply this check if we are compiling with the iOS 11 SDK or above
 				if (!UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
 				{
-					// This is deprecated on iOS 11+, we only set it on older versions.
-					AutomaticallyAdjustsScrollViewInsets = false;
-				}
+                    // This is deprecated on iOS 11+, we only set it on older versions.
+#pragma warning disable CA1416
+                    AutomaticallyAdjustsScrollViewInsets = false;
+#pragma warning restore CA1416
+                }
 
-				// Allows Page content to extend under the UINavigationBar (even if opaque)
-				ExtendedLayoutIncludesOpaqueBars = true;
+                // Allows Page content to extend under the UINavigationBar (even if opaque)
+                ExtendedLayoutIncludesOpaqueBars = true;
 
 				Page = page;
 				View = Page;
@@ -914,8 +917,8 @@ namespace Uno.Toolkit.UI
 						: new PageViewController(null))
 					.ToArray();
 
-				this.Log().Trace($"│ Frame  ViewControllers: {string.Join(", ", frameControllers.Select(GetName))}");
-				this.Log().Trace($"│ Native ViewControllers: {string.Join(", ", NavigationController.ViewControllers.Select(GetName))} ");
+				this.Log().Trace($"│ Frame  ViewControllers: {string.Join(", ", frameControllers!.Select(GetName))}");
+				this.Log().Trace($"│ Native ViewControllers: {string.Join(", ", NavigationController.ViewControllers!.Select(GetName))} ");
 				this.Log().Trace($"│            Frame Queue: {string.Join(", ", _frameToControllerRequests.Select(GetName))} ");
 				this.Log().Trace($"└     Controller Request: {string.Join(", ", GetName(_controllerToFrameRequest))} ");
 			}

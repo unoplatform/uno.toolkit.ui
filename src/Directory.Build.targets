@@ -1,8 +1,5 @@
 <Project ToolsVersion="15.0">
 
-  <ItemGroup>
-  </ItemGroup>
-  
   <Import Project="nuget_override.props" Condition="Exists('nuget_override.props')" />
 
   <Target Name="_UnoOverrideNuget"
@@ -30,7 +27,5 @@
 		  DestinationFiles="@(_OutputRefFiles->'$(_TargetNugetRefFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 
-
-
-
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
 </Project>

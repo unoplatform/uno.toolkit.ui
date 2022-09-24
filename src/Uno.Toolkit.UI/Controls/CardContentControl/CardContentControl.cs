@@ -35,7 +35,11 @@ namespace Uno.Toolkit.UI
 		}
 
 		#region Elevation
-		public double Elevation
+		public
+#if __ANDROID__
+			new
+#endif
+			double Elevation
 		{
 			get => (double)GetValue(ElevationProperty);
 			set => SetValue(ElevationProperty, value);

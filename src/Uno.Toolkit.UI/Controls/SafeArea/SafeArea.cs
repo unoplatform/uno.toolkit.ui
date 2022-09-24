@@ -295,10 +295,12 @@ namespace Uno.Toolkit.UI
 
 			private FrameworkElement? Owner => _owner.Target as FrameworkElement;
 
-			/// <summary>
-			/// VisibleBounds offset to the reference frame of the window Bounds.
-			/// </summary>
-			private Rect OffsetVisibleBounds
+            /// <summary>
+            /// VisibleBounds offset to the reference frame of the window Bounds.
+            /// </summary>
+#pragma warning disable CA1822 // Mark members as static
+            private Rect OffsetVisibleBounds
+#pragma warning disable CA1822
 			{
 				get
 				{

@@ -93,18 +93,18 @@ namespace Uno.Toolkit.UI
 				new[] { AppBarButton.IsInOverflowProperty }
 			);
 
-			Native.Clicked += OnNativeClicked;
+			Native!.Clicked += OnNativeClicked;
 			yield return Disposable.Create(() => { Native.Clicked -= OnNativeClicked; });
 		}
 
-		private void OnAppBarButtonWrapperParentChanged(object sender, EventArgs e)
+		private void OnAppBarButtonWrapperParentChanged(object? sender, EventArgs e)
 		{
 			// Even though we set the NavigationBar as the parent of the _appBarButtonWrapper,
 			// it will change to the native control when the view is added.
 			// This control is the visual parent but is not a DependencyObject and will not propagate the DataContext.
 			// In order to ensure the DataContext is propagated properly, we restore the NavigationBar
 			// parent that can propagate the DataContext.
-			if (!ReferenceEquals(_appBarButtonWrapper?.Parent, Element.Parent))
+			if (!ReferenceEquals(_appBarButtonWrapper?.Parent, Element!.Parent))
 			{
 				_appBarButtonWrapper?.SetParent(Element.Parent);
 			}
@@ -120,12 +120,12 @@ namespace Uno.Toolkit.UI
 			var native = Native;
 			var element = Element;
 
-			if (element.Icon != null)
+			if (element!.Icon != null)
 			{
 				switch (element.Icon)
 				{
 					case BitmapIcon bitmap:
-						native.Image = ImageHelper.FromUri(bitmap.UriSource);
+						native!.Image = ImageHelper.FromUri(bitmap.UriSource);
 						native.ClearCustomView();
 						native.Title = null;
 						break;
@@ -135,7 +135,7 @@ namespace Uno.Toolkit.UI
 					case SymbolIcon symbol: // not supported
 					default:
 						this.Log().WarnIfEnabled(() => $"{GetType().Name ?? "FontIcon, PathIcon and SymbolIcon"} are not supported. Use BitmapIcon instead with UriSource.");
-						native.Image = null;
+						native!.Image = null;
 						native.ClearCustomView();
 						// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set. 
 						// We default to an empty string to ensure it is added.
@@ -148,7 +148,7 @@ namespace Uno.Toolkit.UI
 				switch (element.Content)
 				{
 					case string text:
-						native.Image = null;
+						native!.Image = null;
 						native.ClearCustomView();
 						native.Title = text;
 						break;
@@ -161,7 +161,7 @@ namespace Uno.Toolkit.UI
 						//want the DataContext to flow properly from the
 						//NavigationBar.
 						element.SetParent(currentParent);
-						native.Image = null;
+						native!.Image = null;
 						native.CustomView = fe.Visibility == Visibility.Visible ? _appBarButtonWrapper : null;
 						// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set.
 						// We default to an empty string to ensure it is added, in order to support late-bound Content.
@@ -169,7 +169,7 @@ namespace Uno.Toolkit.UI
 						break;
 
 					default:
-						native.Image = null;
+						native!.Image = null;
 						native.ClearCustomView();
 						// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set. 
 						// We default to an empty string to ensure it is added.
@@ -179,7 +179,7 @@ namespace Uno.Toolkit.UI
 			}
 			else
 			{
-				native.Image = null;
+				native!.Image = null;
 				native.ClearCustomView();
 				native.Title = element.Label;
 			}

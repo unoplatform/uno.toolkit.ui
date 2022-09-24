@@ -158,7 +158,7 @@ namespace Uno.Toolkit.UI
 		/// <param name="element">The element to search from</param>
 		/// <param name="includeCurrent">Determines if the current <paramref name="element"/> should be tested or not.</param>
 		/// <returns>The first found parent that is of the given type.</returns>
-		public static T FindFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
+		public static T? FindFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
 			where T : DependencyObject
 			=> element.GetAllParents(includeCurrent).OfType<T>().FirstOrDefault();
 

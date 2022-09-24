@@ -41,7 +41,7 @@ namespace Uno.Toolkit.UI
 			if (Element is { })
 			{
 				var navigationItem = Element.GetRenderer(() => new NavigationBarNavigationItemRenderer(Element)).Native;
-				navigationBar.PushNavigationItem(navigationItem, false);
+				navigationBar.PushNavigationItem(navigationItem!, false);
 			}
 
 			return navigationBar;
@@ -94,7 +94,7 @@ namespace Uno.Toolkit.UI
 						else
 						{
 							// Prefer BarTintColor because it supports smooth transitions
-							Native.BarTintColor = opaqueColor;
+							Native!.BarTintColor = opaqueColor;
 							Native.Translucent = false; //Make fully opaque for consistency with SetBackgroundImage
 							Native.SetBackgroundImage(null, UIBarMetrics.Default);
 							Native.ShadowImage = null;
@@ -108,7 +108,7 @@ namespace Uno.Toolkit.UI
 						}
 						else
 						{
-							Native.BarTintColor = null;
+							Native!.BarTintColor = null;
 							// Use SetBackgroundImage as hack to support semi-transparent background
 							Native.SetBackgroundImage(((UIColor)semiTransparentColor).ToUIImage(), UIBarMetrics.Default);
 							Native.Translucent = true;
@@ -123,7 +123,7 @@ namespace Uno.Toolkit.UI
 						}
 						else
 						{
-							Native.BarTintColor = null;
+							Native!.BarTintColor = null;
 							Native.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
 							// We make sure a transparent bar doesn't cast a shadow.
 							Native.ShadowImage = new UIImage(); // Removes the default 1px line
@@ -138,7 +138,7 @@ namespace Uno.Toolkit.UI
 						}
 						else
 						{
-							Native.BarTintColor = null;
+							Native!.BarTintColor = null;
 							Native.SetBackgroundImage(null, UIBarMetrics.Default); // Restores the default blurry background
 							Native.ShadowImage = null; // Restores the default 1px line
 							Native.Translucent = true;
@@ -155,7 +155,7 @@ namespace Uno.Toolkit.UI
 				}
 				else
 				{
-					Native.BarTintColor = null;
+					Native!.BarTintColor = null;
 					Native.SetBackgroundImage(null, UIBarMetrics.Default); // Restores the default blurry background
 					Native.ShadowImage = null; // Restores the default 1px line
 					Native.Translucent = true;
@@ -179,7 +179,7 @@ namespace Uno.Toolkit.UI
 				}
 				else
 				{
-					Native.TitleTextAttributes = new UIStringAttributes
+					Native!.TitleTextAttributes = new UIStringAttributes
 					{
 						ForegroundColor = foregroundColor,
 					};
@@ -194,7 +194,7 @@ namespace Uno.Toolkit.UI
 				}
 				else
 				{
-					Native.TitleTextAttributes = null;
+					Native!.TitleTextAttributes = null!;
 				}
 			}
 
@@ -207,7 +207,7 @@ namespace Uno.Toolkit.UI
 				&& mainCommand.ReadLocalValue(AppBarButton.ForegroundProperty) != DependencyProperty.UnsetValue
 				&& ColorHelper.TryGetColorWithOpacity(mainCommand.Foreground, out var mainCommandForeground))
 			{
-				Native.TintColor = mainForeground = mainCommandForeground;
+				Native!.TintColor = mainForeground = mainCommandForeground;
 			}
 
 			// MainCommand.Icon
@@ -227,7 +227,7 @@ namespace Uno.Toolkit.UI
 					};
 
 					var attributes = new NSDictionary<NSString, NSObject>(
-						new NSString[] { titleTextAttributes.Dictionary.Keys[0] as NSString }, titleTextAttributes.Dictionary.Values
+						new NSString[] { (titleTextAttributes.Dictionary.Keys[0] as NSString)! }, titleTextAttributes.Dictionary.Values
 					);
 
 					backButtonAppearance.Normal.TitleTextAttributes = attributes;
@@ -251,7 +251,7 @@ namespace Uno.Toolkit.UI
 			}
 			else
 			{
-				Native.BackIndicatorImage = mainCommandIcon;
+				Native!.BackIndicatorImage = mainCommandIcon;
 				Native.BackIndicatorTransitionMaskImage = mainCommandIcon;
 			}
 
@@ -262,7 +262,7 @@ namespace Uno.Toolkit.UI
 				appearance.ShadowColor = UIColor.Clear;
 			}
 
-			Native.CompactAppearance = appearance;
+			Native!.CompactAppearance = appearance;
 			Native.StandardAppearance = appearance;
 			Native.ScrollEdgeAppearance = appearance;
 		}
@@ -270,7 +270,7 @@ namespace Uno.Toolkit.UI
 		private void ApplyVisibility()
 		{
 			var newHidden = Element?.Visibility == Visibility.Collapsed;
-			var hasChanged = Native.Hidden != newHidden;
+			var hasChanged = Native!.Hidden != newHidden;
 			Native.Hidden = newHidden;
 			if (hasChanged)
 			{

@@ -26,7 +26,7 @@ namespace Uno.Toolkit.UI
 		public TabBar TabBar { get; }
 
 		private bool _isSynchronizing;
-		private double _lastOffsetX = 0;
+		private double _lastOffsetX;
 
 		public TabBarSelectorBehaviorState(Selector selector, TabBar tabBar)
 		{

@@ -41,7 +41,7 @@ namespace Uno.Toolkit.UI
 	internal class AppBarButtonRenderer : Renderer<AppBarButton, IMenuItem>
 	{
 		private AppBarButtonWrapper? _appBarButtonWrapper;
-		private bool _isInOverflow = false;
+		private bool _isInOverflow;
 		private DependencyObject? _elementParent;
 
 		public AppBarButtonRenderer(AppBarButton element, bool isInOverflow = false) : base(element)
@@ -50,7 +50,7 @@ namespace Uno.Toolkit.UI
 			element.ViewAttachedToWindow += OnElementAttachedToWindow;
 		}
 
-		private void OnElementAttachedToWindow(object sender, View.ViewAttachedToWindowEventArgs e)
+		private void OnElementAttachedToWindow(object? sender, View.ViewAttachedToWindowEventArgs e)
 		{
 			if (Element is { } element && element.Parent == _appBarButtonWrapper)
 			{
@@ -255,7 +255,7 @@ namespace Uno.Toolkit.UI
 		// ShowAsAction.CollapseActionView. This is for instance the case of the search view used in a lot of scenarios.
 		// To avoid this use case, we must explicitly set the size of the action view based on the real size of its content.
 		// That being said, at some point in the future, we will need to support advanced scenarios where the AppBarButton needs to be expandable.
-		private Size _measuredLogicalSize = default(Size);
+		private Size _measuredLogicalSize;
 
 		protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
 		{

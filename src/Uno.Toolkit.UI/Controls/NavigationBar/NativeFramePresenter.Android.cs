@@ -38,7 +38,7 @@ namespace Uno.Toolkit.UI
 	{
 		private readonly Grid? _pageStack;
 		private Frame? _frame;
-		private bool _isUpdatingStack = false;
+		private bool _isUpdatingStack;
 		private PageStackEntry? _currentEntry;
 		private Queue<(PageStackEntry? pageEntry, NavigationEventArgs args)> _stackUpdates = new Queue<(PageStackEntry?, NavigationEventArgs)>();
 
@@ -69,12 +69,14 @@ namespace Uno.Toolkit.UI
 
 			if (_frame.Content is Page startPage)
 			{
-				_stackUpdates.Enqueue((FrameNavigationHelper.GetCurrentEntry(_frame), FrameNavigationHelper.CreateNavigationEventArgs(_frame.Content, NavigationMode.New, null, null, null, null)));
+				_stackUpdates.Enqueue((FrameNavigationHelper.GetCurrentEntry(_frame), FrameNavigationHelper.CreateNavigationEventArgs(_frame.Content, NavigationMode.New, null, null, null!, null)));
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 				InvalidateStack();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 			}
 		}
 
-		private void OnBackStackChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private void OnBackStackChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			UpdateBackButtonVisibility();
 		}
@@ -92,7 +94,9 @@ namespace Uno.Toolkit.UI
 		{
 			_stackUpdates.Enqueue((FrameNavigationHelper.GetCurrentEntry(_frame), e));
 
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 			InvalidateStack();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 		}
 
 		private async Task InvalidateStack()
@@ -151,7 +155,7 @@ namespace Uno.Toolkit.UI
 					{
 						if (oldPage != null)
 							await oldPage.AnimateAsync(GetExitAnimation());
-						oldPage.ClearAnimation();
+						oldPage!.ClearAnimation();
 					}
 
 
@@ -164,7 +168,7 @@ namespace Uno.Toolkit.UI
 					{
 						// Remove pages from the grid that may have been removed from the BackStack list
 						// Those items are not removed on BackStack list changes to avoid interfering with the GoBack method's behavior.
-						for (var pageIndex = _pageStack.Children.Count - 1; pageIndex >= 0; pageIndex--)
+						for (var pageIndex = _pageStack!.Children.Count - 1; pageIndex >= 0; pageIndex--)
 						{
 							var page = _pageStack.Children[pageIndex];
 							if (page == newPage)

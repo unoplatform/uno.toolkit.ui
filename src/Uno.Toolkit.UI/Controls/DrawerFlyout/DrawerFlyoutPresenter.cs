@@ -62,12 +62,12 @@ namespace Uno.Toolkit.UI
 		private Popup _popup;
 
 		// states
-		private bool _isReady = false;
-		private bool _isGestureCaptured = false;
+		private bool _isReady;
+		private bool _isGestureCaptured;
 		private bool _initOnceOnLoaded = true;
 		private bool _initOnceOnLayoutUpdated = true;
-		private double _startingTranslateOffset = 0;
-		private bool _suppressIsOpenHandler = false;
+		private double _startingTranslateOffset;
+		private bool _suppressIsOpenHandler;
 
 		private Size? _lastMeasuredFlyoutContentSize;
 
@@ -410,15 +410,17 @@ namespace Uno.Toolkit.UI
 
 		private bool ShouldHandleManipulationFrom(object source)
 		{
-			// only the content area should respond to gesture
-			if (source == _lightDismissOverlay) return false;
+            // only the content area should respond to gesture
+#pragma warning disable CS0252 // Possible unintended reference comparison
+            if (source == _lightDismissOverlay) return false;
 
-			// note: on uwp, we cant distinguish the origin of the event, as it would always be from this DrawerFlyoutPresenter.
-			return source == this
+            // note: on uwp, we cant distinguish the origin of the event, as it would always be from this DrawerFlyoutPresenter.
+            return source == this
 				|| (source is DependencyObject sourceAsDO && VisualTreeHelperEx.GetAncestors(sourceAsDO).Any(x => x == this));
-		}
+#pragma warning restore CS0252
+        }
 
-		private double GetSnappingOffsetFor(bool isOpen)
+        private double GetSnappingOffsetFor(bool isOpen)
 		{
 			return isOpen ? 0 : GetVectoredLength();
 		}

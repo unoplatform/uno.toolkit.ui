@@ -19,9 +19,8 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ChipGroup : ItemsControl
 	{
-		private bool _isLoaded = false;
-		private bool _isSynchronizingSelection = false;
-		private bool _isUpdatingSelection = false;
+		private bool _isLoaded;
+		private bool _isSynchronizingSelection;
 
 		public ChipGroup()
 		{
@@ -109,7 +108,7 @@ namespace Uno.Toolkit.UI
 
 		private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (_isSynchronizingSelection || _isUpdatingSelection) return;
+			if (_isSynchronizingSelection) return;
 
 			if (!IsReady && e.NewValue != null)
 			{
@@ -129,7 +128,7 @@ namespace Uno.Toolkit.UI
 
 		private void OnSelectedItemsChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (_isSynchronizingSelection || _isUpdatingSelection) return;
+			if (_isSynchronizingSelection) return;
 
 			if (!IsReady && e.NewValue != null)
 			{
@@ -144,12 +143,12 @@ namespace Uno.Toolkit.UI
 				   .Where(x => x != null)
 				   .ToArray();
 
-				foreach (var container in selectedContainers ?? Enumerable.Empty<Chip>())
+				foreach (var container in selectedContainers! ?? Enumerable.Empty<Chip>())
 				{
 					container.SetIsCheckedSilently(true);
 				}
 
-				UpdateSelection(selectedContainers, forceClearOthersSelection: true);
+				UpdateSelection(selectedContainers!, forceClearOthersSelection: true);
 			}
 			else
 			{
@@ -254,7 +253,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void RaiseItemEvent(ChipItemEventHandler handler, object originalSender)
+		private void RaiseItemEvent(ChipItemEventHandler? handler, object? originalSender)
 		{
 			if (originalSender is Chip container)
 			{
@@ -271,12 +270,18 @@ namespace Uno.Toolkit.UI
 
 			if (SelectedItem != null)
 			{
-				OnSelectedItemChanged(null);
+				// TODO: Something looks wrong here.
+				// OnSelectedItemChanged doesn't expect null.
+				// It either won't do something useful, or will crash with NullReferenceException.
+				OnSelectedItemChanged(null!);
 			}
 
 			if (SelectedItems != null)
 			{
-				OnSelectedItemsChanged(null);
+				// TODO: Something looks wrong here.
+				// OnSelectedItemChanged doesn't expect null.
+				// It either won't do something useful, or will crash with NullReferenceException.
+				OnSelectedItemsChanged(null!);
 			}
 		}
 
@@ -323,7 +328,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void UpdateSelection(Chip[] newlySelectedContainers, bool forceClearOthersSelection = false)
+		private void UpdateSelection(Chip[]? newlySelectedContainers, bool forceClearOthersSelection = false)
 		{
 			if (!IsReady) return;
 			if (_isSynchronizingSelection) return;
@@ -391,14 +396,14 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Get the items.
 		/// </summary>
-		/// <remarks>The item itself maybe its own container, as in the case of <see cref="Chip"> added as child to <see cref="ItemsControl.Items"/>.</remarks>
+		/// <remarks>The item itself maybe its own container, as in the case of <see cref="Chip"/> added as child to <see cref="ItemsControl.Items"/>.</remarks>
 		private IEnumerable GetItems() =>
 			ItemsSource as IEnumerable ??
 			(ItemsSource as CollectionViewSource)?.View ??
 			Items ??
 			Enumerable.Empty<object>();
 
-		private Chip FindContainer(object item)
+		private Chip? FindContainer(object? item)
 		{
 			if (item == null) return null;
 

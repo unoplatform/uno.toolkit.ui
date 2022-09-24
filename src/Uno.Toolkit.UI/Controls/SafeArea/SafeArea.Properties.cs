@@ -48,7 +48,7 @@ namespace Uno.Toolkit.UI
 
 		/// <summary>
 		/// Used by the SafeArea to determine how the insets should be applied to a control that is in an "unsafe" area.
-		/// <para>Defaults to <see cref="InsetMask.Padding"/></para>
+		/// <para>Defaults to <see cref="InsetMode.Padding"/></para>
 		/// </summary>
 		public static DependencyProperty ModeProperty { get; } = DependencyProperty.RegisterAttached(
 			"Mode",

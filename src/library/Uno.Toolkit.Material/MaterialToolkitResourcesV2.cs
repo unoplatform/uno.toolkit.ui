@@ -87,7 +87,7 @@ namespace Uno.Toolkit.UI.Material
 			return style;
 		}
 
-		private IEnumerable<(string ResourceKey, string SharedKey, bool IsDefaultStyle)> GetStyleInfos()
+		private static IEnumerable<(string ResourceKey, string SharedKey, bool IsDefaultStyle)> GetStyleInfos()
 		{
 			var result = new List<(string ResourceKey, string SharedKey, bool IsDefaultStyle)>();
 			

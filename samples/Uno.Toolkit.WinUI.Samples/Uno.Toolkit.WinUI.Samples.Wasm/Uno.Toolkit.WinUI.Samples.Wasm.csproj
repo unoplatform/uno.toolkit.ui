@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <NoWarn>NU1701</NoWarn>
-
+		<WasmShellIncludeWindowsCompatibility>false</WasmShellIncludeWindowsCompatibility>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
@@ -12,7 +12,7 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-    <PropertyGroup>
+  <PropertyGroup>
     <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
   </PropertyGroup>
   <ItemGroup>

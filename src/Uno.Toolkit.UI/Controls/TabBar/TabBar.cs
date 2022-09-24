@@ -37,10 +37,10 @@ namespace Uno.Toolkit.UI
 		private const string TabBarGridName = "TabBarGrid";
 
 		private Grid? _tabBarGrid;
-		private bool _isSynchronizingSelection = false;
-		private object? _previouslySelectedItem = null;
-		private bool _isLoaded = false;
-		private bool _isUpdatingSelectedItem = false;
+		private bool _isSynchronizingSelection;
+		private object? _previouslySelectedItem;
+		private bool _isLoaded;
+		private bool _isUpdatingSelectedItem;
 
 		public TabBar()
 		{
