@@ -75,7 +75,7 @@ namespace Uno.Toolkit.UI
 
 		private static void OnInsetsChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 		{
-#if VISIBLEBOUNDS_API_NOT_SUPPORTED
+#if false
 			if (_log.IsEnabled(LogLevel.Warning))
 			{
 				_log.LogWarning("SafeArea is not supported on this platform.");
@@ -147,10 +147,10 @@ namespace Uno.Toolkit.UI
 		{
 			get
 			{
-#if HAS_UNO && !WINUI
-				return ApplicationView.GetForCurrentView().VisibleBounds.GetOrientation() == XamlWindow.Current?.Bounds.GetOrientation();
-#else
+#if VISIBLEBOUNDS_API_NOT_SUPPORTED
 				return true;
+#else
+				return ApplicationView.GetForCurrentView().VisibleBounds.GetOrientation() == XamlWindow.Current?.Bounds.GetOrientation();
 #endif
 			}
 		}
@@ -166,7 +166,7 @@ namespace Uno.Toolkit.UI
 #else
 			var visibleBounds = GetVisibleBounds(safeAreaOverride, withSoftInput);
 			var bounds = XamlWindow.Current?.Bounds ?? Rect.Empty;
-
+			
 			var result = new Thickness
 			{
 				Left = visibleBounds.Left - bounds.Left,
@@ -194,6 +194,7 @@ namespace Uno.Toolkit.UI
 			}
 			return new();
 #else
+			var av = ApplicationView.GetForCurrentView();
 			var visibleBounds = safeAreaOverride?.IsEmptyOrZero() ?? true
 				? ApplicationView.GetForCurrentView().VisibleBounds
 				: safeAreaOverride.GetValueOrDefault();
@@ -251,7 +252,6 @@ namespace Uno.Toolkit.UI
 			internal SafeAreaDetails(FrameworkElement owner)
 			{
 				_owner = new WeakReference(owner);
-
 				_originalMargin = owner.Margin;
 				_originalPadding = PaddingHelper.GetPadding(owner);
 
@@ -274,6 +274,11 @@ namespace Uno.Toolkit.UI
 						inputPane.Showing += OnInputPaneChanged;
 						inputPane.Hiding += OnInputPaneChanged;
 					}
+
+					if (owner.XamlRoot is { } xamlRoot)
+					{
+						xamlRoot.Changed += (s, e) => UpdateInsets();
+					}
 				};
 				owner.Unloaded += (s, e) =>
 				{
@@ -283,6 +288,7 @@ namespace Uno.Toolkit.UI
 						inputPane.Hiding -= OnInputPaneChanged;
 					}
 				};
+
 			}
 
 			private void OnInputPaneChanged(InputPane sender, InputPaneVisibilityEventArgs args)
@@ -326,7 +332,7 @@ namespace Uno.Toolkit.UI
 
 			private void UpdateInsets()
 			{
-				if (XamlWindow.Current?.Content == null)
+				if (Owner?.XamlRoot?.Content == null)
 				{
 					return;
 				}
@@ -521,6 +527,8 @@ namespace Uno.Toolkit.UI
 
 			internal void OnInsetsChanged(InsetMask oldValue, InsetMask newValue)
 			{
+				var s = Owner?.XamlRoot;
+				var t = s?.Content;
 				_insetMask = newValue;
 				UpdateInsets();
 			}
