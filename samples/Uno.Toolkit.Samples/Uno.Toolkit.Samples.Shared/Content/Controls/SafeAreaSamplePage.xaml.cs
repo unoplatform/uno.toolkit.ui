@@ -44,6 +44,8 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		public SafeAreaSamplePage()
 		{
 			this.InitializeComponent();
+
+			var c = XamlRoot?.Content;
 		}
 
 		private void LaunchAPSample(object sender, RoutedEventArgs e)

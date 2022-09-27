@@ -55,7 +55,7 @@ namespace Uno.Toolkit.Samples
 #endif
 		}
 
-		public static Shell GetForCurrentView() => (Shell)App.Instance.Window.Content;
+		public static Shell GetForCurrentView() => (Shell)App.Instance.AppWindow.Content;
 
 		public MUXC.NavigationView NavigationView => NavigationViewControl;
 

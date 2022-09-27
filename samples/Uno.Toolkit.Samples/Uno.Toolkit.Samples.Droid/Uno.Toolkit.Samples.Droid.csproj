@@ -21,7 +21,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <AndroidUseIntermediateDesignerFile>True</AndroidUseIntermediateDesignerFile>
     <ResourcesDirectory>..\Uno.Toolkit.Samples.Shared\Strings</ResourcesDirectory>
-
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,13 +65,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.Cupertino">
-      <Version>2.3.0-dev.12</Version>
+      <Version>2.4.0-dev.19</Version>
     </PackageReference>
     <PackageReference Include="Uno.Material">
-      <Version>2.3.0-dev.12</Version>
+      <Version>2.4.0-dev.19</Version>
     </PackageReference>
-    <PackageReference Include="Uno.UI" Version="4.5.0-dev.797" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.5.0-dev.797" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI" Version="4.6.0-dev.437" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.6.0-dev.437" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.35" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
@@ -88,7 +87,7 @@
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
       <Version>2.3.1.1</Version>
     </PackageReference>
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.0-dev.797" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.6.0-dev.437" />
     <PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
     <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
     <PackageReference Include="Xamarin.Jetbrains.Annotations">

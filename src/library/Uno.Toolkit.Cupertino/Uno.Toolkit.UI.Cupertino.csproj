@@ -16,8 +16,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Cupertino" Version="2.3.0-dev.12" />
-		<PackageReference Include="Uno.UI" Version="4.5.0-dev.797" />
+		<PackageReference Include="Uno.Cupertino" Version="2.4.0-dev.19" />
+		<PackageReference Include="Uno.UI" Version="4.6.0-dev.437" />
 	</ItemGroup>
 
 	<PropertyGroup>

@@ -54,7 +54,7 @@ namespace Uno.Toolkit.Samples
 
 		private Shell _shell;
 		public static App Instance => Current as App;
-		public XamlWindow Window => _window;
+		public XamlWindow AppWindow => _window;
 
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
@@ -93,11 +93,11 @@ namespace Uno.Toolkit.Samples
 			Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(320, 568)); // (size of the iPhone SE)
 #endif
 
-#if IS_WINUI
-			_window = new XamlWindow();
-			_window.Activate();
+#if NET5_0_OR_GREATER && WINDOWS && !HAS_UNO
+            _window = new XamlWindow();
+            _window.Activate();
 #else
-			_window = Windows.UI.Xaml.Window.Current;
+			_window = XamlWindow.Current;
 #endif
 
 			if (!(_window.Content is Shell))

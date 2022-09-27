@@ -277,6 +277,7 @@ namespace Uno.Toolkit.UI
 
 					if (owner.XamlRoot is { } xamlRoot)
 					{
+
 						xamlRoot.Changed += (s, e) => UpdateInsets();
 					}
 				};
@@ -336,6 +337,10 @@ namespace Uno.Toolkit.UI
 				{
 					return;
 				}
+
+#if __IOS__ || __ANDROID__
+				var c = Owner?.XamlRoot?.Content.ShowLocalVisualTree(10);
+#endif
 
 				if (!AreBoundsAspectRatiosConsistent)
 				{
