@@ -9,7 +9,7 @@
 # ******************* Reference ******************
 - name: Reference
   items:
-  # ***************** Controls *******************
+  # ***************** Reference\Controls *******************
   - name: Controls
     items:
     - name: AutoLayout
@@ -30,7 +30,7 @@
       href: controls/SafeArea.md
     - name: TabBar and TabBarItem
       href: controls/TabBarAndTabBarItem.md
-  # ***************** Helpers *******************
+  # ***************** Reference\Helpers *******************
   - name: Helpers
     items:
     - name: AncestorBinding and ItemsControlBinding
@@ -43,7 +43,9 @@
       href: helpers/StatusBar-extensions.md
     - name: TabBarItem attached properties
       href: helpers/TabBarItem-extensions.md
-  # ***************** Styles **********************
+    - name: VisualState attached properties
+      href: helpers/VisualState-extensions.md
+  # ***************** Reference\Styles **********************
   - name: Styles
     href: controls-styles.md
   - name: Migrate to Uno Material v2
