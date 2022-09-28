@@ -52,6 +52,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Include="..\Uno.Toolkit.Helpers\NullableAttributes.cs" Link="Uno.Toolkit.Helpers\NullableAttributes.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Page Update="Controls\LoadingView\LoadingView.xaml">
 	    <SubType>Designer</SubType>
 	  </Page>
