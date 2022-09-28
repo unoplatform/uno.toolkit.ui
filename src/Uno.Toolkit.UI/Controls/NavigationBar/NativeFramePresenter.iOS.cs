@@ -917,8 +917,8 @@ namespace Uno.Toolkit.UI
 						: new PageViewController(null))
 					.ToArray();
 
-				this.Log().Trace($"│ Frame  ViewControllers: {string.Join(", ", frameControllers!.Select(GetName))}");
-				this.Log().Trace($"│ Native ViewControllers: {string.Join(", ", NavigationController.ViewControllers!.Select(GetName))} ");
+				this.Log().Trace($"│ Frame  ViewControllers: {string.Join(", ", frameControllers?.Select(GetName) ?? Array.Empty<string>())}");
+				this.Log().Trace($"│ Native ViewControllers: {string.Join(", ", NavigationController.ViewControllers?.Select(GetName) ?? Array.Empty<string>())} ");
 				this.Log().Trace($"│            Frame Queue: {string.Join(", ", _frameToControllerRequests.Select(GetName))} ");
 				this.Log().Trace($"└     Controller Request: {string.Join(", ", GetName(_controllerToFrameRequest))} ");
 			}

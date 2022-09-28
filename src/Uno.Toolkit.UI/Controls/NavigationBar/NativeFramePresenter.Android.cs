@@ -154,8 +154,10 @@ namespace Uno.Toolkit.UI
 					if (GetIsAnimated(oldEntry))
 					{
 						if (oldPage != null)
+						{
 							await oldPage.AnimateAsync(GetExitAnimation());
-						oldPage!.ClearAnimation();
+							oldPage.ClearAnimation();
+						}
 					}
 
 

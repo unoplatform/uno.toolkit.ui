@@ -119,9 +119,9 @@ namespace Uno.Toolkit.UI
 			}
 			// Icon & Content
 			var native = Native;
-			var element = Element;
+			var element = Element ?? throw new InvalidOperationException("Element is null.");
 
-			if (element!.Icon != null)
+			if (element.Icon != null)
 			{
 				switch (element.Icon)
 				{

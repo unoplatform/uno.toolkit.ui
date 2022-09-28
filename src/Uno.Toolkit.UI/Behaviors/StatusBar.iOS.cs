@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
+using CoreGraphics;
 using UIKit;
 
 using XamlColor = Windows.UI.Color;
@@ -21,27 +21,36 @@ namespace Uno.Toolkit.UI
 		{
 			// random unique tag to avoid recreating the view
 			const int StatusBarViewTag = 38482;
-			if (!UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+
+			var (windows, statusBarFrame) = GetWindowsAndStatusBarFrame();
+			foreach (var window in windows)
 			{
-				return;
-			}
-
-			IEnumerable<UIScene> scenes = UIApplication.SharedApplication.ConnectedScenes;
-			var currentScene = scenes.FirstOrDefault(n => n.ActivationState == UISceneActivationState.ForegroundActive);
-
-			if (currentScene is not UIWindowScene uiWindowScene)
-				throw new InvalidOperationException("Unable to find current window scene.");
-
-			if (uiWindowScene.StatusBarManager is not { } statusBarManager)
-				throw new InvalidOperationException("Unable to find a status bar manager.");
-
-			foreach (var window in uiWindowScene.Windows)
-			{
-				var sbar = window.ViewWithTag(StatusBarViewTag) ?? new UIView(statusBarManager.StatusBarFrame) { Tag = StatusBarViewTag };
+				var sbar = window.ViewWithTag(StatusBarViewTag) ?? new UIView(statusBarFrame) { Tag = StatusBarViewTag };
 				sbar.BackgroundColor = value;
 				sbar.TintColor = value;
 
 				window.AddSubview(sbar);
+			}
+		}
+
+		private static (UIWindow[] Windows, CGRect StatusBarFrame) GetWindowsAndStatusBarFrame()
+		{
+			if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+			{
+				IEnumerable<UIScene> scenes = UIApplication.SharedApplication.ConnectedScenes;
+				var currentScene = scenes.FirstOrDefault(n => n.ActivationState == UISceneActivationState.ForegroundActive);
+
+				if (currentScene is not UIWindowScene uiWindowScene)
+					throw new InvalidOperationException("Unable to find current window scene.");
+
+				if (uiWindowScene.StatusBarManager is not { } statusBarManager)
+					throw new InvalidOperationException("Unable to find a status bar manager.");
+
+				return (uiWindowScene.Windows, statusBarManager.StatusBarFrame);
+			}
+			else
+			{
+				return (UIApplication.SharedApplication.Windows, UIApplication.SharedApplication.StatusBarFrame);
 			}
 		}
 	}
