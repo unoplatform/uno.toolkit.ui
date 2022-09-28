@@ -40,12 +40,12 @@
 	</Choose>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Material" Version="2.3.0-dev.12" />
-		<PackageReference Include="Uno.UI" Version="4.5.0-dev.797" />
+		<PackageReference Include="Uno.Material" Version="2.3.0" />
+		<PackageReference Include="Uno.UI" Version="4.5.9" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
-		<PackageReference Include="Microsoft.UI.Xaml" Version="2.6.0-prerelease.210623001" />
+		<PackageReference Include="Microsoft.UI.Xaml" Version="2.6.0" />
 	</ItemGroup>
 
 	<ItemGroup>
