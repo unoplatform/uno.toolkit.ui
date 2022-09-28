@@ -39,7 +39,7 @@ namespace Uno.Toolkit.UI
 			typeof(DataTemplate),
 			typeof(ChipGroup),
 			new PropertyMetadata(null, (s, e) => (s as ChipGroup)?.ApplyIconTemplate()));
-		
+
 		/// <summary>
 		/// Gets or sets the value of each <see cref="Chip.IconTemplate"/>.
 		/// </summary>
@@ -80,7 +80,7 @@ namespace Uno.Toolkit.UI
 			typeof(IList),
 			typeof(ChipGroup),
 			new PropertyMetadata(default, (s, e) => (s as ChipGroup)?.OnSelectedItemsChanged(e)));
-		
+
 		/// <summary>
 		/// Gets or sets the selected items.
 		/// </summary>
@@ -104,11 +104,11 @@ namespace Uno.Toolkit.UI
 			typeof(ChipGroup),
 			new PropertyMetadata(default, (s, e) => (s as ChipGroup)?.OnSelectionMemberPathChanged(e)));
 #pragma warning disable CS1574 // XML comment has cref attribute 'IsChecked' that could not be resolved
-        /// <summary>
-        /// Gets or sets the path which each <see cref="Chip.IsChecked"/> is data-bind to.
-        /// </summary>
+		/// <summary>
+		/// Gets or sets the path which each <see cref="Chip.IsChecked"/> is data-bind to.
+		/// </summary>
 #pragma warning restore CS1574
-        public string SelectionMemberPath
+		public string SelectionMemberPath
 		{
 			get => (string)GetValue(SelectionMemberPathProperty);
 			set => SetValue(SelectionMemberPathProperty, value);

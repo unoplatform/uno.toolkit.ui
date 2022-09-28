@@ -126,7 +126,7 @@ namespace Uno.Toolkit.UI
 				.Do(btn => btn.SetParent(Element))
 				.Select(appBarButton => appBarButton.GetRenderer(() => new AppBarButtonRenderer(appBarButton)).Native)
 				.Reverse()
-				.ToArray()!;
+				.ToArray();
 
 			// MainCommand
 			var navigationCommand = element!.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;

@@ -21,6 +21,10 @@ namespace Uno.Toolkit.UI
 		{
 			// random unique tag to avoid recreating the view
 			const int StatusBarViewTag = 38482;
+			if (!UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+			{
+				return;
+			}
 
 			IEnumerable<UIScene> scenes = UIApplication.SharedApplication.ConnectedScenes;
 			var currentScene = scenes.FirstOrDefault(n => n.ActivationState == UISceneActivationState.ForegroundActive);

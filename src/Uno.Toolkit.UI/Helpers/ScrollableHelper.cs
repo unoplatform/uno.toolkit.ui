@@ -57,7 +57,7 @@ namespace Uno.Toolkit.UI
 			bool isVirtualizing = default(bool);
 			double previousHorizontalOffset = default(double), previousVerticalOffset = default(double);
 
-			var scrollViewer = lvb.GetFirstDescendant<ScrollViewer>()!;
+			var scrollViewer = lvb.GetFirstDescendant<ScrollViewer>() ?? throw new InvalidOperationException("Cannot find a ScrollViewer descendant of ListViewBase.");
 			var selectorItem = getContainer() as SelectorItem;
 
 			// when it's null, means virtualization is on and the item hasn't been realized yet

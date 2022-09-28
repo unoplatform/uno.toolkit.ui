@@ -63,7 +63,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		public TNative? Native
+		public TNative Native
 		{
 			get
 			{

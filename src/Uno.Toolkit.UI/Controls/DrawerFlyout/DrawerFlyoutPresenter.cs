@@ -410,17 +410,17 @@ namespace Uno.Toolkit.UI
 
 		private bool ShouldHandleManipulationFrom(object source)
 		{
-            // only the content area should respond to gesture
+			// only the content area should respond to gesture
 #pragma warning disable CS0252 // Possible unintended reference comparison
-            if (source == _lightDismissOverlay) return false;
+			if (source == _lightDismissOverlay) return false;
 
-            // note: on uwp, we cant distinguish the origin of the event, as it would always be from this DrawerFlyoutPresenter.
-            return source == this
+			// note: on uwp, we cant distinguish the origin of the event, as it would always be from this DrawerFlyoutPresenter.
+			return source == this
 				|| (source is DependencyObject sourceAsDO && VisualTreeHelperEx.GetAncestors(sourceAsDO).Any(x => x == this));
 #pragma warning restore CS0252
-        }
+		}
 
-        private double GetSnappingOffsetFor(bool isOpen)
+		private double GetSnappingOffsetFor(bool isOpen)
 		{
 			return isOpen ? 0 : GetVectoredLength();
 		}

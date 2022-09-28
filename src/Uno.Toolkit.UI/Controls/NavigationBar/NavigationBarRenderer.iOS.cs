@@ -79,6 +79,7 @@ namespace Uno.Toolkit.UI
 
 			ApplyVisibility();
 			var appearance = new UINavigationBarAppearance();
+			var native = Native;
 
 			// Background
 			if (ColorHelper.TryGetColorWithOpacity(Element.Background, out var backgroundColor))
@@ -94,10 +95,10 @@ namespace Uno.Toolkit.UI
 						else
 						{
 							// Prefer BarTintColor because it supports smooth transitions
-							Native!.BarTintColor = opaqueColor;
-							Native.Translucent = false; //Make fully opaque for consistency with SetBackgroundImage
-							Native.SetBackgroundImage(null, UIBarMetrics.Default);
-							Native.ShadowImage = null;
+							native.BarTintColor = opaqueColor;
+							native.Translucent = false; //Make fully opaque for consistency with SetBackgroundImage
+							native.SetBackgroundImage(null, UIBarMetrics.Default);
+							native.ShadowImage = null;
 						}
 						break;
 					case { } semiTransparentColor when semiTransparentColor.A > 0:
@@ -108,11 +109,11 @@ namespace Uno.Toolkit.UI
 						}
 						else
 						{
-							Native!.BarTintColor = null;
+							native.BarTintColor = null;
 							// Use SetBackgroundImage as hack to support semi-transparent background
-							Native.SetBackgroundImage(((UIColor)semiTransparentColor).ToUIImage(), UIBarMetrics.Default);
-							Native.Translucent = true;
-							Native.ShadowImage = null;
+							native.SetBackgroundImage(((UIColor)semiTransparentColor).ToUIImage(), UIBarMetrics.Default);
+							native.Translucent = true;
+							native.ShadowImage = null;
 						}
 						break;
 					case { } transparent when transparent.A == 0:
@@ -123,11 +124,11 @@ namespace Uno.Toolkit.UI
 						}
 						else
 						{
-							Native!.BarTintColor = null;
-							Native.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
+							native.BarTintColor = null;
+							native.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
 							// We make sure a transparent bar doesn't cast a shadow.
-							Native.ShadowImage = new UIImage(); // Removes the default 1px line
-							Native.Translucent = true;
+							native.ShadowImage = new UIImage(); // Removes the default 1px line
+							native.Translucent = true;
 						}
 						break;
 					default: //Background is null
@@ -138,10 +139,10 @@ namespace Uno.Toolkit.UI
 						}
 						else
 						{
-							Native!.BarTintColor = null;
-							Native.SetBackgroundImage(null, UIBarMetrics.Default); // Restores the default blurry background
-							Native.ShadowImage = null; // Restores the default 1px line
-							Native.Translucent = true;
+							native.BarTintColor = null;
+							native.SetBackgroundImage(null, UIBarMetrics.Default); // Restores the default blurry background
+							native.ShadowImage = null; // Restores the default 1px line
+							native.Translucent = true;
 						}
 						break;
 				}
@@ -155,10 +156,10 @@ namespace Uno.Toolkit.UI
 				}
 				else
 				{
-					Native!.BarTintColor = null;
-					Native.SetBackgroundImage(null, UIBarMetrics.Default); // Restores the default blurry background
-					Native.ShadowImage = null; // Restores the default 1px line
-					Native.Translucent = true;
+					native.BarTintColor = null;
+					native.SetBackgroundImage(null, UIBarMetrics.Default); // Restores the default blurry background
+					native.ShadowImage = null; // Restores the default 1px line
+					native.Translucent = true;
 				}
 			}
 
@@ -179,7 +180,7 @@ namespace Uno.Toolkit.UI
 				}
 				else
 				{
-					Native!.TitleTextAttributes = new UIStringAttributes
+					native.TitleTextAttributes = new UIStringAttributes
 					{
 						ForegroundColor = foregroundColor,
 					};
@@ -194,7 +195,7 @@ namespace Uno.Toolkit.UI
 				}
 				else
 				{
-					Native!.TitleTextAttributes = null!;
+					native.TitleTextAttributes = null!;
 				}
 			}
 
@@ -207,7 +208,7 @@ namespace Uno.Toolkit.UI
 				&& mainCommand.ReadLocalValue(AppBarButton.ForegroundProperty) != DependencyProperty.UnsetValue
 				&& ColorHelper.TryGetColorWithOpacity(mainCommand.Foreground, out var mainCommandForeground))
 			{
-				Native!.TintColor = mainForeground = mainCommandForeground;
+				native.TintColor = mainForeground = mainCommandForeground;
 			}
 
 			// MainCommand.Icon
@@ -251,8 +252,8 @@ namespace Uno.Toolkit.UI
 			}
 			else
 			{
-				Native!.BackIndicatorImage = mainCommandIcon;
-				Native.BackIndicatorTransitionMaskImage = mainCommandIcon;
+				native.BackIndicatorImage = mainCommandIcon;
+				native.BackIndicatorTransitionMaskImage = mainCommandIcon;
 			}
 
 			// Remove 1px "shadow" line from the bottom of UINavigationBar
@@ -262,15 +263,15 @@ namespace Uno.Toolkit.UI
 				appearance.ShadowColor = UIColor.Clear;
 			}
 
-			Native!.CompactAppearance = appearance;
-			Native.StandardAppearance = appearance;
-			Native.ScrollEdgeAppearance = appearance;
+			native.CompactAppearance = appearance;
+			native.StandardAppearance = appearance;
+			native.ScrollEdgeAppearance = appearance;
 		}
 
 		private void ApplyVisibility()
 		{
 			var newHidden = Element?.Visibility == Visibility.Collapsed;
-			var hasChanged = Native!.Hidden != newHidden;
+			var hasChanged = Native.Hidden != newHidden;
 			Native.Hidden = newHidden;
 			if (hasChanged)
 			{

@@ -93,7 +93,7 @@ namespace Uno.Toolkit.UI
 				new[] { AppBarButton.IsInOverflowProperty }
 			);
 
-			Native!.Clicked += OnNativeClicked;
+			Native.Clicked += OnNativeClicked;
 			yield return Disposable.Create(() => { Native.Clicked -= OnNativeClicked; });
 		}
 

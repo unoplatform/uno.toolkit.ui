@@ -199,6 +199,14 @@ namespace Uno.Toolkit.UI
 			UpdateIsOpen(IsOpen, animate: false);
 		}
 
+		private void OnIsGestureEnabledChanged(DependencyPropertyChangedEventArgs e)
+		{
+			if (_gestureInterceptor is not null)
+			{
+				_gestureInterceptor.IsHitTestVisible = IsGestureEnabled && !IsOpen;
+			}
+		}
+
 		private void OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
 			if (!ShouldHandleManipulationFrom(e.OriginalSource)) return;
@@ -497,8 +505,8 @@ namespace Uno.Toolkit.UI
 
 		private void ResetOtherAxisTranslateOffset()
 		{
-            // TODO: Revise null suppressions.
-            if (IsOpenDirectionHorizontal())
+			// TODO: Revise null suppressions.
+			if (IsOpenDirectionHorizontal())
 			{
 				_drawerContentPresenterTransform!.Y = 0;
 			}
@@ -523,13 +531,13 @@ namespace Uno.Toolkit.UI
 		private bool ShouldHandleManipulationFrom(object source)
 		{
 #pragma warning disable CS0252 // CS0252: Possible unintended reference comparison
-            return source == this
+			return source == this
 				|| source == _gestureInterceptor
 				|| source == _lightDismissOverlay;
 #pragma warning restore CS0252
-        }
+		}
 
-        private bool IsInRangeForOpeningEdgeSwipe(Point p)
+		private bool IsInRangeForOpeningEdgeSwipe(Point p)
 		{
 			if (EdgeSwipeDetectionLength is double limit)
 			{
