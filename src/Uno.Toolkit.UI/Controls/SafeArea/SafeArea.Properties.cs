@@ -61,14 +61,14 @@ namespace Uno.Toolkit.UI
 		#endregion
 
 		#region SafeAreaOverride (Attached DP)
-		internal static DependencyProperty SafeAreaOverrideProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty SafeAreaOverrideProperty { get; } = DependencyProperty.RegisterAttached(
 			"SafeAreaOverride",
 			typeof(Thickness?),
 			typeof(SafeArea),
 			new PropertyMetadata(default, OnSafeAreaOverrideChanged));
 
-		internal static Thickness? GetSafeAreaOverride(DependencyObject obj) => (Thickness?)obj.GetValue(SafeAreaOverrideProperty);
-		internal static void SetSafeAreaOverride(DependencyObject obj, Thickness? value) => obj.SetValue(SafeAreaOverrideProperty, value);
+		public static Thickness? GetSafeAreaOverride(DependencyObject obj) => (Thickness?)obj.GetValue(SafeAreaOverrideProperty);
+		public static void SetSafeAreaOverride(DependencyObject obj, Thickness? value) => obj.SetValue(SafeAreaOverrideProperty, value);
 		#endregion
 	}
 }
