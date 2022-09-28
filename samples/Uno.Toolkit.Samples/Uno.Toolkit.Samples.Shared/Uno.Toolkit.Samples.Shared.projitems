@@ -50,6 +50,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarItemExtensionsSamplePage.xaml.cs">
       <DependentUpon>TabBarItemExtensionsSamplePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\VisualStateManagerExtensionsSamplePage.xaml.cs">
+      <DependentUpon>VisualStateManagerExtensionsSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Helpers\BindingExtensionsSamplePage.xaml.cs">
       <DependentUpon>BindingExtensionsSamplePage.xaml</DependentUpon>
     </Compile>
@@ -227,6 +230,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarItemExtensionsSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\VisualStateManagerExtensionsSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

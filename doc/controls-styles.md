@@ -18,6 +18,10 @@ The `Uno.Toolkit.UI` library adds the following helper classes:
 - [`InputExtensions`](helpers\input-extensions.md): Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
 - [`StatusBar`](helpers\StatusBar-extensions.md): Provides two attached properties on `Page` to controls the visual of the status bar on mobile platforms.
 - [`TabBarItemExtensions`](helpers\TabBarItem-extensions.md): Provides additional features for `TabBarItem`.
+- [`VisualStateManagerExtensions`](helpers\VisualStateManager-extensions.md): Provides a way of manipulating the visual states of Control with attached property.
+
+
+Exposes visual states as attachable properties that lets you bind a string on a `Control` to set its `VisualState`s.
 
 ## Control Styles
 Control|Style Key|IsDefaultStyle*

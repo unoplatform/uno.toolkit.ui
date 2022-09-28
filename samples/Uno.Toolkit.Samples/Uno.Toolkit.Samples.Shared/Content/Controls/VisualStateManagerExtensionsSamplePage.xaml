@@ -1,0 +1,142 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.VisualStateExtensionsSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<sample:SamplePageLayout IsDesignAgnostic="True">
+		<sample:SamplePageLayout.DesignAgnosticTemplate>
+			<DataTemplate>
+				<UserControl DataContext="{Binding Data}"
+							 utu:VisualStateManagerExtensions.OverrideStates="{Binding PageState}"
+							 Margin="0,16,0,0">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" MinHeight="500" />
+						</Grid.RowDefinitions>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="PageStates">
+								<VisualStateGroup.Transitions>
+									<VisualTransition From="Red" To="Green">
+										<Storyboard>
+											<ColorAnimation Storyboard.TargetName="SUT_BackgroundBorder"
+															Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+															From="Red"
+															To="Green"
+															Duration="00:00:00.333" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="Red" To="Blue">
+										<Storyboard>
+											<ColorAnimation Storyboard.TargetName="SUT_BackgroundBorder"
+															Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+															From="Red"
+															To="Blue"
+															Duration="00:00:00.333" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="Green" To="Red">
+										<Storyboard>
+											<ColorAnimation Storyboard.TargetName="SUT_BackgroundBorder"
+															Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+															From="Green"
+															To="Red"
+															Duration="00:00:00.333" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="Green" To="Blue">
+										<Storyboard>
+											<ColorAnimation Storyboard.TargetName="SUT_BackgroundBorder"
+															Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+															From="Green"
+															To="Blue"
+															Duration="00:00:00.333" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="Blue" To="Red">
+										<Storyboard>
+											<ColorAnimation Storyboard.TargetName="SUT_BackgroundBorder"
+															Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+															From="Blue"
+															To="Red"
+															Duration="00:00:00.333" />
+										</Storyboard>
+									</VisualTransition>
+									<VisualTransition From="Blue" To="Green">
+										<Storyboard>
+											<ColorAnimation Storyboard.TargetName="SUT_BackgroundBorder"
+															Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+															From="Blue"
+															To="Green"
+															Duration="00:00:00.333" />
+										</Storyboard>
+									</VisualTransition>
+								</VisualStateGroup.Transitions>
+
+								<VisualState x:Name="Red">
+									<VisualState.Setters>
+										<Setter Target="SUT_BackgroundBorder.Background" Value="Red" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Green">
+									<VisualState.Setters>
+										<Setter Target="SUT_BackgroundBorder.Background" Value="Green" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Blue">
+									<VisualState.Setters>
+										<Setter Target="SUT_BackgroundBorder.Background" Value="Blue" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
+						<Button x:Name="RedButton"
+								AutomationProperties.AutomationId="RedButton"
+								Grid.Row="0"
+								Grid.Column="0"
+								Content="Red"
+								Command="{Binding ChangePageStateCommand}"
+								CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+								CornerRadius="0"
+								HorizontalAlignment="Stretch" />
+						<Button x:Name="GreenButton"
+								AutomationProperties.AutomationId="GreenButton"
+								Grid.Row="0"
+								Grid.Column="1"
+								Content="Green"
+								Command="{Binding ChangePageStateCommand}"
+								CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+								CornerRadius="0"
+								HorizontalAlignment="Stretch" />
+						<Button x:Name="BlueButton"
+								AutomationProperties.AutomationId="BlueButton"
+								Grid.Row="0"
+								Grid.Column="2"
+								Content="Blue"
+								Command="{Binding ChangePageStateCommand}"
+								CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+								CornerRadius="0"
+								HorizontalAlignment="Stretch" />
+
+						<Border x:Name="SUT_BackgroundBorder"
+								AutomationProperties.AutomationId="SUT_BackgroundBorder"
+								Grid.Row="1"
+								Grid.ColumnSpan="3" />
+					</Grid>
+				</UserControl>
+			</DataTemplate>
+		</sample:SamplePageLayout.DesignAgnosticTemplate>
+	</sample:SamplePageLayout>
+</Page>

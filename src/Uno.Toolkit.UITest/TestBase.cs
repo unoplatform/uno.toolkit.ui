@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -18,6 +19,9 @@ namespace Uno.Toolkit.UITest
 	[TestFixture]
 	public abstract class TestBase
 	{
+		/// <summary>
+		/// The <c>SamplePageAttribute.Title</c> of sample page to test.
+		/// </summary>
 		protected abstract string SampleName { get; }
 
 		private IApp _app;
@@ -145,10 +149,7 @@ namespace Uno.Toolkit.UITest
 				throw new InvalidOperationException("App must be set before test code runs");
 			}
 
-			var title = $"{TestContext.CurrentContext.Test.Name}_{stepName}"
-				.Replace(" ", "_")
-				.Replace(".", "_");
-
+			var title = Regex.Replace($"{TestContext.CurrentContext.Test.Name}_{stepName}", "[^A-z0-9]", "_");
 			var fileInfo = GetNativeScreenshot(title);
 
 			var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileInfo.Name);
