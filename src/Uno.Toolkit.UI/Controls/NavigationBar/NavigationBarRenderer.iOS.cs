@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UIKit;
 using Uno.Disposables;
 using Uno.Extensions;
+using Uno.Toolkit.UI.Helpers;
 using Windows.Foundation;
 
 #if IS_WINUI
@@ -227,9 +228,7 @@ namespace Uno.Toolkit.UI
 						ForegroundColor = foreground
 					};
 
-					var attributes = new NSDictionary<NSString, NSObject>(
-						new NSString[] { (titleTextAttributes.Dictionary.Keys[0] as NSString)! }, titleTextAttributes.Dictionary.Values
-					);
+					var attributes = titleTextAttributes.Dictionary.ToNSDictionary<NSString, NSObject>();
 
 					backButtonAppearance.Normal.TitleTextAttributes = attributes;
 					backButtonAppearance.Highlighted.TitleTextAttributes = attributes;

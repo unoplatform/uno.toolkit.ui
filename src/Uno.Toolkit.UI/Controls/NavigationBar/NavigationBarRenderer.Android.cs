@@ -83,8 +83,8 @@ namespace Uno.Toolkit.UI
 		protected override IEnumerable<IDisposable> Initialize()
 		{
 			var native = Native;
-			_originalBackground = native?.Background;
-			_originalTitleTextColor = native?.GetTitleTextColor();
+			_originalBackground = native.Background;
+			_originalTitleTextColor = native.GetTitleTextColor();
 
 			// Content
 			// This allows custom Content to be properly laid out inside the native Toolbar.
@@ -107,7 +107,7 @@ namespace Uno.Toolkit.UI
 			_contentContainer.SetParent(Element);
 			_contentContainer.ViewAttachedToWindow += OnContentAttachedToWindow;
 
-			native!.AddView(_contentContainer);
+			native.AddView(_contentContainer);
 
 			yield return Disposable.Create(() => _contentContainer.ViewAttachedToWindow -= OnContentAttachedToWindow);
 			yield return Disposable.Create(() => native.RemoveView(_contentContainer));
@@ -194,7 +194,7 @@ namespace Uno.Toolkit.UI
 
 			// Content
 			var content = element.Content;
-			native!.Title = content as string;
+			native.Title = content as string;
 			_contentContainer.Child = content as UIElement;
 			_contentContainer.VerticalAlignment = element.VerticalContentAlignment;
 			_contentContainer.HorizontalAlignment = element.HorizontalContentAlignment;

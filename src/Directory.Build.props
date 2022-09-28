@@ -23,10 +23,10 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<!-- NU5048: The 'PackageIconUrl'/'iconUrl' element is deprecated. Consider using the 'PackageIcon'/'icon' element instead. Learn more at https://aka.ms/deprecateIconUrl -->
 		<NoWarn>$(NoWarn);NU5048</NoWarn>
-    <!-- Uno0001: Uno type or member is not implemented -->
-    <NoWarn>$(NoWarn);Uno0001</NoWarn>
-    <!-- This should be enabled back once https://github.com/microsoft/microsoft-ui-xaml/issues/4187 is fixed. -->
-    <NoWarn>$(NoWarn);CS8305</NoWarn>
+		<!-- Uno0001: Uno type or member is not implemented -->
+		<NoWarn>$(NoWarn);Uno0001</NoWarn>
+		<!-- This should be enabled back once https://github.com/microsoft/microsoft-ui-xaml/issues/4187 is fixed. -->
+		<NoWarn>$(NoWarn);CS8305</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup>

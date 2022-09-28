@@ -1,4 +1,4 @@
-﻿#if __IOS__
+﻿#if __IOS__ || true
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using UIKit;
 using Uno.Disposables;
 using System.Diagnostics;
 
-#if IS_WINUI
+#if IS_WINUI || true
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;

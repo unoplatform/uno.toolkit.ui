@@ -49,10 +49,6 @@
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Compile Include="..\Uno.Toolkit.Helpers\NullableAttributes.cs" Link="Uno.Toolkit.Helpers\NullableAttributes.cs" />
-	</ItemGroup>
-
 	<Import Project="..\winappsdk-workaround.targets" />
 
 </Project>

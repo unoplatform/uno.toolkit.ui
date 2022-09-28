@@ -92,7 +92,7 @@ namespace Uno.Toolkit.UI
 		private static async Task ScrollIntoViewAsync(this ListViewBase listViewBase, object item)
 		{
 			var tcs = new TaskCompletionSource<object>();
-			var scrollViewer = listViewBase.GetFirstDescendant<ScrollViewer>()!;
+			var scrollViewer = listViewBase.GetFirstDescendant<ScrollViewer>() ?? throw new InvalidOperationException("Cannot find a ScrollViewer descendant of ListViewBase.");
 
 			EventHandler<ScrollViewerViewChangedEventArgs> viewChanged = (s, e) => tcs.TrySetResult(default!);
 
