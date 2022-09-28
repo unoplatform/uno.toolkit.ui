@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,6 +64,9 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		// The property is annotated non-nullable because its getter cannot return null.
+		// However, it can be set to null, so we add AllowNull attribute.
+		[AllowNull]
 		public TNative Native
 		{
 			get
