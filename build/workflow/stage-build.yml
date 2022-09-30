@@ -31,4 +31,6 @@ steps:
     condition: always()
     displayName: 'Publish artifact'
     inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
       ArtifactName: $(ArtifactName)
+      ArtifactType: Container

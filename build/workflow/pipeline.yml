@@ -64,11 +64,11 @@ jobs:
         GeneratePackageOnBuild: false
       Packages:
         ApplicationPlatform: Packages
-        ArtifactName: Packages
+        ArtifactName: uno-ui-toolkit-drop
         GeneratePackageOnBuild: true
       Packages_WinUI:
         ApplicationPlatform: Packages_WinUI
-        ArtifactName: Packages
+        ArtifactName: uno-ui-toolkit-drop
         GeneratePackageOnBuild: true
   pool:
     vmImage: windows-2022
