@@ -26,7 +26,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:NavigationBar">
 					<utu:NavigationBarPresenter x:Name="NavigationBarPresenter"
-												NavigationBarContent="{TemplateBinding Content}"/>
+												Content="{TemplateBinding Content}"/>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -37,7 +37,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:NavigationBarPresenter">
 					<CommandBar x:Name="XamlNavigationBarCommandBar"
-								Content="{TemplateBinding NavigationBarContent}"
+								Content="{TemplateBinding Content}"
 								Style="{StaticResource NavigationBarCommandBar}" />
 				</ControlTemplate>
 			</Setter.Value>

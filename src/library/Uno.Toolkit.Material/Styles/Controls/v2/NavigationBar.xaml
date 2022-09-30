@@ -81,7 +81,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:NavigationBarPresenter">
 					<CommandBar x:Name="XamlNavigationBarCommandBar"
-								Content="{TemplateBinding NavigationBarContent}"
+								Content="{TemplateBinding Content}"
 								Style="{StaticResource MaterialNavigationBarCommandBar}" />
 				</ControlTemplate>
 			</Setter.Value>
@@ -540,7 +540,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:NavigationBarPresenter">
 					<CommandBar x:Name="XamlNavigationBarCommandBar"
-								Content="{TemplateBinding NavigationBarContent}"
+								Content="{TemplateBinding Content}"
 								Style="{StaticResource MaterialPrimaryNavigationBarCommandBar}" />
 				</ControlTemplate>
 			</Setter.Value>
@@ -1055,14 +1055,14 @@
 	<ControlTemplate x:Key="XamlMaterialNavigationBarTemplate"
 					 TargetType="utu:NavigationBar">
 		<utu:NavigationBarPresenter Style="{StaticResource MaterialNavigationBarPresenter}"
-									NavigationBarContent="{TemplateBinding Content}"
+									Content="{TemplateBinding Content}"
 									x:Name="NavigationBarPresenter" />
 	</ControlTemplate>
 
 	<ControlTemplate x:Key="XamlMaterialPrimaryNavigationBarTemplate"
 					 TargetType="utu:NavigationBar">
 		<utu:NavigationBarPresenter Style="{StaticResource MaterialPrimaryNavigationBarPresenter}"
-									NavigationBarContent="{TemplateBinding Content}"
+									Content="{TemplateBinding Content}"
 									x:Name="NavigationBarPresenter" />
 	</ControlTemplate>
 </ResourceDictionary>

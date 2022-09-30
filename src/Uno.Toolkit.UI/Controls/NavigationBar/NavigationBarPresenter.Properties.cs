@@ -9,8 +9,8 @@ namespace Uno.Toolkit.UI
 	partial class NavigationBarPresenter
 	{
 		
-		public static DependencyProperty NavigationBarContentProperty { get; } = DependencyProperty.Register(
-			nameof(NavigationBarContent),
+		public static DependencyProperty ContentProperty { get; } = DependencyProperty.Register(
+			nameof(Content),
 			typeof(object),
 			typeof(NavigationBarPresenter),
 			new PropertyMetadata(default));
@@ -18,10 +18,10 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Gets or sets the NavigationBar Content
 		/// </summary>
-		public object NavigationBarContent
+		public object Content
 		{
-			get => GetValue(NavigationBarContentProperty);
-			set => SetValue(NavigationBarContentProperty, value);
+			get => GetValue(ContentProperty);
+			set => SetValue(ContentProperty, value);
 		}
 
 	}

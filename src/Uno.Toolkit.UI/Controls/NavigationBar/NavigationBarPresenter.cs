@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.UI
 {
-	public partial class NavigationBarPresenter : ContentControl, INavigationBarPresenter
+	public partial class NavigationBarPresenter : Control, INavigationBarPresenter
 	{
 		private const string XamlNavigationBarCommandBar = "XamlNavigationBarCommandBar";
 
