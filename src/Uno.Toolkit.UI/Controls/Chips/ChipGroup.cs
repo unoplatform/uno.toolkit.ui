@@ -60,21 +60,20 @@ namespace Uno.Toolkit.UI
 
 		private void ApplyIconTemplate()
 		{
-			if (IconTemplate != null)
+			var itemTemplate = IconTemplate;
+			foreach (var container in GetItemContainers())
 			{
-				foreach (var container in GetItemContainers())
-				{
-					container.Icon = container.Content;
-					container.IconTemplate = IconTemplate;
-				}
+				container.Icon = itemTemplate != null ? container.Content : null;
+				container.IconTemplate = itemTemplate;
 			}
 		}
 
 		private void ApplyCanRemoveProperty()
 		{
+			var canRemove = CanRemove;
 			foreach (var container in GetItemContainers())
 			{
-				container.CanRemove = CanRemove;
+				container.CanRemove = canRemove;
 			}
 		}
 
