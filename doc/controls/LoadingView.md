@@ -1,14 +1,14 @@
 # LoadingView
-Represents a control that indicates that the UI is waiting on a task to complete.
+Represents a control that displays a loading indicator when waiting on a task to complete.
 
 ## Properties
 Property|Type|Description
 -|-|-
 Source|ILoadable|Gets and sets the source `ILoadable` associated with this control.
-LoadingContent|object|Gets or sets the content to be displayed during loading/waiting.
+LoadingContent|object|Gets or sets the content of the loading indicator.
 
 ## ILoadable
-Describes if this instance is currently in a busy state and notifies subscribers that said state when has changed.
+Describes if the current instance is currently in a loading state and notifies its subscribers of when that said state has changed.
 
 ### Members
 Property|Type|Description
