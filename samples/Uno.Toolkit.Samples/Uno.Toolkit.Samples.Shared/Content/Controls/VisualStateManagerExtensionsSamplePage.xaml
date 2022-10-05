@@ -12,7 +12,7 @@
 		<sample:SamplePageLayout.DesignAgnosticTemplate>
 			<DataTemplate>
 				<UserControl DataContext="{Binding Data}"
-							 utu:VisualStateManagerExtensions.OverrideStates="{Binding PageState}"
+							 utu:VisualStateManagerExtensions.States="{Binding PageState}"
 							 Margin="0,16,0,0">
 					<Grid>
 						<Grid.ColumnDefinitions>

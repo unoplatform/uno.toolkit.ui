@@ -26,23 +26,23 @@ namespace Uno.Toolkit.UI;
 /// <remarks>
 /// <seealso cref="VisualStateManager.GoToState"/> is typically used with <see cref="Control"/>
 /// where you would set <see cref="VisualStateManager.VisualStateGroupsProperty"/> on the root element of the ControlTemplate.
-/// Because this class directly calls that method, it means that if you are setting <see cref="OverrideStatesProperty"/> on an element,
+/// Because this class directly calls that method, it means that if you are setting <see cref="StatesProperty"/> on an element,
 /// the <see cref="VisualStateManager.VisualStateGroupsProperty"/> should not be set on the very same element, but its first child.
 /// </remarks>
 public static class VisualStateManagerExtensions
 {
 	private static readonly ILogger Logger = typeof(VisualStateManagerExtensions).Log();
 
-	#region DependencyProperty: OverrideStates
+	#region DependencyProperty: States
 
 	/// <summary>
-	/// Identifies the OverrideStates dependency property.
+	/// Identifies the States dependency property.
 	/// </summary>
-	public static DependencyProperty OverrideStatesProperty { get; } = DependencyProperty.RegisterAttached(
-		"OverrideStates",
+	public static DependencyProperty StatesProperty { get; } = DependencyProperty.RegisterAttached(
+		"States",
 		typeof(string),
 		typeof(VisualStateManagerExtensions),
-		new PropertyMetadata(default(string), OnOverrideStatesChanged));
+		new PropertyMetadata(default(string), OnStatesChanged));
 
 	// We need to include both a Set{PropertyName} and a Get{PropertyName} method for attached properties on Windows.
 	// Otherwise, you may end up with errors such as "System.Void should not be used in C#"
@@ -53,7 +53,7 @@ public static class VisualStateManagerExtensions
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <param name="value">A space, comma or semi-colon separated list of visual state names</param>
-	public static void SetOverrideStates(Control obj, string value) => obj.SetValue(OverrideStatesProperty, value);
+	public static void SetStates(Control obj, string value) => obj.SetValue(StatesProperty, value);
 
 	
 	/// <summary>
@@ -64,7 +64,7 @@ public static class VisualStateManagerExtensions
 
 	#endregion
 
-	private static void OnOverrideStatesChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+	private static void OnStatesChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 	{
 		if (sender is Control control && e.NewValue is string { Length: >0 } value)
 		{

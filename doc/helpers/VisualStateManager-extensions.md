@@ -2,9 +2,9 @@
 Provides a way of manipulating the visual states of `Control` with attached property.
 
 ## Remarks
-`VisualStateManager.GoToState` is typically used with `Control` where you would set `<VisualStateManager.VisualStateGroups>` on the root element of the ControlTemplate. Because this class is implemented using the same method, it means that if you are setting `OverrideStatesProperty` on an element, the `VisualStateManager.VisualStateGroups` should not be set on the very same element, but its first child:
+`VisualStateManager.GoToState` is typically used with `Control` where you would set `<VisualStateManager.VisualStateGroups>` on the root element of the ControlTemplate. Because this class is implemented using the same method, it means that if you are setting `StatesProperty` on an element, the `VisualStateManager.VisualStateGroups` should not be set on the very same element, but its first child:
 ```xml
-<Page utu:VisualStateManagerExtensions.OverrideStates="{Binding OnboardingState}">
+<Page utu:VisualStateManagerExtensions.States="{Binding OnboardingState}">
     <!-- Wrong -->
     <VisualStateManager.VisualStateGroups>...
 
@@ -17,9 +17,9 @@ This "first child" is more common known as the template root within the context 
 ## Properties
 Property|Type|Description
 -|-|-
-OverrideStates|string|Sets the visual states of the control.\*
+States|string|Sets the visual states of the control.\*
 
-OverrideStates\*: The accepted value can be a space, comma or semi-colon separated list of visual state names. eg:
+States\*: The accepted value can be a space, comma or semi-colon separated list of visual state names. eg:
   - "LoggedIn": just a single state
   - "LoggedIn, OnMeteredNetwork": two concurrent states from different visual state groups
   - "Pressed, Selected, PressedSelected": with a combined state
@@ -29,7 +29,7 @@ OverrideStates\*: The accepted value can be a space, comma or semi-colon separat
 ```xml
 <Page ...
       xmlns:utu="using:Uno.Toolkit.UI"
-      utu:VisualStateManagerExtensions.OverrideStates="{Binding PageState}">
+      utu:VisualStateManagerExtensions.States="{Binding PageState}">
     <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*,*">
 
         <VisualStateManager.VisualStateGroups>
