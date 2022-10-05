@@ -41,6 +41,8 @@ using XamlLaunchActivatedEventArgs = Windows.ApplicationModel.Activation.LaunchA
 using XamlWindow = Windows.UI.Xaml.Window;
 using Page = Windows.UI.Xaml.Controls.Page;
 using Uno.Extensions;
+using Uno.Toolkit.UI;
+using System.Threading.Tasks;
 #endif
 
 namespace Uno.Toolkit.Samples
@@ -83,7 +85,7 @@ namespace Uno.Toolkit.Samples
 		/// will be used such as when the application is launched to open a specific file.
 		/// </summary>
 		/// <param name="e">Details about the launch request and process.</param>
-		protected override void OnLaunched(XamlLaunchActivatedEventArgs e)
+		protected override async void OnLaunched(XamlLaunchActivatedEventArgs e)
 		{
 #if __IOS__ && !NET6_0 && USE_UITESTS
 			Xamarin.Calabash.Start();
@@ -100,13 +102,33 @@ namespace Uno.Toolkit.Samples
 			_window = XamlWindow.Current;
 #endif
 
-			if (!(_window.Content is Shell))
+			if(_window.Content is null)
 			{
-				_window.Content = _shell = BuildShell();
+				var loadable = new ManualLoadable { IsExecuting=true};
+				var splash = new ExtendedSplashScreen { SplashScreen = e.SplashScreen, Source=loadable };
+				_window.Content = splash;
+				// Ensure the current window is active
+				_window.Activate();
+				await Task.Yield();
+
+				splash.Content = _shell = BuildShell();
+				loadable.IsExecuting = false;
 			}
 
-			// Ensure the current window is active
-			_window.Activate();
+		}
+
+		private class ManualLoadable : ILoadable
+		{
+			private bool isExecuting;
+
+			public bool IsExecuting {
+				get => isExecuting;
+				set { isExecuting = value;
+					IsExecutingChanged?.Invoke(this, EventArgs.Empty);
+				}
+			}
+
+			public event EventHandler IsExecutingChanged;
 		}
 
 		/// <summary>
