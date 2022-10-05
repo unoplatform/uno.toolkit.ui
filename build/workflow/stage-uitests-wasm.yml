@@ -3,6 +3,16 @@
   displayName: 'WebAssembly UI Tests'
   container: unoplatform/wasm-build:3.0
 
+  strategy:
+    maxParallel: 2
+    matrix:
+      UWP:
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
+        XAML_FLAVOR_BUILD: UWP
+      WinUI:
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        XAML_FLAVOR_BUILD: WinUI
+
   pool:
     vmImage: 'ubuntu-20.04'
 
@@ -40,6 +50,7 @@
     env:
       BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
       BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
+      SAMPLE_PROJECT_NAME: "$(SAMPLE_PROJECT_NAME)"
     retryCountOnTaskFailure: 3
     displayName: 'Running build'
 
@@ -47,7 +58,7 @@
     condition: always()
     retryCountOnTaskFailure: 3
     inputs:
-      testRunTitle: 'WebAssembly Test Run'
+      testRunTitle: 'WebAssembly UI Test Run ($(XAML_FLAVOR_BUILD))'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult-original.xml'
       failTaskOnFailedTests: true
@@ -56,7 +67,7 @@
   - task: CopyFiles@2
     displayName: Copy Wasm output
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.Wasm/bin/Release/net5.0/dist
+      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/bin/Release/net5.0/dist
       Contents: '**/*.*'
       TargetFolder: $(Build.ArtifactStagingDirectory)/screenshots/wasm
       CleanTargetFolder: false
@@ -68,5 +79,5 @@
     condition: always()
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: uno-uitest-tests
+      ArtifactName: uno-uitest-tests-$(XAML_FLAVOR_BUILD)
       ArtifactType: Container

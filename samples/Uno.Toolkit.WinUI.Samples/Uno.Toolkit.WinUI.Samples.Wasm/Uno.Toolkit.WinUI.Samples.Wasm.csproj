@@ -12,18 +12,24 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-    <PropertyGroup>
+  <PropertyGroup>
     <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
+     <IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
+     <DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
-    <UpToDateCheckInput Include="..\Uno.Toolkit.WinUI.Samples.Shared\**\*.xaml" />
+    <UpToDateCheckInput Include="..\Uno.Toolkit.Samples.Shared\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WasmCSS\Fonts.css" />
-    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
+    <EmbeddedResource Include="WasmCSS\**\*.css" />
+    <EmbeddedResource Include="WasmScripts\**\*.js" />
+    <UpToDateCheckInput Include="WasmCSS\**\*" />
+    <UpToDateCheckInput Include="WasmScripts\**\*" />
   </ItemGroup>
   <ItemGroup>
     <LinkerDescriptor Include="LinkerConfig.xml" />

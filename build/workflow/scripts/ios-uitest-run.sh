@@ -4,10 +4,10 @@ IFS=$'\n\t'
 
 export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/ios
 export UNO_UITEST_PLATFORM=iOS
-export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.iOS/bin/iPhoneSimulator/Release/Uno.Toolkit.Samples.app
+export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.iOS/bin/iPhoneSimulator/Release/$SAMPLE_PROJECT_NAME.app
 export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/Uno.Toolkit.UITest.csproj
 export UNO_UITEST_LOGFILE=$BUILD_ARTIFACTSTAGINGDIRECTORY/screenshots/ios/nunit-log.txt
-export UNO_UITEST_IOS_PROJECT=$BUILD_SOURCESDIRECTORY/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.iOS/Uno.Toolkit.Samples.iOS.csproj
+export UNO_UITEST_IOS_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.iOS/$SAMPLE_PROJECT_NAME.iOS.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/bin/Uno.Toolkit.UITest/Release/Uno.Toolkit.UITest.dll
 export UNO_UITEST_NUNIT_VERSION=3.12.0
 export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe

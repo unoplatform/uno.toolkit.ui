@@ -62,7 +62,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 			AssertBorderColors(initial_screenshot, nonetestRect, new[] { Black, Black, Black, Black }, name: nameof(nonetestRect));
 
 			textBox.FastTap();
-			; App.Wait(TimeSpan.FromSeconds(1)); // allow keyboard to fully open
+			App.Wait(TimeSpan.FromSeconds(1)); // allow keyboard to fully open
 
 			using var keyboard_open_screenshot = TakeScreenshot($"SafeArea_SoftInput_Open_Keyboard");
 
