@@ -33,6 +33,7 @@ namespace Uno.Toolkit.UI
 				"DrawerControl/DrawerControl.Enhanced.xaml",
 				"DrawerFlyout/DrawerFlyoutPresenter.xaml",
 				"LoadingView/LoadingView.xaml",
+				"ExtendedSplashScreen/ExtendedSplashScreen.xaml",
 #if __IOS__ || __ANDROID__
 				"NavigationBar/NavigationBar.Native.xaml",
 #else
