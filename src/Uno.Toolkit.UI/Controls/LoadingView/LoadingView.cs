@@ -18,11 +18,14 @@ namespace Uno.Toolkit.UI
 	/// <summary>
 	/// Represents a control that indicates that the UI is waiting on a task to complete.
 	/// </summary>
+	[TemplateVisualState(GroupName = VisualStateNames.GroupName, Name = VisualStateNames.Loading)]
+	[TemplateVisualState(GroupName = VisualStateNames.GroupName, Name = VisualStateNames.Loaded)]
 	public partial class LoadingView : ContentControl
 	{
 		private class VisualStateNames
 		{
 			// LoadingStates
+			public const string GroupName = "LoadingStates";
 			public const string Loading = nameof(Loading);
 			public const string Loaded = nameof(Loaded);
 		}
