@@ -33,6 +33,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+#pragma warning disable CA1416 // see https://github.com/xamarin/xamarin-macios/issues/16250
 		private static (UIWindow[] Windows, CGRect StatusBarFrame) GetWindowsAndStatusBarFrame()
 		{
 			if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
@@ -53,6 +54,7 @@ namespace Uno.Toolkit.UI
 				return (UIApplication.SharedApplication.Windows, UIApplication.SharedApplication.StatusBarFrame);
 			}
 		}
+#pragma warning restore CA1416
 	}
 }
 #endif
