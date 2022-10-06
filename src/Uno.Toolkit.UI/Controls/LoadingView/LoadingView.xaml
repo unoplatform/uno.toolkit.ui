@@ -44,6 +44,7 @@
 						<ContentControl x:Name="LoadingContentPresenter"
 										Content="{TemplateBinding LoadingContent}"
                                         ContentTemplate="{TemplateBinding LoadingContentTemplate}"
+										ContentTemplateSelector="{TemplateBinding LoadingContentTemplateSelector}"
                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										HorizontalContentAlignment="Stretch"
 										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
