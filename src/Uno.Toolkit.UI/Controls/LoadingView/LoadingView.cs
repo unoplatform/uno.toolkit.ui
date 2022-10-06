@@ -86,6 +86,25 @@ namespace Uno.Toolkit.UI
 
 		#endregion
 
+		#region DependencyProperty: LoadingContentTemplate
+
+		public static DependencyProperty LoadingContentTemplateSelectorProperty { get; } = DependencyProperty.Register(
+			nameof(LoadingContentTemplateSelector),
+			typeof(DataTemplateSelector),
+			typeof(LoadingView),
+			new PropertyMetadata(default(object)));
+
+		/// <summary>
+		/// Gets or sets the content template to be used when displayin LoadingContent during loading/waiting.
+		/// </summary>
+		public DataTemplateSelector LoadingContentTemplateSelector
+		{
+			get => (DataTemplateSelector)GetValue(LoadingContentTemplateSelectorProperty);
+			set => SetValue(LoadingContentTemplateSelectorProperty, value);
+		}
+
+		#endregion
+
 		private readonly SerialDisposable _subscription = new();
 		private bool _isReady;
 

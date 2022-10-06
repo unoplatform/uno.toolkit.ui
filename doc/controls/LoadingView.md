@@ -7,6 +7,7 @@ Property|Type|Description
 Source|ILoadable|Gets and sets the source `ILoadable` associated with this control.
 LoadingContent|object|Gets or sets the content to be displayed during loading/waiting.
 LoadingContentTemplate|DataTemplate|Gets or sets the template to be used to display the LoadingContent during loading/waiting.
+LoadingContentTemplateSelector|DataTemplateSelector|Gets or sets the template selector to be used to display the LoadingContent during loading/waiting.
 
 ## ILoadable
 Describes if this instance is currently in a busy state and notifies subscribers that said state when has changed.
