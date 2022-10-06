@@ -55,12 +55,12 @@ public static class VisualStateManagerExtensions
 	/// <param name="value">A space, comma or semi-colon separated list of visual state names</param>
 	public static void SetStates(Control obj, string value) => obj.SetValue(StatesProperty, value);
 
-	
+
 	/// <summary>
-	/// Gets the overridden visual states of the control.
+	/// Gets the visual states of the control.
 	/// </summary>
 	/// <param name="obj"></param>
-	public static string GetOverrideStates(Control obj) => (string)obj.GetValue(OverrideStatesProperty);
+	public static string GetStates(Control obj) => (string)obj.GetValue(StatesProperty);
 
 	#endregion
 
