@@ -78,9 +78,9 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Gets or sets the content template to be used when displayin LoadingContent during loading/waiting.
 		/// </summary>
-		public object LoadingContentTemplate
+		public DataTemplate LoadingContentTemplate
 		{
-			get => (object)GetValue(LoadingContentTemplateProperty);
+			get => (DataTemplate)GetValue(LoadingContentTemplateProperty);
 			set => SetValue(LoadingContentTemplateProperty, value);
 		}
 
