@@ -66,7 +66,6 @@ namespace Uno.Toolkit.UI
 		}
 
 		#endregion
-
 		#region DependencyProperty: LoadingContentTemplate
 
 		public static DependencyProperty LoadingContentTemplateProperty { get; } = DependencyProperty.Register(
@@ -85,8 +84,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		#endregion
-
-		#region DependencyProperty: LoadingContentTemplate
+		#region DependencyProperty: LoadingContentTemplateSelector
 
 		public static DependencyProperty LoadingContentTemplateSelectorProperty { get; } = DependencyProperty.Register(
 			nameof(LoadingContentTemplateSelector),
