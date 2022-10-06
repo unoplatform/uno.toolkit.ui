@@ -52,6 +52,12 @@
 		</When>
 	</Choose>
 
+	<ItemGroup Condition="$(TargetFramework.ToLower().StartsWith('xamarinmac')) and '$(Configuration)' == 'Release' and '$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true'">
+		<Reference Include="Xamarin.Mac">
+			<HintPath Condition="Exists('$(VSInstallDir)\Common7\IDE\Extensions\Xamarin.VisualStudio')">$(VSInstallDir)\Common7\IDE\Extensions\Xamarin.VisualStudio\Xamarin.Mac.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
 	<!--
   Adjust the output paths for runtime project in order for those
   projects to stay in the same folder as the original reference one.
