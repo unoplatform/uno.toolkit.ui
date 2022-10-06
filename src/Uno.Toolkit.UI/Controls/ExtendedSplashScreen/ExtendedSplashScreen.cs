@@ -25,7 +25,7 @@ public partial class ExtendedSplashScreen : LoadingView
 {
 	private const string SplashScreenPresenterPartName = "SplashScreenPresenter";
 
-	public SplashScreen? SplashScreen { get; set; }
+	public new SplashScreen? SplashScreen { get; set; }
 
 	protected override void OnApplyTemplate()
 	{
@@ -50,7 +50,7 @@ public partial class ExtendedSplashScreen : LoadingView
 
 
 #if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP)
-	private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+	public static   FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
 	{
 		// ExtendedSplashscreen is not implemented on WASM.
 		return default;

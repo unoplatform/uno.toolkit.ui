@@ -21,7 +21,7 @@ namespace Uno.Toolkit.UI;
 
 public partial class ExtendedSplashScreen
 {
-	private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+	public static FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
 	{
 		try
 		{
@@ -64,7 +64,7 @@ public partial class ExtendedSplashScreen
 		}
 		catch (Exception e)
 		{
-			this.Log().LogError(0, e, "Error while getting native splash screen.");
+			//this.Log().LogError(0, e, "Error while getting native splash screen.");
 
 			return null;
 		}

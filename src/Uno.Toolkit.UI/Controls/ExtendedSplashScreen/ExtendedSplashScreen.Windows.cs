@@ -29,7 +29,7 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
-		public FrameworkElement GetNativeSplashScreen(SplashScreen splashScreen)
+		public static  FrameworkElement GetNativeSplashScreen(SplashScreen splashScreen)
 		{
 			var splashScreenImage = new Image();
 			var splashScreenBackground = new SolidColorBrush();
