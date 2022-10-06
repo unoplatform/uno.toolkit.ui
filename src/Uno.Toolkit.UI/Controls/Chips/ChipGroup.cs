@@ -50,32 +50,30 @@ namespace Uno.Toolkit.UI
 				: null;
 			foreach (var container in GetItemContainers())
 			{
+				container.ClearValue(Chip.IsCheckedProperty);
 				if (binding != null)
 				{
 					container.SetBinding(Chip.IsCheckedProperty, binding);
 				}
-
-				container.ClearValue(Chip.IsCheckedProperty);
 			}
 		}
 
 		private void ApplyIconTemplate()
 		{
-			if (IconTemplate != null)
+			var itemTemplate = IconTemplate;
+			foreach (var container in GetItemContainers())
 			{
-				foreach (var container in GetItemContainers())
-				{
-					container.Icon = container.Content;
-					container.IconTemplate = IconTemplate;
-				}
+				container.Icon = itemTemplate != null ? container.Content : null;
+				container.IconTemplate = itemTemplate;
 			}
 		}
 
 		private void ApplyCanRemoveProperty()
 		{
+			var canRemove = CanRemove;
 			foreach (var container in GetItemContainers())
 			{
-				container.CanRemove = CanRemove;
+				container.CanRemove = canRemove;
 			}
 		}
 
@@ -172,6 +170,10 @@ namespace Uno.Toolkit.UI
 				{
 					container.SetBinding(Chip.IsCheckedProperty, new Binding { Path = new PropertyPath(SelectionMemberPath), Mode = BindingMode.TwoWay });
 				}
+				else
+				{
+					container.IsChecked = IsItemSelected(item);
+				}
 
 				if (IconTemplate != null)
 				{
@@ -179,7 +181,6 @@ namespace Uno.Toolkit.UI
 					container.IconTemplate = IconTemplate;
 				}
 
-				container.IsChecked = IsItemSelected(item);
 				container.CanRemove = CanRemove;
 
 				container.IsCheckedChanged += OnItemIsCheckedChanged;
@@ -204,6 +205,7 @@ namespace Uno.Toolkit.UI
 			if (element is Chip container)
 			{
 				container.ClearValue(Chip.IsCheckedProperty);
+				container.IsChecked = false;
 
 				container.Icon = null;
 				container.IconTemplate = null;
