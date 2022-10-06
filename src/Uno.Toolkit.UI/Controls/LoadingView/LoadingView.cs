@@ -76,7 +76,7 @@ namespace Uno.Toolkit.UI
 			new PropertyMetadata(default(object)));
 
 		/// <summary>
-		/// Gets or sets the content template to be used when displayin LoadingContent during loading/waiting.
+		/// Gets or sets the content template to be used when displaying LoadingContent during loading/waiting.
 		/// </summary>
 		public DataTemplate LoadingContentTemplate
 		{
