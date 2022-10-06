@@ -4,7 +4,7 @@ Provides a way of manipulating the visual states of `Control` with attached prop
 ## Remarks
 `VisualStateManager.GoToState` is typically used with `Control` where you would set `<VisualStateManager.VisualStateGroups>` on the root element of the ControlTemplate. Because this class is implemented using the same method, it means that if you are setting `StatesProperty` on an element, the `VisualStateManager.VisualStateGroups` should not be set on the very same element, but its first child:
 ```xml
-<Page utu:VisualStateManagerExtensions.States="{Binding OnboardingState}">
+<Page utu:VisualStateManagerExtensions.States="{Binding OnboardingState, Mode=OneWay}">
     <!-- Wrong -->
     <VisualStateManager.VisualStateGroups>...
 
@@ -29,7 +29,7 @@ States\*: The accepted value can be a space, comma or semi-colon separated list 
 ```xml
 <Page ...
       xmlns:utu="using:Uno.Toolkit.UI"
-      utu:VisualStateManagerExtensions.States="{Binding PageState}">
+      utu:VisualStateManagerExtensions.States="{Binding PageState, Mode=OneWay}">
     <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*,*">
 
         <VisualStateManager.VisualStateGroups>
