@@ -7,6 +7,7 @@ using Uno.Extensions;
 using Uno.Logging;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -44,10 +45,6 @@ public static class VisualStateManagerExtensions
 		typeof(VisualStateManagerExtensions),
 		new PropertyMetadata(default(string), OnStatesChanged));
 
-	// We need to include both a Set{PropertyName} and a Get{PropertyName} method for attached properties on Windows.
-	// Otherwise, you may end up with errors such as "System.Void should not be used in C#"
-	// See: https://learn.microsoft.com/en-us/windows/uwp/xaml-platform/custom-attached-properties#registering-a-custom-attached-property
-
 	/// <summary>
 	/// Sets the visual states of the control.
 	/// </summary>
@@ -55,12 +52,16 @@ public static class VisualStateManagerExtensions
 	/// <param name="value">A space, comma or semi-colon separated list of visual state names</param>
 	public static void SetStates(Control obj, string value) => obj.SetValue(StatesProperty, value);
 
-	
+	// We need to include both a Set{PropertyName} and a Get{PropertyName} method for attached properties on Windows.
+	// Otherwise, you may end up with errors such as "System.Void should not be used in C#" in release build.
+	// See: https://learn.microsoft.com/en-us/windows/uwp/xaml-platform/custom-attached-properties#registering-a-custom-attached-property
+
 	/// <summary>
-	/// Gets the overridden visual states of the control.
+	/// Gets the visual states of the control.
 	/// </summary>
 	/// <param name="obj"></param>
-	public static string GetOverrideStates(Control obj) => (string)obj.GetValue(OverrideStatesProperty);
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static string GetStates(Control obj) => (string)obj.GetValue(StatesProperty);
 
 	#endregion
 
