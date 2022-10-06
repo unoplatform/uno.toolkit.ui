@@ -105,10 +105,16 @@ namespace Uno.Toolkit.Samples
 			if(_window.Content is null)
 			{
 				var loadable = new ManualLoadable { IsExecuting=true};
-				var splash = new ExtendedSplashScreen { SplashScreen = e.SplashScreen, Source=loadable };
+				//var splash = new ExtendedSplashScreen { SplashScreen = e.SplashScreen, Source=loadable };
+				var splash = new LoadingView { SplashScreen = e.SplashScreen, Source = loadable, Style = this.Resources["SplashScreenLoadingView"] as Style };
 				_window.Content = splash;
 				// Ensure the current window is active
 				_window.Activate();
+
+				// Uncomment this line to see the splashscreen for longer
+				// await Task.Delay(10000);
+
+				// This is to allow the splash/loading view to start to render, before we finishing building shell etc
 				await Task.Yield();
 
 				splash.Content = _shell = BuildShell();
