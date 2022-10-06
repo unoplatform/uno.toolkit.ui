@@ -5,8 +5,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Uno.Disposables;
+using Windows.System;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -26,6 +28,8 @@ namespace Uno.Toolkit.UI
 	public partial class CompositeLoadableSource : FrameworkElement, ILoadable
 	{
 		public event EventHandler? IsExecutingChanged;
+
+		private DispatcherQueue _dispatcherQueue => Windows.System.DispatcherQueue.GetForCurrentThread();
 
 		#region DependencyProperty: Sources [get-only]
 
@@ -121,14 +125,7 @@ namespace Uno.Toolkit.UI
 			
 			void UpdateOnDispatcher()
 			{
-				if (Dispatcher.HasThreadAccess)
-				{
-					Update();
-				}
-				else
-				{
-					_ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, Update);
-				}
+				_ = _dispatcherQueue.ExecuteAsync(async (cancellation) => Update(), CancellationToken.None);
 			}
 		}
 

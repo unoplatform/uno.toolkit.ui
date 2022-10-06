@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Logging;
 using Uno.Toolkit;
+using Windows.System;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -24,6 +26,8 @@ namespace Uno.Toolkit.UI
 	public partial class LoadableSource : FrameworkElement, ILoadable
 	{
 		public event EventHandler? IsExecutingChanged;
+
+		private DispatcherQueue _dispatcherQueue => Windows.System.DispatcherQueue.GetForCurrentThread();
 
 		#region DependencyProperty: Source
 
@@ -73,14 +77,7 @@ namespace Uno.Toolkit.UI
 			void Update() => IsExecuting = Source.IsExecuting;
 			void UpdateOnDispatcher()
 			{
-				if (Dispatcher.HasThreadAccess)
-				{
-					Update();
-				}
-				else
-				{
-					_ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, Update);
-				}
+			_ = _dispatcherQueue.ExecuteAsync(async (cancellation) => Update(), CancellationToken.None);
 			}
 
 			_subscription.Disposable = source?.BindIsExecuting(UpdateOnDispatcher, propagateInitialValue: false);
