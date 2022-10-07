@@ -37,8 +37,6 @@ namespace Uno.Toolkit.UITest.Controls.NativeFrame
 
 			App.WaitForElementWithMessage("NativeFrame_Page1_Title");
 
-			App.Repl();
-
 			App.FastTap("NativeFrame_Page1_BackBtn");
 			
 			App.WaitForElementWithMessage("NativeFrame_MainPage_Title");
