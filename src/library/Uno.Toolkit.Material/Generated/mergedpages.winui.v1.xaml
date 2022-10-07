@@ -1966,13 +1966,13 @@
     <utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
   </android:ControlTemplate>
   <ControlTemplate x:Key="XamlMaterialNavigationBarTemplate" TargetType="utu:NavigationBar">
-    <utu:NavigationBarPresenter Style="{StaticResource MaterialNavigationBarPresenter}" Content="{TemplateBinding Content}" x:Name="NavigationBarPresenter" />
+    <utu:NavigationBarPresenter Style="{StaticResource MaterialNavigationBarPresenter}" x:Name="NavigationBarPresenter" />
   </ControlTemplate>
   <Style x:Key="MaterialNavigationBarPresenter" TargetType="utu:NavigationBarPresenter">
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:NavigationBarPresenter">
-          <CommandBar x:Name="XamlNavigationBarCommandBar" Content="{TemplateBinding Content}" Style="{StaticResource MaterialNavigationBarCommandBar}" />
+          <CommandBar x:Name="XamlNavigationBarCommandBar" Style="{StaticResource MaterialNavigationBarCommandBar}" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>

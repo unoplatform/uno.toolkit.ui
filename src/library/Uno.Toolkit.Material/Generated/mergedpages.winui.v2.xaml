@@ -1404,7 +1404,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:NavigationBarPresenter">
-          <CommandBar x:Name="XamlNavigationBarCommandBar" Content="{TemplateBinding Content}" Style="{StaticResource MaterialNavigationBarCommandBar}" />
+          <CommandBar x:Name="XamlNavigationBarCommandBar" Style="{StaticResource MaterialNavigationBarCommandBar}" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
@@ -1695,7 +1695,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="utu:NavigationBarPresenter">
-          <CommandBar x:Name="XamlNavigationBarCommandBar" Content="{TemplateBinding Content}" Style="{StaticResource MaterialPrimaryNavigationBarCommandBar}" />
+          <CommandBar x:Name="XamlNavigationBarCommandBar" Style="{StaticResource MaterialPrimaryNavigationBarCommandBar}" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
@@ -2017,10 +2017,10 @@
     <utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
   </android:ControlTemplate>
   <ControlTemplate x:Key="XamlMaterialNavigationBarTemplate" TargetType="utu:NavigationBar">
-    <utu:NavigationBarPresenter Style="{StaticResource MaterialNavigationBarPresenter}" Content="{TemplateBinding Content}" x:Name="NavigationBarPresenter" />
+    <utu:NavigationBarPresenter Style="{StaticResource MaterialNavigationBarPresenter}" x:Name="NavigationBarPresenter" />
   </ControlTemplate>
   <ControlTemplate x:Key="XamlMaterialPrimaryNavigationBarTemplate" TargetType="utu:NavigationBar">
-    <utu:NavigationBarPresenter Style="{StaticResource MaterialPrimaryNavigationBarPresenter}" Content="{TemplateBinding Content}" x:Name="NavigationBarPresenter" />
+    <utu:NavigationBarPresenter Style="{StaticResource MaterialPrimaryNavigationBarPresenter}" x:Name="NavigationBarPresenter" />
   </ControlTemplate>
   <!--origin: Styles\Controls\v2\TopTabBar.xaml-->
   <StaticResource x:Key="MaterialTopTabBarBackground" ResourceKey="SystemControlTransparentBrush" />

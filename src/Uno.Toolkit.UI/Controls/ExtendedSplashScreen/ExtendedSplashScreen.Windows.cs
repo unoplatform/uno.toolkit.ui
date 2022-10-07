@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Uno.Extensions;
 using Windows.ApplicationModel.Activation;
 using Windows.Graphics.Display;
-#if WINUI
+#if IS_WINUI
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,7 +29,7 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
-		public static  FrameworkElement GetNativeSplashScreen(SplashScreen splashScreen)
+		private FrameworkElement GetNativeSplashScreen(SplashScreen splashScreen)
 		{
 			var splashScreenImage = new Image();
 			var splashScreenBackground = new SolidColorBrush();

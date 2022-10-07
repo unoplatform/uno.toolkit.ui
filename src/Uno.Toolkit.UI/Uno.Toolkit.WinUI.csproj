@@ -13,6 +13,7 @@
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<AssemblyName>Uno.Toolkit.WinUI</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
+		<DefineConstants Condition="$(TargetFramework.Contains('windows10'))">$(DefineConstants);WINDOWS</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>

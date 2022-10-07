@@ -10,7 +10,7 @@ using Uno.Logging;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Graphics.Display;
-#if WINUI
+#if IS_WINUI
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -28,12 +28,12 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
-		public static FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+		private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
 		{
 			try
 			{
 				var infoPlistPath = NSBundle.MainBundle.PathForResource("Info", "plist");
-				if(infoPlistPath is null)
+				if (infoPlistPath is null)
 				{
 					return default;
 				}
@@ -56,7 +56,7 @@ namespace Uno.Toolkit.UI
 			}
 			catch (Exception e)
 			{
-				//this.Log().LogError(0, e, "Error while getting native splash screen.");
+				this.Log().LogError(0, e, "Error while getting native splash screen.");
 
 				return default;
 			}

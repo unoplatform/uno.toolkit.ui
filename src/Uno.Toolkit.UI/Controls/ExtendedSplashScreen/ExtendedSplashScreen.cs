@@ -31,7 +31,7 @@ public partial class ExtendedSplashScreen : LoadingView
 	{
 		base.OnApplyTemplate();
 
-		if(SplashScreen is null)
+		if (SplashScreen is null)
 		{
 			this.Log().LogWarning("SplashScreen property has not been set (typically done in the OnLaunched Application method)");
 			return;
@@ -50,7 +50,7 @@ public partial class ExtendedSplashScreen : LoadingView
 
 
 #if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP)
-	public static   FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+	private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
 	{
 		// ExtendedSplashscreen is not implemented on WASM.
 		return default;

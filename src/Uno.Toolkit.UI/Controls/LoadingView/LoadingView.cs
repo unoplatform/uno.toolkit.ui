@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Uno.Disposables;
+﻿using Uno.Disposables;
+
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -137,24 +133,5 @@ namespace Uno.Toolkit.UI
 
 			VisualStateManager.GoToState(this, loadingState, IsLoaded);
 		}
-
-		#region DependencyProperty: Source
-
-		public static DependencyProperty SplashScreenProperty { get; } = DependencyProperty.Register(
-			nameof(SplashScreen),
-			typeof(Windows.ApplicationModel.Activation.SplashScreen),
-			typeof(LoadingView),
-			new PropertyMetadata(default(Windows.ApplicationModel.Activation.SplashScreen)));
-
-		/// <summary>
-		/// Gets and sets a Splashscreen instance to be used by the SplashScreenPresenter attached property.
-		/// </summary>
-		public Windows.ApplicationModel.Activation.SplashScreen SplashScreen
-		{
-			get => (Windows.ApplicationModel.Activation.SplashScreen)GetValue(SplashScreenProperty);
-			set => SetValue(SplashScreenProperty, value);
-		}
-
-		#endregion
 	}
 }

@@ -1,17 +1,11 @@
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Globalization;
+using System.Threading.Tasks;
+using Uno.Toolkit.UI;
 using Uno.UI;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
-using MUXC = Microsoft.UI.Xaml.Controls;
-using Uno.Toolkit.Samples.Entities;
-using System.Globalization;
 using Windows.Graphics.Display;
 
 #if __IOS__
@@ -40,9 +34,6 @@ using Windows.UI.Xaml.Navigation;
 using XamlLaunchActivatedEventArgs = Windows.ApplicationModel.Activation.LaunchActivatedEventArgs;
 using XamlWindow = Windows.UI.Xaml.Window;
 using Page = Windows.UI.Xaml.Controls.Page;
-using Uno.Extensions;
-using Uno.Toolkit.UI;
-using System.Threading.Tasks;
 #endif
 
 namespace Uno.Toolkit.Samples
@@ -105,8 +96,13 @@ namespace Uno.Toolkit.Samples
 			if(_window.Content is null)
 			{
 				var loadable = new ManualLoadable { IsExecuting=true};
-				//var splash = new ExtendedSplashScreen { SplashScreen = e.SplashScreen, Source=loadable };
-				var splash = new LoadingView { SplashScreen = e.SplashScreen, Source = loadable, Style = this.Resources["SplashScreenLoadingView"] as Style };
+				var splash = new ExtendedSplashScreen {
+#if IS_WINUI
+					SplashScreen = e.UWPLaunchActivatedEventArgs.SplashScreen,
+#else
+					SplashScreen = e.SplashScreen,
+#endif
+					Source = loadable };
 				_window.Content = splash;
 				// Ensure the current window is active
 				_window.Activate();

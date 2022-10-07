@@ -7,7 +7,7 @@ using Uno.Logging;
 using Uno.UI;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
-#if WINUI
+#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -21,12 +21,12 @@ namespace Uno.Toolkit.UI;
 
 public partial class ExtendedSplashScreen
 {
-	public static FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+	private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
 	{
 		try
 		{
 			var activity = ContextHelper.Current as Activity;
-			if(activity is null)
+			if (activity is null)
 			{
 				return default;
 			}
@@ -38,7 +38,7 @@ public partial class ExtendedSplashScreen
 
 			// Get the splash screen size
 			var splashScreenSize = GetSplashScreenSize(activity);
-			
+
 			// Create the splash screen surface
 			var splashView = new Android.Views.View(activity);
 			splashView.SetBackgroundResource(attribute.ResourceId);
@@ -64,7 +64,7 @@ public partial class ExtendedSplashScreen
 		}
 		catch (Exception e)
 		{
-			//this.Log().LogError(0, e, "Error while getting native splash screen.");
+			this.Log().LogError(0, e, "Error while getting native splash screen.");
 
 			return null;
 		}

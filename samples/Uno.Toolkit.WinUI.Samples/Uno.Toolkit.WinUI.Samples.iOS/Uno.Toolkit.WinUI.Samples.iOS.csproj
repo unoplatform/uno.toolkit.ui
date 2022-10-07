@@ -138,6 +138,9 @@
 		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.9" />
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
+		<PackageReference Include="Xamarin.TestCloud.Agent">
+			<Version>0.23.0</Version>
+		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
 		<ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
