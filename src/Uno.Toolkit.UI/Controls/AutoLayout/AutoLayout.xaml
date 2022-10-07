@@ -8,7 +8,6 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:AutoLayout">
 					<Border Background="{TemplateBinding Background}"
-							Padding="{TemplateBinding Padding}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							CornerRadius="{TemplateBinding CornerRadius}">

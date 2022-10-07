@@ -16,7 +16,7 @@
                 <DataTemplate>
                     <ScrollViewer HorizontalScrollMode="Disabled">
                         <StackPanel>
-                            <TextBlock Text="Use a AutoLayout behave almost like a StackPanel, but with row that that can stretch. It was made to emulate the Figma auto layout"
+                            <!--<TextBlock Text="Use a AutoLayout behave almost like a StackPanel, but with row that that can stretch. It was made to emulate the Figma auto layout"
 									   Style="{StaticResource BodyTextBlockStyle}"
 									   Margin="0,24,0,0" />
 
@@ -73,16 +73,86 @@
 									   Margin="0,24,0,0" />
                             
                             <utu:AutoLayout Spacing="-10" Padding="10">
+                                <Rectangle Fill="Red" utu:AutoLayout.CounterAlignment="Start" utu:AutoLayout.PrimaryLength="73" utu:AutoLayout.CounterLength="232" />
+                                <Rectangle Fill="Yellow" utu:AutoLayout.CounterAlignment="End" utu:AutoLayout.PrimaryLength="66" utu:AutoLayout.CounterLength="163" />
+                                <Rectangle Fill="Blue" Margin="108,69,0,0" Width="100" Height="100" utu:AutoLayout.IsIndependentLayout="True" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                                <Rectangle Fill="Green" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="20" utu:AutoLayout.CounterLength="20" />
+                            </utu:AutoLayout>
+
+                            <utu:AutoLayout IsReverseZIndex="true" Padding="100,0">
+                                <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Orientation="Horizontal" IsIndependentLayout="true" VerticalAlignment="Top" HorizontalAlignment="Left" Width="250" Height="46" Margin="42,217,0,0" />
+                                <utu:AutoLayout Background="{ThemeResource PrimaryBrush}" PrimaryAxisAlignment="Center" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Center" Width="246" Height="11" />
+                                <utu:AutoLayout Background="{ThemeResource OnPrimaryContainerBrush}" PrimaryAxisAlignment="Center" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Center" Width="397" Height="135" />
+                            </utu:AutoLayout>
+
+                            <utu:AutoLayout Background="{ThemeResource PrimaryVariantDarkBrush}" Padding="100,50" IsReverseZIndex="true" Width="507" Height="402">
+                                <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Padding="10,0" IsIndependentLayout="true" VerticalAlignment="Top" HorizontalAlignment="Left" Width="250" Height="63" Margin="190,241,0,0" />
+                                <utu:AutoLayout Background="{ThemeResource PrimaryBrush}" PrimaryAxisAlignment="End" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Start" Width="181" Height="111" />
+                                <utu:AutoLayout Background="{ThemeResource OnPrimaryContainerBrush}" PrimaryAxisAlignment="End" utu:AutoLayout.CounterAlignment="Start" Width="208" Height="155" />
+                            </utu:AutoLayout>-->
+                            
+                            <!--<TextBlock Text="Vertical AutoLayout with a independent element"
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+
+                            <utu:AutoLayout Background="{ThemeResource PrimaryVariantDarkBrush }" Padding="20,0,20,0">
+                                <Rectangle utu:AutoLayout.CounterAlignment="Start" Width="100" Height="100" Fill="Pink"/>
+                                <Rectangle utu:AutoLayout.CounterAlignment="Center" Fill="Red" Width="300" Height="100" />
+                                <Rectangle utu:AutoLayout.CounterAlignment="End" Fill="Yellow" Width="284" Height="100"/>
+                            </utu:AutoLayout>
+                            
+                            <TextBlock Text="Vertical AutoLayout with a independent element"
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+
+                            <utu:AutoLayout Background="{ThemeResource PrimaryVariantDarkBrush }" Padding="0,20,0,20">
+                                <Rectangle utu:AutoLayout.CounterAlignment="Start" Width="100" Height="100" Fill="Pink"/>
+                                <Rectangle utu:AutoLayout.CounterAlignment="Center" Fill="Red" Width="300" Height="100" />
+                                <Rectangle utu:AutoLayout.CounterAlignment="End" Fill="Yellow" utu:AutoLayout.CounterLength="284" utu:AutoLayout.PrimaryLength="100"/>
+                            </utu:AutoLayout>
+
+                            <TextBlock Text="Horizontal AutoLayout with a independent element"
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+
+                            <utu:AutoLayout Padding="10" Orientation="Horizontal" Height="300" Background="{ThemeResource PrimaryVariantDarkBrush }">
+                                <Rectangle Width="232" Height="100" Fill="Red" />
+                                <Rectangle Height="50" Width="232" Fill="Yellow" Margin="0,0,50,0" 
+                                    VerticalAlignment="Top" 
+                                    HorizontalAlignment="Right"
+                                    utu:AutoLayout.IsIndependentLayout="True"/>
+                                <Rectangle Width="271" Height="100" Fill="Blue" />
+                                <Rectangle Width="329" Height="100" Fill="Green" utu:AutoLayout.PrimaryAlignment="Stretch"/>
+                            </utu:AutoLayout>-->
+                            
+                            <!--<TextBlock Text="Vertical AutoLayout with a independent element"
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+
+                            <utu:AutoLayout Spacing="-10" Padding="10" Background="{ThemeResource PrimaryVariantDarkBrush }">
                                 <Rectangle Fill="Red" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="73" utu:AutoLayout.CounterLength="232" />
                                 <Rectangle Fill="Yellow" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="66" utu:AutoLayout.CounterLength="163" />
                                 <Rectangle Fill="Blue" Margin="108,69,0,0" Width="100" Height="100" utu:AutoLayout.IsIndependentLayout="True" VerticalAlignment="Top" HorizontalAlignment="Right" />
                                 <Rectangle Fill="Green" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="20" utu:AutoLayout.CounterLength="20" />
                             </utu:AutoLayout>
+                            
+                            <TextBlock Text="Vertical AutoLayout with a independent element"
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
 
-                            <utu:AutoLayout IsReverseZIndex="true">
+                            <utu:AutoLayout IsReverseZIndex="true" Spacing="-10" Background="{ThemeResource PrimaryVariantDarkBrush }">
                                 <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Orientation="Horizontal" IsIndependentLayout="true" VerticalAlignment="Top" HorizontalAlignment="Left" Width="250" Height="46" Margin="42,217,0,0" />
                                 <utu:AutoLayout Background="{ThemeResource PrimaryBrush}" PrimaryAxisAlignment="Center" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Center" Width="246" Height="11" />
                                 <utu:AutoLayout Background="{ThemeResource OnPrimaryContainerBrush}" PrimaryAxisAlignment="Center" Orientation="Horizontal" utu:AutoLayout.CounterAlignment="Center" Width="397" Height="135" />
+                            </utu:AutoLayout>-->
+                            
+                            <TextBlock Text="Vertical AutoLayout with a independent element"
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+                            
+                            <utu:AutoLayout Background="{ThemeResource PrimaryVariantDarkBrush}" Padding="40" Orientation="Horizontal">
+                                <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" utu:AutoLayout.CounterAlignment="Start" Width="193" Height="293" />
+                                <utu:AutoLayout Background="{ThemeResource PrimaryBrush}" utu:AutoLayout.CounterAlignment="Start" utu:AutoLayout.PrimaryLength="182" utu:AutoLayout.CounterLength="291" />
                             </utu:AutoLayout>
 
                         </StackPanel>
