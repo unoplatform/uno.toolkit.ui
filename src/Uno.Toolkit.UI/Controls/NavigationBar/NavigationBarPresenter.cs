@@ -94,7 +94,6 @@ namespace Uno.Toolkit.UI
 					_commandBar.SecondaryCommands.Add(command);
 				}
 
-				setBinding(_commandBar, navigationBar, CommandBar.ContentProperty, nameof(navigationBar.Content));
 				setBinding(_commandBar, navigationBar, CommandBar.IsStickyProperty, nameof(navigationBar.IsSticky));
 				setBinding(_commandBar, navigationBar, CommandBar.IsOpenProperty, nameof(navigationBar.IsOpen));
 				setBinding(_commandBar, navigationBar, CommandBar.LightDismissOverlayModeProperty, nameof(navigationBar.LightDismissOverlayMode));

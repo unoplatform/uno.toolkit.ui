@@ -35,6 +35,8 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples
 		public SafeArea_ModalPage()
 		{
 			this.InitializeComponent();
+
+			SafeArea.SetSafeAreaOverride(ContainerGrid, new Thickness(0, 0, 0, 30));
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)

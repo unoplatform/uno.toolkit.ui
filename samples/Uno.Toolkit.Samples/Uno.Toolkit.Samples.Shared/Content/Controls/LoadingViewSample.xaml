@@ -13,7 +13,8 @@
 							 IsDesignAgnostic="True">
 		<sample:SamplePageLayout.DesignAgnosticTemplate>
 			<DataTemplate>
-				<utu:LoadingView DataContext="{Binding Data}">
+                <utu:LoadingView DataContext="{Binding Data}"
+                                 LoadingContent="Loading....">
 					<utu:LoadingView.Source>
 						<utu:CompositeLoadableSource>
 							<utu:LoadableSource Source="{Binding LoadContent0Command}" />
@@ -31,9 +32,15 @@
 								Command="{Binding LoadContent1Command}" />
 					</StackPanel>
 
-					<utu:LoadingView.LoadingContent>
+
+                    <utu:LoadingView.LoadingContentTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 						<ProgressRing IsActive="True" />
-					</utu:LoadingView.LoadingContent>
+                                <TextBlock Text="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </utu:LoadingView.LoadingContentTemplate>
 				</utu:LoadingView>
 			</DataTemplate>
 		</sample:SamplePageLayout.DesignAgnosticTemplate>

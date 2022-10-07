@@ -11,9 +11,19 @@ namespace Uno.Toolkit.Samples.Entities
 		/// </summary>
 		None,
 
+		/// <summary>
+		/// Samples featuring bahaviors (static class with attached properties) that enhance an existing control.
+		/// </summary>
 		Behaviors,
-		Controls,
-		Helpers,
 
+		/// <summary>
+		/// Samples featuring controls.
+		/// </summary>
+		Controls,
+
+		/// <summary>
+		/// Samples featuring static helper classes, markup-extensions, and other uncategorized stuffs.
+		/// </summary>
+		Helpers,
 	}
 }

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+		<TargetFramework>net5.0-windows10.0.18362</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<RootNamespace>Uno.Toolkit.WinUI.Samples</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
@@ -18,7 +18,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-		<PackageReference Include="Uno.Material.WinUI" Version="2.3.0-dev.12" />
+		<PackageReference Include="Uno.Material.WinUI" Version="2.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>

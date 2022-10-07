@@ -7,7 +7,7 @@
 
 	<x:String x:Key="DefaultLoadingViewAnimationDuration">00:00:00.083</x:String>
 
-	<Style TargetType="utu:LoadingView">
+	<Style x:Key="DefaultLoadingView" TargetType="utu:LoadingView">
 
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -43,7 +43,9 @@
 										  VerticalContentAlignment="Stretch" />
 						<ContentControl x:Name="LoadingContentPresenter"
 										Content="{TemplateBinding LoadingContent}"
-										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        ContentTemplate="{TemplateBinding LoadingContentTemplate}"
+										ContentTemplateSelector="{TemplateBinding LoadingContentTemplateSelector}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										HorizontalContentAlignment="Stretch"
 										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 										VerticalContentAlignment="Stretch" />
@@ -52,4 +54,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+    
+    <Style TargetType="utu:LoadingView"
+           BasedOn="{StaticResource DefaultLoadingView}" />
 </ResourceDictionary>

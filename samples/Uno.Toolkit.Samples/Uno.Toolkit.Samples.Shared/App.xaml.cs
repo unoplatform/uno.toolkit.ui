@@ -93,11 +93,11 @@ namespace Uno.Toolkit.Samples
 			Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(320, 568)); // (size of the iPhone SE)
 #endif
 
-#if IS_WINUI
-			_window = new XamlWindow();
-			_window.Activate();
+#if NET5_0_OR_GREATER && WINDOWS && !HAS_UNO
+            _window = new XamlWindow();
+            _window.Activate();
 #else
-			_window = Windows.UI.Xaml.Window.Current;
+			_window = XamlWindow.Current;
 #endif
 
 			if (!(_window.Content is Shell))

@@ -1,5 +1,5 @@
 ﻿jobs:
-- job: iOS_Tests
+- job: iOS_UITests
   displayName: 'iOS UI Tests'
   timeoutInMinutes: 90
   variables:
@@ -7,6 +7,16 @@
     SourceLinkEnabled: false
     XCODE_ROOT: '/Applications/Xcode_13.2.1.app'
     XamarinSDKVersion: 6_12_12
+
+  strategy:
+    maxParallel: 2
+    matrix:
+      UWP:
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
+        XAML_FLAVOR_BUILD: UWP
+      WinUI:
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        XAML_FLAVOR_BUILD: WinUI
 
   pool:
     vmImage: 'macOS-11'
@@ -53,12 +63,13 @@
     env:
       BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
       BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
+      SAMPLE_PROJECT_NAME: "$(SAMPLE_PROJECT_NAME)"
 
   - task: PublishTestResults@2
     condition: always()
     retryCountOnTaskFailure: 3
     inputs:
-      testRunTitle: 'iOS Test Run'
+      testRunTitle: 'iOS UI Test Run ($(XAML_FLAVOR_BUILD))'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult-original.xml'
       failTaskOnFailedTests: true
@@ -68,5 +79,5 @@
     retryCountOnTaskFailure: 3
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: uno-uitest-tests
+      ArtifactName: uno-uitest-tests-$(XAML_FLAVOR_BUILD)
       ArtifactType: Container

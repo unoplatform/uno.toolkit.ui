@@ -5,7 +5,7 @@
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 
-		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release' and '$(GeneratePackageOnBuild)'=='true'">true</GeneratePackageOnBuild>
 		<GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
 
 		<!-- Required in release using recent SDKs which use assembly embedded XBFs that are not supported by UWP -->
@@ -66,6 +66,15 @@
 	</PropertyGroup>
 	<ItemGroup Condition="'$(IsTestProject)'=='false'">
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22403.2" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework.ToLower().StartsWith('xamarinmac')) and '$(Configuration)' == 'Release'">
+		<Reference Include="Xamarin.Mac">
+			<HintPath Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Xamarin.VisualStudio')">C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Xamarin.VisualStudio\Xamarin.Mac.dll</HintPath>
+			<HintPath Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\Extensions\Xamarin.VisualStudio')">C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\Extensions\Xamarin.VisualStudio\Xamarin.Mac.dll</HintPath>
+			<HintPath Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Xamarin.VisualStudio')">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Xamarin.VisualStudio\Xamarin.Mac.dll</HintPath>
+			<HintPath Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\Extensions\Xamarin.VisualStudio')">C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\Extensions\Xamarin.VisualStudio\Xamarin.Mac.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 	<!--
