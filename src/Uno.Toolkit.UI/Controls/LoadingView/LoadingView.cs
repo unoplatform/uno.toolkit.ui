@@ -18,11 +18,14 @@ namespace Uno.Toolkit.UI
 	/// <summary>
 	/// Represents a control that indicates that the UI is waiting on a task to complete.
 	/// </summary>
+	[TemplateVisualState(GroupName = VisualStateNames.GroupName, Name = VisualStateNames.Loading)]
+	[TemplateVisualState(GroupName = VisualStateNames.GroupName, Name = VisualStateNames.Loaded)]
 	public partial class LoadingView : ContentControl
 	{
 		private class VisualStateNames
 		{
 			// LoadingStates
+			public const string GroupName = "LoadingStates";
 			public const string Loading = nameof(Loading);
 			public const string Loaded = nameof(Loaded);
 		}
@@ -60,6 +63,42 @@ namespace Uno.Toolkit.UI
 		{
 			get => (object)GetValue(LoadingContentProperty);
 			set => SetValue(LoadingContentProperty, value);
+		}
+
+		#endregion
+		#region DependencyProperty: LoadingContentTemplate
+
+		public static DependencyProperty LoadingContentTemplateProperty { get; } = DependencyProperty.Register(
+			nameof(LoadingContentTemplate),
+			typeof(DataTemplate),
+			typeof(LoadingView),
+			new PropertyMetadata(default(object)));
+
+		/// <summary>
+		/// Gets or sets the content template to be used when displaying LoadingContent during loading/waiting.
+		/// </summary>
+		public DataTemplate LoadingContentTemplate
+		{
+			get => (DataTemplate)GetValue(LoadingContentTemplateProperty);
+			set => SetValue(LoadingContentTemplateProperty, value);
+		}
+
+		#endregion
+		#region DependencyProperty: LoadingContentTemplateSelector
+
+		public static DependencyProperty LoadingContentTemplateSelectorProperty { get; } = DependencyProperty.Register(
+			nameof(LoadingContentTemplateSelector),
+			typeof(DataTemplateSelector),
+			typeof(LoadingView),
+			new PropertyMetadata(default(object)));
+
+		/// <summary>
+		/// Gets or sets the content template to be used when displayin LoadingContent during loading/waiting.
+		/// </summary>
+		public DataTemplateSelector LoadingContentTemplateSelector
+		{
+			get => (DataTemplateSelector)GetValue(LoadingContentTemplateSelectorProperty);
+			set => SetValue(LoadingContentTemplateSelectorProperty, value);
 		}
 
 		#endregion
