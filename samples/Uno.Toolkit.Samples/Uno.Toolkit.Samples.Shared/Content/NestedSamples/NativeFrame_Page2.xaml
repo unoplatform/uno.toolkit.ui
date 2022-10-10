@@ -1,0 +1,23 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.NativeFrame_Page2"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="Purple"
+	  mc:Ignorable="d">
+
+	<StackPanel utu:SafeArea.Insets="VisibleBounds">
+		<TextBlock Margin="20"
+				   AutomationProperties.AutomationId="NativeFrame_Page2_Title"
+				   FontSize="30"
+				   Text="Page 2" />
+		<Button AutomationProperties.AutomationId="NativeFrame_Page2_BackBtn"
+				Click="BackClick"
+				Content="Back" />
+		<Button AutomationProperties.AutomationId="NativeFrame_Page2_BackWithBackStackBtn"
+				Click="ChangeBackStackClick"
+				Content="Back using BackStack manipulation" />
+	</StackPanel>
+</Page>
