@@ -9,8 +9,20 @@ namespace Uno.Toolkit.UI
 	{
 		public static Task ExecuteAsync(
 			this DispatcherQueue dispatcher,
+			Action<CancellationToken> actionWithResult,
+			CancellationToken cancellation = default)
+		{
+			return dispatcher.ExecuteAsync<object?>(ct =>
+			{
+				actionWithResult(ct);
+				return Task.FromResult(default(object?));
+			}, cancellation);
+		}
+
+		public static Task ExecuteAsync(
+			this DispatcherQueue dispatcher,
 			Func<CancellationToken, Task> actionWithResult,
-			CancellationToken cancellation)
+			CancellationToken cancellation = default)
 		{
 			return dispatcher.ExecuteAsync<object?>(async ct =>
 			{
@@ -19,11 +31,10 @@ namespace Uno.Toolkit.UI
 			}, cancellation);
 		}
 
-
 		public static async Task<TResult> ExecuteAsync<TResult>(
 			this DispatcherQueue dispatcher,
 			Func<CancellationToken, Task<TResult>> actionWithResult,
-			CancellationToken cancellation)
+			CancellationToken cancellation = default)
 		{
 			if (dispatcher.HasThreadAccess)
 			{
