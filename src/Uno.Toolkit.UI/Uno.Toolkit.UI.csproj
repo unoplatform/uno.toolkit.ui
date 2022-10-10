@@ -41,28 +41,4 @@
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Controls\ExtendedSplashScreen\ExtendedSplashScreen.xaml" />
-	  <None Remove="Controls\LoadingView\LoadingView.xaml" />
-	  <None Remove="Controls\SafeArea\SafeArea.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="Controls\ExtendedSplashScreen\ExtendedSplashScreen.xaml" />
-	  <UpToDateCheckInput Remove="Controls\LoadingView\LoadingView.xaml" />
-	  <UpToDateCheckInput Remove="Controls\SafeArea\SafeArea.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Controls\ExtendedSplashScreen\ExtendedSplashScreen.xaml">
-	    <SubType>Designer</SubType>
-	  </Page>
-	  <Page Update="Controls\LoadingView\LoadingView.xaml">
-	    <SubType>Designer</SubType>
-	  </Page>
-	  <Page Update="Controls\SafeArea\SafeArea.xaml">
-	    <SubType>Designer</SubType>
-	  </Page>
-	</ItemGroup>
 </Project>
