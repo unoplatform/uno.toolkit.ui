@@ -77,7 +77,7 @@ namespace Uno.Toolkit.UI
 			void Update() => IsExecuting = Source.IsExecuting;
 			void UpdateOnDispatcher()
 			{
-			_ = _dispatcherQueue.ExecuteAsync(async (cancellation) => Update(), CancellationToken.None);
+				_ = _dispatcherQueue.ExecuteAsync(async (cancellation) => Update(), CancellationToken.None);
 			}
 
 			_subscription.Disposable = source?.BindIsExecuting(UpdateOnDispatcher, propagateInitialValue: false);
