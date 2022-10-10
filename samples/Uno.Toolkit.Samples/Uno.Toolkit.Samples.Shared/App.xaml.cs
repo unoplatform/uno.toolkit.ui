@@ -1,17 +1,11 @@
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Globalization;
+using System.Threading.Tasks;
+using Uno.Toolkit.UI;
 using Uno.UI;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
-using MUXC = Microsoft.UI.Xaml.Controls;
-using Uno.Toolkit.Samples.Entities;
-using System.Globalization;
 using Windows.Graphics.Display;
 
 #if __IOS__
@@ -40,7 +34,6 @@ using Windows.UI.Xaml.Navigation;
 using XamlLaunchActivatedEventArgs = Windows.ApplicationModel.Activation.LaunchActivatedEventArgs;
 using XamlWindow = Windows.UI.Xaml.Window;
 using Page = Windows.UI.Xaml.Controls.Page;
-using Uno.Extensions;
 #endif
 
 namespace Uno.Toolkit.Samples
@@ -83,7 +76,7 @@ namespace Uno.Toolkit.Samples
 		/// will be used such as when the application is launched to open a specific file.
 		/// </summary>
 		/// <param name="e">Details about the launch request and process.</param>
-		protected override void OnLaunched(XamlLaunchActivatedEventArgs e)
+		protected override async void OnLaunched(XamlLaunchActivatedEventArgs e)
 		{
 #if __IOS__ && !NET6_0 && USE_UITESTS
 			Xamarin.Calabash.Start();
@@ -100,13 +93,44 @@ namespace Uno.Toolkit.Samples
 			_window = XamlWindow.Current;
 #endif
 
-			if (!(_window.Content is Shell))
+			if(_window.Content is null)
 			{
-				_window.Content = _shell = BuildShell();
+				var loadable = new ManualLoadable { IsExecuting=true};
+				var splash = new ExtendedSplashScreen {
+#if IS_WINUI
+					SplashScreen = e.UWPLaunchActivatedEventArgs.SplashScreen,
+#else
+					SplashScreen = e.SplashScreen,
+#endif
+					Source = loadable };
+				_window.Content = splash;
+				// Ensure the current window is active
+				_window.Activate();
+
+				// Uncomment this line to see the splashscreen for longer
+				// await Task.Delay(10000);
+
+				// This is to allow the splash/loading view to start to render, before we finishing building shell etc
+				await Task.Yield();
+
+				splash.Content = _shell = BuildShell();
+				loadable.IsExecuting = false;
 			}
 
-			// Ensure the current window is active
-			_window.Activate();
+		}
+
+		private class ManualLoadable : ILoadable
+		{
+			private bool isExecuting;
+
+			public bool IsExecuting {
+				get => isExecuting;
+				set { isExecuting = value;
+					IsExecutingChanged?.Invoke(this, EventArgs.Empty);
+				}
+			}
+
+			public event EventHandler IsExecutingChanged;
 		}
 
 		/// <summary>
