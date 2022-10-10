@@ -25,7 +25,7 @@ public partial class ExtendedSplashScreen : LoadingView
 {
 	private const string SplashScreenPresenterPartName = "SplashScreenPresenter";
 
-	public new SplashScreen? SplashScreen { get; set; }
+	public SplashScreen? SplashScreen { get; set; }
 
 	protected override void OnApplyTemplate()
 	{
