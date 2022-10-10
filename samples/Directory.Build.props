@@ -2,4 +2,7 @@
 	<PropertyGroup>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
+
+	<Import Project="..\src\xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
+
 </Project>
