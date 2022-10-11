@@ -52,15 +52,6 @@
 		</When>
 	</Choose>
 
-	<ItemGroup Condition="$(TargetFramework.ToLower().StartsWith('xamarinmac'))">
-		<Reference Include="Xamarin.Mac">
-			<HintPath Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Xamarin.VisualStudio')">C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Xamarin.VisualStudio\Xamarin.Mac.dll</HintPath>
-			<HintPath Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\Extensions\Xamarin.VisualStudio')">C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\Extensions\Xamarin.VisualStudio\Xamarin.Mac.dll</HintPath>
-			<HintPath Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Xamarin.VisualStudio')">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Xamarin.VisualStudio\Xamarin.Mac.dll</HintPath>
-			<HintPath Condition="Exists('C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\Extensions\Xamarin.VisualStudio')">C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\Extensions\Xamarin.VisualStudio\Xamarin.Mac.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-
 	<!--
   Adjust the output paths for runtime project in order for those
   projects to stay in the same folder as the original reference one.
@@ -72,4 +63,5 @@
 	</PropertyGroup>
 
 	<Import Project="Uno.CrossTargeting.props" />
+	<Import Project="xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
 </Project>
