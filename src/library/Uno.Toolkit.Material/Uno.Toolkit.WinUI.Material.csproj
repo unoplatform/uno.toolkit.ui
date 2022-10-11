@@ -18,10 +18,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Material.WinUI" Version="2.3.0" />
-		<PackageReference Include="Uno.WinUI" Version="4.6.0-dev.573" />
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.24" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.24" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
+		<PackageReference Include="Uno.Material.WinUI" />
+		<PackageReference Include="Uno.WinUI" />
 	</ItemGroup>
 
 	<Choose>
@@ -51,7 +49,9 @@
 		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
 
 			<ItemGroup>
-				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0" />
+				<PackageReference Include="Microsoft.WindowsAppSDK" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
 			</ItemGroup>
 
 			<ItemGroup>

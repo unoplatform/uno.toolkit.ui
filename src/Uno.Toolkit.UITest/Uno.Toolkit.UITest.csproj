@@ -6,16 +6,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="5.10.3" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="NUnit" Version="3.13.3" />
-		<PackageReference Include="NUnit3TestAdapter" Version="4.3.0-alpha-net7.4" />
-		<PackageReference Include="Uno.UITest" Version="1.1.0-dev.32" />
-		<PackageReference Include="Uno.UITest.Helpers" Version="1.1.0-dev.24" />
-		<PackageReference Include="Uno.UITest.Selenium" Version="1.1.0-dev.24" />
-		<PackageReference Include="Uno.UITest.Xamarin" Version="1.1.0-dev.24" />
-		<PackageReference Include="Xamarin.UITest" Version="3.2.9" />
+		<PackageReference Include="FluentAssertions" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="NUnit" />
+		<PackageReference Include="NUnit3TestAdapter" />
+		<PackageReference Include="Uno.UITest" />
+		<PackageReference Include="Uno.UITest.Helpers" />
+		<PackageReference Include="Uno.UITest.Selenium" />
+		<PackageReference Include="Uno.UITest.Xamarin" />
+		<PackageReference Include="Xamarin.UITest" />
 	</ItemGroup>
 
 </Project>
