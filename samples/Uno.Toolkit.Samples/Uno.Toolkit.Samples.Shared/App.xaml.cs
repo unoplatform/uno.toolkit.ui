@@ -97,6 +97,7 @@ namespace Uno.Toolkit.Samples
 			{
 				var loadable = new ManualLoadable { IsExecuting=true};
 				var splash = new ExtendedSplashScreen {
+					Window= _window,
 #if IS_WINUI
 					SplashScreen = e.UWPLaunchActivatedEventArgs.SplashScreen,
 #else
@@ -108,7 +109,7 @@ namespace Uno.Toolkit.Samples
 				_window.Activate();
 
 				// Uncomment this line to see the splashscreen for longer
-				// await Task.Delay(10000);
+				await Task.Delay(10000);
 
 				// This is to allow the splash/loading view to start to render, before we finishing building shell etc
 				await Task.Yield();

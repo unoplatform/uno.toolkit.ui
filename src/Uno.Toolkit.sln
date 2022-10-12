@@ -8,6 +8,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.WinUI", "Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj", "{50EA1339-D38D-47F7-848A-8A827A959691}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{F5E20447-D18B-4B8D-BD69-C5E4D25DDE32}"
+	ProjectSection(SolutionItems) = preProject
+		..\samples\Directory.Build.props = ..\samples\Directory.Build.props
+		..\samples\Directory.Packages.props = ..\samples\Directory.Packages.props
+	EndProjectSection
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Uno.Toolkit.Samples.Shared", "..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
@@ -2527,18 +2531,8 @@ Global
 		SolutionGuid = {EEF2F9D4-91C2-4F1A-BF0C-654FD02D3E2A}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{11b59cbe-c1a9-4d2f-ab33-a2662a0349c3}*SharedItemsImports = 4
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{14fca22f-5826-493a-9ea6-1972ed990c8e}*SharedItemsImports = 4
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{19cdf829-d365-4886-826e-780715ba0965}*SharedItemsImports = 4
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{3ba9e671-8a80-47e1-b3e6-883bcfadd40b}*SharedItemsImports = 4
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{54bc2530-f225-40e6-b4ff-9848f322d9e1}*SharedItemsImports = 5
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{667e94c2-cb90-4b1d-b427-100cf48162f0}*SharedItemsImports = 5
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{8cf9707a-d702-4c62-b05e-8213e1ab76ba}*SharedItemsImports = 4
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{8f623960-73cd-43ab-8e70-366361e76943}*SharedItemsImports = 5
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{b16adbc5-5dd4-4982-b56b-01f568e44572}*SharedItemsImports = 4
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{c2264db6-2dbd-449f-a28d-83b4f7e7e5e5}*SharedItemsImports = 4
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{c75a93ad-b237-41e6-9a40-7941d106735b}*SharedItemsImports = 5
-		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{f271e677-7ccd-417a-b3d7-86a0ffb58ca3}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

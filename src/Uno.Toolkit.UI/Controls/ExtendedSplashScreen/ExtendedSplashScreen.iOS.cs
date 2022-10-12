@@ -28,7 +28,7 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
-		private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+		private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 		{
 			try
 			{

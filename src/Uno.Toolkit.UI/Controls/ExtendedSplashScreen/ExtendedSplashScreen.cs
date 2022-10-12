@@ -26,34 +26,34 @@ public partial class ExtendedSplashScreen : LoadingView
 	private const string SplashScreenPresenterPartName = "SplashScreenPresenter";
 
 	public SplashScreen? SplashScreen { get; set; }
+	public Window? Window { get; set; }
 
 	protected override void OnApplyTemplate()
 	{
 		base.OnApplyTemplate();
 
-		if (SplashScreen is null)
-		{
-			this.Log().LogWarning("SplashScreen property has not been set (typically done in the OnLaunched Application method)");
-			return;
-		}
+		_ = LoadNativeSplashScreen();
 
+	}
+
+	private async Task LoadNativeSplashScreen()
+	{
 		if (GetTemplateChild(SplashScreenPresenterPartName) is ContentPresenter splashScreenPresenter)
 		{
-			splashScreenPresenter.Content = GetNativeSplashScreen(SplashScreen);
+			splashScreenPresenter.Content = await GetNativeSplashScreen(SplashScreen);
 		}
 		else
 		{
 			this.Log().LogWarning($"Template for {nameof(ExtendedSplashScreen)} doesn't contain {nameof(ContentPresenter)} with Name set to {SplashScreenPresenterPartName}");
 		}
-
 	}
 
 
 #if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP)
-	private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+	private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
-		// ExtendedSplashscreen is not implemented on WASM.
-		return default;
+		// ExtendedSplashscreen is not implemented on WASM - return a non-visible element to make sure some content is set on the ContentPresenter
+		return new TextBlock { Text=""};
 	}
 #endif
 }
