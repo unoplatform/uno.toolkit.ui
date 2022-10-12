@@ -7,8 +7,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.6.0-dev.573" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.6.0-dev.573" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Skia.Wpf" />
+    <PackageReference Include="Uno.UI.RemoteControl"  Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />

@@ -20,6 +20,7 @@
 		<Nullable>enable</Nullable>
 
 		<NoNFloatUsing>true</NoNFloatUsing>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -47,7 +48,7 @@
 				<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 			</PropertyGroup>
 			<ItemGroup>
-				<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+				<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
 			</ItemGroup>
 		</When>
 	</Choose>

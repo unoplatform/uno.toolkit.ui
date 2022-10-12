@@ -85,6 +85,8 @@ jobs:
 
 - job: macOS
 
+  timeoutInMinutes: 90 
+
   strategy:
     maxParallel: 2
     matrix:
