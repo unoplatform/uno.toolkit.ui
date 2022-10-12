@@ -2531,8 +2531,11 @@ Global
 		SolutionGuid = {EEF2F9D4-91C2-4F1A-BF0C-654FD02D3E2A}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{3ba9e671-8a80-47e1-b3e6-883bcfadd40b}*SharedItemsImports = 4
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{54bc2530-f225-40e6-b4ff-9848f322d9e1}*SharedItemsImports = 5
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{8cf9707a-d702-4c62-b05e-8213e1ab76ba}*SharedItemsImports = 4
+		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{b16adbc5-5dd4-4982-b56b-01f568e44572}*SharedItemsImports = 4
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{c2264db6-2dbd-449f-a28d-83b4f7e7e5e5}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal

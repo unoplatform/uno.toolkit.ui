@@ -20,13 +20,29 @@ namespace Uno.Toolkit.UI;
 /// <summary>
 /// Displays a view that replicates the look and behavior of the native splash screen
 /// </summary>
-[TemplatePart(Name = SplashScreenPresenterPartName, Type = typeof(ContentPresenter))]
 public partial class ExtendedSplashScreen : LoadingView
 {
-	private const string SplashScreenPresenterPartName = "SplashScreenPresenter";
-
 	public SplashScreen? SplashScreen { get; set; }
 	public Window? Window { get; set; }
+
+	#region DependencyProperty: SplashScreenContent
+
+	public static DependencyProperty SplashScreenContentProperty { get; } = DependencyProperty.Register(
+		nameof(SplashScreenContent),
+		typeof(object),
+		typeof(ExtendedSplashScreen),
+		new PropertyMetadata(default(object)));
+
+	/// <summary>
+	/// Gets or sets the native splash screen content to be displayed during loading/waiting.
+	/// </summary>
+	public object SplashScreenContent
+	{
+		get => (object)GetValue(SplashScreenContentProperty);
+		set => SetValue(SplashScreenContentProperty, value);
+	}
+
+	#endregion
 
 	protected override void OnApplyTemplate()
 	{
@@ -38,22 +54,18 @@ public partial class ExtendedSplashScreen : LoadingView
 
 	private async Task LoadNativeSplashScreen()
 	{
-		if (GetTemplateChild(SplashScreenPresenterPartName) is ContentPresenter splashScreenPresenter)
-		{
-			splashScreenPresenter.Content = await GetNativeSplashScreen(SplashScreen);
-		}
-		else
-		{
-			this.Log().LogWarning($"Template for {nameof(ExtendedSplashScreen)} doesn't contain {nameof(ContentPresenter)} with Name set to {SplashScreenPresenterPartName}");
-		}
+		var splashScreenContent = await GetNativeSplashScreen(SplashScreen);
+
+		// Return a non-visible element to make sure some content is set on the ContentPresenter
+		// Setting null on WinUI throws an exception
+		SplashScreenContent = splashScreenContent ?? new TextBlock { Text = "" };
 	}
 
 
 #if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP)
 	private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
-		// ExtendedSplashscreen is not implemented on WASM - return a non-visible element to make sure some content is set on the ContentPresenter
-		return new TextBlock { Text=""};
+		return default;
 	}
 #endif
 }
