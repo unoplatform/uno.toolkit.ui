@@ -27,7 +27,7 @@ public partial class CompositeLoadableSource : FrameworkElement, ILoadable
 {
 	public event EventHandler? IsExecutingChanged;
 
-	private DispatcherQueue _dispatcherQueue => Windows.System.DispatcherQueue.GetForCurrentThread();
+	private DispatcherQueue _dispatcherQueue = Windows.System.DispatcherQueue.GetForCurrentThread();
 
 	#region DependencyProperty: Sources [get-only]
 
