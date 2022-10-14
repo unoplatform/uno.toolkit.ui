@@ -50,15 +50,19 @@ public partial class ExtendedSplashScreen : LoadingView
 
 		_ = LoadNativeSplashScreen();
 
+		SplashScreenContent = new Border();
 	}
 
 	private async Task LoadNativeSplashScreen()
 	{
 		var splashScreenContent = await GetNativeSplashScreen(SplashScreen);
 
-		// Return a non-visible element to make sure some content is set on the ContentPresenter
-		// Setting null on WinUI throws an exception
-		SplashScreenContent = splashScreenContent ?? new TextBlock { Text = "" };
+		if (splashScreenContent is not null)
+		{
+			// Return a non-visible element to make sure some content is set on the ContentPresenter
+			// Setting null on WinUI throws an exception
+			SplashScreenContent = splashScreenContent;
+		}
 	}
 
 
