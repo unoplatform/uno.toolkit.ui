@@ -48,9 +48,9 @@ public partial class ExtendedSplashScreen : LoadingView
 	{
 		base.OnApplyTemplate();
 
-		_ = LoadNativeSplashScreen();
-
 		SplashScreenContent = new Border();
+
+		_ = LoadNativeSplashScreen();
 	}
 
 	private async Task LoadNativeSplashScreen()

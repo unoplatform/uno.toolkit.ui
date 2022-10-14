@@ -74,16 +74,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.Material.WinUI" />
-    <PackageReference Include="Uno.WinUI"  />
-    <PackageReference Include="Uno.WinUI.RemoteControl"   Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UniversalImageLoader"  />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console"   />
-    <PackageReference Include="Microsoft.Extensions.Logging"   />
+    <PackageReference Include="Uno.WinUI" />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UniversalImageLoader" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
     <PackageReference Include="Xamarin.AndroidX.AppCompat.AppCompatResources" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging"   />
-    <PackageReference Include="Uno.Core.Extensions.Compatibility"   />
-    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton"   />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+    <PackageReference Include="Uno.Core.Extensions.Compatibility" />
+    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -128,6 +128,18 @@
       <Project>{58a935f8-7720-4f95-80b2-0399e41d6d3e}</Project>
       <Name>Uno.Toolkit</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\splashscreen.png">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_screen.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
