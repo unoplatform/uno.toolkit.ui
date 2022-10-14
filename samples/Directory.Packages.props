@@ -19,8 +19,8 @@
 		<PackageVersion Include="SkiaSharp.Views" Version="2.80.2" />
 		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.2" />
 		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.2" />
-
-
+		<PackageVersion Include="Xamarin.Google.Android.Material" Version="1.4.0.4" />
+		
 		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageVersion Include="Uno.Cupertino" Version="2.3.0" />
