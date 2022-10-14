@@ -20,39 +20,55 @@ namespace Uno.Toolkit.UI;
 /// <summary>
 /// Displays a view that replicates the look and behavior of the native splash screen
 /// </summary>
-[TemplatePart(Name = SplashScreenPresenterPartName, Type = typeof(ContentPresenter))]
 public partial class ExtendedSplashScreen : LoadingView
 {
-	private const string SplashScreenPresenterPartName = "SplashScreenPresenter";
-
 	public SplashScreen? SplashScreen { get; set; }
+	public Window? Window { get; set; }
+
+	#region DependencyProperty: SplashScreenContent
+
+	public static DependencyProperty SplashScreenContentProperty { get; } = DependencyProperty.Register(
+		nameof(SplashScreenContent),
+		typeof(object),
+		typeof(ExtendedSplashScreen),
+		new PropertyMetadata(default(object)));
+
+	/// <summary>
+	/// Gets or sets the native splash screen content to be displayed during loading/waiting.
+	/// </summary>
+	public object SplashScreenContent
+	{
+		get => (object)GetValue(SplashScreenContentProperty);
+		set => SetValue(SplashScreenContentProperty, value);
+	}
+
+	#endregion
 
 	protected override void OnApplyTemplate()
 	{
 		base.OnApplyTemplate();
 
-		if (SplashScreen is null)
-		{
-			this.Log().LogWarning("SplashScreen property has not been set (typically done in the OnLaunched Application method)");
-			return;
-		}
+		SplashScreenContent = new Border();
 
-		if (GetTemplateChild(SplashScreenPresenterPartName) is ContentPresenter splashScreenPresenter)
-		{
-			splashScreenPresenter.Content = GetNativeSplashScreen(SplashScreen);
-		}
-		else
-		{
-			this.Log().LogWarning($"Template for {nameof(ExtendedSplashScreen)} doesn't contain {nameof(ContentPresenter)} with Name set to {SplashScreenPresenterPartName}");
-		}
+		_ = LoadNativeSplashScreen();
+	}
 
+	private async Task LoadNativeSplashScreen()
+	{
+		var splashScreenContent = await GetNativeSplashScreen(SplashScreen);
+
+		if (splashScreenContent is not null)
+		{
+			// Return a non-visible element to make sure some content is set on the ContentPresenter
+			// Setting null on WinUI throws an exception
+			SplashScreenContent = splashScreenContent;
+		}
 	}
 
 
 #if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP)
-	private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+	private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
-		// ExtendedSplashscreen is not implemented on WASM.
 		return default;
 	}
 #endif

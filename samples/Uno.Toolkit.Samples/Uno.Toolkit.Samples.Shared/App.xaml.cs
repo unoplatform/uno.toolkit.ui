@@ -97,6 +97,7 @@ namespace Uno.Toolkit.Samples
 			{
 				var loadable = new ManualLoadable { IsExecuting=true};
 				var splash = new ExtendedSplashScreen {
+					Window= _window,
 #if IS_WINUI
 					SplashScreen = e.UWPLaunchActivatedEventArgs.SplashScreen,
 #else

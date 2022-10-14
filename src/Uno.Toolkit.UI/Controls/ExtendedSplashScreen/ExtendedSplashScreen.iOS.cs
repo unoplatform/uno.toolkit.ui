@@ -28,7 +28,7 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
-		private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+		private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 		{
 			try
 			{
@@ -47,7 +47,6 @@ namespace Uno.Toolkit.UI
 				var element = new Border
 				{
 					Child = VisualTreeHelper.AdaptNative(launchScreenView),
-
 					// We set a background to prevent touches from going through
 					Background = SolidColorBrushHelper.Transparent
 				};

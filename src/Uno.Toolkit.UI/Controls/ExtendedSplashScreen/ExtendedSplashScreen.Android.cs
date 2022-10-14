@@ -2,6 +2,7 @@
 using Android.App;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 using Uno.Extensions;
 using Uno.Logging;
 using Uno.UI;
@@ -21,7 +22,7 @@ namespace Uno.Toolkit.UI;
 
 public partial class ExtendedSplashScreen
 {
-	private FrameworkElement? GetNativeSplashScreen(SplashScreen splashScreen)
+	private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
 		try
 		{

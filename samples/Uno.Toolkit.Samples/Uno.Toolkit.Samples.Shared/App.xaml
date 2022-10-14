@@ -60,7 +60,9 @@
                                 <ProgressRing Grid.Row="1"
                                               IsActive="True"
                                               HorizontalAlignment="Center"
-                                              VerticalAlignment="Center" />
+                                              VerticalAlignment="Center"
+											  Height="100"
+											  Width="100"/>
                             </Grid>
                         </DataTemplate>
                     </Setter.Value>
