@@ -7,6 +7,9 @@
 		<item name="android:windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 		<item name="android:windowNoTitle">true</item>
+		
+		<!-- This property is used for the splash screen -->
+		<item name="android:windowBackground">@drawable/splash_screen</item>
 
 	</style>
 	<style name="Theme.AppCompat.Translucent">
