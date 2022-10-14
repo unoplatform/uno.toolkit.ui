@@ -21,10 +21,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.UI"  />
-		<PackageReference Include="Uno.Core.Extensions.Collections"  />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton"  />
-		<PackageReference Include="Uno.Core.Extensions.Logging"  />
+		<PackageReference Include="Uno.UI" />
+		<PackageReference Include="Uno.Core.Extensions.Collections" />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
+		<PackageReference Include="Uno.Core.Extensions.Logging" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">

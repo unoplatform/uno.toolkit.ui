@@ -14,6 +14,8 @@ using Windows.UI.ViewManagement;
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
 using Uno.UI;
+using Uno.Logging;
+using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -41,6 +43,11 @@ namespace Uno.Toolkit.UI
 	/// </remarks>
 	public partial class SafeArea : ContentControl
 	{
+		private const string SoftInputVisualStateName = "SoftInput";
+		private const string NoSoftInputVisualStateName = "NoSoftInput";
+
+		private bool _isTemplateApplied = false;
+
 		[Flags]
 		public enum InsetMask
 		{
@@ -67,6 +74,21 @@ namespace Uno.Toolkit.UI
 			DefaultStyleKey = typeof(SafeArea);
 		}
 
+		protected override void OnApplyTemplate()
+		{
+			base.OnApplyTemplate();
+
+			UpdateInsetsVisualState();
+
+			_isTemplateApplied = true;
+		}
+
+		private void UpdateInsetsVisualState()
+		{
+			var state = GetInsets(this).HasFlag(InsetMask.SoftInput) ? SoftInputVisualStateName : NoSoftInputVisualStateName;
+			VisualStateManager.GoToState(this, state, false);
+		}
+
 		/// <summary>
 		/// The insets of the safe area relative to the entire XamlWindow.
 		/// </summary>
@@ -83,6 +105,11 @@ namespace Uno.Toolkit.UI
 #else
 			if (dependencyObject is FrameworkElement fe)
 			{
+				if (fe is SafeArea safeArea && safeArea._isTemplateApplied)
+				{
+					safeArea.UpdateInsetsVisualState();
+				}
+
 				SafeAreaDetails.GetInstance(fe).OnInsetsChanged((InsetMask)args.OldValue, (InsetMask)args.NewValue);
 			}
 			else
@@ -203,9 +230,10 @@ namespace Uno.Toolkit.UI
 				var inputRect = InputPane.GetForCurrentView()?.OccludedRect ?? Rect.Empty;
 				if (inputRect.Top != 0 && inputRect.Top < visibleBounds.Bottom)
 				{
+
+					var windowBottom = XamlWindow.Current.Bounds.Bottom;
 #if __ANDROID__
-					var window = XamlWindow.Current;
-					var totalOffset = Math.Max(0, inputRect.Bottom - window.Bounds.Bottom);
+					var totalOffset = Math.Max(0, inputRect.Bottom - windowBottom);
 
 					// On Android, the InputPane OccludedRect includes the space needed for the system-level NavigationBar
 					// (either the 3-/2-button navigation area or the gesture navigation "pill"), as well as the height of the system status bar.
@@ -225,7 +253,8 @@ namespace Uno.Toolkit.UI
 					}
 
 #endif
-					visibleBounds.Height -= inputRect.Height;
+					var newBottom = windowBottom - inputRect.Height;
+					visibleBounds.Height = newBottom - visibleBounds.Y;
 
 				}
 			}
@@ -239,7 +268,6 @@ namespace Uno.Toolkit.UI
 			private static readonly ConditionalWeakTable<FrameworkElement, SafeAreaDetails> _instances =
 				new ConditionalWeakTable<FrameworkElement, SafeAreaDetails>();
 			private readonly WeakReference _owner;
-			private readonly TypedEventHandler<global::Windows.UI.ViewManagement.ApplicationView, object> _visibleBoundsChanged;
 			private Rect? _overriddenVisibleBounds;
 			private InsetMask _insetMask;
 			private InsetMode _insetMode = InsetMode.Padding;
@@ -247,6 +275,7 @@ namespace Uno.Toolkit.UI
 			private readonly Thickness _originalMargin;
 			private Thickness _appliedPadding = new Thickness(0);
 			private Thickness _appliedMargin = new Thickness(0);
+			private readonly CompositeDisposable _subscriptions = new();
 
 			internal SafeAreaDetails(FrameworkElement owner)
 			{
@@ -254,35 +283,69 @@ namespace Uno.Toolkit.UI
 
 				_originalMargin = owner.Margin;
 				_originalPadding = PaddingHelper.GetPadding(owner);
-
-				_visibleBoundsChanged = (s2, e2) => UpdateInsets();
 #if __IOS__
 				// For iOS, it's required to react on SizeChanged to prevent weird alignment
 				// problems with Text using the LayoutManager (NSTextContainer).
 				// https://github.com/unoplatform/uno/issues/2836
 
-				owner.SizeChanged += (s, e) => UpdateInsets();
+				owner.SizeChanged += OnInsetUpdateRequired;
+				_subscriptions.Add(() => owner.SizeChanged -= OnInsetUpdateRequired);
 #endif
-				owner.LayoutUpdated += (s, e) => UpdateInsets();
-				owner.Loaded += (s, e) =>
-				{
-					UpdateInsets();
-					ApplicationView.GetForCurrentView().VisibleBoundsChanged += _visibleBoundsChanged;
+				owner.LayoutUpdated += OnInsetUpdateRequired;
+				_subscriptions.Add(() => owner.LayoutUpdated -= OnInsetUpdateRequired);
 
-					if (InputPane.GetForCurrentView() is { } inputPane)
-					{
-						inputPane.Showing += OnInputPaneChanged;
-						inputPane.Hiding += OnInputPaneChanged;
-					}
-				};
-				owner.Unloaded += (s, e) =>
+				if (!owner.IsLoaded)
 				{
-					if (InputPane.GetForCurrentView() is { } inputPane)
+					owner.Loaded += OnOwnerLoaded;
+					_subscriptions.Add(() => owner.Loaded -= OnOwnerLoaded);
+				}
+				else
+				{
+					RegisterEvents();
+				}
+
+				owner.Unloaded += OnOwnerUnloaded;
+				_subscriptions.Add(() => owner.Unloaded -= OnOwnerUnloaded);
+			}
+
+			private void OnOwnerUnloaded(object sender, RoutedEventArgs e)
+			{
+				Unregister();
+			}
+
+			private void OnOwnerLoaded(object sender, RoutedEventArgs e)
+			{
+				UpdateInsets();
+				RegisterEvents();
+			}
+
+			private void OnInsetUpdateRequired(object? sender, object? args)
+			{
+				UpdateInsets();
+			}
+
+			private void RegisterEvents()
+			{
+				ApplicationView.GetForCurrentView().VisibleBoundsChanged += OnInsetUpdateRequired;
+				_subscriptions.Add(() => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= OnInsetUpdateRequired);
+
+
+				if (InputPane.GetForCurrentView() is { } inputPane)
+				{
+					inputPane.Showing += OnInputPaneChanged;
+					inputPane.Hiding += OnInputPaneChanged;
+
+					_subscriptions.Add(() =>
 					{
 						inputPane.Showing -= OnInputPaneChanged;
 						inputPane.Hiding -= OnInputPaneChanged;
-					}
-				};
+					});
+				}
+			}
+
+			private void Unregister()
+			{
+				_subscriptions.Dispose();
 			}
 
 			private void OnInputPaneChanged(InputPane sender, InputPaneVisibilityEventArgs args)
@@ -522,7 +585,18 @@ namespace Uno.Toolkit.UI
 			internal void OnInsetsChanged(InsetMask oldValue, InsetMask newValue)
 			{
 				_insetMask = newValue;
+
+				VerifySoftInputUsage();
+
 				UpdateInsets();
+			}
+
+			private void VerifySoftInputUsage()
+			{
+				if (HasSoftInput() && Owner is { } owner && (owner is not SafeArea or ScrollViewer))
+				{
+					_log.WarnIfEnabled(() => $"The '{nameof(InsetMask.SoftInput)}' mask is only supported on {nameof(SafeArea)} or ScrollViewer.");
+				}
 			}
 
 			private ScrollViewer? GetScrollAncestor()

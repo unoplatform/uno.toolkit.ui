@@ -1,0 +1,98 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.SafeArea_SoftInput_Scroll"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid Background="Blue">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<utu:NavigationBar Content="SafeArea Sample Page"
+						   MainCommandMode="Action"
+						   Style="{StaticResource MaterialPrimaryNavigationBarStyle}">
+			<utu:NavigationBar.MainCommand>
+				<AppBarButton Click="NavigateBack"
+							  Style="{StaticResource MaterialPrimaryAppBarButtonStyle}">
+					<AppBarButton.Icon>
+						<BitmapIcon ShowAsMonochrome="False"
+									UriSource="ms-appx:///Assets/CloseIcon.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.MainCommand>
+		</utu:NavigationBar>
+		<utu:SafeArea x:Name="SafeAreaControl"
+					  AutomationProperties.AutomationId="SafeAreaControl"
+					  Insets="SoftInput"
+					  Background="CornflowerBlue"
+					  Grid.Row="1">
+			<Grid x:Name="SafeAreaContent">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*"
+								   x:Name="Spacer" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBox HorizontalAlignment="Center"
+						 Grid.Column="1"
+						 x:Name="TopTextBox"
+						 PlaceholderText="Top"
+						 AutomationProperties.AutomationId="TopTextBox" />
+				<Border Grid.Row="1"
+						Grid.Column="1"
+						Width="50"
+						Background="Green"
+						x:Name="SpacerBorder"
+						AutomationProperties.AutomationId="SpacerBorder" />
+				<TextBox Grid.Row="2"
+						 HorizontalAlignment="Center"
+						 x:Name="BottomTextBox"
+						 Grid.Column="1"
+						 AutomationProperties.AutomationId="BottomTextBox"
+						 PlaceholderText="Bottom" />
+				<StackPanel Grid.Row="1"
+							VerticalAlignment="Center">
+					<TextBlock Text="Constraint Mode:" />
+					<RadioButton x:Name="SoftConstraintMode"
+								 GroupName="ConstraintMode"
+								 AutomationProperties.AutomationId="SoftConstraintMode"
+								 Checked="SoftChecked"
+								 Content="Soft"
+								 IsChecked="True" />
+					<RadioButton x:Name="HardConstraintMode"
+								 GroupName="ConstraintMode"
+								 AutomationProperties.AutomationId="HardConstraintMode"
+								 Checked="HardChecked"
+								 Content="Hard" />
+				</StackPanel>
+				<StackPanel Grid.Row="1"
+							Grid.Column="2"
+							VerticalAlignment="Center">
+					<TextBlock Text="Inset Mode:" />
+					<RadioButton x:Name="PaddingMode"
+								 GroupName="InsetMode"
+								 AutomationProperties.AutomationId="PaddingMode"
+								 Checked="PaddingChecked"
+								 Content="Padding"
+								 IsChecked="True" />
+					<RadioButton x:Name="MarginMode"
+								 GroupName="InsetMode"
+								 AutomationProperties.AutomationId="MarginMode"
+								 Checked="MarginChecked"
+								 Content="Margin" />
+				</StackPanel>
+			</Grid>
+		</utu:SafeArea>
+	</Grid>
+</Page>

@@ -20,6 +20,17 @@ namespace Uno.Toolkit.UITest.Extensions
 		{
 			var rect = app.WaitForElementWithMessage(elementName).Single().Rect;
 
+			return app.ToPhysicalRect(rect);
+		}
+		
+		public static IAppRect GetPhysicalScreenDimensions(this IApp app)
+		{
+			var rect = app.GetScreenDimensions();
+
+			return app.ToPhysicalRect(rect);
+		}
+		public static IAppRect ToPhysicalRect(this IApp app, IAppRect rect)
+		{
 			return AppInitializer.GetLocalPlatform() switch
 			{
 				Platform.Android => rect,
