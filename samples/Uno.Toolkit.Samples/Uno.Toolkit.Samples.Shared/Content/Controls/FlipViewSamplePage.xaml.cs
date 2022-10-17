@@ -40,7 +40,7 @@ using System.Collections.ObjectModel;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, nameof(FlipViewExtensions))]
+	[SamplePage(SampleCategory.Behaviors, nameof(FlipViewExtensions))]
 	public sealed partial class FlipViewSamplePage : Page
 	{
 		public FlipViewSamplePage()
@@ -48,31 +48,35 @@ namespace Uno.Toolkit.Samples.Content.Controls
 			this.InitializeComponent();
 
 
-			var btn = (Button)FindName("btn");
-			var flipView = (FlipView)FindName("flipView");
-			btn.Click += (_, __) =>
+			this.Loaded += (_, __) =>
 			{
-				var grid = new Grid();
+				var btn = this.SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "AddNewPageButton");
 
-				var bt1 = new Button
+				var flipView = this.SamplePageLayout.GetSampleChild<FlipView>("flipView");
+				btn.Click += (_, __) =>
 				{
-					Content = "Previous",
-					HorizontalAlignment = HorizontalAlignment.Left
+					var grid = new Grid();
+
+					var bt1 = new Button
+					{
+						Content = "Previous",
+						HorizontalAlignment = HorizontalAlignment.Left
+					};
+					FlipViewExtensions.SetPrevious(bt1, flipView);
+
+
+					var bt2 = new Button
+					{
+						Content = "Next",
+						HorizontalAlignment = HorizontalAlignment.Right
+					};
+					FlipViewExtensions.SetNext(bt2, flipView);
+
+					grid.Children.Add(bt1);
+					grid.Children.Add(bt2);
+
+					flipView.Items.Add(grid);
 				};
-				FlipViewExtensions.SetPrevious(bt1, flipView);
-
-
-				var bt2 = new Button
-				{
-					Content = "Next",
-					HorizontalAlignment = HorizontalAlignment.Right
-				};
-				FlipViewExtensions.SetNext(bt2, flipView);
-
-				grid.Children.Add(bt1);
-				grid.Children.Add(bt2);
-
-				flipView.Items.Add(grid);
 			};
 		}
 	}

@@ -26,8 +26,24 @@ namespace Uno.Toolkit.UI;
 
 public static class FlipViewExtensions
 {
+	#region DependencyProperty: Next
 	public static DependencyProperty NextProperty { get; } =
-		DependencyProperty.RegisterAttached("Next", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnNextChanged));
+	DependencyProperty.RegisterAttached("Next", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnNextChanged));
+
+	public static void SetNext(Button element, FlipView value) => element.SetValue(NextProperty, value);
+
+	public static FlipView GetNext(Button element) => (FlipView)element.GetValue(NextProperty);
+
+	#endregion
+
+	#region DependencyProperty: Previous
+	public static DependencyProperty PreviousProperty { get; } =
+	DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnPreviousChanged));
+
+	public static void SetPrevious(Button element, FlipView value) => element.SetValue(PreviousProperty, value);
+
+	public static FlipView GetPrevious(Button element) => (FlipView)element.GetValue(PreviousProperty);
+	#endregion
 
 	static void OnNextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
@@ -45,15 +61,7 @@ public static class FlipViewExtensions
 		}
 	}
 
-	public static void SetNext(Button element, FlipView value) => element.SetValue(NextProperty, value);
-
-	public static FlipView GetNext(Button element) => (FlipView)element.GetValue(NextProperty);
-
-
-	public static DependencyProperty PreviousProperty { get; } =
-		DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnPreviusChanged));
-
-	static void OnPreviusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	static void OnPreviousChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		if (d is not ButtonBase btn || e.NewValue is null)
 			return;
@@ -68,10 +76,6 @@ public static class FlipViewExtensions
 			GoBack(flipView);
 		}
 	}
-
-	public static void SetPrevious(Button element, FlipView value) => element.SetValue(PreviousProperty, value);
-
-	public static FlipView GetPrevious(Button element) => (FlipView)element.GetValue(PreviousProperty);
 
 	static void GoBack(FlipView element)
 	{
