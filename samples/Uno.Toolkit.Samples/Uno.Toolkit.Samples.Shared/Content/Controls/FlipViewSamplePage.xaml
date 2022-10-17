@@ -1,0 +1,77 @@
+﻿<Page
+	x:Class="Uno.Toolkit.Samples.Content.Controls.FlipViewSamplePage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:msui="using:Microsoft.UI.Xaml.Controls"
+	xmlns:sample="using:Uno.Toolkit.Samples"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	mc:Ignorable="d">
+
+	<sample:SamplePageLayout IsDesignAgnostic="True">
+		<sample:SamplePageLayout.DesignAgnosticTemplate>
+			<DataTemplate>
+				<StackPanel Margin="0,20" Spacing="20">
+					<FlipView
+						x:Name="flipView"
+						utu:SelectorExtensions.PipsPager="{Binding ElementName=pipsPager}"
+						Background="Blue">
+						<FlipView.Items>
+							<Grid Background="Azure">
+								<Button
+									HorizontalAlignment="Left"
+									utu:FlipViewExtensions.Previous="{Binding ElementName=flipView}"
+									Content="Previous" />
+								<Button
+									HorizontalAlignment="Right"
+									utu:FlipViewExtensions.Next="{Binding ElementName=flipView}"
+									Content="Next" />
+							</Grid>
+							<Grid Background="Blue">
+								<Button
+									HorizontalAlignment="Left"
+									utu:FlipViewExtensions.Previous="{Binding ElementName=flipView}"
+									Content="Previous" />
+								<Button
+									HorizontalAlignment="Right"
+									utu:FlipViewExtensions.Next="{Binding ElementName=flipView}"
+									Content="Next" />
+							</Grid>
+							<Grid Background="Yellow">
+								<Button
+									HorizontalAlignment="Left"
+									utu:FlipViewExtensions.Previous="{Binding ElementName=flipView}"
+									Content="Previous" />
+								<Button
+									HorizontalAlignment="Right"
+									utu:FlipViewExtensions.Next="{Binding ElementName=flipView}"
+									Content="Next" />
+							</Grid>
+							<Grid Background="Fuchsia">
+								<Button
+									HorizontalAlignment="Left"
+									utu:FlipViewExtensions.Previous="{Binding ElementName=flipView}"
+									Content="Previous" />
+								<Button
+									HorizontalAlignment="Right"
+									utu:FlipViewExtensions.Next="{Binding ElementName=flipView}"
+									Content="Next" />
+							</Grid>
+						</FlipView.Items>
+					</FlipView>
+
+					<msui:PipsPager
+						x:Name="pipsPager"
+						MinHeight="100"
+						Margin="0,0,0,0"
+						HorizontalAlignment="Center"/>
+
+					<Button x:Name="btn" Content="Add" />
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.DesignAgnosticTemplate>
+	</sample:SamplePageLayout>
+</Page>
