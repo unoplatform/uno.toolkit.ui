@@ -55,10 +55,12 @@ jobs:
       Samples:
         ApplicationPlatform: Samples
         ArtifactName: Samples
+        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
       Samples_WinUI:
         ApplicationPlatform: Samples_WinUI
         ArtifactName: Samples_WinUI
+        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
       Packages:
         ApplicationPlatform: Packages

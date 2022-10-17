@@ -47,8 +47,6 @@
   - bash: |
       chmod +x build/workflow/scripts/wasm-uitest-run.sh
       build/workflow/scripts/wasm-uitest-run.sh
-    env:
-      SAMPLE_PROJECT_NAME: "$(SAMPLE_PROJECT_NAME)"
     retryCountOnTaskFailure: 3
     displayName: 'Running build'
 

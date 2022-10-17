@@ -52,8 +52,6 @@
       $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
     displayName: Build and Run Android Tests
     retryCountOnTaskFailure: 3
-    env:
-      SAMPLE_PROJECT_NAME: "$(SAMPLE_PROJECT_NAME)"
 
   - task: PublishTestResults@2
     condition: always()
