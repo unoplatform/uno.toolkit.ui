@@ -53,8 +53,6 @@
     displayName: Build and Run Android Tests
     retryCountOnTaskFailure: 3
     env:
-      BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
-      BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
       SAMPLE_PROJECT_NAME: "$(SAMPLE_PROJECT_NAME)"
 
   - task: PublishTestResults@2

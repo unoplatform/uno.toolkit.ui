@@ -9,7 +9,7 @@ steps:
       msbuildLocationMethod: version
       msbuildVersion: latest
       maximumCpuCount: true
-      msbuildArguments: /m /r /p:PackageOutputPath=$(PackageOutputPath) "/p:PackageVersion=%GITVERSION_FullSemVer%" /p:DisableNet6MobileTargets=$(DisableNet6MobileTargets) /p:GeneratePackageOnBuild=$(GeneratePackageOnBuild) "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary /bl:$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform).binlog
+      msbuildArguments: /m /r /p:PackageOutputPath=$(PackageOutputPath) "/p:PackageVersion=%GITVERSION_FullSemVer%" /p:GeneratePackageOnBuild=$(GeneratePackageOnBuild) "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary /bl:$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform).binlog
 
   - task: DotNetCoreInstaller@0
     inputs:

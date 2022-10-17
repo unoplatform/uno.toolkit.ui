@@ -55,12 +55,10 @@ jobs:
       Samples:
         ApplicationPlatform: Samples
         ArtifactName: Samples
-        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
       Samples_WinUI:
         ApplicationPlatform: Samples_WinUI
         ArtifactName: Samples_WinUI
-        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
       Packages:
         ApplicationPlatform: Packages
@@ -93,12 +91,10 @@ jobs:
       iOS:
         ApplicationPlatform: iPhone
         ArtifactName: iOS
-        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
       macOS:
         ApplicationPlatform: macOS
         ArtifactName: macOS
-        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
 
   pool:
@@ -150,10 +146,8 @@ jobs:
     displayName: 'Build solution in Release | $(ApplicationPlatform)'
     retryCountOnTaskFailure: 3
     env:
-      BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
       BUILD_PLATFORM: "$(ApplicationPlatform)"
       BUILD_PACKAGEVERSION: "$(SemVer)"
-      BUILD_DISABLEMOBILETARGETS: "$(DisableNet6MobileTargets)"
       BUILD_GENERATEPACKAGE: "$(GeneratePackageOnBuild)"
       BUILD_SOLUTION: "src/Uno.Toolkit.sln"
       BUILD_BINLOG: "$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform).binlog"
