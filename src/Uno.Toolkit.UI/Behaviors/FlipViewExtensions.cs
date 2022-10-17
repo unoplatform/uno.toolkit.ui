@@ -22,11 +22,11 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 #endif
 
-namespace Uno.Toolkit.UI.Behaviors;
+namespace Uno.Toolkit.UI;
 
 public static class FlipViewExtensions
 {
-	public static readonly DependencyProperty NextProperty =
+	public static DependencyProperty NextProperty { get; } =
 		DependencyProperty.RegisterAttached("Next", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnNextChanged));
 
 	static void OnNextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -50,8 +50,8 @@ public static class FlipViewExtensions
 	public static FlipView GetNext(Button element) => (FlipView)element.GetValue(NextProperty);
 
 
-	public static readonly DependencyProperty PreviousProperty =
-		DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(0, OnPreviusChanged));
+	public static DependencyProperty PreviousProperty { get; } =
+		DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnPreviusChanged));
 
 	static void OnPreviusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
@@ -68,6 +68,10 @@ public static class FlipViewExtensions
 			GoBack(flipView);
 		}
 	}
+
+	public static void SetPrevious(Button element, FlipView value) => element.SetValue(PreviousProperty, value);
+
+	public static FlipView GetPrevious(Button element) => (FlipView)element.GetValue(PreviousProperty);
 
 	static void GoBack(FlipView element)
 	{
