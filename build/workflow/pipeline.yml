@@ -94,10 +94,12 @@ jobs:
         ApplicationPlatform: iPhone
         ArtifactName: iOS
         GeneratePackageOnBuild: false
+        DisableNet6MobileTargets: true
       macOS:
         ApplicationPlatform: macOS
         ArtifactName: macOS
         GeneratePackageOnBuild: false
+        DisableNet6MobileTargets: true
 
   pool:
     vmImage: 'macOS-11'
