@@ -40,7 +40,7 @@ using System.Collections.ObjectModel;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, nameof(FlipViewExtensions))]
+	[SamplePage(SampleCategory.Behaviors, nameof(FlipViewExtensions))]
 	public sealed partial class FlipViewSamplePage : Page
 	{
 		public FlipViewSamplePage()

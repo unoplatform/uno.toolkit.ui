@@ -15,6 +15,17 @@
 		<sample:SamplePageLayout.DesignAgnosticTemplate>
 			<DataTemplate>
 				<StackPanel Margin="0,20" Spacing="20">
+
+					<StackPanel.Resources>
+						<ResourceDictionary>
+							<Style TargetType="x:TextBlock">
+								<Setter Property="HorizontalAlignment" Value="Center" />
+							</Style>
+						</ResourceDictionary>
+					</StackPanel.Resources>
+
+					<TextBlock Text="Try to navigate throw the FlipView using the buttons inside it. " />
+
 					<FlipView
 						x:Name="flipView"
 						utu:SelectorExtensions.PipsPager="{Binding ElementName=pipsPager}"
@@ -66,10 +77,17 @@
 					<msui:PipsPager
 						x:Name="pipsPager"
 						MinHeight="100"
-						Margin="0,0,0,0"
-						HorizontalAlignment="Center"/>
+						HorizontalAlignment="Center"
+						MaxVisiblePips="10" />
 
-					<Button x:Name="btn" Content="Add" />
+					<TextBlock Text="To add a new view, press the button bellow" />
+
+					<Button
+						x:Name="btn"
+						HorizontalAlignment="Center"
+						Content="Add" />
+
+					<TextBlock Text="The Max number of visible pips are 10." />
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.DesignAgnosticTemplate>
