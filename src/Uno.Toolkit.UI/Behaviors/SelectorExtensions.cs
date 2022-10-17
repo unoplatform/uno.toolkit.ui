@@ -27,23 +27,21 @@ using Windows.UI.Xaml.Input;
 using PipsPager = Microsoft.UI.Xaml.Controls.PipsPager;
 #endif
 
-namespace Uno.Toolkit.UI.Behaviors;
-public static class SelectorExtensions
+namespace Uno.Toolkit.UI;
+public static partial class SelectorExtensions
 {
 	/// <summary>
 	/// Backing property for the <see cref="PipsPager"/> that will be linked to the desired <see cref="Selector"/> control.
 	/// </summary>
-	public static readonly DependencyProperty PipsPagerProperty =
+	public static DependencyProperty PipsPagerProperty { get; } =
 		DependencyProperty.RegisterAttached("PipsPager", typeof(PipsPager), typeof(SelectorExtensions), new PropertyMetadata(null, OnPipsPagerChanged));
 
 	static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 	{
-		if (args.NewValue == args.OldValue || args.NewValue is not Selector flipView)
+		if (args.NewValue == args.OldValue || dependencyObject is not Selector flipView)
 			return;
 
 		var pipsPager = (PipsPager)args.NewValue;
-
-		flipView.Items.VectorChanged += OnItemsVectorChanged;
 
 		var selectedIndexBinding = new Binding
 		{
@@ -54,8 +52,11 @@ public static class SelectorExtensions
 
 		pipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, selectedIndexBinding);
 
-		pipsPager.NumberOfPages = flipView.Items.Count;
 
+		flipView.Items.VectorChanged -= OnItemsVectorChanged;
+		flipView.Items.VectorChanged += OnItemsVectorChanged;
+
+		pipsPager.NumberOfPages = flipView.Items.Count;
 
 		void OnItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event) =>
 			pipsPager.NumberOfPages = flipView.Items.Count;

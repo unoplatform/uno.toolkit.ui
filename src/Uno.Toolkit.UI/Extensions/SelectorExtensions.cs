@@ -22,7 +22,7 @@ namespace Uno.Toolkit.UI
 	/// Extensions for <see cref="Selector"/>
 	/// </summary>
 	[Bindable]
-	public static class SelectorExtensions
+	public static partial class SelectorExtensions
 	{
 		#region SelectionOffset Attached Property
 		public static double GetSelectionOffset(DependencyObject obj)
