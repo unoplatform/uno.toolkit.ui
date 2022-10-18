@@ -55,8 +55,10 @@ public static class FlipViewExtensions
 		btn.Click -= OnBtnClick;
 		btn.Click += OnBtnClick;
 
-		void OnBtnClick(object sender, RoutedEventArgs e)
+
+		static void OnBtnClick(object sender, RoutedEventArgs e)
 		{
+			var flipView = GetNext((Button)sender);
 			GoNext(flipView);
 		}
 	}
@@ -71,8 +73,9 @@ public static class FlipViewExtensions
 		btn.Click -= OnBtnClick;
 		btn.Click += OnBtnClick;
 
-		void OnBtnClick(object sender, RoutedEventArgs e)
+		static void OnBtnClick(object sender, RoutedEventArgs e)
 		{
+			var flipView = GetPrevious((Button)sender);
 			GoBack(flipView);
 		}
 	}
