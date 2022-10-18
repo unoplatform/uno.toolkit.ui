@@ -11,7 +11,7 @@
 	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	mc:Ignorable="d">
 
-	<sample:SamplePageLayout IsDesignAgnostic="True">
+	<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
 		<sample:SamplePageLayout.DesignAgnosticTemplate>
 			<DataTemplate>
 				<StackPanel Margin="0,20" Spacing="20">
@@ -20,6 +20,7 @@
 						<ResourceDictionary>
 							<Style TargetType="x:TextBlock">
 								<Setter Property="HorizontalAlignment" Value="Center" />
+								<Setter Property="TextWrap" Value="Wrap" />
 							</Style>
 						</ResourceDictionary>
 					</StackPanel.Resources>
@@ -83,11 +84,11 @@
 					<TextBlock Text="To add a new view, press the button bellow" />
 
 					<Button
-						x:Name="btn"
+						x:Name="AddNewPageButton"
 						HorizontalAlignment="Center"
 						Content="Add" />
 
-					<TextBlock Text="The Max number of visible pips are 10." />
+					<TextBlock Text="The maximum number of visible pips are 10." />
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.DesignAgnosticTemplate>
