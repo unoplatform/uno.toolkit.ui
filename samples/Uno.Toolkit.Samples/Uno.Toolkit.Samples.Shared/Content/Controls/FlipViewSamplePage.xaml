@@ -15,7 +15,6 @@
 		<sample:SamplePageLayout.DesignAgnosticTemplate>
 			<DataTemplate>
 				<StackPanel Margin="0,20" Spacing="20">
-
 					<StackPanel.Resources>
 						<ResourceDictionary>
 							<Style TargetType="x:TextBlock">
@@ -80,15 +79,13 @@
 						MinHeight="100"
 						HorizontalAlignment="Center"
 						MaxVisiblePips="10" />
-
 					<TextBlock Text="To add a new view, press the button bellow" />
-
 					<Button
 						x:Name="AddNewPageButton"
 						HorizontalAlignment="Center"
 						Content="Add" />
-
 					<TextBlock Text="The maximum number of visible pips are 10." />
+
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.DesignAgnosticTemplate>
