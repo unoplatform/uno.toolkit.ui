@@ -38,7 +38,7 @@ public static class FlipViewExtensions
 
 	#region DependencyProperty: Previous
 	public static DependencyProperty PreviousProperty { get; } =
-	DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnPreviusChanged));
+	DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnPreviousChanged));
 
 	public static void SetPrevious(Button element, FlipView value) => element.SetValue(PreviousProperty, value);
 
@@ -61,7 +61,7 @@ public static class FlipViewExtensions
 		}
 	}
 
-	static void OnPreviusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	static void OnPreviousChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		if (d is not ButtonBase btn || e.NewValue is null)
 			return;

@@ -46,10 +46,8 @@ public static partial class SelectorExtensions
 
 	static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 	{
-		if (args.NewValue == args.OldValue || dependencyObject is not Selector selector)
+		if (args.NewValue == args.OldValue || dependencyObject is not Selector selector || args.NewValue is not PipsPager pipsPager)
 			return;
-
-		var pipsPager = (PipsPager)args.NewValue;
 
 		var selectedIndexBinding = new Binding
 		{
