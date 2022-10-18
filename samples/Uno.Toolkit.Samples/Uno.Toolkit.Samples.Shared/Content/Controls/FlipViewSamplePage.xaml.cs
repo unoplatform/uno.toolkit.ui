@@ -52,7 +52,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
 			{
 				var btn = this.SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "AddNewPageButton");
 
-				var flipView = this.SamplePageLayout.GetSampleChild<FlipView>("flipView");
+				var flipView = this.SamplePageLayout.GetSampleChild<FlipView>(Design.Agnostic, "flipView");
 				btn.Click += (_, __) =>
 				{
 					var grid = new Grid();
