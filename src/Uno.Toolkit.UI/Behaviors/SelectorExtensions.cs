@@ -51,7 +51,12 @@ public static partial class SelectorExtensions
 	{
 		_selectorItemsChanged.Disposable = null;
 		if (args.NewValue == args.OldValue || dependencyObject is not Selector selector || args.NewValue is not PipsPager pipsPager)
+		{
+			if (args.OldValue is PipsPager oldPipsPager)
+				oldPipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, null);
+
 			return;
+		}
 
 		var selectedIndexBinding = new Binding
 		{
