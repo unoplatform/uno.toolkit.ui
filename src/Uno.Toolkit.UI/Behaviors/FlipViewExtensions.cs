@@ -52,7 +52,7 @@ public static class FlipViewExtensions
 
 		var flipView = (FlipView)e.NewValue;
 
-		btn.Click -= OnBtnClick;
+		btn.Unloaded += (_, __) => btn.Click -= OnBtnClick;
 		btn.Click += OnBtnClick;
 
 		void OnBtnClick(object sender, RoutedEventArgs e)
@@ -68,7 +68,7 @@ public static class FlipViewExtensions
 
 		var flipView = (FlipView)e.NewValue;
 
-		btn.Click -= OnBtnClick;
+		btn.Unloaded += (_, __) => btn.Click -= OnBtnClick;
 		btn.Click += OnBtnClick;
 
 		void OnBtnClick(object sender, RoutedEventArgs e)
