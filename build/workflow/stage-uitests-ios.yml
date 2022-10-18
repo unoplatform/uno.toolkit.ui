@@ -60,10 +60,6 @@
       $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
     displayName: Build and Run iOS Test
     retryCountOnTaskFailure: 3
-    env:
-      BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
-      BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
-      SAMPLE_PROJECT_NAME: "$(SAMPLE_PROJECT_NAME)"
 
   - task: PublishTestResults@2
     condition: always()
