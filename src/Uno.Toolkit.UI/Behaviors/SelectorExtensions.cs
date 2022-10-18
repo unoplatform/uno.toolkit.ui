@@ -10,6 +10,7 @@ using Uno.Logging;
 using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.Foundation.Collections;
+using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Data;
@@ -30,6 +31,8 @@ using PipsPager = Microsoft.UI.Xaml.Controls.PipsPager;
 namespace Uno.Toolkit.UI;
 public static partial class SelectorExtensions
 {
+	static readonly SerialDisposable _selectorItemsChanged = new();
+
 	/// <summary>
 	/// Backing property for the <see cref="PipsPager"/> that will be linked to the desired <see cref="Selector"/> control.
 	/// </summary>
@@ -46,6 +49,7 @@ public static partial class SelectorExtensions
 
 	static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 	{
+		_selectorItemsChanged.Disposable = null;
 		if (args.NewValue == args.OldValue || dependencyObject is not Selector selector || args.NewValue is not PipsPager pipsPager)
 			return;
 
@@ -58,9 +62,8 @@ public static partial class SelectorExtensions
 
 		pipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, selectedIndexBinding);
 
-
-		selector.Items.VectorChanged -= OnItemsVectorChanged;
 		selector.Items.VectorChanged += OnItemsVectorChanged;
+		_selectorItemsChanged.Disposable = Disposable.Create(() => selector.Items.VectorChanged -= OnItemsVectorChanged);
 
 		pipsPager.NumberOfPages = selector.Items.Count;
 
