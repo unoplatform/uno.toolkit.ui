@@ -33,12 +33,20 @@ public static partial class SelectorExtensions
 	/// <summary>
 	/// Backing property for the <see cref="PipsPager"/> that will be linked to the desired <see cref="Selector"/> control.
 	/// </summary>
+	#region DependencyProperty: PipsPager
 	public static DependencyProperty PipsPagerProperty { get; } =
-		DependencyProperty.RegisterAttached("PipsPager", typeof(PipsPager), typeof(SelectorExtensions), new PropertyMetadata(null, OnPipsPagerChanged));
+	DependencyProperty.RegisterAttached("PipsPager", typeof(PipsPager), typeof(SelectorExtensions), new PropertyMetadata(null, OnPipsPagerChanged));
+
+	public static void SetPipsPager(Selector element, PipsPager value) =>
+		element.SetValue(PipsPagerProperty, value);
+
+	public static PipsPager GetPipsPager(Selector element) =>
+		(PipsPager)element.GetValue(PipsPagerProperty);
+	#endregion
 
 	static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 	{
-		if (args.NewValue == args.OldValue || dependencyObject is not Selector flipView)
+		if (args.NewValue == args.OldValue || dependencyObject is not Selector selector)
 			return;
 
 		var pipsPager = (PipsPager)args.NewValue;
@@ -46,26 +54,20 @@ public static partial class SelectorExtensions
 		var selectedIndexBinding = new Binding
 		{
 			Mode = BindingMode.TwoWay,
-			Source = flipView,
-			Path = new PropertyPath(nameof(flipView.SelectedIndex))
+			Source = selector,
+			Path = new PropertyPath(nameof(selector.SelectedIndex))
 		};
 
 		pipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, selectedIndexBinding);
 
 
-		flipView.Items.VectorChanged -= OnItemsVectorChanged;
-		flipView.Items.VectorChanged += OnItemsVectorChanged;
+		selector.Items.VectorChanged -= OnItemsVectorChanged;
+		selector.Items.VectorChanged += OnItemsVectorChanged;
 
-		pipsPager.NumberOfPages = flipView.Items.Count;
+		pipsPager.NumberOfPages = selector.Items.Count;
 
 		void OnItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event) =>
-			pipsPager.NumberOfPages = flipView.Items.Count;
+			pipsPager.NumberOfPages = selector.Items.Count;
 	}
-
-	public static void SetPipsPager(Selector element, PipsPager value) =>
-		element.SetValue(PipsPagerProperty, value);
-
-	public static PipsPager GetPipsPager(Selector element) =>
-		(PipsPager)element.GetValue(PipsPagerProperty);
 }
 
