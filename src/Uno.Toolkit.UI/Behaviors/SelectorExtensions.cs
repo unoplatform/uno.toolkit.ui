@@ -29,9 +29,13 @@ using PipsPager = Microsoft.UI.Xaml.Controls.PipsPager;
 #endif
 
 namespace Uno.Toolkit.UI;
+
+/// <summary>
+/// Extensions for <see cref="Selector"/>
+/// </summary>
+[Bindable]
 public static partial class SelectorExtensions
 {
-	static readonly SerialDisposable _selectorItemsChanged = new();
 
 	/// <summary>
 	/// Backing property for the <see cref="PipsPager"/> that will be linked to the desired <see cref="Selector"/> control.
@@ -49,7 +53,6 @@ public static partial class SelectorExtensions
 
 	static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 	{
-		_selectorItemsChanged.Disposable = null;
 		if (args.NewValue == args.OldValue || dependencyObject is not Selector selector || args.NewValue is not PipsPager pipsPager)
 		{
 			if (args.OldValue is PipsPager oldPipsPager)
@@ -66,14 +69,38 @@ public static partial class SelectorExtensions
 		};
 
 		pipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, selectedIndexBinding);
-
-		selector.Items.VectorChanged += OnItemsVectorChanged;
-		_selectorItemsChanged.Disposable = Disposable.Create(() => selector.Items.VectorChanged -= OnItemsVectorChanged);
-
 		pipsPager.NumberOfPages = selector.Items.Count;
+
+		VectorChangedEventHandler<object> eventHandler = OnItemsVectorChanged;
+
+		selector.Items.VectorChanged += eventHandler;
+		selector.Unloaded += (_, __) =>
+		{
+			selector.Items.VectorChanged -= eventHandler;
+		};
+
 
 		void OnItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event) =>
 			pipsPager.NumberOfPages = selector.Items.Count;
 	}
+
+
+	#region SelectionOffset Attached Property
+	public static double GetSelectionOffset(DependencyObject obj)
+	{
+		return (double)obj.GetValue(SelectionOffsetProperty);
+	}
+
+	public static void SetSelectionOffset(DependencyObject obj, double value)
+	{
+		obj.SetValue(SelectionOffsetProperty, value);
+	}
+
+	/// <summary>
+	/// Property that can be used to observe the position of the currently selected item within a <see cref="Selector"/>
+	/// </summary>
+	public static DependencyProperty SelectionOffsetProperty { get; } =
+		DependencyProperty.RegisterAttached("SelectionOffset", typeof(double), typeof(SelectorExtensions), new PropertyMetadata(0d));
+	#endregion
 }
 
