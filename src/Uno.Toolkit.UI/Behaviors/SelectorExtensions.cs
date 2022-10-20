@@ -36,6 +36,7 @@ namespace Uno.Toolkit.UI;
 [Bindable]
 public static partial class SelectorExtensions
 {
+	readonly static Dictionary<Selector, VectorChangedEventHandler<object>> events = new();
 
 	/// <summary>
 	/// Backing property for the <see cref="PipsPager"/> that will be linked to the desired <see cref="Selector"/> control.
@@ -53,11 +54,17 @@ public static partial class SelectorExtensions
 
 	static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 	{
-		if (args.NewValue == args.OldValue || dependencyObject is not Selector selector || args.NewValue is not PipsPager pipsPager)
-		{
-			if (args.OldValue is PipsPager oldPipsPager)
-				oldPipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, null);
+		if (args.NewValue == args.OldValue)
+			return;
 
+		if (args.OldValue is PipsPager oldPipsPager)
+			oldPipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, null);
+
+		var selector = (Selector)dependencyObject;
+
+		if (args.NewValue is not PipsPager pipsPager)
+		{
+			UnsubscribeFromSelectorEvents(selector);
 			return;
 		}
 
@@ -71,8 +78,9 @@ public static partial class SelectorExtensions
 		pipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, selectedIndexBinding);
 		pipsPager.NumberOfPages = selector.Items.Count;
 
+		UnsubscribeFromSelectorEvents(selector);
 		VectorChangedEventHandler<object> eventHandler = OnItemsVectorChanged;
-
+		events[selector] = eventHandler;
 		selector.Items.VectorChanged += eventHandler;
 		selector.Unloaded += (_, __) =>
 		{
@@ -84,6 +92,14 @@ public static partial class SelectorExtensions
 			pipsPager.NumberOfPages = selector.Items.Count;
 	}
 
+	static void UnsubscribeFromSelectorEvents(in Selector selector)
+	{
+		if (events.TryGetValue(selector, out var @event))
+		{
+			selector.Items.VectorChanged -= @event;
+			events.Remove(selector);
+		}
+	}
 
 	#region SelectionOffset Attached Property
 	public static double GetSelectionOffset(DependencyObject obj)
