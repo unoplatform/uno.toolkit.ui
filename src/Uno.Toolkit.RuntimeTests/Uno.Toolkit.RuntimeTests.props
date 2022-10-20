@@ -1,0 +1,63 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+
+	<!--
+		Condition="'$(FrameworkLineage)' == 'UWP'"
+		Condition="'$(FrameworkLineage)' == 'WinUI'"
+	-->
+
+	<PropertyGroup>
+		<!-- We are not building any target in UnoTargetFrameworkOverride, but only those that are supported and in the appropriate linage -->
+		<!-- condition: add target if no override or the target is defined in override -->
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('netstandard2.0'))">$(TargetFrameworks);netstandard2.0</TargetFrameworks>
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('xamarinios10'))">$(TargetFrameworks);xamarinios10</TargetFrameworks>
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('xamarinmac20'))">$(TargetFrameworks);xamarinmac20</TargetFrameworks>
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('MonoAndroid11.0'))">$(TargetFrameworks);MonoAndroid11.0</TargetFrameworks>
+		<!-- condition: in addition to the above condition, we ALSO check if the right FrameworkLineage is given -->
+		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'UWP' AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('uap10.0.18362')))">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
+		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net5.0-windows10.0.18362')))">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
+
+		<AssemblyName>Uno.Toolkit.RuntimeTests</AssemblyName>
+		<RootNamespace>Uno.Toolkit.RuntimeTests</RootNamespace>
+
+		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+
+		<!-- Required by Uno.UI.RuntimeTests.Engine -->
+		<DefineConstants>$(DefineConstants);UNO_RUNTIMETESTS_DISABLE_INJECTEDPOINTERATTRIBUTE</DefineConstants>
+		<DefineConstants>$(DefineConstants);UNO_RUNTIMETESTS_DISABLE_REQUIRESFULLWINDOWATTRIBUTE</DefineConstants>
+		<DefineConstants>$(DefineConstants);UNO_RUNTIMETESTS_DISABLE_RUNSONUITHREADATTRIBUTE</DefineConstants>
+
+		<DefineConstants Condition="'$(FrameworkLineage)' == 'UWP'">$(DefineConstants);IS_UWP</DefineConstants>
+		<DefineConstants Condition="'$(FrameworkLineage)' == 'WinUI'">$(DefineConstants);IS_WINUI</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
+		<!--
+			If you encounter this error message:
+			error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+			Please update to a newer .NET SDK in order to reference this assembly.
+
+			This means that the two packages below must be aligned with the "build" version number of
+			the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+			must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+		-->
+		
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.UI.Xaml" Condition="'$(TargetFramework)'=='uap10.0.18362'" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
+
+		<PackageReference Include="Uno.UI" Condition="'$(FrameworkLineage)' == 'UWP'" />
+		<PackageReference Include="Uno.WinUI" Condition="'$(FrameworkLineage)' == 'WinUI'" />
+		<PackageReference Include="MSTest.TestFramework" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" Condition="'$(FrameworkLineage)' == 'UWP'" />
+		<ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" Condition="'$(FrameworkLineage)' == 'WinUI'" />
+	</ItemGroup>
+
+</Project>

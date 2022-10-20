@@ -8,7 +8,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Uno.UI.Skia.Wpf" />
-    <PackageReference Include="Uno.UI.RemoteControl"  Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />

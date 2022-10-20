@@ -187,6 +187,7 @@
     <PackageReference Include="Uno.Material" />
     <PackageReference Include="Uno.UI" />
     <PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
     <PackageReference Include="Uno.Extensions.Logging.OSLog" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
@@ -202,6 +203,10 @@
     <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj">
       <Project>{3aa9542b-f033-4c56-ba9f-5b359e0b55f8}</Project>
       <Name>Uno.Toolkit.UI.Material</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.UI.csproj">
+      <Project>{b72f05b9-6e3e-46b5-9f7f-316c3ec113ed}</Project>
+      <Name>Uno.Toolkit.RuntimeTests.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj">
       <Project>{aeed47ed-bd21-4f03-a7a9-124cf63e4b1c}</Project>
