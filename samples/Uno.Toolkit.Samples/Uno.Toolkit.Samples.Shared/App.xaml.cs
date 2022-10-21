@@ -63,6 +63,12 @@ namespace Uno.Toolkit.Samples
 			this.Suspending += OnSuspending;
 #endif
 
+#if WINDOWS_WINUI
+			// prevent runtimetests assembly from being optimized away on winui::windows.
+			// just referencing a single class was enough for the entire assembly.
+			_ = typeof(Uno.Toolkit.RuntimeTests.Tests.SanityTests).ToString();
+#endif
+
 #if HAS_UNO
 			FeatureConfiguration.Style.SetUWPDefaultStylesOverride<Frame>(false);
 #endif
