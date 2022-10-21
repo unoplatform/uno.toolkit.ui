@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+<Project ToolsVersion="15.0">
 
 	<!--
 		Condition="'$(FrameworkLineage)' == 'UWP'"
@@ -11,10 +11,10 @@
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('netstandard2.0'))">$(TargetFrameworks);netstandard2.0</TargetFrameworks>
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('xamarinios10'))">$(TargetFrameworks);xamarinios10</TargetFrameworks>
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('xamarinmac20'))">$(TargetFrameworks);xamarinmac20</TargetFrameworks>
-		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('MonoAndroid11.0'))">$(TargetFrameworks);MonoAndroid11.0</TargetFrameworks>
-		<!-- condition: in addition to the above condition, we ALSO check if the right FrameworkLineage is given -->
-		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'UWP' AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('uap10.0.18362')))">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
-		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net5.0-windows10.0.18362')))">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('MonoAndroid12.0'))">$(TargetFrameworks);MonoAndroid12.0</TargetFrameworks>
+		<!-- condition: in addition to the above condition, we ALSO check if the right FrameworkLineage is given and that we are building on window machine -->
+		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'UWP' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('uap10.0.18362')))">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
+		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net5.0-windows10.0.18362')))">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
 
 		<AssemblyName>Uno.Toolkit.RuntimeTests</AssemblyName>
 		<RootNamespace>Uno.Toolkit.RuntimeTests</RootNamespace>
