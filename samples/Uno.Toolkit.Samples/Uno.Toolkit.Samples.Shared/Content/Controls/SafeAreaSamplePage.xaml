@@ -34,6 +34,12 @@
 
 					<Button HorizontalAlignment="Center"
 							VerticalAlignment="Center"
+							AutomationProperties.AutomationId="SafeArea_Launch_SoftInput_Scroll_Sample_Button"
+							Click="LaunchSoftInputScrollSample"
+							Content="Show SoftInput Scroll Sample" />
+
+					<Button HorizontalAlignment="Center"
+							VerticalAlignment="Center"
 							AutomationProperties.AutomationId="SafeArea_Launch_Modal_Button"
 							Click="LaunchModalSample"
 							Content="Show Modal Sample" />

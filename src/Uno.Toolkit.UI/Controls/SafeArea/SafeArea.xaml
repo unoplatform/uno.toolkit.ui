@@ -3,21 +3,91 @@
 					xmlns:utu="using:Uno.Toolkit.UI">
 
 	<Style TargetType="utu:SafeArea">
+		<Setter Property="HorizontalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Stretch" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:SafeArea">
-					<Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-						  VerticalAlignment="{TemplateBinding VerticalAlignment}"
+					<Grid x:Name="LayoutRoot"
 						  Background="{TemplateBinding Background}"
+						  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						  VerticalAlignment="{TemplateBinding VerticalAlignment}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  CornerRadius="{TemplateBinding CornerRadius}">
-						<ContentPresenter Margin="{TemplateBinding Padding}"
-										  Content="{TemplateBinding Content}"
-										  ContentTemplate="{TemplateBinding ContentTemplate}"
-										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="InsetStates">
+								<VisualState x:Name="Default" />
+								<VisualState x:Name="SoftInput">
+									<VisualState.Setters>
+										<Setter Target="SafeAreaPresenter.Style"
+												Value="{StaticResource ScrollableSafeAreaPresenterStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="NoSoftInput">
+									<VisualState.Setters>
+										<Setter Target="SafeAreaPresenter.Style"
+												Value="{StaticResource SafeAreaPresenterStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<utu:SafeAreaPresenter x:Name="SafeAreaPresenter"
+											   Margin="{TemplateBinding Padding}"
+											   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+											   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+											   Content="{TemplateBinding Content}"
+											   ContentTemplate="{TemplateBinding ContentTemplate}"
+											   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" />
 					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- Empty ControlTemplate by default since we will apply a style with a proper template upon enetering the SoftInput/NoSoftInput VisualStates -->
+	<!-- Avoid loading views that may be unnecessary if the VisualState change will automatically replace the style anyway -->
+	<Style TargetType="utu:SafeAreaPresenter">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:SafeAreaPresenter" />
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="SafeAreaPresenterStyle"
+		   TargetType="utu:SafeAreaPresenter">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:SafeAreaPresenter">
+					<ContentPresenter Content="{TemplateBinding Content}"
+									  ContentTemplate="{TemplateBinding ContentTemplate}"
+									  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" 
+									  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+									  VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="ScrollableSafeAreaPresenterStyle"
+		   TargetType="utu:SafeAreaPresenter">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:SafeAreaPresenter">
+					<ScrollViewer x:Name="SafeAreaScrollViewer">
+						<ContentPresenter Content="{TemplateBinding Content}"
+										  ContentTemplate="{TemplateBinding ContentTemplate}"
+										  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" 
+										  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+										  VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+					</ScrollViewer>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

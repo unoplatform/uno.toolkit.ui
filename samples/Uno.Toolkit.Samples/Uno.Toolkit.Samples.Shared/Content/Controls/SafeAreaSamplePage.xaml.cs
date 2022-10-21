@@ -61,6 +61,11 @@ namespace Uno.Toolkit.Samples.Content.Controls
 			Shell.GetForCurrentView().ShowNestedSample<SafeArea_SoftInput_NestedPage>(clearStack: true);
 		}
 
+		private void LaunchSoftInputScrollSample(object sender, RoutedEventArgs e)
+		{
+			Shell.GetForCurrentView().ShowNestedSample<SafeArea_SoftInput_Scroll>(clearStack: true);
+		}
+
 		private void LaunchModalSample(object sender, RoutedEventArgs e)
 		{
 #if __IOS__
