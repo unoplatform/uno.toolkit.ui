@@ -66,13 +66,16 @@ Attempting to use `SafeArea` to adapt to the keyboard without including a `Scrol
 
 #### Sample Login Page
 
-In this initial example, notice that 
+Notice in this first example (without `SafeArea` in use) that the Username and Password field are covered by the keyboard and the UI above the keyboard is not scrollable so the relevant views cannot be brought into the visible frame.
 
-<div style="display:flex;flex-direction:row;flex-wrap:wrap">
-  <div style="flex-shrink:1">
-    <img width="350px" src="../assets/safearea-login-static.gif" />
-  </div>
-  <div style="flex:2">
+<table>
+  <tr>
+    <th>Page</th>
+    <th>XAML</th>
+  </tr>
+  <tr>
+   <td><img src="../assets/safearea-login-static.gif" width="400px"/> </td>
+    <td>
 
 ```xml
 <Page ...
@@ -114,51 +117,22 @@ In this initial example, notice that
 	</Grid>
 </Page>
 ```
-  </div>
-</div>
 
-# SafeAreaScroll
-```xml
-	<utu:SafeArea Insets="SoftInput">
-		<Grid Padding="50,0">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<!--  Spacer  -->
-				<RowDefinition Height="40" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-			<Image Source="ms-appx:///Assets/uno-logo.png"
-				   VerticalAlignment="Stretch"
-				   HorizontalAlignment="Stretch" />
-
-			<StackPanel Grid.Row="2"
-						Spacing="20">
-				<TextBlock Text="Welcome to Uno!"
-						   HorizontalAlignment="Center"
-						   FontSize="35" />
-				<PersonPicture ProfilePicture="ms-appx:///Assets/profile.png" />
-				<TextBox x:Name="TextBox"
-						 PlaceholderText="Username" />
-				<PasswordBox x:Name="PasswordBox"
-							 PlaceholderText="Password" />
-				<StackPanel Orientation="Horizontal"
-							Spacing="4">
-					<CheckBox Padding="0"
-							  MinWidth="0" />
-					<TextBlock Text="Remember me"
-							   VerticalAlignment="Center" />
-				</StackPanel>
-				<Button Content="Login"
-						x:Name="LoginBtn"
-						VerticalAlignment="Top"
-						HorizontalAlignment="Stretch"
-						Margin="0,30" />
-			</StackPanel>
-		</Grid>
-	</utu:SafeArea>
-```
+</td>
+  </tr>
+</table>
 
 # safe area attached
+
+<table>
+  <tr>
+    <th>Page</th>
+    <th>XAML</th>
+  </tr>
+  <tr>
+   <td><img src="../assets/safearea-login-static.gif" width="400px"/> </td>
+    <td>
+
 ```xml
 <Page x:Class="App3.MainPage"
 	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -210,47 +184,63 @@ In this initial example, notice that
 </Page>
 ```
 
+</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th>Page</th>
+    <th>XAML</th>
+  </tr>
+  <tr>
+   <td><img src="../assets/safearea-login-scroll.gif" width="400px"/> </td>
+    <td>
+
 ```xml
-<Page ...
-	  xmlns:utu="using:Uno.Toolkit.UI">
+	<utu:SafeArea Insets="SoftInput">
+		<Grid Padding="50,0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<!--  Spacer  -->
+				<RowDefinition Height="40" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<Image Source="ms-appx:///Assets/uno-logo.png"
+				   VerticalAlignment="Stretch"
+				   HorizontalAlignment="Stretch" />
 
-	<Grid Padding="50,0">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<!--  Spacer  -->
-			<RowDefinition Height="40" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<Image Source="ms-appx:///Assets/uno-logo.png"
-			   VerticalAlignment="Stretch"
-			   HorizontalAlignment="Stretch" />
-
-		<StackPanel Grid.Row="2"
-					Spacing="20">
-			<TextBlock Text="Welcome to Uno!"
-					   HorizontalAlignment="Center"
-					   FontSize="35" />
-			<PersonPicture ProfilePicture="ms-appx:///Assets/profile.png" />
-			<TextBox x:Name="TextBox"
-					 PlaceholderText="Username" />
-			<PasswordBox x:Name="PasswordBox"
-						 PlaceholderText="Password" />
-			<StackPanel Orientation="Horizontal"
-						Spacing="4">
-				<CheckBox Padding="0"
-						  MinWidth="0" />
-				<TextBlock Text="Remember me"
-						   VerticalAlignment="Center" />
+			<StackPanel Grid.Row="2"
+						Spacing="20">
+				<TextBlock Text="Welcome to Uno!"
+						   HorizontalAlignment="Center"
+						   FontSize="35" />
+				<PersonPicture ProfilePicture="ms-appx:///Assets/profile.png" />
+				<TextBox x:Name="TextBox"
+						 PlaceholderText="Username" />
+				<PasswordBox x:Name="PasswordBox"
+							 PlaceholderText="Password" />
+				<StackPanel Orientation="Horizontal"
+							Spacing="4">
+					<CheckBox Padding="0"
+							  MinWidth="0" />
+					<TextBlock Text="Remember me"
+							   VerticalAlignment="Center" />
+				</StackPanel>
+				<Button Content="Login"
+						x:Name="LoginBtn"
+						VerticalAlignment="Top"
+						HorizontalAlignment="Stretch"
+						Margin="0,30" />
 			</StackPanel>
-			<Button Content="Login"
-					x:Name="LoginBtn"
-					VerticalAlignment="Top"
-					HorizontalAlignment="Stretch"
-					Margin="0,30" />
-		</StackPanel>
-	</Grid>
-</Page>
+		</Grid>
+	</utu:SafeArea>
 ```
+
+</td>
+  </tr>
+</table>
 
 > [!WARNING]
 > Special care must be taken when using `InsetMask.SoftInput` for Android applications. Combining `SafeArea`'s `SoftInput` logic within an Activity whose [`WindowSoftInputMode`](https://developer.android.com/guide/topics/manifest/activity-element#wsoft) is set to `adjustResize` or `adjustPan` may result in undesired behavior, especially when working with text entry controls such as `TextBox` or `PasswordBox`. It is possible to set the `WindowSoftInputMode` to `adjustNothing`. More information on Android specific keyboard behaviors can be found [here](https://developer.android.com/develop/ui/views/touch-and-input/keyboard-input/visibility).
