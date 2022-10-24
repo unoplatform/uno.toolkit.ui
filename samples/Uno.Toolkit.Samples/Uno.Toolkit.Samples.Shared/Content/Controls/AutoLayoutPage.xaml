@@ -107,9 +107,17 @@
                             <TextBlock Text="AutoLayout with padding and a independent element"
 									   Style="{StaticResource BodyTextBlockStyle}"
 									   Margin="0,24,0,0" />
-                            <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Padding="40,40,100,100" IsReverseZIndex="True"  Width="600" Height="400">
+                            <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Padding="40,40,100,100" IsReverseZIndex="True" Width="600" Height="400">
                                 <utu:AutoLayout Background="{ThemeResource SecondaryVariantLightBrush}" IsIndependentLayout="True" Margin="137,295,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="463" Height="79" />
                                 <utu:AutoLayout Background="{ThemeResource SecondaryVariantDarkBrush}" utu:AutoLayout.CounterAlignment="Start" Width="285" Height="132" />
+                                <utu:AutoLayout Background="{ThemeResource OnSecondaryContainerBrush}" utu:AutoLayout.CounterAlignment="Start" Width="388" Height="95" />
+                            </utu:AutoLayout>
+
+                            <TextBlock Text="AutoLayout with padding and a independent element and PrimaryAxisAlignment= End "
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+                            <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Padding="40,40,200,100" PrimaryAxisAlignment="End" IsReverseZIndex="True" Width="600" Height="400">
+                                <utu:AutoLayout Background="{ThemeResource SecondaryVariantLightBrush}" IsIndependentLayout="True" Margin="137,295,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="463" Height="79" />
                                 <utu:AutoLayout Background="{ThemeResource OnSecondaryContainerBrush}" utu:AutoLayout.CounterAlignment="Start" Width="388" Height="95" />
                             </utu:AutoLayout>
                         </StackPanel>
