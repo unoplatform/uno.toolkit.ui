@@ -1,6 +1,7 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.38">
 	<PropertyGroup>
 		<FrameworkLineage>WinUI</FrameworkLineage>
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 	</PropertyGroup>
 
 	<Import Project="Uno.Toolkit.RuntimeTests.props" />
