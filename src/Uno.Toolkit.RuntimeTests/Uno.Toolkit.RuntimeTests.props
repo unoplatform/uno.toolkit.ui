@@ -12,6 +12,7 @@
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('xamarinios10'))">$(TargetFrameworks);xamarinios10</TargetFrameworks>
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('xamarinmac20'))">$(TargetFrameworks);xamarinmac20</TargetFrameworks>
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('MonoAndroid12.0'))">$(TargetFrameworks);MonoAndroid12.0</TargetFrameworks>
+		
 		<!-- condition: in addition to the above condition, we ALSO check if the right FrameworkLineage is given and that we are building on window machine -->
 		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'UWP' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('uap10.0.18362')))">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
 		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net5.0-windows10.0.18362')))">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
@@ -27,6 +28,13 @@
 
 		<DefineConstants Condition="'$(FrameworkLineage)' == 'UWP'">$(DefineConstants);IS_UWP</DefineConstants>
 		<DefineConstants Condition="'$(FrameworkLineage)' == 'WinUI'">$(DefineConstants);IS_WINUI</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(DisableNet6MobileTargets)'==''">
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net6.0-ios'))">$(TargetFrameworks);net6.0-ios</TargetFrameworks>
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net6.0-macos'))">$(TargetFrameworks);net6.0-macos</TargetFrameworks>
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net6.0-maccatalyst'))">$(TargetFrameworks);net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net6.0-android'))">$(TargetFrameworks);net6.0-android</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">

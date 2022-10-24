@@ -24,25 +24,11 @@
     clean: true
     
   - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 6.0.300'
+    displayName: 'Use .NET Core SDK 6.0.x'
     retryCountOnTaskFailure: 3
     inputs:
       packageType: sdk
-      version: 6.0.300
-
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 5.0.400'
-    retryCountOnTaskFailure: 3
-    inputs:
-      packageType: sdk
-      version: 5.0.400
-      
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 3.1.406'
-    retryCountOnTaskFailure: 3
-    inputs:
-      packageType: sdk
-      version: 3.1.406
+      version: 6.0.402
 
   - bash: |
       chmod +x build/workflow/scripts/wasm-uitest-run.sh

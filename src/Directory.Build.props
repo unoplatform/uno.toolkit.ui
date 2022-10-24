@@ -4,7 +4,7 @@
 		<DebugSymbols>True</DebugSymbols>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-
+		<DisableImplicitLibraryPacksFolder>true</DisableImplicitLibraryPacksFolder>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release' and '$(GeneratePackageOnBuild)'=='true'">true</GeneratePackageOnBuild>
 		<GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
 

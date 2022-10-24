@@ -5,8 +5,8 @@
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    XCODE_ROOT: '/Applications/Xcode_13.2.1.app'
-    XamarinSDKVersion: 6_12_12
+    XCODE_ROOT: '/Applications/Xcode_13.4.1.app'
+    XamarinSDKVersion: 6_12_16
 
   strategy:
     maxParallel: 2
@@ -19,7 +19,7 @@
         XAML_FLAVOR_BUILD: WinUI
 
   pool:
-    vmImage: 'macOS-11'
+    vmImage: 'macOS-12'
 
   steps:
   - checkout: self
@@ -38,6 +38,8 @@
     inputs: 
       packageType: runtime 
       version: 2.2.x
+
+  - template: templates/dotnet6-install-mac.yml
 
   - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
     displayName: Select Xamarin Version

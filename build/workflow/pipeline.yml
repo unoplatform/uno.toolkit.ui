@@ -52,16 +52,21 @@ jobs:
   strategy:
     maxParallel: 4
     matrix:
-      Samples:
+      Samples_Xamarin:
         ApplicationPlatform: Samples
         ArtifactName: Samples
-        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
-      Samples_WinUI:
+        DisableNet6MobileTargets: true
+      Samples_Xamarin_WinUI:
         ApplicationPlatform: Samples_WinUI
         ArtifactName: Samples_WinUI
-        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
+        DisableNet6MobileTargets: true
+      Samples_Android_Mobile:
+        ApplicationPlatform: Mobile
+        ArtifactName: Samples_Android_Mobile
+        GeneratePackageOnBuild: false
+        UnoTargetFrameworkOverride: net6.0-android
       Packages:
         ApplicationPlatform: Packages
         ArtifactName: uno-ui-toolkit-drop
@@ -83,32 +88,46 @@ jobs:
 
     - template: stage-build.yml
 
-- job: macOS
+- job: macOS_net6
 
   timeoutInMinutes: 90 
 
   strategy:
-    maxParallel: 2
+    maxParallel: 4
     matrix:
-      iOS:
-        ApplicationPlatform: iPhone
-        ArtifactName: iOS
+      Samples_iOS_Mobile:
+        ApplicationPlatform: Mobile
+        ArtifactName: Samples_iOS_Mobile
         GeneratePackageOnBuild: false
-        DisableNet6MobileTargets: true
-      macOS:
-        ApplicationPlatform: macOS
-        ArtifactName: macOS
+        UnoTargetFrameworkOverride: net6.0-ios
+        BuildCommand: publish
+      Samples_macOS_Mobile:
+        ApplicationPlatform: Mobile
+        ArtifactName: Samples_macOS_Mobile
         GeneratePackageOnBuild: false
-        DisableNet6MobileTargets: true
+        UnoTargetFrameworkOverride: net6.0-macos
+        BuildCommand: build
+      Samples_Android_Mobile:
+        ApplicationPlatform: Mobile
+        ArtifactName: Samples_Android_Mobile
+        GeneratePackageOnBuild: false
+        UnoTargetFrameworkOverride: net6.0-android
+        BuildCommand: publish
+      Samples_Catalyst_Mobile:
+        ApplicationPlatform: Mobile
+        ArtifactName: Samples_Catalyst_Mobile
+        GeneratePackageOnBuild: false
+        UnoTargetFrameworkOverride: net6.0-maccatalyst
+        BuildCommand: build
 
   pool:
-    vmImage: 'macOS-11'
-  
+    vmImage: 'macOS-12'
+
   variables:
    - name: XCODE_ROOT
-     value: '/Applications/Xcode_13.2.1.app'
+     value: '/Applications/Xcode_13.4.1.app'
    - name: XamarinSDKVersion
-     value: 6_12_12
+     value: 6_12_16
    - group: unoplatform.apple.ios.appstore.distribution
 
   steps:
@@ -128,34 +147,182 @@ jobs:
   - template: templates/gitversion.yml
   - template: templates/dotnet6-install-mac.yml
 
-  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
-    displayName: Select Xamarin Version
-
-  - bash: |
-      echo 'xCode Root to ${XCODE_ROOT}'
-      echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'${XCODE_ROOT}
-      sudo xcode-select --switch ${XCODE_ROOT}/Contents/Developer
-
-    displayName: Select Xcode
-
+  - template: templates/ios-build-select-version.yml
+    parameters:
+      xCodeRoot: ${XCODE_ROOT}
+      XamarinSDKVersion: $(XamarinSDKVersion)
+    
   - bash: |
       rm -f ${HOME}/Library/Preferences/Xamarin/Settings.plist
+    # https://github.com/actions/virtual-environments/issues/1932
+    displayName: Apply workaround for Azure Devops issue 1932
+      
+  - bash: |
+      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Mobile
+      echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
+      dotnet $(BuildCommand) Uno.Toolkit.WinUI.Samples.Mobile.csproj -f $(UnoTargetFrameworkOverride) -c Release /p:PackageVersion=$(SemVer) /p:ArchiveOnBuild=true /bl:$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform)-$(UnoTargetFrameworkOverride).binlog "/p:InformationalVersion=$GITVERSION_INFORMATIONALVERSION" 
+    displayName: 'Build project for Release | $(ApplicationPlatform) - $(UnoTargetFrameworkOverride)'
+  
+  - task: CopyFiles@2
+    displayName: 'Publish Binaries'
+    inputs:
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Mobile/bin/Release/$(UnoTargetFrameworkOverride)
+      Contents:  |
+        **/*.apk
+        **/*.ipa
+        **/*.dSym/**
+        **/*.pkg
+      TargetFolder: $(build.artifactstagingdirectory)
+      CleanTargetFolder: false
+      OverWrite: false
+      flattenFolders: false
 
+  - task: PublishBuildArtifacts@1
+    retryCountOnTaskFailure: 3
+    condition: always()
+    inputs:
+      ArtifactName: $(ArtifactName)
+
+
+- job: macOS_Xamarin
+
+  timeoutInMinutes: 90 
+
+  strategy:
+    maxParallel: 3
+    matrix:
+      Samples_iOS_Xamarin:
+        ApplicationPlatform: iPhone
+        ArtifactName: Samples_iOS_Xamarin
+        GeneratePackageOnBuild: false
+        UnoTargetFrameworkOverride: xamarinios10
+        DisableNet6MobileTargets: true
+        SamplePlatform: iOS
+        SampleFolder: Uno.Toolkit.Samples
+      Samples_macOS_Xamarin:
+        ApplicationPlatform: macOS
+        ArtifactName: Samples_macOS_Xamarin
+        GeneratePackageOnBuild: false
+        UnoTargetFrameworkOverride: xamarinmac20
+        DisableNet6MobileTargets: true
+        SamplePlatform: macOS
+        SampleFolder: Uno.Toolkit.Samples
+      Samples_Android_Xamarin:
+        ApplicationPlatform: Android
+        ArtifactName: Samples_Android_Xamarin
+        GeneratePackageOnBuild: false
+        UnoTargetFrameworkOverride: MonoAndroid12.0
+        DisableNet6MobileTargets: true
+        SamplePlatform: Droid
+        SampleFolder: Uno.Toolkit.Samples
+      Samples_iOS_Xamarin_WinUI:
+        ApplicationPlatform: iPhone_WinUI
+        ArtifactName: Samples_iOS_Xamarin_WinUI
+        GeneratePackageOnBuild: false
+        UnoTargetFrameworkOverride: xamarinios10
+        DisableNet6MobileTargets: true
+        SamplePlatform: iOS
+        SampleFolder: Uno.Toolkit.WinUI.Samples
+      Samples_macOS_Xamarin_WinUI:
+        ApplicationPlatform: macOS_WinUI
+        ArtifactName: Samples_macOS_Xamarin_WinUI
+        GeneratePackageOnBuild: false
+        UnoTargetFrameworkOverride: xamarinmac20
+        DisableNet6MobileTargets: true
+        SamplePlatform: macOS
+        SampleFolder: Uno.Toolkit.WinUI.Samples
+      Samples_Android_Xamarin.WinUI:
+        ApplicationPlatform: Android_WinUI
+        ArtifactName: Samples_Android_Xamarin_WinUI
+        GeneratePackageOnBuild: false
+        UnoTargetFrameworkOverride: MonoAndroid12.0
+        DisableNet6MobileTargets: true
+        SamplePlatform: Droid
+        SampleFolder: Uno.Toolkit.WinUI.Samples
+
+  pool:
+    vmImage: 'macOS-12'
+
+  variables:
+   - name: XCODE_ROOT
+     value: '/Applications/Xcode_13.4.1.app'
+   - name: XamarinSDKVersion
+     value: 6_12_16
+   - group: unoplatform.apple.ios.appstore.distribution
+
+  steps:
+  - task: InstallAppleCertificate@2
+    displayName: Install Certificate
+    inputs:
+      certSecureFile: UnoPlatform-Apple-Distribution.p12
+      certPwd: '$(appleappstorecertificatepassword)'
+      keychain: temp
+      deleteCert: true
+  
+  - task: InstallAppleProvisioningProfile@1
+    inputs:
+      provisioningProfileLocation: secureFiles
+      provProfileSecureFile: Uno_Toolkit_iOS.mobileprovision
+
+  - template: templates/gitversion.yml
+  - template: templates/dotnet6-install-mac.yml
+
+  - template: templates/ios-build-select-version.yml
+    parameters:
+      xCodeRoot: ${XCODE_ROOT}
+      XamarinSDKVersion: $(XamarinSDKVersion)
+    
+  - bash: |
+      rm -f ${HOME}/Library/Preferences/Xamarin/Settings.plist
     # https://github.com/actions/virtual-environments/issues/1932
     displayName: Apply workaround for Azure Devops issue 1932
 
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/macos-build.sh
       $(build.sourcesdirectory)/build/workflow/scripts/macos-build.sh
-    displayName: 'Build solution in Release | $(ApplicationPlatform)'
+    displayName: 'Build solution in Release | $(ApplicationPlatform) - $(UnoTargetFrameworkOverride)'
     retryCountOnTaskFailure: 3
     env:
       BUILD_PLATFORM: "$(ApplicationPlatform)"
       BUILD_PACKAGEVERSION: "$(SemVer)"
       BUILD_GENERATEPACKAGE: "$(GeneratePackageOnBuild)"
       BUILD_SOLUTION: "src/Uno.Toolkit.sln"
-      BUILD_BINLOG: "$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform).binlog"
+      BUILD_BINLOG: "$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform)-$(UnoTargetFrameworkOverride).binlog"
 
+  - task: PowerShell@2
+      displayName: 'Setup iPhone Bin Folder Path'
+      inputs:
+        targetType: inline
+        script: |
+          Set-PSDebug -Trace 1
+          if( "$(ApplicationPlatform)" -like "iPhone*") {
+            $val = "iPhone/"
+          } else {
+            $val = ""
+          }
+          echo "##vso[task.setvariable variable=BIN_PLATFORM_FOLDER]$val"
+
+  - task: CopyFiles@2
+    displayName: 'Publish Binaries'
+    retryCountOnTaskFailure: 3
+    inputs:
+      SourceFolder: $(build.sourcesdirectory)/samples/$(SampleFolder)/$(SampleFolder).$(SamplePlatform)/bin/$(BIN_PLATFORM_FOLDER)Release
+      Contents:  |
+        **/*.apk
+        **/*.ipa
+        **/*.dSym/**
+        **/*.pkg
+      TargetFolder: $(build.artifactstagingdirectory)
+      CleanTargetFolder: false
+      OverWrite: false
+      flattenFolders: false
+
+  - task: PublishBuildArtifacts@1
+    retryCountOnTaskFailure: 3
+    condition: always()
+    inputs:
+      ArtifactName: $(ArtifactName)
+  
 - template: stage-uitests-wasm.yml
 - template: stage-uitests-ios.yml
 - template: stage-uitests-android.yml

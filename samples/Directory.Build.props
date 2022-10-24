@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<LangVersion>latest</LangVersion>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<DisableImplicitLibraryPacksFolder>true</DisableImplicitLibraryPacksFolder>
 	</PropertyGroup>
 
 	<Import Project="..\src\xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />

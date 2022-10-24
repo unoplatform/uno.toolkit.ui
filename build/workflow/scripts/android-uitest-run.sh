@@ -93,7 +93,7 @@ cd $BUILD_SOURCESDIRECTORY
 
 # build the sample, while the emulator is starting
 mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release $UNO_UITEST_PROJECT
-mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release /p:IsUiAutomationMappingEnabled=True /p:DisableNet6MobileTargets=True /p:UnoUIUseRoslynSourceGenerators=False /p:AndroidBuildApplicationPackage=True $UNO_UITEST_ANDROID_PROJECT
+mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release /p:IsUiAutomationMappingEnabled=True /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet6MobileTargets=True /p:AndroidBuildApplicationPackage=True $UNO_UITEST_ANDROID_PROJECT
 
 cd $BUILD_SOURCESDIRECTORY/build
 
