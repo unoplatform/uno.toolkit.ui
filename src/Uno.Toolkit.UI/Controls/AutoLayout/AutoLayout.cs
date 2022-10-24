@@ -289,13 +289,13 @@ namespace Uno.Toolkit.UI
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Right) });
 
-					gridIndexOffSet = +1;
+					gridIndexOffSet += 1;
 				}
 
 				if (isPrimaryAxisAlignmentCenterOrEnd)
 				{
 					_grid.RowDefinitions.Insert(gridIndexOffSet, new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-					gridIndexOffSet =+ 1;
+					gridIndexOffSet += 1;
 				}
 
 				// Process children
@@ -423,13 +423,13 @@ namespace Uno.Toolkit.UI
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Right) });
 
-					gridIndexOffSet = +1;
+					gridIndexOffSet += 1;
 				}
 
 				if (isPrimaryAxisAlignmentCenterOrEnd)
 				{
 					_grid.ColumnDefinitions.Insert(gridIndexOffSet, new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-					gridIndexOffSet =+ 1;
+					gridIndexOffSet += 1;
 				}
 
 				// Process children
