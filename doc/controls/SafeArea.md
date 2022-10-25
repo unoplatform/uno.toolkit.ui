@@ -12,26 +12,24 @@ In some cases, it is acceptable for visible content to be partially obscured (a 
 
 ### Remarks
 
-`SafeArea` can be used as a `Panel` or as a set of attached properties on another `Panel`, much like the `ScrollViewer`:
+`SafeArea` can be used as a control or as a set of attached properties on another `FrameworkElement`, much like the `ScrollViewer`:
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 
-<!-- as attached property on another panel -->
+<!-- as attached property on another FrameworkElement -->
 <Grid utu:SafeArea.Insets="Left,Top,Right,Bottom">
- <!-- Content -->
+    <!-- Content -->
 </Grid>
 
-<!-- and/or -->
-
-<!-- as a Panel -->
+<!-- or, as a control -->
 <SafeArea Insets="Left,Top,Right,Bottom">
- <!-- Content -->
+    <!-- Content -->
 </SafeArea>
 ```
 
 > [!WARNING]
-> In most cases, the attached properties and the `SafeArea` `Panel` can be used interchangeably. However, be aware that using `SafeArea` as a `Panel` while `Insets` contains `InsetMask.SoftInput` will introduce a `ScrollViewer` into the visual tree as the content root of the `SafeArea`. Please refer to the [SoftInput usage section](#using-insetmasksoftinput-for-on-screen-keyboards).
+> In most cases, the attached properties and the `SafeArea` control can be used interchangeably. However, be aware that using `SafeArea` as a control while `Insets` contains `InsetMask.SoftInput` will introduce a `ScrollViewer` into the visual tree as the content root of the `SafeArea`. Please refer to the [SoftInput usage section](#using-insetmasksoftinput-for-on-screen-keyboards).
 
 Property|Type|Description
 -|-|-
@@ -42,7 +40,7 @@ Mode|`InsetMode`|Gets or sets whether the `SafeArea` insets will be applied to t
 
 ### Using `SafeArea.Insets`
 
-The `InsetMask` enum can represent a single bound or it can be combined with multiple values as shown in the above example XAML. `InsetMask` has the following available values:
+The `InsetMask` enum can represent a single edge/side or it can be composed of multiple values (eg: `InsetMask="Left, Right"`). `InsetMask` has the following available values:
 
 - `Left`
 - `Top`
@@ -186,7 +184,7 @@ The `InsetMask.SoftInput` value is used to ensure that the specified area will a
 > While the `SafeArea` attached properties may be used on any `FrameworkElement`, it is strongly recommended that, when using the `InsetMask.SoftInput` flag, you should either:
 >
 > - Attach `SafeArea` properties to an existing `ScrollViewer` that is wrapping the content that you would like to adapt to the on-screen keyboard.
-> - Or, use `SafeArea` as a `Panel` and have it wrap the relevant content. The `Panel` will automatically include a `ScrollViewer` that wraps its content as long as the `Insets` property contains `InsetMask.SoftInput`.
+> - Or, use `SafeArea` as a control and have it wrap the relevant content. The control will automatically include a `ScrollViewer` that wraps its content as long as the `Insets` property contains `InsetMask.SoftInput`.
 
 Attempting to use `SafeArea` to adapt to the keyboard without including a `ScrollViewer` may not always yield the expected visual result. The behavior of a keyboard-aware `SafeArea` depends on the structure of the layout. For example, a simple login page like the one below can benefit from `SafeArea` to ensure that the Username/Password fields, when in focus, are kept visible above the keyboard.
 
@@ -297,7 +295,7 @@ In this next example, we attempt to have the UI adapt to the keyboard by attachi
   </tr>
 </table>
 
-The recommended solution in this case would be to use a combination of `SafeArea` and a `ScrollViewer` that will wrap your `Page` content. When using `SafeArea` as a `Panel`, a `ScrollViewer` is automatically included as the root element of `SafeArea` as long as the `Insets` property contains the `InsetMask.SoftInput` value.
+The recommended solution in this case would be to use a combination of `SafeArea` and a `ScrollViewer` that will wrap your `Page` content. When using `SafeArea` as a control, a `ScrollViewer` is automatically included as the root element of `SafeArea` as long as the `Insets` property contains the `InsetMask.SoftInput` value.
 
 <table>
   <tr>
@@ -333,7 +331,7 @@ The recommended solution in this case would be to use a combination of `SafeArea
 
 There are alternative usages of `SafeArea` that may be considered in this situation. An example of two alternatives could be:
 
-1. Have your own ScrollViewer defined within the XAML and then you can simply wrap that `ScrollViewer` with any `Panel`, such as `Grid`, and use the `SafeArea` attached properties on that wrapping `Panel`.
+1. Have your own ScrollViewer defined within the XAML and then you can simply wrap that `ScrollViewer` with any container, such as `Grid`, and use the `SafeArea` attached properties on that wrapping container.
 
     <table>
     <tr>
@@ -419,4 +417,4 @@ There are alternative usages of `SafeArea` that may be considered in this situat
 
 - `SafeArea` is able to adapt to views that are only _partially_ obscured by applying the minimum amount of `Padding`/`Margin` needed until the content is fully inside the visible bounds.
 - When a control already has a non-zero `Padding`/`Margin`, `SafeArea` takes those values into consideration when calculating the minimum amount of pixels needed for the view to be within the safe area.
-- `SafeArea` on WinAppSDK/Desktop does not have any effect. It is present to allow for same-XAML across platforms.
+- `SafeArea` on WinAppSDK/Desktop does not have any effect. It is present to allow for same XAML across platforms.
