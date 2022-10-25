@@ -202,37 +202,36 @@ Notice in this first example (without `SafeArea` in use) that the Username and P
     <td>
 
 ```xml
-<Page ...
-   xmlns:utu="using:Uno.Toolkit.UI">
+<Page xmlns:utu="using:Uno.Toolkit.UI" ...>
     <Grid Padding="50,0">
         <Grid.RowDefinitions>
-            <!--  0: Logo, 1: Spacer, 2: FormPanel  -->
+            <!-- 0: Logo, 1: Spacing, 2: FormPanel -->
             <RowDefinition Height="Auto" />
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!-- Logo -->
         <Image Source="ms-appx:///Assets/uno-logo.png"
-                VerticalAlignment="Stretch"
-                HorizontalAlignment="Stretch" />
+               VerticalAlignment="Stretch"
+               HorizontalAlignment="Stretch" />
         <!-- FormPanel -->
         <StackPanel Grid.Row="2"
                     x:Name="FormPanel"
                     Spacing="20">
             <TextBlock Text="Welcome to Uno!"
-                        HorizontalAlignment="Center"
-                        FontSize="35" />
+                       HorizontalAlignment="Center"
+                       FontSize="35" />
             <PersonPicture ProfilePicture="ms-appx:///Assets/profile.png" />
             <TextBox x:Name="TextBox"
-                        PlaceholderText="Username" />
+                     PlaceholderText="Username" />
             <PasswordBox x:Name="PasswordBox"
-                            PlaceholderText="Password" />
+                         PlaceholderText="Password" />
             <StackPanel Orientation="Horizontal"
                         Spacing="4">
                 <CheckBox Padding="0"
-                            MinWidth="0" />
+                          MinWidth="0" />
                 <TextBlock Text="Remember me"
-                            VerticalAlignment="Center" />
+                           VerticalAlignment="Center" />
             </StackPanel>
             <Button Content="Login"
                     x:Name="LoginBtn"
@@ -260,39 +259,35 @@ In this next example, we attempt to have the UI adapt to the keyboard by attachi
     <td>
 
 ```diff
- ...
-
-  <StackPanel Grid.Row="2"
-            x:Name="FormPanel"
-+           utu:SafeArea.Insets="SoftInput"
-            Spacing="20">
-    <TextBlock Text="Welcome to Uno!"
+ <StackPanel Grid.Row="2"
+             x:Name="FormPanel"
++            utu:SafeArea.Insets="SoftInput"
+             Spacing="20">
+     <TextBlock Text="Welcome to Uno!"
                 HorizontalAlignment="Center"
-    FontSize="35" />
-    <PersonPicture ProfilePicture="ms-appx:///Assets/profile.png" />
-    <TextBox x:Name="TextBox"
-                PlaceholderText="Username" />
-    <PasswordBox x:Name="PasswordBox"
-                    PlaceholderText="Password" />
-    <StackPanel Orientation="Horizontal"
-                Spacing="4">
-        <CheckBox Padding="0"
-                    MinWidth="0" />
-        <TextBlock Text="Remember me"
+                FontSize="35" />
+     <PersonPicture ProfilePicture="ms-appx:///Assets/profile.png" />
+     <TextBox x:Name="TextBox"
+              PlaceholderText="Username" />
+     <PasswordBox x:Name="PasswordBox"
+                  PlaceholderText="Password" />
+     <StackPanel Orientation="Horizontal"
+                 Spacing="4">
+         <CheckBox Padding="0"
+                   MinWidth="0" />
+         <TextBlock Text="Remember me"
                     VerticalAlignment="Center" />
-    </StackPanel>
-    <Button Content="Login"
-            x:Name="LoginBtn"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Stretch"
-            Margin="0,30" />
-</StackPanel>
-
- ...
+     </StackPanel>
+     <Button Content="Login"
+             x:Name="LoginBtn"
+             VerticalAlignment="Top"
+             HorizontalAlignment="Stretch"
+             Margin="0,30" />
+ </StackPanel>
 ```
 
 </td>
-  </tr>
+</tr>
 </table>
 
 The recommended solution in this case would be to use a combination of `SafeArea` and a `ScrollViewer` that will wrap your `Page` content. When using `SafeArea` as a control, a `ScrollViewer` is automatically included as the root element of `SafeArea` as long as the `Insets` property contains the `InsetMask.SoftInput` value.
@@ -304,13 +299,11 @@ The recommended solution in this case would be to use a combination of `SafeArea
   </tr>
   <tr>
    <td><img src="../assets/safearea-login-scroll.gif" width="400px"/> </td>
-    <td>
+   <td>
 
 ```diff
-<Page ...
-    xmlns:utu="using:Uno.Toolkit.UI">
-    ...
-+    <utu:SafeArea Insets="SoftInput">
+<Page xmlns:utu="using:Uno.Toolkit.UI" ...>
++   <utu:SafeArea Insets="SoftInput">
         <Grid Padding="50,0">
             <Grid.RowDefinitions>
                 <!--  0: Logo, 1: Spacer, 2: FormPanel  -->
@@ -318,10 +311,9 @@ The recommended solution in this case would be to use a combination of `SafeArea
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            ...
+            <!-- logo and form... -->
         </Grid>
-+    </utu:SafeArea>
-    ...
++   </utu:SafeArea>
 </Page>
 ```
 
