@@ -409,4 +409,4 @@ There are alternative usages of `SafeArea` that may be considered in this situat
 
 - `SafeArea` is able to adapt to views that are only _partially_ obscured by applying the minimum amount of `Padding`/`Margin` needed until the content is fully inside the visible bounds.
 - When a control already has a non-zero `Padding`/`Margin`, `SafeArea` takes those values into consideration when calculating the minimum amount of pixels needed for the view to be within the safe area.
-- `SafeArea` on WinAppSDK/Desktop does not have any effect. It is present to allow for same XAML across platforms.
+- `SafeArea` on WinAppSDK does not have any effect. It is present to allow for same XAML across platforms.
