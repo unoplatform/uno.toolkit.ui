@@ -355,6 +355,7 @@ namespace Uno.Toolkit.UI
 								Grid.SetColumnSpan(child, 2);
 								break;
 							case HorizontalAlignment.Stretch:
+								Grid.SetColumn(child, 1);
 								break;
 							default:
 								break;
@@ -489,6 +490,7 @@ namespace Uno.Toolkit.UI
 								Grid.SetRowSpan(child, 2);
 								break;
 							case VerticalAlignment.Stretch:
+								Grid.SetRow(child, 1);
 								break;
 							default:
 								break;
