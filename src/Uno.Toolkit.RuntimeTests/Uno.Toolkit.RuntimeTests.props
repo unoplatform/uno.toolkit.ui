@@ -18,9 +18,7 @@
 
 		<AssemblyName>Uno.Toolkit.RuntimeTests</AssemblyName>
 		<RootNamespace>Uno.Toolkit.RuntimeTests</RootNamespace>
-
-		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
-		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<IsPackable>false</IsPackable>
 
 		<!-- Required by Uno.UI.RuntimeTests.Engine -->
 		<DefineConstants>$(DefineConstants);UNO_RUNTIMETESTS_DISABLE_INJECTEDPOINTERATTRIBUTE</DefineConstants>
