@@ -10,6 +10,7 @@
 	mc:Ignorable="d"
 	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
             <sample:SamplePageLayout.DesignAgnosticTemplate>
@@ -146,6 +147,22 @@
                                                    Height="40"
                                                    Width="40"/>
                                 </utu:AutoLayout>
+                            </utu:AutoLayout>
+
+                            <TextBlock Text="AutoLayout with padding and a spacing superior to a padding "
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+                            
+                            <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Padding="16,16,0,0" Spacing="10" IsReverseZIndex="True" Width="404" Height="127">
+                                <utu:AutoLayout Background="Red" utu:AutoLayout.CounterAlignment="Start" utu:AutoLayout.PrimaryAlignment="Stretch" Width="370" />
+                                <utu:AutoLayout Background="{ThemeResource OnSecondaryContainerBrush}" utu:AutoLayout.CounterAlignment="Start" Width="388" Height="95" />
+                            </utu:AutoLayout>
+                            <TextBlock Text="Horizontal AutoLayout with padding and a spacing superior to a padding "
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+                            <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Spacing="-20" Padding="10,0,10,0" Height="140" Orientation="Horizontal" IsReverseZIndex="True" HorizontalAlignment="Center">
+                                <utu:AutoLayout Background="{ThemeResource ErrorBrush}" Width="370" />
+                                <utu:AutoLayout Background="{ThemeResource OnSecondaryContainerBrush}" utu:AutoLayout.CounterAlignment="Start" Width="388" Height="95" />
                             </utu:AutoLayout>
 
                         </StackPanel>

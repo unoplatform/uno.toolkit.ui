@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -284,12 +285,16 @@ namespace Uno.Toolkit.UI
 
 				if (hasPadding)
 				{
-					_grid.RowDefinitions.Insert(gridIndexOffSet, new RowDefinition() { Height = new GridLength(padding.Top ) });
+					_grid.Padding = new Thickness(0, padding.Top - spacing <= 0 ? padding.Top : 0, 0, padding.Bottom - spacing <= 0 ? padding.Bottom : 0);
+
+					if (padding.Top - spacing > 0)
+					{
+						_grid.RowDefinitions.Insert(gridIndexOffSet, new RowDefinition() { Height = new GridLength(padding.Top - spacing) });
+						gridIndexOffSet += 1;
+					}
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Left )});
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Right) });
-
-					gridIndexOffSet += 1;
 				}
 
 				if (isPrimaryAxisAlignmentCenterOrEnd)
@@ -393,9 +398,9 @@ namespace Uno.Toolkit.UI
 					//We need to make sure that the independent layout can span all across his parent
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 				}
-				if (hasPadding)
+				if (hasPadding && padding.Bottom - spacing > 0)
 				{
-					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Bottom - spacing) });
+					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Bottom - spacing)});
 				}
 			}
 			else // Horizontal
@@ -419,12 +424,17 @@ namespace Uno.Toolkit.UI
 
 				if (hasPadding)
 				{
-					_grid.ColumnDefinitions.Insert(gridIndexOffSet, new ColumnDefinition() { Width = new GridLength(padding.Top) });
-					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Left) });
-					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Right) });
+					_grid.Padding = new Thickness(padding.Left - spacing <= 0 ? padding.Left : 0, 0, padding.Right - spacing <= 0 ? padding.Right : 0, 0);
 
-					gridIndexOffSet += 1;
+					if (padding.Left - spacing > 0)
+					{
+						_grid.ColumnDefinitions.Insert(gridIndexOffSet, new ColumnDefinition() { Width = new GridLength(padding.Left - spacing) });
+						gridIndexOffSet += 1;
+					}
+
+					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Top) });
+					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Bottom) }); 
 				}
 
 				if (isPrimaryAxisAlignmentCenterOrEnd)
@@ -437,7 +447,6 @@ namespace Uno.Toolkit.UI
 				for (var i = 0; i < childrenCount; i++)
 				{
 					var child = Children[i];
-
 					if (GetIsIndependentLayout(child))
 					{
 						Grid.SetColumn(child, 0);
@@ -528,9 +537,9 @@ namespace Uno.Toolkit.UI
 					//We need to make sure that the independent layout can span all across his parent
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 				}
-				if (hasPadding)
+				if (hasPadding && padding.Right - spacing > 0)
 				{
-					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Left)});
+					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Right - spacing) });
 				}
 			}
 
