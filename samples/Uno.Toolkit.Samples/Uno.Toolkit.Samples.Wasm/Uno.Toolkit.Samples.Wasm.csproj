@@ -44,22 +44,24 @@
 		<None Include="wwwroot\web.config" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Logging"  />
-		<PackageReference Include="Uno.Cupertino"   />
-		<PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console"  />
-		<PackageReference Include="Uno.Material"  />
-		<PackageReference Include="Uno.UI.WebAssembly"   />
-		<PackageReference Include="Uno.UI.RemoteControl"  Condition="'$(Configuration)'=='Debug'" />
-		<PackageReference Include="Uno.Wasm.Bootstrap"   />
-		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer"  />
-		<PackageReference Include="Microsoft.Windows.Compatibility"   />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging"   />
-		<PackageReference Include="Uno.Core.Extensions.Compatibility"   />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton"   />
+		<PackageReference Include="Microsoft.Extensions.Logging" />
+		<PackageReference Include="Uno.Cupertino" />
+		<PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" />
+		<PackageReference Include="Uno.Material" />
+		<PackageReference Include="Uno.UI.WebAssembly" />
+		<PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.UI.RuntimeTests.Engine" />
+		<PackageReference Include="Uno.Wasm.Bootstrap" />
+		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.UI.Cupertino.csproj" />
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.UI.csproj" />
 		<ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" />
 		<ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj" />
 	</ItemGroup>

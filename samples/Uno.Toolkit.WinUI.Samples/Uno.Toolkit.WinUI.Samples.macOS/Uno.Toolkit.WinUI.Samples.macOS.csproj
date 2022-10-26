@@ -66,20 +66,22 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Xamarin.Mac" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors" />
     <Reference Include="System.Memory" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Xamarin.Mac" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.Material.WinUI" />
     <PackageReference Include="Uno.WinUI" />
-    <PackageReference Include="Uno.WinUI.RemoteControl"   Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Microsoft.Extensions.Logging"   />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console"   />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging"   />
-    <PackageReference Include="Uno.Core.Extensions.Compatibility"  />
-    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton"  />
+    <PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+    <PackageReference Include="Uno.Core.Extensions.Compatibility" />
+    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
   </ItemGroup>
   <Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
   <ItemGroup>
@@ -106,6 +108,10 @@
     <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj">
       <Project>{04a5011f-dc76-4bd6-9994-fc1c9e937a6d}</Project>
       <Name>Uno.Toolkit.WinUI.Material</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.WinUI.csproj">
+      <Project>{8dc53bc5-f3f1-4334-86bb-773988675b9f}</Project>
+      <Name>Uno.Toolkit.RuntimeTests.WinUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj">
       <Project>{50ea1339-d38d-47f7-848a-8a827a959691}</Project>

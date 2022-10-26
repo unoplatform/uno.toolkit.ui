@@ -7,24 +7,26 @@
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<Platforms>x86;x64;arm64</Platforms>
 		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-		
+
 	</PropertyGroup>
 	<PropertyGroup>
-		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
+		<DefineConstants>$(DefineConstants);IS_WINUI;WINDOWS_WINUI</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
-	
-		<PackageReference Include="Microsoft.WindowsAppSDK"   />	
-		<PackageReference Include="Microsoft.Extensions.Logging.Console"   />
-		<PackageReference Include="Uno.Core.Extensions.Compatibility"   />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton"   />
-		<PackageReference Include="Uno.Material.WinUI"   />
+
+		<PackageReference Include="Microsoft.WindowsAppSDK" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
+		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
+		<PackageReference Include="Uno.Material.WinUI" />
+		<PackageReference Include="Uno.UI.RuntimeTests.Engine" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
 	  <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+	  <ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.WinUI.csproj" />
 	  <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
 	</ItemGroup>
 

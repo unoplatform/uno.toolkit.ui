@@ -122,6 +122,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\TabBarItemExtensions_NestedPage2.xaml.cs">
       <DependentUpon>TabBarItemExtensions_NestedPage2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\RuntimeTestRunner.xaml.cs">
+      <DependentUpon>RuntimeTestRunner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ModalDialog.xaml.cs">
       <DependentUpon>ModalDialog.xaml</DependentUpon>
     </Compile>
@@ -183,6 +186,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SourceSdk.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HierarchyHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MetaAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelperEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
@@ -341,6 +345,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\TabBarItemExtensions_NestedPage2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\RuntimeTestRunner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
