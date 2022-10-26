@@ -2606,11 +2606,9 @@ Global
 		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|Packages.ActiveCfg = Release|Any CPU
 		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|Packages.Build.0 = Release|Any CPU
 		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|Packages_WinUI.ActiveCfg = Release|Any CPU
-		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|Packages_WinUI.Build.0 = Release|Any CPU
 		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|Samples.ActiveCfg = Release|Any CPU
 		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|Samples.Build.0 = Release|Any CPU
 		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|Samples_WinUI.ActiveCfg = Release|Any CPU
-		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|Samples_WinUI.Build.0 = Release|Any CPU
 		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|WASM.ActiveCfg = Release|Any CPU
 		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|WASM.Build.0 = Release|Any CPU
 		{B72F05B9-6E3E-46B5-9F7F-316C3EC113ED}.Release|x64.ActiveCfg = Release|Any CPU
@@ -2716,11 +2714,9 @@ Global
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|macOS.ActiveCfg = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|macOS.Build.0 = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|Packages.ActiveCfg = Release|Any CPU
-		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|Packages.Build.0 = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|Packages_WinUI.ActiveCfg = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|Packages_WinUI.Build.0 = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|Samples.ActiveCfg = Release|Any CPU
-		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|Samples.Build.0 = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|Samples_WinUI.ActiveCfg = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|Samples_WinUI.Build.0 = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|WASM.ActiveCfg = Release|Any CPU
