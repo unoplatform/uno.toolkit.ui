@@ -33,6 +33,17 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<IsMonoAndroid>false</IsMonoAndroid>
+		<IsMonoAndroid Condition="$(TargetFramework.ToLower().StartsWith('monoandroid')) or '$(TargetFramework)'=='net6.0-android'">true</IsMonoAndroid>
+
+		<IsXamarinIOS>false</IsXamarinIOS>
+		<IsXamarinIOS Condition="$(TargetFramework.ToLower().StartsWith('xamarinios')) or '$(TargetFramework)'=='net6.0-ios'">true</IsXamarinIOS>
+
+		<IsXamarinMac>false</IsXamarinMac>
+		<IsXamarinMac Condition="$(TargetFramework.ToLower().StartsWith('xamarinmac')) or '$(TargetFramework)'=='net6.0-macos'">true</IsXamarinMac>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
 		<IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
 	</PropertyGroup>
@@ -63,6 +74,7 @@
 		<DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
 	</PropertyGroup>
 
+	<Import Project="PlatformItemGroups.props" />
 	<Import Project="Uno.CrossTargeting.props" />
 	<Import Project="xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
 </Project>
