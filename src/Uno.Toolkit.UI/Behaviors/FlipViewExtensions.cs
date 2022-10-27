@@ -47,8 +47,13 @@ public static class FlipViewExtensions
 
 	static void OnNextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		if (d is not ButtonBase btn || e.NewValue is null)
+		var btn = (ButtonBase)d;
+
+		if (e.NewValue is null)
+		{
+			btn.Click -= OnBtnClick;
 			return;
+		}
 
 		var flipView = (FlipView)e.NewValue;
 
@@ -65,8 +70,13 @@ public static class FlipViewExtensions
 
 	static void OnPreviousChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		if (d is not ButtonBase btn || e.NewValue is null)
+		var btn = (ButtonBase)d;
+
+		if (e.NewValue is null)
+		{
+			btn.Click -= OnBtnClick;
 			return;
+		}
 
 		var flipView = (FlipView)e.NewValue;
 
