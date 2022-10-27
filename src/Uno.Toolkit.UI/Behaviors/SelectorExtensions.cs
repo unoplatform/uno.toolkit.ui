@@ -36,7 +36,7 @@ namespace Uno.Toolkit.UI;
 [Bindable]
 public static partial class SelectorExtensions
 {
-	readonly static Dictionary<Selector, VectorChangedEventHandler<object>> events = new();
+	readonly static Dictionary<WeakReference<Selector>, VectorChangedEventHandler<object>> events = new();
 
 	/// <summary>
 	/// Backing property for the <see cref="PipsPager"/> that will be linked to the desired <see cref="Selector"/> control.
@@ -61,9 +61,9 @@ public static partial class SelectorExtensions
 			oldPipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, null);
 
 		var selector = (Selector)dependencyObject;
-
 		if (args.NewValue is not PipsPager pipsPager)
 		{
+			events.CleanNullKeyReferences();
 			UnsubscribeFromSelectorEvents(selector);
 			return;
 		}
@@ -80,7 +80,7 @@ public static partial class SelectorExtensions
 
 		UnsubscribeFromSelectorEvents(selector);
 		VectorChangedEventHandler<object> eventHandler = OnItemsVectorChanged;
-		events[selector] = eventHandler;
+		events[new (selector)] = eventHandler;
 		selector.Items.VectorChanged += eventHandler;
 		selector.Unloaded += (_, __) =>
 		{
@@ -94,10 +94,15 @@ public static partial class SelectorExtensions
 
 	static void UnsubscribeFromSelectorEvents(in Selector selector)
 	{
-		if (events.TryGetValue(selector, out var @event))
+		var key = events.Keys.GetSelector(selector);
+
+		if (key is null)
+			return;
+
+		if (events.TryGetValue(key, out var @event))
 		{
 			selector.Items.VectorChanged -= @event;
-			events.Remove(selector);
+			events.Remove(key);
 		}
 	}
 
@@ -119,4 +124,3 @@ public static partial class SelectorExtensions
 		DependencyProperty.RegisterAttached("SelectionOffset", typeof(double), typeof(SelectorExtensions), new PropertyMetadata(0d));
 	#endregion
 }
-
