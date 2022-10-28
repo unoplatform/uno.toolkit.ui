@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Uno.Toolkit.UI;
 
-static class SelectorEventExtensions
+internal static class SelectorEventExtensions
 {
 	public static WeakReference<Selector>? GetSelector(this IReadOnlyCollection<WeakReference<Selector>> keys, Selector target)
 	{

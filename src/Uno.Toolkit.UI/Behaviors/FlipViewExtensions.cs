@@ -23,7 +23,9 @@ using Windows.UI.Xaml.Input;
 #endif
 
 namespace Uno.Toolkit.UI;
-
+/// <summary>
+/// Extensions for <see cref="FlipView"/>
+/// </summary>
 public static class FlipViewExtensions
 {
 	#region DependencyProperty: Next
@@ -32,7 +34,7 @@ public static class FlipViewExtensions
 
 	public static void SetNext(Button element, FlipView value) => element.SetValue(NextProperty, value);
 
-	public static FlipView GetNext(Button element) => (FlipView)element.GetValue(NextProperty);
+	public static FlipView? GetNext(Button element) => (FlipView?)element.GetValue(NextProperty);
 
 	#endregion
 
@@ -42,7 +44,7 @@ public static class FlipViewExtensions
 
 	public static void SetPrevious(Button element, FlipView value) => element.SetValue(PreviousProperty, value);
 
-	public static FlipView GetPrevious(Button element) => (FlipView)element.GetValue(PreviousProperty);
+	public static FlipView? GetPrevious(Button element) => (FlipView?)element.GetValue(PreviousProperty);
 	#endregion
 
 	static void OnNextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -55,11 +57,8 @@ public static class FlipViewExtensions
 			return;
 		}
 
-		var flipView = (FlipView)e.NewValue;
-
 		btn.Click -= OnBtnClick;
 		btn.Click += OnBtnClick;
-
 
 		static void OnBtnClick(object sender, RoutedEventArgs e)
 		{
@@ -77,8 +76,6 @@ public static class FlipViewExtensions
 			btn.Click -= OnBtnClick;
 			return;
 		}
-
-		var flipView = (FlipView)e.NewValue;
 
 		btn.Click -= OnBtnClick;
 		btn.Click += OnBtnClick;
