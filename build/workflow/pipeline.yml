@@ -289,24 +289,21 @@ jobs:
       BUILD_SOLUTION: "src/Uno.Toolkit.sln"
       BUILD_BINLOG: "$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform)-$(UnoTargetFrameworkOverride).binlog"
 
-  - task: PowerShell@2
-      displayName: 'Setup iPhone Bin Folder Path'
-      inputs:
-        targetType: inline
-        script: |
-          Set-PSDebug -Trace 1
-          if( "$(ApplicationPlatform)" -like "iPhone*") {
-            $val = "iPhone/"
-          } else {
-            $val = ""
-          }
-          echo "##vso[task.setvariable variable=BIN_PLATFORM_FOLDER]$val"
+  - powershell: |
+      Set-PSDebug -Trace 1
+      if( "$(ApplicationPlatform)" -like "iPhone*") {
+        $val = "/iPhone/"
+      } else {
+        $val = "/"
+      }
+      echo "##vso[task.setvariable variable=BIN_PLATFORM_FOLDER]$val"
+    displayName: Set Bin Folder Path
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(SampleFolder)/$(SampleFolder).$(SamplePlatform)/bin/$(BIN_PLATFORM_FOLDER)Release
+      SourceFolder: $(build.sourcesdirectory)/samples/$(SampleFolder)/$(SampleFolder).$(SamplePlatform)/bin$(BIN_PLATFORM_FOLDER)Release
       Contents:  |
         **/*.apk
         **/*.ipa
