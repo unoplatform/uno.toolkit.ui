@@ -401,10 +401,6 @@ namespace Uno.Toolkit.UI
 
 		private void ForceFrameStateIntoNavigationController()
 		{
-		var viewControllers2 = _frame?.BackStack
-				.Concat(FrameNavigationHelper.GetCurrentEntry(_frame))
-				.Where(entry => entry != null)
-				.ToArray();
 			var viewControllers = _frame?.BackStack
 				.Concat(FrameNavigationHelper.GetCurrentEntry(_frame))
 				.Where(entry => entry != null)
