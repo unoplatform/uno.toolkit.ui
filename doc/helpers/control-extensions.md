@@ -1,5 +1,5 @@
-# ControlExtensions Attached Properties
-Provides various attached properties for common controls.
+# CommandExtensions Attached Properties
+Provides Command/CommandParameter attached properties for common scenarios.
 
 ## Properties
 Property|Type|Description
@@ -21,15 +21,15 @@ Command on `ListView`\*: [`IsItemClickEnabled`](https://docs.microsoft.com/en-us
 ## Usage
 ```xml
 <!-- Execute command on enter -->
-<PasswordBox utu:ControlExtensions.Command="{Binding Login}" />
+<PasswordBox utu:CommandExtensions.Command="{Binding Login}" />
 
 <!-- ListView item click-->
 <ListView ItemsSource="123"
 		  IsItemClickEnabled="True"
-		  utu:ControlExtensions.Command="{Binding UpdateSelection}" />
+		  utu:CommandExtensions.Command="{Binding UpdateSelection}" />
 
 <!-- NavigationView item invoke -->
-<NavigationView utu:ControlExtensions.Command="{Binding Navigate}">
+<NavigationView utu:CommandExtensions.Command="{Binding Navigate}">
 	<NavigationView.MenuItems>
 		<NavigationViewItem Content="Apple" />
 		<NavigationViewItem Content="Banana" />

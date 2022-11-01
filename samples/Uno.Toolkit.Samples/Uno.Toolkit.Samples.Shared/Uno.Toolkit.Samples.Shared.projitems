@@ -28,8 +28,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ChipSamplePage.xaml.cs">
       <DependentUpon>ChipSamplePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ControlExtensionsSamplePage.xaml.cs">
-      <DependentUpon>ControlExtensionsSamplePage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\CommandExtensionsSamplePage.xaml.cs">
+      <DependentUpon>CommandExtensionsSamplePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\DrawerFlyoutSamplePage.xaml.cs">
       <DependentUpon>DrawerFlyoutSamplePage.xaml</DependentUpon>
@@ -212,7 +212,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ControlExtensionsSamplePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\CommandExtensionsSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
