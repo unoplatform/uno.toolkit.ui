@@ -15,15 +15,15 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Behaviors, nameof(ControlExtensions), SourceSdk.UnoToolkit, DataType = typeof(ControlExtensionsSamplePageVM))]
-	public sealed partial class ControlExtensionsSamplePage : Page
+	[SamplePage(SampleCategory.Behaviors, nameof(CommandExtensions), SourceSdk.UnoToolkit, DataType = typeof(CommandExtensionsSamplePageVM))]
+	public sealed partial class CommandExtensionsSamplePage : Page
 	{
-		public ControlExtensionsSamplePage()
+		public CommandExtensionsSamplePage()
 		{
 			this.InitializeComponent();
 		}
 
-		public class ControlExtensionsSamplePageVM : ViewModelBase
+		public class CommandExtensionsSamplePageVM : ViewModelBase
 		{
 			public string InputDebugText { get => GetProperty<string>(); set => SetProperty(value); }
 			public string SelectionDebugText { get => GetProperty<string>(); set => SetProperty(value); }
