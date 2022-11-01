@@ -10,7 +10,7 @@ using Uno.Logging;
 using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.Foundation.Collections;
-using Uno.Disposables;
+using Uno.Collections;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Data;
@@ -36,7 +36,8 @@ namespace Uno.Toolkit.UI;
 [Bindable]
 public static partial class SelectorExtensions
 {
-	readonly static Dictionary<WeakReference<Selector>, VectorChangedEventHandler<object>> events = new();
+	private readonly static WeakAttachedDictionary<Selector, string> events = new();
+	private const string SelectorAttachedPropertyKey = "Selector";
 
 	/// <summary>
 	/// Backing property for the <see cref="PipsPager"/> that will be linked to the desired <see cref="Selector"/> control.
@@ -67,7 +68,6 @@ public static partial class SelectorExtensions
 		var selector = (Selector)dependencyObject;
 		if (args.NewValue is not PipsPager pipsPager)
 		{
-			events.CleanNullKeyReferences();
 			UnsubscribeFromSelectorEvents(selector);
 			return;
 		}
@@ -108,7 +108,7 @@ public static partial class SelectorExtensions
 		}
 
 		VectorChangedEventHandler<object> eventHandler = OnItemsVectorChanged;
-		events[new(selector)] = eventHandler;
+		events.SetValue(selector, SelectorAttachedPropertyKey, eventHandler);
 
 		selector.Items.VectorChanged += eventHandler;
 
@@ -118,15 +118,11 @@ public static partial class SelectorExtensions
 
 	private static void UnsubscribeFromSelectorEvents(in Selector selector)
 	{
-		var key = events.Keys.GetSelector(selector);
+		var value = events.GetValue<VectorChangedEventHandler<object>>(selector, SelectorAttachedPropertyKey);
 
-		if (key is null)
-			return;
-
-		if (events.TryGetValue(key, out var @event))
+		if (value is not null)
 		{
-			selector.Items.VectorChanged -= @event;
-			events.Remove(key);
+			selector.Items.VectorChanged -= value;
 		}
 	}
 
