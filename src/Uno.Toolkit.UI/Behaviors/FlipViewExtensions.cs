@@ -47,55 +47,94 @@ public static class FlipViewExtensions
 	public static FlipView? GetPrevious(Button element) => (FlipView?)element.GetValue(PreviousProperty);
 	#endregion
 
-	static void OnNextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	private static void OnNextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var btn = (ButtonBase)d;
 
 		if (e.NewValue is null)
 		{
-			btn.Click -= OnBtnClick;
+			btn.Click -= OnBtnNextClick;
 			return;
 		}
 
-		btn.Click -= OnBtnClick;
-		btn.Click += OnBtnClick;
+		if (btn.IsLoaded)
+			OnBtnLoaded(btn, default);
+		else
+			btn.Loaded += OnBtnLoaded;
 
-		static void OnBtnClick(object sender, RoutedEventArgs e)
+		btn.Unloaded += OnBtnUnloaded;
+
+		static void OnBtnUnloaded(object sender, RoutedEventArgs e)
 		{
-			var flipView = GetNext((Button)sender);
+			var btn = (Button)sender;
 
-			if (flipView is null)
-				return;
+			btn.Click -= OnBtnNextClick;
+		}
 
-			GoNext(flipView);
+
+		static void OnBtnLoaded(object sender, RoutedEventArgs? e)
+		{
+			var btn = (Button)sender;
+
+			btn.Click += OnBtnNextClick;
 		}
 	}
 
-	static void OnPreviousChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	private static void OnBtnNextClick(object sender, RoutedEventArgs e)
+	{
+		var flipView = GetNext((Button)sender);
+
+		if (flipView is null)
+			return;
+
+		GoNext(flipView);
+	}
+
+	private static void OnPreviousChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var btn = (ButtonBase)d;
 
 		if (e.NewValue is null)
 		{
-			btn.Click -= OnBtnClick;
+			btn.Click -= OnBtnPreviousClick;
 			return;
 		}
 
-		btn.Click -= OnBtnClick;
-		btn.Click += OnBtnClick;
+		if (btn.IsLoaded)
+			OnBtnLoaded(btn, default);
+		else
+			btn.Loaded += OnBtnLoaded;
 
-		static void OnBtnClick(object sender, RoutedEventArgs e)
+		btn.Unloaded += OnBtnUnloaded;
+
+		static void OnBtnUnloaded(object sender, RoutedEventArgs e)
 		{
-			var flipView = GetPrevious((Button)sender);
+			var btn = (Button)sender;
 
-			if (flipView is null)
-				return;
+			btn.Click -= OnBtnPreviousClick;
+		}
 
-			GoBack(flipView);
+
+		static void OnBtnLoaded(object sender, RoutedEventArgs? e)
+		{
+			var btn = (Button)sender;
+
+			btn.Click += OnBtnPreviousClick;
 		}
 	}
 
-	static void GoBack(FlipView element)
+
+	private static void OnBtnPreviousClick(object sender, RoutedEventArgs e)
+	{
+		var flipView = GetPrevious((Button)sender);
+
+		if (flipView is null)
+			return;
+
+		GoBack(flipView);
+	}
+
+	private static void GoBack(FlipView element)
 	{
 		var index = element.SelectedIndex - 1;
 
@@ -105,7 +144,7 @@ public static class FlipViewExtensions
 		element.SelectedIndex = index;
 	}
 
-	static void GoNext(FlipView element)
+	private static void GoNext(FlipView element)
 	{
 		var index = element.SelectedIndex + 1;
 
