@@ -7,7 +7,7 @@ Property|Type|Description
 -|-|-
 PipsPagerProperty|PipsPager| Backing property for the `PisPager` that will interact with the `Selector` control.
 
-When the `SelectorExtensions.PipsPager` is set, the control will take care to update the number of items and the SelectedIndex automatically.
+When the `SelectorExtensions.PipsPager` is set, the control will take care of updating the number of items and the `SelectedIndex` automatically.
 
 ## Usage
 ```xml
