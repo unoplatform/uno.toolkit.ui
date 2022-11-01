@@ -105,17 +105,17 @@ public static class FlipViewExtensions
 
 		static void OnBtnUnloaded(object sender, RoutedEventArgs e)
 		{
-			var btn = (Button)sender;
+			var button = (Button)sender;
 
-			btn.Click -= OnBtnPreviousClick;
+			button.Click -= OnBtnPreviousClick;
 		}
 
 
 		static void OnBtnLoaded(object sender, RoutedEventArgs? e)
 		{
-			var btn = (Button)sender;
+			var button = (Button)sender;
 
-			btn.Click += OnBtnPreviousClick;
+			button.Click += OnBtnPreviousClick;
 		}
 	}
 
