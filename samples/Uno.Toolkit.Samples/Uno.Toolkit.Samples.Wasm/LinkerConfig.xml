@@ -2,6 +2,7 @@
   <assembly fullname="Uno.Toolkit.Samples.Wasm" />
   <assembly fullname="Uno.UI" />
   <assembly fullname="Microsoft.Extensions.Options" />
+  <assembly fullname="Uno.Toolkit.RuntimeTests" />
 
   <assembly fullname="System.Core">
 	<!-- This is required by JSon.NET and any expression.Compile caller -->
