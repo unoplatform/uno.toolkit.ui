@@ -48,8 +48,8 @@ public static partial class SelectorExtensions
 	public static void SetPipsPager(Selector element, PipsPager value) =>
 		element.SetValue(PipsPagerProperty, value);
 
-	public static PipsPager GetPipsPager(Selector element) =>
-		(PipsPager)element.GetValue(PipsPagerProperty);
+	public static PipsPager? GetPipsPager(Selector element) =>
+		(PipsPager?)element.GetValue(PipsPagerProperty);
 	#endregion
 
 	static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
@@ -96,6 +96,9 @@ public static partial class SelectorExtensions
 	{
 		var selector = (Selector)sender;
 		var pipsPager = GetPipsPager(selector);
+
+		if (pipsPager is null)
+			return;
 
 		VectorChangedEventHandler<object> eventHandler = OnItemsVectorChanged;
 		events[new(selector)] = eventHandler;
