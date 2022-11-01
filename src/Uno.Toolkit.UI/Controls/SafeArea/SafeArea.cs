@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Logging;
-using Uno.UI;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 
