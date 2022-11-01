@@ -21,9 +21,9 @@ using Windows.UI.Xaml.Input;
 
 namespace Uno.Toolkit.UI
 {
-	public static class ControlExtensions
+	public static class CommandExtensions
 	{
-		private static ILogger _logger = typeof(ControlExtensions).Log();
+		private static ILogger _logger = typeof(CommandExtensions).Log();
 
 		#region DependencyProperty: Command
 
@@ -43,7 +43,7 @@ namespace Uno.Toolkit.UI
 		public static DependencyProperty CommandProperty { get; } = DependencyProperty.RegisterAttached(
 			"Command",
 			typeof(ICommand),
-			typeof(ControlExtensions),
+			typeof(CommandExtensions),
 			new PropertyMetadata(default(ICommand), OnCommandChanged));
 
 		public static ICommand GetCommand(DependencyObject obj) => (ICommand)obj.GetValue(CommandProperty);
@@ -58,7 +58,7 @@ namespace Uno.Toolkit.UI
 		public static DependencyProperty CommandParameterProperty { get; } = DependencyProperty.RegisterAttached(
 			"CommandParameter",
 			typeof(object),
-			typeof(ControlExtensions),
+			typeof(CommandExtensions),
 			new PropertyMetadata(default(object)));
 
 		public static object GetCommandParameter(DependencyObject obj) => (object)obj.GetValue(CommandParameterProperty);
@@ -98,7 +98,7 @@ namespace Uno.Toolkit.UI
 			{
 				if (_logger.IsEnabled(LogLevel.Warning))
 				{
-					_logger.Warn($"ControlExtensions.Command is not supported on '{sender.GetType().FullName}'.");
+					_logger.Warn($"CommandExtensions.Command is not supported on '{sender.GetType().FullName}'.");
 				}
 			}
 		}
