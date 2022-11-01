@@ -78,13 +78,8 @@ public static partial class SelectorExtensions
 		pipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, selectedIndexBinding);
 		pipsPager.NumberOfPages = selector.Items.Count;
 
-		if (selector.IsLoaded)
-			OnSelectorLoaded(selector, default);
-		else
-			selector.Loaded += OnSelectorLoaded;
-
+		selector.Loaded += OnSelectorLoaded;
 		selector.Unloaded += OnSelectorUnloaded;
-
 	}
 
 	private static void OnSelectorUnloaded(object sender, RoutedEventArgs e)

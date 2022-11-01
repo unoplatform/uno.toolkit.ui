@@ -100,11 +100,7 @@ public static class FlipViewExtensions
 			return;
 		}
 
-		if (btn.IsLoaded)
-			OnBtnLoaded(btn, default);
-		else
-			btn.Loaded += OnBtnLoaded;
-
+		btn.Loaded += OnBtnLoaded;
 		btn.Unloaded += OnBtnUnloaded;
 
 		static void OnBtnUnloaded(object sender, RoutedEventArgs e)
