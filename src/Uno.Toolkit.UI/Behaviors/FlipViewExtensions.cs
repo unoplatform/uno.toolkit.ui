@@ -58,10 +58,11 @@ public static class FlipViewExtensions
 		}
 
 		if (btn.IsLoaded)
+		{
 			OnBtnLoaded(btn, default);
-		else
-			btn.Loaded += OnBtnLoaded;
+		}
 
+		btn.Loaded += OnBtnLoaded;
 		btn.Unloaded += OnBtnUnloaded;
 
 		static void OnBtnUnloaded(object sender, RoutedEventArgs e)
@@ -85,7 +86,9 @@ public static class FlipViewExtensions
 		var flipView = GetNext((Button)sender);
 
 		if (flipView is null)
+		{
 			return;
+		}
 
 		GoNext(flipView);
 	}
@@ -98,6 +101,11 @@ public static class FlipViewExtensions
 		{
 			btn.Click -= OnBtnPreviousClick;
 			return;
+		}
+
+		if (btn.IsLoaded)
+		{
+			OnBtnLoaded(btn, default);
 		}
 
 		btn.Loaded += OnBtnLoaded;
@@ -125,7 +133,9 @@ public static class FlipViewExtensions
 		var flipView = GetPrevious((Button)sender);
 
 		if (flipView is null)
+		{
 			return;
+		}
 
 		GoBack(flipView);
 	}
@@ -135,7 +145,9 @@ public static class FlipViewExtensions
 		var index = element.SelectedIndex - 1;
 
 		if (index < 0)
+		{
 			return;
+		}
 
 		element.SelectedIndex = index;
 	}
@@ -145,7 +157,9 @@ public static class FlipViewExtensions
 		var index = element.SelectedIndex + 1;
 
 		if (index >= element.Items.Count)
+		{
 			return;
+		}
 
 		element.SelectedIndex = index;
 	}

@@ -55,10 +55,14 @@ public static partial class SelectorExtensions
 	private static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 	{
 		if (args.NewValue == args.OldValue)
+		{
 			return;
+		}
 
 		if (args.OldValue is PipsPager oldPipsPager)
+		{
 			oldPipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, null);
+		}
 
 		var selector = (Selector)dependencyObject;
 		if (args.NewValue is not PipsPager pipsPager)
@@ -78,6 +82,12 @@ public static partial class SelectorExtensions
 		pipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, selectedIndexBinding);
 		pipsPager.NumberOfPages = selector.Items.Count;
 
+
+		if (selector.IsLoaded)
+		{
+			OnSelectorLoaded(selector, default);
+		}
+
 		selector.Loaded += OnSelectorLoaded;
 		selector.Unloaded += OnSelectorUnloaded;
 	}
@@ -93,7 +103,9 @@ public static partial class SelectorExtensions
 		var pipsPager = GetPipsPager(selector);
 
 		if (pipsPager is null)
+		{
 			return;
+		}
 
 		VectorChangedEventHandler<object> eventHandler = OnItemsVectorChanged;
 		events[new(selector)] = eventHandler;
