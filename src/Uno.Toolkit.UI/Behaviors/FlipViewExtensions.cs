@@ -63,6 +63,10 @@ public static class FlipViewExtensions
 		static void OnBtnClick(object sender, RoutedEventArgs e)
 		{
 			var flipView = GetNext((Button)sender);
+
+			if (flipView is null)
+				return;
+
 			GoNext(flipView);
 		}
 	}
@@ -83,6 +87,10 @@ public static class FlipViewExtensions
 		static void OnBtnClick(object sender, RoutedEventArgs e)
 		{
 			var flipView = GetPrevious((Button)sender);
+
+			if (flipView is null)
+				return;
+
 			GoBack(flipView);
 		}
 	}
