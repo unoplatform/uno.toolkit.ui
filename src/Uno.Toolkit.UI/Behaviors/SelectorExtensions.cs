@@ -52,7 +52,7 @@ public static partial class SelectorExtensions
 		(PipsPager?)element.GetValue(PipsPagerProperty);
 	#endregion
 
-	static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+	private static void OnPipsPagerChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 	{
 		if (args.NewValue == args.OldValue)
 			return;
@@ -109,7 +109,7 @@ public static partial class SelectorExtensions
 			pipsPager.NumberOfPages = selector.Items.Count;
 	}
 
-	static void UnsubscribeFromSelectorEvents(in Selector selector)
+	private static void UnsubscribeFromSelectorEvents(in Selector selector)
 	{
 		var key = events.Keys.GetSelector(selector);
 
