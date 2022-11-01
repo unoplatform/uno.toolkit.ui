@@ -78,15 +78,29 @@ public static partial class SelectorExtensions
 		pipsPager.SetBinding(PipsPager.SelectedPageIndexProperty, selectedIndexBinding);
 		pipsPager.NumberOfPages = selector.Items.Count;
 
-		UnsubscribeFromSelectorEvents(selector);
-		VectorChangedEventHandler<object> eventHandler = OnItemsVectorChanged;
-		events[new (selector)] = eventHandler;
-		selector.Items.VectorChanged += eventHandler;
-		selector.Unloaded += (_, __) =>
-		{
-			selector.Items.VectorChanged -= eventHandler;
-		};
+		if (selector.IsLoaded)
+			OnSelectorLoaded(selector, default);
+		else
+			selector.Loaded += OnSelectorLoaded;
 
+		selector.Unloaded += OnSelectorUnloaded;
+
+	}
+
+	private static void OnSelectorUnloaded(object sender, RoutedEventArgs e)
+	{
+		UnsubscribeFromSelectorEvents((Selector)sender);
+	}
+
+	private static void OnSelectorLoaded(object sender, RoutedEventArgs? e)
+	{
+		var selector = (Selector)sender;
+		var pipsPager = GetPipsPager(selector);
+
+		VectorChangedEventHandler<object> eventHandler = OnItemsVectorChanged;
+		events[new(selector)] = eventHandler;
+
+		selector.Items.VectorChanged += eventHandler;
 
 		void OnItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event) =>
 			pipsPager.NumberOfPages = selector.Items.Count;
