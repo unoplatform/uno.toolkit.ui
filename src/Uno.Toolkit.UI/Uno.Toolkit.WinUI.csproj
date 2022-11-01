@@ -13,7 +13,7 @@
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<AssemblyName>Uno.Toolkit.WinUI</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
-		<DefineConstants Condition="$(TargetFramework.Contains('windows10'))">$(DefineConstants);WINDOWS</DefineConstants>
+		<DefineConstants Condition="$(_IsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -21,14 +21,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI"   />
-		<PackageReference Include="Uno.Core.Extensions.Collections"  />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton"  />
-		<PackageReference Include="Uno.Core.Extensions.Logging"  />
+		<PackageReference Include="Uno.WinUI" />
+		<PackageReference Include="Uno.Core.Extensions.Collections" />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
+		<PackageReference Include="Uno.Core.Extensions.Logging" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
-		<PackageReference Include="Microsoft.WindowsAppSDK"  />
+	<ItemGroup Condition="$(_IsWinUI)">
+		<PackageReference Include="Microsoft.WindowsAppSDK" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
 	</ItemGroup>
