@@ -16,13 +16,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Extensions.Markup.Generators" />
-		<PackageReference Include="Uno.Extensions.Markup.WinUI" />
-		<PackageReference Include="Uno.WinUI" />
+		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All"/>
+		<PackageReference Include="Uno.WinUI.Markup" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(_IsWinUI)">
-		<PackageReference Include="Microsoft.WindowsAppSDK" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
 	</ItemGroup>
