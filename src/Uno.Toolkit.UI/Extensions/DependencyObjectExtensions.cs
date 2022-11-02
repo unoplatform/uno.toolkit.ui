@@ -2,11 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Uno.Disposables;
 using Uno.Extensions;
-using Uno.UI;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 

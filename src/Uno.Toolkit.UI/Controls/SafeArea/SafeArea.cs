@@ -3,19 +3,14 @@
 #define VISIBLEBOUNDS_API_NOT_SUPPORTED
 #endif
 
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using Uno.Disposables;
+using Uno.Extensions;
+using Uno.Logging;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
-using Microsoft.Extensions.Logging;
-using Uno.Extensions;
-using Uno.UI;
-using Uno.Logging;
-using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -32,6 +27,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using XamlWindow = Windows.UI.Xaml.Window;
 #endif
+
 
 namespace Uno.Toolkit.UI
 {
