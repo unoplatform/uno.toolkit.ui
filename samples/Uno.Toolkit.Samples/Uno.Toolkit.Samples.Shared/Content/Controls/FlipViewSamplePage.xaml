@@ -16,7 +16,7 @@
 				<StackPanel Margin="0,20" Spacing="20">
 					<StackPanel.Resources>
 						<ResourceDictionary>
-							<Style TargetType="x:TextBlock">
+							<Style TargetType="TextBlock">
 								<Setter Property="HorizontalAlignment" Value="Center" />
 								<Setter Property="TextWrap" Value="Wrap" />
 							</Style>
