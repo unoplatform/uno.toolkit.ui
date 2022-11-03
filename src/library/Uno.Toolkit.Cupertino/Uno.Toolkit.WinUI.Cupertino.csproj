@@ -16,7 +16,7 @@
 		<RootNamespace>Uno.Toolkit.UI.Cupertino</RootNamespace>
 		<PackageId>Uno.Toolkit.WinUI.Cupertino</PackageId>
 		
-		<UnoXamlResourcesTrimming>true</UnoXamlResourcesTrimming>
+		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -16,7 +16,7 @@
 		<PackageId>Uno.Toolkit.UI.Material</PackageId>
 		<IncludeLayoutFilesInPackage>true</IncludeLayoutFilesInPackage>
 
-		<UnoXamlResourcesTrimming>true</UnoXamlResourcesTrimming>
+		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
 	<ItemGroup>
