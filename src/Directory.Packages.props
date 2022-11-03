@@ -8,7 +8,7 @@
     <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
     <PackageVersion Include="Uno.Cupertino" Version="2.3.0" />
     <PackageVersion Include="Uno.Cupertino.WinUI" Version="2.3.0" />
-    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="1.0.0-dev.123" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="1.0.0-dev.125" />
     <PackageVersion Include="Uno.WinUI.Markup" Version="4.6.0-dev.12" />
     <PackageVersion Include="Uno.Material" Version="2.3.0" />
     <PackageVersion Include="Uno.Material.WinUI" Version="2.3.0" />
