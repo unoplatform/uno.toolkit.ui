@@ -14,6 +14,8 @@
 		<AssemblyName>Uno.Toolkit.UI</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
 		<PackageId>Uno.Toolkit.UI</PackageId>
+
+		<UnoXamlResourcesTrimming>true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
 	<ItemGroup>

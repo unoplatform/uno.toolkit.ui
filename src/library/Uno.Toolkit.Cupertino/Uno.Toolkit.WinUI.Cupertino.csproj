@@ -15,6 +15,8 @@
 		<AssemblyName>Uno.Toolkit.WinUI.Cupertino</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI.Cupertino</RootNamespace>
 		<PackageId>Uno.Toolkit.WinUI.Cupertino</PackageId>
+		
+		<UnoXamlResourcesTrimming>true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
 	<ItemGroup>

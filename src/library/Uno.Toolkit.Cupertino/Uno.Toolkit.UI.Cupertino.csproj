@@ -14,6 +14,8 @@
 		<AssemblyName>Uno.Toolkit.UI.Cupertino</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI.Cupertino</RootNamespace>
 		<PackageId>Uno.Toolkit.UI.Cupertino</PackageId>
+
+		<UnoXamlResourcesTrimming>true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
 	<ItemGroup>
