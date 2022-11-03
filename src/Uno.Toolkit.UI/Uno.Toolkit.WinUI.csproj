@@ -14,6 +14,8 @@
 		<AssemblyName>Uno.Toolkit.WinUI</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
 		<DefineConstants Condition="$(_IsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
+		
+		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
 	<ItemGroup>
