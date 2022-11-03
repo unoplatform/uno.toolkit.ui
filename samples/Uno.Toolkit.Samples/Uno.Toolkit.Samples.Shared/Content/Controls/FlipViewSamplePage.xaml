@@ -18,7 +18,7 @@
 						<ResourceDictionary>
 							<Style TargetType="TextBlock">
 								<Setter Property="HorizontalAlignment" Value="Center" />
-								<Setter Property="TextWrap" Value="Wrap" />
+								<Setter Property="TextWrapping" Value="Wrap" />
 							</Style>
 						</ResourceDictionary>
 					</StackPanel.Resources>
@@ -83,6 +83,7 @@
 						x:Name="AddNewPageButton"
 						HorizontalAlignment="Center"
 						Content="Add" />
+					<Button x:Name="DebugVTButton" Content="DebugVT" />
 					<TextBlock Text="The maximum number of visible pips are 10." />
 
 				</StackPanel>

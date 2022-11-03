@@ -37,7 +37,6 @@ public static class FlipViewExtensions
 	public static FlipView? GetNext(Button element) => (FlipView?)element.GetValue(NextProperty);
 
 	#endregion
-
 	#region DependencyProperty: Previous
 	public static DependencyProperty PreviousProperty { get; } =
 	DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnPreviousChanged));
@@ -46,6 +45,19 @@ public static class FlipViewExtensions
 
 	public static FlipView? GetPrevious(Button element) => (FlipView?)element.GetValue(PreviousProperty);
 	#endregion
+	#region DependencyProperty: HideArrowButtons
+
+	public static DependencyProperty HideArrowButtonsProperty { get; } = DependencyProperty.RegisterAttached(
+		"HideArrowButtons",
+		typeof(bool),
+		typeof(FlipViewExtensions),
+		new PropertyMetadata(default(bool), OnHideArrowButtonsChanged));
+
+	public static bool GetHideArrowButtons(FlipView obj) => (bool)obj.GetValue(HideArrowButtonsProperty);
+	public static void SetHideArrowButtons(FlipView obj, bool value) => obj.SetValue(HideArrowButtonsProperty, value);
+
+	#endregion
+
 
 	private static void OnNextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
@@ -127,7 +139,6 @@ public static class FlipViewExtensions
 		}
 	}
 
-
 	private static void OnBtnPreviousClick(object sender, RoutedEventArgs e)
 	{
 		var flipView = GetPrevious((Button)sender);
@@ -163,4 +174,27 @@ public static class FlipViewExtensions
 
 		element.SelectedIndex = index;
 	}
+
+	private static void OnHideArrowButtonsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+	{
+		if (sender is FlipView fv)
+		{
+			ToggleButtonVisibility("PreviousButtonHorizontal");
+			ToggleButtonVisibility("NextButtonHorizontal");
+			ToggleButtonVisibility("PreviousButtonVertical");
+			ToggleButtonVisibility("NextButtonVertical");
+
+			void ToggleButtonVisibility(string name)
+			{
+				if (fv.GetFirstDescendant<Button>(x => x.Name == name) is { } button)
+				{
+					// Visibility cannot be used here, because the FlipView impl will update the visibility based on the item's relative position...
+					// The IsHitTestVisible is used to prevent the "transparent" button from blocking the click as it sits above everything.
+					button.Opacity = (bool)e.NewValue ? 0 : 1;
+					button.IsHitTestVisible = (bool)e.NewValue;
+				}
+			}
+		}
+	}
+
 }

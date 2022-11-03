@@ -68,6 +68,10 @@ public static partial class SelectorExtensions
 		var selector = (Selector)dependencyObject;
 		if (args.NewValue is not PipsPager pipsPager)
 		{
+			if (selector is FlipView flipView)
+			{
+				FlipViewExtensions.SetHideArrowButtons(flipView, false);
+			}
 			UnsubscribeFromSelectorEvents(selector);
 			return;
 		}
@@ -105,6 +109,11 @@ public static partial class SelectorExtensions
 		if (pipsPager is null)
 		{
 			return;
+		}
+
+		if (selector is FlipView flipView)
+		{
+			FlipViewExtensions.SetHideArrowButtons(flipView, true);
 		}
 
 		VectorChangedEventHandler<object> eventHandler = OnItemsVectorChanged;
