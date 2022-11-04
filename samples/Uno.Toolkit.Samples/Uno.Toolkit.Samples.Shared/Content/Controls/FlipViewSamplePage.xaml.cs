@@ -47,12 +47,19 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		{
 			this.InitializeComponent();
 
-
 			this.Loaded += (_, __) =>
 			{
 				var btn = this.SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "AddNewPageButton");
 
 				var flipView = this.SamplePageLayout.GetSampleChild<FlipView>(Design.Agnostic, "flipView");
+				var flipViewItems = this.SamplePageLayout.GetSampleChild<TextBlock>(Design.Agnostic, "flipViewItems");
+				flipViewItems.Text = $"{flipView.Items.Count}";
+
+				flipView.Items.VectorChanged += (_, __) =>
+				{
+					flipViewItems.Text = $"{flipView.Items.Count}";
+				};
+
 				btn.Click += (_, __) =>
 				{
 					var grid = new Grid();
@@ -78,7 +85,6 @@ namespace Uno.Toolkit.Samples.Content.Controls
 					flipView.Items.Add(grid);
 				};
 
-				
 				var debugVT = this.SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "DebugVTButton");
 				debugVT.Click += (s, e) =>
 				{
