@@ -28,24 +28,25 @@ namespace Uno.Toolkit.UI
 		{
 			var dicts = new string[]
 			{
-				"AutoLayout/AutoLayout.xaml",
-				"DrawerControl/DrawerControl.xaml",
-				"DrawerControl/DrawerControl.Enhanced.xaml",
-				"DrawerFlyout/DrawerFlyoutPresenter.xaml",
-				"LoadingView/LoadingView.xaml",
-				"ExtendedSplashScreen/ExtendedSplashScreen.xaml",
+				"Behaviors/FlipView.xaml",
+				"Controls/AutoLayout/AutoLayout.xaml",
+				"Controls/DrawerControl/DrawerControl.xaml",
+				"Controls/DrawerControl/DrawerControl.Enhanced.xaml",
+				"Controls/DrawerFlyout/DrawerFlyoutPresenter.xaml",
+				"Controls/LoadingView/LoadingView.xaml",
+				"Controls/ExtendedSplashScreen/ExtendedSplashScreen.xaml",
 #if __IOS__ || __ANDROID__
-				"NavigationBar/NavigationBar.Native.xaml",
+				"Controls/NavigationBar/NavigationBar.Native.xaml",
 #else
-				"NavigationBar/NavigationBar.xaml",
+				"Controls/NavigationBar/NavigationBar.xaml",
 #endif
-				"TabBar/TabBar.xaml",
+				"Controls/TabBar/TabBar.xaml",
 			};
 			foreach (var dict in dicts)
 			{
 				MergedDictionaries.Add(new ResourceDictionary
 				{
-					Source = new Uri($"ms-appx:///{PackageName}/Controls/{dict}")
+					Source = new Uri($"ms-appx:///{PackageName}/{dict}")
 				});
 			}
 		}
