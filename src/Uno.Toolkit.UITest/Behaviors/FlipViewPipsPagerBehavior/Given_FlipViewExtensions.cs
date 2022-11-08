@@ -20,7 +20,6 @@ internal class Given_FlipViewExtensions : TestBase
 
 		var newFlipViewSelectedIndex = flipView.GetDependencyPropertyValue<int>("SelectedIndex");
 
-		Assert.AreNotEqual(oldFlipViewSelectedIndex, newFlipViewSelectedIndex);
 		Assert.AreEqual(2, newFlipViewSelectedIndex);
 	}
 
@@ -38,16 +37,5 @@ internal class Given_FlipViewExtensions : TestBase
 		var newFlipViewSelectedIndex = flipView.GetDependencyPropertyValue<int>("SelectedIndex");
 
 		Assert.AreEqual(oldFlipViewSelectedIndex, newFlipViewSelectedIndex);
-	}
-
-	(QueryEx flipView, QueryEx pipsPager) GetPipsPagerAndFlipViewElements()
-	{
-		var flipView = App.MarkedAnywhere("flipView");
-		var pipsPager = App.MarkedAnywhere("pipsPager");
-
-		Assert.IsNotNull(flipView);
-		Assert.IsNotNull(pipsPager);
-
-		return (flipView, pipsPager);
 	}
 }

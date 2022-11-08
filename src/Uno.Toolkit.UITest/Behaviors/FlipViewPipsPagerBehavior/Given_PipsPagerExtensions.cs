@@ -24,12 +24,18 @@ public class Given_PipsPagerExtensions : TestBase
 	{
 		var (flipViewCounter, pipsPager) = GetPipsPagerAndLabelElements();
 
+		var oldPipsPagerItemsCount = pipsPager.GetDependencyPropertyValue<int>("NumberOfPages");
+		var oldFlipViewCount = flipViewCounter.GetDependencyPropertyValue<string>("Text");
+
+		Assert.AreEqual(oldPipsPagerItemsCount, int.Parse(oldFlipViewCount));
+
 		App.Tap("AddNewPageButton");
 
-		var pipsPagerItemsCount = pipsPager.GetDependencyPropertyValue<int>("NumberOfPages");
-		var flipViewCount = flipViewCounter.GetDependencyPropertyValue<string>("Text");
+		var newPipsPagerItemsCount = pipsPager.GetDependencyPropertyValue<int>("NumberOfPages");
+		var newFlipViewCount = flipViewCounter.GetDependencyPropertyValue<string>("Text");
 
-		Assert.AreEqual(pipsPagerItemsCount, int.Parse(flipViewCount));
+		Assert.AreEqual(newPipsPagerItemsCount, int.Parse(newFlipViewCount));
+		Assert.AreNotEqual(newPipsPagerItemsCount, oldPipsPagerItemsCount);
 	}
 
 	[Test]
@@ -37,13 +43,20 @@ public class Given_PipsPagerExtensions : TestBase
 	{
 		var (flipView, pipsPager) = GetPipsPagerAndFlipViewElements();
 
+
+		var oldPipsPagerSelectedIndex = pipsPager.GetDependencyPropertyValue<int>("SelectedPageIndex");
+		var oldFlipViewSelectedIndex = flipView.GetDependencyPropertyValue<int>("SelectedIndex");
+
+		Assert.AreEqual(oldPipsPagerSelectedIndex, oldFlipViewSelectedIndex);
+
 		App.Tap("BtnNext1");
 		App.Tap("BtnNext2");
 
-		var pipsPagerSelectedIndex = pipsPager.GetDependencyPropertyValue<int>("SelectedPageIndex");
-		var flipViewSelectedIndex = flipView.GetDependencyPropertyValue<int>("SelectedIndex");
+		var newPipsPagerSelectedIndex = pipsPager.GetDependencyPropertyValue<int>("SelectedPageIndex");
+		var newFlipViewSelectedIndex = flipView.GetDependencyPropertyValue<int>("SelectedIndex");
 
-		Assert.AreEqual(pipsPagerSelectedIndex, flipViewSelectedIndex);
+		Assert.AreEqual(newPipsPagerSelectedIndex, newFlipViewSelectedIndex);
+		Assert.AreNotEqual(newPipsPagerSelectedIndex, oldPipsPagerSelectedIndex);
 	}
 
 	(QueryEx flipViewCounter, QueryEx pipsPager) GetPipsPagerAndLabelElements()
@@ -62,9 +75,6 @@ public class Given_PipsPagerExtensions : TestBase
 	{
 		var flipView = App.MarkedAnywhere("flipView");
 		var pipsPager = App.MarkedAnywhere("pipsPager");
-
-		Assert.IsNotNull(flipView);
-		Assert.IsNotNull(pipsPager);
 
 		return (flipView, pipsPager);
 	}
