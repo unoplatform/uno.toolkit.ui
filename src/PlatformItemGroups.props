@@ -23,7 +23,7 @@
 		<_IsNetStd Condition="'$(TargetFramework)'=='netstandard2.0' or $(_IsNetCore)">true</_IsNetStd>
 
 		<_IsUWP>false</_IsUWP>
-		<_IsUWP Condition="'$(TargetFramework)'=='uap10.0'">true</_IsUWP>
+		<_IsUWP Condition="$(TargetFramework.StartsWith('uap10.0'))">true</_IsUWP>
 
 		<_IsWinUI>false</_IsWinUI>
 		<_IsWinUI Condition="$(TargetFramework.Contains('-windows'))">true</_IsWinUI>
