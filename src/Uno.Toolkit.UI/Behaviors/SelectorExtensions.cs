@@ -44,7 +44,7 @@ public static partial class SelectorExtensions
 	/// </summary>
 	#region DependencyProperty: PipsPager
 	public static DependencyProperty PipsPagerProperty { get; } =
-	DependencyProperty.RegisterAttached("PipsPager", typeof(PipsPager), typeof(SelectorExtensions), new PropertyMetadata(null, OnPipsPagerChanged));
+		DependencyProperty.RegisterAttached("PipsPager", typeof(PipsPager), typeof(SelectorExtensions), new PropertyMetadata(null, OnPipsPagerChanged));
 
 	public static void SetPipsPager(Selector element, PipsPager value) =>
 		element.SetValue(PipsPagerProperty, value);
@@ -126,7 +126,7 @@ public static partial class SelectorExtensions
 		}
 	}
 
-	#region SelectionOffset Attached Property
+	#region AttachedProperty : SelectionOffset
 	public static double GetSelectionOffset(DependencyObject obj)
 	{
 		return (double)obj.GetValue(SelectionOffsetProperty);

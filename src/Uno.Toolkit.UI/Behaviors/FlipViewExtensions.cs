@@ -30,7 +30,7 @@ public static class FlipViewExtensions
 {
 	#region DependencyProperty: Next
 	public static DependencyProperty NextProperty { get; } =
-	DependencyProperty.RegisterAttached("Next", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnNextChanged));
+		DependencyProperty.RegisterAttached("Next", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnNextChanged));
 
 	public static void SetNext(Button element, FlipView value) => element.SetValue(NextProperty, value);
 
@@ -39,7 +39,7 @@ public static class FlipViewExtensions
 	#endregion
 	#region DependencyProperty: Previous
 	public static DependencyProperty PreviousProperty { get; } =
-	DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnPreviousChanged));
+		DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnPreviousChanged));
 
 	public static void SetPrevious(Button element, FlipView value) => element.SetValue(PreviousProperty, value);
 

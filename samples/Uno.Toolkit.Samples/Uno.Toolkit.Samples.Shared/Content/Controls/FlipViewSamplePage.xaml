@@ -23,7 +23,7 @@
 						</ResourceDictionary>
 					</StackPanel.Resources>
 
-					<TextBlock Text="Try to navigate throw the FlipView using the buttons inside it. " />
+					<TextBlock Text="Try to navigate the FlipView Items using the buttons inside it. " />
 
 					<!--  This is to help the UITests  -->
 					<TextBlock x:Name="flipViewItems" Visibility="Collapsed" />
@@ -31,7 +31,7 @@
 					<FlipView x:Name="flipView"
 							  utu:SelectorExtensions.PipsPager="{Binding ElementName=pipsPager}"
 							  Background="Blue"
-							  Style="{StaticResource FlipViewNoArrowsStyle}">
+							  Style="{StaticResource NoArrowsFlipViewStyle}">
 						<FlipView.Items>
 							<Grid Background="Azure">
 								<Button HorizontalAlignment="Left"
