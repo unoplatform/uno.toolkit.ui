@@ -84,9 +84,7 @@
 					<Button x:Name="AddNewPageButton"
 							HorizontalAlignment="Center"
 							Content="Add" />
-					<Button x:Name="DebugVTButton" Content="DebugVT" />
 					<TextBlock Text="The maximum number of visible pips are 10." />
-
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.DesignAgnosticTemplate>

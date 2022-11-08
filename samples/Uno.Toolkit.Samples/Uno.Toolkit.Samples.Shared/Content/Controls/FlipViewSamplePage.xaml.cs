@@ -84,12 +84,6 @@ namespace Uno.Toolkit.Samples.Content.Controls
 
 					flipView.Items.Add(grid);
 				};
-
-				var debugVT = this.SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "DebugVTButton");
-				debugVT.Click += (s, e) =>
-				{
-					var tree = flipView.TreeGraph();
-				};
 			};
 		}
 	}
