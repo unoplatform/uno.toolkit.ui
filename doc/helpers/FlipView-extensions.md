@@ -45,13 +45,13 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Customization
 
-The `FlipView` control for desktop targets will present arrow buttons to allow the user to click on the to navigate between the content inside the `FlipView`, if you don't want these arrows to be shown, you can add our `Style` to remove them. Your xaml code will be.
+The `FlipView` control for desktop targets will present arrow buttons to allow the user to click on the to navigate between the content inside the `FlipView`, if you don't want these arrows to be shown, you use the `NoArrowsFlipViewStyle` as shown in the example below:
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <Grid>
-    <FlipView Style="{StaticResource FlipViewNoArrowsStyle}" />
+    <FlipView Style="{StaticResource NoArrowsFlipViewStyle}" />
 </Grid>
 ```
