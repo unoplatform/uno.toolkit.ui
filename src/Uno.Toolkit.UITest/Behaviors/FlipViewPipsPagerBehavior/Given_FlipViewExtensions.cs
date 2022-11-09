@@ -12,6 +12,8 @@ internal class Given_FlipViewExtensions : TestBase
 	{
 		var flipView = App.MarkedAnywhere("flipView");
 
+		App.WaitForElement(flipView);
+
 		var oldFlipViewSelectedIndex = flipView.GetDependencyPropertyValue<int>("SelectedIndex");
 		Assert.AreEqual(0, oldFlipViewSelectedIndex);
 
