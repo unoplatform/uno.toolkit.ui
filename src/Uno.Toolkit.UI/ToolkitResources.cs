@@ -28,7 +28,9 @@ namespace Uno.Toolkit.UI
 		{
 			var dicts = new string[]
 			{
+#if !__IOS__
 				"Behaviors/FlipView.xaml",
+#endif
 				"Controls/AutoLayout/AutoLayout.xaml",
 				"Controls/DrawerControl/DrawerControl.xaml",
 				"Controls/DrawerControl/DrawerControl.Enhanced.xaml",
