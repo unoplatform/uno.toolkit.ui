@@ -30,8 +30,7 @@
 
 					<FlipView x:Name="flipView"
 							  utu:SelectorExtensions.PipsPager="{Binding ElementName=pipsPager}"
-							  Background="Blue"
-							  Style="{StaticResource NoArrowsFlipViewStyle}">
+							  Background="Blue">
 						<FlipView.Items>
 							<Grid Background="Azure">
 								<Button HorizontalAlignment="Left"
