@@ -36,4 +36,6 @@
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
+
+	<Import Project="Uno.Toolkit.UI.FileNesting.props" />
 </Project>

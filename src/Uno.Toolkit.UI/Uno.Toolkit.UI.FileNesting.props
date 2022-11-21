@@ -1,0 +1,51 @@
+<Project ToolsVersion="15.0">
+	<ItemGroup>
+        <!-- todo: add other extensions -->
+		<AllPlatformExtension Include="Uwp" />
+		<AllPlatformExtension Include="iOS" />
+		<AllPlatformExtension Include="Android" />
+	</ItemGroup>
+
+    <!-- todo: clean up code -->
+
+	<ItemGroup>
+        <!-- working: -->
+        <!-- <Compile Update="$(MSBuildThisFileDirectory)Behaviors\TabBarSelectorBehaviorState.iOS.cs">
+            <DependentUpon>TabBarSelectorBehaviorState.cs</DependentUpon>
+        </Compile> -->
+        <!-- <Compile Update="**\*.iOS.cs">
+            <DependentUpon>$([System.String]::Copy(%(Filename)).Replace(".iOS",".cs"))</DependentUpon>
+        </Compile> -->
+        <!-- <None Include="@(AllPlatformExtension->'asd%(Identity)')" /> -->
+        <Compile Update="@(AllPlatformExtension->'**\*.%(Identity).cs')">
+			<!-- note: should work for extensions that includes single separator only -->
+            <!-- ok: good.ios.cs, not-ok: bad.skia.gtk.cs -->
+            <DependentUpon>$([System.String]::Copy(%(Filename)).Substring(0, $([System.String]::Copy(%(Filename)).LastIndexOf('.')))).cs</DependentUpon>
+            <!-- ^ is tested-->
+		</Compile>
+
+        <!-- testing: -->
+        <Compile Update="@(AllPlatformExtension->'**\*.%(Identity).cs')">
+            <!-- !!!note: Identity of parent node CANNOT be inherited in child node... -->
+             <!--<DependentUpon>$([System.String]::Copy(%(Filename)).Replace('@(AllPlatformExtension)', ''))</DependentUpon>-->
+            <!-- <DependentUpon>TabBarSelectorBehaviorState.cs</DependentUpon> -->
+			<!--<Generator>$([System.String]::Copy(%(Filename)).LastIndexOf('.'))</Generator>-->
+			<!--<Generator>$([System.String]::Copy(%(Filename)).Substring(0,5))</Generator>-->
+			<!--<Generator>$([System.String]::Copy(%(Filename)).Length)</Generator>-->
+			<DependentUpon>$([System.String]::Copy(%(Filename)).Substring(0, $([System.String]::Copy(%(Filename)).LastIndexOf('.')))).cs</DependentUpon>
+		</Compile>
+
+        <!-- <Compile Update="$(MSBuildThisFileDirectory)Behaviors\TabBarSelectorBehaviorState.iOS.cs">
+            <DependentUpon>TabBarSelectorBehaviorState.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="$(MSBuildThisFileDirectory)Behaviors\TabBarSelectorBehaviorState.Uwp.cs">
+            <DependentUpon>TabBarSelectorBehaviorState.xaml</DependentUpon>
+        </Compile>
+        <None Update="$(MSBuildThisFileDirectory)Behaviors\TabBarSelectorBehaviorState.iOS.cs">
+            <DependentUpon>TabBarSelectorBehaviorState.xaml</DependentUpon>
+        </None>
+        <None Update="$(MSBuildThisFileDirectory)Behaviors\TabBarSelectorBehaviorState.Uwp.cs">
+            <DependentUpon>TabBarSelectorBehaviorState.xaml</DependentUpon>
+        </None> -->
+	</ItemGroup>
+</Project>
