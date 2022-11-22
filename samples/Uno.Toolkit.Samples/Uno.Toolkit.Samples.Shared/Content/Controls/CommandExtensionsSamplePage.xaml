@@ -3,12 +3,12 @@
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
 
 	<Grid Background="{ThemeResource SurfaceBrush}">
 		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
@@ -33,7 +33,13 @@
 									  utu:CommandExtensions.Command="{Binding DebugSelectionCommand}">
 								<ListView.ItemTemplate>
 									<DataTemplate>
-										<TextBlock>Item #<Run Text="{Binding}" /></TextBlock>
+										<Border BorderThickness="1"
+												BorderBrush="Black"
+												Padding="16"
+												Background="SkyBlue"
+												Margin="16,8">
+											<TextBlock>Item #<Run Text="{Binding}" /></TextBlock>
+										</Border>
 									</DataTemplate>
 								</ListView.ItemTemplate>
 							</ListView>
@@ -52,6 +58,24 @@
 							</NavigationView>
 						</StackPanel>
 
+						<!-- ItemsRepeater[Command] example -->
+						<StackPanel>
+							<TextBlock Text="- ItemsRepeater item tapped" />
+							<TextBlock Text="{Binding ItemsRepeaterDebugText}" />
+							<muxc:ItemsRepeater ItemsSource="123" utu:CommandExtensions.Command="{Binding DebugItemsRepeaterCommand}">
+								<muxc:ItemsRepeater.ItemTemplate>
+									<DataTemplate>
+										<Border BorderThickness="1"
+												BorderBrush="Black"
+												Padding="16"
+												Background="SkyBlue"
+												Margin="16,8">
+											<TextBlock>Item #<Run Text="{Binding}" /></TextBlock>
+										</Border>
+									</DataTemplate>
+								</muxc:ItemsRepeater.ItemTemplate>
+							</muxc:ItemsRepeater>
+						</StackPanel>
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>

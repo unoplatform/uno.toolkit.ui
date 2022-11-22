@@ -139,27 +139,11 @@ namespace Uno.Toolkit.UI
 			if (e.Key != VirtualKey.Enter) return;
 
 			// handle enter command
-			var command = CommandExtensions.GetCommand(host);
-			if (command != null &&
-				(CommandExtensions.GetCommandParameter(host) ?? GetInputParameter()) is var parameter &&
-				command.CanExecute(parameter))
-			{
-				command.Execute(parameter);
-			}
-
-			object? GetInputParameter() => sender switch
-			{
-				TextBox tb => tb.Text,
-#if !HAS_UNO // note: on uno, PasswordBox inherits from TextBox which isnt the case on uwp...
-				PasswordBox pb => pb.Password,
-#endif
-
-				_ => default,
-			};
+			CommandExtensions.TryInvokeCommand(host, CommandExtensions.GetCommandParameter(host) ?? GetInputParameter());
 
 			// dismiss keyboard
 			if (GetAutoDismiss(host) ||
-				command != null) // we should also dismiss keyboard if a command has been executed (even if CanExecute failed)
+				CommandExtensions.GetCommand(host) != null) // we should also dismiss keyboard if a command has been executed (even if CanExecute failed)
 			{
 				InputPane.GetForCurrentView().TryHide();
 			}
@@ -172,6 +156,16 @@ namespace Uno.Toolkit.UI
 
 				target?.Focus(FocusState.Keyboard);
 			}
+
+			object? GetInputParameter() => sender switch
+			{
+				TextBox tb => tb.Text,
+#if !HAS_UNO // note: on uno, PasswordBox inherits from TextBox which isnt the case on uwp...
+				PasswordBox pb => pb.Password,
+#endif
+
+				_ => default,
+			};
 		}
 	}
 }
