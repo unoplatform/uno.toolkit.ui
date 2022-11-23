@@ -8,6 +8,7 @@ using Uno.Logging;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -39,7 +40,7 @@ public static class VisualStateManagerExtensions
 	/// <summary>
 	/// Identifies the States dependency property.
 	/// </summary>
-	public static DependencyProperty StatesProperty { get; } = DependencyProperty.RegisterAttached(
+	public static DependencyProperty StatesProperty { [DynamicDependency(nameof(GetStates))] get; } = DependencyProperty.RegisterAttached(
 		"States",
 		typeof(string),
 		typeof(VisualStateManagerExtensions),
@@ -50,6 +51,7 @@ public static class VisualStateManagerExtensions
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <param name="value">A space, comma or semi-colon separated list of visual state names</param>
+	[DynamicDependency(nameof(GetStates))]
 	public static void SetStates(Control obj, string value) => obj.SetValue(StatesProperty, value);
 
 	// We need to include both a Set{PropertyName} and a Get{PropertyName} method for attached properties on Windows.
@@ -61,6 +63,7 @@ public static class VisualStateManagerExtensions
 	/// </summary>
 	/// <param name="obj"></param>
 	[EditorBrowsable(EditorBrowsableState.Never)]
+	[DynamicDependency(nameof(SetStates))]
 	public static string GetStates(Control obj) => (string)obj.GetValue(StatesProperty);
 
 	#endregion

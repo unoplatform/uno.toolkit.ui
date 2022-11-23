@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,73 +34,87 @@ namespace Uno.Toolkit.UI
 	{
 		#region DependencyProperty: DrawerBackground
 
-		public static DependencyProperty DrawerBackgroundProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty DrawerBackgroundProperty { [DynamicDependency(nameof(GetDrawerBackground))] get; } = DependencyProperty.RegisterAttached(
 			"DrawerBackground",
 			typeof(Brush),
 			typeof(DrawerControlBehavior),
 			new PropertyMetadata(default(Brush)));
 
+		[DynamicDependency(nameof(SetDrawerBackground))]
 		public static Brush GetDrawerBackground(DrawerControl obj) => (Brush)obj.GetValue(DrawerBackgroundProperty);
+
+		[DynamicDependency(nameof(GetDrawerBackground))]
 		public static void SetDrawerBackground(DrawerControl obj, Brush value) => obj.SetValue(DrawerBackgroundProperty, value);
 
 		#endregion
 		#region DependencyProperty: OpenDirection
 
-		public static DependencyProperty OpenDirectionProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty OpenDirectionProperty { [DynamicDependency(nameof(GetOpenDirection))] get; } = DependencyProperty.RegisterAttached(
 			"OpenDirection",
 			typeof(DrawerOpenDirection),
 			typeof(DrawerControlBehavior),
 			new PropertyMetadata(default(DrawerOpenDirection)));
 
+		[DynamicDependency(nameof(SetOpenDirection))]
 		public static DrawerOpenDirection GetOpenDirection(DependencyObject obj) => (DrawerOpenDirection)obj.GetValue(OpenDirectionProperty);
+
+		[DynamicDependency(nameof(GetOpenDirection))]
 		public static void SetOpenDirection(DependencyObject obj, DrawerOpenDirection value) => obj.SetValue(OpenDirectionProperty, value);
 
 		#endregion
 		#region DependencyProperty: LightDismissOverlayBackground
 
-		public static DependencyProperty LightDismissOverlayBackgroundProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty LightDismissOverlayBackgroundProperty { [DynamicDependency(nameof(GetLightDismissOverlayBackground))] get; } = DependencyProperty.RegisterAttached(
 			"LightDismissOverlayBackground",
 			typeof(Brush),
 			typeof(DrawerControlBehavior),
 			new PropertyMetadata(default(Brush)));
 
+		[DynamicDependency(nameof(SetLightDismissOverlayBackground))]
 		public static Brush GetLightDismissOverlayBackground(DependencyObject obj) => (Brush)obj.GetValue(LightDismissOverlayBackgroundProperty);
+		[DynamicDependency(nameof(GetLightDismissOverlayBackground))]
 		public static void SetLightDismissOverlayBackground(DependencyObject obj, Brush value) => obj.SetValue(LightDismissOverlayBackgroundProperty, value);
 
 		#endregion
 		#region DependencyProperty: EdgeSwipeDetectionLength
 
-		public static DependencyProperty EdgeSwipeDetectionLengthProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty EdgeSwipeDetectionLengthProperty { [DynamicDependency(nameof(GetEdgeSwipeDetectionLength))] get; } = DependencyProperty.RegisterAttached(
 			"EdgeSwipeDetectionLength",
 			typeof(double?),
 			typeof(DrawerControlBehavior),
 			new PropertyMetadata(default(double?)));
 
+		[DynamicDependency(nameof(SetEdgeSwipeDetectionLength))]
 		public static double? GetEdgeSwipeDetectionLength(DependencyObject obj) => (double?)obj.GetValue(EdgeSwipeDetectionLengthProperty);
+		[DynamicDependency(nameof(GetEdgeSwipeDetectionLength))]
 		public static void SetEdgeSwipeDetectionLength(DependencyObject obj, double? value) => obj.SetValue(EdgeSwipeDetectionLengthProperty, value);
 
 		#endregion
 		#region DependencyProperty: IsGestureEnabled = true
 
-		public static DependencyProperty IsGestureEnabledProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty IsGestureEnabledProperty { [DynamicDependency(nameof(GetIsGestureEnabled))] get; } = DependencyProperty.RegisterAttached(
 			"IsGestureEnabled",
 			typeof(bool),
 			typeof(DrawerControlBehavior),
 			new PropertyMetadata(DrawerControl.DefaultValues.IsGestureEnabled));
 
+		[DynamicDependency(nameof(SetIsGestureEnabled))]
 		public static bool GetIsGestureEnabled(DependencyObject obj) => (bool)obj.GetValue(IsGestureEnabledProperty);
+		[DynamicDependency(nameof(GetIsGestureEnabled))]
 		public static void SetIsGestureEnabled(DependencyObject obj, bool value) => obj.SetValue(IsGestureEnabledProperty, value);
 
 		#endregion
 		#region DependencyProperty: FitToDrawerContent = true
 
-		public static DependencyProperty FitToDrawerContentProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty FitToDrawerContentProperty { [DynamicDependency(nameof(GetFitToDrawerContent))] get; } = DependencyProperty.RegisterAttached(
 			"FitToDrawerContent",
 			typeof(bool),
 			typeof(DrawerControlBehavior),
 			new PropertyMetadata(DrawerControl.DefaultValues.FitToDrawerContent));
 
+		[DynamicDependency(nameof(SetFitToDrawerContent))]
 		public static bool GetFitToDrawerContent(DrawerControl obj) => (bool)obj.GetValue(FitToDrawerContentProperty);
+		[DynamicDependency(nameof(GetFitToDrawerContent))]
 		public static void SetFitToDrawerContent(DrawerControl obj, bool value) => obj.SetValue(FitToDrawerContentProperty, value);
 
 		#endregion

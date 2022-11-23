@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,13 +56,15 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Backing property for the <see cref="TabBarItem"/> on-click behaviors when already selected.
 		/// </summary>
-		public static DependencyProperty OnClickBehaviorsProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty OnClickBehaviorsProperty { [DynamicDependency(nameof(GetOnClickBehaviors))] get; } = DependencyProperty.RegisterAttached(
 			"OnClickBehaviors",
 			typeof(TBIOnClickBehaviors),
 			typeof(TabBarItemExtensions),
 			new PropertyMetadata(default(TBIOnClickBehaviors), OnOnClickBehaviorsChanged));
 
+		[DynamicDependency(nameof(SetOnClickBehaviors))]
 		public static TBIOnClickBehaviors GetOnClickBehaviors(TabBarItem obj) => (TBIOnClickBehaviors)obj.GetValue(OnClickBehaviorsProperty);
+		[DynamicDependency(nameof(GetOnClickBehaviors))]
 		public static void SetOnClickBehaviors(TabBarItem obj, TBIOnClickBehaviors value) => obj.SetValue(OnClickBehaviorsProperty, value);
 
 		#endregion
@@ -75,25 +78,29 @@ namespace Uno.Toolkit.UI
 		/// the target itself or one of its descendants (via deep first search) suitable for the behavior.
 		/// When omitted, the parent of <see cref="TabBar"/> will serve as the target.
 		/// </remarks>
-		public static DependencyProperty OnClickBehaviorsTargetProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty OnClickBehaviorsTargetProperty { [DynamicDependency(nameof(GetOnClickBehaviorsTarget))] get; } = DependencyProperty.RegisterAttached(
 			"OnClickBehaviorsTarget",
 			typeof(UIElement),
 			typeof(TabBarItemExtensions),
 			new PropertyMetadata(default(UIElement)));
 
+		[DynamicDependency(nameof(SetOnClickBehaviorsTarget))]
 		public static UIElement GetOnClickBehaviorsTarget(TabBarItem obj) => (UIElement)obj.GetValue(OnClickBehaviorsTargetProperty);
+		[DynamicDependency(nameof(GetOnClickBehaviorsTarget))]
 		public static void SetOnClickBehaviorsTarget(TabBarItem obj, UIElement value) => obj.SetValue(OnClickBehaviorsTargetProperty, value);
 
 		#endregion
 		#region DependencyProperty: OnClickBehaviorsSubscription [private]
 
-		private static DependencyProperty OnClickBehaviorsSubscriptionProperty { get; } = DependencyProperty.RegisterAttached(
+		private static DependencyProperty OnClickBehaviorsSubscriptionProperty { [DynamicDependency(nameof(GetOnClickBehaviorsSubscription))] get; } = DependencyProperty.RegisterAttached(
 			"OnClickBehaviorsSubscription",
 			typeof(IDisposable),
 			typeof(TabBarItemExtensions),
 			new PropertyMetadata(default(IDisposable)));
 
+		[DynamicDependency(nameof(SetOnClickBehaviorsSubscription))]
 		private static IDisposable GetOnClickBehaviorsSubscription(TabBarItem obj) => (IDisposable)obj.GetValue(OnClickBehaviorsSubscriptionProperty);
+		[DynamicDependency(nameof(GetOnClickBehaviorsSubscription))]
 		private static void SetOnClickBehaviorsSubscription(TabBarItem obj, IDisposable value) => obj.SetValue(OnClickBehaviorsSubscriptionProperty, value);
 
 		#endregion

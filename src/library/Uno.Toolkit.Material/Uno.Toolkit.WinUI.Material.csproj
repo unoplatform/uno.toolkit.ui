@@ -47,6 +47,11 @@
 		<XamlMergeInput Include="Styles\Controls\v2\**\*.xaml" MergeFile="mergedpages.winui.v2.xaml" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='xamarinmac20'">
+		<EmbeddedResource Include="LinkerConfig.xamarin.xml">
+			<LogicalName>$(AssemblyName).xml</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
 

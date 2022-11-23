@@ -11,6 +11,7 @@ using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.Foundation.Collections;
 using Uno.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Data;
@@ -43,11 +44,15 @@ public static partial class SelectorExtensions
 	/// Backing property for the <see cref="PipsPager"/> that will be linked to the desired <see cref="Selector"/> control.
 	/// </summary>
 	#region DependencyProperty: PipsPager
-	public static DependencyProperty PipsPagerProperty { get; } =
+	public static DependencyProperty PipsPagerProperty { [DynamicDependency(nameof(GetPipsPager))] get; } =
 		DependencyProperty.RegisterAttached("PipsPager", typeof(PipsPager), typeof(SelectorExtensions), new PropertyMetadata(null, OnPipsPagerChanged));
+
+	[DynamicDependency(nameof(GetPipsPager))]
 
 	public static void SetPipsPager(Selector element, PipsPager value) =>
 		element.SetValue(PipsPagerProperty, value);
+
+	[DynamicDependency(nameof(SetPipsPager))]
 
 	public static PipsPager? GetPipsPager(Selector element) =>
 		(PipsPager?)element.GetValue(PipsPagerProperty);
@@ -127,11 +132,13 @@ public static partial class SelectorExtensions
 	}
 
 	#region AttachedProperty : SelectionOffset
+	[DynamicDependency(nameof(SetSelectionOffset))]
 	public static double GetSelectionOffset(DependencyObject obj)
 	{
 		return (double)obj.GetValue(SelectionOffsetProperty);
 	}
 
+	[DynamicDependency(nameof(GetSelectionOffset))]
 	public static void SetSelectionOffset(DependencyObject obj, double value)
 	{
 		obj.SetValue(SelectionOffsetProperty, value);
@@ -140,7 +147,7 @@ public static partial class SelectorExtensions
 	/// <summary>
 	/// Property that can be used to observe the position of the currently selected item within a <see cref="Selector"/>
 	/// </summary>
-	public static DependencyProperty SelectionOffsetProperty { get; } =
+	public static DependencyProperty SelectionOffsetProperty { [DynamicDependency(nameof(GetSelectionOffset))] get; } =
 		DependencyProperty.RegisterAttached("SelectionOffset", typeof(double), typeof(SelectorExtensions), new PropertyMetadata(0d));
 	#endregion
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -81,72 +82,87 @@ namespace Uno.Toolkit.UI
 			set => SetValue(ChildrenProperty, value);
 		}
 
+		[DynamicDependency(nameof(GetPrimaryAlignment))]
 		public static readonly DependencyProperty PrimaryAlignmentProperty = DependencyProperty.RegisterAttached(
 			"PrimaryAlignment",
 			typeof(AutoLayoutPrimaryAlignment),
 			typeof(AutoLayout),
 			new PropertyMetadata(default(AutoLayoutPrimaryAlignment), propertyChangedCallback: UpdateAttachedCallback));
 
+		[DynamicDependency(nameof(GetPrimaryAlignment))]
 		public static void SetPrimaryAlignment(DependencyObject element, AutoLayoutPrimaryAlignment value)
 		{ 
 			element.SetValue(PrimaryAlignmentProperty, value);
 		}
 
+		[DynamicDependency(nameof(GetPrimaryAlignment))]
 		public static AutoLayoutPrimaryAlignment GetPrimaryAlignment(DependencyObject element)
 		{
 			return (AutoLayoutPrimaryAlignment)element.GetValue(PrimaryAlignmentProperty);
 		}
 
+		[DynamicDependency(nameof(GetCounterAlignment))]
 		public static readonly DependencyProperty CounterAlignmentProperty = DependencyProperty.RegisterAttached(
 			"CounterAlignment",
 			typeof(AutoLayoutAlignment),
 			typeof(AutoLayout),
 			new PropertyMetadata(AutoLayoutAlignment.Stretch, propertyChangedCallback: UpdateAttachedCallback));
 
+		[DynamicDependency(nameof(GetCounterAlignment))]
 		public static void SetCounterAlignment(DependencyObject element, AutoLayoutAlignment value)
 		{
 			element.SetValue(CounterAlignmentProperty, value);
 		}
 
+		[DynamicDependency(nameof(SetCounterAlignment))]
 		public static AutoLayoutAlignment GetCounterAlignment(DependencyObject element)
 		{
 			return (AutoLayoutAlignment)element.GetValue(CounterAlignmentProperty);
 		}
 
+		[DynamicDependency(nameof(GetIsIndependentLayout))]
 		public static readonly DependencyProperty IsIndependentLayoutProperty = DependencyProperty.RegisterAttached(
 			"IsIndependentLayout", typeof(bool), typeof(AutoLayout), new PropertyMetadata(default(bool), propertyChangedCallback: UpdateAttachedCallback));
 
+		[DynamicDependency(nameof(GetIsIndependentLayout))]
 		public static void SetIsIndependentLayout(DependencyObject element, bool value)
 		{
 			element.SetValue(IsIndependentLayoutProperty, value);
 		}
 
+		[DynamicDependency(nameof(SetIsIndependentLayout))]
 		public static bool GetIsIndependentLayout(DependencyObject element)
 		{
 			return (bool)element.GetValue(IsIndependentLayoutProperty);
 		}
 
+		[DynamicDependency(nameof(GetPrimaryLength))]
 		public static readonly DependencyProperty PrimaryLengthProperty = DependencyProperty.RegisterAttached(
 			"PrimaryLength", typeof(double), typeof(AutoLayout), new PropertyMetadata(default(double), propertyChangedCallback: UpdateAttachedCallback));
 
+		[DynamicDependency(nameof(GetPrimaryLength))]
 		public static void SetPrimaryLength(DependencyObject element, double value)
 		{
 			element.SetValue(PrimaryLengthProperty, value);
 		}
 
+		[DynamicDependency(nameof(SetPrimaryLength))]
 		public static double GetPrimaryLength(DependencyObject element)
 		{
 			return (double)element.GetValue(PrimaryLengthProperty);
 		}
 
+		[DynamicDependency(nameof(GetCounterLength))]
 		public static readonly DependencyProperty CounterLengthProperty = DependencyProperty.RegisterAttached(
 			"CounterLength", typeof(double), typeof(AutoLayout), new PropertyMetadata(default(double), propertyChangedCallback: UpdateAttachedCallback));
 
+		[DynamicDependency(nameof(GetCounterLength))]
 		public static void SetCounterLength(DependencyObject element, double value)
 		{
 			element.SetValue(CounterLengthProperty, value);
 		}
 
+		[DynamicDependency(nameof(SetCounterLength))]
 		public static double GetCounterLength(DependencyObject element)
 		{
 			return (double)element.GetValue(CounterLengthProperty);

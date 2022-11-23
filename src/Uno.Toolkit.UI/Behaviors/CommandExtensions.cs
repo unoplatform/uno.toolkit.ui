@@ -8,6 +8,7 @@ using Windows.System;
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
 using Uno.Logging;
+using System.Diagnostics.CodeAnalysis;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -43,13 +44,16 @@ namespace Uno.Toolkit.UI
 		/// </list>
 		/// Unless <see cref="CommandParameterProperty"/> is set, which replaces the above.
 		/// </remarks>
-		public static DependencyProperty CommandProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty CommandProperty { [DynamicDependency(nameof(GetCommand))] get; } = DependencyProperty.RegisterAttached(
 			"Command",
 			typeof(ICommand),
 			typeof(CommandExtensions),
 			new PropertyMetadata(default(ICommand), OnCommandChanged));
 
+		[DynamicDependency(nameof(SetCommand))]
 		public static ICommand GetCommand(DependencyObject obj) => (ICommand)obj.GetValue(CommandProperty);
+
+		[DynamicDependency(nameof(GetCommand))]
 		public static void SetCommand(DependencyObject obj, ICommand value) => obj.SetValue(CommandProperty, value);
 
 		#endregion
@@ -58,13 +62,16 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Backing property for the parameter to pass to the <see cref="CommandProperty"/>.
 		/// </summary>
-		public static DependencyProperty CommandParameterProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty CommandParameterProperty { [DynamicDependency(nameof(GetCommandParameter))] get; } = DependencyProperty.RegisterAttached(
 			"CommandParameter",
 			typeof(object),
 			typeof(CommandExtensions),
 			new PropertyMetadata(default(object?)));
 
+		[DynamicDependency(nameof(SetCommandParameter))]
 		public static object? GetCommandParameter(DependencyObject? obj) => obj.GetValue(CommandParameterProperty);
+
+		[DynamicDependency(nameof(GetCommandParameter))]
 		public static void SetCommandParameter(DependencyObject obj, object? value) => obj.SetValue(CommandParameterProperty, value);
 
 		#endregion
