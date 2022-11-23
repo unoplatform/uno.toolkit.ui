@@ -19,8 +19,6 @@ public partial class LoadableSource : FrameworkElement, ILoadable
 {
 	public event EventHandler? IsExecutingChanged;
 
-	private DispatcherQueue _dispatcherQueue = Windows.System.DispatcherQueue.GetForCurrentThread();
-
 	#region DependencyProperty: Source
 
 	public static DependencyProperty SourceProperty { get; } = DependencyProperty.Register(
@@ -56,6 +54,12 @@ public partial class LoadableSource : FrameworkElement, ILoadable
 	#endregion
 
 	private readonly SerialDisposable _subscription = new();
+	private readonly DispatcherCompat _dispatcher;
+
+	public LoadableSource()
+	{
+		this._dispatcher = this.GetDispatcherCompat();
+	}
 
 	private void OnIsExecutingChanged(DependencyPropertyChangedEventArgs e)
 	{
@@ -67,12 +71,8 @@ public partial class LoadableSource : FrameworkElement, ILoadable
 		var source = Source;
 
 		void Update() => IsExecuting = Source.IsExecuting;
-		void UpdateOnDispatcher()
-		{
-			_ = _dispatcherQueue.ExecuteAsync(async (cancellation) => Update(), CancellationToken.None);
-		}
 
-		_subscription.Disposable = source?.BindIsExecuting(UpdateOnDispatcher, propagateInitialValue: false);
+		_subscription.Disposable = source?.BindIsExecuting(() => _dispatcher.Invoke(Update), propagateInitialValue: false);
 		IsExecuting = source?.IsExecuting ?? false;
 	}
 }
