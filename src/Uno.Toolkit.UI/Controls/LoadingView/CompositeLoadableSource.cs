@@ -27,8 +27,6 @@ public partial class CompositeLoadableSource : FrameworkElement, ILoadable
 {
 	public event EventHandler? IsExecutingChanged;
 
-	private DispatcherQueue _dispatcherQueue = Windows.System.DispatcherQueue.GetForCurrentThread();
-
 	#region DependencyProperty: Sources [get-only]
 
 	public static DependencyProperty SourcesProperty { get; } = DependencyProperty.Register(
@@ -65,9 +63,12 @@ public partial class CompositeLoadableSource : FrameworkElement, ILoadable
 
 	private readonly ConcurrentDictionary<ILoadable, IDisposable> _sourcesInnerSubcriptions = new();
 	private readonly SerialDisposable _sourceCollectionSubscription = new();
+	private readonly DispatcherCompat _dispatcher;
 
 	public CompositeLoadableSource()
 	{
+		this._dispatcher = this.GetDispatcherCompat();
+
 		Sources = new ObservableCollection<ILoadable>();
 		Loaded += (s, e) => SubscribeAll();
 		Unloaded += (s, e) => UnsubscribeAll();
@@ -118,12 +119,10 @@ public partial class CompositeLoadableSource : FrameworkElement, ILoadable
 		foreach (var item in items)
 		{
 			(item as FrameworkElement)?.InheritDataContextFrom(this);
-			_sourcesInnerSubcriptions.GetOrAdd(item, x => x.BindIsExecuting(UpdateOnDispatcher, propagateInitialValue: true));
-		}
-		
-		void UpdateOnDispatcher()
-		{
-			_ = _dispatcherQueue.ExecuteAsync(async (cancellation) => Update(), CancellationToken.None);
+			_sourcesInnerSubcriptions.GetOrAdd(item, x => x.BindIsExecuting(
+				() => _dispatcher.RunAsync(Update),
+				propagateInitialValue: true
+			));
 		}
 	}
 
