@@ -13,6 +13,8 @@ using System.Collections;
 using Uno.Toolkit.UITest.Framework;
 using OpenQA.Selenium.DevTools;
 using Uno.UITest.Helpers;
+using System.Drawing.Printing;
+using FluentAssertions;
 
 namespace Uno.Toolkit.UITest.Controls.SafeArea
 {
@@ -223,6 +225,135 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 			}
 
 			App.FastTap("CloseModalButton");
+		}
+
+		// Soft: Tapping on TopTextBox -> page content resizes and both textboxes are visible
+		// Soft: Tapping on BottomextBox -> page content resizes and both textboxes are visible
+		// Hard: Tapping on TopTextBox -> page content is "pushed" up and the TopTextBox is scrolled into view, BottomTextBox should be occluded by the keyboard
+		// Hard: Tapping on BottomTextBox -> page content is "pushed" up and the BottomTextBox is scrolled into view, TopTextBox will have been scrolled up out of the top of the screen
+		[Test]
+		[TestCase("Soft", "Padding")]
+		[TestCase("Soft", "Margin")]
+		[TestCase("Hard", "Padding")]
+		[TestCase("Hard", "Margin")]
+		[ActivePlatforms(Platform.Android, Platform.iOS)]
+		public void When_SoftInput_Scroll_Into_View(string constraint, string mode)
+		{
+			const string TopTextBox = "TopTextBox";
+			const string BottomTextBox = "BottomTextBox";
+			const string SpacerBorder = "SpacerBorder";
+			var isSoft = string.Equals("Soft", constraint, StringComparison.OrdinalIgnoreCase);
+
+			NavigateToNestedSample("SafeArea_SoftInput_Scroll");
+
+			App.WaitForElement(SpacerBorder, timeoutMessage: $"Timed out waiting for element: {SpacerBorder}");
+
+			var keyboardRect = GetKeyboardRect();
+
+			App.DismissKeyboard();
+
+			// Wait for keyboard to finish closing
+			App.Wait(TimeSpan.FromSeconds(1));
+
+			App.FastTap($"{constraint}ConstraintMode");
+			App.FastTap($"{mode}Mode");
+
+			App.FastTap(TopTextBox);
+
+			// Wait for keyboard to finish opening
+			App.Wait(TimeSpan.FromSeconds(1));
+
+			if (isSoft)
+			{
+				// Both textboxes should be visible above the keyboard
+				var topRect = GetRectangle(TopTextBox);
+				var bottomRect = GetRectangle(BottomTextBox);
+
+				Assert.False(topRect.IsEmpty);
+				Assert.False(bottomRect.IsEmpty);
+
+				// BottomTextBox should be sitting directly above the keyboard
+				Assert.AreEqual(bottomRect.Bottom, keyboardRect.Top);
+			}
+			else
+			{
+				// TopTextBox is scrolled into view, BottomTextBox should be occluded by the keyboard
+				var topRect = GetRectangle(TopTextBox);
+				var bottomRect = GetRectangle(BottomTextBox);
+
+				Assert.False(topRect.IsEmpty);
+
+				PlatformHelpers.On(
+					// On iOS, Xamarin.UITest can still "see" the BottomTextBox even though it is behind the keyboard
+					// In that case, validate that the BottomTextBox is fully inside the keyboardRect
+					iOS: () => Assert.Greater(bottomRect.Top, keyboardRect.Top),
+					Android: () => Assert.True(bottomRect.IsEmpty)
+				);
+			}
+
+			App.DismissKeyboard();
+
+			// Wait for keyboard to finish closing
+			App.Wait(TimeSpan.FromSeconds(1));
+
+
+			App.FastTap(BottomTextBox);
+
+			// Wait for keyboard to finish opening
+			App.Wait(TimeSpan.FromSeconds(1));
+
+			if (isSoft)
+			{
+				// Both textboxes should be visible above the keyboard
+				var topRect = GetRectangle(TopTextBox);
+				var bottomRect = GetRectangle(BottomTextBox);
+
+				Assert.False(topRect.IsEmpty);
+				Assert.False(bottomRect.IsEmpty);
+
+				// TopTextBox should be, at the very least, fully above the keyboardRect
+				// BottomTextBox should be sitting directly above the keyboard
+				Assert.Less(topRect.Bottom, keyboardRect.Top);
+				Assert.AreEqual(bottomRect.Bottom, keyboardRect.Top);
+			}
+			else
+			{
+				// TopTextBox should have been scrolled up out of the top of the screen and shouldn't be visible
+				App.WaitForNoElement(TopTextBox, timeoutMessage: $"Timed out waiting for no element: {TopTextBox}");
+
+				var bottomRect = GetRectangle(BottomTextBox);
+
+				// BottomTextBox should be scrolled into view and should be sitting directly above the keyboard
+				Assert.False(bottomRect.IsEmpty);
+				Assert.AreEqual(bottomRect.Bottom, keyboardRect.Top);
+			}
+
+			Rectangle GetKeyboardRect()
+			{
+				// We want to calculate the change in the Y-coordinate of the BottomTextBox's Bottom value.
+				// This delta will provide the height of the keyboard that has opened.
+				// Just default to using the Soft ConstraintMode as we are guaranteed that the BottomTextBox will be pushed up and still be visible above the keyboard
+				var initialBottom = App.GetPhysicalRect(BottomTextBox).Bottom;
+
+				App.FastTap($"SoftConstraintMode");
+				App.FastTap(TopTextBox);
+
+				// Wait for keyboard to finish opening
+				App.Wait(TimeSpan.FromSeconds(1));
+
+				var newBottom = App.GetPhysicalRect(BottomTextBox).Bottom;
+				var keyboardHeight = initialBottom - newBottom;
+				var keyboardTop = initialBottom - keyboardHeight;
+				var windowRect = App.GetPhysicalScreenDimensions();
+
+				return new AppRect(0, keyboardTop, windowRect.Width, keyboardHeight).ToRectangle();
+			}
+		}
+
+		private Rectangle GetRectangle(string marked)
+		{
+			var rect = App.Marked(marked).FirstResult()?.Rect;
+			return rect != null ? App.ToPhysicalRect(rect).ToRectangle() : Rectangle.Empty;
 		}
 
 		private void ClearMasks()

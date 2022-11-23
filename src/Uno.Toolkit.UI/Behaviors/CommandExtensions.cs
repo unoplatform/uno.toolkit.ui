@@ -17,18 +17,20 @@ using Microsoft.UI.Xaml.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 #endif
 
 namespace Uno.Toolkit.UI
 {
-	public static class ControlExtensions
+	public static class CommandExtensions
 	{
-		private static ILogger _logger = typeof(ControlExtensions).Log();
+		private static ILogger _logger = typeof(CommandExtensions).Log();
 
 		#region DependencyProperty: Command
 
 		/// <summary>
-		/// Backing property for the command to execute when <see cref="TextBox"/>/<see cref="PasswordBox"/> enter key is pressed, <see cref="ListViewBase.ItemClick" /> and <see cref="NavigationView.ItemInvoked"/>.
+		/// Backing property for the command to execute when <see cref="TextBox"/>/<see cref="PasswordBox"/> enter key is pressed,
+		/// <see cref="ListViewBase.ItemClick" />, <see cref="NavigationView.ItemInvoked"/>, or <see cref="ItemsRepeater"/> item tapped.
 		/// </summary>
 		/// <remarks>
 		/// For Command, the relevant parameter is also provided for the <see cref="ICommand.CanExecute(object)"/> and <see cref="ICommand.Execute(object)"/> call:
@@ -36,14 +38,15 @@ namespace Uno.Toolkit.UI
 		///   <item><see cref="TextBox.Text"/></item>
 		///   <item><see cref="PasswordBox.Password"/></item>
 		///   <item><see cref="ItemClickEventArgs.ClickedItem"/> from <see cref="ListViewBase.ItemClick"/></item>
-		///   <item><see cref="NavigationViewItemInvokedEventArgs.InvokedItem"/> from <see cref="NavigationView.ItemInvoked"/> </item>
+		///   <item><see cref="NavigationViewItemInvokedEventArgs.InvokedItem"/> from <see cref="NavigationView.ItemInvoked"/></item>
+		///   <item><see cref="ItemsRepeater"/>'s item root's DataContext</item>
 		/// </list>
 		/// Unless <see cref="CommandParameterProperty"/> is set, which replaces the above.
 		/// </remarks>
 		public static DependencyProperty CommandProperty { get; } = DependencyProperty.RegisterAttached(
 			"Command",
 			typeof(ICommand),
-			typeof(ControlExtensions),
+			typeof(CommandExtensions),
 			new PropertyMetadata(default(ICommand), OnCommandChanged));
 
 		public static ICommand GetCommand(DependencyObject obj) => (ICommand)obj.GetValue(CommandProperty);
@@ -58,11 +61,11 @@ namespace Uno.Toolkit.UI
 		public static DependencyProperty CommandParameterProperty { get; } = DependencyProperty.RegisterAttached(
 			"CommandParameter",
 			typeof(object),
-			typeof(ControlExtensions),
-			new PropertyMetadata(default(object)));
+			typeof(CommandExtensions),
+			new PropertyMetadata(default(object?)));
 
-		public static object GetCommandParameter(DependencyObject obj) => (object)obj.GetValue(CommandParameterProperty);
-		public static void SetCommandParameter(DependencyObject obj, object value) => obj.SetValue(CommandParameterProperty, value);
+		public static object? GetCommandParameter(DependencyObject? obj) => obj.GetValue(CommandParameterProperty);
+		public static void SetCommandParameter(DependencyObject obj, object? value) => obj.SetValue(CommandParameterProperty, value);
 
 		#endregion
 
@@ -72,6 +75,10 @@ namespace Uno.Toolkit.UI
 			{
 				// for input controls, this will be implemented in InputExtensions.
 				InputExtensions.OnEnterCommandChanged(sender, e);
+			}
+			if (sender is ItemsRepeater ir)
+			{
+				ItemsRepeaterExtensions.OnItemCommandChanged(ir, e);
 			}
 			else if (sender is ListViewBase lvb)
 			{
@@ -98,31 +105,34 @@ namespace Uno.Toolkit.UI
 			{
 				if (_logger.IsEnabled(LogLevel.Warning))
 				{
-					_logger.Warn($"ControlExtensions.Command is not supported on '{sender.GetType().FullName}'.");
+					_logger.Warn($"CommandExtensions.Command is not supported on '{sender.GetType().FullName}'.");
 				}
 			}
+		}
+
+		internal static bool TryInvokeCommand(DependencyObject owner) => TryInvokeCommand(owner, GetCommandParameter(owner));
+		internal static bool TryInvokeCommand(DependencyObject owner, object? parameter)
+		{
+			if (GetCommand(owner) is { } command &&
+				command.CanExecute(parameter))
+			{
+				command.Execute(parameter);
+				return true;
+			}
+
+			return false;
 		}
 
 		private static void OnListViewItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (sender is not ListViewBase host) return;
 
-			if (GetCommand(host) is { } command &&
-				GetCommandParameter(host) is var parameter &&
-				command.CanExecute(parameter ?? e.ClickedItem))
-			{
-				command.Execute(parameter ?? e.ClickedItem);
-			}
+			TryInvokeCommand(host, GetCommandParameter(host) ?? e.ClickedItem);
 		}
 
 		private static void OnNavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs e)
 		{
-			if (GetCommand(sender) is { } command &&
-				GetCommandParameter(sender) is var parameter &&
-				command.CanExecute(parameter ?? e.InvokedItem))
-			{
-				command.Execute(parameter ?? e.InvokedItem);
-			}
+			TryInvokeCommand(sender, GetCommandParameter(sender) ?? e.InvokedItem);
 		}
 	}
 }

@@ -56,8 +56,13 @@
     <Content Include="Fonts\Material\Roboto-Light.ttf" />
     <Content Include="Fonts\Material\Roboto-Medium.ttf" />
     <Content Include="Fonts\Material\Roboto-Regular.ttf" />
+    <Content Include="Images\SplashScreen.png" />
+    <Content Include="Images\SplashScreen.scale-100.png" />
+    <Content Include="Images\SplashScreen.scale-125.png" />
+    <Content Include="Images\SplashScreen.scale-150.png" />
     <Content Include="Images\SplashScreen.scale-200.png" />
     <Content Include="Images\LockScreenLogo.scale-200.png" />
+    <Content Include="Images\SplashScreen.scale-400.png" />
     <Content Include="Images\Square150x150Logo.scale-200.png" />
     <Content Include="Images\Square44x44Logo.scale-200.png" />
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
@@ -71,10 +76,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0">
+    <PackageReference Include="Microsoft.WindowsAppSDK">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.196">
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>

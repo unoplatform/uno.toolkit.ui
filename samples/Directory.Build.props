@@ -1,5 +1,9 @@
 <Project ToolsVersion="15.0">
 	<PropertyGroup>
-		<LangVersion>11</LangVersion>
+		<LangVersion>latest</LangVersion>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 	</PropertyGroup>
+
+	<Import Project="..\src\xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
+	<Import Project="..\src\Uno.CrossTargeting.props" />
 </Project>

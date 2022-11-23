@@ -1,0 +1,37 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+
+	<!--
+	Adding project references to this project requires some manual adjustments.
+	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
+	-->
+	<PropertyGroup>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">netstandard2.0</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableNet6MobileTargets)'!='true'">$(TargetFrameworks);net5.0-windows10.0.18362;net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<DefineConstants>WINUI</DefineConstants>
+		<UseWinUI>true</UseWinUI>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All"/>
+		<PackageReference Include="Uno.WinUI.Markup" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(_IsWinUI)">
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<PackageDescription>A set of C# for Markup helpers for Uno.Toolkit.WinUI</PackageDescription>
+	</PropertyGroup>
+
+	<Import Project="..\..\winappsdk-workaround.targets" />
+</Project>

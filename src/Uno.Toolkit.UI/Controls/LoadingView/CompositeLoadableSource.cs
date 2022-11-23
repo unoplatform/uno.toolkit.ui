@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using Uno.Disposables;
+using Windows.System;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -16,148 +16,141 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 #endif
 
-namespace Uno.Toolkit.UI
+namespace Uno.Toolkit.UI;
+
+/// <summary>
+/// Represents an <see cref="ILoadable" /> aggregate that is <see cref="ILoadable.IsExecuting"/>
+/// when any of its nested <see cref="Sources" /> is <see cref="ILoadable.IsExecuting"/>.
+/// </summary>
+[ContentProperty(Name = nameof(Sources))]
+public partial class CompositeLoadableSource : FrameworkElement, ILoadable
 {
+	public event EventHandler? IsExecutingChanged;
+
+	#region DependencyProperty: Sources [get-only]
+
+	public static DependencyProperty SourcesProperty { get; } = DependencyProperty.Register(
+		nameof(Sources),
+		typeof(ObservableCollection<ILoadable>),
+		typeof(CompositeLoadableSource),
+		new PropertyMetadata(default(ObservableCollection<ILoadable>), (s, e) => ((CompositeLoadableSource)s).OnSourcesChanged(e)));
+
 	/// <summary>
-	/// Represents an <see cref="ILoadable" /> aggregate that is <see cref="ILoadable.IsExecuting"/>
-	/// when any of its nested <see cref="Sources" /> is <see cref="ILoadable.IsExecuting"/>.
+	/// Gets and sets the collection of nested <see cref="ILoadable" />.
 	/// </summary>
-	[ContentProperty(Name = nameof(Sources))]
-	public partial class CompositeLoadableSource : FrameworkElement, ILoadable
+	public ObservableCollection<ILoadable> Sources
 	{
-		public event EventHandler? IsExecutingChanged;
+		get => (ObservableCollection<ILoadable>)GetValue(SourcesProperty);
+		private set => SetValue(SourcesProperty, value);
+	}
 
-		#region DependencyProperty: Sources [get-only]
+	#endregion
+	#region DependencyProperty: IsExecuting
 
-		public static DependencyProperty SourcesProperty { get; } = DependencyProperty.Register(
-			nameof(Sources),
-			typeof(ObservableCollection<ILoadable>),
-			typeof(CompositeLoadableSource),
-			new PropertyMetadata(default(ObservableCollection<ILoadable>), (s, e) => ((CompositeLoadableSource)s).OnSourcesChanged(e)));
+	public static DependencyProperty IsExecutingProperty { get; } = DependencyProperty.Register(
+		nameof(IsExecuting),
+		typeof(bool),
+		typeof(CompositeLoadableSource),
+		new PropertyMetadata(default(bool), (s, e) => ((CompositeLoadableSource)s).OnIsExecutingChanged(e)));
 
-		/// <summary>
-		/// Gets and sets the collection of nested <see cref="ILoadable" />.
-		/// </summary>
-		public ObservableCollection<ILoadable> Sources
+	public bool IsExecuting
+	{
+		get => (bool)GetValue(IsExecutingProperty);
+		set => SetValue(IsExecutingProperty, value);
+	}
+
+	#endregion
+
+	private readonly ConcurrentDictionary<ILoadable, IDisposable> _sourcesInnerSubcriptions = new();
+	private readonly SerialDisposable _sourceCollectionSubscription = new();
+	private readonly DispatcherCompat _dispatcher;
+
+	public CompositeLoadableSource()
+	{
+		this._dispatcher = this.GetDispatcherCompat();
+
+		Sources = new ObservableCollection<ILoadable>();
+		Loaded += (s, e) => SubscribeAll();
+		Unloaded += (s, e) => UnsubscribeAll();
+	}
+
+	private void OnSourcesChanged(DependencyPropertyChangedEventArgs e)
+	{
+		UnsubscribeAll();
+		SubscribeAll();
+	}
+
+	private void SubscribeAll()
+	{
+		if (Sources is { })
 		{
-			get => (ObservableCollection<ILoadable>)GetValue(SourcesProperty);
-			private set => SetValue(SourcesProperty, value);
+			Sources.CollectionChanged += OnSourcesCollectionChanged;
+
+			// there would be items already in the collection from xaml collection initializer (uno-specific)
+			AddInnerSubscriptions(Sources);
 		}
+	}
 
-		#endregion
-		#region DependencyProperty: IsExecuting
+	private void UnsubscribeAll()
+	{
+		_sourceCollectionSubscription.Disposable = null;
+		ClearInnerSubscriptions();
+	}
 
-		public static DependencyProperty IsExecutingProperty { get; } = DependencyProperty.Register(
-			nameof(IsExecuting),
-			typeof(bool),
-			typeof(CompositeLoadableSource),
-			new PropertyMetadata(default(bool), (s, e) => ((CompositeLoadableSource)s).OnIsExecutingChanged(e)));
-
-		public bool IsExecuting
+	private void OnSourcesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		if (e.Action == NotifyCollectionChangedAction.Move) return;
+		if (e.Action == NotifyCollectionChangedAction.Reset)
 		{
-			get => (bool)GetValue(IsExecutingProperty);
-			set => SetValue(IsExecutingProperty, value);
-		}
-
-		#endregion
-
-		private readonly ConcurrentDictionary<ILoadable, IDisposable> _sourcesInnerSubcriptions = new();
-		private readonly SerialDisposable _sourceCollectionSubscription = new();
-
-		public CompositeLoadableSource()
-		{
-			Sources = new ObservableCollection<ILoadable>();
-			Loaded += (s, e) => SubscribeAll();
-			Unloaded += (s, e) => UnsubscribeAll();
-		}
-
-		private void OnSourcesChanged(DependencyPropertyChangedEventArgs e)
-		{
-			UnsubscribeAll();
-			SubscribeAll();
-		}
-
-		private void SubscribeAll()
-		{
-			if (Sources is { })
-			{
-				Sources.CollectionChanged += OnSourcesCollectionChanged;
-
-				// there would be items already in the collection from xaml collection initializer (uno-specific)
-				AddInnerSubscriptions(Sources);
-			}
-		}
-
-		private void UnsubscribeAll()
-		{
-			_sourceCollectionSubscription.Disposable = null;
 			ClearInnerSubscriptions();
-		}
 
-		private void OnSourcesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+			// normally, reset is caused by clear, but just in case...
+			AddInnerSubscriptions(Sources);
+		}
+		else
 		{
-			if (e.Action == NotifyCollectionChangedAction.Move) return;
-			if (e.Action == NotifyCollectionChangedAction.Reset)
-			{
-				ClearInnerSubscriptions();
-
-				// normally, reset is caused by clear, but just in case...
-				AddInnerSubscriptions(Sources);
-			}
-			else
-			{
-				AddInnerSubscriptions(e.NewItems?.Cast<ILoadable>() ?? Enumerable.Empty<ILoadable>());
-				RemoveInnerSubscriptions(e.OldItems?.Cast<ILoadable>() ?? Enumerable.Empty<ILoadable>());
-			}
+			AddInnerSubscriptions(e.NewItems?.Cast<ILoadable>() ?? Enumerable.Empty<ILoadable>());
+			RemoveInnerSubscriptions(e.OldItems?.Cast<ILoadable>() ?? Enumerable.Empty<ILoadable>());
 		}
+	}
 
-		private void AddInnerSubscriptions(IEnumerable<ILoadable> items)
+	private void AddInnerSubscriptions(IEnumerable<ILoadable> items)
+	{
+		foreach (var item in items)
 		{
-			foreach (var item in items)
-			{
-				(item as FrameworkElement)?.InheritDataContextFrom(this);
-				_sourcesInnerSubcriptions.GetOrAdd(item, x => x.BindIsExecuting(UpdateOnDispatcher, propagateInitialValue: true));
-			}
-			
-			void UpdateOnDispatcher()
-			{
-				if (Dispatcher.HasThreadAccess)
-				{
-					Update();
-				}
-				else
-				{
-					_ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, Update);
-				}
-			}
+			(item as FrameworkElement)?.InheritDataContextFrom(this);
+			_sourcesInnerSubcriptions.GetOrAdd(item, x => x.BindIsExecuting(
+				() => _dispatcher.RunAsync(Update),
+				propagateInitialValue: true
+			));
 		}
+	}
 
-		private void RemoveInnerSubscriptions(IEnumerable<ILoadable> items)
+	private void RemoveInnerSubscriptions(IEnumerable<ILoadable> items)
+	{
+		foreach (var item in items)
 		{
-			foreach (var item in items)
-			{
-				(item as FrameworkElement)?.ClearValue(FrameworkElement.DataContextProperty);
-				if (_sourcesInnerSubcriptions.TryGetValue(item, out var disposable))
-					disposable.Dispose();
-			}
+			(item as FrameworkElement)?.ClearValue(FrameworkElement.DataContextProperty);
+			if (_sourcesInnerSubcriptions.TryGetValue(item, out var disposable))
+				disposable.Dispose();
 		}
+	}
 
-		private void ClearInnerSubscriptions()
+	private void ClearInnerSubscriptions()
+	{
+		foreach (var kvp in _sourcesInnerSubcriptions)
 		{
-			foreach (var kvp in _sourcesInnerSubcriptions)
-			{
-				(kvp.Key as FrameworkElement)?.ClearValue(FrameworkElement.DataContextProperty);
-				kvp.Value.Dispose();
-			}
-
-			_sourcesInnerSubcriptions.Clear();
+			(kvp.Key as FrameworkElement)?.ClearValue(FrameworkElement.DataContextProperty);
+			kvp.Value.Dispose();
 		}
 
-		private void OnIsExecutingChanged(DependencyPropertyChangedEventArgs e) => IsExecutingChanged?.Invoke(this, new());
+		_sourcesInnerSubcriptions.Clear();
+	}
 
-		private void Update()
-		{
-			IsExecuting = Sources.Any(x => x.IsExecuting);
-		}
+	private void OnIsExecutingChanged(DependencyPropertyChangedEventArgs e) => IsExecutingChanged?.Invoke(this, new());
+
+	private void Update()
+	{
+		IsExecuting = Sources.Any(x => x.IsExecuting);
 	}
 }

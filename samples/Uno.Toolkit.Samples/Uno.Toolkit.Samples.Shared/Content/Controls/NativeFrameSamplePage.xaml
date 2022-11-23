@@ -1,0 +1,25 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.NativeFrameSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:nested="Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d">
+
+	<sample:SamplePageLayout IsDesignAgnostic="True" x:Name="NativeFrameSamplePageLayout">
+		<sample:SamplePageLayout.DesignAgnosticTemplate>
+			<DataTemplate>
+				<StackPanel Margin="50"
+							Spacing="8">
+					<Button AutomationProperties.AutomationId="NativeFrame_Launch_Sample_Button"
+							Click="LaunchNestedSample"
+							Content="Show Sample" />
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.DesignAgnosticTemplate>
+	</sample:SamplePageLayout>
+</Page>

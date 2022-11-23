@@ -1,0 +1,30 @@
+<Project ToolsVersion="15.0">
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
+    <PackageVersion Include="Microsoft.UI.Xaml" Version="2.6.0" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.0" />
+    <PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
+    <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
+    <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
+    <PackageVersion Include="Uno.Cupertino" Version="2.3.0" />
+    <PackageVersion Include="Uno.Cupertino.WinUI" Version="2.3.0" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="1.0.0-dev.125" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="4.6.0-dev.12" />
+    <PackageVersion Include="Uno.Material" Version="2.3.0" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="2.3.0" />
+    <PackageVersion Include="Uno.UI" Version="4.6.19" />
+    <PackageVersion Include="Uno.WinUI" Version="4.6.19" />
+    <PackageVersion Include="Uno.XamlMerge.Task" Version="1.1.0-dev.12" />
+    <PackageVersion Include="FluentAssertions" Version="5.10.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageVersion Include="NUnit" Version="3.13.3" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.3.0-alpha-net7.4" />
+    <PackageVersion Include="Uno.UITest" Version="1.1.0-dev.32" />
+    <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.24" />
+    <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.24" />
+    <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.24" />
+    <PackageVersion Include="Xamarin.UITest" Version="3.2.9" />
+    <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
+  </ItemGroup>
+</Project>

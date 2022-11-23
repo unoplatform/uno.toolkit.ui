@@ -402,14 +402,16 @@ namespace Uno.Toolkit.UI
 
 		private void ForceFrameStateIntoNavigationController()
 		{
+		var viewControllers2 = _frame?.BackStack
+				.Concat(FrameNavigationHelper.GetCurrentEntry(_frame))
+				.Where(entry => entry != null)
+				.ToArray();
 			var viewControllers = _frame?.BackStack
 				.Concat(FrameNavigationHelper.GetCurrentEntry(_frame))
 				.Where(entry => entry != null)
 				.Distinct()
 				.OfType<PageStackEntry>()
-				.Select(entry => FrameNavigationHelper.GetInstance(entry) is { } instance
-						? instance.FindViewController() ?? new PageViewController(instance)
-						: new PageViewController(null))
+				.Select(FindOrCreateViewController)
 				.ToArray() ?? Array.Empty<PageViewController>();
 
 			if (!viewControllers.SequenceEqual(NavigationController.ViewControllers!))
@@ -430,8 +432,18 @@ namespace Uno.Toolkit.UI
 				{
 					NavigationController.SetViewControllers(viewControllers, animated: true);
 				}
-
 			}
+		}
+
+		private UIViewController FindOrCreateViewController(PageStackEntry entry)
+		{
+			if (FrameNavigationHelper.GetInstance(entry) is { } pageInstance)
+			{
+				return pageInstance.FindViewController() ?? new PageViewController(pageInstance);
+			}
+
+			var page = FrameNavigationHelper.EnsurePageInitialized(_frame, entry);
+			return new PageViewController(page);
 		}
 
 		private static bool GetIsAnimated(NavigationTransitionInfo transitionInfo)

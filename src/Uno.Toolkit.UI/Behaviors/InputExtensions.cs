@@ -79,7 +79,7 @@ namespace Uno.Toolkit.UI
 		public static void SetAutoFocusNextElement(DependencyObject obj, Control value) => obj.SetValue(AutoFocusNextElementProperty, value);
 
 		#endregion
-#if false // The property is now forwarded from ControlExtensions.Command
+#if false // The property is now forwarded from CommandExtensions.Command
 		#region DependencyProperty: EnterCommand
 
 		public static DependencyProperty EnterCommandProperty { get; } = DependencyProperty.RegisterAttached(
@@ -95,7 +95,7 @@ namespace Uno.Toolkit.UI
 #endif
 
 		/// <summary>
-		/// Check if InputExtensions contains the <see cref="ControlExtensions.CommandProperty" /> implementations for <paramref name="host"/>.
+		/// Check if InputExtensions contains the <see cref="CommandExtensions.CommandProperty" /> implementations for <paramref name="host"/>.
 		/// </summary>
 		internal static bool IsEnterCommandSupportedFor(DependencyObject host)
 		{
@@ -130,7 +130,7 @@ namespace Uno.Toolkit.UI
 				GetAutoDismiss(sender) ||
 				GetAutoFocusNext(sender) ||
 				GetAutoFocusNextElement(sender) != null ||
-				ControlExtensions.GetCommand(sender) != null;
+				CommandExtensions.GetCommand(sender) != null;
 		}
 
 		private static void OnUIElementKeyUp(object sender, KeyRoutedEventArgs e)
@@ -139,27 +139,11 @@ namespace Uno.Toolkit.UI
 			if (e.Key != VirtualKey.Enter) return;
 
 			// handle enter command
-			var command = ControlExtensions.GetCommand(host);
-			if (command != null &&
-				(ControlExtensions.GetCommandParameter(host) ?? GetInputParameter()) is var parameter &&
-				command.CanExecute(parameter))
-			{
-				command.Execute(parameter);
-			}
-
-			object? GetInputParameter() => sender switch
-			{
-				TextBox tb => tb.Text,
-#if !HAS_UNO // note: on uno, PasswordBox inherits from TextBox which isnt the case on uwp...
-				PasswordBox pb => pb.Password,
-#endif
-
-				_ => default,
-			};
+			CommandExtensions.TryInvokeCommand(host, CommandExtensions.GetCommandParameter(host) ?? GetInputParameter());
 
 			// dismiss keyboard
 			if (GetAutoDismiss(host) ||
-				command != null) // we should also dismiss keyboard if a command has been executed (even if CanExecute failed)
+				CommandExtensions.GetCommand(host) != null) // we should also dismiss keyboard if a command has been executed (even if CanExecute failed)
 			{
 				InputPane.GetForCurrentView().TryHide();
 			}
@@ -172,6 +156,16 @@ namespace Uno.Toolkit.UI
 
 				target?.Focus(FocusState.Keyboard);
 			}
+
+			object? GetInputParameter() => sender switch
+			{
+				TextBox tb => tb.Text,
+#if !HAS_UNO // note: on uno, PasswordBox inherits from TextBox which isnt the case on uwp...
+				PasswordBox pb => pb.Password,
+#endif
+
+				_ => default,
+			};
 		}
 	}
 }

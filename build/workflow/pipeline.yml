@@ -85,19 +85,21 @@ jobs:
 
 - job: macOS
 
+  timeoutInMinutes: 90 
+
   strategy:
     maxParallel: 2
     matrix:
       iOS:
         ApplicationPlatform: iPhone
         ArtifactName: iOS
-        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
+        DisableNet6MobileTargets: true
       macOS:
         ApplicationPlatform: macOS
         ArtifactName: macOS
-        DisableNet6MobileTargets: true
         GeneratePackageOnBuild: false
+        DisableNet6MobileTargets: true
 
   pool:
     vmImage: 'macOS-11'
@@ -148,10 +150,8 @@ jobs:
     displayName: 'Build solution in Release | $(ApplicationPlatform)'
     retryCountOnTaskFailure: 3
     env:
-      BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
       BUILD_PLATFORM: "$(ApplicationPlatform)"
       BUILD_PACKAGEVERSION: "$(SemVer)"
-      BUILD_DISABLEMOBILETARGETS: "$(DisableNet6MobileTargets)"
       BUILD_GENERATEPACKAGE: "$(GeneratePackageOnBuild)"
       BUILD_SOLUTION: "src/Uno.Toolkit.sln"
       BUILD_BINLOG: "$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform).binlog"

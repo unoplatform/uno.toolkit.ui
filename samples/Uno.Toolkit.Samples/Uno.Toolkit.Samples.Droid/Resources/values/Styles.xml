@@ -10,5 +10,8 @@
 		
 		<!-- This makes the status bar translucent and allows content to be drawn behind --><!--
 		<item name="android:windowTranslucentStatus">true</item>-->
+
+		<!-- This property is used for the splash screen -->
+		<item name="android:windowBackground">@drawable/splash_screen</item>
 	</style>
 </resources>

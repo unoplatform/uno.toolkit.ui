@@ -1,10 +1,10 @@
-# ControlExtensions Attached Properties
-Provides various attached properties for common controls.
+# CommandExtensions Attached Properties
+Provides Command/CommandParameter attached properties for common scenarios.
 
 ## Properties
 Property|Type|Description
 -|-|-
-Command|ICommand|Sets the command to execute for: <br>- `TextBox`/`PasswordBox` enter key press\*<br>- `ListView` item click\*<br>- `NavigationView` item click
+Command|ICommand|Sets the command to execute when `TextBox`/`PasswordBox` enter key is pressed, `ListViewBase.ItemClick`, `NavigationView.ItemInvoked`, and `ItemsRepeater` item tapped.
 CommandParameter|ICommand|Sets the parameter to pass to the Command property.
 
 Command on `TextBox`/`PasswordBox`\*: Having this set will also cause the keyboard dismiss on enter.
@@ -17,23 +17,26 @@ Command on `ListView`\*: [`IsItemClickEnabled`](https://docs.microsoft.com/en-us
   - `PasswordBox.Password`
   - `ItemClickEventArgs.ClickedItem` from `ListView.ItemClick`
   - `NavigationViewItemInvokedEventArgs.InvokedItem` from `NavigationView.ItemInvoked`
+  - `ItemsRepeater`'s item root's DataContext
 
 ## Usage
 ```xml
 <!-- Execute command on enter -->
-<PasswordBox utu:ControlExtensions.Command="{Binding Login}" />
+<PasswordBox utu:CommandExtensions.Command="{Binding Login}" />
 
 <!-- ListView item click-->
 <ListView ItemsSource="123"
 		  IsItemClickEnabled="True"
-		  utu:ControlExtensions.Command="{Binding UpdateSelection}" />
+		  utu:CommandExtensions.Command="{Binding UpdateSelection}" />
 
 <!-- NavigationView item invoke -->
-<NavigationView utu:ControlExtensions.Command="{Binding Navigate}">
+<NavigationView utu:CommandExtensions.Command="{Binding Navigate}">
 	<NavigationView.MenuItems>
 		<NavigationViewItem Content="Apple" />
 		<NavigationViewItem Content="Banana" />
 		<NavigationViewItem Content="Cactus" />
 	</NavigationView.MenuItems>
 </NavigationView>
+
+<muxc:ItemsRepeater ItemsSource="123" utu:CommandExtensions.Command="{Binding UpdateSelection}" />
 ```

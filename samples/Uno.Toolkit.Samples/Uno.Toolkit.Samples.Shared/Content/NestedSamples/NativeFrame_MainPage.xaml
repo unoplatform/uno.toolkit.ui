@@ -1,0 +1,26 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.NativeFrame_MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="Blue"
+	  mc:Ignorable="d">
+
+	<StackPanel utu:SafeArea.Insets="VisibleBounds">
+		<TextBlock Margin="20"
+				   AutomationProperties.AutomationId="NativeFrame_MainPage_Title"
+				   FontSize="30"
+				   Text="Main Page" />
+		<Button AutomationProperties.AutomationId="NativeFrame_MainPage_NextBtn"
+				Click="NextClick"
+				Content="Next Page" />
+		<Button AutomationProperties.AutomationId="NativeFrame_MainPage_DeeplinkBtn"
+				Click="DeeplinkToPage2"
+				Content="Deeplink to Page 2" />
+		<Button AutomationProperties.AutomationId="NativeFrame_MainPage_ExitBtn"
+				Click="ExitNestedSample"
+				Content="Exit Sample" />
+	</StackPanel>
+</Page>

@@ -21,7 +21,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <AndroidUseIntermediateDesignerFile>True</AndroidUseIntermediateDesignerFile>
     <ResourcesDirectory>..\Uno.Toolkit.Samples.Shared\Strings</ResourcesDirectory>
-
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,35 +64,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.Cupertino">
-      <Version>2.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="Uno.Material">
-      <Version>2.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="Uno.UI" Version="4.5.9" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.5.9" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.35" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="Xamarin.Android.Support.CustomTabs">
-      <Version>28.0.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.AppCompat.AppCompatResources">
-      <Version>1.2.0.5</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Browser">
-      <Version>1.4.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
-      <Version>2.3.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.9" />
-    <PackageReference Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
-    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-    <PackageReference Include="Xamarin.Jetbrains.Annotations">
-      <Version>23.0.0.4</Version>
-    </PackageReference>
+    <PackageReference Include="Uno.Cupertino" />
+    <PackageReference Include="Uno.Material" />
+    <PackageReference Include="Uno.UI" />
+    <PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
+    <PackageReference Include="Uno.UniversalImageLoader" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Xamarin.Android.Support.CustomTabs" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat.AppCompatResources" />
+    <PackageReference Include="Xamarin.AndroidX.Browser" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+    <PackageReference Include="Uno.Core.Extensions.Compatibility" />
+    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
+    <PackageReference Include="Xamarin.Jetbrains.Annotations" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -130,6 +116,10 @@
       <Project>{3aa9542b-f033-4c56-ba9f-5b359e0b55f8}</Project>
       <Name>Uno.Toolkit.UI.Material</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.UI.csproj">
+      <Project>{b72f05b9-6e3e-46b5-9f7f-316c3ec113ed}</Project>
+      <Name>Uno.Toolkit.RuntimeTests.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj">
       <Project>{aeed47ed-bd21-4f03-a7a9-124cf63e4b1c}</Project>
       <Name>Uno.Toolkit.UI</Name>
@@ -139,7 +129,12 @@
       <Name>Uno.Toolkit</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\splashscreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_screen.xml" />
+  </ItemGroup>
   <Import Project="..\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="Issue3897Workaround" Condition=" '$(ManagedDesignTimeBuild)' == 'True' " AfterTargets="_RemoveLegacyDesigner">

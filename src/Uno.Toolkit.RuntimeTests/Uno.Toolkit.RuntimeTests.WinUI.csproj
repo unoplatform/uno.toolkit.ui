@@ -1,0 +1,8 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
+	<PropertyGroup>
+		<FrameworkLineage>WinUI</FrameworkLineage>
+	</PropertyGroup>
+
+	<Import Project="Uno.Toolkit.RuntimeTests.props" />
+	<Import Project="..\winappsdk-workaround.targets" />
+</Project>

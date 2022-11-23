@@ -5,7 +5,7 @@
 	-->
 	<PropertyGroup>
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'!=''">$(UnoTargetFrameworkOverride)</TargetFrameworks>
-		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'==''">netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0</TargetFrameworks>
+		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'==''">netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid12.0</TargetFrameworks>
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' and '$(DisableNet6MobileTargets)'==''">$(TargetFrameworks);net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
@@ -13,6 +13,9 @@
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<AssemblyName>Uno.Toolkit.WinUI</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
+		<DefineConstants Condition="$(_IsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
+		
+		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,31 +23,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" Version="4.5.9" />
-		<PackageReference Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-		<PackageReference Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
+		<PackageReference Include="Uno.WinUI" />
+		<PackageReference Include="Uno.Core.Extensions.Collections" />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
+		<PackageReference Include="Uno.Core.Extensions.Logging" />
 	</ItemGroup>
 
-	<Choose>
-		<When Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
-
-			<ItemGroup>
-				<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.0" />
-			</ItemGroup>
-
-		</When>
-		<Otherwise>
-
-			<ItemGroup>
-				<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-				<Compile Update="**\*.xaml.cs">
-					<DependentUpon>%(Filename)</DependentUpon>
-				</Compile>
-			</ItemGroup>
-
-		</Otherwise>
-	</Choose>
+	<ItemGroup Condition="$(_IsWinUI)">
+		<PackageReference Include="Microsoft.WindowsAppSDK" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
