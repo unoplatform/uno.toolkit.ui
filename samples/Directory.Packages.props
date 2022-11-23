@@ -51,5 +51,7 @@
 		<PackageVersion Include="Xamarin.Jetbrains.Annotations" Version="23.0.0.4" />
 		<PackageVersion Include="Xamarin.TestCloud.Agent" Version="0.23.0" />
 
+		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.4.0" />
+    		<PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22518.1" />
 	</ItemGroup>
 </Project>
