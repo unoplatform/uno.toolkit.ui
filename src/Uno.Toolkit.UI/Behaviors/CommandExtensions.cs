@@ -64,7 +64,7 @@ namespace Uno.Toolkit.UI
 			typeof(CommandExtensions),
 			new PropertyMetadata(default(object?)));
 
-		public static object? GetCommandParameter(DependencyObject? obj) => obj.GetValue(CommandParameterProperty);
+		public static object? GetCommandParameter(DependencyObject obj) => obj.GetValue(CommandParameterProperty);
 		public static void SetCommandParameter(DependencyObject obj, object? value) => obj.SetValue(CommandParameterProperty, value);
 
 		#endregion

@@ -28,14 +28,14 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
-		private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+		private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 		{
 			try
 			{
 				var infoPlistPath = NSBundle.MainBundle.PathForResource("Info", "plist");
 				if (infoPlistPath is null)
 				{
-					return default;
+					return Task.FromResult<FrameworkElement?>(null);
 				}
 				var infoPlistDictionary = new NSDictionary(infoPlistPath);
 				var storyboardName = infoPlistDictionary["UILaunchStoryboardName"].ToString();
@@ -51,13 +51,13 @@ namespace Uno.Toolkit.UI
 					Background = SolidColorBrushHelper.Transparent
 				};
 
-				return element;
+				return Task.FromResult<FrameworkElement?>(element);
 			}
 			catch (Exception e)
 			{
 				this.Log().LogError(0, e, "Error while getting native splash screen.");
 
-				return default;
+				return Task.FromResult<FrameworkElement?>(null);
 			}
 		}
 	}

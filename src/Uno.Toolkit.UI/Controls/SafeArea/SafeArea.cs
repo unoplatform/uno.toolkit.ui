@@ -42,7 +42,7 @@ namespace Uno.Toolkit.UI
 		private const string SoftInputVisualStateName = "SoftInput";
 		private const string NoSoftInputVisualStateName = "NoSoftInput";
 
-		private bool _isTemplateApplied = false;
+		private bool _isTemplateApplied;
 
 		[Flags]
 		public enum InsetMask

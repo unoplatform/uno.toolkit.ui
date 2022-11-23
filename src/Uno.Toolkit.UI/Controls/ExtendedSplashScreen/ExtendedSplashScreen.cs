@@ -67,9 +67,9 @@ public partial class ExtendedSplashScreen : LoadingView
 
 
 #if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP)
-	private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
-		return default;
+		return Task.FromResult<FrameworkElement?>(null);
 	}
 #endif
 }
