@@ -1,10 +1,7 @@
 <Project ToolsVersion="15.0">
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.4.0-2.final">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Net.Compilers.Toolset" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

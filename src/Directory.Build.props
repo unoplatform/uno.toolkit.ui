@@ -77,7 +77,7 @@
 		<AnalysisModePerformance>AllEnabledByDefault</AnalysisModePerformance>
 	</PropertyGroup>
 	<ItemGroup Condition="'$(IsTestProject)'=='false'">
-		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22403.2" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="All" />
 	</ItemGroup>
 
 	<!--
