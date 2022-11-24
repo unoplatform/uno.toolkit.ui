@@ -38,5 +38,4 @@ Select either the [**`Uno.Toolkit.UI`**](https://www.nuget.org/packages/Uno.Tool
     </Application>
     ```
 
-    > [!TIP]
-    > Uno Toolkit also provides Material Design styles for all of its components. These optional styles are packaged in a separate NuGet package. Refer to the [Uno Toolkit Material Library](material/getting-started-material.md) guide for more information.
+> **NOTE**: Uno Toolkit also provides Material Design styles for all of its components. These optional styles are packaged in a separate NuGet package. Refer to the [Uno Toolkit Material Library](material/getting-started-material.md) guide for more information.

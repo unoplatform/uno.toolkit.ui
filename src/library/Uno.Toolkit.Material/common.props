@@ -1,6 +1,6 @@
 <Project ToolsVersion="15.0">
 	<PropertyGroup>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReadmeFile>getting-started-material.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
