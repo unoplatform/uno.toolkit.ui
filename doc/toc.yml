@@ -2,15 +2,21 @@
 - name: Overview
   href: getting-started.md
 
-# ******************* Learn **********************
-#- name: Learn
-  #items: ToDo
+# ******************* Material **********************
+- name: Material
+  topicHref: material/getting-started-material.md
+  items:
+  - name: Styles
+    href: material/material-styles.md
+  - name: Migrate to Uno Material v2
+    href: material/material-migration.md
 
 # ******************* Reference ******************
 - name: Reference
   items:
   # ***************** Reference\Controls *******************
   - name: Controls
+    topicHref: controls/toolkit-controls.md
     items:
     - name: AutoLayout
       href: controls/AutoLayoutControl.md
@@ -48,5 +54,3 @@
   # ***************** Reference\Styles **********************
   - name: Styles
     href: controls-styles.md
-  - name: Migrate to Uno Material v2
-    href: material-migration.md
