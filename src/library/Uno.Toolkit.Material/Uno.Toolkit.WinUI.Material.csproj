@@ -24,21 +24,6 @@
 		<PackageReference Include="Uno.WinUI" />
 	</ItemGroup>
 
-	<Choose>
-		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='net6.0-ios' or '$(TargetFramework)'=='net6.0-macos' or '$(TargetFramework)'=='net6.0-android' or '$(TargetFramework)'=='net6.0-maccatalyst'">
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="mobile" />
-				<ExcludeXamlNamespaces Include="not_mobile" />
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="not_mobile" />
-				<ExcludeXamlNamespaces Include="mobile" />
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
-
 	<ItemGroup>
 		<XamlMergeOutputFiles Include="Generated\mergedpages.winui.v1.xaml" />
 		<XamlMergeOutputFiles Include="Generated\mergedpages.winui.v2.xaml" />
@@ -67,4 +52,5 @@
 	<Import Project="..\..\winappsdk-workaround.targets" />
 
 	<Import Project="xamlmerge.props" />
+	<Import Project="common.props" />
 </Project>

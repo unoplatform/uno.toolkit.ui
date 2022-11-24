@@ -19,10 +19,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Uno.Toolkit\Uno.Toolkit.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Uno.WinUI" />
 		<PackageReference Include="Uno.Core.Extensions.Collections" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
@@ -40,5 +36,5 @@
 	</ItemGroup>
 
 	<Import Project="..\winappsdk-workaround.targets" />
-
+	<Import Project="common.props" />
 </Project>

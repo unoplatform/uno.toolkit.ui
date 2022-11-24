@@ -1,0 +1,9 @@
+<Project ToolsVersion="15.0">
+	<PropertyGroup>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\doc\material\getting-started-material.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+</Project>

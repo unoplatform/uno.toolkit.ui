@@ -27,21 +27,6 @@
 		<XamlMergeInput Include="Styles\Controls\v2\**\*.xaml" MergeFile="mergedpages.uwp.v2.xaml" />
 	</ItemGroup>
 
-	<Choose>
-		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='net6.0-ios' or '$(TargetFramework)'=='net6.0-macos' or '$(TargetFramework)'=='net6.0-android' or '$(TargetFramework)'=='net6.0-maccatalyst'">
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="mobile" />
-				<ExcludeXamlNamespaces Include="not_mobile" />
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="not_mobile" />
-				<ExcludeXamlNamespaces Include="mobile" />
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
-
 	<ItemGroup>
 		<PackageReference Include="Uno.Material"  />
 		<PackageReference Include="Uno.UI"  />
@@ -77,4 +62,5 @@
 	</Target>
 
 	<Import Project="xamlmerge.props" />
+	<Import Project="common.props" />
 </Project>

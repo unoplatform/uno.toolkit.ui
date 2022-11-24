@@ -27,21 +27,6 @@
 		<XamlMergeOutputFile>Generated\mergedpages.uwp.xaml</XamlMergeOutputFile>
 	</PropertyGroup>
 
-	<Choose>
-		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='net6.0-ios' or '$(TargetFramework)'=='net6.0-macos' or '$(TargetFramework)'=='net6.0-android' or '$(TargetFramework)'=='net6.0-maccatalyst'">
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="mobile" />
-				<ExcludeXamlNamespaces Include="not_mobile" />
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="not_mobile" />
-				<ExcludeXamlNamespaces Include="mobile" />
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
-
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
 		<PackageReference Include="Microsoft.UI.Xaml" />
 	</ItemGroup>
