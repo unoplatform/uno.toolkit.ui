@@ -44,7 +44,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='xamarinmac20'">
-		<EmbeddedResource Include="LinkerConfig.xamarin.xml">
+		<EmbeddedResource Include="LinkerConfig.xamarin.winui.xml">
 			<LogicalName>$(AssemblyName).xml</LogicalName>
 		</EmbeddedResource>
 	</ItemGroup>
