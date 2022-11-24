@@ -50,8 +50,8 @@
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="LinkerConfig.xml">
+	<ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='xamarinmac20'">
+		<EmbeddedResource Include="LinkerConfig.xamarin.uwp.xml">
 			<LogicalName>$(AssemblyName).xml</LogicalName>
 		</EmbeddedResource>
 	</ItemGroup>

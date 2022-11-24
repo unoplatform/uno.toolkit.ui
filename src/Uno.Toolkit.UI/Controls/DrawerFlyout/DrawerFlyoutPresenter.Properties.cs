@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,7 +47,7 @@ namespace Uno.Toolkit.UI
 
 		#region AttachedProperty: OpenDirection = Top
 
-		public static DependencyProperty OpenDirectionProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty OpenDirectionProperty { [DynamicDependency(nameof(GetOpenDirection))] get; } = DependencyProperty.RegisterAttached(
 			nameof(OpenDirection),
 			typeof(DrawerOpenDirection),
 			typeof(DrawerFlyoutPresenter),
@@ -64,13 +65,15 @@ namespace Uno.Toolkit.UI
 			set => SetValue(OpenDirectionProperty, value);
 		}
 
+		[DynamicDependency(nameof(SetOpenDirection))]
 		public static DrawerOpenDirection GetOpenDirection(DependencyObject obj) => (DrawerOpenDirection)obj.GetValue(OpenDirectionProperty);
+		[DynamicDependency(nameof(GetOpenDirection))]
 		public static void SetOpenDirection(DependencyObject obj, DrawerOpenDirection value) => obj.SetValue(OpenDirectionProperty, value);
 
 		#endregion
 		#region AttachedProperty: LightDismissOverlayBackground
 
-		public static DependencyProperty LightDismissOverlayBackgroundProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty LightDismissOverlayBackgroundProperty { [DynamicDependency(nameof(GetLightDismissOverlayBackground))] get; } = DependencyProperty.RegisterAttached(
 			nameof(LightDismissOverlayBackground),
 			typeof(Brush),
 			typeof(DrawerFlyoutPresenter),
@@ -85,13 +88,15 @@ namespace Uno.Toolkit.UI
 			set => SetValue(LightDismissOverlayBackgroundProperty, value);
 		}
 
+		[DynamicDependency(nameof(SetLightDismissOverlayBackground))]
 		public static Brush GetLightDismissOverlayBackground(DependencyObject obj) => (Brush)obj.GetValue(LightDismissOverlayBackgroundProperty);
+		[DynamicDependency(nameof(GetLightDismissOverlayBackground))]
 		public static void SetLightDismissOverlayBackground(DependencyObject obj, Brush value) => obj.SetValue(LightDismissOverlayBackgroundProperty, value);
 
 		#endregion
 		#region AttachedProperty: IsGestureEnabled = true
 
-		public static DependencyProperty IsGestureEnabledProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty IsGestureEnabledProperty { [DynamicDependency(nameof(GetIsGestureEnabled))] get; } = DependencyProperty.RegisterAttached(
 			nameof(IsGestureEnabled),
 			typeof(bool),
 			typeof(DrawerFlyoutPresenter),
@@ -106,7 +111,9 @@ namespace Uno.Toolkit.UI
 			set => SetValue(IsGestureEnabledProperty, value);
 		}
 
+		[DynamicDependency(nameof(SetIsGestureEnabled))]
 		public static bool GetIsGestureEnabled(DependencyObject obj) => (bool)obj.GetValue(IsGestureEnabledProperty);
+		[DynamicDependency(nameof(GetIsGestureEnabled))]
 		public static void SetIsGestureEnabled(DependencyObject obj, bool value) => obj.SetValue(IsGestureEnabledProperty, value);
 
 		#endregion

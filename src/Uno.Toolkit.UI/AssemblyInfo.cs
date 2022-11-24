@@ -19,3 +19,9 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.WASM")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.Skia.Gtk")]
 #endif
+
+[assembly: AssemblyMetadata("IsTrimmable", "True")]
+
+[assembly: InternalsVisibleTo("Uno.Toolkit.UI.Material")]
+[assembly: InternalsVisibleTo("Uno.Toolkit.UI.Cupertino")]
+[assembly: InternalsVisibleTo("Uno.Toolkit.UI")]

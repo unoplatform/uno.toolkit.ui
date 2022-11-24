@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,20 +30,24 @@ namespace Uno.Toolkit.UI;
 public static class FlipViewExtensions
 {
 	#region DependencyProperty: Next
-	public static DependencyProperty NextProperty { get; } =
+	public static DependencyProperty NextProperty { [DynamicDependency(nameof(GetNext))] get; } =
 		DependencyProperty.RegisterAttached("Next", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnNextChanged));
 
+	[DynamicDependency(nameof(GetNext))]
 	public static void SetNext(Button element, FlipView value) => element.SetValue(NextProperty, value);
 
+	[DynamicDependency(nameof(SetNext))]
 	public static FlipView? GetNext(Button element) => (FlipView?)element.GetValue(NextProperty);
 
 	#endregion
 	#region DependencyProperty: Previous
-	public static DependencyProperty PreviousProperty { get; } =
+	public static DependencyProperty PreviousProperty { [DynamicDependency(nameof(GetPrevious))] get; } =
 		DependencyProperty.RegisterAttached("Previous", typeof(FlipView), typeof(FlipViewExtensions), new PropertyMetadata(null, OnPreviousChanged));
 
+	[DynamicDependency(nameof(GetPrevious))]
 	public static void SetPrevious(Button element, FlipView value) => element.SetValue(PreviousProperty, value);
 
+	[DynamicDependency(nameof(SetPrevious))]
 	public static FlipView? GetPrevious(Button element) => (FlipView?)element.GetValue(PreviousProperty);
 	#endregion
 	
