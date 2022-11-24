@@ -43,6 +43,12 @@
 		<XamlMergeOutputFile>Generated\mergedpages.winui.xaml</XamlMergeOutputFile>
 	</PropertyGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='xamarinmac20'">
+		<EmbeddedResource Include="LinkerConfig.xamarin.winui.xml">
+			<LogicalName>$(AssemblyName).xml</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
 		<PackageReference Include="Microsoft.WindowsAppSDK" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />

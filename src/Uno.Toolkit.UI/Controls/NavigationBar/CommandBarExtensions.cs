@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
@@ -18,7 +19,7 @@ namespace Uno.Toolkit.UI
 	{
 		#region Property: MainCommand
 
-		public static DependencyProperty MainCommandProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty MainCommandProperty { [DynamicDependency(nameof(GetMainCommand))] get; } = DependencyProperty.RegisterAttached(
 			"MainCommand",
 			typeof(AppBarButton),
 			typeof(CommandBarExtensions),
@@ -26,7 +27,9 @@ namespace Uno.Toolkit.UI
 
 
 
+		[DynamicDependency(nameof(SetMainCommand))]
 		public static AppBarButton? GetMainCommand(DependencyObject? obj) => obj?.GetValue(MainCommandProperty) as AppBarButton;
+		[DynamicDependency(nameof(GetMainCommand))]
 		public static void SetMainCommand(DependencyObject? obj, AppBarButton? value) => obj?.SetValue(MainCommandProperty, value);
 
 		#endregion

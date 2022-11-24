@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,13 +32,15 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Backing property for whether the soft-keyboard will be dismissed when the enter key is pressed.
 		/// </summary>
-		public static DependencyProperty AutoDismissProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty AutoDismissProperty { [DynamicDependency(nameof(GetAutoDismiss))] get; } = DependencyProperty.RegisterAttached(
 			"AutoDismiss",
 			typeof(bool),
 			typeof(InputExtensions),
 			new PropertyMetadata(default(bool), OnAutoDismissChanged));
 
+		[DynamicDependency(nameof(SetAutoDismiss))]
 		public static bool GetAutoDismiss(DependencyObject obj) => (bool)obj.GetValue(AutoDismissProperty);
+		[DynamicDependency(nameof(GetAutoDismiss))]
 		public static void SetAutoDismiss(DependencyObject obj, bool value) => obj.SetValue(AutoDismissProperty, value);
 
 		#endregion
@@ -50,13 +53,15 @@ namespace Uno.Toolkit.UI
 		/// Having either or both of the <see cref="AutoFocusNextProperty"/> and <see cref="AutoFocusNextElementProperty"/> set will enable the focus next behavior.
 		/// AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
 		/// </remarks>
-		public static DependencyProperty AutoFocusNextProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty AutoFocusNextProperty { [DynamicDependency(nameof(GetAutoFocusNext))] get; } = DependencyProperty.RegisterAttached(
 			"AutoFocusNext",
 			typeof(bool),
 			typeof(InputExtensions),
 			new PropertyMetadata(default(bool), OnAutoFocusNextChanged));
 
+		[DynamicDependency(nameof(SetAutoFocusNext))]
 		public static bool GetAutoFocusNext(DependencyObject obj) => (bool)obj.GetValue(AutoFocusNextProperty);
+		[DynamicDependency(nameof(GetAutoFocusNext))]
 		public static void SetAutoFocusNext(DependencyObject obj, bool value) => obj.SetValue(AutoFocusNextProperty, value);
 
 		#endregion
@@ -69,13 +74,15 @@ namespace Uno.Toolkit.UI
 		/// Having either or both of the <see cref="AutoFocusNextProperty"/> and <see cref="AutoFocusNextElementProperty"/> set will enable the focus next behavior.
 		/// AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
 		/// </remarks>
-		public static DependencyProperty AutoFocusNextElementProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty AutoFocusNextElementProperty { [DynamicDependency(nameof(GetAutoFocusNextElement))] get; } = DependencyProperty.RegisterAttached(
 			"AutoFocusNextElement",
 			typeof(DependencyObject),
 			typeof(InputExtensions),
 			new PropertyMetadata(default(Control), OnAutoFocusNextElementChanged));
 
+		[DynamicDependency(nameof(SetAutoFocusNextElement))]
 		public static Control GetAutoFocusNextElement(DependencyObject obj) => (Control)obj.GetValue(AutoFocusNextElementProperty);
+		[DynamicDependency(nameof(GetAutoFocusNextElement))]
 		public static void SetAutoFocusNextElement(DependencyObject obj, Control value) => obj.SetValue(AutoFocusNextElementProperty, value);
 
 		#endregion

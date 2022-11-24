@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Text;
 using Windows.UI.ViewManagement;
 using Uno.Disposables;
+using System.Diagnostics.CodeAnalysis;
 
 #if IS_WINUI
 using Microsoft.UI;
@@ -34,27 +35,30 @@ namespace Uno.Toolkit.UI
 
 		#region DependencyProperty: Foreground
 
-		public static DependencyProperty ForegroundProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty ForegroundProperty { [DynamicDependency(nameof(GetForeground))] get; } = DependencyProperty.RegisterAttached(
 			"Foreground",
 			typeof(StatusBarForegroundTheme),
 			typeof(StatusBar),
 			new PropertyMetadata(default(StatusBarForegroundTheme), OnForegroundChanged));
 
+		[DynamicDependency(nameof(SetForeground))]
 		public static StatusBarForegroundTheme GetForeground(Page obj) => (StatusBarForegroundTheme)obj.GetValue(ForegroundProperty);
 		/// <summary>
 		/// Sets the foreground color for the text and icons on the status bar.
 		/// </summary>
+		[DynamicDependency(nameof(GetForeground))]
 		public static void SetForeground(Page obj, StatusBarForegroundTheme value) => obj.SetValue(ForegroundProperty, value);
 
 		#endregion
 		#region DependencyProperty: Background
 
-		public static DependencyProperty BackgroundProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty BackgroundProperty { [DynamicDependency(nameof(GetBackground))] get; } = DependencyProperty.RegisterAttached(
 			"Background",
 			typeof(Brush),
 			typeof(StatusBar),
 			new PropertyMetadata(default(Brush), OnBackgroundChanged));
 
+		[DynamicDependency(nameof(SetBackground))]
 		public static Brush GetBackground(Page obj) => (Brush)obj.GetValue(BackgroundProperty);
 		/// <summary>
 		/// Sets the background color for the status bar.
@@ -62,18 +66,21 @@ namespace Uno.Toolkit.UI
 		/// <remarks>
 		/// Due to platform limitations, only <see cref="SolidColorBrush"/>es are accepted.
 		/// </remarks>
+		[DynamicDependency(nameof(GetBackground))]
 		public static void SetBackground(Page obj, Brush value) => obj.SetValue(BackgroundProperty, value);
 
 		#endregion
 		#region DependencyProperty: Subscription (private)
 
-		private static DependencyProperty SubscriptionProperty { get; } = DependencyProperty.RegisterAttached(
+		private static DependencyProperty SubscriptionProperty { [DynamicDependency(nameof(GetSubscription))] get; } = DependencyProperty.RegisterAttached(
 			"Subscription",
 			typeof(IDisposable),
 			typeof(StatusBar),
 			new PropertyMetadata(default(IDisposable?)));
 
+		[DynamicDependency(nameof(SetSubscription))]
 		private static IDisposable? GetSubscription(Page obj) => (IDisposable?)obj.GetValue(SubscriptionProperty);
+		[DynamicDependency(nameof(GetSubscription))]
 		private static void SetSubscription(Page obj, IDisposable? value) => obj.SetValue(SubscriptionProperty, value);
 
 		#endregion
