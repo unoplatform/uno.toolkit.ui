@@ -44,4 +44,5 @@
 
 	<Import Project="..\..\winappsdk-workaround.targets" />
 	<Import Project="xamlmerge.props" />
+	<Import Project="common.props" />
 </Project>

@@ -62,4 +62,5 @@
 	</Target>
 
 	<Import Project="xamlmerge.props" />
+	<Import Project="common.props" />
 </Project>
