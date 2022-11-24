@@ -77,8 +77,7 @@ namespace Uno.Toolkit.Samples
 		/// </summary>
 		private void InitializeSafeArea()
 		{
-#if !IS_WINUI
-			var full = XamlWindow.Current.Bounds;
+			var full = App.Instance.Window.Bounds;
 			var bounds = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().VisibleBounds;
 
 			var topPadding = Math.Abs(full.Top - bounds.Top);
@@ -87,7 +86,6 @@ namespace Uno.Toolkit.Samples
 			{
 				TopPaddingRow.Height = new GridLength(topPadding);
 			}
-#endif
 		}
 
 		private void ToggleButton_Click(object sender, RoutedEventArgs e)
