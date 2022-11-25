@@ -23,7 +23,12 @@ namespace Uno.Toolkit.UI;
 public partial class ExtendedSplashScreen : LoadingView
 {
 	public SplashScreen? SplashScreen { get; set; }
-	public Window? Window { get; set; }
+
+	public
+#if __IOS__ // hides UIView.Window
+	new
+#endif
+	Window? Window { get; set; }
 
 	#region DependencyProperty: SplashScreenContent
 

@@ -32,7 +32,7 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
-		private static async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+		private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 		{
 			var splashScreenImage = new Image();
 			var splashScreenBackground = new SolidColorBrush();
@@ -92,7 +92,7 @@ namespace Uno.Toolkit.UI
 
 						splashScreenImage.SetValue(Canvas.LeftProperty, posLeft);
 						splashScreenImage.SetValue(Canvas.TopProperty, posTop);
-						
+
 							splashScreenImage.Height = imageHeight;
 							splashScreenImage.Width = imageWidth;
 					}

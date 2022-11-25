@@ -65,7 +65,7 @@ public partial class ExtendedSplashScreen
 		}
 		catch (Exception e)
 		{
-			this.Log().LogError(0, e, "Error while getting native splash screen.");
+			typeof(ExtendedSplashScreen).Log().LogError(0, e, "Error while getting native splash screen.");
 
 			return Task.FromResult<FrameworkElement?>(null);
 		}
