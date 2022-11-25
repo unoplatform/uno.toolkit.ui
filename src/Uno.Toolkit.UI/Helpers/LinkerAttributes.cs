@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-#if !NET6_0_IOS && !NET6_0_MACCATALYST && !NET6_0_MACOS && !NET6_0_ANDROID
+#if !NET6_0_IOS && !NET6_0_MACCATALYST && !NET6_0_MACOS && !NET6_0_ANDROID && !NET5_0_WINDOWS10_0_18362
 namespace System.Diagnostics.CodeAnalysis
 {
 	/// <summary>
