@@ -23,19 +23,13 @@
   - checkout: self
     clean: true
 
-  - task: UseDotNet@2 
-    displayName: 'Use .NET 5.0.406' 
-    retryCountOnTaskFailure: 3 
-    inputs: 
-      packageType: runtime 
-      version: 5.0.15 
-
-  - task: UseDotNet@2 
-    displayName: 'Use .NET runtime 2.2.x' 
-    retryCountOnTaskFailure: 3 
-    inputs: 
-      packageType: runtime 
-      version: 2.2.x
+  - task: UseDotNet@2
+    displayName: 'Use .NET SDK'
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: sdk
+      useGlobalJson: true
+      includePreviewVersions: true
 
   - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
     displayName: Select Xamarin Version

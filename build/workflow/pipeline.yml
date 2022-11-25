@@ -17,7 +17,7 @@ trigger:
     - doc/*
     - '**/*.md'
 
-pr: 
+pr:
   branches:
     include:
       - main
@@ -72,10 +72,10 @@ jobs:
         GeneratePackageOnBuild: true
   pool:
     vmImage: windows-2022
-  
+
   steps:
     - template: templates/gitversion.yml
-    - template: templates/dotnet6-install-windows.yml
+    - template: templates/dotnet-install-windows.yml
 
     # This SDK version is needed as long as `uap10.0` will be supported in Uno.Core
     - powershell: .\build\Install-WindowsSdkISO.ps1 18362
@@ -85,7 +85,7 @@ jobs:
 
 - job: macOS
 
-  timeoutInMinutes: 90 
+  timeoutInMinutes: 90
 
   strategy:
     maxParallel: 2
@@ -103,7 +103,7 @@ jobs:
 
   pool:
     vmImage: 'macOS-11'
-  
+
   variables:
    - name: XCODE_ROOT
      value: '/Applications/Xcode_13.2.1.app'
@@ -119,14 +119,14 @@ jobs:
       certPwd: '$(appleappstorecertificatepassword)'
       keychain: temp
       deleteCert: true
-  
+
   - task: InstallAppleProvisioningProfile@1
     inputs:
       provisioningProfileLocation: secureFiles
       provProfileSecureFile: Uno_Toolkit_iOS.mobileprovision
 
   - template: templates/gitversion.yml
-  - template: templates/dotnet6-install-mac.yml
+  - template: templates/dotnet-install-mac.yml
 
   - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
     displayName: Select Xamarin Version

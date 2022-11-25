@@ -1,0 +1,43 @@
+parameters:
+  UnoCheck_Version: '1.6.0-dev.40'
+  UnoCheck_Manifest: 'https://raw.githubusercontent.com/unoplatform/uno.check/834e09137443e3afcd3cc90f55cb405dd26831bf/manifests/uno.ui-preview.manifest.json'
+
+steps:
+
+  - task: UseDotNet@2
+    displayName: 'Use .NET SDK'
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: sdk
+      useGlobalJson: true
+      includePreviewVersions: true
+
+  - template: jdk-setup.yml
+
+  - powershell: |
+      & dotnet tool update --global uno.check --version ${{ parameters.UnoCheck_Version }} --add-source https://api.nuget.org/v3/index.json
+      & uno-check -v --ci --non-interactive --fix --skip xcode --skip gtk3 --skip vswin --skip vsmac --manifest ${{ parameters.UnoCheck_Manifest }}
+    displayName: Install .NET Workloads
+    errorActionPreference: continue
+    ignoreLASTEXITCODE: true
+    retryCountOnTaskFailure: 3
+
+  # https://github.com/actions/runner-images/issues/6082#issuecomment-1215100175
+  # - powershell: |
+  #     Set-Location "C:\Program Files (x86)\Microsoft Visual Studio\Installer\"
+  #     $InstallPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise"
+  #     $componentsToAdd = @(
+  #       "Component.Xamarin"
+  #     )
+  #     [string]$workloadArgs = $componentsToAdd | ForEach-Object {" --add " +  $_}
+  #     $Arguments = ('/c', "vs_installer.exe", 'modify', '--installPath', "`"$InstallPath`"",$workloadArgs, '--quiet', '--norestart', '--nocache')
+  #     $process = Start-Process -FilePath cmd.exe -ArgumentList $Arguments -Wait -PassThru -WindowStyle Hidden
+  #     if ($process.ExitCode -eq 0)
+  #     {
+  #         Write-Host "components have been successfully added"
+  #     }
+  #     else
+  #     {
+  #         Write-Host "components were not installed"
+  #         exit 1
+  #     }

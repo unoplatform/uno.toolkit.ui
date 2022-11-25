@@ -11,9 +11,13 @@ steps:
       maximumCpuCount: true
       msbuildArguments: /m /r "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary /bl:$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform).binlog
 
-  - task: DotNetCoreInstaller@0
+  - task: UseDotNet@2
+    displayName: 'Use .NET SDK'
+    retryCountOnTaskFailure: 3
     inputs:
-      version: '2.1.504'
+      packageType: sdk
+      useGlobalJson: true
+      includePreviewVersions: true
 
   - task: PowerShell@2
     displayName: Authenticode Sign Packages
