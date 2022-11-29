@@ -165,6 +165,16 @@
                                 <utu:AutoLayout Background="{ThemeResource OnSecondaryContainerBrush}" utu:AutoLayout.CounterAlignment="Start" Width="388" Height="95" />
                             </utu:AutoLayout>
 
+                            <TextBlock Text="AutoLayout with hug and padding "
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+
+                            <utu:AutoLayout Background="{ThemeResource SecondaryVariantLightBrush}" Padding="47,18,85,18" PrimaryAxisAlignment="End" Orientation="Horizontal">
+                                <utu:AutoLayout Background="{ThemeResource PrimaryInverseBrush}" Spacing="10" Padding="29,20,129,56" utu:AutoLayout.CounterAlignment="Start">
+                                    <Rectangle Fill="{ThemeResource PrimaryBrush}" utu:AutoLayout.CounterAlignment="Start" Width="181" Height="49" />
+                                    <Rectangle Fill="{ThemeResource SecondaryVariantLightBrush}" utu:AutoLayout.CounterAlignment="Start" Width="63" Height="49" />
+                                </utu:AutoLayout>
+                            </utu:AutoLayout>
                         </StackPanel>
                     </ScrollViewer>
                 </DataTemplate>
