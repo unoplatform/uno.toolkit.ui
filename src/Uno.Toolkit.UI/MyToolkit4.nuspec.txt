@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>MyToolkit4</id>
+    <version>255.255.255.255</version>
+    <authors>Uno Platform</authors>
+    <readme>README.md</readme>
+    <iconUrl>https://nv-assets.azurewebsites.net/logos/uno.png</iconUrl>
+    <description>A set of controls for Uno Platform, UWP and WinUI</description>
+    <copyright>Copyright (C) 2015-2021 Uno Platform. - all rights reserved</copyright>
+    <dependencies>
+      <group targetFramework="MonoAndroid12.0">
+        <dependency id="Uno.Toolkit" version="255.255.255.255" exclude="Build,Analyzers" />
+        <dependency id="Uno.Core.Extensions.Collections" version="4.0.1" exclude="Build,Analyzers" />
+        <dependency id="Uno.Core.Extensions.Logging" version="4.0.1" exclude="Build,Analyzers" />
+        <dependency id="Uno.Core.Extensions.Logging.Singleton" version="4.0.1" exclude="Build,Analyzers" />
+        <dependency id="Uno.UI" version="4.6.19" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Uno.Toolkit" version="255.255.255.255" exclude="Build,Analyzers" />
+        <dependency id="Uno.Core.Extensions.Collections" version="4.0.1" exclude="Build,Analyzers" />
+        <dependency id="Uno.Core.Extensions.Logging" version="4.0.1" exclude="Build,Analyzers" />
+        <dependency id="Uno.Core.Extensions.Logging.Singleton" version="4.0.1" exclude="Build,Analyzers" />
+        <dependency id="Uno.UI" version="4.6.19" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Java.Interop" targetFramework="MonoAndroid12.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

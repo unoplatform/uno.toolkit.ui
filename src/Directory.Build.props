@@ -4,8 +4,8 @@
 		<DebugSymbols>True</DebugSymbols>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-
-		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release' and '$(GeneratePackageOnBuild)'=='true'">true</GeneratePackageOnBuild>
+		<DisableNet6MobileTargets>true</DisableNet6MobileTargets>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
 
 		<!-- Required in release using recent SDKs which use assembly embedded XBFs that are not supported by UWP -->

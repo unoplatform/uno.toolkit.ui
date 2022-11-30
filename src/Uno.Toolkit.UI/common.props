@@ -1,12 +1,13 @@
 <Project ToolsVersion="15.0">
-	<PropertyGroup>
-		<PackageReadmeFile>getting-started.md</PackageReadmeFile>
-	</PropertyGroup>
-
 	<ItemGroup>
-		<None Include="..\..\doc\getting-started.md" Pack="true" PackagePath="\"/>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
 	</ItemGroup>
-
+	<PropertyGroup>
+			<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Uno.Toolkit\Uno.Toolkit.csproj" />
 	</ItemGroup>
