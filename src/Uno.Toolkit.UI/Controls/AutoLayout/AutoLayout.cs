@@ -235,6 +235,8 @@ namespace Uno.Toolkit.UI
 
 			var gridDefinitionsCount = isSpaceBetween ? ((childrenCount - independentLayoutCount) * 2) - 1 : (childrenCount - independentLayoutCount);
 
+			var gridIndexOffSet = 0;
+
 			var isPrimaryAxisAlignmentCenterOrEnd = hasIndependentLayout && PrimaryAxisAlignment is AutoLayoutAlignment.Center or AutoLayoutAlignment.End;
 
 			// Inject & Move elements in the inner grid
@@ -304,8 +306,6 @@ namespace Uno.Toolkit.UI
 				}
 
 				var rawChildIndex = 0;
-
-				var gridIndexOffSet = 0;
 
 				if (hasPadding)
 				{
@@ -405,14 +405,14 @@ namespace Uno.Toolkit.UI
 				{
 					if (atLeastOneChildFillAvailableSpaceInPrimaryAxis)
 					{
-						for (var i = 1; i < gridDefinitionsCount; i += 2)
+						for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
 						{
 							_grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Auto);
 						}
 					}
 					else
 					{
-						for (var i = 1; i < gridDefinitionsCount; i += 2)
+						for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
 						{
 							_grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
 						}
@@ -450,7 +450,6 @@ namespace Uno.Toolkit.UI
 				}
 
 				var rawChildIndex = 0;
-				var gridIndexOffSet = 0;
 
 				if (hasPadding)
 				{
@@ -550,14 +549,14 @@ namespace Uno.Toolkit.UI
 				{
 					if (atLeastOneChildFillAvailableSpaceInPrimaryAxis)
 					{
-						for (var i = 1; i < gridDefinitionsCount; i += 2)
+						for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
 						{
 							_grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Auto);
 						}
 					}
 					else
 					{
-						for (var i = 1; i < gridDefinitionsCount; i += 2)
+						for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
 						{
 							_grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
 						}
