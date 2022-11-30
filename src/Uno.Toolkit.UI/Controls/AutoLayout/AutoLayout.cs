@@ -26,6 +26,10 @@ namespace Uno.Toolkit.UI
 		{
 			DefaultStyleKey = typeof(AutoLayout);
 			Children = new AutoLayoutChildren();
+
+			this.RegisterDisposablePropertyChangedCallback(HorizontalAlignmentProperty, (snd, e) => UpdateAlignments());
+			this.RegisterDisposablePropertyChangedCallback(VerticalAlignmentProperty, (snd, e) => UpdateAlignments());
+			this.RegisterDisposablePropertyChangedCallback(PaddingProperty, (snd, e) => UpdateAlignments());
 		}
 
 		protected override void OnApplyTemplate()
