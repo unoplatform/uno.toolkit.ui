@@ -46,6 +46,10 @@ namespace Uno.Toolkit.UI
 			set => SetValue(IsReverseZIndexProperty, value);         
 		}
 
+		private bool IsHorizontalHug => HorizontalAlignment is not HorizontalAlignment.Stretch && Width is double.NaN;
+
+		private bool IsVerticalHug => VerticalAlignment is not VerticalAlignment.Stretch && Height is double.NaN;
+
 		public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
 			"Orientation", typeof(Orientation), typeof(AutoLayout), new PropertyMetadata(default(Orientation), propertyChangedCallback: UpdateCallback));
 
@@ -309,7 +313,7 @@ namespace Uno.Toolkit.UI
 						gridIndexOffSet += 1;
 					}
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Left )});
-					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, IsHorizontalHug ? GridUnitType.Auto : GridUnitType.Star) });
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Right) });
 				}
 
@@ -345,19 +349,21 @@ namespace Uno.Toolkit.UI
 					{
 						gridDefinition.Height = new GridLength(1, GridUnitType.Star);
 						atLeastOneChildFillAvailableSpaceInPrimaryAxis = true;
+						child.VerticalAlignment = VerticalAlignment.Stretch;
 					}
 					else if (GetPrimaryLength(child) is var height and > 0)
 					{
 						gridDefinition.Height = new GridLength(height);
+						child.VerticalAlignment = VerticalAlignment.Stretch;
 					}
 					else
 					{
 						gridDefinition.Height = GridLength.Auto;
+						child.VerticalAlignment = VerticalAlignment.Top;
 					}
 
 					var counterAlignment = GetCounterAlignment(child).ToHorizontalAlignment();
 
-					child.VerticalAlignment = VerticalAlignment.Stretch;
 					child.HorizontalAlignment = counterAlignment;
 
 					if (hasPadding)
@@ -366,14 +372,14 @@ namespace Uno.Toolkit.UI
 						{
 							case HorizontalAlignment.Left:
 								Grid.SetColumn(child, 1);
-								Grid.SetColumnSpan(child, 2);
+								Grid.SetColumnSpan(child, IsHorizontalHug ? 1 : 2);
 								break;
 							case HorizontalAlignment.Center:
 								Grid.SetColumn(child, 1);
 								break;
 							case HorizontalAlignment.Right:
-								Grid.SetColumn(child, 0);
-								Grid.SetColumnSpan(child, 2);
+								Grid.SetColumn(child, IsHorizontalHug ? 1 : 0);
+								Grid.SetColumnSpan(child, IsHorizontalHug ? 1 : 2);
 								break;
 							case HorizontalAlignment.Stretch:
 								Grid.SetColumn(child, 1);
@@ -414,7 +420,11 @@ namespace Uno.Toolkit.UI
 					//We need to make sure that the independent layout can span all across his parent
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 				}
-				if (hasPadding && padding.Bottom - spacing > 0)
+
+				var validPaddingSize = padding.Bottom - spacing > 0;
+				var PaddingCondition = PrimaryAxisAlignment is not AutoLayoutAlignment.Start || IsVerticalHug;
+
+				if (hasPadding && validPaddingSize && PaddingCondition)
 				{
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Bottom - spacing)});
 				}
@@ -484,19 +494,21 @@ namespace Uno.Toolkit.UI
 					{
 						gridDefinition.Width = new GridLength(1, GridUnitType.Star);
 						atLeastOneChildFillAvailableSpaceInPrimaryAxis = true;
+						child.HorizontalAlignment = HorizontalAlignment.Stretch;
 					}
 					else if (GetPrimaryLength(child) is var width and > 0)
 					{
 						gridDefinition.Width = new GridLength(width);
+						child.HorizontalAlignment = HorizontalAlignment.Stretch;
 					}
 					else
 					{
 						gridDefinition.Width = GridLength.Auto;
+						child.HorizontalAlignment = HorizontalAlignment.Left;
 					}
 
 					var counterAlignment = GetCounterAlignment(child).ToVerticalAlignment();
 
-					child.HorizontalAlignment = HorizontalAlignment.Stretch;
 					child.VerticalAlignment = counterAlignment;
 
 					if (hasPadding)
@@ -505,13 +517,13 @@ namespace Uno.Toolkit.UI
 						{
 							case VerticalAlignment.Top:
 								Grid.SetRow(child, 1);
-								Grid.SetRowSpan(child, 2);
+								Grid.SetRowSpan(child, IsVerticalHug ? 1 : 2);
 								break;
 							case VerticalAlignment.Center:
 								Grid.SetRow(child, 1);
 								break;
 							case VerticalAlignment.Bottom:
-								Grid.SetRow(child, 0);
+								Grid.SetRow(child, IsVerticalHug ? 1 : 0);
 								Grid.SetRowSpan(child, 2);
 								break;
 							case VerticalAlignment.Stretch:
@@ -553,7 +565,11 @@ namespace Uno.Toolkit.UI
 					//We need to make sure that the independent layout can span all across his parent
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 				}
-				if (hasPadding && padding.Right - spacing > 0)
+
+				var validPaddingSize = padding.Bottom - spacing > 0;
+				var PaddingCondition = PrimaryAxisAlignment is not AutoLayoutAlignment.Start || IsVerticalHug;
+
+				if (hasPadding && (padding.Right - spacing > 0) && (PrimaryAxisAlignment is not AutoLayoutAlignment.Start || IsHorizontalHug))
 				{
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Right - spacing) });
 				}
