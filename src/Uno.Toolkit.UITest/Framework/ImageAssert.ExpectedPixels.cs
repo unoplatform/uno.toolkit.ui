@@ -28,7 +28,7 @@ namespace Uno.Toolkit.UITest.Framework
 		public static ExpectedPixels UniformRect(
 			IAppRect rect,
 			string color,
-			[CallerMemberName] string? name = null,
+			[CallerMemberName] string name = "",
 			[CallerLineNumber] int line = -1)
 		{
 			var c = GetColorFromString(color);

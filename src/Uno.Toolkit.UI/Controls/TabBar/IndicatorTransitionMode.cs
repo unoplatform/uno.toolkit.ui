@@ -12,7 +12,7 @@ namespace Uno.Toolkit.UI
 	public enum IndicatorTransitionMode
 	{
 		/// <summary>
-		/// Upon <see cref="TabBar.SelectionChanged", the selection indicator will immediately appear at the selected <see cref="TabBarItem"/>/>
+		/// Upon <see cref="TabBar.SelectionChanged"/>, the selection indicator will immediately appear at the selected <see cref="TabBarItem"/>
 		/// </summary>
 		Snap,
 		/// <summary>

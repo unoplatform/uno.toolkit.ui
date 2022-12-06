@@ -23,7 +23,12 @@ namespace Uno.Toolkit.UI;
 public partial class ExtendedSplashScreen : LoadingView
 {
 	public SplashScreen? SplashScreen { get; set; }
-	public Window? Window { get; set; }
+
+	public
+#if __IOS__ || __MACOS__ // hides UIView.Window and NSView.Window
+	new
+#endif
+	Window? Window { get; set; }
 
 	#region DependencyProperty: SplashScreenContent
 
@@ -67,9 +72,9 @@ public partial class ExtendedSplashScreen : LoadingView
 
 
 #if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP)
-	private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
-		return default;
+		return Task.FromResult<FrameworkElement?>(null);
 	}
 #endif
 }

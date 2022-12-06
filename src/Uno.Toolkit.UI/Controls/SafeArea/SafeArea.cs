@@ -42,7 +42,9 @@ namespace Uno.Toolkit.UI
 		private const string SoftInputVisualStateName = "SoftInput";
 		private const string NoSoftInputVisualStateName = "NoSoftInput";
 
-		private bool _isTemplateApplied = false;
+#if !VISIBLEBOUNDS_API_NOT_SUPPORTED
+		private bool _isTemplateApplied;
+#endif
 
 		[Flags]
 		public enum InsetMask
@@ -76,7 +78,9 @@ namespace Uno.Toolkit.UI
 
 			UpdateInsetsVisualState();
 
+#if !VISIBLEBOUNDS_API_NOT_SUPPORTED
 			_isTemplateApplied = true;
+#endif
 		}
 
 		private void UpdateInsetsVisualState()
@@ -163,7 +167,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		/// <summary>
-		/// If false, ApplicationView.VisibleBounds and XamlWindow.Current.Bounds have different aspect ratios (eg portrait vs landscape) which 
+		/// If false, ApplicationView.VisibleBounds and XamlWindow.Current.Bounds have different aspect ratios (eg portrait vs landscape) which
 		/// might arise transiently when the screen orientation changes.
 		/// </summary>
 		private static bool AreBoundsAspectRatiosConsistent
@@ -357,7 +361,9 @@ namespace Uno.Toolkit.UI
 			/// <summary>
 			/// VisibleBounds offset to the reference frame of the window Bounds.
 			/// </summary>
+#pragma warning disable CA1822 // Mark members as static
 			private Rect OffsetVisibleBounds
+#pragma warning disable CA1822
 			{
 				get
 				{
@@ -467,7 +473,7 @@ namespace Uno.Toolkit.UI
 #if XAMARIN
 				if (scrollableRoot is ItemsPresenter)
 				{
-					// This implies we're probably inside a ListView, in which case the reasoning breaks down in Uno (because ItemsPresenter 
+					// This implies we're probably inside a ListView, in which case the reasoning breaks down in Uno (because ItemsPresenter
 					// is *outside* the scrollable region); we skip the adjustment and hope for the best.
 					scrollableRoot = null;
 				}

@@ -45,7 +45,7 @@ namespace Uno.Toolkit.UI
 				&& flipView.FindFirstChild<NativeFlipView>() is { } nativeFlipView)
 			{
 				scrollView.Delegate = new ScrollViewDelegate(this, nativeFlipView.Source as FlipViewSource);
-				_scrolledRevoker.Disposable = Disposable.Create(() => scrollView.Delegate = null);
+				_scrolledRevoker.Disposable = Disposable.Create(() => scrollView.Delegate = null!);
 			}
 
 			_flipViewLoadedRevoker.Disposable = null;

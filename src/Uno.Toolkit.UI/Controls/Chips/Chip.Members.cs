@@ -44,7 +44,11 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Gets or sets the elevation of the Chip.
 		/// </summary>
-		public double Elevation
+		public
+#if __ANDROID__
+			new
+#endif
+			double Elevation
 		{
 			get => (double)GetValue(ElevationProperty);
 			set => SetValue(ElevationProperty, value);
@@ -63,7 +67,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Gets or sets the icon of the Chip.
 		/// </summary>
-		public object Icon
+		public object? Icon
 		{
 			get => (object)GetValue(IconProperty);
 			set => SetValue(IconProperty, value);
@@ -82,7 +86,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Gets or sets the data template that is used to display the icon of the Chip.
 		/// </summary>
-		public DataTemplate IconTemplate
+		public DataTemplate? IconTemplate
 		{
 			get => (DataTemplate)GetValue(IconTemplateProperty);
 			set => SetValue(IconTemplateProperty, value);
@@ -159,7 +163,7 @@ namespace Uno.Toolkit.UI
 		/// <remarks>
 		/// This event is bypassed when set with <see cref="SetIsCheckedSilently(bool?)"/>
 		/// </remarks>
-		internal event RoutedEventHandler IsCheckedChanged;
+		internal event RoutedEventHandler? IsCheckedChanged;
 
 		/// <summary>
 		/// Occurs when the remove button is pressed.
@@ -167,11 +171,11 @@ namespace Uno.Toolkit.UI
 		/// <remarks>
 		/// When used outside of a <see cref="ChipGroup"/>, this event does not cause the Chip to be removed from the view.
 		/// </remarks>
-		public event RoutedEventHandler Removed;
+		public event RoutedEventHandler? Removed;
 
 		/// <summary>
 		/// Occurs when the remove button is pressed, but before <see cref="Removed" /> event allowing for cancellation.
 		/// </summary>
-		public event ChipRemovingEventHandler Removing;
+		public event ChipRemovingEventHandler? Removing;
 	}
 }

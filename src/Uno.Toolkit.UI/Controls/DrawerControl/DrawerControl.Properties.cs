@@ -179,7 +179,7 @@ namespace Uno.Toolkit.UI
 			nameof(EdgeSwipeDetectionLength),
 			typeof(double?),
 			typeof(DrawerControl),
-			new PropertyMetadata(default(double?)));
+			new PropertyMetadata(default(double?), OnEdgeSwipeDetectionLengthChanged));
 
 		/// <summary>
 		/// Gets or sets the length (width or height depending on the <see cref="OpenDirection"/>) of the area allowed for opening swipe gesture.
@@ -200,7 +200,7 @@ namespace Uno.Toolkit.UI
 			nameof(IsGestureEnabled),
 			typeof(bool),
 			typeof(DrawerControl),
-			new PropertyMetadata(DefaultValues.IsGestureEnabled));
+			new PropertyMetadata(DefaultValues.IsGestureEnabled, OnIsGestureEnabledChanged));
 
 		/// <summary>
 		/// Get or sets a value that indicates whether the user can interact with the control using gesture.
@@ -217,5 +217,7 @@ namespace Uno.Toolkit.UI
 		private static void OnOpenDirectionChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnOpenDirectionChanged(e);
 		private static void OnIsOpenChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnIsOpenChanged(e);
 		private static void OnFitToDrawerContentChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnFitToDrawerContentChanged(e);
+		private static void OnIsGestureEnabledChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnIsGestureEnabledChanged(e);
+		private static void OnEdgeSwipeDetectionLengthChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnEdgeSwipeDetectionLengthChanged(e);
 	}
 }

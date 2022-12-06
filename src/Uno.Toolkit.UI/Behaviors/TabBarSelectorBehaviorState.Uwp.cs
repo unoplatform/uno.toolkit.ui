@@ -56,7 +56,7 @@ namespace Uno.Toolkit.UI
 			_viewChangedRevoker.Disposable = null;
 		}
 
-		private void OnScrolViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+		private void OnScrolViewerViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
 		{
 			var scrollViewer = sender as ScrollViewer;
 

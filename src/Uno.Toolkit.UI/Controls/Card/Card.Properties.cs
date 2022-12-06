@@ -143,7 +143,11 @@ namespace Uno.Toolkit.UI
 #endregion
 
 #region Elevation
-		public double Elevation
+		public
+#if __ANDROID__
+			new
+#endif
+			double Elevation
 		{
 			get { return (double)GetValue(ElevationProperty); }
 			set { SetValue(ElevationProperty, value); }

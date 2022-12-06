@@ -20,7 +20,7 @@ namespace Uno.Toolkit.UI
 	{
 		private const string RemoveButtonName = "PART_RemoveButton";
 
-		private bool _isMuted = false;
+		private bool _isMuted;
 
 		public Chip()
 		{

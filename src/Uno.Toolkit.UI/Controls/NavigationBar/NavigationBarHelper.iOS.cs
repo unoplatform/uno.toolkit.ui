@@ -1,8 +1,6 @@
 ﻿#if __IOS__
 using System;
 using System.Linq;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using UIKit;
 
 #if IS_WINUI
@@ -74,7 +72,7 @@ namespace Uno.Toolkit.UI
 			{
 				if (topNavigationBar.Visibility == Visibility.Visible)
 				{
-					SetNavigationBar(topNavigationBar, pageController.NavigationController.NavigationBar);
+					SetNavigationBar(topNavigationBar, pageController.NavigationController!.NavigationBar);
 
 					// When the NavigationBar is visible, we need to call SetNavigationBarHidden
 					// AFTER it has been rendered. Otherwise, it causes a bug introduced
@@ -88,14 +86,14 @@ namespace Uno.Toolkit.UI
 					// automatically disables the back gesture.
 					// In order to visually hide it, the NavigationBarRenderer
 					// will hide the native view using the UIView.Hidden property.
-					pageController.NavigationController.SetNavigationBarHidden(hidden: false, animated: true);
+					pageController.NavigationController!.SetNavigationBarHidden(hidden: false, animated: true);
 
 					SetNavigationBar(topNavigationBar, pageController.NavigationController.NavigationBar);
 				}
 			}
 			else // No NavigationBar
 			{
-				pageController.NavigationController.SetNavigationBarHidden(true, true);
+				pageController.NavigationController!.SetNavigationBarHidden(true, true);
 			}
 		}
 

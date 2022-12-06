@@ -18,8 +18,10 @@ indent_style = space
 [*.md]
 indent_style = space
 
-[{*.cs, *.xaml, *.xml, *.targets, *.props}]
+[*.{cs,xaml,xml,targets,props}]
 indent_style = tab
+
+[*.cs]
 
 # Code Style
 dotnet_style_operator_placement_when_wrapping=beginning_of_line
@@ -40,3 +42,5 @@ csharp_space_before_semicolon_in_for_statement=false
 csharp_space_around_binary_operators=before_and_after
 csharp_preserve_single_line_blocks=true
 csharp_preserve_single_line_statements=true
+
+dotnet_diagnostic.CA1848.severity = none

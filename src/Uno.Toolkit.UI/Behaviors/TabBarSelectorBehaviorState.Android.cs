@@ -63,7 +63,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void OnPageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
+		private void OnPageScrolled(object? sender, ViewPager.PageScrolledEventArgs e)
 		{
 			UpdateOffset(e.Position, e.PositionOffset, GetOffset(e));
 		}

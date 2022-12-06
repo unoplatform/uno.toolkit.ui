@@ -17,7 +17,7 @@ namespace Uno.Toolkit.UI
 	internal class InflateDimensionConverter : IValueConverter
 	{
 		public double Inflation { get; set; }
-		public double DefaultValue { get; set; } = 0d;
+		public double DefaultValue { get; set; }
 
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{

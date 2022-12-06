@@ -40,7 +40,7 @@ internal class DispatcherCompat
 		this._impl = impl;
 	}
 
-	private _Priority RemapPriority(Priority priority) => priority switch
+	private static _Priority RemapPriority(Priority priority) => priority switch
 	{
 		// [uwp] Windows.UI.Core.CoreDispatcherPriority::Idle doesnt have a counterpart, and is thus ignored.
 

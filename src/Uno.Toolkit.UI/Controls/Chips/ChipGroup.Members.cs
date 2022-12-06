@@ -39,7 +39,7 @@ namespace Uno.Toolkit.UI
 			typeof(DataTemplate),
 			typeof(ChipGroup),
 			new PropertyMetadata(null, (s, e) => (s as ChipGroup)?.ApplyIconTemplate()));
-		
+
 		/// <summary>
 		/// Gets or sets the value of each <see cref="Chip.IconTemplate"/>.
 		/// </summary>
@@ -65,7 +65,7 @@ namespace Uno.Toolkit.UI
 		/// <remarks>
 		/// This property only works for <see cref="ChipSelectionMode.Single"/>.
 		/// </remarks>
-		public object SelectedItem
+		public object? SelectedItem
 		{
 			get => (object)GetValue(SelectedItemProperty);
 			set => SetValue(SelectedItemProperty, value);
@@ -80,7 +80,7 @@ namespace Uno.Toolkit.UI
 			typeof(IList),
 			typeof(ChipGroup),
 			new PropertyMetadata(default, (s, e) => (s as ChipGroup)?.OnSelectedItemsChanged(e)));
-		
+
 		/// <summary>
 		/// Gets or sets the selected items.
 		/// </summary>
@@ -88,7 +88,7 @@ namespace Uno.Toolkit.UI
 		/// The value will be null if the selection is empty.
 		/// This property only works for <see cref="ChipSelectionMode.Multiple"/>.
 		/// </remarks>
-		public IList SelectedItems
+		public IList? SelectedItems
 		{
 			get => (IList)GetValue(SelectedItemsProperty);
 			set => SetValue(SelectedItemsProperty, value);
@@ -103,10 +103,11 @@ namespace Uno.Toolkit.UI
 			typeof(string),
 			typeof(ChipGroup),
 			new PropertyMetadata(default, (s, e) => (s as ChipGroup)?.OnSelectionMemberPathChanged(e)));
-
+#pragma warning disable CS1574 // XML comment has cref attribute 'IsChecked' that could not be resolved
 		/// <summary>
 		/// Gets or sets the path which each <see cref="Chip.IsChecked"/> is data-bind to.
 		/// </summary>
+#pragma warning restore CS1574
 		public string SelectionMemberPath
 		{
 			get => (string)GetValue(SelectionMemberPathProperty);
@@ -143,26 +144,26 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Occurs when a <see cref="Chip"/> item is pressed.
 		/// </summary>
-		public event ChipItemEventHandler ItemClick;
+		public event ChipItemEventHandler? ItemClick;
 
 		/// <summary>
 		/// Occurs when a <see cref="Chip"/> item is checked.
 		/// </summary>
-		public event ChipItemEventHandler ItemChecked;
+		public event ChipItemEventHandler? ItemChecked;
 
 		/// <summary>
 		/// Occurs when a <see cref="Chip"/> item is unchecked.
 		/// </summary>
-		public event ChipItemEventHandler ItemUnchecked;
+		public event ChipItemEventHandler? ItemUnchecked;
 
 		/// <summary>
 		/// Occurs when a <see cref="Chip"/> item is removed.
 		/// </summary>
-		public event ChipItemEventHandler ItemRemoved;
+		public event ChipItemEventHandler? ItemRemoved;
 
 		/// <summary>
 		/// Occurs when a <see cref="Chip"/> item is about to be removed.
 		/// </summary>
-		public event ChipItemRemovingEventHandler ItemRemoving;
+		public event ChipItemRemovingEventHandler? ItemRemoving;
 	}
 }

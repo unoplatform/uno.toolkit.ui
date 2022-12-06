@@ -40,11 +40,14 @@ namespace Uno.Toolkit.UI
 		}
 
 		internal event RoutedEventHandler? IsSelectedChanged;
-		public event RoutedEventHandler? Click;
+		public
+#if __ANDROID__
+			new
+#endif
+			event RoutedEventHandler? Click;
 
-		private bool m_hasPointerCaptured;
-		private bool _isPointerOver = false;
-		private bool _isPointerPressed = false;
+		private bool _isPointerOver;
+		private bool _isPointerPressed;
 
 		public TabBarItem()
 		{

@@ -16,10 +16,19 @@
 
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
 		<DefaultLanguage>en-US</DefaultLanguage>
-		<LangVersion>latest</LangVersion>
+		<LangVersion>11</LangVersion>
 		<Nullable>enable</Nullable>
 
 		<NoNFloatUsing>true</NoNFloatUsing>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<!-- NU5048: The 'PackageIconUrl'/'iconUrl' element is deprecated. Consider using the 'PackageIcon'/'icon' element instead. Learn more at https://aka.ms/deprecateIconUrl -->
+		<NoWarn>$(NoWarn);NU5048</NoWarn>
+		<!-- Uno0001: Uno type or member is not implemented -->
+		<NoWarn>$(NoWarn);Uno0001</NoWarn>
+		<!-- This should be enabled back once https://github.com/microsoft/microsoft-ui-xaml/issues/4187 is fixed. -->
+		<NoWarn>$(NoWarn);CS8305</NoWarn>
+		<!-- TODO: Enable once https://github.com/xamarin/xamarin-macios/pull/16513 is merged and we have it -->
+		<NoWarn>$(NoWarn);CA1416</NoWarn>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 	</PropertyGroup>
 
@@ -63,6 +72,15 @@
 			</ItemGroup>
 		</When>
 	</Choose>
+
+	<PropertyGroup Condition="'$(IsTestProject)'=='false'">
+		<!-- Enable performance CA rules from 'Microsoft.CodeAnalysis.NetAnalyzers' as build warnings by default. Specific rules are disabled or downgraded in the repo's editorconfig. -->
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AnalysisModePerformance>AllEnabledByDefault</AnalysisModePerformance>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(IsTestProject)'=='false'">
+		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="All" />
+	</ItemGroup>
 
 	<!--
   Adjust the output paths for runtime project in order for those

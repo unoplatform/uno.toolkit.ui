@@ -75,7 +75,6 @@ namespace Uno.Toolkit.UI
 		private Android.Graphics.Color? _originalTitleTextColor;
 		private Android.Graphics.Drawables.Drawable? _originalBackground;
 		private Border? _contentContainer;
-		private bool _backButtonVisible;
 
 		public NavigationBarRenderer(NavigationBar element) : base(element) { }
 
@@ -84,8 +83,8 @@ namespace Uno.Toolkit.UI
 		protected override IEnumerable<IDisposable> Initialize()
 		{
 			var native = Native;
-			_originalBackground = native?.Background;
-			_originalTitleTextColor = native?.GetTitleTextColor();
+			_originalBackground = native.Background;
+			_originalTitleTextColor = native.GetTitleTextColor();
 
 			// Content
 			// This allows custom Content to be properly laid out inside the native Toolbar.
@@ -167,7 +166,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void OnContentAttachedToWindow(object sender, View.ViewAttachedToWindowEventArgs e)
+		private void OnContentAttachedToWindow(object? sender, View.ViewAttachedToWindowEventArgs e)
 		{
 			// Even though we set the CommandBar as the parent of the _contentContainer,
 			// it will change to the native control when the view is added.
@@ -176,7 +175,7 @@ namespace Uno.Toolkit.UI
 			// parent that can propagate the DataContext.
 			if (_contentContainer?.Parent != Element)
 			{
-				_contentContainer.SetParent(Element);
+				_contentContainer!.SetParent(Element);
 			}
 		}
 
@@ -298,7 +297,7 @@ namespace Uno.Toolkit.UI
 			native.Alpha = (float)element.Opacity;
 		}
 
-		private IEnumerable<IMenuItem?> GetMenuItems(Android.Views.IMenu menu)
+		private static IEnumerable<IMenuItem?> GetMenuItems(Android.Views.IMenu menu)
 		{
 			for (int i = 0; i < menu.Size(); i++)
 			{
@@ -312,7 +311,7 @@ namespace Uno.Toolkit.UI
 
 			var hashCode = e.Item.ItemId;
 			var appBarButton = Element?.PrimaryCommands
-				.Concat(Element?.SecondaryCommands)
+				.Concat(Element?.SecondaryCommands!)
 				.OfType<AppBarButton>()
 				.FirstOrDefault(c => hashCode == c.GetHashCode());
 
@@ -329,7 +328,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void CloseKeyboard()
+		private static void CloseKeyboard()
 		{
 			if ((ContextHelper.Current as Activity)?.CurrentFocus is { } focused)
 			{

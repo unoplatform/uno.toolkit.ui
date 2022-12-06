@@ -93,7 +93,7 @@ namespace Uno.Toolkit.UI
 		/// <typeparam name="T">The type of ancestor to find.</typeparam>
 		/// <param name="reference">Any node of the visual tree</param>
 		/// <remarks>First Counting from the <paramref name="reference"/> and not from the root of tree.</remarks>
-		public static T GetFirstAncestor<T>(this DependencyObject reference) => GetAncestors(reference)
+		public static T? GetFirstAncestor<T>(this DependencyObject reference) => GetAncestors(reference)
 			.OfType<T>()
 			.FirstOrDefault();
 
@@ -104,7 +104,7 @@ namespace Uno.Toolkit.UI
 		/// <param name="reference">Any node of the visual tree</param>
 		/// <param name="predicate">A function to test each node for a condition.</param>
 		/// <remarks>First Counting from the <paramref name="reference"/> and not from the root of tree.</remarks>
-		public static T GetFirstAncestor<T>(this DependencyObject reference, Func<T, bool> predicate) => GetAncestors(reference)
+		public static T? GetFirstAncestor<T>(this DependencyObject reference, Func<T, bool> predicate) => GetAncestors(reference)
 			.OfType<T>()
 			.FirstOrDefault(predicate);
 		
@@ -114,7 +114,7 @@ namespace Uno.Toolkit.UI
 		/// <typeparam name="T">The type of descendant to find.</typeparam>
 		/// <param name="reference">Any node of the visual tree</param>
 		/// <remarks>The crawling is done depth first.</remarks>
-		public static T GetFirstDescendant<T>(this DependencyObject reference) => GetDescendants(reference)
+		public static T? GetFirstDescendant<T>(this DependencyObject reference) => GetDescendants(reference)
 			.OfType<T>()
 			.FirstOrDefault();
 		
@@ -125,7 +125,7 @@ namespace Uno.Toolkit.UI
 		/// <param name="reference">Any node of the visual tree</param>
 		/// <param name="predicate">A function to test each node for a condition.</param>
 		/// <remarks>The crawling is done depth first.</remarks>
-		public static T GetFirstDescendant<T>(this DependencyObject reference, Func<T, bool> predicate) => GetDescendants(reference)
+		public static T? GetFirstDescendant<T>(this DependencyObject reference, Func<T, bool> predicate) => GetDescendants(reference)
 			.OfType<T>()
 			.FirstOrDefault(predicate);
 		
@@ -137,7 +137,7 @@ namespace Uno.Toolkit.UI
 		/// <param name="hierarchyPredicate">A function to test each ancestor for a condition.</param>
 		/// <param name="predicate">A function to test each descendant for a condition.</param>
 		/// <remarks>The crawling is done depth first.</remarks>
-		public static T GetFirstDescendant<T>(this DependencyObject reference, Func<DependencyObject, bool> hierarchyPredicate, Func<T, bool> predicate) => GetDescendants(reference, hierarchyPredicate)
+		public static T? GetFirstDescendant<T>(this DependencyObject reference, Func<DependencyObject, bool> hierarchyPredicate, Func<T, bool> predicate) => GetDescendants(reference, hierarchyPredicate)
 			.OfType<T>()
 			.FirstOrDefault(predicate);
 
@@ -177,15 +177,15 @@ namespace Uno.Toolkit.UI
 #if __IOS__ || __ANDROID__
 		internal static class Native
 		{
-			public static T GetFirstDescendant<T>(_View reference) => GetDescendants(reference)
+			public static T? GetFirstDescendant<T>(_View reference) => GetDescendants(reference)
 				.OfType<T>()
 				.FirstOrDefault();
 
-			public static T GetFirstDescendant<T>(_View reference, Func<T, bool> predicate) => GetDescendants(reference)
+			public static T? GetFirstDescendant<T>(_View reference, Func<T, bool> predicate) => GetDescendants(reference)
 				.OfType<T>()
 				.FirstOrDefault(predicate);
 
-			public static T GetFirstDescendant<T>(_View reference, Func<_View, bool> hierarchyPredicate, Func<T, bool> predicate) => GetDescendants(reference, hierarchyPredicate)
+			public static T? GetFirstDescendant<T>(_View reference, Func<_View, bool> hierarchyPredicate, Func<T, bool> predicate) => GetDescendants(reference, hierarchyPredicate)
 				.OfType<T>()
 				.FirstOrDefault(predicate);
 
@@ -216,7 +216,7 @@ namespace Uno.Toolkit.UI
 				{
 					return Enumerable
 						.Range(0, vg.ChildCount)
-						.Select(vg.GetChildAt);
+						.Select(vg.GetChildAt)!;
 				}
 
 				return Enumerable.Empty<_View>();

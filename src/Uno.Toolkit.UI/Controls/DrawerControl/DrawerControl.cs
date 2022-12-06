@@ -60,10 +60,10 @@ namespace Uno.Toolkit.UI
 		private TranslateTransform? _drawerContentPresenterTransform;
 
 		// states
-		private bool _isReady = false;
-		private bool _isGestureCaptured = false;
-		private double _startingTranslateOffset = 0;
-		private bool _suppressIsOpenHandler = false;
+		private bool _isReady;
+		private bool _isGestureCaptured;
+		private double _startingTranslateOffset;
+		private bool _suppressIsOpenHandler;
 
 		public DrawerControl()
 		{
@@ -201,7 +201,10 @@ namespace Uno.Toolkit.UI
 
 		private void OnIsGestureEnabledChanged(DependencyPropertyChangedEventArgs e)
 		{
-			_gestureInterceptor.IsHitTestVisible = IsGestureEnabled && !IsOpen;
+			if (_gestureInterceptor is not null)
+			{
+				_gestureInterceptor.IsHitTestVisible = IsGestureEnabled && !IsOpen;
+			}
 		}
 
 		private void OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -502,32 +505,36 @@ namespace Uno.Toolkit.UI
 
 		private void ResetOtherAxisTranslateOffset()
 		{
+			// TODO: Revise null suppressions.
 			if (IsOpenDirectionHorizontal())
 			{
-				_drawerContentPresenterTransform.Y = 0;
+				_drawerContentPresenterTransform!.Y = 0;
 			}
 			else
 			{
-				_drawerContentPresenterTransform.X = 0;
+				_drawerContentPresenterTransform!.X = 0;
 			}
 		}
 
 		// helpers
 		private double TranslateOffset
 		{
-			get => IsOpenDirectionHorizontal() ? _drawerContentPresenterTransform.X : _drawerContentPresenterTransform.Y;
+			// TODO: Revise null suppressions.
+			get => IsOpenDirectionHorizontal() ? _drawerContentPresenterTransform!.X : _drawerContentPresenterTransform!.Y;
 			set
 			{
-				if (IsOpenDirectionHorizontal()) _drawerContentPresenterTransform.X = value;
-				else _drawerContentPresenterTransform.Y = value;
+				if (IsOpenDirectionHorizontal()) _drawerContentPresenterTransform!.X = value;
+				else _drawerContentPresenterTransform!.Y = value;
 			}
 		}
 
 		private bool ShouldHandleManipulationFrom(object source)
 		{
+#pragma warning disable CS0252 // CS0252: Possible unintended reference comparison
 			return source == this
 				|| source == _gestureInterceptor
 				|| source == _lightDismissOverlay;
+#pragma warning restore CS0252
 		}
 
 		private bool IsInRangeForOpeningEdgeSwipe(Point p)

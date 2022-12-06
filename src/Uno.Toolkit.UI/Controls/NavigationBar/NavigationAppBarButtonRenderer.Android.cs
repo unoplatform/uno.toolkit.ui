@@ -77,7 +77,7 @@ namespace Uno.Toolkit.UI
 			}
 
 			// Foreground
-			var foreground = (element.Foreground as SolidColorBrush);
+			var foreground = (element!.Foreground as SolidColorBrush);
 			var foregroundOpacity = foreground?.Opacity ?? 0;
 
 			var foregroundColor = foreground?.Color;

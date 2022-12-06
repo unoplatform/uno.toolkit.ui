@@ -97,16 +97,17 @@ namespace Uno.Toolkit.UI
 			yield return Disposable.Create(() => { Native.Clicked -= OnNativeClicked; });
 		}
 
-		private void OnAppBarButtonWrapperParentChanged(object sender, EventArgs e)
+		private void OnAppBarButtonWrapperParentChanged(object? sender, EventArgs e)
 		{
+			var element = Element ?? throw new InvalidOperationException("Element is null.");
 			// Even though we set the NavigationBar as the parent of the _appBarButtonWrapper,
 			// it will change to the native control when the view is added.
 			// This control is the visual parent but is not a DependencyObject and will not propagate the DataContext.
 			// In order to ensure the DataContext is propagated properly, we restore the NavigationBar
 			// parent that can propagate the DataContext.
-			if (!ReferenceEquals(_appBarButtonWrapper?.Parent, Element.Parent))
+			if (!ReferenceEquals(_appBarButtonWrapper?.Parent, element.Parent))
 			{
-				_appBarButtonWrapper?.SetParent(Element.Parent);
+				_appBarButtonWrapper?.SetParent(element.Parent);
 			}
 		}
 
@@ -118,7 +119,7 @@ namespace Uno.Toolkit.UI
 			}
 			// Icon & Content
 			var native = Native;
-			var element = Element;
+			var element = Element ?? throw new InvalidOperationException("Element is null.");
 
 			if (element.Icon != null)
 			{

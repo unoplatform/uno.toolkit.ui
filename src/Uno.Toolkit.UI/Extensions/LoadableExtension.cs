@@ -18,7 +18,7 @@ namespace Uno.Toolkit.UI
 			source.IsExecutingChanged += OnIsExecutingChanged;
 			return Disposable.Create(() => source.IsExecutingChanged -= OnIsExecutingChanged);
 
-			void OnIsExecutingChanged(object sender, EventArgs e) => update();
+			void OnIsExecutingChanged(object? sender, EventArgs e) => update();
 		}
 	}
 }

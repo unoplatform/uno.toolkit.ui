@@ -69,7 +69,7 @@ namespace Uno.Toolkit.UI
 			new PropertyMetadata(default(object?)));
 
 		[DynamicDependency(nameof(SetCommandParameter))]
-		public static object? GetCommandParameter(DependencyObject? obj) => obj.GetValue(CommandParameterProperty);
+		public static object? GetCommandParameter(DependencyObject obj) => obj.GetValue(CommandParameterProperty);
 
 		[DynamicDependency(nameof(GetCommandParameter))]
 		public static void SetCommandParameter(DependencyObject obj, object? value) => obj.SetValue(CommandParameterProperty, value);

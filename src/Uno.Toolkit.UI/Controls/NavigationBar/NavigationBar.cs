@@ -58,9 +58,6 @@ namespace Uno.Toolkit.UI
 		public event EventHandler<object>? Opening;
 		public event TypedEventHandler<NavigationBar, DynamicOverflowItemsChangingEventArgs?>? DynamicOverflowItemsChanging;
 
-		private const string MoreButton = "MoreButton";
-		private const string PrimaryItemsControl = "PrimaryItemsControl";
-		private const string SecondaryItemsControl = "SecondaryItemsControl";
 		private const string NavigationBarPresenter = "NavigationBarPresenter";
 
 		private Popup? _popupHost;

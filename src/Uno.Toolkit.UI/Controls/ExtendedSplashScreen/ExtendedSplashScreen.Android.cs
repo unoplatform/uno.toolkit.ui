@@ -22,14 +22,14 @@ namespace Uno.Toolkit.UI;
 
 public partial class ExtendedSplashScreen
 {
-	private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
 		try
 		{
 			var activity = ContextHelper.Current as Activity;
 			if (activity is null)
 			{
-				return default;
+				return Task.FromResult<FrameworkElement?>(null);
 			}
 
 			// Get the theme's windowBackground (which we use as splash screen)
@@ -61,13 +61,13 @@ public partial class ExtendedSplashScreen
 				},
 			};
 
-			return element;
+			return Task.FromResult<FrameworkElement?>(element);
 		}
 		catch (Exception e)
 		{
-			this.Log().LogError(0, e, "Error while getting native splash screen.");
+			typeof(ExtendedSplashScreen).Log().LogError(0, e, "Error while getting native splash screen.");
 
-			return null;
+			return Task.FromResult<FrameworkElement?>(null);
 		}
 	}
 

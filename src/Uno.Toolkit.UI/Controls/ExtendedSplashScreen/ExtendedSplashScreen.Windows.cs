@@ -60,7 +60,7 @@ namespace Uno.Toolkit.UI
 
 				var visualElementsNode = doc.Descendants(xnamespace + "VisualElements").First();
 				var splashScreenNode = visualElementsNode.Descendants(xnamespace + "SplashScreen").First();
-				var splashScreenImagePath = splashScreenNode.Attribute("Image").Value;
+				var splashScreenImagePath = splashScreenNode.Attribute("Image")!.Value;
 				var splashScreenBackgroundColor = splashScreenNode.Attribute("BackgroundColor")?.Value;
 
 				var bmp = new BitmapImage(new Uri("ms-appx:///" + splashScreenImagePath));
@@ -92,7 +92,7 @@ namespace Uno.Toolkit.UI
 
 						splashScreenImage.SetValue(Canvas.LeftProperty, posLeft);
 						splashScreenImage.SetValue(Canvas.TopProperty, posTop);
-						
+
 							splashScreenImage.Height = imageHeight;
 							splashScreenImage.Width = imageWidth;
 					}
