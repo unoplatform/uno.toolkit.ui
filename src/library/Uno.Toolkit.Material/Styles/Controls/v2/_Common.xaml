@@ -10,9 +10,9 @@
     </ResourceDictionary.MergedDictionaries>
 
 	<!-- Implicit styles -->
-	<Style BasedOn="{StaticResource MaterialDividerStyle}" TargetType="AppBarButton" />
-	<Style BasedOn="{StaticResource MaterialNavigationBarStyle}" TargetType="TextBlock" />
-	<Style BasedOn="{StaticResource MaterialMainCommandStyle}" TargetType="CalendarView" />
+	<Style BasedOn="{StaticResource MaterialDividerStyle}" TargetType="utu:Divider" />
+	<Style BasedOn="{StaticResource MaterialNavigationBarStyle}" TargetType="utu:NavigationBar" />
+	<Style BasedOn="{StaticResource MaterialMainCommandStyle}" TargetType="AppBarButton" />
 	
 	<!-- Implicit styles aliases -->
 	<StaticResource x:Key="DividerStyle" ResourceKey="MaterialDividerStyle"			/>

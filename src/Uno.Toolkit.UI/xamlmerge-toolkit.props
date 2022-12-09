@@ -7,22 +7,6 @@
 		<XamlMergeInput Include="Controls\**\*.xaml" />
 		<XamlMergeInput Include="Behaviors\**\*.xaml" />
 	</ItemGroup>
-	<Choose>
-		<When Condition="$(_IsAndroid) or $(_IsIOS)">
-			<ItemGroup>
-				<XamlMergeInput Remove="Controls/NavigationBar/NavigationBar.xaml" />
-				<XamlMergeInput Remove="Behaviors/FlipView.xaml" />
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<XamlMergeInput Remove="Controls/NavigationBar/NavigationBar.Native.xaml" />
-				<XamlMergeInput Remove="Behaviors/FlipView.Mobile.xaml" />
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
-
-
 
 	<Import Project="..\xamlmerge.props" />
 </Project>
