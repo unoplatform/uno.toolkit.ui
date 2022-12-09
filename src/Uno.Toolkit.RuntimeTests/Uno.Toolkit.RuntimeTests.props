@@ -27,6 +27,7 @@
 
 		<DefineConstants Condition="'$(FrameworkLineage)' == 'UWP'">$(DefineConstants);IS_UWP</DefineConstants>
 		<DefineConstants Condition="'$(FrameworkLineage)' == 'WinUI'">$(DefineConstants);IS_WINUI</DefineConstants>
+		<DefineConstants Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
@@ -50,6 +51,7 @@
 
 		<PackageReference Include="Uno.UI" Condition="'$(FrameworkLineage)' == 'UWP'" />
 		<PackageReference Include="Uno.WinUI" Condition="'$(FrameworkLineage)' == 'WinUI'" />
+		<PackageReference Include="Uno.UI.RuntimeTests.Engine" />
 		<PackageReference Include="MSTest.TestFramework" />
 	</ItemGroup>
 
