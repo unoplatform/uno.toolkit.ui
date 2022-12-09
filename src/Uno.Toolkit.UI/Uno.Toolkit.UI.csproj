@@ -21,22 +21,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Uno.Toolkit\Uno.Toolkit.csproj" />
 	</ItemGroup>
-	
-	<Choose>
-		<When Condition="$(_IsAndroid) or $(_IsIOS)">
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="mobile" />
-				<ExcludeXamlNamespaces Include="not_mobile" />
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="not_mobile" />
-				<ExcludeXamlNamespaces Include="mobile" />
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
-	
+
 	<Choose>
 		<When Condition="$(_IsUWP) or $(_IsWinUI)">
 			<ItemGroup>
