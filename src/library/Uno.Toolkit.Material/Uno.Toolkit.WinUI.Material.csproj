@@ -15,36 +15,13 @@
 		<AssemblyName>Uno.Toolkit.WinUI.Material</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI.Material</RootNamespace>
 		<PackageId>Uno.Toolkit.WinUI.Material</PackageId>
-		
+		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Uno.Material.WinUI" />
 		<PackageReference Include="Uno.WinUI" />
-	</ItemGroup>
-
-	<Choose>
-		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='net6.0-ios' or '$(TargetFramework)'=='net6.0-macos' or '$(TargetFramework)'=='net6.0-android' or '$(TargetFramework)'=='net6.0-maccatalyst'">
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="mobile" />
-				<ExcludeXamlNamespaces Include="not_mobile" />
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="not_mobile" />
-				<ExcludeXamlNamespaces Include="mobile" />
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
-
-	<ItemGroup>
-		<XamlMergeOutputFiles Include="Generated\mergedpages.winui.v1.xaml" />
-		<XamlMergeOutputFiles Include="Generated\mergedpages.winui.v2.xaml" />
-
-		<XamlMergeInput Include="Styles\Controls\v1\**\*.xaml" MergeFile="mergedpages.winui.v1.xaml" />
-		<XamlMergeInput Include="Styles\Controls\v2\**\*.xaml" MergeFile="mergedpages.winui.v2.xaml" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='xamarinmac20'">
@@ -70,6 +47,5 @@
 	</ItemGroup>
 
 	<Import Project="..\..\winappsdk-workaround.targets" />
-
-	<Import Project="xamlmerge.props" />
+	<Import Project="xamlmerge-material.props" />
 </Project>

@@ -68,6 +68,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{BA0C538E
 		PlatformItemGroups.props = PlatformItemGroups.props
 		..\README.md = ..\README.md
 		Uno.CrossTargeting.props = Uno.CrossTargeting.props
+		xamlmerge.props = xamlmerge.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit", "Uno.Toolkit\Uno.Toolkit.csproj", "{58A935F8-7720-4F95-80B2-0399E41D6D3E}"

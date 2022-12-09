@@ -2,7 +2,7 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:utu="using:Uno.Toolkit.UI"
-					xmlns:win="using:Uno.Toolkit.UI"
+					xmlns:winToolkit="using:Uno.Toolkit.UI"
 					xmlns:not_win="http://uno.ui/not_win"
 					mc:Ignorable="not_win">
 
@@ -73,11 +73,11 @@
 											   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 											   VerticalAlignment="{TemplateBinding VerticalAlignment}"
 											   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-											   win:OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
+											   winToolkit:OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
 											   not_win:OpenDirection="{Binding Path=(utu:DrawerFlyoutPresenter.OpenDirection), RelativeSource={RelativeSource Mode=TemplatedParent}}"
-											   win:LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
+											   winToolkit:LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
 											   not_win:LightDismissOverlayBackground="{Binding Path=(utu:DrawerFlyoutPresenter.LightDismissOverlayBackground), RelativeSource={RelativeSource Mode=TemplatedParent}}"
-											   win:IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}"
+											   winToolkit:IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}"
 											   not_win:IsGestureEnabled="{Binding Path=(utu:DrawerFlyoutPresenter.IsGestureEnabled), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
 				</ControlTemplate>
 			</Setter.Value>

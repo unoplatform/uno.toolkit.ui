@@ -62,6 +62,21 @@
 		<IncludedPlatformExtension Condition="'$(TargetFramework)'=='net461'" Include="net" />
 	</ItemGroup>
 
+	<Choose>
+		<When Condition="$(_IsAndroid) or $(_IsIOS)">
+			<ItemGroup>
+				<IncludeXamlNamespaces Include="mobile" />
+				<ExcludeXamlNamespaces Include="not_mobile" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<IncludeXamlNamespaces Include="not_mobile" />
+				<ExcludeXamlNamespaces Include="mobile" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+
 	<ItemGroup>
 		<AndroidResource Include="Resources\**\*.xml" Condition="$(_IsAndroid)" />
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+	<PropertyGroup>
+		<XamlMergeOutputFile>Generated\mergedpages.$(FrameworkLineage).xaml</XamlMergeOutputFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<XamlMergeInput Include="Controls\**\*.xaml" />
+		<XamlMergeInput Include="Behaviors\**\*.xaml" />
+	</ItemGroup>
+
+	<Import Project="..\xamlmerge.props" />
+</Project>

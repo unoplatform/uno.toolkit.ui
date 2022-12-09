@@ -21,12 +21,12 @@ namespace Uno.Toolkit.UI.Cupertino
 		private const string PackageName =
 			"Uno.Toolkit.WinUI.Cupertino";
 		private const string PackageNameSuffix =
-			"winui";
+			"WinUI";
 #else
 		private const string PackageName =
 			"Uno.Toolkit.UI.Cupertino";
 		private const string PackageNameSuffix =
-			"uwp";
+			"UWP";
 #endif
 
 		public CupertinoToolkitResources()
