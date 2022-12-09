@@ -52,21 +52,6 @@
 		<IsXamarinMac Condition="$(TargetFramework.ToLower().StartsWith('xamarinmac')) or '$(TargetFramework)'=='net6.0-macos'">true</IsXamarinMac>
 	</PropertyGroup>
 
-	<Choose>
-		<When Condition="$(_IsAndroid) or $(_IsIOS)">
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="mobile" />
-				<ExcludeXamlNamespaces Include="not_mobile" />
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<IncludeXamlNamespaces Include="not_mobile" />
-				<ExcludeXamlNamespaces Include="mobile" />
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
-
 	<PropertyGroup>
 		<IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
 		<IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
