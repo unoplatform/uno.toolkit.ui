@@ -2,6 +2,8 @@
 	<PropertyGroup>
 		<LangVersion>latest</LangVersion>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<NoWarn>$(NoWarn);NU1507</NoWarn>
+		<UnoUIUseRoslynSourceGenerators>false</UnoUIUseRoslynSourceGenerators>
 	</PropertyGroup>
 
 	<Import Project="..\src\xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />

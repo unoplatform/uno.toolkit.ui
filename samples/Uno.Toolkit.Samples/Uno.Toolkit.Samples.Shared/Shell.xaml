@@ -13,27 +13,22 @@
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 		<Grid.RowDefinitions>
-			<RowDefinition x:Name="TopPaddingRow"
-						   Height="0" />
-			<RowDefinition Height="Auto" />
+			<RowDefinition x:Name="TopPaddingRow" Height="0" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-
 		<!-- We set CompactModeThresholdWidth to a very high value so that it never happens. We don't want to use the compact mode. -->
-		<muxc:NavigationView Grid.Row="2"
+		<muxc:NavigationView Grid.Row="1"
 							 x:Name="NavigationViewControl"
-							 OpenPaneLength="260"
-							 IsSettingsVisible="False"
-							 IsPaneOpen="True"
-							 IsPaneVisible="True"
-							 IsPaneToggleButtonVisible="False"
-							 IsBackButtonVisible="Collapsed"
-							 SizeChanged="NavigationViewControl_SizeChanged"
-							 PaneDisplayMode="LeftMinimal"
 							 IsBackEnabled="False"
+							 IsBackButtonVisible="Collapsed"
+							 IsPaneToggleButtonVisible="True"
+							 PaneDisplayMode="Auto"
+							 DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
+							 IsSettingsVisible="False"
 							 IsTabStop="False">
-			<muxc:NavigationView.PaneHeader>
+			<muxc:NavigationView.PaneTitle>Uno.Themes SampleApp</muxc:NavigationView.PaneTitle>
+			<muxc:NavigationView.PaneCustomContent>
 				<!-- Left padding for overlay toggle button -->
 				<Grid Padding="24,0,0,0">
 					<!-- Image -->
@@ -51,22 +46,15 @@
 								  HorizontalAlignment="Right"
 								  VerticalAlignment="Bottom" />
 				</Grid>
-			</muxc:NavigationView.PaneHeader>
+			</muxc:NavigationView.PaneCustomContent>
 		</muxc:NavigationView>
 
 		<!-- Nested frame for samples that needs to be fullscreen -->
-		<Frame x:Name="NestedSampleFrame"
+		<Frame Grid.RowSpan="2"
+			   x:Name="NestedSampleFrame"
 			   AutomationProperties.AutomationId="NestedSampleFrame"
-			   Grid.RowSpan="3"
 			   Visibility="Collapsed" />
 
-		<!-- Custom pane toggle button -->
-		<Button Grid.Row="2"
-				x:Name="NavViewToggleButton"
-				Click="NavViewToggleButton_Click"
-				HorizontalAlignment="Left"
-				Style="{StaticResource PaneToggleButtonStyle}" />
-
-        <local:ModalDialog x:Name="ModalDialog" />
-    </Grid>
+		<local:ModalDialog Grid.RowSpan="2" x:Name="ModalDialog" />
+	</Grid>
 </UserControl>

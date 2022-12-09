@@ -15,6 +15,7 @@ namespace Uno.Toolkit.Samples.Skia.Gtk
 			};
 
 			var host = new GtkHost(() => new App(), args);
+			host.RenderSurfaceType = RenderSurfaceType.Software;
 
 			host.Run();
 		}

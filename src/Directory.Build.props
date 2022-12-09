@@ -21,6 +21,7 @@
 
 		<NoNFloatUsing>true</NoNFloatUsing>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<NoWarn>$(NoWarn);NU1507</NoWarn>
 		<!-- NU5048: The 'PackageIconUrl'/'iconUrl' element is deprecated. Consider using the 'PackageIcon'/'icon' element instead. Learn more at https://aka.ms/deprecateIconUrl -->
 		<NoWarn>$(NoWarn);NU5048</NoWarn>
 		<!-- Uno0001: Uno type or member is not implemented -->
@@ -30,6 +31,8 @@
 		<!-- TODO: Enable once https://github.com/xamarin/xamarin-macios/pull/16513 is merged and we have it -->
 		<NoWarn>$(NoWarn);CA1416</NoWarn>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+		<UnoUIUseRoslynSourceGenerators>false</UnoUIUseRoslynSourceGenerators>
 	</PropertyGroup>
 
 	<PropertyGroup>

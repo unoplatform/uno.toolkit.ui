@@ -113,10 +113,6 @@ namespace Uno.Toolkit.Samples
 		{
 			var isInsideNestedSample = NestedSampleFrame.Content != null;
 
-			NavViewToggleButton.Visibility = isInsideNestedSample
-				? Visibility.Collapsed
-				: Visibility.Visible;
-
 			// prevent empty frame from blocking the content (nav-view) behind it
 			NestedSampleFrame.Visibility = isInsideNestedSample
 				? Visibility.Visible
@@ -217,6 +213,14 @@ namespace Uno.Toolkit.Samples
 			{
 				NavigationViewControl.IsPaneVisible = true;
 				NavigationViewControl.PaneDisplayMode = MUXC.NavigationViewPaneDisplayMode.LeftMinimal;
+			}
+		}
+
+		private void NavigationViewControl_DisplayModeChanged(MUXC.NavigationView sender, MUXC.NavigationViewDisplayModeChangedEventArgs e)
+		{
+			if (e.DisplayMode == MUXC.NavigationViewDisplayMode.Expanded)
+			{
+				NavigationViewControl.IsPaneOpen = NavigationViewControl.IsPaneVisible;
 			}
 		}
 	}
