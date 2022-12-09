@@ -39,7 +39,6 @@
     <PackageReference Include="Uno.Material.WinUI" />
     <PackageReference Include="Uno.WinUI.Skia.Gtk" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
     <PackageReference Include="Uno.Core.Extensions.Compatibility" />
     <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />

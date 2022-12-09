@@ -1,14 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Uno.UI.RuntimeTests;
+
+#if IS_WINUI
+using Microsoft.UI.Xaml.Controls;
+#else
+using Windows.UI.Xaml.Controls;
+#endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 public class SanityTests
 {
+#if false
 	[TestMethod]
 	public void Is_Sane()
 	{
@@ -19,6 +28,32 @@ public class SanityTests
 	{
 		await Task.Delay(500);
 	}
+
+	[TestMethod]
+	[RunsOnUIThread]
+	public async Task When_Test_ContentHelper()
+	{
+		var SUT = new TextBlock() { Text = "New paths lead to new nightmares." };
+		UnitTestsUIContentHelper.Content = SUT;
+
+		await UnitTestsUIContentHelper.WaitForIdle();
+		await UnitTestsUIContentHelper.WaitForLoaded(SUT);
+	}
+#endif
+
+	[TestMethod]
+	[DynamicData(nameof(ManyManyTimes), DynamicDataSourceType.Method)]
+	[RunsOnUIThread]
+	public async Task When_Test_Asd(int i)
+	{
+		var SUT = new Button() { Content = $"{i} New paths lead to new nightmares." };
+		UnitTestsUIContentHelper.Content = SUT;
+
+		await UnitTestsUIContentHelper.WaitForIdle();
+		await UnitTestsUIContentHelper.WaitForLoaded(SUT);
+	}
+
+	public static IEnumerable<object[]> ManyManyTimes() => Enumerable.Range(0, 50).Select(x => new object[] { x }).ToArray();
 
 #if DEBUG && false // used for testing the engine
 	[TestMethod]

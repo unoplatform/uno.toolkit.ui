@@ -8,7 +8,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" />
     <PackageReference Include="Uno.UI.Skia.Wpf" />
     <PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="..\Uno.Toolkit.Samples.Shared\**\*.xaml" />

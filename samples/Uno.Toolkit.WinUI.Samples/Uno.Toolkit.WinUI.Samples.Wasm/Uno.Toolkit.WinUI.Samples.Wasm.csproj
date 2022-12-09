@@ -51,7 +51,6 @@
     <PackageReference Include="Uno.Material.WinUI" />
     <PackageReference Include="Uno.WinUI.WebAssembly" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
     <PackageReference Include="Uno.Wasm.Bootstrap" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" />
     <PackageReference Include="Microsoft.Windows.Compatibility" />

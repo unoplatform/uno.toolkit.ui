@@ -20,7 +20,6 @@
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 		<PackageReference Include="Uno.Material.WinUI" />
-		<PackageReference Include="Uno.UI.RuntimeTests.Engine" />
 	</ItemGroup>
 
 	<ItemGroup>

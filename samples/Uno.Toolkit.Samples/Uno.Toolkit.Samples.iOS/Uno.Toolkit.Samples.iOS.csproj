@@ -187,7 +187,6 @@
     <PackageReference Include="Uno.Material" />
     <PackageReference Include="Uno.UI" />
     <PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
     <PackageReference Include="Uno.Extensions.Logging.OSLog" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
