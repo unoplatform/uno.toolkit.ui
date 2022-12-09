@@ -23,33 +23,17 @@ namespace Uno.Toolkit.UI
 #else
 			"Uno.Toolkit.UI";
 #endif
+		private const string PackageNameSuffix =
+#if IS_WINUI
+			"WinUI";
+#else
+			"UWP";
+#endif
+
 
 		public ToolkitResources()
 		{
-			var dicts = new string[]
-			{
-				"Controls/AutoLayout/AutoLayout.xaml",
-				"Controls/DrawerControl/DrawerControl.xaml",
-				"Controls/DrawerControl/DrawerControl.Enhanced.xaml",
-				"Controls/DrawerFlyout/DrawerFlyoutPresenter.xaml",
-				"Controls/LoadingView/LoadingView.xaml",
-				"Controls/ExtendedSplashScreen/ExtendedSplashScreen.xaml",
-#if __IOS__ || __ANDROID__
-				"Controls/NavigationBar/NavigationBar.Native.xaml",
-				"Behaviors/FlipView.Mobile.xaml",
-#else
-				"Controls/NavigationBar/NavigationBar.xaml",
-				"Behaviors/FlipView.xaml",
-#endif
-				"Controls/TabBar/TabBar.xaml",
-			};
-			foreach (var dict in dicts)
-			{
-				MergedDictionaries.Add(new ResourceDictionary
-				{
-					Source = new Uri($"ms-appx:///{PackageName}/{dict}")
-				});
-			}
+			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.xaml");
 		}
 	}
 }

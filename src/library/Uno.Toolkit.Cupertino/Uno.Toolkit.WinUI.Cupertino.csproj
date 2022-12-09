@@ -15,7 +15,7 @@
 		<AssemblyName>Uno.Toolkit.WinUI.Cupertino</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI.Cupertino</RootNamespace>
 		<PackageId>Uno.Toolkit.WinUI.Cupertino</PackageId>
-		
+		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
@@ -39,10 +39,6 @@
 		</Otherwise>
 	</Choose>
 
-	<PropertyGroup>
-		<XamlMergeOutputFile>Generated\mergedpages.winui.xaml</XamlMergeOutputFile>
-	</PropertyGroup>
-
 	<ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='xamarinmac20'">
 		<EmbeddedResource Include="LinkerConfig.xamarin.winui.xml">
 			<LogicalName>$(AssemblyName).xml</LogicalName>
@@ -64,5 +60,5 @@
 	</ItemGroup>
 
 	<Import Project="..\..\winappsdk-workaround.targets" />
-	<Import Project="xamlmerge.props" />
+	<Import Project="xamlmerge-cupertino.props" />
 </Project>

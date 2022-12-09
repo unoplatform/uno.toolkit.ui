@@ -14,7 +14,7 @@
 		<AssemblyName>Uno.Toolkit.UI.Cupertino</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI.Cupertino</RootNamespace>
 		<PackageId>Uno.Toolkit.UI.Cupertino</PackageId>
-
+		<FrameworkLineage>UWP</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
@@ -22,10 +22,6 @@
 		<PackageReference Include="Uno.Cupertino" />
 		<PackageReference Include="Uno.UI"  />
 	</ItemGroup>
-
-	<PropertyGroup>
-		<XamlMergeOutputFile>Generated\mergedpages.uwp.xaml</XamlMergeOutputFile>
-	</PropertyGroup>
 
 	<Choose>
 		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='net6.0-ios' or '$(TargetFramework)'=='net6.0-macos' or '$(TargetFramework)'=='net6.0-android' or '$(TargetFramework)'=='net6.0-maccatalyst'">
@@ -76,5 +72,5 @@
 		</ItemGroup>
 	</Target>
 
-	<Import Project="xamlmerge.props" />
+	<Import Project="xamlmerge-cupertino.props" />
 </Project>

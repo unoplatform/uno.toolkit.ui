@@ -15,7 +15,7 @@
 		<AssemblyName>Uno.Toolkit.WinUI.Material</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI.Material</RootNamespace>
 		<PackageId>Uno.Toolkit.WinUI.Material</PackageId>
-		
+		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
@@ -38,14 +38,6 @@
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
-
-	<ItemGroup>
-		<XamlMergeOutputFiles Include="Generated\mergedpages.winui.v1.xaml" />
-		<XamlMergeOutputFiles Include="Generated\mergedpages.winui.v2.xaml" />
-
-		<XamlMergeInput Include="Styles\Controls\v1\**\*.xaml" MergeFile="mergedpages.winui.v1.xaml" />
-		<XamlMergeInput Include="Styles\Controls\v2\**\*.xaml" MergeFile="mergedpages.winui.v2.xaml" />
-	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='xamarinmac20'">
 		<EmbeddedResource Include="LinkerConfig.xamarin.winui.xml">
@@ -70,6 +62,5 @@
 	</ItemGroup>
 
 	<Import Project="..\..\winappsdk-workaround.targets" />
-
-	<Import Project="xamlmerge.props" />
+	<Import Project="xamlmerge-material.props" />
 </Project>

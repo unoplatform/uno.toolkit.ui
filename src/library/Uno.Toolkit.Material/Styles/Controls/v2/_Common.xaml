@@ -7,7 +7,55 @@
     <ResourceDictionary.MergedDictionaries>
         <um:MaterialFonts />
         <um:MaterialColorsV2 />
-        <um:MaterialResourcesV2 />
     </ResourceDictionary.MergedDictionaries>
 
+	<!-- Implicit styles -->
+	<Style BasedOn="{StaticResource MaterialDividerStyle}" TargetType="AppBarButton" />
+	<Style BasedOn="{StaticResource MaterialNavigationBarStyle}" TargetType="TextBlock" />
+	<Style BasedOn="{StaticResource MaterialMainCommandStyle}" TargetType="CalendarView" />
+	
+	<!-- Implicit styles aliases -->
+	<StaticResource x:Key="DividerStyle" ResourceKey="MaterialDividerStyle"			/>
+	<StaticResource x:Key="NavigationBarStyle" ResourceKey="MaterialNavigationBarStyle"	/>
+	<StaticResource x:Key="MainCommandStyle" ResourceKey="MaterialMainCommandStyle"		/>
+
+	<!-- Other resources aliases -->
+	<StaticResource x:Key="ModalNavigationBarStyle" ResourceKey="MaterialModalNavigationBarStyle" />
+	<StaticResource x:Key="PrimaryNavigationBarStyle" ResourceKey="MaterialPrimaryNavigationBarStyle" />
+	<StaticResource x:Key="PrimaryModalNavigationBarStyle" ResourceKey="MaterialPrimaryModalNavigationBarStyle" />
+	<StaticResource x:Key="ModalMainCommandStyle" ResourceKey="MaterialModalMainCommandStyle" />
+	<StaticResource x:Key="PrimaryMainCommandStyle" ResourceKey="MaterialPrimaryMainCommandStyle" />
+	<StaticResource x:Key="PrimaryModalMainCommandStyle" ResourceKey="MaterialPrimaryModalMainCommandStyle" />
+	<StaticResource x:Key="PrimaryAppBarButtonStyle" ResourceKey="MaterialPrimaryAppBarButtonStyle" />
+	<StaticResource x:Key="TopTabBarStyle" ResourceKey="MaterialTopTabBarStyle" />
+	<StaticResource x:Key="ColoredTopTabBarStyle" ResourceKey="MaterialColoredTopTabBarStyle" />
+	<StaticResource x:Key="ElevatedSuggestionChipStyle" ResourceKey="MaterialElevatedSuggestionChipStyle" />
+	<StaticResource x:Key="SuggestionChipStyle" ResourceKey="MaterialSuggestionChipStyle" />
+	<StaticResource x:Key="InputChipStyle" ResourceKey="MaterialInputChipStyle" />
+	<StaticResource x:Key="ElevatedFilterChipStyle" ResourceKey="MaterialElevatedFilterChipStyle" />
+	<StaticResource x:Key="FilterChipStyle" ResourceKey="MaterialFilterChipStyle" />
+	<StaticResource x:Key="ElevatedAssistChipStyle" ResourceKey="MaterialElevatedAssistChipStyle" />
+	<StaticResource x:Key="AssistChipStyle" ResourceKey="MaterialAssistChipStyle" />
+	<StaticResource x:Key="ElevatedSuggestionChipGroupStyle" ResourceKey="MaterialElevatedSuggestionChipGroupStyle" />
+	<StaticResource x:Key="SuggestionChipGroupStyle" ResourceKey="MaterialSuggestionChipGroupStyle" />
+	<StaticResource x:Key="InputChipGroupStyle" ResourceKey="MaterialInputChipGroupStyle" />
+	<StaticResource x:Key="ElevatedFilterChipGroupStyle" ResourceKey="MaterialElevatedFilterChipGroupStyle" />
+	<StaticResource x:Key="FilterChipGroupStyle" ResourceKey="MaterialFilterChipGroupStyle" />
+	<StaticResource x:Key="ElevatedAssistChipGroupStyle" ResourceKey="MaterialElevatedAssistChipGroupStyle" />
+	<StaticResource x:Key="AssistChipGroupStyle" ResourceKey="MaterialAssistChipGroupStyle" />
+	<StaticResource x:Key="BottomTabBarStyle" ResourceKey="MaterialBottomTabBarStyle" />
+	<StaticResource x:Key="BottomTabBarItemStyle" ResourceKey="MaterialBottomTabBarItemStyle" />
+	<StaticResource x:Key="BottomFabTabBarItemStyle" ResourceKey="MaterialBottomFabTabBarItemStyle" />
+	<StaticResource x:Key="OutlinedCardStyle" ResourceKey="MaterialOutlinedCardStyle" />
+	<StaticResource x:Key="FilledCardStyle" ResourceKey="MaterialFilledCardStyle" />
+	<StaticResource x:Key="ElevatedCardStyle" ResourceKey="MaterialElevatedCardStyle" />
+	<StaticResource x:Key="AvatarOutlinedCardStyle" ResourceKey="MaterialAvatarOutlinedCardStyle" />
+	<StaticResource x:Key="AvatarFilledCardStyle" ResourceKey="MaterialAvatarFilledCardStyle" />
+	<StaticResource x:Key="AvatarElevatedCardStyle" ResourceKey="MaterialAvatarElevatedCardStyle" />
+	<StaticResource x:Key="SmallMediaOutlinedCardStyle" ResourceKey="MaterialSmallMediaOutlinedCardStyle" />
+	<StaticResource x:Key="SmallMediaFilledCardStyle" ResourceKey="MaterialSmallMediaFilledCardStyle" />
+	<StaticResource x:Key="SmallMediaElevatedCardStyle" ResourceKey="MaterialSmallMediaElevatedCardStyle" />
+	<StaticResource x:Key="OutlinedCardContentControlStyle" ResourceKey="MaterialOutlinedCardContentControlStyle" />
+	<StaticResource x:Key="FilledCardContentControlStyle" ResourceKey="MaterialFilledCardContentControlStyle" />
+	<StaticResource x:Key="ElevatedCardContentControlStyle" ResourceKey="MaterialElevatedCardContentControlStyle" />
 </ResourceDictionary>

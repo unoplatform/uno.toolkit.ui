@@ -15,17 +15,10 @@
 		<RootNamespace>Uno.Toolkit.UI.Material</RootNamespace>
 		<PackageId>Uno.Toolkit.UI.Material</PackageId>
 		<IncludeLayoutFilesInPackage>true</IncludeLayoutFilesInPackage>
+		<FrameworkLineage>UWP</FrameworkLineage>
 
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<XamlMergeOutputFiles Include="Generated\mergedpages.uwp.v1.xaml" />
-		<XamlMergeOutputFiles Include="Generated\mergedpages.uwp.v2.xaml" />
-
-		<XamlMergeInput Include="Styles\Controls\v1\**\*.xaml" MergeFile="mergedpages.uwp.v1.xaml" />
-		<XamlMergeInput Include="Styles\Controls\v2\**\*.xaml" MergeFile="mergedpages.uwp.v2.xaml" />
-	</ItemGroup>
 
 	<Choose>
 		<When Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='net6.0-ios' or '$(TargetFramework)'=='net6.0-macos' or '$(TargetFramework)'=='net6.0-android' or '$(TargetFramework)'=='net6.0-maccatalyst'">
@@ -43,8 +36,8 @@
 	</Choose>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Material"  />
-		<PackageReference Include="Uno.UI"  />
+		<PackageReference Include="Uno.Material" />
+		<PackageReference Include="Uno.UI" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
@@ -68,6 +61,10 @@
 		</ProjectReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Generated\" />
+	</ItemGroup>
+
 	<!-- Workaround to avoid including Uno.Toolkit.UI XBFs in the PRI file -->
 	<Target Name="AdjustGetPackagingOutputs" BeforeTargets="GetPackagingOutputs">
 		<Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
@@ -77,5 +74,5 @@
 		</ItemGroup>
 	</Target>
 
-	<Import Project="xamlmerge.props" />
+	<Import Project="xamlmerge-material.props" />
 </Project>

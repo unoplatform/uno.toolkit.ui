@@ -21,12 +21,12 @@ namespace Uno.Toolkit.UI.Material
 		private const string PackageName =
 			"Uno.Toolkit.WinUI.Material";
 		private const string PackageNameSuffix =
-			"winui";
+			"WinUI";
 #else
 		private const string PackageName =
 			"Uno.Toolkit.UI.Material";
 		private const string PackageNameSuffix =
-			"uwp";
+			"UWP";
 #endif
 
 		public MaterialToolkitResourcesV1()
