@@ -138,7 +138,7 @@
 		   TargetType="utu:TabBarItem">
 		<Setter Property="Background" Value="{ThemeResource PrimaryContainerBrush}" />
 		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryContainerBrush}" />
-		<Setter Property="FontFamily" Value="{StaticResource MaterialMediumFontFamily}" />
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
 		<Setter Property="FontSize" Value="{StaticResource LabelLargeFontSize}" />
 		<Setter Property="FontWeight" Value="Medium" />
 		<Setter Property="IsSelectable" Value="False" />
@@ -260,7 +260,7 @@
 		<Setter Property="Background" Value="{ThemeResource MaterialBottomTabBarItemBackground}" />
 		<Setter Property="Foreground" Value="{ThemeResource MaterialBottomTabBarItemForeground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource MaterialBottomTabBarItemBorderBrush}" />
-		<Setter Property="FontFamily" Value="{StaticResource MaterialMediumFontFamily}" />
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
 		<Setter Property="FontSize" Value="{StaticResource LabelMediumFontSize}" />
 		<Setter Property="FontWeight" Value="{StaticResource LabelMediumFontWeight}" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />

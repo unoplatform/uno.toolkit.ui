@@ -167,7 +167,7 @@
 		<Setter Property="Background" Value="{ThemeResource MaterialTopTabBarItemBackground}" />
 		<Setter Property="Foreground" Value="{ThemeResource MaterialTopTabBarItemForeground}" />
 		<Setter Property="BorderBrush" Value="{StaticResource MaterialTopTabBarItemBorderBrush}" />
-		<Setter Property="FontFamily" Value="{StaticResource MaterialRegularFontFamily}" />
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialRegularFontFamily}" />
 		<Setter Property="FontSize" Value="{StaticResource LabelLargeFontSize}" />
 		<Setter Property="FontWeight" Value="Normal" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -287,7 +287,7 @@
 		<Setter Property="Background" Value="{ThemeResource MaterialTopTabBarItemBackground}" />
 		<Setter Property="Foreground" Value="{ThemeResource MaterialTopTabBarItemForeground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource MaterialTopTabBarItemBorderBrush}" />
-		<Setter Property="FontFamily" Value="{StaticResource MaterialRegularFontFamily}" />
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialRegularFontFamily}" />
 		<Setter Property="FontSize" Value="{StaticResource LabelLargeFontSize}" />
 		<Setter Property="FontWeight" Value="Normal" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -598,7 +598,7 @@
 		<Setter Property="Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackground}" />
 		<Setter Property="Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForeground}" />
 		<Setter Property="BorderBrush" Value="{StaticResource MaterialColoredTopTabBarItemBorderBrush}" />
-		<Setter Property="FontFamily" Value="{StaticResource MaterialRegularFontFamily}" />
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialRegularFontFamily}" />
 		<Setter Property="FontSize" Value="{StaticResource LabelLargeFontSize}" />
 		<Setter Property="FontWeight" Value="Normal" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -719,7 +719,7 @@
 		<Setter Property="Background" Value="{ThemeResource MaterialColoredTopTabBarItemBackground}" />
 		<Setter Property="Foreground" Value="{ThemeResource MaterialColoredTopTabBarItemForeground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource MaterialColoredTopTabBarItemBorderBrush}" />
-		<Setter Property="FontFamily" Value="{StaticResource MaterialRegularFontFamily}" />
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialRegularFontFamily}" />
 		<Setter Property="FontSize" Value="{StaticResource LabelLargeFontSize}" />
 		<Setter Property="FontWeight" Value="Normal" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
