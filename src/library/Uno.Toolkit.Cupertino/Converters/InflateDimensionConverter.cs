@@ -14,6 +14,7 @@ using Windows.UI.Xaml;
 
 namespace Uno.Toolkit.UI
 {
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Converters")]
 	internal class InflateDimensionConverter : IValueConverter
 	{
 		public double Inflation { get; set; }
