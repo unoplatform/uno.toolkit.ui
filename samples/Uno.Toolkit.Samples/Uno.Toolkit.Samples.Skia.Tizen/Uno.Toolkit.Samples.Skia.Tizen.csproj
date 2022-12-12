@@ -23,7 +23,6 @@
     <PackageReference Include="SkiaSharp.Views" />
     <PackageReference Include="Uno.UI.Skia.Tizen" />
     <PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
   </ItemGroup>
   <Import Project="..\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
 </Project>

@@ -7,7 +7,6 @@
     <PackageReference Include="Uno.Cupertino" />
     <PackageReference Include="Uno.Material" />
     <PackageReference Include="Uno.UI" />
-    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
     <PackageReference Include="Uno.Core.Extensions.Compatibility" />

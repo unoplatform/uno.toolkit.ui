@@ -76,7 +76,6 @@
     <PackageReference Include="Uno.Material.WinUI" />
     <PackageReference Include="Uno.WinUI" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
     <PackageReference Include="Uno.UniversalImageLoader" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
