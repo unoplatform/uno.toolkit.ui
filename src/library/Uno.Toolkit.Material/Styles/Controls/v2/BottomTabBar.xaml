@@ -139,7 +139,7 @@
 		<Setter Property="Background" Value="{ThemeResource PrimaryContainerBrush}" />
 		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryContainerBrush}" />
 		<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
-		<Setter Property="FontSize" Value="{StaticResource LabelLargeFontSize}" />
+		<Setter Property="FontSize" Value="{ThemeResource LabelLargeFontSize}" />
 		<Setter Property="FontWeight" Value="Medium" />
 		<Setter Property="IsSelectable" Value="False" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -261,8 +261,8 @@
 		<Setter Property="Foreground" Value="{ThemeResource MaterialBottomTabBarItemForeground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource MaterialBottomTabBarItemBorderBrush}" />
 		<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
-		<Setter Property="FontSize" Value="{StaticResource LabelMediumFontSize}" />
-		<Setter Property="FontWeight" Value="{StaticResource LabelMediumFontWeight}" />
+		<Setter Property="FontSize" Value="{ThemeResource LabelMediumFontSize}" />
+		<Setter Property="FontWeight" Value="{ThemeResource LabelMediumFontWeight}" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="Padding" Value="{StaticResource MaterialBottomTabBarItemPadding}" />
