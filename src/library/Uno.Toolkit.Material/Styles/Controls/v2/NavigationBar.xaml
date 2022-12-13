@@ -383,9 +383,9 @@
 												ContentTemplate="{TemplateBinding ContentTemplate}"
 												ContentTransitions="{TemplateBinding ContentTransitions}"
 												Foreground="{TemplateBinding Foreground}"
-												FontFamily="{StaticResource MaterialRegularFontFamily}"
-												FontSize="20"
-												FontWeight="Medium"
+												FontFamily="{ThemeResource MaterialRegularFontFamily}"
+												FontSize="{ThemeResource TitleLargeFontWeight}"
+												FontWeight="{ThemeResource TitleLargeFontWeight}"
 												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 												HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -842,9 +842,9 @@
 												ContentTemplate="{TemplateBinding ContentTemplate}"
 												ContentTransitions="{TemplateBinding ContentTransitions}"
 												Foreground="{TemplateBinding Foreground}"
-												FontFamily="{StaticResource MaterialRegularFontFamily}"
-												FontSize="20"
-												FontWeight="Medium"
+												FontFamily="{ThemeResource MaterialRegularFontFamily}"
+												FontSize="{ThemeResource TitleLargeFontSize}"
+												FontWeight="{ThemeResource TitleLargeFontWeight}"
 												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 												HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -995,7 +995,7 @@
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="FontFamily" Value="{StaticResource MaterialRegularFontFamily}" />
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialRegularFontFamily}" />
 		<Setter Property="FontWeight" Value="SemiBold" />
 		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 		<Setter Property="Width" Value="{ThemeResource AppBarExpandButtonThemeWidth}" />
