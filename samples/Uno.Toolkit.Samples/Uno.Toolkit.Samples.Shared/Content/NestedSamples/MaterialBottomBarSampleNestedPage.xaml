@@ -36,7 +36,7 @@
 				<Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 					<StackPanel HorizontalAlignment="Center"
 								VerticalAlignment="Center">
-						<FontIcon Glyph="&#xE80F;" />
+						<SymbolIcon Symbol="Home" />
 						<TextBlock Text="Home"
 								   TextAlignment="Center" />
 					</StackPanel>
@@ -85,7 +85,7 @@
 				<utu:TabBarItem Tag="Home"
 								Content="Home">
 					<utu:TabBarItem.Icon>
-						<FontIcon Glyph="&#xE80F;" />
+						<SymbolIcon Symbol="Home" />
 					</utu:TabBarItem.Icon>
 				</utu:TabBarItem>
 				<utu:TabBarItem Tag="Search"

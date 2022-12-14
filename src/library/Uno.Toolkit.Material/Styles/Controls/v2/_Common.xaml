@@ -29,6 +29,8 @@
 	<StaticResource x:Key="PrimaryAppBarButtonStyle" ResourceKey="MaterialPrimaryAppBarButtonStyle" />
 	<StaticResource x:Key="TopTabBarStyle" ResourceKey="MaterialTopTabBarStyle" />
 	<StaticResource x:Key="ColoredTopTabBarStyle" ResourceKey="MaterialColoredTopTabBarStyle" />
+	<StaticResource x:Key="TopTabBarItemStyle" ResourceKey="MaterialTopTabBarItemStyle" />
+	<StaticResource x:Key="ColoredTopTabBarItemStyle" ResourceKey="MaterialColoredTopTabBarItemStyle" />
 	<StaticResource x:Key="ElevatedSuggestionChipStyle" ResourceKey="MaterialElevatedSuggestionChipStyle" />
 	<StaticResource x:Key="SuggestionChipStyle" ResourceKey="MaterialSuggestionChipStyle" />
 	<StaticResource x:Key="InputChipStyle" ResourceKey="MaterialInputChipStyle" />
@@ -58,4 +60,6 @@
 	<StaticResource x:Key="OutlinedCardContentControlStyle" ResourceKey="MaterialOutlinedCardContentControlStyle" />
 	<StaticResource x:Key="FilledCardContentControlStyle" ResourceKey="MaterialFilledCardContentControlStyle" />
 	<StaticResource x:Key="ElevatedCardContentControlStyle" ResourceKey="MaterialElevatedCardContentControlStyle" />
+	<StaticResource x:Key="VerticalTabBarStyle" ResourceKey="MaterialVerticalTabBarStyle" />
+	<StaticResource x:Key="VerticalTabBarItemStyle" ResourceKey="MaterialVerticalTabBarItemStyle" />
 </ResourceDictionary>

@@ -53,7 +53,7 @@
                     <Border Background="LightGray">
                         <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
-                            <FontIcon Glyph="&#xE80F;" />
+                            <SymbolIcon Symbol="Home" />
                             <TextBlock Text="Home"
 									   AutomationProperties.AutomationId="TopTabBar_FlipView_Item_Text_Home"
                                        TextAlignment="Center" />

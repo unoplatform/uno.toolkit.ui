@@ -19,7 +19,7 @@ public partial class TabBarItem : SelectorItem
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
-<utu:TabBarItem .../>
+<utu:TabBarItem Content="..." />
 -or-
 <utu:TabBarItem ...>
 	content
@@ -177,9 +177,46 @@ xmlns:utu="using:Uno.Toolkit.UI"
 #### Material
 ![](../assets/tabbar-android-material-bottom.png)
 
-
 #### Cupertino
 ![](../assets/tabbar-ios-cupertino-bottom.png)
+
+### "Vertical" `TabBar` Style
+
+Along with using the "Bottom" `TabBar`, Toolkit also provides a "Vertical" `TabBar` to use as an application's primary navigation component.  In this case, we want a component that would provide lateral navigation to all **top-level** destinations.
+
+Currently, only the Material Theme Toolkit Library contains a `VerticalTabBarStyle`.
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBar SelectedIndex="1"
+		    Style="{StaticResource VerticalTabBarStyle}">
+	<utu:TabBarItem>
+		<utu:TabBarItem.Icon>
+			<SymbolIcon Symbol="Home" />
+		</utu:TabBarItem.Icon>
+	</utu:TabBarItem>
+	<utu:TabBarItem>
+		<utu:TabBarItem.Icon>
+			<SymbolIcon Symbol="Find" />
+		</utu:TabBarItem.Icon>
+	</utu:TabBarItem>
+	<utu:TabBarItem>
+		<utu:TabBarItem.Icon>
+			<SymbolIcon Symbol="Help" />
+		</utu:TabBarItem.Icon>
+	</utu:TabBarItem>
+	<utu:TabBarItem>
+		<utu:TabBarItem.Icon>
+			<SymbolIcon Symbol="Flag" />
+		</utu:TabBarItem.Icon>
+	</utu:TabBarItem>
+</utu:TabBar>
+```
+
+#### Material
+![](../assets/tabbar-android-material-bottom.png)
 
 There are some styles that are built specifically for the Cupertino theme. These styles are used to emulate a [`UISegmentedControl`](https://developer.apple.com/documentation/uikit/uisegmentedcontrol)
 

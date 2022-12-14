@@ -46,5 +46,21 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: TimeSpan.FromMinutes(5));
 			}
 		}
+
+		[Test]
+		public void When_Vertical_TabBar()
+		{
+			const string FlipViewItemTextPrefix = "VerticalTabBar_FlipView_Item_Text_";
+			const string TabBarItemPrefix = "VerticalTabBar_Item_";
+
+			NavigateToNestedSample("M3MaterialVerticalBarSampleNestedPage");
+			App.WaitForElementWithMessage("VerticalTabBar");
+
+			foreach (var section in _sections)
+			{
+				App.FastTap($"{TabBarItemPrefix}{section}");
+				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: TimeSpan.FromMinutes(5));
+			}
+		}
 	}
 }
