@@ -23,14 +23,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" />
-		<PackageReference Include="Uno.Core.Extensions.Collections" />
-		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
-		<PackageReference Include="Uno.Core.Extensions.Logging" />
+		<PackageReference Include="Uno.WinUI"   />
+		<PackageReference Include="Uno.Core.Extensions.Collections"  />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton"  />
+		<PackageReference Include="Uno.Core.Extensions.Logging"  />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(_IsWinUI)">
-		<PackageReference Include="Microsoft.WindowsAppSDK" />
+		<PackageReference Include="Microsoft.WindowsAppSDK"  />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
 	</ItemGroup>
