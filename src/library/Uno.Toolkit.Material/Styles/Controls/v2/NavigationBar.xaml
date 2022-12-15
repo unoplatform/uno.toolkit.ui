@@ -384,7 +384,7 @@
 												ContentTransitions="{TemplateBinding ContentTransitions}"
 												Foreground="{TemplateBinding Foreground}"
 												FontFamily="{ThemeResource MaterialRegularFontFamily}"
-												FontSize="{ThemeResource TitleLargeFontWeight}"
+												FontSize="{ThemeResource TitleLargeFontSize}"
 												FontWeight="{ThemeResource TitleLargeFontWeight}"
 												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
