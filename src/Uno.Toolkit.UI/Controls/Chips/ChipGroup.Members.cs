@@ -57,13 +57,13 @@ namespace Uno.Toolkit.UI
 			nameof(SelectedItem),
 			typeof(object),
 			typeof(ChipGroup),
-			new PropertyMetadata(default, (s, e) => (s as ChipGroup)?.OnSelectedItemChanged(e)));
+			new PropertyMetadata(default, (s, e) => (s as ChipGroup)?.OnSelectedItemChanged()));
 
 		/// <summary>
 		/// Gets or sets the selected item.
 		/// </summary>
 		/// <remarks>
-		/// This property only works for <see cref="ChipSelectionMode.Single"/>.
+		/// This property only works for <see cref="ChipSelectionMode.SingleOrNone"/>.
 		/// </remarks>
 		public object? SelectedItem
 		{
@@ -79,7 +79,7 @@ namespace Uno.Toolkit.UI
 			nameof(SelectedItems),
 			typeof(IList),
 			typeof(ChipGroup),
-			new PropertyMetadata(default, (s, e) => (s as ChipGroup)?.OnSelectedItemsChanged(e)));
+			new PropertyMetadata(default, (s, e) => (s as ChipGroup)?.OnSelectedItemsChanged()));
 
 		/// <summary>
 		/// Gets or sets the selected items.

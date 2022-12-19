@@ -22,6 +22,8 @@ namespace Uno.Toolkit.UI
 
 		private bool _isMuted;
 
+		private ChipGroup? ChipGroup => ItemsControl.ItemsControlFromItemContainer(this) as ChipGroup;
+
 		public Chip()
 		{
 			Checked += RaiseIsCheckedChanged;
@@ -93,6 +95,10 @@ namespace Uno.Toolkit.UI
 		protected override void OnToggle()
 		{
 			if (!IsCheckable) return;
+			if (IsChecked == true && ChipGroup?.SelectionMode == ChipSelectionMode.Single)
+			{
+				return;
+			}
 
 			base.OnToggle();
 		}

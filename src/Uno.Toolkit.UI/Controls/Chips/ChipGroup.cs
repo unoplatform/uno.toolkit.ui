@@ -104,16 +104,11 @@ namespace Uno.Toolkit.UI
 			EnforceSelectionMode();
 		}
 
-		private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs e)
+		private void OnSelectedItemChanged()
 		{
-			if (_isSynchronizingSelection) return;
+			if (_isSynchronizingSelection || !IsReady) return;
 
-			if (!IsReady && e.NewValue != null)
-			{
-				return;
-			}
-
-			if (SelectionMode == ChipSelectionMode.Single && FindContainer(SelectedItem) is Chip container)
+			if (IsSingleSelection && GetCoercedSelection() is Chip container)
 			{
 				container.SetIsCheckedSilently(true);
 				UpdateSelection(new[] { container });
@@ -122,37 +117,46 @@ namespace Uno.Toolkit.UI
 			{
 				UpdateSelection(null);
 			}
+
+			Chip? GetCoercedSelection() =>
+				FindContainer(SelectedItem) ??
+				(SelectionMode is ChipSelectionMode.Single ? GetFallbackSelection() : default);
+			Chip? GetFallbackSelection () =>
+				GetItemContainers().FirstOrDefault(x => x.IsChecked == true) ??
+				GetItemContainers().FirstOrDefault();
 		}
 
-		private void OnSelectedItemsChanged(DependencyPropertyChangedEventArgs e)
+		private void OnSelectedItemsChanged()
 		{
-			if (_isSynchronizingSelection) return;
+			if (_isSynchronizingSelection || !IsReady) return;
 
-			if (!IsReady && e.NewValue != null)
-			{
-				return;
-			}
-
-			if (SelectionMode == ChipSelectionMode.Multiple)
+			if (IsMultiSelection)
 			{
 				var selectedContainers = SelectedItems
-				   ?.Cast<object>()
-				   .Select(x => FindContainer(x))
-				   .Where(x => x != null)
-				   .ToArray();
+					?.Cast<object>()
+					.Select(x => FindContainer(x))
+					.OfType<Chip>() // trim null and force T from Chip? to Chip
+					.ToArray();
 
-				foreach (var container in selectedContainers! ?? Enumerable.Empty<Chip>())
+				foreach (var container in selectedContainers ?? Enumerable.Empty<Chip>())
 				{
 					container.SetIsCheckedSilently(true);
 				}
 
-				UpdateSelection(selectedContainers!, forceClearOthersSelection: true);
+				UpdateSelection(selectedContainers, forceClearOthersSelection: true);
+			}
+			else if (SelectionMode == ChipSelectionMode.Single &&
+				// setting the incorrect SelectedItem or -Items property for the current SelectionMode will trigger a full reset on Selection.
+				// and, we do not preserve any valid existing selection in that case.
+				GetItemContainers().FirstOrDefault() is { } fallback)
+			{
+				fallback.SetIsCheckedSilently(true);
+				UpdateSelection(new[] { fallback }, forceClearOthersSelection: true);
 			}
 			else
 			{
 				UpdateSelection(null, forceClearOthersSelection: true);
 			}
-
 		}
 
 		protected override bool IsItemItsOwnContainerOverride(object item) => item is Chip;
@@ -263,27 +267,22 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		private bool IsSingleSelection => SelectionMode is ChipSelectionMode.SingleOrNone or ChipSelectionMode.Single;
+
+		private bool IsMultiSelection => SelectionMode is ChipSelectionMode.Multiple;
+
 		private void SynchronizeInitialSelection()
 		{
-			if (!IsReady)
-			{
-				return;
-			}
+			if (!IsReady) return;
 
 			if (SelectedItem != null)
 			{
-				// TODO: Something looks wrong here.
-				// OnSelectedItemChanged doesn't expect null.
-				// It either won't do something useful, or will crash with NullReferenceException.
-				OnSelectedItemChanged(null!);
+				OnSelectedItemChanged();
 			}
 
 			if (SelectedItems != null)
 			{
-				// TODO: Something looks wrong here.
-				// OnSelectedItemChanged doesn't expect null.
-				// It either won't do something useful, or will crash with NullReferenceException.
-				OnSelectedItemsChanged(null!);
+				OnSelectedItemsChanged();
 			}
 		}
 
@@ -291,45 +290,47 @@ namespace Uno.Toolkit.UI
 		{
 			if (!IsReady) return;
 
-			if (SelectionMode == ChipSelectionMode.None)
+			var selected = default(Chip);
+			foreach (var container in GetItemContainers())
 			{
-				UpdateItemsIsCheckable();
-				UpdateSelection(default);
-			}
-			else if (SelectionMode == ChipSelectionMode.Single)
-			{
-				UpdateItemsIsCheckable();
+				container.IsCheckable = SelectionMode != ChipSelectionMode.None;
 
-				// either one is selected or none are selected
-				var selectedContainers = GetItemContainers().Where(x => x.IsChecked ?? false).ToArray();
-				if (selectedContainers.Length > 1)
+				if (IsSingleSelection && container.IsChecked == true)
 				{
-					foreach (var container in selectedContainers)
+					// preserve first existing selection and clear the rest
+					if (selected is { })
 					{
 						container.SetIsCheckedSilently(false);
 					}
-					UpdateSelection(default);
+					else
+					{
+						selected = container;
+					}
 				}
-				else
-				{
-					UpdateSelection(selectedContainers);
-				}
-			}
-			else if (SelectionMode == ChipSelectionMode.Multiple)
-			{
-				UpdateItemsIsCheckable();
-				UpdateSelection(default);
 			}
 
-			void UpdateItemsIsCheckable()
+			// try enforce Single if nothing is selected
+			if (SelectionMode is ChipSelectionMode.Single && selected is null)
 			{
-				foreach (var container in GetItemContainers())
-				{
-					container.IsCheckable = SelectionMode != ChipSelectionMode.None;
-				}
+				selected = GetItemContainers().FirstOrDefault();
+				selected?.SetIsCheckedSilently(true);
 			}
+
+			UpdateSelection(selected is { } ? new[] { selected } : default);
 		}
 
+		/// <summary>
+		/// Update selection with coercion for SelectionMode.
+		/// </summary>
+		/// <param name="newlySelectedContainers">New selection which should be spared from coercion.</param>
+		/// <param name="forceClearOthersSelection">
+		/// Indicates if other selection should be cleared. This is implied for single selection.
+		/// In multi-select mode, this is used to differentiate between appending and resetting the selection.
+		/// </param>
+		/// <remarks>
+		/// This method does not set the IsChecked for each of newlySelectedContainers; it expects them to be already set.
+		/// However, it will uncheck other container when forceClearOthersSelection is set or when IsSingleSelect.
+		/// </remarks>
 		private void UpdateSelection(Chip[]? newlySelectedContainers, bool forceClearOthersSelection = false)
 		{
 			if (!IsReady) return;
@@ -347,7 +348,7 @@ namespace Uno.Toolkit.UI
 						continue;
 					}
 
-					if (ShouldClearSelection())
+					if (ShouldClearSelection(container))
 					{
 						container.SetIsCheckedSilently(false);
 					}
@@ -355,37 +356,38 @@ namespace Uno.Toolkit.UI
 					{
 						selectedItems.Add(ItemFromContainer(container));
 					}
-
-					bool ShouldClearSelection()
-					{
-						switch (SelectionMode)
-						{
-							case ChipSelectionMode.None:
-								// uncheck all
-								return true;
-							case ChipSelectionMode.Single:
-								// uncheck every other items
-								return newlySelectedContainers?.Contains(container) != true;
-							case ChipSelectionMode.Multiple:
-								// uncheck other items if SelectedItem or SelectedItems got updated
-								return forceClearOthersSelection && newlySelectedContainers?.Contains(container) != true;
-
-							default: throw new ArgumentOutOfRangeException(nameof(SelectionMode));
-						}
-					}
 				}
 
 				// update selection properties
-				SelectedItem = SelectionMode == ChipSelectionMode.Single && selectedItems?.Count == 1
+				SelectedItem = IsSingleSelection && selectedItems?.Count == 1
 					? selectedItems[0]
 					: null;
-				SelectedItems = SelectionMode == ChipSelectionMode.Multiple && selectedItems?.Count >= 1
+				SelectedItems = IsMultiSelection && selectedItems?.Count >= 1
 					? selectedItems
 					: null;
 			}
 			finally
 			{
 				_isSynchronizingSelection = false;
+			}
+
+			bool ShouldClearSelection(Chip container)
+			{
+				switch (SelectionMode)
+				{
+					case ChipSelectionMode.None:
+						// uncheck all
+						return true;
+					case ChipSelectionMode.SingleOrNone:
+					case ChipSelectionMode.Single:
+						// uncheck every other items
+						return newlySelectedContainers?.Contains(container) != true;
+					case ChipSelectionMode.Multiple:
+						// uncheck other items if SelectedItem or SelectedItems got updated
+						return forceClearOthersSelection && newlySelectedContainers?.Contains(container) != true;
+
+					default: throw new ArgumentOutOfRangeException(nameof(SelectionMode));
+				}
 			}
 		}
 
@@ -433,5 +435,6 @@ namespace Uno.Toolkit.UI
 		private IEnumerable<Chip> GetItemContainers() =>
 			ItemsPanelRoot?.Children.OfType<Chip>() ??
 			Enumerable.Empty<Chip>();
+
 	}
 }
