@@ -8,7 +8,11 @@ using Uno.Toolkit.RuntimeTests.Extensions;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
+#if IS_WINUI
+using Microsoft.UI.Xaml.Controls;
+#else
 using Windows.UI.Xaml.Controls;
+#endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests
 {
@@ -17,10 +21,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	internal class TabBarTests
 	{
 		[TestMethod]
-		[DataRow(new int[0], 0)] // selection enforced by 'Single'
+		[DataRow(new int[0], 0)]
 		[DataRow(new[] { 1 }, 1)]
-		[DataRow(new[] { 1, 1 }, 1)] // deselection denied
-		[DataRow(new[] { 1, 2 }, 2)] // reselection
+		[DataRow(new[] { 1, 1 }, 1)]
+		[DataRow(new[] { 1, 2 }, 2)]
 		[Ignore("Test ignored until we can simulate clicks")]
 		public async Task TapSelection(ChipSelectionMode mode, int[] selectionSequence, object expectation)
 		{
