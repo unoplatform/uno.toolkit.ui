@@ -212,7 +212,17 @@
                                 <Rectangle Fill="{ThemeResource SecondaryVariantLightBrush}" utu:AutoLayout.CounterAlignment="Start" utu:AutoLayout.PrimaryAlignment="Stretch" Width="188" />
                                 <Rectangle Fill="{ThemeResource PrimaryInverseBrush}" utu:AutoLayout.CounterAlignment="Start" Width="188" Height="67" />
                             </utu:AutoLayout>
-                        </StackPanel>
+
+							<TextBlock Text="AutoLayout with Spacing and padding "
+									   Style="{StaticResource BodyTextBlockStyle}"
+									   Margin="0,24,0,0" />
+
+							<utu:AutoLayout Spacing="50" Padding="10" Justify="SpaceBetween" Width="188" Height="241">
+								<Rectangle Fill="{ThemeResource PrimaryBrush}" utu:AutoLayout.CounterAlignment="Start" Width="152" Height="80" />
+								<Rectangle Fill="{ThemeResource SecondaryVariantDarkBrush}" utu:AutoLayout.CounterAlignment="Start" Width="143" Height="61" />
+								<Rectangle Fill="{ThemeResource PrimaryInverseBrush}" utu:AutoLayout.CounterAlignment="Start" Width="152" Height="55" />
+							</utu:AutoLayout>
+						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>

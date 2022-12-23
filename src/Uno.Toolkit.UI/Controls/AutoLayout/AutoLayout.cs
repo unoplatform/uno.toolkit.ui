@@ -214,11 +214,11 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			var spacing = Spacing;
 			var padding = Padding;
 			var hasPadding = !padding.Equals(default(Thickness));
 			var isVertical = Orientation is Orientation.Vertical;
 			var isSpaceBetween = Justify == AutoLayoutJustify.SpaceBetween;
+			var spacing = isSpaceBetween ? 0 : Spacing;
 
 			var childrenCount = Children.Count;
 
@@ -276,7 +276,13 @@ namespace Uno.Toolkit.UI
 			}
 
 			// Set inter-element spacing
-			if (isVertical)
+			if (isSpaceBetween)
+			{
+				_grid.ClearValue(Grid.ColumnSpacingProperty);
+				_grid.ClearValue(Grid.RowSpacingProperty);
+
+			}
+			else if (isVertical)
 			{
 				_grid.RowSpacing = spacing;
 				_grid.ClearValue(Grid.ColumnSpacingProperty);
