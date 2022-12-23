@@ -19,6 +19,11 @@
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.24" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="Uno.Themes.WinUI.Markup" />
+	  <PackageReference Include="Uno.WinUI.Markup" />
+	</ItemGroup>
+
 	<PropertyGroup>
 		<PackageDescription>A base set of C# for Markup helpers that can be shared between all compatible Themes from Uno.Themes for Uno.Toolkit.WinUI</PackageDescription>
 	</PropertyGroup>
