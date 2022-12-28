@@ -10,8 +10,10 @@ namespace Uno.Toolkit.Themes.Markup
 		{
 			public static class AppBarButton
 			{
+				public static ResourceValue<Style> Default => Main;
+
 				[ResourceKeyDefinition(typeof(Style), "MainCommandStyle", TargetType = typeof(AppBarButton))]
-				public static ResourceValue<Style> Default => new("MainCommandStyle");
+				public static ResourceValue<Style> Main => new("MainCommandStyle");
 
 				[ResourceKeyDefinition(typeof(Style), "MainCommandStyle", TargetType = typeof(AppBarButton))]
 				public static ResourceValue<Style> Modal => new("ModalMainCommandStyle");
