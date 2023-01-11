@@ -148,12 +148,15 @@ namespace Uno.Toolkit.UI
 			// handle enter command
 			CommandExtensions.TryInvokeCommand(host, CommandExtensions.GetCommandParameter(host) ?? GetInputParameter());
 
+#if HAS_UNO
 			// dismiss keyboard
 			if (GetAutoDismiss(host) ||
 				CommandExtensions.GetCommand(host) != null) // we should also dismiss keyboard if a command has been executed (even if CanExecute failed)
 			{
+
 				InputPane.GetForCurrentView().TryHide();
 			}
+#endif
 
 			// change focus
 			var target = GetAutoFocusNextElement(host);
