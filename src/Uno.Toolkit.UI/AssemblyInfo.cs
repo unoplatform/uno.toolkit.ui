@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyMetadata("IsTrimmable", "True")]
 
+[assembly: InternalsVisibleTo("Uno.Toolkit.RuntimeTests")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI.Material")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI.Cupertino")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI")]

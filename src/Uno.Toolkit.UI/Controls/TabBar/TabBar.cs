@@ -35,8 +35,6 @@ namespace Uno.Toolkit.UI
 	public partial class TabBar : ItemsControl
 	{
 		private const string TabBarGridName = "TabBarGrid";
-
-		private Grid? _tabBarGrid;
 		private bool _isSynchronizingSelection;
 		private object? _previouslySelectedItem;
 		private bool _isLoaded;
@@ -63,8 +61,6 @@ namespace Uno.Toolkit.UI
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
-
-			_tabBarGrid = GetTemplateChild(TabBarGridName) as Grid;
 			UpdateOrientation();
 		}
 

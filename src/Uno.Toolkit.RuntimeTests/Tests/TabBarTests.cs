@@ -21,12 +21,11 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	internal class TabBarTests
 	{
 		[TestMethod]
-		[DataRow(new int[0], 0)]
+		[DataRow(new int[0], null)]
 		[DataRow(new[] { 1 }, 1)]
 		[DataRow(new[] { 1, 1 }, 1)]
 		[DataRow(new[] { 1, 2 }, 2)]
-		[Ignore("Test ignored until we can simulate clicks")]
-		public async Task TapSelection(ChipSelectionMode mode, int[] selectionSequence, object expectation)
+		public async Task TapSelection(int[] selectionSequence, object? expectation)
 		{
 			var source = Enumerable.Range(0, 3).ToArray();
 			var SUT = new TabBar
@@ -41,11 +40,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			foreach (var i in selectionSequence)
 			{
-				//((TabBarItem)SUT.ContainerFromIndex(i)).RaiseClick();
+				((TabBarItem)SUT.ContainerFromIndex(i)).ExecuteTap();
 			}
 
 			Assert.AreEqual((int?)expectation, SUT.SelectedItem);
-			Assert.IsNull(SUT.SelectedItem);
 		}
 
 		[TestMethod]
@@ -60,7 +58,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var grid = new Grid();
 			grid.Children.Add(SUT);
 
-			source[0].IsSelectable = false;			
+			source[0].IsSelectable = false;
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
 			Assert.IsNull(SUT.SelectedItem);
