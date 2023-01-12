@@ -25,22 +25,21 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[DataRow(new[] { 1 }, 1)]
 		[DataRow(new[] { 1, 1 }, 1)]
 		[DataRow(new[] { 1, 2 }, 2)]
-		public async Task TapSelection(int[] selectionSequence, object? expectation)
+		public async Task TabBarTapSelection(int[] selectionSequence, object? expectation)
 		{
 			var source = Enumerable.Range(0, 3).ToArray();
 			var SUT = new TabBar
 			{
 				ItemsSource = source,
 			};
-			var grid = new Grid();
-			grid.Children.Add(SUT);
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 			Assert.IsNull(SUT.SelectedItem);
 
 			foreach (var i in selectionSequence)
 			{
 				((TabBarItem)SUT.ContainerFromIndex(i)).ExecuteTap();
+				await UnitTestsUIContentHelper.WaitForIdle();
 			}
 
 			Assert.AreEqual((int?)expectation, SUT.SelectedItem);
@@ -55,21 +54,20 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				ItemsSource = source,
 			};
 
-			var grid = new Grid();
-			grid.Children.Add(SUT);
-
 			source[0].IsSelectable = false;
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 			Assert.IsNull(SUT.SelectedItem);
 
 			// should not select when IsSelectable is false
 			SUT.SelectedItem = source[0];
+			await UnitTestsUIContentHelper.WaitForIdle();
 			Assert.AreEqual(-1, SUT.SelectedIndex);
 			Assert.IsFalse(source[0].IsSelected);
 
 			// should select
 			SUT.SelectedItem = source[1];
+			await UnitTestsUIContentHelper.WaitForIdle();
 			Assert.AreEqual(source[1], SUT.SelectedItem);
 			Assert.AreEqual(1, SUT.SelectedIndex);
 			Assert.IsTrue(source[1].IsSelected);
@@ -85,21 +83,20 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				ItemsSource = source,
 			};
 
-			var grid = new Grid();
-			grid.Children.Add(SUT);
-
 			source[0].IsSelectable = false;
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 			Assert.IsNull(SUT.SelectedItem);
 
 			// should not select when IsSelectable is false
 			SUT.SelectedIndex = 0;
+			await UnitTestsUIContentHelper.WaitForIdle();
 			Assert.IsNull(SUT.SelectedItem);
 			Assert.IsFalse(source[0].IsSelected);
 
 			// should select
 			SUT.SelectedIndex = 1;
+			await UnitTestsUIContentHelper.WaitForIdle();
 			Assert.AreEqual(source[1], SUT.SelectedItem);
 			Assert.AreEqual(1, SUT.SelectedIndex);
 			Assert.IsTrue(source[1].IsSelected);
