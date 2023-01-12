@@ -35,7 +35,6 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(TabBar), new PropertyMetadata(-1, OnPropertyChanged));
 		#endregion
 
-
 		#region TemplateSettings
 		public TabBarTemplateSettings TemplateSettings
 		{
@@ -44,6 +43,17 @@ namespace Uno.Toolkit.UI
 		}
 		public static DependencyProperty TemplateSettingsProperty { get; } =
 			DependencyProperty.Register(nameof(TemplateSettings), typeof(TabBarTemplateSettings), typeof(TabBar), new PropertyMetadata(null));
+		#endregion
+
+		#region Orientation
+		public Orientation Orientation
+		{
+			get { return (Orientation)GetValue(OrientationProperty); }
+			set { SetValue(OrientationProperty, value); }
+		}
+
+		public static DependencyProperty OrientationProperty { get; } =
+			DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(TabBar), new PropertyMetadata(Orientation.Horizontal, OnPropertyChanged));
 		#endregion
 
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)

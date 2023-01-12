@@ -69,7 +69,9 @@ utu:NavigationBar|PrimaryModalNavigationBarStyle|
 utu:TabBar|BottomTabBarStyle|
 utu:TabBar|TopTabBarStyle|
 utu:TabBar|ColoredTopTabBarStyle|
+utu:TabBar|VerticalTabBarStyle|
 utu:TabBarItem|BottomFabTabBarItemStyle|
 utu:TabBarItem|BottomTabBarItemStyle|
+utu:TabBarItem|VerticalTabBarItemStyle|
 
 IsDefaultStyle*: Styles in this column will be set as the default implicit style for the matching control

@@ -35,8 +35,6 @@ namespace Uno.Toolkit.UI
 	public partial class TabBar : ItemsControl
 	{
 		private const string TabBarGridName = "TabBarGrid";
-
-		private Grid? _tabBarGrid;
 		private bool _isSynchronizingSelection;
 		private object? _previouslySelectedItem;
 		private bool _isLoaded;
@@ -62,9 +60,8 @@ namespace Uno.Toolkit.UI
 
 		protected override void OnApplyTemplate()
 		{
-			_tabBarGrid = GetTemplateChild(TabBarGridName) as Grid;
-
 			base.OnApplyTemplate();
+			UpdateOrientation();
 		}
 
 		protected override bool IsItemItsOwnContainerOverride(object item) => item is TabBarItem;
@@ -76,8 +73,7 @@ namespace Uno.Toolkit.UI
 			base.PrepareContainerForItemOverride(element, item);
 
 			if (element is TabBarItem container)
-			{
-				
+			{	
 				container.IsSelected = IsSelected(IndexFromContainer(element));
 				container.Click += OnTabBarItemClick;
 				container.IsSelectedChanged += OnTabBarIsSelectedChanged;
@@ -163,6 +159,7 @@ namespace Uno.Toolkit.UI
 		{
 			_isLoaded = true;
 			SynchronizeInitialSelection();
+			UpdateOrientation();
 		}
 
 		private void OnTabBarItemClick(object sender, RoutedEventArgs e)
@@ -204,6 +201,21 @@ namespace Uno.Toolkit.UI
 			{
 				OnSelectedIndexChanged(args);
 			}
+			else if (property == OrientationProperty)
+			{
+				UpdateOrientation();
+			}
+		}
+
+		private void UpdateOrientation()
+		{
+			var orientation = Orientation;
+			if (ItemsPanelRoot is TabBarListPanel panel)
+			{
+				panel.Orientation = orientation;
+			}
+
+			VisualStateManager.GoToState(this, orientation == Orientation.Horizontal ? "Horizontal" : "Vertical", useTransitions: false);
 		}
 
 		private void OnItemsSourceChanged()
@@ -224,8 +236,10 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			UpdateTabBarItemSelectedState(args?.OldValue, newlySelectedItem);
-			SynchronizeSelection(newlySelectedItem);
+			if (TryUpdateTabBarItemSelectedState(args?.OldValue, newlySelectedItem))
+			{
+				SynchronizeSelection(newlySelectedItem);
+			}
 		}
 
 		private void OnSelectedIndexChanged(DependencyPropertyChangedEventArgs? args)
@@ -243,12 +257,14 @@ namespace Uno.Toolkit.UI
 
 			var newItem = FindContainerByIndex(SelectedIndex);
 
-			UpdateTabBarItemSelectedState(oldItem, newItem);
-			SynchronizeSelection(newItem);
+			if (TryUpdateTabBarItemSelectedState(oldItem, newItem))
+			{
+				SynchronizeSelection(newItem);
+			}
 		}
 
 		//Update the IsSelected state for the TabBarItem
-		private void UpdateTabBarItemSelectedState(object? oldItem, object? newItem)
+		private bool TryUpdateTabBarItemSelectedState(object? oldItem, object? newItem)
 		{
 			try
 			{
@@ -259,7 +275,9 @@ namespace Uno.Toolkit.UI
 				if (container?.IsSelectable ?? false)
 				{
 					container.IsSelected = true;
+					return true;
 				}
+				return false;
 			}
 			finally
 			{

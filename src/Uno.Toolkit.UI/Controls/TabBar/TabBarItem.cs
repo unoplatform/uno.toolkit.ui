@@ -62,7 +62,7 @@ namespace Uno.Toolkit.UI
 			ExecuteTap();
 		}
 
-		private void ExecuteTap()
+		internal void ExecuteTap()
 		{
 			Click?.Invoke(this, null);
 			ExecuteCommand();

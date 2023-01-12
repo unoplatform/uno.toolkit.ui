@@ -65,7 +65,12 @@ namespace Uno.Toolkit.Samples.Content.Controls
         {
             Shell.GetForCurrentView()?.ShowNestedSample<CupertinoBottomBarSampleNestedPage>(clearStack: true);
         }
-    }
+
+		private void ShowM3MaterialVerticalBarSampleInNestedFrame(object sender, RoutedEventArgs e)
+        {
+            Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialVerticalBarSampleNestedPage>(clearStack: true);
+        }
+	}
 
 	public class TabBarViewModel : ViewModelBase
 	{
@@ -76,6 +81,10 @@ namespace Uno.Toolkit.Samples.Content.Controls
         public int MaterialBottomTab1Count { get => GetProperty<int>(); set => SetProperty(value); }
         public int MaterialBottomTab2Count { get => GetProperty<int>(); set => SetProperty(value); }
         public int MaterialBottomTab3Count { get => GetProperty<int>(); set => SetProperty(value); }
+
+		public int MaterialVerticalTab1Count { get => GetProperty<int>(); set => SetProperty(value); }
+        public int MaterialVerticalTab2Count { get => GetProperty<int>(); set => SetProperty(value); }
+        public int MaterialVerticalTab3Count { get => GetProperty<int>(); set => SetProperty(value); }
 
         public int CupertinoBottomTab1Count { get => GetProperty<int>(); set => SetProperty(value); }
         public int CupertinoBottomTab2Count { get => GetProperty<int>(); set => SetProperty(value); }
@@ -90,6 +99,10 @@ namespace Uno.Toolkit.Samples.Content.Controls
         public ICommand MaterialBottomTab1CountCommand => new Command(_ => MaterialBottomTab1Count++);
         public ICommand MaterialBottomTab2CountCommand => new Command(_ => MaterialBottomTab2Count++);
         public ICommand MaterialBottomTab3CountCommand => new Command(_ => MaterialBottomTab3Count++);
+
+        public ICommand MaterialVerticalTab1CountCommand => new Command(_ => MaterialVerticalTab1Count++);
+        public ICommand MaterialVerticalTab2CountCommand => new Command(_ => MaterialVerticalTab2Count++);
+        public ICommand MaterialVerticalTab3CountCommand => new Command(_ => MaterialVerticalTab3Count++);
 
         public ICommand CupertinoBottomTab1CountCommand => new Command(_ => CupertinoBottomTab1Count++);
         public ICommand CupertinoBottomTab2CountCommand => new Command(_ => CupertinoBottomTab2Count++);
