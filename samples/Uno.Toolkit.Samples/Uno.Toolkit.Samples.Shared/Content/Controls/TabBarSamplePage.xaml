@@ -538,7 +538,7 @@
 					</TextBlock>
 
 					<ContentControl Template="{StaticResource TabBarSampleTemplate}">
-						<utu:TabBar Style="{StaticResource MaterialBottomTabBarStyle}">
+						<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
 							<utu:TabBar.Items>
 								<utu:TabBarItem Tag="Home"
 												Content="Home">

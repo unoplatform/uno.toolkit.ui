@@ -37,8 +37,8 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 ### Properties
 Property|Type|Description
 -|-|-
-BadgeValue|string|Gets or sets the value to be displayed in the badge of the `TabBarItem`. If a value is set the large badge will be displayed otherwise it will be the small badge. (Currently only usable with the Material Theme Toolkit Library with the `BottomTabBarItem` style)
-BadgeVisibility|Visibility|Gets or sets the badge visibility of the `TabBarItem`. (Currently only usable with the Material Theme Toolkit Library with the `BottomTabBarItem` style)
+BadgeValue|string|Gets or sets the value to be displayed in the badge of the `TabBarItem`. If a value is set the large badge will be displayed otherwise it will be the small badge. (Currently only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`)
+BadgeVisibility|Visibility|Gets or sets the badge visibility of the `TabBarItem`. (Currently only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`)
 Command|ICommand|Gets or sets the command to invoke when the `TabBarItem` is pressed.
 CommandParameter|object|Gets or sets the parameter to pass to the `Command` property.
 Flyout|double|Gets or sets the flyout associated with this `TabBarItem`.
@@ -89,6 +89,7 @@ Property|Type|Description
 -|-|-
 SelectedIndex|int|Gets or sets the index of the selected `TabBarItem`.
 SelectedItem|object|Gets or sets the selected `TabBarItem`.
+Orientation|Orientation|Gets or sets the dimension by which the `TabBarItem`s are stacked.
 
 > Note: `TabBar` only supports a single selection mode.
 
@@ -216,7 +217,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 #### Material
-![](../assets/tabbar-android-material-bottom.png)
+![](../assets/tabbar-android-material-vertical.png)
 
 There are some styles that are built specifically for the Cupertino theme. These styles are used to emulate a [`UISegmentedControl`](https://developer.apple.com/documentation/uikit/uisegmentedcontrol)
 
@@ -256,6 +257,7 @@ ColoredTopTabBarItemStyle|&check;|
 SegmentedItemStyle||&check;|
 SlidingSegmentedItemStyle|&check;|
 TopTabBarItemStyle|&check;|
+VerticalTabBarItemStyle|&check;|
 
 These pre-built styles can be used for more complex `TabBar` scenarios. For example, using the BottomFabTabBarItemStyle, we can embed Floating Action Buttons into the `TabBar`.
 
@@ -318,12 +320,12 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ![](../assets/tabbar-android-material-bottom-fab.png)
 ![](../assets/tabbar-android-material-bottom-fab-flyout.png)
 
-#### Badge usage for the Material `BottomTabBarItem` Style
-Icons in `TabBar` items can display badges in their upper right corners. 
+#### Badge usage for the Material `TabBar` styles
+Icons in `TabBar` items can display badges in their upper right corners.
 
 Badges can contain dynamic information, such as the number of new messages.
 
-Currently, only the Material Theme Toolkit Library contains a `BottomTabBarItemStyle` that you can use to display a badge (which is optional).
+Currently, only the Material Theme Toolkit Library contains a `BottomTabBarItemStyle` or `VerticalTabBarItemStyle` that you can use to display a badge (which is optional).
 
 ![](../assets/tabbaritem-winui-material-badges.png)
 

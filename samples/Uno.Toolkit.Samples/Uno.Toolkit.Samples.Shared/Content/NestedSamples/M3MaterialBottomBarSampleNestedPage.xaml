@@ -85,7 +85,7 @@
 					SelectedIndex="1"
 					SelectionChanged="OnSelectionChanged"
 					AutomationProperties.AutomationId="BottomTabBar"
-					Style="{StaticResource MaterialBottomTabBarStyle}">
+					Style="{StaticResource BottomTabBarStyle}">
 			<utu:TabBar.Items>
 				<utu:TabBarItem Tag="Home"
 								AutomationProperties.AutomationId="BottomTabBar_Item_Home"
