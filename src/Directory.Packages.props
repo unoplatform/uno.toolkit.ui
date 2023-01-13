@@ -12,8 +12,8 @@
     <PackageVersion Include="Uno.WinUI.Markup" Version="4.6.0-dev.16" />
     <PackageVersion Include="Uno.Material" Version="2.4.1" />
     <PackageVersion Include="Uno.Material.WinUI" Version="2.4.1" />
-    <PackageVersion Include="Uno.UI" Version="4.6.19" />
-    <PackageVersion Include="Uno.WinUI" Version="4.6.19" />
+    <PackageVersion Include="Uno.UI" Version="4.6.41" />
+    <PackageVersion Include="Uno.WinUI" Version="4.6.41" />
     <PackageVersion Include="Uno.XamlMerge.Task" Version="1.1.0-dev.12" />
     <PackageVersion Include="FluentAssertions" Version="5.10.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
