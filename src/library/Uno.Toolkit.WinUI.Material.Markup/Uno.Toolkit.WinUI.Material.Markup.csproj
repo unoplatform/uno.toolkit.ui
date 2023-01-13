@@ -15,11 +15,6 @@
 		<UseWinUI>true</UseWinUI>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All" />
-		<PackageReference Include="Uno.WinUI.Markup" />
-	</ItemGroup>
-
 	<ItemGroup Condition="$(_IsWinUI)">
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
@@ -31,7 +26,7 @@
 	</ItemGroup>
 	
 	<PropertyGroup>
-		<PackageDescription>A set of C# for Markup helpers for Uno.Toolkit.WinUI</PackageDescription>
+		<PackageDescription>A set of C# for Markup helpers for Uno.Toolkit.WinUI.Material</PackageDescription>
 	</PropertyGroup>
 
 	<Import Project="..\..\winappsdk-workaround.targets" />
