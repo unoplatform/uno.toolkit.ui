@@ -77,10 +77,17 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
-	[DataRow(Orientation.Vertical, VerticalAlignment.Bottom, HorizontalAlignment.Left, new [] { 10, 10, 10, 10 }, new[] { 108, 0, 0, 10 }, 298, 110, 12,185)]
-	[DataRow(Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 12, 110, 12, 185)]
-	[DataRow(Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, 12, 12, 12, 105)]
-	public async Task When_AbsolutePosition_WithPadding(Orientation orientation, VerticalAlignment vAlign, HorizontalAlignment hAlign, int[] padding, int[] margin, double expectedY, double expectedX, double rec1expected, double rec2expected)
+	[DataRow(true, Orientation.Vertical, VerticalAlignment.Bottom, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 0, 0, 10 }, 10, 298, 110, 12, 185)]
+	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 10, 12, 110, 12, 185)]
+	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -30, 12, 110, 12, 165)]
+	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, 10, 12, 12, 12, 105)]
+	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, 10, 12, 12, 12, 105)]
+	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, -30, 12, 12, 12, 85)]
+	[DataRow(false, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 10, 12, 110, 138, 248)]
+	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 10, 12, 110, 78, 138)]
+	[DataRow(false, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -20, 12, 110, 168, 248)]
+	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -20, 12, 110, 108, 138)]
+	public async Task When_AbsolutePosition_WithPadding(bool isStretch, Orientation orientation, VerticalAlignment vAlign, HorizontalAlignment hAlign, int[] padding, int[] margin, int spacing, double expectedY, double expectedX, double rec1expected, double rec2expected)
 	{
 		var SUT = new AutoLayout()
 		{
@@ -89,7 +96,7 @@ internal class AutoLayoutTest
 			BorderBrush = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
 			BorderThickness = new Thickness(2),
 			Padding = new Thickness(padding[0], padding[1], padding[2], padding[3]),
-			Spacing = 10,
+			Spacing = spacing,
 			Width = 200,
 			Height = 360,
 		};
@@ -117,8 +124,24 @@ internal class AutoLayoutTest
 
 		AutoLayout.SetIsIndependentLayout(border3, true);
 
-		AutoLayout.SetPrimaryAlignment(border1, AutoLayoutPrimaryAlignment.Stretch);
-		AutoLayout.SetPrimaryAlignment(border2, AutoLayoutPrimaryAlignment.Stretch);
+		if (isStretch)
+		{
+			AutoLayout.SetPrimaryAlignment(border1, AutoLayoutPrimaryAlignment.Stretch);
+			AutoLayout.SetPrimaryAlignment(border2, AutoLayoutPrimaryAlignment.Stretch);
+		}
+		else
+		{
+			if (orientation is Orientation.Vertical)
+			{
+				border1!.Height = 100;
+				border2!.Height = 100;
+			}
+			else
+			{
+				border1!.Width = 50;
+				border2!.Width = 50;
+			}
+		}
 
 		SUT.Children.Add(border1);
 		SUT.Children.Add(border2);

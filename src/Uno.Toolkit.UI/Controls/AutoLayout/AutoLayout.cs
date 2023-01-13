@@ -218,9 +218,9 @@ namespace Uno.Toolkit.UI
 			var hasPadding = !padding.Equals(default(Thickness));
 			var isVertical = Orientation is Orientation.Vertical;
 			var spacing = Spacing;
-			var hasSpace = Spacing > 0 || Justify == AutoLayoutJustify.SpaceBetween;
+			var hasSpace = Spacing != 0 || Justify == AutoLayoutJustify.SpaceBetween;
 			var hasSpaceBetween = Justify == AutoLayoutJustify.SpaceBetween;
-			var isSpacing = spacing > 0 && !hasSpaceBetween;
+			var isSpacing = spacing != 0 && !hasSpaceBetween;
 
 			var children = Children;
 
@@ -239,11 +239,13 @@ namespace Uno.Toolkit.UI
 			var independentLayoutCount = children.Where(child => GetIsIndependentLayout(child)).Count();
 			var hasIndependentLayout = independentLayoutCount > 0;
 
-			var gridDefinitionsCount = hasSpace ? ((childrenCount - independentLayoutCount) * 2) - 1 : (childrenCount - independentLayoutCount);
 
 			var gridIndexOffSet = 0;
 
 			bool atLeastOneChildFillAvailableSpaceInPrimaryAxis = children.Where(child => GetPrimaryAlignment(child) is AutoLayoutPrimaryAlignment.Stretch).Any();
+
+			var shouldAddInBetweenRow = (hasSpaceBetween && atLeastOneChildFillAvailableSpaceInPrimaryAxis is false) || spacing > 0;
+			var gridDefinitionsCount = shouldAddInBetweenRow ? ((childrenCount - independentLayoutCount) * 2) - 1 : (childrenCount - independentLayoutCount);
 
 			var isPrimaryAxisAlignmentCenterOrEnd = hasIndependentLayout && PrimaryAxisAlignment is AutoLayoutAlignment.Center or AutoLayoutAlignment.End;
 
@@ -288,7 +290,6 @@ namespace Uno.Toolkit.UI
 			{
 				_grid.ClearValue(Grid.ColumnSpacingProperty);
 				_grid.ClearValue(Grid.RowSpacingProperty);
-
 			}
 
 
@@ -314,7 +315,7 @@ namespace Uno.Toolkit.UI
 				{
 					_grid.Padding = new Thickness(0);
 
-					_grid.RowDefinitions.Insert(gridIndexOffSet, new RowDefinition() { Height = new GridLength(padding.Top) });
+					_grid.RowDefinitions.Insert(gridIndexOffSet, new RowDefinition() { Height = new GridLength(spacing < 0 ? padding.Top - spacing : padding.Top) });
 					gridIndexOffSet += 1;
 
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Left )});
@@ -341,7 +342,7 @@ namespace Uno.Toolkit.UI
 						continue;
 					}
 
-					var gridIndex = hasSpace ? rawChildIndex * 2 : rawChildIndex;
+					var gridIndex = shouldAddInBetweenRow ? rawChildIndex * 2 : rawChildIndex;
 					//We add a grid. we need to adjust the index.
 					var adjustGridIndex = gridIndex + gridIndexOffSet;
 					Grid.SetRow(child, adjustGridIndex);
@@ -404,16 +405,17 @@ namespace Uno.Toolkit.UI
 				{
 					if (isSpacing)
 					{
-						for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
+						if (spacing < 0)
 						{
-							_grid.RowDefinitions[i].Height = new GridLength(spacing);
+							_grid.RowSpacing = spacing;
+							_grid.ClearValue(Grid.ColumnSpacingProperty);
 						}
-					}
-					else if (atLeastOneChildFillAvailableSpaceInPrimaryAxis)
-					{
-						for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
+						else
 						{
-							_grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Auto);
+							for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
+							{
+								_grid.RowDefinitions[i].Height = new GridLength(spacing);
+							}
 						}
 					}
 					else if (hasSpaceBetween)
@@ -435,7 +437,7 @@ namespace Uno.Toolkit.UI
 
 				if ( hasSpaceBetween || (hasPadding && paddingCondition))
 				{
-					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Bottom )});
+					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(spacing < 0 ? padding.Bottom - spacing : padding.Bottom) });
 				}
 			}
 			else // Horizontal
@@ -460,7 +462,7 @@ namespace Uno.Toolkit.UI
 				{
 					_grid.Padding = new Thickness(0);
 
-					_grid.ColumnDefinitions.Insert(gridIndexOffSet, new ColumnDefinition() { Width = new GridLength(padding.Left) });
+					_grid.ColumnDefinitions.Insert(gridIndexOffSet, new ColumnDefinition() { Width = new GridLength(spacing < 0 ? padding.Left - spacing : padding.Left) });
 					gridIndexOffSet += 1;
 
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Top) });
@@ -486,7 +488,7 @@ namespace Uno.Toolkit.UI
 						continue;
 					}
 
-					var gridIndex = hasSpace ? rawChildIndex * 2 : rawChildIndex;
+					var gridIndex = shouldAddInBetweenRow ? rawChildIndex * 2 : rawChildIndex;
 					//We add a grid. we need to adjust the index.
 					var adjustGridIndex = gridIndex + gridIndexOffSet;
 					var gridDefinition = _grid.ColumnDefinitions[adjustGridIndex];
@@ -549,16 +551,18 @@ namespace Uno.Toolkit.UI
 				{
 					if (isSpacing)
 					{
-						for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
+
+						if (spacing < 0)
 						{
-							_grid.ColumnDefinitions[i].Width = new GridLength(spacing);
+							_grid.ColumnSpacing = spacing;
+							_grid.ClearValue(Grid.RowSpacingProperty);
 						}
-					}
-					else if (atLeastOneChildFillAvailableSpaceInPrimaryAxis)
-					{
-						for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
+						else
 						{
-							_grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Auto);
+							for (var i = 1 + gridIndexOffSet; i < gridDefinitionsCount + gridIndexOffSet; i += 2)
+							{
+								_grid.ColumnDefinitions[i].Width = new GridLength(spacing);
+							}
 						}
 					}
 					else if (hasSpaceBetween)
@@ -580,7 +584,7 @@ namespace Uno.Toolkit.UI
 
 				if (hasSpaceBetween || (hasPadding && paddingCondition))
 				{
-					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Right) });
+					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(spacing < 0 ? padding.Right - spacing : padding.Right) });
 				}
 			}
 
