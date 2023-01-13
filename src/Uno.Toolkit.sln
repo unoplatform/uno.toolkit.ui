@@ -90,7 +90,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5D8F2DC4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Markup", "Markup", "{558EEC70-D98E-491B-9652-F1376168004C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.Toolkit.WinUI.Material.Markup", "library\Uno.Toolkit.WinUI.Material.Markup\Uno.Toolkit.WinUI.Material.Markup.csproj", "{75D525C7-AB29-4851-B11E-B1328A9D9737}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.WinUI.Material.Markup", "library\Uno.Toolkit.WinUI.Material.Markup\Uno.Toolkit.WinUI.Material.Markup.csproj", "{75D525C7-AB29-4851-B11E-B1328A9D9737}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2871,13 +2871,10 @@ Global
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|macOS.ActiveCfg = Debug|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|macOS.Build.0 = Debug|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|Packages.ActiveCfg = Debug|Any CPU
-		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|Packages.Build.0 = Debug|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|Packages_WinUI.ActiveCfg = Debug|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|Packages_WinUI.Build.0 = Debug|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|Samples.ActiveCfg = Debug|Any CPU
-		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|Samples.Build.0 = Debug|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|Samples_WinUI.ActiveCfg = Debug|Any CPU
-		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|Samples_WinUI.Build.0 = Debug|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|WASM.ActiveCfg = Debug|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|WASM.Build.0 = Debug|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -2899,13 +2896,10 @@ Global
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|macOS.ActiveCfg = Release|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|macOS.Build.0 = Release|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|Packages.ActiveCfg = Release|Any CPU
-		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|Packages.Build.0 = Release|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|Packages_WinUI.ActiveCfg = Release|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|Packages_WinUI.Build.0 = Release|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|Samples.ActiveCfg = Release|Any CPU
-		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|Samples.Build.0 = Release|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|Samples_WinUI.ActiveCfg = Release|Any CPU
-		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|Samples_WinUI.Build.0 = Release|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|WASM.ActiveCfg = Release|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|WASM.Build.0 = Release|Any CPU
 		{75D525C7-AB29-4851-B11E-B1328A9D9737}.Release|x64.ActiveCfg = Release|Any CPU
