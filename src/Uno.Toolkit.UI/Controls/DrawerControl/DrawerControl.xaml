@@ -54,8 +54,7 @@
 						<!-- see: https://github.com/unoplatform/nventive-private/issues/271 -->
 						<Border x:Name="GestureInterceptor"
 								Background="Transparent"
-								Visibility="{Binding IsGestureEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TrueToVisible}}"
-								Margin="{TemplateBinding GestureInterceptorMargin}" />
+								Visibility="{Binding IsGestureEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialTrueToVisible}}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
