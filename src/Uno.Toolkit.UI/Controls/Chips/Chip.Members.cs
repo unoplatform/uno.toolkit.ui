@@ -94,28 +94,6 @@ namespace Uno.Toolkit.UI
 
 		#endregion
 
-		#region DependencyProperty: IsCheckable = true
-
-		public static DependencyProperty IsCheckableProperty { get; } = DependencyProperty.Register(
-			nameof(IsCheckable),
-			typeof(bool),
-			typeof(Chip),
-			new PropertyMetadata(true, (s, e) => (s as Chip)?.OnIsCheckableChanged(e)));
-
-		/// <summary>
-		/// Gets or sets whether the chip can be checked. Used to prevent showing selection state.
-		/// </summary>
-		/// <remarks>
-		/// When nested under the <see cref="ChipGroup"/>, this property will be overwritten by <see cref="ChipGroup.SelectionMode"/>.
-		/// </remarks>
-		public bool IsCheckable
-		{
-			get => (bool)GetValue(IsCheckableProperty);
-			set => SetValue(IsCheckableProperty, value);
-		}
-
-		#endregion
-
 		#region DependencyProperty: RemovedCommand
 
 		public static DependencyProperty RemovedCommandProperty { get; } = DependencyProperty.Register(

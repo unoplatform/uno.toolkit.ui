@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Uno.Extensions.Specialized;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -121,7 +120,7 @@ namespace Uno.Toolkit.UI
 			Chip? GetCoercedSelection() =>
 				FindContainer(SelectedItem) ??
 				(SelectionMode is ChipSelectionMode.Single ? GetFallbackSelection() : default);
-			Chip? GetFallbackSelection () =>
+			Chip? GetFallbackSelection() =>
 				GetItemContainers().FirstOrDefault(x => x.IsChecked == true) ??
 				GetItemContainers().FirstOrDefault();
 		}
@@ -293,8 +292,6 @@ namespace Uno.Toolkit.UI
 			var selected = default(Chip);
 			foreach (var container in GetItemContainers())
 			{
-				container.IsCheckable = SelectionMode != ChipSelectionMode.None;
-
 				if (IsSingleSelection && container.IsChecked == true)
 				{
 					// preserve first existing selection and clear the rest
@@ -393,7 +390,7 @@ namespace Uno.Toolkit.UI
 
 		private bool IsReady => _isLoaded && HasItems && HasContainers;
 
-		private bool HasItems => GetItems().Any();
+		private bool HasItems => GetItems().OfType<object>().Any();
 
 		private bool HasContainers => GetItemContainers().Any();
 
@@ -416,7 +413,7 @@ namespace Uno.Toolkit.UI
 			// Because of this, we retrieve the container using the index instead.
 			if (item is Enum)
 			{
-				var index = GetItems().IndexOf(item);
+				var index = GetItems().OfType<object>().ToList().IndexOf(item);
 				if (index != -1)
 				{
 					return ContainerFromIndex(index) as Chip;
@@ -435,6 +432,5 @@ namespace Uno.Toolkit.UI
 		private IEnumerable<Chip> GetItemContainers() =>
 			ItemsPanelRoot?.Children.OfType<Chip>() ??
 			Enumerable.Empty<Chip>();
-
 	}
 }
