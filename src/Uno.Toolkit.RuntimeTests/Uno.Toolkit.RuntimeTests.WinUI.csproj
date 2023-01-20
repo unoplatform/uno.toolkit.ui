@@ -5,4 +5,7 @@
 
 	<Import Project="Uno.Toolkit.RuntimeTests.props" />
 	<Import Project="..\winappsdk-workaround.targets" />
+	<ItemGroup>
+	  <ProjectReference Include="..\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+	</ItemGroup>
 </Project>

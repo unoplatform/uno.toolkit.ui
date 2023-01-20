@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using VisualTreeHelperEx = Uno.Toolkit.Samples.Helpers.VisualTreeHelperEx;
 using Uno.Toolkit.Samples.Content.NestedSamples;
+using Uno.Toolkit.Samples.Content;
 
 namespace Uno.Toolkit.Samples
 {
@@ -85,7 +86,7 @@ namespace Uno.Toolkit.Samples
 			AddNavigationItems(nv);
 
 			// landing navigation
-			ShellNavigateTo<SafeAreaSamplePage>(
+			ShellNavigateTo<RuntimeTestRunner>(
 #if WINDOWS_UWP
 				// note: on uwp, NavigationView.SelectedItem MUST be set on launch to avoid entering compact-mode
 				trySynchronizeCurrentItem: true

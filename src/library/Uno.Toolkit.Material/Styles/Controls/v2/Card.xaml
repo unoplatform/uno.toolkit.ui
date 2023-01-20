@@ -259,13 +259,13 @@
                         <!--  Border for PointerOver State  -->
                         <Border Grid.RowSpan="4"
                                 x:Name="HoverOverlay"
-                                Background="{StaticResource OnSurfaceHoverBrush}"
+                                Background="{ThemeResource OnSurfaceHoverBrush}"
                                 Opacity="0" />
 
                         <!--  Border for Focused State  -->
                         <Border Grid.RowSpan="4"
                                 x:Name="FocusedOverlay"
-                                Background="{StaticResource OnSurfaceFocusedBrush}"
+                                Background="{ThemeResource OnSurfaceFocusedBrush}"
                                 Opacity="0" />
 
                         <!--  Media content part  -->
@@ -300,7 +300,7 @@
 
                         <!--  Ripple effect  -->
                         <um:Ripple Grid.RowSpan="4"
-                                   Feedback="{StaticResource OnSurfaceFocusedBrush}"
+                                   Feedback="{ThemeResource OnSurfaceFocusedBrush}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerRadius="{StaticResource MaterialCardCornerRadius}"
@@ -457,13 +457,13 @@
                             <!--  Border for PointerOver State  -->
                             <Border Grid.RowSpan="4"
                                     x:Name="HoverOverlay"
-                                    Background="{StaticResource OnSurfaceHoverBrush}"
+                                    Background="{ThemeResource OnSurfaceHoverBrush}"
                                     Opacity="0" />
 
                             <!--  Border for Focused State  -->
                             <Border Grid.RowSpan="4"
                                     x:Name="FocusedOverlay"
-                                    Background="{StaticResource OnSurfaceFocusedBrush}"
+                                    Background="{ThemeResource OnSurfaceFocusedBrush}"
                                     Opacity="0" />
 
                             <!--  Media content part  -->
@@ -498,7 +498,7 @@
 
                             <!--  Ripple effect  -->
                             <um:Ripple Grid.RowSpan="4"
-                                       Feedback="{StaticResource OnSurfaceFocusedBrush}"
+                                       Feedback="{ThemeResource OnSurfaceFocusedBrush}"
                                        CornerRadius="{StaticResource MaterialCardCornerRadius}"
                                        Padding="{TemplateBinding Padding}"
                                        AutomationProperties.AccessibilityView="Raw" />
@@ -638,14 +638,14 @@
                         <Border Grid.RowSpan="3"
                                 Grid.ColumnSpan="3"
                                 x:Name="HoverOverlay"
-                                Background="{StaticResource OnSurfaceHoverBrush}"
+                                Background="{ThemeResource OnSurfaceHoverBrush}"
                                 Opacity="0" />
 
                         <!--  Border for Focus state  -->
                         <Border Grid.RowSpan="3"
                                 Grid.ColumnSpan="3"
                                 x:Name="FocusedOverlay"
-                                Background="{StaticResource OnSurfaceFocusedBrush}"
+                                Background="{ThemeResource OnSurfaceFocusedBrush}"
                                 Opacity="0" />
 
                         <!--  Avatart part  -->
@@ -683,7 +683,7 @@
                         <!--  Ripple effect  -->
                         <um:Ripple Grid.RowSpan="3"
                                    Grid.ColumnSpan="3"
-                                   Feedback="{StaticResource OnSurfaceFocusedBrush}"
+                                   Feedback="{ThemeResource OnSurfaceFocusedBrush}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerRadius="{StaticResource MaterialCardCornerRadius}"
@@ -856,14 +856,14 @@
                             <Border Grid.RowSpan="3"
                                     Grid.ColumnSpan="3"
                                     x:Name="HoverOverlay"
-                                    Background="{StaticResource OnSurfaceHoverBrush}"
+                                    Background="{ThemeResource OnSurfaceHoverBrush}"
                                     Opacity="0" />
 
                             <!--  Border for Focus state  -->
                             <Border Grid.RowSpan="3"
                                     Grid.ColumnSpan="3"
                                     x:Name="FocusedOverlay"
-                                    Background="{StaticResource OnSurfaceFocusedBrush}"
+                                    Background="{ThemeResource OnSurfaceFocusedBrush}"
                                     Opacity="0" />
 
                             <!--  Avatart part  -->
@@ -900,7 +900,7 @@
                             <!--  Ripple effect  -->
                             <um:Ripple Grid.RowSpan="3"
                                        Grid.ColumnSpan="3"
-                                       Feedback="{StaticResource OnSurfaceFocusedBrush}"
+                                       Feedback="{ThemeResource OnSurfaceFocusedBrush}"
                                        CornerRadius="{StaticResource MaterialCardCornerRadius}"
                                        Padding="{TemplateBinding Padding}"
                                        AutomationProperties.AccessibilityView="Raw" />
@@ -1053,14 +1053,14 @@
                         <Border Grid.RowSpan="3"
                                 Grid.ColumnSpan="3"
                                 x:Name="HoverOverlay"
-                                Background="{StaticResource OnSurfaceHoverBrush}"
+                                Background="{ThemeResource OnSurfaceHoverBrush}"
                                 Opacity="0" />
 
                         <!--  Border for Focused State  -->
                         <Border Grid.RowSpan="3"
                                 Grid.ColumnSpan="3"
                                 x:Name="FocusedOverlay"
-                                Background="{StaticResource OnSurfaceFocusedBrush}"
+                                Background="{ThemeResource OnSurfaceFocusedBrush}"
                                 Opacity="0" />
 
                         <!--  Media content part  -->
@@ -1096,7 +1096,7 @@
                         <!--  Ripple effect  -->
                         <um:Ripple Grid.RowSpan="3"
                                    Grid.ColumnSpan="3"
-                                   Feedback="{StaticResource OnSurfaceFocusedBrush}"
+                                   Feedback="{ThemeResource OnSurfaceFocusedBrush}"
                                    BorderBrush="{TemplateBinding BorderBrush}"
                                    BorderThickness="{TemplateBinding BorderThickness}"
                                    CornerRadius="{StaticResource MaterialCardCornerRadius}"
@@ -1260,14 +1260,14 @@
                             <Border Grid.RowSpan="3"
                                     Grid.ColumnSpan="3"
                                     x:Name="HoverOverlay"
-                                    Background="{StaticResource OnSurfaceHoverBrush}"
+                                    Background="{ThemeResource OnSurfaceHoverBrush}"
                                     Opacity="0" />
 
                             <!--  Border for Focused State  -->
                             <Border Grid.RowSpan="3"
                                     Grid.ColumnSpan="3"
                                     x:Name="FocusedOverlay"
-                                    Background="{StaticResource OnSurfaceFocusedBrush}"
+                                    Background="{ThemeResource OnSurfaceFocusedBrush}"
                                     Opacity="0" />
 
                             <!--  Media content part  -->
@@ -1303,7 +1303,7 @@
                             <!--  Ripple effect  -->
                             <um:Ripple Grid.RowSpan="3"
                                        Grid.ColumnSpan="3"
-                                       Feedback="{StaticResource OnSurfaceFocusedBrush}"
+                                       Feedback="{ThemeResource OnSurfaceFocusedBrush}"
                                        CornerRadius="{StaticResource MaterialCardCornerRadius}"
                                        Padding="{TemplateBinding Padding}"
                                        AutomationProperties.AccessibilityView="Raw" />

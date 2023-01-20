@@ -34,6 +34,7 @@ using Windows.UI.Xaml.Navigation;
 using XamlLaunchActivatedEventArgs = Windows.ApplicationModel.Activation.LaunchActivatedEventArgs;
 using XamlWindow = Windows.UI.Xaml.Window;
 using Page = Windows.UI.Xaml.Controls.Page;
+using Uno.Toolkit.UI.Material;
 #endif
 
 namespace Uno.Toolkit.Samples
@@ -101,15 +102,17 @@ namespace Uno.Toolkit.Samples
 
 			if(_window.Content is null)
 			{
-				var loadable = new ManualLoadable { IsExecuting=true};
-				var splash = new ExtendedSplashScreen {
-					Window= _window,
+				var loadable = new ManualLoadable { IsExecuting = true };
+				var splash = new ExtendedSplashScreen
+				{
+					Window = _window,
 #if IS_WINUI
 					SplashScreen = e.UWPLaunchActivatedEventArgs.SplashScreen,
 #else
 					SplashScreen = e.SplashScreen,
 #endif
-					Source = loadable };
+					Source = loadable
+				};
 				_window.Content = splash;
 				// Ensure the current window is active
 				_window.Activate();
@@ -122,6 +125,9 @@ namespace Uno.Toolkit.Samples
 
 				splash.Content = _shell = BuildShell();
 				loadable.IsExecuting = false;
+
+
+				_window.Content = _shell = BuildShell();
 			}
 
 		}

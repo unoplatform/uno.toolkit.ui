@@ -69,8 +69,8 @@
 	<Style x:Key="MaterialNavigationBarStyle"
 		   BasedOn="{StaticResource BaseMaterialNavigationBarStyle}"
 		   TargetType="utu:NavigationBar">
-		<Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
-		<Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}" />
+		<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource MaterialMainCommandStyle}" />
 
 	</Style>
@@ -90,8 +90,8 @@
 
 	<Style x:Key="MaterialNavigationBarCommandBar"
 		   TargetType="CommandBar">
-		<Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
-		<Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}" />
+		<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
 		<Setter Property="Padding" Value="4,0,0,0" />
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="VerticalAlignment" Value="Top" />
@@ -527,8 +527,8 @@
 	<Style x:Key="MaterialPrimaryNavigationBarStyle"
 		   BasedOn="{StaticResource MaterialNavigationBarStyle}"
 		   TargetType="utu:NavigationBar">
-		<Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
-		<Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}" />
+		<Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource MaterialPrimaryMainCommandStyle}" />
 		<not_mobile:Setter Property="Template"
 						   Value="{StaticResource XamlMaterialPrimaryNavigationBarTemplate}" />
@@ -549,8 +549,8 @@
 
 	<Style x:Key="MaterialPrimaryNavigationBarCommandBar"
 		   TargetType="CommandBar">
-		<Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
-		<Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}" />
+		<Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
 		<Setter Property="Padding" Value="4,0,0,0" />
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="VerticalAlignment" Value="Top" />
@@ -964,8 +964,8 @@
 	<Style x:Key="MaterialPrimaryModalNavigationBarStyle"
 		   BasedOn="{StaticResource MaterialPrimaryNavigationBarStyle}"
 		   TargetType="utu:NavigationBar">
-		<Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
-		<Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}" />
+		<Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource MaterialPrimaryModalMainCommandStyle}" />
 	</Style>
 
@@ -1033,7 +1033,7 @@
 	<Style x:Key="MaterialPrimaryAppBarButtonStyle"
 		   TargetType="AppBarButton"
 		   BasedOn="{StaticResource MaterialAppBarButtonStyle}">
-		<Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
 	</Style>
 
 

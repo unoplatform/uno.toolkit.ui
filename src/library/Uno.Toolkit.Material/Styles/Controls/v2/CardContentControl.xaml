@@ -131,7 +131,7 @@
                         <!--  Ripple effect  -->
                         <!-- Will add the ripple effect later on when this issue is taken care of: -->
                         <!-- https://github.com/unoplatform/uno.ui.toolkit/issues/88 -->
-                        <!--<um:Ripple Feedback="{StaticResource OnSurfaceFocusedBrush}"
+                        <!--<um:Ripple Feedback="{ThemeResource OnSurfaceFocusedBrush}"
 										 BorderBrush="{TemplateBinding BorderBrush}"
 										 BorderThickness="{TemplateBinding BorderThickness}"
 										 CornerRadius="{StaticResource MaterialCardCornerRadius}"
@@ -149,19 +149,19 @@
 
                         <!--  Border for Pressed State  -->
                         <Border x:Name="HoverPressed"
-                                Background="{StaticResource OnSurfacePressedBrush}"
+                                Background="{ThemeResource OnSurfacePressedBrush}"
                                 IsHitTestVisible="False"
                                 Opacity="0" />
 
                         <!--  Border for PointerOver State  -->
                         <Border x:Name="HoverOverlay"
-                                Background="{StaticResource OnSurfaceHoverBrush}"
+                                Background="{ThemeResource OnSurfaceHoverBrush}"
                                 IsHitTestVisible="False"
                                 Opacity="0" />
 
                         <!--  Border for Focused State  -->
                         <Border x:Name="FocusedOverlay"
-                                Background="{StaticResource OnSurfaceFocusedBrush}"
+                                Background="{ThemeResource OnSurfaceFocusedBrush}"
                                 IsHitTestVisible="False"
                                 Opacity="0" />
                     </Grid>
@@ -294,7 +294,7 @@
                             <!--  Ripple effect  -->
                             <!-- Will add the ripple effect later on when this issue is taken care of: -->
                             <!-- https://github.com/unoplatform/uno.ui.toolkit/issues/88 -->
-                            <!--<um:Ripple Feedback="{StaticResource OnSurfaceFocusedBrush}"
+                            <!--<um:Ripple Feedback="{ThemeResource OnSurfaceFocusedBrush}"
 											 CornerRadius="{StaticResource MaterialCardCornerRadius}"
 											 Padding="{TemplateBinding Padding}"
 											 AutomationProperties.AccessibilityView="Raw" />-->
@@ -310,19 +310,19 @@
 
                             <!--  Border for Pressed State  -->
                             <Border x:Name="HoverPressed"
-                                    Background="{StaticResource OnSurfacePressedBrush}"
+                                    Background="{ThemeResource OnSurfacePressedBrush}"
                                     IsHitTestVisible="False"
                                     Opacity="0" />
 
                             <!--  Border for PointerOver State  -->
                             <Border x:Name="HoverOverlay"
-                                    Background="{StaticResource OnSurfaceHoverBrush}"
+                                    Background="{ThemeResource OnSurfaceHoverBrush}"
                                     IsHitTestVisible="False"
                                     Opacity="0" />
 
                             <!--  Border for Focused State  -->
                             <Border x:Name="FocusedOverlay"
-                                    Background="{StaticResource OnSurfaceFocusedBrush}"
+                                    Background="{ThemeResource OnSurfaceFocusedBrush}"
                                     IsHitTestVisible="False"
                                     Opacity="0" />
                         </Grid>
