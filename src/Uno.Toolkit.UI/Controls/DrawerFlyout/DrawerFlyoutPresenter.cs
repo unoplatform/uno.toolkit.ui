@@ -58,7 +58,7 @@ namespace Uno.Toolkit.UI
 		// references
 		private TranslateTransform _drawerContentPresenterTransform;
 		private Storyboard _storyboard = new Storyboard();
-		private DoubleAnimation _translateAnimation;
+		private DoubleAnimation _translateAnimation, _opacityAnimation;
 		private Popup _popup;
 
 		// states
@@ -101,7 +101,18 @@ namespace Uno.Toolkit.UI
 			ManipulationDelta += OnManipulationDelta;
 			ManipulationCompleted += OnManipulationCompleted;
 
-			_lightDismissOverlay.Tapped += OnLightDismissOverlayTapped;
+			if (_lightDismissOverlay != null)
+			{
+				_opacityAnimation = new DoubleAnimation()
+				{
+					Duration = new Duration(AnimationDuration),
+				};
+				Storyboard.SetTarget(_opacityAnimation, _lightDismissOverlay);
+				Storyboard.SetTargetProperty(_opacityAnimation, nameof(_lightDismissOverlay.Opacity));
+				_storyboard.Children.Add(_opacityAnimation);
+
+				_lightDismissOverlay.Tapped += OnLightDismissOverlayTapped;
+			}
 
 #if HAS_UNO // uno: the visual tree parent is not set, until Loaded.
 			Loaded += (s, e) =>
@@ -276,16 +287,23 @@ namespace Uno.Toolkit.UI
 		private void UpdateOpenness(double ratio)
 		{
 			TranslateOffset = (1 - ratio) * GetVectoredLength();
+
+			if (_lightDismissOverlay != null)
+			{
+				_lightDismissOverlay.Opacity = 1 - ratio;
+				_lightDismissOverlay.IsHitTestVisible = ratio != 1;
+			}
 		}
 
 		private void PlayAnimation(double fromRatio, bool willBeOpen)
 		{
+			var toRatio = willBeOpen ? 0 : 1;
+			
 			if (_storyboard == null) return;
 
 			if (_translateAnimation != null)
 			{
 				var vectoredLength = GetVectoredLength();
-				var toRatio = willBeOpen ? 0 : 1;
 
 				// windows: _drawerContentPresenter is not measured on reopening
 				// in such case, all numerical values here are invalid
@@ -312,6 +330,17 @@ namespace Uno.Toolkit.UI
 				_translateAnimation.To = toRatio * vectoredLength;
 			}
 
+			if (_opacityAnimation != null)
+			{
+				_opacityAnimation.From = 1 - fromRatio;
+				_opacityAnimation.To = 1 - toRatio;
+			}
+
+			if (_lightDismissOverlay != null)
+			{
+				_lightDismissOverlay.IsHitTestVisible = willBeOpen;
+			}
+
 			_storyboard.Begin();
 		}
 
@@ -326,10 +355,12 @@ namespace Uno.Toolkit.UI
 				// pause & snapshot the animated values in the middle of animation
 				_storyboard.Pause();
 				var offset = TranslateOffset;
+				var opacity = _lightDismissOverlay?.Opacity ?? default;
 
 				// restore the values after stopping it
 				_storyboard.Stop();
 				TranslateOffset = offset;
+				if (_lightDismissOverlay != null) _lightDismissOverlay.Opacity = opacity;
 			}
 		}
 
