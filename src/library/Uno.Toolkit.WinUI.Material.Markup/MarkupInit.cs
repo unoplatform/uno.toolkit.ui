@@ -7,16 +7,14 @@ using Uno.Toolkit.UI.Material;
 namespace Uno.Toolkit.UI.Material
 {
 	/// <summary>
-	/// Application helper extensions for easy initialization of <see cref="MaterialToolkitResources"/>
+	/// Application helper extensions for easy initialization of <see cref="MaterialToolkitTheme"/>
 	/// </summary>
 	public static class MarkupInit
 	{
 		/// <summary>
-		/// Initializes and adds the <see cref="MaterialToolkitResources"/> to the MergedDictionaries of <see cref="Application.Resources"/> 
+		/// Initializes and adds the <see cref="MaterialToolkitTheme"/> to the MergedDictionaries of <see cref="Application.Resources"/> 
 		/// </summary>
-		public static T UseMaterialToolkit<T>(this T app) where T : Application
-			=> app
-			.UseToolkit()
-			.Resources(r => r.Merged(new MaterialToolkitResources()));
+		public static T UseMaterialToolkit<T>(this T app, ResourceDictionary? colorOverride = null, ResourceDictionary? fontOverride = null) where T : Application
+			=> app.Resources(r => r.Merged(new MaterialToolkitTheme(colorOverride, fontOverride)));
 	}
 }

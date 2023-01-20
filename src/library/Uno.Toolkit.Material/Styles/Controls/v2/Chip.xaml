@@ -78,7 +78,7 @@
     <Style x:Key="MaterialChipDeleteIconButtonStyle"
            TargetType="Button">
         <Setter Property="Foreground"
-                Value="{StaticResource OnSurfaceVariantBrush}" />
+                Value="{ThemeResource OnSurfaceVariantBrush}" />
         <Setter Property="Background"
                 Value="Transparent" />
 
@@ -112,7 +112,7 @@
         <Setter Property="Background"
                 Value="{StaticResource MaterialChipBackground}" />
         <Setter Property="BorderBrush"
-                Value="{StaticResource OutlineBrush}" />
+                Value="{ThemeResource OutlineBrush}" />
         <Setter Property="BorderThickness"
                 Value="{StaticResource MaterialChipBorderThickness}" />
         <Setter Property="CornerRadius"
@@ -165,7 +165,7 @@
                                         <Setter Target="PART_RemoveButton.Foreground"
                                                 Value="{StaticResource MaterialChipIconDisabledForeground}" />
                                         <Setter Target="ElevatedRoot.BorderBrush"
-                                                Value="{StaticResource MaterialChipDisabledBorderBrush}" />
+                                                Value="{ThemeResource MaterialChipDisabledBorderBrush}" />
                                         <Setter Target="IconPresenter.Foreground"
                                                 Value="{StaticResource MaterialChipIconDisabledForeground}" />
                                     </VisualState.Setters>
@@ -228,7 +228,7 @@
 
                                 <um:Ripple Padding="{TemplateBinding Padding}"
                                            CornerRadius="{TemplateBinding CornerRadius}"
-                                           Feedback="{StaticResource OnSurfaceFocusedBrush}">
+                                           Feedback="{ThemeResource OnSurfaceFocusedBrush}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <!--  0: Leading Icon, 1: Content: 2: Remove Button  -->
@@ -301,7 +301,7 @@
            BasedOn="{StaticResource MaterialChipStyle}"
            TargetType="utu:Chip">
         <Setter Property="BorderBrush"
-                Value="{StaticResource OutlineBrush}" />
+                Value="{ThemeResource OutlineBrush}" />
         <Setter Property="BorderThickness"
                 Value="1" />
         <Setter Property="IsCheckable"
@@ -318,7 +318,7 @@
         <Setter Property="Elevation"
                 Value="{StaticResource MaterialChipElevation}" />
         <Setter Property="Background"
-                Value="{StaticResource SurfaceBrush}" />
+                Value="{ThemeResource SurfaceBrush}" />
         <Setter Property="IsCheckable"
                 Value="False" />
         <Setter Property="CanRemove"
@@ -329,7 +329,7 @@
            BasedOn="{StaticResource MaterialChipStyle}"
            TargetType="utu:Chip">
         <Setter Property="BorderBrush"
-                Value="{StaticResource OutlineBrush}" />
+                Value="{ThemeResource OutlineBrush}" />
         <Setter Property="BorderThickness"
                 Value="1" />
         <Setter Property="CanRemove"
@@ -342,7 +342,7 @@
            BasedOn="{StaticResource MaterialChipStyle}"
            TargetType="utu:Chip">
         <Setter Property="BorderBrush"
-                Value="{StaticResource OutlineBrush}" />
+                Value="{ThemeResource OutlineBrush}" />
         <Setter Property="BorderThickness"
                 Value="1" />
         <Setter Property="CanRemove"
@@ -359,7 +359,7 @@
         <Setter Property="Elevation"
                 Value="{StaticResource MaterialChipElevation}" />
         <Setter Property="Background"
-                Value="{StaticResource SurfaceBrush}" />
+                Value="{ThemeResource SurfaceBrush}" />
         <Setter Property="CanRemove"
                 Value="True" />
         <Setter Property="IsCheckable"
@@ -371,7 +371,7 @@
            BasedOn="{StaticResource MaterialChipStyle}"
            TargetType="utu:Chip">
         <Setter Property="BorderBrush"
-                Value="{StaticResource OutlineBrush}" />
+                Value="{ThemeResource OutlineBrush}" />
         <Setter Property="BorderThickness"
                 Value="1" />
         <Setter Property="CanRemove"
@@ -388,7 +388,7 @@
         <Setter Property="Elevation"
                 Value="{StaticResource MaterialChipElevation}" />
         <Setter Property="Background"
-                Value="{StaticResource SurfaceBrush}" />
+                Value="{ThemeResource SurfaceBrush}" />
         <Setter Property="CanRemove"
                 Value="False" />
         <Setter Property="IsCheckable"

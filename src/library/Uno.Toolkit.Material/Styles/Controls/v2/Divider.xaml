@@ -8,9 +8,9 @@
 		   TargetType="utu:Divider">
 
 		<Setter Property="Foreground"
-				Value="{StaticResource OnSurfaceFocusedBrush}" />
+				Value="{ThemeResource OnSurfaceFocusedBrush}" />
 		<Setter Property="SubHeaderForeground"
-				Value="{StaticResource OnSurfaceLowBrush}" />
+				Value="{ThemeResource OnSurfaceLowBrush}" />
 
 		<Setter Property="Template">
 			<Setter.Value>

@@ -16,15 +16,15 @@
 
 
 	<SolidColorBrush x:Key="DividerBrush"
-					 Color="{ThemeResource MaterialOnSurfaceColor}"
+					 Color="{ThemeResource OnSurfaceColor}"
 					 Opacity="0.13" />
 
 	<SolidColorBrush x:Key="SampleSecondBackgroundBrush"
-					 Color="{ThemeResource MaterialOnSurfaceColor}"
+					 Color="{ThemeResource OnSurfaceColor}"
 					 Opacity="0.05" />
 
 	<SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush"
-					 Color="{ThemeResource MaterialBackgroundColor}" />
+					 Color="{ThemeResource BackgroundColor}" />
 
 	<Color x:Key="UnoBlueColor">#FF229DFC</Color>
 	<Color x:Key="UnoPurpleColor">#FF7A69F5</Color>
