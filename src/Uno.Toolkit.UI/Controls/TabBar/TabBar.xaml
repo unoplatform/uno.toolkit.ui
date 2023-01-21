@@ -77,6 +77,8 @@
 	<x:Double x:Key="TabBarItemIconWidth">16</x:Double>
 	<Thickness x:Key="TabBarItemContentMargin">0,0,0,12</Thickness>
 	<Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
+	<Duration x:Key="TabBarIndicatorAnimationDuration">0:0:0.25</Duration>
+
 
 	<Style x:Key="DefaultTabBarStyle"
 		   TargetType="utu:TabBar">
@@ -89,15 +91,52 @@
 				</ItemsPanelTemplate>
 			</Setter.Value>
 		</Setter>
+		<Setter Property="ItemContainerStyle"
+				Value="{StaticResource DefaultTabBarItemStyle}" />
+		<Setter Property="SelectionIndicatorPresenterStyle"
+				Value="{StaticResource DefaultTabBarSelectionIndicatorPresenterStyle}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBar">
 					<Grid x:Name="TabBarGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
-						  BorderThickness="{TemplateBinding BorderThickness}"
-						  Padding="{TemplateBinding Padding}">
-						<ItemsPresenter />
+						  BorderThickness="{TemplateBinding BorderThickness}">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="OrientationStates">
+								<VisualState x:Name="Horizontal">
+									<VisualState.Setters>
+										<Setter Target="TabBarGrid.Height"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" />
+										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment"
+												Value="Stretch" />
+										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment"
+												Value="Left" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Vertical">
+									<VisualState.Setters>
+										<Setter Target="TabBarGrid.Width"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" />
+										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment"
+												Value="Top" />
+										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment"
+												Value="Stretch" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<ItemsPresenter x:Name="TabBarItemsPresenter"
+										Padding="{TemplateBinding Padding}" />
+						<utu:TabBarSelectionIndicatorPresenter x:Name="SelectionIndicatorPresenter"
+															   Content="{TemplateBinding SelectionIndicatorContent}"
+															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+															   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
+															   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
+															   Foreground="{TemplateBinding Foreground}"
+															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+															   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+															   Visibility="Collapsed" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -264,6 +303,52 @@
 		</Setter>
 	</Style>
 
+	<Style x:Key="DefaultTabBarSelectionIndicatorPresenterStyle"
+		   TargetType="utu:TabBarSelectionIndicatorPresenter">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:TabBarSelectionIndicatorPresenter">
+					<Grid x:Name="Root">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="IndicatorTransitionStates">
+								<VisualState x:Name="Horizontal">
+									<Storyboard x:Name="IndicatorTransitionHorizontalStoryboard">
+										<DoubleAnimation Storyboard.TargetName="IndicatorTransform"
+													 Storyboard.TargetProperty="TranslateX"
+													 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.X}"
+													 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.X}"
+													 Duration="{StaticResource TabBarIndicatorAnimationDuration}" />
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Vertical">
+									<Storyboard x:Name="IndicatorTransitionVerticalStoryboard">
+										<DoubleAnimation Storyboard.TargetName="IndicatorTransform"
+													 Storyboard.TargetProperty="TranslateY"
+													 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.Y}"
+													 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.Y}"
+													 Duration="{StaticResource TabBarIndicatorAnimationDuration}" />
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<ContentPresenter x:Name="IndicatorPresenter"
+										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										  Content="{TemplateBinding Content}"
+										  ContentTemplate="{TemplateBinding ContentTemplate}"
+										  RenderTransformOrigin=".5,.5"
+										  Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Height}"
+										  Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Width}">
+							<ContentPresenter.RenderTransform>
+								<CompositeTransform x:Name="IndicatorTransform" />
+							</ContentPresenter.RenderTransform>
+						</ContentPresenter>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
 	<!-- TabBar -->
 	<Style TargetType="utu:TabBar"
 		   BasedOn="{StaticResource DefaultTabBarStyle}" />
@@ -271,5 +356,9 @@
 	<!-- TabBarItem -->
 	<Style TargetType="utu:TabBarItem"
 		   BasedOn="{StaticResource DefaultTabBarItemStyle}" />
+
+	<!-- TabBarSelectionIndicatorPresenter -->
+	<Style TargetType="utu:TabBarSelectionIndicatorPresenter"
+		   BasedOn="{StaticResource DefaultTabBarSelectionIndicatorPresenterStyle}" />
 
 </ResourceDictionary>

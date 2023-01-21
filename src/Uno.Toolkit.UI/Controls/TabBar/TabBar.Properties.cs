@@ -56,6 +56,50 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(TabBar), new PropertyMetadata(Orientation.Horizontal, OnPropertyChanged));
 		#endregion
 
+		#region SelectionIndicatorContent
+		public object? SelectionIndicatorContent
+		{
+			get { return (object)GetValue(SelectionIndicatorContentProperty); }
+			set { SetValue(SelectionIndicatorContentProperty, value); }
+		}
+
+		public static DependencyProperty SelectionIndicatorContentProperty { get; } =
+			DependencyProperty.Register(nameof(SelectionIndicatorContent), typeof(object), typeof(TabBar), new PropertyMetadata(null, OnPropertyChanged));
+		#endregion
+
+		#region SelectionIndicatorContentTemplate
+		public DataTemplate SelectionIndicatorContentTemplate
+		{
+			get { return (DataTemplate)GetValue(SelectionIndicatorContentTemplateProperty); }
+			set { SetValue(SelectionIndicatorContentTemplateProperty, value); }
+		}
+
+		public static DependencyProperty SelectionIndicatorContentTemplateProperty { get; } =
+			DependencyProperty.Register(nameof(SelectionIndicatorContentTemplate), typeof(DataTemplate), typeof(TabBar), new PropertyMetadata(null, OnPropertyChanged));
+		#endregion
+
+		#region SelectionIndicatorPresenterStyle
+		public Style SelectionIndicatorPresenterStyle
+		{
+			get { return (Style)GetValue(SelectionIndicatorPresenterStyleProperty); }
+			set { SetValue(SelectionIndicatorPresenterStyleProperty, value); }
+		}
+
+		public static DependencyProperty SelectionIndicatorPresenterStyleProperty { get; } =
+			DependencyProperty.Register(nameof(SelectionIndicatorPresenterStyle), typeof(Style), typeof(TabBar), new PropertyMetadata(null, OnPropertyChanged));
+		#endregion
+
+		#region SelectionIndicatorTransitionMode
+		public IndicatorTransitionMode SelectionIndicatorTransitionMode
+		{
+			get { return (IndicatorTransitionMode)GetValue(SelectionIndicatorTransitionModeProperty); }
+			set { SetValue(SelectionIndicatorTransitionModeProperty, value); }
+		}
+
+		public static DependencyProperty SelectionIndicatorTransitionModeProperty { get; } =
+			DependencyProperty.Register(nameof(SelectionIndicatorTransitionMode), typeof(IndicatorTransitionMode), typeof(TabBar), new PropertyMetadata(IndicatorTransitionMode.Snap, OnPropertyChanged));
+		#endregion
+
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
 		{
 			var owner = (TabBar)sender;

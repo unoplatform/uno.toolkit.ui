@@ -6,9 +6,10 @@
 					xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:todo="what should be done"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
+					xmlns:not_win="http://uno.ui/not_win"
 					xmlns:um="using:Uno.Material"
 					xmlns:utu="using:Uno.Toolkit.UI"
-					mc:Ignorable="d mobile todo">
+					mc:Ignorable="d mobile todo not_win">
 
 	<!--  Base Navigation-style TabBar Resources  -->
 	<x:Double x:Key="MaterialNavigationTabBarWidthOrHeight">80</x:Double>
@@ -43,54 +44,14 @@
 	<CornerRadius x:Key="MaterialNavigationTabBarItemLargeBadgeCornerRadius">8</CornerRadius>
 
 	<!--#region TabBar Styles-->
-	
+
 	<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
 	that the ItemContainerStyle Setter appears before the Template Setter.
 	Issue: https://github.com/unoplatform/uno/issues/10786 -->
-	<ControlTemplate x:Key="MaterialBaseTabBarTemplate"
-					 TargetType="utu:TabBar">
-		<Grid x:Name="TabBarGrid"
-			  Background="{TemplateBinding Background}"
-			  BorderBrush="{TemplateBinding BorderBrush}"
-			  BorderThickness="{TemplateBinding BorderThickness}">
-			<VisualStateManager.VisualStateGroups>
-				<VisualStateGroup x:Name="OrientationStates">
-					<VisualState x:Name="Horizontal">
-						<VisualState.Setters>
-							<Setter Target="TabBarGrid.Height"
-									Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" />
-						</VisualState.Setters>
-					</VisualState>
-					<VisualState x:Name="Vertical">
-						<VisualState.Setters>
-							<Setter Target="TabBarGrid.Width"
-									Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" />
-						</VisualState.Setters>
-					</VisualState>
-				</VisualStateGroup>
-			</VisualStateManager.VisualStateGroups>
-			<ItemsPresenter x:Name="TabBarItemsPresenter"
-							Padding="{TemplateBinding Padding}" />
-		</Grid>
-	</ControlTemplate>
-
-	<Style x:Key="MaterialBaseTabBarStyle"
-		   TargetType="utu:TabBar">
-		<Setter Property="IsTabStop"
-				Value="False" />
-		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource MaterialBottomTabBarItemStyle}" />
-		<Setter Property="ItemsPanel">
-			<Setter.Value>
-				<ItemsPanelTemplate>
-					<utu:TabBarListPanel />
-				</ItemsPanelTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+	
 
 	<Style x:Key="MaterialVerticalTabBarStyle"
-		   BasedOn="{StaticResource MaterialBaseTabBarStyle}"
+		   BasedOn="{StaticResource DefaultTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource SurfaceBrush}" />
@@ -105,12 +66,10 @@
 		<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
 		that the ItemContainerStyle Setter appears before the Template Setter.
 		Issue: https://github.com/unoplatform/uno/issues/10786 -->
-		<Setter Property="Template"
-				Value="{StaticResource MaterialBaseTabBarTemplate }" />
 	</Style>
 
 	<Style x:Key="MaterialBottomTabBarStyle"
-		   BasedOn="{StaticResource MaterialBaseTabBarStyle}"
+		   BasedOn="{StaticResource DefaultTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource SurfaceBrush}" />
@@ -125,12 +84,10 @@
 		<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
 		that the ItemContainerStyle Setter appears before the Template Setter.
 		Issue: https://github.com/unoplatform/uno/issues/10786 -->
-		<Setter Property="Template"
-				Value="{StaticResource MaterialBaseTabBarTemplate }" />
 	</Style>
 
 	<Style x:Key="MaterialTopTabBarStyle"
-		   BasedOn="{StaticResource MaterialBaseTabBarStyle}"
+		   BasedOn="{StaticResource DefaultTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource BackgroundBrush}" />
@@ -142,15 +99,23 @@
 				Value="Top" />
 		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource MaterialTopTabBarItemStyle}" />
+		<Setter Property="SelectionIndicatorPresenterStyle"
+				Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}"/>
 		<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
 		that the ItemContainerStyle Setter appears before the Template Setter.
 		Issue: https://github.com/unoplatform/uno/issues/10786 -->
-		<Setter Property="Template"
-				Value="{StaticResource MaterialBaseTabBarTemplate }" />
+		<Setter Property="SelectionIndicatorContent">
+			<Setter.Value>
+				<Border Height="2"
+						Margin="0,0,0,1"
+						VerticalAlignment="Bottom"
+						Background="{ThemeResource PrimaryBrush}" />
+			</Setter.Value>
+		</Setter>
 	</Style>
 
 	<Style x:Key="MaterialColoredTopTabBarStyle"
-		   BasedOn="{StaticResource MaterialBaseTabBarStyle}"
+		   BasedOn="{StaticResource DefaultTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource PrimaryBrush}" />
@@ -160,19 +125,27 @@
 				Value="Top" />
 		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource MaterialColoredTopTabBarItemStyle}" />
+		<Setter Property="SelectionIndicatorPresenterStyle"
+				Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}"/>
+		<Setter Property="SelectionIndicatorContent">
+			<Setter.Value>
+				<Border Height="2"
+						Margin="0,0,0,1"
+						VerticalAlignment="Bottom"
+						Background="{ThemeResource OnPrimaryBrush}" />
+			</Setter.Value>
+		</Setter>
 		<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
 		that the ItemContainerStyle Setter appears before the Template Setter.
 		Issue: https://github.com/unoplatform/uno/issues/10786 -->
-		<Setter Property="Template"
-				Value="{StaticResource MaterialBaseTabBarTemplate }" />
 	</Style>
 	<!--#endregion-->
 
 	<!--#region TabBarItem Styles-->
 	<!--
 		"Navigation" Base TabBarItem Style defines commonalities between:
-		- VerticalTabBar (known as Navigation Rail in Material Design 3: https://m3.material.io/components/navigation-rail/overview)
-		- BottomTabBar (known as NavigationBar in Material Design 3: https://m3.material.io/components/navigation-bar/overview) and,
+		- VerticalTabBar (known as Navigation Rail in Material Design 3: https://m3.material.io/components/navigation-rail/overview) and,
+		- BottomTabBar (known as NavigationBar in Material Design 3: https://m3.material.io/components/navigation-bar/overview)
 	-->
 	<Style x:Key="MaterialBaseNavigationTabBarItemStyle"
 		   TargetType="utu:TabBarItem">
@@ -921,6 +894,54 @@
 			</Setter.Value>
 		</Setter>
 
+	</Style>
+	<!--#endregion-->
+
+	<!--#region SelectionIndicator-->
+	<Style x:Key="MaterialTabBarSelectionIndicatorPresenterStyle"
+		   TargetType="utu:TabBarSelectionIndicatorPresenter">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:TabBarSelectionIndicatorPresenter">
+					<Grid x:Name="Root">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="IndicatorTransitionStates">
+								<VisualState x:Name="Horizontal">
+									<Storyboard x:Name="IndicatorTransitionHorizontalStoryboard">
+										<DoubleAnimation Storyboard.TargetName="IndicatorTransform"
+													 Storyboard.TargetProperty="TranslateX"
+													 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.X}"
+													 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.X}"
+													 Duration="00:00:00.200" />
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Vertical">
+									<Storyboard x:Name="IndicatorTransitionVerticalStoryboard">
+										<DoubleAnimation Storyboard.TargetName="IndicatorTransform"
+													 Storyboard.TargetProperty="TranslateY"
+													 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.Y}"
+													 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.Y}"
+													 Duration="00:00:00.200" />
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<ContentPresenter x:Name="IndicatorPresenter"
+										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										  Content="{TemplateBinding Content}"
+										  ContentTemplate="{TemplateBinding ContentTemplate}"
+										  RenderTransformOrigin=".5,.5"
+										  Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Height}"
+										  Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Width}">
+							<ContentPresenter.RenderTransform>
+								<CompositeTransform x:Name="IndicatorTransform" />
+							</ContentPresenter.RenderTransform>
+						</ContentPresenter>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 	<!--#endregion-->
 

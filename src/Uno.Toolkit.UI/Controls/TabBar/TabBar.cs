@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Numerics;
 using Uno.Disposables;
 using Uno.Extensions.Specialized;
 using Windows.Foundation;
@@ -35,6 +36,7 @@ namespace Uno.Toolkit.UI
 	public partial class TabBar : ItemsControl
 	{
 		private const string TabBarGridName = "TabBarGrid";
+
 		private bool _isSynchronizingSelection;
 		private object? _previouslySelectedItem;
 		private bool _isLoaded;
@@ -43,19 +45,9 @@ namespace Uno.Toolkit.UI
 		public TabBar()
 		{
 			DefaultStyleKey = typeof(TabBar);
-
 			RegisterPropertyChangedCallback(ItemsSourceProperty, (s, e) => (s as TabBar)?.OnItemsSourceChanged());
 			Loaded += OnLoaded;
 			TemplateSettings = new TabBarTemplateSettings();
-			SizeChanged += OnSizeChanged;
-		}
-
-		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			if (e.PreviousSize.Width != e.NewSize.Width)
-			{
-				TemplateSettings.SelectionIndicatorWidth = e.NewSize.Width / Items.Count;
-			}
 		}
 
 		protected override void OnApplyTemplate()
@@ -129,13 +121,8 @@ namespace Uno.Toolkit.UI
 					}
 				}
 			}
-			SynchronizeInitialSelection();
 
-			var itemContainer = GetItemContainers().FirstOrDefault();
-			if (itemContainer != null)
-			{
-				TemplateSettings.SelectionIndicatorWidth = itemContainer.Width;
-			}
+			SynchronizeInitialSelection();
 		}
 
 		private void SynchronizeInitialSelection()
