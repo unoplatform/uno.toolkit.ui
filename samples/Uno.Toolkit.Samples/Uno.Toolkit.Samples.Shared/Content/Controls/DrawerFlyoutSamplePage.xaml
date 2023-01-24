@@ -10,8 +10,10 @@
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<Grid Background="{ThemeResource SurfaceBrush}">
-		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
+	<Grid Background="{ThemeResource SurfaceBrush}"
+		  AutomationProperties.AutomationId="RootPage">
+		<sample:SamplePageLayout x:Name="SamplePageLayout"
+								 IsDesignAgnostic="True">
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<ScrollViewer HorizontalScrollMode="Disabled">
@@ -36,54 +38,62 @@
 
 							<StackPanel Spacing="8"
 										Margin="0,24,0,0">
-								<Button Content="Left Drawer">
+								<Button Content="Left Drawer"
+										AutomationProperties.AutomationId="LeftDrawerButton">
 									<Button.Flyout>
 										<Flyout Placement="Full"
 												FlyoutPresenterStyle="{StaticResource LeftDrawerFlyoutPresenterStyle}">
 											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All"
 														Background="{ThemeResource SurfaceBrush}"
 														MinWidth="200">
-												<TextBlock Text="text" />
-												<Button Content="button" />
+												<TextBlock Text="Text Left Drawer" />
+												<Button Content="Button Left Drawer"
+														AutomationProperties.AutomationId="LeftDrawerFlyoutButton" />
 											</StackPanel>
 										</Flyout>
 									</Button.Flyout>
 								</Button>
-								<Button Content="Top Drawer">
+								<Button Content="Top Drawer"
+										AutomationProperties.AutomationId="TopDrawerButton">
 									<Button.Flyout>
 										<Flyout Placement="Full"
 												FlyoutPresenterStyle="{StaticResource TopDrawerFlyoutPresenterStyle}">
 											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All"
 														Background="{ThemeResource SurfaceBrush}"
 														MinHeight="200">
-												<TextBlock Text="text" />
-												<Button Content="button" />
+												<TextBlock Text="Text Top Drawer" />
+												<Button Content="Button Top Drawer"
+														AutomationProperties.AutomationId="TopDrawerFlyoutButton" />
 											</StackPanel>
 										</Flyout>
 									</Button.Flyout>
 								</Button>
-								<Button Content="Right Drawer">
+								<Button Content="Right Drawer"
+										AutomationProperties.AutomationId="RightDrawerButton">
 									<Button.Flyout>
 										<Flyout Placement="Full"
 												FlyoutPresenterStyle="{StaticResource RightDrawerFlyoutPresenterStyle}">
 											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All"
 														Background="{ThemeResource SurfaceBrush}"
 														MinWidth="200">
-												<TextBlock Text="text" />
-												<Button Content="button" />
+												<TextBlock Text="Text Right Drawer" />
+												<Button Content="Button Right Drawer"
+														AutomationProperties.AutomationId="RightDrawerFlyoutButton" />
 											</StackPanel>
 										</Flyout>
 									</Button.Flyout>
 								</Button>
-								<Button Content="Bottom Drawer">
+								<Button Content="Bottom Drawer"
+										AutomationProperties.AutomationId="BottomDrawerButton">
 									<Button.Flyout>
 										<Flyout Placement="Full"
 												FlyoutPresenterStyle="{StaticResource BottomDrawerFlyoutPresenterStyle}">
 											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All"
 														Background="{ThemeResource SurfaceBrush}"
 														MinHeight="200">
-												<TextBlock Text="text" />
-												<Button Content="button" />
+												<TextBlock Text="Text Bottom Drawer" />
+												<Button Content="Button Bottom Drawer"
+														AutomationProperties.AutomationId="BottomDrawerFlyoutButton" />
 											</StackPanel>
 										</Flyout>
 									</Button.Flyout>
