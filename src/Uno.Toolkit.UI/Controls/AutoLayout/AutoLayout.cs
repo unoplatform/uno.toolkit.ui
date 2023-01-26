@@ -27,9 +27,9 @@ namespace Uno.Toolkit.UI
 			DefaultStyleKey = typeof(AutoLayout);
 			Children = new AutoLayoutChildren();
 
-			this.RegisterDisposablePropertyChangedCallback(HorizontalAlignmentProperty, (snd, e) => UpdateAlignments());
-			this.RegisterDisposablePropertyChangedCallback(VerticalAlignmentProperty, (snd, e) => UpdateAlignments());
-			this.RegisterDisposablePropertyChangedCallback(PaddingProperty, (snd, e) => UpdateAlignments());
+			this.RegisterDisposablePropertyChangedCallback(HorizontalAlignmentProperty, (snd, e) => UpdateAutoLayout());
+			this.RegisterDisposablePropertyChangedCallback(VerticalAlignmentProperty, (snd, e) => UpdateAutoLayout());
+			this.RegisterDisposablePropertyChangedCallback(PaddingProperty, (snd, e) => UpdateAutoLayout());
 		}
 
 		protected override void OnApplyTemplate()
@@ -38,7 +38,7 @@ namespace Uno.Toolkit.UI
 
 			base.OnApplyTemplate();
 
-			UpdateAlignments();
+			UpdateAutoLayout();
 		}
 
 		public static readonly DependencyProperty IsReverseZIndexProperty = DependencyProperty.Register(
@@ -192,7 +192,7 @@ namespace Uno.Toolkit.UI
 		{
 			if (d is AutoLayout al)
 			{
-				al.UpdateAlignments();
+				al.UpdateAutoLayout();
 			}
 		}
 
@@ -202,14 +202,14 @@ namespace Uno.Toolkit.UI
 			{
 				if (fe.Parent is AutoLayout al)
 				{
-					al.UpdateAlignments();
+					al.UpdateAutoLayout();
 				}
 			}
 		}
 
-		private void UpdateAlignments()
+		private void UpdateAutoLayout()
 		{
-			if (_grid == null)
+			if (_grid == null || IsLoaded is false)
 			{
 				return;
 			}
