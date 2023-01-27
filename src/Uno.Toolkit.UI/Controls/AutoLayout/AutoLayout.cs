@@ -27,6 +27,8 @@ namespace Uno.Toolkit.UI
 			DefaultStyleKey = typeof(AutoLayout);
 			Children = new AutoLayoutChildren();
 
+			Loaded += OnLoaded;
+
 			this.RegisterDisposablePropertyChangedCallback(HorizontalAlignmentProperty, (snd, e) => UpdateAutoLayout());
 			this.RegisterDisposablePropertyChangedCallback(VerticalAlignmentProperty, (snd, e) => UpdateAutoLayout());
 			this.RegisterDisposablePropertyChangedCallback(PaddingProperty, (snd, e) => UpdateAutoLayout());
@@ -39,6 +41,11 @@ namespace Uno.Toolkit.UI
 			base.OnApplyTemplate();
 
 			UpdateAutoLayout();
+		}
+
+		private static void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			(sender as AutoLayout)?.UpdateAutoLayout();
 		}
 
 		public static readonly DependencyProperty IsReverseZIndexProperty = DependencyProperty.Register(
