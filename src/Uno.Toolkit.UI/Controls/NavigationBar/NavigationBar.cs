@@ -97,7 +97,7 @@ namespace Uno.Toolkit.UI
 
 		internal bool TryPerformMainCommand()
 		{
-			if (MainCommandMode == MainCommandMode.Action)
+			if (MainCommandMode != MainCommandMode.Back)
 			{
 				return false;
 			}
@@ -107,22 +107,29 @@ namespace Uno.Toolkit.UI
 				if (page.Frame is { Visibility: Visibility.Visible } frame
 					&& frame.CurrentSourcePageType == page.GetType())
 				{
-					if (MainCommandMode == MainCommandMode.Back)
+					
+					if (frame.CanGoBack == false && _popupHost is { })
 					{
-						if (frame.CanGoBack == false && _popupHost is { })
-						{
-							_popupHost.IsOpen = false;
-							return true;
-						}
-						else if (frame.CanGoBack)
-						{
-							frame.GoBack();
-							return true;
-						}
-						
+						// If we are within a Page that is hosted within a Popup and the BackStack is empty:
+						// close the Popup
+						_popupHost.IsOpen = false;
+						return true;
+					}
+					else if (frame.CanGoBack)
+					{
+						frame.GoBack();
+						return true;
 					}
 				}
 			}
+			else if (_popupHost is { })
+			{
+				// If we are not hosted within a Page but we are still within a Popup:
+				// close the Popup
+				_popupHost.IsOpen = false;
+				return true;
+			}
+
 			return false;
 		}
 

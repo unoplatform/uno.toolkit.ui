@@ -1,7 +1,10 @@
 ﻿jobs:
-- job: Wasm_UITests
-  displayName: 'WebAssembly UI Tests'
+- job: Wasm_Build_For_Tests
+  displayName: 'Build WebAssembly Sample App'
   container: unoplatform/wasm-build:3.0
+
+  pool:
+    vmImage: 'ubuntu-20.04'
 
   strategy:
     maxParallel: 2
@@ -13,6 +16,89 @@
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
         XAML_FLAVOR_BUILD: WinUI
 
+  steps:
+  - checkout: self
+    clean: true
+
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core SDK 6.0.300'
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: sdk
+      version: 6.0.300
+
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core SDK 5.0.400'
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: sdk
+      version: 5.0.400
+      
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core SDK 3.1.406'
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: sdk
+      version: 3.1.406
+
+  - bash: |
+      dotnet build /r /p:Configuration=Release '$(BUILD.SOURCESDIRECTORY)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/$(SAMPLE_PROJECT_NAME).Wasm.csproj' /p:IsUiAutomationMappingEnabled=True /p:DisableNet6MobileTargets=True /bl:$(build.artifactstagingdirectory)/wasm-sampleapp.binlog
+
+    displayName: Build WASM Samples App ($(XAML_FLAVOR_BUILD))
+
+  - task: CopyFiles@2
+    displayName: 'Publish Wasm Site (net5.0)'
+    inputs:
+      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/bin/Release/net5.0/dist
+      Contents: '**/*.*'
+      TargetFolder: $(build.artifactstagingdirectory)/site
+      CleanTargetFolder: false
+      OverWrite: false
+      flattenFolders: false
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    retryCountOnTaskFailure: 3
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: sampleapp-wasm-build-$(XAML_FLAVOR_BUILD)
+      ArtifactType: Container
+
+- job: Wasm_UITests
+  displayName: 'Run WebAssembly UI Tests'
+  container: unoplatform/wasm-build:3.0
+  timeoutInMinutes: 90
+  dependsOn:
+  - Wasm_Build_For_Tests
+  - Toolkit_UITests_Build
+  strategy:
+    maxParallel: 4
+    matrix:
+      UWP:
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
+        XAML_FLAVOR_BUILD: UWP
+        UITEST_TEST_MODE_NAME: Automated
+        UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-UWP-Automated.xml
+        SAMPLEAPP_ARTIFACT_NAME: sampleapp-wasm-build-UWP
+      WinUI:
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        XAML_FLAVOR_BUILD: WinUI
+        UITEST_TEST_MODE_NAME: Automated
+        UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-WinUI-Automated.xml
+        SAMPLEAPP_ARTIFACT_NAME: sampleapp-wasm-build-WinUI
+      UWP_Runtime:
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
+        XAML_FLAVOR_BUILD: UWP
+        UITEST_TEST_MODE_NAME: RuntimeTests
+        UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-UWP-RuntimeTests.xml
+        SAMPLEAPP_ARTIFACT_NAME: sampleapp-wasm-build-UWP
+      WinUI_Runtime:
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        XAML_FLAVOR_BUILD: WinUI
+        UITEST_TEST_MODE_NAME: RuntimeTests
+        UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-WinUI-RuntimeTests.xml
+        SAMPLEAPP_ARTIFACT_NAME: sampleapp-wasm-build-WinUI
+
   pool:
     vmImage: 'ubuntu-20.04'
 
@@ -22,6 +108,18 @@
   steps:
   - checkout: self
     clean: true
+
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download WASM Samples App'
+    inputs:
+        artifactName: $(SAMPLEAPP_ARTIFACT_NAME)
+        downloadPath: '$(build.sourcesdirectory)/build'
+
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download UITest Binaries'
+    inputs:
+        artifactName: toolkit-uitest-binaries
+        downloadPath: '$(build.sourcesdirectory)/build'
     
   - task: UseDotNet@2
     displayName: 'Use .NET Core SDK 6.0.300'
@@ -48,7 +146,7 @@
       chmod +x build/workflow/scripts/wasm-uitest-run.sh
       build/workflow/scripts/wasm-uitest-run.sh
     retryCountOnTaskFailure: 3
-    displayName: 'Running build'
+    displayName: Run WASM UITests ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))
 
   - task: PublishTestResults@2
     condition: always()
@@ -56,24 +154,13 @@
     inputs:
       testRunTitle: 'WebAssembly UI Test Run ($(XAML_FLAVOR_BUILD))'
       testResultsFormat: 'NUnit'
-      testResultsFiles: '$(build.sourcesdirectory)/build/TestResult-original.xml'
+      testResultsFiles: '$(build.sourcesdirectory)/build/$(UNO_TEST_RESULTS_FILE_NAME)'
       failTaskOnFailedTests: true
-      searchFolder: '$(build.artifactstagingdirectory)/screenshots/wasm'
-
-  - task: CopyFiles@2
-    displayName: Copy Wasm output
-    inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/bin/Release/net5.0/dist
-      Contents: '**/*.*'
-      TargetFolder: $(Build.ArtifactStagingDirectory)/screenshots/wasm
-      CleanTargetFolder: false
-      OverWrite: false
-      flattenFolders: false
 
   - task: PublishBuildArtifacts@1
     retryCountOnTaskFailure: 3
     condition: always()
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: uno-uitest-tests-$(XAML_FLAVOR_BUILD)
+      ArtifactName: toolkit-uitests
       ArtifactType: Container
