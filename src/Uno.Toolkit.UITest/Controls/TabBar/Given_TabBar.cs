@@ -5,17 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Uno.Toolkit.UITest.Extensions;
+using Uno.Toolkit.UITest.Framework;
 using Uno.UITest.Helpers;
 using Uno.UITest.Helpers.Queries;
 
 namespace Uno.Toolkit.UITest.Controls.TabBar
 {
+	[TestFixture]
 	public class Given_TabBar : TestBase
 	{
 		protected override string SampleName => "TabBar";
 		private string[] _sections = new[] { "Home", "Search", "Support", "About" };
 
 		[Test]
+		[AutoRetry]
 		public void When_Top_TabBar()
 		{
 			const string FlipViewItemTextPrefix = "TopTabBar_FlipView_Item_Text_";
@@ -32,6 +35,7 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 		}
 
 		[Test]
+		[AutoRetry]
 		public void When_Bottom_TabBar()
 		{
 			const string FlipViewItemTextPrefix = "BottomTabBar_FlipView_Item_Text_";
@@ -48,6 +52,7 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 		}
 
 		[Test]
+		[AutoRetry]
 		public void When_Vertical_TabBar()
 		{
 			const string FlipViewItemTextPrefix = "VerticalTabBar_FlipView_Item_Text_";

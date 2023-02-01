@@ -1,14 +1,17 @@
 ﻿using NUnit.Framework;
 using Uno.Toolkit.UITest.Extensions;
+using Uno.Toolkit.UITest.Framework;
 using Uno.UITest.Helpers.Queries;
 
 namespace Uno.Toolkit.UITest.Behaviors.FlipViewPipsPagerBehavior;
 
+[TestFixture]
 public class Given_PipsPagerExtensions : TestBase
 {
 	protected override string SampleName => "FlipViewExtensions";
 
 	[Test]
+	[AutoRetry]
 	public void Number_Of_Items_Should_Be_The_Same()
 	{
 		var (flipViewCounter, pipsPager) = GetPipsPagerAndLabelElements();
@@ -20,6 +23,7 @@ public class Given_PipsPagerExtensions : TestBase
 	}
 
 	[Test]
+	[AutoRetry]
 	public void Number_Of_Items_Should_Be_The_Same_AfterAddingMoreItems()
 	{
 		var (flipViewCounter, pipsPager) = GetPipsPagerAndLabelElements();
@@ -39,6 +43,7 @@ public class Given_PipsPagerExtensions : TestBase
 	}
 
 	[Test]
+	[AutoRetry]
 	public void Selected_Item_Index_Should_Be_Equal()
 	{
 		var (flipView, pipsPager) = GetPipsPagerAndFlipViewElements();

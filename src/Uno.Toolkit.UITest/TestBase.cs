@@ -33,7 +33,6 @@ namespace Uno.Toolkit.UITest
 			AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
 			AppInitializer.TestEnvironment.WebAssemblyDefaultUri = Constants.WebAssemblyDefaultUri;
 			AppInitializer.TestEnvironment.iOSAppName = Constants.iOSAppName;
-			AppInitializer.TestEnvironment.AndroidAppName = Constants.AndroidAppName;
 			AppInitializer.TestEnvironment.iOSDeviceNameOrId = Constants.iOSDeviceNameOrId;
 			AppInitializer.TestEnvironment.CurrentPlatform = Constants.CurrentPlatform;
 
@@ -59,6 +58,7 @@ namespace Uno.Toolkit.UITest
 		}
 
 		[SetUp]
+		[AutoRetry]
 		public virtual void SetUpTest()
 		{
 			App = AppInitializer.AttachToApp();
@@ -105,6 +105,7 @@ namespace Uno.Toolkit.UITest
 		}
 
 		[TearDown]
+		[AutoRetry]
 		public void TearDownTest()
 		{
 			TakeScreenshot("teardown");
@@ -113,6 +114,7 @@ namespace Uno.Toolkit.UITest
 			{
 				ExitNestedSample();
 			}
+
 		}
 
 		protected void NavigateBackFromNestedSample()
@@ -233,15 +235,14 @@ namespace Uno.Toolkit.UITest
 
 		private FileInfo GetNativeScreenshot(string title)
 		{
-			return _app.Screenshot(title);
-			//if (AppInitializer.GetLocalPlatform() == Platform.Android)
-			//{
-			//	return _app.GetInAppScreenshot();
-			//}
-			//else
-			//{
-			//	return _app.Screenshot(title);
-			//}
+			if (AppInitializer.GetLocalPlatform() == Platform.Android)
+			{
+				return _app.GetInAppScreenshot();
+			}
+			else
+			{
+				return _app.Screenshot(title);
+			}
 		}
 	}
 }

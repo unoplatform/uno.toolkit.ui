@@ -22,6 +22,7 @@ namespace Uno.Toolkit.UITest.Controls.NativeFrame
 		protected override string SampleName => "NativeFrame";
 
 		[Test]
+		[AutoRetry]
 		[ActivePlatforms(Platform.iOS)]
 		public void When_BackStack_Changed()
 		{

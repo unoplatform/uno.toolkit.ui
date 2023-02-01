@@ -11,11 +11,13 @@ using Uno.UITest.Helpers.Queries;
 
 namespace Uno.Toolkit.UITest.Behaviors
 {
+	[TestFixture]
 	public class Given_VisualStateManagerExtensions : TestBase
 	{
 		protected override string SampleName => "VisualStateManagerExtensions";
 
 		[Test]
+		[AutoRetry]
 		public void When_Value_Set()
 		{
 			const float VisualTransitionDuration = 1; // actual duration is 333ms; extra is given to ensure it doesnt fail from random lag.

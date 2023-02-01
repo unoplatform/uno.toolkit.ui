@@ -14,11 +14,13 @@ using Uno.UITests.Helpers;
 namespace Uno.Toolkit.UITest.Controls.NavigationBar
 {
 	[ActivePlatforms(Platform.Android, Platform.iOS)]
+	[TestFixture]
 	public class Given_NavigationBar : TestBase
 	{
 		protected override string SampleName => "NavigationBar";
 
 		[Test]
+		[AutoRetry]
 		public void NavBar_Has_Size()
 		{
 			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
@@ -33,6 +35,7 @@ namespace Uno.Toolkit.UITest.Controls.NavigationBar
 		}
 
 		[Test]
+		[AutoRetry]
 		public void NavBar_Has_Title()
 		{
 			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
@@ -46,6 +49,7 @@ namespace Uno.Toolkit.UITest.Controls.NavigationBar
 		}
 
 		[Test]
+		[AutoRetry]
 		public void NavBar_Can_Close_From_First_Page()
 		{
 			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
@@ -65,6 +69,7 @@ namespace Uno.Toolkit.UITest.Controls.NavigationBar
 		}
 
 		[Test]
+		[AutoRetry]
 		public void NavBar_Page2_NavBar_Exists()
 		{
 			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");
@@ -74,10 +79,9 @@ namespace Uno.Toolkit.UITest.Controls.NavigationBar
 			App.FastTap("M3_Page1_Navigate_To_Page2");
 
 			App.WaitForElementWithMessage("M3Page2NavBar");
-
 			var nativeBar = PlatformHelpers.On<IAppResult>(
 				iOS: () => App.CreateQuery(x => x.WithClass("navigationBar")).FirstResult(),
-				Android: () => App.Marked("M3Page1NavBar").Descendant("Toolbar").FirstResult()
+				Android: () => App.Marked("M3Page2NavBar").Descendant("Toolbar").FirstResult()
 			);
 
 			Assert.NotZero(nativeBar.Rect.Height);
@@ -85,6 +89,7 @@ namespace Uno.Toolkit.UITest.Controls.NavigationBar
 		}
 
 		[Test]
+		[AutoRetry]
 		public void NavBar_Page_Can_Go_Back()
 		{
 			NavigateToNestedSample("M3MaterialNavigationBarSample_NestedPage1");

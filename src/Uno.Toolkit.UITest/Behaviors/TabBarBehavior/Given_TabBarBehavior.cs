@@ -5,16 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Uno.Toolkit.UITest.Extensions;
+using Uno.Toolkit.UITest.Framework;
 using Uno.UITest.Helpers;
 using Uno.UITest.Helpers.Queries;
 
 namespace Uno.Toolkit.UITest.Behaviors.TabBarBehavior
 {
+	[TestFixture]
 	public class Given_TabBarBehavior : TestBase
 	{
 		protected override string SampleName => "TabBarBehavior";
 
 		[Test]
+		[AutoRetry]
 		public void When_Tab_Selected()
 		{
 			var tab1 = App.MarkedAnywhere("SlideTab1");

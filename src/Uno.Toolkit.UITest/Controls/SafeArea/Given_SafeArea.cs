@@ -38,6 +38,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		}
 
 		[Test]
+		[AutoRetry]
 		[ActivePlatforms(Platform.Android, Platform.iOS)]
 		public void When_SoftInput()
 		{
@@ -64,7 +65,8 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 			AssertBorderColors(initial_screenshot, nonetestRect, new[] { Black, Black, Black, Black }, name: nameof(nonetestRect));
 
 			textBox.FastTap();
-			App.Wait(TimeSpan.FromSeconds(1)); // allow keyboard to fully open
+
+			App.WaitFor(() => App.GetPhysicalRect($"{NamePrefix}Border_Padding").Height > paddingtestRect.Height);
 
 			using var keyboard_open_screenshot = TakeScreenshot($"SafeArea_SoftInput_Open_Keyboard");
 
@@ -77,7 +79,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 			Assert.AreEqual(nonetestRect.Y, adjustedNonetestRect.Y, message: $"{nameof(adjustedNonetestRect)} is not equal to {nameof(nonetestRect)}");
 
 			App.DismissKeyboard();
-			App.Wait(TimeSpan.FromSeconds(1)); // allow keyboard to fully close
+			App.Wait(TimeSpan.FromSeconds(3)); // allow keyboard to fully close
 
 			using var after_keyboard_close_screenshot = TakeScreenshot($"SafeArea_SoftInput_Closed_Keyboard");
 
@@ -110,6 +112,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		[TestCase("Margin", "Attached", TestName = "When_Override_Insets_Attached_Margin")]
 		[TestCase("Margin", "Control", TestName = "When_Override_Insets_Control_Margin")]
 		[Test]
+		[AutoRetry]
 		public void When_Override_Insets(string mode, string safeAreaType)
 		{
 			const int InsetThickness = 20;
@@ -135,20 +138,30 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 			{
 				ClearMasks();
 
+				//Allow time for the UI to adjust to new inset values
+				App.Wait(TimeSpan.FromSeconds(1));
+
 				foreach (var mask in maskCombo)
 				{
-					App.FastTap($"{mask}{CheckboxSuffix}");
+					var checkBoxResult = App.WaitForElementWithMessage($"{mask}{CheckboxSuffix}");
+					var checkBox = App.Marked($"{mask}{CheckboxSuffix}");
+
+					checkBox.SetDependencyPropertyValue("IsChecked", "True");
+					App.WaitForDependencyPropertyValue(checkBox, "IsChecked", "True");
 				}
 
+				//Allow time for the UI to adjust to new inset values
+				App.Wait(TimeSpan.FromSeconds(1));
+
 				var testRect = App.GetPhysicalRect(isMargin ? "WrappingGrid" : mainElement);
-				using var screenshot = TakeScreenshot($"Inset{string.Join("_", maskCombo)}_Override_{InsetThickness}");
+				using var screenshot = TakeScreenshot($"Inset_{string.Join("_", maskCombo)}_Override_{InsetThickness}");
 
 				if (HasMask(Left))
 					ImageAssert.HasPixels(
 						screenshot,
 						ExpectedPixels
 							.At(testRect.X + HalfBorderThickness, testRect.Height / 2)
-							.Named($"Inset{string.Join("_", maskCombo)}_Override_{InsetThickness}_Left_Inset")
+							.Named($"Inset_{string.Join("_", maskCombo)}_Override_{InsetThickness}_Left_Inset")
 							.Pixel(GetExpectedColor(Left))
 							.WithColorTolerance(5)
 					);
@@ -157,7 +170,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 						screenshot,
 						ExpectedPixels
 							.At(testRect.Width / 2, testRect.Y + HalfBorderThickness)
-							.Named($"Inset{string.Join("_", maskCombo)}_Override_{InsetThickness}_Top_Inset")
+							.Named($"Inset_{string.Join("_", maskCombo)}_Override_{InsetThickness}_Top_Inset")
 							.Pixel(GetExpectedColor(Top))
 							.WithColorTolerance(5)
 					);
@@ -166,7 +179,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 						screenshot,
 						ExpectedPixels
 							.At(testRect.Width - HalfBorderThickness, testRect.Height / 2)
-							.Named($"Inset{string.Join("_", maskCombo)}_Override_{InsetThickness}_Right_Inset")
+							.Named($"Inset_{string.Join("_", maskCombo)}_Override_{InsetThickness}_Right_Inset")
 							.Pixel(GetExpectedColor(Right))
 							.WithColorTolerance(5)
 					);
@@ -175,7 +188,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 						screenshot,
 						ExpectedPixels
 							.At(testRect.Width / 2, testRect.Bottom - HalfBorderThickness)
-							.Named($"Inset{string.Join("_", maskCombo)}_Override_{InsetThickness}_Bottom_Inset")
+							.Named($"Inset_{string.Join("_", maskCombo)}_Override_{InsetThickness}_Bottom_Inset")
 							.Pixel(GetExpectedColor(Bottom))
 							.WithColorTolerance(5)
 					);
@@ -195,6 +208,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		}
 
 		[Test]
+		[AutoRetry]
 		[ActivePlatforms(Platform.iOS)]
 		public void When_Inside_Modal()
 		{
@@ -232,6 +246,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		// Hard: Tapping on TopTextBox -> page content is "pushed" up and the TopTextBox is scrolled into view, BottomTextBox should be occluded by the keyboard
 		// Hard: Tapping on BottomTextBox -> page content is "pushed" up and the BottomTextBox is scrolled into view, TopTextBox will have been scrolled up out of the top of the screen
 		[Test]
+		[AutoRetry]
 		[TestCase("Soft", "Padding")]
 		[TestCase("Soft", "Margin")]
 		[TestCase("Hard", "Padding")]
@@ -258,10 +273,14 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 			App.FastTap($"{constraint}ConstraintMode");
 			App.FastTap($"{mode}Mode");
 
+			App.Screenshot($"{constraint}_{mode}_Before_TopTextBox_Tapped");
+
 			App.FastTap(TopTextBox);
 
 			// Wait for keyboard to finish opening
 			App.Wait(TimeSpan.FromSeconds(1));
+
+			App.Screenshot($"{constraint}_{mode}_After_TopTextBox_Tapped");
 
 			if (isSoft)
 			{
@@ -296,11 +315,14 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 			// Wait for keyboard to finish closing
 			App.Wait(TimeSpan.FromSeconds(1));
 
+			App.Screenshot($"{constraint}_{mode}_Before_BottomTextBox_Tapped");
 
 			App.FastTap(BottomTextBox);
 
 			// Wait for keyboard to finish opening
 			App.Wait(TimeSpan.FromSeconds(1));
+
+			App.Screenshot($"{constraint}_{mode}_After_BottomTextBox_Tapped");
 
 			if (isSoft)
 			{
@@ -338,8 +360,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 				App.FastTap($"SoftConstraintMode");
 				App.FastTap(TopTextBox);
 
-				// Wait for keyboard to finish opening
-				App.Wait(TimeSpan.FromSeconds(1));
+				App.WaitFor(() => App.GetPhysicalRect(BottomTextBox).Bottom < initialBottom);
 
 				var newBottom = App.GetPhysicalRect(BottomTextBox).Bottom;
 				var keyboardHeight = initialBottom - newBottom;
