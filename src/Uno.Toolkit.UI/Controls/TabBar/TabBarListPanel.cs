@@ -40,30 +40,39 @@ namespace Uno.Toolkit.UI
 		protected override Size MeasureOverride(Size availableSize)
 		{
 			var desiredSize = new Size();
-
-			var totalWidth = 0d;
-			var totalHeight = 0d;
 			var widthOfWidest = 0d;
 			var heightOfTallest = 0d;
 
 			var visibleChildren = Children.Where(IsVisible);
+
 			var count = visibleChildren.Count();
+			if (count < 1)
+			{
+				return availableSize.FiniteOrDefault(default);
+			}
+
+			Size cellSize = new Size();
+			if (Orientation == Orientation.Vertical)
+			{
+				cellSize = new Size(availableSize.Width, availableSize.Height / count);
+			}
+			else
+			{
+				cellSize = new Size(availableSize.Width / count, availableSize.Height);
+			}
+
 
 			foreach (var child in visibleChildren)
 			{
-				child.Measure(availableSize);
+				child.Measure(cellSize);
 
 				var childDesiredSize = child.DesiredSize.FiniteOrDefault(default);
 
-				// Calculate width of all items as if they were laid out horizontally
-				totalWidth += childDesiredSize.Width;
 				if (childDesiredSize.Width > widthOfWidest)
 				{
 					widthOfWidest = childDesiredSize.Width;
 				}
 
-				// Calculate height of all items if they were laid out vertically
-				totalHeight += childDesiredSize.Height;
 				if (childDesiredSize.Height > heightOfTallest)
 				{
 					heightOfTallest = childDesiredSize.Height;
@@ -73,15 +82,15 @@ namespace Uno.Toolkit.UI
 			if (Orientation == Orientation.Vertical)
 			{
 				desiredSize.Width = widthOfWidest;
-				desiredSize.Height = totalHeight;
+				desiredSize.Height = availableSize.Height;
 			}
 			else
 			{
-				desiredSize.Width = totalWidth;
+				desiredSize.Width = availableSize.Width;
 				desiredSize.Height = heightOfTallest;
 			}
 
-			return desiredSize;
+			return desiredSize.FiniteOrDefault(default);;
 		}
 
 		protected override Size ArrangeOverride(Size finalSize)
