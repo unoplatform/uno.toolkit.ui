@@ -1,16 +1,11 @@
 ﻿jobs:
-
-- job: Android_Build_For_Tests
-  displayName: 'Build Android Samples App'
-
-  pool:
-    vmImage: 'macOS-11'
-
+- job: Android_UITests
+  displayName: 'Android UI Tests'
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    VS_MSBUILD: '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll'
-  
+    XamarinSDKVersion: 6_12_12
+
   strategy:
     maxParallel: 2
     matrix:
@@ -21,82 +16,6 @@
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
         XAML_FLAVOR_BUILD: WinUI
 
-  steps:
-  - checkout: self
-    clean: true
-
-  - template: templates/dotnet7-install-mac.yml
-  - template: templates/jdk-setup.yml
-
-  - script: |
-      mono '$(VS_MSBUILD)' '$(BUILD.SOURCESDIRECTORY)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Droid/$(SAMPLE_PROJECT_NAME).Droid.csproj' /m /r /p:Configuration=Release /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet6MobileTargets=true /p:IsUiAutomationMappingEnabled=true /p:AndroidBuildApplicationPackage=True /p:AndroidUseLatestPlatformSdk=true /bl:$(build.artifactstagingdirectory)/android-sampleapp.binlog
-    displayName: Build Android Samples App ($(XAML_FLAVOR_BUILD))
-
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Droid/bin/Release/
-      Contents: '$(SAMPLE_PROJECT_NAME)-Signed.apk'
-      TargetFolder: $(build.artifactstagingdirectory)
-      CleanTargetFolder: false
-      OverWrite: false
-      flattenFolders: false
-
-  - task: PublishBuildArtifacts@1
-    condition: always()
-    retryCountOnTaskFailure: 3
-    inputs:
-      PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: sampleapp-android-build-$(XAML_FLAVOR_BUILD)
-      ArtifactType: Container
-
-
-- job: Android_UITests
-  displayName: 'Run Android UI Tests'
-  dependsOn:
-  - Android_Build_For_Tests
-  - Toolkit_UITests_Build
-  timeoutInMinutes: 90
-  variables:
-    CI_Build: true
-    SourceLinkEnabled: false
-    XamarinSDKVersion: 6_12_12
-
-  strategy:
-    maxParallel: 4
-    matrix:
-      UWP:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: Automated
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-UWP-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-android-build-UWP
-      WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
-        XAML_FLAVOR_BUILD: WinUI
-        UITEST_TEST_MODE_NAME: Automated
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-WinUI-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-android-build-WinUI
-
-      UWP_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: RuntimeTests
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-UWP-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-android-build-UWP
-
-      WinUI_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
-        XAML_FLAVOR_BUILD: WinUI
-        UITEST_TEST_MODE_NAME: RuntimeTests
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-WinUI-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-android-build-WinUI
-
-
   pool:
     vmImage: 'macOS-11'
 
@@ -104,20 +23,19 @@
   - checkout: self
     clean: true
 
-  - task: DownloadBuildArtifacts@0
-    displayName: 'Download Android SamplesApp Binaries'
-    inputs:
-        artifactName: $(SAMPLEAPP_ARTIFACT_NAME)
-        downloadPath: '$(build.sourcesdirectory)/build'
+  - task: UseDotNet@2 
+    displayName: 'Use .NET 5.0.406' 
+    retryCountOnTaskFailure: 3 
+    inputs: 
+      packageType: runtime 
+      version: 5.0.15 
 
-  - task: DownloadBuildArtifacts@0
-    displayName: 'Download UITest Binaries'
-    inputs:
-        artifactName: toolkit-uitest-binaries
-        downloadPath: '$(build.sourcesdirectory)/build'
-
-  - template: templates/dotnet7-install-mac.yml
-  - template: templates/jdk-setup.yml
+  - task: UseDotNet@2 
+    displayName: 'Use .NET runtime 2.2.x' 
+    retryCountOnTaskFailure: 3 
+    inputs: 
+      packageType: runtime 
+      version: 2.2.x
 
   - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
     displayName: Select Xamarin Version
@@ -132,16 +50,16 @@
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
       $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
-    displayName: Run Android UITests ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))
+    displayName: Build and Run Android Tests
     retryCountOnTaskFailure: 3
 
   - task: PublishTestResults@2
     condition: always()
     retryCountOnTaskFailure: 3
     inputs:
-      testRunTitle: 'Android UITest Run ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))'
+      testRunTitle: 'Android UI Test Run ($(XAML_FLAVOR_BUILD))'
       testResultsFormat: 'NUnit'
-      testResultsFiles: $(build.sourcesdirectory)/build/$(UNO_TEST_RESULTS_FILE_NAME)
+      testResultsFiles: '$(build.sourcesdirectory)/build/TestResult-original.xml'
       failTaskOnFailedTests: true
 
   - task: PublishBuildArtifacts@1
@@ -149,5 +67,5 @@
     retryCountOnTaskFailure: 3
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: toolkit-uitests
+      ArtifactName: uno-uitest-tests-$(XAML_FLAVOR_BUILD)
       ArtifactType: Container

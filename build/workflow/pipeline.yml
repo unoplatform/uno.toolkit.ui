@@ -75,7 +75,7 @@ jobs:
   
   steps:
     - template: templates/gitversion.yml
-    - template: templates/dotnet7-install-windows.yml
+    - template: templates/dotnet6-install-windows.yml
 
     # This SDK version is needed as long as `uap10.0` will be supported in Uno.Core
     - powershell: .\build\Install-WindowsSdkISO.ps1 18362
@@ -126,7 +126,7 @@ jobs:
       provProfileSecureFile: Uno_Toolkit_iOS.mobileprovision
 
   - template: templates/gitversion.yml
-  - template: templates/dotnet7-install-mac.yml
+  - template: templates/dotnet6-install-mac.yml
 
   - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
     displayName: Select Xamarin Version
@@ -156,7 +156,6 @@ jobs:
       BUILD_SOLUTION: "src/Uno.Toolkit.sln"
       BUILD_BINLOG: "$(build.artifactstagingdirectory)/toolkit-build-$(ApplicationPlatform).binlog"
 
-- template: stage-uitests-build.yml
 - template: stage-uitests-wasm.yml
 - template: stage-uitests-ios.yml
 - template: stage-uitests-android.yml
