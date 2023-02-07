@@ -332,7 +332,7 @@
 														 HorizontalAlignment="Center">
 													<ContentPresenter x:Name="Icon"
 																	  Content="{TemplateBinding Icon}"
-																	  Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+																	  Foreground="{TemplateBinding Foreground}" />
 												</Viewbox>
 											</Border>
 
