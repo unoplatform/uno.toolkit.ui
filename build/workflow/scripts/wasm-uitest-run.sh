@@ -24,7 +24,7 @@ mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 cd $BUILD_SOURCESDIRECTORY
 
 dotnet build /r /p:Configuration=Release $UNO_UITEST_PROJECT
-dotnet build /r /p:Configuration=Release $UNO_UITEST_WASM_PROJECT /p:IsUiAutomationMappingEnabled=True /p:DisableNet6MobileTargets=True
+dotnet build /r /p:Configuration=Release $UNO_UITEST_WASM_PROJECT /p:IsUiAutomationMappingEnabled=True /p:UnoToolkitDisableNet6=True
 
 # Start the server
 dotnet run --project $UNO_UITEST_WASM_PROJECT -c Release --no-build &

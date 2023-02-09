@@ -20,7 +20,7 @@
 			Available build targets
 
 				uap10.0.18362 (Windows)
-				net5.0-windows10.0.18362 (WinAppSDK Windows)
+				net6.0-windows10.0.18362 (WinAppSDK Windows)
 				xamarinios10 (iOS)
 				MonoAndroid12.0 (Android 12.0)
 				netstandard2.0 (WebAssembly, Skia)
@@ -33,5 +33,6 @@
 			Include netstandard2.0 to make sure all projects build
 		-->
 		<!-- <UnoTargetFrameworkOverride>netstandard2.0;uap10.0.18362</UnoTargetFrameworkOverride> -->
+		<!-- <UnoToolkitDisableNet6>true</UnoToolkitDisableNet6> -->
 	</PropertyGroup>
 </Project>

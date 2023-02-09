@@ -25,7 +25,7 @@ xcrun simctl list devices --json
 cd $BUILD_SOURCESDIRECTORY
 
 mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release $UNO_UITEST_PROJECT
-mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:IsUiAutomationMappingEnabled=True /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet6MobileTargets=True $UNO_UITEST_IOS_PROJECT 
+mono '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll' /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:IsUiAutomationMappingEnabled=True /p:UnoUIUseRoslynSourceGenerators=False /p:UnoToolkitDisableNet6=True $UNO_UITEST_IOS_PROJECT 
 
 # echo "Current system date"
 # date
