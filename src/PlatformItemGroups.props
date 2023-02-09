@@ -75,7 +75,7 @@
 	</ItemGroup>
 
 	<Choose>
-		<When Condition="$(_IsAndroid) or $(_IsIOS)">
+		<When Condition="$(_IsAndroid) or $(IsIOSOrCatalyst)">
 			<ItemGroup>
 				<IncludeXamlNamespaces Include="mobile" />
 				<ExcludeXamlNamespaces Include="not_mobile" />
