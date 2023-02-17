@@ -167,4 +167,70 @@ internal class AutoLayoutTest
 		Assert.AreEqual(border3Transform!.Matrix.OffsetY!, expectedY);
 		Assert.AreEqual(border3Transform!.Matrix.OffsetX!, expectedX);
 	}
+
+	[TestMethod]
+	[DataRow(true, Orientation.Horizontal, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 205)]
+	[DataRow(true, Orientation.Vertical, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 205)]
+	[DataRow(false, Orientation.Vertical, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 220)]
+	[DataRow(false, Orientation.Horizontal, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 220)]
+	public async Task When_Padding(bool isStretch, Orientation orientation, int[] padding, int spacing, double expectedY, double expectedX, double rec1expected, double rec2expected)
+	{
+		var SUT = new AutoLayout()
+		{
+			Orientation = orientation,
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
+			Padding = new Thickness(padding[0], padding[1], padding[2], padding[3]),
+			Spacing = spacing,
+			Width = 400,
+			Height = 400,
+		};
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+		};
+
+		var border2 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 255, 0)),
+		};
+
+		if (isStretch)
+		{
+			AutoLayout.SetPrimaryAlignment(border1, AutoLayoutPrimaryAlignment.Stretch);
+			AutoLayout.SetPrimaryAlignment(border2, AutoLayoutPrimaryAlignment.Stretch);
+		}
+		else
+		{
+			border1!.Width = 200;
+			border2!.Width = 200;
+			border1!.Height = 200;
+			border2!.Height = 200;
+		}
+
+		if (orientation is Orientation.Horizontal)
+		{
+			AutoLayout.SetCounterAlignment(border1, AutoLayoutAlignment.Start);
+			AutoLayout.SetCounterAlignment(border2, AutoLayoutAlignment.Start);
+		}
+
+		SUT.Children.Add(border1);
+		SUT.Children.Add(border2);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var border1Transform = (MatrixTransform)border1.TransformToVisual(SUT);
+		var border2Transform = (MatrixTransform)border2.TransformToVisual(SUT);
+
+		if (orientation is Orientation.Vertical)
+		{
+			Assert.AreEqual(border1Transform!.Matrix.OffsetY!, rec1expected);
+			Assert.AreEqual(border2Transform!.Matrix.OffsetY!, rec2expected);
+		}
+		else
+		{
+			Assert.AreEqual(border1Transform!.Matrix.OffsetX!, rec1expected);
+			Assert.AreEqual(border2Transform!.Matrix.OffsetX!, rec2expected);
+		}
+	}
+
 }

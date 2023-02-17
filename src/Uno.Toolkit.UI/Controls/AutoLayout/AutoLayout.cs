@@ -440,7 +440,7 @@ namespace Uno.Toolkit.UI
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
 				}
 
-				var paddingCondition = PrimaryAxisAlignment is not AutoLayoutAlignment.Start || IsVerticalHug;
+				var paddingCondition = atLeastOneChildFillAvailableSpaceInPrimaryAxis || PrimaryAxisAlignment is not AutoLayoutAlignment.Start || IsVerticalHug;
 
 				if ( hasSpaceBetween || (hasPadding && paddingCondition))
 				{
@@ -469,7 +469,9 @@ namespace Uno.Toolkit.UI
 				{
 					_grid.Padding = new Thickness(0);
 
-					_grid.ColumnDefinitions.Insert(gridIndexOffSet, new ColumnDefinition() { Width = new GridLength(spacing < 0 ? padding.Left - spacing : padding.Left) });
+					var firstColumnWidth = new GridLength(spacing < 0 ? padding.Left - spacing : padding.Left);
+
+					_grid.ColumnDefinitions.Insert(gridIndexOffSet, new ColumnDefinition() { Width = firstColumnWidth });
 					gridIndexOffSet += 1;
 
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Top) });
@@ -587,11 +589,13 @@ namespace Uno.Toolkit.UI
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 				}
 
-				var paddingCondition = PrimaryAxisAlignment is not AutoLayoutAlignment.Start || IsHorizontalHug;
+				var paddingCondition = atLeastOneChildFillAvailableSpaceInPrimaryAxis || PrimaryAxisAlignment is not AutoLayoutAlignment.Start || IsHorizontalHug;
 
 				if (hasSpaceBetween || (hasPadding && paddingCondition))
 				{
-					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(spacing < 0 ? padding.Right - spacing : padding.Right) });
+					var lastColumnWidth = new GridLength(spacing < 0 ? padding.Right - spacing : padding.Right);
+
+					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = lastColumnWidth });
 				}
 			}
 
