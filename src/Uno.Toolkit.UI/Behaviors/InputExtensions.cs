@@ -27,6 +27,40 @@ namespace Uno.Toolkit.UI
 	{
 		private static readonly ILogger _logger = typeof(InputExtensions).Log();
 
+		#region DependencyProperty: KeyUpCommand
+
+		/// <summary>
+		/// Backing property to trigger a command when a key is released.
+		/// </summary>
+		public static DependencyProperty KeyUpCommandProperty { get; } = DependencyProperty.RegisterAttached(
+			"KeyUpCommand", typeof(ICommand), typeof(InputExtensions), new PropertyMetadata(default(ICommand), OnKeyUpCommandChanged));
+
+		public static ICommand GetKeyUpCommand(UIElement element)
+			=> (ICommand)element.GetValue(KeyUpCommandProperty);
+
+		public static void SetKeyUpCommand(UIElement element, ICommand command)
+			=> element.SetValue(KeyUpCommandProperty, command);
+
+		private static void OnKeyUpCommandChanged(DependencyObject snd, DependencyPropertyChangedEventArgs args)
+		{
+			if (snd is UIElement elt)
+			{
+				elt.KeyUp -= OnKeyUp;
+				if (args.NewValue is ICommand)
+				{
+					elt.KeyUp += OnKeyUp;
+				}
+			}
+		}
+		private static void OnKeyUp(object snd, KeyRoutedEventArgs e)
+		{
+			if (snd is UIElement elt && GetKeyUpCommand(elt) is { } command
+				&& command.CanExecute(e.Key))
+			{
+				command.Execute(e.Key);
+			}
+		}
+		#endregion
 		#region DependencyProperty: AutoDismiss
 
 		/// <summary>
