@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.Cupertino" />
-    <PackageReference Include="Uno.Material" />
     <PackageReference Include="Uno.UI" />
     <PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UniversalImageLoader" />

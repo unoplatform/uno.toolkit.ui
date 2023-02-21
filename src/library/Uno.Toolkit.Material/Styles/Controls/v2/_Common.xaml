@@ -3,12 +3,6 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:um="using:Uno.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit">
-
-    <ResourceDictionary.MergedDictionaries>
-        <um:MaterialFonts />
-        <um:MaterialColorsV2 />
-    </ResourceDictionary.MergedDictionaries>
-
 	<!-- Implicit styles -->
 	<Style BasedOn="{StaticResource MaterialDividerStyle}" TargetType="utu:Divider" />
 	<Style BasedOn="{StaticResource MaterialNavigationBarStyle}" TargetType="utu:NavigationBar" />

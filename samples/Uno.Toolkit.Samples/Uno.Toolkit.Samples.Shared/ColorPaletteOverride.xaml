@@ -2,18 +2,16 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<ResourceDictionary.ThemeDictionaries>
+		<!-- PrimaryColor is slightly altered in order to test custom overrides on theme init -->
 
 		<!-- Light Theme -->
 		<ResourceDictionary x:Key="Light">
-			<!-- Override default Material colors with ours -->
-			
+			<Color x:Key="PrimaryColor">#5946D1</Color>
 		</ResourceDictionary>
 
 		<!-- Dark Theme -->
 		<ResourceDictionary x:Key="Dark">
-			<!-- Override default Material colors with ours -->
+			<Color x:Key="PrimaryColor">#544793</Color>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
-
-
 </ResourceDictionary>

@@ -412,7 +412,7 @@
 		<Setter Property="Foreground"
 				Value="{ThemeResource OnSurfaceMediumBrush}" />
 		<Setter Property="BorderBrush"
-				Value="{StaticResource SystemControlTransparentBrush}" />
+				Value="{ThemeResource SystemControlTransparentBrush}" />
 		<Setter Property="FontFamily"
 				Value="{ThemeResource MaterialRegularFontFamily}" />
 		<Setter Property="FontSize"

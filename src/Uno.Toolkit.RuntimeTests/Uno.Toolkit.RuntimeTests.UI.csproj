@@ -4,4 +4,8 @@
 	</PropertyGroup>
 
 	<Import Project="Uno.Toolkit.RuntimeTests.props" />
+
+	<ItemGroup>
+	  <ProjectReference Include="..\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj" />
+	</ItemGroup>
 </Project>
