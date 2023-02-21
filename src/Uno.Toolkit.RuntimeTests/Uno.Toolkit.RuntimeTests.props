@@ -36,14 +36,15 @@
 			must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
 		-->
 
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22000.25" />
-		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22000.25" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.18362.21" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.21" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.UI.Xaml" Condition="'$(TargetFramework)'=='uap10.0.18362'" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
-
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
+		
 		<PackageReference Include="Uno.UI" Condition="'$(FrameworkLineage)' == 'UWP'" />
 		<PackageReference Include="Uno.WinUI" Condition="'$(FrameworkLineage)' == 'WinUI'" />
 		<PackageReference Include="Uno.UI.RuntimeTests.Engine" />
