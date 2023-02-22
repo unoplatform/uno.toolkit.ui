@@ -29,6 +29,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 internal class AutoLayoutTest
 {
 	[TestMethod]
+	[RequiresFullWindow]
 	[DataRow(Orientation.Vertical, 10, 130, 250)]
 	[DataRow(Orientation.Horizontal, 10, 70, 130)]
 	public async Task When_SpaceBetween_with_spacing(Orientation orientation, double expectedResult1, double expectedResult2, double expectedResult3)
@@ -64,19 +65,20 @@ internal class AutoLayoutTest
 
 		if (orientation is Orientation.Vertical)
 		{
-			Assert.AreEqual(layoutRect0Actual.Y, expectedResult1);
-			Assert.AreEqual(layoutRect1Actual.Y, expectedResult2);
-			Assert.AreEqual(layoutRect2Actual.Y, expectedResult3);
+			Assert.AreEqual(expectedResult1, layoutRect0Actual.Y);
+			Assert.AreEqual(expectedResult2, layoutRect1Actual.Y);
+			Assert.AreEqual(expectedResult3, layoutRect2Actual.Y);
 		}
 		else
 		{
-			Assert.AreEqual(layoutRect0Actual.X, expectedResult1);
-			Assert.AreEqual(layoutRect1Actual.X, expectedResult2);
-			Assert.AreEqual(layoutRect2Actual.X, expectedResult3);
+			Assert.AreEqual(expectedResult1, layoutRect0Actual.X);
+			Assert.AreEqual(expectedResult2, layoutRect1Actual.X);
+			Assert.AreEqual(expectedResult3, layoutRect2Actual.X);
 		}
 	}
 
 	[TestMethod]
+	[RequiresFullWindow]
 	[DataRow(true, Orientation.Vertical, VerticalAlignment.Bottom, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 0, 0, 10 }, 10, 298, 110, 12, 185)]
 	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 10, 12, 110, 12, 185)]
 	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -30, 12, 110, 12, 165)]
@@ -172,6 +174,7 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
+	[RequiresFullWindow]
 	[DataRow(true, Orientation.Horizontal, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 205)]
 	[DataRow(true, Orientation.Vertical, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 205)]
 	[DataRow(false, Orientation.Vertical, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 220)]
@@ -226,13 +229,13 @@ internal class AutoLayoutTest
 
 		if (orientation is Orientation.Vertical)
 		{
-			Assert.AreEqual(border1Transform!.Matrix.OffsetY!, rec1expected);
-			Assert.AreEqual(border2Transform!.Matrix.OffsetY!, rec2expected);
+			Assert.AreEqual(rec1expected, border1Transform!.Matrix.OffsetY!);
+			Assert.AreEqual(rec2expected, border2Transform!.Matrix.OffsetY!);
 		}
 		else
 		{
-			Assert.AreEqual(border1Transform!.Matrix.OffsetX!, rec1expected);
-			Assert.AreEqual(border2Transform!.Matrix.OffsetX!, rec2expected);
+			Assert.AreEqual(rec1expected, border1Transform!.Matrix.OffsetX!);
+			Assert.AreEqual(rec2expected, border2Transform!.Matrix.OffsetX!);
 		}
 	}
 
