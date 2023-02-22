@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using Uno.Toolkit.UITest.Extensions;
 using Uno.Toolkit.UITest.Framework;
 using Uno.UITest;
@@ -53,7 +54,6 @@ namespace Uno.Toolkit.UITest
 			private set
 			{
 				_app = value;
-				Uno.UITest.Helpers.Queries.Helpers.App = value;
 			}
 		}
 
@@ -61,8 +61,6 @@ namespace Uno.Toolkit.UITest
 		[AutoRetry]
 		public virtual void SetUpTest()
 		{
-			App = AppInitializer.AttachToApp();
-
 			// Check if the test needs to be ignore or not
 			// If nothing specified, it is considered as a global test
 			var platforms = GetActivePlatforms()?.Distinct().ToArray() ?? Array.Empty<Platform>();
@@ -100,21 +98,29 @@ namespace Uno.Toolkit.UITest
 				}
 			}
 
-			App.WaitForElementWithMessage("AppShell");
+			var app = AppInitializer.AttachToApp();
+			_app = app ?? _app;
+
+			Helpers.App = _app;
+
+			_app.WaitForElementWithMessage("AppShell");
 			NavigateToSample(SampleName);
 		}
 
 		[TearDown]
-		[AutoRetry]
 		public void TearDownTest()
 		{
-			TakeScreenshot("teardown");
+			if (TestContext.CurrentContext.Result.Outcome != ResultState.Success
+				&& TestContext.CurrentContext.Result.Outcome != ResultState.Skipped
+				&& TestContext.CurrentContext.Result.Outcome != ResultState.Ignored)
+			{
+				TakeScreenshot($"{TestContext.CurrentContext.Test.Name} - Tear down on error");
+			}
 
 			if (App.Marked("NestedSampleFrame").HasResults())
 			{
 				ExitNestedSample();
 			}
-
 		}
 
 		protected void NavigateBackFromNestedSample()

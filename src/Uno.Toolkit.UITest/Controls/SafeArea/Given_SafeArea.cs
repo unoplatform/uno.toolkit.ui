@@ -147,7 +147,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 					var checkBox = App.Marked($"{mask}{CheckboxSuffix}");
 
 					checkBox.SetDependencyPropertyValue("IsChecked", "True");
-					App.WaitForDependencyPropertyValue(checkBox, "IsChecked", "True");
+					App.WaitForDependencyPropertyValue(checkBox, "IsChecked", true);
 				}
 
 				//Allow time for the UI to adjust to new inset values

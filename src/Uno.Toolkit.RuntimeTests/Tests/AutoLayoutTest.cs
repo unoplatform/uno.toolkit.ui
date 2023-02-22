@@ -176,7 +176,6 @@ internal class AutoLayoutTest
 	[DataRow(true, Orientation.Vertical, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 205)]
 	[DataRow(false, Orientation.Vertical, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 220)]
 	[DataRow(false, Orientation.Horizontal, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 220)]
-	[Ignore]
 	public async Task When_Padding(bool isStretch, Orientation orientation, int[] padding, int spacing, double expectedY, double expectedX, double rec1expected, double rec2expected)
 	{
 		var SUT = new AutoLayout()
