@@ -43,21 +43,9 @@ namespace Uno.Toolkit.WinUI.Samples.Droid
 		[Export("GetScreenshot")]
 		public string GetScreenshot(string displayId)
 		{
-			var rootView = this.ContentView;
-
-			var bitmap = Android.Graphics.Bitmap.CreateBitmap(rootView.Width, rootView.Height, Android.Graphics.Bitmap.Config.Argb8888);
-			var locationOfViewInWindow = new int[2];
-			rootView.GetLocationInWindow(locationOfViewInWindow);
-
-			var xCoordinate = locationOfViewInWindow[0];
-			var yCoordinate = locationOfViewInWindow[1];
-
-			var scope = new Android.Graphics.Rect(
-				xCoordinate,
-				yCoordinate,
-				xCoordinate + rootView.Width,
-				yCoordinate + rootView.Height
-			);
+			// Get true size of screen, including status bar and bottom navigation bar
+			var metrics = Resources.DisplayMetrics;
+			var bitmap = Android.Graphics.Bitmap.CreateBitmap(metrics.WidthPixels, metrics.HeightPixels, Android.Graphics.Bitmap.Config.Argb8888);
 
 			if (_pixelCopyHandlerThread == null)
 			{
@@ -67,8 +55,8 @@ namespace Uno.Toolkit.WinUI.Samples.Droid
 
 			var listener = new PixelCopyListener();
 
-			// PixelCopy.Request returns the actual rendering of the screen location
-			// for the app, incliing OpenGL content.
+			// PixelCopy.Request returns the actual rendering of the screen location for the app, including OpenGL content.
+			// Setting srcRect to null ensures that the entire screen, including status bar and bottom navigation bar, are captured.
 			PixelCopy.Request(Window, srcRect: null, bitmap, listener, new Android.OS.Handler(_pixelCopyHandlerThread.Looper));
 
 			listener.WaitOne();

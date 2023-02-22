@@ -224,7 +224,13 @@ namespace Uno.Toolkit.UI
 			var visibleBounds = safeAreaOverride?.IsEmptyOrZero() ?? true
 				? ApplicationView.GetForCurrentView().VisibleBounds
 				: safeAreaOverride.GetValueOrDefault();
-
+#if __ANDROID__
+			var statusBarOffset = 0d;
+			if (!XamlWindow.Current.IsStatusBarTranslucent())
+			{
+				statusBarOffset = Windows.UI.ViewManagement.StatusBar.GetForCurrentView()?.OccludedRect.Height ?? 0d;
+			}
+#endif
 			if (withSoftInput)
 			{
 				var inputRect = InputPane.GetForCurrentView()?.OccludedRect ?? Rect.Empty;
@@ -241,11 +247,7 @@ namespace Uno.Toolkit.UI
 					// the InputRect to align with the VisibleBounds Rect.
 					if (totalOffset > 0)
 					{
-						var statusBarOffset = 0d;
-						if (!XamlWindow.Current.IsStatusBarTranslucent())
-						{
-							statusBarOffset = Windows.UI.ViewManagement.StatusBar.GetForCurrentView()?.OccludedRect.Height ?? 0d;
-						}
+						
 
 						var navBarOffset = (totalOffset - statusBarOffset);
 
@@ -258,7 +260,13 @@ namespace Uno.Toolkit.UI
 
 				}
 			}
-
+#if __ANDROID__
+			else
+			{
+				visibleBounds.Y += statusBarOffset;
+				visibleBounds.Height -= statusBarOffset;
+			}
+#endif
 			return visibleBounds;
 #endif
 		}
