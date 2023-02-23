@@ -14,7 +14,7 @@
 		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('MonoAndroid12.0'))">$(TargetFrameworks);MonoAndroid12.0</TargetFrameworks>
 		<!-- condition: in addition to the above condition, we ALSO check if the right FrameworkLineage is given and that we are building on window machine -->
 		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'UWP' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('uap10.0.18362')))">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
-		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net5.0-windows10.0.18362')))">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
+		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(UnoTargetFrameworkOverride)'=='' OR $(UnoTargetFrameworkOverride.Contains('net6.0-windows10.0.18362')))">$(TargetFrameworks);net6.0-windows10.0.18362</TargetFrameworks>
 
 		<AssemblyName>Uno.Toolkit.RuntimeTests</AssemblyName>
 		<RootNamespace>Uno.Toolkit.RuntimeTests</RootNamespace>
@@ -22,14 +22,14 @@
 
 		<DefineConstants Condition="'$(FrameworkLineage)' == 'UWP'">$(DefineConstants);IS_UWP</DefineConstants>
 		<DefineConstants Condition="'$(FrameworkLineage)' == 'WinUI'">$(DefineConstants);IS_WINUI</DefineConstants>
-		<DefineConstants Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
+		<DefineConstants Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
 	</PropertyGroup>
 
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.UI.Xaml" Condition="'$(TargetFramework)'=='uap10.0.18362'" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'" />
 		
 		<PackageReference Include="Uno.UI" Condition="'$(FrameworkLineage)' == 'UWP'" />
 		<PackageReference Include="Uno.WinUI" Condition="'$(FrameworkLineage)' == 'WinUI'" />
