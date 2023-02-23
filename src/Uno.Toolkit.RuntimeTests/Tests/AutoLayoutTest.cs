@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -89,9 +90,6 @@ internal class AutoLayoutTest
 	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 10, 12, 110, 78, 138)]
 	[DataRow(false, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -20, 12, 110, 168, 248)]
 	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -20, 12, 110, 108, 138)]
-#if !__ANDROID__ && !__IOS__
-	[Ignore("Currently fails on wasm")]
-#endif
 	public async Task When_AbsolutePosition_WithPadding(bool isStretch, Orientation orientation, VerticalAlignment vAlign, HorizontalAlignment hAlign, int[] padding, int[] margin, int spacing, double expectedY, double expectedX, double rec1expected, double rec2expected)
 	{
 		var SUT = new AutoLayout()
@@ -158,19 +156,23 @@ internal class AutoLayoutTest
 		var border2Transform = (MatrixTransform)border2.TransformToVisual(SUT);
 		var border3Transform = (MatrixTransform)border3.TransformToVisual(SUT);
 
+		//Element with border in wasm don't give the same result for TransformToVisual
+		//https://github.com/unoplatform/uno/issues/11410
+		var offset = RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER")) ? 2 : 0;
+
 		if (orientation is Orientation.Vertical)
 		{
-			Assert.AreEqual(border1Transform!.Matrix.OffsetY!, rec1expected);
-			Assert.AreEqual(border2Transform!.Matrix.OffsetY!, rec2expected);
+			Assert.AreEqual(border1Transform!.Matrix.OffsetY!, rec1expected + offset);
+			Assert.AreEqual(border2Transform!.Matrix.OffsetY!, rec2expected + offset);
 		}
 		else
 		{
-			Assert.AreEqual(border1Transform!.Matrix.OffsetX!, rec1expected);
-			Assert.AreEqual(border2Transform!.Matrix.OffsetX!, rec2expected);
+			Assert.AreEqual(border1Transform!.Matrix.OffsetX!, rec1expected + offset);
+			Assert.AreEqual(border2Transform!.Matrix.OffsetX!, rec2expected + offset);
 		}
 
-		Assert.AreEqual(border3Transform!.Matrix.OffsetY!, expectedY);
-		Assert.AreEqual(border3Transform!.Matrix.OffsetX!, expectedX);
+		Assert.AreEqual(border3Transform!.Matrix.OffsetY!, expectedY + offset);
+		Assert.AreEqual(border3Transform!.Matrix.OffsetX!, expectedX + offset);
 	}
 
 	[TestMethod]
