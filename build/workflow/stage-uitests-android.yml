@@ -60,7 +60,7 @@
   dependsOn:
   - Android_Build_For_Tests
   - Toolkit_UITests_Build
-  timeoutInMinutes: 90
+  timeoutInMinutes: 120
   variables:
     CI_Build: true
     SourceLinkEnabled: false

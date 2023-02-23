@@ -27,7 +27,7 @@
     <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.32" />
     <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.32" />
     <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.32" />
-    <PackageVersion Include="Xamarin.UITest" Version="4.1.0" />
+    <PackageVersion Include="Xamarin.UITest" Version="4.1.2" />
     <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.5.0-2.final" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22518.1" />

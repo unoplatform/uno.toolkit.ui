@@ -66,6 +66,9 @@ namespace Uno.Toolkit.Samples.Droid
 			return Convert.ToBase64String(memoryStream.ToArray());
 		}
 
+		[Export("IsKeyboardOpen")]
+		public string IsKeyboardOpen() => App.IsKeyboardOpen();
+
 		class PixelCopyListener : Java.Lang.Object, PixelCopy.IOnPixelCopyFinishedListener
 		{
 			private ManualResetEvent _event = new ManualResetEvent(false);

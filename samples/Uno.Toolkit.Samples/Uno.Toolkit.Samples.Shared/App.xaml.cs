@@ -7,7 +7,7 @@ using Uno.UI;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Graphics.Display;
-
+using Windows.UI.ViewManagement;
 #if __IOS__
 using Foundation;
 #endif
@@ -216,6 +216,7 @@ namespace Uno.Toolkit.Samples
 		public static void ExitNestedSample() => Shell.GetForCurrentView()?.ExitNestedSample();
 		public static void NavigateToNestedSample(string pageName) => (Application.Current as App)?.NavigateToNestedSampleCore(pageName);
 		public static string GetDisplayScreenScaling(string value) => (DisplayInformation.GetForCurrentView().LogicalDpi * 100f / 96f).ToString(CultureInfo.InvariantCulture);
+		public static string IsKeyboardOpen() => InputPane.GetForCurrentView().Visible.ToString(CultureInfo.InvariantCulture);
 
 #if __IOS__
 		[Export("navBackFromNestedPage:")]
@@ -232,6 +233,9 @@ namespace Uno.Toolkit.Samples
 
 		[Export("getDisplayScreenScaling:")]
 		public NSString GetDisplayScreenScalingBackdoor(NSString value) => new NSString(GetDisplayScreenScaling(value));
+		
+		[Export("isKeyboardOpen:")]
+		public NSString IsKeyboardOpenBackdoor(NSString value) => new NSString(IsKeyboardOpen());
 #endif
 #endif
 	}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -143,13 +144,48 @@ namespace Uno.Toolkit.UITest
 			InvokeBackdoor("browser:SampleRunner|ExitNestedSample");
 		}
 
-		private void InvokeBackdoor(string methodName, object? arg = null)
+		protected void WaitForOpenedKeyboard()
+		{
+			_app.WaitFor(() => IsKeyboardOpen(), timeoutMessage: $"Timed out waiting for IsKeyboardOpen");
+		}
+		protected void WaitForClosedKeyboard()
+		{
+			_app.WaitFor(() => !IsKeyboardOpen(), timeoutMessage: $"Timed out waiting for IsKeyboardOpen");
+		}
+
+		protected void OpenKeyboard(Action keyboardFocus)
+		{
+			keyboardFocus();
+			WaitForOpenedKeyboard();
+		}
+
+		protected void CloseKeyboard()
+		{
+			_app.DismissKeyboard();
+			WaitForClosedKeyboard();
+		}
+
+		protected bool IsKeyboardOpen()
+		{
+			var platform = AppInitializer.GetLocalPlatform();
+
+			if (platform == Platform.iOS || platform == Platform.Android)
+			{
+				var isOpen = InvokeBackdoor("browser:SampleRunner|IsKeyboardOpen");
+				return string.Equals("true", isOpen?.ToString(), StringComparison.OrdinalIgnoreCase);
+			}
+
+			Console.WriteLine($"IsKeyboardOpen: Unsupported platform ({platform})");
+			return false;
+		}
+
+		private object? InvokeBackdoor(string methodName, object? arg = null)
 		{
 			if (AppInitializer.GetLocalPlatform() == Platform.iOS)
 			{
 				arg ??= string.Empty;
 			}
-			_app?.InvokeGeneric(methodName, arg);
+			return _app?.InvokeGeneric(methodName, arg);
 		}
 
 		public ScreenshotInfo TakeScreenshot(string stepName)
