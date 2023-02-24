@@ -34,7 +34,7 @@ using Windows.UI.Xaml.Media.Animation;
 namespace Uno.Toolkit.UI
 {
 	/// <summary>
-	/// Presenter that displays the selection indicator and translates it based on selection from the <see cref="TabBar"/>
+	/// Displays the the selection indicator of a <see cref="TabBar"/> and animates it with any change in the selection.
 	/// </summary>
 	[TemplatePart(Name = TemplateParts.ContentPresenterName, Type = typeof(ContentPresenter))]
 	[TemplatePart(Name = TemplateParts.RootName, Type = typeof(Grid))]
@@ -63,7 +63,7 @@ namespace Uno.Toolkit.UI
 		private readonly SerialDisposable _tabBarItemsChangedRevoker = new SerialDisposable();
 
 		/// <summary>
-		/// Returns the view within the <see cref="TabBarSelectionIndicatorPresenter"/> being used as the selection indicator
+		/// Returns the view within the presenter being used as the selection indicator
 		/// </summary>
 		/// <returns></returns>
 		public FrameworkElement? GetSelectionIndicator() => _contentPresenter as FrameworkElement;
@@ -283,12 +283,12 @@ namespace Uno.Toolkit.UI
 		{
 			destination ??= Owner?.SelectedItem as TabBarItem;
 
-			if (destination is null 
-				|| Owner is not { } tabBar
-				|| GetSelectionIndicator() is not { } indicator
-				|| (indicator.ActualHeight == 0d || indicator.ActualWidth == 0d)
-				|| GetActiveStoryboard() is not { } storyboard
-				|| TemplateSettings is not { } templateSettings)
+			if (destination is null ||
+				Owner is not { } tabBar ||
+				GetSelectionIndicator() is not { } indicator ||
+				(indicator.ActualHeight == 0d || indicator.ActualWidth == 0d) ||
+				GetActiveStoryboard() is not { } storyboard ||
+				TemplateSettings is not { } templateSettings)
 			{
 				return;
 			}
