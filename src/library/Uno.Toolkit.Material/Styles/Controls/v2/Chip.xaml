@@ -236,7 +236,7 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <!--  C0: Leading Icon / Check Glyph  -->
                                         <!--  fixme: ContentControl/Presenter template-binding to icon would crash on uwp  -->
                                         <ContentPresenter x:Name="IconPresenter"
@@ -304,8 +304,6 @@
                 Value="{ThemeResource OutlineBrush}" />
         <Setter Property="BorderThickness"
                 Value="1" />
-        <Setter Property="IsCheckable"
-                Value="False" />
         <Setter Property="CanRemove"
                 Value="False" />
     </Style>
@@ -319,8 +317,6 @@
                 Value="{StaticResource MaterialChipElevation}" />
         <Setter Property="Background"
                 Value="{ThemeResource SurfaceBrush}" />
-        <Setter Property="IsCheckable"
-                Value="False" />
         <Setter Property="CanRemove"
                 Value="False" />
     </Style>
@@ -334,8 +330,6 @@
                 Value="1" />
         <Setter Property="CanRemove"
                 Value="True" />
-        <Setter Property="IsCheckable"
-                Value="True" />
     </Style>
 
     <Style x:Key="MaterialFilterChipStyle"
@@ -346,8 +340,6 @@
         <Setter Property="BorderThickness"
                 Value="1" />
         <Setter Property="CanRemove"
-                Value="True" />
-        <Setter Property="IsCheckable"
                 Value="True" />
     </Style>
 
@@ -362,8 +354,6 @@
                 Value="{ThemeResource SurfaceBrush}" />
         <Setter Property="CanRemove"
                 Value="True" />
-        <Setter Property="IsCheckable"
-                Value="True" />
     </Style>
 
 
@@ -376,8 +366,6 @@
                 Value="1" />
         <Setter Property="CanRemove"
                 Value="False" />
-        <Setter Property="IsCheckable"
-                Value="True" />
     </Style>
 
     <Style x:Key="MaterialElevatedSuggestionChipStyle"
@@ -391,8 +379,6 @@
                 Value="{ThemeResource SurfaceBrush}" />
         <Setter Property="CanRemove"
                 Value="False" />
-        <Setter Property="IsCheckable"
-                Value="True" />
     </Style>
 
 

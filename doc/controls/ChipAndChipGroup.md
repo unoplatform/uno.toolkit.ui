@@ -8,7 +8,7 @@
 `ChipGroup` is a container that can house a collection of `Chip`s.
 
 ## Chip
-`Chip` is derived from `ToggleButton`, a control that a user can select (check) or clear (uncheck).
+`Chip` is derived from `ToggleButton`, a control that an user can select (check) or deselect (uncheck).
 
 ### C#
 ```csharp
@@ -38,7 +38,6 @@ CanRemove|bool|Gets or sets whether the remove button is visible.
 Elevation|double|Gets or sets the elevation of the `Chip`.
 Icon|object|Gets or sets the icon of the `Chip`.
 IconTemplate|DataTemplate|Gets or sets the data template that is used to display the icon of the `Chip`.
-IsCheckable|bool|Gets or sets whether the chip can be checked. Used to prevent showing selection state.<br/>note: When nested under the `ChipGroup`, this property will be overwritten by `ChipGroup.SelectionMode`.
 RemovedCommand|ICommand|Gets or sets the command to invoke when the remove button is pressed.
 RemovedCommandParameter|object|Gets or sets the parameter to pass to the RemovedCommand property.
 

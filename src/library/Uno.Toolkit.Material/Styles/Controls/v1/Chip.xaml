@@ -357,8 +357,6 @@
 		<Style.Setters>
 			<Setter Property="CanRemove"
 					Value="True" />
-			<Setter Property="IsCheckable"
-					Value="True" />
 		</Style.Setters>
 	</Style>
 
@@ -382,8 +380,6 @@
 				Value="{StaticResource MaterialOnSurfaceMediumBrush}" />
 		<Setter Property="CanRemove"
 				Value="False" />
-		<Setter Property="IsCheckable"
-				Value="True" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Chip">
@@ -596,8 +592,6 @@
 		   BasedOn="{StaticResource BaseMaterialFilledChipStyle}">
 		<Setter Property="CanRemove"
 				Value="False" />
-		<Setter Property="IsCheckable"
-				Value="True" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Chip">
@@ -712,8 +706,6 @@
 		   BasedOn="{StaticResource BaseMaterialOutlinedChipStyle}">
 		<Setter Property="CanRemove"
 				Value="False" />
-		<Setter Property="IsCheckable"
-				Value="True" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Chip">

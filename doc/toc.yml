@@ -46,6 +46,8 @@
       href: helpers/control-extensions.md
     - name: InputExtensions attached properties
       href: helpers/input-extensions.md
+    - name: ItemsRepeaterExtensions Attached Properties
+      href: helpers/itemsrepeater-extensions.md
     - name: StatusBar attached properties
       href: helpers/StatusBar-extensions.md
     - name: TabBarItem attached properties

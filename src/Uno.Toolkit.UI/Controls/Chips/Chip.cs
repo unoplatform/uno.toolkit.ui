@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -11,6 +12,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 #endif
 
 namespace Uno.Toolkit.UI
@@ -20,7 +22,7 @@ namespace Uno.Toolkit.UI
 	{
 		private const string RemoveButtonName = "PART_RemoveButton";
 
-		private bool _isMuted;
+		private bool _shouldRaiseIsCheckedChanged;
 
 		private ChipGroup? ChipGroup => ItemsControl.ItemsControlFromItemContainer(this) as ChipGroup;
 
@@ -40,9 +42,9 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void OnIsCheckableChanged(DependencyPropertyChangedEventArgs e)
+		internal void OnChipSelectionModeChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (!IsCheckable)
+			if (e.NewValue is ChipSelectionMode.None)
 			{
 				IsChecked = false;
 			}
@@ -50,7 +52,7 @@ namespace Uno.Toolkit.UI
 
 		private void RaiseIsCheckedChanged(object sender, RoutedEventArgs e)
 		{
-			if (!_isMuted)
+			if (!_shouldRaiseIsCheckedChanged)
 			{
 				IsCheckedChanged?.Invoke(sender, e);
 			}
@@ -83,19 +85,24 @@ namespace Uno.Toolkit.UI
 		{
 			try
 			{
-				_isMuted = true;
+				_shouldRaiseIsCheckedChanged = true;
 				IsChecked = value;
 			}
 			finally
 			{
-				_isMuted = false;
+				_shouldRaiseIsCheckedChanged = false;
 			}
 		}
 
 		protected override void OnToggle()
 		{
-			if (!IsCheckable) return;
-			if (IsChecked == true && ChipGroup?.SelectionMode == ChipSelectionMode.Single)
+			var mode = ChipGroup?.SelectionMode;
+			if (mode is ChipSelectionMode.None)
+			{
+				SetIsCheckedSilently(false);
+				return;
+			}
+			if (mode is ChipSelectionMode.Single && IsChecked == true)
 			{
 				return;
 			}
