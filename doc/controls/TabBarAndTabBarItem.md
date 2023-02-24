@@ -101,15 +101,15 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 
 Property|Type|Description
 -|-|-
-SelectedIndex|int|Gets or sets the index of the selected `TabBarItem`
-SelectedItem|object|Gets or sets the selected `TabBarItem`
-Orientation|Orientation|Gets or sets the dimension by which the `TabBarItem`s are stacked
+SelectedIndex|int|Gets or sets the index of the selected item.
+SelectedItem|object|Gets or sets the selected item.
+Orientation|Orientation|Gets or sets the dimension by which the items are stacked
 SelectionIndicatorContent|object|Gets or sets the content to be displayed as the selection indicator
 SelectionIndicatorContentTemplate|DataTemplate|Gets or sets the data template that is used to display the content of the selection indicator
 SelectionIndicatorPresenterStyle|Style|Gets or sets the style to be applied for the content of the `TabBarSelectionIndicatorPresenter`
-SelectionIndicatorTransitionMode|IndicatorTransitionMode|Gets or sets behavior of the selection indicator. The indicator can either slide or snap to the newly selected item. Defaults to `Snap`
+SelectionIndicatorTransitionMode|IndicatorTransitionMode|Gets or sets the behavior of the selection indicator. The indicator can either slide or snap to the newly selected item. Defaults to `Snap`
 
-> Note: `TabBar` only supports a single selection mode.
+> Note: `TabBar` only supports the single selection mode.
 
 ### Events
 
@@ -172,15 +172,11 @@ The result would be:
 
 ### IndicatorTransitionMode
 
-The selection indicator has two different modes: `IndicatorTransitionMode.Snap` and `IndicatorTransitionMode.Slide`. The default mode on the `TabBar` is `Snap`. Given the same sample XAML as the above example, the following behaviors are available via the `SelectionIndicatorTransitionMode`:
-
-#### Snap
-
-![](../assets/tabbar-selection-snap.gif)
-
-#### Slide
-
-![](../assets/tabbar-selection-slide.gif)
+The selection indicator has two different transition modes: 
+- `IndicatorTransitionMode.Snap` (default mode):
+  ![](../assets/tabbar-selection-snap.gif)
+- `IndicatorTransitionMode.Slide`:
+  ![](../assets/tabbar-selection-slide.gif)
 
 ### Further Customization
 
