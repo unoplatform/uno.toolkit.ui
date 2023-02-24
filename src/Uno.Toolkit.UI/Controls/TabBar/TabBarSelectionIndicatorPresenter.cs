@@ -54,13 +54,11 @@ namespace Uno.Toolkit.UI
 		private Storyboard? _horizontalStoryboard;
 		private bool _isTemplateApplied;
 
-		private readonly SerialDisposable _tabBarSelectionChangedRevoker = new SerialDisposable();
 		private readonly SerialDisposable _tabBarItemSizeChangedRevoker = new SerialDisposable();
 		private readonly SerialDisposable _indicatorSizeChangedRevoker = new SerialDisposable();
 		private readonly SerialDisposable _offsetChangedRevoker = new SerialDisposable();
 		private readonly SerialDisposable _tabBarOrientationChangedRevoker = new SerialDisposable();
-		private readonly SerialDisposable _tabBarSizeChangedRevoker = new SerialDisposable();
-		private readonly SerialDisposable _tabBarItemsChangedRevoker = new SerialDisposable();
+		private readonly SerialDisposable _tabBarEventsRevoker = new SerialDisposable();
 
 		/// <summary>
 		/// Returns the view within the <see cref="TabBarSelectionIndicatorPresenter"/> being used as the selection indicator
@@ -137,11 +135,9 @@ namespace Uno.Toolkit.UI
 
 		private void ResetOwner()
 		{
-			_tabBarSelectionChangedRevoker.Disposable = null;
+			_tabBarEventsRevoker.Disposable = null;
 			_offsetChangedRevoker.Disposable = null;
 			_tabBarItemSizeChangedRevoker.Disposable = null;
-			_tabBarSizeChangedRevoker.Disposable = null;
-			_tabBarItemsChangedRevoker.Disposable = null;
 		}
 
 		private void UpdateOwner()
@@ -150,20 +146,27 @@ namespace Uno.Toolkit.UI
 
 			if (Owner is TabBar tabBar)
 			{
-				var selectionOrientationSubscription = tabBar.RegisterPropertyChangedCallback(TabBar.OrientationProperty, OnTabBarOrientationChanged);
-				_tabBarOrientationChangedRevoker.Disposable = Disposable.Create(() => tabBar.UnregisterPropertyChangedCallback(TabBar.OrientationProperty, selectionOrientationSubscription));
+				_tabBarOrientationChangedRevoker.Disposable = tabBar.RegisterDisposablePropertyChangedCallback(TabBar.OrientationProperty, OnTabBarOrientationChanged);
 
-				var selectionOffsetSubscription = tabBar.RegisterPropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, OnSelectionOffsetChanged);
-				_offsetChangedRevoker.Disposable = Disposable.Create(() => tabBar.UnregisterPropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, selectionOffsetSubscription));
+				_offsetChangedRevoker.Disposable = tabBar.RegisterDisposablePropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, OnSelectionOffsetChanged);
+
+				var disposables = new CompositeDisposable();
+				_tabBarEventsRevoker.Disposable = disposables;
 
 				tabBar.SelectionChanged += OnTabBarSelectionChanged;
-				_tabBarSelectionChangedRevoker.Disposable = Disposable.Create(() => tabBar.SelectionChanged -= OnTabBarSelectionChanged);
+				Disposable
+					.Create(() => tabBar.SelectionChanged -= OnTabBarSelectionChanged)
+					.DisposeWith(disposables);
 
 				tabBar.SizeChanged += OnTabBarSizeChanged;
-				_tabBarSizeChangedRevoker.Disposable = Disposable.Create(() => tabBar.SizeChanged -= OnTabBarSizeChanged);
+				Disposable
+					.Create(() => tabBar.SizeChanged -= OnTabBarSizeChanged)
+					.DisposeWith(disposables);
 
 				tabBar.Items.VectorChanged += OnTabBarItemsChanged;
-				_tabBarItemsChangedRevoker.Disposable = Disposable.Create(() => tabBar.Items.VectorChanged -= OnTabBarItemsChanged);
+				Disposable
+					.Create(() => tabBar.Items.VectorChanged -= OnTabBarItemsChanged)
+					.DisposeWith(disposables);
 
 				UpdateIndicator();
 			}
@@ -263,13 +266,13 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private Storyboard? GetActiveStoryboard()
+		private Storyboard? GetStoryboardForCurrentOrientation()
 		{
 			return Owner?.Orientation switch
 			{
 				Orientation.Horizontal => _horizontalStoryboard,
 				Orientation.Vertical => _verticalStoryboard,
-				_ => null
+				_ => throw new ArgumentOutOfRangeException(nameof(Owner.Orientation))
 			};
 		}
 
@@ -287,7 +290,7 @@ namespace Uno.Toolkit.UI
 				|| Owner is not { } tabBar
 				|| GetSelectionIndicator() is not { } indicator
 				|| (indicator.ActualHeight == 0d || indicator.ActualWidth == 0d)
-				|| GetActiveStoryboard() is not { } storyboard
+				|| GetStoryboardForCurrentOrientation() is not { } storyboard
 				|| TemplateSettings is not { } templateSettings)
 			{
 				return;
@@ -295,8 +298,7 @@ namespace Uno.Toolkit.UI
 
 			StopStoryboards();
 
-			var point = new Point(0, 0);
-			var nextPosPoint = destination.TransformToVisual(tabBar).TransformPoint(point);
+			var nextPosPoint = destination.TransformToVisual(tabBar).TransformPoint(default);
 
 			templateSettings.IndicatorTransitionFrom = templateSettings.IndicatorTransitionTo;
 			templateSettings.IndicatorTransitionTo = nextPosPoint;

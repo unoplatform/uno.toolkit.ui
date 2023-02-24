@@ -50,9 +50,5 @@
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Generated\" />
-	</ItemGroup>
-	
 	<Import Project="xamlmerge-toolkit.props" />
 </Project>
