@@ -27,8 +27,6 @@
 		<NoWarn>$(NoWarn);Uno0001</NoWarn>
 		<!-- This should be enabled back once https://github.com/microsoft/microsoft-ui-xaml/issues/4187 is fixed. -->
 		<NoWarn>$(NoWarn);CS8305</NoWarn>
-		<!-- TODO: Enable once https://github.com/xamarin/xamarin-macios/pull/16513 is merged and we have it -->
-		<NoWarn>$(NoWarn);CA1416</NoWarn>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 	</PropertyGroup>
 
