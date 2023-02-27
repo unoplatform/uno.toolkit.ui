@@ -113,7 +113,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		[TestCase("Margin", "Control", TestName = "When_Override_Insets_Control_Margin")]
 		[Test]
 		[AutoRetry]
-		[ActivePlatforms(Platform.iOS, Platforms.Browser)]
+		[ActivePlatforms(Platform.Browser, Platform.iOS)]
 		public void When_Override_Insets(string mode, string safeAreaType)
 		{
 			const int InsetThickness = 20;
