@@ -19,6 +19,7 @@ using FluentAssertions;
 namespace Uno.Toolkit.UITest.Controls.SafeArea
 {
 	[TestFixture]
+	[ActivePlatforms(Platform.iOS, Platform.Browser)]
 	public class Given_SafeArea : TestBase
 	{
 		protected override string SampleName => "SafeArea";
