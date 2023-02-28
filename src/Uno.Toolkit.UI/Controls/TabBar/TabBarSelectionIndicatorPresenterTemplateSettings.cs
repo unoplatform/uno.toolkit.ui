@@ -13,40 +13,50 @@ namespace Uno.Toolkit.UI
 {
 	public partial class TabBarSelectionIndicatorPresenterTemplateSettings : DependencyObject
 	{
-		internal static readonly DependencyProperty IndicatorTransitionFromProperty =
-			DependencyProperty.Register(nameof(IndicatorTransitionFrom),
-				typeof(Point),
-				typeof(TabBarSelectionIndicatorPresenterTemplateSettings),
-				new PropertyMetadata(default));
+		#region DependencyProperty: IndicatorTransitionFrom
+
+		internal static DependencyProperty IndicatorTransitionFromProperty { get; } = DependencyProperty.Register(
+			nameof(IndicatorTransitionFrom),
+			typeof(Point),
+			typeof(TabBarSelectionIndicatorPresenterTemplateSettings),
+			new PropertyMetadata(default(Point)));
 
 		public Point IndicatorTransitionFrom
 		{
 			get => (Point)GetValue(IndicatorTransitionFromProperty);
-			internal set => SetValue(IndicatorTransitionFromProperty, value);
+			set => SetValue(IndicatorTransitionFromProperty, value);
 		}
 
-		internal static readonly DependencyProperty IndicatorTransitionToProperty =
-			DependencyProperty.Register(nameof(IndicatorTransitionTo),
-				typeof(Point),
-				typeof(TabBarSelectionIndicatorPresenterTemplateSettings),
-				new PropertyMetadata(default));
+		#endregion
+		#region DependencyProperty: IndicatorTransitionTo
+
+		internal static DependencyProperty IndicatorTransitionToProperty { get; } = DependencyProperty.Register(
+			nameof(IndicatorTransitionTo),
+			typeof(Point),
+			typeof(TabBarSelectionIndicatorPresenterTemplateSettings),
+			new PropertyMetadata(default(Point)));
 
 		public Point IndicatorTransitionTo
 		{
 			get => (Point)GetValue(IndicatorTransitionToProperty);
-			internal set => SetValue(IndicatorTransitionToProperty, value);
+			set => SetValue(IndicatorTransitionToProperty, value);
 		}
 
-		internal static readonly DependencyProperty IndicatorMaxSizeProperty =
-			DependencyProperty.Register(nameof(IndicatorMaxSize),
-				typeof(Size),
-				typeof(TabBarSelectionIndicatorPresenterTemplateSettings),
-				new PropertyMetadata(default));
+		#endregion
+		#region DependencyProperty: IndicatorMaxSize
+
+		internal static DependencyProperty IndicatorMaxSizeProperty { get; } = DependencyProperty.Register(
+			nameof(IndicatorMaxSize),
+			typeof(Size),
+			typeof(TabBarSelectionIndicatorPresenterTemplateSettings),
+			new PropertyMetadata(default(Size)));
 
 		public Size IndicatorMaxSize
 		{
 			get => (Size)GetValue(IndicatorMaxSizeProperty);
-			internal set => SetValue(IndicatorMaxSizeProperty, value);
+			set => SetValue(IndicatorMaxSizeProperty, value);
 		}
+
+		#endregion
 	}
 }

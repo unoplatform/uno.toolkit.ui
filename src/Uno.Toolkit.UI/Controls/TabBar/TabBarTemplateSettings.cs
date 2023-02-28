@@ -15,16 +15,20 @@ namespace Uno.Toolkit.UI
 {
 	public partial class TabBarTemplateSettings : DependencyObject
 	{
-		internal static readonly DependencyProperty SelectionIndicatorMaxSizeProperty =
-			DependencyProperty.Register(nameof(SelectionIndicatorMaxSize),
-				typeof(Size),
-				typeof(TabBarTemplateSettings),
-				new PropertyMetadata(default));
+		#region DependencyProperty: SelectionIndicatorMaxSize
+
+		internal static DependencyProperty SelectionIndicatorMaxSizeProperty { get; } = DependencyProperty.Register(
+			nameof(SelectionIndicatorMaxSize),
+			typeof(Size),
+			typeof(TabBarTemplateSettings),
+			new PropertyMetadata(default(Size)));
 
 		public Size SelectionIndicatorMaxSize
 		{
 			get => (Size)GetValue(SelectionIndicatorMaxSizeProperty);
-			internal set => SetValue(SelectionIndicatorMaxSizeProperty, value);
+			set => SetValue(SelectionIndicatorMaxSizeProperty, value);
 		}
+
+		#endregion
 	}
 }
