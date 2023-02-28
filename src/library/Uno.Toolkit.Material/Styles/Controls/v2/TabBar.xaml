@@ -235,7 +235,7 @@
 										<Setter Target="Icon.Foreground"
 												Value="{ThemeResource OnSecondaryContainerBrush}" />
 										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSecondaryContainerBrush}" />
+												Value="{ThemeResource OnSurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<not_mobile:VisualState x:Name="PointerOverSelected">
@@ -245,7 +245,7 @@
 										<Setter Target="Icon.Foreground"
 												Value="{ThemeResource OnSecondaryContainerBrush}" />
 										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSecondaryContainerBrush}" />
+												Value="{ThemeResource OnSurfaceBrush}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<VisualState x:Name="PressedSelected">
@@ -255,7 +255,7 @@
 										<Setter Target="Icon.Foreground"
 												Value="{ThemeResource OnSecondaryContainerBrush}" />
 										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSecondaryContainerBrush}" />
+												Value="{ThemeResource OnSurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
