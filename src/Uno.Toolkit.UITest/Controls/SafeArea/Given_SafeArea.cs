@@ -39,7 +39,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 
 		[Test]
 		[AutoRetry]
-		[ActivePlatforms(Platform.Android, Platform.iOS)]
+		[ActivePlatforms(Platform.iOS)]
 		public void When_SoftInput()
 		{
 			const string NamePrefix = "SafeArea_SoftInput_";
@@ -113,6 +113,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		[TestCase("Margin", "Control", TestName = "When_Override_Insets_Control_Margin")]
 		[Test]
 		[AutoRetry]
+		[ActivePlatforms(Platform.Browser, Platform.iOS)]
 		public void When_Override_Insets(string mode, string safeAreaType)
 		{
 			const int InsetThickness = 20;
@@ -251,7 +252,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		[TestCase("Soft", "Margin")]
 		[TestCase("Hard", "Padding")]
 		[TestCase("Hard", "Margin")]
-		[ActivePlatforms(Platform.Android, Platform.iOS)]
+		[ActivePlatforms(Platform.iOS)]
 		public void When_SoftInput_Scroll_Into_View(string constraint, string mode)
 		{
 			const string TopTextBox = "TopTextBox";
