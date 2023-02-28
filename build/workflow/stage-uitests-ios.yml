@@ -26,7 +26,7 @@
   - checkout: self
     clean: true
 
-  - template: templates/dotnet-workloads-install-mac.yml
+  - template: templates/dotnet-workload-install-mac.yml
   - template: templates/jdk-setup.yml
 
   - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
@@ -125,7 +125,7 @@
         artifactName: toolkit-uitest-binaries
         downloadPath: '$(build.sourcesdirectory)/build'
 
-  - template: templates/dotnet-workloads-install-mac.yml
+  - template: templates/dotnet-workload-install-mac.yml
 
   - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
     displayName: Select Xamarin Version
