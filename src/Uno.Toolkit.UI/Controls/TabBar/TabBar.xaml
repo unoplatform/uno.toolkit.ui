@@ -136,7 +136,7 @@
 															   Foreground="{TemplateBinding Foreground}"
 															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
 															   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
-															   Visibility="Collapsed" />
+															   Opacity="0" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

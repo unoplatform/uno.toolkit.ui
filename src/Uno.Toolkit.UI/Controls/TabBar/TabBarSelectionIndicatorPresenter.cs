@@ -233,7 +233,8 @@ namespace Uno.Toolkit.UI
 		{
 			if (sender is TabBar tabBar
 				&& GetSelectionIndicator() is { } selectionIndicator
-				&& _isSelectorPresent)
+				&& _isSelectorPresent
+				&& IndicatorTransitionMode == IndicatorTransitionMode.Slide)
 			{
 				selectionIndicator.RenderTransform = new TranslateTransform
 				{
@@ -257,10 +258,10 @@ namespace Uno.Toolkit.UI
 				_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => tabBarItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
 
 				//If a selection is being made for the first time, start showing the indicator
-				if (!_isSelectorPresent
+				if (!(_isSelectorPresent && IndicatorTransitionMode == IndicatorTransitionMode.Slide)
 					|| args.OldItem == null)
 				{
-					Visibility = (Content ?? ContentTemplate) is { } ? Visibility.Visible : Visibility.Collapsed;
+					Opacity = (Content ?? ContentTemplate) is { } ? 1f : 0f;
 					UpdateSelectionIndicatorPosition(tabBarItem);
 				}
 			}
