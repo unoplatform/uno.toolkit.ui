@@ -34,7 +34,7 @@ namespace Uno.Toolkit.UI
 			nameof(SelectedIndex),
 			typeof(int),
 			typeof(TabBar),
-			new PropertyMetadata(default(int), OnPropertyChanged));
+			new PropertyMetadata(-1, OnPropertyChanged));
 
 		public int SelectedIndex
 		{
