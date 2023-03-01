@@ -44,17 +44,17 @@ The Card control comes with all the built-in properties of a `Control`, and also
 | Property                  | Type              | Description                                                                                   |
 |---------------------------|-------------------|-----------------------------------------------------------------------------------------------|
 | HeaderContent             | object            | Gets or sets the content for the control's header.                                            |
-| HeaderContentTemplate     | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's header.          |
+| HeaderContentTemplate     | DataTemplate      | Gets or sets the data template used to display the content of the control's header.           |
 | SubHeaderContent          | object            | Gets or sets the content for the control's subheader.                                         |
-| SubHeaderContentTemplate  | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's subheader.       |
+| SubHeaderContentTemplate  | DataTemplate      | Gets or sets the data template used to display the content of the control's subheader.        |
 | AvatarContent             | object            | Gets or sets the content for the control's avatar.                                            |
-| AvatarContentTemplate     | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's avatar.          |
+| AvatarContentTemplate     | DataTemplate      | Gets or sets the data template used to display the content of the control's avatar.           |
 | MediaContent              | object            | Gets or sets the content for the control's media area.                                        |
-| MediaContentTemplate      | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's media area.      |
+| MediaContentTemplate      | DataTemplate      | Gets or sets the data template used to display the content of the control's media area.       |
 | SupportingContent         | object            | Gets or sets the content for the control's supporting area.                                   |
-| SupportingContentTemplate | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's supporting area. |
+| SupportingContentTemplate | DataTemplate      | Gets or sets the data template used to display the content of the control's supporting area.  |
 | IconsContent              | object            | Gets or sets the content for the control's icons.                                             |
-| IconsContentTemplate      | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's icons.           |
+| IconsContentTemplate      | DataTemplate      | Gets or sets the data template used to display the content of the control's icons.            |
 | Elevation                 | double            | Gets or sets the elevation of the control.                                                    |
 | ShadowColor               | Color             | Gets or sets the color to use for the shadow of the control.                                  |
 | IsClickable               | bool              | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
@@ -124,7 +124,7 @@ The Card control comes with all the built-in properties of a `ContentControl`, a
 | Property                  | Type              | Description                                                                                   |
 |---------------------------|-------------------|-----------------------------------------------------------------------------------------------|
 | Elevation                 | double            | Gets or sets the elevation of the control.                                                    |
-| ShadowColor               | Color             | Gets or sets the color to use for the shadow of the control.
+| ShadowColor               | Color             | Gets or sets the color to use for the shadow of the control.                                  |
 | IsClickable               | bool              | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
 
 ### Usage

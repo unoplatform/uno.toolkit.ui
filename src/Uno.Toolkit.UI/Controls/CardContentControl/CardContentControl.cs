@@ -55,6 +55,9 @@ namespace Uno.Toolkit.UI
 			typeof(CardContentControl),
 			new PropertyMetadata(default(double)));
 
+		/// <summary>
+		/// Gets or sets the elevation of the control.
+		/// </summary>
 		public
 #if __ANDROID__
 			new
@@ -74,6 +77,9 @@ namespace Uno.Toolkit.UI
 			typeof(CardContentControl),
 			new PropertyMetadata(DefaultShadowColor));
 
+		/// <summary>
+		/// Gets or sets the color to use for the shadow of the control.
+		/// </summary>
 		public Windows.UI.Color ShadowColor
 		{
 			get => (Windows.UI.Color)GetValue(ShadowColorProperty);

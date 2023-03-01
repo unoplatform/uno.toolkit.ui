@@ -48,6 +48,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(object)));
 
+		/// <summary>
+		/// Gets or sets the content for the control's header.
+		/// </summary>
 		public object HeaderContent
 		{
 			get => (object)GetValue(HeaderContentProperty);
@@ -63,6 +66,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(DataTemplate)));
 
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's header.
+		/// </summary>
 		public DataTemplate HeaderContentTemplate
 		{
 			get => (DataTemplate)GetValue(HeaderContentTemplateProperty);
@@ -78,6 +84,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(object)));
 
+		/// <summary>
+		/// Gets or sets the content for the control's subheader.
+		/// </summary>
 		public object SubHeaderContent
 		{
 			get => (object)GetValue(SubHeaderContentProperty);
@@ -93,6 +102,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(DataTemplate)));
 
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's subheader.
+		/// </summary>
 		public DataTemplate SubHeaderContentTemplate
 		{
 			get => (DataTemplate)GetValue(SubHeaderContentTemplateProperty);
@@ -108,6 +120,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(object)));
 
+		/// <summary>
+		/// Gets or sets the content for the control's avatar.
+		/// </summary>
 		public object AvatarContent
 		{
 			get => (object)GetValue(AvatarContentProperty);
@@ -123,6 +138,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(DataTemplate)));
 
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's avatar.
+		/// </summary>
 		public DataTemplate AvatarContentTemplate
 		{
 			get => (DataTemplate)GetValue(AvatarContentTemplateProperty);
@@ -138,6 +156,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(object)));
 
+		/// <summary>
+		/// Gets or sets the content for the control's media area.
+		/// </summary>
 		public object MediaContent
 		{
 			get => (object)GetValue(MediaContentProperty);
@@ -153,6 +174,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(DataTemplate)));
 
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's media area.
+		/// </summary>
 		public DataTemplate MediaContentTemplate
 		{
 			get => (DataTemplate)GetValue(MediaContentTemplateProperty);
@@ -168,6 +192,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(object)));
 
+		/// <summary>
+		/// Gets or sets the content for the control's supporting area.
+		/// </summary>
 		public object SupportingContent
 		{
 			get => (object)GetValue(SupportingContentProperty);
@@ -183,6 +210,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(DataTemplate)));
 
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's supporting area.
+		/// </summary>
 		public DataTemplate SupportingContentTemplate
 		{
 			get => (DataTemplate)GetValue(SupportingContentTemplateProperty);
@@ -198,6 +228,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(object)));
 
+		/// <summary>
+		/// Gets or sets the content for the control's icons.
+		/// </summary>
 		public object IconsContent
 		{
 			get => (object)GetValue(IconsContentProperty);
@@ -213,6 +246,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(DataTemplate)));
 
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's icons.
+		/// </summary>
 		public DataTemplate IconsContentTemplate
 		{
 			get => (DataTemplate)GetValue(IconsContentTemplateProperty);
@@ -229,6 +265,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(default(double)));
 
+		/// <summary>
+		/// Gets or sets the elevation of the control.
+		/// </summary>
 		public
 #if __ANDROID__
 			new
@@ -248,6 +287,9 @@ namespace Uno.Toolkit.UI
 			typeof(Card),
 			new PropertyMetadata(DefaultShadowColor));
 
+		/// <summary>
+		/// Gets or sets the color to use for the shadow of the control.
+		/// </summary>
 		public Windows.UI.Color ShadowColor
 		{
 			get => (Windows.UI.Color)GetValue(ShadowColorProperty);
