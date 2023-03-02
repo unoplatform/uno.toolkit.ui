@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Uno.Disposables;
 using Windows.Foundation;
+using System.Reflection;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -33,53 +34,87 @@ using Windows.UI.Xaml.Media.Animation;
 namespace Uno.Toolkit.UI
 {
 	/// <summary>
-	/// A Panel that is used to contain and translate a view being used as a selection indicator for a <see cref="TabBar"/>
+	/// Displays the the selection indicator of a <see cref="TabBar"/> and animates it with any change in the selection.
 	/// </summary>
-	public partial class TabBarSelectionIndicatorPresenter : Canvas
+	[TemplatePart(Name = TemplateParts.ContentPresenterName, Type = typeof(ContentPresenter))]
+	[TemplatePart(Name = TemplateParts.RootName, Type = typeof(Grid))]
+	public partial class TabBarSelectionIndicatorPresenter : ContentControl
 	{
-		private readonly SerialDisposable _tabBarSelectionChangedRevoker = new SerialDisposable();
+		public static class TemplateParts
+		{
+			public const string ContentPresenterName = "IndicatorPresenter";
+			public const string RootName = "Root";
+			public const string VerticalStoryboardName = "IndicatorTransitionVerticalStoryboard";
+			public const string HorizontalStoryboardName = "IndicatorTransitionHorizontalStoryboard";
+		}
+
+		private ContentPresenter? _contentPresenter;
+		private Grid? _root;
+		private Storyboard? _verticalStoryboard;
+		private Storyboard? _horizontalStoryboard;
+		private bool _isTemplateApplied;
+
 		private readonly SerialDisposable _tabBarItemSizeChangedRevoker = new SerialDisposable();
 		private readonly SerialDisposable _indicatorSizeChangedRevoker = new SerialDisposable();
 		private readonly SerialDisposable _offsetChangedRevoker = new SerialDisposable();
-		private readonly Storyboard _indicatorSlideStoryboard = new Storyboard();
+		private readonly SerialDisposable _tabBarOrientationChangedRevoker = new SerialDisposable();
+		private readonly SerialDisposable _tabBarEventsRevoker = new SerialDisposable();
 
 		/// <summary>
-		/// Return the view within the Panel being used as the selection indicator
+		/// Returns the view within the presenter being used as the selection indicator
 		/// </summary>
 		/// <returns></returns>
-		public UIElement? GetSelectionIndicator()
-			=> Children?.FirstOrDefault();
+		public FrameworkElement? GetSelectionIndicator() => _contentPresenter as FrameworkElement;
 
 		private bool _isSelectorPresent => TabBarSelectorBehavior.GetSelector(Owner) != null;
 
 		public TabBarSelectionIndicatorPresenter()
 		{
-			SizeChanged += OnSizeChanged;
-			Loaded += OnLoaded;
+			DefaultStyleKey = typeof(TabBarSelectionIndicatorPresenter);
+			TemplateSettings = new TabBarSelectionIndicatorPresenterTemplateSettings();
 			Unloaded += OnUnloaded;
-		}
-
-		private void OnUnloaded(object sender, RoutedEventArgs e)
-		{
-			_tabBarSelectionChangedRevoker.Disposable = null;
-			_tabBarItemSizeChangedRevoker.Disposable = null;
-			_indicatorSizeChangedRevoker.Disposable = null;
-			_offsetChangedRevoker.Disposable = null;
+			Loaded += OnLoaded;
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			if (GetSelectionIndicator() is FrameworkElement child)
+			UpdateOwner();
+		}
+
+		private void OnUnloaded(object sender, RoutedEventArgs e)
+		{
+			ResetOwner();
+			ResetIndicator();
+		}
+
+		protected override void OnApplyTemplate()
+		{
+			ResetIndicator();
+
+			base.OnApplyTemplate();
+
+			_root = GetTemplateChild(TemplateParts.RootName) as Grid;
+			_contentPresenter = GetTemplateChild(TemplateParts.ContentPresenterName) as ContentPresenter;
+			_verticalStoryboard = GetTemplateChild(TemplateParts.VerticalStoryboardName) as Storyboard;
+			_horizontalStoryboard = GetTemplateChild(TemplateParts.HorizontalStoryboardName) as Storyboard;
+
+			if (_contentPresenter is { } selectionIndicator)
 			{
-				child.SizeChanged += OnSizeChanged;
-				_indicatorSizeChangedRevoker.Disposable = Disposable.Create(() => child.SizeChanged -= OnSizeChanged);
+				selectionIndicator.SizeChanged += OnSizeChanged;
+				_indicatorSizeChangedRevoker.Disposable = Disposable.Create(() => selectionIndicator.SizeChanged -= OnSizeChanged);
 			}
+
+			SizeChanged += OnSizeChanged;
+
+			_isTemplateApplied = true;
+
+			UpdateOwner();
+			UpdateIndicator();
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs args)
 		{
-			var selectedItem = Owner?.SelectedItem as TabBarItem;
-			MoveSelectionIndicator(selectedItem);
+			UpdateIndicator();
 		}
 
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
@@ -91,21 +126,106 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		private void ResetIndicator()
+		{
+			StopStoryboards();
+			_indicatorSizeChangedRevoker.Disposable = null;
+			_contentPresenter = null;
+		}
+
+		private void ResetOwner()
+		{
+			_tabBarEventsRevoker.Disposable = null;
+			_offsetChangedRevoker.Disposable = null;
+			_tabBarItemSizeChangedRevoker.Disposable = null;
+		}
+
 		private void UpdateOwner()
 		{
-			_tabBarSelectionChangedRevoker.Disposable = null;
-			_offsetChangedRevoker.Disposable = null;
+			ResetOwner();
 
 			if (Owner is TabBar tabBar)
 			{
-				var selectionOffsetSubscription = tabBar.RegisterPropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, OnSelectionOffsetChanged);
-				_offsetChangedRevoker.Disposable = Disposable.Create(() => tabBar.UnregisterPropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, selectionOffsetSubscription));
+				_tabBarOrientationChangedRevoker.Disposable = tabBar.RegisterDisposablePropertyChangedCallback(TabBar.OrientationProperty, OnTabBarOrientationChanged);
+
+				_offsetChangedRevoker.Disposable = tabBar.RegisterDisposablePropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, OnSelectionOffsetChanged);
+
+				var disposables = new CompositeDisposable();
+				_tabBarEventsRevoker.Disposable = disposables;
 
 				tabBar.SelectionChanged += OnTabBarSelectionChanged;
-				_tabBarSelectionChangedRevoker.Disposable = Disposable.Create(() => tabBar.SelectionChanged -= OnTabBarSelectionChanged);
+				Disposable
+					.Create(() => tabBar.SelectionChanged -= OnTabBarSelectionChanged)
+					.DisposeWith(disposables);
 
-				var selectedItem = Owner?.SelectedItem as TabBarItem;
-				MoveSelectionIndicator(selectedItem);
+				tabBar.SizeChanged += OnTabBarSizeChanged;
+				Disposable
+					.Create(() => tabBar.SizeChanged -= OnTabBarSizeChanged)
+					.DisposeWith(disposables);
+
+				tabBar.Items.VectorChanged += OnTabBarItemsChanged;
+				Disposable
+					.Create(() => tabBar.Items.VectorChanged -= OnTabBarItemsChanged)
+					.DisposeWith(disposables);
+
+				UpdateIndicator();
+			}
+		}
+
+		private void OnTabBarItemsChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
+		{
+			UpdateIndicator();
+		}
+
+		private void OnTabBarSizeChanged(object sender, SizeChangedEventArgs args)
+		{
+			UpdateIndicator();
+		}
+
+		private void UpdateIndicator()
+		{
+			if (!_isTemplateApplied)
+			{
+				return;
+			}
+
+			UpdateSelectionIndicatorMaxSize();
+			UpdateSelectionIndicatorPosition();
+		}
+
+		private void UpdateSelectionIndicatorMaxSize()
+		{
+			if (Owner is { } tabBar
+				&& GetSelectionIndicator() is { } indicator)
+			{
+				var numItems = tabBar.Items.Count;
+				if (numItems < 1)
+				{
+					return;
+				}
+
+				var maxSize = new Size();
+
+				if (tabBar.Orientation == Orientation.Vertical)
+				{
+					maxSize.Height = tabBar.ActualHeight / numItems;
+					maxSize.Width = tabBar.ActualWidth;
+				}
+				else
+				{
+					maxSize.Width = tabBar.ActualWidth / numItems;
+					maxSize.Height = tabBar.ActualHeight;
+				}
+
+				TemplateSettings.IndicatorMaxSize = maxSize;
+			}
+		}
+
+		private void OnTabBarOrientationChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			if (Owner is { } tabBar)
+			{
+				VisualStateManager.GoToState(this, tabBar.Orientation == Orientation.Vertical ? "Vertical" : "Horizontal", false);
 			}
 		}
 
@@ -113,7 +233,8 @@ namespace Uno.Toolkit.UI
 		{
 			if (sender is TabBar tabBar
 				&& GetSelectionIndicator() is { } selectionIndicator
-				&& _isSelectorPresent)
+				&& _isSelectorPresent
+				&& IndicatorTransitionMode == IndicatorTransitionMode.Slide)
 			{
 				selectionIndicator.RenderTransform = new TranslateTransform
 				{
@@ -124,8 +245,7 @@ namespace Uno.Toolkit.UI
 
 		private void OnSelectedTabBarItemSizeChanged(object sender, object e)
 		{
-			var selectedItem = Owner?.SelectedItem as TabBarItem;
-			MoveSelectionIndicator(selectedItem);
+			UpdateIndicator();
 		}
 
 		private void OnTabBarSelectionChanged(TabBar sender, TabBarSelectionChangedEventArgs args)
@@ -138,71 +258,58 @@ namespace Uno.Toolkit.UI
 				_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => tabBarItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
 
 				//If a selection is being made for the first time, start showing the indicator
-				if (!_isSelectorPresent
+				if (!(_isSelectorPresent && IndicatorTransitionMode == IndicatorTransitionMode.Slide)
 					|| args.OldItem == null)
 				{
-					Opacity = 1f;
-					MoveSelectionIndicator(tabBarItem);
+					Opacity = (Content ?? ContentTemplate) is { } ? 1f : 0f;
+					UpdateSelectionIndicatorPosition(tabBarItem);
 				}
 			}
 		}
 
-		private void MoveSelectionIndicator(TabBarItem? selectedItem)
+		private Storyboard? GetStoryboardForCurrentOrientation()
 		{
-			UIElement? child;
+			return Owner?.Orientation switch
+			{
+				Orientation.Horizontal => _horizontalStoryboard,
+				Orientation.Vertical => _verticalStoryboard,
+				_ => throw new ArgumentOutOfRangeException(nameof(Owner.Orientation))
+			};
+		}
 
-			if (selectedItem == null
-				|| Owner == null
-				|| (child = GetSelectionIndicator()) is null)
+		private void StopStoryboards()
+		{
+			_horizontalStoryboard?.Stop();
+			_verticalStoryboard?.Stop();
+		}
+
+		private void UpdateSelectionIndicatorPosition(TabBarItem? destination = null)
+		{
+			destination ??= Owner?.SelectedItem as TabBarItem;
+
+			if (destination is null ||
+				Owner is not { } tabBar ||
+				GetSelectionIndicator() is not { } indicator ||
+				(indicator.ActualHeight == 0d || indicator.ActualWidth == 0d) ||
+				GetStoryboardForCurrentOrientation() is not { } storyboard ||
+				TemplateSettings is not { } templateSettings)
 			{
 				return;
 			}
 
-			var point = new Point(0, 0);
-			double nextPos;
+			StopStoryboards();
 
-			var nextPosPoint = selectedItem.TransformToVisual(Owner)
-				.TransformPoint(point);
+			var nextPosPoint = destination.TransformToVisual(tabBar).TransformPoint(default);
 
-			var currentPoint = child.TransformToVisual(Owner)
-				.TransformPoint(new Point(0, 0));
+			templateSettings.IndicatorTransitionFrom = templateSettings.IndicatorTransitionTo;
+			templateSettings.IndicatorTransitionTo = nextPosPoint;
 
-			nextPos = nextPosPoint.X + (selectedItem.ActualWidth / 2);
+			storyboard.BeginTime = TimeSpan.FromMilliseconds(0);
 
+			storyboard.Begin();
 			if (IndicatorTransitionMode == IndicatorTransitionMode.Snap)
 			{
-				child.RenderTransform = new TranslateTransform() { X = nextPos - (child.ActualSize.X / 2) };
-			}
-			else if (IndicatorTransitionMode == IndicatorTransitionMode.Slide)
-			{
-				_indicatorSlideStoryboard.Stop();
-				_indicatorSlideStoryboard.Children.Clear();
-
-				var easing = new CubicEase();
-
-				var transform = child.RenderTransform as CompositeTransform;
-				if (transform == null)
-				{
-					transform = new CompositeTransform();
-					child.RenderTransform = transform;
-				}
-				child.RenderTransformOrigin = new Point(0, 0);
-
-				var db = new DoubleAnimation
-				{
-					To = nextPos - (child.ActualSize.X / 2),
-					From = currentPoint.X,
-					EasingFunction = easing,
-					Duration = TimeSpan.FromMilliseconds(400)
-				};
-				Storyboard.SetTarget(db, child);
-				var axis = "X";	// X axis
-				Storyboard.SetTargetProperty(db, $"(UIElement.RenderTransform).(CompositeTransform.Translate{axis})");
-
-				_indicatorSlideStoryboard.BeginTime = TimeSpan.FromMilliseconds(0);
-
-				_indicatorSlideStoryboard.Children.Add(db);
-				_indicatorSlideStoryboard.Begin();
+				storyboard.SkipToFill();
 			}
 		}
 	}

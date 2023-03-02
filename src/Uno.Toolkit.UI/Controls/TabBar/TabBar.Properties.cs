@@ -13,47 +13,125 @@ namespace Uno.Toolkit.UI
 {
 	public partial class TabBar
 	{
-		#region SelectedItem
-		public object? SelectedItem
+		#region DependencyProperty: SelectedItem
+
+		public static DependencyProperty SelectedItemProperty { get; } = DependencyProperty.Register(
+			nameof(SelectedItem),
+			typeof(object),
+			typeof(TabBar),
+			new PropertyMetadata(default(object), OnPropertyChanged));
+
+		public object SelectedItem
 		{
-			get { return (object)GetValue(SelectedItemProperty); }
-			set { SetValue(SelectedItemProperty, value); }
+			get => (object)GetValue(SelectedItemProperty);
+			set => SetValue(SelectedItemProperty, value);
 		}
 
-		public static DependencyProperty SelectedItemProperty { get; } =
-			DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(TabBar), new PropertyMetadata(null, OnPropertyChanged));
 		#endregion
+		#region DependencyProperty: SelectedIndex
 
-		#region SelectedIndex
+		public static DependencyProperty SelectedIndexProperty { get; } = DependencyProperty.Register(
+			nameof(SelectedIndex),
+			typeof(int),
+			typeof(TabBar),
+			new PropertyMetadata(-1, OnPropertyChanged));
+
 		public int SelectedIndex
 		{
-			get { return (int)GetValue(SelectedIndexProperty); }
-			set { SetValue(SelectedIndexProperty, value); }
+			get => (int)GetValue(SelectedIndexProperty);
+			set => SetValue(SelectedIndexProperty, value);
 		}
 
-		public static DependencyProperty SelectedIndexProperty { get; } =
-			DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(TabBar), new PropertyMetadata(-1, OnPropertyChanged));
 		#endregion
+		#region DependencyProperty: TemplateSettings
 
-		#region TemplateSettings
+		public static DependencyProperty TemplateSettingsProperty { get; } = DependencyProperty.Register(
+			nameof(TemplateSettings),
+			typeof(TabBarTemplateSettings),
+			typeof(TabBar),
+			new PropertyMetadata(default(TabBarTemplateSettings)));
+
 		public TabBarTemplateSettings TemplateSettings
 		{
 			get => (TabBarTemplateSettings)GetValue(TemplateSettingsProperty);
-			private set => SetValue(TemplateSettingsProperty, value);
+			set => SetValue(TemplateSettingsProperty, value);
 		}
-		public static DependencyProperty TemplateSettingsProperty { get; } =
-			DependencyProperty.Register(nameof(TemplateSettings), typeof(TabBarTemplateSettings), typeof(TabBar), new PropertyMetadata(null));
-		#endregion
 
-		#region Orientation
+		#endregion
+		#region DependencyProperty: Orientation
+
+		public static DependencyProperty OrientationProperty { get; } = DependencyProperty.Register(
+			nameof(Orientation),
+			typeof(Orientation),
+			typeof(TabBar),
+			new PropertyMetadata(Orientation.Horizontal, OnPropertyChanged));
+
 		public Orientation Orientation
 		{
-			get { return (Orientation)GetValue(OrientationProperty); }
-			set { SetValue(OrientationProperty, value); }
+			get => (Orientation)GetValue(OrientationProperty);
+			set => SetValue(OrientationProperty, value);
 		}
 
-		public static DependencyProperty OrientationProperty { get; } =
-			DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(TabBar), new PropertyMetadata(Orientation.Horizontal, OnPropertyChanged));
+		#endregion
+		#region DependencyProperty: SelectionIndicatorContent
+
+		public static DependencyProperty SelectionIndicatorContentProperty { get; } = DependencyProperty.Register(
+			nameof(SelectionIndicatorContent),
+			typeof(object),
+			typeof(TabBar),
+			new PropertyMetadata(default(object), OnPropertyChanged));
+
+		public object SelectionIndicatorContent
+		{
+			get => (object)GetValue(SelectionIndicatorContentProperty);
+			set => SetValue(SelectionIndicatorContentProperty, value);
+		}
+
+		#endregion
+		#region DependencyProperty: SelectionIndicatorContentTemplate
+
+		public static DependencyProperty SelectionIndicatorContentTemplateProperty { get; } = DependencyProperty.Register(
+			nameof(SelectionIndicatorContentTemplate),
+			typeof(DataTemplate),
+			typeof(TabBar),
+			new PropertyMetadata(default(DataTemplate), OnPropertyChanged));
+
+		public DataTemplate SelectionIndicatorContentTemplate
+		{
+			get => (DataTemplate)GetValue(SelectionIndicatorContentTemplateProperty);
+			set => SetValue(SelectionIndicatorContentTemplateProperty, value);
+		}
+
+		#endregion
+		#region DependencyProperty: SelectionIndicatorPresenterStyle
+
+		public static DependencyProperty SelectionIndicatorPresenterStyleProperty { get; } = DependencyProperty.Register(
+			nameof(SelectionIndicatorPresenterStyle),
+			typeof(Style),
+			typeof(TabBar),
+			new PropertyMetadata(default(Style), OnPropertyChanged));
+
+		public Style SelectionIndicatorPresenterStyle
+		{
+			get => (Style)GetValue(SelectionIndicatorPresenterStyleProperty);
+			set => SetValue(SelectionIndicatorPresenterStyleProperty, value);
+		}
+
+		#endregion
+		#region DependencyProperty: SelectionIndicatorTransitionMode
+
+		public static DependencyProperty SelectionIndicatorTransitionModeProperty { get; } = DependencyProperty.Register(
+			nameof(SelectionIndicatorTransitionMode),
+			typeof(IndicatorTransitionMode),
+			typeof(TabBar),
+			new PropertyMetadata(IndicatorTransitionMode.Snap, OnPropertyChanged));
+
+		public IndicatorTransitionMode SelectionIndicatorTransitionMode
+		{
+			get => (IndicatorTransitionMode)GetValue(SelectionIndicatorTransitionModeProperty);
+			set => SetValue(SelectionIndicatorTransitionModeProperty, value);
+		}
+
 		#endregion
 
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)

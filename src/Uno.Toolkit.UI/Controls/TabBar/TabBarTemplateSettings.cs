@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -14,16 +15,20 @@ namespace Uno.Toolkit.UI
 {
 	public partial class TabBarTemplateSettings : DependencyObject
 	{
-		internal static readonly DependencyProperty SelectionIndicatorWidthProperty =
-			DependencyProperty.Register(nameof(SelectionIndicatorWidth),
-				typeof(double),
-				typeof(TabBarTemplateSettings),
-				new PropertyMetadata(null));
+		#region DependencyProperty: SelectionIndicatorMaxSize
 
-		public double SelectionIndicatorWidth
+		internal static DependencyProperty SelectionIndicatorMaxSizeProperty { get; } = DependencyProperty.Register(
+			nameof(SelectionIndicatorMaxSize),
+			typeof(Size),
+			typeof(TabBarTemplateSettings),
+			new PropertyMetadata(default(Size)));
+
+		public Size SelectionIndicatorMaxSize
 		{
-			get => (double)GetValue(SelectionIndicatorWidthProperty);
-			internal set => SetValue(SelectionIndicatorWidthProperty, value);
+			get => (Size)GetValue(SelectionIndicatorMaxSizeProperty);
+			set => SetValue(SelectionIndicatorMaxSizeProperty, value);
 		}
+
+		#endregion
 	}
 }
