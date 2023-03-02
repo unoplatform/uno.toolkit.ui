@@ -6,7 +6,7 @@ IFS=$'\n\t'
 set -x
 
 export BUILDCONFIGURATION=Release
-export NUNIT_VERSION=3.14.0
+export NUNIT_VERSION=3.12.0
 
 if [ "$UITEST_TEST_MODE_NAME" == 'Automated' ];
 then
@@ -66,6 +66,7 @@ then
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'build-tools;33.0.0' | tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platforms;android-28' | tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'extras;android;m2repository' | tr '\r' '\n' | uniq
+	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'system-images;android-28;google_apis_playstore;x86_64' | tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install "system-images;android-$ANDROID_SIMULATOR_APILEVEL;google_apis_playstore;x86_64" | tr '\r' '\n' | uniq
 
 	if [[ -f $ANDROID_HOME/platform-tools/platform-tools/adb ]]
