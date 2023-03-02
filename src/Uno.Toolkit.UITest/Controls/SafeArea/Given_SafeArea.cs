@@ -234,6 +234,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		// Hard: Tapping on TopTextBox -> page content is "pushed" up and the TopTextBox is scrolled into view, BottomTextBox should be occluded by the keyboard
 		// Hard: Tapping on BottomTextBox -> page content is "pushed" up and the BottomTextBox is scrolled into view, TopTextBox will have been scrolled up out of the top of the screen
 		[Test]
+		[AutoRetry]
 		[TestCase("Soft", "Padding")]
 		[TestCase("Soft", "Margin")]
 		[TestCase("Hard", "Padding")]
@@ -256,7 +257,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 
 			App.FastTap($"{constraint}ConstraintMode");
 			App.FastTap($"{mode}Mode");
-
+			
 			OpenKeyboard(() => App.FastTap(TopTextBox));
 
 			if (isSoft)

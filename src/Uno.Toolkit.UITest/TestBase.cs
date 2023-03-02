@@ -150,7 +150,7 @@ namespace Uno.Toolkit.UITest
 		}
 		protected void WaitForClosedKeyboard()
 		{
-			_app.WaitFor(() => !IsKeyboardOpen(), timeoutMessage: $"Timed out waiting for IsKeyboardOpen");
+			_app.WaitFor(() => !IsKeyboardOpen(), timeoutMessage: $"Timed out waiting for !IsKeyboardOpen");
 		}
 
 		protected void OpenKeyboard(Action keyboardFocus)
@@ -163,6 +163,7 @@ namespace Uno.Toolkit.UITest
 		{
 			_app.DismissKeyboard();
 			WaitForClosedKeyboard();
+			_app.Wait(TimeSpan.FromSeconds(2));
 		}
 
 		protected bool IsKeyboardOpen()
