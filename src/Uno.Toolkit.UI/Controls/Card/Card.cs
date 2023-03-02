@@ -22,59 +22,70 @@ namespace Uno.Toolkit.UI
 
 		protected override void OnApplyTemplate()
 		{
-			if (IsEnabled)
-			{
-				VisualStateManager.GoToState(this, "Normal", true);
-			}
-			else
-			{
-				VisualStateManager.GoToState(this, "Disabled", true);
-			}
+			VisualStateManager.GoToState(this, IsEnabled ? CommonStates.Normal : CommonStates.Disabled, true);
 
 			base.OnApplyTemplate();
 		}
 
 		protected override void OnPointerEntered(PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "PointerOver", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, CommonStates.PointerOver, true);
 
-			base.OnPointerEntered(e);
+				base.OnPointerEntered(e);
+			}
 		}
 
 		protected override void OnPointerExited(PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Normal", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, CommonStates.Normal, true);
 
-			base.OnPointerExited(e);
+				base.OnPointerExited(e);
+			}
 		}
 
 		protected override void OnPointerPressed(PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Pressed", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, CommonStates.Pressed, true);
 
-			base.OnPointerPressed(e);
+				base.OnPointerPressed(e);
+			}
 		}
 
 		protected override void OnPointerReleased(PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Normal", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, CommonStates.Normal, true);
 
-			base.OnPointerReleased(e);
+				base.OnPointerReleased(e);
+			}
 		}
 
 		protected override void OnGotFocus(RoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Focused", true);
-			VisualStateManager.GoToState(this, "PointerFocused", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, FocusStates.Focused, true);
+				VisualStateManager.GoToState(this, FocusStates.PointerFocused, true);
 
-			base.OnGotFocus(e);
+				base.OnGotFocus(e);
+			}
 		}
 
 		protected override void OnLostFocus(RoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Unfocused", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, FocusStates.Unfocused, true);
 
-			base.OnLostFocus(e);
+				base.OnLostFocus(e);
+			}
 		}
 	}
 }

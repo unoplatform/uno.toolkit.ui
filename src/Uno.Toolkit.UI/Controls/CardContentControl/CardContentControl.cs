@@ -18,23 +18,46 @@ using Windows.UI.Xaml.Input;
 
 namespace Uno.Toolkit.UI
 {
+	public partial class CardContentControl
+	{
+		private static class CommonStates
+		{
+			public const string Normal = nameof(Normal);
+			public const string PointerOver = nameof(PointerOver);
+			public const string Pressed = nameof(Pressed);
+			public const string Disabled = nameof(Disabled);
+		}
+		private static class FocusStates
+		{
+			public const string Unfocused = nameof(Unfocused);
+			public const string Focused = nameof(Focused);
+			public const string PointerFocused = nameof(PointerFocused);
+		}
+
+		private static readonly Windows.UI.Color DefaultShadowColor
+#if __ANDROID__
+			= Colors.Black;
+#else
+			= Windows.UI.Color.FromArgb(64, 0, 0, 0);
+#endif
+	}
+
 	/// <summary>
 	/// Represents a control used to visually group related child elements and information.
 	/// </summary>
 	public partial class CardContentControl : ContentControl
 	{
-#if __ANDROID__
-		private static readonly Windows.UI.Color _defaultShadowColor = Colors.Black;
-#else
-		private static readonly Windows.UI.Color _defaultShadowColor = Windows.UI.Color.FromArgb(64, 0, 0, 0);
-#endif
+		#region DependencyProperty: Elevation
 
-		public CardContentControl()
-		{
-			DefaultStyleKey = typeof(CardContentControl);
-		}
+		public static DependencyProperty ElevationProperty { get; } = DependencyProperty.Register(
+			nameof(Elevation),
+			typeof(double),
+			typeof(CardContentControl),
+			new PropertyMetadata(default(double)));
 
-		#region Elevation
+		/// <summary>
+		/// Gets or sets the elevation of the control.
+		/// </summary>
 		public
 #if __ANDROID__
 			new
@@ -45,76 +68,115 @@ namespace Uno.Toolkit.UI
 			set => SetValue(ElevationProperty, value);
 		}
 
-		public static readonly DependencyProperty ElevationProperty =
-			DependencyProperty.Register("Elevation", typeof(double), typeof(CardContentControl), new PropertyMetadata(0));
 		#endregion
+		#region DependencyProperty: ShadowColor = DefaultShadowColor
 
-		#region ShadowColor
+		public static DependencyProperty ShadowColorProperty { get; } = DependencyProperty.Register(
+			nameof(ShadowColor),
+			typeof(Windows.UI.Color),
+			typeof(CardContentControl),
+			new PropertyMetadata(DefaultShadowColor));
+
+		/// <summary>
+		/// Gets or sets the color to use for the shadow of the control.
+		/// </summary>
 		public Windows.UI.Color ShadowColor
 		{
 			get => (Windows.UI.Color)GetValue(ShadowColorProperty);
 			set => SetValue(ShadowColorProperty, value);
 		}
 
-		public static readonly DependencyProperty ShadowColorProperty =
-			DependencyProperty.Register("ShadowColor", typeof(Windows.UI.Color), typeof(CardContentControl), new PropertyMetadata(_defaultShadowColor));
 		#endregion
+		#region DependencyProperty: IsClickable = true
+
+		public static DependencyProperty IsClickableProperty { get; } = DependencyProperty.Register(
+			nameof(IsClickable),
+			typeof(bool),
+			typeof(CardContentControl),
+			new PropertyMetadata(true));
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the control will respond to pointer and focus events.
+		/// </summary>
+		public bool IsClickable
+		{
+			get => (bool)GetValue(IsClickableProperty);
+			set => SetValue(IsClickableProperty, value);
+		}
+
+		#endregion
+
+		public CardContentControl()
+		{
+			DefaultStyleKey = typeof(CardContentControl);
+		}
 
 		protected override void OnApplyTemplate()
 		{
-			if (IsEnabled)
-			{
-				VisualStateManager.GoToState(this, "Normal", true);
-			}
-			else
-			{
-				VisualStateManager.GoToState(this, "Disabled", true);
-			}
+			VisualStateManager.GoToState(this, IsEnabled ? CommonStates.Normal : CommonStates.Disabled, true);
 
 			base.OnApplyTemplate();
 		}
 
 		protected override void OnPointerEntered(PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "PointerOver", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, CommonStates.PointerOver, true);
 
-			base.OnPointerEntered(e);
+				base.OnPointerEntered(e);
+			}
 		}
 
 		protected override void OnPointerExited(PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Normal", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, CommonStates.Normal, true);
 
-			base.OnPointerExited(e);
+				base.OnPointerExited(e);
+			}
 		}
 
 		protected override void OnPointerPressed(PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Pressed", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, CommonStates.Pressed, true);
 
-			base.OnPointerPressed(e);
+				base.OnPointerPressed(e);
+			}
 		}
 
 		protected override void OnPointerReleased(PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Normal", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, CommonStates.Normal, true);
 
-			base.OnPointerReleased(e);
+				base.OnPointerReleased(e);
+			}
 		}
 
 		protected override void OnGotFocus(RoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Focused", true);
-			VisualStateManager.GoToState(this, "PointerFocused", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, FocusStates.Focused, true);
+				VisualStateManager.GoToState(this, FocusStates.PointerFocused, true);
 
-			base.OnGotFocus(e);
+				base.OnGotFocus(e);
+			}
 		}
 
 		protected override void OnLostFocus(RoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Unfocused", true);
+			if (IsClickable)
+			{
+				VisualStateManager.GoToState(this, FocusStates.Unfocused, true);
 
-			base.OnLostFocus(e);
+				base.OnLostFocus(e);
+			}
 		}
 	}
 }

@@ -1,6 +1,6 @@
 # Card & CardContentControl
 
-> [!TIP] 
+> [!TIP]
 > This guide covers details for `Card` and `CardContentControl` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 
 ## Summary
@@ -8,7 +8,7 @@
 A card's layout and dimensions depend on its contents.
 
 ## Remarks
-Currently, there are three [Material](https://m3.material.io/components/cards/) styles for `Card` and `CardContentControl` that you can use. 
+Currently, there are three [Material](https://m3.material.io/components/cards/) styles for `Card` and `CardContentControl` that you can use.
 Depending on the amount of user attention you want to draw to the content you can use:
 - `ElevatedCardStyle` or `ElevatedCardContentControlStyle` to add a subtle z-axis elevation.
 - `FilledCardStyle` or `FilledCardContentControlStyle` to display a simple background color without any elevation or border for the card.
@@ -30,7 +30,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <utu:Card .../>
 ```
 
-### Inheritance 
+### Inheritance
 Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; Card
 
 ### Constructors
@@ -44,19 +44,20 @@ The Card control comes with all the built-in properties of a `Control`, and also
 | Property                  | Type              | Description                                                                                   |
 |---------------------------|-------------------|-----------------------------------------------------------------------------------------------|
 | HeaderContent             | object            | Gets or sets the content for the control's header.                                            |
-| HeaderContentTemplate     | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's header.          |
+| HeaderContentTemplate     | DataTemplate      | Gets or sets the data template used to display the content of the control's header.           |
 | SubHeaderContent          | object            | Gets or sets the content for the control's subheader.                                         |
-| SubHeaderContentTemplate  | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's subheader.       |
+| SubHeaderContentTemplate  | DataTemplate      | Gets or sets the data template used to display the content of the control's subheader.        |
 | AvatarContent             | object            | Gets or sets the content for the control's avatar.                                            |
-| AvatarContentTemplate     | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's avatar.          |
+| AvatarContentTemplate     | DataTemplate      | Gets or sets the data template used to display the content of the control's avatar.           |
 | MediaContent              | object            | Gets or sets the content for the control's media area.                                        |
-| MediaContentTemplate      | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's media area.      |
+| MediaContentTemplate      | DataTemplate      | Gets or sets the data template used to display the content of the control's media area.       |
 | SupportingContent         | object            | Gets or sets the content for the control's supporting area.                                   |
-| SupportingContentTemplate | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's supporting area. |
+| SupportingContentTemplate | DataTemplate      | Gets or sets the data template used to display the content of the control's supporting area.  |
 | IconsContent              | object            | Gets or sets the content for the control's icons.                                             |
-| IconsContentTemplate      | DataTemplate      | Gets or sets the `DataTemplate` used to display the content of the control's icons.           |
+| IconsContentTemplate      | DataTemplate      | Gets or sets the data template used to display the content of the control's icons.            |
 | Elevation                 | double            | Gets or sets the elevation of the control.                                                    |
-| ShadowColor               | Windows.UI.Color  | Gets or sets the color to use for the shadow of the control.                                  |
+| ShadowColor               | Color             | Gets or sets the color to use for the shadow of the control.                                  |
+| IsClickable               | bool              | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
 
 > [!TIP]
 > Consider using [CardContentControl](#cardcontentcontrol) if you need full control over the content layout.
@@ -123,7 +124,8 @@ The Card control comes with all the built-in properties of a `ContentControl`, a
 | Property                  | Type              | Description                                                                                   |
 |---------------------------|-------------------|-----------------------------------------------------------------------------------------------|
 | Elevation                 | double            | Gets or sets the elevation of the control.                                                    |
-| ShadowColor               | Windows.UI.Color  | Gets or sets the color to use for the shadow of the control.  
+| ShadowColor               | Color             | Gets or sets the color to use for the shadow of the control.                                  |
+| IsClickable               | bool              | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
 
 ### Usage
 ```xml

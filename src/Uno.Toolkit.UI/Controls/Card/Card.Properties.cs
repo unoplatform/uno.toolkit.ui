@@ -14,158 +14,306 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.UI
 {
-	public partial class Card : Control
+	public partial class Card
 	{
-#if __ANDROID__
-		private static readonly Windows.UI.Color _defaultShadowColor = Colors.Black;
-#else
-		private static readonly Windows.UI.Color _defaultShadowColor = Windows.UI.Color.FromArgb(64, 0, 0, 0);
-#endif
+		private static class CommonStates
+		{
+			public const string Normal = nameof(Normal);
+			public const string PointerOver = nameof(PointerOver);
+			public const string Pressed = nameof(Pressed);
+			public const string Disabled = nameof(Disabled);
+		}
+		private static class FocusStates
+		{
+			public const string Unfocused = nameof(Unfocused);
+			public const string Focused = nameof(Focused);
+			public const string PointerFocused = nameof(PointerFocused);
+		}
 
-#region HeaderContent and HeaderContentTemplate
+		private static readonly Windows.UI.Color DefaultShadowColor
+#if __ANDROID__
+			= Colors.Black;
+#else
+			= Windows.UI.Color.FromArgb(64, 0, 0, 0);
+#endif
+	}
+
+	public partial class Card
+	{
+		#region DependencyProperty: HeaderContent
+
+		public static DependencyProperty HeaderContentProperty { get; } = DependencyProperty.Register(
+			nameof(HeaderContent),
+			typeof(object),
+			typeof(Card),
+			new PropertyMetadata(default(object)));
+
+		/// <summary>
+		/// Gets or sets the content for the control's header.
+		/// </summary>
 		public object HeaderContent
 		{
-			get { return (object)GetValue(HeaderContentProperty); }
-			set { SetValue(HeaderContentProperty, value); }
+			get => (object)GetValue(HeaderContentProperty);
+			set => SetValue(HeaderContentProperty, value);
 		}
 
-		public static readonly DependencyProperty HeaderContentProperty =
-			DependencyProperty.Register("HeaderContent", typeof(object), typeof(Card), new PropertyMetadata(null));
+		#endregion
+		#region DependencyProperty: HeaderContentTemplate
 
+		public static DependencyProperty HeaderContentTemplateProperty { get; } = DependencyProperty.Register(
+			nameof(HeaderContentTemplate),
+			typeof(DataTemplate),
+			typeof(Card),
+			new PropertyMetadata(default(DataTemplate)));
+
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's header.
+		/// </summary>
 		public DataTemplate HeaderContentTemplate
 		{
-			get { return (DataTemplate)GetValue(HeaderContentTemplateProperty); }
-			set { SetValue(HeaderContentTemplateProperty, value); }
+			get => (DataTemplate)GetValue(HeaderContentTemplateProperty);
+			set => SetValue(HeaderContentTemplateProperty, value);
 		}
 
-		public static readonly DependencyProperty HeaderContentTemplateProperty =
-			DependencyProperty.Register("HeaderContentTemplate", typeof(DataTemplate), typeof(Card), new PropertyMetadata(null));
-#endregion
+		#endregion
+		#region DependencyProperty: SubHeaderContent
 
-#region SubHeaderContent and SubHeaderContentTemplate
+		public static DependencyProperty SubHeaderContentProperty { get; } = DependencyProperty.Register(
+			nameof(SubHeaderContent),
+			typeof(object),
+			typeof(Card),
+			new PropertyMetadata(default(object)));
+
+		/// <summary>
+		/// Gets or sets the content for the control's subheader.
+		/// </summary>
 		public object SubHeaderContent
 		{
-			get { return (object)GetValue(SubHeaderContentProperty); }
-			set { SetValue(SubHeaderContentProperty, value); }
+			get => (object)GetValue(SubHeaderContentProperty);
+			set => SetValue(SubHeaderContentProperty, value);
 		}
 
-		public static readonly DependencyProperty SubHeaderContentProperty =
-			DependencyProperty.Register("SubHeaderContent", typeof(object), typeof(Card), new PropertyMetadata(null));
+		#endregion
+		#region DependencyProperty: SubHeaderContentTemplate
 
+		public static DependencyProperty SubHeaderContentTemplateProperty { get; } = DependencyProperty.Register(
+			nameof(SubHeaderContentTemplate),
+			typeof(DataTemplate),
+			typeof(Card),
+			new PropertyMetadata(default(DataTemplate)));
+
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's subheader.
+		/// </summary>
 		public DataTemplate SubHeaderContentTemplate
 		{
-			get { return (DataTemplate)GetValue(SubHeaderContentTemplateProperty); }
-			set { SetValue(SubHeaderContentTemplateProperty, value); }
+			get => (DataTemplate)GetValue(SubHeaderContentTemplateProperty);
+			set => SetValue(SubHeaderContentTemplateProperty, value);
 		}
 
-		public static readonly DependencyProperty SubHeaderContentTemplateProperty =
-			DependencyProperty.Register("SubHeaderContentTemplate", typeof(DataTemplate), typeof(Card), new PropertyMetadata(null));
-#endregion
+		#endregion
+		#region DependencyProperty: AvatarContent
 
-#region AvatarContent and AvatarContentTemplate
+		public static DependencyProperty AvatarContentProperty { get; } = DependencyProperty.Register(
+			nameof(AvatarContent),
+			typeof(object),
+			typeof(Card),
+			new PropertyMetadata(default(object)));
+
+		/// <summary>
+		/// Gets or sets the content for the control's avatar.
+		/// </summary>
 		public object AvatarContent
 		{
-			get { return (object)GetValue(AvatarContentProperty); }
-			set { SetValue(AvatarContentProperty, value); }
+			get => (object)GetValue(AvatarContentProperty);
+			set => SetValue(AvatarContentProperty, value);
 		}
 
-		public static readonly DependencyProperty AvatarContentProperty =
-			DependencyProperty.Register("AvatarContent", typeof(object), typeof(Card), new PropertyMetadata(null));
+		#endregion
+		#region DependencyProperty: AvatarContentTemplate
 
+		public static DependencyProperty AvatarContentTemplateProperty { get; } = DependencyProperty.Register(
+			nameof(AvatarContentTemplate),
+			typeof(DataTemplate),
+			typeof(Card),
+			new PropertyMetadata(default(DataTemplate)));
+
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's avatar.
+		/// </summary>
 		public DataTemplate AvatarContentTemplate
 		{
-			get { return (DataTemplate)GetValue(AvatarContentTemplateProperty); }
-			set { SetValue(AvatarContentTemplateProperty, value); }
+			get => (DataTemplate)GetValue(AvatarContentTemplateProperty);
+			set => SetValue(AvatarContentTemplateProperty, value);
 		}
 
-		public static readonly DependencyProperty AvatarContentTemplateProperty =
-			DependencyProperty.Register("AvatarContentTemplate", typeof(DataTemplate), typeof(Card), new PropertyMetadata(null));
-#endregion
+		#endregion
+		#region DependencyProperty: MediaContent
 
-#region MediaContent and MediaContentTemplate
+		public static DependencyProperty MediaContentProperty { get; } = DependencyProperty.Register(
+			nameof(MediaContent),
+			typeof(object),
+			typeof(Card),
+			new PropertyMetadata(default(object)));
+
+		/// <summary>
+		/// Gets or sets the content for the control's media area.
+		/// </summary>
 		public object MediaContent
 		{
-			get { return (object)GetValue(MediaContentProperty); }
-			set { SetValue(MediaContentProperty, value); }
+			get => (object)GetValue(MediaContentProperty);
+			set => SetValue(MediaContentProperty, value);
 		}
 
-		public static readonly DependencyProperty MediaContentProperty =
-			DependencyProperty.Register("MediaContent", typeof(object), typeof(Card), new PropertyMetadata(null));
+		#endregion
+		#region DependencyProperty: MediaContentTemplate
 
+		public static DependencyProperty MediaContentTemplateProperty { get; } = DependencyProperty.Register(
+			nameof(MediaContentTemplate),
+			typeof(DataTemplate),
+			typeof(Card),
+			new PropertyMetadata(default(DataTemplate)));
+
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's media area.
+		/// </summary>
 		public DataTemplate MediaContentTemplate
 		{
-			get { return (DataTemplate)GetValue(MediaContentTemplateProperty); }
-			set { SetValue(MediaContentTemplateProperty, value); }
+			get => (DataTemplate)GetValue(MediaContentTemplateProperty);
+			set => SetValue(MediaContentTemplateProperty, value);
 		}
 
-		public static readonly DependencyProperty MediaContentTemplateProperty =
-			DependencyProperty.Register("MediaContentTemplate", typeof(DataTemplate), typeof(Card), new PropertyMetadata(null));
-#endregion
+		#endregion
+		#region DependencyProperty: SupportingContent
 
-#region SupportingContent and SupportingContentTemplate
+		public static DependencyProperty SupportingContentProperty { get; } = DependencyProperty.Register(
+			nameof(SupportingContent),
+			typeof(object),
+			typeof(Card),
+			new PropertyMetadata(default(object)));
+
+		/// <summary>
+		/// Gets or sets the content for the control's supporting area.
+		/// </summary>
 		public object SupportingContent
 		{
-			get { return (object)GetValue(SupportingContentProperty); }
-			set { SetValue(SupportingContentProperty, value); }
+			get => (object)GetValue(SupportingContentProperty);
+			set => SetValue(SupportingContentProperty, value);
 		}
 
-		public static readonly DependencyProperty SupportingContentProperty =
-			DependencyProperty.Register("SupportingContent", typeof(object), typeof(Card), new PropertyMetadata(null));
+		#endregion
+		#region DependencyProperty: SupportingContentTemplate
 
+		public static DependencyProperty SupportingContentTemplateProperty { get; } = DependencyProperty.Register(
+			nameof(SupportingContentTemplate),
+			typeof(DataTemplate),
+			typeof(Card),
+			new PropertyMetadata(default(DataTemplate)));
+
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's supporting area.
+		/// </summary>
 		public DataTemplate SupportingContentTemplate
 		{
-			get { return (DataTemplate)GetValue(SupportingContentTemplateProperty); }
-			set { SetValue(SupportingContentTemplateProperty, value); }
+			get => (DataTemplate)GetValue(SupportingContentTemplateProperty);
+			set => SetValue(SupportingContentTemplateProperty, value);
 		}
 
-		public static readonly DependencyProperty SupportingContentTemplateProperty =
-			DependencyProperty.Register("SupportingContentTemplate", typeof(DataTemplate), typeof(Card), new PropertyMetadata(null));
-#endregion
+		#endregion
+		#region DependencyProperty: IconsContent
 
-#region IconsContent and IconsContentTemplate
+		public static DependencyProperty IconsContentProperty { get; } = DependencyProperty.Register(
+			nameof(IconsContent),
+			typeof(object),
+			typeof(Card),
+			new PropertyMetadata(default(object)));
+
+		/// <summary>
+		/// Gets or sets the content for the control's icons.
+		/// </summary>
 		public object IconsContent
 		{
-			get { return (object)GetValue(IconsContentProperty); }
-			set { SetValue(IconsContentProperty, value); }
+			get => (object)GetValue(IconsContentProperty);
+			set => SetValue(IconsContentProperty, value);
 		}
 
-		public static readonly DependencyProperty IconsContentProperty =
-			DependencyProperty.Register("IconsContent", typeof(object), typeof(Card), new PropertyMetadata(null));
+		#endregion
+		#region DependencyProperty: IconsContentTemplate
 
+		public static DependencyProperty IconsContentTemplateProperty { get; } = DependencyProperty.Register(
+			nameof(IconsContentTemplate),
+			typeof(DataTemplate),
+			typeof(Card),
+			new PropertyMetadata(default(DataTemplate)));
+
+		/// <summary>
+		/// Gets or sets the data template used to display the content of the control's icons.
+		/// </summary>
 		public DataTemplate IconsContentTemplate
 		{
-			get { return (DataTemplate)GetValue(IconsContentTemplateProperty); }
-			set { SetValue(IconsContentTemplateProperty, value); }
+			get => (DataTemplate)GetValue(IconsContentTemplateProperty);
+			set => SetValue(IconsContentTemplateProperty, value);
 		}
 
-		public static readonly DependencyProperty IconsContentTemplateProperty =
-			DependencyProperty.Register("IconsContentTemplate", typeof(DataTemplate), typeof(Card), new PropertyMetadata(null));
-#endregion
+		#endregion
 
-#region Elevation
+		#region DependencyProperty: Elevation
+
+		public static DependencyProperty ElevationProperty { get; } = DependencyProperty.Register(
+			nameof(Elevation),
+			typeof(double),
+			typeof(Card),
+			new PropertyMetadata(default(double)));
+
+		/// <summary>
+		/// Gets or sets the elevation of the control.
+		/// </summary>
 		public
 #if __ANDROID__
 			new
 #endif
 			double Elevation
 		{
-			get { return (double)GetValue(ElevationProperty); }
-			set { SetValue(ElevationProperty, value); }
+			get => (double)GetValue(ElevationProperty);
+			set => SetValue(ElevationProperty, value);
 		}
 
-		public static readonly DependencyProperty ElevationProperty =
-			DependencyProperty.Register("Elevation", typeof(double), typeof(Card), new PropertyMetadata(0));
-#endregion
+		#endregion
+		#region DependencyProperty: ShadowColor = DefaultShadowColor
 
-#region ShadowColor
+		public static DependencyProperty ShadowColorProperty { get; } = DependencyProperty.Register(
+			nameof(ShadowColor),
+			typeof(Windows.UI.Color),
+			typeof(Card),
+			new PropertyMetadata(DefaultShadowColor));
+
+		/// <summary>
+		/// Gets or sets the color to use for the shadow of the control.
+		/// </summary>
 		public Windows.UI.Color ShadowColor
 		{
-			get { return (Windows.UI.Color)GetValue(ShadowColorProperty); }
-			set { SetValue(ShadowColorProperty, value); }
+			get => (Windows.UI.Color)GetValue(ShadowColorProperty);
+			set => SetValue(ShadowColorProperty, value);
 		}
 
-		public static readonly DependencyProperty ShadowColorProperty =
-			DependencyProperty.Register("ShadowColor", typeof(Windows.UI.Color), typeof(Card), new PropertyMetadata(_defaultShadowColor));
-#endregion
+		#endregion
+		#region DependencyProperty: IsClickable = true
+
+		public static DependencyProperty IsClickableProperty { get; } = DependencyProperty.Register(
+			nameof(IsClickable),
+			typeof(bool),
+			typeof(Card),
+			new PropertyMetadata(true));
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the control will respond to pointer and focus events.
+		/// </summary>
+		public bool IsClickable
+		{
+			get => (bool)GetValue(IsClickableProperty);
+			set => SetValue(IsClickableProperty, value);
+		}
+
+		#endregion
 	}
 }
