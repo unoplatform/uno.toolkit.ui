@@ -14,7 +14,7 @@ namespace Uno.Toolkit.UI
 			nameof(Owner),
 			typeof(TabBar),
 			typeof(TabBarSelectionIndicatorPresenter),
-			new PropertyMetadata(default(TabBar), OnPropertyChanged));
+			new PropertyMetadata(null, OnPropertyChanged));
 
 		public TabBar Owner
 		{
@@ -44,7 +44,7 @@ namespace Uno.Toolkit.UI
 			nameof(TemplateSettings),
 			typeof(TabBarSelectionIndicatorPresenterTemplateSettings),
 			typeof(TabBarSelectionIndicatorPresenter),
-			new PropertyMetadata(default(TabBarSelectionIndicatorPresenterTemplateSettings)));
+			new PropertyMetadata(null));
 
 		public TabBarSelectionIndicatorPresenterTemplateSettings TemplateSettings
 		{

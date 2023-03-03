@@ -239,10 +239,10 @@ namespace Uno.Toolkit.UI
 			TabBarItem? oldItem = null;
 			if (args?.OldValue is int oldIndex)
 			{
-				oldItem = FindContainerByIndex(oldIndex);
+				oldItem = this.FindContainerByIndex<TabBarItem>(oldIndex);
 			}
 
-			var newItem = FindContainerByIndex(SelectedIndex);
+			var newItem = this.FindContainerByIndex<TabBarItem>(SelectedIndex);
 
 			if (TryUpdateTabBarItemSelectedState(oldItem, newItem))
 			{
@@ -258,7 +258,7 @@ namespace Uno.Toolkit.UI
 				_isUpdatingSelectedItem = true;
 				_previouslySelectedItem = oldItem;
 
-				var container = FindContainer(newItem);
+				var container = this.FindContainer<TabBarItem>(newItem);
 				if (container?.IsSelectable ?? false)
 				{
 					container.IsSelected = true;
@@ -284,7 +284,7 @@ namespace Uno.Toolkit.UI
 			{
 				_isSynchronizingSelection = true;
 
-				foreach (var container in GetItemContainers())
+				foreach (var container in this.GetItemContainers<TabBarItem>())
 				{
 					if (!container.IsSelected)
 					{
@@ -320,35 +320,8 @@ namespace Uno.Toolkit.UI
 			SelectionChanged?.Invoke(this, eventArgs);
 		}
 
-		private TabBarItem? FindContainer(object? item)
-		{
-			if (item == null)
-		{
-				return null;
-			}
-
-			return item as TabBarItem ??
-				ContainerFromItem(item) as TabBarItem;
-		}
-
 		private bool IsReady => _isLoaded && HasItems;
 
-		private bool HasItems => GetItems().Any();
-
-		/// <summary>
-		/// Get the item containers.
-		/// </summary>
-		/// <remarks>An empty enumerable will returned if the <see cref="ItemsControl.ItemsPanelRoot"/> and the containers have not been materialized.</remarks>
-		private IEnumerable<TabBarItem> GetItemContainers() =>
-			ItemsPanelRoot?.Children.OfType<TabBarItem>() ??
-			Enumerable.Empty<TabBarItem>();
-		private IEnumerable GetItems() =>
-			ItemsSource as IEnumerable ??
-			(ItemsSource as CollectionViewSource)?.View ??
-			Items ??
-			Enumerable.Empty<object>();
-
-		private TabBarItem? FindContainerByIndex(int index) => 
-			GetItems()?.OfType<TabBarItem>().Skip(index).FirstOrDefault();
+		private bool HasItems => this.GetItems().Any();
 	}
 }

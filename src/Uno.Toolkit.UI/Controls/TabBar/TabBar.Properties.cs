@@ -19,7 +19,7 @@ namespace Uno.Toolkit.UI
 			nameof(SelectedItem),
 			typeof(object),
 			typeof(TabBar),
-			new PropertyMetadata(default(object), OnPropertyChanged));
+			new PropertyMetadata(null, OnPropertyChanged));
 
 		public object SelectedItem
 		{
@@ -79,7 +79,7 @@ namespace Uno.Toolkit.UI
 			nameof(SelectionIndicatorContent),
 			typeof(object),
 			typeof(TabBar),
-			new PropertyMetadata(default(object), OnPropertyChanged));
+			new PropertyMetadata(null, OnPropertyChanged));
 
 		public object SelectionIndicatorContent
 		{
@@ -94,7 +94,7 @@ namespace Uno.Toolkit.UI
 			nameof(SelectionIndicatorContentTemplate),
 			typeof(DataTemplate),
 			typeof(TabBar),
-			new PropertyMetadata(default(DataTemplate), OnPropertyChanged));
+			new PropertyMetadata(null, OnPropertyChanged));
 
 		public DataTemplate SelectionIndicatorContentTemplate
 		{
@@ -109,7 +109,7 @@ namespace Uno.Toolkit.UI
 			nameof(SelectionIndicatorPresenterStyle),
 			typeof(Style),
 			typeof(TabBar),
-			new PropertyMetadata(default(Style), OnPropertyChanged));
+			new PropertyMetadata(null, OnPropertyChanged));
 
 		public Style SelectionIndicatorPresenterStyle
 		{
