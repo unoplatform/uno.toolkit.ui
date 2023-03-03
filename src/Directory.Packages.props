@@ -3,7 +3,7 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
     <PackageVersion Include="Microsoft.UI.Xaml" Version="2.6.0" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.0" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" /> 
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
@@ -27,7 +27,7 @@
     <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.32" />
     <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.32" />
     <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.32" />
-    <PackageVersion Include="Xamarin.UITest" Version="4.1.0" />
+    <PackageVersion Include="Xamarin.UITest" Version="4.1.2" />
     <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.5.0-2.final" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22518.1" />
