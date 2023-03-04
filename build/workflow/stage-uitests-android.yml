@@ -33,7 +33,7 @@
     displayName: Select Xamarin Version
 
   - script: |
-      mono '$(VS_MSBUILD)' '$(BUILD.SOURCESDIRECTORY)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Droid/$(SAMPLE_PROJECT_NAME).Droid.csproj' /m /r /p:Configuration=Release /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet6MobileTargets=true /p:IsUiAutomationMappingEnabled=true /p:AndroidBuildApplicationPackage=True /p:AndroidUseLatestPlatformSdk=true /bl:$(build.artifactstagingdirectory)/android-sampleapp.binlog
+      mono '$(VS_MSBUILD)' '$(BUILD.SOURCESDIRECTORY)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Droid/$(SAMPLE_PROJECT_NAME).Droid.csproj' /m /r /p:Configuration=Release /p:DisableNet6MobileTargets=true /p:IsUiAutomationMappingEnabled=true /p:AndroidBuildApplicationPackage=True /p:AndroidUseLatestPlatformSdk=true /bl:$(build.artifactstagingdirectory)/android-sampleapp.binlog
     displayName: Build Android Samples App ($(XAML_FLAVOR_BUILD))
 
 
