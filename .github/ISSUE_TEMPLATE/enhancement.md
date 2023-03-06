@@ -1,6 +1,6 @@
 ---
 name: Enhancement Request
-about: Suggest an enhancement to the Uno project
+about: Suggest an enhancement to the Uno Toolkit project
 labels: kind/enhancement, triage/untriaged
 ---
 
@@ -12,12 +12,17 @@ labels: kind/enhancement, triage/untriaged
 
 ## For which Platform:
 
-- [ ] iOS
-- [ ] Android
 - [ ] WebAssembly
-- [ ] WebAssembly renders for Xamarin.Forms
+- [ ] Android
+- [ ] iOS
+- [ ] macOS (AppKit)
+- [ ] Mac Catalyst
+- [ ] Skia
+  - [ ] WPF
+  - [ ] GTK (Linux)
+  - [ ] Linux Framebuffer
+  - [ ] Tizen
 - [ ] Windows
-- [ ] Build tasks
 
 ## Anything else we need to know?
 

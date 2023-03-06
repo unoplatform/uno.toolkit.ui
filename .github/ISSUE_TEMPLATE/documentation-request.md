@@ -1,6 +1,6 @@
 ---
 name: Documentation Request
-about: Request an enhancement to the Uno documentation
+about: Request an enhancement to the Uno Toolkit documentation
 labels: kind/consumer-experience, kind/documentation, triage/untriaged
 ---
 
@@ -12,18 +12,25 @@ labels: kind/consumer-experience, kind/documentation, triage/untriaged
 
 - [ ] Usage in industry
 - [ ] Clarification of capabilities
-- [ ] Getting started with Uno
-- [ ] Developing with Uno
-- [ ] Contributing to the Uno project
+- [ ] Getting started with the Uno Toolkit
+- [ ] Developing with the Uno Tookit
+- [ ] Contributing to the Uno Toolkit project
 - [ ] Publishing your application
 - [ ] Support
 - [ ] Other (please specify):
 
 ## For which Platform:
 
-- [ ] iOS
-- [ ] Android
 - [ ] WebAssembly
+- [ ] Android
+- [ ] iOS
+- [ ] macOS (AppKit)
+- [ ] Mac Catalyst
+- [ ] Skia
+  - [ ] WPF
+  - [ ] GTK (Linux)
+  - [ ] Linux Framebuffer
+  - [ ] Tizen
 - [ ] Windows
 
 ## Anything else we need to know?

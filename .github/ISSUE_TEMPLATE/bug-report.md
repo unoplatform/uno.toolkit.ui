@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report a bug encountered while developing with Uno
+about: Report a bug encountered while developing with Uno Toolkit, Uno Material Toolkit, or Uno Cupertino Toolkit libraries
 labels: kind/bug, triage/untriaged
 ---
 
@@ -21,32 +21,34 @@ If the matter is security related, please disclose it privately via https://gith
 
 <!-- Please provide a **MINIMAL REPRO PROJECT** and the **STEPS TO REPRODUCE**-->
 
-## Environment
-
-<!-- For bug reports Check one or more of the following options with "x" -->
-
 Nuget Package:
 
 Package Version(s):
 
 Affected platform(s):
 
-- [ ] iOS
-- [ ] Android
 - [ ] WebAssembly
-- [ ] WebAssembly renders for Xamarin.Forms
+- [ ] Android
+- [ ] iOS
+- [ ] macOS (AppKit)
+- [ ] Mac Catalyst
+- [ ] Skia
+  - [ ] WPF
+  - [ ] GTK (Linux)
+  - [ ] Linux Framebuffer
+  - [ ] Tizen
 - [ ] Windows
-- [ ] Build tasks
 
-Visual Studio:
+IDE:
 
-- [ ] 2017 (version: )
-- [ ] 2019 (version: )
-- [ ] for Mac (version: )
+- [ ] Visual Studio 2022
+- [ ] Visual Studio 2019
+- [ ] Visual Studio Code
+- [ ] Visual Studio for Mac
+- [ ] Rider Windows
+- [ ] Rider macOS
 
 Relevant plugins:
-
-- [ ] Resharper (version: )
 
 ## Anything else we need to know?
 
