@@ -146,7 +146,7 @@ namespace Uno.Toolkit.UI
 			var property = args.Property;
 			if (property == OwnerProperty)
 			{
-				SetupOwner();
+				SetupOwner(forceRewire: true);
 				UpdateIndicator();
 			}
 		}
