@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -89,9 +90,6 @@ internal class AutoLayoutTest
 	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 10, 12, 110, 78, 138)]
 	[DataRow(false, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -20, 12, 110, 168, 248)]
 	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -20, 12, 110, 108, 138)]
-#if !__ANDROID__ && !__IOS__
-	[Ignore("Currently fails on wasm")]
-#endif
 	public async Task When_AbsolutePosition_WithPadding(bool isStretch, Orientation orientation, VerticalAlignment vAlign, HorizontalAlignment hAlign, int[] padding, int[] margin, int spacing, double expectedY, double expectedX, double rec1expected, double rec2expected)
 	{
 		var SUT = new AutoLayout()
@@ -160,7 +158,7 @@ internal class AutoLayoutTest
 
 		if (orientation is Orientation.Vertical)
 		{
-			Assert.AreEqual(border1Transform!.Matrix.OffsetY!, rec1expected);
+			Assert.AreEqual(border1Transform!.Matrix.OffsetY!, rec1expected);;
 			Assert.AreEqual(border2Transform!.Matrix.OffsetY!, rec2expected);
 		}
 		else
@@ -237,6 +235,69 @@ internal class AutoLayoutTest
 			Assert.AreEqual(rec1expected, border1Transform!.Matrix.OffsetX!);
 			Assert.AreEqual(rec2expected, border2Transform!.Matrix.OffsetX!);
 		}
+	}
+
+	[TestMethod]
+	[RequiresFullWindow]
+	public async Task When_Space_between_With_AbsolutePosition()
+	{
+		var SUT = new AutoLayout()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
+			Padding = new Thickness(10),
+			Justify = AutoLayoutJustify.SpaceBetween,
+			Width = 300,
+			Height = 400,
+		};
+
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 200,
+			Height = 50,
+		};
+
+		var border2 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 200,
+			Height = 50,
+		};
+
+		var border3 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 200,
+			Height = 50,
+		};
+
+		var border4 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 200,
+			Height = 50,
+			Margin = new Thickness(10, 280,0 ,0),
+			VerticalAlignment = VerticalAlignment.Top,
+			HorizontalAlignment = HorizontalAlignment.Left,
+		};
+
+		AutoLayout.SetIsIndependentLayout(border4, true);
+
+		SUT.Children.Add(border1);
+		SUT.Children.Add(border2);
+		SUT.Children.Add(border3);
+		SUT.Children.Add(border4);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var border1Transform = (MatrixTransform)border1.TransformToVisual(SUT);
+		var border3Transform = (MatrixTransform)border3.TransformToVisual(SUT);
+		var border4Transform = (MatrixTransform)border4.TransformToVisual(SUT);
+
+
+		Assert.AreEqual(10, border1Transform!.Matrix.OffsetY!);
+		Assert.AreEqual(340, border3Transform!.Matrix.OffsetY!);
+		Assert.AreEqual(280, border4Transform!.Matrix.OffsetY!);
 	}
 
 }
