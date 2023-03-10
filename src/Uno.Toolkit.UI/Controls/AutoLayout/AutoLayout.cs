@@ -322,7 +322,10 @@ namespace Uno.Toolkit.UI
 				{
 					_grid.Padding = new Thickness(0);
 
-					_grid.RowDefinitions.Insert(gridIndexOffSet, new RowDefinition() { Height = new GridLength(spacing < 0 ? padding.Top - spacing : padding.Top) });
+					var topPaddingSize = spacing < 0 ? padding.Top - spacing : padding.Top;
+					var topPadding = new GridLength(topPaddingSize);
+
+					_grid.RowDefinitions.Insert(gridIndexOffSet, new RowDefinition() { Height = topPadding, MaxHeight = topPaddingSize});
 					gridIndexOffSet += 1;
 
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(padding.Left )});
@@ -434,7 +437,7 @@ namespace Uno.Toolkit.UI
 					}
 				}
 
-				if (hasIndependentLayout && atLeastOneChildFillAvailableSpaceInPrimaryAxis is not true && PrimaryAxisAlignment != AutoLayoutAlignment.End)
+				if (hasIndependentLayout && atLeastOneChildFillAvailableSpaceInPrimaryAxis is not true && PrimaryAxisAlignment != AutoLayoutAlignment.End && !hasSpaceBetween)
 				{
 					//We need to make sure that the independent layout can span all across his parent
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
@@ -444,7 +447,8 @@ namespace Uno.Toolkit.UI
 
 				if ( hasSpaceBetween || (hasPadding && paddingCondition))
 				{
-					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(spacing < 0 ? padding.Bottom - spacing : padding.Bottom) });
+					var bottomPaddingSize = spacing < 0 ? padding.Bottom - spacing : padding.Bottom;
+					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(bottomPaddingSize), MaxHeight = bottomPaddingSize });
 				}
 			}
 			else // Horizontal
@@ -469,9 +473,10 @@ namespace Uno.Toolkit.UI
 				{
 					_grid.Padding = new Thickness(0);
 
-					var firstColumnWidth = new GridLength(spacing < 0 ? padding.Left - spacing : padding.Left);
+					var firstColumnWidthSize = spacing < 0 ? padding.Left - spacing : padding.Left;
+					var firstColumnWidth = new GridLength(firstColumnWidthSize);
 
-					_grid.ColumnDefinitions.Insert(gridIndexOffSet, new ColumnDefinition() { Width = firstColumnWidth });
+					_grid.ColumnDefinitions.Insert(gridIndexOffSet, new ColumnDefinition() { Width = firstColumnWidth, MaxWidth = firstColumnWidthSize });
 					gridIndexOffSet += 1;
 
 					_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(padding.Top) });
@@ -593,9 +598,10 @@ namespace Uno.Toolkit.UI
 
 				if (hasSpaceBetween || (hasPadding && paddingCondition))
 				{
-					var lastColumnWidth = new GridLength(spacing < 0 ? padding.Right - spacing : padding.Right);
+					var rightPaddingsize = spacing < 0 ? padding.Right - spacing : padding.Right;
+					var lastColumnWidth = new GridLength(rightPaddingsize);
 
-					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = lastColumnWidth });
+					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = lastColumnWidth, MaxWidth = rightPaddingsize });
 				}
 			}
 
