@@ -33,13 +33,13 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-    [SamplePage(SampleCategory.Controls, "TabBar", DataType = typeof(TabBarViewModel))]
-    public sealed partial class TabBarSamplePage : Page
-    {
-        public TabBarSamplePage()
-        {
-            this.InitializeComponent();
-        }
+	[SamplePage(SampleCategory.Controls, "TabBar", DataType = typeof(TabBarViewModel))]
+	public sealed partial class TabBarSamplePage : Page
+	{
+		public TabBarSamplePage()
+		{
+			this.InitializeComponent();
+		}
 
 		private void ShowM3MaterialTopBarSampleInNestedFrame(object sender, RoutedEventArgs e)
 		{
@@ -47,29 +47,29 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		}
 
 		private void ShowMaterialTopBarSampleInNestedFrame(object sender, RoutedEventArgs e)
-        {
-            Shell.GetForCurrentView()?.ShowNestedSample<MaterialTopBarSampleNestedPage>(clearStack: true);
-        }
+		{
+			Shell.GetForCurrentView()?.ShowNestedSample<MaterialTopBarSampleNestedPage>(clearStack: true);
+		}
 
 		private void ShowM3MaterialBottomBarSampleInNestedFrame(object sender, RoutedEventArgs e)
-        {
-            Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialBottomBarSampleNestedPage>(clearStack: true);
-        }
+		{
+			Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialBottomBarSampleNestedPage>(clearStack: true);
+		}
 
-        private void ShowMaterialBottomBarSampleInNestedFrame(object sender, RoutedEventArgs e)
-        {
-            Shell.GetForCurrentView()?.ShowNestedSample<MaterialBottomBarSampleNestedPage>(clearStack: true);
-        }
+		private void ShowMaterialBottomBarSampleInNestedFrame(object sender, RoutedEventArgs e)
+		{
+			Shell.GetForCurrentView()?.ShowNestedSample<MaterialBottomBarSampleNestedPage>(clearStack: true);
+		}
 
-        private void ShowCupertinoBottomBarSampleInNestedFrame(object sender, RoutedEventArgs e)
-        {
-            Shell.GetForCurrentView()?.ShowNestedSample<CupertinoBottomBarSampleNestedPage>(clearStack: true);
-        }
+		private void ShowCupertinoBottomBarSampleInNestedFrame(object sender, RoutedEventArgs e)
+		{
+			Shell.GetForCurrentView()?.ShowNestedSample<CupertinoBottomBarSampleNestedPage>(clearStack: true);
+		}
 
 		private void ShowM3MaterialVerticalBarSampleInNestedFrame(object sender, RoutedEventArgs e)
-        {
-            Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialVerticalBarSampleNestedPage>(clearStack: true);
-        }
+		{
+			Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialVerticalBarSampleNestedPage>(clearStack: true);
+		}
 	}
 
 	public class TabBarViewModel : ViewModelBase

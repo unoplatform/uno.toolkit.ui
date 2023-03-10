@@ -46,7 +46,7 @@ namespace Uno.Toolkit.UI
 			var binding = SelectionMemberPath != null
 				? new Binding { Path = new PropertyPath(SelectionMemberPath), Mode = BindingMode.TwoWay }
 				: null;
-			foreach (var container in GetItemContainers())
+			foreach (var container in this.GetItemContainers<Chip>())
 			{
 				container.ClearValue(Chip.IsCheckedProperty);
 				if (binding != null)
@@ -59,7 +59,7 @@ namespace Uno.Toolkit.UI
 		private void ApplyIconTemplate()
 		{
 			var itemTemplate = IconTemplate;
-			foreach (var container in GetItemContainers())
+			foreach (var container in this.GetItemContainers<Chip>())
 			{
 				container.Icon = itemTemplate != null ? container.Content : null;
 				container.IconTemplate = itemTemplate;
@@ -69,7 +69,7 @@ namespace Uno.Toolkit.UI
 		private void ApplyCanRemoveProperty()
 		{
 			var canRemove = CanRemove;
-			foreach (var container in GetItemContainers())
+			foreach (var container in this.GetItemContainers<Chip>())
 			{
 				container.CanRemove = canRemove;
 			}
@@ -118,11 +118,11 @@ namespace Uno.Toolkit.UI
 			}
 
 			Chip? GetCoercedSelection() =>
-				FindContainer(SelectedItem) ??
+				this.FindContainer<Chip>(SelectedItem) ??
 				(SelectionMode is ChipSelectionMode.Single ? GetFallbackSelection() : default);
 			Chip? GetFallbackSelection() =>
-				GetItemContainers().FirstOrDefault(x => x.IsChecked == true) ??
-				GetItemContainers().FirstOrDefault();
+				this.GetItemContainers<Chip>().FirstOrDefault(x => x.IsChecked == true) ??
+				this.GetItemContainers<Chip>().FirstOrDefault();
 		}
 
 		private void OnSelectedItemsChanged()
@@ -133,7 +133,7 @@ namespace Uno.Toolkit.UI
 			{
 				var selectedContainers = SelectedItems
 					?.Cast<object>()
-					.Select(x => FindContainer(x))
+					.Select(x => this.FindContainer<Chip>(x))
 					.OfType<Chip>() // trim null and force T from Chip? to Chip
 					.ToArray();
 
@@ -147,7 +147,7 @@ namespace Uno.Toolkit.UI
 			else if (SelectionMode == ChipSelectionMode.Single &&
 				// setting the incorrect SelectedItem or -Items property for the current SelectionMode will trigger a full reset on Selection.
 				// and, we do not preserve any valid existing selection in that case.
-				GetItemContainers().FirstOrDefault() is { } fallback)
+				this.GetItemContainers<Chip>().FirstOrDefault() is { } fallback)
 			{
 				fallback.SetIsCheckedSilently(true);
 				UpdateSelection(new[] { fallback }, forceClearOthersSelection: true);
@@ -290,7 +290,7 @@ namespace Uno.Toolkit.UI
 			if (!IsReady) return;
 
 			var selected = default(Chip);
-			foreach (var container in GetItemContainers())
+			foreach (var container in this.GetItemContainers<Chip>())
 			{
 				if (IsSingleSelection && container.IsChecked == true)
 				{
@@ -309,7 +309,7 @@ namespace Uno.Toolkit.UI
 			// try enforce Single if nothing is selected
 			if (SelectionMode is ChipSelectionMode.Single && selected is null)
 			{
-				selected = GetItemContainers().FirstOrDefault();
+				selected = this.GetItemContainers<Chip>().FirstOrDefault();
 				selected?.SetIsCheckedSilently(true);
 			}
 
@@ -338,7 +338,7 @@ namespace Uno.Toolkit.UI
 				_isSynchronizingSelection = true;
 
 				var selectedItems = new List<object>();
-				foreach (var container in GetItemContainers())
+				foreach (var container in this.GetItemContainers<Chip>())
 				{
 					if (!container.IsChecked ?? false)
 					{
@@ -390,47 +390,8 @@ namespace Uno.Toolkit.UI
 
 		private bool IsReady => _isLoaded && HasItems && HasContainers;
 
-		private bool HasItems => GetItems().OfType<object>().Any();
+		private bool HasItems => this.GetItems().OfType<object>().Any();
 
-		private bool HasContainers => GetItemContainers().Any();
-
-		/// <summary>
-		/// Get the items.
-		/// </summary>
-		/// <remarks>The item itself maybe its own container, as in the case of <see cref="Chip"/> added as child to <see cref="ItemsControl.Items"/>.</remarks>
-		private IEnumerable GetItems() =>
-			ItemsSource as IEnumerable ??
-			(ItemsSource as CollectionViewSource)?.View ??
-			Items ??
-			Enumerable.Empty<object>();
-
-		private Chip? FindContainer(object? item)
-		{
-			if (item == null) return null;
-
-			// For some obscure reason, ContainerFromItem returns null when item is an enum.
-			// Note however that it works fine for other value types such as int.
-			// Because of this, we retrieve the container using the index instead.
-			if (item is Enum)
-			{
-				var index = GetItems().OfType<object>().ToList().IndexOf(item);
-				if (index != -1)
-				{
-					return ContainerFromIndex(index) as Chip;
-				}
-			}
-
-			return
-				item as Chip ??
-				ContainerFromItem(item) as Chip;
-		}
-
-		/// <summary>
-		/// Get the item containers.
-		/// </summary>
-		/// <remarks>An empty enumerable will returned if the <see cref="ItemsControl.ItemsPanelRoot"/> and the containers have not been materialized.</remarks>
-		private IEnumerable<Chip> GetItemContainers() =>
-			ItemsPanelRoot?.Children.OfType<Chip>() ??
-			Enumerable.Empty<Chip>();
+		private bool HasContainers => this.GetItemContainers<Chip>().Any();
 	}
 }

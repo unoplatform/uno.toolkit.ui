@@ -45,10 +45,7 @@
 
 	<!--#region TabBar Styles-->
 
-	<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
-	that the ItemContainerStyle Setter appears before the Template Setter.
-	Issue: https://github.com/unoplatform/uno/issues/10786 -->
-	
+
 
 	<Style x:Key="MaterialVerticalTabBarStyle"
 		   BasedOn="{StaticResource DefaultTabBarStyle}"
@@ -63,9 +60,6 @@
 				Value="VisibleBounds" />
 		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource MaterialVerticalTabBarItemStyle}" />
-		<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
-		that the ItemContainerStyle Setter appears before the Template Setter.
-		Issue: https://github.com/unoplatform/uno/issues/10786 -->
 	</Style>
 
 	<Style x:Key="MaterialBottomTabBarStyle"
@@ -81,9 +75,6 @@
 				Value="Bottom" />
 		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource MaterialBottomTabBarItemStyle}" />
-		<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
-		that the ItemContainerStyle Setter appears before the Template Setter.
-		Issue: https://github.com/unoplatform/uno/issues/10786 -->
 	</Style>
 
 	<Style x:Key="MaterialTopTabBarStyle"
@@ -100,16 +91,15 @@
 		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource MaterialTopTabBarItemStyle}" />
 		<Setter Property="SelectionIndicatorPresenterStyle"
-				Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}"/>
-		<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
-		that the ItemContainerStyle Setter appears before the Template Setter.
-		Issue: https://github.com/unoplatform/uno/issues/10786 -->
-		<Setter Property="SelectionIndicatorContent">
+				Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}" />
+		<Setter Property="SelectionIndicatorContentTemplate">
 			<Setter.Value>
-				<Border Height="2"
-						Margin="0,0,0,1"
-						VerticalAlignment="Bottom"
-						Background="{ThemeResource PrimaryBrush}" />
+				<DataTemplate>
+					<Border Height="2"
+							Margin="0,0,0,1"
+							VerticalAlignment="Bottom"
+							Background="{ThemeResource PrimaryBrush}" />
+				</DataTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
@@ -126,18 +116,17 @@
 		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource MaterialColoredTopTabBarItemStyle}" />
 		<Setter Property="SelectionIndicatorPresenterStyle"
-				Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}"/>
-		<Setter Property="SelectionIndicatorContent">
+				Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}" />
+		<Setter Property="SelectionIndicatorContentTemplate">
 			<Setter.Value>
-				<Border Height="2"
-						Margin="0,0,0,1"
-						VerticalAlignment="Bottom"
-						Background="{ThemeResource OnPrimaryBrush}" />
+				<DataTemplate>
+					<Border Height="2"
+							Margin="0,0,0,1"
+							VerticalAlignment="Bottom"
+							Background="{ThemeResource OnPrimaryBrush}" />
+				</DataTemplate>
 			</Setter.Value>
 		</Setter>
-		<!--WORKAROUND: Set the ControlTemplate directly in each TabBar Style to ensure 
-		that the ItemContainerStyle Setter appears before the Template Setter.
-		Issue: https://github.com/unoplatform/uno/issues/10786 -->
 	</Style>
 	<!--#endregion-->
 
@@ -525,41 +514,41 @@
 								   Feedback="{ThemeResource PrimaryBrush}"
 								   FeedbackOpacity="{StaticResource PressedOpacity}">
 							<um:Ripple.Content>
-								<Grid>
-									<Rectangle x:Name="PointerRectangle"
-											   Fill="Transparent"
-											   Visibility="Collapsed" />
+							<Grid>
+								<Rectangle x:Name="PointerRectangle"
+										   Fill="Transparent"
+										   Visibility="Collapsed" />
 
-									<Grid x:Name="ContentGrid"
-										  ColumnSpacing="8">
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition x:Name="IconRow"
-															  Width="*" />
-											<ColumnDefinition x:Name="ContentRow"
-															  Width="Auto" />
-										</Grid.ColumnDefinitions>
-										<Viewbox x:Name="IconBox"
-												 Width="{StaticResource MaterialTopTabBarItemIconHeight}"
-												 Height="{StaticResource MaterialTopTabBarItemIconHeight}">
-											<ContentPresenter x:Name="Icon"
-															  Content="{TemplateBinding Icon}"
-															  Foreground="{TemplateBinding Foreground}" />
-										</Viewbox>
-										<ContentPresenter x:Name="ContentPresenter"
-														  Grid.Column="1"
-														  Margin="{StaticResource MaterialTopTabBarItemContentMargin}"
-														  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-														  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-														  AutomationProperties.AccessibilityView="Raw"
-														  Content="{TemplateBinding Content}"
-														  ContentTemplate="{TemplateBinding ContentTemplate}"
-														  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-														  ContentTransitions="{TemplateBinding ContentTransitions}"
-														  FontSize="{TemplateBinding FontSize}"
-														  Foreground="{TemplateBinding Foreground}"
-														  TextWrapping="NoWrap" />
-									</Grid>
+								<Grid x:Name="ContentGrid"
+									  ColumnSpacing="8">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition x:Name="IconRow"
+														  Width="*" />
+										<ColumnDefinition x:Name="ContentRow"
+														  Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<Viewbox x:Name="IconBox"
+											 Width="{StaticResource MaterialTopTabBarItemIconHeight}"
+											 Height="{StaticResource MaterialTopTabBarItemIconHeight}">
+										<ContentPresenter x:Name="Icon"
+														  Content="{TemplateBinding Icon}"
+														  Foreground="{TemplateBinding Foreground}" />
+									</Viewbox>
+									<ContentPresenter x:Name="ContentPresenter"
+													  Grid.Column="1"
+													  Margin="{StaticResource MaterialTopTabBarItemContentMargin}"
+													  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+													  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+													  AutomationProperties.AccessibilityView="Raw"
+													  Content="{TemplateBinding Content}"
+													  ContentTemplate="{TemplateBinding ContentTemplate}"
+													  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+													  ContentTransitions="{TemplateBinding ContentTransitions}"
+													  FontSize="{TemplateBinding FontSize}"
+													  Foreground="{TemplateBinding Foreground}"
+													  TextWrapping="NoWrap" />
 								</Grid>
+							</Grid>
 							</um:Ripple.Content>
 						</um:Ripple>
 					</Grid>
@@ -909,19 +898,19 @@
 								<VisualState x:Name="Horizontal">
 									<Storyboard x:Name="IndicatorTransitionHorizontalStoryboard">
 										<DoubleAnimation Storyboard.TargetName="IndicatorTransform"
-													 Storyboard.TargetProperty="TranslateX"
-													 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.X}"
-													 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.X}"
-													 Duration="00:00:00.200" />
+														 Storyboard.TargetProperty="TranslateX"
+														 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.X}"
+														 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.X}"
+														 Duration="00:00:00.200" />
 									</Storyboard>
 								</VisualState>
 								<VisualState x:Name="Vertical">
 									<Storyboard x:Name="IndicatorTransitionVerticalStoryboard">
 										<DoubleAnimation Storyboard.TargetName="IndicatorTransform"
-													 Storyboard.TargetProperty="TranslateY"
-													 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.Y}"
-													 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.Y}"
-													 Duration="00:00:00.200" />
+														 Storyboard.TargetProperty="TranslateY"
+														 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.Y}"
+														 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.Y}"
+														 Duration="00:00:00.200" />
 									</Storyboard>
 								</VisualState>
 							</VisualStateGroup>

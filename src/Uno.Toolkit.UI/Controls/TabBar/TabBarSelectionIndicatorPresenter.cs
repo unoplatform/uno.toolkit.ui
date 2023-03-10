@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Uno.Disposables;
 using Windows.Foundation;
 using System.Reflection;
+using Uno.Extensions;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -53,12 +54,11 @@ namespace Uno.Toolkit.UI
 		private Storyboard? _verticalStoryboard;
 		private Storyboard? _horizontalStoryboard;
 		private bool _isTemplateApplied;
+		private bool _isLoaded;
 
+		private readonly SerialDisposable _indicatorSubscriptions = new SerialDisposable();
+		private readonly SerialDisposable _ownerSubscriptions = new SerialDisposable();
 		private readonly SerialDisposable _tabBarItemSizeChangedRevoker = new SerialDisposable();
-		private readonly SerialDisposable _indicatorSizeChangedRevoker = new SerialDisposable();
-		private readonly SerialDisposable _offsetChangedRevoker = new SerialDisposable();
-		private readonly SerialDisposable _tabBarOrientationChangedRevoker = new SerialDisposable();
-		private readonly SerialDisposable _tabBarEventsRevoker = new SerialDisposable();
 
 		/// <summary>
 		/// Returns the view within the presenter being used as the selection indicator
@@ -78,13 +78,24 @@ namespace Uno.Toolkit.UI
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			UpdateOwner();
+			_isLoaded = true;
+
+			if (IsReady)
+			{
+				SetupOwner();
+				SetupIndicator();
+
+				UpdateIndicator();
+			}
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
+			_isLoaded = false;
+
 			ResetOwner();
 			ResetIndicator();
+			_tabBarItemSizeChangedRevoker.Disposable = null;
 		}
 
 		protected override void OnApplyTemplate()
@@ -98,18 +109,31 @@ namespace Uno.Toolkit.UI
 			_verticalStoryboard = GetTemplateChild(TemplateParts.VerticalStoryboardName) as Storyboard;
 			_horizontalStoryboard = GetTemplateChild(TemplateParts.HorizontalStoryboardName) as Storyboard;
 
-			if (_contentPresenter is { } selectionIndicator)
-			{
-				selectionIndicator.SizeChanged += OnSizeChanged;
-				_indicatorSizeChangedRevoker.Disposable = Disposable.Create(() => selectionIndicator.SizeChanged -= OnSizeChanged);
-			}
-
 			SizeChanged += OnSizeChanged;
 
 			_isTemplateApplied = true;
 
-			UpdateOwner();
-			UpdateIndicator();
+			if (IsReady && _ownerSubscriptions.Disposable == null)
+			{
+				SetupOwner();
+				SetupIndicator();
+
+				UpdateIndicator();
+			}
+		}
+
+		private void SetupIndicator()
+		{
+			if (!IsReady || _indicatorSubscriptions.Disposable != null)
+			{
+				return;
+			}
+
+			if (_contentPresenter is { } selectionIndicator)
+			{
+				selectionIndicator.SizeChanged += OnSizeChanged;
+				_indicatorSubscriptions.Disposable = Disposable.Create(() => selectionIndicator.SizeChanged -= OnSizeChanged);
+			}
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs args)
@@ -122,36 +146,39 @@ namespace Uno.Toolkit.UI
 			var property = args.Property;
 			if (property == OwnerProperty)
 			{
-				UpdateOwner();
+				SetupOwner(forceRewire: true);
+				UpdateIndicator();
 			}
 		}
 
 		private void ResetIndicator()
 		{
 			StopStoryboards();
-			_indicatorSizeChangedRevoker.Disposable = null;
-			_contentPresenter = null;
+			_indicatorSubscriptions.Disposable = null;
 		}
 
 		private void ResetOwner()
 		{
-			_tabBarEventsRevoker.Disposable = null;
-			_offsetChangedRevoker.Disposable = null;
-			_tabBarItemSizeChangedRevoker.Disposable = null;
+			_ownerSubscriptions.Disposable = null;
 		}
 
-		private void UpdateOwner()
+		private void SetupOwner(bool forceRewire = false)
 		{
-			ResetOwner();
+			if (!IsReady || (_ownerSubscriptions.Disposable != null && !forceRewire))
+			{
+				return;
+			}
+
+			var disposables = new CompositeDisposable();
+			_ownerSubscriptions.Disposable = disposables;
 
 			if (Owner is TabBar tabBar)
 			{
-				_tabBarOrientationChangedRevoker.Disposable = tabBar.RegisterDisposablePropertyChangedCallback(TabBar.OrientationProperty, OnTabBarOrientationChanged);
+				tabBar.RegisterDisposablePropertyChangedCallback(TabBar.OrientationProperty, OnTabBarOrientationChanged)
+					.DisposeWith(disposables);
 
-				_offsetChangedRevoker.Disposable = tabBar.RegisterDisposablePropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, OnSelectionOffsetChanged);
-
-				var disposables = new CompositeDisposable();
-				_tabBarEventsRevoker.Disposable = disposables;
+				tabBar.RegisterDisposablePropertyChangedCallback(SelectorExtensions.SelectionOffsetProperty, OnSelectionOffsetChanged)
+					.DisposeWith(disposables);
 
 				tabBar.SelectionChanged += OnTabBarSelectionChanged;
 				Disposable
@@ -167,8 +194,6 @@ namespace Uno.Toolkit.UI
 				Disposable
 					.Create(() => tabBar.Items.VectorChanged -= OnTabBarItemsChanged)
 					.DisposeWith(disposables);
-
-				UpdateIndicator();
 			}
 		}
 
@@ -184,11 +209,12 @@ namespace Uno.Toolkit.UI
 
 		private void UpdateIndicator()
 		{
-			if (!_isTemplateApplied)
+			if (!IsReady)
 			{
 				return;
 			}
 
+			SynchronizeSelection();
 			UpdateSelectionIndicatorMaxSize();
 			UpdateSelectionIndicatorPosition();
 		}
@@ -198,13 +224,14 @@ namespace Uno.Toolkit.UI
 			if (Owner is { } tabBar
 				&& GetSelectionIndicator() is { } indicator)
 			{
-				var numItems = tabBar.Items.Count;
-				if (numItems < 1)
+				var tabBarItems = tabBar.GetItemContainers<TabBarItem>().Where(tbi => tbi.Visibility == Visibility.Visible);
+				if (tabBarItems.None())
 				{
 					return;
 				}
 
 				var maxSize = new Size();
+				var numItems = tabBarItems.Count();
 
 				if (tabBar.Orientation == Orientation.Vertical)
 				{
@@ -250,21 +277,24 @@ namespace Uno.Toolkit.UI
 
 		private void OnTabBarSelectionChanged(TabBar sender, TabBarSelectionChangedEventArgs args)
 		{
+			UpdateIndicator();
+		}
+
+		private void SynchronizeSelection()
+		{
 			_tabBarItemSizeChangedRevoker.Disposable = null;
 
-			if (args.NewItem is TabBarItem tabBarItem)
+			if (Owner is not { } tabBar ||
+				tabBar.ContainerFromIndex(tabBar.SelectedIndex) is not TabBarItem newSelectedItem)
 			{
-				tabBarItem.SizeChanged += OnSelectedTabBarItemSizeChanged;
-				_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => tabBarItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
-
-				//If a selection is being made for the first time, start showing the indicator
-				if (!(_isSelectorPresent && IndicatorTransitionMode == IndicatorTransitionMode.Slide)
-					|| args.OldItem == null)
-				{
-					Opacity = (Content ?? ContentTemplate) is { } ? 1f : 0f;
-					UpdateSelectionIndicatorPosition(tabBarItem);
-				}
+				Opacity = 0f;
+				return;
 			}
+		
+			newSelectedItem.SizeChanged += OnSelectedTabBarItemSizeChanged;
+			_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => newSelectedItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
+
+			Opacity = (Content ?? ContentTemplate) is { } ? 1f : 0f;
 		}
 
 		private Storyboard? GetStoryboardForCurrentOrientation()
@@ -312,5 +342,7 @@ namespace Uno.Toolkit.UI
 				storyboard.SkipToFill();
 			}
 		}
+
+		private bool IsReady => _isLoaded && _isTemplateApplied;
 	}
 }

@@ -8,10 +8,17 @@ using Uno.Toolkit.RuntimeTests.Extensions;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Media;
 #else
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 #endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests
@@ -73,7 +80,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsTrue(source[1].IsSelected);
 		}
 
-		
 		[TestMethod]
 		public async Task SetSelectedIndex()
 		{
@@ -101,5 +107,35 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreEqual(1, SUT.SelectedIndex);
 			Assert.IsTrue(source[1].IsSelected);
 		}
+
+		[TestMethod]
+		public async Task Verify_Indicator_Max_Size()
+		{
+			var source = Enumerable.Range(0, 3).Select(x => new TabBarItem { Content = x }).ToArray();
+			var indicator = new Border() { Height = 5, Background = new SolidColorBrush(Colors.Red) };
+			var SUT = new TabBar
+			{
+				ItemsSource = source,
+				SelectionIndicatorContent = indicator,
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			source[0].IsSelected = true;
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var expectedWidth = SUT.ActualWidth / 3;
+			var indicatorWidth = indicator.ActualWidth;
+			Assert.AreEqual(expectedWidth, indicatorWidth, delta: 1f);
+
+			source[1].Visibility = Visibility.Collapsed;
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+			await UnitTestUIContentHelperEx.WaitFor(() => indicator.ActualWidth > indicatorWidth, timeoutMS: 2000);
+
+			expectedWidth = SUT.ActualWidth / 2;
+			Assert.AreEqual(expectedWidth, indicator.ActualWidth, delta: 1f);
+		}
+
 	}
 }
