@@ -44,7 +44,7 @@ Initialization of the Material Toolkit resources is handled by the specialized `
         <ResourceDictionary.MergedDictionaries>
 
             <!-- Load Material Toolkit resources (also loads the base Uno.Material resources) -->
-            <MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI" />
+            <MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material" />
 
             <!-- Load custom application resources -->
             <!-- ... -->
