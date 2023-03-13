@@ -80,7 +80,7 @@ If your application is based on the older solution template that includes a shar
                     <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                     
                     <!-- Load Material Toolkit resources (also loads the base Uno.Material resources) -->
-                    <MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI" />
+                    <MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material" />
 
                     <!-- Load custom application resources -->
                     <!-- ... -->
