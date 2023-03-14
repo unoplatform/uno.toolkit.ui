@@ -239,7 +239,9 @@ internal class AutoLayoutTest
 
 	[TestMethod]
 	[RequiresFullWindow]
-	public async Task When_Space_between_With_AbsolutePosition()
+	[DataRow(Orientation.Vertical, 10, 340, 280)]
+	[DataRow(Orientation.Horizontal, 10, 240, 100)]
+	public async Task When_Space_between_With_AbsolutePosition(Orientation orientation, double expected1, double expected2, double expected3)
 	{
 		var SUT = new AutoLayout()
 		{
@@ -248,35 +250,36 @@ internal class AutoLayoutTest
 			Justify = AutoLayoutJustify.SpaceBetween,
 			Width = 300,
 			Height = 400,
+			Orientation = orientation,
 		};
 
 		var border1 = new Border()
 		{
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
-			Width = 200,
-			Height = 50,
+			Width = SUT.Orientation == Orientation.Vertical ? 200 : 50,
+			Height = SUT.Orientation == Orientation.Vertical ? 50 : 200,
 		};
 
 		var border2 = new Border()
 		{
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
-			Width = 200,
-			Height = 50,
+			Width = SUT.Orientation == Orientation.Vertical ? 200 : 50,
+			Height = SUT.Orientation == Orientation.Vertical ? 50 : 200,
 		};
 
 		var border3 = new Border()
 		{
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
-			Width = 200,
-			Height = 50,
+			Width = SUT.Orientation == Orientation.Vertical ? 200 : 50,
+			Height = SUT.Orientation == Orientation.Vertical ? 50 : 200,
 		};
 
 		var border4 = new Border()
 		{
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
-			Width = 200,
-			Height = 50,
-			Margin = new Thickness(10, 280,0 ,0),
+			Width = SUT.Orientation == Orientation.Vertical ? 200 : 50,
+			Height = SUT.Orientation == Orientation.Vertical ? 50 : 200,
+			Margin = SUT.Orientation == Orientation.Vertical ? new Thickness(10, 280,0 ,0) : new Thickness(100, 10, 0, 0),
 			VerticalAlignment = VerticalAlignment.Top,
 			HorizontalAlignment = HorizontalAlignment.Left,
 		};
@@ -294,10 +297,17 @@ internal class AutoLayoutTest
 		var border3Transform = (MatrixTransform)border3.TransformToVisual(SUT);
 		var border4Transform = (MatrixTransform)border4.TransformToVisual(SUT);
 
-
-		Assert.AreEqual(10, border1Transform!.Matrix.OffsetY!);
-		Assert.AreEqual(340, border3Transform!.Matrix.OffsetY!);
-		Assert.AreEqual(280, border4Transform!.Matrix.OffsetY!);
+		if (orientation == Orientation.Vertical)
+		{
+			Assert.AreEqual(expected1, border1Transform!.Matrix.OffsetY!);
+			Assert.AreEqual(expected2, border3Transform!.Matrix.OffsetY!);
+			Assert.AreEqual(expected3, border4Transform!.Matrix.OffsetY!);
+		}
+		else
+		{
+			Assert.AreEqual(expected1, border1Transform!.Matrix.OffsetX!);
+			Assert.AreEqual(expected2, border3Transform!.Matrix.OffsetX!);
+			Assert.AreEqual(expected3, border4Transform!.Matrix.OffsetX!);
+		}
 	}
-
 }
