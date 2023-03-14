@@ -77,7 +77,7 @@ namespace Uno.Toolkit.UI
 			// -------------
 			// 1   2   3   4    
 			var offset =
-#if WINDOWS_UWP
+#if WINDOWS || WINDOWS_UWP
 				(scrollViewer.HorizontalOffset - 2) * Selector.ActualWidth;
 #else
 				scrollViewer.HorizontalOffset;
