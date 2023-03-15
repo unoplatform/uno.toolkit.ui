@@ -588,7 +588,7 @@ namespace Uno.Toolkit.UI
 					}
 				}
 
-				if (hasIndependentLayout && atLeastOneChildFillAvailableSpaceInPrimaryAxis is not true && PrimaryAxisAlignment != AutoLayoutAlignment.End)
+				if (hasIndependentLayout && atLeastOneChildFillAvailableSpaceInPrimaryAxis is not true && PrimaryAxisAlignment != AutoLayoutAlignment.End && !hasSpaceBetween)
 				{
 					//We need to make sure that the independent layout can span all across his parent
 					_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
