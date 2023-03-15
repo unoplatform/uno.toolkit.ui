@@ -263,10 +263,16 @@ namespace Uno.Toolkit.UI
 				&& _isSelectorPresent
 				&& IndicatorTransitionMode == IndicatorTransitionMode.Slide)
 			{
-				selectionIndicator.RenderTransform = new TranslateTransform
+				var templateSettings = TemplateSettings;
+
+				var destinationPoint = tabBar.Orientation switch
 				{
-					X = SelectorExtensions.GetSelectionOffset(tabBar)
+					Orientation.Horizontal => new Point(SelectorExtensions.GetSelectionOffset(tabBar), templateSettings.IndicatorTransitionFrom.Y),
+					Orientation.Vertical => new Point(templateSettings.IndicatorTransitionFrom.X, SelectorExtensions.GetSelectionOffset(tabBar)),
+					_ => throw new ArgumentOutOfRangeException(nameof(tabBar.Orientation))
 				};
+
+				UpdateSelectionIndicatorPosition(destinationPoint);
 			}
 		}
 
@@ -285,16 +291,19 @@ namespace Uno.Toolkit.UI
 			_tabBarItemSizeChangedRevoker.Disposable = null;
 
 			if (Owner is not { } tabBar ||
-				tabBar.ContainerFromIndex(tabBar.SelectedIndex) is not TabBarItem newSelectedItem)
+				tabBar.SelectedIndex == -1)
 			{
 				Opacity = 0f;
 				return;
 			}
-		
-			newSelectedItem.SizeChanged += OnSelectedTabBarItemSizeChanged;
-			_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => newSelectedItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
 
-			Opacity = (Content ?? ContentTemplate) is { } ? 1f : 0f;
+			if (tabBar.ContainerFromIndex(tabBar.SelectedIndex) is TabBarItem newSelectedItem)
+			{
+				newSelectedItem.SizeChanged += OnSelectedTabBarItemSizeChanged;
+				_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => newSelectedItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
+
+				Opacity = (Content ?? ContentTemplate) is { } ? 1f : 0f;
+			}
 		}
 
 		private Storyboard? GetStoryboardForCurrentOrientation()
@@ -313,12 +322,11 @@ namespace Uno.Toolkit.UI
 			_verticalStoryboard?.Stop();
 		}
 
-		private void UpdateSelectionIndicatorPosition(TabBarItem? destination = null)
+		private void UpdateSelectionIndicatorPosition(Point? destination = null)
 		{
-			destination ??= Owner?.SelectedItem as TabBarItem;
+			destination ??= GetRelativePosition(Owner?.SelectedItem as TabBarItem);
 
-			if (destination is null ||
-				Owner is not { } tabBar ||
+			if (destination == null ||
 				GetSelectionIndicator() is not { } indicator ||
 				(indicator.ActualHeight == 0d || indicator.ActualWidth == 0d) ||
 				GetStoryboardForCurrentOrientation() is not { } storyboard ||
@@ -329,10 +337,8 @@ namespace Uno.Toolkit.UI
 
 			StopStoryboards();
 
-			var nextPosPoint = destination.TransformToVisual(tabBar).TransformPoint(default);
-
 			templateSettings.IndicatorTransitionFrom = templateSettings.IndicatorTransitionTo;
-			templateSettings.IndicatorTransitionTo = nextPosPoint;
+			templateSettings.IndicatorTransitionTo = destination.Value;
 
 			storyboard.BeginTime = TimeSpan.FromMilliseconds(0);
 
@@ -342,6 +348,9 @@ namespace Uno.Toolkit.UI
 				storyboard.SkipToFill();
 			}
 		}
+
+		private Point? GetRelativePosition(UIElement? element) =>
+			element?.TransformToVisual(Owner).TransformPoint(default);
 
 		private bool IsReady => _isLoaded && _isTemplateApplied;
 	}

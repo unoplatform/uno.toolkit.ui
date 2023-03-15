@@ -137,5 +137,58 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreEqual(expectedWidth, indicator.ActualWidth, delta: 1f);
 		}
 
+		[TestMethod]
+		[DataRow(Orientation.Horizontal, IndicatorTransitionMode.Snap, DisplayName = "Horizontal Snap")]
+		[DataRow(Orientation.Horizontal, IndicatorTransitionMode.Slide, DisplayName = "Horizontal Slide")]
+		[DataRow(Orientation.Vertical, IndicatorTransitionMode.Snap, DisplayName = "Vertical Snap")]
+		[DataRow(Orientation.Vertical, IndicatorTransitionMode.Slide, DisplayName = "Vertical Slide")]
+		public async Task Verify_Indicator_Transitions(Orientation orientation, IndicatorTransitionMode transitionMode)
+		{
+			const int NumItems = 3;
+			const double ItemSize = 100d;
+			var source = Enumerable.Range(0, NumItems).Select(x => new TabBarItem { Content = x }).ToArray();
+			var indicator = new Border() { Background = new SolidColorBrush(Colors.Red) };
+			var SUT = new TabBar
+			{
+				Orientation = orientation,
+				ItemsSource = source,
+				SelectionIndicatorContent = indicator,
+				SelectionIndicatorTransitionMode = transitionMode,
+			};
+
+			if (orientation == Orientation.Horizontal)
+			{
+				SUT.Width = ItemSize * NumItems;
+				indicator.Height = 5;
+			}
+			else
+			{
+				SUT.Height = ItemSize * NumItems;
+				indicator.Width = 5;
+			}
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			for (int i = 0; i < NumItems; i++)
+			{
+				SUT.SelectedIndex = i;
+				await UnitTestsUIContentHelper.WaitForIdle();
+
+				await UnitTestUIContentHelperEx.WaitFor(() => i * ItemSize == GetTestCoordinate(indicator.TransformToVisual(SUT).TransformPoint(default)), timeoutMS: 2000);
+
+				var currentPos = indicator.TransformToVisual(SUT).TransformPoint(default);
+				Assert.AreEqual(i * ItemSize, GetTestCoordinate(currentPos), delta: 1f);
+			}
+
+			double GetTestCoordinate(Windows.Foundation.Point testPoint)
+			{
+				return orientation switch
+				{
+					Orientation.Horizontal => testPoint.X,
+					Orientation.Vertical => testPoint.Y,
+					_ => throw new ArgumentOutOfRangeException(nameof(orientation))
+				};
+			}
+		}
 	}
 }
