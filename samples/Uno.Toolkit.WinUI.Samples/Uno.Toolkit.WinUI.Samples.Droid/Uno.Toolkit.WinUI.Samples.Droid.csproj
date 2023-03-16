@@ -79,7 +79,6 @@
     <PackageReference Include="Uno.UniversalImageLoader" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
-    <PackageReference Include="Xamarin.AndroidX.AppCompat.AppCompatResources" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
     <PackageReference Include="Uno.Core.Extensions.Compatibility" />
