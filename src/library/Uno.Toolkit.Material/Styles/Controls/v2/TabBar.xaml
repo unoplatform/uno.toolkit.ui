@@ -11,7 +11,7 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d mobile todo not_win">
 
-	<!--  Base Navigation-style TabBar Resources  -->
+	<!-- Base Navigation-style TabBar Resources -->
 	<x:Double x:Key="MaterialNavigationTabBarWidthOrHeight">80</x:Double>
 	<x:Double x:Key="MaterialNavigationTabBarItemIconHeight">18</x:Double>
 	<x:Double x:Key="MaterialNavigationTabBarItemActiveIndicatorWidth">64</x:Double>
@@ -19,24 +19,24 @@
 	<Thickness x:Key="MaterialNavigationTabBarItemPadding">0,12,0,16</Thickness>
 	<CornerRadius x:Key="MaterialNavigationTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
 
-	<!--  Top TabBar Resources  -->
+	<!-- Top TabBar Resources -->
 	<x:Double x:Key="MaterialTopTabBarHeight">48</x:Double>
 	<x:Double x:Key="MaterialTopTabBarItemIconHeight">20</x:Double>
 	<Thickness x:Key="MaterialTopTabBarItemContentMargin">0,0,0,0</Thickness>
 
-	<!--  FAB Resources  -->
+	<!-- FAB Resources -->
 	<x:Double x:Key="MaterialFabTabBarItemOffset">-32</x:Double>
 	<x:Double x:Key="MaterialFabTabBarItemContentWidthOrHeight">16</x:Double>
 	<x:Double x:Key="MaterialFabTabBarItemIconTextPadding">12</x:Double>
 	<CornerRadius x:Key="MaterialFabTabBarItemCornerRadius">16</CornerRadius>
 	<Thickness x:Key="MaterialFabTabBarItemPadding">20</Thickness>
 
-	<!--  Small Badge  -->
+	<!-- Small Badge -->
 	<x:Double x:Key="MaterialNavigationTabBarItemSmallBadgeHeight">6</x:Double>
 	<x:Double x:Key="MaterialNavigationTabBarItemSmallBadgeWidth">6</x:Double>
 	<Thickness x:Key="MaterialNavigationTabBarItemSmallBadgeMargin">0,4,20,0</Thickness>
 
-	<!--  Large Badge  -->
+	<!-- Large Badge -->
 	<x:Double x:Key="MaterialNavigationTabBarItemLargeBadgeHeight">16</x:Double>
 	<x:Double x:Key="MaterialNavigationTabBarItemLargeBadgeMinWidth">16</x:Double>
 	<Thickness x:Key="MaterialNavigationTabBarItemLargeBadgeMargin">32,2,0,0</Thickness>
@@ -50,48 +50,32 @@
 	<Style x:Key="MaterialVerticalTabBarStyle"
 		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
-		<Setter Property="Background"
-				Value="{ThemeResource SurfaceBrush}" />
-		<Setter Property="Orientation"
-				Value="Vertical" />
-		<Setter Property="MinHeight"
-				Value="{StaticResource MaterialNavigationTabBarWidthOrHeight}" />
-		<Setter Property="utu:SafeArea.Insets"
-				Value="VisibleBounds" />
-		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource MaterialVerticalTabBarItemStyle}" />
+		<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
+		<Setter Property="Orientation" Value="Vertical" />
+		<Setter Property="MinWidth" Value="{StaticResource MaterialNavigationTabBarWidthOrHeight}" />
+		<Setter Property="utu:SafeArea.Insets" Value="VisibleBounds" />
+		<Setter Property="ItemContainerStyle" Value="{StaticResource MaterialVerticalTabBarItemStyle}" />
 	</Style>
 
 	<Style x:Key="MaterialBottomTabBarStyle"
 		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
-		<Setter Property="Background"
-				Value="{ThemeResource SurfaceBrush}" />
-		<Setter Property="Orientation"
-				Value="Horizontal" />
-		<Setter Property="MinHeight"
-				Value="{StaticResource MaterialNavigationTabBarWidthOrHeight}" />
-		<Setter Property="utu:SafeArea.Insets"
-				Value="Bottom" />
-		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource MaterialBottomTabBarItemStyle}" />
+		<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="MinHeight" Value="{StaticResource MaterialNavigationTabBarWidthOrHeight}" />
+		<Setter Property="utu:SafeArea.Insets" Value="Bottom" />
+		<Setter Property="ItemContainerStyle" Value="{StaticResource MaterialBottomTabBarItemStyle}" />
 	</Style>
 
 	<Style x:Key="MaterialTopTabBarStyle"
 		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
-		<Setter Property="Background"
-				Value="{ThemeResource BackgroundBrush}" />
-		<Setter Property="Orientation"
-				Value="Horizontal" />
-		<Setter Property="MinHeight"
-				Value="{StaticResource MaterialTopTabBarHeight}" />
-		<Setter Property="utu:SafeArea.Insets"
-				Value="Top" />
-		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource MaterialTopTabBarItemStyle}" />
-		<Setter Property="SelectionIndicatorPresenterStyle"
-				Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}" />
+		<Setter Property="Background" Value="{ThemeResource BackgroundBrush}" />
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="MinHeight" Value="{StaticResource MaterialTopTabBarHeight}" />
+		<Setter Property="utu:SafeArea.Insets" Value="Top" />
+		<Setter Property="ItemContainerStyle" Value="{StaticResource MaterialTopTabBarItemStyle}" />
+		<Setter Property="SelectionIndicatorPresenterStyle" Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}" />
 		<Setter Property="SelectionIndicatorContentTemplate">
 			<Setter.Value>
 				<DataTemplate>
@@ -107,16 +91,11 @@
 	<Style x:Key="MaterialColoredTopTabBarStyle"
 		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
-		<Setter Property="Background"
-				Value="{ThemeResource PrimaryBrush}" />
-		<Setter Property="MinHeight"
-				Value="{StaticResource MaterialTopTabBarHeight}" />
-		<Setter Property="utu:SafeArea.Insets"
-				Value="Top" />
-		<Setter Property="ItemContainerStyle"
-				Value="{StaticResource MaterialColoredTopTabBarItemStyle}" />
-		<Setter Property="SelectionIndicatorPresenterStyle"
-				Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}" />
+		<Setter Property="Background" Value="{ThemeResource PrimaryBrush}" />
+		<Setter Property="MinHeight" Value="{StaticResource MaterialTopTabBarHeight}" />
+		<Setter Property="utu:SafeArea.Insets" Value="Top" />
+		<Setter Property="ItemContainerStyle" Value="{StaticResource MaterialColoredTopTabBarItemStyle}" />
+		<Setter Property="SelectionIndicatorPresenterStyle" Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}" />
 		<Setter Property="SelectionIndicatorContentTemplate">
 			<Setter.Value>
 				<DataTemplate>
@@ -136,26 +115,16 @@
 		- VerticalTabBar (known as Navigation Rail in Material Design 3: https://m3.material.io/components/navigation-rail/overview) and,
 		- BottomTabBar (known as NavigationBar in Material Design 3: https://m3.material.io/components/navigation-bar/overview)
 	-->
-	<Style x:Key="MaterialBaseNavigationTabBarItemStyle"
-		   TargetType="utu:TabBarItem">
-		<Setter Property="FontFamily"
-				Value="{ThemeResource MaterialMediumFontFamily}" />
-		<Setter Property="FontSize"
-				Value="{ThemeResource LabelMediumFontSize}" />
-		<Setter Property="FontWeight"
-				Value="{ThemeResource LabelMediumFontWeight}" />
-		<Setter Property="UseSystemFocusVisuals"
-				Value="True" />
-		<Setter Property="HorizontalContentAlignment"
-				Value="Center" />
-		<Setter Property="Background"
-				Value="{ThemeResource SystemControlTransparentBrush}" />
-		<Setter Property="Foreground"
-				Value="{ThemeResource OnSurfaceVariantBrush}" />
-		<Setter Property="BorderBrush"
-				Value="{ThemeResource SystemControlTransparentBrush}" />
-		<Setter Property="Padding"
-				Value="{StaticResource MaterialNavigationTabBarItemPadding}" />
+	<Style x:Key="MaterialBaseNavigationTabBarItemStyle" TargetType="utu:TabBarItem">
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource LabelMediumFontSize}" />
+		<Setter Property="FontWeight" Value="{ThemeResource LabelMediumFontWeight}" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="Background" Value="{ThemeResource SystemControlTransparentBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}" />
+		<Setter Property="Padding" Value="{StaticResource MaterialNavigationTabBarItemPadding}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarItem">
@@ -172,52 +141,37 @@
 								<VisualState x:Name="Normal" />
 								<not_mobile:VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-												Value="{ThemeResource OnSurfaceVariantHoverBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnSurfaceVariantBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSurfaceVariantBrush}" />
+										<Setter Target="ActiveIndicator.Background" Value="{ThemeResource OnSurfaceVariantHoverBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-												Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnSurfaceVariantBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSurfaceVariantBrush}" />
+										<Setter Target="ActiveIndicator.Background" Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceVariantBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Selected">
 									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-												Value="{ThemeResource SecondaryContainerBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnSecondaryContainerBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSurfaceBrush}" />
+										<Setter Target="ActiveIndicator.Background" Value="{ThemeResource SecondaryContainerBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnSecondaryContainerBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<not_mobile:VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-												Value="{ThemeResource OnSurfaceHoverBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnSecondaryContainerBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSurfaceBrush}" />
+										<Setter Target="ActiveIndicator.Background" Value="{ThemeResource OnSurfaceHoverBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnSecondaryContainerBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceBrush}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background"
-												Value="{ThemeResource OnSurfacePressedBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnSecondaryContainerBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSurfaceBrush}" />
+										<Setter Target="ActiveIndicator.Background" Value="{ThemeResource OnSurfacePressedBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnSecondaryContainerBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -225,10 +179,8 @@
 								<VisualState x:Name="Enabled" />
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -236,22 +188,16 @@
 								<VisualState x:Name="IconOnTop" />
 								<VisualState x:Name="IconOnly">
 									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Visibility"
-												Value="Collapsed" />
-										<Setter Target="ContentGrid.RowSpacing"
-												Value="0" />
+										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="ContentGrid.RowSpacing" Value="0" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="ContentOnly">
 									<VisualState.Setters>
-										<Setter Target="IconBox.Visibility"
-												Value="Collapsed" />
-										<Setter Target="ContentPresenter.Margin"
-												Value="12,0" />
-										<Setter Target="IconRow.Height"
-												Value="0" />
-										<Setter Target="ContentRow.Height"
-												Value="*" />
+										<Setter Target="IconBox.Visibility" Value="Collapsed" />
+										<Setter Target="ContentPresenter.Margin" Value="12,0" />
+										<Setter Target="IconRow.Height" Value="0" />
+										<Setter Target="ContentRow.Height" Value="*" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -270,13 +216,10 @@
 											   Fill="Transparent"
 											   Visibility="Collapsed" />
 
-									<Grid x:Name="ContentGrid"
-										  RowSpacing="4">
+									<Grid x:Name="ContentGrid" RowSpacing="4">
 										<Grid.RowDefinitions>
-											<RowDefinition x:Name="IconRow"
-														   Height="*" />
-											<RowDefinition x:Name="ContentRow"
-														   Height="Auto" />
+											<RowDefinition x:Name="IconRow" Height="*" />
+											<RowDefinition x:Name="ContentRow" Height="Auto" />
 										</Grid.RowDefinitions>
 
 										<Grid x:Name="ActiveIndicator"
@@ -290,21 +233,20 @@
 													Height="{StaticResource MaterialNavigationTabBarItemIconHeight}"
 													VerticalAlignment="Center"
 													HorizontalAlignment="Center">
-												<Viewbox x:Name="IconBox"
-														 HorizontalAlignment="Center">
+												<Viewbox x:Name="IconBox" HorizontalAlignment="Center">
 													<ContentPresenter x:Name="Icon"
 																	  Content="{TemplateBinding Icon}"
 																	  Foreground="{TemplateBinding Foreground}" />
 												</Viewbox>
 											</Border>
 
-											<!--  BADGE  -->
-											<!--  This part can be replaced when InfoBadge will be available in WinUI3  -->
-											<!--  See this commit for the implementation: c935919b2c390014dd8509cc50e16b1549511ffa  -->
-											<!--  (Related Branch: dev/agzi/I274-InfoBadgeImplementationForTBI)  -->
+											<!-- BADGE -->
+											<!-- This part can be replaced when InfoBadge will be available in WinUI3 -->
+											<!-- See this commit for the implementation: c935919b2c390014dd8509cc50e16b1549511ffa -->
+											<!-- (Related Branch: dev/agzi/I274-InfoBadgeImplementationForTBI) -->
 
 											<Grid Visibility="{TemplateBinding BadgeVisibility}">
-												<!--  Small Badge  -->
+												<!-- Small Badge -->
 												<Ellipse Height="{StaticResource MaterialNavigationTabBarItemSmallBadgeHeight}"
 														 Width="{StaticResource MaterialNavigationTabBarItemSmallBadgeWidth}"
 														 Margin="{StaticResource MaterialNavigationTabBarItemSmallBadgeMargin}"
@@ -313,7 +255,7 @@
 														 Fill="{ThemeResource ErrorBrush}"
 														 Visibility="{Binding BadgeValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToVisible}}" />
 
-												<!--  Large Badge  -->
+												<!-- Large Badge -->
 												<Border Height="{StaticResource MaterialNavigationTabBarItemLargeBadgeHeight}"
 														MinWidth="{StaticResource MaterialNavigationTabBarItemLargeBadgeMinWidth}"
 														Padding="{StaticResource MaterialNavigationTabBarItemLargeBadgePadding}"
@@ -367,24 +309,15 @@
 		   BasedOn="{StaticResource MaterialBaseNavigationTabBarItemStyle}"
 		   TargetType="utu:TabBarItem" />
 
-	<Style x:Key="MaterialTopTabBarItemStyle"
-		   TargetType="utu:TabBarItem">
-		<Setter Property="Background"
-				Value="{ThemeResource SystemControlTransparentBrush}" />
-		<Setter Property="Foreground"
-				Value="{ThemeResource OnSurfaceMediumBrush}" />
-		<Setter Property="BorderBrush"
-				Value="{ThemeResource SystemControlTransparentBrush}" />
-		<Setter Property="FontFamily"
-				Value="{ThemeResource MaterialRegularFontFamily}" />
-		<Setter Property="FontSize"
-				Value="{ThemeResource TitleSmallFontSize}" />
-		<Setter Property="FontWeight"
-				Value="{ThemeResource TitleSmallFontWeight}" />
-		<Setter Property="UseSystemFocusVisuals"
-				Value="True" />
-		<Setter Property="HorizontalContentAlignment"
-				Value="Center" />
+	<Style x:Key="MaterialTopTabBarItemStyle" TargetType="utu:TabBarItem">
+		<Setter Property="Background" Value="{ThemeResource SystemControlTransparentBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceMediumBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}" />
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialRegularFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource TitleSmallFontSize}" />
+		<Setter Property="FontWeight" Value="{ThemeResource TitleSmallFontWeight}" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarItem">
@@ -399,72 +332,50 @@
 								<VisualState x:Name="Normal" />
 								<not_mobile:VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource PrimaryHoverBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource PrimaryHoverBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnSurfaceMediumBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSurfaceMediumBrush}" />
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource PrimaryHoverBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource PrimaryHoverBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnSurfaceMediumBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceMediumBrush}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<not_mobile:VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource PrimaryPressedBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource PrimaryPressedBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnSurfaceMediumBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSurfaceMediumBrush}" />
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource PrimaryPressedBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource PrimaryPressedBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnSurfaceMediumBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceMediumBrush}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<VisualState x:Name="Selected">
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource SystemControlTransparentBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource SystemControlTransparentBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource PrimaryBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource PrimaryBrush}" />
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlTransparentBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource SystemControlTransparentBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<not_mobile:VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource PrimaryHoverBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource PrimaryHoverBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource PrimaryBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource PrimaryBrush}" />
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource PrimaryHoverBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource PrimaryHoverBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<not_mobile:VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource PrimaryPressedBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource PrimaryPressedBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource PrimaryBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource PrimaryBrush}" />
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource PrimaryPressedBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource PrimaryPressedBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 							</VisualStateGroup>
 							<VisualStateGroup x:Name="FocusStates">
 								<VisualState x:Name="Focused">
 									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource PrimaryLowBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource PrimaryLowBrush}" />
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource PrimaryLowBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource PrimaryLowBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerFocused" />
@@ -474,10 +385,8 @@
 								<VisualState x:Name="Enabled" />
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -485,199 +394,16 @@
 								<VisualState x:Name="IconOnTop" />
 								<VisualState x:Name="IconOnly">
 									<VisualState.Setters>
-										<Setter Target="PointerRectangle.Visibility"
-												Value="Visible" />
-										<Setter Target="ContentPresenter.Visibility"
-												Value="Collapsed" />
+										<Setter Target="PointerRectangle.Visibility" Value="Visible" />
+										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="ContentOnly">
 									<VisualState.Setters>
-										<Setter Target="IconBox.Visibility"
-												Value="Collapsed" />
-										<Setter Target="ContentPresenter.Margin"
-												Value="12,0" />
-										<Setter Target="IconRow.Width"
-												Value="0" />
-										<Setter Target="ContentRow.Width"
-												Value="*" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-						<um:Ripple x:Name="RippleControl"
-								   Padding="{TemplateBinding Padding}"
-								   AutomationProperties.AccessibilityView="Raw"
-								   BorderBrush="{TemplateBinding BorderBrush}"
-								   BorderThickness="{TemplateBinding BorderThickness}"
-								   CornerRadius="{TemplateBinding CornerRadius}"
-								   Feedback="{ThemeResource PrimaryBrush}"
-								   FeedbackOpacity="{StaticResource PressedOpacity}">
-							<um:Ripple.Content>
-							<Grid>
-								<Rectangle x:Name="PointerRectangle"
-										   Fill="Transparent"
-										   Visibility="Collapsed" />
-
-								<Grid x:Name="ContentGrid"
-									  ColumnSpacing="8">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition x:Name="IconRow"
-														  Width="*" />
-										<ColumnDefinition x:Name="ContentRow"
-														  Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<Viewbox x:Name="IconBox"
-											 Width="{StaticResource MaterialTopTabBarItemIconHeight}"
-											 Height="{StaticResource MaterialTopTabBarItemIconHeight}">
-										<ContentPresenter x:Name="Icon"
-														  Content="{TemplateBinding Icon}"
-														  Foreground="{TemplateBinding Foreground}" />
-									</Viewbox>
-									<ContentPresenter x:Name="ContentPresenter"
-													  Grid.Column="1"
-													  Margin="{StaticResource MaterialTopTabBarItemContentMargin}"
-													  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-													  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-													  AutomationProperties.AccessibilityView="Raw"
-													  Content="{TemplateBinding Content}"
-													  ContentTemplate="{TemplateBinding ContentTemplate}"
-													  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-													  ContentTransitions="{TemplateBinding ContentTransitions}"
-													  FontSize="{TemplateBinding FontSize}"
-													  Foreground="{TemplateBinding Foreground}"
-													  TextWrapping="NoWrap" />
-								</Grid>
-							</Grid>
-							</um:Ripple.Content>
-						</um:Ripple>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
-
-	<Style x:Key="MaterialColoredTopTabBarItemStyle"
-		   BasedOn="{StaticResource MaterialTopTabBarItemStyle}"
-		   TargetType="utu:TabBarItem">
-		<Setter Property="Foreground"
-				Value="{ThemeResource OnPrimaryMediumBrush}" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="utu:TabBarItem">
-					<Grid x:Name="LayoutRoot"
-						  Background="{TemplateBinding Background}"
-						  BorderBrush="{TemplateBinding BorderBrush}"
-						  BorderThickness="{TemplateBinding BorderThickness}"
-						  Control.IsTemplateFocusTarget="True">
-
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal" />
-								<not_mobile:VisualState x:Name="PointerOver">
-									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource OnPrimaryHoverBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource OnPrimaryHoverBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnPrimaryMediumBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnPrimaryMediumBrush}" />
-									</VisualState.Setters>
-								</not_mobile:VisualState>
-								<not_mobile:VisualState x:Name="Pressed">
-									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource OnPrimaryPressedBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource OnPrimaryPressedBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnPrimaryMediumBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnPrimaryMediumBrush}" />
-									</VisualState.Setters>
-								</not_mobile:VisualState>
-								<VisualState x:Name="Selected">
-									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource SystemControlTransparentBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource SystemControlTransparentBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnPrimaryBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnPrimaryBrush}" />
-									</VisualState.Setters>
-								</VisualState>
-								<not_mobile:VisualState x:Name="PointerOverSelected">
-									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource OnPrimaryHoverBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource OnPrimaryHoverBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnPrimaryBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnPrimaryBrush}" />
-									</VisualState.Setters>
-								</not_mobile:VisualState>
-								<not_mobile:VisualState x:Name="PressedSelected">
-									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource OnPrimaryPressedBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource OnPrimaryPressedBrush}" />
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource OnPrimaryBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnPrimaryBrush}" />
-									</VisualState.Setters>
-								</not_mobile:VisualState>
-							</VisualStateGroup>
-							<VisualStateGroup x:Name="FocusStates">
-								<VisualState x:Name="Focused">
-									<VisualState.Setters>
-										<Setter Target="LayoutRoot.Background"
-												Value="{ThemeResource OnPrimaryLowBrush}" />
-										<Setter Target="PointerRectangle.Fill"
-												Value="{ThemeResource OnPrimaryLowBrush}" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="PointerFocused" />
-								<VisualState x:Name="Unfocused" />
-							</VisualStateGroup>
-							<VisualStateGroup x:Name="DisabledStates">
-								<VisualState x:Name="Enabled" />
-								<VisualState x:Name="Disabled">
-									<VisualState.Setters>
-										<Setter Target="Icon.Foreground"
-												Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-							<VisualStateGroup x:Name="TabBarIconPositionStates">
-								<VisualState x:Name="IconOnTop" />
-								<VisualState x:Name="IconOnly">
-									<VisualState.Setters>
-										<Setter Target="PointerRectangle.Visibility"
-												Value="Visible" />
-										<Setter Target="ContentPresenter.Visibility"
-												Value="Collapsed" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="ContentOnly">
-									<VisualState.Setters>
-										<Setter Target="IconBox.Visibility"
-												Value="Collapsed" />
-										<Setter Target="ContentPresenter.Margin"
-												Value="12,0" />
-										<Setter Target="IconRow.Width"
-												Value="0" />
-										<Setter Target="ContentRow.Width"
-												Value="*" />
+										<Setter Target="IconBox.Visibility" Value="Collapsed" />
+										<Setter Target="ContentPresenter.Margin" Value="12,0" />
+										<Setter Target="IconRow.Width" Value="0" />
+										<Setter Target="ContentRow.Width" Value="*" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -696,13 +422,153 @@
 											   Fill="Transparent"
 											   Visibility="Collapsed" />
 
-									<Grid x:Name="ContentGrid"
-										  ColumnSpacing="8">
+									<Grid x:Name="ContentGrid" ColumnSpacing="8">
 										<Grid.ColumnDefinitions>
-											<ColumnDefinition x:Name="IconRow"
-															  Width="*" />
-											<ColumnDefinition x:Name="ContentRow"
-															  Width="Auto" />
+											<ColumnDefinition x:Name="IconRow" Width="*" />
+											<ColumnDefinition x:Name="ContentRow" Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<Viewbox x:Name="IconBox"
+												 Width="{StaticResource MaterialTopTabBarItemIconHeight}"
+												 Height="{StaticResource MaterialTopTabBarItemIconHeight}">
+											<ContentPresenter x:Name="Icon"
+															  Content="{TemplateBinding Icon}"
+															  Foreground="{TemplateBinding Foreground}" />
+										</Viewbox>
+										<ContentPresenter x:Name="ContentPresenter"
+														  Grid.Column="1"
+														  Margin="{StaticResource MaterialTopTabBarItemContentMargin}"
+														  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+														  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+														  AutomationProperties.AccessibilityView="Raw"
+														  Content="{TemplateBinding Content}"
+														  ContentTemplate="{TemplateBinding ContentTemplate}"
+														  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+														  ContentTransitions="{TemplateBinding ContentTransitions}"
+														  FontSize="{TemplateBinding FontSize}"
+														  Foreground="{TemplateBinding Foreground}"
+														  TextWrapping="NoWrap" />
+									</Grid>
+								</Grid>
+							</um:Ripple.Content>
+						</um:Ripple>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="MaterialColoredTopTabBarItemStyle"
+		   BasedOn="{StaticResource MaterialTopTabBarItemStyle}"
+		   TargetType="utu:TabBarItem">
+		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryMediumBrush}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:TabBarItem">
+					<Grid x:Name="LayoutRoot"
+						  Background="{TemplateBinding Background}"
+						  BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  Control.IsTemplateFocusTarget="True">
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<not_mobile:VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource OnPrimaryHoverBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource OnPrimaryHoverBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnPrimaryMediumBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnPrimaryMediumBrush}" />
+									</VisualState.Setters>
+								</not_mobile:VisualState>
+								<not_mobile:VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource OnPrimaryPressedBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource OnPrimaryPressedBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnPrimaryMediumBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnPrimaryMediumBrush}" />
+									</VisualState.Setters>
+								</not_mobile:VisualState>
+								<VisualState x:Name="Selected">
+									<VisualState.Setters>
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlTransparentBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource SystemControlTransparentBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<not_mobile:VisualState x:Name="PointerOverSelected">
+									<VisualState.Setters>
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource OnPrimaryHoverBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource OnPrimaryHoverBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+									</VisualState.Setters>
+								</not_mobile:VisualState>
+								<not_mobile:VisualState x:Name="PressedSelected">
+									<VisualState.Setters>
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource OnPrimaryPressedBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource OnPrimaryPressedBrush}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnPrimaryBrush}" />
+									</VisualState.Setters>
+								</not_mobile:VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="LayoutRoot.Background" Value="{ThemeResource OnPrimaryLowBrush}" />
+										<Setter Target="PointerRectangle.Fill" Value="{ThemeResource OnPrimaryLowBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerFocused" />
+								<VisualState x:Name="Unfocused" />
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="DisabledStates">
+								<VisualState x:Name="Enabled" />
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="Icon.Foreground" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="TabBarIconPositionStates">
+								<VisualState x:Name="IconOnTop" />
+								<VisualState x:Name="IconOnly">
+									<VisualState.Setters>
+										<Setter Target="PointerRectangle.Visibility" Value="Visible" />
+										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="ContentOnly">
+									<VisualState.Setters>
+										<Setter Target="IconBox.Visibility" Value="Collapsed" />
+										<Setter Target="ContentPresenter.Margin" Value="12,0" />
+										<Setter Target="IconRow.Width" Value="0" />
+										<Setter Target="ContentRow.Width" Value="*" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<um:Ripple x:Name="RippleControl"
+								   Padding="{TemplateBinding Padding}"
+								   AutomationProperties.AccessibilityView="Raw"
+								   BorderBrush="{TemplateBinding BorderBrush}"
+								   BorderThickness="{TemplateBinding BorderThickness}"
+								   CornerRadius="{TemplateBinding CornerRadius}"
+								   Feedback="{ThemeResource PrimaryBrush}"
+								   FeedbackOpacity="{StaticResource PressedOpacity}">
+							<um:Ripple.Content>
+								<Grid>
+									<Rectangle x:Name="PointerRectangle"
+											   Fill="Transparent"
+											   Visibility="Collapsed" />
+
+									<Grid x:Name="ContentGrid" ColumnSpacing="8">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition x:Name="IconRow" Width="*" />
+											<ColumnDefinition x:Name="ContentRow" Width="Auto" />
 										</Grid.ColumnDefinitions>
 										<Viewbox x:Name="IconBox"
 												 Width="{StaticResource MaterialTopTabBarItemIconHeight}"
@@ -736,35 +602,22 @@
 	<!--#endregion-->
 
 	<!--#region FAB TabBarItem Styles-->
-	<Style x:Key="MaterialBaseFabTabBarItemStyle"
-		   TargetType="utu:TabBarItem">
-		<Setter Property="FontFamily"
-				Value="{ThemeResource MaterialMediumFontFamily}" />
-		<Setter Property="FontSize"
-				Value="{ThemeResource LabelMediumFontSize}" />
-		<Setter Property="FontWeight"
-				Value="{ThemeResource LabelMediumFontWeight}" />
-		<Setter Property="IsSelectable"
-				Value="False" />
-		<Setter Property="UseSystemFocusVisuals"
-				Value="True" />
-		<Setter Property="VerticalContentAlignment"
-				Value="Center" />
-		<Setter Property="HorizontalContentAlignment"
-				Value="Center" />
-		<Setter Property="CornerRadius"
-				Value="{StaticResource MaterialFabTabBarItemCornerRadius}" />
-		<Setter Property="Padding"
-				Value="{StaticResource MaterialFabTabBarItemPadding}" />
-		<Setter Property="Background"
-				Value="{ThemeResource PrimaryContainerBrush}" />
-		<Setter Property="Foreground"
-				Value="{ThemeResource OnPrimaryContainerBrush}" />
+	<Style x:Key="MaterialBaseFabTabBarItemStyle" TargetType="utu:TabBarItem">
+		<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource LabelMediumFontSize}" />
+		<Setter Property="FontWeight" Value="{ThemeResource LabelMediumFontWeight}" />
+		<Setter Property="IsSelectable" Value="False" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="CornerRadius" Value="{StaticResource MaterialFabTabBarItemCornerRadius}" />
+		<Setter Property="Padding" Value="{StaticResource MaterialFabTabBarItemPadding}" />
+		<Setter Property="Background" Value="{ThemeResource PrimaryContainerBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryContainerBrush}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarItem">
-					<Grid VerticalAlignment="{TemplateBinding VerticalAlignment}"
-						  HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+					<Grid VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
 						<toolkit:ElevatedView x:Name="ElevatedView"
 											  HorizontalAlignment="Center"
 											  VerticalAlignment="Center"
@@ -777,13 +630,12 @@
 									   Feedback="{TemplateBinding Foreground}"
 									   FeedbackOpacity="{StaticResource PressedOpacity}">
 								<Grid CornerRadius="{TemplateBinding CornerRadius}">
-									<Grid x:Name="Root"
-										  Background="{TemplateBinding Background}">
+									<Grid x:Name="Root" Background="{TemplateBinding Background}">
 										<StackPanel x:Name="ContentPanel"
 													Margin="{TemplateBinding Padding}"
 													Orientation="Horizontal">
 
-											<!--  Icon  -->
+											<!-- Icon -->
 											<Viewbox Width="{StaticResource MaterialFabTabBarItemContentWidthOrHeight}"
 													 Height="{StaticResource MaterialFabTabBarItemContentWidthOrHeight}"
 													 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -794,13 +646,12 @@
 																  Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
 											</Viewbox>
 
-											<!--  Icon/Content spacing  -->
+											<!-- Icon/Content spacing -->
 											<Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
-												<Border Width="{StaticResource MaterialFabTabBarItemIconTextPadding}"
-														Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
+												<Border Width="{StaticResource MaterialFabTabBarItemIconTextPadding}" Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
 											</Border>
 
-											<!--  Content  -->
+											<!-- Content -->
 											<ContentPresenter x:Name="ContentPresenter"
 															  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 															  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -826,24 +677,19 @@
 
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="StateOverlay.Background"
-												Value="{ThemeResource OnPrimaryContainerHoverBrush}" />
+										<Setter Target="StateOverlay.Background" Value="{ThemeResource OnPrimaryContainerHoverBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="StateOverlay.Background"
-												Value="{ThemeResource OnPrimaryContainerPressedBrush}" />
+										<Setter Target="StateOverlay.Background" Value="{ThemeResource OnPrimaryContainerPressedBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="IconPresenter.Foreground"
-												Value="{ThemeResource OnSurfaceDisabledBrush}" />
-										<Setter Target="ContentPresenter.Foreground"
-												Value="{ThemeResource OnSurfaceDisabledBrush}" />
-										<Setter Target="StateOverlay.Background"
-												Value="{ThemeResource OnSurfaceDisabledLowBrush}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource OnSurfaceDisabledBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceDisabledBrush}" />
+										<Setter Target="StateOverlay.Background" Value="{ThemeResource OnSurfaceDisabledLowBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -852,8 +698,7 @@
 
 								<VisualState x:Name="Focused">
 									<VisualState.Setters>
-										<Setter Target="StateOverlay.Background"
-												Value="{ThemeResource OnPrimaryContainerFocusedBrush}" />
+										<Setter Target="StateOverlay.Background" Value="{ThemeResource OnPrimaryContainerFocusedBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
@@ -875,8 +720,8 @@
 	<Style x:Key="MaterialBottomFabTabBarItemStyle"
 		   BasedOn="{StaticResource MaterialBaseFabTabBarItemStyle}"
 		   TargetType="utu:TabBarItem">
-		<!--  KNOWN ISSUE: The part of the FAB that is translated outside of the TabBar bounds is not clickable  -->
-		<!--  https://github.com/unoplatform/uno/issues/7393  -->
+		<!-- KNOWN ISSUE: The part of the FAB that is translated outside of the TabBar bounds is not clickable -->
+		<!-- https://github.com/unoplatform/uno/issues/7393 -->
 		<Setter Property="RenderTransform">
 			<Setter.Value>
 				<TranslateTransform Y="{StaticResource MaterialFabTabBarItemOffset}" />
@@ -887,8 +732,7 @@
 	<!--#endregion-->
 
 	<!--#region SelectionIndicator-->
-	<Style x:Key="MaterialTabBarSelectionIndicatorPresenterStyle"
-		   TargetType="utu:TabBarSelectionIndicatorPresenter">
+	<Style x:Key="MaterialTabBarSelectionIndicatorPresenterStyle" TargetType="utu:TabBarSelectionIndicatorPresenter">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarSelectionIndicatorPresenter">

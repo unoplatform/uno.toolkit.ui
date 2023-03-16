@@ -13,8 +13,7 @@
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 		<Grid.RowDefinitions>
-			<RowDefinition x:Name="TopPaddingRow"
-						   Height="0" />
+			<RowDefinition x:Name="TopPaddingRow" Height="0" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
@@ -67,6 +66,18 @@
 				HorizontalAlignment="Left"
 				Style="{StaticResource PaneToggleButtonStyle}" />
 
-        <local:ModalDialog x:Name="ModalDialog" />
-    </Grid>
+		<StackPanel Grid.Row="3"
+					x:Name="DebuggingToolPanel"
+					Background="Pink"
+					Padding="8,8,8,0"
+					Visibility="Collapsed"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Bottom">
+			<Button Content="DebugTV"
+					Click="DebugVisualTree"
+					CornerRadius="0" />
+		</StackPanel>
+
+		<local:ModalDialog x:Name="ModalDialog" />
+	</Grid>
 </UserControl>

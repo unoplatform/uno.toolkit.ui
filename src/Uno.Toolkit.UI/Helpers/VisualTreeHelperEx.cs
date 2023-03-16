@@ -71,12 +71,16 @@ namespace Uno.Toolkit.UI
 				if (x is FrameworkElement fe)
 				{
 					yield return $"Actual={fe.ActualWidth}x{fe.ActualHeight}";
-					// yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
+					//yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
 					yield return $"HV={fe.HorizontalAlignment}/{fe.VerticalAlignment}";
 				}
 				if (x is UIElement uie)
 				{
 					yield return uie.Visibility.ToString();
+				}
+				if (x is TabBar tbar)
+				{
+					yield return $"Orientation={tbar.Orientation}";
 				}
 			}
 

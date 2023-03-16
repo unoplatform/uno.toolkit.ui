@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Uno.Toolkit.Samples.Content.NestedSamples;
 using Uno.Toolkit.UI;
 using Uno.Toolkit.Samples.Content.Controls;
+using Uno.UI;
 
 #if __IOS__
 using Foundation;
@@ -52,6 +53,9 @@ namespace Uno.Toolkit.Samples
 
 #if SYS_NAV_MGR_SUPPORTED
 			SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) => e.Handled = BackNavigateFromNestedSample();
+#endif
+#if DEBUG
+			this.DebuggingToolPanel.Visibility = Visibility.Visible;
 #endif
 		}
 
@@ -220,6 +224,27 @@ namespace Uno.Toolkit.Samples
 				NavigationViewControl.IsPaneVisible = true;
 				NavigationViewControl.PaneDisplayMode = MUXC.NavigationViewPaneDisplayMode.LeftMinimal;
 			}
+		}
+
+		private void DebugVisualTree(object sender, RoutedEventArgs e)
+		{
+#if HAS_UNO
+			var unoTree = this.ShowLocalVisualTree();
+#endif
+			var shellTree = this.TreeGraph();
+
+			var target = this.GetFirstDescendant<TabBar>();
+			var targetTree = target.TreeGraph();
+
+			var tree = targetTree;
+#if WINDOWS_UWP
+			var data = new Windows.ApplicationModel.DataTransfer.DataPackage();
+			data.SetText(string.Join("\n===\n", "visual-tree", tree));
+			Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(data);
+#endif
+
+			// uwp: the visual tree should be copied to clipboard
+			// uno: set a breakpoint on the next line and inspect `tree`
 		}
 	}
 }

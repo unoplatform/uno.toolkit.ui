@@ -14,9 +14,10 @@
 				<DataTemplate>
 					<ScrollViewer>
 
-						<Border Padding="20"
-								BorderThickness="2"
-								BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+						<Border BorderThickness="2"
+								BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}"
+								Padding="20"
+								MinHeight="500">
 							<!--<StackPanel Spacing="20">
 								<utu:TabBar Background="LightBlue">
 									<utu:TabBar.SelectionIndicatorContent>
@@ -31,7 +32,8 @@
 									</utu:TabBar.Items>
 								</utu:TabBar>-->
 
-								<utu:TabBar Style="{StaticResource VerticalTabBarStyle}"
+							<utu:TabBar Style="{StaticResource MaterialVerticalTabBarStyle}"
+										HorizontalAlignment="Center"
 											Background="Pink">
 									<utu:TabBar.SelectionIndicatorContent>
 										<Rectangle Fill="Purple"
