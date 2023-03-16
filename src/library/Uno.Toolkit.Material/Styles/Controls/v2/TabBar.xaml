@@ -48,7 +48,7 @@
 
 
 	<Style x:Key="MaterialVerticalTabBarStyle"
-		   BasedOn="{StaticResource DefaultTabBarStyle}"
+		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource SurfaceBrush}" />
@@ -63,7 +63,7 @@
 	</Style>
 
 	<Style x:Key="MaterialBottomTabBarStyle"
-		   BasedOn="{StaticResource DefaultTabBarStyle}"
+		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource SurfaceBrush}" />
@@ -78,7 +78,7 @@
 	</Style>
 
 	<Style x:Key="MaterialTopTabBarStyle"
-		   BasedOn="{StaticResource DefaultTabBarStyle}"
+		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource BackgroundBrush}" />
@@ -105,7 +105,7 @@
 	</Style>
 
 	<Style x:Key="MaterialColoredTopTabBarStyle"
-		   BasedOn="{StaticResource DefaultTabBarStyle}"
+		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource PrimaryBrush}" />

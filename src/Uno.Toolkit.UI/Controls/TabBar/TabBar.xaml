@@ -80,7 +80,7 @@
 	<Duration x:Key="TabBarIndicatorAnimationDuration">0:0:0.25</Duration>
 
 
-	<Style x:Key="DefaultTabBarStyle"
+	<Style x:Key="BaseTabBarStyle"
 		   TargetType="utu:TabBar">
 		<Setter Property="IsTabStop"
 				Value="False" />
@@ -91,8 +91,6 @@
 				</ItemsPanelTemplate>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="MinHeight"
-				Value="{StaticResource TabBarHeightOrWidth}" />
 		<Setter Property="ItemContainerStyle"
 				Value="{StaticResource DefaultTabBarItemStyle}" />
 		<Setter Property="SelectionIndicatorPresenterStyle"
@@ -103,14 +101,14 @@
 					<Grid x:Name="TabBarGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
+						  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						  VerticalAlignment="{TemplateBinding VerticalAlignment}"
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Padding="{TemplateBinding Padding}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="OrientationStates">
 								<VisualState x:Name="Horizontal">
 									<VisualState.Setters>
-										<Setter Target="ContentGrid.Height"
-												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}" />
 										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment"
 												Value="Stretch" />
 										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment"
@@ -119,10 +117,6 @@
 								</VisualState>
 								<VisualState x:Name="Vertical">
 									<VisualState.Setters>
-										<Setter Target="ContentGrid.Width"
-												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}" />
-										<Setter Target="TabBarGrid.HorizontalAlignment"
-												Value="Center" />
 										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment"
 												Value="Top" />
 										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment"
@@ -131,23 +125,53 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-						<Grid x:Name="ContentGrid">
-							<ItemsPresenter x:Name="TabBarItemsPresenter"/>
-							<utu:TabBarSelectionIndicatorPresenter x:Name="SelectionIndicatorPresenter"
-																   Content="{TemplateBinding SelectionIndicatorContent}"
-																   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
-																   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
-																   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
-																   Foreground="{TemplateBinding Foreground}"
-																   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-																   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
-																   Opacity="0" />
-						</Grid>
+						<ItemsPresenter x:Name="TabBarItemsPresenter"
+										Height="{TemplateBinding MinHeight}"
+										Width="{TemplateBinding MinWidth}"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+						<utu:TabBarSelectionIndicatorPresenter x:Name="SelectionIndicatorPresenter"
+															   Content="{TemplateBinding SelectionIndicatorContent}"
+															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+															   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
+															   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
+															   Foreground="{TemplateBinding Foreground}"
+															   Height="{TemplateBinding MinHeight}"
+															   Width="{TemplateBinding MinWidth}"
+															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+															   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+															   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+															   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+															   Opacity="0" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
+
+	<Style x:Key="VerticalTabBarStyle"
+		   BasedOn="{StaticResource BaseTabBarStyle}"
+		   TargetType="utu:TabBar">
+		<Setter Property="Orientation"
+				Value="Vertical" />
+		<Setter Property="HorizontalAlignment"
+				Value="Center" />
+		<Setter Property="MinWidth"
+				Value="{StaticResource TabBarHeightOrWidth}" />
+	</Style>
+
+	<Style x:Key="HorizontalTabBarStyle"
+		   BasedOn="{StaticResource BaseTabBarStyle}"
+		   TargetType="utu:TabBar">
+		<Setter Property="Orientation"
+				Value="Horizontal" />
+		<Setter Property="MinHeight"
+				Value="{StaticResource TabBarHeightOrWidth}" />
+	</Style>
+
+	<Style x:Key="DefaultTabBarStyle"
+		   BasedOn="{StaticResource HorizontalTabBarStyle}"
+		   TargetType="utu:TabBar" />
 
 	<Style x:Key="DefaultTabBarItemStyle"
 		   TargetType="utu:TabBarItem">
@@ -320,19 +344,19 @@
 								<VisualState x:Name="Horizontal">
 									<Storyboard x:Name="IndicatorTransitionHorizontalStoryboard">
 										<DoubleAnimation Storyboard.TargetName="IndicatorTransform"
-													 Storyboard.TargetProperty="TranslateX"
-													 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.X}"
-													 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.X}"
-													 Duration="{StaticResource TabBarIndicatorAnimationDuration}" />
+														 Storyboard.TargetProperty="TranslateX"
+														 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.X}"
+														 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.X}"
+														 Duration="{StaticResource TabBarIndicatorAnimationDuration}" />
 									</Storyboard>
 								</VisualState>
 								<VisualState x:Name="Vertical">
 									<Storyboard x:Name="IndicatorTransitionVerticalStoryboard">
 										<DoubleAnimation Storyboard.TargetName="IndicatorTransform"
-													 Storyboard.TargetProperty="TranslateY"
-													 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.Y}"
-													 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.Y}"
-													 Duration="{StaticResource TabBarIndicatorAnimationDuration}" />
+														 Storyboard.TargetProperty="TranslateY"
+														 From="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionFrom.Y}"
+														 To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorTransitionTo.Y}"
+														 Duration="{StaticResource TabBarIndicatorAnimationDuration}" />
 									</Storyboard>
 								</VisualState>
 							</VisualStateGroup>
@@ -355,15 +379,15 @@
 		</Setter>
 	</Style>
 
-	<!-- TabBar -->
+	<!--  TabBar  -->
 	<Style TargetType="utu:TabBar"
 		   BasedOn="{StaticResource DefaultTabBarStyle}" />
 
-	<!-- TabBarItem -->
+	<!--  TabBarItem  -->
 	<Style TargetType="utu:TabBarItem"
 		   BasedOn="{StaticResource DefaultTabBarItemStyle}" />
 
-	<!-- TabBarSelectionIndicatorPresenter -->
+	<!--  TabBarSelectionIndicatorPresenter  -->
 	<Style TargetType="utu:TabBarSelectionIndicatorPresenter"
 		   BasedOn="{StaticResource DefaultTabBarSelectionIndicatorPresenterStyle}" />
 
