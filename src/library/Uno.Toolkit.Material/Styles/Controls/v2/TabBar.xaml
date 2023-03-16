@@ -54,7 +54,7 @@
 				Value="{ThemeResource SurfaceBrush}" />
 		<Setter Property="Orientation"
 				Value="Vertical" />
-		<Setter Property="Width"
+		<Setter Property="MinHeight"
 				Value="{StaticResource MaterialNavigationTabBarWidthOrHeight}" />
 		<Setter Property="utu:SafeArea.Insets"
 				Value="VisibleBounds" />
@@ -69,7 +69,7 @@
 				Value="{ThemeResource SurfaceBrush}" />
 		<Setter Property="Orientation"
 				Value="Horizontal" />
-		<Setter Property="Height"
+		<Setter Property="MinHeight"
 				Value="{StaticResource MaterialNavigationTabBarWidthOrHeight}" />
 		<Setter Property="utu:SafeArea.Insets"
 				Value="Bottom" />
@@ -84,7 +84,7 @@
 				Value="{ThemeResource BackgroundBrush}" />
 		<Setter Property="Orientation"
 				Value="Horizontal" />
-		<Setter Property="Height"
+		<Setter Property="MinHeight"
 				Value="{StaticResource MaterialTopTabBarHeight}" />
 		<Setter Property="utu:SafeArea.Insets"
 				Value="Top" />
@@ -109,7 +109,7 @@
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource PrimaryBrush}" />
-		<Setter Property="Height"
+		<Setter Property="MinHeight"
 				Value="{StaticResource MaterialTopTabBarHeight}" />
 		<Setter Property="utu:SafeArea.Insets"
 				Value="Top" />
