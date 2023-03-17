@@ -139,7 +139,7 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="VerticalTabBarStyle"
+	<Style x:Key="BaseVerticalTabBarStyle"
 		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Orientation" Value="Vertical" />
@@ -147,7 +147,7 @@
 		<Setter Property="MinWidth" Value="{StaticResource TabBarHeightOrWidth}" />
 	</Style>
 
-	<Style x:Key="HorizontalTabBarStyle"
+	<Style x:Key="BaseHorizontalTabBarStyle"
 		   BasedOn="{StaticResource BaseTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Orientation" Value="Horizontal" />
@@ -155,7 +155,7 @@
 	</Style>
 
 	<Style x:Key="DefaultTabBarStyle"
-		   BasedOn="{StaticResource HorizontalTabBarStyle}"
+		   BasedOn="{StaticResource BaseHorizontalTabBarStyle}"
 		   TargetType="utu:TabBar" />
 
 	<Style x:Key="DefaultTabBarItemStyle"

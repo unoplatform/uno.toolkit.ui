@@ -13,17 +13,19 @@
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<ScrollViewer>
-						<StackPanel Spacing="20">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="20" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
 							<Border Padding="20"
 									BorderThickness="2"
 									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
-								<StackPanel>
-									<TextBlock Text="TabBar + FlipView with Slide Indicator"
-											   Style="{StaticResource BodyTextBlockStyle}" />
-									<utu:TabBar x:Name="SlideTabBar"
+								<utu:TabBar x:Name="SlideTabBar"
+											Style="{StaticResource BaseHorizontalTabBarStyle}"
 												AutomationProperties.AutomationId="SlideTabBar"
 												Background="LightBlue"
-												utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
 												SelectionIndicatorTransitionMode="Slide">
 										<utu:TabBar.SelectionIndicatorContent>
 											<Rectangle Fill="Purple"
@@ -41,43 +43,17 @@
 															AutomationProperties.AutomationId="SlideTab3" />
 										</utu:TabBar.Items>
 									</utu:TabBar>
-									<FlipView x:Name="SlideFlipView"
-											  AutomationProperties.AutomationId="SlideFlipView"
-											  Height="100">
-										<FlipView.Items>
-											<FlipViewItem AutomationProperties.AutomationId="SlidePage1">
-												<Grid AutomationProperties.AutomationId="SlidePage1Content"
-													  Background="Blue"
-													  Width="100"
-													  Height="100" />
-											</FlipViewItem>
-											<FlipViewItem AutomationProperties.AutomationId="SlidePage2">
-												<Grid AutomationProperties.AutomationId="SlidePage2Content"
-													  Background="Red"
-													  Width="100"
-													  Height="100" />
-											</FlipViewItem>
-											<FlipViewItem AutomationProperties.AutomationId="SlidePage3">
-												<Grid AutomationProperties.AutomationId="SlidePage3Content"
-													  Background="Green"
-													  Width="100"
-													  Height="100" />
-											</FlipViewItem>
-										</FlipView.Items>
-									</FlipView>
-								</StackPanel>
 							</Border>
 
 							<Border Padding="20"
+									Grid.Row="2"
 									BorderThickness="2"
 									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
-								<StackPanel>
-									<TextBlock Text="TabBar + FlipView with Snap Indicator"
-											   Style="{StaticResource BodyTextBlockStyle}" />
+				
 									<utu:TabBar x:Name="SnapTabBar"
+												Style="{StaticResource BaseVerticalTabBarStyle}"
 												AutomationProperties.AutomationId="SnapTabBar"
 												Background="LightBlue"
-												utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SnapFlipView}"
 												SelectionIndicatorTransitionMode="Snap">
 										<utu:TabBar.SelectionIndicatorContent>
 											<Rectangle Fill="Purple"
@@ -95,33 +71,8 @@
 															AutomationProperties.AutomationId="SnapTab3" />
 										</utu:TabBar.Items>
 									</utu:TabBar>
-									<FlipView x:Name="SnapFlipView"
-											  AutomationProperties.AutomationId="SnapFlipView"
-											  Height="100">
-										<FlipView.Items>
-											<FlipViewItem AutomationProperties.AutomationId="SnapPage1">
-												<Grid AutomationProperties.AutomationId="SnapPage1Content"
-													  Background="Blue"
-													  Width="100"
-													  Height="100" />
-											</FlipViewItem>
-											<FlipViewItem AutomationProperties.AutomationId="SnapPage2">
-												<Grid AutomationProperties.AutomationId="SnapPage2Content"
-													  Background="Red"
-													  Width="100"
-													  Height="100" />
-											</FlipViewItem>
-											<FlipViewItem AutomationProperties.AutomationId="SnapPage3">
-												<Grid AutomationProperties.AutomationId="SnapPage3Content"
-													  Background="Green"
-													  Width="100"
-													  Height="100" />
-											</FlipViewItem>
-										</FlipView.Items>
-									</FlipView>
-								</StackPanel>
 							</Border>
-						</StackPanel>
+						</Grid>
 					</ScrollViewer>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>
