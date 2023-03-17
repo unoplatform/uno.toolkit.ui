@@ -76,7 +76,7 @@
 								<utu:TabBar x:Name="SnapTabBar"
 												AutomationProperties.AutomationId="SnapTabBar"
 												Background="LightBlue"
-												Style="{StaticResource MaterialVerticalTabBarStyle}"
+												Style="{StaticResource BaseVerticalTabBarStyle}"
 												utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SnapFlipView}"
 												SelectionIndicatorTransitionMode="Snap">
 									<utu:TabBar.SelectionIndicatorContent>
