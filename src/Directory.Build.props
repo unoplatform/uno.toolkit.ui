@@ -29,6 +29,8 @@
 		<NoWarn>$(NoWarn);CS8305</NoWarn>
 		<!-- TODO: Enable once https://github.com/xamarin/xamarin-macios/pull/16513 is merged and we have it -->
 		<NoWarn>$(NoWarn);CA1416</NoWarn>
+		<!-- Disable warning on preview package dependency -->
+		<NoWarn>$(NoWarn);NU5104</NoWarn>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 	</PropertyGroup>
 
