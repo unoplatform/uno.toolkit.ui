@@ -104,21 +104,22 @@
 						  BorderThickness="{TemplateBinding BorderThickness}"
 						  Padding="{TemplateBinding Padding}">
 						<VisualStateManager.VisualStateGroups>
+							<!-- note: TemplatedParent Binding does not work here; the impl has been moved into TabBar::UpdateOrientation() -->
 							<VisualStateGroup x:Name="OrientationStates">
 								<VisualState x:Name="Horizontal">
 									<VisualState.Setters>
-										<Setter Target="TabBarItemsPresenter.Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}" />
+										<!--<Setter Target="TabBarItemsPresenter.Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}" />-->
 										<Setter Target="SelectionIndicatorPresenter.HorizontalAlignment" Value="Left" />
 										<Setter Target="SelectionIndicatorPresenter.VerticalAlignment" Value="Stretch" />
-										<Setter Target="SelectionIndicatorPresenter.Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}" />
+										<!--<Setter Target="SelectionIndicatorPresenter.Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}" />-->
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Vertical">
 									<VisualState.Setters>
-										<Setter Target="TabBarItemsPresenter.Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinWidth}" />
+										<!--<Setter Target="TabBarItemsPresenter.Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinWidth}" />-->
 										<Setter Target="SelectionIndicatorPresenter.HorizontalAlignment" Value="Stretch" />
 										<Setter Target="SelectionIndicatorPresenter.VerticalAlignment" Value="Top" />
-										<Setter Target="SelectionIndicatorPresenter.Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinWidth}" />
+										<!--<Setter Target="SelectionIndicatorPresenter.Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinWidth}" />-->
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

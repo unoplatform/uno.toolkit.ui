@@ -32,15 +32,26 @@ namespace Uno.Toolkit.UI
 	/// <summary>
 	/// A control to display a set of <see cref="TabBarItem"/>s horizontally with the ability to display a custom view to denote selected state
 	/// </summary>
-	[TemplatePart(Name = TabBarGridName, Type = typeof(Grid))]
+	[TemplatePart(Name = TemplateParts.TabBarGridName, Type = typeof(Grid))]
+	[TemplatePart(Name = TemplateParts.TabBarGridName, Type = typeof(ItemsPresenter))]
+	[TemplatePart(Name = TemplateParts.TabBarGridName, Type = typeof(TabBarSelectionIndicatorPresenter))]
 	public partial class TabBar : ItemsControl
 	{
-		private const string TabBarGridName = "TabBarGrid";
+		private static class TemplateParts
+		{
+			public const string TabBarGridName = "TabBarGrid";
+			public const string TabBarItemsPresenterName = "TabBarItemsPresenter";
+			public const string SelectionIndicatorPresenterName = "SelectionIndicatorPresenter";
+		}
 
 		private bool _isSynchronizingSelection;
 		private object? _previouslySelectedItem;
 		private bool _isLoaded;
 		private bool _isUpdatingSelectedItem;
+
+		private Grid? _rootPanel;
+		private ItemsPresenter? _itemsPresenter;
+		private TabBarSelectionIndicatorPresenter? _selectionIndicatorPresenter;
 
 		public TabBar()
 		{
@@ -53,6 +64,11 @@ namespace Uno.Toolkit.UI
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+			
+			_rootPanel = GetTemplateChild(TemplateParts.TabBarGridName) as Grid;
+			_itemsPresenter = GetTemplateChild(TemplateParts.TabBarItemsPresenterName) as ItemsPresenter;
+			_selectionIndicatorPresenter = GetTemplateChild(TemplateParts.SelectionIndicatorPresenterName) as TabBarSelectionIndicatorPresenter;
+
 			UpdateOrientation();
 		}
 
@@ -203,6 +219,19 @@ namespace Uno.Toolkit.UI
 			}
 
 			VisualStateManager.GoToState(this, orientation == Orientation.Horizontal ? "Horizontal" : "Vertical", useTransitions: false);
+
+			// workaround for TemplatedParent Binding not working in VisualState\Setter
+			Action<FrameworkElement> bindLength = orientation == Orientation.Horizontal
+				? x => x.Height = this.MinHeight
+				: x => x.Width = this.MinWidth;
+			if (_itemsPresenter is { })
+			{
+				bindLength(_itemsPresenter);
+			}
+			if (_selectionIndicatorPresenter is { })
+			{
+				bindLength(_selectionIndicatorPresenter);
+			}
 		}
 
 		private void OnItemsSourceChanged()
