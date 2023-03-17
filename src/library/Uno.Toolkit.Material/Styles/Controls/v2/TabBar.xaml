@@ -45,11 +45,80 @@
 
 	<!--#region TabBar Styles-->
 
-
-
-	<Style x:Key="MaterialVerticalTabBarStyle"
+	<Style x:Key="BaseMaterialTabBarStyle"
 		   BasedOn="{StaticResource DefaultTabBarStyle}"
 		   TargetType="utu:TabBar">
+
+		<Setter Property="um:ControlExtensions.TintedBackground"
+				Value="{x:Null}" />
+		<Setter Property="um:ControlExtensions.IsTintEnabled"
+				Value="True" />
+		<Setter Property="IsTabStop"
+				Value="False" />
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<utu:TabBarListPanel />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="ItemContainerStyle"
+				Value="{StaticResource DefaultTabBarItemStyle}" />
+		<Setter Property="SelectionIndicatorPresenterStyle"
+				Value="{StaticResource DefaultTabBarSelectionIndicatorPresenterStyle}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:TabBar">
+					<Grid x:Name="TabBarGrid"
+						  Background="{Binding Path=(um:ControlExtensions.TintedBackground), RelativeSource={RelativeSource TemplatedParent}}"
+						  BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="OrientationStates">
+								<VisualState x:Name="Horizontal">
+									<VisualState.Setters>
+										<Setter Target="TabBarGrid.Height"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" />
+										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment"
+												Value="Stretch" />
+										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment"
+												Value="Left" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Vertical">
+									<VisualState.Setters>
+										<Setter Target="TabBarGrid.Width"
+												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" />
+										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment"
+												Value="Top" />
+										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment"
+												Value="Stretch" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<ItemsPresenter x:Name="TabBarItemsPresenter"
+										Padding="{TemplateBinding Padding}" />
+						<utu:TabBarSelectionIndicatorPresenter x:Name="SelectionIndicatorPresenter"
+															   Content="{TemplateBinding SelectionIndicatorContent}"
+															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+															   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
+															   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
+															   Foreground="{TemplateBinding Foreground}"
+															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+															   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+															   Opacity="0" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="MaterialVerticalTabBarStyle"
+		   BasedOn="{StaticResource BaseMaterialTabBarStyle}"
+		   TargetType="utu:TabBar">
+		<Setter Property="um:ControlExtensions.Elevation"
+				Value="1" />
 		<Setter Property="Background"
 				Value="{ThemeResource SurfaceBrush}" />
 		<Setter Property="Orientation"
@@ -63,8 +132,10 @@
 	</Style>
 
 	<Style x:Key="MaterialBottomTabBarStyle"
-		   BasedOn="{StaticResource DefaultTabBarStyle}"
+		   BasedOn="{StaticResource BaseMaterialTabBarStyle}"
 		   TargetType="utu:TabBar">
+		<Setter Property="um:ControlExtensions.Elevation"
+				Value="1" />
 		<Setter Property="Background"
 				Value="{ThemeResource SurfaceBrush}" />
 		<Setter Property="Orientation"
@@ -78,7 +149,7 @@
 	</Style>
 
 	<Style x:Key="MaterialTopTabBarStyle"
-		   BasedOn="{StaticResource DefaultTabBarStyle}"
+		   BasedOn="{StaticResource BaseMaterialTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource BackgroundBrush}" />
@@ -105,7 +176,7 @@
 	</Style>
 
 	<Style x:Key="MaterialColoredTopTabBarStyle"
-		   BasedOn="{StaticResource DefaultTabBarStyle}"
+		   BasedOn="{StaticResource BaseMaterialTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource PrimaryBrush}" />
