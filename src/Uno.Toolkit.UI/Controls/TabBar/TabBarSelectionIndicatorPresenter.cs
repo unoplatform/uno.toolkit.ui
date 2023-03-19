@@ -324,7 +324,15 @@ namespace Uno.Toolkit.UI
 
 		private void UpdateSelectionIndicatorPosition(Point? destination = null)
 		{
-			destination ??= GetRelativePosition(Owner?.SelectedItem as TabBarItem);
+			if (Owner is not { } tabBar)
+			{
+				return;
+			}
+
+			if (destination == null && tabBar.SelectedIndex != -1)
+			{
+				destination = GetRelativePosition(tabBar.ContainerFromIndex(tabBar.SelectedIndex) as TabBarItem);
+			}
 
 			if (destination == null ||
 				GetSelectionIndicator() is not { } indicator ||
