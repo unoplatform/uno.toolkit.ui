@@ -8,6 +8,8 @@ using Uno.Toolkit.RuntimeTests.Extensions;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
+using Uno.UI.Extensions;
+using Windows.Foundation;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
@@ -186,6 +188,75 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				{
 					Orientation.Horizontal => testPoint.X,
 					Orientation.Vertical => testPoint.Y,
+					_ => throw new ArgumentOutOfRangeException(nameof(orientation))
+				};
+			}
+		}
+
+		[TestMethod]
+		[DataRow(Orientation.Horizontal, new[] { 0, 0, 0, 0 }, DisplayName = "Horizontal at [0,0,0,0]")]
+		[DataRow(Orientation.Horizontal, new[] { 0, 30, 0, 0 }, DisplayName = "Horizontal at [0,30,0,0]")]
+		[DataRow(Orientation.Horizontal, new[] { 0, 0, 0, 30 }, DisplayName = "Horizontal at [0,0,0,30]")]
+		[DataRow(Orientation.Horizontal, new[] { 0, 30, 0, 30 }, DisplayName = "Horizontal at [0,30,0,30]")]
+		[DataRow(Orientation.Horizontal, new[] { 0, 50, 0, 0 }, DisplayName = "Horizontal at [0,50,0,0]")]
+		[DataRow(Orientation.Horizontal, new[] { 0, 0, 0, 50 }, DisplayName = "Horizontal at [0,0,0,50]")]
+		[DataRow(Orientation.Horizontal, new[] { 0, 30, 0, 20 }, DisplayName = "Horizontal at [0,30,0,20]")]
+		[DataRow(Orientation.Vertical, new[] { 0, 0, 0, 0 }, DisplayName = "Vertical at [0,0,0,0]")]
+		[DataRow(Orientation.Vertical, new[] { 30, 0, 0, 0 }, DisplayName = "Vertical at [30,0,0,0]")]
+		[DataRow(Orientation.Vertical, new[] { 0, 0, 30, 0 }, DisplayName = "Vertical at [0,0,30,0]")]
+		[DataRow(Orientation.Vertical, new[] { 30, 0, 30, 0 }, DisplayName = "Vertical at [30,0,30,0]")]
+		[DataRow(Orientation.Vertical, new[] { 50, 0, 0, 0 }, DisplayName = "Vertical at [50,0,0,0]")]
+		[DataRow(Orientation.Vertical, new[] { 0, 0, 50, 0 }, DisplayName = "Vertical at [0,0,50,0]")]
+		[DataRow(Orientation.Vertical, new[] { 30, 0, 20, 0 }, DisplayName = "Vertical at [30,0,20,0]")]
+		public async Task Verify_Padding(
+			Orientation orientation,
+			int[] padding)
+		{
+			var minDimen = (double)Application.Current.Resources["TabBarHeightOrWidth"];
+			var styleName = orientation switch
+			{
+				Orientation.Horizontal => "BaseHorizontalTabBarStyle",
+				Orientation.Vertical => "BaseVerticalTabBarStyle",
+				_ => throw new ArgumentOutOfRangeException(nameof(orientation))
+			};
+
+			var rootGrid = XamlHelper.LoadXaml<Grid>(@$"
+				<Grid>
+					<utu:TabBar xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" x:Name=""MyTabBar"" Style=""{{StaticResource {styleName}}}"">
+						<utu:TabBar.Items>
+							<utu:TabBarItem Content=""1"" />
+							<utu:TabBarItem Content=""2"" />
+							<utu:TabBarItem Content=""3"" />
+						</utu:TabBar.Items>
+					</utu:TabBar>
+				</Grid>
+			");
+
+			var tabBar = (TabBar)rootGrid.FindName("MyTabBar");
+			tabBar.Padding = new Thickness(padding[0], padding[1], padding[2], padding[3]);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(rootGrid);
+
+		
+			var c = GetMinCalculatedDimen();
+			var expectedDimen = Math.Max(c, minDimen);
+			double actualDimen = orientation switch
+			{
+				Orientation.Horizontal => tabBar.ActualHeight,
+				Orientation.Vertical => tabBar.ActualWidth,
+				_ => throw new ArgumentOutOfRangeException(nameof(orientation))
+			};
+
+			Assert.AreEqual(expectedDimen, actualDimen, 1d);
+
+			double GetMinCalculatedDimen()
+			{
+				var tabBarItem = (TabBarItem)tabBar.ContainerFromIndex(0);
+
+				return orientation switch
+				{
+					Orientation.Horizontal => padding[1] + padding[3] + tabBarItem.ActualHeight,
+					Orientation.Vertical =>  padding[0] + padding[2] + tabBarItem.ActualWidth,
 					_ => throw new ArgumentOutOfRangeException(nameof(orientation))
 				};
 			}

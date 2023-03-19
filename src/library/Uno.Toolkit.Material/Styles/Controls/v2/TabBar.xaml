@@ -115,15 +115,15 @@
 	</Style>
 
 	<Style x:Key="MaterialVerticalTabBarStyle"
-		   BasedOn="{StaticResource BaseMaterialTabBarStyle}"
+		   BasedOn="{StaticResource BaseVerticalTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="um:ControlExtensions.Elevation"
 				Value="1" />
 		<Setter Property="Background"
 				Value="{ThemeResource SurfaceBrush}" />
-		<Setter Property="Orientation"
-				Value="Vertical" />
-		<Setter Property="Width"
+		<Setter Property="HorizontalAlignment"
+				Value="Center" />
+		<Setter Property="MinWidth"
 				Value="{StaticResource MaterialNavigationTabBarWidthOrHeight}" />
 		<Setter Property="utu:SafeArea.Insets"
 				Value="VisibleBounds" />
@@ -132,15 +132,15 @@
 	</Style>
 
 	<Style x:Key="MaterialBottomTabBarStyle"
-		   BasedOn="{StaticResource BaseMaterialTabBarStyle}"
+		   BasedOn="{StaticResource BaseHorizontalTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="um:ControlExtensions.Elevation"
 				Value="1" />
 		<Setter Property="Background"
 				Value="{ThemeResource SurfaceBrush}" />
-		<Setter Property="Orientation"
-				Value="Horizontal" />
-		<Setter Property="Height"
+		<Setter Property="VerticalAlignment"
+				Value="Bottom" />
+		<Setter Property="MinHeight"
 				Value="{StaticResource MaterialNavigationTabBarWidthOrHeight}" />
 		<Setter Property="utu:SafeArea.Insets"
 				Value="Bottom" />
@@ -149,13 +149,13 @@
 	</Style>
 
 	<Style x:Key="MaterialTopTabBarStyle"
-		   BasedOn="{StaticResource BaseMaterialTabBarStyle}"
+		   BasedOn="{StaticResource BaseHorizontalTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource BackgroundBrush}" />
-		<Setter Property="Orientation"
-				Value="Horizontal" />
-		<Setter Property="Height"
+		<Setter Property="VerticalAlignment"
+				Value="Top" />
+		<Setter Property="MinHeight"
 				Value="{StaticResource MaterialTopTabBarHeight}" />
 		<Setter Property="utu:SafeArea.Insets"
 				Value="Top" />
@@ -176,11 +176,13 @@
 	</Style>
 
 	<Style x:Key="MaterialColoredTopTabBarStyle"
-		   BasedOn="{StaticResource BaseMaterialTabBarStyle}"
+		   BasedOn="{StaticResource BaseHorizontalTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="Background"
 				Value="{ThemeResource PrimaryBrush}" />
-		<Setter Property="Height"
+		<Setter Property="VerticalAlignment"
+				Value="Top" />
+		<Setter Property="MinHeight"
 				Value="{StaticResource MaterialTopTabBarHeight}" />
 		<Setter Property="utu:SafeArea.Insets"
 				Value="Top" />
