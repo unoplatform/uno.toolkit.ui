@@ -132,6 +132,7 @@
 															   Foreground="{TemplateBinding Foreground}"
 															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
 															   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+															   Padding="{TemplateBinding Padding}"
 															   Opacity="0" />
 					</Grid>
 				</ControlTemplate>
@@ -365,6 +366,7 @@
 										  Content="{TemplateBinding Content}"
 										  ContentTemplate="{TemplateBinding ContentTemplate}"
 										  RenderTransformOrigin=".5,.5"
+										  Padding="{TemplateBinding Padding}"
 										  Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Height}"
 										  Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Width}">
 							<ContentPresenter.RenderTransform>
