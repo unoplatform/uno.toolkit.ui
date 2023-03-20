@@ -45,7 +45,7 @@
 
 	<!-- WORKAROUND: ControlExtensions must be explicitly referenced to avoid a crash on WinAppSDK apps -->
 	<Style x:Key="WorkaroundTabBarStyle"
-		   TargetType="ContentControl">
+		   TargetType="utu:TabBar">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBar">
