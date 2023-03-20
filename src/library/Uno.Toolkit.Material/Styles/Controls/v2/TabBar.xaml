@@ -43,7 +43,7 @@
 	<Thickness x:Key="MaterialNavigationTabBarItemLargeBadgePadding">4,0</Thickness>
 	<CornerRadius x:Key="MaterialNavigationTabBarItemLargeBadgeCornerRadius">8</CornerRadius>
 
-	<!-- WORKAROUND: ControlExtensions must be explicitly referenced to avoid a crash on WinAppSDK apps -->
+	<!-- WORKAROUND: ControlExtensions must be explicitly referenced as an attribute to avoid a crash on WinAppSDK apps, and not just as a a setter property -->
 	<Style x:Key="WorkaroundTabBarStyle"
 		   TargetType="utu:TabBar">
 		<Setter Property="Template">
