@@ -52,8 +52,8 @@
       href: helpers/StatusBar-extensions.md
     - name: TabBarItem attached properties
       href: helpers/TabBarItem-extensions.md
-    - name: VisualState attached properties
-      href: helpers/VisualState-extensions.md
+    - name: VisualStateManager attached properties
+      href: helpers/VisualStateManager-extensions.md
   # ***************** Reference\Styles **********************
   - name: Styles
     href: controls-styles.md
