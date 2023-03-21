@@ -72,7 +72,7 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-	<x:Double x:Key="TabBarHeight">64</x:Double>
+	<x:Double x:Key="TabBarHeightOrWidth">64</x:Double>
 	<x:Double x:Key="TabBarItemIconHeight">16</x:Double>
 	<x:Double x:Key="TabBarItemIconWidth">16</x:Double>
 	<Thickness x:Key="TabBarItemContentMargin">0,0,0,12</Thickness>
@@ -80,14 +80,14 @@
 	<Duration x:Key="TabBarIndicatorAnimationDuration">0:0:0.25</Duration>
 
 
-	<Style x:Key="DefaultTabBarStyle"
+	<Style x:Key="BaseTabBarStyle"
 		   TargetType="utu:TabBar">
 		<Setter Property="IsTabStop"
 				Value="False" />
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
 				<ItemsPanelTemplate>
-					<utu:TabBarListPanel />
+					<utu:TabBarListPanel Orientation="Horizontal" />
 				</ItemsPanelTemplate>
 			</Setter.Value>
 		</Setter>
@@ -106,8 +106,6 @@
 							<VisualStateGroup x:Name="OrientationStates">
 								<VisualState x:Name="Horizontal">
 									<VisualState.Setters>
-										<Setter Target="TabBarGrid.Height"
-												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" />
 										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment"
 												Value="Stretch" />
 										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment"
@@ -116,8 +114,6 @@
 								</VisualState>
 								<VisualState x:Name="Vertical">
 									<VisualState.Setters>
-										<Setter Target="TabBarGrid.Width"
-												Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" />
 										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment"
 												Value="Top" />
 										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment"
@@ -136,12 +132,45 @@
 															   Foreground="{TemplateBinding Foreground}"
 															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
 															   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+															   Padding="{TemplateBinding Padding}"
 															   Opacity="0" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
+
+	<Style x:Key="BaseVerticalTabBarStyle"
+		   BasedOn="{StaticResource BaseTabBarStyle}"
+		   TargetType="utu:TabBar">
+		<Setter Property="Orientation" Value="Vertical" />
+		<Setter Property="MinWidth" Value="{StaticResource TabBarHeightOrWidth}" />
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<utu:TabBarListPanel Orientation="Vertical" />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="BaseHorizontalTabBarStyle"
+		   BasedOn="{StaticResource BaseTabBarStyle}"
+		   TargetType="utu:TabBar">
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="MinHeight" Value="{StaticResource TabBarHeightOrWidth}" />
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<utu:TabBarListPanel Orientation="Horizontal" />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="DefaultTabBarStyle"
+		   BasedOn="{StaticResource BaseHorizontalTabBarStyle}"
+		   TargetType="utu:TabBar" />
 
 	<Style x:Key="DefaultTabBarItemStyle"
 		   TargetType="utu:TabBarItem">
@@ -337,6 +366,7 @@
 										  Content="{TemplateBinding Content}"
 										  ContentTemplate="{TemplateBinding ContentTemplate}"
 										  RenderTransformOrigin=".5,.5"
+										  Padding="{TemplateBinding Padding}"
 										  Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Height}"
 										  Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.IndicatorMaxSize.Width}">
 							<ContentPresenter.RenderTransform>
