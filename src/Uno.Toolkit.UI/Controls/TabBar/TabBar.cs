@@ -239,10 +239,10 @@ namespace Uno.Toolkit.UI
 			TabBarItem? oldItem = null;
 			if (args?.OldValue is int oldIndex)
 			{
-				oldItem = this.FindContainerByIndex<TabBarItem>(oldIndex);
+				oldItem = this.ContainerFromIndex(oldIndex) as TabBarItem;
 			}
 
-			var newItem = this.FindContainerByIndex<TabBarItem>(SelectedIndex);
+			var newItem = this.ContainerFromIndex(SelectedIndex) as TabBarItem;
 
 			if (TryUpdateTabBarItemSelectedState(oldItem, newItem))
 			{

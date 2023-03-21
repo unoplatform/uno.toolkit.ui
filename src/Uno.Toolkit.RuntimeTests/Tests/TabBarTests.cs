@@ -146,7 +146,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		{
 			const int NumItems = 3;
 			const double ItemSize = 100d;
-			var source = Enumerable.Range(0, NumItems).Select(x => new TabBarItem { Content = x }).ToArray();
+			var source = Enumerable.Range(0, NumItems).ToArray();
 			var indicator = new Border() { Background = new SolidColorBrush(Colors.Red) };
 			var SUT = new TabBar
 			{
