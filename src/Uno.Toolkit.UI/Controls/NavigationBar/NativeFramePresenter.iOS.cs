@@ -777,6 +777,20 @@ namespace Uno.Toolkit.UI
 				NavigationBarHelper.PageCreated(this);
 			}
 
+
+			public override void ViewDidAppear(bool animated)
+			{
+				try
+				{
+					base.ViewDidAppear(animated);
+
+					NavigationBarHelper.PageDidAppear(this);
+				}
+				catch (Exception e)
+				{
+					this.Log().Error($"{e.Message}", e);
+				}
+			}
 			public override void ViewWillAppear(bool animated)
 			{
 				try

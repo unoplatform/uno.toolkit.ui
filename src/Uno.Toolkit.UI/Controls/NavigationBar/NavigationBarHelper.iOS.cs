@@ -66,10 +66,12 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		/// <param name="pageController">The controller of the page</param>
 		public static void PageWillAppear(UIViewController pageController)
-		{
+		{	
 			var topNavigationBar = pageController.View.FindTopNavigationBar();
 			if (topNavigationBar != null)
 			{
+				EnsureNavigationItem(topNavigationBar, pageController);
+
 				if (topNavigationBar.Visibility == Visibility.Visible)
 				{
 					SetNavigationBar(topNavigationBar, pageController.NavigationController!.NavigationBar);
@@ -94,6 +96,53 @@ namespace Uno.Toolkit.UI
 			else // No NavigationBar
 			{
 				pageController.NavigationController!.SetNavigationBarHidden(true, true);
+			}
+		}
+
+		// In some cases the NavigationBar may not be rendered yet when PageCreated/PageWillAppear is called
+		// This can be the case when the NavigationBar is part of an AutoLayout
+		// since the AutoLayout is delayed in materializing its Children
+		public static void PageDidAppear(UIViewController pageController)
+		{
+			var topNavigationBar = pageController.View.FindTopNavigationBar();
+			if (topNavigationBar != null)
+			{
+				EnsureNavigationItem(topNavigationBar, pageController);	
+
+				if (topNavigationBar.Visibility == Visibility.Visible)
+				{
+					SetNavigationBar(topNavigationBar, pageController.NavigationController!.NavigationBar);
+
+					// When the NavigationBar is visible, we need to call SetNavigationBarHidden
+					// AFTER it has been rendered. Otherwise, it causes a bug introduced
+					// in iOS 11 in which the BackButtonIcon is not rendered properly.
+					pageController.NavigationController.SetNavigationBarHidden(hidden: false, animated: false);
+				}
+				else
+				{
+					// Even if the NavigationBar should technically be collapsed,
+					// we don't hide it using the NavigationController because it
+					// automatically disables the back gesture.
+					// In order to visually hide it, the NavigationBarRenderer
+					// will hide the native view using the UIView.Hidden property.
+					pageController.NavigationController!.SetNavigationBarHidden(hidden: false, animated: false);
+					SetNavigationBar(topNavigationBar, pageController.NavigationController.NavigationBar);
+				}
+			}
+			else // No NavigationBar
+			{
+				pageController.NavigationController!.SetNavigationBarHidden(true, true);
+			}
+		}
+
+		private static void EnsureNavigationItem(NavigationBar topNavigationBar, UIViewController pageController)
+		{
+			// The Native view from the renderer may have been set to a dummy NavigationItem if we were not able to find
+			// a NavigationBar in the PageCreated method. If that is the case, set it to the pageController's NavigationItem
+			var nativeItem = topNavigationBar.GetRenderer(() => (NavigationBarNavigationItemRenderer?)null)?.Native;
+			if (!ReferenceEquals(nativeItem, pageController.NavigationItem))
+			{
+				SetNavigationItem(topNavigationBar, pageController.NavigationItem);
 			}
 		}
 

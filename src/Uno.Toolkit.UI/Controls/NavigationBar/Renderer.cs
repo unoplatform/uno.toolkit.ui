@@ -139,12 +139,13 @@ namespace Uno.Toolkit.UI
 	{
 		private static readonly WeakAttachedDictionary<DependencyObject, Type> _renderers = new WeakAttachedDictionary<DependencyObject, Type>();
 
-		public static TRenderer GetRenderer<TElement, TRenderer>(this TElement element, Func<TRenderer> rendererFactory)
+		public static TRenderer GetRenderer<TElement, TRenderer>(this TElement element, Func<TRenderer>? rendererFactory)
 			where TElement : DependencyObject
 		{
 			return _renderers.GetValue(element, typeof(TRenderer), rendererFactory);
 		}
-		public static TRenderer ResetRenderer<TElement, TRenderer>(this TElement element, Func<TRenderer> rendererFactory)
+
+		public static TRenderer ResetRenderer<TElement, TRenderer>(this TElement element, Func<TRenderer>? rendererFactory)
 			where TElement : DependencyObject
 		{
 			return _renderers.GetValue(element, typeof(TRenderer), rendererFactory);
