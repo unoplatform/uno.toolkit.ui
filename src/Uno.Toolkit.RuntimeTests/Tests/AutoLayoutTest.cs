@@ -152,89 +152,103 @@ internal class AutoLayoutTest
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-		var border1Transform = (MatrixTransform)border1.TransformToVisual(SUT);
-		var border2Transform = (MatrixTransform)border2.TransformToVisual(SUT);
-		var border3Transform = (MatrixTransform)border3.TransformToVisual(SUT);
+		var border1Transform = border1.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		var border2Transform = border2.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		var border3Transform = border3.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
 
 		if (orientation is Orientation.Vertical)
 		{
-			Assert.AreEqual(border1Transform!.Matrix.OffsetY!, rec1expected);;
-			Assert.AreEqual(border2Transform!.Matrix.OffsetY!, rec2expected);
+			Assert.AreEqual(border1Transform!.Y, rec1expected); ;
+			Assert.AreEqual(border2Transform!.Y, rec2expected);
 		}
 		else
 		{
-			Assert.AreEqual(border1Transform!.Matrix.OffsetX!, rec1expected);
-			Assert.AreEqual(border2Transform!.Matrix.OffsetX!, rec2expected);
+			Assert.AreEqual(border1Transform!.X, rec1expected);
+			Assert.AreEqual(border2Transform!.X, rec2expected);
 		}
 
-		Assert.AreEqual(border3Transform!.Matrix.OffsetY!, expectedY);
-		Assert.AreEqual(border3Transform!.Matrix.OffsetX!, expectedX);
+		Assert.AreEqual(border3Transform!.Y, expectedY);
+		Assert.AreEqual(border3Transform!.X, expectedX);
 	}
 
 	[TestMethod]
 	[RequiresFullWindow]
-	[DataRow(true, Orientation.Horizontal, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 205)]
-	[DataRow(true, Orientation.Vertical, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 205)]
-	[DataRow(false, Orientation.Vertical, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 220)]
-	[DataRow(false, Orientation.Horizontal, new[] { 10, 10, 10, 10 }, 10, 298, 110, 10, 220)]
-	public async Task When_Padding(bool isStretch, Orientation orientation, int[] padding, int spacing, double expectedY, double expectedX, double rec1expected, double rec2expected)
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 25)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 25, 100)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 25)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 25)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
+
+	// Issue with TransformToVisual not having the same result in iOS and Android and WinIU uno issue #11774
+	//https://github.com/unoplatform/uno/issues/11774
+#if !(__IOS__ || __ANDROID__)
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, 25, -50)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, -50)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, -50, 25)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, -50, 100)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 25)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, -50)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 25, -50)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, -50)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, -50, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, -50, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, 100)]
+#endif
+
+	public async Task When_Padding(bool isStretch, Orientation orientation, AutoLayoutAlignment primaryAxisAlignment, AutoLayoutAlignment counterAlignment, double rec1expected, double rec2expected)
 	{
 		var SUT = new AutoLayout()
 		{
 			Orientation = orientation,
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
-			Padding = new Thickness(padding[0], padding[1], padding[2], padding[3]),
-			Spacing = spacing,
+			Padding = new Thickness(100),
 			Width = 400,
 			Height = 400,
+			PrimaryAxisAlignment = primaryAxisAlignment,
 		};
 		var border1 = new Border()
 		{
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
-		};
-
-		var border2 = new Border()
-		{
-			Background = new SolidColorBrush(Color.FromArgb(255, 0, 255, 0)),
+			Width = 350,
+			Height = 350,
 		};
 
 		if (isStretch)
 		{
 			AutoLayout.SetPrimaryAlignment(border1, AutoLayoutPrimaryAlignment.Stretch);
-			AutoLayout.SetPrimaryAlignment(border2, AutoLayoutPrimaryAlignment.Stretch);
-		}
-		else
-		{
-			border1!.Width = 200;
-			border2!.Width = 200;
-			border1!.Height = 200;
-			border2!.Height = 200;
 		}
 
-		if (orientation is Orientation.Horizontal)
-		{
-			AutoLayout.SetCounterAlignment(border1, AutoLayoutAlignment.Start);
-			AutoLayout.SetCounterAlignment(border2, AutoLayoutAlignment.Start);
-		}
+		AutoLayout.SetCounterAlignment(border1, counterAlignment);
+
 
 		SUT.Children.Add(border1);
-		SUT.Children.Add(border2);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-		var border1Transform = (MatrixTransform)border1.TransformToVisual(SUT);
-		var border2Transform = (MatrixTransform)border2.TransformToVisual(SUT);
+		var border1Transform = border1.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0,0));
 
-		if (orientation is Orientation.Vertical)
-		{
-			Assert.AreEqual(rec1expected, border1Transform!.Matrix.OffsetY!);
-			Assert.AreEqual(rec2expected, border2Transform!.Matrix.OffsetY!);
-		}
-		else
-		{
-			Assert.AreEqual(rec1expected, border1Transform!.Matrix.OffsetX!);
-			Assert.AreEqual(rec2expected, border2Transform!.Matrix.OffsetX!);
-		}
+		Assert.AreEqual(rec1expected, border1Transform!.Y);
+		Assert.AreEqual(rec2expected, border1Transform!.X);
 	}
 
 	[TestMethod]
@@ -279,7 +293,7 @@ internal class AutoLayoutTest
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
 			Width = SUT.Orientation == Orientation.Vertical ? 200 : 50,
 			Height = SUT.Orientation == Orientation.Vertical ? 50 : 200,
-			Margin = SUT.Orientation == Orientation.Vertical ? new Thickness(10, 280,0 ,0) : new Thickness(100, 10, 0, 0),
+			Margin = SUT.Orientation == Orientation.Vertical ? new Thickness(10, 280, 0, 0) : new Thickness(100, 10, 0, 0),
 			VerticalAlignment = VerticalAlignment.Top,
 			HorizontalAlignment = HorizontalAlignment.Left,
 		};
@@ -293,21 +307,22 @@ internal class AutoLayoutTest
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-		var border1Transform = (MatrixTransform)border1.TransformToVisual(SUT);
-		var border3Transform = (MatrixTransform)border3.TransformToVisual(SUT);
-		var border4Transform = (MatrixTransform)border4.TransformToVisual(SUT);
+
+		var border1Transform = border1.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		var border3Transform = border3.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		var border4Transform = border4.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
 
 		if (orientation == Orientation.Vertical)
 		{
-			Assert.AreEqual(expected1, border1Transform!.Matrix.OffsetY!);
-			Assert.AreEqual(expected2, border3Transform!.Matrix.OffsetY!);
-			Assert.AreEqual(expected3, border4Transform!.Matrix.OffsetY!);
+			Assert.AreEqual(expected1, border1Transform!.Y);
+			Assert.AreEqual(expected2, border3Transform!.Y);
+			Assert.AreEqual(expected3, border4Transform!.Y);
 		}
 		else
 		{
-			Assert.AreEqual(expected1, border1Transform!.Matrix.OffsetX!);
-			Assert.AreEqual(expected2, border3Transform!.Matrix.OffsetX!);
-			Assert.AreEqual(expected3, border4Transform!.Matrix.OffsetX!);
+			Assert.AreEqual(expected1, border1Transform!.X);
+			Assert.AreEqual(expected2, border3Transform!.X);
+			Assert.AreEqual(expected3, border4Transform!.X);
 		}
 	}
 }
