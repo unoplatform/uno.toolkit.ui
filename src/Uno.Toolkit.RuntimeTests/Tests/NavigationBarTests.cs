@@ -199,6 +199,50 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				popup.IsOpen = false;
 			}
 		}
+
+#if __IOS__
+		[TestMethod]
+		public async Task NavigationBar_Does_Render()
+		{
+			var frame = new Frame { Width = 200, Height = 200 }; ;
+			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
+
+			frame.Navigate(typeof(NavBarSimplePage));
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			AssertNavigationBar(frame);
+		}
+
+		[TestMethod]
+		public async Task NavigationBar_Does_Render_Within_AutoLayout()
+		{
+			var frame = new Frame { Width = 200, Height = 200 };;
+			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
+
+			frame.Navigate(typeof(NavBarAutoLayoutPage));
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			AssertNavigationBar(frame);
+		}
+
+		private static void AssertNavigationBar(Frame frame)
+		{
+			var page = frame.Content as Page;
+			var presenter = frame.FindChild<NativeFramePresenter>();
+			var navBar = page?.FindChild<NavigationBar>();
+
+			var renderedNativeNavItem = navBar?.GetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>(null)?.Native;
+			var renderedNativeNavBar = navBar?.GetRenderer<NavigationBar, NavigationBarRenderer>(null)?.Native;
+
+			Assert.IsNotNull(presenter);
+			Assert.IsFalse(presenter!.NavigationController.NavigationBarHidden);
+
+			Assert.AreSame(renderedNativeNavItem, presenter.NavigationController.TopViewController.NavigationItem);
+			Assert.AreSame(renderedNativeNavBar, presenter.NavigationController.NavigationBar);
+		}
+#endif
 	}
 }
 
