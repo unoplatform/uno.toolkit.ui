@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using VisualTreeHelperEx = Uno.Toolkit.Samples.Helpers.VisualTreeHelperEx;
 using Uno.Toolkit.Samples.Content.NestedSamples;
+using Uno.Toolkit.Samples.Content;
 
 namespace Uno.Toolkit.Samples
 {

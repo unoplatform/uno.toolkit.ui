@@ -15,7 +15,6 @@
 				<MaterialColorsV1 xmlns="using:Uno.Material"/>
 				<MaterialResourcesV1 xmlns="using:Uno.Material"/>
 				<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
-									  FontOverrideSource="ms-appx:///MaterialFontsOverride.xaml"
 									  ColorOverrideSource="ms-appx:///ColorPaletteOverride.xaml" />
 
 				<!-- Load Uno.Cupertino resources -->

@@ -54,6 +54,7 @@ namespace Uno.Toolkit.UI
 		{
 			base.OnApplyTemplate();
 			UpdateOrientation();
+			UpdateIndicatorPlacement();
 		}
 
 		protected override bool IsItemItsOwnContainerOverride(object item) => item is TabBarItem;
@@ -192,6 +193,22 @@ namespace Uno.Toolkit.UI
 			{
 				UpdateOrientation();
 			}
+			else if (property == SelectionIndicatorPlacementProperty)
+			{
+				UpdateIndicatorPlacement();
+			}
+		}
+
+		private void UpdateIndicatorPlacement()
+		{
+			var state = SelectionIndicatorPlacement switch
+			{
+				IndicatorPlacement.Above => "Above",
+				IndicatorPlacement.Below => "Below",
+				_ => throw new ArgumentOutOfRangeException(nameof(SelectionIndicatorPlacement))
+			};
+
+			VisualStateManager.GoToState(this, state, useTransitions: false);
 		}
 
 		private void UpdateOrientation()
@@ -237,7 +254,7 @@ namespace Uno.Toolkit.UI
 			}
 
 			TabBarItem? oldItem = null;
-			if (args?.OldValue is int oldIndex)
+			if (args?.OldValue is int oldIndex && oldIndex != -1)
 			{
 				oldItem = this.ContainerFromIndexSafe<TabBarItem>(oldIndex);
 			}
