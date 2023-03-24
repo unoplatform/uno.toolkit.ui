@@ -66,7 +66,7 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		/// <param name="pageController">The controller of the page</param>
 		public static void PageWillAppear(UIViewController pageController)
-		{	
+		{
 			var topNavigationBar = pageController.View.FindTopNavigationBar();
 			if (topNavigationBar != null)
 			{
