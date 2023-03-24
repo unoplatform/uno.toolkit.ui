@@ -75,28 +75,58 @@
 							<VisualStateGroup x:Name="OrientationStates">
 								<VisualState x:Name="Horizontal">
 									<VisualState.Setters>
-										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment" Value="Stretch" />
-										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment" Value="Left" />
+										<Setter Target="BelowSelectionIndicatorPresenter.VerticalContentAlignment" Value="Stretch" />
+										<Setter Target="BelowSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Left" />
+										<Setter Target="AboveSelectionIndicatorPresenter.VerticalContentAlignment" Value="Stretch" />
+										<Setter Target="AboveSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Left" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Vertical">
 									<VisualState.Setters>
-										<Setter Target="SelectionIndicatorPresenter.VerticalContentAlignment" Value="Top" />
-										<Setter Target="SelectionIndicatorPresenter.HorizontalContentAlignment" Value="Stretch" />
+										<Setter Target="BelowSelectionIndicatorPresenter.VerticalContentAlignment" Value="Top" />
+										<Setter Target="BelowSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Stretch" />
+										<Setter Target="AboveSelectionIndicatorPresenter.VerticalContentAlignment" Value="Top" />
+										<Setter Target="AboveSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Stretch" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="IndicatorPlacementStates">
+								<VisualState x:Name="Above">
+									<VisualState.Setters>
+										<Setter Target="AboveSelectionIndicatorPresenter.Visibility" Value="Visible" />
+										<Setter Target="BelowSelectionIndicatorPresenter.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Below">
+									<VisualState.Setters>
+										<Setter Target="BelowSelectionIndicatorPresenter.Visibility" Value="Visible" />
+										<Setter Target="AboveSelectionIndicatorPresenter.Visibility" Value="Collapsed" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-						<ItemsPresenter x:Name="TabBarItemsPresenter"
-										Padding="{TemplateBinding Padding}" />
-						<utu:TabBarSelectionIndicatorPresenter x:Name="SelectionIndicatorPresenter"
+
+						<utu:TabBarSelectionIndicatorPresenter x:Name="BelowSelectionIndicatorPresenter"
 															   Content="{TemplateBinding SelectionIndicatorContent}"
 															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
 															   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
 															   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
 															   Foreground="{TemplateBinding Foreground}"
 															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-															   AutomationProperties.AutomationId="SelectionIndicatorPresenter"
+															   AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
+															   Padding="{TemplateBinding Padding}"
+															   Opacity="0"
+															   Visibility="Collapsed" />
+						<ItemsPresenter x:Name="TabBarItemsPresenter"
+										Padding="{TemplateBinding Padding}" />
+						<utu:TabBarSelectionIndicatorPresenter x:Name="AboveSelectionIndicatorPresenter"
+															   Content="{TemplateBinding SelectionIndicatorContent}"
+															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+															   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
+															   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
+															   Foreground="{TemplateBinding Foreground}"
+															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+															   AutomationProperties.AutomationId="AboveSelectionIndicatorPresenter"
 															   Padding="{TemplateBinding Padding}"
 															   Opacity="0" />
 					</Grid>
@@ -266,7 +296,11 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarSelectionIndicatorPresenter">
-					<Grid x:Name="Root">
+					<Grid x:Name="Root"
+						  Background="{TemplateBinding Background}"
+						  BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  CornerRadius="{TemplateBinding CornerRadius}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="IndicatorTransitionStates">
 								<VisualState x:Name="Horizontal">

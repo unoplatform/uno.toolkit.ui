@@ -133,6 +133,21 @@ namespace Uno.Toolkit.UI
 		}
 
 		#endregion
+		#region DependencyProperty: SelectionIndicatorPlacement
+
+		public static DependencyProperty SelectionIndicatorPlacementProperty { get; } = DependencyProperty.Register(
+			nameof(SelectionIndicatorPlacement),
+			typeof(IndicatorPlacement),
+			typeof(TabBar),
+			new PropertyMetadata(IndicatorPlacement.Above, OnPropertyChanged));
+
+		public IndicatorPlacement SelectionIndicatorPlacement
+		{
+			get => (IndicatorPlacement)GetValue(SelectionIndicatorPlacementProperty);
+			set => SetValue(SelectionIndicatorPlacementProperty, value);
+		}
+
+		#endregion
 
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
 		{

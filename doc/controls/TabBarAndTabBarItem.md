@@ -108,6 +108,7 @@ SelectionIndicatorContent|object|Gets or sets the content to be displayed as the
 SelectionIndicatorContentTemplate|DataTemplate|Gets or sets the data template that is used to display the content of the selection indicator
 SelectionIndicatorPresenterStyle|Style|Gets or sets the style to be applied for the content of the `TabBarSelectionIndicatorPresenter`
 SelectionIndicatorTransitionMode|IndicatorTransitionMode|Gets or sets the behavior of the selection indicator. The indicator can either slide or snap to the newly selected item. Defaults to `Snap`
+SelectionIndicatorPlacement|IndicatorPlacement|Gets or sets the placement of the selection indicator. The indicator can either be display `Above` or `Below` the TabBarItem Content. Defaults to `Above`
 
 > Note: `TabBar` only supports the single selection mode.
 
@@ -140,29 +141,29 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <utu:TabBar Style="{StaticResource MyCustomTabBarStyle}"
-			SelectedIndex="0">
-	<utu:TabBar.SelectionIndicatorContent>
-		<Border Height="2"
-				VerticalAlignment="Bottom"
-				Background="Red" />
-	</utu:TabBar.SelectionIndicatorContent>
-	<utu:TabBar.Items>
-		<utu:TabBarItem Content="HOME">
-			<utu:TabBarItem.Icon>
-				<SymbolIcon Symbol="Home" />
-			</utu:TabBarItem.Icon>
-		</utu:TabBarItem>
-		<utu:TabBarItem Content="SUPPORT">
-			<utu:TabBarItem.Icon>
-				<FontIcon Glyph="&#xE8F2;" />
-			</utu:TabBarItem.Icon>
-		</utu:TabBarItem>
-		<utu:TabBarItem Content="ABOUT">
-			<utu:TabBarItem.Icon>
-				<FontIcon Glyph="&#xE946;" />
-			</utu:TabBarItem.Icon>
-		</utu:TabBarItem>
-	</utu:TabBar.Items>
+            SelectedIndex="0">
+    <utu:TabBar.SelectionIndicatorContent>
+        <Border Height="2"
+                VerticalAlignment="Bottom"
+                Background="Red" />
+    </utu:TabBar.SelectionIndicatorContent>
+    <utu:TabBar.Items>
+        <utu:TabBarItem Content="HOME">
+            <utu:TabBarItem.Icon>
+                <SymbolIcon Symbol="Home" />
+            </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem Content="SUPPORT">
+            <utu:TabBarItem.Icon>
+                <FontIcon Glyph="&#xE8F2;" />
+            </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+        <utu:TabBarItem Content="ABOUT">
+            <utu:TabBarItem.Icon>
+                <FontIcon Glyph="&#xE946;" />
+            </utu:TabBarItem.Icon>
+        </utu:TabBarItem>
+    </utu:TabBar.Items>
 </utu:TabBar>
 ```
 
@@ -180,6 +181,56 @@ The selection indicator has two different transition modes:
 - `IndicatorTransitionMode.Slide`:
 
   ![TabBar with slide selection](../assets/tabbar-selection-slide.gif)
+
+### IndicatorPlacement
+
+By default, the selection indicator is rendered above, on "on top" of, the actual content in the TabBar. For example, the following XAML will result in the screenshot below:
+
+```xml
+<utu:TabBar Margin="50"
+            Width="300"
+            SelectedIndex="1"
+            Background="Green"
+            VerticalAlignment="Center">
+    <utu:TabBar.Items>
+        <utu:TabBarItem Content="Tab 1" />
+        <utu:TabBarItem Content="Tab 2" />
+        <utu:TabBarItem Content="Tab 3" />
+    </utu:TabBar.Items>
+    <utu:TabBar.SelectionIndicatorContentTemplate>
+        <DataTemplate>
+            <Border Background="Red" />
+        </DataTemplate>
+    </utu:TabBar.SelectionIndicatorContentTemplate>
+</utu:TabBar>
+```
+
+![](../assets/tabbar-indicator-placement-above.png)
+
+The `SelectionIndicatorPlacement` property can be used to render the selection indicator "below" the content so it does not obscure the `TabBarItem`:
+
+```xml
+<utu:TabBar Margin="50"
+            Width="300"
+            SelectedIndex="1"
+            Background="Green"
+            SelectionIndicatorPlacement="Below"
+            VerticalAlignment="Center">
+    <utu:TabBar.Items>
+        <utu:TabBarItem Content="Tab 1" />
+        <utu:TabBarItem Content="Tab 2" />
+        <utu:TabBarItem Content="Tab 3" />
+    </utu:TabBar.Items>
+    <utu:TabBar.SelectionIndicatorContentTemplate>
+        <DataTemplate>
+            <Border Background="Red" />
+        </DataTemplate>
+    </utu:TabBar.SelectionIndicatorContentTemplate>
+</utu:TabBar>
+```
+
+![](../assets/tabbar-indicator-placement-below.png)
+
 
 ### Further Customization
 

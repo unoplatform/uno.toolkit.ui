@@ -10,17 +10,20 @@ using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using Uno.UI.Extensions;
 using Windows.Foundation;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.UI;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 #else
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
-using Windows.UI;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 #endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests
@@ -260,6 +263,150 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 					_ => throw new ArgumentOutOfRangeException(nameof(orientation))
 				};
 			}
+		}
+
+		[TestMethod]
+		public async Task Verify_Indicator_Display_On_Selection()
+		{
+			const int NumItems = 3;
+			var SUT = new TabBar
+			{
+				Background = new SolidColorBrush(Colors.Transparent),
+				SelectionIndicatorContentTemplate = XamlHelper.LoadXaml<DataTemplate>(@"
+					<DataTemplate>
+						<Border Background=""Red"" />
+					</DataTemplate>
+				"),
+				SelectionIndicatorPlacement = IndicatorPlacement.Above,
+			};
+
+			foreach (var item in Enumerable.Range(0, NumItems).Select(_ => CreateItem()))
+			{
+				SUT.Items.Add(item);
+			}
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			var renderer = new RenderTargetBitmap();
+
+			for (int i = 0; i < NumItems; i++)
+			{
+				SUT.SelectedIndex = i;
+				await UnitTestsUIContentHelper.WaitForIdle();
+
+				var selectedItem = SUT.ContainerFromItem(SUT.SelectedItem) as TabBarItem;
+				Assert.IsNotNull(selectedItem);
+
+				await renderer.RenderAsync(SUT);
+				var centerPoint = selectedItem!.TransformToVisual(SUT).TransformPoint(new Point(selectedItem.ActualWidth / 2, selectedItem.ActualHeight / 2));
+				var pixel = await GetColorAt(renderer, (int)centerPoint.X, (int)centerPoint.Y);
+
+				AssertExpectedColor(Colors.Red, pixel);
+
+				foreach (var nonSelected in SUT.Items.Cast<TabBarItem>().Where(x => !x.IsSelected))
+				{
+					centerPoint = nonSelected.TransformToVisual(SUT).TransformPoint(new Point(nonSelected.ActualWidth / 2, nonSelected.ActualHeight / 2));
+					pixel = await GetColorAt(renderer, (int)centerPoint.X, (int)centerPoint.Y);
+					AssertExpectedColor(Colors.Green, pixel);
+				}
+			}
+
+			TabBarItem CreateItem()
+			{
+				return new TabBarItem
+				{
+					Content = new Border
+					{
+						Padding = new Thickness(20),
+						Background = new SolidColorBrush(Colors.Green),
+					}
+				};
+			}
+		}
+
+		[TestMethod]
+		[DataRow(true, DisplayName = "Verify Indicator Above")]
+		[DataRow(false, DisplayName = "Verify Indicator Below")]
+		public async Task Verify_Indicator_Placement(bool isAbove)
+		{
+			var item = new TabBarItem
+			{
+				Content = new Border
+				{
+					Padding = new Thickness(20),
+					Background = new SolidColorBrush(Colors.Green),
+				}
+			};
+
+			var SUT = new TabBar
+			{
+				Background = new SolidColorBrush(Colors.Transparent),
+				SelectionIndicatorContentTemplate = XamlHelper.LoadXaml<DataTemplate>(@"
+					<DataTemplate>
+						<Border Background=""Red"" />
+					</DataTemplate>
+				"),
+				SelectedIndex = 0,
+				SelectionIndicatorPlacement = isAbove ? IndicatorPlacement.Above : IndicatorPlacement.Below,
+			};
+			SUT.Items.Add(item);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			var belowPresenter = VisualTreeHelperEx
+				.GetFirstDescendant<TabBarSelectionIndicatorPresenter>(SUT, x => x.Name == "BelowSelectionIndicatorPresenter");
+			var abovePresenter = VisualTreeHelperEx
+				.GetFirstDescendant<TabBarSelectionIndicatorPresenter>(SUT, x => x.Name == "AboveSelectionIndicatorPresenter");
+
+			
+
+			var renderer = new RenderTargetBitmap();
+			await renderer.RenderAsync(SUT);
+
+			var centerPoint = item.TransformToVisual(SUT).TransformPoint(new Point(item.ActualWidth / 2, item.ActualHeight / 2));
+			var pixel = await GetColorAt(renderer, (int)centerPoint.X, (int)centerPoint.Y);
+
+			if (isAbove)
+			{
+				Assert.AreEqual(Visibility.Collapsed, belowPresenter!.Visibility);
+				Assert.AreEqual(Visibility.Visible, abovePresenter!.Visibility);
+
+				AssertExpectedColor(Colors.Red, pixel);
+			}
+			else
+			{
+				Assert.AreEqual(Visibility.Visible, belowPresenter!.Visibility);
+				Assert.AreEqual(Visibility.Collapsed, abovePresenter!.Visibility);
+
+				AssertExpectedColor(Colors.Green, pixel);
+			}
+		}
+
+		private static void AssertExpectedColor(Color expected, Color actual)
+		{
+			Assert.AreEqual(expected.A, actual.A);
+			Assert.AreEqual(expected.R, actual.R);
+			Assert.AreEqual(expected.G, actual.G);
+			Assert.AreEqual(expected.B, actual.B);
+		}
+
+		private static async Task<Color> GetColorAt(RenderTargetBitmap? bitmap, int x, int y)
+		{
+			if (bitmap is null)
+			{
+				throw new ArgumentNullException(nameof(bitmap));
+			}
+
+			var pixelBuffer = await bitmap.GetPixelsAsync();
+			var pixels = pixelBuffer.ToArray();
+
+			var offset = (y * bitmap.PixelWidth + x) * 4;
+			var a = pixels[offset + 3];
+			var r = pixels[offset + 2];
+			var g = pixels[offset + 1];
+			var b = pixels[offset + 0];
+
+			return Color.FromArgb(a, r, g, b);
 		}
 	}
 }
