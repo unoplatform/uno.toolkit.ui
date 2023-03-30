@@ -174,9 +174,12 @@ The result would be:
 
 The selection indicator has two different transition modes: 
 - `IndicatorTransitionMode.Snap` (default mode):
-  ![](../assets/tabbar-selection-snap.gif)
+
+  ![TabBar with snap selection](../assets/tabbar-selection-snap.gif)
+
 - `IndicatorTransitionMode.Slide`:
-  ![](../assets/tabbar-selection-slide.gif)
+
+  ![TabBar with slide selection](../assets/tabbar-selection-slide.gif)
 
 ### Further Customization
 
