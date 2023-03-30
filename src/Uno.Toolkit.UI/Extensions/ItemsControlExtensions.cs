@@ -61,7 +61,14 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Gets the container for the given index.
 		/// </summary>
-		public static T? FindContainerByIndex<T>(this ItemsControl itemsControl, int index) where T : class? => 
-			itemsControl.GetItems()?.OfType<T>().Skip(index).FirstOrDefault();
+		public static T? ContainerFromIndexSafe<T>(this ItemsControl itemsControl, int index) where T : class?
+		{
+			if (index >= 0 && index < itemsControl.Items.Count)
+			{
+				return itemsControl.ContainerFromIndex(index) as T;
+			}
+
+			return null;
+		}
 	}
 }
