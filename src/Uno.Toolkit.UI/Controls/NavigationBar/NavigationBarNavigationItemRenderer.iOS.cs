@@ -34,17 +34,23 @@ namespace Uno.Toolkit.UI
 	internal partial class NavigationBarNavigationItemRenderer : Renderer<NavigationBar, UINavigationItem>
 	{
 		private TitleView? _titleView;
+		private UINavigationItem? _backItem;
 
 		private readonly SerialDisposable _visibilitySubscriptions = new SerialDisposable();
 
 		public NavigationBarNavigationItemRenderer(NavigationBar element) : base(element) { }
 
+		public void SetBackItem(UINavigationItem? backItem)
+		{
+			_backItem = backItem;
+			Invalidate();
+		}
+
 		protected override UINavigationItem CreateNativeInstance() => new UINavigationItem();
 
 		protected override IEnumerable<IDisposable> Initialize()
 		{
-			var element = Element;
-			if (element == null)
+			if (Element is not { } element)
 			{
 				yield break;
 			}
@@ -80,6 +86,7 @@ namespace Uno.Toolkit.UI
 				(s, e) => RegisterCommandVisibilityAndInvalidate(),
 				new[] { NavigationBar.PrimaryCommandsProperty },
 				new[] { NavigationBar.ContentProperty },
+				new[] { NavigationBar.MainCommandModeProperty },
 				new[] { NavigationBar.MainCommandProperty },
 				new[] { NavigationBar.MainCommandProperty, AppBarButton.VisibilityProperty },
 				new[] { NavigationBar.MainCommandProperty, AppBarButton.ContentProperty }
@@ -100,16 +107,11 @@ namespace Uno.Toolkit.UI
 
 		protected override void Render()
 		{
-			var native = Native;
-			var element = Element;
-
-			if (native == null)
-			{
-				throw new InvalidOperationException("Native should not be null.");
-			}
+			var native = Native ?? throw new ArgumentNullException(nameof(Native));
+			var element = Element ?? throw new ArgumentNullException(nameof(Element));
 
 			// Content
-			var content = element!.Content;
+			var content = element.Content;
 
 			native.Title = content as string;
 			native.TitleView = content is UIElement ? _titleView : null;
@@ -119,7 +121,7 @@ namespace Uno.Toolkit.UI
 			}
 
 			// PrimaryCommands
-			native.RightBarButtonItems = element?
+			native.RightBarButtonItems = element
 				.PrimaryCommands
 				.OfType<AppBarButton>()
 				.Where(btn => btn.Visibility == Visibility.Visible && (((btn.Content as FrameworkElement)?.Visibility ?? Visibility.Visible) == Visibility.Visible))
@@ -129,15 +131,29 @@ namespace Uno.Toolkit.UI
 				.ToArray();
 
 			// MainCommand
-			var navigationCommand = element!.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
+			var navigationCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
 			if (navigationCommand?.Visibility == Visibility.Visible)
 			{
 				navigationCommand.SetParent(Element);
 
 				var mode = (MainCommandMode)element.GetValue(NavigationBar.MainCommandModeProperty);
-				if (mode == MainCommandMode.Action)
+				if (mode == MainCommandMode.Action ||
+					(mode == MainCommandMode.Back && _backItem == null))
 				{
 					native.LeftBarButtonItem = navigationCommand.GetRenderer(() => new AppBarButtonRenderer(navigationCommand)).Native;
+				}
+				else
+				{
+					native.LeftBarButtonItem = null;
+
+					// If navigating from ViewController A to ViewController B, B's back button text is determined by A's BackButtonTitle.
+					// Therefore, we need to set the BackButtonTitle of A's ViewController to the value B's NavigationBar.MainCommand.Label.
+					// If B's NavigationBar.MainCommand.Label is not set, the BackButtonTitle of A's ViewController will default to either "Back"
+					// or the value of A's NavigationBar.Content if it is a string
+					if (_backItem is { } backItem)
+					{
+						backItem.BackButtonTitle = navigationCommand.Content as string ?? navigationCommand.Label;
+					}
 				}
 			}
 			else

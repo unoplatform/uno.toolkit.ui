@@ -876,18 +876,13 @@ namespace Uno.Toolkit.UI
 			{
 				base.PushViewController(viewController, animated);
 
-				// If navigating from ViewController A to ViewController B, B's back button text is determined by A's NavigationBar.MainCommand.Label.
 				if (viewController is PageViewController pvc)
 				{
 					var pushedNavBar = pvc.GetNavigationBar();
-					if (pushedNavBar?.MainCommandMode == MainCommandMode.Back
-						&& pushedNavBar?.MainCommand?.Label is string backButtonTitle
-						&& LowerController?.NavigationItem is { } previousNavItem)
-					{
-						previousNavItem.BackButtonTitle = backButtonTitle;
-					}
+
+					var renderer = pushedNavBar?.GetRenderer(() => (NavigationBarNavigationItemRenderer?)null);
+					renderer?.SetBackItem(LowerController?.NavigationItem);
 				}
-				
 			}
 		}
 

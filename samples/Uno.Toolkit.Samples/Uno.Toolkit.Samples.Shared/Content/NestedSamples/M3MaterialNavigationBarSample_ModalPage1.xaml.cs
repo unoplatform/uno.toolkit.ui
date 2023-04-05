@@ -37,7 +37,7 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples
 			this.InitializeComponent();
 		}
 
-		private void NavigateToNextPage(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(MaterialNavigationBarSample_ModalPage2));
+		private void NavigateToNextPage(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(M3MaterialNavigationBarSample_ModalPage2));
 
 		private void NavigateBack(object sender, RoutedEventArgs e) => Shell.GetForCurrentView().BackNavigateFromNestedSample();
 	}

@@ -74,13 +74,13 @@
 						<Button.Flyout>
 							<Flyout x:Name="M3ModalFlyout"
                                     Opened="M3ModalFlyout_Opened"
-                                    Placement="Bottom">
+                                    Placement="Full">
 								<Flyout.FlyoutPresenterStyle>
 									<Style TargetType="FlyoutPresenter">
-										<Setter Property="MinWidth"
-                                                Value="200" />
+										<Setter Property="Width"
+                                                Value="900" />
 										<Setter Property="MinHeight"
-                                                Value="200" />
+                                                Value="600" />
 									</Style>
 								</Flyout.FlyoutPresenterStyle>
 
