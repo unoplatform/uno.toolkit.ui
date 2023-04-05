@@ -20,6 +20,12 @@
     <None Remove="Assets\Fonts\Material\Roboto-Light.ttf" />
     <None Remove="Assets\Fonts\Material\Roboto-Medium.ttf" />
     <None Remove="Assets\Fonts\Material\Roboto-Regular.ttf" />
+    <None Remove="Images\SplashScreen.png" />
+    <None Remove="Images\SplashScreen.scale-100.png" />
+    <None Remove="Images\SplashScreen.scale-125.png" />
+    <None Remove="Images\SplashScreen.scale-150.png" />
+    <None Remove="Images\SplashScreen.scale-200.png" />
+    <None Remove="Images\SplashScreen.scale-400.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\Uno.Toolkit.WinUI.Samples.Windows.Package\Images\StoreLogo.png" Link="Assets\StoreLogo.png" />
@@ -27,9 +33,15 @@
     <Content Include="Assets\Fonts\Material\Roboto-Light.ttf" />
     <Content Include="Assets\Fonts\Material\Roboto-Medium.ttf" />
     <Content Include="Assets\Fonts\Material\Roboto-Regular.ttf" />
+    <Content Include="Images\SplashScreen.png" />
+    <Content Include="Images\SplashScreen.scale-100.png" />
+    <Content Include="Images\SplashScreen.scale-125.png" />
+    <Content Include="Images\SplashScreen.scale-150.png" />
+    <Content Include="Images\SplashScreen.scale-200.png" />
+    <Content Include="Images\SplashScreen.scale-400.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Uno.Toolkit.WinUI.Samples.Windows.Package\Package.appxmanifest" Link="Package.appxmanifest" />
+    <EmbeddedResource Include="..\Uno.Toolkit.WinUI.Samples.Windows.Package\Package.appxmanifest" Link="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" />

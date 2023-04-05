@@ -49,6 +49,25 @@ public partial class ExtendedSplashScreen : LoadingView
 
 	#endregion
 
+	#region DependencyProperty: Platforms
+
+	public static DependencyProperty PlatformsProperty { get; } = DependencyProperty.Register(
+		nameof(Platforms),
+		typeof(SplashScreenPlatform),
+		typeof(ExtendedSplashScreen),
+		new PropertyMetadata(SplashScreenPlatform.All));
+
+	/// <summary>
+	/// Gets or sets the list of platforms where extended splash screen should be used.
+	/// </summary>
+	public SplashScreenPlatform Platforms
+	{
+		get => (SplashScreenPlatform)GetValue(PlatformsProperty);
+		set => SetValue(PlatformsProperty, value);
+	}
+
+	#endregion
+
 	protected override void OnApplyTemplate()
 	{
 		base.OnApplyTemplate();
@@ -71,7 +90,7 @@ public partial class ExtendedSplashScreen : LoadingView
 	}
 
 
-#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP)
+#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP || NETSTANDARD2_0)
 	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
 		return Task.FromResult<FrameworkElement?>(null);

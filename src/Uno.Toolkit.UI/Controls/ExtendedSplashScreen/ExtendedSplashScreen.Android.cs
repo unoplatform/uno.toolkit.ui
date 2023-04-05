@@ -22,10 +22,15 @@ namespace Uno.Toolkit.UI;
 
 public partial class ExtendedSplashScreen
 {
-	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+	private Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
 		try
 		{
+			if ((Platforms & SplashScreenPlatform.Android) == 0)
+			{
+				return Task.FromResult<FrameworkElement?>(null);
+			}
+
 			var activity = ContextHelper.Current as Activity;
 			if (activity is null)
 			{
