@@ -114,6 +114,7 @@ SelectionIndicatorTransitionMode|IndicatorTransitionMode|Gets or sets the behavi
 ### Events
 
 All events below are forwarded from the nested `TabBarItem`s:
+
 Event|Type|Description
 -|-|-
 SelectionChanged|`TypedEventHandler<TabBar, TabBarSelectionChangedEventArgs>`|Occurs when a `TabBarItem`'s selection state has changed.
