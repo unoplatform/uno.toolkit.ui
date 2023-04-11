@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Uno.Toolkit.Samples.Content.NestedSamples;
 using Uno.Toolkit.Samples.Entities;
 using Uno.Toolkit.Samples.ViewModels;
+using Uno.UI;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -70,7 +71,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		{
 			Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialVerticalBarSampleNestedPage>(clearStack: true);
 		}
-	}
+    }
 
 	public class TabBarViewModel : ViewModelBase
 	{
