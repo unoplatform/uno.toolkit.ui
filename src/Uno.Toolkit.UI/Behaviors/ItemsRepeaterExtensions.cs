@@ -264,7 +264,7 @@ public static partial class ItemsRepeaterExtensions
 			{
 				if (e.NewValue == null) return Array.Empty<int>();
 
-				var selectedItems = e.Property == SelectedItemsProperty
+				var selectedItems = e.Property == SelectedItemProperty
 					? new[] { e.NewValue }
 					: (IList<object>)e.NewValue;
 

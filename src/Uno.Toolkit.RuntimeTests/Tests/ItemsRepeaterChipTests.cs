@@ -146,7 +146,7 @@ internal class ItemsRepeaterChipTests
 
 	#endregion
 
-	private static ItemsRepeater SetupItemsRepeater(object source, ItemsSelectionMode mode)
+	internal static ItemsRepeater SetupItemsRepeater(object source, ItemsSelectionMode mode)
 	{
 		var SUT = new ItemsRepeater
 		{
@@ -162,7 +162,7 @@ internal class ItemsRepeaterChipTests
 		return SUT;
 	}
 
-	private static bool? IsChipSelectedAt(ItemsRepeater ir, int index)
+	internal static bool? IsChipSelectedAt(ItemsRepeater ir, int index)
 	{
 		return (ir.TryGetElement(index) as ChipControl)?.IsChecked;
 	}
@@ -170,14 +170,14 @@ internal class ItemsRepeaterChipTests
 	// since we are not using IsThreeState=True, the values can only be true/false.
 	// if any of them is null, that means there is another problem and should be thrown.
 	// therefore, only == check should be used in an assertion.
-	private static bool?[] GetChipsSelectionState(ItemsRepeater ir)
+	internal static bool?[] GetChipsSelectionState(ItemsRepeater ir)
 	{
 		return (ir.ItemsSource as IEnumerable)?.Cast<object>()
 			.Select((_, i) => (ir.TryGetElement(i) as ChipControl)?.IsChecked)
 			.ToArray() ?? new bool?[0];
 	}
 
-	private static void FakeTapItemAt(ItemsRepeater ir, int index)
+	internal static void FakeTapItemAt(ItemsRepeater ir, int index)
 	{
 		if (ir.TryGetElement(index) is { } element)
 		{
