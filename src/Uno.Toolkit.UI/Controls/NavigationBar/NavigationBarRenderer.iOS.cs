@@ -39,9 +39,9 @@ namespace Uno.Toolkit.UI
 		protected override UINavigationBar CreateNativeInstance()
 		{
 			var navigationBar = new UINavigationBar();
-			if (Element is { })
+			if (Element is { } element)
 			{
-				var navigationItem = Element.GetRenderer(() => new NavigationBarNavigationItemRenderer(Element)).Native;
+				var navigationItem = element.GetRenderer(() => new NavigationBarNavigationItemRenderer(element)).Native;
 				navigationBar.PushNavigationItem(navigationItem!, false);
 			}
 
@@ -50,12 +50,12 @@ namespace Uno.Toolkit.UI
 
 		protected override IEnumerable<IDisposable> Initialize()
 		{
-			if (Element == null)
+			if (Element is not { } element)
 			{
 				yield break;
 			}
 
-			yield return Element.RegisterDisposableNestedPropertyChangedCallback(
+			yield return element.RegisterDisposableNestedPropertyChangedCallback(
 				(s, e) => Invalidate(),
 				new[] { NavigationBar.VisibilityProperty },
 				new[] { NavigationBar.PrimaryCommandsProperty },
@@ -73,17 +73,14 @@ namespace Uno.Toolkit.UI
 
 		protected override void Render()
 		{
-			if (Element is null)
-			{
-				return;
-			}
+			var native = Native ?? throw new ArgumentNullException(nameof(Native));
+			var element = Element ?? throw new ArgumentNullException(nameof(Element));
 
 			ApplyVisibility();
 			var appearance = new UINavigationBarAppearance();
-			var native = Native;
 
 			// Background
-			if (ColorHelper.TryGetColorWithOpacity(Element.Background, out var backgroundColor))
+			if (ColorHelper.TryGetColorWithOpacity(element.Background, out var backgroundColor))
 			{
 				switch (backgroundColor)
 				{
@@ -165,7 +162,7 @@ namespace Uno.Toolkit.UI
 			}
 
 			// Foreground
-			if (ColorHelper.TryGetColorWithOpacity(Element.Foreground, out var foregroundColor))
+			if (ColorHelper.TryGetColorWithOpacity(element.Foreground, out var foregroundColor))
 			{
 				if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
 				{
@@ -200,20 +197,20 @@ namespace Uno.Toolkit.UI
 				}
 			}
 
-			var mainCommand = Element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
+			var mainCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
 
 			// MainCommand.Foreground
 			Windows.UI.Color? mainForeground = null;
 
 			if (mainCommand is { }
-				&& mainCommand.ReadLocalValue(AppBarButton.ForegroundProperty) != DependencyProperty.UnsetValue
 				&& ColorHelper.TryGetColorWithOpacity(mainCommand.Foreground, out var mainCommandForeground))
 			{
 				native.TintColor = mainForeground = mainCommandForeground;
 			}
 
 			// MainCommand.Icon
-			var mainCommandIcon = mainCommand?.Icon is BitmapIcon bitmapIcon
+			var mainCommandIcon =
+				mainCommand?.Icon is BitmapIcon bitmapIcon
 				? ImageHelper.FromUri(bitmapIcon.UriSource)?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
 				: null;
 
@@ -232,11 +229,16 @@ namespace Uno.Toolkit.UI
 
 					backButtonAppearance.Normal.TitleTextAttributes = attributes;
 					backButtonAppearance.Highlighted.TitleTextAttributes = attributes;
-
+					
 					if (mainCommandIcon is { } image)
 					{
 						var tintedImage = image.ApplyTintColor(foreground);
 						appearance.SetBackIndicatorImage(tintedImage, tintedImage);
+					}
+					else if (appearance.BackIndicatorImage is { } backImage)
+					{
+						var tintedBack = backImage.ApplyTintColor(foreground);
+						appearance.SetBackIndicatorImage(tintedBack, tintedBack);
 					}
 				}
 				else

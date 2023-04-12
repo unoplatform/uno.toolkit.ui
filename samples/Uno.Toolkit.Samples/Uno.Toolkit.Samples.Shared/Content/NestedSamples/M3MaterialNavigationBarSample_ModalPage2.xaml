@@ -19,10 +19,9 @@
                            AutomationProperties.AutomationId="M3Page2NavBar"
 						   MainCommandMode="Back">
             <utu:NavigationBar.MainCommand>
-                <AppBarButton Click="NavigateBack"
-                              Label="Back">
-                </AppBarButton>
-            </utu:NavigationBar.MainCommand>
+				<AppBarButton Click="NavigateBack"
+							  Label="Return" />
+			</utu:NavigationBar.MainCommand>
             <utu:NavigationBar.PrimaryCommands>
                 <AppBarButton Style="{StaticResource MaterialAppBarButtonStyle}"
 							  Label="More" />

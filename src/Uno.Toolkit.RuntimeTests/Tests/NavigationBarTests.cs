@@ -12,13 +12,19 @@ using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using Windows.System;
 
+#if __IOS__
+using UIKit;
+#endif
+
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
 #else
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
@@ -202,6 +208,86 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 #if __IOS__
 		[TestMethod]
+		public async Task Can_Set_MainCommand_Label_Or_Content()
+		{
+			Frame frame = new Frame() { Width = 400, Height = 400 };
+			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			// FirstPage
+			var firstNavBar = await LoadNavigationBarFrom<FirstPage>();
+			Assert.IsNull(firstNavBar?.BackItem);
+
+			// LabelTitlePage
+			var labelTitleNavBar = await LoadNavigationBarFrom<LabelTitlePage>();
+			Assert.AreEqual("Label Title", labelTitleNavBar?.BackItem?.BackButtonTitle);
+
+			// ContentTitlePage 
+			var contentTitleNavBar = await LoadNavigationBarFrom<ContentTitlePage>();
+			Assert.AreEqual("Content Title", contentTitleNavBar?.BackItem?.BackButtonTitle);
+
+			async Task<UINavigationBar?> LoadNavigationBarFrom<TPage>() where TPage : Page
+			{
+				frame.Navigate(typeof(TPage));
+				await UnitTestsUIContentHelper.WaitForIdle();
+
+				var page = frame.Content as TPage;
+				await UnitTestsUIContentHelper.WaitForLoaded(page!);
+				var navBar = page?.FindChild<NavigationBar>();
+				return navBar?.GetRenderer<NavigationBar, NavigationBarRenderer>(null)?.Native;
+			}	
+		}
+
+		[TestMethod]
+		public async Task MainCommand_Use_LeftBarButtonItem_When_No_BackStack()
+		{
+			NavigationBar? firstPageNavBar = null;
+			NavigationBar? secondPageNavBar = null;
+
+			var popup = new Popup { Width = 100, Height = 100, HorizontalOffset = 100, VerticalOffset = 100 };
+			
+			var content = new Border { Width = 100, Height = 100, Child = popup };
+			var frame = new Frame() { Width = 400, Height = 400 };
+
+			popup.Child = frame;
+
+			try
+			{
+				await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+				popup.IsOpen = true;
+
+				await UnitTestsUIContentHelper.WaitForIdle();
+
+				frame.Navigate(typeof(NavBarFirstPage));
+
+				await UnitTestsUIContentHelper.WaitForIdle();
+
+				var firstPage = frame.Content as NavBarFirstPage;
+				firstPageNavBar = firstPage?.FindChild<NavigationBar>();
+
+				var renderedNativeNavItem = firstPageNavBar?.GetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>(null)?.Native;
+
+				Assert.IsNotNull(renderedNativeNavItem?.LeftBarButtonItem);
+				
+				frame.Navigate(typeof(NavBarSecondPage));
+
+				await UnitTestsUIContentHelper.WaitForIdle();
+
+				var secondPage = frame.Content as NavBarSecondPage;
+				secondPageNavBar = secondPage?.FindChild<NavigationBar>();
+
+				renderedNativeNavItem = secondPageNavBar?.GetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>(null)?.Native;
+
+				Assert.IsNull(renderedNativeNavItem?.LeftBarButtonItem);
+			}
+			finally
+			{
+				popup.IsOpen = false;
+			}
+		}
+
+		[TestMethod]
 		public async Task NavigationBar_Does_Render()
 		{
 			var frame = new Frame { Width = 200, Height = 200 }; ;
@@ -241,6 +327,59 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			Assert.AreSame(renderedNativeNavItem, presenter.NavigationController.TopViewController.NavigationItem);
 			Assert.AreSame(renderedNativeNavBar, presenter.NavigationController.NavigationBar);
+		}
+
+		private sealed partial class FirstPage : Page
+		{
+			public FirstPage()
+			{
+				Content = new NavigationBar
+				{
+					Content = "First Page"
+				};
+			}
+		}
+
+		private sealed partial class LabelTitlePage : Page
+		{
+			public LabelTitlePage()
+			{
+				Content = new NavigationBar
+				{
+					MainCommand = new AppBarButton
+					{
+						Label = "Label Title"
+					}
+				};
+			}
+		}
+		private sealed partial class ContentTitlePage : Page
+		{
+			public ContentTitlePage()
+			{
+				Content = new NavigationBar
+				{
+					MainCommand = new AppBarButton
+					{
+						Content = "Content Title"
+					}
+				};
+			}
+		}
+
+		private partial class NavBarTestPage : Page
+		{
+			protected static FrameworkElement? PageContent;
+			public static IDisposable SetPageContent(FrameworkElement pageContent)
+			{
+				PageContent = pageContent;
+				return Disposable.Create(() => PageContent = null);
+			}
+
+			public NavBarTestPage()
+			{
+				Content = PageContent;
+			}
 		}
 #endif
 	}
