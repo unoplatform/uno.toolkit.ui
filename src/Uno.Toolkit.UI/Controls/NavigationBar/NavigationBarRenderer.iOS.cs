@@ -189,7 +189,7 @@ namespace Uno.Toolkit.UI
 			}
 			else
 			{
-				if(UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+				if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
 				{
 					appearance.TitleTextAttributes = new UIStringAttributes();
 					appearance.LargeTitleTextAttributes = new UIStringAttributes();

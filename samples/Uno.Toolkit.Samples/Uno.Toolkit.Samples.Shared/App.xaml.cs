@@ -99,17 +99,19 @@ namespace Uno.Toolkit.Samples
 			_window = XamlWindow.Current;
 #endif
 
-			if(_window.Content is null)
+			if (_window.Content is null)
 			{
-				var loadable = new ManualLoadable { IsExecuting=true};
-				var splash = new ExtendedSplashScreen {
-					Window= _window,
+				var loadable = new ManualLoadable { IsExecuting = true };
+				var splash = new ExtendedSplashScreen
+				{
+					Window = _window,
 #if IS_WINUI
 					SplashScreen = e.UWPLaunchActivatedEventArgs.SplashScreen,
 #else
 					SplashScreen = e.SplashScreen,
 #endif
-					Source = loadable };
+					Source = loadable
+				};
 				_window.Content = splash;
 				// Ensure the current window is active
 				_window.Activate();
@@ -130,9 +132,12 @@ namespace Uno.Toolkit.Samples
 		{
 			private bool isExecuting;
 
-			public bool IsExecuting {
+			public bool IsExecuting
+			{
 				get => isExecuting;
-				set { isExecuting = value;
+				set
+				{
+					isExecuting = value;
 					IsExecutingChanged?.Invoke(this, EventArgs.Empty);
 				}
 			}

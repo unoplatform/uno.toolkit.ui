@@ -41,7 +41,7 @@ namespace Uno.Toolkit.UI
 		private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 		{
 #if WINDOWS_UWP || WINDOWS
-			if((Platforms & SplashScreenPlatform.Windows) == 0)
+			if ((Platforms & SplashScreenPlatform.Windows) == 0)
 			{
 				return null;
 			}
@@ -94,7 +94,7 @@ namespace Uno.Toolkit.UI
 			}
 
 #if WINDOWS
-				splashScreenElement.Loaded += (s, e) => scaleFactor = splashScreenElement.XamlRoot.RasterizationScale;
+			splashScreenElement.Loaded += (s, e) => scaleFactor = splashScreenElement.XamlRoot.RasterizationScale;
 #endif
 
 			// Only use image location (Left/Top) if there's a width/height specified
