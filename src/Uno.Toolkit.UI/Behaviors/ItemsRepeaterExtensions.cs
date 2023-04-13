@@ -239,12 +239,18 @@ public static partial class ItemsRepeaterExtensions
 			if (ir.ItemsSourceView is { Count: > 0 })
 			{
 				var indexes = MapStateToIndexes();
-				if (indexes.All(x => 0 <= x && x < ir.ItemsSourceView.Count))
+
+				// validate indexes are within bounds
+				var count = ir.ItemsSourceView.Count;
+				if (indexes.All(x => 0 <= x && x < count))
 				{
+					// commit selection change
 					SetSelectionStates(ir, indexes);
+					SynchronizeMaterializedElementsSelection(ir);
 				}
 				else
 				{
+					// rollback
 					ir.SetValue(e.Property, e.OldValue);
 				}
 			}
