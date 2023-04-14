@@ -26,8 +26,8 @@ export UNO_ORIGINAL_TEST_RESULTS=$BUILD_SOURCESDIRECTORY/build/$UNO_TEST_RESULTS
 export UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH=$UNO_ORIGINAL_TEST_RESULTS
 export UNO_TESTS_RESPONSE_FILE=$BUILD_SOURCESDIRECTORY/build/nunit.response
 export UNO_UITEST_SIMULATOR_VERSION="com.apple.CoreSimulator.SimRuntime.iOS-15-2"
-export UNO_UITEST_SIMULATOR_NAME="iPad Pro (12.9-inch) (4th generation)"
-export UITEST_IOSDEVICE_ID="iPad Pro (12.9-inch) (4th generation)"
+export UNO_UITEST_SIMULATOR_NAME="iPad Pro (12.9-inch) (5th generation)"
+export UITEST_IOSDEVICE_ID="iPad Pro (12.9-inch) (5th generation)"
 
 echo "Listing iOS simulators"
 xcrun simctl list devices --json
