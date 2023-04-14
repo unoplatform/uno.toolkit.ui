@@ -3,7 +3,7 @@
   displayName: 'Build iOS Samples App'
 
   pool:
-    vmImage: 'macOS-11'
+    vmImage: 'macos-12'
 
   variables:
     CI_Build: true
@@ -107,7 +107,7 @@
         SAMPLEAPP_ARTIFACT_NAME: sampleapp-ios-build-WinUI
 
   pool:
-    vmImage: 'macOS-11'
+    vmImage: 'macos-12'
 
   steps:
   - checkout: self
