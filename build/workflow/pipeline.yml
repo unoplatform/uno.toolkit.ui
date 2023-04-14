@@ -102,7 +102,7 @@ jobs:
         DisableNet6MobileTargets: true
 
   pool:
-    vmImage: 'macOS-11'
+    vmImage: 'macOS-12'
   
   variables:
    - name: XCODE_ROOT
