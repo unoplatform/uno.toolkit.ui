@@ -35,11 +35,13 @@
 		<PackageReference Include="Uno.WinUI" Condition="'$(FrameworkLineage)' == 'WinUI'" />
 		<PackageReference Include="Uno.UI.RuntimeTests.Engine" />
 		<PackageReference Include="MSTest.TestFramework" />
+		<PackageReference Include="FluentAssertions" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" Condition="'$(FrameworkLineage)' == 'UWP'" />
 		<ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" Condition="'$(FrameworkLineage)' == 'WinUI'" />
+		<Reference Include="System.Xml.Linq" />
 	</ItemGroup>
 
 </Project>

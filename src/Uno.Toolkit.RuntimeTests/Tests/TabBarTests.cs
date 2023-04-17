@@ -13,6 +13,7 @@ using Windows.Foundation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.UI;
 using Windows.Foundation.Metadata;
+using FluentAssertions.Execution;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
@@ -269,7 +270,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task Verify_Indicator_Display_On_Selection()
 		{
-			if (!CanTakeScreenshot())
+			if (!ImageAssertHelper.IsScreenshotSupported())
 			{
 				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
 			}
@@ -303,17 +304,15 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				var selectedItem = SUT.ContainerFromItem(SUT.SelectedItem) as TabBarItem;
 				Assert.IsNotNull(selectedItem);
 
-				var renderer = await TakeScreenshot(SUT);
+				var renderer = await SUT.TakeScreenshot();
 				var centerPoint = selectedItem!.TransformToVisual(SUT).TransformPoint(new Point(selectedItem.ActualWidth / 2, selectedItem.ActualHeight / 2));
-				var pixel = await GetColorAt(renderer, (int)centerPoint.X, (int)centerPoint.Y);
- 
-				AssertExpectedColor(Colors.Red, pixel);
+				
+				await renderer.AssertColorAt(Colors.Red, (int)centerPoint.X, (int)centerPoint.Y);
 
 				foreach (var nonSelected in SUT.Items.Cast<TabBarItem>().Where(x => !x.IsSelected))
 				{
 					centerPoint = nonSelected.TransformToVisual(SUT).TransformPoint(new Point(nonSelected.ActualWidth / 2, nonSelected.ActualHeight / 2));
-					pixel = await GetColorAt(renderer, (int)centerPoint.X, (int)centerPoint.Y);
-					AssertExpectedColor(Colors.Green, pixel);
+					await renderer.AssertColorAt(Colors.Green, (int)centerPoint.X, (int)centerPoint.Y);
 				}
 			}
 
@@ -331,9 +330,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
-		[DataRow(true, DisplayName = "Verify Indicator Above")]
-		[DataRow(false, DisplayName = "Verify Indicator Below")]
-		public async Task Verify_Indicator_Placement(bool isAbove)
+		[DataRow(IndicatorPlacement.Above, DisplayName = "Verify Indicator Above")]
+		[DataRow(IndicatorPlacement.Below, DisplayName = "Verify Indicator Below")]
+		public async Task Verify_Indicator_Placement(IndicatorPlacement placement)
 		{
 			var item = new TabBarItem
 			{
@@ -353,7 +352,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 					</DataTemplate>
 				"),
 				SelectedIndex = 0,
-				SelectionIndicatorPlacement = isAbove ? IndicatorPlacement.Above : IndicatorPlacement.Below,
+				SelectionIndicatorPlacement = placement,
 			};
 			SUT.Items.Add(item);
 
@@ -365,20 +364,18 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				.GetFirstDescendant<TabBarSelectionIndicatorPresenter>(SUT, x => x.Name == "AboveSelectionIndicatorPresenter");
 
 			
-			var renderer = await TakeScreenshot(SUT);
-
+			var renderer = await SUT.TakeScreenshot();
 			var centerPoint = item.TransformToVisual(SUT).TransformPoint(new Point(item.ActualWidth / 2, item.ActualHeight / 2));
-			var pixel = await GetColorAt(renderer, (int)centerPoint.X, (int)centerPoint.Y);
 			
 
-			if (isAbove)
+			if (placement == IndicatorPlacement.Above)
 			{
 				Assert.AreEqual(Visibility.Collapsed, belowPresenter!.Visibility);
 				Assert.AreEqual(Visibility.Visible, abovePresenter!.Visibility);
 
-				if (pixel is { })
+				if (renderer is { })
 				{
-					AssertExpectedColor(Colors.Red, pixel);
+					await renderer.AssertColorAt(Colors.Red, (int)centerPoint.X, (int)centerPoint.Y);
 				}
 			}
 			else
@@ -386,64 +383,11 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				Assert.AreEqual(Visibility.Visible, belowPresenter!.Visibility);
 				Assert.AreEqual(Visibility.Collapsed, abovePresenter!.Visibility);
 
-				if (pixel is { })
+				if (renderer is { })
 				{
-					AssertExpectedColor(Colors.Green, pixel);
+					await renderer.AssertColorAt(Colors.Green, (int)centerPoint.X, (int)centerPoint.Y);
 				}
 			}
-		}
-
-		private static void AssertExpectedColor(Color expected, Color? actual)
-		{
-			Assert.AreEqual(expected.A, actual?.A);
-			Assert.AreEqual(expected.R, actual?.R);
-			Assert.AreEqual(expected.G, actual?.G);
-			Assert.AreEqual(expected.B, actual?.B);
-		}
-
-		private static async Task<Color?> GetColorAt(RenderTargetBitmap? bitmap, int x, int y)
-		{
-			if (bitmap is null)
-			{
-				return null;
-			}
-
-			var pixelBuffer = await bitmap.GetPixelsAsync();
-			var pixels = pixelBuffer.ToArray();
-
-			var offset = (y * bitmap.PixelWidth + x) * 4;
-			var a = pixels[offset + 3];
-			var r = pixels[offset + 2];
-			var g = pixels[offset + 1];
-			var b = pixels[offset + 0];
-
-			return Color.FromArgb(a, r, g, b);
-		}
-
-
-		private static async Task<RenderTargetBitmap?> TakeScreenshot(UIElement? element)
-		{
-			if (CanTakeScreenshot())
-			{
-				var renderer = new RenderTargetBitmap();
-				await renderer.RenderAsync(element);
-				return renderer;
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-		private static bool CanTakeScreenshot()
-		{
-			return ApiInformation.IsTypePresent(
-#if IS_WINUI
-				"Microsoft.UI.Xaml.Media.Imaging.RenderTargetBitmap"
-#else
-				"Windows.UI.Xaml.Media.Imaging.RenderTargetBitmap"
-#endif
-			);
 		}
 	}
 }
