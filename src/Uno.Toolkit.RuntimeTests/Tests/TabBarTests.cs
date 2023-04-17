@@ -13,7 +13,6 @@ using Windows.Foundation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.UI;
 using Windows.Foundation.Metadata;
-using FluentAssertions.Execution;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
