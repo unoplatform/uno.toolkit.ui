@@ -1,3 +1,6 @@
+---
+uid: Toolkit.GettingStarted
+---
 # Getting Started with Uno Toolkit
 
 ## Uno Toolkit Library

@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Helpers.InputExtensions
+---
 # InputExtensions Attached Properties
 Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
 

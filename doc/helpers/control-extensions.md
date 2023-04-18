@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Helpers.ContorlExtensions
+---
 # CommandExtensions Attached Properties
 Provides Command/CommandParameter attached properties for common scenarios.
 

@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.Chip
+---
 # Chip & ChipGroup
 
 > [!TIP]

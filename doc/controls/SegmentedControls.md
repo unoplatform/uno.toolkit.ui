@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.SegmentedControls
+---
 # Segmented Controls
 
 > [!TIP] 

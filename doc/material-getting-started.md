@@ -1,3 +1,6 @@
+---
+uid: Toolkit.GettingStarted.Material
+---
 # Uno Toolkit Material Library
 
 <p align="center">

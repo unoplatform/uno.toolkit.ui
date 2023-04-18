@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.TabBar
+---
 # TabBar & TabBarItem
 
 > [!TIP]

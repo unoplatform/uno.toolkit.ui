@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Helpers.TabBarItemExtensions
+---
 # TabBarItemExtensions Attached Properties
 Provides additional features for `TabBarItem`.
 

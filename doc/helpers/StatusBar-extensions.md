@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Helpers.StatusBarExtensions
+---
 # StatusBar Attached Properties
 Provides two attached properties on `Page` to controls the visual of the status bar on mobile platforms.
 

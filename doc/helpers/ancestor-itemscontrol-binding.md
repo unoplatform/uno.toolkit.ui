@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Helpers.Bindings
+---
 # AncestorBinding & ItemsControlBinding
 These markup extensions provides relative binding based on ancestor type. If you are familiar with WPF, they are very similar to `{RelativeSource Mode=FindAncestor}`.
 

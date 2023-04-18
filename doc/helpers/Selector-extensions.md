@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Helpers.SelectorExtensions
+---
 # SelectorExtensions Attached Properties
 
 Provides an easy integration between `PipsPager` and `Selector` controls.
