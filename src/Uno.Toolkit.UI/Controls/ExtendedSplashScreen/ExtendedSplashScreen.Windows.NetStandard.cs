@@ -33,36 +33,22 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
+		public bool SplashIsEnabled =>
+#if WINDOWS_UWP || WINDOWS
+				(Platforms & SplashScreenPlatform.Windows) != 0;
+#else
+				(Platforms &
+						(IsBrowser ? SplashScreenPlatform.WebAssembly : SplashScreenPlatform.Skia))
+						!= 0;
+#endif
+
 		private static bool IsBrowser { get; } =
-				// Origin of the value : https://github.com/mono/mono/blob/a65055dbdf280004c56036a5d6dde6bec9e42436/mcs/class/corlib/System.Runtime.InteropServices.RuntimeInformation/RuntimeInformation.cs#L115
-				RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY")) // Legacy Value (Bootstrapper 1.2.0-dev.29 or earlier).
-				|| RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
+					// Origin of the value : https://github.com/mono/mono/blob/a65055dbdf280004c56036a5d6dde6bec9e42436/mcs/class/corlib/System.Runtime.InteropServices.RuntimeInformation/RuntimeInformation.cs#L115
+					RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY")) // Legacy Value (Bootstrapper 1.2.0-dev.29 or earlier).
+					|| RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 
 		private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 		{
-#if WINDOWS_UWP || WINDOWS
-			if ((Platforms & SplashScreenPlatform.Windows) == 0)
-			{
-				return null;
-			}
-#else
-			if (IsBrowser)
-			{
-				if ((Platforms & SplashScreenPlatform.WebAssembly) == 0)
-				{
-					return null;
-				}
-
-			}
-			else
-			{
-				if ((Platforms & SplashScreenPlatform.Skia) == 0)
-				{
-					return null;
-				}
-			}
-#endif
-
 			var splashScreenImage = new Image();
 			var splashScreenBackground = new SolidColorBrush();
 			var scaleFactor =

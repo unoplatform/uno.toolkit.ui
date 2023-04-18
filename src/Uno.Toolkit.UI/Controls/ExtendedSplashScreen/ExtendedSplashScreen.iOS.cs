@@ -28,15 +28,12 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
-		private Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+		public bool SplashIsEnabled => (Platforms & SplashScreenPlatform.iOS) != 0;
+
+		private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 		{
 			try
 			{
-				if ((Platforms & SplashScreenPlatform.iOS) == 0)
-				{
-					return Task.FromResult<FrameworkElement?>(null);
-				}
-
 				var infoPlistPath = NSBundle.MainBundle.PathForResource("Info", "plist");
 				if (infoPlistPath is null)
 				{

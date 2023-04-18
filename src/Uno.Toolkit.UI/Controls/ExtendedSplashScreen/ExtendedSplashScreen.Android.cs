@@ -8,6 +8,9 @@ using Uno.Logging;
 using Uno.UI;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
+using System.Runtime.InteropServices;
+using Android.OS;
+using Windows.System.Profile;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -22,15 +25,21 @@ namespace Uno.Toolkit.UI;
 
 public partial class ExtendedSplashScreen
 {
-	private Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+	public bool SplashIsEnabled
+	{
+		get
+		{
+			var versionString = Build.VERSION.Release;
+			return (int.TryParse(versionString, out var intVersion) && intVersion >= 12) ?
+						false :
+						(Platforms & SplashScreenPlatform.Android) != 0;
+		}
+	}
+
+	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
 		try
 		{
-			if ((Platforms & SplashScreenPlatform.Android) == 0)
-			{
-				return Task.FromResult<FrameworkElement?>(null);
-			}
-
 			var activity = ContextHelper.Current as Activity;
 			if (activity is null)
 			{

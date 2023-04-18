@@ -72,7 +72,10 @@ Window? Window
 
 		SplashScreenContent = new Border();
 
-		_ = LoadNativeSplashScreen();
+		if (SplashIsEnabled)
+		{
+			_ = LoadNativeSplashScreen();
+		}
 	}
 
 	private async Task LoadNativeSplashScreen()
@@ -93,5 +96,8 @@ Window? Window
 	{
 		return Task.FromResult<FrameworkElement?>(null);
 	}
+
+	public bool SplashIsEnabled => (Platforms & SplashScreenPlatform.All) != 0;
 #endif
+
 }
