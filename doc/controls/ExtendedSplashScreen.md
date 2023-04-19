@@ -5,6 +5,7 @@ uid: Toolkit.Controls.ExtendedSplashScreen
 Represents a control, derived from [`LoadingView`](xref:Toolkit.Controls.LoadingView) that continues to display the native splash screen for an extended amount of time, allowing the application to fully load the UI. See [`LoadingView`](xref:Toolkit.Controls.LoadingView) for Properties and other Members that are inherited.
 
 ## Properties
+
 Property|Type|Description
 -|-|-
 Platforms|SplashScreenPlatform|Gets or sets which platforms load the native splash screen (`All` by default). This is an flag enumeration, meaning you can specify multiple values that will be combined (eg `Android,iOS` will show native splash screen for only Android and iOS)
