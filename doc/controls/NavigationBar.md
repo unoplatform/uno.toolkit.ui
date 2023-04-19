@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.NavigationBar
+---
 # NavigationBar
 
 > [!TIP] 

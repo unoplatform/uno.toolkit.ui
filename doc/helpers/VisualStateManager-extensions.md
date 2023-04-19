@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Helpers.VisualStateManagerExtensions
+---
 # VisualStateManagerExtensions Attached Properties
 Provides a way of manipulating the visual states of `Control` with attached property.
 

@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Helpers.ItemRepeaterExtensions
+---
 # ItemsRepeaterExtensions Attached Properties
 Provides selection support for `ItemsRepeater`.
 

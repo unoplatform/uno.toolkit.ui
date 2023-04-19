@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.DrawerFlyoutPresenter
+---
 # DrawerFlyoutPresenter
 ## Summary
 `DrawerFlyoutPresenter` is a special `ContentPresenter` to be used in the template of a `FlyoutPresenter` to enable gesture support.

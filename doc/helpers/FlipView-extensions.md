@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Helpers.FlipViewExtensions
+---
 # SelectorExtensions Attached Properties
 
 Provides additional features for `FlipView`.

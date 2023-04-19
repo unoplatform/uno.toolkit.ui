@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.AutoLayoutControl
+---
 > [!TIP] 
 > This guide covers details for `AutoLayoutControl` specifically. If you are just getting started with the Uno Toolkit UI Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 

@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.DrawerControl
+---
 # DrawerControl
 
 > [!TIP] 

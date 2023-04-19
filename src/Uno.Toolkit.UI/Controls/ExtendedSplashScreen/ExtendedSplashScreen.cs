@@ -22,17 +22,27 @@ namespace Uno.Toolkit.UI;
 /// </summary>
 public partial class ExtendedSplashScreen : LoadingView
 {
+	#region DependencyProperty: Platforms
+	public static DependencyProperty PlatformsProperty { get; } = DependencyProperty.Register(
+		nameof(Platforms),
+		typeof(SplashScreenPlatform),
+		typeof(ExtendedSplashScreen),
+		new PropertyMetadata(SplashScreenPlatform.All));
+
+	/// <summary>
+	/// Gets or sets the list of platforms where extended splash screen should be used.
+	/// </summary>
+	public SplashScreenPlatform Platforms
+	{
+		get => (SplashScreenPlatform)GetValue(PlatformsProperty);
+		set => SetValue(PlatformsProperty, value);
+	}
+	#endregion
+
 	public SplashScreen? SplashScreen { get; set; }
 
-	public
-#if __IOS__ || __MACOS__ // hides UIView.Window and NSView.Window
-	new
-#endif
-	Window? Window { get; set; }
-
 	#region DependencyProperty: SplashScreenContent
-
-	public static DependencyProperty SplashScreenContentProperty { get; } = DependencyProperty.Register(
+	internal static DependencyProperty SplashScreenContentProperty { get; } = DependencyProperty.Register(
 		nameof(SplashScreenContent),
 		typeof(object),
 		typeof(ExtendedSplashScreen),
@@ -41,13 +51,20 @@ public partial class ExtendedSplashScreen : LoadingView
 	/// <summary>
 	/// Gets or sets the native splash screen content to be displayed during loading/waiting.
 	/// </summary>
-	public object SplashScreenContent
+	internal object SplashScreenContent
 	{
 		get => (object)GetValue(SplashScreenContentProperty);
 		set => SetValue(SplashScreenContentProperty, value);
 	}
-
 	#endregion
+
+	public
+#if __IOS__ || __MACOS__ // hides UIView.Window and NSView.Window
+	new
+#endif
+Window? Window
+	{ get; set; }
+
 
 	protected override void OnApplyTemplate()
 	{
@@ -55,7 +72,10 @@ public partial class ExtendedSplashScreen : LoadingView
 
 		SplashScreenContent = new Border();
 
-		_ = LoadNativeSplashScreen();
+		if (SplashIsEnabled)
+		{
+			_ = LoadNativeSplashScreen();
+		}
 	}
 
 	private async Task LoadNativeSplashScreen()
@@ -71,10 +91,13 @@ public partial class ExtendedSplashScreen : LoadingView
 	}
 
 
-#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP)
+#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP) && !NETSTANDARD2_0
 	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 	{
 		return Task.FromResult<FrameworkElement?>(null);
 	}
+
+	public bool SplashIsEnabled => (Platforms & SplashScreenPlatform.All) != 0;
 #endif
+
 }

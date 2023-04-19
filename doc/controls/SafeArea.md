@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.SafeArea
+---
 # SafeArea
 
 `SafeArea` is a specialized control that overrides the `Padding` or `Margin` properties of its child/attached control to ensure that its inner content is always within the [`ApplicationView.VisibleBounds`](https://docs.microsoft.com/en-us/uwp/api/windows.ui.viewmanagement.applicationview.visiblebounds?view=winrt-22621) rectangle.

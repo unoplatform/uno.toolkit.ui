@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.Card
+---
 # Card & CardContentControl
 
 > [!TIP]

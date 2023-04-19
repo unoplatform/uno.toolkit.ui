@@ -1,3 +1,6 @@
+---
+uid: Toolkit.Controls.LoadingView
+---
 # LoadingView
 Represents a control that indicates that the UI is waiting on a task to complete.
 
