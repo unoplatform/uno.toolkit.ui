@@ -861,8 +861,7 @@ namespace Uno.Toolkit.UI
 			public override UIViewController PopViewController(bool animated)
 			{
 				var lowerNavigationBar = LowerController?.GetNavigationBar();
-				var renderer = lowerNavigationBar?.GetRenderer(() => (NavigationBarRenderer?)null);
-				if (renderer != null)
+				if (lowerNavigationBar?.TryGetRenderer<NavigationBar, NavigationBarRenderer>() is { } renderer)
 				{
 					// Set navigation bar properties for page about to become visible. This gives a nice animation and works around bug on 
 					// iOS 11.2 where TitleTextAttributes aren't updated properly (https://openradar.appspot.com/37567828)
@@ -878,10 +877,11 @@ namespace Uno.Toolkit.UI
 
 				if (viewController is PageViewController pvc)
 				{
-					var pushedNavBar = pvc.GetNavigationBar();
-
-					var renderer = pushedNavBar?.GetRenderer(() => (NavigationBarNavigationItemRenderer?)null);
-					renderer?.SetBackItem(LowerController?.NavigationItem);
+					var pushedNavBar = pvc.View?.FindTopNavigationBar();
+					if (pushedNavBar?.TryGetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>() is { } renderer)
+					{
+						renderer.BackItem = LowerController?.NavigationItem;
+					}
 				}
 			}
 		}

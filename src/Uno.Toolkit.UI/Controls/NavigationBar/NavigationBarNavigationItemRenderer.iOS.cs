@@ -38,13 +38,17 @@ namespace Uno.Toolkit.UI
 
 		private readonly SerialDisposable _visibilitySubscriptions = new SerialDisposable();
 
-		public NavigationBarNavigationItemRenderer(NavigationBar element) : base(element) { }
-
-		public void SetBackItem(UINavigationItem? backItem)
+		internal UINavigationItem? BackItem
 		{
-			_backItem = backItem;
-			Invalidate();
+			get => _backItem;
+			set
+			{
+				_backItem = value;
+				Invalidate();
+			}
 		}
+
+		public NavigationBarNavigationItemRenderer(NavigationBar element) : base(element) { }
 
 		protected override UINavigationItem CreateNativeInstance() => new UINavigationItem();
 
@@ -121,38 +125,62 @@ namespace Uno.Toolkit.UI
 			}
 
 			// PrimaryCommands
-			native.RightBarButtonItems = element
+			var appBarButtons = element
 				.PrimaryCommands
 				.OfType<AppBarButton>()
-				.Where(btn => btn.Visibility == Visibility.Visible && (((btn.Content as FrameworkElement)?.Visibility ?? Visibility.Visible) == Visibility.Visible))
-				.Do(btn => btn.SetParent(Element))
-				.Select(appBarButton => appBarButton.GetRenderer(() => new AppBarButtonRenderer(appBarButton)).Native)
-				.Reverse()
-				.ToArray();
+				.Where(btn => 
+					btn.Visibility == Visibility.Visible &&
+					(btn.Content as FrameworkElement)?.Visibility != Visibility.Visible
+				);
+
+			var rightBarButtons = new List<UIBarButtonItem>();
+			foreach (var btn in appBarButtons.Reverse())
+			{
+				btn.SetParent(Element);
+
+				if (btn.GetOrAddRenderer(appBarBtn => new AppBarButtonRenderer(appBarBtn)).Native is { } uiBarButton)
+				{
+					rightBarButtons.Add(uiBarButton);
+				}
+			}
+
+			native.RightBarButtonItems = rightBarButtons.ToArray();
 
 			// MainCommand
-			var navigationCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
-			if (navigationCommand?.Visibility == Visibility.Visible)
+			var mainCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
+			if (mainCommand?.Visibility == Visibility.Visible)
 			{
-				navigationCommand.SetParent(Element);
+				mainCommand.SetParent(Element);
 
 				var mode = (MainCommandMode)element.GetValue(NavigationBar.MainCommandModeProperty);
 				if (mode == MainCommandMode.Action ||
 					(mode == MainCommandMode.Back && _backItem == null))
 				{
-					native.LeftBarButtonItem = navigationCommand.GetRenderer(() => new AppBarButtonRenderer(navigationCommand)).Native;
+					native.LeftBarButtonItem = mainCommand.GetOrAddRenderer(mainBtn => new AppBarButtonRenderer(mainBtn)).Native;
 				}
 				else
 				{
-					native.LeftBarButtonItem = null;
-
 					// If navigating from ViewController A to ViewController B, B's back button text is determined by A's BackButtonTitle.
 					// Therefore, we need to set the BackButtonTitle of A's ViewController to the value B's NavigationBar.MainCommand.Label.
 					// If B's NavigationBar.MainCommand.Label is not set, the BackButtonTitle of A's ViewController will default to either "Back"
 					// or the value of A's NavigationBar.Content if it is a string
 					if (_backItem is { } backItem)
 					{
-						backItem.BackButtonTitle = navigationCommand.Content as string ?? navigationCommand.Label;
+						backItem.BackButtonTitle = mainCommand.Content as string ?? mainCommand.Label;
+					}
+
+					var mainCommandIcon = mainCommand.Icon is BitmapIcon bitmapIcon
+						? ImageHelper.FromUri(bitmapIcon.UriSource)?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+						: null;
+
+					if (mainCommandIcon is { } icon && string.IsNullOrEmpty(_backItem?.BackButtonTitle))
+					{
+						native.LeftBarButtonItem = mainCommand.GetOrAddRenderer(mainBtn => new AppBarButtonRenderer(mainBtn)).Native;
+					}
+					else
+					{
+						mainCommand.SetRenderer<AppBarButton, AppBarButtonRenderer>(null);
+						native.LeftBarButtonItem = null;
 					}
 				}
 			}

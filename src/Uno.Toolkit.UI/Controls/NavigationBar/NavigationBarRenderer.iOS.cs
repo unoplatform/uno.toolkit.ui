@@ -41,8 +41,8 @@ namespace Uno.Toolkit.UI
 			var navigationBar = new UINavigationBar();
 			if (Element is { } element)
 			{
-				var navigationItem = element.GetRenderer(() => new NavigationBarNavigationItemRenderer(element)).Native;
-				navigationBar.PushNavigationItem(navigationItem!, false);
+				var renderer = element.GetOrAddRenderer(navBar => new NavigationBarNavigationItemRenderer(navBar));
+				navigationBar.PushNavigationItem(renderer.Native, false);
 			}
 
 			return navigationBar;
@@ -217,7 +217,7 @@ namespace Uno.Toolkit.UI
 			if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
 			{
 				var backButtonAppearance = new UIBarButtonItemAppearance(UIBarButtonItemStyle.Plain);
-
+				var backImage = mainCommandIcon ?? appearance.BackIndicatorImage;
 				if (mainForeground is { } foreground)
 				{
 					var titleTextAttributes = new UIStringAttributes
@@ -229,24 +229,13 @@ namespace Uno.Toolkit.UI
 
 					backButtonAppearance.Normal.TitleTextAttributes = attributes;
 					backButtonAppearance.Highlighted.TitleTextAttributes = attributes;
-					
-					if (mainCommandIcon is { } image)
-					{
-						var tintedImage = image.ApplyTintColor(foreground);
-						appearance.SetBackIndicatorImage(tintedImage, tintedImage);
-					}
-					else if (appearance.BackIndicatorImage is { } backImage)
-					{
-						var tintedBack = backImage.ApplyTintColor(foreground);
-						appearance.SetBackIndicatorImage(tintedBack, tintedBack);
-					}
+
+					backImage = backImage?.ApplyTintColor(foreground);
 				}
-				else
+
+				if (backImage is { })
 				{
-					if (mainCommandIcon is { } image)
-					{
-						appearance.SetBackIndicatorImage(image, image);
-					}
+					appearance.SetBackIndicatorImage(backImage, backImage);
 				}
 
 				appearance.BackButtonAppearance = backButtonAppearance;

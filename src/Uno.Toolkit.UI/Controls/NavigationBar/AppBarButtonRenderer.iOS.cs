@@ -124,7 +124,6 @@ namespace Uno.Toolkit.UI
 			native.Image = null;
 			native.ClearCustomView();
 			native.Title = element.Content is string content ? content : element.Label;
-
 			if (element.Icon != null)
 			{
 				switch (element.Icon)

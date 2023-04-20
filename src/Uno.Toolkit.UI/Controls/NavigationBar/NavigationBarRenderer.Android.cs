@@ -245,7 +245,7 @@ namespace Uno.Toolkit.UI
 					{
 						// This ensures that Behaviors expecting this button to be in the logical tree work.
 						primaryCommand.SetParent(Element);
-						var renderer = primaryCommand.GetRenderer(() => new AppBarButtonRenderer(primaryCommand));
+						var renderer = primaryCommand.GetOrAddRenderer(btn => new AppBarButtonRenderer(btn));
 						renderer.Native = menuItem;
 
 						
@@ -260,7 +260,7 @@ namespace Uno.Toolkit.UI
 					{
 						// This ensures that Behaviors expecting this button to be in the logical tree work. 
 						secondaryCommand.SetParent(Element);
-						var renderer = secondaryCommand.GetRenderer(() => new AppBarButtonRenderer(secondaryCommand, isInOverflow: true));
+						var renderer = secondaryCommand.GetOrAddRenderer(btn => new AppBarButtonRenderer(btn, isInOverflow: true));
 						renderer.Native = menuItem;
 
 						
@@ -275,7 +275,7 @@ namespace Uno.Toolkit.UI
 			{
 				// This ensures that Behaviors expecting this button to be in the logical tree work. 
 				mainCommand.SetParent(Element);
-				var renderer = mainCommand.GetRenderer(() => new NavigationAppBarButtonRenderer(mainCommand, MainCommandMode));
+				var renderer = mainCommand.GetOrAddRenderer(mainBtn => new NavigationAppBarButtonRenderer(mainBtn, MainCommandMode));
 				renderer.Native = native;
 			}
 			else

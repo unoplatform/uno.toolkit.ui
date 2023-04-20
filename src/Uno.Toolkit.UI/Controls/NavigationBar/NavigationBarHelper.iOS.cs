@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using UIKit;
+using SpriteKit;
+using Microsoft.UI.Xaml.Automation.Peers;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -15,14 +17,14 @@ namespace Uno.Toolkit.UI
 {
 	internal static class NavigationBarHelper
 	{
-		internal static void SetNavigationBar(NavigationBar NavigationBar, UIKit.UINavigationBar? navigationBar)
+		internal static void SetNavigationBar(NavigationBar navigationBar, UIKit.UINavigationBar? uiNavigationBar)
 		{
-			NavigationBar.GetRenderer(() => new NavigationBarRenderer(NavigationBar)).Native = navigationBar;
+			navigationBar.GetOrAddRenderer(navBar => new NavigationBarRenderer(navBar)).Native = uiNavigationBar;
 		}
 
-		internal static void SetNavigationItem(NavigationBar NavigationBar, UIKit.UINavigationItem? navigationItem)
+		internal static void SetNavigationItem(NavigationBar navigationBar, UIKit.UINavigationItem? navigationItem)
 		{
-			NavigationBar.GetRenderer(() => new NavigationBarNavigationItemRenderer(NavigationBar)).Native = navigationItem;
+			navigationBar.GetOrAddRenderer(navBar => new NavigationBarNavigationItemRenderer(navBar)).Native = navigationItem;
 		}
 
 		/// <summary>
@@ -139,10 +141,24 @@ namespace Uno.Toolkit.UI
 		{
 			// The Native view from the renderer may have been set to a dummy NavigationItem if we were not able to find
 			// a NavigationBar in the PageCreated method. If that is the case, set it to the pageController's NavigationItem
-			var nativeItem = topNavigationBar.GetRenderer(() => (NavigationBarNavigationItemRenderer?)null)?.Native;
-			if (!ReferenceEquals(nativeItem, pageController.NavigationItem))
+			var renderer = topNavigationBar.TryGetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>();
+
+			if (!ReferenceEquals(renderer?.Native, pageController.NavigationItem))
 			{
 				SetNavigationItem(topNavigationBar, pageController.NavigationItem);
+			}
+
+			// We should also ensure that the renderer's BackItem is set to the previous page's NavigationItem
+			// in order to ensure that the back button icon and label are properly rendered.
+			var vcs = pageController.NavigationController?.ViewControllers;
+			var lowerVc = vcs?.Length > 1 ? vcs[vcs.Length - 2] : null;
+
+			if (lowerVc != null && renderer is { })
+			{
+				if (!ReferenceEquals(renderer.BackItem, lowerVc.NavigationItem))
+				{
+					renderer.BackItem = lowerVc.NavigationItem;
+				}
 			}
 		}
 
