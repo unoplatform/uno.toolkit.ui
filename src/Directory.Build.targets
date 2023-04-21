@@ -1,32 +1,28 @@
 <Project ToolsVersion="15.0">
+	<Import Project="crosstargeting_override.props" Condition="exists('crosstargeting_override.props')" />
 
-  <Import Project="nuget_override.props" Condition="Exists('nuget_override.props')" />
+	<Target Name="_DisplayTargets" BeforeTargets="BeforeBuild">
+		<Message Text="Building target framework: $(TargetFramework)" Importance="high" Condition="'$(TargetFramework)'!=''" />
+	</Target>
 
-  <Target Name="_UnoOverrideNuget"
-		AfterTargets="AfterBuild"
-		DependsOnTargets="BuiltProjectOutputGroup"
-		Condition="'$(NugetOverrideVersion)'!=''">
+	<Target Name="_UnoOverrideNuget" AfterTargets="AfterBuild" DependsOnTargets="BuiltProjectOutputGroup" Condition="'$(NugetOverrideVersion)'!=''">
 
-    <PropertyGroup>
-      <_OverrideTargetFramework>$(TargetFramework)</_OverrideTargetFramework>
-      <_TargetNugetFolder>$(USERPROFILE)\.nuget\packages\$(AssemblyName)\$(NugetOverrideVersion)\lib\$(_OverrideTargetFramework)</_TargetNugetFolder>
-      <_TargetNugetRefFolder>$(USERPROFILE)\.nuget\packages\$(AssemblyName)\$(NugetOverrideVersion)\ref\$(_OverrideTargetFramework)</_TargetNugetRefFolder>
-    </PropertyGroup>
-    <ItemGroup>
-      <_OutputFiles Include="$(TargetDir)\*.*" />
-      <_OutputRefFiles Include="$(TargetDir)\ref\*.*" />
-    </ItemGroup>
-		
-    <MakeDir Directories="$(_TargetNugetFolder)" />
+		<PropertyGroup>
+			<_TargetNugetPackageId Condition="'$(PackageId)'!=''">$(PackageId)</_TargetNugetPackageId>
+			<_TargetNugetPackageId Condition="'$(PackageId)'==''">$(AssemblyName)</_TargetNugetPackageId>
+			<_TargetNugetFolderBase>$(USERPROFILE)\.nuget\packages\$(_TargetNugetPackageId)\$(NugetOverrideVersion)\lib</_TargetNugetFolderBase>
+			<_TargetNugetFolder>$(_TargetNugetFolderBase)\$(TargetFramework)</_TargetNugetFolder>
+		</PropertyGroup>
 
-    <Message Importance="high" Text="OVERRIDING NUGET PACKAGE CACHE: $(_TargetNugetFolder) and $(_TargetNugetRefFolder)" />
+		<ItemGroup>
+			<_OutputFiles Include="$(TargetDir)\*.*" />
+		</ItemGroup>
 
-    <Copy SourceFiles="@(_OutputFiles)"
-		  DestinationFiles="@(_OutputFiles->'$(_TargetNugetFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(_OutputRefFiles)"
-		  DestinationFiles="@(_OutputRefFiles->'$(_TargetNugetRefFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
-  </Target>
+		<MakeDir Directories="$(_TargetNugetFolder)\" />
 
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
+		<Message Importance="high" Text="OVERRIDING NUGET PACKAGE CACHE: $(_TargetNugetFolder) [and $(TargetPlatformVersion)]" />
 
+		<Copy SourceFiles="@(_OutputFiles)" DestinationFiles="@(_OutputFiles->'$(_TargetNugetFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
+		<Copy Condition="'$(TargetPlatformVersion)'!=''" SourceFiles="@(_OutputFiles)" DestinationFiles="@(_OutputFiles->'$(_TargetNugetFolder)$(TargetPlatformVersion)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
 </Project>

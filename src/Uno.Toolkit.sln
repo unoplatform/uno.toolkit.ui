@@ -67,7 +67,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{BA0C538E
 		Directory.Packages.props = Directory.Packages.props
 		PlatformItemGroups.props = PlatformItemGroups.props
 		..\README.md = ..\README.md
-		Uno.CrossTargeting.props = Uno.CrossTargeting.props
 		xamlmerge.props = xamlmerge.props
 	EndProjectSection
 EndProject
