@@ -5,10 +5,10 @@
 	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
 	-->
 	<PropertyGroup>
-		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'!=''">$(UnoTargetFrameworkOverride)</TargetFrameworks>
-		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'==''">netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid12.0</TargetFrameworks>
-		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' and '$(DisableNet6MobileTargets)'==''">$(TargetFrameworks);net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="'$(UnoTargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid12.0</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableNet6MobileTargets)'==''">$(TargetFrameworks);net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<AssemblyName>Uno.Toolkit.UI</AssemblyName>
