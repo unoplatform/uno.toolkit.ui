@@ -5,25 +5,16 @@
 
 			Instructions:
 			1) Copy this file and remove the ".sample" name
-			2) Uncomment and adjust the NugetOverrideVersion property below
+			2) Uncomment and adjust the properties below
 			3) Make sure to do a Rebuild, so that nuget restores the proper packages for the new target
 	-->
 
 	<PropertyGroup>
-		<!-- Include netstandard2.0 to make sure all projects build -->
 
-		<!-- 
-			TargetFrameworkOverride controls the platform built by Visual Studio.
-
-			*** WARNING ***
-				Note that changing that property while the solution is opened leads to
-				unstable nuget restore operations, and Visual Studio instabilities such
-				as caching issues or crashes.
-
-				Always close the solution before changing or activating this property.
-			*** WARNING ***
-		-->
-		<!-- Uncomment the lines below to build for specific platforms -->
+		<!-- <NugetOverrideVersion>2.6.0-dev.34</NugetOverrideVersion> -->
+		<!--<DisableNet6MobileTargets>true</DisableNet6MobileTargets>-->
+		
+		<!-- Uncomment each line for each platform that you want to build: -->
 		
 		<!--<TargetFrameworkOverride Condition="''!='hint: UWP'">$(TargetFrameworkOverride);uap10.0.18362</TargetFrameworkOverride>-->
 		<!--<TargetFrameworkOverride Condition="''!='hint: WinUI'">$(TargetFrameworkOverride);net6.0-windows10.0.18362</TargetFrameworkOverride>-->
@@ -39,15 +30,31 @@
 		<!-- DO NOT COMMENT OUT: netstandard2.0 is a required tfm in all cases -->
 		<TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('netstandard2.0'))">netstandard2.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
 
-		<!-- 
-			NugetOverrideVersion allows the override of the nuget local cache.
-			Set it to the version you want to override, used in another app.
-			You will see the override path in the build output.
-			The packages are located under this directory: "%USERPROFILE%\.nuget\packages".
-		-->
-		<!-- <NugetOverrideVersion>2.6.0-dev.34</NugetOverrideVersion> -->
+		<!-- Description of properties:
+
+			### NugetOverrideVersion ###
+
+				Allows the override of the nuget local cache.
+				Set it to the version you want to override, used in another app.
+				You will see the override path in the build output.
+				The packages are located under this directory: "%USERPROFILE%\.nuget\packages".
 		
-		<!-- DisableNet6MobileTargets disables bulding the net6.0 mobile SDK TargetFrameworks -->
-		<!--<DisableNet6MobileTargets>true</DisableNet6MobileTargets>-->
+			### DisableNet6MobileTargets ###
+
+			Disables bulding the net6.0 mobile SDK TargetFrameworks
+
+			### TargetFrameworkOverride ### 
+
+				Controls the platform built by Visual Studio.
+
+				*** WARNING ***
+					Note that changing this property while the solution is opened leads to
+					unstable nuget restore operations, and Visual Studio instabilities such
+					as caching issues or crashes.
+
+					Always close the solution before changing or activating this property.
+				*** WARNING ***
+
+		-->
 	</PropertyGroup>
 </Project>
