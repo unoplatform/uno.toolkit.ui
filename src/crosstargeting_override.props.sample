@@ -10,6 +10,7 @@
 	-->
 
 	<PropertyGroup>
+		<!-- Description of the properties can be found below -->
 
 		<!-- <NugetOverrideVersion>2.6.0-dev.34</NugetOverrideVersion> -->
 		<!--<DisableNet6MobileTargets>true</DisableNet6MobileTargets>-->
@@ -30,7 +31,7 @@
 		<!-- DO NOT COMMENT OUT: netstandard2.0 is a required tfm in all cases -->
 		<TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('netstandard2.0'))">netstandard2.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
 
-		<!-- Description of properties:
+		<!--
 
 			### NugetOverrideVersion ###
 
@@ -38,21 +39,21 @@
 				Set it to the version you want to override, used in another app.
 				You will see the override path in the build output.
 				The packages are located under this directory: "%USERPROFILE%\.nuget\packages".
-		
+
 			### DisableNet6MobileTargets ###
 
-			Disables bulding the net6.0 mobile SDK TargetFrameworks
+				Disables bulding the net6.0 mobile SDK TargetFrameworks
 
 			### TargetFrameworkOverride ### 
 
 				Controls the platform built by Visual Studio.
 
 				*** WARNING ***
-					Note that changing this property while the solution is opened leads to
-					unstable nuget restore operations, and Visual Studio instabilities such
-					as caching issues or crashes.
+				Note that changing this property while the solution is opened leads to
+				unstable nuget restore operations, and Visual Studio instabilities such
+				as caching issues or crashes.
 
-					Always close the solution before changing or activating this property.
+				Always close the solution before changing or activating this property.
 				*** WARNING ***
 
 		-->
