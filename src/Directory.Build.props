@@ -99,6 +99,6 @@
 	</PropertyGroup>
 
 	<Import Project="PlatformItemGroups.props" />
-	<Import Project="Uno.CrossTargeting.props" />
+	<Import Project="CrossTargeting.props" />
 	<Import Project="xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
 </Project>

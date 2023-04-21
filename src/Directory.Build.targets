@@ -1,32 +1,3 @@
 <Project ToolsVersion="15.0">
-
-  <Import Project="nuget_override.props" Condition="Exists('nuget_override.props')" />
-
-  <Target Name="_UnoOverrideNuget"
-		AfterTargets="AfterBuild"
-		DependsOnTargets="BuiltProjectOutputGroup"
-		Condition="'$(NugetOverrideVersion)'!=''">
-
-    <PropertyGroup>
-      <_OverrideTargetFramework>$(TargetFramework)</_OverrideTargetFramework>
-      <_TargetNugetFolder>$(USERPROFILE)\.nuget\packages\$(AssemblyName)\$(NugetOverrideVersion)\lib\$(_OverrideTargetFramework)</_TargetNugetFolder>
-      <_TargetNugetRefFolder>$(USERPROFILE)\.nuget\packages\$(AssemblyName)\$(NugetOverrideVersion)\ref\$(_OverrideTargetFramework)</_TargetNugetRefFolder>
-    </PropertyGroup>
-    <ItemGroup>
-      <_OutputFiles Include="$(TargetDir)\*.*" />
-      <_OutputRefFiles Include="$(TargetDir)\ref\*.*" />
-    </ItemGroup>
-		
-    <MakeDir Directories="$(_TargetNugetFolder)" />
-
-    <Message Importance="high" Text="OVERRIDING NUGET PACKAGE CACHE: $(_TargetNugetFolder) and $(_TargetNugetRefFolder)" />
-
-    <Copy SourceFiles="@(_OutputFiles)"
-		  DestinationFiles="@(_OutputFiles->'$(_TargetNugetFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(_OutputRefFiles)"
-		  DestinationFiles="@(_OutputRefFiles->'$(_TargetNugetRefFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
-  </Target>
-
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
-
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
 </Project>
