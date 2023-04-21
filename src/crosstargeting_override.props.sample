@@ -10,54 +10,44 @@
 	-->
 
 	<PropertyGroup>
-		<!-- See documentation for each property below -->
-
 		<!-- Include netstandard2.0 to make sure all projects build -->
-		<!--<TargetFrameworkOverride>netstandard2.0;net6.0-android</TargetFrameworkOverride>-->
-		<!--<NugetOverrideVersion>2.6.0-dev.34</NugetOverrideVersion>-->
-		<!--<DisableNet6MobileTargets>true</DisableNet6MobileTargets>-->
 
 		<!-- 
+			TargetFrameworkOverride controls the platform built by Visual Studio.
+
+			*** WARNING ***
+				Note that changing that property while the solution is opened leads to
+				unstable nuget restore operations, and Visual Studio instabilities such
+				as caching issues or crashes.
+
+				Always close the solution before changing or activating this property.
+			*** WARNING ***
+		-->
+		<!-- Uncomment the lines below to build for specific platforms -->
 		
-	  ### TargetFrameworkOverride ###
+		<!--<TargetFrameworkOverride Condition="''!='hint: UWP'">$(TargetFrameworkOverride);uap10.0.18362</TargetFrameworkOverride>-->
+		<!--<TargetFrameworkOverride Condition="''!='hint: WinUI'">$(TargetFrameworkOverride);net6.0-windows10.0.18362</TargetFrameworkOverride>-->
+		<!--<TargetFrameworkOverride Condition="''!='hint: Xamarin.iOS'">$(TargetFrameworkOverride);xamarinios10</TargetFrameworkOverride>-->
+		<!--<TargetFrameworkOverride Condition="''!='hint: Xamarin.Android'">$(TargetFrameworkOverride);MonoAndroid12.0</TargetFrameworkOverride>-->
+		<!--<TargetFrameworkOverride Condition="''!='hint: Xamarin.Mac'">$(TargetFrameworkOverride);xamarinmac20</TargetFrameworkOverride>-->
+		<!--<TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">$(TargetFrameworkOverride);netstandard2.0</TargetFrameworkOverride>-->
+		<!--<TargetFrameworkOverride Condition="''!='hint: .NET 6.0 iOS'">$(TargetFrameworkOverride);net6.0-ios</TargetFrameworkOverride>-->
+		<!--<TargetFrameworkOverride Condition="''!='hint: .NET 6.0 Android'">$(TargetFrameworkOverride);net6.0-android</TargetFrameworkOverride>-->
+		<!--<TargetFrameworkOverride Condition="''!='hint: .NET 6.0 macOS Catalyst'">$(TargetFrameworkOverride);net6.0-maccatalyst</TargetFrameworkOverride>-->
+		<!--<TargetFrameworkOverride Condition="''!='hint: .NET 6.0 macOS AppKit'">$(TargetFrameworkOverride);net6.0-macos</TargetFrameworkOverride>-->
+		
+		<!-- DO NOT COMMENT OUT: netstandard2.0 is a required tfm in all cases -->
+		<TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('netstandard2.0'))">netstandard2.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
 
-		This property controls the platform built by Visual Studio.
-
-		Available build targets:
-
-		┌───────────────────────────────────────────┬─────────────────────────┐
-		│ TargetFrameworkOverride                   │ Platform                │
-		├───────────────────────────────────────────┼─────────────────────────┤
-		│ uap10.0.18362                             │ Windows                 │
-		│ net6.0-windows10.0.18362                  │ WinAppSDK Windows       │
-		│ xamarinios10                              │ iOS                     │
-		│ MonoAndroid12.0                           │ Android 12.0            │
-		│ netstandard2.0                            │ WebAssembly, Skia       │
-		│ net6.0-ios                                │ .NET 6 iOS              │
-		│ net6.0-android                            │ .NET 6 Android          │
-		│ net6.0-maccatalyst                        │ .NET 6 macOS Catalyst   │
-		│ net6.0-macos                              │ .NET 6 macOS AppKit     │
-		│ xamarinmac20                              │ macOS                   │
-		└───────────────────────────────────────────┴─────────────────────────┘
-
-		*** WARNING ***
-		Note that changing that property while the solution is opened leads to
-		unstable nuget restore operations, and Visual Studio instabilities such
-		as caching issues or crashes.
-
-		Always close the solution before changing or activating this property.
-		*** WARNING ***
-
-	  ### NugetOverrideVersion ###
-	  
-		This property allows the override of the nuget local cache.
-		Set it to the version you want to override, used in another app.
-		You will see the override path in the build output.
-		The packages are located under this directory: "%USERPROFILE%\.nuget\packages".
-
-	  ### DisableNet6MobileTargets ###
-
-		Uncomment this line to disable bulding the net6.0 mobile SDK TargetFrameworks
-	-->
+		<!-- 
+			NugetOverrideVersion allows the override of the nuget local cache.
+			Set it to the version you want to override, used in another app.
+			You will see the override path in the build output.
+			The packages are located under this directory: "%USERPROFILE%\.nuget\packages".
+		-->
+		<!-- <NugetOverrideVersion>2.6.0-dev.34</NugetOverrideVersion> -->
+		
+		<!-- DisableNet6MobileTargets disables bulding the net6.0 mobile SDK TargetFrameworks -->
+		<!--<DisableNet6MobileTargets>true</DisableNet6MobileTargets>-->
 	</PropertyGroup>
 </Project>
