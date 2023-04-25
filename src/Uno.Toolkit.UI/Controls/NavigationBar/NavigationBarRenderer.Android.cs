@@ -245,8 +245,9 @@ namespace Uno.Toolkit.UI
 					{
 						// This ensures that Behaviors expecting this button to be in the logical tree work.
 						primaryCommand.SetParent(Element);
-						var renderer = primaryCommand.GetRenderer(() => new AppBarButtonRenderer(primaryCommand));
-						renderer.Native = menuItem;
+						primaryCommand.AddOrUpdateRenderer(
+							onCreate: btn => new AppBarButtonRenderer(btn) { Native = menuItem },
+							onUpdate: (btn, renderer) => renderer.Native = menuItem);
 
 						
 					}
@@ -260,23 +261,23 @@ namespace Uno.Toolkit.UI
 					{
 						// This ensures that Behaviors expecting this button to be in the logical tree work. 
 						secondaryCommand.SetParent(Element);
-						var renderer = secondaryCommand.GetRenderer(() => new AppBarButtonRenderer(secondaryCommand, isInOverflow: true));
-						renderer.Native = menuItem;
-
-						
+						secondaryCommand.AddOrUpdateRenderer(
+							onCreate: btn => new AppBarButtonRenderer(btn) { Native = menuItem, IsInOverflow = true },
+							onUpdate: (btn, renderer) => renderer.Native = menuItem);
 					}
 				}
 			}
 
-			var MainCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
-			var MainCommandMode = (MainCommandMode)element.GetValue(NavigationBar.MainCommandModeProperty);
+			var mainCommand = element.GetValue(NavigationBar.MainCommandProperty) as AppBarButton;
+			var mainCommandMode = (MainCommandMode)element.GetValue(NavigationBar.MainCommandModeProperty);
 
-			if (MainCommand is { } mainCommand)
+			if (mainCommand is { })
 			{
 				// This ensures that Behaviors expecting this button to be in the logical tree work. 
 				mainCommand.SetParent(Element);
-				var renderer = mainCommand.GetRenderer(() => new NavigationAppBarButtonRenderer(mainCommand, MainCommandMode));
-				renderer.Native = native;
+				mainCommand.AddOrUpdateRenderer(
+							onCreate: btn => new NavigationAppBarButtonRenderer(btn) { Native = native, Mode = mainCommandMode },
+							onUpdate: (btn, renderer) => renderer.Native = native);
 			}
 			else
 			{

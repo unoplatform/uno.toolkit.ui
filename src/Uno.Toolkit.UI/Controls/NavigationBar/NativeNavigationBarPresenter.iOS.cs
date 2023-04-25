@@ -71,14 +71,9 @@ namespace Uno.Toolkit.UI
 			{
 				navBar = TemplatedParent as NavigationBar;
 				_navBarRef = new WeakReference<NavigationBar?>(navBar);
-
-				_navigationBar = navBar?.GetRenderer(RendererFactory).Native;
-
 			}
-			else
-			{
-				_navigationBar = navBar?.ResetRenderer(RendererFactory).Native;
-			}
+
+			_navigationBar = navBar?.GetOrAddDefaultRenderer().Native;
 
 			if (navBar is { })
 			{
@@ -131,15 +126,6 @@ namespace Uno.Toolkit.UI
 			{
 				navBar?.TryPerformMainCommand();
 			}
-		}
-
-		NavigationBarRenderer RendererFactory()
-		{
-			NavigationBar? navBar = null;
-
-			_navBarRef?.TryGetTarget(out navBar);
-
-			return new NavigationBarRenderer(navBar!);
 		}
 
 		protected override Size MeasureOverride(Size size)

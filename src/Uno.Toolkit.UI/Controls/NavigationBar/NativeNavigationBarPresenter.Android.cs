@@ -51,7 +51,7 @@ namespace Uno.Toolkit.UI
 			var navBar = TemplatedParent as NavigationBar;
 			if (navBar is { })
 			{
-				Content = navBar.GetRenderer(() => new NavigationBarRenderer(navBar)).Native;
+				Content = navBar.GetOrAddDefaultRenderer().Native;
 				navBar.MainCommand.Click += OnMainCommandClicked;
 				_mainCommandClickHandler.Disposable = null;
 				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClicked);

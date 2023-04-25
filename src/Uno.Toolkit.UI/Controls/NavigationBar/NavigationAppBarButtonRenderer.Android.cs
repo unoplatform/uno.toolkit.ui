@@ -39,12 +39,18 @@ namespace Uno.Toolkit.UI
 {
 	internal class NavigationAppBarButtonRenderer : Renderer<AppBarButton, Toolbar>
 	{
-		private readonly MainCommandMode _mode;
-
-		public NavigationAppBarButtonRenderer(AppBarButton element, MainCommandMode mode) : base(element) 
+		private MainCommandMode _mode;
+		public MainCommandMode Mode
 		{
-			_mode = mode;
+			get => _mode;
+			set
+			{
+				_mode = value;
+				Invalidate();
+			}
 		}
+
+		public NavigationAppBarButtonRenderer(AppBarButton element) : base(element) { }
 
 		protected override Toolbar CreateNativeInstance() => throw new NotSupportedException("The Native instance must be provided.");
 

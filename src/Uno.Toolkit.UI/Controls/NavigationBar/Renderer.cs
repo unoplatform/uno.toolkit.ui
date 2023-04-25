@@ -139,16 +139,58 @@ namespace Uno.Toolkit.UI
 	{
 		private static readonly WeakAttachedDictionary<DependencyObject, Type> _renderers = new WeakAttachedDictionary<DependencyObject, Type>();
 
-		public static TRenderer GetRenderer<TElement, TRenderer>(this TElement element, Func<TRenderer>? rendererFactory)
+		public static TRenderer? TryGetRenderer<TElement, TRenderer>(this TElement element)
 			where TElement : DependencyObject
+			where TRenderer : class
 		{
-			return _renderers.GetValue(element, typeof(TRenderer), rendererFactory);
+			TRenderer? renderer = null;
+			if (_renderers.GetValue<TRenderer>(element, typeof(TRenderer)) is { } existingRenderer)
+			{
+				renderer = existingRenderer;
+			}
+
+			return renderer;
 		}
 
-		public static TRenderer ResetRenderer<TElement, TRenderer>(this TElement element, Func<TRenderer>? rendererFactory)
+		public static void SetRenderer<TElement, TRenderer>(this TElement element, TRenderer? renderer)
 			where TElement : DependencyObject
 		{
-			return _renderers.GetValue(element, typeof(TRenderer), rendererFactory);
+			_renderers.SetValue(element, typeof(TRenderer), renderer);
 		}
+
+		public static void AddOrUpdateRenderer<TElement, TRenderer>(this TElement element, Func<TElement, TRenderer> onCreate, Action<TElement, TRenderer>? onUpdate = null)
+			where TElement : DependencyObject
+			where TRenderer : class
+		{
+			if (_renderers.GetValue<TRenderer>(element, typeof(TRenderer)) is { } renderer)
+			{
+				onUpdate?.Invoke(element, renderer);
+			}
+			else
+			{
+				element.SetRenderer(onCreate(element));
+			}
+		}
+
+		public static TRenderer GetOrAddRenderer<TElement, TRenderer>(this TElement element, Func<TElement, TRenderer> rendererFactory)
+			where TElement : DependencyObject
+			where TRenderer : class
+		{
+			if (_renderers.GetValue<TRenderer>(element, typeof(TRenderer)) is not { } existingRenderer)
+			{
+				existingRenderer = rendererFactory(element);
+				element.SetRenderer(existingRenderer);
+			}
+
+			return existingRenderer;
+		}
+
+#if __IOS__ || __ANDROID__
+		public static AppBarButtonRenderer GetOrAddDefaultRenderer(this AppBarButton appBarButton)
+			=> GetOrAddRenderer(appBarButton, elt => new AppBarButtonRenderer(elt));
+
+		public static NavigationBarRenderer GetOrAddDefaultRenderer(this NavigationBar navBar)
+			=> GetOrAddRenderer(navBar, elt => new NavigationBarRenderer(elt));
+#endif
 	}
 }

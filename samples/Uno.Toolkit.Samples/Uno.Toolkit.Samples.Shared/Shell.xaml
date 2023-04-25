@@ -11,14 +11,12 @@
 			 mc:Ignorable="wasm xamarin">
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
 		<Grid.RowDefinitions>
 			<RowDefinition x:Name="TopPaddingRow"
 						   Height="0" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-
 
 		<!-- We set CompactModeThresholdWidth to a very high value so that it never happens. We don't want to use the compact mode. -->
 		<muxc:NavigationView Grid.Row="2"
