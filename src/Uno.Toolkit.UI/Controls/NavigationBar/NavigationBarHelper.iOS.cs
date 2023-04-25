@@ -19,12 +19,16 @@ namespace Uno.Toolkit.UI
 	{
 		internal static void SetNavigationBar(NavigationBar navigationBar, UIKit.UINavigationBar? uiNavigationBar)
 		{
-			navigationBar.GetOrAddRenderer(navBar => new NavigationBarRenderer(navBar)).Native = uiNavigationBar;
+			navigationBar.AddOrUpdateRenderer(
+				onCreate: navBar => new NavigationBarRenderer(navBar) { Native = uiNavigationBar },
+				onUpdate: (navBar, renderer) => renderer.Native = uiNavigationBar);
 		}
 
 		internal static void SetNavigationItem(NavigationBar navigationBar, UIKit.UINavigationItem? navigationItem)
 		{
-			navigationBar.GetOrAddRenderer(navBar => new NavigationBarNavigationItemRenderer(navBar)).Native = navigationItem;
+			navigationBar.AddOrUpdateRenderer(
+				onCreate: navBar => new NavigationBarNavigationItemRenderer(navBar) { Native = navigationItem },
+				onUpdate: (navBar, renderer) => renderer.Native = navigationItem);
 		}
 
 		/// <summary>

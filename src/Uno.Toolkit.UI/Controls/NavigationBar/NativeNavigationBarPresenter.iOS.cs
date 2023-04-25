@@ -73,7 +73,7 @@ namespace Uno.Toolkit.UI
 				_navBarRef = new WeakReference<NavigationBar?>(navBar);
 			}
 
-			_navigationBar = navBar?.GetOrAddRenderer(nb => new NavigationBarRenderer(nb)).Native;
+			_navigationBar = navBar?.GetOrAddDefaultRenderer().Native;
 
 			if (navBar is { })
 			{

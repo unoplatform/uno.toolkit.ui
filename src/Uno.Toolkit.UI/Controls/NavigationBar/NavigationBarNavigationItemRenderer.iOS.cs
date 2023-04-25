@@ -138,7 +138,7 @@ namespace Uno.Toolkit.UI
 			{
 				btn.SetParent(Element);
 
-				if (btn.GetOrAddRenderer(appBarBtn => new AppBarButtonRenderer(appBarBtn)).Native is { } uiBarButton)
+				if (btn.GetOrAddDefaultRenderer().Native is { } uiBarButton)
 				{
 					rightBarButtons.Add(uiBarButton);
 				}
@@ -156,7 +156,7 @@ namespace Uno.Toolkit.UI
 				if (mode == MainCommandMode.Action ||
 					(mode == MainCommandMode.Back && _backItem == null))
 				{
-					native.LeftBarButtonItem = mainCommand.GetOrAddRenderer(mainBtn => new AppBarButtonRenderer(mainBtn)).Native;
+					native.LeftBarButtonItem = mainCommand.GetOrAddDefaultRenderer().Native;
 				}
 				else
 				{
@@ -175,7 +175,7 @@ namespace Uno.Toolkit.UI
 
 					if (mainCommandIcon is { } icon && string.IsNullOrEmpty(_backItem?.BackButtonTitle))
 					{
-						native.LeftBarButtonItem = mainCommand.GetOrAddRenderer(mainBtn => new AppBarButtonRenderer(mainBtn)).Native;
+						native.LeftBarButtonItem = mainCommand.GetOrAddDefaultRenderer().Native;
 					}
 					else
 					{

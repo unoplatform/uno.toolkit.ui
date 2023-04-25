@@ -184,5 +184,13 @@ namespace Uno.Toolkit.UI
 
 			return existingRenderer;
 		}
+
+#if __IOS__ || __ANDROID__
+		public static AppBarButtonRenderer GetOrAddDefaultRenderer(this AppBarButton appBarButton)
+			=> GetOrAddRenderer(appBarButton, elt => new AppBarButtonRenderer(elt));
+
+		public static NavigationBarRenderer GetOrAddDefaultRenderer(this NavigationBar navBar)
+			=> GetOrAddRenderer(navBar, elt => new NavigationBarRenderer(elt));
+#endif
 	}
 }

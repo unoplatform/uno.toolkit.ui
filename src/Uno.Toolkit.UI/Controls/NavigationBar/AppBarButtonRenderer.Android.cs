@@ -44,9 +44,18 @@ namespace Uno.Toolkit.UI
 		private bool _isInOverflow;
 		private DependencyObject? _elementParent;
 
-		public AppBarButtonRenderer(AppBarButton element, bool isInOverflow = false) : base(element)
+		public bool IsInOverflow
 		{
-			_isInOverflow = isInOverflow;
+			get => _isInOverflow;
+			set
+			{
+				_isInOverflow = value;
+				Invalidate();
+			}
+		}
+
+		public AppBarButtonRenderer(AppBarButton element) : base(element)
+		{
 			element.ViewAttachedToWindow += OnElementAttachedToWindow;
 		}
 
