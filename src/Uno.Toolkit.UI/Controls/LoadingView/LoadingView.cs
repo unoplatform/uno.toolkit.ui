@@ -26,6 +26,25 @@ namespace Uno.Toolkit.UI
 			public const string Loaded = nameof(Loaded);
 		}
 
+		#region DependencyProperty: DisableAnimations
+
+		public static DependencyProperty DisableAnimationsProperty { get; } = DependencyProperty.Register(
+			nameof(DisableAnimations),
+			typeof(bool),
+			typeof(LoadingView),
+			new PropertyMetadata(false));
+
+		/// <summary>
+		/// Gets and sets the whether animations will play when transitioning to Loaded state.
+		/// </summary>
+		public bool DisableAnimations
+		{
+			get => (bool)GetValue(DisableAnimationsProperty);
+			set => SetValue(DisableAnimationsProperty, value);
+		}
+
+		#endregion
+
 		#region DependencyProperty: Source
 
 		public static DependencyProperty SourceProperty { get; } = DependencyProperty.Register(
@@ -131,7 +150,7 @@ namespace Uno.Toolkit.UI
 				? VisualStateNames.Loading
 				: VisualStateNames.Loaded;
 
-			VisualStateManager.GoToState(this, loadingState, IsLoaded);
+			VisualStateManager.GoToState(this, loadingState, IsLoaded && !DisableAnimations);
 		}
 	}
 }
