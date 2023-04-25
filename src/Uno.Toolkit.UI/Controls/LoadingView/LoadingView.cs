@@ -26,21 +26,21 @@ namespace Uno.Toolkit.UI
 			public const string Loaded = nameof(Loaded);
 		}
 
-		#region DependencyProperty: DisableAnimations
+		#region DependencyProperty: UseTransitions
 
-		public static DependencyProperty DisableAnimationsProperty { get; } = DependencyProperty.Register(
-			nameof(DisableAnimations),
+		public static DependencyProperty UseTransitionsProperty { get; } = DependencyProperty.Register(
+			nameof(UseTransitions),
 			typeof(bool),
 			typeof(LoadingView),
-			new PropertyMetadata(false));
+			new PropertyMetadata(true));
 
 		/// <summary>
-		/// Gets and sets the whether animations will play when transitioning to Loaded state.
+		/// Gets and sets the whether transitions will play when going between states.
 		/// </summary>
-		public bool DisableAnimations
+		public bool UseTransitions
 		{
-			get => (bool)GetValue(DisableAnimationsProperty);
-			set => SetValue(DisableAnimationsProperty, value);
+			get => (bool)GetValue(UseTransitionsProperty);
+			set => SetValue(UseTransitionsProperty, value);
 		}
 
 		#endregion
@@ -150,7 +150,7 @@ namespace Uno.Toolkit.UI
 				? VisualStateNames.Loading
 				: VisualStateNames.Loaded;
 
-			VisualStateManager.GoToState(this, loadingState, IsLoaded && !DisableAnimations);
+			VisualStateManager.GoToState(this, loadingState, IsLoaded && UseTransitions);
 		}
 	}
 }
