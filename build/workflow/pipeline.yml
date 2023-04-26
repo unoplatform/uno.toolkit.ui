@@ -76,6 +76,7 @@ jobs:
   steps:
     - template: templates/gitversion.yml
     - template: templates/dotnet-workload-install-windows.yml
+    - template: templates/canary-updater.yml
 
     # This SDK version is needed as long as `uap10.0` will be supported in Uno.Core
     - powershell: .\build\Install-WindowsSdkISO.ps1 18362
@@ -127,6 +128,7 @@ jobs:
 
   - template: templates/gitversion.yml
   - template: templates/dotnet-workload-install-mac.yml
+  - template: templates/canary-updater.yml
 
   - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
     displayName: Select Xamarin Version
