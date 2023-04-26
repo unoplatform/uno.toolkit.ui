@@ -35,7 +35,7 @@ steps:
       gci -r -include "info.plist" |
       foreach-object {
           $a = $_.fullname; ( get-content $a ) |
-          foreach-object { $_ -replace "uno.platform.chefs","uno.platform.chefs-canary" } |
+          foreach-object { $_ -replace "uno.platform.toolkit","uno.platform.toolkit-canary" } |
           set-content $a }
     displayName: 'Adjust info.plist bundle name'
     condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
@@ -44,7 +44,7 @@ steps:
       gci -r -include AndroidManifest.xml |
       foreach-object {
           $a = $_.fullname; ( get-content $a ) |
-          foreach-object { $_ -replace "uno.platform.chefs","uno.platform.chefs-canary" } |
+          foreach-object { $_ -replace "uno.platform.toolkit","uno.platform.toolkit-canary" } |
           set-content $a }
     displayName: 'Adjust AndroidManifest.xml package name'
     condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
