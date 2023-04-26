@@ -1,4 +1,3 @@
-
 steps:
   - task: UseDotNet@2
     displayName: 'Use .NET runtime 7.0.100'
@@ -18,7 +17,7 @@ steps:
   - task: nventiveCanaryUpdater@5
     condition: eq(variables['IsCanaryBranch'], true)
     inputs:
-      solution: '$(build.sourcesdirectory)'
+      solution: src/Uno.Toolkit.sln
       useNuGetOrg: true
       usePrivateFeed: false
       mergeBranch: true
