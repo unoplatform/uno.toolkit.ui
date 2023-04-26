@@ -13,8 +13,10 @@
 							 IsDesignAgnostic="True">
 		<sample:SamplePageLayout.DesignAgnosticTemplate>
 			<DataTemplate>
-                <utu:LoadingView DataContext="{Binding Data}"
-                                 LoadingContent="Loading....">
+				<StackPanel>
+				<utu:LoadingView DataContext="{Binding Data}"
+                                 LoadingContent="Loading...."
+								 x:Name="LoadingView">
 					<utu:LoadingView.Source>
 						<utu:CompositeLoadableSource>
 							<utu:LoadableSource Source="{Binding LoadContent0Command}" />
@@ -42,6 +44,15 @@
                         </DataTemplate>
                     </utu:LoadingView.LoadingContentTemplate>
 				</utu:LoadingView>
+					<ToggleSwitch IsOn="{Binding UseTransitions, ElementName=LoadingView, Mode=TwoWay}">
+						<ToggleSwitch.OnContent>
+							<TextBlock Text="Transitions enabled" />
+						</ToggleSwitch.OnContent>
+						<ToggleSwitch.OffContent>
+							<TextBlock Text="Transitions disabled" />
+						</ToggleSwitch.OffContent>
+					</ToggleSwitch>
+				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.DesignAgnosticTemplate>
 	</sample:SamplePageLayout>
