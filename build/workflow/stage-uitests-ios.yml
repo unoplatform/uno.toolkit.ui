@@ -1,6 +1,6 @@
 ﻿jobs:
 - job: iOS_Build_For_Tests
-  displayName: 'Build iOS Samples App'
+  displayName: 'Build iOS Samples App for UI Tests'
 
   pool:
     vmImage: 'macOS-12'
@@ -15,12 +15,12 @@
   strategy:
     maxParallel: 2
     matrix:
-      UWP:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
       WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
-        XAML_FLAVOR_BUILD: WinUI
+        ArtifactName: ios-winui-xamarin-uitest
+        ProjectName: Uno.Toolkit.WinUI.Samples
+      UWP:
+        ArtifactName: ios-uwp-xamarin-uitest
+        ProjectName: Uno.Toolkit.Samples
 
   steps:
   - checkout: self
@@ -45,26 +45,29 @@
     # https://github.com/actions/virtual-environments/issues/1932
     displayName: Apply workaround for Azure Devops issue 1932
 
-  - script: |
-      mono '$(VS_MSBUILD)' '$(BUILD.SOURCESDIRECTORY)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).iOS/$(SAMPLE_PROJECT_NAME).iOS.csproj' /m /r /p:Configuration=Release /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet6MobileTargets=true /p:IsUiAutomationMappingEnabled=true /bl:$(BUILD.ARTIFACTSTAGINGDIRECTORY)/ios-sampleapp.binlog
-    displayName: Build iOS Samples App ($(XAML_FLAVOR_BUILD))
+  - task: MSBuild@1
+    displayName: Build project
+    retryCountOnTaskFailure: 3
+    inputs:
+      solution: "$(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).iOS/$(ProjectName).iOS.csproj"
+      msbuildArguments: /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet6MobileTargets=true /p:IsUiAutomationMappingEnabled=true /bl:$(BUILD.ARTIFACTSTAGINGDIRECTORY)/$(ArtifactName).binlog
 
   - task: CopyFiles@2
+    displayName: 'Publish Binaries'
+    retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).iOS/bin/iPhoneSimulator/Release/$(SAMPLE_PROJECT_NAME).app
+      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).iOS/bin/iPhoneSimulator/Release/$(ProjectName).app
       Contents: '**'
-      TargetFolder: $(build.artifactstagingdirectory)/$(SAMPLE_PROJECT_NAME).app
+      TargetFolder: $(build.artifactstagingdirectory)/$(ProjectName).app
       CleanTargetFolder: false
       OverWrite: false
       flattenFolders: false
 
   - task: PublishBuildArtifacts@1
-    condition: always()
     retryCountOnTaskFailure: 3
+    condition: always()
     inputs:
-      PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: sampleapp-ios-build-$(XAML_FLAVOR_BUILD)
-      ArtifactType: Container
+      ArtifactName: $(ArtifactName)
 
 - job: iOS_UITests
   displayName: 'Run iOS UI Tests'
@@ -86,25 +89,25 @@
         XAML_FLAVOR_BUILD: UWP
         UITEST_TEST_MODE_NAME: Automated
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-UWP-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-ios-build-UWP
+        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-xamarin-uitest
       WinUI:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: Automated
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-WinUI-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-ios-build-WinUI
+        SAMPLEAPP_ARTIFACT_NAME: ios-winui-xamarin-uitest
       UWP_Runtime:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: UWP
         UITEST_TEST_MODE_NAME: RuntimeTests
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-UWP-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-ios-build-UWP
+        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-xamarin-uitest
       WinUI_Runtime:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: RuntimeTests
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-WinUI-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-ios-build-WinUI
+        SAMPLEAPP_ARTIFACT_NAME: ios-winui-xamarin-uitest
 
   pool:
     vmImage: 'macOS-12'
