@@ -20,16 +20,31 @@
 					<Grid x:Name="RootPanel">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="LoadingStates">
+								<VisualStateGroup.Transitions>
+									<VisualTransition From="Loading"
+													  To="Loaded">
+										<Storyboard>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+																		   Storyboard.TargetProperty="Opacity">
+												<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}"
+																	  Value="1" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingContentPresenter"
+																		   Storyboard.TargetProperty="Opacity">
+												<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}"
+																	  Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualTransition>
+								</VisualStateGroup.Transitions>
 								<VisualState x:Name="Loading" />
 								<VisualState x:Name="Loaded">
-									<Storyboard>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity">
-											<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}" Value="1" />
-										</DoubleAnimationUsingKeyFrames>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingContentPresenter" Storyboard.TargetProperty="Opacity">
-											<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}" Value="0" />
-										</DoubleAnimationUsingKeyFrames>
-									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Opacity"
+												Value="1" />
+										<Setter Target="LoadingContentPresenter.Opacity"
+												Value="0" />
+									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
