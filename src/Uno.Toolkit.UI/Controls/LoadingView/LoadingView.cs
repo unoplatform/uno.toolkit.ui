@@ -120,6 +120,7 @@ namespace Uno.Toolkit.UI
 
 		private readonly SerialDisposable _subscription = new();
 		private bool _isReady;
+		private string _currentState = string.Empty;
 
 		public LoadingView()
 		{
@@ -141,7 +142,6 @@ namespace Uno.Toolkit.UI
 
 			_subscription.Disposable = Source?.BindIsExecuting(UpdateVisualState);
 		}
-
 		private void UpdateVisualState()
 		{
 			if (!_isReady) return;
@@ -149,7 +149,11 @@ namespace Uno.Toolkit.UI
 			var loadingState = Source?.IsExecuting ?? true
 				? VisualStateNames.Loading
 				: VisualStateNames.Loaded;
-
+			if(loadingState == _currentState)
+			{
+				return;
+			}
+			_currentState = loadingState;
 			VisualStateManager.GoToState(this, loadingState, IsLoaded && UseTransitions);
 		}
 	}
