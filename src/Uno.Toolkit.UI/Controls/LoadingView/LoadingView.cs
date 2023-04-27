@@ -146,15 +146,15 @@ namespace Uno.Toolkit.UI
 		{
 			if (!_isReady) return;
 
-			var loadingState = Source?.IsExecuting ?? true
+			var targetState = Source?.IsExecuting ?? true
 				? VisualStateNames.Loading
 				: VisualStateNames.Loaded;
-			if(loadingState == _currentState)
+			if (targetState == _currentState)
 			{
 				return;
 			}
-			_currentState = loadingState;
-			VisualStateManager.GoToState(this, loadingState, IsLoaded && UseTransitions);
+			_currentState = targetState;
+			VisualStateManager.GoToState(this, targetState, IsLoaded && UseTransitions);
 		}
 	}
 }
