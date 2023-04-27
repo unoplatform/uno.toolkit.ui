@@ -13,7 +13,7 @@
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<AssemblyName>Uno.Toolkit.WinUI</AssemblyName>
 		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
-		<DefineConstants Condition="$(_IsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
+		<DefineConstants Condition="$(_IsWindowsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
 		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
@@ -29,7 +29,7 @@
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(_IsWinUI)">
+	<ItemGroup Condition="$(_IsWindowsWinUI)">
 		<PackageReference Include="Microsoft.WindowsAppSDK" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
 	</ItemGroup>

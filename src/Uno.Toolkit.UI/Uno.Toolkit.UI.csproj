@@ -23,7 +23,7 @@
 	</ItemGroup>
 
 	<Choose>
-		<When Condition="$(_IsUWP) or $(_IsWinUI)">
+		<When Condition="$(_IsWindowsUWP) or $(_IsWindowsWinUI)">
 			<ItemGroup>
 				<IncludeXamlNamespaces Include="winToolkit" />
 			</ItemGroup>
@@ -42,7 +42,7 @@
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
+	<ItemGroup Condition="$(_IsWindowsUWP)">
 		<PackageReference Include="Microsoft.UI.Xaml" />
 	</ItemGroup>
 
