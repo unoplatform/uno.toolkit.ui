@@ -87,6 +87,7 @@
 										  VerticalContentAlignment="Stretch" />
 						<ContentControl x:Name="LoadingContentPresenter"
 										Content="{TemplateBinding LoadingContent}"
+										IsHitTestVisible="False"
 										ContentTemplate="{TemplateBinding LoadingContentTemplate}"
 										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										HorizontalContentAlignment="Stretch"
