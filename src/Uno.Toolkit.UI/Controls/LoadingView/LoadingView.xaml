@@ -13,12 +13,17 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-	<Style x:Key="DefaultLoadingView" TargetType="utu:LoadingView">
+	<Style x:Key="DefaultLoadingView"
+		   TargetType="utu:LoadingView">
 
-		<Setter Property="HorizontalAlignment" Value="Stretch" />
-		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-		<Setter Property="VerticalAlignment" Value="Stretch" />
-		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalContentAlignment"
+				Value="Stretch" />
 
 		<Setter Property="Template">
 			<Setter.Value>
@@ -64,9 +69,9 @@
 										  VerticalContentAlignment="Stretch" />
 						<ContentControl x:Name="LoadingContentPresenter"
 										Content="{TemplateBinding LoadingContent}"
-                                        ContentTemplate="{TemplateBinding LoadingContentTemplate}"
+										ContentTemplate="{TemplateBinding LoadingContentTemplate}"
 										ContentTemplateSelector="{TemplateBinding LoadingContentTemplateSelector}"
-                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										HorizontalContentAlignment="Stretch"
 										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 										VerticalContentAlignment="Stretch" />
@@ -75,7 +80,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-    
-    <Style TargetType="utu:LoadingView"
-           BasedOn="{StaticResource DefaultLoadingView}" />
+
+	<Style TargetType="utu:LoadingView"
+		   BasedOn="{StaticResource DefaultLoadingView}" />
 </ResourceDictionary>
