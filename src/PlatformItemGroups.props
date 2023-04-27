@@ -1,6 +1,31 @@
 <Project ToolsVersion="15.0">
 
 	<PropertyGroup>
+	
+		<IsMonoAndroid>false</IsMonoAndroid>
+		<IsMonoAndroid Condition="$(TargetFramework.ToLower().StartsWith('monoandroid'))">true</IsMonoAndroid>
+
+		<IsXamarinIOS>false</IsXamarinIOS>
+		<IsXamarinIOS Condition="$(TargetFramework.ToLower().StartsWith('xamarinios'))">true</IsXamarinIOS>
+
+		<IsXamarinMac>false</IsXamarinMac>
+		<IsXamarinMac Condition="$(TargetFramework.ToLower().StartsWith('xamarinmac'))">true</IsXamarinMac>
+
+		<IsAndroid>false</IsAndroid>
+		<IsAndroid Condition="$(IsMonoAndroid) or $(TargetFramework.ToLower().Contains('-android'))">true</IsAndroid>
+
+		<IsIOS>false</IsIOS>
+		<IsIOS Condition="$(IsXamarinIOS) or $(TargetFramework.ToLower().Contains('-ios'))">true</IsIOS>
+
+		<IsMacOS>false</IsMacOS>
+		<IsMacOS Condition="$(IsXamarinMac) or $(TargetFramework.ToLower().Contains('-macos'))">true</IsMacOS>
+
+		<IsCatalyst>false</IsCatalyst>
+		<IsCatalyst Condition="$(TargetFramework.ToLower().Contains('-maccatalyst'))">true</IsCatalyst>
+
+		<IsIOSOrCatalyst>false</IsIOSOrCatalyst>
+		<IsIOSOrCatalyst Condition="$(IsIOS) or $(IsCatalyst)">true</IsIOSOrCatalyst>
+
 		<_IsNetCore>false</_IsNetCore>
 		<_IsNetCore Condition="'$(TargetFramework)'=='net5.0' or '$(TargetFramework)'=='net6.0' or '$(TargetFramework)'=='net7.0'">true</_IsNetCore>
 

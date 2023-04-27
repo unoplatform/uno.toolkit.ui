@@ -42,7 +42,7 @@
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
+	<ItemGroup Condition="$(_IsUWP)">
 		<PackageReference Include="Microsoft.UI.Xaml" />
 	</ItemGroup>
 

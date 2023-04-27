@@ -23,7 +23,7 @@
 		<PackageReference Include="Uno.UI"  />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='uap10.0.18362'">
+	<ItemGroup Condition="$(_IsUWP)">
 		<PackageReference Include="Microsoft.UI.Xaml" />
 	</ItemGroup>
 
@@ -31,7 +31,7 @@
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='monoandroid12.0' or '$(TargetFramework)'=='xamarinmac20'">
+	<ItemGroup Condition="$(IsXamarinIOS) or $(IsMonoAndroid) or $(IsXamarinMac)">
 		<EmbeddedResource Include="LinkerConfig.xamarin.uwp.xml">
 			<LogicalName>$(AssemblyName).xml</LogicalName>
 		</EmbeddedResource>

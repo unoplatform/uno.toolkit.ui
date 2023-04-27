@@ -22,14 +22,14 @@
 
 		<DefineConstants Condition="'$(FrameworkLineage)' == 'UWP'">$(DefineConstants);IS_UWP</DefineConstants>
 		<DefineConstants Condition="'$(FrameworkLineage)' == 'WinUI'">$(DefineConstants);IS_WINUI</DefineConstants>
-		<DefineConstants Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
+		<DefineConstants Condition="$(_IsWinUI)">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
 	</PropertyGroup>
 
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.UI.Xaml" Condition="'$(TargetFramework)'=='uap10.0.18362'" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'" />
+		<PackageReference Include="Microsoft.UI.Xaml" Condition="$(_IsUWP)" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Condition="$(_IsWinUI)" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Condition="$(_IsWinUI)" />
 		
 		<PackageReference Include="Uno.UI" Condition="'$(FrameworkLineage)' == 'UWP'" />
 		<PackageReference Include="Uno.WinUI" Condition="'$(FrameworkLineage)' == 'WinUI'" />
