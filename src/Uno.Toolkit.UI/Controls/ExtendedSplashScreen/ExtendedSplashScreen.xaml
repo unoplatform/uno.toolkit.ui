@@ -5,7 +5,17 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
 
-	<x:String x:Key="DefaultExtendedSplashScreenAnimationDuration">00:00:00.083</x:String>
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Dark">
+			<x:String x:Key="DefaultExtendedSplashScreenAnimationDuration">00:00:00.083</x:String>
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<x:String x:Key="DefaultExtendedSplashScreenAnimationDuration">00:00:00.083</x:String>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+
 
 	<Style x:Key="DefaultExtendedSplashScreen"
 		   TargetType="utu:ExtendedSplashScreen">
@@ -31,17 +41,17 @@
 										<Storyboard>
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
 																		   Storyboard.TargetProperty="Opacity">
-												<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultExtendedSplashScreenAnimationDuration}"
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultExtendedSplashScreenAnimationDuration}"
 																	  Value="1" />
 											</DoubleAnimationUsingKeyFrames>
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="SplashScreenPresenter"
 																		   Storyboard.TargetProperty="Opacity">
-												<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultExtendedSplashScreenAnimationDuration}"
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultExtendedSplashScreenAnimationDuration}"
 																	  Value="0" />
 											</DoubleAnimationUsingKeyFrames>
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingContentPresenter"
 																		   Storyboard.TargetProperty="Opacity">
-												<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultExtendedSplashScreenAnimationDuration}"
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultExtendedSplashScreenAnimationDuration}"
 																	  Value="0" />
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>

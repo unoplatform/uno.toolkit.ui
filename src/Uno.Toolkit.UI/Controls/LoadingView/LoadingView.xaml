@@ -4,8 +4,14 @@
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
-
-	<x:String x:Key="DefaultLoadingViewAnimationDuration">00:00:00.083</x:String>
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Dark">
+			<x:String x:Key="DefaultLoadingViewAnimationDuration">00:00:00.083</x:String>
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<x:String x:Key="DefaultLoadingViewAnimationDuration">00:00:00.083</x:String>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
 
 	<Style x:Key="DefaultLoadingView" TargetType="utu:LoadingView">
 
@@ -26,12 +32,12 @@
 										<Storyboard>
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
 																		   Storyboard.TargetProperty="Opacity">
-												<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}"
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultLoadingViewAnimationDuration}"
 																	  Value="1" />
 											</DoubleAnimationUsingKeyFrames>
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingContentPresenter"
 																		   Storyboard.TargetProperty="Opacity">
-												<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}"
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultLoadingViewAnimationDuration}"
 																	  Value="0" />
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
