@@ -26,21 +26,21 @@ namespace Uno.Toolkit.UI
 			public const string Loaded = nameof(Loaded);
 		}
 
-		#region DependencyProperty: DisableAnimations
+		#region DependencyProperty: UseTransitions
 
-		public static DependencyProperty DisableAnimationsProperty { get; } = DependencyProperty.Register(
-			nameof(DisableAnimations),
+		public static DependencyProperty UseTransitionsProperty { get; } = DependencyProperty.Register(
+			nameof(UseTransitions),
 			typeof(bool),
 			typeof(LoadingView),
-			new PropertyMetadata(false));
+			new PropertyMetadata(true));
 
 		/// <summary>
-		/// Gets and sets the whether animations will play when transitioning to Loaded state.
+		/// Gets and sets the whether transitions will play when going between states.
 		/// </summary>
-		public bool DisableAnimations
+		public bool UseTransitions
 		{
-			get => (bool)GetValue(DisableAnimationsProperty);
-			set => SetValue(DisableAnimationsProperty, value);
+			get => (bool)GetValue(UseTransitionsProperty);
+			set => SetValue(UseTransitionsProperty, value);
 		}
 
 		#endregion
@@ -120,6 +120,7 @@ namespace Uno.Toolkit.UI
 
 		private readonly SerialDisposable _subscription = new();
 		private bool _isReady;
+		private string _currentState = string.Empty;
 
 		public LoadingView()
 		{
@@ -141,16 +142,19 @@ namespace Uno.Toolkit.UI
 
 			_subscription.Disposable = Source?.BindIsExecuting(UpdateVisualState);
 		}
-
 		private void UpdateVisualState()
 		{
 			if (!_isReady) return;
 
-			var loadingState = Source?.IsExecuting ?? true
+			var targetState = Source?.IsExecuting ?? true
 				? VisualStateNames.Loading
 				: VisualStateNames.Loaded;
-
-			VisualStateManager.GoToState(this, loadingState, IsLoaded && !DisableAnimations);
+			if (targetState == _currentState)
+			{
+				return;
+			}
+			_currentState = targetState;
+			VisualStateManager.GoToState(this, targetState, IsLoaded && UseTransitions);
 		}
 	}
 }

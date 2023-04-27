@@ -5,7 +5,17 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
 
-	<x:String x:Key="DefaultLoadingViewAnimationDuration">00:00:00.083</x:String>
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Dark">
+			<x:String x:Key="DefaultExtendedSplashScreenAnimationDuration">00:00:00.083</x:String>
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<x:String x:Key="DefaultExtendedSplashScreenAnimationDuration">00:00:00.083</x:String>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+
 
 	<Style x:Key="DefaultExtendedSplashScreen"
 		   TargetType="utu:ExtendedSplashScreen">
@@ -25,25 +35,42 @@
 					<Grid x:Name="RootPanel">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="LoadingStates">
+								<VisualStateGroup.Transitions>
+									<VisualTransition From="Loading"
+													  To="Loaded">
+										<Storyboard>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+																		   Storyboard.TargetProperty="Opacity">
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultExtendedSplashScreenAnimationDuration}"
+																	  Value="1" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="SplashScreenPresenter"
+																		   Storyboard.TargetProperty="Opacity">
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultExtendedSplashScreenAnimationDuration}"
+																	  Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingContentPresenter"
+																		   Storyboard.TargetProperty="Opacity">
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultExtendedSplashScreenAnimationDuration}"
+																	  Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualTransition>
+								</VisualStateGroup.Transitions>
 								<VisualState x:Name="Loading" />
 								<VisualState x:Name="Loaded">
-									<Storyboard>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-																	   Storyboard.TargetProperty="Opacity">
-											<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}"
-																  Value="1" />
-										</DoubleAnimationUsingKeyFrames>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="SplashScreenPresenter"
-																	   Storyboard.TargetProperty="Opacity">
-											<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}"
-																  Value="0" />
-										</DoubleAnimationUsingKeyFrames>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingContentPresenter"
-																	   Storyboard.TargetProperty="Opacity">
-											<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}"
-																  Value="0" />
-										</DoubleAnimationUsingKeyFrames>
-									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Opacity"
+												Value="1" />
+										<Setter Target="SplashScreenPresenter.Content"
+												Value="{x:Null}" />
+										<Setter Target="LoadingContentPresenter.Content"
+												Value="{x:Null}" />
+										<Setter Target="SplashScreenPresenter.Visibility"
+												Value="Collapsed" />
+										<Setter Target="LoadingContentPresenter.Visibility"
+												Value="Collapsed" />
+									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
@@ -64,6 +91,7 @@
 										  VerticalContentAlignment="Stretch" />
 						<ContentControl x:Name="LoadingContentPresenter"
 										Content="{TemplateBinding LoadingContent}"
+										IsHitTestVisible="False"
 										ContentTemplate="{TemplateBinding LoadingContentTemplate}"
 										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										HorizontalContentAlignment="Stretch"

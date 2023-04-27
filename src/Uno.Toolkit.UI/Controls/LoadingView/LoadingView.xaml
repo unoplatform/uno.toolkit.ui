@@ -4,15 +4,26 @@
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Dark">
+			<x:String x:Key="DefaultLoadingViewAnimationDuration">00:00:00.083</x:String>
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<x:String x:Key="DefaultLoadingViewAnimationDuration">00:00:00.083</x:String>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
 
-	<x:String x:Key="DefaultLoadingViewAnimationDuration">00:00:00.083</x:String>
+	<Style x:Key="DefaultLoadingView"
+		   TargetType="utu:LoadingView">
 
-	<Style x:Key="DefaultLoadingView" TargetType="utu:LoadingView">
-
-		<Setter Property="HorizontalAlignment" Value="Stretch" />
-		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-		<Setter Property="VerticalAlignment" Value="Stretch" />
-		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalContentAlignment"
+				Value="Stretch" />
 
 		<Setter Property="Template">
 			<Setter.Value>
@@ -20,16 +31,31 @@
 					<Grid x:Name="RootPanel">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="LoadingStates">
+								<VisualStateGroup.Transitions>
+									<VisualTransition From="Loading"
+													  To="Loaded">
+										<Storyboard>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+																		   Storyboard.TargetProperty="Opacity">
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultLoadingViewAnimationDuration}"
+																	  Value="1" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingContentPresenter"
+																		   Storyboard.TargetProperty="Opacity">
+												<LinearDoubleKeyFrame KeyTime="{ThemeResource DefaultLoadingViewAnimationDuration}"
+																	  Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualTransition>
+								</VisualStateGroup.Transitions>
 								<VisualState x:Name="Loading" />
 								<VisualState x:Name="Loaded">
-									<Storyboard>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity">
-											<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}" Value="1" />
-										</DoubleAnimationUsingKeyFrames>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="LoadingContentPresenter" Storyboard.TargetProperty="Opacity">
-											<LinearDoubleKeyFrame KeyTime="{StaticResource DefaultLoadingViewAnimationDuration}" Value="0" />
-										</DoubleAnimationUsingKeyFrames>
-									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Opacity"
+												Value="1" />
+										<Setter Target="LoadingContentPresenter.Opacity"
+												Value="0" />
+									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
@@ -43,9 +69,9 @@
 										  VerticalContentAlignment="Stretch" />
 						<ContentControl x:Name="LoadingContentPresenter"
 										Content="{TemplateBinding LoadingContent}"
-                                        ContentTemplate="{TemplateBinding LoadingContentTemplate}"
+										ContentTemplate="{TemplateBinding LoadingContentTemplate}"
 										ContentTemplateSelector="{TemplateBinding LoadingContentTemplateSelector}"
-                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										HorizontalContentAlignment="Stretch"
 										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 										VerticalContentAlignment="Stretch" />
@@ -54,7 +80,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-    
-    <Style TargetType="utu:LoadingView"
-           BasedOn="{StaticResource DefaultLoadingView}" />
+
+	<Style TargetType="utu:LoadingView"
+		   BasedOn="{StaticResource DefaultLoadingView}" />
 </ResourceDictionary>
