@@ -62,10 +62,14 @@
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Opacity"
 												Value="1" />
-										<Setter Target="SplashScreenPresenter.Opacity"
-												Value="0" />
-										<Setter Target="LoadingContentPresenter.Opacity"
-												Value="0" />
+										<Setter Target="SplashScreenPresenter.Content"
+												Value="{x:Null}" />
+										<Setter Target="LoadingContentPresenter.Content"
+												Value="{x:Null}" />
+										<Setter Target="SplashScreenPresenter.Visibility"
+												Value="Collapsed" />
+										<Setter Target="LoadingContentPresenter.Visibility"
+												Value="Collapsed" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
