@@ -1,8 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 using Uno.Extensions;
+using Uno.Toolkit.UI;
 using Uno.Toolkit.Samples.Entities;
+using Uno.Toolkit.Samples.Content;
+using Uno.Toolkit.Samples.Content.Controls;
+using Uno.Toolkit.Samples.Content.NestedSamples;
+using Uno.Toolkit.Samples.Helpers;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
@@ -17,13 +25,6 @@ using Windows.UI.Xaml.Navigation;
 
 using MUXC = Microsoft.UI.Xaml.Controls;
 using MUXCP = Microsoft.UI.Xaml.Controls.Primitives;
-using Uno.Toolkit.Samples.Content.Controls;
-using Uno.Toolkit.Samples.Helpers;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using VisualTreeHelperEx = Uno.Toolkit.Samples.Helpers.VisualTreeHelperEx;
-using Uno.Toolkit.Samples.Content.NestedSamples;
-using Uno.Toolkit.Samples.Content;
 
 namespace Uno.Toolkit.Samples
 {
@@ -184,7 +185,7 @@ namespace Uno.Toolkit.Samples
 					if (!nvi.IsSelected)
 					{
 						// depending on the DisplayMode, a NVIP may or may not be used.
-						var nvip = VisualTreeHelperEx.GetFirstDescendant<MUXCP.NavigationViewItemPresenter>(nvi, x => x.Name == "NavigationViewItemPresenter");
+						var nvip = nvi.GetFirstDescendant<MUXCP.NavigationViewItemPresenter>(x => x.Name == "NavigationViewItemPresenter");
 						VisualStateManager.GoToState((Control)nvip ?? nvi, "Normal", true);
 					}
 				});

@@ -9,7 +9,6 @@ using Windows.Foundation.Collections;
 using Uno.Toolkit.Samples.Content.NestedSamples;
 using Uno.Toolkit.UI;
 using Uno.Toolkit.Samples.Helpers;
-using VisualTreeHelperEx = Uno.Toolkit.Samples.Helpers.VisualTreeHelperEx;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
