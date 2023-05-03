@@ -10,6 +10,8 @@ using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using Windows.UI;
+using FluentAssertions;
+using FluentAssertions.Execution;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -64,17 +66,19 @@ internal class AutoLayoutTest
 		var layoutRect1Actual = LayoutInformation.GetLayoutSlot(SUT.Children[1] as FrameworkElement);
 		var layoutRect2Actual = LayoutInformation.GetLayoutSlot(SUT.Children[2] as FrameworkElement);
 
+		using var _ = new AssertionScope();
+
 		if (orientation is Orientation.Vertical)
 		{
-			Assert.AreEqual(expectedResult1, layoutRect0Actual.Y);
-			Assert.AreEqual(expectedResult2, layoutRect1Actual.Y);
-			Assert.AreEqual(expectedResult3, layoutRect2Actual.Y);
+			layoutRect0Actual.Y.Should().Be(expectedResult1);
+			layoutRect1Actual.Y.Should().Be(expectedResult2);
+			layoutRect2Actual.Y.Should().Be(expectedResult3);
 		}
 		else
 		{
-			Assert.AreEqual(expectedResult1, layoutRect0Actual.X);
-			Assert.AreEqual(expectedResult2, layoutRect1Actual.X);
-			Assert.AreEqual(expectedResult3, layoutRect2Actual.X);
+			layoutRect0Actual.X.Should().Be(expectedResult1);
+			layoutRect1Actual.X.Should().Be(expectedResult2);
+			layoutRect2Actual.X.Should().Be(expectedResult3);
 		}
 	}
 
