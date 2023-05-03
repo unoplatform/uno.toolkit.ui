@@ -6,6 +6,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Logging;
@@ -224,13 +225,7 @@ namespace Uno.Toolkit.UI
 			var visibleBounds = safeAreaOverride?.IsEmptyOrZero() ?? true
 				? ApplicationView.GetForCurrentView().VisibleBounds
 				: safeAreaOverride.GetValueOrDefault();
-#if __ANDROID__
-			var statusBarOffset = 0d;
-			if (!XamlWindow.Current.IsStatusBarTranslucent())
-			{
-				statusBarOffset = Windows.UI.ViewManagement.StatusBar.GetForCurrentView()?.OccludedRect.Height ?? 0d;
-			}
-#endif
+
 			if (withSoftInput)
 			{
 				var inputRect = InputPane.GetForCurrentView()?.OccludedRect ?? Rect.Empty;
@@ -247,11 +242,7 @@ namespace Uno.Toolkit.UI
 					// the InputRect to align with the VisibleBounds Rect.
 					if (totalOffset > 0)
 					{
-						
-
-						var navBarOffset = (totalOffset - statusBarOffset);
-
-						inputRect.Height -= navBarOffset;
+						inputRect.Height -= totalOffset;
 					}
 
 #endif
@@ -260,13 +251,7 @@ namespace Uno.Toolkit.UI
 
 				}
 			}
-#if __ANDROID__
-			else
-			{
-				visibleBounds.Y += statusBarOffset;
-				visibleBounds.Height -= statusBarOffset;
-			}
-#endif
+
 			return visibleBounds;
 #endif
 		}
@@ -279,8 +264,8 @@ namespace Uno.Toolkit.UI
 			private Rect? _overriddenVisibleBounds;
 			private InsetMask _insetMask;
 			private InsetMode _insetMode = InsetMode.Padding;
-			private readonly Thickness _originalPadding;
-			private readonly Thickness _originalMargin;
+			private Thickness _originalPadding;
+			private Thickness _originalMargin;
 			private Thickness _appliedPadding = new Thickness(0);
 			private Thickness _appliedMargin = new Thickness(0);
 			private readonly CompositeDisposable _subscriptions = new();
@@ -563,22 +548,27 @@ namespace Uno.Toolkit.UI
 					return;
 				}
 
-				if (_insetMode == InsetMode.Padding
-					&& !PaddingHelper.GetPadding(owner).Equals(insets)
-					&& PaddingHelper.SetPadding(owner, insets))
-				{
-					_appliedPadding = insets;
-					LogApplyInsets();
-				}
-				else if (_insetMode == InsetMode.Margin)
-				{
-					if (!owner.Margin.Equals(insets))
+				var dispatcher = owner.GetDispatcherCompat();
+
+				dispatcher.Invoke(DispatcherCompat.Priority.Normal, () => {
+					if (_insetMode == InsetMode.Padding
+						&& !PaddingHelper.GetPadding(owner).Equals(insets)
+						&& PaddingHelper.SetPadding(owner, insets))
 					{
-						_appliedMargin = insets;
-						owner.Margin = insets;
+						_appliedPadding = insets;
+						owner.UpdateLayout();
 						LogApplyInsets();
 					}
-				}
+					else if (_insetMode == InsetMode.Margin)
+					{
+						if (!owner.Margin.Equals(insets))
+						{
+							_appliedMargin = insets;
+							owner.Margin = insets;
+							LogApplyInsets();
+						}
+					}
+				});
 
 				void LogApplyInsets()
 				{
@@ -652,16 +642,20 @@ namespace Uno.Toolkit.UI
 
 				if (Owner is { } owner)
 				{
-					if (oldValue == InsetMode.Margin)
+					var dispatcher = owner.GetDispatcherCompat();
+					dispatcher.Invoke(DispatcherCompat.Priority.Normal, () =>
 					{
-						_appliedMargin = new Thickness(0);
-						owner.Margin = _originalMargin;
-					}
-					else if (oldValue == InsetMode.Padding)
-					{
-						_appliedPadding = new Thickness(0);
-						PaddingHelper.SetPadding(owner, _originalPadding);
-					}
+						if (newValue == InsetMode.Margin)
+						{
+							_originalMargin = owner.Margin;
+							owner.Margin = _appliedMargin;
+						}
+						else if (newValue == InsetMode.Padding)
+						{
+							_originalPadding = PaddingHelper.GetPadding(owner);
+							PaddingHelper.SetPadding(owner, _appliedPadding);
+						}
+					});
 				}
 
 				UpdateInsets();

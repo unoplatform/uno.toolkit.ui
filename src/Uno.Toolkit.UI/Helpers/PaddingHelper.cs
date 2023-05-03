@@ -41,12 +41,13 @@ namespace Uno.Toolkit.UI
 				uiElement.SetValue(property, padding);
 				return true;
 			}
-
 			return false;
 		}
 
 		internal static bool TryGetPadding(this FrameworkElement frameworkElement, out Thickness padding)
 		{
+
+
 			(var result, padding) = frameworkElement switch
 			{
 				Grid g => (true, g.Padding),

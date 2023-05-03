@@ -7,7 +7,8 @@
 		<item name="android:windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 		<item name="android:windowNoTitle">true</item>
-		
+		<item name="android:windowTranslucentNavigation">true</item>
+		<item name="android:windowTranslucentStatus">true</item>
 		<!-- This makes the status bar translucent and allows content to be drawn behind -->
 		<!-- <item name="android:windowTranslucentStatus">true</item>-->
 

@@ -10,96 +10,15 @@
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  Background="Green"
 	  mc:Ignorable="d">
-	<Grid AutomationProperties.AutomationId="WrappingGrid"
-		  x:Name="WrappingGrid">
-		<utu:SafeArea x:Name="MySafeArea"
-					  AutomationProperties.AutomationId="MySafeArea"
-					  HorizontalAlignment="Stretch"
-					  VerticalAlignment="Stretch"
-					  Background="Red"
-					  BorderBrush="Yellow"
-					  BorderThickness="{Binding RelativeSource={RelativeSource Self}, Path=Padding}">
-			<StackPanel HorizontalAlignment="Center"
-						VerticalAlignment="Center"
-						Spacing="10">
-				<Button AutomationProperties.AutomationId="ExitSampleButton"
-						Content="Exit Sample"
-						HorizontalAlignment="Center"
-						Click="ExitSample">
-					<um:ControlExtensions.Icon>
-						<SymbolIcon Symbol="Cancel" />
-					</um:ControlExtensions.Icon>
-				</Button>
-				<muxc:RadioButtons HorizontalAlignment="Center"
-								   Header="Inset Mode:">
-					<RadioButton x:Name="PaddingMode"
-								 AutomationProperties.AutomationId="PaddingMode"
-								 Checked="PaddingChecked"
-								 Content="Padding"
-								 IsChecked="True" />
-					<RadioButton x:Name="MarginMode"
-								 AutomationProperties.AutomationId="MarginMode"
-								 Checked="MarginChecked"
-								 Content="Margin" />
-				</muxc:RadioButtons>
-				<TextBlock HorizontalAlignment="Center"
-						   Text="Inset Mask:" />
-				<StackPanel HorizontalAlignment="Center"
-							Orientation="Horizontal">
-					<CheckBox x:Name="LeftMask"
-							  AutomationProperties.AutomationId="LeftMask"
-							  Checked="LeftChecked"
-							  Content="Left"
-							  Unchecked="LeftUnchecked" />
-					<CheckBox x:Name="TopMask"
-							  AutomationProperties.AutomationId="TopMask"
-							  Checked="TopChecked"
-							  Content="Top"
-							  Unchecked="TopUnchecked" />
-					<CheckBox x:Name="RightMask"
-							  AutomationProperties.AutomationId="RightMask"
-							  Checked="RightChecked"
-							  Content="Right"
-							  Unchecked="RightUnchecked" />
-					<CheckBox x:Name="BottomMask"
-							  AutomationProperties.AutomationId="BottomMask"
-							  Checked="BottomChecked"
-							  Content="Bottom"
-							  Unchecked="BottomUnchecked" />
-				</StackPanel>
-				<Button AutomationProperties.AutomationId="ClearMasks"
-						HorizontalAlignment="Center"
-						Click="ClearAllMasks"
-						Content="Clear Masks" />
-				<Button AutomationProperties.AutomationId="SetAllTwenty"
-						HorizontalAlignment="Center"
-						Click="AllTwenty"
-						Content="All 20" />
-				<TextBlock HorizontalAlignment="Center"
-						   Text="SafeArea Override:" />
-				<Border utu:SafeArea.Insets="SoftInput">
-					<StackPanel HorizontalAlignment="Center"
-								Orientation="Horizontal"
-								Spacing="10">
-						<TextBox x:Name="OverrideInsetLeft"
-								 AutomationProperties.AutomationId="OverrideInsetLeft"
-								 Header="Left"
-								 TextChanged="UpdateInsets" />
-						<TextBox x:Name="OverrideInsetTop"
-								 AutomationProperties.AutomationId="OverrideInsetTop"
-								 Header="Top"
-								 TextChanged="UpdateInsets" />
-						<TextBox x:Name="OverrideInsetRight"
-								 AutomationProperties.AutomationId="OverrideInsetRight"
-								 Header="Right"
-								 TextChanged="UpdateInsets" />
-						<TextBox x:Name="OverrideInsetBottom"
-								 AutomationProperties.AutomationId="OverrideInsetBottom"
-								 Header="Bottom"
-								 TextChanged="UpdateInsets" />
-					</StackPanel>
-				</Border>
-			</StackPanel>
-		</utu:SafeArea>
-	</Grid>
+	<Border VerticalAlignment="Stretch"
+		  HorizontalAlignment="Stretch"
+		  Background="Red"
+		  x:Name="MyRed">
+		<Border VerticalAlignment="Stretch"
+			  HorizontalAlignment="Stretch"
+			  Background="Blue"
+			  x:Name="MyBlue">
+			<Button Content="Force Layout" />
+		</Border>
+	</Border>
 </Page>

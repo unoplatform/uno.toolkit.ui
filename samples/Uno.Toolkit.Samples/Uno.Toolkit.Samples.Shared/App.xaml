@@ -12,15 +12,8 @@
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
 
-				<MaterialColorsV1 xmlns="using:Uno.Material"/>
-				<MaterialResourcesV1 xmlns="using:Uno.Material"/>
-				<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
-									  ColorOverrideSource="ms-appx:///ColorPaletteOverride.xaml" />
+				<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
 
-				<!-- Load Uno.Cupertino resources -->
-				<CupertinoColors xmlns="using:Uno.Cupertino" />
-				<CupertinoFonts xmlns="using:Uno.Cupertino" OverrideSource="ms-appx:///CupertinoFontsOverride.xaml" />
-				<CupertinoResources xmlns="using:Uno.Cupertino" />
 
 				<!-- Load application resources -->
 				<ResourceDictionary Source="Converters.xaml" />
