@@ -65,6 +65,19 @@
 				HorizontalAlignment="Left"
 				Style="{StaticResource PaneToggleButtonStyle}" />
 
-        <local:ModalDialog x:Name="ModalDialog" />
-    </Grid>
+		<local:ModalDialog x:Name="ModalDialog" />
+
+		<StackPanel x:Name="DebugPanel"
+					x:Load="False"
+					Grid.RowSpan="3"
+					Background="Pink"
+					Padding="5"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Bottom">
+			<StackPanel Orientation="Horizontal">
+				<Button Content="DebugVT" Click="DebugVT" />
+				<Button Content="T" Click="DebugVTAsync" />
+			</StackPanel>
+		</StackPanel>
+	</Grid>
 </UserControl>

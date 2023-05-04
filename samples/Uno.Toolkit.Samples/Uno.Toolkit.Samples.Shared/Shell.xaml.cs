@@ -1,12 +1,19 @@
 ﻿#if !IS_WINUI || HAS_UNO
 #define SYS_NAV_MGR_SUPPORTED
 #endif
+
 using System;
-using Windows.UI.Core;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
-using Uno.Toolkit.Samples.Content.NestedSamples;
-using Uno.Toolkit.UI;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.UI.Core;
+using Uno.Extensions;
+using Uno.Toolkit.Samples.Content;
 using Uno.Toolkit.Samples.Content.Controls;
+using Uno.Toolkit.Samples.Content.NestedSamples;
+using Uno.Toolkit.Samples.Helpers;
+using Uno.Toolkit.UI;
 
 #if __IOS__
 using Foundation;
@@ -61,6 +68,9 @@ namespace Uno.Toolkit.Samples
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
+#if DEBUG
+			this.FindName("DebugPanel"); // materialized x:Load=false element
+#endif
 			SetDarkLightToggleInitialState();
 		}
 
@@ -220,6 +230,68 @@ namespace Uno.Toolkit.Samples
 				NavigationViewControl.IsPaneVisible = true;
 				NavigationViewControl.PaneDisplayMode = MUXC.NavigationViewPaneDisplayMode.LeftMinimal;
 			}
+		}
+
+		private void DebugVT(object sender, RoutedEventArgs e)
+		{
+			object FindViewOfInterest()
+			{
+				// the view of interest is:
+				// - in RuntimeTestRunner, the "UnitTestsUIContentHelper.Content"
+				// - for any page, the active section of SamplePageLayout if present OR the content of that page
+				// ...
+				// todo: add support for [RequiresFullWindow], flyout, nested navigation sample
+
+				var content = NavigationViewControl.Content;
+				if (content is RuntimeTestRunner runner)
+				{
+					return runner.GetFirstDescendant<ContentControl>(x => x.Name == "unitTestContentRoot")?.Content;
+				}
+				else if (content is Page page)
+				{
+					if (page.GetFirstDescendant<SamplePageLayout>() is { } layout &&
+						layout.GetActivePresenter() is { } presenter)
+					{
+						// presenter.Content is the optional [SampleAttribute].DataType instance
+						return presenter.GetChildren().FirstOrDefault();
+					}
+					else
+					{
+						return page.Content;
+					}
+				}
+
+				return null;
+			}
+
+			// for the best viewing experience, paste the tree in VSCode (you can collapse node) with `ini` syntax highlighting
+			var tree = this.TreeGraph();
+			var target = FindViewOfInterest();
+			var targetTree = (target as DependencyObject)?.TreeGraph();
+
+			// note: you can also tag element with unique x:Name to inspect here
+			//var sut = this.GetFirstDescendant<Chip>(x => x.Name == "SUT");
+			//var tree = sut?.TreeGraph();
+
+#if WINDOWS || WINDOWS_UWP
+			var data = new DataPackage();
+			data.SetText(targetTree ?? tree);
+
+			Clipboard.SetContent(data);
+#elif __WASM__
+			Console.WriteLine(targetTree ?? tree);
+#endif
+
+			// note: insert a breakpoint around here or uncomment the next line to debug.
+			//if (Debugger.IsAttached) Debugger.Break();
+		}
+
+		private async void DebugVTAsync(object sender, RoutedEventArgs e)
+		{
+			// leave some time to perform action like: opening combo/flyout or navigation
+			await Task.Delay(5000);
+
+			DebugVT(sender, e);
 		}
 	}
 }

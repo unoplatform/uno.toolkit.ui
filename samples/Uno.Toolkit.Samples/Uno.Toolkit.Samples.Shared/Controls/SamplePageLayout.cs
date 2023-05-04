@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using Uno.Disposables;
 using Uno.Extensions;
+using Uno.Toolkit.UI;
 using Uno.Toolkit.Samples.Entities;
 using Uno.Toolkit.Samples.Helpers;
-using VisualTreeHelperEx = Uno.Toolkit.Samples.Helpers.VisualTreeHelperEx;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -218,16 +219,32 @@ namespace Uno.Toolkit.Samples
 		public T GetSampleChild<T>(Design mode, string name)
 			where T : FrameworkElement
 		{
-			var presenterName = mode switch
+			var presenter = mode switch
 			{
-				// M2/3 update broke this. Controls in MaterialTemplate(M2) are still not loaded (not until the combo is switched m2).
-				Design.Material => //"MaterialContentPanel",
-					throw new InvalidOperationException(),
-				_ => $"{mode}ContentPresenter",
+				Design.Material => this
+					.GetFirstDescendant<ContentPresenter>(x =>
+						x.Name is "M2MaterialContentPresenter" or "M3MaterialContentPresenter" &&
+						x.Visibility == Visibility.Visible),
+				_ => GetTemplateChild($"{mode}ContentPresenter"),
 			};
-			var presenter = GetTemplateChild(presenterName);
 
-			return VisualTreeHelperEx.GetFirstDescendant<T>(presenter, x => x.Name == name);
+			return presenter.GetFirstDescendant<T>(x => x.Name == name);
+		}
+
+		/// <summary>
+		/// Get the active presenter for the selected design system.
+		/// </summary>
+		/// <returns></returns>
+		public ContentPresenter GetActivePresenter()
+		{
+			return _design switch
+			{
+				Design.Material => this
+					.GetFirstDescendant<ContentPresenter>(x =>
+						x.Name is "M2MaterialContentPresenter" or "M3MaterialContentPresenter" &&
+						x.Visibility == Visibility.Visible),
+				_ => (ContentPresenter)GetTemplateChild($"{_design}ContentPresenter"),
+			};
 		}
 
 		private class LayoutModeMapping
