@@ -38,7 +38,7 @@ namespace Uno.Toolkit.UI
 			_isLoaded = true;
 			SynchronizeInitialSelection();
 			EnforceSelectionMode();
-			ApplyIconTemplate();
+			ApplyIconTemplate(null, IconTemplate);
 		}
 
 		private void OnSelectionMemberPathChanged(DependencyPropertyChangedEventArgs e)
@@ -56,13 +56,28 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void ApplyIconTemplate()
+		private void ApplyIconTemplate(DataTemplate? oldTemplate, DataTemplate? newTemplate)
 		{
-			var itemTemplate = IconTemplate;
+			if (oldTemplate == newTemplate) return;
+
 			foreach (var container in this.GetItemContainers<Chip>())
 			{
-				container.Icon = itemTemplate != null ? container.Content : null;
-				container.IconTemplate = itemTemplate;
+				if (newTemplate is not null)
+				{
+					// If there was no Icon assigned, use Content as Icon
+					// Otherwise the icon presenter will not display anything without an icon
+					container.Icon ??= container.Content;
+					container.IconTemplate = newTemplate;
+				}
+				else
+				{
+					// clear icon if we previously used content for the icon
+					if (container.Icon == container.Content)
+					{
+						container.Icon = null;
+					}
+					container.IconTemplate = null;
+				}
 			}
 		}
 

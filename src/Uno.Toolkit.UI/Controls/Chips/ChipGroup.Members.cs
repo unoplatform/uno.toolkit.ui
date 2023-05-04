@@ -38,14 +38,14 @@ namespace Uno.Toolkit.UI
 			nameof(IconTemplate),
 			typeof(DataTemplate),
 			typeof(ChipGroup),
-			new PropertyMetadata(null, (s, e) => (s as ChipGroup)?.ApplyIconTemplate()));
+			new PropertyMetadata(null, (s, e) => (s as ChipGroup)?.ApplyIconTemplate((DataTemplate?)e.OldValue, (DataTemplate?)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the value of each <see cref="Chip.IconTemplate"/>.
 		/// </summary>
-		public DataTemplate IconTemplate
+		public DataTemplate? IconTemplate
 		{
-			get => (DataTemplate)GetValue(IconTemplateProperty);
+			get => (DataTemplate?)GetValue(IconTemplateProperty);
 			set => SetValue(IconTemplateProperty, value);
 		}
 
