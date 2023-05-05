@@ -296,7 +296,7 @@ namespace Uno.Toolkit.UI
 			}
 			catch (Exception docError)
 			{
-				typeof(ExtendedSplashScreen).Log().LogDebug($"{manifestFile} exists as a packaged file but not able to load to XDocument [{docError}].");
+				typeof(ExtendedSplashScreen).Log().LogDebug($"The manifest `{manifestFile}` exists as a packaged file but could not be loaded to XDocument: {docError}.");
 			}
 
 			return default;
