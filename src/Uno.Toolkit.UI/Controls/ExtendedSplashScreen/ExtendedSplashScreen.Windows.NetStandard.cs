@@ -286,7 +286,7 @@ namespace Uno.Toolkit.UI
 		{
 			try
 			{
-				typeof(ExtendedSplashScreen).Log().LogTrace($"Attempting to load {manifestFile} from file packaged with application.");
+				typeof(ExtendedSplashScreen).Log().LogTrace($"Attempting to load manifest `{manifestFile}` from file packaged with application.");
 				var filePath = await ApplicationPathFromFileName(entry, manifestFile);
 				if (!string.IsNullOrWhiteSpace(filePath))
 				{
