@@ -304,7 +304,7 @@ namespace Uno.Toolkit.UI
 
 		private static XDocument? LoadManifestFromEmbeddedFile(Assembly? entry, string manifestFile)
 		{
-			typeof(ExtendedSplashScreen).Log().LogTrace($"Attempting to load {manifestFile} from embedded resource within the {entry?.GetName().Name} assembly.");
+			typeof(ExtendedSplashScreen).Log().LogTrace($"Attempting to load manifest from embedded resource `{manifestFile}` within the {entry?.GetName().Name} assembly.");
 			// Check EndsWith because the file may have a prefix based on the project and folder the file was sourced from
 			var res = entry?.GetManifestResourceNames()?.FirstOrDefault(x => x.ToLower().EndsWith(manifestFile));
 			if (res is not null &&
