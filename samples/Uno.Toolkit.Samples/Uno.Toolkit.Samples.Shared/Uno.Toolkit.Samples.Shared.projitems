@@ -19,6 +19,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSampleContent.xaml.cs">
+      <DependentUpon>ShadowContainerSampleContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.xaml.cs">
+      <DependentUpon>ShadowContainerSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\AutoLayoutPage.xaml.cs">
       <DependentUpon>AutoLayoutPage.xaml</DependentUpon>
     </Compile>
@@ -182,6 +188,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FromBoolToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FromNullToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FromStringToValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\HexToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Data\TestCollections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Design.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Sample.cs" />
@@ -203,6 +210,14 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSampleContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\AutoLayoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
