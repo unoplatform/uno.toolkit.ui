@@ -40,6 +40,7 @@
 		<PackageReference Include="Uno.Core.Extensions.Collections" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
+		<PackageReference Include="SkiaSharp.Views.Uno" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(_IsWindowsUWP)">

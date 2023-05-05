@@ -41,5 +41,7 @@
         x:Key="FalseToCollapsed"
         NullOrFalseValue="Collapsed"
         TrueValue="Visible" />
+        
+    <converters:HexToColorConverter x:Key="HexToColor" />
 
 </ResourceDictionary>
