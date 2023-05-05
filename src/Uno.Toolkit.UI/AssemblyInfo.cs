@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -22,3 +23,10 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI.Material")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI.Cupertino")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI")]
+
+// workaround for using records in netstandard 2.0
+namespace System.Runtime.CompilerServices
+{
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	internal class IsExternalInit { }
+}

@@ -29,6 +29,14 @@
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.18362'">
+		<PackageReference Include="SkiaSharp.Views.WinUI" />
+	</ItemGroup>
+	
+	<ItemGroup Condition="'$(TargetFramework)' != 'net6.0-windows10.0.18362'">
+		<PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
+	</ItemGroup>
+
 	<ItemGroup Condition="$(_IsWindowsWinUI)">
 		<PackageReference Include="Microsoft.WindowsAppSDK" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
