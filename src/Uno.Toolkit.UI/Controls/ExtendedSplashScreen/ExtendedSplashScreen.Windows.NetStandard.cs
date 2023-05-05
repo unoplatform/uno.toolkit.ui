@@ -319,7 +319,7 @@ namespace Uno.Toolkit.UI
 					}
 					catch (Exception docError)
 					{
-						typeof(ExtendedSplashScreen).Log().LogTrace($"{manifestFile} exists as an embedded resource but not able to load to XDocument [{docError}].");
+						typeof(ExtendedSplashScreen).Log().LogTrace($"The manifest `{manifestFile}` exists as a packaged file but could not be loaded to XDocument: {docError}.");
 					}
 				}
 			}
