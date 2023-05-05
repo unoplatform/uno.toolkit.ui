@@ -33,6 +33,10 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ExtendedSplashScreen
 	{
+		private const string PackageAppxManifestFileName = "package.appxmanifest";
+		private const string AppxManifestFilename = "AppxManifest.xml";
+		private const string WasmAppManifestFilename = "appmanifest.js";
+
 		public bool SplashIsEnabled =>
 #if WINDOWS_UWP || WINDOWS
 				(Platforms & SplashScreenPlatform.Windows) != 0;
@@ -160,17 +164,16 @@ namespace Uno.Toolkit.UI
 		{
 			try
 			{
-				var manifestFilename = "appmanifest.js";
 				string? manifestString = default;
 				try
 				{
-					var storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{manifestFilename}"));
+					var storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{WasmAppManifestFilename}"));
 					manifestString = await FileIO.ReadTextAsync(storageFile);
 				}
 				catch
 				{
 					var entry = Assembly.GetEntryAssembly();
-					var res = entry?.GetManifestResourceNames()?.FirstOrDefault(x => x.ToLower().Contains(manifestFilename));
+					var res = entry?.GetManifestResourceNames()?.FirstOrDefault(x => x.ToLower().Contains(WasmAppManifestFilename));
 					if (string.IsNullOrWhiteSpace(res))
 					{
 						return null;
@@ -225,22 +228,9 @@ namespace Uno.Toolkit.UI
 		{
 			try
 			{
-				var manifestFilename = "AppxManifest.xml";
-				XDocument? doc = default;
-				try
-				{
-					var storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{manifestFilename}"));
-					doc = XDocument.Load(storageFile.Path, LoadOptions.None);
-				}
-				catch
-				{
-					var entry = Assembly.GetEntryAssembly();
-					var packageStream = entry?.GetManifestResourceStream($"{entry?.GetName().Name}.Package.appxmanifest");
-					if (packageStream is not null)
-					{
-						doc = XDocument.Load(packageStream, LoadOptions.None);
-					}
-				}
+				var entry = Assembly.GetEntryAssembly();
+				var doc = await LoadAppManifest(entry, AppxManifestFilename, PackageAppxManifestFileName);
+
 				if (doc is null)
 				{
 					return null;
@@ -272,6 +262,100 @@ namespace Uno.Toolkit.UI
 			}
 
 			return null;
+		}
+
+		private static async Task<XDocument?> LoadAppManifest(Assembly? entry, params string[] manifestFiles)
+		{
+			foreach (var file in manifestFiles)
+			{
+				var doc = await LoadManifestFromPackageFile(entry, file);
+				if (doc is not null)
+				{
+					return doc;
+				}
+				doc = LoadManifestFromEmbeddedFile(entry, file);
+				if (doc is not null)
+				{
+					return doc;
+				}
+			}
+			return default;
+		}
+
+		private static async Task<XDocument?> LoadManifestFromPackageFile(Assembly? entry, string manifestFile)
+		{
+			try
+			{
+				typeof(ExtendedSplashScreen).Log().LogTrace($"Attempting to load manifest `{manifestFile}` from file packaged with application.");
+				var filePath = await ApplicationPathFromFileName(entry, manifestFile);
+				if (!string.IsNullOrWhiteSpace(filePath))
+				{
+					typeof(ExtendedSplashScreen).Log().LogTrace($"Full path to {manifestFile} is {filePath}.");
+					return XDocument.Load(filePath, LoadOptions.None);
+				}
+			}
+			catch (Exception docError)
+			{
+				typeof(ExtendedSplashScreen).Log().LogDebug($"The manifest `{manifestFile}` exists as a packaged file but could not be loaded to XDocument: {docError}.");
+			}
+
+			return default;
+		}
+
+		private static XDocument? LoadManifestFromEmbeddedFile(Assembly? entry, string manifestFile)
+		{
+			typeof(ExtendedSplashScreen).Log().LogTrace($"Attempting to load manifest from embedded resource `{manifestFile}` within the {entry?.GetName().Name} assembly.");
+			// Check EndsWith because the file may have a prefix based on the project and folder the file was sourced from
+			var res = entry?.GetManifestResourceNames()?.FirstOrDefault(x => x.ToLower().EndsWith(manifestFile));
+			if (!string.IsNullOrWhiteSpace(res))
+			{
+				var packageStream = entry!.GetManifestResourceStream(res!);
+
+				if (packageStream is not null)
+				{
+					try
+					{
+						return XDocument.Load(packageStream, LoadOptions.None);
+					}
+					catch (Exception docError)
+					{
+						typeof(ExtendedSplashScreen).Log().LogTrace($"The manifest `{manifestFile}` exists as a packaged file but could not be loaded to XDocument: {docError}.");
+					}
+				}
+			}
+
+			return default;
+		}
+
+		private static async Task<string> ApplicationPathFromFileName(Assembly? entry, string fileName)
+		{
+			// Note: We attempt to resolve based on the assembly first because it doesn't throw an exception if the file doesn't exist
+			// whereas StorageFile.GetFileFromApplicationUriAsync will throw an exception if the file doesn't exist.
+			var filePath = string.Empty;
+			var codebase = entry?.GetName().CodeBase;
+			if (codebase is not null)
+			{
+				var manifestPath = Path.Combine(Path.GetDirectoryName(codebase) ?? string.Empty, fileName);
+				if (File.Exists(manifestPath))
+				{
+					filePath = manifestPath;
+				}
+			}
+
+			if (string.IsNullOrWhiteSpace(filePath))
+			{
+				try
+				{
+					var storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{fileName}"));
+					filePath = storageFile.Path;
+				}
+				catch
+				{
+					typeof(ExtendedSplashScreen).Log().LogTrace($"Unable to load application StorageFile for {fileName}.");
+				}
+			}
+
+			return filePath;
 		}
 	}
 }
