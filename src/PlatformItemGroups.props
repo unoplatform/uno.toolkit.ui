@@ -1,17 +1,42 @@
 <Project ToolsVersion="15.0">
 
 	<PropertyGroup>
+	
+		<IsMonoAndroid>false</IsMonoAndroid>
+		<IsMonoAndroid Condition="$(TargetFramework.ToLower().StartsWith('monoandroid'))">true</IsMonoAndroid>
+
+		<IsXamarinIOS>false</IsXamarinIOS>
+		<IsXamarinIOS Condition="$(TargetFramework.ToLower().StartsWith('xamarinios'))">true</IsXamarinIOS>
+
+		<IsXamarinMac>false</IsXamarinMac>
+		<IsXamarinMac Condition="$(TargetFramework.ToLower().StartsWith('xamarinmac'))">true</IsXamarinMac>
+
+		<IsAndroid>false</IsAndroid>
+		<IsAndroid Condition="$(IsMonoAndroid) or $(TargetFramework.ToLower().Contains('-android'))">true</IsAndroid>
+
+		<IsIOS>false</IsIOS>
+		<IsIOS Condition="$(IsXamarinIOS) or $(TargetFramework.ToLower().Contains('-ios'))">true</IsIOS>
+
+		<IsMacOS>false</IsMacOS>
+		<IsMacOS Condition="$(IsXamarinMac) or $(TargetFramework.ToLower().Contains('-macos'))">true</IsMacOS>
+
+		<IsCatalyst>false</IsCatalyst>
+		<IsCatalyst Condition="$(TargetFramework.ToLower().Contains('-maccatalyst'))">true</IsCatalyst>
+
+		<IsIOSOrCatalyst>false</IsIOSOrCatalyst>
+		<IsIOSOrCatalyst Condition="$(IsIOS) or $(IsCatalyst)">true</IsIOSOrCatalyst>
+
 		<_IsNetCore>false</_IsNetCore>
 		<_IsNetCore Condition="'$(TargetFramework)'=='net5.0' or '$(TargetFramework)'=='net6.0' or '$(TargetFramework)'=='net7.0'">true</_IsNetCore>
 
 		<_IsNetStd>false</_IsNetStd>
 		<_IsNetStd Condition="'$(TargetFramework)'=='netstandard2.0' or $(_IsNetCore)">true</_IsNetStd>
 
-		<_IsUWP>false</_IsUWP>
-		<_IsUWP Condition="$(TargetFramework.StartsWith('uap10.0'))">true</_IsUWP>
+		<_IsWindowsUWP>false</_IsWindowsUWP>
+		<_IsWindowsUWP Condition="$(TargetFramework.StartsWith('uap10.0'))">true</_IsWindowsUWP>
 
-		<_IsWinUI>false</_IsWinUI>
-		<_IsWinUI Condition="$(TargetFramework.Contains('-windows'))">true</_IsWinUI>
+		<_IsWindowsWinUI>false</_IsWindowsWinUI>
+		<_IsWindowsWinUI Condition="$(TargetFramework.Contains('-windows'))">true</_IsWindowsWinUI>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(IsIOSOrCatalyst)">
@@ -75,7 +100,7 @@
 
 		<Page Include="**\*.xaml"
 			  Exclude="bin/**/*.xaml;obj/**/*.xaml"
-			  Condition="$(IsAndroid) or $(IsIOSOrCatalyst) or $(_IsUWP) or $(_IsNetStd) or $(IsMacOS)" />
+			  Condition="$(IsAndroid) or $(IsIOSOrCatalyst) or $(_IsWindowsUWP) or $(_IsNetStd) or $(IsMacOS)" />
 
 	</ItemGroup>
 
