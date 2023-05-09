@@ -6,10 +6,9 @@ using Uno.UI.RuntimeTests;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using System.Threading.Tasks;
 using Uno.Toolkit.UI;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
-#else
+
+#if !IS_WINUI
 using Windows.UI.Xaml.Controls;
 #endif
 
