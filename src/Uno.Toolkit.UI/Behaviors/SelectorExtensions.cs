@@ -116,6 +116,7 @@ public static partial class SelectorExtensions
 		events.SetValue(selector, SelectorAttachedPropertyKey, eventHandler);
 
 		selector.Items.VectorChanged += eventHandler;
+		pipsPager.NumberOfPages = selector.Items.Count;
 
 		void OnItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event) =>
 			pipsPager.NumberOfPages = selector.Items.Count;
