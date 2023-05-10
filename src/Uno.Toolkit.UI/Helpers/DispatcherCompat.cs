@@ -60,11 +60,7 @@ internal class DispatcherCompat
 		}
 		else
 		{
-#if IS_WINUI
-			_impl.TryEnqueue(RemapPriority(priority), handler);
-#else
-			_ = _impl.RunAsync(RemapPriority(priority), handler);
-#endif
+			Schedule(priority, handler);
 		}
 	}
 
@@ -80,11 +76,7 @@ internal class DispatcherCompat
 		{
 			var tcs = new TaskCompletionSource<object>();
 
-#if IS_WINUI
-			_impl.TryEnqueue(RemapPriority(priority), () =>
-#else
-			_ = _impl.RunAsync(RemapPriority(priority), () =>
-#endif
+			Schedule(priority, () =>
 			{
 				try
 				{
@@ -99,5 +91,15 @@ internal class DispatcherCompat
 
 			return tcs.Task;
 		}
+	}
+
+	public void Schedule(_Handler handler) => Schedule(default, handler);
+	public void Schedule(Priority priority, _Handler handler)
+	{
+#if IS_WINUI
+			_impl.TryEnqueue(RemapPriority(priority), handler);
+#else
+			_ = _impl.RunAsync(RemapPriority(priority), handler);
+#endif
 	}
 }

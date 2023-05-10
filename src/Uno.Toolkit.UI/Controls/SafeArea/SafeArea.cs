@@ -247,8 +247,6 @@ namespace Uno.Toolkit.UI
 					// the InputRect to align with the VisibleBounds Rect.
 					if (totalOffset > 0)
 					{
-						
-
 						var navBarOffset = (totalOffset - statusBarOffset);
 
 						inputRect.Height -= navBarOffset;
@@ -562,13 +560,11 @@ namespace Uno.Toolkit.UI
 				{
 					return;
 				}
-
-				if (_insetMode == InsetMode.Padding
-					&& !PaddingHelper.GetPadding(owner).Equals(insets)
-					&& PaddingHelper.SetPadding(owner, insets))
+				if (_insetMode == InsetMode.Padding &&
+					owner.TryUpdatePadding(insets))
 				{
 					_appliedPadding = insets;
-					LogApplyInsets();
+					OnInsetsApplied(owner, insets);
 				}
 				else if (_insetMode == InsetMode.Margin)
 				{
@@ -576,16 +572,21 @@ namespace Uno.Toolkit.UI
 					{
 						_appliedMargin = insets;
 						owner.Margin = insets;
-						LogApplyInsets();
+						OnInsetsApplied(owner, insets);
 					}
 				}
+			}
 
-				void LogApplyInsets()
+			private void OnInsetsApplied(FrameworkElement owner, Thickness newInsets)
+			{
+#if __ANDROID__
+				// Dispatching on Android prevents issues where layout/render changes occurring
+				// during the initial loading of the view are not always properly picked up by the layouting/rendering engine.
+				owner.GetDispatcherCompat().Schedule(owner.InvalidateMeasure);
+#endif
+				if (_log.IsEnabled(LogLevel.Debug))
 				{
-					if (_log.IsEnabled(LogLevel.Debug))
-					{
-						_log.LogDebug($"ApplyInsets={insets}, Mode={_insetMode}");
-					}
+					_log.LogDebug($"ApplyInsets={newInsets}, Mode={_insetMode}");
 				}
 			}
 
@@ -652,21 +653,21 @@ namespace Uno.Toolkit.UI
 
 				if (Owner is { } owner)
 				{
-					if (oldValue == InsetMode.Margin)
-					{
-						_appliedMargin = new Thickness(0);
-						owner.Margin = _originalMargin;
-					}
-					else if (oldValue == InsetMode.Padding)
-					{
-						_appliedPadding = new Thickness(0);
-						PaddingHelper.SetPadding(owner, _originalPadding);
-					}
+						if (oldValue == InsetMode.Margin)
+						{
+							_appliedMargin = new Thickness(0);
+							owner.Margin = _originalMargin;
+							OnInsetsApplied(owner, _originalMargin);
+						}
+						else if (oldValue == InsetMode.Padding)
+						{
+							_appliedPadding = new Thickness(0);
+							PaddingHelper.SetPadding(owner, _originalPadding);
+							OnInsetsApplied(owner, _originalPadding);
+						}
 				}
-
 				UpdateInsets();
 			}
 		}
-
 	}
 }
