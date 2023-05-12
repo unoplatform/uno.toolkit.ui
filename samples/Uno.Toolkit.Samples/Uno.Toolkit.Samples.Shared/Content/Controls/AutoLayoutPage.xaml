@@ -17,7 +17,7 @@
 				<DataTemplate>
 					<ScrollViewer HorizontalScrollMode="Disabled">
 						<StackPanel>
-							<!--<TextBlock Text="Use a AutoLayout behave almost like a StackPanel, but with row that that can stretch. It was made to emulate the Figma auto layout"
+							<TextBlock Text="Use a AutoLayout behave almost like a StackPanel, but with row that that can stretch. It was made to emulate the Figma auto layout"
 									   Style="{StaticResource BodyTextBlockStyle}"
 									   Margin="0,24,0,0" />
 
@@ -53,37 +53,23 @@
 								<Rectangle Fill="Yellow" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="66" utu:AutoLayout.CounterLength="163" />
 								<Rectangle Fill="Blue" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="85" utu:AutoLayout.CounterLength="271" />
 								<Rectangle Fill="Green" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryLength="83" utu:AutoLayout.CounterLength="329" />
-							</utu:AutoLayout>-->
+							</utu:AutoLayout>
 
-							<!--<TextBlock Text="Horizontal AutoLayout with a independent element"
+							<TextBlock Text="Horizontal AutoLayout with a independent element"
 									   Style="{StaticResource BodyTextBlockStyle}"
 									   Margin="0,24,0,0" />
 
-							<utu:AutoLayout Background="Gray" Spacing="20" Padding="50,0" Orientation="Horizontal" Width="350" Height="200"
-							                BorderBrush="Blue" BorderThickness="40">
-								<Rectangle Fill="Green" utu:AutoLayout.CounterAlignment="Center" Width="100" Height="100" />
-								<Rectangle Fill="Blue" utu:AutoLayout.CounterAlignment="Center" Width="100" Height="100" />
-								<Rectangle Fill="Red" utu:AutoLayout.CounterAlignment="Center" Width="100" Height="100" />
-							</utu:AutoLayout>-->
-
-							<!--<utu:AutoLayout Background="Gray" Spacing="20" Padding="50,20" PrimaryAxisAlignment="End" Orientation="Horizontal" Width="400" Height="200" >
-								<Rectangle Fill="Green" utu:AutoLayout.CounterAlignment="Center" Width="100" Height="100" />
-								<Rectangle Fill="Blue" utu:AutoLayout.CounterAlignment="Center" utu:AutoLayout.PrimaryAlignment="Stretch" Height="100"/>
-								<Rectangle Fill="Red" utu:AutoLayout.CounterAlignment="Center" Width="100" Height="100" />
-							</utu:AutoLayout>-->
-
-							<!--<utu:AutoLayout Background="Gray" Spacing="20" Padding="50,70,50,120" PrimaryAxisAlignment="Center" Orientation="Horizontal" Width="450" Height="200" BorderBrush="#80FF1122" BorderThickness="10">
-								<Rectangle Fill="Green" utu:AutoLayout.CounterAlignment="Start" Width="100" Height="100" />
-								<Rectangle Fill="Blue" Width="60" />
-								<Rectangle Fill="Red" utu:AutoLayout.CounterAlignment="End" Width="100" Height="100" />
-							</utu:AutoLayout>-->
-
-
-							<utu:AutoLayout Padding="10">
-								<Button Background="Red" Content="Filled" />
+							<utu:AutoLayout Padding="10" Orientation="Horizontal" Height="300">
+								<Rectangle Width="232" Height="100" Fill="Red" />
+								<Rectangle Height="50" Width="232" Fill="Yellow" Margin="0,0,50,0" 
+									VerticalAlignment="Top" 
+									HorizontalAlignment="Right"
+									utu:AutoLayout.IsIndependentLayout="True"/>
+								<Rectangle Width="271" Height="100" Fill="Blue" />
+								<Rectangle Width="329" Height="100" Fill="Green" utu:AutoLayout.PrimaryAlignment="Stretch"/>
 							</utu:AutoLayout>
 
-							<!--<TextBlock Text="Vertical AutoLayout with a independent element"
+							<TextBlock Text="Vertical AutoLayout with a independent element"
 									   Style="{StaticResource BodyTextBlockStyle}"
 									   Margin="0,24,0,0" />
 
@@ -235,7 +221,7 @@
 								<Rectangle Fill="{ThemeResource PrimaryBrush}" utu:AutoLayout.CounterAlignment="Start" Width="152" Height="80" />
 								<Rectangle Fill="{ThemeResource SecondaryVariantDarkBrush}" utu:AutoLayout.CounterAlignment="Start" Width="143" Height="61" />
 								<Rectangle Fill="{ThemeResource PrimaryInverseBrush}" utu:AutoLayout.CounterAlignment="Start" Width="152" Height="55" />
-							</utu:AutoLayout>-->
+							</utu:AutoLayout>
 						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>
