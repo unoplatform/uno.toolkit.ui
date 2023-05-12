@@ -101,7 +101,6 @@ partial class AutoLayout
 				_calculatedChildren!
 					.Select(c => c.MeasuredLength)
 					.Sum()
-				+ paddingSize
 				+ totalSpacingSize;
 
 			var desiredSizeInPrimaryOrientation = Math.Max(independentDesiredSize, stackedChildrenDesiredSize);
@@ -110,8 +109,8 @@ partial class AutoLayout
 
 			desiredSize = orientation switch
 			{
-				Orientation.Horizontal => new Size(desiredSizeInPrimaryOrientation, desiredCounterSize),
-				Orientation.Vertical => new Size(desiredCounterSize, desiredSizeInPrimaryOrientation),
+				Orientation.Horizontal => new Size(desiredSizeInPrimaryOrientation + paddingSize, desiredCounterSize + Padding.GetCounterLength(orientation)),
+				Orientation.Vertical => new Size(desiredCounterSize + Padding.GetCounterLength(orientation), desiredSizeInPrimaryOrientation + paddingSize),
 				_ => throw new ArgumentOutOfRangeException(),
 			};
 		}

@@ -82,20 +82,27 @@ internal class AutoLayoutTest
 		}
 	}
 
+
 	[TestMethod]
 	[RequiresFullWindow]
-	[DataRow(true, Orientation.Vertical, VerticalAlignment.Bottom, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 0, 0, 10 }, 10, 298, 110, 12, 185)]
-	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 10, 12, 110, 12, 185)]
-	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -30, 12, 110, 12, 165)]
-	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, 10, 12, 12, 12, 105)]
-	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, 10, 12, 12, 12, 105)]
-	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, -30, 12, 12, 12, 85)]
-	[DataRow(false, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 10, 12, 110, 138, 248)]
-	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, 10, 12, 110, 78, 138)]
-	[DataRow(false, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -20, 12, 110, 168, 248)]
-	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 108, 10, 0, 0 }, -20, 12, 110, 108, 138)]
+	[DataRow(true, Orientation.Vertical, VerticalAlignment.Bottom, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 0, 0, 10 }, 10, 300, 110, 12, 185)]
+	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, 10, 10, 110, 12, 185)]
+	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, -30, 10, 110, 12, 165)]
+	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, 10, 10, 10, 12, 105)]
+	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, 10, 10, 10, 12, 105)]
+	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, -30, 10, 10, 12, 85)]
+	[DataRow(false, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, 10, 10, 110, 138, 248)]
+	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, 10, 10, 110, 78, 138)]
+	[DataRow(false, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, -20, 10, 110, 168, 248)]
+	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, -20, 10, 110, 108, 138)]
 	public async Task When_AbsolutePosition_WithPadding(bool isStretch, Orientation orientation, VerticalAlignment vAlign, HorizontalAlignment hAlign, int[] padding, int[] margin, int spacing, double expectedY, double expectedX, double rec1expected, double rec2expected)
 	{
+		if (RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER")))
+		{
+			Assert.Inconclusive("This test is not valid on Wasm");
+			return;
+		}
+
 		var SUT = new AutoLayout()
 		{
 			Orientation = orientation,
@@ -176,7 +183,7 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
-	//[RequiresFullWindow]
+	[RequiresFullWindow]
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 100, 25)]
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 25)]
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
@@ -185,18 +192,18 @@ internal class AutoLayoutTest
 	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 25)]
 	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
 	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 25, 100)]
-	//[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 100, 25)]
-	//[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 100, 25)]
-	//[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 100, 25)]
-	//[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
-	//[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
-	//[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
-	//[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 25, 100)]
-	//[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 100)]
-	//[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 25, 100)]
-	//[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
-	//[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
-	//[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
 
 	// Issue with TransformToVisual not having the same result in iOS and Android and WinIU uno issue #11774
 	//https://github.com/unoplatform/uno/issues/11774
@@ -205,18 +212,18 @@ internal class AutoLayoutTest
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, 25, -50)]
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, -50)]
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, -50, 25)]
-	//[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, -50, 100)]
-	//[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 25)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, -50, 100)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 25)]
 	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, -50)]
 	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 25, -50)]
-	//[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, -50)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, -50)]
 	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, -50, 100)]
-	//[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, 100, -50)]
-	//[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, 100, -50)]
-	//[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.End, 100, -50)]
-	//[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, -50, 100)]
-	//[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 100)]
-	//[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, -50, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, 100)]
 #endif
 
 	public async Task When_Padding(bool isStretch, Orientation orientation, AutoLayoutAlignment primaryAxisAlignment, AutoLayoutAlignment counterAlignment, double rec1expected, double rec2expected)
@@ -233,8 +240,8 @@ internal class AutoLayoutTest
 		var border1 = new Border()
 		{
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
-			Width = 350,
-			Height = 350,
+			Width = orientation is Orientation.Horizontal && isStretch ? double.NaN : 350,
+			Height = orientation is Orientation.Vertical && isStretch ? double.NaN : 350,
 		};
 
 		if (isStretch)

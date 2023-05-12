@@ -24,17 +24,9 @@ partial class AutoLayout
 		var padding = Padding;
 		var spacing = Spacing is > double.NegativeInfinity and < double.PositiveInfinity and { } s ? s : 0d;
 		var isHorizontal = orientation == Orientation.Horizontal;
-		var borderThickness = BorderThickness;
-
-		if (BorderBrush is null)
-		{
-			// BorderBrush is not set, so we don't need to consider the border thickness
-			borderThickness = default;
-		}
-
-		var finalSizeMinusBorderThickness = new Size(
-			finalSize.Width - (borderThickness.Left + borderThickness.Right),
-			finalSize.Height - (borderThickness.Top + borderThickness.Bottom));
+		// BorderBrush is not set, so we don't need to consider the border thickness
+		var borderThickness = BorderBrush == null ? default : BorderThickness;
+		var borderThicknessLenght = borderThickness.GetLength(orientation);
 
 		var totalNonFilledStackedSize = 0d;
 		var numberOfFilledChildren = 0;
@@ -91,6 +83,11 @@ partial class AutoLayout
 				haveStartPadding = atLeastOneFilledChild || justify == AutoLayoutJustify.SpaceBetween;
 				haveEndPadding = true;
 				break;
+			case AutoLayoutAlignment.Center:
+				var havePadding = atLeastOneFilledChild || justify == AutoLayoutJustify.SpaceBetween;
+				haveEndPadding = havePadding;
+				haveStartPadding = havePadding;
+				break;
 		}
 
 		var startPadding = haveStartPadding
@@ -103,7 +100,7 @@ partial class AutoLayout
 		var totalPaddingSize = startPadding + endPadding;
 
 		// Available Size is the final size minus the border thickness and the padding
-		var availableSizeForStackedChildren = finalSize.GetLength(orientation) - (borderThickness.GetLength(orientation) + totalPaddingSize);
+		var availableSizeForStackedChildren = finalSize.GetLength(orientation) - (borderThicknessLenght + totalPaddingSize);
 		EnsureZeroFloor(ref availableSizeForStackedChildren);
 
 		// Start the offset at the border + start padding
@@ -145,7 +142,7 @@ partial class AutoLayout
 				// Independent is given all the available space,
 				// because it's not stacking with others.
 				// No padding is applied to it either.
-				child.Element.Arrange(new Rect(new Point(borderThickness.Left, borderThickness.Top), finalSizeMinusBorderThickness));
+				child.Element.Arrange(new Rect(default, finalSize));
 
 				continue; // next child, current offset remains unchanged
 			}
@@ -157,7 +154,7 @@ partial class AutoLayout
 				? filledChildrenSize
 				: child.MeasuredLength;
 
-			var offsetRelativeToPadding = currentOffset - startPadding;
+			var offsetRelativeToPadding = currentOffset - (startPadding + borderThicknessLenght);
 
 			if (childLength > availableSizeForStackedChildren - offsetRelativeToPadding)
 			{
@@ -193,7 +190,8 @@ partial class AutoLayout
 			var haveCounterEndPadding = counterAlignment is AutoLayoutAlignment.Stretch or AutoLayoutAlignment.End;
 			var counterEndPadding = haveCounterEndPadding ? (isHorizontal ? padding.Bottom : padding.Right) : 0;
 
-			var availableCounterLength = finalSize.GetCounterLength(orientation) - (counterStartPadding + counterEndPadding);
+			var test = borderThickness.GetCounterLength(orientation);
+			var availableCounterLength = finalSize.GetCounterLength(orientation) - (counterStartPadding + counterEndPadding + test);
 
 			EnsureZeroFloor(ref availableCounterLength);
 
@@ -201,10 +199,10 @@ partial class AutoLayout
 				? new Size(childLength, counterAlignment is AutoLayoutAlignment.Stretch ? availableCounterLength : childFinalCounterLength)
 				: new Size(counterAlignment is AutoLayoutAlignment.Stretch ? availableCounterLength : childFinalCounterLength, childLength);
 
-			ApplyMinMaxValues(child.Element, ref childSize);
+			ApplyMinMaxValues(child.Element, orientation, ref childSize);
 
 			var counterAlignmentOffset = 
-				ComputeCounterAlignmentOffset(counterAlignment, childFinalCounterLength, availableCounterLength, counterStartPadding, counterEndPadding);
+				ComputeCounterAlignmentOffset(counterAlignment, childFinalCounterLength, availableCounterLength, counterStartPadding, borderThickness.GetCounterStartLength(orientation));
 
 			var childOffsetPosition = new Point(
 				isHorizontal ? currentOffset : counterAlignmentOffset,
@@ -236,7 +234,7 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static void ApplyMinMaxValues(UIElement element, ref Size desiredSize)
+	private static void ApplyMinMaxValues(UIElement element, Orientation orientation, ref Size desiredSize)
 	{
 		if (element is not FrameworkElement frameworkElement)
 		{
@@ -250,6 +248,21 @@ partial class AutoLayout
 		var maxHeight = frameworkElement.MaxHeight;
 		var minWidth = frameworkElement.MinWidth;
 		var minHeight = frameworkElement.MinHeight;
+
+		var primaryLenght = GetPrimaryLength(element);
+		var counterLenght = GetCounterLength(element);
+
+		// Apply primaryLenght and counterLenght constraints, if defined
+		if (orientation is Orientation.Horizontal)
+		{
+			if (!double.IsNaN(primaryLenght)) desiredSize.Width = primaryLenght;
+			if (!double.IsNaN(counterLenght)) desiredSize.Height = counterLenght;
+		}
+		else
+		{
+			if (!double.IsNaN(primaryLenght)) desiredSize.Height = primaryLenght;
+			if (!double.IsNaN(counterLenght)) desiredSize.Width = counterLenght;
+		}
 
 		// Apply Width and Height constraints, if defined
 		if (!double.IsNaN(width)) desiredSize.Width = width;
@@ -270,7 +283,7 @@ partial class AutoLayout
 		double childCounterLength,
 		double availableCounterLength,
 		double counterStartPadding,
-		double counterEndPadding
+		double counterBorderThickness
 		)
 	{
 		var alignmentOffsetSize = availableCounterLength - childCounterLength;
@@ -282,7 +295,7 @@ partial class AutoLayout
 			_ => 0
 		};
 
-		return calculatedOffset + counterStartPadding;
+		return calculatedOffset + counterStartPadding + counterBorderThickness;
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

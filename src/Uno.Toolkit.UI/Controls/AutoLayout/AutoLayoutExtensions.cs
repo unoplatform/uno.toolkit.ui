@@ -59,6 +59,17 @@ namespace Uno.Toolkit.UI
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		internal static double GetCounterStartLength(this Thickness thickness, Orientation orientation)
+		{
+			return orientation switch
+			{
+				Orientation.Horizontal => thickness.Top,
+				Orientation.Vertical => thickness.Left,
+				_ => throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null),
+			};
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal static double GetEndLength(this Thickness thickness, Orientation orientation)
 		{
 			return orientation switch
