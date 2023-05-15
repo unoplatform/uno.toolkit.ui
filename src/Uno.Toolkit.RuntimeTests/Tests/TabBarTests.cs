@@ -13,6 +13,8 @@ using Windows.Foundation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.UI;
 using Windows.Foundation.Metadata;
+using Microsoft.UI.Xaml.Data;
+using System.ComponentModel;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
@@ -387,6 +389,40 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 					await renderer.AssertColorAt(Colors.Green, (int)centerPoint.X, (int)centerPoint.Y);
 				}
 			}
+		}
+
+		[TestMethod]
+		public async Task Verify_SelectedIndex_Not_Set_Unnecessarily()
+		{
+			var item1 = new TabBarItem();
+			var item2 = new TabBarItem();
+
+			var SUT = new TabBar();
+			SUT.Items.Add(item1);
+			SUT.Items.Add(item2);
+			SUT.DataContext = new MyViewModel();
+			SUT.SetBinding(TabBar.SelectedIndexProperty, new Binding() { Mode = BindingMode.OneWay, Path = new PropertyPath("P") });
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+			Assert.IsNotNull(SUT.GetBindingExpression(TabBar.SelectedIndexProperty));
+			SUT.SelectedIndex = 0;
+			Assert.IsNull(SUT.GetBindingExpression(TabBar.SelectedIndexProperty));
+		}
+
+		private class MyViewModel : INotifyPropertyChanged
+		{
+			private int _p;
+
+			public int P
+			{
+				get => _p; set
+				{
+					_p = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(P)));
+				}
+			}
+
+			public event PropertyChangedEventHandler? PropertyChanged;
 		}
 	}
 }
