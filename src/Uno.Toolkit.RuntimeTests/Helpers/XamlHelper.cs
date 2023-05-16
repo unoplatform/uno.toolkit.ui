@@ -52,7 +52,9 @@ namespace Uno.Toolkit.RuntimeTests.Helpers
 				{
 					var match = xmlns.Key == string.Empty
 						? NonXmlnsTagRegex.IsMatch(xaml)
-						: xaml.Contains($"<{xmlns.Key}:");
+						// naively match the xmlns-prefix regardless if it is quoted,
+						// since false positive doesn't matter.
+						: xaml.Contains($"{xmlns.Key}:");
 					if (match)
 					{
 						xmlnses.Add(xmlns.Key, xmlns.Value);
