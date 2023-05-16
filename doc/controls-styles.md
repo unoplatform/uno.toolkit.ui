@@ -10,8 +10,9 @@ The `Uno.Toolkit.UI` library adds the following controls:
 - [`DrawerControl`](controls/DrawerControl.md): A container to display additional content, in a hidden pane that can be revealed using a swipe gesture, like a drawer.
 - [`DrawerFlyoutPresenter`](controls/DrawerFlyoutPresenter.md): A specialized `ContentPresenter` to be used in the template of a `FlyoutPresenter` to enable gesture support.
 - [`LoadingView`](controls/LoadingView.md): A control that indicates that the UI is waiting on a task to complete.
-- [`TabBar` and `TabBarItem`](controls/TabBarAndTabBarItem.md): A list of selectable items that can be used to facilitate lateral navigation within an application.
 - [`NavigationBar`](controls/NavigationBar.md): A custom control that helps implement navigation logic for your application.
+- [`ShadowContainer`](controls/ShadowContainer.md): A content control allowing you to add multiple shadows to your content.
+- [`TabBar` and `TabBarItem`](controls/TabBarAndTabBarItem.md): A list of selectable items that can be used to facilitate lateral navigation within an application.
 
 ## Helpers
 The `Uno.Toolkit.UI` library adds the following helper classes:
