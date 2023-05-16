@@ -5,6 +5,9 @@ uid: Toolkit.Controls.ShadowContainer
 ## Summary
 The `ShadowContainer` provides the possibility to add many colored shadows to its content.
 
+## Remarks
+For now the control simply adapts its corner radius to the content's corner radius. More complicated shapes like texts or pictures with alpha, are not supported.
+
 ### C#
 ```csharp
 public class ShadowContainer : ContentControl
