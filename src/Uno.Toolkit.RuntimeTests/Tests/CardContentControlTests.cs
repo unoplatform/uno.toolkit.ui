@@ -38,7 +38,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		public async Task Should_Hug_Content()
 		{
 			var rootGrid = XamlHelper.LoadXaml<Grid>("""
-				<Grid xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="500" Height="500">
+				<Grid Width="500" Height="500">
 					<utu:CardContentControl Padding="0" x:Name="MyCard" Style="{StaticResource FilledCardContentControlStyle}">
 						<Grid Background="Red" Height="200" Width="200" />
 					</utu:CardContentControl>
@@ -61,7 +61,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		public async Task Only_Elevated_Has_Margin(string cardStyle)
 		{
 			var rootGrid = XamlHelper.LoadXaml<Grid>($$"""
-				<Grid xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+				<Grid>
 					<utu:CardContentControl Padding="0" x:Name="MyCard" Style="{StaticResource {{cardStyle}}}">
 						<Grid Background="Red" Height="200" Width="200" />
 					</utu:CardContentControl>
