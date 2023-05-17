@@ -29,14 +29,8 @@ partial class AutoLayout
 		var orientation = Orientation;
 		var children = Children;
 		var justify = Justify;
-		var spacing = Spacing;
-		var borderThickness = BorderThickness;
-
-		if (BorderBrush is null)
-		{
-			// BorderBrush is not set, so we don't need to consider the border thickness
-			borderThickness = default;
-		}
+		var spacing = Spacing.FiniteOrDefault(0d);
+		var borderThickness = BorderBrush is null ? default : BorderThickness;
 
 		// 0. Establish start remaining sizes to dispatch, according to the orientation
 		var remainingSize = availableSize.GetLength(orientation) - borderThickness.GetLength(orientation);
@@ -109,8 +103,12 @@ partial class AutoLayout
 
 			desiredSize = orientation switch
 			{
-				Orientation.Horizontal => new Size(desiredSizeInPrimaryOrientation + paddingSize, desiredCounterSize + Padding.GetCounterLength(orientation)),
-				Orientation.Vertical => new Size(desiredCounterSize + Padding.GetCounterLength(orientation), desiredSizeInPrimaryOrientation + paddingSize),
+				Orientation.Horizontal => new Size(
+					width: desiredSizeInPrimaryOrientation + paddingSize,
+					height: desiredCounterSize + Padding.GetCounterLength(orientation)),
+				Orientation.Vertical => new Size(
+					width: desiredCounterSize + Padding.GetCounterLength(orientation),
+					height: desiredSizeInPrimaryOrientation + paddingSize),
 				_ => throw new ArgumentOutOfRangeException(),
 			};
 		}
@@ -152,7 +150,6 @@ partial class AutoLayout
 		{
 			_calculatedChildren = new CalculatedChildren[children.Count];
 		}
-
 
 		var numberOfStackedChildren = children.Count;
 		var atLeastOneFilledChild = false;
@@ -203,7 +200,11 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void MeasureFixedChildren(Orientation orientation, double availableCounterSize, ref double remainingSize, ref double desiredCounterSize)
+	private void MeasureFixedChildren(
+		Orientation orientation,
+		double availableCounterSize,
+		ref double remainingSize,
+		ref double desiredCounterSize)
 	{
 		for (var i = 0; i < _calculatedChildren!.Length; i++)
 		{
@@ -228,7 +229,11 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void MeasureHugChildren(Orientation orientation, double availableCounterSize, ref double remainingSize, ref double desiredCounterSize)
+	private void MeasureHugChildren(
+		Orientation orientation,
+		double availableCounterSize,
+		ref double remainingSize,
+		ref double desiredCounterSize)
 	{
 		for (var i = 0; i < _calculatedChildren!.Length; i++)
 		{
@@ -254,7 +259,11 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private bool MeasureFilledChildren(Orientation orientation, double availableCounterSize, ref double remainingSize, ref double desiredCounterSize)
+	private bool MeasureFilledChildren(
+		Orientation orientation,
+		double availableCounterSize,
+		ref double remainingSize,
+		ref double desiredCounterSize)
 	{
 		if (double.IsInfinity(remainingSize))
 		{
@@ -347,7 +356,10 @@ partial class AutoLayout
 		}
 	}
 
-	private double MeasureIndependentChildren(Size availableSize, Thickness borderThickness, Orientation orientation,
+	private double MeasureIndependentChildren(
+		Size availableSize,
+		Thickness borderThickness,
+		Orientation orientation,
 		ref double desiredCounterSize)
 	{
 		var resultSize = new Size();
@@ -382,7 +394,6 @@ partial class AutoLayout
 			return -1;
 		}
 
-		// TODO: check if we need to do this
 		desiredCounterSize = Math.Max(
 			desiredCounterSize,
 			orientation switch
