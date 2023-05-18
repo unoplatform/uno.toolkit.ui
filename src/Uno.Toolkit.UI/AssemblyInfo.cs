@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Uno.Toolkit.WinUI.Samples.macOS")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.WinUI.Samples.WASM")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.WinUI.Samples.Skia.Gtk")]
+[assembly: InternalsVisibleTo("Uno.Toolkit.WinUI.Samples.Mobile")]
 #else
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.Droid")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.iOS")]
@@ -18,6 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.macOS")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.WASM")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.Skia.Gtk")]
+[assembly: InternalsVisibleTo("Uno.Toolkit.Samples.Mobile")]
 #endif
 
 [assembly: AssemblyMetadata("IsTrimmable", "True")]
