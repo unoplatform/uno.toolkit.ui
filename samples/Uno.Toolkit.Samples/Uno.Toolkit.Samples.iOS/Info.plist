@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Uno.Toolkit.Samples</string>
 	<key>CFBundleIdentifier</key>
-	<string>uno.platform.toolkit</string>
+	<string>uno.platform.toolkit-uwp</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

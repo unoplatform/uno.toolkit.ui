@@ -14,8 +14,6 @@
 		<!-- Version management is now done through NuGet, this avoids issues related version mismatch -->
 		<Version>255.255.255.255</Version>
 
-		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<DefaultLanguage>en-US</DefaultLanguage>
 		<LangVersion>11</LangVersion>
 		<Nullable>enable</Nullable>
 
@@ -33,12 +31,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Authors>Uno Platform</Authors>
 		<PackageProjectUrl>$(BUILD_REPOSITORY_URI)</PackageProjectUrl>
-		<PackageIconUrl>https://nv-assets.azurewebsites.net/logos/uno.png</PackageIconUrl>
-		<RepositoryUrl>$(BUILD_REPOSITORY_URI)</RepositoryUrl>
 		<Description>A set of controls for Uno Platform, UWP and WinUI</Description>
-		<Copyright>Copyright (C) 2015-2021 Uno Platform. - all rights reserved</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup>
