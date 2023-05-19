@@ -20,7 +20,7 @@ jobs:
         msbuildLocationMethod: version
         msbuildVersion: latest
         maximumCpuCount: true
-        msbuildArguments: /m /r "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary /bl:$(build.artifactstagingdirectory)/toolkit-build-packages.binlog
+        msbuildArguments: /m /r /p:GeneratePackageOnBuild=true "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary /bl:$(build.artifactstagingdirectory)/toolkit-build-packages.binlog
 
     - task: DotNetCoreInstaller@0
       inputs:
@@ -36,7 +36,7 @@ jobs:
         SignPackageName: "Uno.Toolkit"
         SignPackageDescription: "Uno.Toolkit"
         ArtifactDirectory: $(build.artifactstagingdirectory)
-      condition: and(succeeded(), eq(variables['GeneratePackageOnBuild'], 'true'), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
+      condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
 
     - task: PublishBuildArtifacts@1
       condition: always()
