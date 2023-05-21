@@ -51,24 +51,33 @@ namespace Uno.Toolkit.UI
 					RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY")) // Legacy Value (Bootstrapper 1.2.0-dev.29 or earlier).
 					|| RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 
-		private async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+		private static async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
 		{
-			var splashScreenImage = new Image();
+			// Position of image aligns with WASM Bootstrapper style for splash image
+			// see https://github.com/unoplatform/Uno.Wasm.Bootstrap/blob/7d82af66c7dc587f6d1f6b6382860051fc2d92a0/src/Uno.Wasm.Bootstrap/WasmCSS/uno-bootstrap.css#L21
+			var splashScreenImage = new Image
+			{
+				MaxHeight = 300,
+				MaxWidth = 620,
+				Stretch = Stretch.Uniform,
+				HorizontalAlignment = HorizontalAlignment.Center,
+				VerticalAlignment = VerticalAlignment.Center
+			};
 			var splashScreenBackground = new SolidColorBrush();
-			var scaleFactor =
-#if WINDOWS_UWP
-				DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-#else
-				1.0; // WinUI will throw exception calling GetForCurrentView
-#endif
 
-			var splashScreenElement = new Canvas
+			Grid.SetColumn(splashScreenImage, 1);
+			var splashScreenElement = new Grid
 			{
 				Background = splashScreenBackground,
+				ColumnDefinitions = {
+					new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
+					new ColumnDefinition { Width = new GridLength(18, GridUnitType.Star)},
+					new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)}
+				},
 				Children = { splashScreenImage },
 			};
 
-			BitmapImage? bmp = default;
+			BitmapImage? bmp;
 			if (!IsBrowser)
 			{
 				bmp = await LoadSplashScreenFromPackageManifest(splashScreenImage, splashScreenBackground);
@@ -82,80 +91,6 @@ namespace Uno.Toolkit.UI
 			{
 				return splashScreenElement;
 			}
-
-#if WINDOWS
-			splashScreenElement.Loaded += (s, e) => scaleFactor = splashScreenElement.XamlRoot.RasterizationScale;
-#endif
-
-			// Only use image location (Left/Top) if there's a width/height specified
-			var imageLocationLeft = splashScreen?.ImageLocation.Width > 0 ? splashScreen?.ImageLocation.Left : default;
-			var imageLocationTop = splashScreen?.ImageLocation.Height > 0 ? splashScreen?.ImageLocation.Top : default;
-			var imageLocationWidth = splashScreen?.ImageLocation.Width > 0 ? splashScreen?.ImageLocation.Width : default;
-			var imageLocationHeight = splashScreen?.ImageLocation.Height > 0 ? splashScreen?.ImageLocation.Height : default;
-
-			typeof(ExtendedSplashScreen).Log().LogTrace($"Image location ({imageLocationLeft},{imageLocationTop},{imageLocationWidth},{imageLocationHeight}");
-
-
-			void PositionImage(Image imageElement)
-			{
-				try
-				{
-					if (Window is null || bmp is null)
-					{
-						return;
-					}
-
-
-					var calcImageWidth = (int)((imageLocationWidth ?? bmp.PixelWidth) / scaleFactor);
-					var calcImageHeight = (int)((imageLocationHeight ?? bmp.PixelHeight) / scaleFactor);
-
-					var imageWidth = calcImageWidth == 0 ? imageElement.ActualWidth : calcImageWidth;
-					var imageHeight = calcImageHeight == 0 ? imageElement.ActualHeight : calcImageHeight;
-					if (imageWidth == 0 || imageHeight == 0)
-					{
-						return;
-					}
-
-					if (IsBrowser)
-					{
-						typeof(ExtendedSplashScreen).Log().LogTrace("Fixing image size in WASM to 300x620");
-						imageHeight = 300;
-						imageWidth = 620;
-					}
-
-					var posLeft = imageLocationLeft ?? ((Window.Bounds.Width - imageWidth) / 2);
-					var posTop = imageLocationTop ?? ((Window.Bounds.Height - imageHeight) / 2);
-
-					splashScreenImage.SetValue(Canvas.LeftProperty, posLeft);
-					splashScreenImage.SetValue(Canvas.TopProperty, posTop);
-					splashScreenImage.HorizontalAlignment = HorizontalAlignment.Left;
-					splashScreenImage.VerticalAlignment = VerticalAlignment.Top;
-
-					splashScreenImage.Height = imageHeight;
-					splashScreenImage.Width = imageWidth;
-				}
-				catch (Exception e)
-				{
-					typeof(ExtendedSplashScreen).Log().LogError(0, e, "Error while adjusting image position and size");
-				}
-			}
-
-			if (Window is not null)
-			{
-				Window.SizeChanged += (s, e) => PositionImage(splashScreenImage);
-			}
-
-			// This works on Windows and has bmp.PixelWidth/Height available
-			bmp.ImageOpened += (s, e) => PositionImage(splashScreenImage);
-
-			// This doesn't get raised on GTK
-			//splashScreenImage.ImageOpened += (s, e) => PositionImage((s as Image)!);
-			// This gets raised on GTK, but bmp.PixelWidth/Height is not available, nor is ActualHeight/Width on splashScreenImage
-			//splashScreenImage.LayoutUpdated += (s, e) => PositionImage((s as Image)!);
-
-			// This works on GTK and has bmp.PixelWidth/Height available (bmp.ImageOpened does not)
-			splashScreenImage.SizeChanged += (s, e) => PositionImage((s as Image)!);
-			PositionImage(splashScreenImage);
 
 			return splashScreenElement;
 		}
