@@ -61,7 +61,7 @@ namespace Uno.Toolkit.UI
 				MaxWidth = 620,
 				Stretch = Stretch.Uniform,
 				HorizontalAlignment = HorizontalAlignment.Center,
-				VerticalAlignment=VerticalAlignment.Center
+				VerticalAlignment = VerticalAlignment.Center
 			};
 			var splashScreenBackground = new SolidColorBrush();
 
