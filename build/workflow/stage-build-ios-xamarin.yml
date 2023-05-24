@@ -72,12 +72,22 @@ jobs:
   - task: MSBuild@1
     displayName: Build project
     retryCountOnTaskFailure: 3
+    condition: eq(variables['System.PullRequest.IsFork'],'False')
     inputs:
       solution: "samples/$(ProjectName)/$(ProjectName).iOS/$(ProjectName).iOS.csproj"
       msbuildArguments: /ds /m /r /p:Configuration=Release /p:Platform=iPhone /p:UnoUIUseRoslynSourceGenerators=False "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
 
+  - task: MSBuild@1
+    displayName: Build project
+    retryCountOnTaskFailure: 3
+    condition: eq(variables['System.PullRequest.IsFork'],'True')
+    inputs:
+      solution: "samples/$(ProjectName)/$(ProjectName).iOS/$(ProjectName).iOS.csproj"
+      msbuildArguments: /ds /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:UnoUIUseRoslynSourceGenerators=False "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
+    condition: eq(variables['System.PullRequest.IsFork'],'False')
     retryCountOnTaskFailure: 3
     inputs:
       SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).iOS/bin/iPhone/Release
