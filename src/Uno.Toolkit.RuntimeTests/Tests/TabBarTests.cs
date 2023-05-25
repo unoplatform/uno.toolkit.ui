@@ -401,8 +401,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var SUT = new TabBar();
 			SUT.Items.Add(item1);
 			SUT.Items.Add(item2);
-			SUT.DataContext = new MyViewModel();
-			SUT.SetBinding(TabBar.SelectedIndexProperty, new Binding() { Mode = BindingMode.OneWay, Path = new PropertyPath("P") });
+			SUT.DataContext = new SelectedIndexTestViewModel();
+			SUT.SetBinding(TabBar.SelectedIndexProperty, new Binding() { Mode = BindingMode.OneWay, Path = new PropertyPath(nameof(SelectedIndexTestViewModel.P)) });
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 			Assert.IsNotNull(SUT.GetBindingExpression(TabBar.SelectedIndexProperty));
@@ -411,7 +411,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			//Assert.IsNull(SUT.GetBindingExpression(TabBar.SelectedIndexProperty));
 		}
 
-		private class MyViewModel : INotifyPropertyChanged
+		private class SelectedIndexTestViewModel : INotifyPropertyChanged
 		{
 			private int _p;
 
