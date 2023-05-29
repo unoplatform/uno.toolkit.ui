@@ -5,5 +5,7 @@ namespace Uno.Toolkit.UI;
 
 public class ShadowCollection : ObservableCollection<Shadow>
 {
-    public string ToKey(double width, double height) => this.Aggregate($"w{width},h{height}", (key, shadow) => key + shadow.ToKey());
+	public string ToKey(double width, double height) =>
+		$"w{width},h{height}:" +
+		string.Concat(this.Select(x => x.ToKey() + "/"));
 }

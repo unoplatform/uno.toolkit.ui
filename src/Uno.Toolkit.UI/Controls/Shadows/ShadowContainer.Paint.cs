@@ -112,7 +112,7 @@ public partial class ShadowContainer
         }
 
         string shadowsKey = shadows.ToKey(width, height);
-        if (Cache.TryGet(shadowsKey, out var shadowsImage))
+        if (Cache.TryGetValue(shadowsKey, out var shadowsImage))
         {
 			if (pixelRatioChanged)
 			{

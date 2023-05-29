@@ -8,11 +8,6 @@ The `ShadowContainer` provides the possibility to add many colored shadows to it
 ## Remarks
 For now the control simply adapts its corner radius to the content's corner radius. More complicated shapes like texts or pictures with alpha, are not supported.
 
-### C#
-```csharp
-public class ShadowContainer : ContentControl
-```
-
 ### XAML
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -31,7 +26,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </utu:ShadowContainer>
 ```
 
-### Inheritance 
+### Inheritance
 Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl
 
 ### Constructors
