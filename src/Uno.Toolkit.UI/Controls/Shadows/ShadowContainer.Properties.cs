@@ -13,15 +13,14 @@ namespace Uno.Toolkit.UI;
 
 public partial class ShadowContainer : ContentControl
 {
-    public static readonly DependencyProperty ShadowsProperty =
-        DependencyProperty.Register(
-            nameof(Shadows), 
-            typeof(ShadowCollection), 
-            typeof(ShadowContainer),
-            new(new ShadowCollection(), OnShadowsChanged));
+	#region DependencyProperty: Shadows
 
-    // True if a shadow property has changed dynamically or if we add or removed a shadow
-    private bool _shadowPropertyChanged;
+	public static readonly DependencyProperty ShadowsProperty =
+		DependencyProperty.Register(
+			nameof(Shadows),
+			typeof(ShadowCollection),
+			typeof(ShadowContainer),
+			new(new ShadowCollection(), OnShadowsChanged));
 
 	/// <summary>
 	/// The collection of shadows that will be displayed under your control.
@@ -29,109 +28,114 @@ public partial class ShadowContainer : ContentControl
 	/// The ShadowCollection implements INotifyCollectionChanged.
 	/// </summary>
 	public ShadowCollection Shadows
-    {
-        get => (ShadowCollection)GetValue(ShadowsProperty);
-        set => SetValue(ShadowsProperty, value);
-    }
+	{
+		get => (ShadowCollection)GetValue(ShadowsProperty);
+		set => SetValue(ShadowsProperty, value);
+	}
 
-    private static void OnShadowsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var shadowContainer = (ShadowContainer)d;
+	#endregion
 
-        var oldShadows = e.OldValue as ShadowCollection;
-        var newShadows = e.NewValue as ShadowCollection;
+	// True if a shadow property has changed dynamically or if we add or removed a shadow
+	private bool _shadowPropertyChanged;
 
-        if (oldShadows != null)
-        {
-            oldShadows.CollectionChanged -= shadowContainer.OnShadowCollectionChanged;
+	private static void OnShadowsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var shadowContainer = (ShadowContainer)d;
 
-            foreach (var shadow in oldShadows)
-            {
-                shadow.PropertyChanged -= shadowContainer.ShadowPropertyChanged;
-            }
+		var oldShadows = e.OldValue as ShadowCollection;
+		var newShadows = e.NewValue as ShadowCollection;
 
-            shadowContainer.OnShadowSizeChanged();
-            shadowContainer._shadowHost?.Invalidate();
-        }
+		if (oldShadows != null)
+		{
+			oldShadows.CollectionChanged -= shadowContainer.OnShadowCollectionChanged;
 
-        if (newShadows != null)
-        {
-            foreach (var shadow in newShadows)
-            {
-                shadow.PropertyChanged += shadowContainer.ShadowPropertyChanged;
-            }
-          
-            newShadows.CollectionChanged += shadowContainer.OnShadowCollectionChanged;
-            shadowContainer.OnShadowSizeChanged();
-            shadowContainer._shadowHost?.Invalidate();
-        }
-    }
+			foreach (var shadow in oldShadows)
+			{
+				shadow.PropertyChanged -= shadowContainer.ShadowPropertyChanged;
+			}
 
-    private void OnShadowCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        switch (e.Action)
-        {
-            case NotifyCollectionChangedAction.Add:
-                for (int i = 0, insertIndex = e.NewStartingIndex; i < e.NewItems!.Count; i++)
-                {
-                    OnShadowInserted((Shadow)e.NewItems[i]!);
-                }
+			shadowContainer.OnShadowSizeChanged();
+			shadowContainer._shadowHost?.Invalidate();
+		}
 
-                OnShadowSizeChanged();
-                InvalidateFromShadowPropertyChange();
+		if (newShadows != null)
+		{
+			foreach (var shadow in newShadows)
+			{
+				shadow.PropertyChanged += shadowContainer.ShadowPropertyChanged;
+			}
 
-                break;
-            case NotifyCollectionChangedAction.Remove:
-                for (int i = 0, removedIndex = e.OldStartingIndex; i < e.OldItems!.Count; i++)
-                {
-                    OnShadowRemoved((Shadow)e.OldItems[i]!);
-                }
+			newShadows.CollectionChanged += shadowContainer.OnShadowCollectionChanged;
+			shadowContainer.OnShadowSizeChanged();
+			shadowContainer._shadowHost?.Invalidate();
+		}
+	}
 
-                OnShadowSizeChanged();
-                InvalidateFromShadowPropertyChange();
-                break;
+	private void OnShadowCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		switch (e.Action)
+		{
+			case NotifyCollectionChangedAction.Add:
+				for (int i = 0; i < e.NewItems!.Count; i++)
+				{
+					OnShadowInserted((Shadow)e.NewItems[i]!);
+				}
 
-            case NotifyCollectionChangedAction.Reset:
-                OnShadowSizeChanged();
-                InvalidateFromShadowPropertyChange();
-                break;
-        }
-    }
+				OnShadowSizeChanged();
+				InvalidateFromShadowPropertyChange();
 
-    private void OnShadowInserted(Shadow shadow)
-    {
-        shadow.PropertyChanged += ShadowPropertyChanged;
-    }
+				break;
+			case NotifyCollectionChangedAction.Remove:
+				for (int i = 0; i < e.OldItems!.Count; i++)
+				{
+					OnShadowRemoved((Shadow)e.OldItems[i]!);
+				}
 
-    private void OnShadowRemoved(Shadow shadow)
-    {
-        shadow.PropertyChanged -= ShadowPropertyChanged;
-    }
+				OnShadowSizeChanged();
+				InvalidateFromShadowPropertyChange();
+				break;
 
-    private void ShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (Uno.Toolkit.UI.Shadow.IsShadowSizeProperty(e.PropertyName))
-        {
-            OnShadowSizeChanged();
-        }
+			case NotifyCollectionChangedAction.Reset:
+				OnShadowSizeChanged();
+				InvalidateFromShadowPropertyChange();
+				break;
+		}
+	}
 
-        InvalidateFromShadowPropertyChange();
-    }
+	private void OnShadowInserted(Shadow shadow)
+	{
+		shadow.PropertyChanged += ShadowPropertyChanged;
+	}
 
-    private void OnShadowSizeChanged()
-    {
-        var shadows = Shadows ?? new ShadowCollection();
-        if (_currentContent == null || _currentContent.ActualWidth <= 0 || _currentContent.ActualHeight <= 0 || shadows.Count == 0)
-        {
-            return;
-        }
+	private void OnShadowRemoved(Shadow shadow)
+	{
+		shadow.PropertyChanged -= ShadowPropertyChanged;
+	}
 
-        UpdateCanvasSize(_currentContent.ActualWidth, _currentContent.ActualHeight, shadows);
-    }
+	private void ShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
+	{
+		if (Uno.Toolkit.UI.Shadow.IsShadowSizeProperty(e.PropertyName))
+		{
+			OnShadowSizeChanged();
+		}
 
-    private void InvalidateFromShadowPropertyChange()
-    {
-        _shadowPropertyChanged = true;
-        _shadowHost?.Invalidate();
-    }
+		InvalidateFromShadowPropertyChange();
+	}
+
+	private void OnShadowSizeChanged()
+	{
+		var shadows = Shadows ?? new ShadowCollection();
+		if (_currentContent == null || _currentContent.ActualWidth <= 0 || _currentContent.ActualHeight <= 0 || shadows.Count == 0)
+		{
+			return;
+		}
+
+		UpdateCanvasSize(_currentContent.ActualWidth, _currentContent.ActualHeight, shadows);
+	}
+
+	private void InvalidateFromShadowPropertyChange()
+	{
+		_shadowPropertyChanged = true;
+		_shadowHost?.Invalidate();
+	}
 }

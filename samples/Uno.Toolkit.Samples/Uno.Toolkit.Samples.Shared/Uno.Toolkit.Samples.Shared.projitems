@@ -19,9 +19,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSampleContent.xaml.cs">
-      <DependentUpon>ShadowContainerSampleContent.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.xaml.cs">
       <DependentUpon>ShadowContainerSamplePage.xaml</DependentUpon>
     </Compile>
@@ -211,10 +208,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSampleContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
