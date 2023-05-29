@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls;
 using SkiaSharp.Views.UWP;
 #endif
 
-#if ANDROID
+#if __ANDROID__
 using Android.Views;
 #endif
 
@@ -31,7 +31,7 @@ public partial class ShadowContainer : ContentControl
 
 	private Canvas? _canvas;
 
-#if false // ANDROID
+#if false // ANDROID (see comment below)
     private readonly SKSwapChainPanel _shadowHost;
     private bool _notOpaqueSet = false;
 #else
@@ -54,7 +54,7 @@ public partial class ShadowContainer : ContentControl
 		_canvas = (Canvas)GetTemplateChild(nameof(PART_Canvas));
 
 
-#if false // ANDROID: We keep that as a reference cause it would
+#if false // ANDROID: We keep that as a reference cause it would better to use the hardware accelerated version
         var skiaCanvas = new SKSwapChainPanel();
         skiaCanvas.PaintSurface += OnSurfacePainted;
 #else
@@ -108,56 +108,51 @@ public partial class ShadowContainer : ContentControl
 			RelativePanel relativePanel => relativePanel.CornerRadius,
 			Grid grid => grid.CornerRadius,
 			Border border => border.CornerRadius,
-			_ => null,
+			_ => VisualTreeHelperEx.TryGetDpValue<CornerRadius>(element, "CornerRadius", out var value) ? value : default(CornerRadius?),
 		};
 
 		cornerRadius = localCornerRadius ?? new CornerRadius(0);
 		return localCornerRadius != null;
 	}
 
-    private void OnContentSizeChanged(object sender, SizeChangedEventArgs args)
-    {
-        var shadows = Shadows ?? new ShadowCollection();
-        if (args.NewSize.Width <= 0 || args.NewSize.Height <= 0 || shadows.Count == 0)
-        {
-            return;
-        }
+	private void OnContentSizeChanged(object sender, SizeChangedEventArgs args)
+	{
+		var shadows = Shadows ?? new ShadowCollection();
+		if (args.NewSize.Width <= 0 || args.NewSize.Height <= 0 || shadows.Count == 0)
+		{
+			return;
+		}
 
-        double newChildHeight = args.NewSize.Height;
-        double newChildWidth = args.NewSize.Width;
-
-        UpdateCanvasSize(newChildWidth, newChildHeight, shadows);
-
-        _shadowHost?.Invalidate();
-    }
-
-    private void UpdateCanvasSize(double childWidth, double childHeight, ShadowCollection shadows)
-    {
+		UpdateCanvasSize(args.NewSize.Width, args.NewSize.Height, shadows);
+		_shadowHost?.Invalidate();
+	}
+	private void UpdateCanvasSize(double childWidth, double childHeight, ShadowCollection shadows)
+	{
 		if (_currentContent == null || _canvas == null || _shadowHost == null)
 		{
 			return;
 		}
 
-        double absoluteMaxOffsetX = shadows.Max(s => Math.Abs(s.OffsetX));
-        double absoluteMaxOffsetY = shadows.Max(s => Math.Abs(s.OffsetY));
-        double maxBlurRadius = shadows.Max(s => s.BlurRadius);
-        double maxSpread = shadows.Max(s => s.Spread);
+		double absoluteMaxOffsetX = shadows.Max(s => Math.Abs(s.OffsetX));
+		double absoluteMaxOffsetY = shadows.Max(s => Math.Abs(s.OffsetY));
+		double maxBlurRadius = shadows.Max(s => s.BlurRadius);
+		double maxSpread = shadows.Max(s => s.Spread);
 
-        _canvas.Height = childHeight;
-        _canvas.Width = childWidth;
+		_canvas.Height = childHeight;
+		_canvas.Width = childWidth;
 
-        double newHostHeight = childHeight + maxBlurRadius * 2 + absoluteMaxOffsetY * 2 + maxSpread * 2;
-        double newHostWidth = childWidth + maxBlurRadius * 2 + absoluteMaxOffsetX * 2 + maxSpread * 2;
-        _shadowHost.Height = newHostHeight;
-        _shadowHost.Width = newHostWidth;
+		double newHostHeight = childHeight + maxBlurRadius * 2 + absoluteMaxOffsetY * 2 + maxSpread * 2;
+		double newHostWidth = childWidth + maxBlurRadius * 2 + absoluteMaxOffsetX * 2 + maxSpread * 2;
+		_shadowHost.Height = newHostHeight;
+		_shadowHost.Width = newHostWidth;
 
-        double diffWidthShadowHostChild = newHostWidth - childWidth;
-        double diffHeightShadowHostChild = newHostHeight - childHeight;
+		double diffWidthShadowHostChild = newHostWidth - childWidth;
+		double diffHeightShadowHostChild = newHostHeight - childHeight;
 
-        float left = (float)(-diffWidthShadowHostChild / 2 + _currentContent.Margin.Left);
-        float top = (float)(-diffHeightShadowHostChild / 2 + _currentContent.Margin.Top);
+		float left = (float)(-diffWidthShadowHostChild / 2 + _currentContent.Margin.Left);
+		float top = (float)(-diffHeightShadowHostChild / 2 + _currentContent.Margin.Top);
 
-        Canvas.SetLeft(_shadowHost, left);
-        Canvas.SetTop(_shadowHost, top);
-    }
+		Canvas.SetLeft(_shadowHost, left);
+		Canvas.SetTop(_shadowHost, top);
+	}
 }
