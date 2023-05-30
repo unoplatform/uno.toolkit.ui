@@ -39,8 +39,8 @@ namespace Uno.Toolkit.UI
 {
 	internal class NavigationAppBarButtonRenderer : Renderer<AppBarButton, Toolbar>
 	{
-		private MainCommandMode _mode;
-		public MainCommandMode Mode
+		private MainCommandMode? _mode;
+		public MainCommandMode? Mode
 		{
 			get => _mode;
 			set
