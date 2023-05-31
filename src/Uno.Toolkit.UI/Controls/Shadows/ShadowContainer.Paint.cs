@@ -152,8 +152,11 @@ public partial class ShadowContainer
             // Blur sigma conversion taken from flutter source code
             float blurSigma = blurRadius > 0 ? blurRadius * 0.57735f + 0.5f : 0f;
 
-            var color = shadow.Color.ToSKColor();
-            color = color.WithAlpha((byte)(color.Alpha * shadow.Opacity));
+			// Can't use ToSKColor() or we end up with a weird compilation error asking us to reference System.Drawing
+            Windows.UI.Color windowsUiColor = shadow.Color;
+			var color = new SKColor(windowsUiColor.R, windowsUiColor.G, windowsUiColor.B, windowsUiColor.A);
+
+			color = color.WithAlpha((byte)(color.Alpha * shadow.Opacity));
 
             // System.Diagnostics.Debug.WriteLine($">>>>>> Blur sigma: {pixelBlurSigma}");
             DrawShadow(canvas, paint, blurSigma, offsetX, offsetY, childWidth, childHeight, color, cornerRadius, spread);
