@@ -45,6 +45,27 @@ namespace Uno.Toolkit.UI
 			return false;
 		}
 
+		public static bool TryUpdatePadding(this FrameworkElement frameworkElement, Thickness newPadding)
+		{
+			//Fast path
+			if (TryGetPadding(frameworkElement, out var padding))
+			{
+				return !padding.Equals(newPadding) && TrySetPadding(frameworkElement, newPadding);
+			}
+
+			var property = frameworkElement.FindDependencyPropertyUsingReflection<Thickness>("PaddingProperty");
+			if (property is { } && frameworkElement.GetValue(property) is Thickness currentPadding)
+			{
+				if (!currentPadding.Equals(newPadding))
+				{
+					frameworkElement.SetValue(property, newPadding);
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		internal static bool TryGetPadding(this FrameworkElement frameworkElement, out Thickness padding)
 		{
 			(var result, padding) = frameworkElement switch
