@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 
-using Windows.UI;
-
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 #else
@@ -26,7 +24,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 
 	private const double DefaultOffsetY = 0;
 
-	private static readonly Color DefaultColor = Color.FromArgb(255, 0, 0, 0);
+	private static readonly Windows.UI.Color DefaultColor = Windows.UI.Color.FromArgb(255, 0, 0, 0);
 
 	#region DependencyProperty: OffsetX
 
@@ -68,17 +66,17 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 
 	public static readonly DependencyProperty ColorProperty = DependencyProperty.Register(
 		nameof(Color),
-		typeof(Color),
+		typeof(Windows.UI.Color),
 		typeof(Shadow),
 		new(DefaultColor, (s, args) => OnPropertyChanged(s, nameof(Color))));
 
 	/// <summary>
-	/// The color of the shadow.
+	/// The color of the shadow.,
 	/// It will be multiplied by the opacity property before rendering.
 	/// </summary>
-	public Color Color
+	public Windows.UI.Color Color
 	{
-		get => (Color)GetValue(ColorProperty);
+		get => (Windows.UI.Color)GetValue(ColorProperty);
 		set => SetValue(ColorProperty, value);
 	}
 
