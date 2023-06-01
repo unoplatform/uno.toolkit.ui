@@ -11,7 +11,7 @@ using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using Windows.System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using Uno.UI;
 #if __IOS__
 using UIKit;
 #endif
@@ -34,8 +34,6 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Uno.UI.Xaml;
-using Uno.UI;
-
 #endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests
