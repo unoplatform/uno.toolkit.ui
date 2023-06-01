@@ -48,7 +48,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task Translucent_SystemBars()
 		{
-			using var _ = UseFullWindow();
+			using var _ = SetupWindow();
 			using var __ = UseTranslucentBars();
 
 			var redGrid = new Grid
