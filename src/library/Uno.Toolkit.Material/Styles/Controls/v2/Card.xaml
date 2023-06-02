@@ -3,24 +3,46 @@
                     xmlns:utu="using:Uno.Toolkit.UI"
                     xmlns:um="using:Uno.Material"
                     xmlns:toolkit="using:Uno.UI.Toolkit">
+	<ResourceDictionary.ThemeDictionaries>
+		<!-- Card Brushes Theme Resources -->
+		<ResourceDictionary x:Key="Default">
+			<!-- Filled -->
+			<StaticResource x:Key="MaterialFilledCardBackground"
+							ResourceKey="SurfaceBrush" />
 
-    <!-- Card Brushes Resources -->
-    <!-- Elevated -->
-    <StaticResource x:Key="MaterialElevatedCardBackground"
-	                ResourceKey="SurfaceBrush" />
+			<!-- Outlined -->
+			<StaticResource x:Key="MaterialOutlinedCardBackground"
+							ResourceKey="SurfaceBrush" />
 
-    <!-- Filled -->
-    <StaticResource x:Key="MaterialFilledCardBackground"
-	                ResourceKey="SurfaceVariantBrush" />
-    
-    <!-- Outlined -->
-    <StaticResource x:Key="MaterialOutlinedCardBackground"
-	                ResourceKey="SurfaceBrush" />
-    <StaticResource x:Key="MaterialOutlinedCardBorderBrush"
-	                ResourceKey="OutlineBrush" />
+			<!-- Elevated -->
+			<StaticResource x:Key="MaterialElevatedCardBackground"
+							ResourceKey="SurfaceBrush" />
 
-    <!--  Card Other Resources  -->
-    <!-- Double -->
+			<!--  Card Other Resources  -->
+			<StaticResource x:Key="MaterialOutlinedCardBorderBrush"
+							ResourceKey="OutlineBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Light">
+			<!-- Filled -->
+			<StaticResource x:Key="MaterialFilledCardBackground"
+							ResourceKey="SurfaceBrush" />
+
+			<!-- Outlined -->
+			<StaticResource x:Key="MaterialOutlinedCardBackground"
+							ResourceKey="SurfaceBrush" />
+
+			<!-- Elevated -->
+			<StaticResource x:Key="MaterialElevatedCardBackground"
+							ResourceKey="SurfaceBrush" />
+
+			<!--  Card Other Resources  -->
+			<StaticResource x:Key="MaterialOutlinedCardBorderBrush"
+							ResourceKey="OutlineBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<!-- Double -->
     <x:Double x:Key="MaterialCardMinHeight">72</x:Double>
     <x:Double x:Key="MaterialCardMaxWidth">344</x:Double>
 
@@ -154,7 +176,7 @@
            TargetType="utu:Card"
            BasedOn="{StaticResource MaterialBaseCardStyle}">
         <Setter Property="Background"
-                Value="{StaticResource MaterialFilledCardBackground}" />
+                Value="{ThemeResource MaterialFilledCardBackground}" />
         <Setter Property="VerticalAlignment"
                 Value="Stretch" />
         <Setter Property="VerticalContentAlignment"
@@ -337,7 +359,7 @@
            BasedOn="{StaticResource MaterialFilledCardStyle}">
 
         <Setter Property="Background"
-                Value="{StaticResource MaterialOutlinedCardBackground}" />
+                Value="{ThemeResource MaterialOutlinedCardBackground}" />
         <Setter Property="BorderBrush"
                 Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
         <Setter Property="BorderThickness"
@@ -348,7 +370,7 @@
            BasedOn="{StaticResource MaterialBaseCardStyle}"
            TargetType="utu:Card">
         <Setter Property="Background"
-                Value="{StaticResource MaterialElevatedCardBackground}" />
+                Value="{ThemeResource MaterialElevatedCardBackground}" />
         <Setter Property="VerticalAlignment"
                 Value="Stretch" />
         <Setter Property="VerticalContentAlignment"
@@ -534,7 +556,7 @@
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource MaterialFilledCardBackground}" />
+                Value="{ThemeResource MaterialFilledCardBackground}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -733,7 +755,7 @@
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource MaterialOutlinedCardBackground}" />
+                Value="{ThemeResource MaterialOutlinedCardBackground}" />
         <Setter Property="BorderBrush"
                 Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
         <Setter Property="BorderThickness"
@@ -745,7 +767,7 @@
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource MaterialElevatedCardBackground}" />
+                Value="{ThemeResource MaterialElevatedCardBackground}" />
         <Setter Property="Elevation"
                 Value="{StaticResource MaterialCardElevation}" />
 
@@ -949,7 +971,7 @@
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource MaterialFilledCardBackground}" />
+                Value="{ThemeResource MaterialFilledCardBackground}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -1137,7 +1159,7 @@
         <Setter Property="Padding"
                 Value="0" />
         <Setter Property="Background"
-                Value="{StaticResource MaterialOutlinedCardBackground}" />
+                Value="{ThemeResource MaterialOutlinedCardBackground}" />
         <Setter Property="BorderBrush"
                 Value="{ThemeResource MaterialOutlinedCardBorderBrush}" />
         <Setter Property="BorderThickness"
@@ -1149,7 +1171,7 @@
            TargetType="utu:Card">
 
         <Setter Property="Background"
-                Value="{StaticResource MaterialElevatedCardBackground}" />
+                Value="{ThemeResource MaterialElevatedCardBackground}" />
         <Setter Property="Elevation"
                 Value="{StaticResource MaterialCardElevation}" />
 
