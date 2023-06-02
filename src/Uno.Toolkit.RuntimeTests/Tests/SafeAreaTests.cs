@@ -33,7 +33,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
-using Uno.UI.Xaml;
 #endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests
