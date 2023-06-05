@@ -101,6 +101,18 @@ namespace Uno.Toolkit.UI
 		public static T? GetFirstAncestor<T>(this DependencyObject reference, Func<T, bool> predicate) => GetAncestors(reference)
 			.OfType<T>()
 			.FirstOrDefault(predicate);
+		
+		/// <summary>
+		/// Returns the first ancestor of a specified type that satisfies the <paramref name="predicate"/>.
+		/// </summary>
+		/// <typeparam name="T">The type of ancestor to find.</typeparam>
+		/// <param name="reference">Any node of the visual tree</param>
+		/// <param name="hierarchyPredicate">A function to test each ancestor for a condition.</param>
+		/// <param name="predicate">A function to test each node for a condition.</param>
+		/// <remarks>First Counting from the <paramref name="reference"/> and not from the root of tree.</remarks>
+		public static T? GetFirstAncestor<T>(this DependencyObject reference, Func<DependencyObject, bool> hierarchyPredicate, Func<T, bool> predicate) => GetAncestors(reference, hierarchyPredicate)
+			.OfType<T>()
+			.FirstOrDefault(predicate);
 
 		/// <summary>
 		/// Returns the first descendant of a specified type.
@@ -135,10 +147,12 @@ namespace Uno.Toolkit.UI
 			.OfType<T>()
 			.FirstOrDefault(predicate);
 
-		public static IEnumerable<DependencyObject> GetAncestors(this DependencyObject o)
+		public static IEnumerable<DependencyObject> GetAncestors(this DependencyObject o) => GetAncestors(o, x => true);
+
+		public static IEnumerable<DependencyObject> GetAncestors(this DependencyObject o, Func<DependencyObject, bool> hierarchyPredicate)
 		{
 			if (o is null) yield break;
-			while (VisualTreeHelper.GetParent(o) is { } parent)
+			while (VisualTreeHelper.GetParent(o) is { } parent && hierarchyPredicate(parent))
 			{
 				yield return o = parent;
 			}
