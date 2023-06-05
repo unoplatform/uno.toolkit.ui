@@ -158,7 +158,7 @@ namespace Uno.Toolkit.UI
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			_pageRef = new WeakReference<Page?>(this.GetFirstParent<Page>());
+			_pageRef = new WeakReference<Page?>(FindPage());
 
 			_popupHost = Uno.Toolkit.UI.DependencyObjectExtensions.FindFirstParent<Popup>(this);
 
@@ -179,6 +179,13 @@ namespace Uno.Toolkit.UI
 			}
 #endif
 			UpdateMainCommandVisibility();
+		}
+
+		private Page? FindPage()
+		{
+			return VisualTreeHelperEx.GetFirstAncestor<Page>(this,
+				hierarchyPredicate: x => x is not Popup, // prevent looking past the popup host
+				predicate: _ => true);
 		}
 
 
