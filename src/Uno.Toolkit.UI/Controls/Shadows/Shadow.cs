@@ -14,6 +14,8 @@ namespace Uno.Toolkit.UI;
 /// </summary>
 public partial class Shadow : DependencyObject, INotifyPropertyChanged
 {
+	private const bool DefaultIsInner = false;
+	
 	private const double DefaultSpread = 0;
 
 	private const double DefaultBlurRadius = 0;
@@ -26,6 +28,25 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 
 	private static readonly Windows.UI.Color DefaultColor = Windows.UI.Color.FromArgb(255, 0, 0, 0);
 
+	#region DependencyProperty: IsInner
+
+	public static readonly DependencyProperty IsInnerProperty = DependencyProperty.Register(
+		nameof(IsInner),
+		typeof(bool),
+		typeof(Shadow),
+		new(DefaultIsInner, (s, args) => OnPropertyChanged(s, nameof(IsInner))));
+
+	/// <summary>
+	/// If true, the shadow will be drawn inside the bounds of the element.
+	/// It will have the same effect than the 'inset' value in a css box-shadow.
+	/// </summary>
+	public bool IsInner
+	{
+		get => (bool)GetValue(IsInnerProperty);
+		set => SetValue(IsInnerProperty, value);
+	}
+
+	#endregion
 	#region DependencyProperty: OffsetX
 
 	public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register(
@@ -138,18 +159,20 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 
 	public event PropertyChangedEventHandler? PropertyChanged;
 
-	internal static bool IsShadowProperty(string? propertyName)
+	internal static bool IsShadowProperty(string propertyName)
 	{
 		return propertyName == nameof(OffsetX) || propertyName == nameof(OffsetY)
+			   || propertyName == nameof(IsInner)
 			   || propertyName == nameof(Color)
 			   || propertyName == nameof(Opacity)
 			   || propertyName == nameof(BlurRadius)
 			   || propertyName == nameof(Spread);
 	}
 
-	internal static bool IsShadowSizeProperty(string? propertyName)
+	internal static bool IsShadowSizeProperty(string propertyName)
 	{
 		return propertyName == nameof(OffsetX) || propertyName == nameof(OffsetY)
+			   || propertyName == nameof(IsInner)
 			   || propertyName == nameof(BlurRadius)
 			   || propertyName == nameof(Spread);
 	}
@@ -160,15 +183,16 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 	}
 
 	public override string ToString() =>
-		$"{{ Offset: {{{OffsetX}, {OffsetY}}} Color: {{A={Color.A}, R={Color.R}, G={Color.G}, B={Color.B}}}, Opacity: {Opacity}, BlurRadius: {BlurRadius}, Spread: {Spread} }}";
+		$"{{ IsInner: {{{IsInner}}}, Offset: {{{OffsetX}, {OffsetY}}} Color: {{A={Color.A}, R={Color.R}, G={Color.G}, B={Color.B}}}, Opacity: {Opacity}, BlurRadius: {BlurRadius}, Spread: {Spread} }}";
 
 	public string ToKey() =>
-		string.Join(",", OffsetX, OffsetY, Color.ToString(), Opacity, BlurRadius, Spread);
+		string.Join(",", IsInner, OffsetX, OffsetY, Color.ToString(), Opacity, BlurRadius, Spread);
 
 	public Shadow Clone()
 	{
 		return new Shadow
 		{
+			IsInner = IsInner,
 			OffsetX = OffsetX,
 			OffsetY = OffsetY,
 			Color = Color,

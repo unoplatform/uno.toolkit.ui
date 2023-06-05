@@ -114,6 +114,11 @@ public partial class ShadowContainer : ContentControl
 
 	private void ShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
 	{
+		if (e.PropertyName is null)
+		{
+			return;
+		}
+
 		if (Uno.Toolkit.UI.Shadow.IsShadowSizeProperty(e.PropertyName))
 		{
 			OnShadowSizeChanged();
