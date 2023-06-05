@@ -5,7 +5,9 @@ namespace Uno.Toolkit.UI;
 
 public class ShadowCollection : ObservableCollection<Shadow>
 {
-	public string ToKey(double width, double height) =>
-		$"w{width},h{height}:" +
+	public bool HasInnerShadow() => this.Any(s => s.IsInner);
+
+	public string ToKey(double width, double height, Windows.UI.Color? contentBackground) 
+		=> $"w{width},h{height}" + (contentBackground.HasValue ? $",cb{contentBackground.Value}:" : ":") +
 		string.Concat(this.Select(x => x.ToKey() + "/"));
 }

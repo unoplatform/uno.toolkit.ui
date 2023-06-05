@@ -4,10 +4,8 @@ using Windows.UI;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Data;
-
 #else
 using Windows.UI.Xaml.Data;
-
 #endif
 
 namespace Uno.Toolkit.Samples.Converters
