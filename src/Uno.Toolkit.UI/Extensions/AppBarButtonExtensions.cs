@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -34,6 +35,26 @@ namespace Uno.Toolkit.UI
 		{
 			var peer = button?.GetAutomationPeer() as ButtonAutomationPeer;
 			peer?.Invoke();
+		}
+
+		public static bool TryGetIconColor(this AppBarButton appBarButton, out Color iconColor)
+		{
+			iconColor = default;
+
+			if (appBarButton.Icon?.ReadLocalValue(IconElement.ForegroundProperty) != DependencyProperty.UnsetValue &&
+				ColorHelper.TryGetColorWithOpacity(appBarButton.Icon?.Foreground, out var iconForeground))
+			{
+				iconColor = iconForeground;
+				return true;
+			}
+
+			if (ColorHelper.TryGetColorWithOpacity(appBarButton.Foreground, out var buttonForeground))
+			{
+				iconColor = buttonForeground;
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

@@ -75,7 +75,7 @@ namespace Uno.Toolkit.UI
 		protected override void Render()
 		{
 			var native = Native;
-			var element = Element;
+			var element = Element ?? throw new InvalidOperationException("Element is null.");
 
 			if (native == null)
 			{
@@ -83,30 +83,15 @@ namespace Uno.Toolkit.UI
 			}
 
 			// Foreground
-			var foreground = (element!.Foreground as SolidColorBrush);
-			var foregroundOpacity = foreground?.Opacity ?? 0;
-
-			var foregroundColor = foreground?.Color;
+			var hasIconColor = element.TryGetIconColor(out var foregroundColor);
+			var foregroundOpacity = hasIconColor ? foregroundColor.A / 255d : 0d;
 
 			// Visibility
-			if (element?.Visibility == Visibility.Visible)
+			if (element.Visibility == Visibility.Visible)
 			{
 				// Icon
 				var iconUri = (element.Icon as BitmapIcon)?.UriSource;
-
-				if (iconUri != null)
-				{
-					native.NavigationIcon = DrawableHelper.FromUri(iconUri);
-					if (foregroundColor != null)
-					{
-						DrawableCompat.SetTint(native.NavigationIcon, (Android.Graphics.Color)foregroundColor);
-					}
-					else
-					{
-						DrawableCompat.SetTintList(native.NavigationIcon, null);
-					}
-				}
-				else if (_mode == MainCommandMode.Back)
+				if (!TrySetIcon() && _mode == MainCommandMode.Back)
 				{
 					var navIcon = new AndroidX.AppCompat.Graphics.Drawable.DrawerArrowDrawable(ContextHelper.Current)
 					{
@@ -115,7 +100,7 @@ namespace Uno.Toolkit.UI
 						Progress = 1,
 					};
 
-					if (foregroundColor != null)
+					if (hasIconColor)
 					{
 						navIcon.Color = (Android.Graphics.Color)foregroundColor;
 					}
@@ -136,6 +121,32 @@ namespace Uno.Toolkit.UI
 			{
 				native.NavigationIcon = null;
 				native.NavigationContentDescription = null;
+			}
+
+			bool TrySetIcon()
+			{
+				if (element.Icon is { } icon)
+				{
+					if (icon is BitmapIcon bitmap)
+					{
+						if (bitmap.UriSource is { } uriSource)
+						{
+							native.NavigationIcon = DrawableHelper.FromUri(uriSource);
+							if (hasIconColor)
+							{
+								DrawableCompat.SetTint(native.NavigationIcon, (Android.Graphics.Color)foregroundColor);
+							}
+						}
+
+						return true;
+					}
+					else
+					{
+						this.Log().WarnIfEnabled(() => $"{icon.GetType().Name ?? "FontIcon, PathIcon and SymbolIcon"} are not supported. Use BitmapIcon instead with UriSource.");
+					}
+				}
+
+				return false;
 			}
 		}
 	}
