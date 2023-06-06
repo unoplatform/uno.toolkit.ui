@@ -44,11 +44,6 @@ Shadows  | ShadowCollection |  The collection of shadows that will be displayed 
 Dependency object representing a single shadow.
 Public properties are all dependency properties.
 
-### C#
-```csharp
-public class Shadow : DependencyObject, INotifyPropertyChanged
-```
-
 ### Shadow Properties
 | Property | Type | Description |
 | -------- | ---- | ----------- |

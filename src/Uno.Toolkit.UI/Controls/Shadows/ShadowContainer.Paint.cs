@@ -5,6 +5,10 @@ using SkiaSharp;
 
 using Windows.UI;
 
+using Microsoft.Extensions.Logging;
+using Uno.Extensions;
+using Uno.Logging;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Controls;
@@ -19,6 +23,8 @@ namespace Uno.Toolkit.UI;
 
 public partial class ShadowContainer
 {
+	private static readonly ILogger _logger = typeof(InputExtensions).Log();
+
 	private record ShadowInfos(double Width, double Height, bool IsInner, double BlurRadius, double Spread, double X, double Y, Color color)
 	{
 		public static readonly ShadowInfos Empty = new ShadowInfos(0, 0, false, 0, 0, 0, 0, new Color());
@@ -252,7 +258,7 @@ public partial class ShadowContainer
 			Style = SKPaintStyle.Fill,
 		};
 
-		System.Diagnostics.Debug.WriteLine(
+		_logger.Debug(
 			$"[ShadowContainer] DrawContentBackground => color: {backgroundPaint.Color}");
 
 		canvas.DrawRoundRect(childShape, backgroundPaint);
@@ -289,7 +295,7 @@ public partial class ShadowContainer
 		shadowShape.Inflate(shadow.Spread, shadow.Spread);
 		canvas.DrawRoundRect(shadowShape, paint);
 
-		System.Diagnostics.Debug.WriteLine(
+		_logger.Debug(
 			$"[ShadowContainer] DrawDropShadow => x: {shadow.OffsetX}, y: {shadow.OffsetY}, width: {shadow.ContentWidth}, height: {shadow.ContentHeight}");
 	}
 
@@ -305,7 +311,7 @@ public partial class ShadowContainer
 		paint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, shadow.BlurSigma);
 		paint.ImageFilter = null;
 
-		System.Diagnostics.Debug.WriteLine(
+		_logger.Debug(
 			$"[ShadowContainer] DrawInnerShadow => strokeWidth: {paint.StrokeWidth}, cornerRadius: {shadow.CornerRadius}, x: {shadow.OffsetX}, y: {shadow.OffsetY}, width: {shadow.ContentWidth}, height: {shadow.ContentHeight}");
 
 		var shadowShape = new SKRoundRect(
