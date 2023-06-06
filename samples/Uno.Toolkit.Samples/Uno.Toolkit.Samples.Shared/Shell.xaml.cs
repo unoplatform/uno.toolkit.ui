@@ -102,22 +102,34 @@ namespace Uno.Toolkit.Samples
 
 		private void ToggleButton_Click(object sender, RoutedEventArgs e)
 		{
-			// Set theme for window root.
-			if (DarkModeToggle.IsChecked is { } value)
+			if (this.XamlRoot.Content is FrameworkElement root)
 			{
-				SystemThemeHelper.SetApplicationTheme(darkMode: value);
-			}
-			else
-			{
-				SystemThemeHelper.ToggleApplicationTheme();
-				DarkModeToggle.IsChecked = SystemThemeHelper.IsAppInDarkMode();
-			}
+				switch (root.ActualTheme)
+				{
+					case ElementTheme.Default:
+						if (SystemThemeHelper.GetCurrentOsTheme() == ApplicationTheme.Dark)
+						{
+							root.RequestedTheme = ElementTheme.Light;
+						}
+						else
+						{
+							root.RequestedTheme = ElementTheme.Dark;
+						}
+						break;
+					case ElementTheme.Light:
+						root.RequestedTheme = ElementTheme.Dark;
+						break;
+					case ElementTheme.Dark:
+						root.RequestedTheme = ElementTheme.Light;
+						break;
+				}
 
-			if (NavigationViewControl.PaneDisplayMode == MUXC.NavigationViewPaneDisplayMode.LeftMinimal)
-			{
-				// Close navigation view when changing the theme
-				// to allow the user to see the difference between the themes.
-				NavigationViewControl.IsPaneOpen = false;
+				if (NavigationViewControl.PaneDisplayMode == MUXC.NavigationViewPaneDisplayMode.LeftMinimal)
+				{
+					// Close navigation view when changing the theme
+					// to allow the user to see the difference between the themes.
+					NavigationViewControl.IsPaneOpen = false;
+				}
 			}
 		}
 
