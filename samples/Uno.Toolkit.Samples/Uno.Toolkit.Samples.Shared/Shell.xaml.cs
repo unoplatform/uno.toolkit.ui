@@ -212,7 +212,7 @@ namespace Uno.Toolkit.Samples
 			else if (NavigationViewControl.PaneDisplayMode == MUXC.NavigationViewPaneDisplayMode.Left)
 			{
 				NavigationViewControl.IsPaneVisible = !NavigationViewControl.IsPaneVisible;
-				NavigationViewControl.IsPaneOpen = !NavigationViewControl.IsPaneVisible;
+				NavigationViewControl.IsPaneOpen = NavigationViewControl.IsPaneVisible;
 			}
 		}
 
