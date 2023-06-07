@@ -21,6 +21,7 @@
 				<CupertinoColors xmlns="using:Uno.Cupertino" />
 				<CupertinoFonts xmlns="using:Uno.Cupertino" OverrideSource="ms-appx:///CupertinoFontsOverride.xaml" />
 				<CupertinoResources xmlns="using:Uno.Cupertino" />
+				<CupertinoToolkitResources xmlns="using:Uno.Toolkit.UI.Cupertino" />
 
 				<!-- Load application resources -->
 				<ResourceDictionary Source="Converters.xaml" />
