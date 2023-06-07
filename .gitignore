@@ -331,3 +331,4 @@ ASALocalRun/
 
 /src/crosstargeting_override.props
 mergedpages.*.xaml
+.vscode/
