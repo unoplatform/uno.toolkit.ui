@@ -37,6 +37,7 @@
 	<PropertyGroup>
 		<IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
 		<IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
+		<IsMarkupProject>$(MSBuildProjectName.Contains('Markup'))</IsMarkupProject>
 	</PropertyGroup>
 
 	<Choose>
@@ -55,11 +56,16 @@
 		</When>
 	</Choose>
 
+	<PropertyGroup Condition="'$(IsMarkupProject)'=='true'">
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(IsTestProject)'=='false'">
 		<!-- Enable performance CA rules from 'Microsoft.CodeAnalysis.NetAnalyzers' as build warnings by default. Specific rules are disabled or downgraded in the repo's editorconfig. -->
 		<AnalysisLevel>latest</AnalysisLevel>
 		<AnalysisModePerformance>AllEnabledByDefault</AnalysisModePerformance>
 	</PropertyGroup>
+
 	<ItemGroup Condition="'$(IsTestProject)'=='false'">
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="All" />
 	</ItemGroup>
