@@ -83,8 +83,8 @@ partial class AutoLayout
 			// and the final spacing will be calculated in the arrange pass.
 			desiredSize = orientation switch
 			{
-				Orientation.Horizontal => new Size(availableSize.Width, desiredCounterSize),
-				Orientation.Vertical => new Size(desiredCounterSize, availableSize.Height),
+				Orientation.Horizontal => new Size(availableSize.Width, desiredCounterSize + Padding.GetCounterLength(orientation)),
+				Orientation.Vertical => new Size(desiredCounterSize + Padding.GetCounterLength(orientation), availableSize.Height),
 				_ => throw new ArgumentOutOfRangeException(),
 			};
 		}

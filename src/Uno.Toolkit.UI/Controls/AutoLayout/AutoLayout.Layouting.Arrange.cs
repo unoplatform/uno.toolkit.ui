@@ -195,8 +195,8 @@ partial class AutoLayout
 			var haveCounterEndPadding = counterAlignment is AutoLayoutAlignment.Stretch or AutoLayoutAlignment.End;
 			var counterEndPadding = haveCounterEndPadding ? (isHorizontal ? padding.Bottom : padding.Right) : 0;
 
-			var test = borderThickness.GetCounterLength(orientation);
-			var availableCounterLength = finalSize.GetCounterLength(orientation) - (counterStartPadding + counterEndPadding + test);
+			var counterBorderLength = borderThickness.GetCounterLength(orientation);
+			var availableCounterLength = finalSize.GetCounterLength(orientation) - (counterStartPadding + counterEndPadding + counterBorderLength);
 
 			EnsureZeroFloor(ref availableCounterLength);
 

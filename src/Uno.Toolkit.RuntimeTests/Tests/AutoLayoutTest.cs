@@ -89,7 +89,6 @@ internal class AutoLayoutTest
 	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, 10, 10, 110, 12, 185)]
 	[DataRow(true, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, -30, 10, 110, 12, 165)]
 	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, 10, 10, 10, 12, 105)]
-	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, 10, 10, 10, 12, 105)]
 	[DataRow(true, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 10, 10, 0, 0 }, -30, 10, 10, 12, 85)]
 	[DataRow(false, Orientation.Vertical, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, 10, 10, 110, 138, 248)]
 	[DataRow(false, Orientation.Horizontal, VerticalAlignment.Top, HorizontalAlignment.Left, new[] { 10, 10, 10, 10 }, new[] { 110, 10, 0, 0 }, 10, 10, 110, 78, 138)]
@@ -335,5 +334,79 @@ internal class AutoLayoutTest
 			Assert.AreEqual(expected2, border3Transform!.X);
 			Assert.AreEqual(expected3, border4Transform!.X);
 		}
+	}
+
+	[TestMethod]
+	[RequiresFullWindow]
+	public async Task When_Fixed_Dimensions_Padding_And_SpaceBetween_Horizontal()
+	{
+		var SUT = new AutoLayout()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
+			Padding = new Thickness(26, 42, 26, 26),
+			Justify = AutoLayoutJustify.SpaceBetween,
+			Width = 200,
+			Orientation = Orientation.Horizontal,
+			VerticalAlignment = VerticalAlignment.Top,
+		};
+
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 40,
+			Height = 40,
+		};
+
+		var border2 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 40,
+			Height = 40,
+		};
+
+		SUT.Children.Add(border1);
+		SUT.Children.Add(border2);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		Assert.AreEqual(108, SUT.ActualHeight);
+		Assert.AreEqual(200, SUT.ActualWidth);
+	}
+
+	[TestMethod]
+	[RequiresFullWindow]
+	public async Task When_Fixed_Dimensions_Padding_And_SpaceBetween_Vertical()
+	{
+		var SUT = new AutoLayout()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
+			Padding = new Thickness(56, 26, 26, 26),
+			Justify = AutoLayoutJustify.SpaceBetween,
+			Height = 160,
+			Orientation = Orientation.Vertical,
+			HorizontalAlignment = HorizontalAlignment.Left,
+		};
+
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 40,
+			Height = 40,
+		};
+
+		var border2 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 40,
+			Height = 40,
+		};
+
+		SUT.Children.Add(border1);
+		SUT.Children.Add(border2);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		Assert.AreEqual(160, SUT.ActualHeight);
+		Assert.AreEqual(122, SUT.ActualWidth);
 	}
 }
