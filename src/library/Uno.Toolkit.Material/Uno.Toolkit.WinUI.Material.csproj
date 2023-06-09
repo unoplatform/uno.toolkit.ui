@@ -18,7 +18,10 @@
 		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
-
+	<ItemGroup>
+		<ExcludeXamlNamespaces Include="uwp_navbar" />
+		<IncludeXamlNamespaces Include="winui_navbar" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Uno.Material.WinUI" />
 		<PackageReference Include="Uno.WinUI" />
@@ -40,6 +43,7 @@
 		
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+		<Content Include="Assets\**\*.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />

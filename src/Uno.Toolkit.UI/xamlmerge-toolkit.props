@@ -6,6 +6,7 @@
 	<ItemGroup>
 		<XamlMergeInput Include="Controls\**\*.xaml" />
 		<XamlMergeInput Include="Behaviors\**\*.xaml" />
+		<XamlMergeInput Include="Resources\AssetCatalog.$(FrameworkLineage).xaml" />
 	</ItemGroup>
 
 	<Import Project="..\xamlmerge.props" />
