@@ -382,7 +382,7 @@
 														  FontFamily="{TemplateBinding FontFamily}"
 														  FontWeight="{TemplateBinding FontWeight}"
 														  Foreground="{TemplateBinding Foreground}"
-														  TextWrapping="NoWrap" />
+														  TextWrapping="WrapWholeWords" />
 									</Grid>
 								</Grid>
 							</um:Ripple.Content>
@@ -542,7 +542,7 @@
 														  ContentTransitions="{TemplateBinding ContentTransitions}"
 														  FontSize="{TemplateBinding FontSize}"
 														  Foreground="{TemplateBinding Foreground}"
-														  TextWrapping="NoWrap" />
+														  TextWrapping="WrapWholeWords" />
 									</Grid>
 								</Grid>
 							</um:Ripple.Content>
@@ -688,7 +688,7 @@
 														  ContentTransitions="{TemplateBinding ContentTransitions}"
 														  FontSize="{TemplateBinding FontSize}"
 														  Foreground="{TemplateBinding Foreground}"
-														  TextWrapping="NoWrap" />
+														  TextWrapping="WrapWholeWords" />
 									</Grid>
 								</Grid>
 							</um:Ripple.Content>
