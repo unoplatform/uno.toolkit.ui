@@ -19,37 +19,23 @@
   steps:
   - checkout: self
     clean: true
-
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 6.0.300'
-    retryCountOnTaskFailure: 3
-    inputs:
-      packageType: sdk
-      version: 6.0.300
-
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 5.0.400'
-    retryCountOnTaskFailure: 3
-    inputs:
-      packageType: sdk
-      version: 5.0.400
       
   - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 3.1.406'
+    displayName: 'Use .NET SDK'
     retryCountOnTaskFailure: 3
     inputs:
       packageType: sdk
-      version: 3.1.406
+      version: 7.0.302
 
   - bash: |
-      dotnet build /r /p:Configuration=Release '$(BUILD.SOURCESDIRECTORY)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/$(SAMPLE_PROJECT_NAME).Wasm.csproj' /p:IsUiAutomationMappingEnabled=True /p:DisableNet6MobileTargets=True /bl:$(build.artifactstagingdirectory)/wasm-sampleapp.binlog
+      dotnet build /r /p:Configuration=Release '$(BUILD.SOURCESDIRECTORY)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/$(SAMPLE_PROJECT_NAME).Wasm.csproj' /p:IsUiAutomationMappingEnabled=True /p:DisableNet7MobileTargets=True /bl:$(build.artifactstagingdirectory)/wasm-sampleapp.binlog
 
     displayName: Build WASM Samples App ($(XAML_FLAVOR_BUILD))
 
   - task: CopyFiles@2
     displayName: 'Publish Wasm Site (net5.0)'
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/bin/Release/net5.0/dist
+      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/bin/Release/net7.0/dist
       Contents: '**/*.*'
       TargetFolder: $(build.artifactstagingdirectory)/site
       CleanTargetFolder: false

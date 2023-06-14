@@ -10,14 +10,14 @@ jobs:
         GeneratePackageOnBuild: false
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 1
-        DisableNet6MobileTargets: true
+        DisableNet7MobileTargets: true
       UWP:
         ArtifactName: android-uwp-xamarin
         ProjectName: Uno.Toolkit.Samples
         GeneratePackageOnBuild: false
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 1
-        DisableNet6MobileTargets: true
+        DisableNet7MobileTargets: true
 
   pool:
     vmImage: windows-2022
