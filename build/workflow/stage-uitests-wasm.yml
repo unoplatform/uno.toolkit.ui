@@ -49,7 +49,7 @@
   - task: CopyFiles@2
     displayName: 'Publish Wasm Site (net5.0)'
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/bin/Release/net5.0/dist
+      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/bin/Release/net7.0/dist
       Contents: '**/*.*'
       TargetFolder: $(build.artifactstagingdirectory)/site
       CleanTargetFolder: false
