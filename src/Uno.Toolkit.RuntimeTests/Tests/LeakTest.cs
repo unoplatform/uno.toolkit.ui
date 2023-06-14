@@ -38,9 +38,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	[Ignore("#429: Disabled as the tests are failing even for the basic types. ")]
 	public class LeakTest
 	{
-		private static DependencyProperty VisualStateManagerVisualStateManagerProperty { get; } = (DependencyProperty)typeof(VisualStateManager)
-			.GetProperty("VisualStateManagerProperty", BindingFlags.NonPublic | BindingFlags.Static)
-			.GetValue(null);
+		private static DependencyProperty VisualStateManagerVisualStateManagerProperty { get; } = (DependencyProperty)(typeof(VisualStateManager)
+			?.GetProperty("VisualStateManagerProperty", BindingFlags.NonPublic | BindingFlags.Static)
+			?.GetValue(null) ?? throw new InvalidOperationException("Unable to find VisualStateManagerProperty property"));
 
 		[TestMethod]
 		[RunsOnUIThread]
