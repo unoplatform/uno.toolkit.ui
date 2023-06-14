@@ -8,13 +8,14 @@
 	<PropertyGroup>
 		<!-- We are not building any target in TargetFrameworkOverride, but only those that are supported and in the appropriate linage -->
 		<!-- condition: add target if no override or the target is defined in override -->
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('netstandard2.0'))">$(TargetFrameworks);netstandard2.0</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('xamarinios10'))">$(TargetFrameworks);xamarinios10</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('xamarinmac20'))">$(TargetFrameworks);xamarinmac20</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('MonoAndroid12.0'))">$(TargetFrameworks);MonoAndroid12.0</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('net7.0'))">$(TargetFrameworks);net7.0</TargetFrameworks>
+		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableNet7MobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net7.0-ios'))">$(TargetFrameworks);net7.0-ios</TargetFrameworks>
+		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableNet7MobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net7.0-macos'))">$(TargetFrameworks);net7.0-macos</TargetFrameworks>
+		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableNet7MobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net7.0-android'))">$(TargetFrameworks);net7.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableNet7MobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net7.0-maccatalyst'))">$(TargetFrameworks);net7.0-maccatalyst</TargetFrameworks>
 		<!-- condition: in addition to the above condition, we ALSO check if the right FrameworkLineage is given and that we are building on window machine -->
-		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'UWP' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('uap10.0.18362')))">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
-		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('net6.0-windows10.0.18362')))">$(TargetFrameworks);net6.0-windows10.0.18362</TargetFrameworks>
+		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'UWP' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('uap10.0.19041')))">$(TargetFrameworks);uap10.0.19041</TargetFrameworks>
+		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('net7.0-windows10.0.19041')))">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
 
 		<AssemblyName>Uno.Toolkit.RuntimeTests</AssemblyName>
 		<RootNamespace>Uno.Toolkit.RuntimeTests</RootNamespace>

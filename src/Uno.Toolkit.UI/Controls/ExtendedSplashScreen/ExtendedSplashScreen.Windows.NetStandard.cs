@@ -267,7 +267,9 @@ namespace Uno.Toolkit.UI
 			// Note: We attempt to resolve based on the assembly first because it doesn't throw an exception if the file doesn't exist
 			// whereas StorageFile.GetFileFromApplicationUriAsync will throw an exception if the file doesn't exist.
 			var filePath = string.Empty;
+#pragma warning disable SYSLIB0044 // Type or member is obsolete
 			var codebase = entry?.GetName().CodeBase;
+#pragma warning restore SYSLIB0044 // Type or member is obsolete
 			if (codebase is not null)
 			{
 				var manifestPath = Path.Combine(Path.GetDirectoryName(codebase) ?? string.Empty, fileName);

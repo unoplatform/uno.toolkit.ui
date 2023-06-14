@@ -50,7 +50,7 @@
     retryCountOnTaskFailure: 3
     inputs:
       solution: "$(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).iOS/$(ProjectName).iOS.csproj"
-      msbuildArguments: /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet6MobileTargets=true /p:IsUiAutomationMappingEnabled=true /bl:$(BUILD.ARTIFACTSTAGINGDIRECTORY)/$(ArtifactName).binlog
+      msbuildArguments: /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet7MobileTargets=true /p:IsUiAutomationMappingEnabled=true /bl:$(BUILD.ARTIFACTSTAGINGDIRECTORY)/$(ArtifactName).binlog
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'

@@ -763,9 +763,9 @@ namespace Uno.Toolkit.UI
 				if (!UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
 				{
 					// This is deprecated on iOS 11+, we only set it on older versions.
-#pragma warning disable CA1416
+#pragma warning disable CA1416, CA1422
 					AutomaticallyAdjustsScrollViewInsets = false;
-#pragma warning restore CA1416
+#pragma warning restore CA1416, CA1422
 				}
 
 				// Allows Page content to extend under the UINavigationBar (even if opaque)

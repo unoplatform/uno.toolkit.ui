@@ -36,7 +36,7 @@
     retryCountOnTaskFailure: 3
     inputs:
       solution: "$(BUILD.SOURCESDIRECTORY)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Droid/$(SAMPLE_PROJECT_NAME).Droid.csproj"
-      msbuildArguments: /m /r /t:SignAndroidPackage /p:Configuration=Release /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet6MobileTargets=true /p:IsUiAutomationMappingEnabled=true /bl:$(build.artifactstagingdirectory)/$(SAMPLEAPP_ARTIFACT_NAME).binlog
+      msbuildArguments: /m /r /t:SignAndroidPackage /p:Configuration=Release /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet7MobileTargets=true /p:IsUiAutomationMappingEnabled=true /bl:$(build.artifactstagingdirectory)/$(SAMPLEAPP_ARTIFACT_NAME).binlog
 
   - task: CopyFiles@2
     inputs:

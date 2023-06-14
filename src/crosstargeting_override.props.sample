@@ -13,20 +13,17 @@
 		<!-- Description of the properties can be found below -->
 
 		<!-- <NugetOverrideVersion>2.6.0-dev.34</NugetOverrideVersion> -->
-		<!--<DisableNet6MobileTargets>true</DisableNet6MobileTargets>-->
+		<!--<DisableNet7MobileTargets>true</DisableNet7MobileTargets>-->
 		
 		<!-- Uncomment each line for each platform that you want to build: -->
 		
-		<!-- <TargetFrameworkOverride Condition="''!='hint: UWP'">$(TargetFrameworkOverride);uap10.0.18362</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">$(TargetFrameworkOverride);net6.0-windows10.0.18362</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: Xamarin.iOS'">$(TargetFrameworkOverride);xamarinios10</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: Xamarin.Android'">$(TargetFrameworkOverride);MonoAndroid12.0</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: Xamarin.Mac'">$(TargetFrameworkOverride);xamarinmac20</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">$(TargetFrameworkOverride);netstandard2.0</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 6.0 iOS'">$(TargetFrameworkOverride);net6.0-ios</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 6.0 Android'">$(TargetFrameworkOverride);net6.0-android</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 6.0 macOS Catalyst'">$(TargetFrameworkOverride);net6.0-maccatalyst</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 6.0 macOS AppKit'">$(TargetFrameworkOverride);net6.0-macos</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: UWP'">$(TargetFrameworkOverride);uap10.0.19041</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">$(TargetFrameworkOverride);net7.0-windows10.0.19041</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">$(TargetFrameworkOverride);net7.0</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 iOS'">$(TargetFrameworkOverride);net7.0-ios</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 Android'">$(TargetFrameworkOverride);net7.0-android</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 macOS Catalyst'">$(TargetFrameworkOverride);net7.0-maccatalyst</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 macOS AppKit'">$(TargetFrameworkOverride);net7.0-macos</TargetFrameworkOverride> -->
 
 		<!-- DO NOT COMMENT OUT: netstandard2.0 is a required tfm in all cases -->
 		<TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('netstandard2.0'))">netstandard2.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
@@ -40,9 +37,9 @@
 				You will see the override path in the build output.
 				The packages are located under this directory: "%USERPROFILE%\.nuget\packages".
 
-			### DisableNet6MobileTargets ###
+			### DisableNet7MobileTargets ###
 
-				Disables bulding the net6.0 mobile SDK TargetFrameworks
+				Disables bulding the net7.0 mobile SDK TargetFrameworks
 
 			### TargetFrameworkOverride ### 
 
