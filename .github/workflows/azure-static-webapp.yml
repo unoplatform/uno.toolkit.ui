@@ -45,7 +45,7 @@ jobs:
 
       - run: |
           cd samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.Wasm
-          dotnet build -c Release "/p:PackageVersion=${{ steps.gitversion.outputs.fullSemVer }}" /p:DisableNet6MobileTargets=true
+          dotnet build -c Release "/p:PackageVersion=${{ steps.gitversion.outputs.fullSemVer }}" /p:DisableNet7MobileTargets=true
       - uses: actions/upload-artifact@v2
         with:
           name: wasm-site
