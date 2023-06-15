@@ -23,12 +23,15 @@ namespace Uno.Toolkit.Samples
 	{
 		private const string VisualStateMaterial = nameof(Design.Material);
 		private const string VisualStateCupertino = nameof(Design.Cupertino);
+		private const string VisualStateFluent = nameof(Design.Fluent);
 		private const string VisualStateAgnostic = nameof(Design.Agnostic);
 
 		private const string MaterialRadioButtonPartName = "PART_MaterialRadioButton";
 		private const string CupertinoRadioButtonPartName = "PART_CupertinoRadioButton";
+		private const string FluentRadioButtonPartName = "PART_FluentRadioButton";
 		private const string StickyMaterialRadioButtonPartName = "PART_StickyMaterialRadioButton";
 		private const string StickyCupertinoRadioButtonPartName = "PART_StickyCupertinoRadioButton";
+		private const string StickyFluentRadioButtonPartName = "PART_StickyFluentRadioButton";
 		private const string ScrollingTabsPartName = "PART_ScrollingTabs";
 		private const string StickyTabsPartName = "PART_StickyTabs";
 		private const string ScrollViewerPartName = "PART_ScrollViewer";
@@ -41,13 +44,16 @@ namespace Uno.Toolkit.Samples
 		{
 			new LayoutModeMapping(Design.Material, () => !IsDesignAgnostic, _materialRadioButton, _stickyMaterialRadioButton, VisualStateMaterial, MaterialTemplate),
 			new LayoutModeMapping(Design.Cupertino, () => !IsDesignAgnostic, _cupertinoRadioButton, _stickyCupertinoRadioButton, VisualStateCupertino, CupertinoTemplate),
+			new LayoutModeMapping(Design.Fluent, () => !IsDesignAgnostic, _fluentRadioButton, _stickyFluentRadioButton, VisualStateFluent, FluentTemplate),
 			new LayoutModeMapping(Design.Agnostic, () => IsDesignAgnostic, null, null, VisualStateAgnostic, DesignAgnosticTemplate),
 		};
 
 		private RadioButton _materialRadioButton;
 		private RadioButton _cupertinoRadioButton;
+		private RadioButton _fluentRadioButton;
 		private RadioButton _stickyMaterialRadioButton;
 		private RadioButton _stickyCupertinoRadioButton;
+		private RadioButton _stickyFluentRadioButton;
 		private FrameworkElement _scrollingTabs;
 		private FrameworkElement _stickyTabs;
 		private FrameworkElement _top;
@@ -78,8 +84,10 @@ namespace Uno.Toolkit.Samples
 
 			_materialRadioButton = (RadioButton)GetTemplateChild(MaterialRadioButtonPartName);
 			_cupertinoRadioButton = (RadioButton)GetTemplateChild(CupertinoRadioButtonPartName);
+			_fluentRadioButton = (RadioButton)GetTemplateChild(FluentRadioButtonPartName);
 			_stickyMaterialRadioButton = (RadioButton)GetTemplateChild(StickyMaterialRadioButtonPartName);
 			_stickyCupertinoRadioButton = (RadioButton)GetTemplateChild(StickyCupertinoRadioButtonPartName);
+			_stickyFluentRadioButton = (RadioButton)GetTemplateChild(StickyFluentRadioButtonPartName);
 			_scrollingTabs = (FrameworkElement)GetTemplateChild(ScrollingTabsPartName);
 			_stickyTabs = (FrameworkElement)GetTemplateChild(StickyTabsPartName);
 			_scrollViewer = (ScrollViewer)GetTemplateChild(ScrollViewerPartName);
@@ -102,8 +110,10 @@ namespace Uno.Toolkit.Samples
 
 			BindOnClick(_materialRadioButton);
 			BindOnClick(_cupertinoRadioButton);
+			BindOnClick(_fluentRadioButton);
 			BindOnClick(_stickyMaterialRadioButton);
 			BindOnClick(_stickyCupertinoRadioButton);
+			BindOnClick(_stickyFluentRadioButton);
 
 			UpdateLayoutRadioButtons();
 

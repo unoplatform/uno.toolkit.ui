@@ -8,6 +8,7 @@ namespace Uno.Toolkit.Samples.Entities
 	{
 		Material,
 		Cupertino,
+		Fluent,
 		Agnostic,
 	}
 }
