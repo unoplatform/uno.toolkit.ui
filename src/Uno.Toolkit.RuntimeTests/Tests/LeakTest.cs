@@ -1,4 +1,4 @@
-﻿#if !WINDOWS_UWP && !NET6_0_WINDOWS10_0_18362
+﻿#if !WINDOWS_UWP && !NET7_0_WINDOWS10_0_18362
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
