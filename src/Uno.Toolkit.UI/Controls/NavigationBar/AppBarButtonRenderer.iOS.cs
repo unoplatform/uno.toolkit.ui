@@ -11,10 +11,7 @@ using Uno.Extensions;
 using Uno.Logging;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
-
-#if NET6_0_IOS || NET6_0_MACCATALYST
-using nfloat = System.Runtime.InteropServices.NFloat;
-#endif
+using System.Runtime.InteropServices;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -166,7 +163,7 @@ namespace Uno.Toolkit.UI
 			if (ColorHelper.TryGetColorWithOpacity(element.Foreground, out var foreground))
 			{
 				var color = (UIColor)foreground;
-				native.TintColor = color.ColorWithAlpha((nfloat)element.Opacity);
+				native.TintColor = color.ColorWithAlpha((NFloat)element.Opacity);
 			}
 			else
 			{

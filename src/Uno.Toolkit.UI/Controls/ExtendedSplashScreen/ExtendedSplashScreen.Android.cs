@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using Android.OS;
 using Windows.System.Profile;
 #if IS_WINUI
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -62,7 +63,7 @@ public partial class ExtendedSplashScreen
 			var element = new Canvas
 			{
 				// We set a background to prevent touches from going through
-				Background = SolidColorBrushHelper.Transparent,
+				Background = new SolidColorBrush(Colors.Transparent),
 				// We use a Border to ensure proper layout
 				Children =
 				{
@@ -88,7 +89,7 @@ public partial class ExtendedSplashScreen
 	private static Size GetSplashScreenSize(Activity activity)
 	{
 		var physicalDisplaySize = new Android.Graphics.Point();
-#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618,CA1422 // Type or member is obsolete
 		if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Lollipop)
 		{
 			// The windowBackground takes the size of the screen (only when using Theme.AppCompat.*)
@@ -99,7 +100,7 @@ public partial class ExtendedSplashScreen
 			// The windowBackground takes the size of the screen minus the bottom navigation bar
 			activity.WindowManager?.DefaultDisplay?.GetSize(physicalDisplaySize);
 		}
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618,CA1422 // Type or member is obsolete
 
 		return new Size(
 			ViewHelper.PhysicalToLogicalPixels(physicalDisplaySize.X),
