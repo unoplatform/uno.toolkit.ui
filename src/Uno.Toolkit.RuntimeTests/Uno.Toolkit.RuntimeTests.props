@@ -15,7 +15,7 @@
 		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableNet7MobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net7.0-maccatalyst'))">$(TargetFrameworks);net7.0-maccatalyst</TargetFrameworks>
 		<!-- condition: in addition to the above condition, we ALSO check if the right FrameworkLineage is given and that we are building on window machine -->
 		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'UWP' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('uap10.0.18362')))">$(TargetFrameworks);uap10.0.18362</TargetFrameworks>
-		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('net6.0-windows10.0.18362')))">$(TargetFrameworks);net6.0-windows10.0.18362</TargetFrameworks>
+		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('net7.0-windows10.0.18362')))">$(TargetFrameworks);net7.0-windows10.0.18362</TargetFrameworks>
 
 		<AssemblyName>Uno.Toolkit.RuntimeTests</AssemblyName>
 		<RootNamespace>Uno.Toolkit.RuntimeTests</RootNamespace>

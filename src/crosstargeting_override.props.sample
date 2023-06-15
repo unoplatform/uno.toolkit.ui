@@ -18,7 +18,7 @@
 		<!-- Uncomment each line for each platform that you want to build: -->
 		
 		<!-- <TargetFrameworkOverride Condition="''!='hint: UWP'">$(TargetFrameworkOverride);uap10.0.18362</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">$(TargetFrameworkOverride);net6.0-windows10.0.18362</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">$(TargetFrameworkOverride);net7.0-windows10.0.18362</TargetFrameworkOverride> -->
 		<!-- <TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">$(TargetFrameworkOverride);net7.0</TargetFrameworkOverride> -->
 		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 iOS'">$(TargetFrameworkOverride);net7.0-ios</TargetFrameworkOverride> -->
 		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 Android'">$(TargetFrameworkOverride);net7.0-android</TargetFrameworkOverride> -->
