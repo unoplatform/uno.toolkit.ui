@@ -46,6 +46,6 @@ Property|Type|Description
 -|-|-
 PrimaryAlignment|AutoLayoutPrimaryAlignment|Either Auto, the child grid take only the place it need in the autolayout direction, or Stretch, the child grid take all the available place in the autolayout direction. Note if set to Strech AutoLayoutJustify will behave as if in Stack mode.
 CounterAlignment|AutoLayoutAlignment|Indicates where an element should be displayed on the counter axis of the parent orientation relative to the allocated layout slot of the parent element.
-PrimaryLength|double| Set the grid size in parent orientation [Deprecated should Height and Width instead].
-CounterLength|double|Sets the child size in parent counter orientation [Deprecated should Height and Width instead]. 
+PrimaryLength|double| Sets the height or width of the child depending on the `Orientation`. If height or width are already set they will have priority.
+CounterLength|double|Sets the height or width of the child depending on the inverse of `Orientation`. If height or width are already set they will have priority.
 IsIndependentLayout | bool | Make the child independent of the AutoLayout positioning. Should not be used with other Attached Properties. Reflect the Absolute Position option from Figma.
