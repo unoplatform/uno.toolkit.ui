@@ -8,5 +8,5 @@
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<rtt:UnitTestsControl />
+	<rtt:UnitTestsControl Margin="0,20,0,0" />
 </Page>
