@@ -28,6 +28,27 @@ public static partial class ItemsRepeaterExtensions
 {
 	private static ILogger _logger { get; } = typeof(CommandExtensions).Log();
 
+	#region DependencyProperty: IsSelectionHost
+
+	/// <summary>
+	/// Property used to mark an element within the ItemsRepeater.ItemTemplate to be the host control that will handle the selection.
+	/// </summary>
+	/// <remarks>
+	/// This is used when the target of selection cannot be the root element of the ItemTemplate.
+	/// Note that <seealso cref="UseNestedSelectionHostProperty"/> should also be set on the ItemRepeater when using this property.
+	/// </remarks>
+	public static DependencyProperty IsSelectionHostProperty { [DynamicDependency(nameof(GetIsSelectionHost))] get; } = DependencyProperty.RegisterAttached(
+		"IsSelectionHost",
+		typeof(bool),
+		typeof(ItemsRepeaterExtensions),
+		new PropertyMetadata(default(bool)));
+
+	[DynamicDependency(nameof(SetIsSelectionHost))]
+	public static bool GetIsSelectionHost(DependencyObject obj) => (bool)obj.GetValue(IsSelectionHostProperty);
+	[DynamicDependency(nameof(GetIsSelectionHost))]
+	public static void SetIsSelectionHost(DependencyObject obj, bool value) => obj.SetValue(IsSelectionHostProperty, value);
+
+	#endregion
 	#region DependencyProperty: IsSynchronizingSelection
 
 	private static DependencyProperty IsSynchronizingSelectionProperty { [DynamicDependency(nameof(GetIsSynchronizingSelection))] get; } = DependencyProperty.RegisterAttached(
@@ -126,6 +147,24 @@ public static partial class ItemsRepeaterExtensions
 	private static void SetSelectionSubscription(ItemsRepeater obj, IDisposable value) => obj.SetValue(SelectionSubscriptionProperty, value);
 
 	#endregion
+	#region DependencyProperty: UseNestedSelectionHost
+
+	/// <summary>
+	/// Property used to signal a selection-host should be found in the ItemTemplate, and it would replace the item template root.
+	/// </summary>
+	public static DependencyProperty UseNestedSelectionHostProperty { [DynamicDependency(nameof(GetUseNestedSelectionHost))] get; } = DependencyProperty.RegisterAttached(
+		"UseNestedSelectionHost",
+		typeof(bool),
+		typeof(ItemsRepeaterExtensions),
+		new PropertyMetadata(default(bool)));
+
+	[DynamicDependency(nameof(SetUseNestedSelectionHost))]
+	public static bool GetUseNestedSelectionHost(DependencyObject obj) => (bool)obj.GetValue(UseNestedSelectionHostProperty);
+	[DynamicDependency(nameof(GetUseNestedSelectionHost))]
+	public static void SetUseNestedSelectionHost(DependencyObject obj, bool value) => obj.SetValue(UseNestedSelectionHostProperty, value);
+
+	#endregion
+
 
 	#region ItemCommand Impl
 	internal static void OnItemCommandChanged(ItemsRepeater sender, DependencyPropertyChangedEventArgs e)
@@ -150,14 +189,13 @@ public static partial class ItemsRepeaterExtensions
 
 	private static void OnItemsRepeaterCommandTapped(object sender, TappedRoutedEventArgs e)
 	{
-		// ItemsRepeater is more closely related to Panel than ItemsControl, and it cannot be templated.
-		// It is safe to assume all direct children of IR are materialized item template,
-		// and there can't be header/footer or wrapper (ItemContainer) among them.
-
 		if (sender is not ItemsRepeater ir) return;
 		if (e.OriginalSource is ItemsRepeater) return;
 		if (e.OriginalSource is DependencyObject source)
 		{
+			// Unlike for selection behaviors, we don't need to find the "selection host".
+			// The selection host is a unrelated concept in the command setup. Additionally,
+			// the template root would generally have the same context as the selection host.
 			if (ir.FindRootElementOf(source) is FrameworkElement root)
 			{
 				CommandExtensions.TryInvokeCommand(ir, CommandExtensions.GetCommandParameter(root) ?? root.DataContext);
@@ -175,7 +213,7 @@ public static partial class ItemsRepeaterExtensions
 
 	// ItemsRepeater's children contains only materialized element; materialization and de-materialization can be track with
 	// ElementPrepared and ElementClearing events. Recycled elements are reused based on FIFO-rule, resulting in index desync.
-	// Selection state saved on the element (LVI.IsSelect, Chip.IsChecked) will also desync when it happens.
+	// Selection state is saved on the element (LVI.IsSelect, Chip.IsChecked) will also desync when it happens.
 	// !!! So it is important to save the selection state into a dp, and validate against that on element materialization and correct when necessary.
 
 	// Unlike ToggleButton (or Chip which derives from), SelectorItem is not normally selectable on click, unless nested under a Selector.
@@ -315,7 +353,7 @@ public static partial class ItemsRepeaterExtensions
 		// and we can rely on it to synchronize the selection on the view-level.
 		var selected = GetSelectedIndexes(sender)?.Contains(args.Index) ?? false;
 
-		SetItemSelection(args.Element, selected);
+		SetItemSelection(sender, args.Element, selected);
 	}
 	private static void OnItemsRepeaterItemsSourceChanged(DependencyObject sender, DependencyProperty dp)
 	{
@@ -345,7 +383,7 @@ public static partial class ItemsRepeaterExtensions
 		if (e.OriginalSource is ItemsRepeater) return;
 		if (e.OriginalSource is DependencyObject source)
 		{
-			if (ir.FindRootElementOf(source) is { } element)
+			if (ir.FindRootElementOf(source) is UIElement element)
 			{
 				ToggleItemSelectionAtCoerced(ir, ir.GetElementIndex(element));
 			}
@@ -495,7 +533,7 @@ public static partial class ItemsRepeaterExtensions
 			if (element is UIElement uie &&
 				ir.GetElementIndex(uie) is var index && index != -1)
 			{
-				SetItemSelection(uie, indexes.Contains(index));
+				SetItemSelection(ir, uie, indexes.Contains(index));
 			}
 		}
 	}
@@ -532,7 +570,7 @@ public static partial class ItemsRepeaterExtensions
 			{
 				if (ir.TryGetElement(diffIndex) is { } materialized)
 				{
-					SetItemSelection(materialized, updated.Contains(diffIndex));
+					SetItemSelection(ir, materialized, updated.Contains(diffIndex));
 				}
 				else
 				{
@@ -546,13 +584,17 @@ public static partial class ItemsRepeaterExtensions
 			SetIsSynchronizingSelection(ir, false);
 		}
 	}
-	internal static void SetItemSelection(DependencyObject x, bool value)
+	internal static void SetItemSelection(ItemsRepeater ir, DependencyObject itemRoot, bool value)
 	{
-		if (x is SelectorItem si)
+		var host = GetUseNestedSelectionHost(ir)
+			? (itemRoot.GetFirstDescendant<DependencyObject>(GetIsSelectionHost) ?? itemRoot)
+			: itemRoot;
+
+		if (host is SelectorItem si)
 		{
 			si.IsSelected = value;
 		}
-		else if (x is ToggleButton toggle)
+		else if (host is ToggleButton toggle)
 		{
 			toggle.IsChecked = value;
 		}

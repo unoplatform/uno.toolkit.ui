@@ -7,11 +7,14 @@ Provides selection support for `ItemsRepeater`.
 ## Properties
 Property|Type|Description
 -|-|-
+IsSelectionHost|bool|Used to mark an element within the ItemsRepeater.ItemTemplate to be the host control that will handle the selection.\*
 SelectedItem|object|Two-ways bindable property for the current/first(in Multiple mode) selected item.\*
 SelectedIndex|int|Two-ways bindable property for the current/first(in Multiple mode) selected index.\*
 SelectedItems|IList\<object>|Two-ways bindable property for the current selected items.\*
 SelectedIndexes|IList\<int>|Two-ways bindable property for the current selected indexes.\*
 SelectionMode|ItemsSelectionMode|Gets or sets the selection behavior: `None`, `SingleOrNone`, `Single`, `Multiple` <br/> note: Changing this value will cause the `Selected-`properties to be re-coerced.
+UseNestedSelectionHost|bool|Used to signal a selection-host should be found in the ItemTemplate, and it would replace the item template root.\*
+
 
 ### Remarks
 - `Selected-`properties only takes effect when `SelectionMode` is set to a valid value that is not `None`.
@@ -21,6 +24,14 @@ SelectionMode|ItemsSelectionMode|Gets or sets the selection behavior: `None`, `S
   - `SingleOrNone`: Up to one item can be selected at a time. The current item can be deselected.
   - `Single`: One item is selected at any time. The current item cannot be deselected.
   - `Multiple`: The current item cannot be deselected.
+- Use `IsSelectionHost` and `UseNestedSelectionHost` when the target of selection cannot be the root element of the ItemTemplate:
+    ```xml
+    <muxc:ItemsRepeater utu:ItemsRepeaterExtensions.UseNestedSelectionHost="True">
+        <muxc:ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+                <Border>
+                    <utu:Chip Content="{Binding}" utu:ItemsRepeaterExtensions.IsSelectionHost="True"/>
+    ```
 
 ## Usage
 ```xml
@@ -45,4 +56,5 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 
 ### Remarks
 - The selection feature from this extensions support ItemTemplate whose the root element is a `SelectorItem` or `ToggleButton`(which includes `Chip`).
+    - Use `IsSelectionHost` and `UseNestedSelectionHost` when the target of selection cannot be the root element of the ItemTemplate.
 - `RadioButton`: Multiple mode is not supported due to control limitation.

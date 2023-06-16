@@ -33,6 +33,14 @@ internal static class ItemsSelectionHelper
 	}
 #endif
 
+	/// <summary>
+	/// Update the selection indexes by toggling the provided index, and then coerced according to the selection mode.
+	/// </summary>
+	/// <param name="mode">Selection mode</param>
+	/// <param name="length">Length of items</param>
+	/// <param name="selection">Current selection</param>
+	/// <param name="index">Index to toggle</param>
+	/// <returns>Updated selection indexes</returns>
 	public static int[] ToggleSelectionAtCoerced(ItemsSelectionMode mode, int length, IList<int> selection, int index)
 	{
 		if (length < 0) throw new ArgumentOutOfRangeException(nameof(length));
@@ -40,7 +48,7 @@ internal static class ItemsSelectionHelper
 
 		if (mode is ItemsSelectionMode.None)
 		{
-			 return Array.Empty<int>();
+			return Array.Empty<int>();
 		}
 		else if (mode is ItemsSelectionMode.Single or ItemsSelectionMode.SingleOrNone)
 		{
@@ -67,7 +75,7 @@ internal static class ItemsSelectionHelper
 		}
 	}
 
-	public static UIElement? FindRootElementOf(this ItemsRepeater ir, DependencyObject node)
+	public static DependencyObject? FindRootElementOf(this ItemsRepeater ir, DependencyObject node)
 	{
 		// e.OriginalSource is the top-most element under the cursor.
 		// In order to find the materialized element, we have to walk up the visual-tree, to the first element right below IR:
@@ -75,6 +83,6 @@ internal static class ItemsSelectionHelper
 		return node.GetAncestors(includeCurrent: true)
 			.ZipSkipOne()
 			.FirstOrDefault(x => x.Current is ItemsRepeater)
-			.Previous as UIElement;
+			.Previous;
 	}
 }

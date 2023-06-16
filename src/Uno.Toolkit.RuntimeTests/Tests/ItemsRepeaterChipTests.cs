@@ -153,7 +153,7 @@ internal class ItemsRepeaterChipTests
 			ItemsSource = source,
 			ItemTemplate = XamlHelper.LoadXaml<DataTemplate>("""
 				<DataTemplate>
-					<utu:Chip />
+						<utu:Chip Content="{Binding}" />
 				</DataTemplate>
 				"""),
 		};
