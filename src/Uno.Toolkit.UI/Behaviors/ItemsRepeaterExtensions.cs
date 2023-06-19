@@ -1,7 +1,12 @@
-﻿using System;
+﻿#if __ANDROID__ || NETSTANDARD // (NETSTD contains both wasm+skia; only wasm is needed, and the check is done at runtime)
+#define APPLY_UNO12632_WORKAROUND
+#endif
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Input;
 using Microsoft.Extensions.Logging;
@@ -234,12 +239,18 @@ public static partial class ItemsRepeaterExtensions
 			{
 				ir.Tapped += OnItemsRepeaterTapped;
 				ir.ElementPrepared += OnItemsRepeaterElementPrepared;
+#if APPLY_UNO12632_WORKAROUND
+				ir.ElementClearing += OnItemsRepeaterElementClearing;
+#endif
 
 				SetSelectionSubscription(ir, new CompositeDisposable(
 					Disposable.Create(() =>
 					{
 						ir.Tapped -= OnItemsRepeaterTapped;
 						ir.ElementPrepared -= OnItemsRepeaterElementPrepared;
+#if APPLY_UNO12632_WORKAROUND
+						ir.ElementClearing -= OnItemsRepeaterElementClearing;
+#endif
 					}),
 					ir.RegisterDisposablePropertyChangedCallback(ItemsRepeater.ItemsSourceProperty, OnItemsRepeaterItemsSourceChanged)
 				));
@@ -250,7 +261,10 @@ public static partial class ItemsRepeaterExtensions
 				try
 				{
 					SetIsSynchronizingSelection(ir, true);
-
+					
+#if APPLY_UNO12632_WORKAROUND
+					ApplyNestedTappedEventBlocker(ir);
+#endif
 					TrySynchronizeDefaultSelection(ir);
 					SynchronizeMaterializedElementsSelection(ir);
 				}
@@ -354,7 +368,16 @@ public static partial class ItemsRepeaterExtensions
 		var selected = GetSelectedIndexes(sender)?.Contains(args.Index) ?? false;
 
 		SetItemSelection(sender, args.Element, selected);
+#if APPLY_UNO12632_WORKAROUND
+		ApplyNestedTappedEventBlocker(sender, args.Element);
+#endif
 	}
+#if APPLY_UNO12632_WORKAROUND
+	private static void OnItemsRepeaterElementClearing(ItemsRepeater sender, Microsoft.UI.Xaml.Controls.ItemsRepeaterElementClearingEventArgs args)
+	{
+		ClearNestedTappedEventBlocker(sender, args.Element);
+	}
+#endif
 	private static void OnItemsRepeaterItemsSourceChanged(DependencyObject sender, DependencyProperty dp)
 	{
 		// When we reach here, ItemsSourceView is already updated.
@@ -603,4 +626,60 @@ public static partial class ItemsRepeaterExtensions
 			// todo: generic item is not supported
 		}
 	}
+
+#if APPLY_UNO12632_WORKAROUND
+	// note: This issue only happens with ButtonBase on wasm and android where the Tapped event is registered on.
+
+	private static void ApplyNestedTappedEventBlocker(ItemsRepeater ir)
+	{
+		if (!IsWasm && !IsAndroid) return;
+
+		if (ir.ItemsSourceView is { Count: > 0 })
+		{
+			foreach (var element in ir.GetChildren())
+			{
+				ApplyNestedTappedEventBlocker(ir, element);
+			}
+		}
+	}
+	private static void ApplyNestedTappedEventBlocker(ItemsRepeater ir, DependencyObject itemRoot)
+	{
+		Console.WriteLine($"@xy droid:{IsAndroid}, wasm:{IsWasm}");
+		if (!IsWasm && !IsAndroid) return;
+
+		var host =  GetUseNestedSelectionHost(ir)
+			? (itemRoot.GetFirstDescendant<DependencyObject>(GetIsSelectionHost) ?? itemRoot)
+			: itemRoot;
+
+		if (host is ButtonBase button)
+		{
+			button.Tapped -= BlockNestedTappedEvent;
+			button.Tapped += BlockNestedTappedEvent;
+		}
+	}
+	private static void ClearNestedTappedEventBlocker(ItemsRepeater ir, DependencyObject itemRoot)
+	{
+		if (!IsWasm && !IsAndroid) return;
+
+		var host =  GetUseNestedSelectionHost(ir)
+			? (itemRoot.GetFirstDescendant<DependencyObject>(GetIsSelectionHost) ?? itemRoot)
+			: itemRoot;
+
+		if (host is ButtonBase button)
+		{
+			button.Tapped -= BlockNestedTappedEvent;
+		}
+	}
+	private static void BlockNestedTappedEvent(object sender, TappedRoutedEventArgs e)
+	{
+		// prevent the event to bubble up to the ItemsReapter.
+		e.Handled = true;
+	}
+
+	private static bool IsAndroid { get; }
+#if __ANDROID__
+		= true;
+#endif
+	private static bool IsWasm { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
+#endif
 }
