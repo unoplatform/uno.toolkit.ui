@@ -885,4 +885,9 @@
 	</Style>
 	<!--#endregion-->
 
+	<!--#region Default AppBar style-->
+	<Style x:Key="MaterialDefaultMainCommandStyle"
+		   TargetType="AppBarButton"
+		   BasedOn="{StaticResource MaterialMainCommandStyle}" />
+	<!--#endregion-->
 </ResourceDictionary>

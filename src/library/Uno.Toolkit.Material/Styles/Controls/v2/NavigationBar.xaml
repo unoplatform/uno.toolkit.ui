@@ -1036,7 +1036,12 @@
 		<Setter Property="Foreground" Value="{ThemeResource OnPrimaryBrush}" />
 	</Style>
 
+	<!--#endregion-->
 
+	<!--#region Default NavigationBar style-->
+	<Style x:Key="MaterialDefaultNavigationBarStyle"
+		   TargetType="utu:NavigationBar"
+		   BasedOn="{StaticResource MaterialNavigationBarStyle}" />
 	<!--#endregion-->
 
 	<ios:ControlTemplate x:Key="MaterialNativeNavigationBarTemplate"

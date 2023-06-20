@@ -1,12 +1,12 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:um="using:Uno.Material"
 					xmlns:toolkit="using:Uno.UI.Toolkit">
 	<!-- Implicit styles -->
-	<Style BasedOn="{StaticResource MaterialDividerStyle}" TargetType="utu:Divider" />
-	<Style BasedOn="{StaticResource MaterialNavigationBarStyle}" TargetType="utu:NavigationBar" />
-	<Style BasedOn="{StaticResource MaterialMainCommandStyle}" TargetType="AppBarButton" />
+	<Style BasedOn="{StaticResource MaterialDefaultDividerStyle}" TargetType="utu:Divider" />
+	<Style BasedOn="{StaticResource MaterialDefaultNavigationBarStyle}" TargetType="utu:NavigationBar" />
+	<Style BasedOn="{StaticResource MaterialDefaultMainCommandStyle}" TargetType="AppBarButton" />
 	
 	<!-- Implicit styles aliases -->
 	<StaticResource x:Key="DividerStyle" ResourceKey="MaterialDividerStyle"			/>
