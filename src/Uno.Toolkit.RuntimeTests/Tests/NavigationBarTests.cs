@@ -22,8 +22,10 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml;
+using Microsoft.UI;
 #else
 using Windows.UI.Xaml.Controls;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Markup;
@@ -124,7 +126,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			var shouldGoBack = mainCommandMode == MainCommandMode.Back;
 			var popup = new Popup { Width = 100, Height = 100, HorizontalOffset = 100, VerticalOffset = 100 };
-			
+
 			var content = new Border { Width = 100, Height = 100, Child = popup };
 			var frame = new Frame() { Width = 400, Height = 400 };
 
@@ -206,6 +208,42 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			}
 		}
 
+#if __ANDROID__ || __IOS__
+		[TestMethod]
+		public async Task NavigationBar_Dynamic_Background()
+		{
+			var frame = new Frame() { Width = 400, Height = 400 };
+			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var navBar = await frame.NavigateAndGetNavBar<RedNavBarPage>();
+
+			Assert.IsTrue(navBar!.Background is SolidColorBrush redBrush && redBrush.Color == Colors.Red);
+
+			try
+			{
+				navBar!.Background = new SolidColorBrush(Colors.Green);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("Expected no exception, but got: " + ex.Message);
+			}
+
+			Assert.IsTrue(navBar!.Background is SolidColorBrush greenBrush && greenBrush.Color == Colors.Green);
+		}
+
+		private sealed partial class RedNavBarPage : Page
+		{
+			public RedNavBarPage()
+			{
+				Content = new NavigationBar
+				{
+					Background = new SolidColorBrush(Colors.Red),
+				};
+			}
+		}
+#endif
+
 #if __IOS__
 		[TestMethod]
 		public async Task Can_Set_MainCommand_Label_Or_Content()
@@ -224,7 +262,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			// ContentTitlePage 
 			var contentTitleNavBar = await frame.NavigateAndGetNavBar<ContentTitlePage>();
-			Assert.AreEqual("Content Title", contentTitleNavBar?.GetNativeNavBar()?.BackItem?.BackButtonTitle);	
+			Assert.AreEqual("Content Title", contentTitleNavBar?.GetNativeNavBar()?.BackItem?.BackButtonTitle);
 		}
 
 		[TestMethod]
@@ -234,7 +272,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			NavigationBar? secondPageNavBar = null;
 
 			var popup = new Popup { Width = 100, Height = 100, HorizontalOffset = 100, VerticalOffset = 100 };
-			
+
 			var content = new Border { Width = 100, Height = 100, Child = popup };
 			var frame = new Frame() { Width = 400, Height = 400 };
 
@@ -258,7 +296,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				var renderedNativeNavItem = firstPageNavBar.GetNativeNavItem();
 
 				Assert.IsNotNull(renderedNativeNavItem?.LeftBarButtonItem);
-				
+
 				frame.Navigate(typeof(NavBarSecondPage));
 
 				await UnitTestsUIContentHelper.WaitForIdle();
@@ -292,7 +330,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task NavigationBar_Does_Render_Within_AutoLayout()
 		{
-			var frame = new Frame { Width = 200, Height = 200 };;
+			var frame = new Frame { Width = 200, Height = 200 };
 			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
 
 			frame.Navigate(typeof(NavBarAutoLayoutPage));
@@ -305,7 +343,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task NavigationBar_Renders_BackItem_Within_AutoLayout()
 		{
-			var frame = new Frame { Width = 600, Height = 200 };;
+			var frame = new Frame { Width = 600, Height = 200 };
 			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
 
 			var firstNavBar = await frame.NavigateAndGetNavBar<NavBarAutoLayoutPage>();
@@ -334,7 +372,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreSame(renderedNativeNavBar, presenter.NavigationController.NavigationBar);
 		}
 
-		
+
 
 		private sealed partial class FirstPage : Page
 		{
@@ -391,17 +429,18 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 #endif
 	}
 
-#if __IOS__
+#if __IOS__ || __ANDROID__
 	public static class NavigationBarTestHelper
 	{
+#if __IOS__
 		public static UINavigationBar? GetNativeNavBar(this NavigationBar? navBar) => navBar
-			?.TryGetRenderer<NavigationBar, NavigationBarRenderer>()
-			?.Native;
+		?.TryGetRenderer<NavigationBar, NavigationBarRenderer>()
+		?.Native;
 
 		public static UINavigationItem? GetNativeNavItem(this NavigationBar? navBar) => navBar
 			?.TryGetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>()
 			?.Native;
-
+#endif
 		public static async Task<NavigationBar?> NavigateAndGetNavBar<TPage>(this Frame frame) where TPage : Page
 		{
 			frame.Navigate(typeof(TPage));
@@ -410,8 +449,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var page = frame.Content as TPage;
 			await UnitTestsUIContentHelper.WaitForLoaded(page!);
 			return page?.FindChild<NavigationBar>();
-		}	
+		}
 	}
 #endif
 }
-

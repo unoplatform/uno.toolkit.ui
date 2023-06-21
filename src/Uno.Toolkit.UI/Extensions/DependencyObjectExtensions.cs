@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +6,7 @@ using Uno.Disposables;
 using Uno.Extensions;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
+using Uno.Logging;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -57,16 +58,23 @@ namespace Uno.Toolkit.UI
 
 					var childDisposable = new SerialDisposable();
 
-					childDisposable.Disposable = (instance.GetValue(property) as DependencyObject)?.RegisterDisposableNestedPropertyChangedCallback(callback, subProperties);
-
-					var disposable = instance.RegisterDisposablePropertyChangedCallback(property, (s, e) =>
+					if (instance.TryGetValue(property, out var dpValue))
 					{
-						callback(s, e);
+						childDisposable.Disposable = dpValue?.RegisterDisposableNestedPropertyChangedCallback(callback, subProperties);
 
-						childDisposable.Disposable = s?.RegisterDisposableNestedPropertyChangedCallback(callback, subProperties);
-					});
+						var disposable = instance.RegisterDisposablePropertyChangedCallback(property, (s, e) =>
+						{
+							callback(s, e);
+							if (s is { } && s.TryGetValue(property, out var dpValue))
+							{
+								childDisposable.Disposable = dpValue?.RegisterDisposableNestedPropertyChangedCallback(callback, subProperties);
+							}
+						});
 
-					return new CompositeDisposable(disposable, childDisposable);
+						return new CompositeDisposable(disposable, childDisposable);
+					}
+
+					return Disposable.Empty;
 				});
 
 			return new CompositeDisposable(disposables);
@@ -205,6 +213,23 @@ namespace Uno.Toolkit.UI
 			_dependencyPropertyReflectionCache[key] = property;
 
 			return property;
+		}
+
+		public static bool TryGetValue(this DependencyObject dependencyObject, DependencyProperty dependencyProperty, out DependencyObject? value)
+		{
+			value = default;
+
+			try
+			{
+				value = dependencyObject.GetValue(dependencyProperty) as DependencyObject;
+			}
+			catch (Exception e)
+			{
+				typeof(DependencyObjectExtensions).Log().WarnIfEnabled(() => $"Error attempting to read property:", e);
+				return false;
+			}
+
+			return true;
 		}
 	}
 }
