@@ -217,12 +217,14 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await UnitTestsUIContentHelper.WaitForIdle();
 
 			var navBar = await frame.NavigateAndGetNavBar<RedNavBarPage>();
-
+			navBar!.Content = "Hello";
 			Assert.IsTrue(navBar!.Background is SolidColorBrush redBrush && redBrush.Color == Colors.Red);
+			await UnitTestsUIContentHelper.WaitForIdle();
 
 			try
 			{
 				navBar!.Background = new SolidColorBrush(Colors.Green);
+				navBar!.Padding = new Thickness(20);
 			}
 			catch (Exception ex)
 			{
@@ -434,8 +436,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	{
 #if __IOS__
 		public static UINavigationBar? GetNativeNavBar(this NavigationBar? navBar) => navBar
-		?.TryGetRenderer<NavigationBar, NavigationBarRenderer>()
-		?.Native;
+			?.TryGetRenderer<NavigationBar, NavigationBarRenderer>()
+			?.Native;
 
 		public static UINavigationItem? GetNativeNavItem(this NavigationBar? navBar) => navBar
 			?.TryGetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>()
