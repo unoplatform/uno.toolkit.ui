@@ -244,6 +244,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				};
 			}
 		}
+<<<<<<< HEAD
 
 		[TestMethod]
 		[RequiresFullWindow]
@@ -274,6 +275,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsTrue(renderedNativeNavBar!.Height > 0, "Native toolbar height is not greater than 0");
 			Assert.IsTrue(renderedNativeNavBar!.Width > 0, "Native toolbar width is not greater than 0");
 		}
+=======
+>>>>>>> 8f4a08f (fix: Properly resubscribe to nested prop changes (#622))
 #endif
 
 #if __IOS__
@@ -403,11 +406,15 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreSame(renderedNativeNavItem, presenter.NavigationController.TopViewController.NavigationItem);
 			Assert.AreSame(renderedNativeNavBar, presenter.NavigationController.NavigationBar);
 
+<<<<<<< HEAD
 			Assert.IsTrue(renderedNativeNavBar!.Bounds.Height > 0, "Native toolbar height is not greater than 0");
 			Assert.IsTrue(renderedNativeNavBar!.Bounds.Width > 0, "Native toolbar width is not greater than 0");
 		}
 #endif
 #endif
+=======
+
+>>>>>>> 8f4a08f (fix: Properly resubscribe to nested prop changes (#622))
 
 		private sealed partial class FirstPage : Page
 		{
@@ -540,6 +547,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		public static UINavigationItem? GetNativeNavItem(this NavigationBar? navBar) => navBar
 			?.TryGetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>()
 			?.Native;
+<<<<<<< HEAD
 
 #elif __ANDROID__
 		public static AndroidX.AppCompat.Widget.Toolbar? GetNativeNavBar(this NavigationBar? navBar) => navBar
@@ -547,6 +555,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			?.Native;
 #endif
 		public static Task<NavigationBar?> NavigateAndGetNavBar<TPage>(this Frame frame) where TPage : Page
+=======
+#endif
+		public static async Task<NavigationBar?> NavigateAndGetNavBar<TPage>(this Frame frame) where TPage : Page
+>>>>>>> 8f4a08f (fix: Properly resubscribe to nested prop changes (#622))
 		{
 			return frame.NavigateAndGetNavBar(typeof(TPage));
 		}
