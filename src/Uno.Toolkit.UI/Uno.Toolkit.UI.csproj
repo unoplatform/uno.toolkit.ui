@@ -48,6 +48,7 @@
 
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+		<Content Include="Assets\**\*.png" />
 	</ItemGroup>
 
 	<Import Project="xamlmerge-toolkit.props" />
