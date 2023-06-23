@@ -11,8 +11,7 @@
 			 xmlns:utu="using:Uno.Toolkit.UI"
 			 mc:Ignorable="wasm xamarin">
 
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-		  utu:SafeArea.Insets="Top, Bottom">
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -20,6 +19,7 @@
 
 		<!-- We set CompactModeThresholdWidth to a very high value so that it never happens. We don't want to use the compact mode. -->
 		<muxc:NavigationView Grid.Row="1"
+							 utu:SafeArea.Insets="VisibleBounds"
 							 x:Name="NavigationViewControl"
 							 OpenPaneLength="260"
 							 IsSettingsVisible="False"
@@ -60,6 +60,7 @@
 
 		<!-- Custom pane toggle button -->
 		<Button Grid.Row="1"
+				utu:SafeArea.Insets="Top, Left"
 				x:Name="NavViewToggleButton"
 				Click="NavViewToggleButton_Click"
 				HorizontalAlignment="Left"
