@@ -50,7 +50,9 @@ namespace Uno.Toolkit.UI
 			}
 			else
 			{
+#pragma warning disable CA1422
 				return (UIApplication.SharedApplication.Windows, UIApplication.SharedApplication.StatusBarFrame);
+#pragma warning restore CA1422
 			}
 		}
 	}

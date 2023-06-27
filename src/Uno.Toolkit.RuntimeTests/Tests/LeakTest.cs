@@ -1,4 +1,4 @@
-﻿#if !WINDOWS_UWP && !NET6_0_WINDOWS10_0_18362
+﻿#if !WINDOWS_UWP && !NET7_0_WINDOWS10_0_19041
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,9 +38,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	[Ignore("#429: Disabled as the tests are failing even for the basic types. ")]
 	public class LeakTest
 	{
-		private static DependencyProperty VisualStateManagerVisualStateManagerProperty { get; } = (DependencyProperty)typeof(VisualStateManager)
-			.GetProperty("VisualStateManagerProperty", BindingFlags.NonPublic | BindingFlags.Static)
-			.GetValue(null);
+		private static DependencyProperty VisualStateManagerVisualStateManagerProperty { get; } = (DependencyProperty)(typeof(VisualStateManager)
+			?.GetProperty("VisualStateManagerProperty", BindingFlags.NonPublic | BindingFlags.Static)
+			?.GetValue(null) ?? throw new InvalidOperationException("Unable to find VisualStateManagerProperty property"));
 
 		[TestMethod]
 		[RunsOnUIThread]

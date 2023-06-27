@@ -39,7 +39,7 @@ namespace Uno.Toolkit.UI
 				{
 					return Task.FromResult<FrameworkElement?>(null);
 				}
-				var infoPlistDictionary = new NSDictionary(infoPlistPath);
+				var infoPlistDictionary = new NSMutableDictionary(infoPlistPath);
 				var storyboardName = infoPlistDictionary["UILaunchStoryboardName"].ToString();
 				var storyboard = UIKit.UIStoryboard.FromName(storyboardName, null);
 				var launchScreenViewController = storyboard.InstantiateInitialViewController();
@@ -50,7 +50,7 @@ namespace Uno.Toolkit.UI
 				{
 					Child = VisualTreeHelper.AdaptNative(launchScreenView),
 					// We set a background to prevent touches from going through
-					Background = SolidColorBrushHelper.Transparent
+					Background = new SolidColorBrush(Colors.Transparent)
 				};
 
 				return Task.FromResult<FrameworkElement?>(element);

@@ -12,7 +12,7 @@ jobs:
         GeneratePackageOnBuild: false
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 50
-        DisableNet6MobileTargets: true
+        DisableNet7MobileTargets: true
         CI_Build: true
       UWP:
         ArtifactName: ios-uwp-xamarin
@@ -20,7 +20,7 @@ jobs:
         GeneratePackageOnBuild: false
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 50
-        DisableNet6MobileTargets: true
+        DisableNet7MobileTargets: true
         CI_Build: true
   pool:
     vmImage: 'macOS-12'

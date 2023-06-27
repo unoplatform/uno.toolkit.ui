@@ -45,9 +45,10 @@ variables:
 
 jobs:
 - template: stage-build-packages.yml
-- template: stage-build-ios-xamarin.yml
-- template: stage-build-android-xamarin.yml
 - template: stage-uitests-build.yml
 - template: stage-uitests-wasm.yml
-- template: stage-uitests-ios.yml
-- template: stage-uitests-android.yml
+# disabled until mobile targets are added back
+#- template: stage-build-ios-xamarin.yml
+#- template: stage-build-android-xamarin.yml
+#- template: stage-uitests-ios.yml
+#- template: stage-uitests-android.yml
