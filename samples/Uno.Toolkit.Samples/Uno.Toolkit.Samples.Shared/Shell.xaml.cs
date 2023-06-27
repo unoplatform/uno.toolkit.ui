@@ -51,9 +51,7 @@ namespace Uno.Toolkit.Samples
 		{
 			this.InitializeComponent();
 
-			InitializeSafeArea();
 			this.Loaded += OnLoaded;
-			this.SizeChanged += (s, e) => InitializeSafeArea();
 
 			NestedSampleFrame.RegisterPropertyChangedCallback(ContentControl.ContentProperty, OnNestedSampleFrameChanged);
 
@@ -79,24 +77,6 @@ namespace Uno.Toolkit.Samples
 #if !IS_WINUI
 			// Initialize the toggle to the current theme.
 			DarkModeToggle.IsChecked = SystemThemeHelper.IsAppInDarkMode();
-#endif
-		}
-
-		/// <summary>
-		/// This method handles the top padding for phones like iPhone X.
-		/// </summary>
-		private void InitializeSafeArea()
-		{
-#if !IS_WINUI
-			var full = XamlWindow.Current.Bounds;
-			var bounds = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().VisibleBounds;
-
-			var topPadding = Math.Abs(full.Top - bounds.Top);
-
-			if (topPadding > 0)
-			{
-				TopPaddingRow.Height = new GridLength(topPadding);
-			}
 #endif
 		}
 

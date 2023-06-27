@@ -8,5 +8,17 @@
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<rtt:UnitTestsControl />
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<TextBlock Text="Runtime Tests"
+				   MaxLines="1"
+				   FontSize="34"
+				   TextTrimming="CharacterEllipsis"
+				   Foreground="{ThemeResource OnBackgroundBrush}"
+				   Margin="48,0,0,0" />
+		<rtt:UnitTestsControl Grid.Row="1" />
+	</Grid>
 </Page>
