@@ -15,6 +15,7 @@ using Uno.Logging;
 using Uno.UI;
 using Windows.Foundation;
 using DrawableHelper = Uno.UI.DrawableHelper;
+using static Uno.Toolkit.UI.VisualTreeHelperEx;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -113,112 +114,69 @@ namespace Uno.Toolkit.UI
 
 		protected override void Render()
 		{
-			// CommandBar::PrimaryCommands -> !IsInOverflow -> AsAction.Never -> displayed directly on command bar
-			// CommandBar::SecondaryCommands -> IsInOverflow -> AsAction.Awalys -> (displayed as flyout menu items under [...])
+			// NavigationBar::PrimaryCommands -> !IsInOverflow -> AsAction.Never -> displayed directly on navbar
+			// NavigationBar::SecondaryCommands -> IsInOverflow -> AsAction.Awalys -> (displayed as flyout menu items under [...])
 
-			var native = Native;
-			var element = Element;
+			if (Native is not { } native)
+			{
+				return;
+			}
+
+			var element = Element ?? throw new InvalidOperationException("Element is null.");
 
 			// IsInOverflow
 			var showAsAction = _isInOverflow
 				? ShowAsAction.Never
 				: ShowAsAction.Always;
-			native?.SetShowAsAction(showAsAction);
+			native.SetShowAsAction(showAsAction);
 
-			string? titleText = null;
+			string? titleText = element.Label;
+
+			native.SetTitle(null);
+			native.SetActionView(null);
+			native.SetIcon(null);
 
 			// (Icon ?? Content) and Label
-			if (_isInOverflow)
+			if (!TrySetIcon() && element.Content is { } content)
 			{
-				native?.SetActionView(null);
-				native?.SetIcon(null);
-				native?.SetTitle(element?.Label);
-			}
-			else if (element?.Icon != null)
-			{
-				switch (element.Icon)
+				if (content is string text)
 				{
-					case BitmapIcon bitmap:
-						if (bitmap.UriSource is { } uriSource)
-						{
-							var drawable = DrawableHelper.FromUri(uriSource);
-							native?.SetIcon(drawable);
-						}
-						break;
-
-					case FontIcon font: // not supported
-					case PathIcon path: // not supported
-					case SymbolIcon symbol: // not supported
-					default:
-						this.Log().WarnIfEnabled(() => $"{GetType().Name ?? "FontIcon, PathIcon and SymbolIcon"} are not supported. Use BitmapIcon instead with UriSource.");
-						native?.SetIcon(null);
-						break;
+					titleText = text;
 				}
-				native?.SetActionView(null);
-				native?.SetTitle(null);
-			}
-			else if (element?.Content != null)
-			{
-				switch (element?.Content)
+				else if (content is FrameworkElement { Visibility: Visibility.Visible } fe &&
+					_appBarButtonWrapper is { } wrapper)
 				{
-					case string text:
-						native?.SetIcon(null);
-						native?.SetActionView(null);
-						//native?.SetTitle(text);
-						titleText = text;
-						break;
-
-					case FrameworkElement fe:
-						if (_appBarButtonWrapper is { })
-						{
-							_elementParent = element.Parent;
-							_appBarButtonWrapper.Child = element;
-							element.SetParent(_elementParent);
-						}
-						native?.SetIcon(null);
-						native?.SetActionView(fe.Visibility == Visibility.Visible ? _appBarButtonWrapper : null);
-						native?.SetTitle(null);
-						break;
-
-					default:
-						native?.SetIcon(null);
-						native?.SetActionView(null);
-						native?.SetTitle(null);
-						break;
+					_elementParent = element.Parent;
+					wrapper.Child = element;
+					element.SetParent(_elementParent);
+					native.SetActionView(wrapper);
 				}
-			}
-			else
-			{
-				native?.SetActionView(null);
-				native?.SetIcon(null);
-				//native?.SetTitle(element?.Label);
-				titleText = element?.Label;
-				
 			}
 
 			// IsEnabled
-			native?.SetEnabled(element?.IsEnabled ?? false);
+			native.SetEnabled(element.IsEnabled);
 			// According to the Material Design guidelines, the opacity inactive icons should be:
 			// - Light background: 38%
 			// - Dark background: 50%
 			// Source: https://material.io/guidelines/style/icons.html
 			// For lack of a reliable way to identify whether the background is light or dark, 
 			// we'll go with 50% opacity until this no longer satisfies projects requirements.
-			var isEnabledOpacity = (element?.IsEnabled ?? false ? 1.0 : 0.5);
+			var isEnabledOpacity = (element.IsEnabled ? 1.0 : 0.5);
 
 			// Visibility
-			native?.SetVisible(element?.Visibility == Visibility.Visible);
+			native.SetVisible(element.Visibility == Visibility.Visible);
 
 			// Foreground
-			var foreground = element?.Foreground as SolidColorBrush;
+			var foreground = element.Foreground as SolidColorBrush;
 			var foregroundColor = foreground?.Color;
-			var foregroundOpacity = foreground?.Opacity ?? 0;
+			var foregroundOpacity = 0d;
 
-			if (native?.Icon != null)
+			if (native.Icon != null)
 			{
-				if (foregroundColor != null)
+				if (element.TryGetIconColor(out var iconColor))
 				{
-					DrawableCompat.SetTint(native.Icon, (Android.Graphics.Color)foregroundColor);
+					foregroundOpacity = iconColor.A / 255d;
+					DrawableCompat.SetTint(native.Icon, (Android.Graphics.Color)iconColor);
 				}
 				else
 				{
@@ -232,16 +190,16 @@ namespace Uno.Toolkit.UI
 				{
 					var s = new SpannableString(titleText);
 					s.SetSpan(new ForegroundColorSpan((Android.Graphics.Color)foregroundColor), 0, titleText.Length, 0);
-					native?.SetTitle(s);
+					native.SetTitle(s);
 				}
 				else
 				{
-					native?.SetTitle(titleText);
+					native.SetTitle(titleText);
 				}
 			}
 
 			// Background
-			if (ColorHelper.TryGetColorWithOpacity(element?.Background, out var backgroundColor))
+			if (ColorHelper.TryGetColorWithOpacity(element.Background, out var backgroundColor))
 			{
 				_appBarButtonWrapper?.SetBackgroundColor((Android.Graphics.Color)backgroundColor);
 			}
@@ -252,9 +210,34 @@ namespace Uno.Toolkit.UI
 				var opacity = element.Opacity;
 				var finalOpacity = isEnabledOpacity * foregroundOpacity * opacity;
 				var alpha = (int)(finalOpacity * 255);
-				native?.Icon?.SetAlpha(alpha);
+				native.Icon?.SetAlpha(alpha);
+			}
+
+			bool TrySetIcon()
+			{
+				if (element?.Icon is { } icon)
+				{
+					if (icon is BitmapIcon bitmap)
+					{
+						if (bitmap.UriSource is { } uriSource)
+						{
+							var drawable = DrawableHelper.FromUri(uriSource);
+							native.SetIcon(drawable);
+						}
+
+						return true;
+					}
+					else
+					{
+						this.Log().WarnIfEnabled(() => $"{icon.GetType().Name ?? "FontIcon, PathIcon and SymbolIcon"} are not supported. Use BitmapIcon instead with UriSource.");
+						native.SetIcon(null);
+					}
+				}
+
+				return false;
 			}
 		}
+		
 	}
 
 	internal partial class AppBarButtonWrapper : Border

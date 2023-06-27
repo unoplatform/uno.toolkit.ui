@@ -244,6 +244,36 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				};
 			}
 		}
+
+		[TestMethod]
+		[RequiresFullWindow]
+		[DataRow(typeof(FontIconPage), DisplayName = nameof(FontIconPage))]
+		[DataRow(typeof(PathIconPage), DisplayName = nameof(PathIconPage))]
+		[DataRow(typeof(SymbolIconPage), DisplayName = nameof(SymbolIconPage))]
+		public async Task NavigationBar_Renders_With_Invalid_AppBarButton_IconElement(Type pageType)
+		{
+			var frame = new Frame { Width = 200, Height = 200 };
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
+
+			var navBar = await frame.NavigateAndGetNavBar(pageType);
+			AssertNavigationBar(frame);
+		}
+
+
+#if __ANDROID__
+		private static void AssertNavigationBar(Frame frame)
+		{
+			var page = frame.Content as Page;
+			var navBar = page?.FindChild<NavigationBar>();
+
+			var renderedNativeNavBar = navBar.GetNativeNavBar();
+
+			Assert.IsNotNull(renderedNativeNavBar);
+
+			Assert.IsTrue(renderedNativeNavBar!.Height > 0, "Native toolbar height is not greater than 0");
+			Assert.IsTrue(renderedNativeNavBar!.Width > 0, "Native toolbar width is not greater than 0");
+		}
 #endif
 
 #if __IOS__
@@ -372,9 +402,12 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			Assert.AreSame(renderedNativeNavItem, presenter.NavigationController.TopViewController.NavigationItem);
 			Assert.AreSame(renderedNativeNavBar, presenter.NavigationController.NavigationBar);
+
+			Assert.IsTrue(renderedNativeNavBar!.Bounds.Height > 0, "Native toolbar height is not greater than 0");
+			Assert.IsTrue(renderedNativeNavBar!.Bounds.Width > 0, "Native toolbar width is not greater than 0");
 		}
-
-
+#endif
+#endif
 
 		private sealed partial class FirstPage : Page
 		{
@@ -428,7 +461,72 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				Content = PageContent;
 			}
 		}
-#endif
+
+		private sealed partial class FontIconPage : Page
+		{
+			public FontIconPage()
+			{
+				var navBar = new NavigationBar
+				{
+					Content = "FontIconPage"
+				};
+
+				navBar.PrimaryCommands.Add(
+					new AppBarButton
+					{
+						Icon = new FontIcon
+						{
+							Glyph = "&#xE113;",
+						}
+					}
+				);
+
+				Content = navBar;
+			}
+		}
+
+		private sealed partial class SymbolIconPage : Page
+		{
+			public SymbolIconPage()
+			{
+				var navBar = new NavigationBar
+				{
+					Content = "SymbolIconPage"
+				};
+
+				navBar.PrimaryCommands.Add(
+					new AppBarButton
+					{
+						Icon = new SymbolIcon
+						{
+							Symbol = Symbol.Home,
+						}
+					}
+				);
+
+				Content = navBar;
+			}
+		}
+
+		private sealed partial class PathIconPage : Page
+		{
+			public PathIconPage()
+			{
+				var navBar = new NavigationBar
+				{
+					Content = "PathIconPage"
+				};
+
+				navBar.PrimaryCommands.Add(
+					new AppBarButton
+					{
+						Icon = new PathIcon(),
+					}
+				);
+
+				Content = navBar;
+			}
+		}
 	}
 
 #if __IOS__ || __ANDROID__
@@ -442,13 +540,23 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		public static UINavigationItem? GetNativeNavItem(this NavigationBar? navBar) => navBar
 			?.TryGetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>()
 			?.Native;
+
+#elif __ANDROID__
+		public static AndroidX.AppCompat.Widget.Toolbar? GetNativeNavBar(this NavigationBar? navBar) => navBar
+			?.TryGetRenderer<NavigationBar, NavigationBarRenderer>()
+			?.Native;
 #endif
-		public static async Task<NavigationBar?> NavigateAndGetNavBar<TPage>(this Frame frame) where TPage : Page
+		public static Task<NavigationBar?> NavigateAndGetNavBar<TPage>(this Frame frame) where TPage : Page
 		{
-			frame.Navigate(typeof(TPage));
+			return frame.NavigateAndGetNavBar(typeof(TPage));
+		}
+
+		public static async Task<NavigationBar?> NavigateAndGetNavBar(this Frame frame, Type pageType)
+		{
+			frame.Navigate(pageType);
 			await UnitTestsUIContentHelper.WaitForIdle();
 
-			var page = frame.Content as TPage;
+			var page = frame.Content as Page;
 			await UnitTestsUIContentHelper.WaitForLoaded(page!);
 			return page?.FindChild<NavigationBar>();
 		}
