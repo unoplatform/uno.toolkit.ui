@@ -125,25 +125,27 @@ namespace Uno.Toolkit.UI
 
 			bool TrySetIcon()
 			{
-				if (element.Icon is { } icon)
+				if (element.Icon is not { } icon)
 				{
-					if (icon is BitmapIcon bitmap)
-					{
-						if (bitmap.UriSource is { } uriSource)
-						{
-							native.NavigationIcon = DrawableHelper.FromUri(uriSource);
-							if (hasIconColor)
-							{
-								DrawableCompat.SetTint(native.NavigationIcon, (Android.Graphics.Color)foregroundColor);
-							}
-						}
+					return false;
+				}
 
-						return true;
-					}
-					else
+				if (icon is BitmapIcon bitmap)
+				{
+					if (bitmap.UriSource is { } uriSource)
 					{
-						this.Log().WarnIfEnabled(() => $"{icon.GetType().Name ?? "FontIcon, PathIcon and SymbolIcon"} are not supported. Use BitmapIcon instead with UriSource.");
+						native.NavigationIcon = DrawableHelper.FromUri(uriSource);
+						if (hasIconColor)
+						{
+							DrawableCompat.SetTint(native.NavigationIcon, (Android.Graphics.Color)foregroundColor);
+						}
 					}
+
+					return true;
+				}
+				else
+				{
+					this.Log().WarnIfEnabled(() => $"{icon.GetType().Name ?? "FontIcon, PathIcon and SymbolIcon"} are not supported. Use BitmapIcon instead with UriSource.");
 				}
 
 				return false;

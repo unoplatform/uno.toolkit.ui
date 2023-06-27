@@ -406,8 +406,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsTrue(renderedNativeNavBar!.Bounds.Height > 0, "Native toolbar height is not greater than 0");
 			Assert.IsTrue(renderedNativeNavBar!.Bounds.Width > 0, "Native toolbar width is not greater than 0");
 		}
-
-
+#endif
+#endif
 
 		private sealed partial class FirstPage : Page
 		{
@@ -527,7 +527,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				Content = navBar;
 			}
 		}
-#endif
 	}
 
 #if __IOS__ || __ANDROID__
