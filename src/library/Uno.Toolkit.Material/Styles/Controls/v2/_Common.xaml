@@ -7,11 +7,14 @@
 	<Style BasedOn="{StaticResource MaterialDefaultDividerStyle}" TargetType="utu:Divider" />
 	<Style BasedOn="{StaticResource MaterialDefaultNavigationBarStyle}" TargetType="utu:NavigationBar" />
 	<Style BasedOn="{StaticResource MaterialDefaultMainCommandStyle}" TargetType="AppBarButton" />
+	<Style BasedOn="{StaticResource MaterialDefaultChipStyle}" TargetType="utu:Chip" />
 	
 	<!-- Implicit styles aliases -->
-	<StaticResource x:Key="DividerStyle" ResourceKey="MaterialDividerStyle"			/>
-	<StaticResource x:Key="NavigationBarStyle" ResourceKey="MaterialNavigationBarStyle"	/>
-	<StaticResource x:Key="MainCommandStyle" ResourceKey="MaterialMainCommandStyle"		/>
+	<StaticResource x:Key="DividerStyle" ResourceKey="MaterialDividerStyle" />
+	<StaticResource x:Key="NavigationBarStyle" ResourceKey="MaterialNavigationBarStyle" />
+	<StaticResource x:Key="MainCommandStyle" ResourceKey="MaterialMainCommandStyle" />
+	<StaticResource x:Key="ChipStyle" ResourceKey="MaterialChipStyle" />
+
 
 	<!-- Other resources aliases -->
 	<StaticResource x:Key="ModalNavigationBarStyle" ResourceKey="MaterialModalNavigationBarStyle" />
