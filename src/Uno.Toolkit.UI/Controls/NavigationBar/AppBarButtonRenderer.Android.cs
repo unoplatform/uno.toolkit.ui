@@ -136,6 +136,37 @@ namespace Uno.Toolkit.UI
 			native.SetActionView(null);
 			native.SetIcon(null);
 
+			var iconOrContent = element.Icon ?? element.Content;
+
+			switch (iconOrContent)
+			{
+				case BitmapIcon bitmap:
+					var drawable = DrawableHelper.FromUri(bitmap.UriSource);
+					native.SetIcon(drawable);
+					break;
+
+				case string text:
+					titleText = text;
+					break;
+
+				case FrameworkElement fe:
+					if (_appBarButtonWrapper is not { } wrapper || fe.Visibility != Visibility.Visible)
+					{ 
+						break;
+					}
+
+					var currentParent = element.Parent;
+					wrapper.Child = element;
+
+					//Restore the original parent if any, as we
+					// want the DataContext to flow properly from the
+					// NavigationBar.
+					element.SetParent(currentParent);
+					native.SetActionView(wrapper);
+					break;
+			}
+
+
 			// (Icon ?? Content) and Label
 			if (!TrySetIcon() && element.Content is { } content)
 			{

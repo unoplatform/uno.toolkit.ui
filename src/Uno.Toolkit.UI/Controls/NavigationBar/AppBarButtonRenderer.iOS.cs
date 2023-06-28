@@ -124,42 +124,36 @@ namespace Uno.Toolkit.UI
 			native.Image = null;
 			native.ClearCustomView();
 			native.Title = element.Content is string content ? content : element.Label;
-			if (element.Icon is { } icon)
-			{
-				switch (icon)
-				{
-					case BitmapIcon bitmap:
-						native.Image = ImageHelper.FromUri(bitmap.UriSource);
-						native.ClearCustomView();
-						break;
 
-					case FontIcon: // not supported
-					case PathIcon: // not supported
-					case SymbolIcon: // not supported
-					default:
-						this.Log().WarnIfEnabled(() => $"{icon.GetType().Name ?? "FontIcon, PathIcon and SymbolIcon"} are not supported. Use BitmapIcon instead with UriSource.");
-						native.Image = null;
-						native.ClearCustomView();
-						// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set. 
-						// We default to an empty string to ensure it is added.
-						native.Title ??= string.Empty;
-						break;
-				}
-			}
-			else if (element.Content is FrameworkElement fe)
+			var iconOrContent = element.Icon ?? element.Content;
+			switch (iconOrContent)
 			{
-				var currentParent = element.Parent;
-				_appBarButtonWrapper.Child = element;
+				case BitmapIcon bitmap:
+					native.Image = ImageHelper.FromUri(bitmap.UriSource);
+					native.ClearCustomView();
+					break;
 
-				//Restore the original parent if any, as we
-				//want the DataContext to flow properly from the
-				//NavigationBar.
-				element.SetParent(currentParent);
-				native.Image = null;
-				native.CustomView = fe.Visibility == Visibility.Visible ? _appBarButtonWrapper : null;
-				// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set.
-				// We default to an empty string to ensure it is added, in order to support late-bound Content.
-				native.Title ??= string.Empty;
+				case FrameworkElement fe:
+					var currentParent = element.Parent;
+					_appBarButtonWrapper.Child = element;
+
+					//Restore the original parent if any, as we
+					//want the DataContext to flow properly from the
+					//NavigationBar.
+					element.SetParent(currentParent);
+					native.Image = null;
+					native.CustomView = fe.Visibility == Visibility.Visible ? _appBarButtonWrapper : null;
+					// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set.
+					// We default to an empty string to ensure it is added, in order to support late-bound Content.
+					native.Title ??= string.Empty;
+					break;
+				default:
+					native.Image = null;
+					native.ClearCustomView();
+					// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set. 
+					// We default to an empty string to ensure it is added.
+					native.Title ??= string.Empty;
+					break;
 			}
 
 			// Foreground
