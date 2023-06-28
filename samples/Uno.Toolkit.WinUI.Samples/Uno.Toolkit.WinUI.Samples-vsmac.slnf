@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "path": "Uno.Toolkit.WinUI.Samples.sln",
+    "projects": [
+      "Uno.Toolkit.WinUI.Samples.Mobile\\Uno.Toolkit.WinUI.Samples.Mobile.csproj",
+      "Uno.Toolkit.WinUI.Samples.Server\\Uno.Toolkit.WinUI.Samples.Server.csproj",
+      "Uno.Toolkit.WinUI.Samples\\Uno.Toolkit.WinUI.Samples.csproj"
+    ]
+  }
+}
