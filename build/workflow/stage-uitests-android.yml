@@ -14,12 +14,12 @@
     maxParallel: 2
     matrix:
       UWP:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
+        ProjectName: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: UWP
         SAMPLEAPP_ARTIFACT_NAME: android-uwp-uitest
         SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit_uwp
       WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        ProjectName: Uno.Toolkit.WinUI.Samples
         XAML_FLAVOR_BUILD: WinUI
         SAMPLEAPP_ARTIFACT_NAME: android-winui-uitest
         SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
