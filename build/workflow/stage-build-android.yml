@@ -1,24 +1,15 @@
 jobs:
-- job: Android_Xamarin
+- job: Android
 
   strategy:
     maxParallel: 2
     matrix:
       WinUI:
-        ArtifactName: android-winui-xamarin
+        ArtifactName: android-winui
         ProjectName: Uno.Toolkit.WinUI.Samples
         GeneratePackageOnBuild: false
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 1
-        DisableNet7MobileTargets: true
-      UWP:
-        ArtifactName: android-uwp-xamarin
-        ProjectName: Uno.Toolkit.Samples
-        GeneratePackageOnBuild: false
-        ApplicationBuildNumberOffset: 50
-        VersionCodeOffset: 1
-        DisableNet7MobileTargets: true
-
   pool:
     vmImage: windows-2022
 
@@ -41,7 +32,7 @@ jobs:
     retryCountOnTaskFailure: 3
     condition: eq(variables['System.PullRequest.IsFork'],'False')
     inputs:
-      solution: "samples/$(ProjectName)/$(ProjectName).Droid/$(ProjectName).Droid.csproj"
+      solution: "samples/$(ProjectName)/$(ProjectName).Mobile/$(ProjectName).Mobile.csproj"
       msbuildArguments: /ds /m /r /p:Configuration=Release /t:SignAndroidPackage "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /p:AndroidSigningKeyStore=$(keyStore.secureFilePath) /p:AndroidSigningStorePass=$(AndroidSigningStorePass) /p:AndroidSigningKeyPass=$(AndroidSigningKeyPass) /p:AndroidSigningKeyAlias=$(AndroidSigningKeyAlias) /p:AndroidKeyStore=true  /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog 
 
   - task: MSBuild@1
@@ -49,14 +40,14 @@ jobs:
     retryCountOnTaskFailure: 3
     condition: eq(variables['System.PullRequest.IsFork'],'True')
     inputs:
-      solution: "samples/$(ProjectName)/$(ProjectName).Droid/$(ProjectName).Droid.csproj"
+      solution: "samples/$(ProjectName)/$(ProjectName).Mobile/$(ProjectName).Mobile.csproj"
       msbuildArguments: /ds /m /r /p:Configuration=Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog 
 
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Droid/bin/Release/
+      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/net7.0-android
       Contents:  |
         **/*.apk
         **/*.aab
