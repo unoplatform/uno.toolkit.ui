@@ -47,7 +47,7 @@
 
   - script: |
       cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
-      dotnet publish -f:net7.0-ios -c:Release /p:UnoUIUseRoslynSourceGenerators=False /p:IsUiAutomationMappingEnabled=true /bl:$(BUILD.ARTIFACTSTAGINGDIRECTORY)/$(ArtifactName).binlog
+      dotnet build -f:net7.0-ios -c:Release /p:UnoUIUseRoslynSourceGenerators=False /p:IsUiAutomationMappingEnabled=true /bl:$(BUILD.ARTIFACTSTAGINGDIRECTORY)/$(ArtifactName).binlog
     displayName: 'Build project'
 
   - task: CopyFiles@2
