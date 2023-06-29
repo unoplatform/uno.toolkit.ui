@@ -49,5 +49,6 @@ jobs:
 - template: stage-uitests-wasm.yml
 - template: stage-build-android.yml
 - template: stage-build-ios.yml
-- template: stage-uitests-ios.yml
-- template: stage-uitests-android.yml
+# disabled until mobile test are refactored to use dotnet test
+#- template: stage-uitests-ios.yml
+#- template: stage-uitests-android.yml
