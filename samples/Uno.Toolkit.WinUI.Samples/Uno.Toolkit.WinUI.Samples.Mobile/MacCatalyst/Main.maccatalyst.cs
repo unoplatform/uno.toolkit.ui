@@ -1,4 +1,5 @@
 using UIKit;
+using Uno.Toolkit.Samples;
 
 namespace Uno.Toolkit.WinUI.Samples.MacCatalyst;
 
@@ -9,6 +10,6 @@ public class EntryPoint
 	{
 		// if you want to use a different Application Delegate class from "AppDelegate"
 		// you can specify it here.
-		UIApplication.Main(args, null, typeof(AppHead));
+		UIApplication.Main(args, null, typeof(App));
 	}
 }
