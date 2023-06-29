@@ -33,7 +33,7 @@
     displayName: Build WASM Samples App ($(XAML_FLAVOR_BUILD))
 
   - task: CopyFiles@2
-    displayName: 'Publish Wasm Site (net5.0)'
+    displayName: 'Publish Wasm Site'
     inputs:
       SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Wasm/bin/Release/net7.0/dist
       Contents: '**/*.*'
