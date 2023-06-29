@@ -84,10 +84,6 @@ namespace Uno.Toolkit.Samples
 		/// <param name="e">Details about the launch request and process.</param>
 		protected override async void OnLaunched(XamlLaunchActivatedEventArgs e)
 		{
-#if __IOS__ && !NET6_0 && USE_UITESTS
-			Xamarin.Calabash.Start();
-#endif
-
 #if WINDOWS_UWP
 			Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(320, 568)); // (size of the iPhone SE)
 #endif

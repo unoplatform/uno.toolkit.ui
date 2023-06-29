@@ -1,5 +1,5 @@
 jobs:
-- job: iOS_Xamarin
+- job: iOS
 
   timeoutInMinutes: 90 
 
@@ -7,20 +7,18 @@ jobs:
     maxParallel: 2
     matrix:
       WinUI:
-        ArtifactName: ios-winui-xamarin
+        ArtifactName: ios-winui
         ProjectName: Uno.Toolkit.WinUI.Samples
         GeneratePackageOnBuild: false
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 50
-        DisableNet7MobileTargets: true
         CI_Build: true
       UWP:
-        ArtifactName: ios-uwp-xamarin
+        ArtifactName: ios-uwp
         ProjectName: Uno.Toolkit.Samples
         GeneratePackageOnBuild: false
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 50
-        DisableNet7MobileTargets: true
         CI_Build: true
   pool:
     vmImage: 'macOS-12'
@@ -69,28 +67,24 @@ jobs:
   - template: templates/gitversion.yml
   - template: templates/dotnet-workload-install-mac.yml
 
-  - task: MSBuild@1
-    displayName: Build project
-    retryCountOnTaskFailure: 3
+  - script: |
+      cd samples/$(ProjectName)/$(ProjectName).Mobile
+      dotnet publish -f:net7.0-ios -c:Release /p:UnoUIUseRoslynSourceGenerators=False "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+    displayName: 'Build project'
     condition: eq(variables['System.PullRequest.IsFork'],'False')
-    inputs:
-      solution: "samples/$(ProjectName)/$(ProjectName).iOS/$(ProjectName).iOS.csproj"
-      msbuildArguments: /ds /m /r /p:Configuration=Release /p:Platform=iPhone /p:UnoUIUseRoslynSourceGenerators=False "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
 
-  - task: MSBuild@1
-    displayName: Build project
-    retryCountOnTaskFailure: 3
+  - script: |
+      cd samples/$(ProjectName)/$(ProjectName).Mobile
+      dotnet publish -f:net6.0-ios -c:Release /p:UnoUIUseRoslynSourceGenerators=False "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+    displayName: 'Build project (Fork)'
     condition: eq(variables['System.PullRequest.IsFork'],'True')
-    inputs:
-      solution: "samples/$(ProjectName)/$(ProjectName).iOS/$(ProjectName).iOS.csproj"
-      msbuildArguments: /ds /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:UnoUIUseRoslynSourceGenerators=False "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
     condition: eq(variables['System.PullRequest.IsFork'],'False')
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).iOS/bin/iPhone/Release
+      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/net7.0-ios
       Contents: |
         **/*.ipa
       TargetFolder: $(build.artifactstagingdirectory)

@@ -4,10 +4,10 @@
 		<SingleProject>true</SingleProject>
 		<OutputType>Exe</OutputType>
 		<!-- Display name -->
-		<ApplicationTitle>Uno.Toolkit.WinUI.Samples</ApplicationTitle>
+		<ApplicationTitle>Uno.Toolkit.Samples</ApplicationTitle>
 		<!-- App Identifier -->
-		<ApplicationId>uno.platform.toolkit</ApplicationId>
-		<ApplicationIdGuid>6B95A8DC-5FAF-42A6-83B1-2C238AD5BF2B</ApplicationIdGuid>
+		<ApplicationId>uno.platform.toolkit-uwp</ApplicationId>
+		<ApplicationIdGuid>1F708BE6-B29A-4EDB-8108-BAD38E2E27AB</ApplicationIdGuid>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
@@ -19,21 +19,20 @@
 		<!-- Required for C# Hot Reload -->
 		<UseInterpreter Condition="'$(Configuration)' == 'Debug' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'maccatalyst'">True</UseInterpreter>
 		<IsUnoHead>true</IsUnoHead>
-		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
 		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
 		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" />
-		<PackageReference Include="Uno.Material.WinUI" />
+		<PackageReference Include="Uno.UI" />
+		<PackageReference Include="Uno.Material" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
 		<PackageReference Include="Uno.Extensions.Logging.OSLog" />
 		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
 	</ItemGroup>
 	<Choose>
 		<When Condition="$(TargetFramework.ToLower().Contains('-android'))">
@@ -77,12 +76,11 @@
 			</PropertyGroup>
 		</When>
 	</Choose>
-
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
-		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
-		<ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.WinUI.csproj" />
-		<ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.UI.Cupertino.csproj" />
+		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.UI.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" />
 		<ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj" />
 	</ItemGroup>
 	<Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />

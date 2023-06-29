@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 #else
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.Droid")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.iOS")]
+[assembly: InternalsVisibleTo("Uno.Toolkit.Samples.Mobile")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.UWP")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.macOS")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.Samples.WASM")]
