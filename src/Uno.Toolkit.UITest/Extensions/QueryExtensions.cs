@@ -115,7 +115,7 @@ namespace Uno.Toolkit.UITest.Extensions
 
 		public static FileInfo GetInAppScreenshot(this IApp app)
 		{
-			var byte64Image = app.InvokeGeneric("browser:SampleRunner|GetScreenshot", "0")?.ToString();
+			var byte64Image = app.InvokeGeneric("browser:SampleRunner|GetScreenshot", "0")?.ToString() ?? string.Empty;
 
 			var array = Convert.FromBase64String(byte64Image);
 

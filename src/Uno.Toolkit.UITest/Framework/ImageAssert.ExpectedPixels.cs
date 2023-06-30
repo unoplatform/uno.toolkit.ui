@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Uno.UITest;
 using System.Drawing;
-using _Bitmap = System.Drawing.Bitmap;
+using _Bitmap = Uno.Toolkit.UITest.Framework.ScreenshotInfo.PlatformBitmap;
 
 namespace Uno.Toolkit.UITest.Framework
 {
@@ -184,6 +184,12 @@ namespace Uno.Toolkit.UITest.Framework
 				? Color.Empty
 				: ColorCodeParser.Parse(colorCode);
 #endif
+	}
+
+	static class ColorExtensions
+	{
+		public static System.Drawing.Color ToColor(this SkiaSharp.SKColor color)
+			=> System.Drawing.Color.FromArgb(color.Alpha, color.Red, color.Green, color.Blue);
 	}
 
 	public struct PixelTolerance

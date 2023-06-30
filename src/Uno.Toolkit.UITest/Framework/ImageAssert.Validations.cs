@@ -14,7 +14,7 @@ using Uno.UITest;
 using static System.Math;
 
 using System.Drawing;
-using _Bitmap = System.Drawing.Bitmap;
+using _Bitmap = Uno.Toolkit.UITest.Framework.ScreenshotInfo.PlatformBitmap;
 
 namespace Uno.Toolkit.UITest.Framework
 {

@@ -17,6 +17,7 @@
 		<PackageReference Include="Uno.UITest.Selenium" />
 		<PackageReference Include="Uno.UITest.Xamarin" />
 		<PackageReference Include="Xamarin.UITest" />
+		<PackageReference Include="SkiaSharp" />
 	</ItemGroup>
 
 </Project>
