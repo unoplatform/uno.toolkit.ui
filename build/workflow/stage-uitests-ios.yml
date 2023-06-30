@@ -28,15 +28,14 @@
 
   - script: |
       cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
-      dotnet build -f:net7.0-ios -c:Release /p:UnoUIUseRoslynSourceGenerators=False /p:IsUiAutomationMappingEnabled=true /bl:$(BUILD.ARTIFACTSTAGINGDIRECTORY)/$(ArtifactName).binlog
+      dotnet build -f:net7.0-ios -r:iossimulator-x64 -c:Release /p:UnoUIUseRoslynSourceGenerators=False /p:IsUiAutomationMappingEnabled=true /bl:$(BUILD.ARTIFACTSTAGINGDIRECTORY)/$(ArtifactName).binlog
     displayName: 'Build project'
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/net7.0-ios
-      Contents: |
-        **/*.app
+      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/net7.0-ios/iossimulator-x64/$(ProjectName).Mobile.app
+      Contents: '**'
       TargetFolder: $(build.artifactstagingdirectory)/$(ProjectName).Mobile.app
       CleanTargetFolder: false
       OverWrite: false
