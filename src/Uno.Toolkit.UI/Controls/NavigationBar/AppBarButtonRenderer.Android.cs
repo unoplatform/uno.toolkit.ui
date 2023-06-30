@@ -166,24 +166,6 @@ namespace Uno.Toolkit.UI
 					break;
 			}
 
-
-			// (Icon ?? Content) and Label
-			if (!TrySetIcon() && element.Content is { } content)
-			{
-				if (content is string text)
-				{
-					titleText = text;
-				}
-				else if (content is FrameworkElement { Visibility: Visibility.Visible } fe &&
-					_appBarButtonWrapper is { } wrapper)
-				{
-					_elementParent = element.Parent;
-					wrapper.Child = element;
-					element.SetParent(_elementParent);
-					native.SetActionView(wrapper);
-				}
-			}
-
 			// IsEnabled
 			native.SetEnabled(element.IsEnabled);
 			// According to the Material Design guidelines, the opacity inactive icons should be:
