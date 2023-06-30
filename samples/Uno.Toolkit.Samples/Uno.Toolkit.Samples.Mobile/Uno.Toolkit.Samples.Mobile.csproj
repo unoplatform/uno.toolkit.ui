@@ -43,6 +43,9 @@
 			<ItemGroup>
 				<AndroidEnvironment Include="Android/environment.conf" />
 			</ItemGroup>
+			<PropertyGroup Condition="'$(Configuration)'=='Release'">
+				<RunAOTCompilation>true</RunAOTCompilation>
+			</PropertyGroup>
 		</When>
 		<When Condition="$(TargetFramework.ToLower().Contains('-ios'))">
 			<PropertyGroup>
