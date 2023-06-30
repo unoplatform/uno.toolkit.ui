@@ -10,16 +10,18 @@ export NUNIT_VERSION=3.12.0
 
 if [ "$UITEST_TEST_MODE_NAME" == 'Automated' ];
 then
-	export TEST_FILTERS="namespace != 'Uno.Toolkit.UITest.RuntimeTests'";
+	export TEST_FILTERS="Namespace !~ Uno.Toolkit.UITest.RuntimeTests";
 elif [ "$UITEST_TEST_MODE_NAME" == 'RuntimeTests' ];
 then
-	export TEST_FILTERS="class == 'Uno.Toolkit.UITest.RuntimeTests.RuntimeTestRunner'";
+	export TEST_FILTERS="FullyQualifiedName ~ Uno.Toolkit.UITest.RuntimeTests"
 fi
+
 export UNO_UITEST_PLATFORM=Android
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/android/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
 export UNO_UITEST_ANDROIDAPK_PATH=$BUILD_SOURCESDIRECTORY/build/$SAMPLEAPP_ARTIFACT_NAME/$SAMPLEAPP_PACKAGE_NAME-Signed.apk
 export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/Uno.Toolkit.UITest.csproj
+export UNO_UITEST_FOLDER=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
 export UNO_UITEST_ANDROID_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.Droid/$SAMPLE_PROJECT_NAME.Droid.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
 export UNO_UITEST_NUNIT_VERSION=$NUNIT_VERSION
@@ -121,32 +123,24 @@ cp $UNO_UITEST_ANDROIDAPK_PATH $BUILD_ARTIFACTSTAGINGDIRECTORY
 
 cd $BUILD_SOURCESDIRECTORY/build
 
-wget $UNO_UITEST_NUGET_URL
-mono nuget.exe install NUnit.ConsoleRunner -Version $UNO_UITEST_NUNIT_VERSION
-
 # Move to the screenshot directory so that the output path is the proper one, as
 # required by Xamarin.UITest
 cd $UNO_UITEST_SCREENSHOT_PATH
 
-## Build the NUnit configuration file
-echo "--trace=Verbose" > $UNO_TESTS_RESPONSE_FILE
-echo "--framework=mono" >> $UNO_TESTS_RESPONSE_FILE
-echo "--inprocess" >> $UNO_TESTS_RESPONSE_FILE
-echo "--agents=1" >> $UNO_TESTS_RESPONSE_FILE
-echo "--workers=1" >> $UNO_TESTS_RESPONSE_FILE
-echo "--result=$UNO_ORIGINAL_TEST_RESULTS" >> $UNO_TESTS_RESPONSE_FILE
-echo "--where \"$TEST_FILTERS\"" >> $UNO_TESTS_RESPONSE_FILE
-echo "$UNO_UITEST_BINARY" >> $UNO_TESTS_RESPONSE_FILE
+echo "Test Parameters:"
+echo "  Test filters: $TEST_FILTERS"
 
-echo Response file:
-cat $UNO_TESTS_RESPONSE_FILE
+cd $UNO_UITEST_FOLDER
 
-## Show the tests list
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.$UNO_UITEST_NUNIT_VERSION/tools/nunit3-console.exe \
-    @$UNO_TESTS_RESPONSE_FILE --explore || true
-
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.$UNO_UITEST_NUNIT_VERSION/tools/nunit3-console.exe \
-    @$UNO_TESTS_RESPONSE_FILE || true
+## Run NUnit tests
+dotnet test \
+	-c Release \
+	-l:"console;verbosity=normal" \
+	--logger "nunit;LogFileName=$UNO_ORIGINAL_TEST_RESULTS" \
+	--filter "$TEST_FILTERS" \
+	--blame-hang-timeout 120m \
+	-v m \
+	|| true
 
 ## Copy the results file to the results folder
 cp $UNO_ORIGINAL_TEST_RESULTS $BASE_ARTIFACTS_PATH

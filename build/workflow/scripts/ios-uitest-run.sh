@@ -2,21 +2,22 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-
 if [ "$UITEST_TEST_MODE_NAME" == 'Automated' ];
 then
-	export TEST_FILTERS="namespace != 'Uno.Toolkit.UITest.RuntimeTests'";
+	export TEST_FILTERS="Namespace !~ Uno.Toolkit.UITest.RuntimeTests";
 	export UITEST_RUNTIMETESTS_RESULTS_FILE_PATH=$BUILD_SOURCESDIRECTORY/build/UITestResults-ios-automated.xml
 elif [ "$UITEST_TEST_MODE_NAME" == 'RuntimeTests' ];
 then
-	export TEST_FILTERS="class == 'Uno.Toolkit.UITest.RuntimeTests.RuntimeTestRunner'";
+	export TEST_FILTERS="FullyQualifiedName ~ Uno.Toolkit.UITest.RuntimeTests"
 	export UITEST_RUNTIMETESTS_RESULTS_FILE_PATH=$BUILD_SOURCESDIRECTORY/build/UITestResults-ios-runtime.xml
 fi
+
 export UNO_UITEST_PLATFORM=iOS
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/ios/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/build/$SAMPLEAPP_ARTIFACT_NAME/$SAMPLE_PROJECT_NAME.app
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
 export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/Uno.Toolkit.UITest.csproj
+export UNO_UITEST_FOLDER=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
 export UNO_UITEST_LOGFILE=$UNO_UITEST_SCREENSHOT_PATH/nunit-log.txt
 export UNO_UITEST_IOS_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.iOS/$SAMPLE_PROJECT_NAME.iOS.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
@@ -48,25 +49,20 @@ chmod -R +x $UNO_UITEST_IOSBUNDLE_PATH
 # required by Xamarin.UITest
 cd $UNO_UITEST_SCREENSHOT_PATH
 
-## Build the NUnit configuration file
-echo "--trace=Verbose" > $UNO_TESTS_RESPONSE_FILE
-echo "--inprocess" >> $UNO_TESTS_RESPONSE_FILE
-echo "--agents=1" >> $UNO_TESTS_RESPONSE_FILE
-echo "--workers=1" >> $UNO_TESTS_RESPONSE_FILE
-echo "--result=$UNO_ORIGINAL_TEST_RESULTS" >> $UNO_TESTS_RESPONSE_FILE
-echo "--where \"$TEST_FILTERS\"" >> $UNO_TESTS_RESPONSE_FILE
-echo "$UNO_UITEST_BINARY" >> $UNO_TESTS_RESPONSE_FILE
+cd $UNO_UITEST_FOLDER
 
-echo Response file:
-cat $UNO_TESTS_RESPONSE_FILE
+echo "Test Parameters:"
+echo "  Test filters: $TEST_FILTERS"
 
-## Show the tests list
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.$UNO_UITEST_NUNIT_VERSION/tools/nunit3-console.exe \
-    @$UNO_TESTS_RESPONSE_FILE --explore || true
-
-## Run NUnit tests
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.$UNO_UITEST_NUNIT_VERSION/tools/nunit3-console.exe \
-   @$UNO_TESTS_RESPONSE_FILE || true
+## Run tests
+dotnet test \
+	-c Release \
+	-l:"console;verbosity=normal" \
+	--logger "nunit;LogFileName=$UNO_ORIGINAL_TEST_RESULTS" \
+	--filter "$TEST_FILTERS" \
+	--blame-hang-timeout 120m \
+	-v m \
+	|| true
 
 echo "Current system date"
 date
@@ -81,4 +77,24 @@ export LOG_FILEPATH_FULL=$LOG_FILEPATH/DeviceLog-`date +"%Y%m%d%H%M%S"`.txt
 
 mkdir -p $LOG_FILEPATH
 xcrun simctl spawn booted log collect --output $TMP_LOG_FILEPATH
+
+echo "Dumping device logs"
 log show --style syslog $TMP_LOG_FILEPATH > $LOG_FILEPATH_FULL
+
+echo "Searching for failures in device logs"
+if grep -cq "mini-generic-sharing.c:899" $LOG_FILEPATH_FULL
+then
+	# The application may crash without known cause, add a marker so the job can be restarted in that case.
+    echo "##vso[task.logissue type=error]UNOBLD001: mini-generic-sharing.c:899 assertion reached (https://github.com/unoplatform/uno/issues/8167)"
+fi
+
+if grep -cq "Unhandled managed exception: Watchdog failed" $LOG_FILEPATH_FULL
+then
+	# The application UI thread stalled
+    echo "##vso[task.logissue type=error]UNOBLD002: Unknown failure, UI Thread Watchdog failed"
+fi
+
+if [ ! -f "$UNO_ORIGINAL_TEST_RESULTS" ]; then
+	echo "##vso[task.logissue type=error]UNOBLD003: ERROR: The test results file $UNO_ORIGINAL_TEST_RESULTS does not exist (did nunit crash ?)"
+	return 1
+fi
