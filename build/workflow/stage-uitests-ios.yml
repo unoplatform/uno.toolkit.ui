@@ -1,5 +1,6 @@
 ﻿jobs:
 - job: iOS_Build_For_Tests
+  timeoutInMinutes: 90
   displayName: 'Build iOS Samples App for UI Tests'
 
   pool:
