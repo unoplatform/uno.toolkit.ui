@@ -3077,6 +3077,7 @@ Global
 		{B48244B5-8793-4454-AE13-61F60FE5AB9C}.Debug|Android.Build.0 = Debug|Any CPU
 		{B48244B5-8793-4454-AE13-61F60FE5AB9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B48244B5-8793-4454-AE13-61F60FE5AB9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B48244B5-8793-4454-AE13-61F60FE5AB9C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{B48244B5-8793-4454-AE13-61F60FE5AB9C}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{B48244B5-8793-4454-AE13-61F60FE5AB9C}.Debug|ARM.Build.0 = Debug|Any CPU
 		{B48244B5-8793-4454-AE13-61F60FE5AB9C}.Debug|ARM64.ActiveCfg = Debug|Any CPU
@@ -3174,7 +3175,12 @@ Global
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{667e94c2-cb90-4b1d-b427-100cf48162f0}*SharedItemsImports = 5
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{8cf9707a-d702-4c62-b05e-8213e1ab76ba}*SharedItemsImports = 4
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{8f623960-73cd-43ab-8e70-366361e76943}*SharedItemsImports = 5
+<<<<<<< HEAD
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{b16adbc5-5dd4-4982-b56b-01f568e44572}*SharedItemsImports = 4
+=======
+		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{b48244b5-8793-4454-ae13-61f60fe5ab9c}*SharedItemsImports = 5
+		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{b7b746ec-467a-4e09-b72f-a779838e397b}*SharedItemsImports = 5
+>>>>>>> bd30319 (chore: adjusting mobile heads)
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{c2264db6-2dbd-449f-a28d-83b4f7e7e5e5}*SharedItemsImports = 4
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{c75a93ad-b237-41e6-9a40-7941d106735b}*SharedItemsImports = 5
 		..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems*{f271e677-7ccd-417a-b3d7-86a0ffb58ca3}*SharedItemsImports = 5
