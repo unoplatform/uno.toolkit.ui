@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OverrideTargetFrameworks)'!=''">$(OverrideTargetFrameworks)</TargetFrameworks>
+    <!-- Disabled because of https://github.com/xamarin/xamarin-macios/issues/16401-->
+    <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-macos</TargetFrameworks> -->
     <SingleProject>true</SingleProject>
     <OutputType>Exe</OutputType>
     <!-- Display name -->
@@ -13,40 +14,33 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
 
-    <AndroidManifest>Android\AndroidManifest.xml</AndroidManifest>
-
     <!-- Debugger workaround https://github.com/dotnet/maui-samples/blob/8aa6b8780b12e97b157514c3bdc54bb4a13001cd/HelloMacCatalyst/HelloMacCatalyst.csproj#L7 -->
     <!-- <MtouchExtraArgs Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">$(MtouchExtraArgs) -setenv:MONO_THREADS_SUSPEND=preemptive</MtouchExtraArgs> -->
     <!-- Required for C# Hot Reload -->
     <UseInterpreter Condition="'$(Configuration)' == 'Debug' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'maccatalyst'">True</UseInterpreter>
     <IsUnoHead>true</IsUnoHead>
+
+    <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Uno.WinUI" />
-    <PackageReference Include="Uno.Extensions.Configuration" />
-    <PackageReference Include="Uno.Extensions.Http" />
-    <PackageReference Include="Uno.Extensions.Http.Refit" />
-    <PackageReference Include="Uno.Extensions.Logging.WinUI" />
-    <PackageReference Include="Uno.Extensions.Logging.Serilog" />
-    <PackageReference Include="Uno.Extensions.Serialization.Http" />
-    <PackageReference Include="Uno.Extensions.Serialization.Refit" />
-    <PackageReference Include="Uno.Material.WinUI" />
-    <PackageReference Include="Uno.Toolkit.WinUI.Material" />
-    <PackageReference Include="Uno.Extensions.Toolkit.WinUI"/>
-    <PackageReference Include="Uno.Toolkit.WinUI" />
-    <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
-    <PackageReference Include="Uno.Extensions.Localization.WinUI" />
-    <PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" />
-    <PackageReference Include="Uno.Extensions.Navigation.WinUI" />
-    <PackageReference Include="Uno.Extensions.Reactive.WinUI" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" />
-    <PackageReference Include="Uno.Extensions.Logging.OSLog" />
+    <PackageReference Include="SkiaSharp.Skottie" />
+    <PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
+    <PackageReference Include="Uno.Material.WinUI" />
+    <PackageReference Include="Uno.WinUI" />
+    <!--<PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />-->
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.Core.Extensions.Compatibility" />
+    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
   </ItemGroup>
   <Choose>
-    <When Condition="$(IsAndroid)">
+    <When Condition="'$(TargetFramework)'=='net7.0-android'">
+      <PropertyGroup>
+        <AndroidManifest>Android\AndroidManifest.xml</AndroidManifest>
+        <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+      </PropertyGroup>
       <ItemGroup>
         <PackageReference Include="Xamarin.Google.Android.Material" />
         <!-- Required to avoid warnings in 1.9.0.1 of Android.Material - https://github.com/xamarin/AndroidX/issues/727 -->
@@ -57,7 +51,7 @@
         <AndroidEnvironment Include="Android/environment.conf" />
       </ItemGroup>
     </When>
-    <When Condition="$(IsIOS)">
+    <When Condition="'$(TargetFramework)'=='net7.0-ios'">
       <PropertyGroup>
         <MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
         <!-- See https://github.com/unoplatform/uno/issues/9430 for more details. -->
@@ -68,8 +62,11 @@
         <!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
         <MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
       </PropertyGroup>
+      <ItemGroup>
+        <PackageReference Include="Uno.Extensions.Logging.OSLog" />
+      </ItemGroup>
     </When>
-    <When Condition="$(IsMacCatalyst)">
+    <When Condition="'$(TargetFramework)'=='net7.0-maccatalyst'">
       <PropertyGroup>
         <!-- Configure the GC -->
         <MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
@@ -83,11 +80,18 @@
         <!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
         <MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
       </PropertyGroup>
+      <ItemGroup>
+        <PackageReference Include="Uno.Extensions.Logging.OSLog" />
+      </ItemGroup>
     </When>
   </Choose>
+
   <ItemGroup>
-    <ProjectReference Include="..\Uno.Toolkit.WinUI.Samples\Uno.Toolkit.WinUI.Samples.csproj" />
-    <ProjectReference Include="..\Uno.Toolkit.WinUI.Samples.DataContracts\Uno.Toolkit.WinUI.Samples.DataContracts.csproj" />
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
+    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.WinUI.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj" />
   </ItemGroup>
-  <Import Project="..\Uno.Toolkit.WinUI.Samples.Base\base.props" />
+  <Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
 </Project>

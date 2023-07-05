@@ -10,12 +10,13 @@ using Android.Views;
 using Android.Widget;
 using Com.Nostra13.Universalimageloader.Core;
 using Microsoft.UI.Xaml.Media;
+using Uno.Toolkit.Samples;
 
 namespace Uno.Toolkit.WinUI.Samples.Droid;
 
 [global::Android.App.ApplicationAttribute(
 	Label = "@string/ApplicationName",
-	Icon = "@mipmap/iconapp",
+	Icon = "@mipmap/icon",
 	LargeHeap = true,
 	HardwareAccelerated = true,
 	Theme = "@style/AppTheme"
@@ -23,7 +24,7 @@ namespace Uno.Toolkit.WinUI.Samples.Droid;
 public class Application : Microsoft.UI.Xaml.NativeApplication
 {
 	public Application(IntPtr javaReference, JniHandleOwnership transfer)
-		: base(() => new AppHead(), javaReference, transfer)
+		: base(() => new App(), javaReference, transfer)
 	{
 		ConfigureUniversalImageLoader();
 	}
