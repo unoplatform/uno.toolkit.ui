@@ -43,27 +43,28 @@ partial class AutoLayout
 
 		// 2. Remove applicable padding and spacing from the remaining size
 		var paddingSize = Padding.GetLength(orientation);
+		var counterPaddingSize = Padding.GetCounterLength(orientation);
 		Decrement(ref remainingSize, paddingSize);
 
 		// 3. Measure fixed children
-		MeasureFixedChildren(orientation, availableCounterSize, ref remainingSize, ref desiredCounterSize);
+		MeasureFixedChildren(orientation, availableCounterSize, ref remainingSize, ref desiredCounterSize, counterPaddingSize);
 
 		// 4. Establish the total spacing size, if applicable
 		var totalSpacingSize = 0d;
 		if (numberOfStackedChildren > 0
-		    && justify != AutoLayoutJustify.SpaceBetween
-		    && spacing != 0
-		    && spacing < double.PositiveInfinity)
+			&& justify != AutoLayoutJustify.SpaceBetween
+			&& spacing != 0
+			&& spacing < double.PositiveInfinity)
 		{
 			totalSpacingSize = (numberOfStackedChildren - 1) * spacing;
 			Decrement(ref remainingSize, totalSpacingSize);
 		}
 
 		// 5. Calculate the size of Hug children
-		MeasureHugChildren(orientation, availableCounterSize, ref remainingSize, ref desiredCounterSize);
+		MeasureHugChildren(orientation, availableCounterSize, ref remainingSize, ref desiredCounterSize, counterPaddingSize);
 
 		// 6. Calculate the size of Filled children
-		MeasureFilledChildren(orientation, availableCounterSize, ref remainingSize, ref desiredCounterSize);
+		MeasureFilledChildren(orientation, availableCounterSize, ref remainingSize, ref desiredCounterSize, counterPaddingSize);
 
 		// 7. Measure independent children, independently of the remaining size
 		var independentDesiredSize = MeasureIndependentChildren(availableSize, borderThickness, orientation, ref desiredCounterSize);
@@ -74,8 +75,8 @@ partial class AutoLayout
 		Size desiredSize;
 
 		if ((atLeastOneFilledChild
-		    || justify == AutoLayoutJustify.SpaceBetween)
-		    && remainingSize is > 0 and < double.PositiveInfinity)
+			|| justify == AutoLayoutJustify.SpaceBetween)
+			&& remainingSize is > 0 and < double.PositiveInfinity)
 		{
 			// 8a. Calculated the spacing size, when justify is SpaceBetween or there's at least one filled child
 
@@ -83,8 +84,8 @@ partial class AutoLayout
 			// and the final spacing will be calculated in the arrange pass.
 			desiredSize = orientation switch
 			{
-				Orientation.Horizontal => new Size(availableSize.Width, desiredCounterSize + Padding.GetCounterLength(orientation)),
-				Orientation.Vertical => new Size(desiredCounterSize + Padding.GetCounterLength(orientation), availableSize.Height),
+				Orientation.Horizontal => new Size(availableSize.Width, desiredCounterSize + counterPaddingSize),
+				Orientation.Vertical => new Size(desiredCounterSize + counterPaddingSize, availableSize.Height),
 				_ => throw new ArgumentOutOfRangeException(),
 			};
 		}
@@ -105,9 +106,9 @@ partial class AutoLayout
 			{
 				Orientation.Horizontal => new Size(
 					width: desiredSizeInPrimaryOrientation + paddingSize,
-					height: desiredCounterSize + Padding.GetCounterLength(orientation)),
+					height: desiredCounterSize + counterPaddingSize),
 				Orientation.Vertical => new Size(
-					width: desiredCounterSize + Padding.GetCounterLength(orientation),
+					width: desiredCounterSize + counterPaddingSize,
 					height: desiredSizeInPrimaryOrientation + paddingSize),
 				_ => throw new ArgumentOutOfRangeException(),
 			};
@@ -204,7 +205,8 @@ partial class AutoLayout
 		Orientation orientation,
 		double availableCounterSize,
 		ref double remainingSize,
-		ref double desiredCounterSize)
+		ref double desiredCounterSize,
+		double counterPaddingSize)
 	{
 		for (var i = 0; i < _calculatedChildren!.Length; i++)
 		{
@@ -222,7 +224,8 @@ partial class AutoLayout
 				orientation,
 				fixedSize, // The available size for the child is its defined fixed size
 				availableCounterSize,
-				ref desiredCounterSize);
+				ref desiredCounterSize,
+				counterPaddingSize);
 
 			Decrement(ref remainingSize, fixedSize);
 		}
@@ -233,7 +236,8 @@ partial class AutoLayout
 		Orientation orientation,
 		double availableCounterSize,
 		ref double remainingSize,
-		ref double desiredCounterSize)
+		ref double desiredCounterSize,
+		double counterPaddingSize)
 	{
 		for (var i = 0; i < _calculatedChildren!.Length; i++)
 		{
@@ -249,7 +253,8 @@ partial class AutoLayout
 				orientation,
 				double.PositiveInfinity, // We don't want the child to limit its own desired size to available one
 				availableCounterSize,
-				ref desiredCounterSize);
+				ref desiredCounterSize,
+				counterPaddingSize);
 
 			calculatedChild.MeasuredLength = desiredSize;
 
@@ -263,7 +268,8 @@ partial class AutoLayout
 		Orientation orientation,
 		double availableCounterSize,
 		ref double remainingSize,
-		ref double desiredCounterSize)
+		ref double desiredCounterSize,
+		double counterPaddingSize)
 	{
 		if (double.IsInfinity(remainingSize))
 		{
@@ -298,10 +304,10 @@ partial class AutoLayout
 				continue;
 			}
 
-			MeasureChild(child.Element, orientation, filledSize, availableCounterSize, ref desiredCounterSize);
+			MeasureChild(child.Element, orientation, filledSize, availableCounterSize, ref desiredCounterSize, counterPaddingSize);
 
 			child.MeasuredLength = filledSize;
-		}
+		}  
 
 		return true; // at least one filled child
 	}
@@ -311,16 +317,36 @@ partial class AutoLayout
 		Orientation orientation,
 		double availableSize,
 		double availableCounterSize,
-		ref double desiredCounterSize)
+		ref double desiredCounterSize,
+		double counterPaddingSize)
 	{
-		var availableSizeForChild = orientation == Orientation.Horizontal
-			? new Size(availableSize, availableCounterSize)
-			: new Size(availableCounterSize, availableSize);
+		var isOrientationHorizontal = orientation is Orientation.Horizontal;
+		var isPrimaryAlignmentStretch = GetPrimaryAlignment(child) is AutoLayoutPrimaryAlignment.Stretch;
+		var isCounterAlignmentStretch = GetCounterAlignment(child) is AutoLayoutAlignment.Stretch;
+
+		if (child as FrameworkElement is { } frameworkElement)
+		{
+			UpdateCounterAlignmentToStretch(ref frameworkElement, isOrientationHorizontal, isPrimaryAlignmentStretch, isCounterAlignmentStretch);
+
+			var isStretch = isOrientationHorizontal ?
+				frameworkElement.VerticalAlignment is VerticalAlignment.Stretch :
+				frameworkElement.HorizontalAlignment is HorizontalAlignment.Stretch;
+
+			isCounterAlignmentStretch = isStretch && (
+				isOrientationHorizontal ?
+				double.IsNaN(frameworkElement.Height) && double.IsNaN(GetCounterLength(child))
+				: double.IsNaN(frameworkElement.Width) && double.IsNaN(GetCounterLength(child))
+				);
+		}
+
+		var availableSizeForChild = isOrientationHorizontal
+			? new Size(availableSize, availableCounterSize - (isCounterAlignmentStretch ? counterPaddingSize : 0))
+			: new Size(availableCounterSize - (isCounterAlignmentStretch ? counterPaddingSize : 0), availableSize);
 
 		child.Measure(availableSizeForChild);
 
 		double desiredSize;
-		if (orientation == Orientation.Horizontal)
+		if (isOrientationHorizontal)
 		{
 			desiredSize = child.DesiredSize.Width;
 			desiredCounterSize = Math.Max(desiredCounterSize, child.DesiredSize.Height);
@@ -448,5 +474,20 @@ partial class AutoLayout
 		Fixed,
 		Filled,
 		Independent
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	private static void UpdateCounterAlignmentToStretch(ref FrameworkElement frameworkElement, bool isHorizontal, bool isPrimaryAlignmentStretch, bool isCounterAlignmentStretch)
+	{
+		if (isHorizontal)
+		{
+			frameworkElement.HorizontalAlignment = isPrimaryAlignmentStretch ? HorizontalAlignment.Stretch : frameworkElement.HorizontalAlignment;
+			frameworkElement.VerticalAlignment = isCounterAlignmentStretch ? VerticalAlignment.Stretch : frameworkElement.VerticalAlignment;
+		}
+		else
+		{
+			frameworkElement.VerticalAlignment = isPrimaryAlignmentStretch ? VerticalAlignment.Stretch : frameworkElement.VerticalAlignment;
+			frameworkElement.HorizontalAlignment = isCounterAlignmentStretch ? HorizontalAlignment.Stretch : frameworkElement.HorizontalAlignment;
+		}
 	}
 }

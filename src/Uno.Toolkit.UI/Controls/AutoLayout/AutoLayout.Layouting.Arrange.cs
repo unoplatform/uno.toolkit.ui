@@ -181,14 +181,6 @@ partial class AutoLayout
 			// Calculate the position of the child by applying the alignment instructions
 			var counterAlignment = GetCounterAlignment(child.Element);
 
-			var isPrimaryAlignmentStretch = GetPrimaryAlignment(child.Element) is AutoLayoutPrimaryAlignment.Stretch;
-			var isCounterAlignmentStretch = counterAlignment is AutoLayoutAlignment.Stretch;
-
-			if (child.Element is FrameworkElement frameworkElement)
-			{
-				UpdateCounterAlignmentToStretch(ref frameworkElement, isHorizontal, isPrimaryAlignmentStretch, isCounterAlignmentStretch);
-			}
-
 			var haveCounterStartPadding = counterAlignment is AutoLayoutAlignment.Stretch or AutoLayoutAlignment.Start;
 			var counterStartPadding = haveCounterStartPadding ? (isHorizontal ? padding.Top : padding.Left) : 0;
 
@@ -221,21 +213,6 @@ partial class AutoLayout
 		}
 
 		return finalSize;
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static void UpdateCounterAlignmentToStretch(ref FrameworkElement frameworkElement, bool isHorizontal, bool isPrimaryAlignmentStretch, bool isCounterAlignmentStretch)
-	{
-		if (isHorizontal)
-		{
-			frameworkElement.HorizontalAlignment = isPrimaryAlignmentStretch ? HorizontalAlignment.Stretch : frameworkElement.HorizontalAlignment;
-			frameworkElement.VerticalAlignment = isCounterAlignmentStretch ? VerticalAlignment.Stretch : frameworkElement.VerticalAlignment;
-		}
-		else
-		{
-			frameworkElement.VerticalAlignment = isPrimaryAlignmentStretch ? VerticalAlignment.Stretch : frameworkElement.VerticalAlignment;
-			frameworkElement.HorizontalAlignment = isCounterAlignmentStretch ? HorizontalAlignment.Stretch : frameworkElement.HorizontalAlignment;
-		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
