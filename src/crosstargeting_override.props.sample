@@ -14,9 +14,9 @@
 
 		<!-- <NugetOverrideVersion>2.6.0-dev.34</NugetOverrideVersion> -->
 		<!--<DisableNet7MobileTargets>true</DisableNet7MobileTargets>-->
-		
+
 		<!-- Uncomment each line for each platform that you want to build: -->
-		
+
 		<!-- <TargetFrameworkOverride Condition="''!='hint: UWP'">$(TargetFrameworkOverride);uap10.0.19041</TargetFrameworkOverride> -->
 		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">$(TargetFrameworkOverride);net7.0-windows10.0.19041</TargetFrameworkOverride> -->
 		<!-- <TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">$(TargetFrameworkOverride);net7.0</TargetFrameworkOverride> -->
@@ -26,7 +26,7 @@
 		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 macOS AppKit'">$(TargetFrameworkOverride);net7.0-macos</TargetFrameworkOverride> -->
 
 		<!-- DO NOT COMMENT OUT: netstandard2.0 is a required tfm in all cases -->
-		<TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('netstandard2.0'))">netstandard2.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
+		<TargetFrameworkOverride>net7.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
 
 		<!--
 
@@ -41,7 +41,7 @@
 
 				Disables bulding the net7.0 mobile SDK TargetFrameworks
 
-			### TargetFrameworkOverride ### 
+			### TargetFrameworkOverride ###
 
 				Controls the platform built by Visual Studio.
 
