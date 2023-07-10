@@ -24,6 +24,7 @@ SelectionMode|ItemsSelectionMode|Gets or sets the selection behavior: `None`, `S
 
 ## Usage
 ```xml
+<!-- Include the following XAML namespaces to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"
 xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 ...
