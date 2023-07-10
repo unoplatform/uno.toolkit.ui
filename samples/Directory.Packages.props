@@ -18,31 +18,31 @@
 		<PackageVersion Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
 		<PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 		<PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.0" />
-		<PackageVersion Include="SkiaSharp.Skottie" Version="2.88.2" />
-		<PackageVersion Include="SkiaSharp.Views" Version="2.80.2" />
-		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.2" />
-		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.2" />
+		<PackageVersion Include="SkiaSharp.Skottie" Version="2.88.3" />
+		<PackageVersion Include="SkiaSharp.Views" Version="2.80.3" />
+		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.3" />
+		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.3" />
 		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-		<PackageVersion Include="Uno.Cupertino" Version="3.0.0-dev.252" />
-		<PackageVersion Include="Uno.Cupertino.WinUI" Version="3.0.0-dev.252" />
+		<PackageVersion Include="Uno.Cupertino" Version="3.0.0-dev.254" />
+		<PackageVersion Include="Uno.Cupertino.WinUI" Version="3.0.0-dev.254" />
 		<PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.4.0" />
 		<PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.4.0" />
-		<PackageVersion Include="Uno.Material" Version="3.0.0-dev.252" />
-		<PackageVersion Include="Uno.Material.WinUI" Version="3.0.0-dev.252" />
-		<PackageVersion Include="Uno.UI" Version="5.0.0-dev.1148" />
+		<PackageVersion Include="Uno.Material" Version="3.0.0-dev.254" />
+		<PackageVersion Include="Uno.Material.WinUI" Version="3.0.0-dev.254" />
+		<PackageVersion Include="Uno.UI" Version="5.0.0-dev.1223" />
 		<PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.9" />
-		<PackageVersion Include="Uno.UI.RemoteControl" Version="5.0.0-dev.1148" />
-		<PackageVersion Include="Uno.UI.Skia.Gtk" Version="5.0.0-dev.1148" />
-		<PackageVersion Include="Uno.UI.Skia.Wpf" Version="5.0.0-dev.1148" />
-		<PackageVersion Include="Uno.UI.WebAssembly" Version="5.0.0-dev.1148" />
+		<PackageVersion Include="Uno.UI.RemoteControl" Version="5.0.0-dev.1223" />
+		<PackageVersion Include="Uno.UI.Skia.Gtk" Version="5.0.0-dev.1223" />
+		<PackageVersion Include="Uno.UI.Skia.Wpf" Version="5.0.0-dev.1223" />
+		<PackageVersion Include="Uno.UI.WebAssembly" Version="5.0.0-dev.1223" />
 		<PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.36" />
 		<PackageVersion Include="Uno.Wasm.Bootstrap" Version="7.0.20" />
 		<PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="7.0.20" />
-		<PackageVersion Include="Uno.WinUI" Version="5.0.0-dev.1148" />
-		<PackageVersion Include="Uno.WinUI.RemoteControl" Version="5.0.0-dev.1148" />
-		<PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="5.0.0-dev.1148" />
-		<PackageVersion Include="Uno.WinUI.WebAssembly" Version="5.0.0-dev.1148" />
+		<PackageVersion Include="Uno.WinUI" Version="5.0.0-dev.1223" />
+		<PackageVersion Include="Uno.WinUI.RemoteControl" Version="5.0.0-dev.1223" />
+		<PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="5.0.0-dev.1223" />
+		<PackageVersion Include="Uno.WinUI.WebAssembly" Version="5.0.0-dev.1223" />
 		<PackageVersion Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
 		<!-- Required to avoid warnings in 1.9.0.1 of Android.Material - https://github.com/xamarin/AndroidX/issues/727 -->
 		<PackageVersion Include="Xamarin.AndroidX.Annotation" Version="1.6.0.3" />
