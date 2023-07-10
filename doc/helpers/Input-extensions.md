@@ -20,6 +20,10 @@ AutoFocusNext and AutoFocusNextElement\*: Having either or both of the two prope
 
 ## Usage
 ```xml
+<!-- Include the following XAML namespace to use the samples below -->
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
 <!-- The focus will move in this order when pressing enter repeatedly: 1-2-4-3 -->
 <TextBox x:Name="Input1" utu:InputExtensions.AutoFocusNext="True" />
 <TextBox x:Name="Input2" utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=Input4}" />

@@ -14,6 +14,7 @@ When the `SelectorExtensions.PipsPager` is set, the control will take care of up
 
 ## Usage
 ```xml
+<!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"
 xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 ...
