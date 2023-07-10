@@ -18,6 +18,7 @@ Path|string|Binding path from the ancestor.
 
 ### Usage
 ```xml
+<!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 <ListView ItemsSource="{Binding Items}">
