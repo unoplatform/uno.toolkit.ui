@@ -13,16 +13,19 @@ using Windows.Foundation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.UI;
 using Windows.Foundation.Metadata;
+using System.ComponentModel;
 
 #if IS_WINUI
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 #else
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 #endif
@@ -387,6 +390,41 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 					await renderer.AssertColorAt(Colors.Green, (int)centerPoint.X, (int)centerPoint.Y);
 				}
 			}
+		}
+
+		[TestMethod]
+		public async Task Verify_SelectedIndex_Not_Set_Unnecessarily()
+		{
+			var item1 = new TabBarItem();
+			var item2 = new TabBarItem();
+
+			var SUT = new TabBar();
+			SUT.Items.Add(item1);
+			SUT.Items.Add(item2);
+			SUT.DataContext = new SelectedIndexTestViewModel();
+			SUT.SetBinding(TabBar.SelectedIndexProperty, new Binding() { Mode = BindingMode.OneWay, Path = new PropertyPath(nameof(SelectedIndexTestViewModel.P)) });
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+			Assert.IsNotNull(SUT.GetBindingExpression(TabBar.SelectedIndexProperty));
+			SUT.SelectedIndex = 0;
+			// Possible Uno bug? Explicit setting of SelectedIndex should have cleared the binding.
+			//Assert.IsNull(SUT.GetBindingExpression(TabBar.SelectedIndexProperty));
+		}
+
+		private class SelectedIndexTestViewModel : INotifyPropertyChanged
+		{
+			private int _p;
+
+			public int P
+			{
+				get => _p; set
+				{
+					_p = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(P)));
+				}
+			}
+
+			public event PropertyChangedEventHandler? PropertyChanged;
 		}
 	}
 }

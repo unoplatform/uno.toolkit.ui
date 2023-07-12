@@ -314,9 +314,24 @@ namespace Uno.Toolkit.UI
 					}
 					else
 					{
-						SelectedItem = ItemFromContainer(container);
-						SelectedIndex = IndexFromContainer(container);
-						RaiseSelectionChangedEvent(_previouslySelectedItem, item);
+						var oldSelectedItem = SelectedItem;
+						var newSelectedItem = ItemFromContainer(container);
+						if (oldSelectedItem != newSelectedItem)
+						{
+							SelectedItem = newSelectedItem;
+						}
+
+						var oldSelectedIndex = SelectedIndex;
+						var newSelectedIndex = IndexFromContainer(container);
+						if (oldSelectedIndex != newSelectedIndex)
+						{
+							SelectedIndex = newSelectedIndex;
+						}
+
+						if (!object.ReferenceEquals(_previouslySelectedItem, item))
+						{
+							RaiseSelectionChangedEvent(_previouslySelectedItem, item);
+						}
 					}
 				}
 			}
