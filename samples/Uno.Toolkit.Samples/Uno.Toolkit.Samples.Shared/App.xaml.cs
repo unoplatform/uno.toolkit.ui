@@ -84,7 +84,7 @@ namespace Uno.Toolkit.Samples
 		/// <param name="e">Details about the launch request and process.</param>
 		protected override async void OnLaunched(XamlLaunchActivatedEventArgs e)
 		{
-#if __IOS__ && !NET6_0 && USE_UITESTS
+#if __IOS__ && !NET6_0_OR_GREATER && USE_UITESTS
 			Xamarin.Calabash.Start();
 #endif
 
