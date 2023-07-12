@@ -19,6 +19,7 @@ OnClickBehaviorsTarget\*: The content host which the on-click behavior is applie
 
 ## Usage
 ```xml
+<!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 

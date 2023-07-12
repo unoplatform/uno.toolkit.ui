@@ -16,6 +16,7 @@ The `Next` and `Previous` properties will provide an easy hook to allow other co
 ## Usage
 
 ```xml
+<!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
