@@ -24,6 +24,10 @@ Command on `ListView`\*: [`IsItemClickEnabled`](https://docs.microsoft.com/en-us
 
 ## Usage
 ```xml
+<!-- Include the following XAML namespace to use the samples below -->
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
 <!-- Execute command on enter -->
 <PasswordBox utu:CommandExtensions.Command="{Binding Login}" />
 
