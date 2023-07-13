@@ -136,6 +136,10 @@ namespace Uno.Toolkit.Samples
 			{
 				ShellNavigateTo(sample, trySynchronizeCurrentItem: false);
 			}
+			else if (e.IsSettingsInvoked)
+			{
+				_shell.ActivateDebugPanel();
+			}
 		}
 
 		private void AddNavigationItems(MUXC.NavigationView nv)
