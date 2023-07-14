@@ -29,13 +29,13 @@
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
 	</ItemGroup>
 	
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-windows10.0.19041'">
+	<!--<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-windows10.0.19041'">
 		<PackageReference Include="SkiaSharp.Views.WinUI" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'net7.0-windows10.0.19041'">
 		<PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 	<ItemGroup Condition="$(_IsWindowsWinUI)">
 		<PackageReference Include="Microsoft.WindowsAppSDK" />
