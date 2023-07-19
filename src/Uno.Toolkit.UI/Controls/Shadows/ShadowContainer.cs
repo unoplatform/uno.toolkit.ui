@@ -18,7 +18,7 @@ using Android.Views;
 namespace Uno.Toolkit.UI;
 
 /// <summary>
-/// Provides the possibility to add many colored shadows to its content.
+/// Provides the possibility to add many-colored shadows to its content.
 /// </summary>
 /// <remarks>
 /// For now it renders badly on WASM due to a bug on the wasm skiasharp construction of the SKXamlCanvas.
@@ -54,7 +54,7 @@ public partial class ShadowContainer : ContentControl
 		_canvas = (Canvas)GetTemplateChild(nameof(PART_Canvas));
 
 
-#if false // ANDROID: We keep that as a reference cause it would better to use the hardware accelerated version
+#if false // ANDROID: We keep that as a reference cause it would be better to use the hardware-accelerated version
         var skiaCanvas = new SKSwapChainPanel();
         skiaCanvas.PaintSurface += OnSurfacePainted;
 #else
@@ -80,7 +80,7 @@ public partial class ShadowContainer : ContentControl
 			_canvas?.Children.Remove(oldElement);
 			oldElement.SizeChanged -= OnContentSizeChanged;
 
-			// TODO unregister corner radius property changed
+			// TODO (https://github.com/unoplatform/uno.toolkit.ui/issues/662) unregister corner radius property changed
 		}
 
 		if (newContent is FrameworkElement newElement)
@@ -90,7 +90,7 @@ public partial class ShadowContainer : ContentControl
 
 			if (TryGetCornerRadius(newElement, out var cornerRadius))
 			{
-				// TODO register corner radius property changed
+				// TODO (https://github.com/unoplatform/uno.toolkit.ui/issues/662) register corner radius property changed
 			}
 
 			_cornerRadius = cornerRadius;
