@@ -3,10 +3,10 @@ uid: Toolkit.Controls.ShadowContainer
 ---
 
 ## Summary
-The `ShadowContainer` provides the possibility to add many colored shadows to its content.
+The `ShadowContainer` provides the possibility to add many-colored shadows to its content.
 
 ## Remarks
-For now the control simply adapts its corner radius to the content's corner radius. More complicated shapes like texts or pictures with alpha, are not supported.
+For now, the control simply adapts its corner radius to the content's corner radius. More complicated shapes like texts or pictures with alpha, are not supported.
 
 ### XAML
 ```xml
@@ -47,7 +47,7 @@ Public properties are all dependency properties.
 ### Shadow Properties
 | Property | Type | Description |
 | -------- | ---- | ----------- |
-IsInner | bool | True is this shadow is a inner shadow (like `inset` in css box-shadow).
+IsInner | bool | True is this shadow is an inner shadow (like `inset` in css box-shadow).
 OffsetX | double | The X offset of the shadow.
 OffsetY | double | The Y offset of the shadow.
 Color | Color | The color of the shadow. It will be multiplied by the `Opacity` property before rendering.
@@ -65,7 +65,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
     <Color x:Key="UnoColor">#7a67f8</Color>
     <Color x:Key="UnoPink">#f85977</Color>
 
-    <!-- You can define your shadows in resource dictionary -->
+    <!-- You can define your shadows in the resource dictionary -->
     <ui:ShadowCollection x:Name="ButtonShadows">
         <ui:Shadow BlurRadius="15"
                    OffsetY="8"
