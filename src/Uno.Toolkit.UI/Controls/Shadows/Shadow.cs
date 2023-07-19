@@ -38,7 +38,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 
 	/// <summary>
 	/// If true, the shadow will be drawn inside the bounds of the element.
-	/// It will have the same effect than the 'inset' value in a css box-shadow.
+	/// It will have the same effect as the 'inset' value in a css box-shadow.
 	/// </summary>
 	public bool IsInner
 	{
@@ -92,7 +92,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 		new(DefaultColor, (s, args) => OnPropertyChanged(s, nameof(Color))));
 
 	/// <summary>
-	/// The color of the shadow.,
+	/// The color of the shadow.
 	/// It will be multiplied by the opacity property before rendering.
 	/// </summary>
 	public Windows.UI.Color Color
