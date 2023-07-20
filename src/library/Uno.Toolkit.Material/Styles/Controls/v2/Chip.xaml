@@ -1,530 +1,440 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-					xmlns:not_win="http://uno.ui/not_win"
-					xmlns:todo="what should be done"
-					xmlns:toolkit="using:Uno.UI.Toolkit"
-					xmlns:um="using:Uno.Material"
-					xmlns:utu="using:Uno.Toolkit.UI"
-					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					mc:Ignorable="not_win todo">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:not_win="http://uno.ui/not_win"
+                    xmlns:todo="what should be done"
+                    xmlns:toolkit="using:Uno.UI.Toolkit"
+                    xmlns:um="using:Uno.Material"
+                    xmlns:utu="using:Uno.Toolkit.UI"
+                    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    mc:Ignorable="not_win todo">
 
-	<ResourceDictionary.ThemeDictionaries>
-		<ResourceDictionary x:Key="Default">
-			<x:Double x:Key="ChipCheckGlyphSize">20</x:Double>
-			<x:Double x:Key="ChipContentMinHeight">20</x:Double>
-			<x:Double x:Key="ChipDeleteIconContainerLength">18</x:Double>
-			<x:Double x:Key="ChipDeleteIconLength">11</x:Double>
-			<x:Double x:Key="ChipElevation">4</x:Double>
-			<x:Double x:Key="ChipElevationDisabled">0</x:Double>
-			<x:Double x:Key="ChipHeight">32</x:Double>
-			<x:Double x:Key="ChipIconSize">18</x:Double>
-			<x:Double x:Key="ChipSize">12</x:Double>
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <x:Double x:Key="ChipCheckGlyphSize">20</x:Double>
+            <x:Double x:Key="ChipContentMinHeight">20</x:Double>
+            <x:Double x:Key="ChipDeleteIconContainerLength">18</x:Double>
+            <x:Double x:Key="ChipDeleteIconLength">11</x:Double>
+            <x:Double x:Key="ChipElevation">4</x:Double>
+            <x:Double x:Key="ChipElevationDisabled">0</x:Double>
+            <x:Double x:Key="ChipHeight">32</x:Double>
+            <x:Double x:Key="ChipIconSize">18</x:Double>
+            <x:Double x:Key="ChipSize">12</x:Double>
 
-			<CornerRadius x:Key="ChipCornerRadius">8</CornerRadius>
-			<Thickness x:Key="ChipBorderThickness">1</Thickness>
-			<Thickness x:Key="ChipCheckGlyphPadding">2</Thickness>
-			<Thickness x:Key="ChipContentMargin">8,0</Thickness>
-			<Thickness x:Key="ChipElevationBorderThickness">0</Thickness>
-			<Thickness x:Key="ChipElevationMargin">4</Thickness>
-			<Thickness x:Key="ChipPadding">8,0</Thickness>
+            <CornerRadius x:Key="ChipCornerRadius">8</CornerRadius>
+            <Thickness x:Key="ChipBorderThickness">1</Thickness>
+            <Thickness x:Key="ChipCheckGlyphPadding">2</Thickness>
+            <Thickness x:Key="ChipContentMargin">8,0</Thickness>
+            <Thickness x:Key="ChipElevationBorderThickness">0</Thickness>
+            <Thickness x:Key="ChipElevationMargin">4</Thickness>
+            <Thickness x:Key="ChipPadding">8,0</Thickness>
 
-			<!-- Brushes -->
-			<StaticResource x:Key="ChipBackground"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundPointerOver"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundPressed"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundDisabled"
-							ResourceKey="OnSurfaceDisabledLowBrush" />
-			<StaticResource x:Key="ChipBackgroundChecked"
-							ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundCheckedPointerOver"
-							ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundCheckedPressed"
-							ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <!-- Brushes -->
+            <StaticResource x:Key="ChipBackground" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="OnSurfaceDisabledLowBrush" />
+            <StaticResource x:Key="ChipBackgroundChecked" ResourceKey="SecondaryContainerBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedPointerOver" ResourceKey="SecondaryContainerBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedPressed" ResourceKey="SecondaryContainerBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipForeground"
-							ResourceKey="OnSurfaceVariantBrush" />
-			<StaticResource x:Key="ChipForegroundPointerOver"
-							ResourceKey="OnSurfaceVariantBrush" />
-			<StaticResource x:Key="ChipForegroundFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipForegroundPressed"
-							ResourceKey="OnSurfaceVariantBrush" />
-			<StaticResource x:Key="ChipForegroundDisabled"
-							ResourceKey="OnSurfaceDisabledBrush" />
-			<StaticResource x:Key="ChipForegroundChecked"
-							ResourceKey="OnSecondaryContainerBrush" />
-			<StaticResource x:Key="ChipForegroundCheckedPointerOver"
-							ResourceKey="OnSecondaryContainerBrush" />
-			<StaticResource x:Key="ChipForegroundCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipForegroundCheckedPressed"
-							ResourceKey="OnSecondaryContainerBrush" />
-			<StaticResource x:Key="ChipForegroundCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipForeground" ResourceKey="OnSurfaceVariantBrush" />
+            <StaticResource x:Key="ChipForegroundPointerOver" ResourceKey="OnSurfaceVariantBrush" />
+            <StaticResource x:Key="ChipForegroundFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipForegroundPressed" ResourceKey="OnSurfaceVariantBrush" />
+            <StaticResource x:Key="ChipForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+            <StaticResource x:Key="ChipForegroundChecked" ResourceKey="OnSecondaryContainerBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedPointerOver" ResourceKey="OnSecondaryContainerBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedPressed" ResourceKey="OnSecondaryContainerBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipDeleteIconBackground"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipDeleteIconForeground"
-							ResourceKey="OnSurfaceVariantBrush" />
+            <StaticResource x:Key="ChipDeleteIconBackground" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipDeleteIconForeground" ResourceKey="OnSurfaceVariantBrush" />
 
-			<StaticResource x:Key="ChipIconForeground"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundPointerOver"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipIconForegroundPressed"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundDisabled"
-							ResourceKey="OnSurfaceDisabledBrush" />
-			<StaticResource x:Key="ChipIconForegroundChecked"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundCheckedPointerOver"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipIconForegroundCheckedPressed"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipIconForeground" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundPointerOver" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipIconForegroundPressed" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+            <StaticResource x:Key="ChipIconForegroundChecked" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedPointerOver" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedPressed" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipBorderBrush"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushPointerOver"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBorderBrushPressed"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushDisabled"
-							ResourceKey="OnSurfaceVariantDisabledLowBrush" />
-			<StaticResource x:Key="ChipBorderBrushChecked"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushCheckedPointerOver"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBorderBrushCheckedPressed"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBorderBrush" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushPointerOver" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBorderBrushPressed" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushDisabled" ResourceKey="OnSurfaceVariantDisabledLowBrush" />
+            <StaticResource x:Key="ChipBorderBrushChecked" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedPointerOver" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedPressed" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipStateOverlay"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipStateOverlayPointerOver"
-							ResourceKey="OnSurfaceVariantHoverBrush" />
-			<StaticResource x:Key="ChipStateOverlayFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipStateOverlayPressed"
-							ResourceKey="OnSurfaceVariantPressedBrush" />
-			<StaticResource x:Key="ChipStateOverlayDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipStateOverlayChecked"
-							ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipStateOverlayCheckedPointerOver"
-							ResourceKey="OnSecondaryContainerHoverBrush" />
-			<StaticResource x:Key="ChipStateOverlayCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipStateOverlayCheckedPressed"
-							ResourceKey="OnSecondaryContainerSelectedBrush" />
-			<StaticResource x:Key="ChipStateOverlayCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlay" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlayPointerOver" ResourceKey="OnSurfaceVariantHoverBrush" />
+            <StaticResource x:Key="ChipStateOverlayFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlayPressed" ResourceKey="OnSurfaceVariantPressedBrush" />
+            <StaticResource x:Key="ChipStateOverlayDisabled" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlayChecked" ResourceKey="SecondaryContainerBrush" />
+            <StaticResource x:Key="ChipStateOverlayCheckedPointerOver" ResourceKey="OnSecondaryContainerHoverBrush" />
+            <StaticResource x:Key="ChipStateOverlayCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlayCheckedPressed" ResourceKey="OnSecondaryContainerSelectedBrush" />
+            <StaticResource x:Key="ChipStateOverlayCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipRippleFeedback"
-							ResourceKey="OnSurfaceFocusedBrush" />
+            <StaticResource x:Key="ChipRippleFeedback" ResourceKey="OnSurfaceFocusedBrush" />
 
-			<StaticResource x:Key="ElevatedChipBackground"
-							ResourceKey="SurfaceBrush" />
-		</ResourceDictionary>
+            <StaticResource x:Key="ElevatedChipBackground" ResourceKey="SurfaceBrush" />
+        </ResourceDictionary>
 
-		<ResourceDictionary x:Key="Light">
-			<x:Double x:Key="ChipCheckGlyphSize">20</x:Double>
-			<x:Double x:Key="ChipContentMinHeight">20</x:Double>
-			<x:Double x:Key="ChipDeleteIconContainerLength">18</x:Double>
-			<x:Double x:Key="ChipDeleteIconLength">11</x:Double>
-			<x:Double x:Key="ChipElevation">4</x:Double>
-			<x:Double x:Key="ChipElevationDisabled">0</x:Double>
-			<x:Double x:Key="ChipHeight">32</x:Double>
-			<x:Double x:Key="ChipIconSize">18</x:Double>
-			<x:Double x:Key="ChipSize">12</x:Double>
+        <ResourceDictionary x:Key="Light">
+            <x:Double x:Key="ChipCheckGlyphSize">20</x:Double>
+            <x:Double x:Key="ChipContentMinHeight">20</x:Double>
+            <x:Double x:Key="ChipDeleteIconContainerLength">18</x:Double>
+            <x:Double x:Key="ChipDeleteIconLength">11</x:Double>
+            <x:Double x:Key="ChipElevation">4</x:Double>
+            <x:Double x:Key="ChipElevationDisabled">0</x:Double>
+            <x:Double x:Key="ChipHeight">32</x:Double>
+            <x:Double x:Key="ChipIconSize">18</x:Double>
+            <x:Double x:Key="ChipSize">12</x:Double>
 
-			<CornerRadius x:Key="ChipCornerRadius">8</CornerRadius>
-			<Thickness x:Key="ChipBorderThickness">1</Thickness>
-			<Thickness x:Key="ChipCheckGlyphPadding">2</Thickness>
-			<Thickness x:Key="ChipContentMargin">8,0</Thickness>
-			<Thickness x:Key="ChipElevationBorderThickness">0</Thickness>
-			<Thickness x:Key="ChipElevationMargin">4</Thickness>
-			<Thickness x:Key="ChipPadding">8,0</Thickness>
+            <CornerRadius x:Key="ChipCornerRadius">8</CornerRadius>
+            <Thickness x:Key="ChipBorderThickness">1</Thickness>
+            <Thickness x:Key="ChipCheckGlyphPadding">2</Thickness>
+            <Thickness x:Key="ChipContentMargin">8,0</Thickness>
+            <Thickness x:Key="ChipElevationBorderThickness">0</Thickness>
+            <Thickness x:Key="ChipElevationMargin">4</Thickness>
+            <Thickness x:Key="ChipPadding">8,0</Thickness>
 
-			<!-- Brushes -->
-			<StaticResource x:Key="ChipBackground"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundPointerOver"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundPressed"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundDisabled"
-							ResourceKey="OnSurfaceDisabledLowBrush" />
-			<StaticResource x:Key="ChipBackgroundChecked"
-							ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundCheckedPointerOver"
-							ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBackgroundCheckedPressed"
-							ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <!-- Brushes -->
+            <StaticResource x:Key="ChipBackground" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="OnSurfaceDisabledLowBrush" />
+            <StaticResource x:Key="ChipBackgroundChecked" ResourceKey="SecondaryContainerBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedPointerOver" ResourceKey="SecondaryContainerBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedPressed" ResourceKey="SecondaryContainerBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipForeground"
-							ResourceKey="OnSurfaceVariantBrush" />
-			<StaticResource x:Key="ChipForegroundPointerOver"
-							ResourceKey="OnSurfaceVariantBrush" />
-			<StaticResource x:Key="ChipForegroundFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipForegroundPressed"
-							ResourceKey="OnSurfaceVariantBrush" />
-			<StaticResource x:Key="ChipForegroundDisabled"
-							ResourceKey="OnSurfaceDisabledBrush" />
-			<StaticResource x:Key="ChipForegroundChecked"
-							ResourceKey="OnSecondaryContainerBrush" />
-			<StaticResource x:Key="ChipForegroundCheckedPointerOver"
-							ResourceKey="OnSecondaryContainerBrush" />
-			<StaticResource x:Key="ChipForegroundCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipForegroundCheckedPressed"
-							ResourceKey="OnSecondaryContainerBrush" />
-			<StaticResource x:Key="ChipForegroundCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipForeground" ResourceKey="OnSurfaceVariantBrush" />
+            <StaticResource x:Key="ChipForegroundPointerOver" ResourceKey="OnSurfaceVariantBrush" />
+            <StaticResource x:Key="ChipForegroundFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipForegroundPressed" ResourceKey="OnSurfaceVariantBrush" />
+            <StaticResource x:Key="ChipForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+            <StaticResource x:Key="ChipForegroundChecked" ResourceKey="OnSecondaryContainerBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedPointerOver" ResourceKey="OnSecondaryContainerBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedPressed" ResourceKey="OnSecondaryContainerBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipDeleteIconBackground"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipDeleteIconForeground"
-							ResourceKey="OnSurfaceVariantBrush" />
+            <StaticResource x:Key="ChipDeleteIconBackground" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipDeleteIconForeground" ResourceKey="OnSurfaceVariantBrush" />
 
-			<StaticResource x:Key="ChipIconForeground"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundPointerOver"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipIconForegroundPressed"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundDisabled"
-							ResourceKey="OnSurfaceDisabledBrush" />
-			<StaticResource x:Key="ChipIconForegroundChecked"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundCheckedPointerOver"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipIconForegroundCheckedPressed"
-							ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="ChipIconForegroundCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipIconForeground" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundPointerOver" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipIconForegroundPressed" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+            <StaticResource x:Key="ChipIconForegroundChecked" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedPointerOver" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedPressed" ResourceKey="PrimaryBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipBorderBrush"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushPointerOver"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBorderBrushPressed"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushDisabled"
-							ResourceKey="OnSurfaceVariantDisabledLowBrush" />
-			<StaticResource x:Key="ChipBorderBrushChecked"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushCheckedPointerOver"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipBorderBrushCheckedPressed"
-							ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="ChipBorderBrushCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBorderBrush" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushPointerOver" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBorderBrushPressed" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushDisabled" ResourceKey="OnSurfaceVariantDisabledLowBrush" />
+            <StaticResource x:Key="ChipBorderBrushChecked" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedPointerOver" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedPressed" ResourceKey="OutlineBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipStateOverlay"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipStateOverlayPointerOver"
-							ResourceKey="OnSurfaceVariantHoverBrush" />
-			<StaticResource x:Key="ChipStateOverlayFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipStateOverlayPressed"
-							ResourceKey="OnSurfaceVariantPressedBrush" />
-			<StaticResource x:Key="ChipStateOverlayDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipStateOverlayChecked"
-							ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipStateOverlayCheckedPointerOver"
-							ResourceKey="OnSecondaryContainerHoverBrush" />
-			<StaticResource x:Key="ChipStateOverlayCheckedFocused"
-							ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ChipStateOverlayCheckedPressed"
-							ResourceKey="OnSecondaryContainerSelectedBrush" />
-			<StaticResource x:Key="ChipStateOverlayCheckedDisabled"
-							ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlay" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlayPointerOver" ResourceKey="OnSurfaceVariantHoverBrush" />
+            <StaticResource x:Key="ChipStateOverlayFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlayPressed" ResourceKey="OnSurfaceVariantPressedBrush" />
+            <StaticResource x:Key="ChipStateOverlayDisabled" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlayChecked" ResourceKey="SecondaryContainerBrush" />
+            <StaticResource x:Key="ChipStateOverlayCheckedPointerOver" ResourceKey="OnSecondaryContainerHoverBrush" />
+            <StaticResource x:Key="ChipStateOverlayCheckedFocused" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="ChipStateOverlayCheckedPressed" ResourceKey="OnSecondaryContainerSelectedBrush" />
+            <StaticResource x:Key="ChipStateOverlayCheckedDisabled" ResourceKey="SystemControlTransparentBrush" />
 
-			<StaticResource x:Key="ChipRippleFeedback"
-							ResourceKey="OnSurfaceFocusedBrush" />
+            <StaticResource x:Key="ChipRippleFeedback" ResourceKey="OnSurfaceFocusedBrush" />
 
-			<StaticResource x:Key="ElevatedChipBackground"
-							ResourceKey="SurfaceBrush" />
-		</ResourceDictionary>
-	</ResourceDictionary.ThemeDictionaries>
+            <StaticResource x:Key="ElevatedChipBackground" ResourceKey="SurfaceBrush" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
 
-	<x:String x:Key="MaterialChipDeleteIcon">M11.25 1.8075L10.1925 0.75L6 4.9425L1.8075 0.75L0.75 1.8075L4.9425 6L0.75 10.1925L1.8075 11.25L6 7.0575L10.1925 11.25L11.25 10.1925L7.0575 6L11.25 1.8075Z</x:String>
-	<x:String x:Key="MaterialCheckGlyphPathData">M28.718018,0L32,3.2819897 10.666016,24.616999 0,13.951997 3.2810059,10.670007 10.666016,18.055033z</x:String>
+    <x:String x:Key="MaterialChipDeleteIcon">M11.25 1.8075L10.1925 0.75L6 4.9425L1.8075 0.75L0.75 1.8075L4.9425 6L0.75 10.1925L1.8075 11.25L6 7.0575L10.1925 11.25L11.25 10.1925L7.0575 6L11.25 1.8075Z</x:String>
+    <x:String x:Key="MaterialCheckGlyphPathData">M28.718018,0L32,3.2819897 10.666016,24.616999 0,13.951997 3.2810059,10.670007 10.666016,18.055033z</x:String>
 
-	<Style x:Key="MaterialChipDeleteIconButtonStyle" TargetType="Button">
-		<Setter Property="Foreground" Value="{ThemeResource ChipDeleteIconForeground}" />
-		<Setter Property="Background" Value="{ThemeResource ChipDeleteIconBackground}" />
+    <Style x:Key="MaterialChipDeleteIconButtonStyle"
+           TargetType="Button">
+        <Setter Property="Foreground" Value="{ThemeResource ChipDeleteIconForeground}" />
+        <Setter Property="Background" Value="{ThemeResource ChipDeleteIconBackground}" />
 
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="Button">
-					<Border x:Name="BorderRoot"
-							Width="{ThemeResource ChipDeleteIconContainerLength}"
-							Height="{ThemeResource ChipDeleteIconContainerLength}"
-							Background="{TemplateBinding Background}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="BorderRoot"
+                            Width="{ThemeResource ChipDeleteIconContainerLength}"
+                            Height="{ThemeResource ChipDeleteIconContainerLength}"
+                            Background="{TemplateBinding Background}">
 
-						<Path x:Name="GlyphElement"
-							  Width="{ThemeResource ChipDeleteIconLength}"
-							  Height="{ThemeResource ChipDeleteIconLength}"
-							  HorizontalAlignment="Center"
-							  VerticalAlignment="Center"
-							  AutomationProperties.AccessibilityView="Raw"
-							  Data="{StaticResource MaterialChipDeleteIcon}"
-							  Fill="{TemplateBinding Foreground}"
-							  Stretch="Uniform" />
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+                        <Path x:Name="GlyphElement"
+                              Width="{ThemeResource ChipDeleteIconLength}"
+                              Height="{ThemeResource ChipDeleteIconLength}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              AutomationProperties.AccessibilityView="Raw"
+                              Data="{StaticResource MaterialChipDeleteIcon}"
+                              Fill="{TemplateBinding Foreground}"
+                              Stretch="Uniform" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-	<Style x:Key="MaterialChipStyle" TargetType="utu:Chip">
-		<Setter Property="Foreground" Value="{ThemeResource ChipForeground}" />
-		<Setter Property="Background" Value="{ThemeResource ChipBackground}" />
-		<Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
-		<Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
-		<Setter Property="CornerRadius" Value="{ThemeResource ChipCornerRadius}" />
-		<Setter Property="VerticalAlignment" Value="Stretch" />
-		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="Padding" Value="{ThemeResource ChipPadding}" />
+    <Style x:Key="MaterialChipStyle"
+           TargetType="utu:Chip">
+        <Setter Property="Foreground" Value="{ThemeResource ChipForeground}" />
+        <Setter Property="Background" Value="{ThemeResource ChipBackground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
+        <Setter Property="CornerRadius" Value="{ThemeResource ChipCornerRadius}" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="{ThemeResource ChipPadding}" />
 
-		<Setter Property="Icon" Value="{x:Null}" />
+        <Setter Property="Icon" Value="{x:Null}" />
 
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="utu:Chip">
-					<Grid>
-						<toolkit:ElevatedView x:Name="ElevatedRoot"
-											  Height="{ThemeResource ChipHeight}"
-											  Margin="{ThemeResource ChipElevationMargin}"
-											  Background="{TemplateBinding Background}"
-											  BorderBrush="{TemplateBinding BorderBrush}"
-											  BorderThickness="{TemplateBinding BorderThickness}"
-											  CornerRadius="{TemplateBinding CornerRadius}"
-											  Elevation="{TemplateBinding Elevation}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="utu:Chip">
+                    <Grid>
+                        <toolkit:ElevatedView x:Name="ElevatedRoot"
+                                              Height="{ThemeResource ChipHeight}"
+                                              Margin="{ThemeResource ChipElevationMargin}"
+                                              Background="{TemplateBinding Background}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              CornerRadius="{TemplateBinding CornerRadius}"
+                                              Elevation="{TemplateBinding Elevation}">
 
-							<Grid CornerRadius="{TemplateBinding CornerRadius}">
+                            <Grid CornerRadius="{TemplateBinding CornerRadius}">
 
-								<Border x:Name="StateOverlay"
-										Background="{ThemeResource ChipStateOverlay}"
-										CornerRadius="{TemplateBinding CornerRadius}" />
+                                <Border x:Name="StateOverlay"
+                                        Background="{ThemeResource ChipStateOverlay}"
+                                        CornerRadius="{TemplateBinding CornerRadius}" />
 
-								<um:Ripple Padding="{TemplateBinding Padding}"
-										   CornerRadius="{TemplateBinding CornerRadius}"
-										   Feedback="{ThemeResource ChipRippleFeedback}">
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<!-- 0: Leading Icon, 1: Content: 2: Remove Button -->
-											<ColumnDefinition Width="Auto" />
-											<ColumnDefinition Width="*" />
-											<ColumnDefinition Width="Auto" />
-										</Grid.ColumnDefinitions>
+                                <um:Ripple Padding="{TemplateBinding Padding}"
+                                           CornerRadius="{TemplateBinding CornerRadius}"
+                                           Feedback="{ThemeResource ChipRippleFeedback}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <!-- 0: Leading Icon, 1: Content: 2: Remove Button -->
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
 
-										<!-- C0: Leading Icon / Check Glyph -->
-										<!-- fixme: ContentControl/Presenter template-binding to icon would crash on uwp -->
-										<ContentPresenter x:Name="IconPresenter"
-														  Grid.Column="0"
-														  Width="{ThemeResource ChipIconSize}"
-														  Height="{ThemeResource ChipIconSize}"
-														  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-														  AutomationProperties.AccessibilityView="Raw"
-														  Content="{TemplateBinding Icon}"
-														  ContentTemplate="{TemplateBinding IconTemplate}"
-														  Foreground="{ThemeResource ChipIconForeground}"
-														  Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed}" />
+                                        <!-- C0: Leading Icon / Check Glyph -->
+                                        <!-- fixme: ContentControl/Presenter template-binding to icon would crash on uwp -->
+                                        <ContentPresenter x:Name="IconPresenter"
+                                                          Grid.Column="0"
+                                                          Width="{ThemeResource ChipIconSize}"
+                                                          Height="{ThemeResource ChipIconSize}"
+                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          AutomationProperties.AccessibilityView="Raw"
+                                                          Content="{TemplateBinding Icon}"
+                                                          ContentTemplate="{TemplateBinding IconTemplate}"
+                                                          Foreground="{ThemeResource ChipIconForeground}"
+                                                          Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed}" />
 
-										<Grid x:Name="CheckGlyphElement"
-											  Grid.Column="0"
-											  Width="{ThemeResource ChipCheckGlyphSize}"
-											  Height="{ThemeResource ChipCheckGlyphSize}"
-											  Padding="{ThemeResource ChipCheckGlyphPadding}"
-											  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											  Visibility="Collapsed">
-											<Path HorizontalAlignment="Center"
-												  VerticalAlignment="Center"
-												  AutomationProperties.AccessibilityView="Raw"
-												  Data="{StaticResource MaterialCheckGlyphPathData}"
-												  Fill="{TemplateBinding Foreground}"
-												  Stretch="Uniform"
-												  Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToVisible}, FallbackValue=Collapsed}" />
-										</Grid>
+                                        <Grid x:Name="CheckGlyphElement"
+                                              Grid.Column="0"
+                                              Width="{ThemeResource ChipCheckGlyphSize}"
+                                              Height="{ThemeResource ChipCheckGlyphSize}"
+                                              Padding="{ThemeResource ChipCheckGlyphPadding}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Visibility="Collapsed">
+                                            <Path HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  AutomationProperties.AccessibilityView="Raw"
+                                                  Data="{StaticResource MaterialCheckGlyphPathData}"
+                                                  Fill="{TemplateBinding Foreground}"
+                                                  Stretch="Uniform"
+                                                  Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToVisible}, FallbackValue=Collapsed}" />
+                                        </Grid>
 
-										<!-- C1: Content -->
-										<ContentPresenter x:Name="ContentPresenter"
-														  Grid.Column="1"
-														  Margin="{ThemeResource ChipContentMargin}"
-														  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-														  AutomationProperties.AccessibilityView="Raw"
-														  CharacterSpacing="7"
-														  Content="{TemplateBinding Content}"
-														  ContentTemplate="{TemplateBinding ContentTemplate}"
-														  ContentTransitions="{TemplateBinding ContentTransitions}"
-														  FontFamily="{ThemeResource MaterialMediumFontFamily}"
-														  Foreground="{TemplateBinding Foreground}" />
+                                        <!-- C1: Content -->
+                                        <ContentPresenter x:Name="ContentPresenter"
+                                                          Grid.Column="1"
+                                                          Margin="{ThemeResource ChipContentMargin}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          AutomationProperties.AccessibilityView="Raw"
+                                                          CharacterSpacing="7"
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                          FontFamily="{ThemeResource MaterialMediumFontFamily}"
+                                                          Foreground="{TemplateBinding Foreground}" />
 
-										<!-- C2: Remove Button -->
-										<Button x:Name="PART_RemoveButton"
-												Grid.Column="2"
-												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-												Foreground="{TemplateBinding Foreground}"
-												Style="{StaticResource MaterialChipDeleteIconButtonStyle}"
-												Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialTrueToVisible}, FallbackValue=Collapsed}" />
-									</Grid>
-								</um:Ripple>
-							</Grid>
-						</toolkit:ElevatedView>
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal" />
-								<VisualState x:Name="PointerOver">
-									<VisualState.Setters>
-										<Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundPointerOver}" />
-										<Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushPointerOver}" />
-										<Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayPointerOver}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundPointerOver}" />
-										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundPointerOver}" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="Pressed">
-									<VisualState.Setters>
-										<Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundPressed}" />
-										<Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushPressed}" />
-										<Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayPressed}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundPressed}" />
-										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundPressed}" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="Disabled">
-									<VisualState.Setters>
-										<Setter Target="ElevatedRoot.Elevation" Value="{ThemeResource ChipElevationDisabled}" />
-										<Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundDisabled}" />
-										<Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushDisabled}" />
-										<Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayDisabled}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundDisabled}" />
-										<Setter Target="PART_RemoveButton.Foreground" Value="{ThemeResource ChipIconForegroundDisabled}" />
-										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundDisabled}" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="Checked">
-									<VisualState.Setters>
-										<Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundChecked}" />
-										<Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushChecked}" />
-										<Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayChecked}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundChecked}" />
-										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundChecked}" />
-										<Setter Target="CheckGlyphElement.Visibility" Value="Visible" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="CheckedPointerOver">
-									<VisualState.Setters>
-										<Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundCheckedPointerOver}" />
-										<Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushCheckedPointerOver}" />
-										<Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayCheckedPointerOver}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundCheckedPointerOver}" />
-										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundCheckedPointerOver}" />
-										<Setter Target="CheckGlyphElement.Visibility" Value="Visible" />
-									</VisualState.Setters>
-								</VisualState>
-								<VisualState x:Name="CheckedPressed">
-									<VisualState.Setters>
-										<Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundCheckedPressed}" />
-										<Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushCheckedPressed}" />
-										<Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayCheckedPressed}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundCheckedPressed}" />
-										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundCheckedPressed}" />
-										<Setter Target="CheckGlyphElement.Visibility" Value="Visible" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
-					</Grid>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+                                        <!-- C2: Remove Button -->
+                                        <Button x:Name="PART_RemoveButton"
+                                                Grid.Column="2"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                Style="{StaticResource MaterialChipDeleteIconButtonStyle}"
+                                                Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialTrueToVisible}, FallbackValue=Collapsed}" />
+                                    </Grid>
+                                </um:Ripple>
+                            </Grid>
+                        </toolkit:ElevatedView>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundPointerOver}" />
+                                        <Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushPointerOver}" />
+                                        <Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayPointerOver}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundPointerOver}" />
+                                        <Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundPointerOver}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundPressed}" />
+                                        <Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushPressed}" />
+                                        <Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayPressed}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundPressed}" />
+                                        <Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundPressed}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="ElevatedRoot.Elevation" Value="{ThemeResource ChipElevationDisabled}" />
+                                        <Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundDisabled}" />
+                                        <Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushDisabled}" />
+                                        <Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayDisabled}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundDisabled}" />
+                                        <Setter Target="PART_RemoveButton.Foreground" Value="{ThemeResource ChipIconForegroundDisabled}" />
+                                        <Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundDisabled}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundChecked}" />
+                                        <Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushChecked}" />
+                                        <Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayChecked}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundChecked}" />
+                                        <Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundChecked}" />
+                                        <Setter Target="CheckGlyphElement.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="CheckedPointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundCheckedPointerOver}" />
+                                        <Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushCheckedPointerOver}" />
+                                        <Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayCheckedPointerOver}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundCheckedPointerOver}" />
+                                        <Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundCheckedPointerOver}" />
+                                        <Setter Target="CheckGlyphElement.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="CheckedPressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ElevatedRoot.Background" Value="{ThemeResource ChipBackgroundCheckedPressed}" />
+                                        <Setter Target="ElevatedRoot.BorderBrush" Value="{ThemeResource ChipBorderBrushCheckedPressed}" />
+                                        <Setter Target="StateOverlay.Background" Value="{ThemeResource ChipStateOverlayCheckedPressed}" />
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ChipForegroundCheckedPressed}" />
+                                        <Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipIconForegroundCheckedPressed}" />
+                                        <Setter Target="CheckGlyphElement.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-	<Style x:Key="MaterialAssistChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
-		<Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
-		<Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
-		<Setter Property="CanRemove" Value="False" />
-	</Style>
+    <Style x:Key="MaterialAssistChipStyle"
+           BasedOn="{StaticResource MaterialChipStyle}"
+           TargetType="utu:Chip">
+        <Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
+        <Setter Property="CanRemove" Value="False" />
+    </Style>
 
-	<Style x:Key="MaterialElevatedAssistChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
-		<Setter Property="BorderThickness" Value="{ThemeResource ChipElevationBorderThickness}" />
-		<Setter Property="Elevation" Value="{ThemeResource ChipElevation}" />
-		<Setter Property="Background" Value="{ThemeResource ElevatedChipBackground}" />
-		<Setter Property="CanRemove" Value="False" />
-	</Style>
+    <Style x:Key="MaterialElevatedAssistChipStyle"
+           BasedOn="{StaticResource MaterialChipStyle}"
+           TargetType="utu:Chip">
+        <Setter Property="BorderThickness" Value="{ThemeResource ChipElevationBorderThickness}" />
+        <Setter Property="Elevation" Value="{ThemeResource ChipElevation}" />
+        <Setter Property="Background" Value="{ThemeResource ElevatedChipBackground}" />
+        <Setter Property="CanRemove" Value="False" />
+    </Style>
 
-	<Style x:Key="MaterialInputChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
-		<Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
-		<Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
-		<Setter Property="CanRemove" Value="True" />
-	</Style>
+    <Style x:Key="MaterialInputChipStyle"
+           BasedOn="{StaticResource MaterialChipStyle}"
+           TargetType="utu:Chip">
+        <Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
+        <Setter Property="CanRemove" Value="True" />
+    </Style>
 
-	<Style x:Key="MaterialFilterChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
-		<Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
-		<Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
-		<Setter Property="CanRemove" Value="True" />
-	</Style>
+    <Style x:Key="MaterialFilterChipStyle"
+           BasedOn="{StaticResource MaterialChipStyle}"
+           TargetType="utu:Chip">
+        <Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
+        <Setter Property="CanRemove" Value="True" />
+    </Style>
 
-	<Style x:Key="MaterialElevatedFilterChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
-		<Setter Property="BorderThickness" Value="{ThemeResource ChipElevationBorderThickness}" />
-		<Setter Property="Elevation" Value="{ThemeResource ChipElevation}" />
-		<Setter Property="Background" Value="{ThemeResource ElevatedChipBackground}" />
-		<Setter Property="CanRemove" Value="True" />
-	</Style>
+    <Style x:Key="MaterialElevatedFilterChipStyle"
+           BasedOn="{StaticResource MaterialChipStyle}"
+           TargetType="utu:Chip">
+        <Setter Property="BorderThickness" Value="{ThemeResource ChipElevationBorderThickness}" />
+        <Setter Property="Elevation" Value="{ThemeResource ChipElevation}" />
+        <Setter Property="Background" Value="{ThemeResource ElevatedChipBackground}" />
+        <Setter Property="CanRemove" Value="True" />
+    </Style>
 
 
-	<Style x:Key="MaterialSuggestionChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
-		<Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
-		<Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
-		<Setter Property="CanRemove" Value="False" />
-	</Style>
+    <Style x:Key="MaterialSuggestionChipStyle"
+           BasedOn="{StaticResource MaterialChipStyle}"
+           TargetType="utu:Chip">
+        <Setter Property="BorderBrush" Value="{ThemeResource ChipBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
+        <Setter Property="CanRemove" Value="False" />
+    </Style>
 
-	<Style x:Key="MaterialElevatedSuggestionChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip">
-		<Setter Property="BorderThickness" Value="{ThemeResource ChipElevationBorderThickness}" />
-		<Setter Property="Elevation" Value="{ThemeResource ChipElevation}" />
-		<Setter Property="Background" Value="{ThemeResource ElevatedChipBackground}" />
-		<Setter Property="CanRemove" Value="False" />
-	</Style>
+    <Style x:Key="MaterialElevatedSuggestionChipStyle"
+           BasedOn="{StaticResource MaterialChipStyle}"
+           TargetType="utu:Chip">
+        <Setter Property="BorderThickness" Value="{ThemeResource ChipElevationBorderThickness}" />
+        <Setter Property="Elevation" Value="{ThemeResource ChipElevation}" />
+        <Setter Property="Background" Value="{ThemeResource ElevatedChipBackground}" />
+        <Setter Property="CanRemove" Value="False" />
+    </Style>
 
-	<Style x:Key="MaterialDefaultChipStyle" BasedOn="{StaticResource MaterialChipStyle}" TargetType="utu:Chip" />
+    <Style x:Key="MaterialDefaultChipStyle"
+           BasedOn="{StaticResource MaterialChipStyle}"
+           TargetType="utu:Chip" />
 </ResourceDictionary>
