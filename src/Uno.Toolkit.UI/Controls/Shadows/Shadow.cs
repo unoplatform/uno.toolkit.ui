@@ -14,18 +14,6 @@ namespace Uno.Toolkit.UI;
 /// </summary>
 public partial class Shadow : DependencyObject, INotifyPropertyChanged
 {
-	private const bool DefaultIsInner = false;
-	
-	private const double DefaultSpread = 0;
-
-	private const double DefaultBlurRadius = 0;
-
-	private const double DefaultOpacity = 0;
-
-	private const double DefaultOffsetX = 0;
-
-	private const double DefaultOffsetY = 0;
-
 	private static readonly Windows.UI.Color DefaultColor = Windows.UI.Color.FromArgb(255, 0, 0, 0);
 
 	#region DependencyProperty: IsInner
@@ -34,7 +22,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 		nameof(IsInner),
 		typeof(bool),
 		typeof(Shadow),
-		new(DefaultIsInner, (s, args) => OnPropertyChanged(s, nameof(IsInner))));
+		new(default(bool), (s, args) => OnPropertyChanged(s, nameof(IsInner))));
 
 	/// <summary>
 	/// If true, the shadow will be drawn inside the bounds of the element.
@@ -53,7 +41,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 		nameof(OffsetX),
 		typeof(double),
 		typeof(Shadow),
-		new(DefaultOffsetX, (s, args) => OnPropertyChanged(s, nameof(OffsetX))));
+		new(default(double), (s, args) => OnPropertyChanged(s, nameof(OffsetX))));
 
 	/// <summary>
 	/// The X offset of the shadow.
@@ -71,7 +59,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 		nameof(OffsetY),
 		typeof(double),
 		typeof(Shadow),
-		new(DefaultOffsetY, (s, args) => OnPropertyChanged(s, nameof(OffsetY))));
+		new(default(double), (s, args) => OnPropertyChanged(s, nameof(OffsetY))));
 
 	/// <summary>
 	/// The Y offset of the shadow.
@@ -108,7 +96,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 		nameof(Opacity),
 		typeof(double),
 		typeof(Shadow),
-		new(DefaultOpacity, (s, args) => OnPropertyChanged(s, nameof(Opacity))));
+		new(default(double), (s, args) => OnPropertyChanged(s, nameof(Opacity))));
 
 	/// <summary>
 	/// The opacity of the shadow.
@@ -126,7 +114,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 		nameof(BlurRadius),
 		typeof(double),
 		typeof(Shadow),
-		new(DefaultBlurRadius, (s, args) => OnPropertyChanged(s, nameof(BlurRadius))));
+		new(default(double), (s, args) => OnPropertyChanged(s, nameof(BlurRadius))));
 
 	/// <summary>
 	/// The radius of the blur that will be applied to the shadow [0..100].
@@ -144,7 +132,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 		nameof(Spread),
 		typeof(double),
 		typeof(Shadow),
-		new(DefaultSpread, (s, args) => OnPropertyChanged(s, nameof(Spread))));
+		new(default(double), (s, args) => OnPropertyChanged(s, nameof(Spread))));
 
 	/// <summary>
 	/// The spread will inflate or deflate (if negative) the control shadow size before applying the blur.
@@ -161,20 +149,20 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 
 	internal static bool IsShadowProperty(string propertyName)
 	{
-		return propertyName == nameof(OffsetX) || propertyName == nameof(OffsetY)
-			   || propertyName == nameof(IsInner)
-			   || propertyName == nameof(Color)
-			   || propertyName == nameof(Opacity)
-			   || propertyName == nameof(BlurRadius)
-			   || propertyName == nameof(Spread);
+		return propertyName == nameof(OffsetX) || propertyName == nameof(OffsetY) ||
+			   propertyName == nameof(IsInner) ||
+			   propertyName == nameof(Color) ||
+			   propertyName == nameof(Opacity) ||
+			   propertyName == nameof(BlurRadius) ||
+			   propertyName == nameof(Spread); 
 	}
 
 	internal static bool IsShadowSizeProperty(string propertyName)
 	{
-		return propertyName == nameof(OffsetX) || propertyName == nameof(OffsetY)
-			   || propertyName == nameof(IsInner)
-			   || propertyName == nameof(BlurRadius)
-			   || propertyName == nameof(Spread);
+		return propertyName == nameof(OffsetX) || propertyName == nameof(OffsetY) ||
+			   propertyName == nameof(IsInner) ||
+			   propertyName == nameof(BlurRadius) ||
+			   propertyName == nameof(Spread);
 	}
 
 	private static void OnPropertyChanged(object dependencyObject, string propertyName)

@@ -258,9 +258,11 @@ public partial class ShadowContainer
 			Style = SKPaintStyle.Fill,
 		};
 
-		_logger.Debug(
-			$"[ShadowContainer] DrawContentBackground => color: {backgroundPaint.Color}");
-
+		if (_logger.IsEnabled(LogLevel.Debug))
+		{
+			_logger.Debug(
+				$"[ShadowContainer] DrawContentBackground => color: {backgroundPaint.Color}");
+		}
 		canvas.DrawRoundRect(childShape, backgroundPaint);
 	}
 
@@ -295,8 +297,11 @@ public partial class ShadowContainer
 		shadowShape.Inflate(shadow.Spread, shadow.Spread);
 		canvas.DrawRoundRect(shadowShape, paint);
 
-		_logger.Debug(
-			$"[ShadowContainer] DrawDropShadow => x: {shadow.OffsetX}, y: {shadow.OffsetY}, width: {shadow.ContentWidth}, height: {shadow.ContentHeight}");
+		if (_logger.IsEnabled(LogLevel.Debug))
+		{
+			_logger.Debug(
+				$"[ShadowContainer] DrawDropShadow => x: {shadow.OffsetX}, y: {shadow.OffsetY}, width: {shadow.ContentWidth}, height: {shadow.ContentHeight}");
+		}
 	}
 
 	private static void DrawInnerShadow(SKCanvas canvas, SKPaint paint, SKShadow shadow)
@@ -311,8 +316,11 @@ public partial class ShadowContainer
 		paint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, shadow.BlurSigma);
 		paint.ImageFilter = null;
 
-		_logger.Debug(
+		if (_logger.IsEnabled(LogLevel.Debug))
+		{
+			_logger.Debug(
 			$"[ShadowContainer] DrawInnerShadow => strokeWidth: {paint.StrokeWidth}, cornerRadius: {shadow.CornerRadius}, x: {shadow.OffsetX}, y: {shadow.OffsetY}, width: {shadow.ContentWidth}, height: {shadow.ContentHeight}");
+		}
 
 		var shadowShape = new SKRoundRect(
 			new SKRect(

@@ -93,7 +93,7 @@
 							<TextBlock Margin="0,24,0,0"
 							           Style="{StaticResource TitleTextBlockStyle}"
 							           Text="Many colored shadows" />
-							<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="You can add as many shadows as you like. You can also dynamically change shadow properties." />
+							<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="You can add as many shadows as you like. You can also dynamically change the shadow properties." />
 
 							<utu:ShadowContainer x:Name="ShadowContainer" Margin="32">
 								<utu:ShadowContainer.Shadows>

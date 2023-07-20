@@ -27,12 +27,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 ### Inheritance
-Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl
-
-### Constructors
-| Constructor       | Description                                                |
-| ----------------- | ---------------------------------------------------------- |
-| ShadowContainer() | Initializes a new instance of the `ShadowContainer` class. |
+Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl > ShadowContainer
 
 ### Properties
 | Property | Type             | Description |
@@ -42,7 +37,6 @@ Shadows  | ShadowCollection |  The collection of shadows that will be displayed 
 ## Shadow
 
 Dependency object representing a single shadow.
-Public properties are all dependency properties.
 
 ### Shadow Properties
 | Property | Type | Description |
@@ -62,68 +56,68 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <Page.Resources>
-    <Color x:Key="UnoColor">#7a67f8</Color>
-    <Color x:Key="UnoPink">#f85977</Color>
+	<Color x:Key="UnoColor">#7a67f8</Color>
+	<Color x:Key="UnoPink">#f85977</Color>
 
-    <!-- You can define your shadows in the resource dictionary -->
-    <ui:ShadowCollection x:Name="ButtonShadows">
-        <ui:Shadow BlurRadius="15"
-                   OffsetY="8"
+	<!-- You can define your shadows in the resource dictionary -->
+	<ui:ShadowCollection x:Name="ButtonShadows">
+		<ui:Shadow BlurRadius="15"
+				   OffsetY="8"
 				   Opacity="0.5"
 				   Color="{StaticResource UnoColor}" />
-    </ui:ShadowCollection>
+	</ui:ShadowCollection>
 </Page.Resources>
 
 <ui:ShadowContainer>
-    <ui:ShadowContainer.Shadows>
-        <!-- You can define your shadows directly -->
-        <ui:ShadowCollection x:Name="Shadows">
-            <ui:Shadow BlurRadius="20"
+	<ui:ShadowContainer.Shadows>
+		<!-- You can define your shadows directly -->
+		<ui:ShadowCollection x:Name="Shadows">
+			<ui:Shadow BlurRadius="20"
 					   OffsetX="10"
 					   OffsetY="10"
 					   Opacity="0.5"
 					   Spread="-5"
 					   Color="{StaticResource UnoColor}" />
-            <ui:Shadow BlurRadius="20"
+			<ui:Shadow BlurRadius="20"
 					   OffsetX="-10"
 					   OffsetY="-10"
 					   Opacity="0.5"
 					   Spread="-5"
 					   Color="{StaticResource UnoPink}" />
-        </ui:ShadowCollection>
-    </ui:ShadowContainer.Shadows>
-    <StackPanel Width="300"
-                Padding="16"
-                Background="White"
-                BorderThickness="1"
-                CornerRadius="20"
-                Spacing="16">
+		</ui:ShadowCollection>
+	</ui:ShadowContainer.Shadows>
+	<StackPanel Width="300"
+				Padding="16"
+				Background="White"
+				BorderThickness="1"
+				CornerRadius="20"
+				Spacing="16">
 
-        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Add many shadows" />
-        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="You can either declare shadows directly, or put your ShadowCollection in a resource dictionary." />
+		<TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Add many shadows" />
+		<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="You can either declare shadows directly, or put your ShadowCollection in a resource dictionary." />
 
-        <StackPanel Margin="0,16,0,0"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal"
-                    Spacing="16">
+		<StackPanel Margin="0,16,0,0"
+					HorizontalAlignment="Center"
+					Orientation="Horizontal"
+					Spacing="16">
 
-            <!-- Reference to the dictionary button shadows -->
-            <ui:ShadowContainer Shadows="{StaticResource ButtonShadows}">
-                <Button Background="{StaticResource UnoColor}"
-                        BorderThickness="1"
-                        Content="Add Shadow"
-                        Foreground="White" />
-            </ui:ShadowContainer>
+			<!-- Reference to the dictionary button shadows -->
+			<ui:ShadowContainer Shadows="{StaticResource ButtonShadows}">
+				<Button Background="{StaticResource UnoColor}"
+						BorderThickness="1"
+						Content="Add Shadow"
+						Foreground="White" />
+			</ui:ShadowContainer>
 
-            <!-- Reference to the dictionary button shadows -->
-            <ui:ShadowContainer Shadows="{StaticResource ButtonShadows}">
-                <Button Background="{StaticResource UnoColor}"
-                        BorderThickness="1"
-                        Content="Remove Shadow"
-                        Foreground="White" />
-            </ui:ShadowContainer>
-        </StackPanel>
-    </StackPanel>
+			<!-- Reference to the dictionary button shadows -->
+			<ui:ShadowContainer Shadows="{StaticResource ButtonShadows}">
+				<Button Background="{StaticResource UnoColor}"
+						BorderThickness="1"
+						Content="Remove Shadow"
+						Foreground="White" />
+			</ui:ShadowContainer>
+		</StackPanel>
+	</StackPanel>
 </ui:ShadowContainer>
 ```
 
@@ -140,26 +134,26 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <Page.Resources>
-    <Color x:Key="UnoColor">#7a67f8</Color>
+	<Color x:Key="UnoColor">#7a67f8</Color>
 
-    <ui:ShadowCollection x:Key="NeumorphismRaising">
-        <!-- Bottom right darker violet -->
-        <ui:Shadow BlurRadius="30"
-                   OffsetX="10"
+	<ui:ShadowCollection x:Key="NeumorphismRaising">
+		<!-- Bottom right darker violet -->
+		<ui:Shadow BlurRadius="30"
+				   OffsetX="10"
 				   OffsetY="10"
 				   Opacity="1"
 				   Spread="-5"
 				   Color="#6858d3" />
-        <!-- Top left lighter violet -->
-        <ui:Shadow BlurRadius="30"
+		<!-- Top left lighter violet -->
+		<ui:Shadow BlurRadius="30"
 				   OffsetX="-10"
 				   OffsetY="-10"
 				   Opacity="1"
 				   Spread="-5"
 				   Color="#8c76ff" />
-    </ui:ShadowCollection>
+	</ui:ShadowCollection>
 
-    <ui:ShadowCollection x:Key="NeumorphismHollow">
+	<ui:ShadowCollection x:Key="NeumorphismHollow">
 		<!-- Inner top and left shadow -->
 		<ui:Shadow BlurRadius="10"
 				   IsInner="True"
@@ -193,7 +187,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 				   Opacity="1"
 				   Spread="0"
 				   Color="#8c76ff" />
-		</ui:ShadowCollection>
+	</ui:ShadowCollection>
 </Page.Resources>
 
 <StackPanel Width="400"
@@ -203,9 +197,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 			CornerRadius="30">
 	<ui:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
 		<Grid Width="300"
-				Padding="20"
-				Background="{StaticResource UnoColor}"
-				CornerRadius="20">
+			  Padding="20"
+			  Background="{StaticResource UnoColor}"
+			  CornerRadius="20">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="20" />
 				<RowDefinition Height="20" />
