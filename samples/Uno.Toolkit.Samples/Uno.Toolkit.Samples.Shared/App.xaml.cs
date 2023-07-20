@@ -59,10 +59,6 @@ namespace Uno.Toolkit.Samples
 
 			this.InitializeComponent();
 
-#if __WASM__
-			FrameworkElementHelper.IsUiAutomationMappingEnabled = true;
-#endif
-
 #if HAS_UNO || NETFX_CORE
 			this.Suspending += OnSuspending;
 #endif
