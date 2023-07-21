@@ -117,14 +117,11 @@ public partial class ShadowContainer : ContentControl
 
 	private void OnContentSizeChanged(object sender, SizeChangedEventArgs args)
 	{
-		var shadows = Shadows ?? new ShadowCollection();
-		if (args.NewSize.Width <= 0 || args.NewSize.Height <= 0 || shadows.Count == 0)
+		if (args.NewSize.Width > 0 && args.NewSize.Height > 0 && Shadows?.Any() == true)
 		{
-			return;
+			UpdateCanvasSize(args.NewSize.Width, args.NewSize.Height, Shadows);
+			_shadowHost?.Invalidate();
 		}
-
-		UpdateCanvasSize(args.NewSize.Width, args.NewSize.Height, shadows);
-		_shadowHost?.Invalidate();
 	}
 	private void UpdateCanvasSize(double childWidth, double childHeight, ShadowCollection shadows)
 	{
