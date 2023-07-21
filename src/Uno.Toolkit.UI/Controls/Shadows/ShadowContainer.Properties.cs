@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -129,13 +130,10 @@ public partial class ShadowContainer : ContentControl
 
 	private void OnShadowSizeChanged()
 	{
-		var shadows = Shadows ?? new ShadowCollection();
-		if (_currentContent == null || _currentContent.ActualWidth <= 0 || _currentContent.ActualHeight <= 0 || shadows.Count == 0)
+		if (_currentContent != null && _currentContent.ActualWidth > 0 && _currentContent.ActualHeight > 0 && Shadows?.Any() == true)
 		{
-			return;
+			UpdateCanvasSize(_currentContent.ActualWidth, _currentContent.ActualHeight, Shadows);
 		}
-
-		UpdateCanvasSize(_currentContent.ActualWidth, _currentContent.ActualHeight, shadows);
 	}
 
 	private void InvalidateFromShadowPropertyChange()
