@@ -43,7 +43,7 @@
     - name: AncestorBinding and ItemsControlBinding
       href: helpers/ancestor-itemscontrol-binding.md
     - name: CommandExtensions attached properties
-      href: helpers/control-extensions.md
+      href: helpers/command-extensions.md
     - name: InputExtensions attached properties
       href: helpers/input-extensions.md
     - name: ItemsRepeaterExtensions Attached Properties
