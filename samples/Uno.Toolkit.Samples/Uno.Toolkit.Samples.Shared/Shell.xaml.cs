@@ -68,10 +68,15 @@ namespace Uno.Toolkit.Samples
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-#if DEBUG
-			this.FindName("DebugPanel"); // materialized x:Load=false element
+#if DEBUG && false
+			ActivateDebugPanel();
 #endif
 			SetDarkLightToggleInitialState();
+		}
+
+		internal void ActivateDebugPanel()
+		{
+			this.FindName("DebugPanel"); // materialize x:Load=false element
 		}
 
 		private void SetDarkLightToggleInitialState()

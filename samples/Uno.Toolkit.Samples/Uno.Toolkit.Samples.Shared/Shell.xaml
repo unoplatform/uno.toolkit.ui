@@ -22,7 +22,7 @@
 		<muxc:NavigationView Grid.Row="2"
 							 x:Name="NavigationViewControl"
 							 OpenPaneLength="260"
-							 IsSettingsVisible="False"
+							 IsSettingsVisible="True"
 							 IsPaneOpen="True"
 							 IsPaneVisible="True"
 							 IsPaneToggleButtonVisible="False"
