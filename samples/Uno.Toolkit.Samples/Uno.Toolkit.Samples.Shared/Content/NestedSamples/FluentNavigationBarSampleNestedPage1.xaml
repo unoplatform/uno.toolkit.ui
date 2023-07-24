@@ -1,0 +1,70 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.FluentNavigationBarSampleNestedPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:ios="http://uno.ui/ios"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d ios">
+
+	<Grid>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<utu:NavigationBar Content="First Page"
+						   MainCommandMode="Action"
+						   Style="{StaticResource DefaultNavigationBar}">
+			<utu:NavigationBar.MainCommand>
+				<AppBarButton Click="NavigateBack"
+							  Label="Close"
+							  Style="{StaticResource DefaultAppBarButtonStyle}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.MainCommand>
+			<utu:NavigationBar.PrimaryCommands>
+				<AppBarButton Command="{Binding Primary1CountCommand}"
+							  Label="More"
+							  Style="{StaticResource DefaultAppBarButtonStyle}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/MaterialIcon_Small.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+				<AppBarButton Command="{Binding Primary2CountCommand}"
+							  Label="More"
+							  Style="{StaticResource DefaultAppBarButtonStyle}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/AppleIcon_Small.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.PrimaryCommands>
+			<utu:NavigationBar.SecondaryCommands>
+				<AppBarButton Command="{Binding Secondary1CountCommand}"
+							  Label="More"
+							  Style="{StaticResource DefaultAppBarButtonStyle}" />
+				<AppBarButton Command="{Binding Secondary2CountCommand}"
+							  Label="More"
+							  Style="{StaticResource DefaultAppBarButtonStyle}" />
+				<AppBarButton Command="{Binding Secondary3CountCommand}"
+							  Label="More"
+							  Style="{StaticResource DefaultAppBarButtonStyle}" />
+			</utu:NavigationBar.SecondaryCommands>
+		</utu:NavigationBar>
+		<StackPanel Grid.Row="1"
+					VerticalAlignment="Stretch"
+					Background="Yellow"
+					BorderBrush="Red"
+					BorderThickness="20"
+					Spacing="8">
+			<Button Click="NavigateBack"
+					Content="Exit sample" />
+			<Button Click="NavigateToNextPage"
+					Content="Navigate To Second Page" />
+		</StackPanel>
+	</Grid>
+</Page>
