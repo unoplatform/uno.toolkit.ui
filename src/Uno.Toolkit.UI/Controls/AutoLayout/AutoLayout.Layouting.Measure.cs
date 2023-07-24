@@ -94,6 +94,7 @@ partial class AutoLayout
 			// 8b. Calculate the desired size of the panel, when there's at least one filled child
 			var stackedChildrenDesiredSize =
 				_calculatedChildren!
+					.Where(child => child.IsVisible)
 					.Select(c => c.MeasuredLength)
 					.Sum()
 				+ totalSpacingSize;
@@ -212,7 +213,7 @@ partial class AutoLayout
 		{
 			var calculatedChild = _calculatedChildren[i];
 
-			if (calculatedChild.Role != AutoLayoutRole.Fixed)
+			if (calculatedChild.Role != AutoLayoutRole.Fixed || !calculatedChild.IsVisible)
 			{
 				continue;
 			}
@@ -243,7 +244,7 @@ partial class AutoLayout
 		{
 			var calculatedChild = _calculatedChildren![i];
 
-			if (calculatedChild.Role != AutoLayoutRole.Hug)
+			if (calculatedChild.Role != AutoLayoutRole.Hug || !calculatedChild.IsVisible)
 			{
 				continue;
 			}
@@ -282,7 +283,7 @@ partial class AutoLayout
 		{
 			var child = _calculatedChildren![i];
 
-			if (child.Role == AutoLayoutRole.Filled)
+			if (child.Role == AutoLayoutRole.Filled || child.IsVisible)
 			{
 				filledChildrenCount++;
 			}
@@ -299,7 +300,7 @@ partial class AutoLayout
 		for (var i = 0; i < _calculatedChildren!.Length; i++)
 		{
 			var child = _calculatedChildren![i];
-			if (child.Role != AutoLayoutRole.Filled)
+			if (child.Role != AutoLayoutRole.Filled || !child.IsVisible)
 			{
 				continue;
 			}
@@ -446,7 +447,10 @@ partial class AutoLayout
 			Element = element;
 			Role = role;
 			MeasuredLength = measuredLength;
+			IsVisible = element.Visibility == Visibility.Visible;
 		}
+
+		internal bool IsVisible { get; }
 
 		internal UIElement Element { get; }
 
