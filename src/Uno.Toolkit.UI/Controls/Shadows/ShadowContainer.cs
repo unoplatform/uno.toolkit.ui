@@ -117,23 +117,32 @@ public partial class ShadowContainer : ContentControl
 
 	private void OnContentSizeChanged(object sender, SizeChangedEventArgs args)
 	{
-		if (args.NewSize.Width > 0 && args.NewSize.Height > 0 && Shadows?.Any() == true)
+		if (args.NewSize.Width > 0 && args.NewSize.Height > 0)
 		{
 			UpdateCanvasSize(args.NewSize.Width, args.NewSize.Height, Shadows);
 			_shadowHost?.Invalidate();
 		}
 	}
-	private void UpdateCanvasSize(double childWidth, double childHeight, ShadowCollection shadows)
+
+	private void UpdateCanvasSize(double childWidth, double childHeight, ShadowCollection? shadows)
 	{
 		if (_currentContent == null || _canvas == null || _shadowHost == null)
 		{
 			return;
 		}
 
-		double absoluteMaxOffsetX = shadows.Max(s => Math.Abs(s.OffsetX));
-		double absoluteMaxOffsetY = shadows.Max(s => Math.Abs(s.OffsetY));
-		double maxBlurRadius = shadows.Max(s => s.BlurRadius);
-		double maxSpread = shadows.Max(s => s.Spread);
+		double absoluteMaxOffsetX = 0;
+		double absoluteMaxOffsetY = 0;
+		double maxBlurRadius = 0;
+		double maxSpread = 0;
+
+		if (shadows?.Any() == true)
+		{
+			absoluteMaxOffsetX = shadows.Max(s => Math.Abs(s.OffsetX));
+			absoluteMaxOffsetY = shadows.Max(s => Math.Abs(s.OffsetY));
+			maxBlurRadius = shadows.Max(s => s.BlurRadius);
+			maxSpread = shadows.Max(s => s.Spread);
+		}
 
 		_canvas.Height = childHeight;
 		_canvas.Width = childWidth;
