@@ -137,6 +137,7 @@ public partial class ShadowContainer : ContentControl
 
 		_canvas.Height = childHeight;
 		_canvas.Width = childWidth;
+		_canvas.GetDispatcherCompat().Schedule(_canvas.InvalidateMeasure);
 
 		double newHostHeight = childHeight + maxBlurRadius * 2 + absoluteMaxOffsetY * 2 + maxSpread * 2;
 		double newHostWidth = childWidth + maxBlurRadius * 2 + absoluteMaxOffsetX * 2 + maxSpread * 2;
