@@ -208,7 +208,7 @@ namespace Uno.Toolkit.UI
 				if (x is FrameworkElement fe)
 				{
 					yield return $"Actual={fe.ActualWidth}x{fe.ActualHeight}";
-					// yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
+					yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
 					yield return $"HV={fe.HorizontalAlignment}/{fe.VerticalAlignment}";
 				}
 				if (x is UIElement uie)
@@ -228,6 +228,7 @@ namespace Uno.Toolkit.UI
 				}
 				if (x is TextBlock txt && !string.IsNullOrEmpty(txt.Text))
 				{
+					yield return $"FontSize={txt.FontSize}";
 					yield return $"Text=\"{Regex.Escape(txt.Text)}\"";
 				}
 				if (x is Shape shape)
@@ -235,6 +236,7 @@ namespace Uno.Toolkit.UI
 					if (shape.Fill is not null) yield return $"Fill={FormatBrush(shape.Fill)}";
 					if (shape.Stroke is not null) yield return $"Stroke={FormatBrush(shape.Stroke)}*{shape.StrokeThickness}px";
 				}
+				if (TryGetDpValue<Brush>(x, "Foreground", out var fg) && fg is { }) yield return $"Foreground={FormatBrush(fg)}";
 				if (TryGetDpValue<CornerRadius>(x, "CornerRadius", out var cr)) yield return $"CornerRadius={FormatCornerRadius(cr)}";
 				if (TryGetDpValue<Thickness>(x, "Margin", out var margin)) yield return $"Margin={FormatThickness(margin)}";
 				if (TryGetDpValue<Thickness>(x, "Padding", out var padding)) yield return $"Padding={FormatThickness(padding)}";

@@ -1,86 +1,285 @@
 ﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.ShadowContainerSamplePage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:converters="using:Uno.Toolkit.Samples.Converters"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:sample="using:Uno.Toolkit.Samples"
-      xmlns:utu="using:Uno.Toolkit.UI"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-      mc:Ignorable="d">
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:converters="using:Uno.Toolkit.Samples.Converters"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:um="using:Uno.Material"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d">
 	<Page.Resources>
-		<converters:HexToColorConverter x:Key="HexToColor" />
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Default">
+					<Color x:Key="LocalSurfaceColor">#F0F0F3</Color>
+					<!--<StaticResource x:Key="LocalSurfaceColor" ResourceKey="SurfaceColor" />-->
+					<SolidColorBrush x:Key="LocalSurfaceBrush" Color="{StaticResource LocalSurfaceColor}" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Light">
+					<Color x:Key="LocalSurfaceColor">#F0F0F3</Color>
+					<!--<StaticResource x:Key="LocalSurfaceColor" ResourceKey="SurfaceColor" />-->
+					<SolidColorBrush x:Key="LocalSurfaceBrush" Color="{StaticResource LocalSurfaceColor}" />
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
 
-		<Color x:Key="UnoColor">#7a67f8</Color>
-		<Color x:Key="UnoPink">#f85977</Color>
-		<Color x:Key="UnoBlue">#159bff</Color>
-		<Color x:Key="UnoGreen">#67e5ad</Color>
+			<!-- JM's values for reference -->
+			<utu:ShadowCollection x:Key="NeumorphismRaising">
+				<utu:Shadow BlurRadius="30" OffsetX="10" OffsetY="10" Opacity="1" Spread="-5" Color="#6858d3" />
+				<utu:Shadow BlurRadius="30" OffsetX="-10" OffsetY="-10" Opacity="1" Spread="-5" Color="#8c76ff" />
+			</utu:ShadowCollection>
+			<utu:ShadowCollection x:Key="NeumorphismHollow">
+				<utu:Shadow BlurRadius="10" IsInner="True" OffsetX="5" OffsetY="5" Opacity="1" Spread="0" Color="#6858d3" />
+				<utu:Shadow BlurRadius="10" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="1" Spread="0" Color="#8c76ff" />
+			</utu:ShadowCollection>
+			<utu:ShadowCollection x:Key="NeumorphismBulging">
+				<utu:Shadow BlurRadius="10" IsInner="True" OffsetX="-5" OffsetY="-5" Opacity="1" Spread="0" Color="#6858d3" />
+				<utu:Shadow BlurRadius="10" IsInner="True" OffsetX="4" OffsetY="4" Opacity="1" Spread="0" Color="#8c76ff" />
+			</utu:ShadowCollection>
 
-		<utu:Shadow x:Key="DefaultShadow"
-		            BlurRadius="20"
-		            OffsetX="10"
-		            OffsetY="10"
-		            Opacity="0.5"
-		            Spread="0"
-		            Color="{StaticResource UnoColor}" />
+			<!-- theme to match design file -->
+			<!-- fixme: need to remap to material, maybe? -->
+			<!--<Color x:Key="LocalSurfaceColor">#F0F0F3</Color>-->
+			<Color x:Key="LightShadowColor">#FFFFFF</Color>
+			<Color x:Key="ShadeShadowColor">#AEAEC0</Color>
+			<!--<SolidColorBrush x:Key="LocalSurfaceBrush" Color="{StaticResource LocalSurfaceColor}" />-->
 
-		<utu:ShadowCollection x:Name="ButtonShadows">
-			<utu:Shadow BlurRadius="20"
-			            OffsetX="8"
-			            OffsetY="8"
-			            Opacity="0.5"
-			            Color="{StaticResource UnoColor}" />
-		</utu:ShadowCollection>
+			<!-- shadow definition -->
+			<utu:ShadowCollection x:Key="NoShadow" />
+			<utu:ShadowCollection x:Key="NmpElevatedSmallButtonShadows">
+				<utu:Shadow OffsetX="4" OffsetY="4" BlurRadius="4" Color="{ThemeResource ShadeShadowColor}" Opacity="0.4" IsInner="False" />
+				<utu:Shadow OffsetX="-4" OffsetY="-4" BlurRadius="4" Color="{ThemeResource LightShadowColor}" Opacity="0.4" IsInner="False" />
+			</utu:ShadowCollection>
+			<utu:ShadowCollection x:Key="NmpOutlinedTextBoxShadows">
+				<utu:Shadow OffsetX="-4" OffsetY="-4" BlurRadius="4" Color="{ThemeResource LightShadowColor}" Opacity="0.4" IsInner="True" />
+				<utu:Shadow OffsetX="4" OffsetY="4" BlurRadius="4" Color="{ThemeResource ShadeShadowColor}" Opacity="0.4" IsInner="True" />
+			</utu:ShadowCollection>
 
-		<utu:ShadowCollection x:Key="NeumorphismRaising">
-			<utu:Shadow BlurRadius="30"
-			            OffsetX="10"
-			            OffsetY="10"
-			            Opacity="1"
-			            Spread="-5"
-			            Color="#6858d3" />
-			<utu:Shadow BlurRadius="30"
-			            OffsetX="-10"
-			            OffsetY="-10"
-			            Opacity="1"
-			            Spread="-5"
-			            Color="#8c76ff" />
-		</utu:ShadowCollection>
+			<!-- styles -->
+			<Style x:Key="NmpSmallElevatedButtonStyle" TargetType="Button">
+				<!-- ignore this style, just used to play around -->
+				<Setter Property="Foreground" Value="{ThemeResource PrimaryBrush}" />
+				<Setter Property="Background" Value="{ThemeResource LocalSurfaceBrush}" />
+				<Setter Property="Margin" Value="4" />
 
-		<utu:ShadowCollection x:Key="NeumorphismHollow">
-			<utu:Shadow BlurRadius="10"
-			            IsInner="True"
-			            OffsetX="5"
-			            OffsetY="5"
-			            Opacity="1"
-			            Spread="0"
-			            Color="#6858d3" />
-			<utu:Shadow BlurRadius="10"
-			            IsInner="True"
-			            OffsetX="-4"
-			            OffsetY="-4"
-			            Opacity="1"
-			            Spread="0"
-			            Color="#8c76ff" />
-		</utu:ShadowCollection>
+				<!-- Typography: Label Large -->
+				<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
+				<Setter Property="FontWeight" Value="{ThemeResource LabelLargeFontWeight}" />
+				<Setter Property="FontSize" Value="{ThemeResource LabelLargeFontSize}" />
+				
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Button">
+							<utu:ShadowContainer Shadows="{StaticResource NmpElevatedSmallButtonShadows}">
+								<Grid Background="{TemplateBinding Background}"
+									  CornerRadius="24"
+									  Padding="24,10">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
 
-		<utu:ShadowCollection x:Key="NeumorphismBulging">
-			<utu:Shadow BlurRadius="10"
-			            IsInner="True"
-			            OffsetX="-5"
-			            OffsetY="-5"
-			            Opacity="1"
-			            Spread="0"
-			            Color="#6858d3" />
-			<utu:Shadow BlurRadius="10"
-			            IsInner="True"
-			            OffsetX="4"
-			            OffsetY="4"
-			            Opacity="1"
-			            Spread="0"
-			            Color="#8c76ff" />
-		</utu:ShadowCollection>
+									<ContentPresenter x:Name="IconPresenter"
+													  Content="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}}"
+													  MinWidth="{StaticResource ButtonIconMinWidth}"
+													  HorizontalAlignment="{StaticResource ButtonIconHorizontalAlignment}"
+													  VerticalAlignment="{StaticResource ButtonIconVerticalAlignment}"
+													  Visibility="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}"
+													  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+													  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+									<ContentPresenter x:Name="ContentPresenter"
+													  Grid.Column="1"
+													  Margin="{StaticResource ButtonContentMargin}"
+													  Content="{TemplateBinding Content}"
+													  ContentTemplate="{TemplateBinding ContentTemplate}"
+													  ContentTransitions="{TemplateBinding ContentTransitions}"
+													  FontFamily="{TemplateBinding FontFamily}"
+													  FontSize="{TemplateBinding FontSize}"
+													  FontWeight="{TemplateBinding FontWeight}"
+													  CharacterSpacing="{TemplateBinding CharacterSpacing}"
+													  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+													  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+								</Grid>
+							</utu:ShadowContainer>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+			<Style x:Key="NmpTextBoxStyle" TargetType="TextBox">
+				<Setter Property="Background" Value="{ThemeResource LocalSurfaceColor}" />
+				<Setter Property="Foreground" Value="{ThemeResource OutlinedTextBoxForeground}" />
+				<Setter Property="PlaceholderForeground" Value="{ThemeResource OutlinedTextBoxPlaceholderForeground}" />
+				<Setter Property="BorderBrush" Value="Transparent" />
+				<Setter Property="BorderThickness" Value="0" />
+				<!-- skia: there is some layout issue, when the CR is set from the style -->
+				<!-- than directly on the inner grid -->
+				<!--<Setter Property="CornerRadius" Value="4" />-->
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="Padding" Value="8" />
+
+				<!-- Typography: Body Large -->
+				<Setter Property="FontFamily" Value="{ThemeResource OutlinedTextBoxFontFamily}" />
+				<Setter Property="FontWeight" Value="{ThemeResource OutlinedTextBoxFontWeight}" />
+				<Setter Property="FontSize" Value="{ThemeResource OutlinedTextBoxFontSize}" />
+				<Setter Property="CharacterSpacing" Value="{ThemeResource OutlinedTextBoxCharacterSpacing}" />
+
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="VerticalAlignment" Value="Top" />
+				<Setter Property="HorizontalContentAlignment" Value="Left" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+
+				<!-- Workaround for WinUI issue: https://github.com/microsoft/microsoft-ui-xaml/issues/6388 -->
+				<Setter Property="um:ControlExtensions.Icon" Value="{x:Null}" />
+
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="TextBox">
+							<!--
+								major changes from referenced style, OutlinedTextBoxStyle:
+								- replaced root container, drop border
+								- adjusted placeholder behavior:
+								.... previously, we only have placeholder text, which behavior both as header+placeholder
+								.... currently, it is split into header & placeholder according to the figma design
+							-->
+							<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource NmpOutlinedTextBoxShadows}">
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup x:Name="CommonStates">
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="PointerOver" />
+										<VisualState x:Name="Pressed" />
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="RootPanel.Shadows" Value="{StaticResource NoShadow}" />
+												<Setter Target="ContentPanel.BorderThickness" Value="1" />
+												<Setter Target="ContentPanel.BorderBrush" Value="{ThemeResource OnSurfaceDisabledBrush}" />
+												<Setter Target="HeaderContentPresenter.Foreground" Value="{ThemeResource OnSurfaceDisabledBrush}" />
+												<Setter Target="ContentElement.Foreground" Value="{ThemeResource OnSurfaceDisabledBrush}" />
+												<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{ThemeResource OnSurfaceDisabledBrush}" />
+												<!--<Setter Target="HeaderContentPresenter.Foreground" Value="{ThemeResource OutlinedTextBoxForegroundDisabled}" />-->
+												<!--<Setter Target="ContentElement.Foreground" Value="{ThemeResource OutlinedTextBoxForegroundDisabled}" />-->
+												<!--<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{ThemeResource OutlinedTextBoxForegroundDisabled}" />-->
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Focused" />
+									</VisualStateGroup>
+									<VisualStateGroup x:Name="ButtonStates">
+										<VisualState x:Name="ButtonVisible">
+											<VisualState.Setters>
+												<Setter Target="DeleteButton.Visibility" Value="Visible" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="ButtonCollapsed" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+
+
+								<Grid x:Name="ContentPanel"
+									  CornerRadius="4"
+									  BorderThickness="{TemplateBinding BorderThickness}"
+									  BorderBrush="{TemplateBinding BorderBrush}"
+									  Background="{TemplateBinding Background}"
+									  MinHeight="40"
+									  Padding="{TemplateBinding Padding}">
+									<!-- vertical: 8pad, 20upper[3pad, header=16, 1pad], 20lower[19text, 1pad], 8pad -->
+									<!--
+										__0A             1*          2A              3A
+										0A[leading-icon?][header...?][trailing-icon?][delete-button?]
+										1A[leading-icon?][text...   ][trailing-icon?][delete-button?]
+									-->
+									<Grid.ColumnDefinitions>
+										<!-- 0: leading-icon, 1: content, 2: trailing-icon, 3: delete-button -->
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<!-- 0: header, 1: text/placeholder, 0-1: icons, buttons -->
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="*" MinHeight="20" />
+									</Grid.RowDefinitions>
+
+									<!-- R0-1C0: leading icon -->
+									<Border x:Name="LeadingIconContainer"
+											Grid.Column="0"
+											Grid.Row="0"
+											Width="40"
+											Height="40"
+											Padding="8"
+											VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+											Visibility="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+										<ContentPresenter x:Name="IconPresenter"
+														  Content="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}}"
+														  HorizontalAlignment="Center"
+														  Margin="0,0,8,0"
+														  MaxHeight="34"
+														  MaxWidth="34"
+														  MinWidth="25" />
+									</Border>
+
+									<!-- R0C1: header -->
+									<!-- header typograph: Small Body -->
+									<ContentPresenter x:Name="HeaderContentPresenter"
+													  Grid.Column="1"
+													  Grid.Row="0"
+													  Content="{TemplateBinding Header}"
+													  ContentTemplate="{TemplateBinding HeaderTemplate}"
+													  FontFamily="{ThemeResource MaterialMediumFontFamily}"
+													  FontSize="{ThemeResource BodySmallFontSize}"
+													  FontWeight="{ThemeResource BodySmallFontWeight}"
+													  Foreground="{ThemeResource PrimaryBrush}"
+													  Margin="0,3,0,1"
+													  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+													  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+													  IsHitTestVisible="False" />
+
+									<!-- R1C1: content -->
+									<ScrollViewer x:Name="ContentElement"
+												  Grid.Column="1"
+												  Grid.Row="1"
+												  Margin="0,0,0,1"
+												  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+												  HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+												  IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+												  IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+												  IsTabStop="False"
+												  IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+												  VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+												  VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+												  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												  ZoomMode="Disabled"
+												  AutomationProperties.AccessibilityView="Raw" />
+
+									<!-- R1C1: placeholder -->
+									<TextBlock x:Name="PlaceholderTextContentPresenter"
+											   Grid.Column="1"
+											   Grid.Row="1"
+											   Margin="0,0,0,1"
+											   Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}}"
+											   Text="{TemplateBinding PlaceholderText}"
+											  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+											   Visibility="{Binding Text, Converter={StaticResource MaterialEmptyToVisible}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}"
+											   Style="{StaticResource BodyLarge}" />
+
+									<!-- R0-1C3: delete button -->
+									<Button x:Name="DeleteButton"
+											Grid.Column="3"
+											Grid.Row="0"
+											Grid.RowSpan="2"
+											VerticalAlignment="Stretch"
+											IsTabStop="False"
+											AutomationProperties.AccessibilityView="Raw"
+											Visibility="Collapsed"
+											Style="{StaticResource MaterialDeleteButtonStyle}" />
+								</Grid>
+							</utu:ShadowContainer>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</ResourceDictionary>
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -88,214 +287,63 @@
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<ScrollViewer HorizontalScrollMode="Disabled">
-						<StackPanel>
-
-							<TextBlock Margin="0,24,0,0"
-							           Style="{StaticResource TitleTextBlockStyle}"
-							           Text="Many colored shadows" />
-							<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="You can add as many shadows as you like. You can also dynamically change the shadow properties." />
-
-							<utu:ShadowContainer x:Name="ShadowContainer" Margin="32">
-								<utu:ShadowContainer.Shadows>
-									<utu:ShadowCollection x:Name="Shadows">
-										<utu:Shadow BlurRadius="20"
-										            OffsetX="10"
-										            OffsetY="10"
-										            Opacity="0.5"
-										            Spread="0"
-										            Color="{StaticResource UnoColor}" />
-										<utu:Shadow BlurRadius="20"
-										            OffsetX="-10"
-										            OffsetY="-10"
-										            Opacity="0.5"
-										            Spread="0"
-										            Color="{StaticResource UnoPink}" />
-									</utu:ShadowCollection>
-								</utu:ShadowContainer.Shadows>
-								<StackPanel MinWidth="300"
-								            MaxWidth="500"
-								            Padding="16"
-								            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-								            BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
-								            BorderThickness="1"
-								            CornerRadius="20">
-									<ItemsControl x:Name="ShadowsItemsControl">
-										<ItemsControl.ItemsPanel>
-											<ItemsPanelTemplate>
-												<StackPanel Orientation="Vertical" Spacing="10" />
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-										<ItemsControl.ItemTemplate>
-											<DataTemplate>
-												<Grid ColumnSpacing="5" RowSpacing="5">
-													<Grid.RowDefinitions>
-														<RowDefinition Height="Auto" />
-														<RowDefinition Height="Auto" />
-													</Grid.RowDefinitions>
-													<Grid.ColumnDefinitions>
-														<ColumnDefinition Width="70" />
-														<ColumnDefinition Width="70" />
-														<ColumnDefinition Width="60" />
-														<ColumnDefinition Width="80" />
-													</Grid.ColumnDefinitions>
-
-													<TextBox Grid.ColumnSpan="2"
-													         PlaceholderText="Color"
-													         Text="{Binding Color, Mode=TwoWay, Converter={StaticResource HexToColor}}">
-														<TextBox.Foreground>
-															<SolidColorBrush Color="{Binding Color}" />
-														</TextBox.Foreground>
-													</TextBox>
-													<TextBox Grid.Column="2"
-													         PlaceholderText="Opacity"
-													         Text="{Binding Opacity, Mode=TwoWay}" />
-													<CheckBox Grid.Column="3"
-													          Padding="5,0"
-													          Content="Inner"
-													          IsChecked="{Binding IsInner, Mode=TwoWay}" />
-
-													<TextBox Grid.Row="1"
-													         PlaceholderText="X"
-													         Text="{Binding OffsetX, Mode=TwoWay}" />
-													<TextBox Grid.Row="1"
-													         Grid.Column="1"
-													         PlaceholderText="Y"
-													         Text="{Binding OffsetY, Mode=TwoWay}" />
-													<TextBox Grid.Row="1"
-													         Grid.Column="2"
-													         PlaceholderText="Blur"
-													         Text="{Binding BlurRadius, Mode=TwoWay}" />
-													<TextBox Grid.Row="1"
-													         Grid.Column="3"
-													         PlaceholderText="Spread"
-													         Text="{Binding Spread, Mode=TwoWay}" />
-
-												</Grid>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-									<StackPanel Margin="0,16,0,0"
-									            HorizontalAlignment="Center"
-									            Orientation="Horizontal"
-									            Spacing="16">
-										<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}">
-											<Button Background="{StaticResource UnoColor}"
-											        BorderThickness="1"
-											        Click="AddShadow"
-											        Content="Add Shadow"
-											        Foreground="White" />
-										</utu:ShadowContainer>
-										<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}">
-											<Button Background="{StaticResource UnoColor}"
-											        BorderThickness="1"
-											        Click="RemoveShadow"
-											        Content="Remove Shadow"
-											        Foreground="White" />
-										</utu:ShadowContainer>
-									</StackPanel>
-								</StackPanel>
-							</utu:ShadowContainer>
-
-
-							<TextBlock Margin="0,24,0,0"
-							           Style="{StaticResource TitleTextBlockStyle}"
-							           Text="Enable neumorphism" />
-							<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Being able to add several shadows enables you to create neumorphic designs." />
-
+						<StackPanel Padding="0,24,0,16" Spacing="8">
 
 							<StackPanel Width="400"
-							            Margin="0,32"
-							            Padding="32"
-							            Background="{StaticResource UnoColor}"
-							            CornerRadius="30">
-								<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
-									<Grid Width="300"
-									      Padding="20"
-									      Background="{StaticResource UnoColor}"
-									      CornerRadius="20">
-										<Grid.RowDefinitions>
-											<RowDefinition Height="20" />
-											<RowDefinition Height="20" />
-										</Grid.RowDefinitions>
-
-										<TextBlock FontSize="15"
-										           Foreground="White"
-										           Text="Neumorphism" />
-										<TextBlock Grid.Row="1"
-										           FontSize="12"
-										           Foreground="White"
-										           Text="Raising element" />
+										Margin="0,32"
+										Padding="32"
+										Background="#7a67f8"
+										CornerRadius="30">
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}">
+									<Grid CornerRadius="20" Padding="10">
+										<TextBlock Text="NeumorphismHollow" />
 									</Grid>
 								</utu:ShadowContainer>
-
-								<utu:ShadowContainer Margin="0,60,0,0" Shadows="{StaticResource NeumorphismHollow}">
-									<TextBox Width="200"
-									         Padding="10"
-									         Background="{StaticResource UnoColor}"
-									         BorderThickness="0"
-									         CornerRadius="20"
-									         Foreground="White"
-									         PlaceholderForeground="LightGray"
-									         PlaceholderText="Hollow element"
-									         Text="Login" />
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
+									<Grid CornerRadius="20" Padding="10">
+										<TextBlock Text="NeumorphismRaising" />
+									</Grid>
 								</utu:ShadowContainer>
-								<utu:ShadowContainer Margin="0,15" Shadows="{StaticResource NeumorphismHollow}">
-									<TextBox Width="200"
-									         Padding="10"
-									         Background="{StaticResource UnoColor}"
-									         BorderThickness="0"
-									         CornerRadius="20"
-									         Foreground="White"
-									         PlaceholderForeground="LightGray"
-									         PlaceholderText="Hollow element"
-									         Text="Password" />
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulging}">
+									<Grid CornerRadius="20" Padding="10">
+										<TextBlock Text="NeumorphismBulging" />
+									</Grid>
 								</utu:ShadowContainer>
-
-								<utu:ShadowContainer Margin="0,30" Shadows="{StaticResource NeumorphismBulging}">
-									<Button Width="200"
-									        Height="40"
-									        Background="{StaticResource UnoColor}"
-									        BorderBrush="{StaticResource UnoColor}"
-									        Content="Bulging element"
-									        CornerRadius="15"
-									        Foreground="White" />
-								</utu:ShadowContainer>
-
-								<StackPanel Margin="0,30,0,0"
-								            Padding="24"
-								            HorizontalAlignment="Center"
-								            Orientation="Horizontal"
-								            Spacing="16">
-
-									<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
-										<Button Background="{StaticResource UnoColor}"
-										        BorderThickness="0"
-										        Content="Regular"
-										        Foreground="White" />
-									</utu:ShadowContainer>
-
-									<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
-										<Button Width="80"
-										        Height="80"
-										        Background="{StaticResource UnoColor}"
-										        BorderBrush="{StaticResource UnoColor}"
-										        Content="Circular"
-										        CornerRadius="40"
-										        Foreground="White" />
-									</utu:ShadowContainer>
-
-									<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
-										<Button Height="60"
-										        Background="{StaticResource UnoColor}"
-										        BorderThickness="0"
-										        Content="Bigger"
-										        CornerRadius="20"
-										        Foreground="White" />
-									</utu:ShadowContainer>
-								</StackPanel>
 							</StackPanel>
-						</StackPanel>
 
+							<TextBlock Text="Test" Style="{StaticResource TitleTextBlockStyle}" />
+							<StackPanel Background="{ThemeResource LocalSurfaceBrush}"
+										Width="400"
+										Margin="32"
+										Padding="32"
+										Spacing="4">
+								<Button Content="NmpSmallElevatedButtonStyle" Style="{StaticResource NmpSmallElevatedButtonStyle}" />
+								<TextBox d:Name="SUT"
+										 Text="NmpTextBoxStyle"
+										 Style="{StaticResource NmpTextBoxStyle}" />
+								<TextBox x:Name="SUT"
+										 Header="header"
+										 PlaceholderText="placeholder"
+										 Text="text"
+										 Style="{StaticResource NmpTextBoxStyle}" />
+								<TextBox d:Name="SUT"
+										 Header="header"
+										 PlaceholderText="placeholder"
+										 Style="{StaticResource NmpTextBoxStyle}" />
+								<TextBox d:Name="SUT"
+										 Header="header"
+										 PlaceholderText="placeholder"
+										 Text="text"
+										 IsEnabled="False"
+										 Style="{StaticResource NmpTextBoxStyle}" />
+								<TextBox d:Name="SUT"
+										 Header="header"
+										 PlaceholderText="placeholder"
+										 IsEnabled="False"
+										 Style="{StaticResource NmpTextBoxStyle}" />
+							</StackPanel>
+
+						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>

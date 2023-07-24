@@ -267,8 +267,8 @@ namespace Uno.Toolkit.Samples
 			var targetTree = (target as DependencyObject)?.TreeGraph();
 
 			// note: you can also tag element with unique x:Name to inspect here
-			//var sut = this.GetFirstDescendant<Chip>(x => x.Name == "SUT");
-			//var tree = sut?.TreeGraph();
+			var sut = this.GetFirstDescendant<FrameworkElement>(x => x.Name == "SUT");
+			var sutTree = sut?.TreeGraph();
 
 #if WINDOWS || WINDOWS_UWP
 			var data = new DataPackage();

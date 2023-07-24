@@ -247,6 +247,11 @@ namespace Uno.Toolkit.Samples
 		/// <returns></returns>
 		public ContentPresenter GetActivePresenter()
 		{
+			if (IsDesignAgnostic)
+			{
+				return (ContentPresenter)GetTemplateChild($"AgnosticContentPresenter");
+			}
+
 			return _design switch
 			{
 				Design.Material => this
