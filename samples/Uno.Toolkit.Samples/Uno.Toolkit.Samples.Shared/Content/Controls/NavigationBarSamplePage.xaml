@@ -47,6 +47,15 @@
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.MaterialTemplate>
+		<sample:SamplePageLayout.FluentTemplate>
+			<DataTemplate>
+				<StackPanel Margin="50"
+							Spacing="8">
+					<Button Click="LaunchFullScreenFluentSample"
+							Content="Show sample" />
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.FluentTemplate>
 		<sample:SamplePageLayout.M3MaterialTemplate>
 			<DataTemplate>
 				<StackPanel Margin="50"

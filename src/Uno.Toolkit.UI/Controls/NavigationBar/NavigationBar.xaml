@@ -19,6 +19,24 @@
 					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					mc:Ignorable="android ios mobile">
 
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<StaticResource x:Key="NavigationBarBackground" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationBarForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SolidBackgroundFillColorBaseBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SolidBackgroundFillColorBaseBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarHighContrastBorder" ResourceKey="SystemControlForegroundTransparentBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="NavigationBarBackground" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationBarForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SolidBackgroundFillColorBaseBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SolidBackgroundFillColorBaseBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarHighContrastBorder" ResourceKey="SystemControlForegroundTransparentBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
 
 	<Style x:Key="DefaultMainCommandStyle"
 		   TargetType="AppBarButton">
@@ -44,8 +62,6 @@
 
 	<Style x:Key="NavigationBarCommandBar"
 		   TargetType="CommandBar">
-		<Setter Property="Background" Value="{ThemeResource CommandBarBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource CommandBarForeground}" />
 		<Setter Property="Padding" Value="4,0,0,0" />
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="VerticalAlignment" Value="Top" />
@@ -122,13 +138,10 @@
 												  Margin="{TemplateBinding Padding}"
 												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
 
-
 								<!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
 									in the Minimal/HiddenClosed states to remove it from being a tab-stop candidate.
 								-->
-
-
 								<ContentControl x:Name="ContentControl"
 												Grid.Column="1"
 												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -175,7 +188,7 @@
 									   VerticalAlignment="Stretch"
 									   x:DeferLoadStrategy="Lazy"
 									   IsHitTestVisible="False"
-									   Stroke="{ThemeResource CommandBarHighContrastBorder}"
+									   Stroke="{ThemeResource NavigationBarCommandBarHighContrastBorder}"
 									   StrokeThickness="1"
 									   Visibility="Collapsed" />
 							<Border x:Name="OpenBorder"
@@ -250,7 +263,7 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="EllipsisIcon"
 																	   Storyboard.TargetProperty="Foreground">
 											<DiscreteObjectKeyFrame KeyTime="0"
-																	Value="{ThemeResource CommandBarEllipsisIconForegroundDisabled}" />
+																	Value="{ThemeResource NavigationBarCommandBarEllipsisIconForegroundDisabled}" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>
@@ -265,7 +278,7 @@
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot"
 																		   Storyboard.TargetProperty="Background">
 												<DiscreteObjectKeyFrame KeyTime="0:0:0"
-																		Value="{ThemeResource CommandBarBackgroundOpen}" />
+																		Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenUp}" />
 											</ObjectAnimationUsingKeyFrames>
 											<contract7NotPresent:ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot"
 																							   Storyboard.TargetProperty="CornerRadius">
@@ -399,7 +412,7 @@
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot"
 																		   Storyboard.TargetProperty="Background">
 												<DiscreteObjectKeyFrame KeyTime="0:0:0"
-																		Value="{ThemeResource CommandBarBackgroundOpen}" />
+																		Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenDown}" />
 											</ObjectAnimationUsingKeyFrames>
 											<contract7NotPresent:ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot"
 																							   Storyboard.TargetProperty="CornerRadius">
@@ -1054,7 +1067,7 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot"
 																	   Storyboard.TargetProperty="Background">
 											<DiscreteObjectKeyFrame KeyTime="0:0:0"
-																	Value="{ThemeResource CommandBarBackgroundOpen}" />
+																	Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenUp}" />
 										</ObjectAnimationUsingKeyFrames>
 										<contract7NotPresent:ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot"
 																						   Storyboard.TargetProperty="CornerRadius">
@@ -1108,7 +1121,7 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot"
 																	   Storyboard.TargetProperty="Background">
 											<DiscreteObjectKeyFrame KeyTime="0:0:0"
-																	Value="{ThemeResource CommandBarBackgroundOpen}" />
+																	Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenDown}" />
 										</ObjectAnimationUsingKeyFrames>
 										<contract7NotPresent:ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot"
 																						   Storyboard.TargetProperty="CornerRadius">
@@ -1421,8 +1434,8 @@
 
 	<Style x:Key="DefaultNavigationBar"
 		   TargetType="utu:NavigationBar">
-		<Setter Property="Background" Value="{x:Null}" />
-		<Setter Property="Foreground" Value="{x:Null}" />
+		<Setter Property="Background" Value="{ThemeResource NavigationBarBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarForeground}" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Top" />
 		<Setter Property="OverflowButtonVisibility" Value="Collapsed" />
