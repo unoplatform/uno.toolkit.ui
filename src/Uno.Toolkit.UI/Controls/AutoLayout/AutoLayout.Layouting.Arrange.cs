@@ -47,6 +47,11 @@ partial class AutoLayout
 			var child = children[i];
 			var calculatedChild = _calculatedChildren[i];
 
+			if (child is FrameworkElement { Visibility: Visibility.Collapsed })
+			{
+				continue;
+			}
+
 			if (!ReferenceEquals(child, calculatedChild.Element))
 			{
 				// Invalid calculated child, invalidate measure and wait for next pass to fix this.
@@ -150,6 +155,11 @@ partial class AutoLayout
 				child.Element.Arrange(new Rect(default, finalSize));
 
 				continue; // next child, current offset remains unchanged
+			}
+
+			if (children[i] is FrameworkElement { Visibility: Visibility.Collapsed })
+			{
+				continue;
 			}
 
 			// Calculate the length of the child (size in the panel orientation)
