@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -14,6 +15,10 @@ namespace Uno.Toolkit.UI;
 
 public partial class ShadowContainer : ContentControl
 {
+	private readonly SerialDisposable _shadowsCollectionChanged = new();
+	private readonly SerialDisposable _shadowPropertiesChanged = new();
+	private readonly CompositeDisposable _activeShadowRegistrations = new CompositeDisposable();
+
 	#region DependencyProperty: Shadows
 
 	public static readonly DependencyProperty ShadowsProperty =
@@ -41,34 +46,9 @@ public partial class ShadowContainer : ContentControl
 
 	private static void OnShadowsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		var shadowContainer = (ShadowContainer)d;
-
-		var oldShadows = e.OldValue as ShadowCollection;
-		var newShadows = e.NewValue as ShadowCollection;
-
-		if (oldShadows != null)
+		if (d is ShadowContainer shadowContainer)
 		{
-			oldShadows.CollectionChanged -= shadowContainer.OnShadowCollectionChanged;
-
-			foreach (var shadow in oldShadows)
-			{
-				shadow.PropertyChanged -= shadowContainer.ShadowPropertyChanged;
-			}
-
-			shadowContainer.OnShadowSizeChanged();
-			shadowContainer._shadowHost?.Invalidate();
-		}
-
-		if (newShadows != null)
-		{
-			foreach (var shadow in newShadows)
-			{
-				shadow.PropertyChanged += shadowContainer.ShadowPropertyChanged;
-			}
-
-			newShadows.CollectionChanged += shadowContainer.OnShadowCollectionChanged;
-			shadowContainer.OnShadowSizeChanged();
-			shadowContainer._shadowHost?.Invalidate();
+			shadowContainer.UpdateShadows();
 		}
 	}
 
@@ -103,8 +83,34 @@ public partial class ShadowContainer : ContentControl
 		}
 	}
 
+	private void UpdateShadows()
+	{
+		_shadowsCollectionChanged.Disposable = null;
+		_shadowPropertiesChanged.Disposable = null;
+
+		if (Shadows is not { } shadows)
+		{
+			return;
+		}
+
+		foreach (var shadow in shadows)
+		{
+			_activeShadowRegistrations.Add(() => shadow.PropertyChanged -= ShadowPropertyChanged);
+			shadow.PropertyChanged += ShadowPropertyChanged;
+		}
+
+		_shadowsCollectionChanged.Disposable = Disposable.Create(() => shadows.CollectionChanged -= OnShadowCollectionChanged);
+		shadows.CollectionChanged += OnShadowCollectionChanged;
+
+		_shadowPropertiesChanged.Disposable = _activeShadowRegistrations;
+
+		OnShadowSizeChanged();
+		_shadowHost?.Invalidate();
+	}
+
 	private void OnShadowInserted(Shadow shadow)
 	{
+		_activeShadowRegistrations.Add(() => shadow.PropertyChanged -= ShadowPropertyChanged);
 		shadow.PropertyChanged += ShadowPropertyChanged;
 	}
 
@@ -130,7 +136,7 @@ public partial class ShadowContainer : ContentControl
 
 	private void OnShadowSizeChanged()
 	{
-		if (_currentContent != null && _currentContent.ActualWidth > 0 && _currentContent.ActualHeight > 0 && Shadows?.Any() == true)
+		if (_currentContent != null && _currentContent.ActualWidth > 0 && _currentContent.ActualHeight > 0)
 		{
 			UpdateCanvasSize(_currentContent.ActualWidth, _currentContent.ActualHeight, Shadows);
 		}
