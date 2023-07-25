@@ -97,6 +97,33 @@
 		<Color x:Key="LocalOnSurfaceLowColor">#1C1B1F</Color>
 		<SolidColorBrush x:Key="LocalOnSurfaceLowBrush" Color="{StaticResource LocalOnSurfaceLowColor}" Opacity="0.38" />
 
+		<!--Shadows-->
+		<utu:ShadowCollection x:Key="ElevatedNormal">
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedLightShadowColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
+		</utu:ShadowCollection>
+
+		<utu:ShadowCollection x:Key="ElevatedHovered">
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.5" Spread="0" Color="{StaticResource ElevatedLightShadowColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.5" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
+		</utu:ShadowCollection>
+
+		<utu:ShadowCollection x:Key="ElevatedPressed">
+			<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
+			<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedLightShadowColor}" />
+		</utu:ShadowCollection>
+
+		<utu:ShadowCollection x:Key="ElevatedDisabled">
+			<utu:Shadow BlurRadius="2" IsInner="False" OffsetX="-1" OffsetY="-1" Opacity="1" Spread="0" Color="{StaticResource ElevatedLightShadowColor}" />
+			<utu:Shadow BlurRadius="2" IsInner="False" OffsetX="1" OffsetY="1" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
+		</utu:ShadowCollection>
+
+		<utu:ShadowCollection x:Key="ElevatedFocused">
+			<utu:Shadow BlurRadius="24" IsInner="True" OffsetX="0" OffsetY="0" Opacity="0.24" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedLightShadowColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
+		</utu:ShadowCollection>
+
 		<Style x:Key="NmpElevatedButtonStyle"
 			   BasedOn="{StaticResource MaterialBaseButtonStyle}"
 			   TargetType="Button">
@@ -110,34 +137,7 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="Button">
-						<utu:ShadowContainer>
-							<utu:ShadowContainer.Shadows>
-								<utu:ShadowCollection>
-									<!--Outter shadows-->
-									<utu:Shadow x:Name="OutterLowerShadow"
-												BlurRadius="8"
-												OffsetX="4"
-												OffsetY="4"
-												Opacity="0.4"
-												Spread="0"
-												Color="{StaticResource ElevatedShadeShadowColor}" />
-									<utu:Shadow x:Name="OutterUpperShadow"
-												BlurRadius="8"
-												OffsetX="-4"
-												OffsetY="-4"
-												Opacity="0.4"
-												Spread="0"
-												Color="{StaticResource ElevatedLightShadowColor}" />
-									<!--Inner shadow-->
-									<utu:Shadow x:Name="InnerShadow"
-												BlurRadius="24"
-												OffsetX="0"
-												OffsetY="0"
-												Opacity="0"
-												Spread="0"
-												Color="{StaticResource ElevatedShadeShadowColor}" />
-								</utu:ShadowCollection>
-							</utu:ShadowContainer.Shadows>
+						<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource ElevatedNormal}">
 
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
@@ -146,31 +146,20 @@
 
 									<VisualState x:Name="PointerOver">
 										<VisualState.Setters>
-											<Setter Target="OutterUpperShadow.Opacity" Value="0.5" />
-											<Setter Target="OutterLowerShadow.Opacity" Value="0.5" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource ElevatedHovered}" />
 										</VisualState.Setters>
 									</VisualState>
 
 									<VisualState x:Name="Pressed">
 										<VisualState.Setters>
-											<Setter Target="OutterLowerShadow.BlurRadius" Value="4" />
-											<Setter Target="OutterLowerShadow.IsInner" Value="True" />
-											<Setter Target="OutterUpperShadow.BlurRadius" Value="4" />
-											<Setter Target="OutterUpperShadow.IsInner" Value="True" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource ElevatedPressed}" />
 										</VisualState.Setters>
 									</VisualState>
 
 									<VisualState x:Name="Disabled">
 										<VisualState.Setters>
-											<Setter Target="OutterUpperShadow.OffsetX" Value="-1" />
-											<Setter Target="OutterUpperShadow.OffsetY" Value="-1" />
-											<Setter Target="OutterUpperShadow.BlurRadius" Value="2" />
-											<Setter Target="OutterUpperShadow.Opacity" Value="1" />
-											<Setter Target="OutterLowerShadow.OffsetX" Value="1" />
-											<Setter Target="OutterLowerShadow.OffsetY" Value="1" />
-											<Setter Target="OutterLowerShadow.BlurRadius" Value="2" />
-											<Setter Target="OutterLowerShadow.Opacity" Value="0.4" />
-											<Setter Target="Root.Background" Value="{StaticResource LocalOnSurfaceDisabledBrush}" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource ElevatedDisabled}" />
+											<Setter Target="Grid.Background" Value="{StaticResource LocalOnSurfaceDisabledBrush}" />
 											<Setter Target="ContentPresenter.Foreground" Value="{StaticResource LocalOnSurfaceLowBrush}" />
 											<Setter Target="IconPresenter.Foreground" Value="{StaticResource LocalOnSurfaceLowBrush}" />
 										</VisualState.Setters>
@@ -181,14 +170,13 @@
 
 									<VisualState x:Name="Focused">
 										<VisualState.Setters>
-											<Setter Target="InnerShadow.Opacity" Value="0.24" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource ElevatedFocused}" />
 										</VisualState.Setters>
 									</VisualState>
 
 									<VisualState x:Name="PointerFocused">
 										<VisualState.Setters>
-											<Setter Target="OutterUpperShadow.Opacity" Value="0.5" />
-											<Setter Target="OutterLowerShadow.Opacity" Value="0.5" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource ElevatedHovered}" />
 										</VisualState.Setters>
 									</VisualState>
 
@@ -196,7 +184,7 @@
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
 
-							<Grid x:Name="Root"
+							<Grid x:Name="Grid"
 								  Background="{TemplateBinding Background}"
 								  CornerRadius="{TemplateBinding CornerRadius}">
 
@@ -245,9 +233,37 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+
 		<!--Filled-->
-		<Color x:Key="LightShadowColor">#6651F2</Color>
-		<Color x:Key="ShadeShadowColor">#4C3CB3</Color>
+		<Color x:Key="FilledLightColor">#6651F2</Color>
+		<Color x:Key="FilledShadeColor">#4C3CB3</Color>
+
+		<!--Shadows-->
+		<utu:ShadowCollection x:Key="FilledNormal">
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource FilledLightColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource FilledShadeColor}" />
+		</utu:ShadowCollection>
+
+		<utu:ShadowCollection x:Key="FilledHovered">
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.5" Spread="0" Color="{StaticResource FilledLightColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.7" Spread="0" Color="{StaticResource FilledShadeColor}" />
+		</utu:ShadowCollection>
+
+		<utu:ShadowCollection x:Key="FilledPressed">
+			<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource FilledShadeColor}" />
+			<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource FilledLightColor}" />
+		</utu:ShadowCollection>
+
+		<utu:ShadowCollection x:Key="FilledDisabled">
+			<utu:Shadow BlurRadius="2" IsInner="False" OffsetX="-1" OffsetY="-1" Opacity="1" Spread="0" Color="{StaticResource FilledLightColor}" />
+			<utu:Shadow BlurRadius="2" IsInner="False" OffsetX="1" OffsetY="1" Opacity="1" Spread="0" Color="{StaticResource FilledShadeColor}" />
+		</utu:ShadowCollection>
+
+		<utu:ShadowCollection x:Key="FilledFocused">
+			<utu:Shadow BlurRadius="24" IsInner="True" OffsetX="0" OffsetY="0" Opacity="0.6" Spread="0" Color="{StaticResource FilledShadeColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource FilledLightColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource FilledShadeColor}" />
+		</utu:ShadowCollection>
 
 		<Style x:Key="NmpFilledButtonStyle"
 			   BasedOn="{StaticResource MaterialBaseButtonStyle}"
@@ -262,35 +278,8 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="Button">
-						<utu:ShadowContainer>
-							<utu:ShadowContainer.Shadows>
-								<utu:ShadowCollection>
-									<!--Outter shadows-->
-									<utu:Shadow x:Name="OutterLowerShadow"
-												BlurRadius="8"
-												OffsetX="4"
-												OffsetY="4"
-												Opacity="0.6"
-												Spread="0"
-												Color="{StaticResource ShadeShadowColor}" />
-									<utu:Shadow x:Name="OutterUpperShadow"
-												BlurRadius="8"
-												OffsetX="-4"
-												OffsetY="-4"
-												Opacity="0.4"
-												Spread="0"
-												Color="{StaticResource LightShadowColor}" />
-									<!--Inner shadow-->
-									<utu:Shadow x:Name="InnerShadow"
-												BlurRadius="24"
-												OffsetX="0"
-												OffsetY="0"
-												Opacity="0"
-												Spread="0"
-												Color="{StaticResource ShadeShadowColor}" />
-								</utu:ShadowCollection>
-							</utu:ShadowContainer.Shadows>
-
+						<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource FilledNormal}">
+							
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
 
@@ -298,30 +287,19 @@
 
 									<VisualState x:Name="PointerOver">
 										<VisualState.Setters>
-											<Setter Target="OutterUpperShadow.Opacity" Value="0.7" />
-											<Setter Target="OutterLowerShadow.Opacity" Value="0.5" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource FilledHovered}" />
 										</VisualState.Setters>
 									</VisualState>
 
 									<VisualState x:Name="Pressed">
 										<VisualState.Setters>
-											<Setter Target="OutterLowerShadow.BlurRadius" Value="4" />
-											<Setter Target="OutterLowerShadow.IsInner" Value="True" />
-											<Setter Target="OutterUpperShadow.BlurRadius" Value="4" />
-											<Setter Target="OutterUpperShadow.IsInner" Value="True" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource FilledPressed}" />
 										</VisualState.Setters>
 									</VisualState>
 
 									<VisualState x:Name="Disabled">
 										<VisualState.Setters>
-											<Setter Target="OutterUpperShadow.OffsetX" Value="-1" />
-											<Setter Target="OutterUpperShadow.OffsetY" Value="-1" />
-											<Setter Target="OutterUpperShadow.BlurRadius" Value="2" />
-											<Setter Target="OutterUpperShadow.Opacity" Value="1" />
-											<Setter Target="OutterLowerShadow.OffsetX" Value="1" />
-											<Setter Target="OutterLowerShadow.OffsetY" Value="1" />
-											<Setter Target="OutterLowerShadow.BlurRadius" Value="2" />
-											<Setter Target="OutterLowerShadow.Opacity" Value="1" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource FilledDisabled}" />
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>
@@ -330,14 +308,13 @@
 									
 									<VisualState x:Name="Focused">
 										<VisualState.Setters>
-											<Setter Target="InnerShadow.Opacity" Value="0.6" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource FilledFocused}" />
 										</VisualState.Setters>
 									</VisualState>
 
 									<VisualState x:Name="PointerFocused">
 										<VisualState.Setters>
-											<Setter Target="OutterUpperShadow.Opacity" Value="0.7" />
-											<Setter Target="OutterLowerShadow.Opacity" Value="0.5" />
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource FilledHovered}" />
 										</VisualState.Setters>
 									</VisualState>
 
@@ -345,8 +322,7 @@
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
 
-							<Grid x:Name="Root"
-								  Background="{TemplateBinding Background}"
+							<Grid Background="{TemplateBinding Background}"
 								  CornerRadius="{TemplateBinding CornerRadius}">
 
 								<um:Ripple x:Name="Ripple"
