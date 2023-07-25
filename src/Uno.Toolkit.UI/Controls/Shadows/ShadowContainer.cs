@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -28,8 +27,6 @@ namespace Uno.Toolkit.UI;
 [TemplatePart(Name = nameof(PART_Canvas), Type = typeof(Canvas))]
 public partial class ShadowContainer : ContentControl
 {
-	
-
 	private const string PART_Canvas = "PART_Canvas";
 
 	private Canvas? _canvas;
@@ -69,6 +66,7 @@ public partial class ShadowContainer : ContentControl
 	{
 		_shadowsCollectionChanged.Disposable = null;
 		_shadowPropertiesChanged.Disposable = null;
+		_cornerRadiusChanged.Disposable = null;
 	}
 
 	protected override void OnApplyTemplate()
@@ -97,12 +95,12 @@ public partial class ShadowContainer : ContentControl
 	/// <inheritdoc/>
 	protected override void OnContentChanged(object oldContent, object newContent)
 	{
+		_cornerRadiusChanged.Disposable = null;
+
 		if (oldContent is FrameworkElement oldElement)
 		{
 			_canvas?.Children.Remove(oldElement);
 			oldElement.SizeChanged -= OnContentSizeChanged;
-
-			// TODO (https://github.com/unoplatform/uno.toolkit.ui/issues/662) unregister corner radius property changed
 		}
 
 		if (newContent is FrameworkElement newElement)
@@ -112,13 +110,44 @@ public partial class ShadowContainer : ContentControl
 
 			if (TryGetCornerRadius(newElement, out var cornerRadius))
 			{
-				// TODO (https://github.com/unoplatform/uno.toolkit.ui/issues/662) register corner radius property changed
+				var cornerRadiusProperty = newElement switch
+				{
+					Grid _ => Grid.CornerRadiusProperty,
+					StackPanel _ => StackPanel.CornerRadiusProperty,
+					ContentPresenter _ => ContentPresenter.CornerRadiusProperty,
+					Border _ => Border.CornerRadiusProperty,
+					Control _ => Control.CornerRadiusProperty,
+					RelativePanel _ => RelativePanel.CornerRadiusProperty, 
+					_ => default,
+
+				};
+
+				if (cornerRadiusProperty != null)
+				{
+					_cornerRadiusChanged.Disposable = newElement.RegisterDisposablePropertyChangedCallback(
+						cornerRadiusProperty,
+						OnCornerRadiusChanged
+					);
+				}
 			}
 
 			_cornerRadius = cornerRadius;
 		}
 
+		_shadowHost?.Invalidate();
 		base.OnContentChanged(oldContent, newContent);
+	}
+
+	private void OnCornerRadiusChanged(DependencyObject sender, DependencyProperty dp)
+	{
+		if (_currentContent is { })
+		{
+			if (TryGetCornerRadius(_currentContent, out var cornerRadius))
+			{
+				_cornerRadius = cornerRadius;
+				_shadowHost?.Invalidate();
+			}
+		}
 	}
 
 	private static bool TryGetCornerRadius(FrameworkElement element, out CornerRadius cornerRadius)

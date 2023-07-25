@@ -17,6 +17,7 @@ public partial class ShadowContainer : ContentControl
 {
 	private readonly SerialDisposable _shadowsCollectionChanged = new();
 	private readonly SerialDisposable _shadowPropertiesChanged = new();
+	private readonly SerialDisposable _cornerRadiusChanged = new();
 	private readonly CompositeDisposable _activeShadowRegistrations = new CompositeDisposable();
 
 	#region DependencyProperty: Shadows
