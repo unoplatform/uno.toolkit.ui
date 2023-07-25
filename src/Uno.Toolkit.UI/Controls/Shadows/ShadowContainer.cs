@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -27,6 +28,8 @@ namespace Uno.Toolkit.UI;
 [TemplatePart(Name = nameof(PART_Canvas), Type = typeof(Canvas))]
 public partial class ShadowContainer : ContentControl
 {
+	
+
 	private const string PART_Canvas = "PART_Canvas";
 
 	private Canvas? _canvas;
@@ -47,6 +50,25 @@ public partial class ShadowContainer : ContentControl
 	public ShadowContainer()
 	{
 		_cornerRadius = new CornerRadius(0);
+
+		Loaded += ShadowContainerLoaded;
+		Unloaded += ShadowContainerUnloaded;
+	}
+
+	private void ShadowContainerUnloaded(object sender, RoutedEventArgs e)
+	{
+		RevokeListeners();
+	}
+
+	private void ShadowContainerLoaded(object sender, RoutedEventArgs e)
+	{
+		UpdateShadows();
+	}
+
+	private void RevokeListeners()
+	{
+		_shadowsCollectionChanged.Disposable = null;
+		_shadowPropertiesChanged.Disposable = null;
 	}
 
 	protected override void OnApplyTemplate()
