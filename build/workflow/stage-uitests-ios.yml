@@ -26,6 +26,7 @@
   - checkout: self
     clean: true
 
+  - template: templates/canary-updater.yml
   - template: templates/dotnet-workload-install-mac.yml
   - template: templates/jdk-setup.yml
 
