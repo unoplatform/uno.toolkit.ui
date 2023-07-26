@@ -95,7 +95,7 @@ namespace Uno.Toolkit.RuntimeTests.Helpers
 
 		private static void AssertExpectedColor(Color expected, Color? actual)
 		{
-			expected.Should().BeEquivalentTo(actual, config: d => d.ComparingByValue<Color?>());
+			actual.Should().BeEquivalentTo(expected, config: d => d.ComparingByValue<Color?>());
 		}
 	}
 }
