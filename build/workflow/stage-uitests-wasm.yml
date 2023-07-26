@@ -23,11 +23,11 @@
   - template: templates/canary-updater.yml
 
   - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 6.0.300'
+    displayName: 'Use .NET Core SDK 7.0.302'
     retryCountOnTaskFailure: 3
     inputs:
       packageType: sdk
-      version: 6.0.300
+      version: 7.0.302
 
   - task: UseDotNet@2
     displayName: 'Use .NET Core SDK 5.0.400'
@@ -124,11 +124,11 @@
         downloadPath: '$(build.sourcesdirectory)/build'
     
   - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK 6.0.300'
+    displayName: 'Use .NET Core SDK 7.0.302'
     retryCountOnTaskFailure: 3
     inputs:
       packageType: sdk
-      version: 6.0.300
+      version: 6.0.302
 
   - task: UseDotNet@2
     displayName: 'Use .NET Core SDK 5.0.400'
