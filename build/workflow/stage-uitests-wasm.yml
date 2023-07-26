@@ -20,6 +20,8 @@
   - checkout: self
     clean: true
 
+  - template: templates/canary-updater.yml
+
   - task: UseDotNet@2
     displayName: 'Use .NET Core SDK 6.0.300'
     retryCountOnTaskFailure: 3
