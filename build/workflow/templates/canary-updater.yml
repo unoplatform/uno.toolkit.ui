@@ -21,10 +21,13 @@ steps:
       useNuGetOrg: true
       usePrivateFeed: false
       mergeBranch: true
-      branchToMerge: main
+      branchToMerge: legacy/3x
       nugetUpdaterVersion: 2.3.0-alpha.42
       packageAuthor: 'nventive,Uno Platform'
       summaryFile: '$(build.artifactstagingdirectory)/Canary.md'
+      nugetVersion: dev
+      useVersionOverrides: true
+      versionOverridesFile: 'build/uno-4x-overrides.json'
 
   - powershell: |
       dotnet tool uninstall nventive.nuget.updater.tool --tool-path $(Agent.TempDirectory)
