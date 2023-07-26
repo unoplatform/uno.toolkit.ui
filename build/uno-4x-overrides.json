@@ -117,11 +117,27 @@
 
 
     {
+        "PackageId": "Uno.Toolkit.UI",
+        "UpdatedVersion": "(,3.99.0-dev.999]"
+    },
+    {
         "PackageId": "Uno.Toolkit.UI.Cupertino",
         "UpdatedVersion": "(,3.99.0-dev.999]"
     },
     {
         "PackageId": "Uno.Toolkit.UI.Material",
+        "UpdatedVersion": "(,3.99.0-dev.999]"
+    },
+    {
+        "PackageId": "Uno.Toolkit.WinUI",
+        "UpdatedVersion": "(,3.99.0-dev.999]"
+    },
+    {
+        "PackageId": "Uno.Toolkit.WinUI.Cupertino",
+        "UpdatedVersion": "(,3.99.0-dev.999]"
+    },
+    {
+        "PackageId": "Uno.Toolkit.WinUI.Material",
         "UpdatedVersion": "(,3.99.0-dev.999]"
     },
     {
