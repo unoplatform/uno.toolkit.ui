@@ -13,9 +13,10 @@
 	<Page.Resources>
 		
 		<!--Shadow Styling-->
-		
 		<Color x:Key="LocalPrimaryColor">#5946D2</Color>
 		<Color x:Key="LocalSurfaceColor">#F0F0F3</Color>
+
+		<!--BUTTONS-->
 		
 		<!--Elevated-->
 		<Color x:Key="ElevatedLightShadowColor">#FFFFFF</Color>
@@ -27,7 +28,7 @@
 		<Color x:Key="LocalOnSurfaceLowColor">#1C1B1F</Color>
 		<SolidColorBrush x:Key="LocalOnSurfaceLowBrush" Color="{StaticResource LocalOnSurfaceLowColor}" Opacity="0.38" />
 
-		<!--Shadows-->
+		<!--Elevated Shadows-->
 		<utu:ShadowCollection x:Key="ElevatedNormal">
 			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedLightShadowColor}" />
 			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
@@ -54,14 +55,13 @@
 			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
 		</utu:ShadowCollection>
 
+		<!--Elevated Style-->
 		<Style x:Key="NmpElevatedButtonStyle"
 			   BasedOn="{StaticResource MaterialBaseButtonStyle}"
 			   TargetType="Button">
 
-			<Setter Property="Foreground" Value="{ThemeResource OutlinedButtonForeground}" />
-			<!-- Following  M3 Guidelines and Uno Figma file: -->
-			<!-- Background is Optional and Default is Transparent -->
-			<Setter Property="Background" Value="{ThemeResource OutlinedButtonBackground}" />
+			<Setter Property="Foreground" Value="{ThemeResource LocalPrimaryColor}" />
+			<Setter Property="Background" Value="{ThemeResource LocalSurfaceColor}" />
 			<Setter Property="Padding" Value="10" />
 
 			<Setter Property="Template">
@@ -168,7 +168,7 @@
 		<Color x:Key="FilledLightColor">#6651F2</Color>
 		<Color x:Key="FilledShadeColor">#4C3CB3</Color>
 
-		<!--Shadows-->
+		<!--Filled Shadows-->
 		<utu:ShadowCollection x:Key="FilledNormal">
 			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource FilledLightColor}" />
 			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource FilledShadeColor}" />
@@ -195,14 +195,13 @@
 			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource FilledShadeColor}" />
 		</utu:ShadowCollection>
 
+		<!--Filled Style-->
 		<Style x:Key="NmpFilledButtonStyle"
 			   BasedOn="{StaticResource MaterialBaseButtonStyle}"
 			   TargetType="Button">
 
-			<Setter Property="Foreground" Value="{ThemeResource OutlinedButtonForeground}" />
-			<!-- Following  M3 Guidelines and Uno Figma file: -->
-			<!-- Background is Optional and Default is Transparent -->
-			<Setter Property="Background" Value="{ThemeResource OutlinedButtonBackground}" />
+			<Setter Property="Foreground" Value="{ThemeResource LocalSurfaceColor}" />
+			<Setter Property="Background" Value="{ThemeResource LocalPrimaryColor}" />
 			<Setter Property="Padding" Value="10" />
 
 			<Setter Property="Template">
@@ -323,17 +322,13 @@
 								            HorizontalAlignment="Center"
 								            Spacing="30">
 
-									<Button Style="{StaticResource NmpFilledButtonStyle}" Content="Filled"
-											Background="{StaticResource LocalPrimaryColor}"
-											Foreground="White">
+									<Button Style="{StaticResource NmpFilledButtonStyle}" Content="Filled">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z" />
 										</um:ControlExtensions.Icon>
 									</Button>
 
 									<Button Style="{StaticResource NmpFilledButtonStyle}" Content="Disabled"
-											Background="{StaticResource LocalPrimaryColor}"
-											Foreground="White"
 											IsEnabled="False">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z" />
@@ -358,17 +353,13 @@
 								            HorizontalAlignment="Center"
 								            Spacing="30">
 
-									<Button Style="{StaticResource NmpElevatedButtonStyle}" Content="Elevated"
-											Background="{StaticResource LocalSurfaceColor}"
-											Foreground="{StaticResource LocalPrimaryColor}">
+									<Button Style="{StaticResource NmpElevatedButtonStyle}" Content="Elevated">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z" />
 										</um:ControlExtensions.Icon>
 									</Button>
 
 									<Button Style="{StaticResource NmpElevatedButtonStyle}" Content="Disabled"
-											Background="{StaticResource LocalSurfaceColor}"
-											Foreground="{StaticResource LocalPrimaryColor}"
 											IsEnabled="False">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z" />
