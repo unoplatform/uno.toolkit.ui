@@ -15,7 +15,7 @@ steps:
       usePrivateFeed: false
       mergeBranch: true
       branchToMerge: legacy/3x
-      nugetUpdaterVersion: 2.3.0-alpha.42
+      nugetUpdaterVersion: 2.3.0-alpha.46
       packageAuthor: 'nventive,Uno Platform'
       summaryFile: '$(build.artifactstagingdirectory)/Canary.md'
       nugetVersion: dev
