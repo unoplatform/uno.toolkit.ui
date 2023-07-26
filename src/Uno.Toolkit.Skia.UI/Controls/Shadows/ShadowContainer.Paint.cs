@@ -23,7 +23,7 @@ namespace Uno.Toolkit.UI;
 
 public partial class ShadowContainer
 {
-	private static readonly ILogger _logger = typeof(InputExtensions).Log();
+	private static readonly ILogger _logger = typeof(ShadowContainer).Log();
 
 	private record ShadowInfos(double Width, double Height, bool IsInner, double BlurRadius, double Spread, double X, double Y, Color color)
 	{

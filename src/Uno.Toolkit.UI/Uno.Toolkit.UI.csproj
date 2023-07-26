@@ -40,7 +40,6 @@
 		<PackageReference Include="Uno.Core.Extensions.Collections" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
-		<PackageReference Include="SkiaSharp.Views.Uno" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(_IsWindowsUWP)">
@@ -50,6 +49,10 @@
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 		<Content Include="Assets\**\*.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Generated\" />
 	</ItemGroup>
 
 	<Import Project="xamlmerge-toolkit.props" />

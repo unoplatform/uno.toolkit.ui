@@ -46,6 +46,8 @@ public partial class ShadowContainer : ContentControl
 
 	public ShadowContainer()
 	{
+		DefaultStyleKey = typeof(ShadowContainer);
+
 		_cornerRadius = new CornerRadius(0);
 
 		Loaded += ShadowContainerLoaded;
@@ -71,7 +73,7 @@ public partial class ShadowContainer : ContentControl
 
 	protected override void OnApplyTemplate()
 	{
-		_canvas = (Canvas)GetTemplateChild(nameof(PART_Canvas));
+		_canvas = GetTemplateChild(nameof(PART_Canvas)) as Canvas;
 
 
 #if false // ANDROID: We keep that as a reference cause it would be better to use the hardware-accelerated version
@@ -87,7 +89,7 @@ public partial class ShadowContainer : ContentControl
 #endif
 
 		_shadowHost = skiaCanvas;
-		_canvas.Children.Insert(0, _shadowHost!);
+		_canvas?.Children.Insert(0, _shadowHost!);
 
 		base.OnApplyTemplate();
 	}
@@ -126,7 +128,7 @@ public partial class ShadowContainer : ContentControl
 				{
 					_cornerRadiusChanged.Disposable = newElement.RegisterDisposablePropertyChangedCallback(
 						cornerRadiusProperty,
-						OnCornerRadiusChanged
+						(s, dp) => OnCornerRadiusChanged(s, dp)
 					);
 				}
 			}
