@@ -31,6 +31,18 @@
         "PackageId": "Uno.UI.Svg",
         "UpdatedVersion": "(,4.99.0-dev.999]"
     },
+    {
+        "PackageId": "Uno.UI.MSAL",
+        "UpdatedVersion": "(,4.99.0-dev.999]"
+    },
+    {
+        "PackageId": "Uno.UI.Skia.Linux.FrameBuffer",
+        "UpdatedVersion": "(,4.99.0-dev.999]"
+    },
+    {
+        "PackageId": "Uno.UI.Skia.Wpf",
+        "UpdatedVersion": "(,4.99.0-dev.999]"
+    },
 
 
 
@@ -67,6 +79,18 @@
         "PackageId": "Uno.WinUI.Svg",
         "UpdatedVersion": "(,4.99.0-dev.999]"
     },
+    {
+        "PackageId": "Uno.UI.MSAL",
+        "UpdatedVersion": "(,4.99.0-dev.999]"
+    },
+    {
+        "PackageId": "Uno.UI.Skia.Linux.FrameBuffer",
+        "UpdatedVersion": "(,4.99.0-dev.999]"
+    },
+    {
+        "PackageId": "Uno.UI.Skia.Wpf",
+        "UpdatedVersion": "(,4.99.0-dev.999]"
+    },
 
 
     {
@@ -87,7 +111,7 @@
         "UpdatedVersion": "(,2.99.0-dev.999]"
     },
     {
-        "PackageId": "Uno.Material.Winui",
+        "PackageId": "Uno.Material.WinUI",
         "UpdatedVersion": "(,2.99.0-dev.999]"
     },
 
