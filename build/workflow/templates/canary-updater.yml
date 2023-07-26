@@ -10,7 +10,7 @@ steps:
   - task: nventiveCanaryUpdater@5
     condition: eq(variables['IsCanaryBranch'], true)
     inputs:
-      solution: src
+      solution: $(build.sourcesdirectory)
       useNuGetOrg: true
       usePrivateFeed: false
       mergeBranch: true
