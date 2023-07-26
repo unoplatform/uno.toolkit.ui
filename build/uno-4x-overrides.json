@@ -80,15 +80,15 @@
         "UpdatedVersion": "(,4.99.0-dev.999]"
     },
     {
-        "PackageId": "Uno.UI.MSAL",
+        "PackageId": "Uno.WinUI.MSAL",
         "UpdatedVersion": "(,4.99.0-dev.999]"
     },
     {
-        "PackageId": "Uno.UI.Skia.Linux.FrameBuffer",
+        "PackageId": "Uno.WinUI.Skia.Linux.FrameBuffer",
         "UpdatedVersion": "(,4.99.0-dev.999]"
     },
     {
-        "PackageId": "Uno.UI.Skia.Wpf",
+        "PackageId": "Uno.WinUI.Skia.Wpf",
         "UpdatedVersion": "(,4.99.0-dev.999]"
     },
 
