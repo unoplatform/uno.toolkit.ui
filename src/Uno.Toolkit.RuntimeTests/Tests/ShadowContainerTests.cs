@@ -127,8 +127,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var renderer = await parentBorder.TakeScreenshot();
 			var bounds = border.TransformToVisual(shadowContainer).TransformBounds(new Windows.Foundation.Rect(0, 0, border.ActualWidth, border.ActualHeight));
 
-			var xStart = int.IsNegative(offsetX) ? (int)bounds.Left : (int)bounds.Right;
-			var yStart = int.IsNegative(offsetY) ? (int)bounds.Top : (int)bounds.Bottom;
+			var xStart = offsetX < 0 ? (int)bounds.Left : (int)bounds.Right;
+			var yStart = offsetY < 0 ? (int)bounds.Top : (int)bounds.Bottom;
 
 
 			var pixels = await renderer!.GetPixelsAsync();
