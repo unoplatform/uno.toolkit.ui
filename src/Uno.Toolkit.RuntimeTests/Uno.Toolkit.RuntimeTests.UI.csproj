@@ -7,5 +7,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj" />
+	  <ProjectReference Include="..\Uno.Toolkit.Skia.UI\Uno.Toolkit.Skia.UI.csproj" />
 	</ItemGroup>
 </Project>

@@ -27,6 +27,7 @@
 	  <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
 	  <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
 	  <ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.WinUI.csproj" />
+	  <ProjectReference Include="..\..\..\src\Uno.Toolkit.Skia.UI\Uno.Toolkit.Skia.WinUI.csproj" />
 	  <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
 	</ItemGroup>
 

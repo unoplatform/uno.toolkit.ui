@@ -1,45 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/3.0.38">
-	<!--
-	Adding project references to this project requires some manual adjustments.
-	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
-	-->
 	<PropertyGroup>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">net7.0</TargetFrameworks>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableNet7MobileTargets)'==''">$(TargetFrameworks);net7.0-ios;net7.0-macos;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);uap10.0.19041</TargetFrameworks>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
-		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
-		<AssemblyName>Uno.Toolkit.WinUI</AssemblyName>
-		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
-		<DefineConstants Condition="$(_IsWindowsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
-		<FrameworkLineage>WinUI</FrameworkLineage>
+		<AssemblyName>Uno.Toolkit.Skia.UI</AssemblyName>
+		<RootNamespace>Uno.Toolkit.Skia.UI</RootNamespace>
+		<PackageId>Uno.Toolkit.Skia.UI</PackageId>
+		<FrameworkLineage>UWP</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Uno.Toolkit\Uno.Toolkit.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" />
+		<PackageReference Include="Uno.UI" />
 		<PackageReference Include="Uno.Core.Extensions.Collections" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
+		<PackageReference Include="SkiaSharp.Views.Uno" />
 	</ItemGroup>
-
-	<ItemGroup Condition="$(_IsWindowsWinUI)">
-		<PackageReference Include="Microsoft.WindowsAppSDK" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+	<ItemGroup Condition="$(_IsWindowsUWP)">
+		<PackageReference Include="Microsoft.UI.Xaml" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 		<Content Include="Assets\**\*.png" />
 	</ItemGroup>
 
-	<Import Project="..\winappsdk-workaround.targets" />
-	<Import Project="xamlmerge-toolkit.props" />
+	<ItemGroup>
+		<ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" />
+	</ItemGroup>
 
 </Project>

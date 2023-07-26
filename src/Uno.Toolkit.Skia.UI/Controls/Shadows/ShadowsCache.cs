@@ -4,7 +4,6 @@ using System.Collections.Concurrent;
 using SkiaSharp;
 
 namespace Uno.Toolkit.UI;
-
 public class ShadowsCache
 {
 	private class CacheBucket

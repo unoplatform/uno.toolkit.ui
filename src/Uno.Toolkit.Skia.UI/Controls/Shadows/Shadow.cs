@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 #else
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 #endif
 
 namespace Uno.Toolkit.UI;
@@ -154,7 +155,7 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 			   propertyName == nameof(Color) ||
 			   propertyName == nameof(Opacity) ||
 			   propertyName == nameof(BlurRadius) ||
-			   propertyName == nameof(Spread); 
+			   propertyName == nameof(Spread);
 	}
 
 	internal static bool IsShadowSizeProperty(string propertyName)

@@ -127,7 +127,7 @@ public partial class ShadowContainer : ContentControl
 			return;
 		}
 
-		if (Uno.Toolkit.UI.Shadow.IsShadowSizeProperty(e.PropertyName))
+		if (UI.Shadow.IsShadowSizeProperty(e.PropertyName))
 		{
 			OnShadowSizeChanged();
 		}

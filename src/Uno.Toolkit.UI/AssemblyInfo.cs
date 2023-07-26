@@ -23,3 +23,9 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI.Material")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI.Cupertino")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI")]
+
+#if IS_WINUI
+[assembly: InternalsVisibleTo("Uno.Toolkit.Skia.WinUI")]
+#else
+[assembly: InternalsVisibleTo("Uno.Toolkit.Skia.UI")]
+#endif
