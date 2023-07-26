@@ -134,6 +134,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\RuntimeTestRunner.xaml.cs">
       <DependentUpon>RuntimeTestRunner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ModalDialog.xaml.cs">
       <DependentUpon>ModalDialog.xaml</DependentUpon>
     </Compile>
@@ -378,6 +379,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\RuntimeTestRunner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
