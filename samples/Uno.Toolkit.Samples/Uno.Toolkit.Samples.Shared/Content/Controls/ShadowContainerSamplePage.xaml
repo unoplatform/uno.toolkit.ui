@@ -11,82 +11,12 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 	<Page.Resources>
-		<converters:HexToColorConverter x:Key="HexToColor" />
-
-		<Color x:Key="UnoColor">#5946D2</Color>
+		
+		<!--Shadow Styling-->
+		
+		<Color x:Key="LocalPrimaryColor">#5946D2</Color>
 		<Color x:Key="LocalSurfaceColor">#F0F0F3</Color>
 		
-		<Color x:Key="UnoPink">#f85977</Color>
-		<Color x:Key="UnoBlue">#159bff</Color>
-		<Color x:Key="UnoGreen">#67e5ad</Color>
-
-		<utu:Shadow x:Key="DefaultShadow"
-		            BlurRadius="20"
-		            OffsetX="10"
-		            OffsetY="10"
-		            Opacity="0.5"
-		            Spread="0"
-		            Color="{StaticResource UnoColor}" />
-
-		<utu:ShadowCollection x:Name="ButtonShadows">
-			<utu:Shadow BlurRadius="20"
-			            OffsetX="8"
-			            OffsetY="8"
-			            Opacity="0.5"
-			            Color="{StaticResource UnoColor}" />
-		</utu:ShadowCollection>
-
-		<utu:ShadowCollection x:Key="NeumorphismRaising">
-			<utu:Shadow BlurRadius="30"
-			            OffsetX="10"
-			            OffsetY="10"
-			            Opacity="1"
-			            Spread="-5"
-			            Color="#6858d3" />
-			<utu:Shadow BlurRadius="30"
-			            OffsetX="-10"
-			            OffsetY="-10"
-			            Opacity="1"
-			            Spread="-5"
-			            Color="#8c76ff" />
-		</utu:ShadowCollection>
-
-		<utu:ShadowCollection x:Key="NeumorphismHollow">
-			<utu:Shadow BlurRadius="10"
-			            IsInner="True"
-			            OffsetX="5"
-			            OffsetY="5"
-			            Opacity="1"
-			            Spread="0"
-			            Color="#6858d3" />
-			<utu:Shadow BlurRadius="10"
-			            IsInner="True"
-			            OffsetX="-4"
-			            OffsetY="-4"
-			            Opacity="1"
-			            Spread="0"
-			            Color="#8c76ff" />
-		</utu:ShadowCollection>
-
-		<utu:ShadowCollection x:Key="NeumorphismBulging">
-			<utu:Shadow BlurRadius="10"
-			            IsInner="True"
-			            OffsetX="-5"
-			            OffsetY="-5"
-			            Opacity="1"
-			            Spread="0"
-			            Color="#6858d3" />
-			<utu:Shadow BlurRadius="10"
-			            IsInner="True"
-			            OffsetX="4"
-			            OffsetY="4"
-			            Opacity="1"
-			            Spread="0"
-			            Color="#8c76ff" />
-		</utu:ShadowCollection>
-
-		<!--Shadow Styling-->
-
 		<!--Elevated-->
 		<Color x:Key="ElevatedLightShadowColor">#FFFFFF</Color>
 		<Color x:Key="ElevatedShadeShadowColor">#AEAEC0</Color>
@@ -381,121 +311,11 @@
 
 							<TextBlock Margin="0,24,0,0"
 							           Style="{StaticResource TitleTextBlockStyle}"
-							           Text="Many colored shadows" />
-							<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="You can add as many shadows as you like. You can also dynamically change the shadow properties." />
-
-							<utu:ShadowContainer x:Name="ShadowContainer" Margin="32">
-								<utu:ShadowContainer.Shadows>
-									<utu:ShadowCollection x:Name="Shadows">
-										<utu:Shadow BlurRadius="20"
-										            OffsetX="10"
-										            OffsetY="10"
-										            Opacity="0.5"
-										            Spread="0"
-										            Color="{StaticResource UnoColor}" />
-										<utu:Shadow BlurRadius="20"
-										            OffsetX="-10"
-										            OffsetY="-10"
-										            Opacity="0.5"
-										            Spread="0"
-										            Color="{StaticResource UnoPink}" />
-									</utu:ShadowCollection>
-								</utu:ShadowContainer.Shadows>
-								<StackPanel MinWidth="300"
-								            MaxWidth="500"
-								            Padding="16"
-								            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-								            BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
-								            BorderThickness="1"
-								            CornerRadius="20">
-									<ItemsControl x:Name="ShadowsItemsControl">
-										<ItemsControl.ItemsPanel>
-											<ItemsPanelTemplate>
-												<StackPanel Orientation="Vertical" Spacing="10" />
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-										<ItemsControl.ItemTemplate>
-											<DataTemplate>
-												<Grid ColumnSpacing="5" RowSpacing="5">
-													<Grid.RowDefinitions>
-														<RowDefinition Height="Auto" />
-														<RowDefinition Height="Auto" />
-													</Grid.RowDefinitions>
-													<Grid.ColumnDefinitions>
-														<ColumnDefinition Width="70" />
-														<ColumnDefinition Width="70" />
-														<ColumnDefinition Width="60" />
-														<ColumnDefinition Width="80" />
-													</Grid.ColumnDefinitions>
-
-													<TextBox Grid.ColumnSpan="2"
-													         PlaceholderText="Color"
-													         Text="{Binding Color, Mode=TwoWay, Converter={StaticResource HexToColor}}">
-														<TextBox.Foreground>
-															<SolidColorBrush Color="{Binding Color}" />
-														</TextBox.Foreground>
-													</TextBox>
-													<TextBox Grid.Column="2"
-													         PlaceholderText="Opacity"
-													         Text="{Binding Opacity, Mode=TwoWay}" />
-													<CheckBox Grid.Column="3"
-													          Padding="5,0"
-													          Content="Inner"
-													          IsChecked="{Binding IsInner, Mode=TwoWay}" />
-
-													<TextBox Grid.Row="1"
-													         PlaceholderText="X"
-													         Text="{Binding OffsetX, Mode=TwoWay}" />
-													<TextBox Grid.Row="1"
-													         Grid.Column="1"
-													         PlaceholderText="Y"
-													         Text="{Binding OffsetY, Mode=TwoWay}" />
-													<TextBox Grid.Row="1"
-													         Grid.Column="2"
-													         PlaceholderText="Blur"
-													         Text="{Binding BlurRadius, Mode=TwoWay}" />
-													<TextBox Grid.Row="1"
-													         Grid.Column="3"
-													         PlaceholderText="Spread"
-													         Text="{Binding Spread, Mode=TwoWay}" />
-
-												</Grid>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-									<StackPanel Margin="0,16,0,0"
-									            HorizontalAlignment="Center"
-									            Orientation="Horizontal"
-									            Spacing="16">
-										<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}">
-											<Button Background="{StaticResource UnoColor}"
-											        BorderThickness="1"
-											        Click="AddShadow"
-											        Content="Add Shadow"
-											        Foreground="White" />
-										</utu:ShadowContainer>
-										<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}">
-											<Button Background="{StaticResource UnoColor}"
-											        BorderThickness="1"
-											        Click="RemoveShadow"
-											        Content="Remove Shadow"
-											        Foreground="White" />
-										</utu:ShadowContainer>
-									</StackPanel>
-								</StackPanel>
-							</utu:ShadowContainer>
-
-
-							<TextBlock Margin="0,24,0,0"
-							           Style="{StaticResource TitleTextBlockStyle}"
-							           Text="Enable neumorphism" />
-							<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Being able to add several shadows enables you to create neumorphic designs." />
-
-
+							           Text="Outlined Button" />
 							<StackPanel Width="550"
 							            Margin="0,32"
 							            Padding="32"
-							            Background="{StaticResource UnoColor}"
+							            Background="{StaticResource LocalPrimaryColor}"
 							            CornerRadius="30">
 
 								<StackPanel Margin="0,30,0,0"
@@ -504,7 +324,7 @@
 								            Spacing="30">
 
 									<Button Style="{StaticResource NmpFilledButtonStyle}" Content="Filled"
-											Background="{StaticResource UnoColor}"
+											Background="{StaticResource LocalPrimaryColor}"
 											Foreground="White">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z" />
@@ -512,7 +332,7 @@
 									</Button>
 
 									<Button Style="{StaticResource NmpFilledButtonStyle}" Content="Disabled"
-											Background="{StaticResource UnoColor}"
+											Background="{StaticResource LocalPrimaryColor}"
 											Foreground="White"
 											IsEnabled="False">
 										<um:ControlExtensions.Icon>
@@ -522,7 +342,11 @@
 
 								</StackPanel>
 							</StackPanel>
-
+								
+							<TextBlock Margin="0,24,0,0"
+							           Style="{StaticResource TitleTextBlockStyle}"
+							           Text="Elevated Button" />
+								
 							<StackPanel Width="550"
 							            Margin="0,32"
 							            Padding="32"
@@ -536,7 +360,7 @@
 
 									<Button Style="{StaticResource NmpElevatedButtonStyle}" Content="Elevated"
 											Background="{StaticResource LocalSurfaceColor}"
-											Foreground="{StaticResource UnoColor}">
+											Foreground="{StaticResource LocalPrimaryColor}">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z" />
 										</um:ControlExtensions.Icon>
@@ -544,7 +368,7 @@
 
 									<Button Style="{StaticResource NmpElevatedButtonStyle}" Content="Disabled"
 											Background="{StaticResource LocalSurfaceColor}"
-											Foreground="{StaticResource UnoColor}"
+											Foreground="{StaticResource LocalPrimaryColor}"
 											IsEnabled="False">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z" />
