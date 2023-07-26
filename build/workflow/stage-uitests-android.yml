@@ -28,6 +28,7 @@
   - checkout: self
     clean: true
 
+  - template: templates/canary-updater.yml
   - template: templates/dotnet-install.yml
   - template: templates/jdk-setup.yml
 
@@ -123,6 +124,7 @@
         artifactName: toolkit-uitest-binaries-$(XAML_FLAVOR_BUILD)
         downloadPath: '$(build.sourcesdirectory)/build'
 
+  - template: templates/canary-updater.yml
   - template: templates/dotnet-workload-install-mac.yml
   - template: templates/jdk-setup.yml
 
