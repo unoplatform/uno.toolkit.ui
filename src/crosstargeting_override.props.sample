@@ -26,7 +26,7 @@
 		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 macOS AppKit'">$(TargetFrameworkOverride);net7.0-macos</TargetFrameworkOverride> -->
 
 		<!-- DO NOT COMMENT OUT: netstandard2.0 is a required tfm in all cases -->
-		<TargetFrameworkOverride>net7.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
+		<!-- <TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('net7.0;'))">net7.0;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
 
 		<!--
 

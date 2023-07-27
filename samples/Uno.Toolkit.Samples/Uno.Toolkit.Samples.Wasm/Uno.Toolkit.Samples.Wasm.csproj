@@ -61,7 +61,6 @@
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.UI.Cupertino.csproj" />
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.UI.Material.csproj" />
 		<ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.UI.csproj" />
-		<ProjectReference Include="..\..\..\src\Uno.Toolkit.Skia.UI\Uno.Toolkit.Skia.UI.csproj" />
 		<ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.UI.csproj" />
 		<ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj" />
 	</ItemGroup>

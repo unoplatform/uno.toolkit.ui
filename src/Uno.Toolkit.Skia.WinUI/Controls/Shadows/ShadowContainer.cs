@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Linq;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using SkiaSharp.Views.Windows;
-#else
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using SkiaSharp.Views.UWP;
-#endif
+
 
 #if __ANDROID__
 using Android.Views;

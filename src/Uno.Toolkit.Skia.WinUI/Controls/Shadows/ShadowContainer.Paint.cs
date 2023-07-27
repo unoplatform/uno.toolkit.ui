@@ -1,23 +1,13 @@
 ﻿using System;
 using System.Linq;
-
 using SkiaSharp;
-
-using Windows.UI;
-
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
 using Uno.Logging;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Controls;
 using SkiaSharp.Views.Windows;
-#else
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Controls;
-using SkiaSharp.Views.UWP;
-#endif
+using Windows.UI;
 
 namespace Uno.Toolkit.UI;
 

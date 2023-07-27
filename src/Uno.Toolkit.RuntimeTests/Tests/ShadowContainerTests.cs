@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if IS_WINUI
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 
 
-#if IS_WINUI
+
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
@@ -27,17 +28,6 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI.ViewManagement;
-#else
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
-using Windows.UI;
-using Windows.UI.ViewManagement;
-#endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests
 {
@@ -168,3 +158,4 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 	}
 }
+#endif
