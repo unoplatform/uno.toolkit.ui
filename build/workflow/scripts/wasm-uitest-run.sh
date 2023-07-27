@@ -15,8 +15,8 @@ fi
 
 cd $BUILD_SOURCESDIRECTORY/build/$SAMPLEAPP_ARTIFACT_NAME
 
-npm i chromedriver@86.0.0
-npm i puppeteer@5.3.1
+npm i chromedriver@102.0.0
+npm i puppeteer@14.1.0
 
 # install dotnet serve / Remove as needed
 dotnet tool uninstall dotnet-serve -g || true
@@ -27,7 +27,7 @@ export PATH="$PATH:$BUILD_SOURCESDIRECTORY/build/tools"
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/wasm/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_TARGETURI=http://localhost:5000
 export UNO_UITEST_DRIVERPATH_CHROME=$BUILD_SOURCESDIRECTORY/build/$SAMPLEAPP_ARTIFACT_NAME/node_modules/chromedriver/lib/chromedriver
-export UNO_UITEST_CHROME_BINARY_PATH=$BUILD_SOURCESDIRECTORY/build/$SAMPLEAPP_ARTIFACT_NAME/node_modules/puppeteer/.local-chromium/linux-800071/chrome-linux/chrome
+export UNO_UITEST_CHROME_BINARY_PATH=$BUILD_SOURCESDIRECTORY/build/$SAMPLEAPP_ARTIFACT_NAME/node_modules/puppeteer/.local-chromium/linux-991974/chrome-linux/chrome
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
 export UNO_UITEST_PLATFORM=Browser
 export UNO_UITEST_CHROME_CONTAINER_MODE=true
