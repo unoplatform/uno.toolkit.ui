@@ -141,7 +141,7 @@
     displayName: Run Android UITests ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))
     retryCountOnTaskFailure: 3
     env:
-     - IsCanaryBranch: $(IsCanaryBranch)
+      IsCanaryBranch: $(IsCanaryBranch)
 
   - task: PublishTestResults@2
     condition: always()
