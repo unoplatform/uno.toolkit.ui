@@ -16,15 +16,13 @@
 
 		<!--BUTTONS-->
 		
-		<!--Elevated-->
 		<SolidColorBrush x:Key="OnSurfaceDisabledBrushShadow"
 						 Color="{StaticResource OnSurfaceDisabledColor}"
 						 Opacity="0.08" />
+		<!--Elevated-->
+		
 		<SolidColorBrush x:Key="OnSurfaceLowBrushShadow"
 						 Color="{StaticResource OnSurfaceColor}"
-						 Opacity="0.38" />
-		<SolidColorBrush x:Key="OnPrimaryLowBrushShadow"
-						 Color="{StaticResource OnPrimaryColor}"
 						 Opacity="0.38" />
 
 		<!--Elevated Shadows-->
@@ -66,12 +64,16 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="Button">
-						<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource ElevatedNormal}">
+						<utu:ShadowContainer x:Name="RootPanel">
 
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
 
-									<VisualState x:Name="Normal"/>
+									<VisualState x:Name="Normal">
+										<VisualState.Setters>
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource ElevatedNormal}" />
+										</VisualState.Setters>
+									</VisualState>
 
 									<VisualState x:Name="PointerOver">
 										<VisualState.Setters>
@@ -88,6 +90,7 @@
 									<VisualState x:Name="Disabled">
 										<VisualState.Setters>
 											<Setter Target="RootPanel.Shadows" Value="{StaticResource ElevatedDisabled}" />
+											<!--Check if this is correct, look a bit off-->
 											<Setter Target="Grid.Background" Value="{StaticResource OnSurfaceDisabledBrushShadow}" />
 											<Setter Target="ContentPresenter.Foreground" Value="{StaticResource OnSurfaceLowBrushShadow}" />
 											<Setter Target="IconPresenter.Foreground" Value="{StaticResource OnSurfaceLowBrushShadow}" />
@@ -164,7 +167,10 @@
 		</Style>
 
 		<!--Filled-->
-
+		
+		<SolidColorBrush x:Key="OnPrimaryLowBrushShadow"
+						 Color="{StaticResource OnPrimaryColor}"
+						 Opacity="0.38" />
 		<!--Filled Shadows-->
 		<utu:ShadowCollection x:Key="FilledNormal">
 			<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource FilledLightShadowColor}" />
@@ -515,6 +521,7 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
