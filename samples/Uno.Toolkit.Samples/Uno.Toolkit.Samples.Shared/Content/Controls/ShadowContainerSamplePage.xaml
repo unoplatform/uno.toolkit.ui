@@ -522,6 +522,103 @@
 			</Setter>
 		</Style>
 
+		<!--ICON BUTTON-->
+		
+		<!--Shadows-->
+		<utu:ShadowCollection x:Key="IconButtonShadows">
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-2" OffsetY="-2" Opacity="0.8" Spread="0" Color="{StaticResource ElevatedLightShadowColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="2" OffsetY="2" Opacity="0.8" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
+		</utu:ShadowCollection>
+		
+		<Style x:Key="NmpIconButtonStyle"
+			   BasedOn="{StaticResource MaterialBaseButtonStyle}"
+			   TargetType="Button">
+			<Setter Property="Foreground"
+					Value="{ThemeResource IconButtonForeground}" />
+			<Setter Property="Background"
+					Value="{ThemeResource SurfaceColor}" />
+			<Setter Property="CornerRadius"
+					Value="20" />
+			<Setter Property="MinHeight"
+					Value="40" />
+			<Setter Property="MinWidth"
+					Value="40" />
+			<Setter Property="HorizontalContentAlignment"
+					Value="Center" />
+			<Setter Property="VerticalContentAlignment"
+					Value="Center" />
+			
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource IconButtonShadows}">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="PointerOver">
+										<VisualState.Setters>
+											<Setter Target="HoverOverlay.Opacity" Value="{ThemeResource IconButtonOpacityVisibleState}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Pressed">
+										<VisualState.Setters>
+											<Setter Target="PressedOverlay.Opacity" Value="{ThemeResource IconButtonOpacityVisibleState}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Focused">
+										<VisualState.Setters>
+											<Setter Target="FocusedOverlay.Opacity" Value="{ThemeResource IconButtonOpacityVisibleState}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<VisualState.Setters>
+											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource IconButtonForegroundDisabled}" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Grid x:Name="RootGrid"
+									Background="{TemplateBinding Background}"
+									CornerRadius="{TemplateBinding CornerRadius}"
+									Width="{TemplateBinding MinWidth}"
+									Height="{TemplateBinding MinHeight}">
+								<!-- Ellipse for PointerOver State -->
+								<Ellipse x:Name="HoverOverlay"
+										 HorizontalAlignment="{StaticResource IconButtonEllipseHorizontalAlignment}"
+										 VerticalAlignment="{StaticResource IconButtonEllipseVerticalAlignment}"
+										 Fill="{ThemeResource IconButtonEllipseFillPointerOver}"
+										 Opacity="{ThemeResource IconButtonOpacityHiddenState}" />
+
+								<!-- Ellipse for Pressed State -->
+								<Ellipse x:Name="PressedOverlay"
+										 HorizontalAlignment="{StaticResource IconButtonEllipseHorizontalAlignment}"
+										 VerticalAlignment="{StaticResource IconButtonEllipseVerticalAlignment}"
+										 Fill="{ThemeResource IconButtonEllipseFillPressed}"
+										 Opacity="{ThemeResource IconButtonOpacityHiddenState}" />
+
+								<!-- Ellipse for Focused State -->
+								<Ellipse x:Name="FocusedOverlay"
+										 HorizontalAlignment="{StaticResource IconButtonEllipseHorizontalAlignment}"
+										 VerticalAlignment="{StaticResource IconButtonEllipseVerticalAlignment}"
+										 Fill="{ThemeResource IconButtonEllipseFillFocused}"
+										 Opacity="{ThemeResource IconButtonOpacityHiddenState}" />
+
+								<!-- Content -->
+								<ContentPresenter x:Name="ContentPresenter"
+												  AutomationProperties.AccessibilityView="Raw"
+												  Content="{TemplateBinding Content}"
+												  ContentTemplate="{TemplateBinding ContentTemplate}"
+												  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+												  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+												  Width="24"
+												  Height="24"/>
+							</Grid>
+						</utu:ShadowContainer>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -635,6 +732,37 @@
 											<PathIcon Data="M7 14H9V6H7V14ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM11 14H13V6H11V14Z" />
 										</um:ControlExtensions.AlternateContent>
 									</ToggleButton>
+									
+								</StackPanel>
+							</StackPanel>
+
+							<TextBlock Margin="0,24,0,0"
+							           Style="{StaticResource TitleTextBlockStyle}"
+							           Text="IconButton" />
+
+							<StackPanel Width="550"
+							            Margin="0,32"
+							            Padding="32"
+							            Background="{StaticResource SurfaceColor}"
+							            CornerRadius="30">
+
+								<StackPanel Margin="0,30,0,0"
+								            Padding="24"
+								            HorizontalAlignment="Center"
+								            Spacing="30">
+
+									<Button Style="{StaticResource NmpIconButtonStyle}">
+										<Button.Content>
+											<PathIcon Data="M0 12H18V10H0V12ZM0 7H18V5H0V7ZM0 0V2H18V0H0Z" />
+										</Button.Content>
+									</Button>
+
+									<Button Style="{StaticResource NmpIconButtonStyle}"
+											IsEnabled="False">
+										<Button.Content>
+											<PathIcon Data="M0 12H18V10H0V12ZM0 7H18V5H0V7ZM0 0V2H18V0H0Z" />
+										</Button.Content>
+									</Button>
 									
 								</StackPanel>
 							</StackPanel>
