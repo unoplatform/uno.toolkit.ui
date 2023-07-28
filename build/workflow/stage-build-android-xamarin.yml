@@ -71,3 +71,4 @@ jobs:
       PathtoPublish: $(build.artifactstagingdirectory)
       ArtifactName: $(ArtifactName)
       ArtifactType: Container
+
