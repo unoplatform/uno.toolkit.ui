@@ -17,9 +17,15 @@
 		<!--BUTTONS-->
 		
 		<!--Elevated-->
-
-		<SolidColorBrush x:Key="OnSurfaceDisabledBrushShadow" Color="{StaticResource OnSurfaceDisabledColor}" Opacity="0.08" />
-		<SolidColorBrush x:Key="OnSurfaceLowBrushShadow" Color="{StaticResource OnSurfaceColor}" Opacity="0.38" />
+		<SolidColorBrush x:Key="OnSurfaceDisabledBrushShadow"
+						 Color="{StaticResource OnSurfaceDisabledColor}"
+						 Opacity="0.08" />
+		<SolidColorBrush x:Key="OnSurfaceLowBrushShadow"
+						 Color="{StaticResource OnSurfaceColor}"
+						 Opacity="0.38" />
+		<SolidColorBrush x:Key="OnPrimaryLowBrushShadow"
+						 Color="{StaticResource OnPrimaryColor}"
+						 Opacity="0.38" />
 
 		<!--Elevated Shadows-->
 		<utu:ShadowCollection x:Key="ElevatedNormal">
@@ -220,6 +226,9 @@
 									<VisualState x:Name="Disabled">
 										<VisualState.Setters>
 											<Setter Target="RootPanel.Shadows" Value="{StaticResource FilledDisabled}" />
+											<Setter Target="Grid.Background" Value="{StaticResource OnSurfaceDisabledBrushShadow}" />
+											<Setter Target="ContentPresenter.Foreground" Value="{StaticResource OnPrimaryLowBrushShadow}" />
+											<Setter Target="IconPresenter.Foreground" Value="{StaticResource OnPrimaryLowBrushShadow}" />
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>
@@ -284,6 +293,222 @@
 										</Grid>
 									</um:Ripple.Content>
 								</um:Ripple>
+							</Grid>
+						</utu:ShadowContainer>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<!--TOGGLE BUTTON-->
+
+		<SolidColorBrush x:Key="ToggleButtonOnSurfaceMediumBrush"
+						 Color="{StaticResource OnSurfaceColor}"
+						 Opacity="0.6" />
+		<SolidColorBrush x:Key="ToggleButtonOnPrimaryMediumBrush"
+						 Color="{StaticResource OnPrimaryColor}"
+						 Opacity="0.74" />
+
+		<SolidColorBrush x:Key="ToggleButtonPrimaryHoverBrush"
+						 Color="{StaticResource PrimaryColor}"
+						 Opacity="0.08" />
+		<SolidColorBrush x:Key="ToggleButtonPrimaryPressedBrush"
+						 Color="{StaticResource PrimaryColor}"
+						 Opacity="0.12" />
+
+		<!--Shadows-->
+		<utu:ShadowCollection x:Key="ToggleButtonNormal">
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-2" OffsetY="-2" Opacity="0.8" Spread="0" Color="{StaticResource ElevatedLightShadowColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="2" OffsetY="2" Opacity="0.8" Spread="0" Color="{StaticResource ElevatedShadeShadowColor}" />
+		</utu:ShadowCollection>
+
+		<utu:ShadowCollection x:Key="ToggleButtonChecked">
+			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="1" Spread="0" Color="{StaticResource FilledShadeShadowColor}" />
+			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="1" Spread="0" Color="{StaticResource FilledLightShadowColor}" />
+		</utu:ShadowCollection>
+
+		<!--ToggleButton Style-->
+		<Style x:Key="NmpToggleButtonStyle"
+				TargetType="ToggleButton">
+			<Setter Property="Foreground"
+					Value="{ThemeResource ToggleButtonOnSurfaceMediumBrush}" />
+			<Setter Property="Background"
+					Value="{ThemeResource SurfaceColor}" />
+			<Setter Property="MinHeight"
+					Value="40" />
+			<Setter Property="MinWidth"
+					Value="40" />
+			<Setter Property="UseSystemFocusVisuals"
+					Value="True" />
+			<Setter Property="HorizontalContentAlignment"
+					Value="Center" />
+			<Setter Property="VerticalContentAlignment"
+					Value="Center" />
+			<Setter Property="CornerRadius"
+					Value="20" />
+
+			<!-- Workaround for WinUI issue: https://github.com/microsoft/microsoft-ui-xaml/issues/6388 -->
+			<Setter Property="um:ControlExtensions.AlternateContent"
+				Value="{x:Null}" />
+
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ToggleButton">
+						<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource ToggleButtonNormal}">
+							
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal">
+										<VisualState.Setters>
+											<Setter Target="RootPanel.Shadows"
+													Value="{ThemeResource ToggleButtonNormal}" />
+											<Setter Target="RootGrid.Background"
+													Value="{ThemeResource SurfaceColor}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="PointerOver">
+										<VisualState.Setters>
+											<Setter Target="RootPanel.Shadows"
+													Value="{ThemeResource ToggleButtonNormal}" />
+											<Setter Target="ContentPresenter.Visibility"
+													Value="Visible" />
+											<Setter Target="AlternateContentPresenter.Visibility"
+													Value="Collapsed" />
+											<Setter Target="HoverOverlay.Opacity"
+													Value="1" />
+											<Setter Target="RootGrid.Background"
+													Value="{ThemeResource SurfaceColor}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Pressed">
+										<VisualState.Setters>
+											<Setter Target="RootPanel.Shadows"
+													Value="{ThemeResource ToggleButtonNormal}" />
+											<Setter Target="ContentPresenter.Visibility"
+													Value="Visible" />
+											<Setter Target="AlternateContentPresenter.Visibility"
+													Value="Collapsed" />
+											<Setter Target="PressedOverlay.Opacity"
+													Value="1" />
+											<Setter Target="RootGrid.Background"
+													Value="{ThemeResource SurfaceColor}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<VisualState.Setters>
+											<Setter Target="RootPanel.Shadows"
+													Value="{ThemeResource ToggleButtonNormal}" />
+											<Setter Target="ContentPresenter.Visibility"
+													Value="Visible" />
+											<Setter Target="AlternateContentPresenter.Visibility"
+													Value="Collapsed" />
+											<Setter Target="ContentPresenter.Foreground"
+													Value="{ThemeResource OnSurfaceLowBrush}" />
+											<Setter Target="RootPanel.Opacity"
+													Value="0.38" />
+											<Setter Target="RootGrid.Background"
+													Value="{ThemeResource SurfaceColor}" />
+										</VisualState.Setters>
+									</VisualState>
+									
+									<!--Checkeck-->
+									<VisualState x:Name="Checked">
+										<VisualState.Setters>
+											
+											<Setter Target="ContentPresenter.Visibility"
+													Value="Collapsed" />
+											<Setter Target="AlternateContentPresenter.Visibility"
+													Value="Visible" />
+											<Setter Target="AlternateContentPresenter.Foreground"
+													Value="{ThemeResource OnPrimaryColor}" />
+											<Setter Target="RootPanel.Shadows"
+													Value="{ThemeResource ToggleButtonChecked}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="CheckedPointerOver">
+										<VisualState.Setters>
+											
+											<Setter Target="ContentPresenter.Visibility"
+													Value="Collapsed" />
+											<Setter Target="AlternateContentPresenter.Visibility"
+													Value="Visible" />
+											<Setter Target="AlternateContentPresenter.Foreground"
+													Value="{ThemeResource OnPrimaryColor}" />
+											<Setter Target="HoverOverlay.Opacity"
+													Value="1" />
+											<Setter Target="RootPanel.Shadows"
+													Value="{ThemeResource ToggleButtonChecked}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="CheckedPressed">
+										<VisualState.Setters>
+											
+											<Setter Target="ContentPresenter.Visibility"
+													Value="Collapsed" />
+											<Setter Target="AlternateContentPresenter.Visibility"
+													Value="Visible" />
+											<Setter Target="AlternateContentPresenter.Foreground"
+													Value="{ThemeResource OnPrimaryColor}" />
+											<Setter Target="PressedOverlay.Opacity"
+													Value="1" />
+											<Setter Target="RootPanel.Shadows"
+													Value="{ThemeResource ToggleButtonChecked}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="CheckedDisabled">
+										<VisualState.Setters>
+											
+											<Setter Target="ContentPresenter.Visibility"
+													Value="Collapsed" />
+											<Setter Target="AlternateContentPresenter.Visibility"
+													Value="Visible" />
+											<Setter Target="AlternateContentPresenter.Foreground"
+													Value="{ThemeResource ToggleButtonOnPrimaryMediumBrush}" />
+											<Setter Target="RootPanel.Opacity"
+													Value="0.38" />
+											<Setter Target="RootPanel.Shadows"
+													Value="{ThemeResource ToggleButtonChecked}" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+
+							<Grid x:Name="RootGrid"
+								  Background="{ThemeResource PrimaryColor}"
+								  CornerRadius="{TemplateBinding CornerRadius}"
+								  Width="{TemplateBinding MinWidth}"
+								  Height="{TemplateBinding MinHeight}">
+								<!-- Ellipse for PointedOver State -->
+								<Ellipse x:Name="HoverOverlay"
+										 HorizontalAlignment="Stretch"
+										 VerticalAlignment="Stretch"
+										 Fill="{StaticResource ToggleButtonPrimaryHoverBrush}"
+										 Opacity="0"
+										 Visibility="Visible"/>
+
+								<!-- Ellipse for Pressed State -->
+								<Ellipse x:Name="PressedOverlay"
+										 HorizontalAlignment="Stretch"
+										 VerticalAlignment="Stretch"
+										 Fill="{StaticResource ToggleButtonPrimaryPressedBrush}"
+										 Opacity="0"
+										 Visibility="Visible"/>
+
+								<!-- Content -->
+								<ContentPresenter x:Name="ContentPresenter"
+												  AutomationProperties.AccessibilityView="Raw"
+												  Content="{TemplateBinding Content}"
+												  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+												  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+								<!-- Alternate Content -->
+								<ContentPresenter x:Name="AlternateContentPresenter"
+												  AutomationProperties.AccessibilityView="Raw"
+												  Content="{Binding Path=(um:ControlExtensions.AlternateContent), RelativeSource={RelativeSource TemplatedParent}}"
+												  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+												  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+												  Foreground="{StaticResource OnPrimaryBrush}"
+												  Visibility="Collapsed" />
 							</Grid>
 						</utu:ShadowContainer>
 					</ControlTemplate>
@@ -356,9 +581,57 @@
 											<PathIcon Data="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z" />
 										</um:ControlExtensions.Icon>
 									</Button>
-
 								</StackPanel>
 							</StackPanel>
+
+							<TextBlock Margin="0,24,0,0"
+							           Style="{StaticResource TitleTextBlockStyle}"
+							           Text="ToggleButton" />
+
+							<StackPanel Width="550"
+							            Margin="0,32"
+							            Padding="32"
+							            Background="{StaticResource SurfaceColor}"
+							            CornerRadius="30">
+
+								<StackPanel Margin="0,30,0,0"
+								            Padding="24"
+								            HorizontalAlignment="Center"
+								            Spacing="30">
+
+									<ToggleButton Style="{StaticResource NmpToggleButtonStyle}">
+										<ToggleButton.Content>
+											<PathIcon Data="M8 14.5L14 10L8 5.5V14.5ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18Z" />
+										</ToggleButton.Content>
+										<um:ControlExtensions.AlternateContent>
+											<PathIcon Data="M7 14H9V6H7V14ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM11 14H13V6H11V14Z" />
+										</um:ControlExtensions.AlternateContent>
+									</ToggleButton>
+
+									<ToggleButton Style="{StaticResource NmpToggleButtonStyle}"
+												  IsEnabled="False">
+										<ToggleButton.Content>
+											<PathIcon Data="M8 14.5L14 10L8 5.5V14.5ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18Z" />
+										</ToggleButton.Content>
+										<um:ControlExtensions.AlternateContent>
+											<PathIcon Data="M7 14H9V6H7V14ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM11 14H13V6H11V14Z" />
+										</um:ControlExtensions.AlternateContent>
+									</ToggleButton>
+
+									<ToggleButton Style="{StaticResource NmpToggleButtonStyle}"
+												  IsEnabled="False"
+												  IsChecked="True">
+										<ToggleButton.Content>
+											<PathIcon Data="M8 14.5L14 10L8 5.5V14.5ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18Z" />
+										</ToggleButton.Content>
+										<um:ControlExtensions.AlternateContent>
+											<PathIcon Data="M7 14H9V6H7V14ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM11 14H13V6H11V14Z" />
+										</um:ControlExtensions.AlternateContent>
+									</ToggleButton>
+									
+								</StackPanel>
+							</StackPanel>
+
 						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>
