@@ -143,5 +143,15 @@
     {
         "PackageId": "Uno.Microsoft.Toolkit.Uwp.UI.Controls",
         "UpdatedVersion": "(,7.1.999]"
+    },
+
+
+    {
+        "PackageId": "Uno.Wasm.Bootstrap",
+        "UpdatedVersion": "(,7.999.999]"
+    },
+    {
+        "PackageId": "Uno.Wasm.Bootstrap.DevServer",
+        "UpdatedVersion": "(,7.999.999]"
     }
 ]
