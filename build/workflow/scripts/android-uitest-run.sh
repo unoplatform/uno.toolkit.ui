@@ -16,7 +16,7 @@ then
 	export TEST_FILTERS="class == 'Uno.Toolkit.UITest.RuntimeTests.RuntimeTestRunner'";
 fi
 
-if [ "$IsCanaryBranch" == "true" ];
+if [ "$IsCanaryBranch" == "True" ];
 then
 	export TARGET_SAMPLEAPP_PACKAGE_NAME=$SAMPLEAPP_PACKAGE_NAME_Canary
 else
