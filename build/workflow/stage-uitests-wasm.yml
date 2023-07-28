@@ -102,7 +102,7 @@
         SAMPLEAPP_ARTIFACT_NAME: sampleapp-wasm-build-WinUI
 
   pool:
-    vmImage: 'ubuntu-20.04'
+    vmImage: 'ubuntu-latest'
 
   variables:
     NUGET_PACKAGES: $(build.sourcesdirectory)/.nuget
