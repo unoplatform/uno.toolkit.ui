@@ -17,7 +17,7 @@ steps:
   - task: nventiveCanaryUpdater@5
     condition: eq(variables['IsCanaryBranch'], true)
     inputs:
-      solution: src/Uno.Toolkit.sln
+      solution: $(build.sourcesdirectory)
       useNuGetOrg: true
       usePrivateFeed: false
       mergeBranch: true
