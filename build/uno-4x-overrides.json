@@ -153,5 +153,10 @@
     {
         "PackageId": "Uno.Wasm.Bootstrap.DevServer",
         "UpdatedVersion": "(,7.999.999]"
+    },
+
+    {
+        "PackageId": "Uno.WinUI.Markup",
+        "UpdatedVersion": "(,4.7.99-dev.999]"
     }
 ]
