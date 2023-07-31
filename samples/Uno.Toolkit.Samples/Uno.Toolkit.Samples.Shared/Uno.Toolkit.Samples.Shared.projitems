@@ -19,8 +19,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.xaml.cs">
-      <DependentUpon>ShadowContainerSamplePage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.WinUI.xaml.cs">
+      <DependentUpon>ShadowContainerSamplePage.WinUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\AutoLayoutPage.xaml.cs">
       <DependentUpon>AutoLayoutPage.xaml</DependentUpon>
@@ -134,7 +134,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\RuntimeTestRunner.xaml.cs">
       <DependentUpon>RuntimeTestRunner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.WinUI.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ModalDialog.xaml.cs">
       <DependentUpon>ModalDialog.xaml</DependentUpon>
     </Compile>
@@ -210,7 +210,7 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.WinUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -382,7 +382,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.WinUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -531,5 +531,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-300.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\UnoLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Remove="$(MSBuildThisFileDirectory)**\*.WinUI.xaml" Condition="'$(FrameworkLineage)' == 'UWP'" />
+    <Compile Remove="$(MSBuildThisFileDirectory)**\*.WinUI.xaml.cs" Condition="'$(FrameworkLineage)' == 'UWP'" />
   </ItemGroup>
 </Project>

@@ -1,13 +1,9 @@
-﻿using Uno.Toolkit.Samples.Entities;
+﻿#if IS_WINUI
+using Uno.Toolkit.Samples.Entities;
 using Uno.Toolkit.UI;
 
-#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-#else
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-#endif
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
@@ -48,3 +44,4 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		}
 	}
 }
+#endif

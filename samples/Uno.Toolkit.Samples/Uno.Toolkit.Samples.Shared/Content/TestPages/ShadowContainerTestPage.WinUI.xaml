@@ -16,9 +16,12 @@
 		</Grid.RowDefinitions>
 
 		<StackPanel HorizontalAlignment="Center"
-					VerticalAlignment="Center"
-					>
-			<Border x:Name="outerBorder" Background="Blue" Padding="10" Height="220" Width="220">
+					VerticalAlignment="Center">
+			<Border x:Name="outerBorder"
+					Background="Blue"
+					Padding="10"
+					Height="220"
+					Width="220">
 				<utu:ShadowContainer x:Name="shadowContainer">
 					<Border Width="200"
 							Height="200"

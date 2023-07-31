@@ -147,11 +147,6 @@
       <Project>{aeed47ed-bd21-4f03-a7a9-124cf63e4b1c}</Project>
       <Name>Uno.Toolkit.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Uno.Toolkit.Skia.UI\Uno.Toolkit.Skia.UI.csproj">
-      <Project>{191B928E-6469-435A-AE70-30AB8734804B}</Project>
-      <Name>Uno.Toolkit.Skia.UI</Name>
-    </ProjectReference>
-    
     <ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj">
       <Project>{58a935f8-7720-4f95-80b2-0399e41d6d3e}</Project>
       <Name>Uno.Toolkit</Name>
