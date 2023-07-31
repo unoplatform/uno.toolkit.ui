@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium.DevTools.V85.CSS;
+﻿#if IS_WINUI
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -127,3 +127,4 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 		}
 	}
 }
+#endif

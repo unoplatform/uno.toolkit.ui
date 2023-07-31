@@ -1,0 +1,7 @@
+<Project ToolsVersion="15.0">
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+	<PropertyGroup>
+		<FrameworkLineage>WinUI</FrameworkLineage>
+	</PropertyGroup>
+</Project>
