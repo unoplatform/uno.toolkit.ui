@@ -6,7 +6,7 @@ uid: Toolkit.Controls.ShadowContainer
 The `ShadowContainer` provides the possibility to add many-colored shadows to its content.
 
 ## Remarks
-For now, the control simply adapts its corner radius to the content's corner radius. More complicated shapes like texts or pictures with alpha, are not supported.
+For now, the control simply adapts its corner radius to the content's corner radius. More complicated shapes, such as text or pictures with alpha, are not supported.
 
 ### XAML
 ```xml
@@ -32,7 +32,7 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 ### Properties
 | Property | Type             | Description |
 | -------- | ---------------- | ----------- |
-Shadows  | ShadowCollection |  The collection of shadows that will be displayed under your control. A `ShadowCollection` can be stored in a resource dictionary to have a consistent style through your app. The `ShadowCollection` implements `INotifyCollectionChanged`.
+Shadows  | ShadowCollection |  The collection of shadows that will be displayed under your control. A `ShadowCollection` can be stored in a resource dictionary to have a consistent style throughout your app. The `ShadowCollection` implements `INotifyCollectionChanged`.
 
 ## Shadow
 
@@ -41,7 +41,7 @@ Dependency object representing a single shadow.
 ### Shadow Properties
 | Property | Type | Description |
 | -------- | ---- | ----------- |
-IsInner | bool | True is this shadow is an inner shadow (like `inset` in css box-shadow).
+IsInner | bool | True if this shadow is an inner shadow (similar to `inset` of `box-shadow` in CSS).
 OffsetX | double | The X offset of the shadow.
 OffsetY | double | The Y offset of the shadow.
 Color | Color | The color of the shadow. It will be multiplied by the `Opacity` property before rendering.
@@ -126,8 +126,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ### Neumorphism
 
 [Following neumorphism rules](https://neumorphism.io), choose one background color, 2 shadow colors, and create a cool neumorphism style.
-In order to achieve neumorphic depth effects (instead of having a raised element, it will feel as if it was hollow or bulging), set the `IsInner` property of a shadow to `true`. The shadow will then be displayed *inside* the element instead of beyond.
-In css `box-shadow` it's equivalent to the `inset` property.
+In order to achieve neumorphic depth effects (instead of having a raised element, it will feel as if it was hollow or bulging), set the `IsInner` property of a shadow to `True`. The shadow will then be displayed *inside* the element instead of behind.
+This is equivalent to the `inset` property of the CSS `box-shadow`.
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
