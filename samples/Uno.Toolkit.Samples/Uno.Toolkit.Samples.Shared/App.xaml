@@ -1,7 +1,8 @@
 ﻿<Application x:Class="Uno.Toolkit.Samples.App"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:utu="using:Uno.Toolkit.UI">
+             xmlns:utu="using:Uno.Toolkit.UI"
+             RequestedTheme="Light">
 	<Application.Resources>
 		<ResourceDictionary>
 			

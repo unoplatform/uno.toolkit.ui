@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+	<!--Themed colors-->
 	<ResourceDictionary.ThemeDictionaries>
-		<!-- Light Theme -->
 		<ResourceDictionary x:Key="Light">
 			<Color x:Key="OnSurfaceColor">#1C1B1F</Color>
 			<Color x:Key="OnSurfaceVariantColor">#8A8494</Color>
@@ -54,11 +54,9 @@
 			<Color x:Key="LightShadowColor4">#6651F2</Color>
 			<Color x:Key="ShadeShadowColor4">#4C3CB3</Color>
 		</ResourceDictionary>
-
-		<!-- Dark Theme -->
 		<ResourceDictionary x:Key="Dark">
 			<Color x:Key="StatusBarForegroundColor">#FFFFFF</Color>
-			<Color x:Key="SurfaceColor">#302D38</Color>
+			<Color x:Key="SurfaceColor">#302D37</Color>
 			<Color x:Key="PrimaryColor">#C7BFFF</Color>
 			<Color x:Key="PrimaryInverseColor">#2A009F</Color>
 			<Color x:Key="OnPrimaryColor">#2A009F</Color>
@@ -88,7 +86,7 @@
 			<Color x:Key="OnTertiaryColor">#003258</Color>
 			<Color x:Key="TertiaryContainerColor">#00497D</Color>
 			<Color x:Key="OnTertiaryContainerColor">#D1E4FF</Color>
-
+				
 			<!--Shadow Work-->
 
 			<Color x:Key="OnSurfaceDisabledColor">#736E81</Color>
@@ -106,5 +104,5 @@
 			<Color x:Key="LightShadowColor4">#E5DCFF</Color>
 			<Color x:Key="ShadeShadowColor4">#A9A2D9</Color>
 		</ResourceDictionary>
-		</ResourceDictionary.ThemeDictionaries>
+	</ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
