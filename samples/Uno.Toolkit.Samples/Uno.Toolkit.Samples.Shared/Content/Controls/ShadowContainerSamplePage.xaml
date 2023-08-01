@@ -8,25 +8,26 @@
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  xmlns:um="using:Uno.Material"
+	  xmlns:ios="http://uno.ui/ios"
+	  xmlns:not_ios="http://uno.ui/not_ios"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-	  mc:Ignorable="d">
+	  mc:Ignorable="d ios not_ios">
 	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
-				<ResourceDictionary x:Key="Default">
-					<Color x:Key="LocalSurfaceColor">#F0F0F3</Color>
-					<!--<StaticResource x:Key="LocalSurfaceColor" ResourceKey="SurfaceColor" />-->
-					<SolidColorBrush x:Key="LocalSurfaceBrush" Color="{StaticResource LocalSurfaceColor}" />
+				 <!--Theme for Shadow Style added in ColorPaletteOverride.xaml for this branch--> 
+				<ResourceDictionary x:Key="Dark">
+					<Color x:Key="LightShadowColor">#3C3846</Color>
+					<Color x:Key="ShadeShadowColor">#24222A</Color>
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="Light">
-					<Color x:Key="LocalSurfaceColor">#F0F0F3</Color>
-					<!--<StaticResource x:Key="LocalSurfaceColor" ResourceKey="SurfaceColor" />-->
-					<SolidColorBrush x:Key="LocalSurfaceBrush" Color="{StaticResource LocalSurfaceColor}" />
+					<Color x:Key="LightShadowColor">#FFFFFF</Color>
+					<Color x:Key="ShadeShadowColor">#AEAEC0</Color>
 				</ResourceDictionary>
 			</ResourceDictionary.ThemeDictionaries>
 
 			<!-- JM's values for reference -->
-			<utu:ShadowCollection x:Key="NeumorphismRaising">
+			<!--<utu:ShadowCollection x:Key="NeumorphismRaising">
 				<utu:Shadow BlurRadius="30" OffsetX="10" OffsetY="10" Opacity="1" Spread="-5" Color="#6858d3" />
 				<utu:Shadow BlurRadius="30" OffsetX="-10" OffsetY="-10" Opacity="1" Spread="-5" Color="#8c76ff" />
 			</utu:ShadowCollection>
@@ -37,31 +38,28 @@
 			<utu:ShadowCollection x:Key="NeumorphismBulging">
 				<utu:Shadow BlurRadius="10" IsInner="True" OffsetX="-5" OffsetY="-5" Opacity="1" Spread="0" Color="#6858d3" />
 				<utu:Shadow BlurRadius="10" IsInner="True" OffsetX="4" OffsetY="4" Opacity="1" Spread="0" Color="#8c76ff" />
-			</utu:ShadowCollection>
+			</utu:ShadowCollection>-->
 
-			<!-- theme to match design file -->
-			<!-- fixme: need to remap to material, maybe? -->
-			<!--<Color x:Key="LocalSurfaceColor">#F0F0F3</Color>-->
-			<Color x:Key="LightShadowColor">#FFFFFF</Color>
-			<Color x:Key="ShadeShadowColor">#AEAEC0</Color>
-			<!--<SolidColorBrush x:Key="LocalSurfaceBrush" Color="{StaticResource LocalSurfaceColor}" />-->
-
-			<!-- shadow definition -->
-			<utu:ShadowCollection x:Key="NoShadow" />
+			<!-- shadow definitions -->
 			<utu:ShadowCollection x:Key="NmpElevatedSmallButtonShadows">
-				<utu:Shadow OffsetX="4" OffsetY="4" BlurRadius="4" Color="{ThemeResource ShadeShadowColor}" Opacity="0.4" IsInner="False" />
-				<utu:Shadow OffsetX="-4" OffsetY="-4" BlurRadius="4" Color="{ThemeResource LightShadowColor}" Opacity="0.4" IsInner="False" />
+				<utu:Shadow OffsetX="-4" OffsetY="-4" BlurRadius="8" Color="{ThemeResource LightShadowColor}" Opacity="0.4" Spread="0" IsInner="False" />
+				<utu:Shadow OffsetX="4" OffsetY="4" BlurRadius="8" Color="{ThemeResource ShadeShadowColor}" Opacity="0.4" Spread="0" IsInner="False" />
 			</utu:ShadowCollection>
 			<utu:ShadowCollection x:Key="NmpOutlinedTextBoxShadows">
-				<utu:Shadow OffsetX="-4" OffsetY="-4" BlurRadius="4" Color="{ThemeResource LightShadowColor}" Opacity="0.4" IsInner="True" />
-				<utu:Shadow OffsetX="4" OffsetY="4" BlurRadius="4" Color="{ThemeResource ShadeShadowColor}" Opacity="0.4" IsInner="True" />
+				<utu:Shadow OffsetX="4" OffsetY="4" BlurRadius="4" Color="{ThemeResource ShadeShadowColor}" Opacity="0.4" Spread="0" IsInner="True" />
+				<utu:Shadow OffsetX="-4" OffsetY="-4" BlurRadius="4" Color="{ThemeResource LightShadowColor}" Opacity="0.4" Spread="0" IsInner="True" />
 			</utu:ShadowCollection>
+			<utu:ShadowCollection x:Key="NmpCheckBoxShadows">
+				<utu:Shadow OffsetX="1" OffsetY="1" BlurRadius="2" Color="{ThemeResource ShadeShadowColor}" Opacity="0.6" Spread="0" IsInner="False" />
+				<utu:Shadow OffsetX="-1" OffsetY="-1" BlurRadius="2" Color="{ThemeResource LightShadowColor}" Opacity="1" Spread="0" IsInner="False" />
+			</utu:ShadowCollection>
+			<utu:Shadow x:Key="NmpCheckBoxVisualStatesShadow" OffsetX="0" OffsetY="0" BlurRadius="12" Color="{ThemeResource PrimaryColor}" Opacity="1" Spread="0" IsInner="True" />
 
 			<!-- styles -->
 			<Style x:Key="NmpSmallElevatedButtonStyle" TargetType="Button">
 				<!-- ignore this style, just used to play around -->
 				<Setter Property="Foreground" Value="{ThemeResource PrimaryBrush}" />
-				<Setter Property="Background" Value="{ThemeResource LocalSurfaceBrush}" />
+				<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
 				<Setter Property="Margin" Value="4" />
 
 				<!-- Typography: Label Large -->
@@ -107,23 +105,24 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
+			
 			<Style x:Key="NmpTextBoxStyle" TargetType="TextBox">
-				<Setter Property="Background" Value="{ThemeResource LocalSurfaceColor}" />
-				<Setter Property="Foreground" Value="{ThemeResource OutlinedTextBoxForeground}" />
-				<Setter Property="PlaceholderForeground" Value="{ThemeResource OutlinedTextBoxPlaceholderForeground}" />
+				<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
+				<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+				<Setter Property="PlaceholderForeground" Value="{ThemeResource OnSurfaceVariantBrush}" />
 				<Setter Property="BorderBrush" Value="Transparent" />
 				<Setter Property="BorderThickness" Value="0" />
 				<!-- skia: there is some layout issue, when the CR is set from the style -->
 				<!-- than directly on the inner grid -->
 				<!--<Setter Property="CornerRadius" Value="4" />-->
 				<Setter Property="Margin" Value="0" />
-				<Setter Property="Padding" Value="8" />
+				<Setter Property="Padding" Value="10" />
 
 				<!-- Typography: Body Large -->
-				<Setter Property="FontFamily" Value="{ThemeResource OutlinedTextBoxFontFamily}" />
-				<Setter Property="FontWeight" Value="{ThemeResource OutlinedTextBoxFontWeight}" />
-				<Setter Property="FontSize" Value="{ThemeResource OutlinedTextBoxFontSize}" />
-				<Setter Property="CharacterSpacing" Value="{ThemeResource OutlinedTextBoxCharacterSpacing}" />
+				<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
+				<Setter Property="FontWeight" Value="{ThemeResource BodyLargeFontWeight}" />
+				<Setter Property="FontSize" Value="{ThemeResource BodyLargeFontSize}" />
+				<Setter Property="CharacterSpacing" Value="{ThemeResource BodyLargeCharacterSpacing}" />
 
 				<Setter Property="HorizontalAlignment" Value="Stretch" />
 				<Setter Property="VerticalAlignment" Value="Top" />
@@ -143,31 +142,50 @@
 								.... previously, we only have placeholder text, which behavior both as header+placeholder
 								.... currently, it is split into header & placeholder according to the figma design
 							-->
-							<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource NmpOutlinedTextBoxShadows}">
+							<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource NmpOutlinedTextBoxShadows}" Background="{TemplateBinding Background}">
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup x:Name="CommonStates">
 										<VisualState x:Name="Normal" />
-										<VisualState x:Name="PointerOver" />
-										<VisualState x:Name="Pressed" />
-										<VisualState x:Name="Disabled">
+										<VisualState x:Name="PointerOver">
 											<VisualState.Setters>
-												<Setter Target="RootPanel.Shadows" Value="{StaticResource NoShadow}" />
-												<Setter Target="ContentPanel.BorderThickness" Value="1" />
-												<Setter Target="ContentPanel.BorderBrush" Value="{ThemeResource OnSurfaceDisabledBrush}" />
-												<Setter Target="HeaderContentPresenter.Foreground" Value="{ThemeResource OnSurfaceDisabledBrush}" />
-												<Setter Target="ContentElement.Foreground" Value="{ThemeResource OnSurfaceDisabledBrush}" />
-												<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{ThemeResource OnSurfaceDisabledBrush}" />
-												<!--<Setter Target="HeaderContentPresenter.Foreground" Value="{ThemeResource OutlinedTextBoxForegroundDisabled}" />-->
-												<!--<Setter Target="ContentElement.Foreground" Value="{ThemeResource OutlinedTextBoxForegroundDisabled}" />-->
-												<!--<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{ThemeResource OutlinedTextBoxForegroundDisabled}" />-->
+												<Setter Target="HeaderContentPresenter.Foreground"
+														Value="{ThemeResource OnSurfaceMediumBrush}" />
+												<Setter Target="PlaceholderTextContentPresenter.Foreground"
+														Value="{ThemeResource OnSurfaceMediumBrush}" />
 											</VisualState.Setters>
 										</VisualState>
-										<VisualState x:Name="Focused" />
+										<VisualState x:Name="Pressed">
+											<VisualState.Setters>
+												<Setter Target="HeaderContentPresenter.Foreground"
+														Value="{ThemeResource OnSurfaceMediumBrush}" />
+												<Setter Target="PlaceholderTextContentPresenter.Foreground"
+														Value="{ThemeResource OnSurfaceMediumBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Disabled">
+											<VisualState.Setters>
+												<Setter Target="HeaderContentPresenter.Foreground"
+														Value="{ThemeResource OnSurfaceLowBrush}" />
+												<Setter Target="ContentElement.Opacity"
+														Value="{ThemeResource DisabledOpacity}" />
+												<Setter Target="PlaceholderTextContentPresenter.Foreground"
+														Value="{ThemeResource OnSurfaceLowBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Focused">
+											<VisualState.Setters>
+												<Setter Target="HeaderContentPresenter.Foreground"
+														Value="{ThemeResource PrimaryBrush}" />
+												<Setter Target="PlaceholderTextContentPresenter.Foreground"
+														Value="{ThemeResource PrimaryBrush}" />
+											</VisualState.Setters>
+										</VisualState>
 									</VisualStateGroup>
 									<VisualStateGroup x:Name="ButtonStates">
 										<VisualState x:Name="ButtonVisible">
 											<VisualState.Setters>
-												<Setter Target="DeleteButton.Visibility" Value="Visible" />
+												<Setter Target="DeleteButton.Visibility"
+														Value="Visible" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="ButtonCollapsed" />
@@ -179,8 +197,8 @@
 									  CornerRadius="4"
 									  BorderThickness="{TemplateBinding BorderThickness}"
 									  BorderBrush="{TemplateBinding BorderBrush}"
-									  Background="{TemplateBinding Background}"
-									  MinHeight="40"
+									  MinHeight="56"
+									  Width="{TemplateBinding Width}"
 									  Padding="{TemplateBinding Padding}">
 									<!-- vertical: 8pad, 20upper[3pad, header=16, 1pad], 20lower[19text, 1pad], 8pad -->
 									<!--
@@ -198,7 +216,8 @@
 									<Grid.RowDefinitions>
 										<!-- 0: header, 1: text/placeholder, 0-1: icons, buttons -->
 										<RowDefinition Height="Auto" />
-										<RowDefinition Height="*" MinHeight="20" />
+										<RowDefinition Height="*"
+													   MinHeight="20" />
 									</Grid.RowDefinitions>
 
 									<!-- R0-1C0: leading icon -->
@@ -229,7 +248,8 @@
 													  FontFamily="{ThemeResource MaterialMediumFontFamily}"
 													  FontSize="{ThemeResource BodySmallFontSize}"
 													  FontWeight="{ThemeResource BodySmallFontWeight}"
-													  Foreground="{ThemeResource PrimaryBrush}"
+													  CharacterSpacing="{ThemeResource BodySmallCharacterSpacing}"
+													  Foreground="{ThemeResource OnSurfaceVariantBrush}"
 													  Margin="0,3,0,1"
 													  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 													  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -240,6 +260,7 @@
 												  Grid.Column="1"
 												  Grid.Row="1"
 												  Margin="0,0,0,1"
+												  Foreground="{TemplateBinding Foreground}"
 												  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
 												  HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
 												  IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
@@ -259,7 +280,7 @@
 											   Margin="0,0,0,1"
 											   Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}}"
 											   Text="{TemplateBinding PlaceholderText}"
-											  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+											   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 											   Visibility="{Binding Text, Converter={StaticResource MaterialEmptyToVisible}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}"
 											   Style="{StaticResource BodyLarge}" />
 
@@ -272,9 +293,543 @@
 											IsTabStop="False"
 											AutomationProperties.AccessibilityView="Raw"
 											Visibility="Collapsed"
+											Foreground="{ThemeResource OnSurfaceVariantBrush}"
 											Style="{StaticResource MaterialDeleteButtonStyle}" />
 								</Grid>
 							</utu:ShadowContainer>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="NmpCheckBoxStyle"
+				   TargetType="CheckBox">
+				<Setter Property="Background"
+						Value="{ThemeResource SurfaceBrush}" />
+				<Setter Property="Foreground"
+						Value="{ThemeResource OnSurfaceMediumBrush}" />
+
+				<!-- Start: Body Small Typo -->
+				<Setter Property="FontFamily"
+						Value="{ThemeResource MaterialMediumFontFamily}" />
+				<Setter Property="FontWeight"
+						Value="{ThemeResource BodySmallFontWeight}" />
+				<Setter Property="FontSize"
+						Value="{ThemeResource BodySmallFontSize}" />
+				<Setter Property="CharacterSpacing"
+						Value="{ThemeResource BodySmallCharacterSpacing}" />
+				<!-- End: Body Small Typo -->
+
+				<Setter Property="Padding"
+						Value="{ThemeResource CheckBoxCheckAreaPadding}" />
+				<Setter Property="CornerRadius"
+						Value="{ThemeResource CheckBoxCheckAreaCornerRadius}" />
+				<Setter Property="HorizontalAlignment"
+						Value="Left" />
+				<Setter Property="VerticalAlignment"
+						Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment"
+						Value="Left" />
+				<Setter Property="VerticalContentAlignment"
+						Value="Center" />
+				<Setter Property="MinWidth"
+						Value="0" />
+				<Setter Property="MinHeight"
+						Value="{ThemeResource CheckBoxCheckAreaSize}" />
+				<Setter Property="UseSystemFocusVisuals"
+						Value="False" />
+
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="CheckBox">
+							<Grid x:Name="Root"
+								  Background="Transparent">
+								<VisualStateManager.VisualStateGroups>
+
+									<VisualStateGroup x:Name="CommonStates">
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="PointerOver" />
+										<VisualState x:Name="Pressed" />
+										<VisualState x:Name="Disabled" />
+
+										<!--<VisualStateGroup.Transitions>
+											<VisualTransition From="Normal"
+															  To="Pressed">
+												<Storyboard>
+													--><!-- iOS workaround #361 DoubleAnimationUsingKeyFrames having a small delay (0.5 seconds) before animating -->
+													<!-- Related to https://github.com/unoplatform/Uno.Themes/issues/361 & https://github.com/unoplatform/uno/issues/3773 --><!--
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="0"
+																		 To="{ThemeResource LowOpacity}" />
+
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 BeginTime="{StaticResource MaterialDelayedBeginTime}"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="{ThemeResource LowOpacity}"
+																		 To="0" />
+												</Storyboard>
+											</VisualTransition>
+											<VisualTransition From="PointerOver"
+															  To="Pressed">
+												<Storyboard>
+													--><!-- iOS workaround #361 DoubleAnimationUsingKeyFrames having a small delay (0.5 seconds) before animating -->
+													<!-- Related to https://github.com/unoplatform/Uno.Themes/issues/361 & https://github.com/unoplatform/uno/issues/3773 --><!--
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="0"
+																		 To="{ThemeResource LowOpacity}" />
+
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 BeginTime="{StaticResource MaterialDelayedBeginTime}"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="{ThemeResource LowOpacity}" />
+												</Storyboard>
+											</VisualTransition>
+										</VisualStateGroup.Transitions>-->
+									</VisualStateGroup>
+
+									<VisualStateGroup x:Name="CombinedStates">
+
+										<VisualState x:Name="UncheckedNormal">
+											<VisualState.Setters>
+												<Setter Target="CheckGlyph.Opacity"
+														Value="0" />
+											</VisualState.Setters>
+										</VisualState>
+
+										<VisualState x:Name="UncheckedPointerOver">
+											<VisualState.Setters>
+												<Setter Target="CheckGlyph.Opacity"
+														Value="0" />
+											</VisualState.Setters>
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="PressRing"
+																 Storyboard.TargetProperty="Opacity"
+																 Duration="{StaticResource MaterialAnimationDuration}"
+																 To="{ThemeResource HoverOpacity}">
+													<DoubleAnimation.EasingFunction>
+														<CubicEase EasingMode="EaseIn" />
+													</DoubleAnimation.EasingFunction>
+												</DoubleAnimation>
+											</Storyboard>
+										</VisualState>
+
+										<VisualState x:Name="UncheckedPressed">
+											<VisualState.Setters>
+												<Setter Target="CheckGlyph.Opacity"
+														Value="0" />
+											</VisualState.Setters>
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="PressRing"
+																 Storyboard.TargetProperty="Opacity"
+																 Duration="{StaticResource MaterialAnimationDuration}"
+																 To="{ThemeResource PressedOpacity}">
+													<DoubleAnimation.EasingFunction>
+														<CubicEase EasingMode="EaseIn" />
+													</DoubleAnimation.EasingFunction>
+												</DoubleAnimation>
+											</Storyboard>
+										</VisualState>
+
+										<VisualState x:Name="UncheckedDisabled">
+											<VisualState.Setters>
+												<Setter Target="ContentPresenter.Foreground"
+														Value="{ThemeResource OnSurfaceLowBrush}" />
+												<Setter Target="CheckGlyph.Fill"
+														Value="{ThemeResource OnSurfaceLowBrush}" />
+												<Setter Target="CheckGlyph.Opacity"
+														Value="0" />
+											</VisualState.Setters>
+										</VisualState>
+
+										<VisualState x:Name="CheckedNormal">
+											<VisualState.Setters>
+												<Setter Target="CheckGlyph.Opacity"
+														Value="1" />
+											</VisualState.Setters>
+										</VisualState>
+
+										<VisualState x:Name="CheckedPointerOver">
+											<VisualState.Setters>
+												<Setter Target="CheckGlyph.Opacity"
+														Value="1" />
+											</VisualState.Setters>
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="PressRing"
+																 Storyboard.TargetProperty="Opacity"
+																 Duration="{StaticResource MaterialAnimationDuration}"
+																 To="{ThemeResource HoverOpacity}">
+													<DoubleAnimation.EasingFunction>
+														<CubicEase EasingMode="EaseIn" />
+													</DoubleAnimation.EasingFunction>
+												</DoubleAnimation>
+											</Storyboard>
+										</VisualState>
+
+										<VisualState x:Name="CheckedPressed">
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="CheckGlyph"
+																 Storyboard.TargetProperty="Opacity"
+																 Duration="{StaticResource MaterialAnimationDuration}"
+																 To="1">
+													<DoubleAnimation.EasingFunction>
+														<CubicEase EasingMode="EaseIn" />
+													</DoubleAnimation.EasingFunction>
+												</DoubleAnimation>
+												<DoubleAnimation Storyboard.TargetName="PressRing"
+																 Storyboard.TargetProperty="Opacity"
+																 Duration="{StaticResource MaterialAnimationDuration}"
+																 To="{ThemeResource PressedOpacity}">
+													<DoubleAnimation.EasingFunction>
+														<CubicEase EasingMode="EaseIn" />
+													</DoubleAnimation.EasingFunction>
+												</DoubleAnimation>
+											</Storyboard>
+										</VisualState>
+
+										<VisualState x:Name="CheckedDisabled">
+											<VisualState.Setters>
+												<Setter Target="ContentPresenter.Foreground"
+														Value="{ThemeResource OnSurfaceLowBrush}" />
+												<Setter Target="CheckGlyph.Fill"
+														Value="{ThemeResource OnSurfaceLowBrush}" />
+												<Setter Target="CheckGlyph.Opacity"
+														Value="1" />
+											</VisualState.Setters>
+										</VisualState>
+
+										<VisualState x:Name="IndeterminateNormal">
+											<VisualState.Setters>
+												<Setter Target="CheckGlyph.Opacity"
+														Value="0" />
+												<Setter Target="HyphenGlyph.Opacity"
+														Value="1" />
+											</VisualState.Setters>
+										</VisualState>
+
+										<VisualState x:Name="IndeterminatePointerOver">
+											<VisualState.Setters>
+												<Setter Target="CheckGlyph.Opacity"
+														Value="0" />
+												<Setter Target="HyphenGlyph.Opacity"
+														Value="1" />
+											</VisualState.Setters>
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="PressRing"
+																 Storyboard.TargetProperty="Opacity"
+																 Duration="{StaticResource MaterialAnimationDuration}"
+																 To="{ThemeResource HoverOpacity}">
+													<DoubleAnimation.EasingFunction>
+														<CubicEase EasingMode="EaseIn" />
+													</DoubleAnimation.EasingFunction>
+												</DoubleAnimation>
+											</Storyboard>
+										</VisualState>
+
+										<VisualState x:Name="IndeterminatePressed">
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="HyphenGlyph"
+																 Storyboard.TargetProperty="Opacity"
+																 Duration="{StaticResource MaterialAnimationDuration}"
+																 To="1">
+													<DoubleAnimation.EasingFunction>
+														<CubicEase EasingMode="EaseIn" />
+													</DoubleAnimation.EasingFunction>
+												</DoubleAnimation>
+												<DoubleAnimation Storyboard.TargetName="PressRing"
+																 Storyboard.TargetProperty="Opacity"
+																 Duration="{StaticResource MaterialAnimationDuration}"
+																 To="{ThemeResource PressedOpacity}">
+													<DoubleAnimation.EasingFunction>
+														<CubicEase EasingMode="EaseIn" />
+													</DoubleAnimation.EasingFunction>
+												</DoubleAnimation>
+											</Storyboard>
+										</VisualState>
+
+										<VisualState x:Name="IndeterminateDisabled">
+											<VisualState.Setters>
+												<Setter Target="ContentPresenter.Foreground"
+														Value="{ThemeResource OnSurfaceLowBrush}" />
+												<Setter Target="HyphenGlyph.Fill"
+														Value="{ThemeResource OnSurfaceLowBrush}" />
+												<Setter Target="CheckGlyph.Opacity"
+														Value="0" />
+												<Setter Target="HyphenGlyph.Opacity"
+														Value="1" />
+											</VisualState.Setters>
+										</VisualState>
+
+										<!--<VisualStateGroup.Transitions>
+											<VisualTransition From="UncheckedNormal"
+															  To="UncheckedPressed">
+												<Storyboard>
+													<not_ios:DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+																						   Storyboard.TargetName="PressRing">
+														<EasingDoubleKeyFrame KeyTime="0"
+																			  Value="0" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.1"
+																			  Value="0.5" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.25"
+																			  Value="0" />
+													</not_ios:DoubleAnimationUsingKeyFrames>
+												</Storyboard>
+											</VisualTransition>
+
+											<VisualTransition From="UncheckedPointerOver"
+															  To="UncheckedPressed">
+												<Storyboard>
+													<not_ios:DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+																						   Storyboard.TargetName="PressRing">
+														<EasingDoubleKeyFrame KeyTime="0"
+																			  Value="0" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.1"
+																			  Value="0.5" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.25"
+																			  Value="0" />
+													</not_ios:DoubleAnimationUsingKeyFrames>
+												</Storyboard>
+											</VisualTransition>
+
+											<VisualTransition From="CheckedNormal"
+															  To="CheckedPressed">
+												<Storyboard>
+													<not_ios:DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+																						   Storyboard.TargetName="PressRing">
+														<EasingDoubleKeyFrame KeyTime="0"
+																			  Value="0" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.1"
+																			  Value="0.5" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.25"
+																			  Value="0" />
+													</not_ios:DoubleAnimationUsingKeyFrames>
+
+													--><!-- iOS workaround #361 DoubleAnimationUsingKeyFrames having a small delay (0.5 seconds) before animating -->
+													<!-- Related to https://github.com/unoplatform/Uno.Themes/issues/361 & https://github.com/unoplatform/uno/issues/3773 --><!--
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="0"
+																		 To="{ThemeResource LowOpacity}" />
+
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 BeginTime="{StaticResource MaterialDelayedBeginTime}"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="{ThemeResource LowOpacity}"
+																		 To="0" />
+												</Storyboard>
+											</VisualTransition>
+
+											<VisualTransition From="CheckedPointerOver"
+															  To="CheckedPressed">
+												<Storyboard>
+													<not_ios:DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+																						   Storyboard.TargetName="PressRing">
+														<EasingDoubleKeyFrame KeyTime="0"
+																			  Value="0" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.1"
+																			  Value="0.5" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.25"
+																			  Value="0" />
+													</not_ios:DoubleAnimationUsingKeyFrames>
+
+													--><!-- iOS workaround #361 DoubleAnimationUsingKeyFrames having a small delay (0.5 seconds) before animating -->
+													<!-- Related to https://github.com/unoplatform/Uno.Themes/issues/361 & https://github.com/unoplatform/uno/issues/3773 --><!--
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="0"
+																		 To="{ThemeResource LowOpacity}" />
+
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 BeginTime="{StaticResource MaterialDelayedBeginTime}"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="{ThemeResource LowOpacity}"
+																		 To="0" />
+												</Storyboard>
+											</VisualTransition>
+
+											<VisualTransition From="IndeterminateNormal"
+															  To="IndeterminatePressed">
+
+												<Storyboard>
+													<not_ios:DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+																						   Storyboard.TargetName="PressRing">
+														<EasingDoubleKeyFrame KeyTime="0"
+																			  Value="0" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.1"
+																			  Value="0.5" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.25"
+																			  Value="0" />
+													</not_ios:DoubleAnimationUsingKeyFrames>
+
+													--><!-- iOS workaround #361 DoubleAnimationUsingKeyFrames having a small delay (0.5 seconds) before animating -->
+													<!-- Related to https://github.com/unoplatform/Uno.Themes/issues/361 & https://github.com/unoplatform/uno/issues/3773 --><!--
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="0"
+																		 To="{ThemeResource LowOpacity}" />
+
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 BeginTime="{StaticResource MaterialDelayedBeginTime}"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="{ThemeResource LowOpacity}"
+																		 To="0" />
+												</Storyboard>
+											</VisualTransition>
+
+											<VisualTransition From="IndeterminatePointerOver"
+															  To="IndeterminatePressed">
+
+												<Storyboard>
+													<not_ios:DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+																						   Storyboard.TargetName="PressRing">
+														<EasingDoubleKeyFrame KeyTime="0"
+																			  Value="0" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.1"
+																			  Value="0.5" />
+														<EasingDoubleKeyFrame KeyTime="0:0:0.25"
+																			  Value="0" />
+													</not_ios:DoubleAnimationUsingKeyFrames>
+
+													--><!-- iOS workaround #361 DoubleAnimationUsingKeyFrames having a small delay (0.5 seconds) before animating -->
+													<!-- Related to https://github.com/unoplatform/Uno.Themes/issues/361 & https://github.com/unoplatform/uno/issues/3773 --><!--
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="0"
+																		 To="{ThemeResource LowOpacity}" />
+
+													<ios:DoubleAnimation Storyboard.TargetName="PressRing"
+																		 Storyboard.TargetProperty="Opacity"
+																		 BeginTime="{StaticResource MaterialDelayedBeginTime}"
+																		 Duration="{StaticResource MaterialAnimationDuration}"
+																		 EasingFunction="{StaticResource MaterialEaseInOutFunction}"
+																		 From="{ThemeResource LowOpacity}"
+																		 To="0" />
+												</Storyboard>
+											</VisualTransition>
+										</VisualStateGroup.Transitions>-->
+									</VisualStateGroup>
+
+									<VisualStateGroup x:Name="FocusStates">
+										<VisualState x:Name="Focused">
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="FocusRing"
+																 Storyboard.TargetProperty="Opacity"
+																 Duration="{StaticResource MaterialAnimationDuration}"
+																 To="{ThemeResource FocusedOpacity}">
+													<DoubleAnimation.EasingFunction>
+														<CubicEase EasingMode="EaseIn" />
+													</DoubleAnimation.EasingFunction>
+												</DoubleAnimation>
+											</Storyboard>
+										</VisualState>
+
+										<VisualState x:Name="PointerFocused" />
+
+										<VisualState x:Name="Unfocused" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="{ThemeResource CheckBoxCheckAreaLength}" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+								<!--<utu:ShadowContainer Shadow="{StaticResource NmpCheckBoxVisualStatesShadow}">-->
+									<Ellipse x:Name="FocusRing"
+											 Stretch="Uniform"
+											 HorizontalAlignment="Center"
+											 VerticalAlignment="Center"
+											 IsHitTestVisible="False"
+											 Opacity="0"
+											 Width="{ThemeResource CheckBoxFocusAreaSize}"
+											 Height="{ThemeResource CheckBoxFocusAreaSize}"
+											 Fill="{ThemeResource PrimaryBrush}" />
+								<!--</utu:ShadowContainer>-->
+
+								<!--<utu:ShadowContainer Shadow="{StaticResource NmpCheckBoxVisualStatesShadow}">-->
+									<Ellipse x:Name="PressRing"
+											 Stretch="Uniform"
+											 HorizontalAlignment="Center"
+											 VerticalAlignment="Center"
+											 IsHitTestVisible="False"
+											 Opacity="0"
+											 Width="{ThemeResource CheckBoxFocusAreaSize}"
+											 Height="{ThemeResource CheckBoxFocusAreaSize}"
+											 Fill="{ThemeResource PrimaryBrush}" />
+								<!--</utu:ShadowContainer>-->
+
+								<utu:ShadowContainer Shadows="{StaticResource NmpCheckBoxShadows}">
+									<Grid x:Name="CheckBoxContainer"
+										  Height="{ThemeResource CheckBoxCheckAreaSize}"
+										  Width="{ThemeResource CheckBoxCheckAreaSize}"
+										  CornerRadius="{TemplateBinding CornerRadius}"
+										  Background="{TemplateBinding Background}">
+
+										<Path x:Name="HyphenGlyph"
+											  Data="{ThemeResource CheckBoxHyphenGlyphPathData}"
+											  Fill="{ThemeResource PrimaryBrush}"
+											  VerticalAlignment="Center"
+											  HorizontalAlignment="Center"
+											  Stretch="Uniform"
+											  Width="12"
+											  Height="4"
+											  Opacity="0"
+											  AutomationProperties.AccessibilityView="Raw" />
+										<!--xamarin:Margin="0,2,0,0" />-->
+
+										<Path x:Name="CheckGlyph"
+											  Data="{ThemeResource CheckBoxCheckGlyphPathData}"
+											  Fill="{ThemeResource PrimaryBrush}"
+											  VerticalAlignment="Center"
+											  HorizontalAlignment="Center"
+											  Stretch="Uniform"
+											  Width="12"
+											  Height="12"
+											  Opacity="0"
+											  AutomationProperties.AccessibilityView="Raw" />
+										<!--xamarin:Margin="0,2,0,0" />-->
+									</Grid>
+								</utu:ShadowContainer>
+
+								<ContentPresenter x:Name="ContentPresenter"
+												  ContentTemplate="{TemplateBinding ContentTemplate}"
+												  ContentTransitions="{TemplateBinding ContentTransitions}"
+												  Content="{TemplateBinding Content}"
+												  Foreground="{TemplateBinding Foreground}"
+												  FontWeight="{TemplateBinding FontWeight}"
+												  FontFamily="{TemplateBinding FontFamily}"
+												  FontSize="{TemplateBinding FontSize}"
+												  CharacterSpacing="{TemplateBinding CharacterSpacing}"
+												  Margin="{TemplateBinding Padding}"
+												  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												  Grid.Column="1"
+												  AutomationProperties.AccessibilityView="Raw"
+												  TextWrapping="Wrap" />
+							</Grid>
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
@@ -289,7 +844,8 @@
 					<ScrollViewer HorizontalScrollMode="Disabled">
 						<StackPanel Padding="0,24,0,16" Spacing="8">
 
-							<StackPanel Width="400"
+							<!-- JM's tests for reference -->
+							<!--<StackPanel Width="400"
 										Margin="0,32"
 										Padding="32"
 										Background="#7a67f8"
@@ -309,40 +865,82 @@
 										<TextBlock Text="NeumorphismBulging" />
 									</Grid>
 								</utu:ShadowContainer>
-							</StackPanel>
+							</StackPanel>-->
 
-							<TextBlock Text="Test" Style="{StaticResource TitleTextBlockStyle}" />
-							<StackPanel Background="{ThemeResource LocalSurfaceBrush}"
+							<TextBlock Text="Shadow Styles" Style="{StaticResource TitleTextBlockStyle}" />
+							
+							<StackPanel Background="{ThemeResource SurfaceBrush}"
 										Width="400"
 										Margin="32"
 										Padding="32"
-										Spacing="4">
-								<Button Content="NmpSmallElevatedButtonStyle" Style="{StaticResource NmpSmallElevatedButtonStyle}" />
-								<TextBox d:Name="SUT"
-										 Text="NmpTextBoxStyle"
+										Spacing="12">
+								<!-- Button -->
+								<Button Content="Button Elevated"
+										Style="{StaticResource NmpSmallElevatedButtonStyle}" />
+								<!-- TextBox -->
+								<TextBox Width="328"
+										 Text="User Input"
 										 Style="{StaticResource NmpTextBoxStyle}" />
-								<TextBox x:Name="SUT"
-										 Header="header"
-										 PlaceholderText="placeholder"
-										 Text="text"
+								<TextBox Width="328"
+										 Header="Label"
+										 PlaceholderText="Placeholder"
 										 Style="{StaticResource NmpTextBoxStyle}" />
-								<TextBox d:Name="SUT"
-										 Header="header"
-										 PlaceholderText="placeholder"
+								<TextBox Width="328"
+										 Header="Label"
+										 PlaceholderText="Placeholder"
+										 Text="User Input"
 										 Style="{StaticResource NmpTextBoxStyle}" />
-								<TextBox d:Name="SUT"
-										 Header="header"
-										 PlaceholderText="placeholder"
-										 Text="text"
+								<TextBox Width="328"
+										 Text="User Input"
 										 IsEnabled="False"
 										 Style="{StaticResource NmpTextBoxStyle}" />
-								<TextBox d:Name="SUT"
-										 Header="header"
-										 PlaceholderText="placeholder"
+								<TextBox Width="328"
+										 Header="Label"
+										 PlaceholderText="Placeholder"
 										 IsEnabled="False"
 										 Style="{StaticResource NmpTextBoxStyle}" />
-							</StackPanel>
+								<TextBox Width="328"
+										 Header="Label"
+										 PlaceholderText="Placeholder"
+										 Text="User Input"
+										 IsEnabled="False"
+										 Style="{StaticResource NmpTextBoxStyle}" />
+								<!-- CheckBox -->
+								<CheckBox Content="Label"
+										  Style="{StaticResource NmpCheckBoxStyle}" />
+								<CheckBox Content="Label"
+										  IsChecked="True"
+										  Style="{StaticResource NmpCheckBoxStyle}" />
+								<CheckBox Content="Label"
+										  IsChecked="{x:Null}"
+										  Style="{StaticResource NmpCheckBoxStyle}" />
+								<CheckBox Content="Label"
+										  IsEnabled="False"
+										  Style="{StaticResource NmpCheckBoxStyle}" />
+								<CheckBox Content="Label"
+										  IsChecked="True"
+										  IsEnabled="False"
+										  Style="{StaticResource NmpCheckBoxStyle}" />
+								<CheckBox Content="Label"
+										  IsChecked="{x:Null}"
+										  IsEnabled="False"
+										  Style="{StaticResource NmpCheckBoxStyle}" />
 
+								<Border Height="50"
+										Width="50"
+										Background="{ThemeResource LightShadowColor}" />
+
+								<Border Height="50"
+										Width="50"
+										Background="{ThemeResource ShadeShadowColor}" />
+
+								<Border Height="50"
+										Width="50"
+										BorderBrush="Red"
+										BorderThickness="1"
+										Background="{ThemeResource SurfaceBrush}" />
+
+							</StackPanel>
 						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>

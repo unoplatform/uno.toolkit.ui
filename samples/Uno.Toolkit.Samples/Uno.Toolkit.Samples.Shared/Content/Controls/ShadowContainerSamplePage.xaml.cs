@@ -18,5 +18,10 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		{
 			this.InitializeComponent();
 		}
-	}
+
+		private void CheckBox_Indeterminate(object sender, RoutedEventArgs e)
+		{
+
+        }
+    }
 }
