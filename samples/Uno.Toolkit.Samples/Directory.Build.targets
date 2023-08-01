@@ -1,0 +1,7 @@
+<Project ToolsVersion="15.0">
+	<ItemGroup>
+		<!-- Remove WinUI files (Ctrl+F: UWP_WinUI_Removal) -->
+		<Page Remove="$(MSBuildThisFileDirectory)**\*.WinUI.xaml" Condition="'$(FrameworkLineage)' == 'UWP'" />
+		<Compile Remove="$(MSBuildThisFileDirectory)**\*.WinUI.xaml.cs" Condition="'$(FrameworkLineage)' == 'UWP'" />
+	</ItemGroup>
+</Project>

@@ -532,8 +532,4 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Media\SmallMedia.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\UnoLogo.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Page Remove="$(MSBuildThisFileDirectory)**\*.WinUI.xaml" Condition="'$(FrameworkLineage)' == 'UWP'" />
-    <Compile Remove="$(MSBuildThisFileDirectory)**\*.WinUI.xaml.cs" Condition="'$(FrameworkLineage)' == 'UWP'" />
-  </ItemGroup>
 </Project>
