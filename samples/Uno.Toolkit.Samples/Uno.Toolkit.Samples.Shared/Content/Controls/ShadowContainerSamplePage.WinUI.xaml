@@ -8,7 +8,7 @@
       xmlns:sample="using:Uno.Toolkit.Samples"
       xmlns:um="using:Uno.Material"
       xmlns:utu="using:Uno.Toolkit.UI"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 	<Page.Resources>
 
@@ -91,7 +91,7 @@
 										<VisualState.Setters>
 											<Setter Target="RootPanel.Shadows" Value="{StaticResource ElevatedDisabled}" />
 											<!--Check if this is correct, look a bit off-->
-											<Setter Target="Grid.Background" Value="{StaticResource OnSurfaceDisabledBrushShadow}" />
+											<Setter Target="RootGrid.Background" Value="{StaticResource OnSurfaceDisabledBrushShadow}" />
 											<Setter Target="ContentPresenter.Foreground" Value="{StaticResource OnSurfaceLowBrushShadow}" />
 											<Setter Target="IconPresenter.Foreground" Value="{StaticResource OnSurfaceLowBrushShadow}" />
 										</VisualState.Setters>
@@ -116,7 +116,7 @@
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
 
-							<Grid x:Name="Grid"
+							<Grid x:Name="RootGrid"
 								  Background="{TemplateBinding Background}"
 								  CornerRadius="{TemplateBinding CornerRadius}">
 
@@ -232,7 +232,7 @@
 									<VisualState x:Name="Disabled">
 										<VisualState.Setters>
 											<Setter Target="RootPanel.Shadows" Value="{StaticResource FilledDisabled}" />
-											<Setter Target="Grid.Background" Value="{StaticResource OnSurfaceDisabledBrushShadow}" />
+											<Setter Target="RootGrid.Background" Value="{StaticResource OnSurfaceDisabledBrushShadow}" />
 											<Setter Target="ContentPresenter.Foreground" Value="{StaticResource OnPrimaryLowBrushShadow}" />
 											<Setter Target="IconPresenter.Foreground" Value="{StaticResource OnPrimaryLowBrushShadow}" />
 										</VisualState.Setters>
@@ -257,7 +257,8 @@
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
 
-							<Grid Background="{TemplateBinding Background}"
+							<Grid x:Name="RootGrid"
+								  Background="{TemplateBinding Background}"
 								  CornerRadius="{TemplateBinding CornerRadius}">
 
 								<um:Ripple x:Name="Ripple"
@@ -1010,17 +1011,20 @@
 							            CornerRadius="30">
 
 								<StackPanel Margin="0,30,0,0"
-								            Padding="24"
-								            HorizontalAlignment="Center"
-								            Spacing="30">
-
+											Padding="24"
+											HorizontalAlignment="Center"
+											Spacing="30">
 
 									<ComboBox Style="{StaticResource NmpComboBoxStyle}"
-											  PlaceholderText="Placeholder"
-											  ItemsSource="ABCDEFGHIJKLMNOP">
-										<um:ControlExtensions.Icon>
+											  PlaceholderText="Placeholder">
+										<!--<um:ControlExtensions.Icon>
 											<PathIcon Data="F1 M 18 0 L 2 0 C 0.8999999761581421 0 0.009999990463256836 0.8999999761581421 0.009999990463256836 2 L 0 14 C 0 15.100000023841858 0.8999999761581421 16 2 16 L 18 16 C 19.100000023841858 16 20 15.100000023841858 20 14 L 20 2 C 20 0.8999999761581421 19.100000023841858 0 18 0 Z M 18 4 L 10 9 L 2 4 L 2 2 L 10 7 L 18 2 L 18 4 Z" />
-										</um:ControlExtensions.Icon>
+										</um:ControlExtensions.Icon>-->
+										<x:String>Item 1</x:String>
+										<x:String>Item 2</x:String>
+										<x:String>Item 3</x:String>
+										<x:String>Item 4</x:String>
+										<x:String>Item 5</x:String>
 									</ComboBox>
 
 									<ComboBox Style="{StaticResource NmpComboBoxStyle}"
