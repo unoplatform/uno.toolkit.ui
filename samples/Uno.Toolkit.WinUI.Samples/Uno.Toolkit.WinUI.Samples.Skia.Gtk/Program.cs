@@ -1,7 +1,7 @@
 using System;
 using GLib;
 using Uno.Toolkit.Samples;
-using Uno.UI.Runtime.Skia;
+using Uno.UI.Runtime.Skia.Gtk;
 
 namespace Uno.Toolkit.WinUI.Samples.Skia.Gtk
 {
