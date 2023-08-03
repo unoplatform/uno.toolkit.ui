@@ -53,6 +53,9 @@
 
 			<Color x:Key="LightShadowColor4">#6651F2</Color>
 			<Color x:Key="ShadeShadowColor4">#4C3CB3</Color>
+
+			<Color x:Key="ShadowColor5">#170065</Color>
+
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Dark">
 			<Color x:Key="StatusBarForegroundColor">#FFFFFF</Color>

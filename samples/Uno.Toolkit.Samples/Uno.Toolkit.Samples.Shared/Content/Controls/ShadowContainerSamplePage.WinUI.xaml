@@ -59,7 +59,6 @@
 
 			<Setter Property="Foreground" Value="{ThemeResource PrimaryColor}" />
 			<Setter Property="Background" Value="{ThemeResource SurfaceColor}" />
-			<Setter Property="Padding" Value="10" />
 
 			<Setter Property="Template">
 				<Setter.Value>
@@ -118,7 +117,9 @@
 
 							<Grid x:Name="RootGrid"
 								  Background="{TemplateBinding Background}"
-								  CornerRadius="{TemplateBinding CornerRadius}">
+								  CornerRadius="{TemplateBinding CornerRadius}"
+								  MinWidth="117"
+								  MinHeight="38">
 
 								<um:Ripple x:Name="Ripple"
 										   Feedback="{TemplateBinding Foreground}"
@@ -205,7 +206,6 @@
 
 			<Setter Property="Foreground" Value="{ThemeResource OnPrimaryColor}" />
 			<Setter Property="Background" Value="{ThemeResource PrimaryColor}" />
-			<Setter Property="Padding" Value="10" />
 
 			<Setter Property="Template">
 				<Setter.Value>
@@ -259,7 +259,9 @@
 
 							<Grid x:Name="RootGrid"
 								  Background="{TemplateBinding Background}"
-								  CornerRadius="{TemplateBinding CornerRadius}">
+								  CornerRadius="{TemplateBinding CornerRadius}"
+								  MinWidth="117"
+								  MinHeight="38">
 
 								<um:Ripple x:Name="Ripple"
 										   Feedback="{TemplateBinding Foreground}"
@@ -852,6 +854,170 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+
+		<!--FAB-->
+
+		<SolidColorBrush x:Key="FABOnPrimaryContainerHovered"
+						 Color="{StaticResource OnPrimaryContainerColor}"
+						 Opacity="0.06" />
+		<SolidColorBrush x:Key="FABOnPrimaryContainerFocused"
+						 Color="{StaticResource OnPrimaryContainerColor}"
+						 Opacity="0.12" />
+		<SolidColorBrush x:Key="FABOnPrimaryContainerPressed"
+						 Color="{StaticResource OnPrimaryContainerColor}"
+						 Opacity="0.12" />
+		
+		<!--Shadows-->
+		<utu:ShadowCollection x:Key="FabShadow">
+			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-8" OffsetY="-8" Opacity="0.08" Spread="0" Color="{StaticResource ShadowColor5}" />
+			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="8" OffsetY="8" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor1}" />
+			<utu:Shadow BlurRadius="20" IsInner="False" OffsetX="12" OffsetY="12" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor1}" />
+		</utu:ShadowCollection>
+
+		<!--FAB Style-->
+		<Style x:Key="NmpFabStyle"
+				TargetType="Button">
+
+			<Setter Property="Background"
+					Value="{StaticResource PrimaryContainerColor}" />
+			<Setter Property="Foreground"
+					Value="{StaticResource OnPrimaryContainerColor}" />
+			<Setter Property="FontFamily"
+					Value="{StaticResource MaterialMediumFontFamily}" />
+			<Setter Property="FontSize"
+					Value="{StaticResource MaterialFabFontSize}" />
+			<!--<Setter Property="FontWeight"
+					Value="SemiBold" />-->
+			<Setter Property="HorizontalContentAlignment"
+					Value="Center" />
+			<Setter Property="VerticalContentAlignment"
+					Value="Center" />
+			<Setter Property="CornerRadius"
+					Value="16" />
+			<Setter Property="Padding"
+					Value="16" />
+			<Setter Property="MinHeight"
+					Value="56" />
+
+			<!-- Workaround for WinUI issue: https://github.com/microsoft/microsoft-ui-xaml/issues/6388 -->
+			<Setter Property="um:ControlExtensions.Icon"
+					Value="{x:Null}" />
+
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						
+						<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource FabShadow}">
+							
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+
+									<VisualState x:Name="Normal" />
+
+									<VisualState x:Name="PointerOver">
+										<VisualState.Setters>
+											<Setter Target="RootGrid.Background"
+													Value="{StaticResource FABOnPrimaryContainerHovered}" />
+										</VisualState.Setters>
+									</VisualState>
+
+									<VisualState x:Name="Disabled" />
+
+									<VisualState x:Name="Pressed">
+										<VisualState.Setters>
+											<Setter Target="RootGrid.Background"
+													Value="{StaticResource FABOnPrimaryContainerPressed}" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+
+								<VisualStateGroup x:Name="FocusStates">
+
+									<VisualState x:Name="Focused">
+										<VisualState.Setters>
+											<Setter Target="RootGrid.Background"
+													Value="{StaticResource FABOnPrimaryContainerFocused}" />
+										</VisualState.Setters>
+									</VisualState>
+
+									<VisualState x:Name="PointerFocused" />
+
+									<VisualState x:Name="Unfocused" />
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Grid x:Name="RootGrid"
+								  CornerRadius="{TemplateBinding CornerRadius}"
+								  Background="{StaticResource PrimaryContainerColor}"
+								  MinHeight="{TemplateBinding MinHeight}"
+								  MinWidth="{TemplateBinding MinWidth}">
+
+								<StackPanel x:Name="ContentPanel"
+											Orientation="Horizontal"
+											Margin="{TemplateBinding Padding}">
+
+									<!-- Icon -->
+									<Viewbox Height="24"
+											 Width="24"
+											 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+											 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+											 Visibility="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+										<ContentPresenter Content="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}}"
+														  Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+									</Viewbox>
+
+									<!-- Icon/Content spacing -->
+									<Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+										<Border Width="8"
+												Visibility="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
+									</Border>
+
+									<!-- Content -->
+									<ContentPresenter x:Name="ContentPresenter"
+													  Content="{TemplateBinding Content}"
+													  ContentTemplate="{TemplateBinding ContentTemplate}"
+													  ContentTransitions="{TemplateBinding ContentTransitions}"
+													  CornerRadius="{StaticResource MaterialButtonCornerRadius}"
+													  FontFamily="{TemplateBinding FontFamily}"
+													  FontSize="{TemplateBinding FontSize}"
+													  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+													  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+								</StackPanel>
+
+								<Border x:Name="FabFocusBorder" />
+								</Grid>
+							</utu:ShadowContainer>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<!--Small FAB Style-->
+		<Style x:Key="NmpFabSmallStyle"
+		   BasedOn="{StaticResource NmpFabStyle}"
+		   TargetType="Button">
+
+			<Setter Property="Padding"
+				Value="12,0" />
+			<Setter Property="MinHeight"
+				Value="40" />
+			<Setter Property="CornerRadius"
+					Value="12" />
+		</Style>
+
+		<!--Large FAB Style-->
+		<Style x:Key="NmpFabLargeStyle"
+		   BasedOn="{StaticResource NmpFabStyle}"
+		   TargetType="Button">
+
+			<Setter Property="Padding"
+				Value="40" />
+			<Setter Property="MinHeight"
+				Value="96" />
+			<Setter Property="MinWidth"
+				Value="96" />
+			<Setter Property="CornerRadius"
+					Value="28" />
+		</Style>
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -916,6 +1082,43 @@
 											IsEnabled="False">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="M16 9.14286H9.14286V16H6.85714V9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286Z" />
+										</um:ControlExtensions.Icon>
+									</Button>
+								</StackPanel>
+							</StackPanel>
+
+							<TextBlock Margin="0,24,0,0"
+							           Style="{StaticResource TitleTextBlockStyle}"
+							           Text="FAB" />
+
+							<StackPanel Width="550"
+							            Margin="0,32"
+							            Padding="32"
+							            Background="{StaticResource SurfaceColor}"
+							            CornerRadius="30">
+
+								<StackPanel Margin="0,30,0,0"
+											Padding="24"
+											HorizontalAlignment="Center"
+											Spacing="30">
+									
+									<Button Style="{StaticResource NmpFabSmallStyle}"
+											Content="Create">
+										<um:ControlExtensions.Icon>
+											<PathIcon Data="M16.667 9.14286H9.80985V16H7.52414V9.14286H0.666992V6.85714H7.52414V0H9.80985V6.85714H16.667V9.14286Z" />
+										</um:ControlExtensions.Icon>
+									</Button>
+									
+									<Button Style="{StaticResource NmpFabStyle}"
+											Content="Create">
+										<um:ControlExtensions.Icon>
+											<PathIcon Data="M16.667 9.14286H9.80985V16H7.52414V9.14286H0.666992V6.85714H7.52414V0H9.80985V6.85714H16.667V9.14286Z" />
+										</um:ControlExtensions.Icon>
+									</Button>
+
+									<Button Style="{StaticResource NmpFabLargeStyle}">
+										<um:ControlExtensions.Icon>
+											<PathIcon Data="M24.334 13.7143H14.0483V24H10.6197V13.7143H0.333984V10.2857H10.6197V0H14.0483V10.2857H24.334V13.7143Z" />
 										</um:ControlExtensions.Icon>
 									</Button>
 								</StackPanel>
@@ -1016,25 +1219,21 @@
 											Spacing="30">
 
 									<ComboBox Style="{StaticResource NmpComboBoxStyle}"
-											  PlaceholderText="Placeholder">
-										<!--<um:ControlExtensions.Icon>
-											<PathIcon Data="F1 M 18 0 L 2 0 C 0.8999999761581421 0 0.009999990463256836 0.8999999761581421 0.009999990463256836 2 L 0 14 C 0 15.100000023841858 0.8999999761581421 16 2 16 L 18 16 C 19.100000023841858 16 20 15.100000023841858 20 14 L 20 2 C 20 0.8999999761581421 19.100000023841858 0 18 0 Z M 18 4 L 10 9 L 2 4 L 2 2 L 10 7 L 18 2 L 18 4 Z" />
-										</um:ControlExtensions.Icon>-->
-										<x:String>Item 1</x:String>
-										<x:String>Item 2</x:String>
-										<x:String>Item 3</x:String>
-										<x:String>Item 4</x:String>
-										<x:String>Item 5</x:String>
-									</ComboBox>
-
-									<ComboBox Style="{StaticResource NmpComboBoxStyle}"
-											  PlaceholderText="Placeholder"
-											  IsEnabled="False">
+											  PlaceholderText="ComboBox"
+											  ItemsSource="{Binding Data.CbbItems}">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="F1 M 18 0 L 2 0 C 0.8999999761581421 0 0.009999990463256836 0.8999999761581421 0.009999990463256836 2 L 0 14 C 0 15.100000023841858 0.8999999761581421 16 2 16 L 18 16 C 19.100000023841858 16 20 15.100000023841858 20 14 L 20 2 C 20 0.8999999761581421 19.100000023841858 0 18 0 Z M 18 4 L 10 9 L 2 4 L 2 2 L 10 7 L 18 2 L 18 4 Z" />
 										</um:ControlExtensions.Icon>
 									</ComboBox>
 
+									<ComboBox Style="{StaticResource NmpComboBoxStyle}"
+											  PlaceholderText="Disabled"
+											  ItemsSource="{Binding Data.CbbItems}"
+											  IsEnabled="False">
+										<um:ControlExtensions.Icon>
+											<PathIcon Data="F1 M 18 0 L 2 0 C 0.8999999761581421 0 0.009999990463256836 0.8999999761581421 0.009999990463256836 2 L 0 14 C 0 15.100000023841858 0.8999999761581421 16 2 16 L 18 16 C 19.100000023841858 16 20 15.100000023841858 20 14 L 20 2 C 20 0.8999999761581421 19.100000023841858 0 18 0 Z M 18 4 L 10 9 L 2 4 L 2 2 L 10 7 L 18 2 L 18 4 Z" />
+										</um:ControlExtensions.Icon>
+									</ComboBox>
 								</StackPanel>
 							</StackPanel>
 
