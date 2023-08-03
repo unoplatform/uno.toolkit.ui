@@ -7,5 +7,6 @@
 	<Import Project="..\winappsdk-workaround.targets" />
 	<ItemGroup>
 	  <ProjectReference Include="..\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+	  <ProjectReference Include="..\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
 	</ItemGroup>
 </Project>
