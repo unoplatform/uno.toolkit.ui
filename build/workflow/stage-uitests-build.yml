@@ -2,6 +2,14 @@ jobs:
 - job: Toolkit_UITests_Build
   displayName: 'Build Toolkit UI Tests'
   
+  strategy:
+    maxParallel: 2
+    matrix:
+      UWP:
+        XAML_FLAVOR_BUILD: UWP
+      WinUI:
+        XAML_FLAVOR_BUILD: WinUI
+
   variables:
     CI_Build: true
   
@@ -18,7 +26,7 @@ jobs:
     displayName: 'Build UI Tests'
     inputs:
       solution: src/Uno.Toolkit.UITest/Uno.Toolkit.UITest.csproj
-      msbuildArguments: /r /m /p:Configuration=Release /detailedsummary /m /bl:$(build.artifactstagingdirectory)\build.binlog
+      msbuildArguments: /r /m /p:Configuration=Release /p:FrameworkLineage=$(XAML_FLAVOR_BUILD) /detailedsummary /m /bl:$(build.artifactstagingdirectory)\build.binlog
 
   - task: CopyFiles@2
     displayName: 'Publish UITest binaries'
@@ -34,5 +42,5 @@ jobs:
     retryCountOnTaskFailure: 3
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: toolkit-uitest-binaries
+      ArtifactName: toolkit-uitest-binaries-$(XAML_FLAVOR_BUILD)
       ArtifactType: Container

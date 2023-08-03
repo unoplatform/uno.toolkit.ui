@@ -118,7 +118,7 @@
   - task: DownloadBuildArtifacts@0
     displayName: 'Download UITest Binaries'
     inputs:
-        artifactName: toolkit-uitest-binaries
+        artifactName: toolkit-uitest-binaries-$(XAML_FLAVOR_BUILD)
         downloadPath: '$(build.sourcesdirectory)/build'
     
   - task: UseDotNet@2

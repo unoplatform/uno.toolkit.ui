@@ -25,5 +25,10 @@ namespace Uno.Toolkit.Samples.Entities
 		/// Samples featuring static helper classes, markup-extensions, and other uncategorized stuffs.
 		/// </summary>
 		Helpers,
+
+		/// <summary>
+		/// Samples uses explicitly for UI Testing purposes, not to be discoverable by default.
+		/// </summary>
+		Tests,
 	}
 }
