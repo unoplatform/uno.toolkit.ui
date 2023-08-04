@@ -54,7 +54,9 @@
 			<Color x:Key="LightShadowColor4">#6651F2</Color>
 			<Color x:Key="ShadeShadowColor4">#4C3CB3</Color>
 
-			<Color x:Key="ShadowColor5">#170065</Color>
+			<Color x:Key="LightShadowColor5">#FFFFFF</Color>
+			<Color x:Key="MediumShadowColor5">#AEAEC0</Color>
+			<Color x:Key="ShadeShadowColor5">#170065</Color>
 
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Dark">
@@ -106,6 +108,10 @@
 
 			<Color x:Key="LightShadowColor4">#E5DCFF</Color>
 			<Color x:Key="ShadeShadowColor4">#A9A2D9</Color>
+
+			<Color x:Key="LightShadowColor5">#A9A2D9</Color>
+			<Color x:Key="MediumShadowColor5">#24222A</Color>
+			<Color x:Key="ShadeShadowColor5">#24222A</Color>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

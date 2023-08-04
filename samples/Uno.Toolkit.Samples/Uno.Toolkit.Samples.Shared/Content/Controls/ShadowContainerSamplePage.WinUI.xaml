@@ -111,7 +111,11 @@
 										</VisualState.Setters>
 									</VisualState>
 
-									<VisualState x:Name="Unfocused" />
+									<VisualState x:Name="Unfocused">
+										<VisualState.Setters>
+											<Setter Target="RootPanel.Shadows" Value="{StaticResource ElevatedNormal}" />
+										</VisualState.Setters>
+									</VisualState>
 								</VisualStateGroup>
 							</VisualStateManager.VisualStateGroups>
 
@@ -121,45 +125,35 @@
 								  MinWidth="117"
 								  MinHeight="38">
 
-								<um:Ripple x:Name="Ripple"
-										   Feedback="{TemplateBinding Foreground}"
-										   FeedbackOpacity="{StaticResource PressedOpacity}"
-										   CornerRadius="{TemplateBinding CornerRadius}"
-										   Padding="{TemplateBinding Padding}"
-										   AutomationProperties.AccessibilityView="Raw"
-										   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-										   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
-									<um:Ripple.Content>
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="Auto" />
-												<ColumnDefinition Width="*" />
-											</Grid.ColumnDefinitions>
+								<Grid CornerRadius="{TemplateBinding CornerRadius}"
+									  Padding="{TemplateBinding Padding}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
 
-											<ContentPresenter x:Name="IconPresenter"
-															  Content="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}}"
-															  MinWidth="{StaticResource ButtonIconMinWidth}"
-															  HorizontalAlignment="{StaticResource ButtonIconHorizontalAlignment}"
-															  VerticalAlignment="{StaticResource ButtonIconVerticalAlignment}"
-															  Visibility="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}"
-															  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-															  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+									<ContentPresenter x:Name="IconPresenter"
+													  Content="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}}"
+													  MinWidth="{StaticResource ButtonIconMinWidth}"
+													  HorizontalAlignment="{StaticResource ButtonIconHorizontalAlignment}"
+													  VerticalAlignment="{StaticResource ButtonIconVerticalAlignment}"
+													  Visibility="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}"
+													  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+													  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
 
-											<ContentPresenter x:Name="ContentPresenter"
-															  Grid.Column="1"
-															  Margin="{StaticResource ButtonContentMargin}"
-															  Content="{TemplateBinding Content}"
-															  ContentTemplate="{TemplateBinding ContentTemplate}"
-															  ContentTransitions="{TemplateBinding ContentTransitions}"
-															  FontFamily="{TemplateBinding FontFamily}"
-															  FontSize="{TemplateBinding FontSize}"
-															  FontWeight="{TemplateBinding FontWeight}"
-															  CharacterSpacing="{TemplateBinding CharacterSpacing}"
-															  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-															  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-										</Grid>
-									</um:Ripple.Content>
-								</um:Ripple>
+									<ContentPresenter x:Name="ContentPresenter"
+													  Grid.Column="1"
+													  Margin="{StaticResource ButtonContentMargin}"
+													  Content="{TemplateBinding Content}"
+													  ContentTemplate="{TemplateBinding ContentTemplate}"
+													  ContentTransitions="{TemplateBinding ContentTransitions}"
+													  FontFamily="{TemplateBinding FontFamily}"
+													  FontSize="{TemplateBinding FontSize}"
+													  FontWeight="{TemplateBinding FontWeight}"
+													  CharacterSpacing="{TemplateBinding CharacterSpacing}"
+													  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+													  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+								</Grid>
 							</Grid>
 						</utu:ShadowContainer>
 					</ControlTemplate>
@@ -263,45 +257,35 @@
 								  MinWidth="117"
 								  MinHeight="38">
 
-								<um:Ripple x:Name="Ripple"
-										   Feedback="{TemplateBinding Foreground}"
-										   FeedbackOpacity="{StaticResource PressedOpacity}"
-										   CornerRadius="{TemplateBinding CornerRadius}"
-										   Padding="{TemplateBinding Padding}"
-										   AutomationProperties.AccessibilityView="Raw"
-										   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-										   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
-									<um:Ripple.Content>
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="Auto" />
-												<ColumnDefinition Width="*" />
-											</Grid.ColumnDefinitions>
+								<Grid CornerRadius="{TemplateBinding CornerRadius}"
+									  Padding="{TemplateBinding Padding}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
 
-											<ContentPresenter x:Name="IconPresenter"
-															  Content="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}}"
-															  MinWidth="{StaticResource ButtonIconMinWidth}"
-															  HorizontalAlignment="{StaticResource ButtonIconHorizontalAlignment}"
-															  VerticalAlignment="{StaticResource ButtonIconVerticalAlignment}"
-															  Visibility="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}"
-															  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-															  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+									<ContentPresenter x:Name="IconPresenter"
+													  Content="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}}"
+													  MinWidth="{StaticResource ButtonIconMinWidth}"
+													  HorizontalAlignment="{StaticResource ButtonIconHorizontalAlignment}"
+													  VerticalAlignment="{StaticResource ButtonIconVerticalAlignment}"
+													  Visibility="{Binding Path=(um:ControlExtensions.Icon), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}"
+													  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+													  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
 
-											<ContentPresenter x:Name="ContentPresenter"
-															  Grid.Column="1"
-															  Margin="{StaticResource ButtonContentMargin}"
-															  Content="{TemplateBinding Content}"
-															  ContentTemplate="{TemplateBinding ContentTemplate}"
-															  ContentTransitions="{TemplateBinding ContentTransitions}"
-															  FontFamily="{TemplateBinding FontFamily}"
-															  FontSize="{TemplateBinding FontSize}"
-															  FontWeight="{TemplateBinding FontWeight}"
-															  CharacterSpacing="{TemplateBinding CharacterSpacing}"
-															  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-															  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-										</Grid>
-									</um:Ripple.Content>
-								</um:Ripple>
+									<ContentPresenter x:Name="ContentPresenter"
+													  Grid.Column="1"
+													  Margin="{StaticResource ButtonContentMargin}"
+													  Content="{TemplateBinding Content}"
+													  ContentTemplate="{TemplateBinding ContentTemplate}"
+													  ContentTransitions="{TemplateBinding ContentTransitions}"
+													  FontFamily="{TemplateBinding FontFamily}"
+													  FontSize="{TemplateBinding FontSize}"
+													  FontWeight="{TemplateBinding FontWeight}"
+													  CharacterSpacing="{TemplateBinding CharacterSpacing}"
+													  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+													  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+								</Grid>
 							</Grid>
 						</utu:ShadowContainer>
 					</ControlTemplate>
@@ -602,9 +586,8 @@
 			</Setter>
 		</Style>
 
-
 		<!--COMBOBOX-->
-		
+
 		<!--Shadows-->
 		<utu:ShadowCollection x:Key="ComboboxShadow">
 			<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor1}" />
@@ -866,12 +849,12 @@
 		<SolidColorBrush x:Key="FABOnPrimaryContainerPressed"
 						 Color="{StaticResource OnPrimaryContainerColor}"
 						 Opacity="0.12" />
-		
+
 		<!--Shadows-->
 		<utu:ShadowCollection x:Key="FabShadow">
-			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-8" OffsetY="-8" Opacity="0.08" Spread="0" Color="{StaticResource ShadowColor5}" />
-			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="8" OffsetY="8" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor1}" />
-			<utu:Shadow BlurRadius="20" IsInner="False" OffsetX="12" OffsetY="12" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor1}" />
+			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="8" OffsetY="8" Opacity="0.2" Spread="0" Color="{StaticResource LightShadowColor5}" />
+			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-8" OffsetY="-8" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor5}" />
+			<utu:Shadow BlurRadius="20" IsInner="False" OffsetX="12" OffsetY="12" Opacity="0.4" Spread="0" Color="{StaticResource MediumShadowColor5}" />
 		</utu:ShadowCollection>
 
 		<!--FAB Style-->
@@ -906,9 +889,9 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="Button">
-						
+
 						<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource FabShadow}">
-							
+
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
 
@@ -984,8 +967,8 @@
 								</StackPanel>
 
 								<Border x:Name="FabFocusBorder" />
-								</Grid>
-							</utu:ShadowContainer>
+							</Grid>
+						</utu:ShadowContainer>
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
@@ -1037,7 +1020,7 @@
 		<SolidColorBrush x:Key="ChipsOnPrimaryContainerPressed"
 						 Color="{StaticResource OnPrimaryContainerColor}"
 						 Opacity="0.12" />
-		
+
 		<!--Shadows-->
 		<utu:ShadowCollection x:Key="ChipsShadows">
 			<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="-1" OffsetY="-1" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor1}" />
@@ -1067,11 +1050,11 @@
 				<Setter.Value>
 					<ControlTemplate TargetType="utu:Chip">
 						<utu:ShadowContainer x:Name="RootPanel" Shadows="{StaticResource ChipsShadows}">
-							
+
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
 									<VisualState x:Name="Normal" />
-									
+
 									<VisualState x:Name="PointerOver">
 										<VisualState.Setters>
 											<Setter Target="StateOverlay.Background" Value="{ThemeResource ChipsOnSurfaceHoverBrush}" />
@@ -1197,7 +1180,7 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-		
+
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -1281,14 +1264,14 @@
 											Padding="24"
 											HorizontalAlignment="Center"
 											Spacing="30">
-									
+
 									<Button Style="{StaticResource NmpFabSmallStyle}"
 											Content="Create">
 										<um:ControlExtensions.Icon>
 											<PathIcon Data="M16.667 9.14286H9.80985V16H7.52414V9.14286H0.666992V6.85714H7.52414V0H9.80985V6.85714H16.667V9.14286Z" />
 										</um:ControlExtensions.Icon>
 									</Button>
-									
+
 									<Button Style="{StaticResource NmpFabStyle}"
 											Content="Create">
 										<um:ControlExtensions.Icon>
