@@ -46,6 +46,8 @@ public partial class ShadowContainer : ContentControl
 
 	public ShadowContainer()
 	{
+		Shadows = new();
+
 		DefaultStyleKey = typeof(ShadowContainer);
 
 		_cornerRadius = new CornerRadius(0);

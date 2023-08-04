@@ -27,7 +27,7 @@ public partial class ShadowContainer : ContentControl
 			nameof(Shadows),
 			typeof(ShadowCollection),
 			typeof(ShadowContainer),
-			new(new ShadowCollection(), OnShadowsChanged));
+			new(null, OnShadowsChanged));
 
 	/// <summary>
 	/// The collection of shadows that will be displayed under your control.
