@@ -78,7 +78,7 @@ public partial class ShadowContainer
 		}
 	}
 
-	private ShadowInfos[] _shadowInfoArray = new[] { ShadowInfos.Empty };
+	private ShadowInfos[] _shadowInfoArray = Array.Empty<ShadowInfos>();
 	private float _currentPixelRatio;
 	private Color? _currentContentBackgroundColor;
 
