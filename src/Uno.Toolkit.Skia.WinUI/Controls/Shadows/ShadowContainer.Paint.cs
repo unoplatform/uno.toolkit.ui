@@ -43,7 +43,7 @@ public partial class ShadowContainer
 		}
 	}
 
-	private record struct SKShadow(
+	private readonly record struct SKShadow(
 		bool IsInner,
 		float OffsetX,
 		float OffsetY,
