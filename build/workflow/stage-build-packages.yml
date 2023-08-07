@@ -14,14 +14,13 @@ jobs:
 
     - task: MSBuild@1
       displayName: 'Build solution'
-      retryCountOnTaskFailure: 3
       inputs:
         solution: src/Uno.Toolkit.sln
         configuration: Release
         msbuildLocationMethod: version
         msbuildVersion: latest
         maximumCpuCount: true
-        msbuildArguments: /m /v:m /r /p:GeneratePackageOnBuild=true /p:UseDotNetNativeToolchain=false /p:AotAssemblies=false "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary /bl:$(build.artifactstagingdirectory)/toolkit-build-packages.binlog
+        msbuildArguments: /m:1 /r /p:GeneratePackageOnBuild=true /p:UseDotNetNativeToolchain=false /p:AotAssemblies=false "/p:PackageVersion=%GITVERSION_FullSemVer%" "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /detailedsummary /bl:$(build.artifactstagingdirectory)/toolkit-build-packages.binlog
 
     - task: DotNetCoreInstaller@0
       inputs:
