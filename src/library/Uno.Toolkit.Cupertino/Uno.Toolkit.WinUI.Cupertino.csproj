@@ -33,7 +33,7 @@
 	<ItemGroup Condition="$(_IsWindowsWinUI)">
 		<PackageReference Include="Microsoft.WindowsAppSDK" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
-		
+
 		<Page Remove="Generated\*.xaml" />
 	</ItemGroup>
 
