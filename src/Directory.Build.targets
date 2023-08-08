@@ -2,10 +2,10 @@
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
 	<Import Project="Directory.UnoMetadata.targets" />
 
-	<!-- This is a workaround -->
+	<!-- This is a workaround, should be removed when this issue is fixed: https://github.com/unoplatform/uno/issues/13167 -->
 	<!-- Without this, the build gets flaky and sometimes fails with this error -->
 	<!-- C:\hostedtoolcache\windows\dotnet\sdk\7.0.306\Sdks\NuGet.Build.Tasks.Pack\buildCrossTargeting\NuGet.Build.Tasks.Pack.targets(221,5): error NU5019: File not found: 'D:\a\1\s\src\library\Uno.Toolkit.Cupertino\bin\Uno.Toolkit.WinUI.Cupertino\Release\net7.0-ios\Uno.Toolkit.WinUI.Cupertino.uprimarker'. [D:\a\1\s\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj] -->
-	<!-- Without this workaround target, that happens is that _UnoGeneratePriMarker was run before both _UnoAssetsGetCopyToPublishDirectory and finds ContentWithTargetPath being empty, so it does nothing -->
+	<!-- Without this workaround target, what happens is that _UnoGeneratePriMarker was run before both _UnoAssetsGetCopyToPublishDirectory and finds ContentWithTargetPath being empty, so it does nothing -->
 	<!-- Then later, _UnoAssetsGetCopyToPublishDirectory is run and ContentWithTargetPath is now added, and NuGet packaging now expects the uprimarker to be present -->
 	<!-- Note that this error can go away with restarts, so it's a race condition -->
 	<Target Name="_WorkaroundBuildFlakiness"
