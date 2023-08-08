@@ -39,10 +39,6 @@
 
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-		<!-- This is a workaround -->
-		<!-- Without this, the build gets flaky and sometimes fails with this error -->
-		<!-- C:\hostedtoolcache\windows\dotnet\sdk\7.0.306\Sdks\NuGet.Build.Tasks.Pack\buildCrossTargeting\NuGet.Build.Tasks.Pack.targets(221,5): error NU5019: File not found: 'D:\a\1\s\src\library\Uno.Toolkit.Cupertino\bin\Uno.Toolkit.WinUI.Cupertino\Release\net7.0-ios\Uno.Toolkit.WinUI.Cupertino.uprimarker'. [D:\a\1\s\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj] -->
-		<Content Include="..\..\Uno.Toolkit.UI\Assets\**\*.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
