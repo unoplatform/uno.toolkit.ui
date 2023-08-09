@@ -11,7 +11,7 @@
 	<Style x:Key="DefaultShadowContainerStyle" TargetType="utu:ShadowContainer">
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
-		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Stretch" />
 		<Setter Property="Template">
@@ -21,13 +21,18 @@
 						note: Dont template-bind Background or CornerRadius here.
 						They will be painted in skia impl (see: ShadowContainer.Paint.cs).
 					-->
-					<Canvas x:Name="PART_Canvas"
+					<Grid x:Name="PART_ShadowOwner"
 							HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
 							VerticalAlignment="{TemplateBinding VerticalAlignment}">
-						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+
+						<Canvas x:Name="PART_Canvas"
+								HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+
+						<ContentPresenter x:Name="PART_ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 										  Content="{TemplateBinding Content}" />
-					</Canvas>
+					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
