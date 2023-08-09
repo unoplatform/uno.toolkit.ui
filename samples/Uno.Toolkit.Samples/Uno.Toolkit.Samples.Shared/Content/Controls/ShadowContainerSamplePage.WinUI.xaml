@@ -303,6 +303,81 @@
 									</utu:ShadowContainer>
 								</StackPanel>
 							</StackPanel>
+
+							<!-- Test issue Theme Switching -->
+							<Border>
+								<Border.Resources>
+									<ResourceDictionary>
+										<ResourceDictionary.ThemeDictionaries>
+											<!-- Shadow Styles ColorPaletteOverride -->
+											<ResourceDictionary x:Key="Dark">
+												<Color x:Key="OnSurfaceColor">#E6E1E5</Color>
+												<Color x:Key="OnSurfaceVariantColor">#C9C5D0</Color>
+												<Color x:Key="PrimaryColor">#C7BFFF</Color>
+
+												<SolidColorBrush x:Key="OnSurfaceBrush"
+																 Color="{StaticResource OnSurfaceColor}" />
+
+												<SolidColorBrush x:Key="OnSurfaceVariantBrush"
+																 Color="{StaticResource OnSurfaceVariantColor}" />
+
+												<SolidColorBrush x:Key="PrimaryBrush"
+																 Color="{StaticResource PrimaryColor}" />
+												
+												<!-- Shadow colors-->
+												<Color x:Key="LightShadowColor">#3C3846</Color>
+												<Color x:Key="ShadeShadowColor">#24222A</Color>
+												
+											</ResourceDictionary>
+											<ResourceDictionary x:Key="Light">
+												<Color x:Key="OnSurfaceColor">#1C1B1F</Color>
+												<Color x:Key="OnSurfaceVariantColor">#8A8494</Color>
+												<Color x:Key="PrimaryColor">#5946D2</Color>
+
+												<SolidColorBrush x:Key="OnSurfaceBrush"
+																 Color="{StaticResource OnSurfaceColor}" />
+
+												<SolidColorBrush x:Key="OnSurfaceVariantBrush"
+																 Color="{StaticResource OnSurfaceVariantColor}" />
+
+												<SolidColorBrush x:Key="PrimaryBrush"
+																 Color="{StaticResource PrimaryColor}" />
+
+												<!-- Shadow colors-->
+												<Color x:Key="LightShadowColor">#FFFFFF</Color>
+												<Color x:Key="ShadeShadowColor">#AEAEC0</Color>
+											</ResourceDictionary>
+										</ResourceDictionary.ThemeDictionaries>
+
+										<utu:ShadowCollection x:Key="NeumorphismBulgingTest">
+											<utu:Shadow BlurRadius="10"
+														IsInner="True"
+														OffsetX="-5"
+														OffsetY="-5"
+														Opacity="1"
+														Spread="0"
+														Color="{ThemeResource LightShadowColor}" />
+											<utu:Shadow BlurRadius="10"
+														IsInner="True"
+														OffsetX="4"
+														OffsetY="4"
+														Opacity="1"
+														Spread="0"
+														Color="{ThemeResource ShadeShadowColor}" />
+										</utu:ShadowCollection>
+									</ResourceDictionary>
+								</Border.Resources>
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulgingTest}">
+									<Button Width="80"
+											Height="80"
+											Background="{ThemeResource OnSurfaceBrush}"
+											BorderBrush="{ThemeResource OnSurfaceVariantBrush}"
+											Content="Circular"
+											CornerRadius="40"
+											Foreground="{ThemeResource PrimaryBrush}" />
+								</utu:ShadowContainer>
+							</Border>
 						</StackPanel>
 
 					</ScrollViewer>
