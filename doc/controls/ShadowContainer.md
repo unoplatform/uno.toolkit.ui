@@ -123,7 +123,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ![2 colored shadows with 2 buttons with single shadows](../assets/shadows-colors.png)
 
-### Neumorphism
+## Neumorphism
 
 [Following neumorphism rules](https://neumorphism.io), choose one background color, 2 shadow colors, and create a cool neumorphism style.
 
