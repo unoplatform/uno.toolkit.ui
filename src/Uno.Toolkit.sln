@@ -86,14 +86,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5D8F2DC4
 		..\build\workflow\stage-uitests-wasm.yml = ..\build\workflow\stage-uitests-wasm.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Markup", "Markup", "{558EEC70-D98E-491B-9652-F1376168004C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.WinUI.Material.Markup", "library\Uno.Toolkit.WinUI.Material.Markup\Uno.Toolkit.WinUI.Material.Markup.csproj", "{75D525C7-AB29-4851-B11E-B1328A9D9737}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.Samples.Mobile", "..\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Mobile\Uno.Toolkit.Samples.Mobile.csproj", "{B7B746EC-467A-4E09-B72F-A779838E397B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.WinUI.Samples.Mobile", "..\samples\Uno.Toolkit.WinUI.Samples\Uno.Toolkit.WinUI.Samples.Mobile\Uno.Toolkit.WinUI.Samples.Mobile.csproj", "{B48244B5-8793-4454-AE13-61F60FE5AB9C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.Skia.WinUI", "Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj", "{249712F0-5E9E-40B1-B40A-DF7D62DB0696}"
 EndProject
 Global
