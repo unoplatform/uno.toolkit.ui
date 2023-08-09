@@ -27,12 +27,17 @@ namespace Uno.Toolkit.UI;
 public partial class ShadowContainer : ContentControl
 {
 	private const string PART_Canvas = "PART_Canvas";
+	private const string PART_Canvas_Inner = "PART_Canvas_Inner";
+	private const string PART_ShadowOwner = "PART_ShadowOwner";
+	private const string PART_ContentPresenter = "PART_ContentPresenter";
 
 	private static readonly ShadowsCache Cache = new ShadowsCache();
 
 	private readonly SerialDisposable _eventSubscriptions = new();
-
+	
+	private Grid? _panel;
 	private Canvas? _canvas;
+	private ContentPresenter? _contentPresenter;
 
 	private SKXamlCanvas? _shadowHost;
 
@@ -225,6 +230,8 @@ public partial class ShadowContainer : ContentControl
 		base.OnApplyTemplate();
 
 		_canvas = GetTemplateChild(nameof(PART_Canvas)) as Canvas;
+		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
+		_contentPresenter = GetTemplateChild(nameof(PART_ContentPresenter)) as ContentPresenter;
 
 		var skiaCanvas = new SKXamlCanvas();
 		skiaCanvas.PaintSurface += OnSurfacePainted;
@@ -234,6 +241,7 @@ public partial class ShadowContainer : ContentControl
 #endif
 
 		_shadowHost = skiaCanvas;
+		_currentContent = (FrameworkElement?)_contentPresenter?.Content;
 		_canvas?.Children.Insert(0, _shadowHost!);
 	}
 
