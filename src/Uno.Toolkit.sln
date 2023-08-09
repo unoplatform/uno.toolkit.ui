@@ -86,8 +86,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5D8F2DC4
 		..\build\workflow\stage-uitests-wasm.yml = ..\build\workflow\stage-uitests-wasm.yml
 	EndProjectSection
 EndProject
-<<<<<<< HEAD
-=======
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Markup", "Markup", "{558EEC70-D98E-491B-9652-F1376168004C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.WinUI.Material.Markup", "library\Uno.Toolkit.WinUI.Material.Markup\Uno.Toolkit.WinUI.Material.Markup.csproj", "{75D525C7-AB29-4851-B11E-B1328A9D9737}"
@@ -98,7 +96,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.WinUI.Samples.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uno.Toolkit.Skia.WinUI", "Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj", "{249712F0-5E9E-40B1-B40A-DF7D62DB0696}"
 EndProject
->>>>>>> 97bc94f (Shadow container (#638))
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Android = Ad-Hoc|Android
@@ -2747,8 +2744,6 @@ Global
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|x64.Build.0 = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|x86.ActiveCfg = Release|Any CPU
 		{8DC53BC5-F3F1-4334-86BB-773988675B9F}.Release|x86.Build.0 = Release|Any CPU
-<<<<<<< HEAD
-=======
 		{83C3F373-8CAA-4127-9E7E-6474D9E9BCD4}.Ad-Hoc|Android.ActiveCfg = Release|Any CPU
 		{83C3F373-8CAA-4127-9E7E-6474D9E9BCD4}.Ad-Hoc|Any CPU.ActiveCfg = Release|Any CPU
 		{83C3F373-8CAA-4127-9E7E-6474D9E9BCD4}.Ad-Hoc|ARM.ActiveCfg = Release|Any CPU
@@ -3247,7 +3242,6 @@ Global
 		{249712F0-5E9E-40B1-B40A-DF7D62DB0696}.Release|x64.Build.0 = Release|Any CPU
 		{249712F0-5E9E-40B1-B40A-DF7D62DB0696}.Release|x86.ActiveCfg = Release|Any CPU
 		{249712F0-5E9E-40B1-B40A-DF7D62DB0696}.Release|x86.Build.0 = Release|Any CPU
->>>>>>> 97bc94f (Shadow container (#638))
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
