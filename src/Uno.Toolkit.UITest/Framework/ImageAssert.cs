@@ -82,7 +82,7 @@ namespace Uno.Toolkit.UITest.Framework
 		public static void AreAlmostEqual(ScreenshotInfo expected, Rectangle expectedRect, ScreenshotInfo actual, Rectangle actualRect, double expectedToActualScale, PixelTolerance tolerance, [CallerLineNumber] int line = 0)
 			=> AreEqualImpl(expected, expectedRect, actual, actualRect, expectedToActualScale, tolerance, line);
 
-		public static void AreAlmostEqual(ScreenshotInfo expected, Rectangle expectedRect, Bitmap actual, Rectangle actualRect, double expectedToActualScale, PixelTolerance tolerance, [CallerLineNumber] int line = 0)
+		public static void AreAlmostEqual(ScreenshotInfo expected, Rectangle expectedRect, PlatformBitmap actual, Rectangle actualRect, double expectedToActualScale, PixelTolerance tolerance, [CallerLineNumber] int line = 0)
 			=> AreEqualImpl(expected, expectedRect, null, actual, actualRect, expectedToActualScale, tolerance, line);
 
 		private static void AreEqualImpl(
@@ -105,7 +105,7 @@ namespace Uno.Toolkit.UITest.Framework
 			ScreenshotInfo expected,
 			Rectangle expectedRect,
 			ScreenshotInfo? actual,
-			Bitmap actualBitmap,
+			PlatformBitmap actualBitmap,
 			Rectangle actualRect,
 			double expectedToActualScale,
 			PixelTolerance tolerance,
@@ -134,7 +134,7 @@ namespace Uno.Toolkit.UITest.Framework
 			ScreenshotInfo expected,
 			Rectangle expectedRect,
 			ScreenshotInfo? actual,
-			Bitmap actualBitmap,
+			PlatformBitmap actualBitmap,
 			Rectangle actualRect,
 			double expectedToActualScale,
 			PixelTolerance tolerance,
@@ -216,7 +216,7 @@ namespace Uno.Toolkit.UITest.Framework
 					ScreenshotInfo expected,
 					Rectangle expectedRect,
 					ScreenshotInfo actual,
-					Bitmap actualBitmap,
+					PlatformBitmap actualBitmap,
 					Rectangle actualRect,
 					double expectedToActualScale,
 					PixelTolerance tolerance,

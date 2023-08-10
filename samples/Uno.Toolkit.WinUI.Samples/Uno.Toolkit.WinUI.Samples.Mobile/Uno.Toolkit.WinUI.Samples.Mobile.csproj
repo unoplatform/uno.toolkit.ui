@@ -8,7 +8,7 @@
     <!-- Display name -->
     <ApplicationTitle>Uno.Toolkit.WinUI.Samples</ApplicationTitle>
     <!-- App Identifier -->
-    <ApplicationId>com.companyname.uno-toolkit-winui-samples</ApplicationId>
+    <ApplicationId>uno.platform.toolkit</ApplicationId>
     <ApplicationIdGuid>64471777-AD5E-43F8-A2A0-A02366FBC945</ApplicationIdGuid>
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -68,6 +68,13 @@
       </PropertyGroup>
       <ItemGroup>
         <PackageReference Include="Uno.Extensions.Logging.OSLog" />
+      </ItemGroup>
+      <PropertyGroup Condition="'$(Configuration)'=='Release' and '$(System_PullRequest_IsFork)'!='True'">
+        <CodesignKey>iPhone Distribution</CodesignKey>
+        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+      </PropertyGroup>
+      <ItemGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
+        <PackageReference Include="Xamarin.TestCloud.Agent" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)'=='net7.0-maccatalyst'">

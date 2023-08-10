@@ -10,17 +10,19 @@ export NUNIT_VERSION=3.12.0
 
 if [ "$UITEST_TEST_MODE_NAME" == 'Automated' ];
 then
-	export TEST_FILTERS="namespace != 'Uno.Toolkit.UITest.RuntimeTests'";
+	export TEST_FILTERS="FullyQualifiedName !~ Uno.Toolkit.UITest.RuntimeTests";
 elif [ "$UITEST_TEST_MODE_NAME" == 'RuntimeTests' ];
 then
-	export TEST_FILTERS="class == 'Uno.Toolkit.UITest.RuntimeTests.RuntimeTestRunner'";
+	export TEST_FILTERS="FullyQualifiedName ~ Uno.Toolkit.UITest.RuntimeTests";
 fi
+
 export UNO_UITEST_PLATFORM=Android
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/android/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
-export UNO_UITEST_ANDROIDAPK_PATH=$BUILD_SOURCESDIRECTORY/build/$SAMPLEAPP_ARTIFACT_NAME/$SAMPLEAPP_PACKAGE_NAME-Signed.apk
-export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/Uno.Toolkit.UITest.csproj
-export UNO_UITEST_ANDROID_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.Droid/$SAMPLE_PROJECT_NAME.Droid.csproj
+export UNO_UITEST_MOBILE_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.Mobile
+export UNO_UITEST_ANDROIDAPK_PATH=$UNO_UITEST_MOBILE_PROJECT_PATH/bin/Release/net7.0-android/android-x64/$SAMPLEAPP_PACKAGE_NAME-Signed.apk
+export UNO_UITEST_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
+export UNO_UITEST_PROJECT=$UNO_UITEST_PROJECT_PATH/Uno.Toolkit.UITest.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
 export UNO_UITEST_NUNIT_VERSION=$NUNIT_VERSION
 export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
@@ -28,6 +30,7 @@ export UNO_EMULATOR_INSTALLED=$BUILD_SOURCESDIRECTORY/build/.emulator_started
 export UNO_ORIGINAL_TEST_RESULTS=$BUILD_SOURCESDIRECTORY/build/$UNO_TEST_RESULTS_FILE_NAME
 export UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH=$UNO_ORIGINAL_TEST_RESULTS
 export UNO_TESTS_RESPONSE_FILE=$BUILD_SOURCESDIRECTORY/build/nunit.response
+export UITEST_TEST_TIMEOUT=60m
 
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
@@ -64,9 +67,10 @@ then
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'tools'| tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platform-tools'  | tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'build-tools;33.0.0' | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platforms;android-28' | tr '\r' '\n' | uniq
+	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platforms;android-33' | tr '\r' '\n' | uniq
+	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install "platforms;android-$ANDROID_SIMULATOR_APILEVEL" | tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'extras;android;m2repository' | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'system-images;android-28;google_apis_playstore;x86_64' | tr '\r' '\n' | uniq
+	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'system-images;android-33;google_apis_playstore;x86_64' | tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install "system-images;android-$ANDROID_SIMULATOR_APILEVEL;google_apis_playstore;x86_64" | tr '\r' '\n' | uniq
 
 	if [[ -f $ANDROID_HOME/platform-tools/platform-tools/adb ]]
@@ -109,6 +113,10 @@ else
 	source $BUILD_SOURCESDIRECTORY/build/workflow/scripts/android-uitest-wait-systemui.sh 500
 fi
 
+# Build the sample, while the emulator is starting
+cd $UNO_UITEST_MOBILE_PROJECT_PATH
+dotnet publish -f net7.0-android -c Release /p:RuntimeIdentifier=android-x64 /p:IsUiAutomationMappingEnabled=True /p:AndroidUseSharedRuntime=False /p:RunAOTCompilation=False /bl:$BASE_ARTIFACTS_PATH/android-$XAML_FLAVOR_BUILD-uitest.binlog
+
 # list active devices
 $ANDROID_HOME/platform-tools/adb devices
 
@@ -117,39 +125,23 @@ $ANDROID_HOME/platform-tools/adb shell settings put global hidden_api_policy 1
 
 echo "Emulator started"
 
-cp $UNO_UITEST_ANDROIDAPK_PATH $BUILD_ARTIFACTSTAGINGDIRECTORY
+cp $UNO_UITEST_ANDROIDAPK_PATH $BASE_ARTIFACTS_PATH
 
-cd $BUILD_SOURCESDIRECTORY/build
+cd $UNO_UITEST_PROJECT_PATH
 
-wget $UNO_UITEST_NUGET_URL
-mono nuget.exe install NUnit.ConsoleRunner -Version $UNO_UITEST_NUNIT_VERSION
-
-# Move to the screenshot directory so that the output path is the proper one, as
-# required by Xamarin.UITest
-cd $UNO_UITEST_SCREENSHOT_PATH
-
-## Build the NUnit configuration file
-echo "--trace=Verbose" > $UNO_TESTS_RESPONSE_FILE
-echo "--framework=mono" >> $UNO_TESTS_RESPONSE_FILE
-echo "--inprocess" >> $UNO_TESTS_RESPONSE_FILE
-echo "--agents=1" >> $UNO_TESTS_RESPONSE_FILE
-echo "--workers=1" >> $UNO_TESTS_RESPONSE_FILE
-echo "--result=$UNO_ORIGINAL_TEST_RESULTS" >> $UNO_TESTS_RESPONSE_FILE
-echo "--where \"$TEST_FILTERS\"" >> $UNO_TESTS_RESPONSE_FILE
-echo "$UNO_UITEST_BINARY" >> $UNO_TESTS_RESPONSE_FILE
-
-echo Response file:
-cat $UNO_TESTS_RESPONSE_FILE
-
-## Show the tests list
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.$UNO_UITEST_NUNIT_VERSION/tools/nunit3-console.exe \
-    @$UNO_TESTS_RESPONSE_FILE --explore || true
-
-mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.$UNO_UITEST_NUNIT_VERSION/tools/nunit3-console.exe \
-    @$UNO_TESTS_RESPONSE_FILE || true
+## Run tests
+dotnet test \
+	-c Release \
+	-l:"console;verbosity=normal" \
+	--logger "nunit;LogFileName=$UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH" \
+	--filter "$TEST_FILTERS" \
+	--blame-hang-timeout $UITEST_TEST_TIMEOUT \
+	-v m \
+	-property:FrameworkLineage=$XAML_FLAVOR_BUILD \
+	|| true
 
 ## Copy the results file to the results folder
-cp $UNO_ORIGINAL_TEST_RESULTS $BASE_ARTIFACTS_PATH
+cp $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH $BASE_ARTIFACTS_PATH
 
 ## Dump the emulator's system log
 $ANDROID_HOME/platform-tools/adb shell logcat -d > $UNO_UITEST_SCREENSHOT_PATH/android-device-log.txt

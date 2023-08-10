@@ -24,24 +24,23 @@ namespace Uno.Toolkit.UITest.Behaviors.TabBarBehavior
 			var tab2 = App.MarkedAnywhere("SlideTab2");
 			var tab3 = App.MarkedAnywhere("SlideTab3");
 
-			var item1 = App.MarkedAnywhere("SlidePage1");
-			var item2 = App.MarkedAnywhere("SlidePage2");
-			var item3 = App.MarkedAnywhere("SlidePage3");
+			var tabBar = App.MarkedAnywhere("SlideTabBar");
+			var flipView = App.MarkedAnywhere("SlideFlipView");
 
 			App.FastTap(tab1);
 
-			Assert.IsTrue(tab1.GetDependencyPropertyValue<bool>("IsSelected"));
-			Assert.IsTrue(item1.GetDependencyPropertyValue<bool>("IsSelected"));
+			App.WaitForDependencyPropertyValue(tabBar, "SelectedIndex", 0);
+			App.WaitForDependencyPropertyValue(flipView, "SelectedIndex", 0);
 
 			App.FastTap(tab2);
 
-			Assert.IsTrue(tab2.GetDependencyPropertyValue<bool>("IsSelected"));
-			Assert.IsTrue(item2.GetDependencyPropertyValue<bool>("IsSelected"));
+			App.WaitForDependencyPropertyValue(tabBar, "SelectedIndex", 1);
+			App.WaitForDependencyPropertyValue(flipView, "SelectedIndex", 1);
 
 			App.FastTap(tab3);
 
-			Assert.IsTrue(tab3.GetDependencyPropertyValue<bool>("IsSelected"));
-			Assert.IsTrue(item3.GetDependencyPropertyValue<bool>("IsSelected"));
+			App.WaitForDependencyPropertyValue(tabBar, "SelectedIndex", 2);
+			App.WaitForDependencyPropertyValue(flipView, "SelectedIndex", 2);
 		}
 	}
 }

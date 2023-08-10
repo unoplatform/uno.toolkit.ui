@@ -38,7 +38,7 @@ namespace Uno.Toolkit.UITest.RuntimeTests
 
 			async Task<bool> IsTestExecutionDone()
 			{
-				return await GetWithRetry("IsTestExecutionDone", () => unitTestsControl.GetDependencyPropertyValue("RunningStateForUITest")?.ToString().Equals("Finished", StringComparison.OrdinalIgnoreCase) ?? false);
+				return await GetWithRetry("IsTestExecutionDone", () => unitTestsControl.GetDependencyPropertyValue("RunningStateForUITest")?.ToString()?.Equals("Finished", StringComparison.OrdinalIgnoreCase) ?? false);
 			}
 
 			App.WaitForElement(runButton);
@@ -141,7 +141,7 @@ namespace Uno.Toolkit.UITest.RuntimeTests
 				Console.WriteLine($"The environment variable {TestResultsOutputFilePath} is not defined, skipping file system extraction");
 			}
 
-			var finalFile = Path.Combine(Path.GetDirectoryName(file), "test-results.xml");
+			var finalFile = Path.Combine(Path.GetDirectoryName(file) ?? string.Empty, "test-results.xml");
 
 			if (File.Exists(finalFile))
 			{

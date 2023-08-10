@@ -1,85 +1,11 @@
 ﻿jobs:
-- job: iOS_Build_For_Tests
-  displayName: 'Build iOS Samples App for UI Tests'
-
-  pool:
-    vmImage: 'macOS-12'
-
-  variables:
-    CI_Build: true
-    SourceLinkEnabled: false
-    VS_MSBUILD: '/Applications/Visual Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll'
-    XCODE_ROOT: '/Applications/Xcode_13.2.1.app'
-    XamarinSDKVersion: 6_12_12
-
-  strategy:
-    maxParallel: 2
-    matrix:
-      WinUI:
-        ArtifactName: ios-winui-xamarin-uitest
-        ProjectName: Uno.Toolkit.WinUI.Samples
-      UWP:
-        ArtifactName: ios-uwp-xamarin-uitest
-        ProjectName: Uno.Toolkit.Samples
-
-  steps:
-  - checkout: self
-    clean: true
-
-  - template: templates/dotnet-workload-install-mac.yml
-  - template: templates/jdk-setup.yml
-
-  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
-    displayName: Select Xamarin Version
-
-  - bash: |
-      echo 'xCode Root to ${XCODE_ROOT}'
-      echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'${XCODE_ROOT}
-      sudo xcode-select --switch ${XCODE_ROOT}/Contents/Developer
-
-    displayName: Select Xcode
-
-  - bash: |
-      rm -f ${HOME}/Library/Preferences/Xamarin/Settings.plist
-
-    # https://github.com/actions/virtual-environments/issues/1932
-    displayName: Apply workaround for Azure Devops issue 1932
-
-  - task: MSBuild@1
-    displayName: Build project
-    retryCountOnTaskFailure: 3
-    inputs:
-      solution: "$(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).iOS/$(ProjectName).iOS.csproj"
-      msbuildArguments: /m /r /p:Configuration=Release /p:Platform=iPhoneSimulator /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet7MobileTargets=true /p:IsUiAutomationMappingEnabled=true /bl:$(BUILD.ARTIFACTSTAGINGDIRECTORY)/$(ArtifactName).binlog
-
-  - task: CopyFiles@2
-    displayName: 'Publish Binaries'
-    retryCountOnTaskFailure: 3
-    inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).iOS/bin/iPhoneSimulator/Release/$(ProjectName).app
-      Contents: '**'
-      TargetFolder: $(build.artifactstagingdirectory)/$(ProjectName).app
-      CleanTargetFolder: false
-      OverWrite: false
-      flattenFolders: false
-
-  - task: PublishBuildArtifacts@1
-    retryCountOnTaskFailure: 3
-    condition: always()
-    inputs:
-      ArtifactName: $(ArtifactName)
-
 - job: iOS_UITests
   displayName: 'Run iOS UI Tests'
-  dependsOn:
-  - iOS_Build_For_Tests
-  - Toolkit_UITests_Build
   timeoutInMinutes: 90
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    XCODE_ROOT: '/Applications/Xcode_13.2.1.app'
-    XamarinSDKVersion: 6_12_12
+    XCODE_ROOT: '/Applications/Xcode_14.3.app'
 
   strategy:
     maxParallel: 4
@@ -89,68 +15,46 @@
         XAML_FLAVOR_BUILD: UWP
         UITEST_TEST_MODE_NAME: Automated
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-UWP-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-xamarin-uitest
+        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-uitest
       WinUI:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: Automated
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-WinUI-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-winui-xamarin-uitest
+        SAMPLEAPP_ARTIFACT_NAME: ios-winui-uitest
       UWP_Runtime:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: UWP
         UITEST_TEST_MODE_NAME: RuntimeTests
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-UWP-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-xamarin-uitest
+        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-uitest
       WinUI_Runtime:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: RuntimeTests
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-WinUI-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-winui-xamarin-uitest
+        SAMPLEAPP_ARTIFACT_NAME: ios-winui-uitest
 
   pool:
-    vmImage: 'macOS-12'
+    vmImage: 'macOS-13'
 
   steps:
   - checkout: self
     clean: true
 
-  - task: DownloadBuildArtifacts@0
-    displayName: 'Download iOS Samples App'
-    inputs:
-        artifactName: $(SAMPLEAPP_ARTIFACT_NAME)
-        downloadPath: '$(build.sourcesdirectory)/build'
-
-  - task: DownloadBuildArtifacts@0
-    displayName: 'Download UITest Binaries'
-    inputs:
-        artifactName: toolkit-uitest-binaries-$(XAML_FLAVOR_BUILD)
-        downloadPath: '$(build.sourcesdirectory)/build'
-
   - template: templates/dotnet-workload-install-mac.yml
-
-  - bash: /bin/bash -c "sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(XamarinSDKVersion)"
-    displayName: Select Xamarin Version
+  - template: templates/canary-updater.yml
 
   - bash: |
       echo 'xCode Root to ${XCODE_ROOT}'
       echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'${XCODE_ROOT}
       sudo xcode-select --switch ${XCODE_ROOT}/Contents/Developer
-
     displayName: Select Xcode
-
-  - bash: |
-      rm -f ${HOME}/Library/Preferences/Xamarin/Settings.plist
-
-    # https://github.com/actions/virtual-environments/issues/1932
-    displayName: Apply workaround for Azure Devops issue 1932
 
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
       $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
     displayName: Run iOS UITests ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))
-    retryCountOnTaskFailure: 3
 
   - task: PublishTestResults@2
     condition: always()
