@@ -25,6 +25,8 @@
 	<Choose>
 		<When Condition="$(_IsWindowsWinUI)">
 			<ItemGroup>
+				<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.29" />
+				<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.29" />
 				<PackageReference Include="Microsoft.WindowsAppSDK" />
 				<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
 				<PackageReference Include="SkiaSharp.Views.WinUI" />
