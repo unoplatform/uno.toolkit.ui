@@ -19,6 +19,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BlankPage1.xaml.cs">
+      <DependentUpon>BlankPage1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.WinUI.xaml.cs">
       <DependentUpon>ShadowContainerSamplePage.WinUI.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,10 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)BlankPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ShadowContainerSamplePage.WinUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
