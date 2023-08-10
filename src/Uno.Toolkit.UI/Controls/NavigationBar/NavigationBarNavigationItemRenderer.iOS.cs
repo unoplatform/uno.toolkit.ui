@@ -231,7 +231,7 @@ namespace Uno.Toolkit.UI
 		// Even though we set the Navigation as the parent of the TitleView,
 		// it will change to the native control when the view is added (once MovedToSuperview is called).
 		// This native control is the visual parent but is not a DependencyObject and will not propagate the DataContext.
-		// In order to ensure the DataContext is propagated properly, we need to notify the renderer that this change has occured
+		// In order to ensure the DataContext is propagated properly, we need to notify the renderer that this change has occurred
 		// so we can restore the NavigationBar parent that can propagate the DataContext
 		public override void MovedToSuperview()
 		{
