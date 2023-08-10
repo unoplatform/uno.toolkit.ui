@@ -967,8 +967,6 @@
 													  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 													  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
 								</StackPanel>
-
-								<Border x:Name="FabFocusBorder" />
 							</Grid>
 						</utu:ShadowContainer>
 					</ControlTemplate>
@@ -1338,12 +1336,16 @@
 		</Style>
 
 		<!--#region TabBarItem-->
-
+		<converters:FromNullToValueConverter x:Key="HasIconToContentShadow"
+											 NotNullValue="{StaticResource TabBarItemNoShadows}"
+											 NullValue="{StaticResource TabBarItemShadows}" />
 		<utu:ShadowCollection x:Key="TabBarItemShadows">
 			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor1}" />
 			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor1}" />
 		</utu:ShadowCollection>
 		
+		<utu:ShadowCollection x:Key="TabBarItemNoShadows"/>
+
 		<Style x:Key="NmpBaseNavigationTabBarItemStyle"
 			   TargetType="utu:TabBarItem">
 			<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
@@ -1464,17 +1466,19 @@
 									<not_mobile:VisualState x:Name="PointerOver">
 										<VisualState.Setters>
 											<Setter Target="IconShadowPanel.Shadows" Value="{StaticResource TabBarItemShadows}" />
+											<Setter Target="ContentShadowPanel.Shadows" Value="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HasIconToContentShadow}}" />
 										</VisualState.Setters>
 									</not_mobile:VisualState>
 									<VisualState x:Name="Pressed">
 										<VisualState.Setters>
 											<Setter Target="IconShadowPanel.Shadows" Value="{StaticResource TabBarItemShadows}" />
+											<Setter Target="ContentShadowPanel.Shadows" Value="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HasIconToContentShadow}}" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="Selected">
 										<VisualState.Setters>
 											<Setter Target="IconShadowPanel.Shadows" Value="{StaticResource TabBarItemShadows}" />
-											<Setter Target="ContentShadowPanel.Shadows" Value="{StaticResource TabBarItemShadows}" />
+											<Setter Target="ContentShadowPanel.Shadows" Value="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HasIconToContentShadow}}" />
 											<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
 											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
 										</VisualState.Setters>
@@ -1482,6 +1486,7 @@
 									<not_mobile:VisualState x:Name="PointerOverSelected">
 										<VisualState.Setters>
 											<Setter Target="IconShadowPanel.Shadows" Value="{StaticResource TabBarItemShadows}" />
+											<Setter Target="ContentShadowPanel.Shadows" Value="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HasIconToContentShadow}}" />
 											<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
 											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
 										</VisualState.Setters>
@@ -1489,6 +1494,7 @@
 									<VisualState x:Name="PressedSelected">
 										<VisualState.Setters>
 											<Setter Target="IconShadowPanel.Shadows" Value="{StaticResource TabBarItemShadows}" />
+											<Setter Target="ContentShadowPanel.Shadows" Value="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource HasIconToContentShadow}}" />
 											<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
 											<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
 										</VisualState.Setters>
@@ -1506,7 +1512,7 @@
 									</VisualState>
 								</VisualStateGroup>
 								<VisualStateGroup x:Name="TabBarIconPositionStates">
-									<VisualState x:Name="IconOnTop" />
+									<VisualState x:Name="IconOnTop"/>
 									<VisualState x:Name="IconOnly">
 										<VisualState.Setters>
 											<Setter Target="ContentShadowPanel.Visibility" Value="Collapsed" />
@@ -1516,12 +1522,11 @@
 									<VisualState x:Name="ContentOnly">
 										<VisualState.Setters>
 											<Setter Target="IconShadowPanel.Visibility" Value="Collapsed" />
-											<!--<Setter Target="ContentShadowPanel.Shadows" Value="{StaticResource TabBarItemShadows}" />-->
-											<Setter Target="ContentPresenter.Height" Value="{ThemeResource NavigationTabBarItemActiveIndicatorHeight}" />
-											<Setter Target="ContentPresenter.Width" Value="{ThemeResource NavigationTabBarItemActiveIndicatorWidth}" />
+											<Setter Target="ContentPresenterGrid.Height" Value="{ThemeResource NavigationTabBarItemActiveIndicatorHeight}" />
+											<Setter Target="ContentPresenterGrid.Width" Value="{ThemeResource NavigationTabBarItemActiveIndicatorWidth}" />
+											<Setter Target="ContentPresenterGrid.CornerRadius" Value="{ThemeResource NavigationTabBarItemActiveIndicatorCornerRadius}" />
 											<Setter Target="ContentPresenter.HorizontalAlignment" Value="Center" />
 											<Setter Target="ContentPresenter.VerticalAlignment" Value="Center" />
-											<Setter Target="ContentPresenterGrid.CornerRadius" Value="{ThemeResource NavigationTabBarItemActiveIndicatorCornerRadius}" />
 											<Setter Target="IconRow.Height" Value="0" />
 											<Setter Target="ContentRow.Height" Value="*" />
 										</VisualState.Setters>
@@ -1533,6 +1538,115 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		
+		<!--#region FAB TabBarItem Styles-->
+
+		<utu:ShadowCollection x:Key="FabTabBarItemShadows">
+			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-8" OffsetY="-8" Opacity="0.08" Spread="0" Color="{StaticResource ShadeShadowColor5}" />
+			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="8" OffsetY="8" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor5}" />
+			<utu:Shadow BlurRadius="20" IsInner="False" OffsetX="12" OffsetY="12" Opacity="0.4" Spread="0" Color="{StaticResource MediumShadowColor5}" />
+		</utu:ShadowCollection>
+		
+		<Style x:Key="NmpFabTabBarItemStyle"
+			   TargetType="utu:TabBarItem">
+			<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
+			<Setter Property="FontSize" Value="{ThemeResource LabelMediumFontSize}" />
+			<Setter Property="FontWeight" Value="{ThemeResource LabelMediumFontWeight}" />
+			<Setter Property="IsSelectable" Value="False" />
+			<Setter Property="UseSystemFocusVisuals" Value="True" />
+			<Setter Property="VerticalContentAlignment" Value="Center" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
+			<Setter Property="CornerRadius" Value="64" />
+			<Setter Property="Padding" Value="{ThemeResource FabTabBarItemPadding}" />
+			<Setter Property="Margin" Value="0,0,0,130" />
+			<Setter Property="Background" Value="{ThemeResource PrimaryContainerColor}" />
+			<Setter Property="Foreground" Value="{ThemeResource OnPrimaryContainerColor}" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="utu:TabBarItem">
+						<utu:ShadowContainer Shadows="{StaticResource FabTabBarItemShadows}">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="PointerOver">
+										<VisualState.Setters>
+											<Setter Target="StateOverlay.Background" Value="{ThemeResource PrimaryFocusedBrush}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Pressed">
+										<VisualState.Setters>
+											<Setter Target="StateOverlay.Background" Value="{ThemeResource PrimaryPressedBrush}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Disabled" />
+
+								</VisualStateGroup>
+
+								<VisualStateGroup x:Name="FocusStates">
+									<VisualState x:Name="Focused">
+										<VisualState.Setters>
+											<Setter Target="StateOverlay.Background" Value="{ThemeResource PrimaryFocusedBrush}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="PointerFocused" />
+									<VisualState x:Name="Unfocused" />
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Grid x:Name="Root"
+								  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+								  VerticalAlignment="{TemplateBinding VerticalAlignment}"
+								  CornerRadius="{TemplateBinding CornerRadius}"
+								  Background="{TemplateBinding Background}">
+								
+								<Grid>
+									<StackPanel x:Name="ContentPanel"
+												Margin="{TemplateBinding Padding}"
+												Orientation="Horizontal">
+
+										<!--  Icon  -->
+										<Viewbox Width="{ThemeResource FabTabBarItemContentWidthOrHeight}"
+													Height="{ThemeResource FabTabBarItemContentWidthOrHeight}"
+													HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+													VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+													Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+
+											<ContentPresenter x:Name="IconPresenter"
+																Content="{TemplateBinding Icon}"
+																Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+
+										</Viewbox>
+
+										<!--  Icon/Content spacing  -->
+										<Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+											<Border Width="{ThemeResource FabTabBarItemIconTextPadding}"
+													Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
+										</Border>
+
+										<!--  Content  -->
+										<ContentPresenter x:Name="ContentPresenter"
+															HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+															VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+															Content="{TemplateBinding Content}"
+															ContentTemplate="{TemplateBinding ContentTemplate}"
+															ContentTransitions="{TemplateBinding ContentTransitions}"
+															FontFamily="{TemplateBinding FontFamily}"
+															FontSize="{TemplateBinding FontSize}"
+															FontWeight="{TemplateBinding FontWeight}" />
+
+									</StackPanel>
+								</Grid>
+								<Border x:Name="StateOverlay"
+										Background="Transparent"
+										CornerRadius="{TemplateBinding CornerRadius}" />
+
+								</Grid>
+						</utu:ShadowContainer>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<!--#endregion-->
+		
 		<!--#endregion-->
 		
 		<!--#endregion-->
@@ -1874,6 +1988,45 @@
 											<utu:TabBarItem>
 												<utu:TabBarItem.Icon>
 													<FontIcon Glyph="&#xE8F2;" />
+												</utu:TabBarItem.Icon>
+											</utu:TabBarItem>
+											<utu:TabBarItem>
+												<utu:TabBarItem.Icon>
+													<FontIcon Glyph="&#xE946;" />
+												</utu:TabBarItem.Icon>
+											</utu:TabBarItem>
+										</utu:TabBar.Items>
+									</utu:TabBar>
+									<utu:TabBar SelectedIndex="1"
+												Style="{StaticResource NmpBottomTabBarStyle}">
+										<utu:TabBar.Items>
+											<utu:TabBarItem>
+												<utu:TabBarItem.Icon>
+													<SymbolIcon Symbol="Home" />
+												</utu:TabBarItem.Icon>
+											</utu:TabBarItem>
+											<utu:TabBarItem Style="{StaticResource NmpFabTabBarItemStyle}">
+												<utu:TabBarItem.Flyout>
+													<MenuFlyout Placement="Top"
+																MenuFlyoutPresenterStyle="{StaticResource MaterialMenuFlyoutPresenterStyle}">
+
+														<MenuFlyoutItem Text="Like"
+															Style="{StaticResource MaterialMenuFlyoutItemStyle}">
+															<MenuFlyoutItem.Icon>
+																<SymbolIcon Symbol="Like" />
+															</MenuFlyoutItem.Icon>
+														</MenuFlyoutItem>
+
+														<MenuFlyoutItem Text="Dislike"
+															Style="{StaticResource MaterialMenuFlyoutItemStyle}">
+															<MenuFlyoutItem.Icon>
+																<SymbolIcon Symbol="Dislike" />
+															</MenuFlyoutItem.Icon>
+														</MenuFlyoutItem>
+													</MenuFlyout>
+												</utu:TabBarItem.Flyout>
+												<utu:TabBarItem.Icon>
+													<PathIcon Data="M16.2227 9.14286H9.36551V16H7.0798V9.14286H0.222656V6.85714H7.0798V0H9.36551V6.85714H16.2227V9.14286Z"/>
 												</utu:TabBarItem.Icon>
 											</utu:TabBarItem>
 											<utu:TabBarItem>
