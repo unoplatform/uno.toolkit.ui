@@ -2,12 +2,15 @@
 - name: Overview
   href: getting-started.md
   items:
-    # ***************** Material *******************
+  # ***************** Material *******************
   - name: Material
     href: material-getting-started.md
   # ***************** Cupertino ******************
   - name: Cupertino
     href: cupertino-getting-started.md
+  # ***************** Lightweight Styling ********
+  - name: Lightweight Styling
+    href: lightweight-styling.md
 
 # ******************* Learn **********************
 #- name: Learn
