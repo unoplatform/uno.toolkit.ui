@@ -123,11 +123,17 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ![2 colored shadows with 2 buttons with single shadows](../assets/shadows-colors.png)
 
-### Neumorphism
+## Neumorphism
 
 [Following neumorphism rules](https://neumorphism.io), choose one background color, 2 shadow colors, and create a cool neumorphism style.
-In order to achieve neumorphic depth effects (instead of having a raised element, it will feel as if it was hollow or bulging), set the `IsInner` property of a shadow to `True`. The shadow will then be displayed *inside* the element instead of behind.
-This is equivalent to the `inset` property of the CSS `box-shadow`.
+
+In order to achieve neumorphic depth effects (instead of having a raised element, it will feel as if it was hollow or bulging), set the `IsInner` property of a shadow to `True`. 
+
+ - The shadow will then be displayed *inside* the element instead of behind.
+ - This is equivalent to the `inset` property of the CSS `box-shadow`.
+
+
+## Usage
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
