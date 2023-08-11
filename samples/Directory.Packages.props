@@ -6,6 +6,7 @@
 		<PackageVersion Include="Microsoft.Extensions.Logging" Version="5.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
+		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.7.0-2.final" />
 		<!--
 		If, in the same solution, you are referencing a project that uses https://github.com/onovotny/MSBuildSdkExtras,
 		you need to make sure that the version provided here matches https://github.com/novotnyllc/MSBuildSdkExtras/blob/main/Source/MSBuild.Sdk.Extras/DefaultItems/ImplicitPackages.targets#L11.
