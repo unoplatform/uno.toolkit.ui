@@ -1,9 +1,6 @@
 <Project ToolsVersion="15.0">
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
 	<Import Project="Directory.UnoMetadata.targets" />
-<<<<<<< HEAD
-</Project>
-=======
 
 	<!-- This is a workaround, should be removed when this issue is fixed: https://github.com/unoplatform/uno/issues/13167 -->
 	<!-- Without this, the build gets flaky and sometimes fails with this error -->
@@ -21,4 +18,3 @@
 		</ItemGroup>
 	</Target>
 </Project>
->>>>>>> f622a0d (build: Few build adjustments to reduce flakiness (#700))
