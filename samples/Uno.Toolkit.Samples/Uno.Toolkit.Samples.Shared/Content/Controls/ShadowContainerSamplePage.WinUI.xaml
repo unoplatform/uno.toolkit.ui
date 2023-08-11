@@ -1324,16 +1324,7 @@
 			<Setter Property="MinHeight" Value="{ThemeResource TopTabBarHeight}" />
 			<Setter Property="utu:SafeArea.Insets" Value="Top" />
 			<Setter Property="ItemContainerStyle" Value="{StaticResource NmpBaseContentTabBarItemStyle}" />
-			<!--<Setter Property="SelectionIndicatorContentTemplate">
-				<Setter.Value>
-					<DataTemplate>
-						<Border Height="2"
-								Margin="0,0,0,1"
-								VerticalAlignment="Bottom"
-								Background="{ThemeResource TopTabBarBottomBorderBrush}" />
-					</DataTemplate>
-				</Setter.Value>
-			</Setter>-->
+
 		</Style>
 
 		<!--#region TabBarItem-->
@@ -1368,10 +1359,6 @@
 							  Padding="{TemplateBinding Padding}"
 							  AutomationProperties.AccessibilityView="Raw"
 							  CornerRadius="{TemplateBinding CornerRadius}">
-
-							<Rectangle x:Name="PointerRectangle"
-										Fill="{ThemeResource NavigationTabBarItemPointerFillBrush}"
-										Visibility="Collapsed" />
 
 							<Grid x:Name="ContentGrid"
 								  RowSpacing="4">
@@ -1542,7 +1529,6 @@
 		
 		<!--#region FAB TabBarItem Styles-->
 
-		<!--WORK IN PROGRESS-->
 		<Style x:Key="NmpBaseContentTabBarItemStyle"
 			   TargetType="utu:TabBarItem">
 			<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
@@ -1565,10 +1551,6 @@
 							  AutomationProperties.AccessibilityView="Raw"
 							  CornerRadius="{TemplateBinding CornerRadius}">
 
-							<!--<Rectangle x:Name="PointerRectangle"
-										Fill="{ThemeResource NavigationTabBarItemPointerFillBrush}"
-										Visibility="Collapsed" />-->
-
 							<utu:ShadowContainer x:Name="ShadowPanel"
 												 HorizontalAlignment="Center"
 												 VerticalAlignment="Center">
@@ -1577,11 +1559,10 @@
 									  VerticalAlignment="Center"
 									  RowSpacing="4"
 									  CornerRadius="64"
-									  Height="70"
-									  Width="120">
+									  Padding="12,8">
 									<Grid.RowDefinitions>
 										<RowDefinition x:Name="IconRow" Height="*" />
-										<RowDefinition x:Name="ContentRow" Height="Auto" />
+										<RowDefinition x:Name="ContentRow" Height="*" />
 									</Grid.RowDefinitions>
 
 									<Grid x:Name="ActiveIndicator"
@@ -1709,21 +1690,24 @@
 									</VisualState>
 								</VisualStateGroup>
 								<VisualStateGroup x:Name="TabBarIconPositionStates">
-									<VisualState x:Name="IconOnTop"/>
+									<VisualState x:Name="IconOnTop">
+										<VisualState.Setters>
+											<Setter Target="ContentGrid.Height" Value="70" />
+											<Setter Target="ContentGrid.Width" Value="120" />
+										</VisualState.Setters>
+									</VisualState>
 									<VisualState x:Name="IconOnly">
 										<VisualState.Setters>
-											<Setter Target="ContentGrid.RowSpacing" Value="0" />
+											<Setter Target="ContentRow.Height" Value="0" />
+											<Setter Target="ContentGrid.Height" Value="40" />
+											<Setter Target="ContentGrid.Width" Value="80" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="ContentOnly">
 										<VisualState.Setters>
-											<!--<Setter Target="ContentPresenterGrid.Height" Value="{ThemeResource NavigationTabBarItemActiveIndicatorHeight}" />
-											<Setter Target="ContentPresenterGrid.Width" Value="{ThemeResource NavigationTabBarItemActiveIndicatorWidth}" />
-											<Setter Target="ContentPresenterGrid.CornerRadius" Value="{ThemeResource NavigationTabBarItemActiveIndicatorCornerRadius}" />
-											<Setter Target="ContentPresenter.HorizontalAlignment" Value="Center" />
-											<Setter Target="ContentPresenter.VerticalAlignment" Value="Center" />-->
-											<!--<Setter Target="IconRow.Height" Value="0" />-->
-											<!--<Setter Target="ContentRow.Height" Value="*" />-->
+											<Setter Target="ContentGrid.Height" Value="40" />
+											<Setter Target="ContentGrid.Width" Value="80" />
+											<Setter Target="IconRow.Height" Value="0" />
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>
@@ -2132,6 +2116,40 @@
 													<FontIcon Glyph="&#xE8F2;" />
 												</utu:TabBarItem.Icon>
 											</utu:TabBarItem>
+										</utu:TabBar.Items>
+									</utu:TabBar>
+
+									<utu:TabBar SelectedIndex="1"
+												Style="{StaticResource NmpTopTabBarStyle}">
+										<utu:TabBar.Items>
+											<utu:TabBarItem Content="HOME"/>
+
+											<utu:TabBarItem Content="SUPPORT"/>
+
+											<utu:TabBarItem Content="ABOUT"/>
+
+										</utu:TabBar.Items>
+									</utu:TabBar>
+
+									<utu:TabBar SelectedIndex="1"
+												Style="{StaticResource NmpTopTabBarStyle}">
+										<utu:TabBar.Items>
+											<utu:TabBarItem>
+												<utu:TabBarItem.Icon>
+													<SymbolIcon Symbol="Home" />
+												</utu:TabBarItem.Icon>
+											</utu:TabBarItem>
+											<utu:TabBarItem>
+												<utu:TabBarItem.Icon>
+													<FontIcon Glyph="&#xE8F2;" />
+												</utu:TabBarItem.Icon>
+											</utu:TabBarItem>
+											<utu:TabBarItem>
+												<utu:TabBarItem.Icon>
+													<FontIcon Glyph="&#xE946;" />
+												</utu:TabBarItem.Icon>
+											</utu:TabBarItem>
+
 										</utu:TabBar.Items>
 									</utu:TabBar>
 									
