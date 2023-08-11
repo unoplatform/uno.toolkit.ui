@@ -1288,7 +1288,6 @@
 		<Style x:Key="NmpVerticalTabBarStyle"
 			   BasedOn="{StaticResource NmpBaseTabBarStyle}"
 			   TargetType="utu:TabBar">
-			<!--<Setter Property="um:ControlExtensions.Elevation" Value="1" />-->
 			<Setter Property="Width" Value="80" />
 			<Setter Property="Height" Value="320" />
 			<Setter Property="CornerRadius" Value="40" />
@@ -1309,7 +1308,6 @@
 		<Style x:Key="NmpBottomTabBarStyle"
 			   BasedOn="{StaticResource NmpBaseTabBarStyle}"
 			   TargetType="utu:TabBar">
-			<!--<Setter Property="um:ControlExtensions.Elevation" Value="1" />-->
 			<Setter Property="VerticalAlignment" Value="Bottom" />
 			<Setter Property="MinHeight" Value="{ThemeResource NavigationTabBarWidthOrHeight}" />
 			<Setter Property="utu:SafeArea.Insets" Value="Bottom" />
@@ -1527,8 +1525,6 @@
 			</Setter>
 		</Style>
 		
-		<!--#region FAB TabBarItem Styles-->
-
 		<Style x:Key="NmpBaseContentTabBarItemStyle"
 			   TargetType="utu:TabBarItem">
 			<Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
@@ -1717,6 +1713,8 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		
+		<!--#region FAB TabBarItem Styles-->
 
 		<utu:ShadowCollection x:Key="FabTabBarItemShadows">
 			<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-8" OffsetY="-8" Opacity="0.08" Spread="0" Color="{StaticResource ShadeShadowColor5}" />
@@ -2101,7 +2099,7 @@
 								<StackPanel Margin="0,30,0,0"
 											Padding="24"
 											HorizontalAlignment="Center"
-											Spacing="30">
+											Spacing="80">
 
 									<utu:TabBar SelectedIndex="1"
 												Style="{StaticResource NmpTopTabBarStyle}">
