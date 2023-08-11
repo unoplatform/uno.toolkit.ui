@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Uno.Disposables;
@@ -53,12 +53,11 @@ namespace Uno.Toolkit.UI
 				.Select(group =>
 				{
 					var property = group.Key;
-					var subProperties = group.ToArray();
-
-					var childDisposable = new SerialDisposable();
 
 					if (instance.TryGetValue(property, out var dpValue))
 					{
+						var childDisposable = new SerialDisposable();
+						var subProperties = group.ToArray();
 						childDisposable.Disposable = dpValue?.RegisterDisposableNestedPropertyChangedCallback(callback, subProperties);
 
 						var disposable = instance.RegisterDisposablePropertyChangedCallback(property, (s, e) =>
