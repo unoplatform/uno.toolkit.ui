@@ -3,7 +3,7 @@ using Uno.Extensions.Markup;
 
 namespace Uno.Toolkit.Markup
 {
-	public record struct ResourceValue<T>
+	public readonly record struct ResourceValue<T>
 	{
 		public ResourceValue(string key, bool isThemeResource = false)
 		{
