@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras/3.0.38">
 	<!--
 	Adding project references to this project requires some manual adjustments.
@@ -20,7 +20,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Uno.Cupertino" />
-		<PackageReference Include="Uno.UI"  />
+		<PackageReference Include="Uno.UI" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(_IsWindowsUWP)">
