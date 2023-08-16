@@ -53,7 +53,11 @@ As mentioned `IsInner` is similar to `inset` of `box-shadow` in CSS. See below a
 
 ![CSS box-shadow without inset](../assets/box-shadow.png)
 
+Without `inset` a Drop (outer) Shadow is rendered.
+
 ![CSS box-shadow with inset](../assets/box-shadow-inset.png)
+
+Without `inset` an Inner Shadow is rendered.
 
 For more info of how `inset` works in CSS for `box-shadow` follow [this link](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow#values).
 
