@@ -14,7 +14,7 @@
 			This is not an issue when libraries are referenced through nuget packages. See https://github.com/unoplatform/uno/issues/446 for more details.
 		-->
 		<PackageVersion Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.12" />
-		<PackageVersion Include="Microsoft.UI.Xaml" Version="2.6.0" />
+		<PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
 		<PackageVersion Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
 		<PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 		<PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
