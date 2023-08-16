@@ -57,12 +57,12 @@ Without `inset` a Drop (outer) Shadow is rendered.
 
 ![CSS box-shadow with inset](../assets/box-shadow-inset.png)
 
-Without `inset` an Inner Shadow is rendered.
+With `inset` an Inner Shadow is rendered.
 
 For more info of how `inset` works in CSS for `box-shadow` follow [this link](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow#values).
 
 > [!IMPORTANT]
-> Be careful not to confuse the Shadow property with the Shadows property. The singular Shadow property comes from UIElement. To add shadows to the ShadowContainer, use only the Shadows property.
+> Be careful not to confuse the `Shadow` property with the `Shadows` property. The singular `Shadow` property comes from `UIElement`. To add shadows to the `ShadowContainer`, use only the `Shadows` property.
 
 ## Usage
 
