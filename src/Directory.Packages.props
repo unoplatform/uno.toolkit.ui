@@ -4,7 +4,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-		<PackageVersion Include="Microsoft.UI.Xaml" Version="2.6.0" />
+		<PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
 		<PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
 		<PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.4-preview.84" />
@@ -13,13 +13,13 @@
 		<PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
-		<PackageVersion Include="Uno.Cupertino" Version="3.0.0-dev.332" />
-		<PackageVersion Include="Uno.Cupertino.WinUI" Version="3.0.0-dev.332" />
+		<PackageVersion Include="Uno.Cupertino" Version="3.0.0-dev.336" />
+		<PackageVersion Include="Uno.Cupertino.WinUI" Version="3.0.0-dev.336" />
 		<PackageVersion Include="Uno.Extensions.Markup.Generators" Version="1.0.0-dev.166" />
 		<PackageVersion Include="Uno.SourceGenerationTasks" Version="4.2.0" />
 		<PackageVersion Include="Uno.WinUI.Markup" Version="4.8.0-dev.43" />
-		<PackageVersion Include="Uno.Material" Version="3.0.0-dev.332" />
-		<PackageVersion Include="Uno.Material.WinUI" Version="3.0.0-dev.332" />
+		<PackageVersion Include="Uno.Material" Version="3.0.0-dev.336" />
+		<PackageVersion Include="Uno.Material.WinUI" Version="3.0.0-dev.336" />
 		<PackageVersion Include="Uno.UI" Version="5.0.0-dev.1728" />
 		<PackageVersion Include="Uno.WinUI" Version="5.0.0-dev.1728" />
 		<PackageVersion Include="Uno.XamlMerge.Task" Version="1.1.0-dev.12" />
