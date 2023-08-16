@@ -51,22 +51,22 @@ Spread | double | The spread will inflate or deflate (if negative) the control s
 
 As mentioned `IsInner` is similar to `inset` of `box-shadow` in CSS. See below an image that illustrate its usage:
 
-![CSS box-shadow without inset](../assets/box-shadow.png)
-
-Without `inset` a Drop (outer) Shadow is rendered.
+With `inset` an Inner Shadow is rendered.
 
 ![CSS box-shadow with inset](../assets/box-shadow-inset.png)
 
-With `inset` an Inner Shadow is rendered.
+Without `inset` a Drop (outer) Shadow is rendered.
 
-For more info of how `inset` works in CSS for `box-shadow` follow [this link](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow#values).
+![CSS box-shadow without inset](../assets/box-shadow.png)
+
+For more info on how `inset` works in CSS for `box-shadow` follow https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow#values.
 
 > [!IMPORTANT]
 > Be careful not to confuse the `Shadow` property with the `Shadows` property. The singular `Shadow` property comes from `UIElement`. To add shadows to the `ShadowContainer`, use only the `Shadows` property.
 
 ## Usage
 
-Observe shadows usage with the following code snippets and its results below.
+See how to add shadows to your controls with the following code and the result.
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -151,7 +151,7 @@ To achieve neumorphic depth effects (instead of having a raised element, it will
 
 ## Usage
 
-See how to effortlessly integrate neumorphism into your designs with the following code snippet and its resulting visual output. 
+See how to integrate neumorphism into your designs with the following code and the result.
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
