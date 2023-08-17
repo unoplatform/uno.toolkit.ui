@@ -5,6 +5,9 @@ uid: Toolkit.Controls.ShadowContainer
 ## Summary
 The `ShadowContainer` provides the ability to add many-colored shadows to its content.
 
+## Package Reference
+A reference to [Uno.Toolkit.Skia.WinUI](https://www.nuget.org/packages/Uno.Toolkit.Skia.WinUI) package must be added to your Uno app so you can access `ShadowContainer` class and features.
+
 ## Remarks
 For now, the control simply adapts its corner radius to the content's corner radius. More complicated shapes, such as text or pictures with alpha, are not supported.
 
@@ -313,7 +316,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Theme Switching support
 
-To ensure that the Shadows feature seamlessly integrates with Theme Switching, it's essential to include each shadow definition within the Theme Dictionary. By doing so, you'll enable consistent shadow rendering across different themes.
+To ensure that the Shadows feature seamlessly integrates with [Theme Switching](xref:Uno.Features.Themes), it's essential to include each shadow definition within the Theme Dictionary. By doing so, you'll enable consistent shadow rendering across different themes.
 
 Here's a snippet demonstrating how to structure your Theme Dictionary for shadow support:
 
@@ -327,7 +330,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 			<Color x:Key="LightShadowColor">Pink</Color>
 			<Color x:Key="ShadeShadowColor">SkyBlue</Color>
 
-			<utu:ShadowCollection x:Key="ButttonShadows">
+			<utu:ShadowCollection x:Key="ButtonShadows">
 				<utu:Shadow BlurRadius="10" 
 							IsInner="True" 
 							OffsetX="-5" 
@@ -348,7 +351,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 			<Color x:Key="LightShadowColor">Orange</Color>
 			<Color x:Key="ShadeShadowColor">Green</Color>
 
-			<utu:ShadowCollection x:Key="ButttonShadows">
+			<utu:ShadowCollection x:Key="ButtonShadows">
 				<utu:Shadow BlurRadius="10" 
 							IsInner="True" 
 							OffsetX="-5" 
@@ -369,7 +372,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </ResourceDictionary>
 ...
 
-<utu:ShadowContainer Shadows="{StaticResource ButttonShadows}">
+<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}">
 	<Button Width="200"
 			Height="40"
 			Background="{StaticResource UnoColor}"
