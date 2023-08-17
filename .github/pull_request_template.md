@@ -29,9 +29,20 @@ What kind of change does this PR introduce?
 ## PR Checklist
 
 Please check if your PR fulfills the following requirements:
-
 - [ ] Tested code with current [supported SDKs](../README.md#supported)
-- [ ] [Docs](https://github.com/unoplatform/uno.toolkit.ui/tree/main/doc) have been added/updated
+- [ ] Tested the changes where applicable:
+	- [ ] UWP
+	- [ ] WinUI
+	- [ ] iOS
+	- [ ] Android
+	- [ ] WASM
+	- [ ] MacOS
+- [ ] Updated the documentation as needed:
+	- [ ] [General Doc Update](https://github.com/unoplatform/uno.toolkit.ui/tree/main/doc)
+	- [ ] [Controls Doc Update](https://github.com/unoplatform/uno.toolkit.ui/tree/main/doc/controls)
+	- [ ] [Extensions Doc Update](https://github.com/unoplatform/uno.toolkit.ui/tree/main/doc/helpers)
+	- [ ] [controls-styles.md](https://github.com/unoplatform/uno.toolkit.ui/blob/main/doc/controls-styles.md)
+	- [ ] [lightweight-styling.md (LightWeight Styling Resource Keys)](https://github.com/unoplatform/uno.toolkit.ui/blob/main/doc/lightweight-styling.md)
 - [ ] [Runtime Tests and/or UI Tests](https://platform.uno/docs/articles/contributing/guidelines/creating-tests.html) for the changes have been added (for bug fixes / features) (if applicable)
 - [ ] Contains **NO** breaking changes
 - [ ] Associated with an issue (GitHub or internal)
