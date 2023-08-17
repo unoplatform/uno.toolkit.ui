@@ -32,6 +32,37 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 internal class AutoLayoutTest
 {
 	[TestMethod]
+	public async Task When_Collapsed()
+	{
+		var SUT = new AutoLayout()
+		{
+			Padding = new Thickness(20),
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0))
+		};
+
+		var border1 = new Border() { Visibility = Visibility.Collapsed, Width = 100, Height = 100, Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)) };
+		var border2 = new Border() { Width = 100, Height = 100, Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)) };
+
+		SUT.Children.Add(border1);
+		SUT.Children.Add(border2);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var layoutRect0Actual = LayoutInformation.GetLayoutSlot(border1);
+		var layoutRect1Actual = LayoutInformation.GetLayoutSlot(border2);
+
+		layoutRect0Actual.Width.Should().Be(0);
+		layoutRect0Actual.Height.Should().Be(0);
+		layoutRect0Actual.X.Should().Be(0);
+		layoutRect0Actual.Y.Should().Be(0);
+
+		layoutRect1Actual.Width.Should().Be(100);
+		layoutRect1Actual.Height.Should().Be(100);
+		layoutRect1Actual.X.Should().Be(20);
+		layoutRect1Actual.Y.Should().Be(20);
+	}
+
+	[TestMethod]
 	[RequiresFullWindow]
 	[DataRow(Orientation.Vertical, 10, 130, 250)]
 	[DataRow(Orientation.Horizontal, 10, 70, 130)]
