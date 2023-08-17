@@ -1,0 +1,70 @@
+jobs:
+- job: Android
+
+  strategy:
+    maxParallel: 2
+    matrix:
+      WinUI:
+        ArtifactName: android-winui
+        ProjectName: Uno.Toolkit.WinUI.Samples
+        GeneratePackageOnBuild: false
+        ApplicationBuildNumberOffset: 50
+        VersionCodeOffset: 1
+        DisableNet7MobileTargets: true
+      UWP:
+        ArtifactName: android-uwp
+        ProjectName: Uno.Toolkit.Samples
+        GeneratePackageOnBuild: false
+        ApplicationBuildNumberOffset: 50
+        VersionCodeOffset: 1
+        DisableNet7MobileTargets: true
+
+  pool:
+    vmImage: windows-2022
+
+  variables:
+  - group: 'UnoPlatform KeyStore'
+
+  steps:
+  - template: templates/dotnet-workload-install-windows.yml
+  - template: templates/canary-updater.yml
+  - template: templates/gitversion.yml
+
+  - task: DownloadSecureFile@1
+    name: keyStore
+    displayName: "Download keystore from secure files"
+    inputs:
+      secureFile: unoplatform.jks
+
+  - script: |
+      cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
+      echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
+      dotnet publish -f net7.0-android -c Release /t:SignAndroidPackage "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /p:AndroidSigningKeyStore=$(keyStore.secureFilePath) /p:AndroidSigningStorePass=$(AndroidSigningStorePass) /p:AndroidSigningKeyPass=$(AndroidSigningKeyPass) /p:AndroidSigningKeyAlias=$(AndroidSigningKeyAlias) /p:AndroidKeyStore=true  /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
+    displayName: Build project for Release - (net7.0-android)
+    condition: eq(variables['System.PullRequest.IsFork'],'False')
+
+  - script: |
+      cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
+      echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
+      dotnet build -f net7.0-android -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog 
+    displayName: Build project for Release - (net7.0-android)
+    condition: eq(variables['System.PullRequest.IsFork'],'True')
+
+  - task: CopyFiles@2
+    displayName: 'Publish Binaries'
+    inputs:
+      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/
+      Contents:  |
+        **/*.apk
+        **/*.aab
+      TargetFolder: $(build.artifactstagingdirectory)
+      CleanTargetFolder: false
+      OverWrite: false
+      flattenFolders: false
+
+  - task: PublishBuildArtifacts@1
+    condition: always()
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: $(ArtifactName)
+      ArtifactType: Container

@@ -14,7 +14,6 @@ using Uno.UITest;
 using static System.Math;
 
 using System.Drawing;
-using _Bitmap = System.Drawing.Bitmap;
 
 namespace Uno.Toolkit.UITest.Framework
 {
@@ -24,7 +23,7 @@ namespace Uno.Toolkit.UITest.Framework
 	public static partial class ImageAssert
 	{
 		#region Validation core (ExpectedPixels)
-		private static bool Validate(ExpectedPixels expectation, _Bitmap actualBitmap, double expectedToActualScale, StringBuilder report)
+		private static bool Validate(ExpectedPixels expectation, PlatformBitmap actualBitmap, double expectedToActualScale, StringBuilder report)
 		{
 			foreach (var pixels in expectation.GetAllPossibilities())
 			{
@@ -101,7 +100,7 @@ namespace Uno.Toolkit.UITest.Framework
 		}
 
 		private static bool ValidatePixel(
-			_Bitmap actualBitmap,
+			PlatformBitmap actualBitmap,
 			ExpectedPixels expectation,
 			double expectedToActualScale,
 			Point pixel,

@@ -1,72 +1,10 @@
 ﻿jobs:
-- job: Android_Build_For_Tests
-  displayName: 'Build Android Samples App for UI Tests'
-
-  pool:
-    vmImage: 'macOS-12'
-
-  variables:
-    CI_Build: true
-    SourceLinkEnabled: false
-    XamarinSDKVersion: 6_12_12
-  
-  strategy:
-    maxParallel: 2
-    matrix:
-      UWP:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        SAMPLEAPP_ARTIFACT_NAME: android-uwp-xamarin-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit_uwp
-      WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
-        XAML_FLAVOR_BUILD: WinUI
-        SAMPLEAPP_ARTIFACT_NAME: android-winui-xamarin-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
-
-  steps:
-  - checkout: self
-    clean: true
-
-  - template: templates/dotnet-install.yml
-  - template: templates/jdk-setup.yml
-
-  - task: MSBuild@1
-    displayName: Build Android Samples App ($(XAML_FLAVOR_BUILD))
-    retryCountOnTaskFailure: 3
-    inputs:
-      solution: "$(BUILD.SOURCESDIRECTORY)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Droid/$(SAMPLE_PROJECT_NAME).Droid.csproj"
-      msbuildArguments: /m /r /t:SignAndroidPackage /p:Configuration=Release /p:UnoUIUseRoslynSourceGenerators=False /p:DisableNet7MobileTargets=true /p:IsUiAutomationMappingEnabled=true /bl:$(build.artifactstagingdirectory)/$(SAMPLEAPP_ARTIFACT_NAME).binlog
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_PROJECT_NAME)/$(SAMPLE_PROJECT_NAME).Droid/bin/Release/
-      Contents:  |
-        **/*.apk
-        **/*.aab
-      TargetFolder: $(build.artifactstagingdirectory)
-      CleanTargetFolder: false
-      OverWrite: false
-      flattenFolders: false
-
-  - task: PublishBuildArtifacts@1
-    condition: always()
-    retryCountOnTaskFailure: 3
-    inputs:
-      PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: $(SAMPLEAPP_ARTIFACT_NAME)
-      ArtifactType: Container
-
 - job: Android_UITests
   displayName: 'Run Android UI Tests'
-  dependsOn:
-  - Android_Build_For_Tests
-  - Toolkit_UITests_Build
   timeoutInMinutes: 90
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    XamarinSDKVersion: 6_12_12
 
   strategy:
     maxParallel: 4
@@ -77,7 +15,7 @@
         UITEST_TEST_MODE_NAME: Automated
         ANDROID_SIMULATOR_APILEVEL: 28
         UNO_TEST_RESULTS_FILE_NAME: TestResult-android-UWP-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-uwp-xamarin-uitest
+        SAMPLEAPP_ARTIFACT_NAME: android-uwp-uitest
         SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit_uwp
       WinUI:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
@@ -85,7 +23,7 @@
         UITEST_TEST_MODE_NAME: Automated
         ANDROID_SIMULATOR_APILEVEL: 28
         UNO_TEST_RESULTS_FILE_NAME: TestResult-android-WinUI-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-winui-xamarin-uitest
+        SAMPLEAPP_ARTIFACT_NAME: android-winui-uitest
         SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
       UWP_Runtime:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
@@ -93,7 +31,7 @@
         UITEST_TEST_MODE_NAME: RuntimeTests
         ANDROID_SIMULATOR_APILEVEL: 28
         UNO_TEST_RESULTS_FILE_NAME: TestResult-android-UWP-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-uwp-xamarin-uitest
+        SAMPLEAPP_ARTIFACT_NAME: android-uwp-uitest
         SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit_uwp
       WinUI_Runtime:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
@@ -101,29 +39,18 @@
         UITEST_TEST_MODE_NAME: RuntimeTests
         ANDROID_SIMULATOR_APILEVEL: 28
         UNO_TEST_RESULTS_FILE_NAME: TestResult-android-WinUI-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-winui-xamarin-uitest
+        SAMPLEAPP_ARTIFACT_NAME: android-winui-uitest
         SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
 
   pool:
-    vmImage: 'macOS-12'
+    vmImage: 'macOS-13'
 
   steps:
   - checkout: self
     clean: true
 
-  - task: DownloadBuildArtifacts@0
-    displayName: 'Download Android SamplesApp Binaries'
-    inputs:
-        artifactName: $(SAMPLEAPP_ARTIFACT_NAME)
-        downloadPath: '$(build.sourcesdirectory)/build'
-
-  - task: DownloadBuildArtifacts@0
-    displayName: 'Download UITest Binaries'
-    inputs:
-        artifactName: toolkit-uitest-binaries-$(XAML_FLAVOR_BUILD)
-        downloadPath: '$(build.sourcesdirectory)/build'
-
   - template: templates/dotnet-workload-install-mac.yml
+  - template: templates/canary-updater.yml
   - template: templates/jdk-setup.yml
 
   - task: PowerShell@2
@@ -137,7 +64,6 @@
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
       $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
     displayName: Run Android UITests ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))
-    retryCountOnTaskFailure: 3
 
   - task: PublishTestResults@2
     condition: always()

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Uno.UITest;
 using System.Drawing;
-using _Bitmap = System.Drawing.Bitmap;
 
 namespace Uno.Toolkit.UITest.Framework
 {
@@ -73,7 +72,7 @@ namespace Uno.Toolkit.UITest.Framework
 			return this with { Values = colors };
 		}
 
-		public ExpectedPixels Pixels(_Bitmap source, Rectangle rect)
+		public ExpectedPixels Pixels(PlatformBitmap source, Rectangle rect)
 		{
 			try
 			{
@@ -92,7 +91,7 @@ namespace Uno.Toolkit.UITest.Framework
 			}
 		}
 
-		public ExpectedPixels Pixels(_Bitmap source)
+		public ExpectedPixels Pixels(PlatformBitmap source)
 		{
 			var colors = new Color[source.Width, source.Height];
 			for (var py = 0; py < source.Height; py++)

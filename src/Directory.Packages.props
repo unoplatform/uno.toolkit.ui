@@ -7,6 +7,8 @@
 		<PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
 		<PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
 		<PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+		<PackageVersion Include="SkiaSharp" Version="2.88.4-preview.84" />
+		<PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="2.88.4-preview.84" />
 		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.4-preview.84" />
 		<PackageVersion Include="SkiaSharp.Views.WinUI" Version="2.88.4-preview.84" />
 		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.4-preview.84" />
@@ -28,12 +30,13 @@
 		<PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageVersion Include="NUnit" Version="3.13.3" />
 		<PackageVersion Include="NUnit3TestAdapter" Version="4.3.1" />
+		<PackageVersion Include="NunitXml.TestLogger" Version="3.0.131" />
 		<PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="0.14.0-dev.54" />
-		<PackageVersion Include="Uno.UITest" Version="1.1.0-dev.32" />
-		<PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.32" />
-		<PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.32" />
-		<PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.32" />
-		<PackageVersion Include="Xamarin.UITest" Version="4.1.0" />
+		<PackageVersion Include="Uno.UITest" Version="1.1.0-dev.59" />
+		<PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.59" />
+		<PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.59" />
+		<PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.59" />
+		<PackageVersion Include="Xamarin.UITest" Version="4.1.4" />
 		<PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
 		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.7.0-2.final" />
 		<PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22518.1" />

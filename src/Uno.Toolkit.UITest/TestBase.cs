@@ -24,6 +24,8 @@ namespace Uno.Toolkit.UITest
 		/// The <c>SamplePageAttribute.Title</c> of sample page to test.
 		/// </summary>
 		protected abstract string SampleName { get; }
+		private readonly string? _screenShotPath = Environment.GetEnvironmentVariable("UNO_UITEST_SCREENSHOT_PATH");
+
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 		private IApp _app;
@@ -165,8 +167,10 @@ namespace Uno.Toolkit.UITest
 			var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileInfo.Name);
 			if (fileNameWithoutExt != title)
 			{
+				var outputPath = string.IsNullOrEmpty(_screenShotPath) ? Path.GetDirectoryName(fileInfo.FullName) ?? string.Empty : _screenShotPath;
+
 				var destFileName = Path
-					.Combine(Path.GetDirectoryName(fileInfo.FullName), title + Path.GetExtension(fileInfo.Name));
+					.Combine(outputPath, title + Path.GetExtension(fileInfo.Name));
 
 				if (File.Exists(destFileName))
 				{
