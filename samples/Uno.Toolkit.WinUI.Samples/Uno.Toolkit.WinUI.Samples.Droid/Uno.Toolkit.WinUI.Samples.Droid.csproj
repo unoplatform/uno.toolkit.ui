@@ -123,10 +123,6 @@
       <Project>{8dc53bc5-f3f1-4334-86bb-773988675b9f}</Project>
       <Name>Uno.Toolkit.RuntimeTests.WinUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj">
-      <Project>{249712f0-5e9e-40b1-b40a-df7d62db0696}</Project>
-      <Name>Uno.Toolkit.Skia.WinUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj">
       <Project>{50ea1339-d38d-47f7-848a-8a827a959691}</Project>
       <Name>Uno.Toolkit.WinUI</Name>

@@ -1,7 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
 	<PropertyGroup>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid12.0</TargetFrameworks>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableNet6MobileTargets)'==''">$(TargetFrameworks);net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net6.0-windows10.0.18362</TargetFrameworks>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
