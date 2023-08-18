@@ -1,11 +1,7 @@
 ﻿#if IS_WINUI
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Uno.Toolkit.UITest.Extensions;
 using Uno.Toolkit.UITest.Framework;
 using Uno.UITest.Helpers;
@@ -57,7 +53,7 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 
 			using var screenshot = TakeScreenshot(caseName);
 
-			
+
 
 			var xStart = xOffset < 0 ? (int)outerBorderRect.X : (int)outerBorderRect.Right;
 			var yStart = yOffset < 0 ? (int)outerBorderRect.Y : (int)outerBorderRect.Bottom;
@@ -88,16 +84,16 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 				AssertExpectations(new[]
 				{
 					(leftOuterTestPoint, xOffset < 0 ? outerDefault : Blue),
-					(topOuterTestPoint, yOffset < 0 ? outerDefault : Blue), 
-					(rightOuterTestPoint, xOffset < 0 ? Blue : outerDefault), 
+					(topOuterTestPoint, yOffset < 0 ? outerDefault : Blue),
+					(rightOuterTestPoint, xOffset < 0 ? Blue : outerDefault),
 					(bottomOuterTestPoint, yOffset < 0 ? Blue : outerDefault),
 				});
 
 				AssertExpectations(new[]
 				{
 					(leftInnerTestPoint, xOffset < 0 ? Green : innerDefault),
-					(topInnerTestPoint, yOffset < 0 ? Green : innerDefault), 
-					(rightInnerTestPoint, xOffset < 0 ? innerDefault : Green), 
+					(topInnerTestPoint, yOffset < 0 ? Green : innerDefault),
+					(rightInnerTestPoint, xOffset < 0 ? innerDefault : Green),
 					(bottomInnerTestPoint, yOffset < 0 ? innerDefault : Green),
 				});
 
@@ -117,6 +113,14 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 
 				currentX = Math.Min(++currentX, absXOffset);
 				currentY = Math.Min(++currentY, absYOffset);
+			}
+		}
+
+		protected override void CheckCanRun()
+		{
+			if (Environment.GetEnvironmentVariable("XAML_FLAVOR_BUILD") == "WinUI")
+			{
+				Assert.Inconclusive("Disabled because Skia.Sharp doesn't support Xamarin+WinUI.");
 			}
 		}
 
