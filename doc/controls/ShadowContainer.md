@@ -3,13 +3,13 @@ uid: Toolkit.Controls.ShadowContainer
 ---
 
 ## Summary
-The `ShadowContainer` provides the ability to add many-colored shadows to its content.
+The `ShadowContainer` provides the ability to layer multiple shadows to its content.
 
 ## Package Reference
-A reference to [Uno.Toolkit.Skia.WinUI](https://www.nuget.org/packages/Uno.Toolkit.Skia.WinUI) package must be added to your Uno app so you can access `ShadowContainer` class and features.
+A reference to [Uno.Toolkit.Skia.WinUI](https://www.nuget.org/packages/Uno.Toolkit.Skia.WinUI) package must be added to your Uno app so you can access `ShadowContainer` class and its features.
 
 ## Remarks
-For now, the control simply adapts its corner radius to the content's corner radius. More complicated shapes, such as text or pictures with alpha, are not supported.
+Currently, the control simply mimic the shape of its content by size and by corner radius. Complicated shapes, such as text or pictures with alpha, are not yet supported.
 
 ### XAML
 ```xml
@@ -52,7 +52,7 @@ Opacity | double | The opacity of the shadow.
 BlurRadius | double | The radius of the blur that will be applied to the shadow **[0..100]**.
 Spread | double | The spread will inflate or deflate (if negative) the control shadow size **before** applying the blur.
 
-As mentioned `IsInner` is similar to `inset` of `box-shadow` in CSS. See below an image that illustrate its usage:
+As mentioned `IsInner` is similar to `inset` of `box-shadow` in CSS. See the images below that illustrates its effects:
 
 With `inset` an Inner Shadow is rendered.
 
@@ -316,9 +316,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Theme Switching support
 
-To ensure that the Shadows feature seamlessly integrates with [Theme Switching](xref:Uno.Features.Themes), it's essential to include each shadow definition within the Theme Dictionary. By doing so, you'll enable consistent shadow rendering across different themes.
+To ensure that the Shadows feature seamlessly integrates with [Theme Switching](xref:Uno.Features.Themes), it's essential to include the shadow collection within the theme dictionary.
 
-Here's a snippet demonstrating how to structure your Theme Dictionary for shadow support:
+Here's a snippet demonstrating how to structure your theme dictionary for proper shadow support:
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -372,7 +372,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </ResourceDictionary>
 ...
 
-<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}">
+<utu:ShadowContainer Shadows="{ThemeResource ButtonShadows}">
 	<Button Width="200"
 			Height="40"
 			Background="{StaticResource UnoColor}"
