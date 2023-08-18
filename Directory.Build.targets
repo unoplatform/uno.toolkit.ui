@@ -1,8 +1,5 @@
-<Project ToolsVersion="15.0">
+<Project>
 	<PropertyGroup>
 		<NoWarn>$(NoWarn);NU1507</NoWarn>
 	</PropertyGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Net.Compilers.Toolset" PrivateAssets="all" />
-	</ItemGroup>
 </Project>

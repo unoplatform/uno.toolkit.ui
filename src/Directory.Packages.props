@@ -38,7 +38,6 @@
 		<PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.59" />
 		<PackageVersion Include="Xamarin.UITest" Version="4.1.4" />
 		<PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
-		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.7.0-2.final" />
 		<PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22518.1" />
 	</ItemGroup>
 </Project>
