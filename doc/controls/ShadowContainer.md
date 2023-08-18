@@ -9,7 +9,7 @@ The `ShadowContainer` provides the ability to layer multiple shadows to its cont
 A reference to [Uno.Toolkit.Skia.WinUI](https://www.nuget.org/packages/Uno.Toolkit.Skia.WinUI) package must be added to your Uno app so you can access `ShadowContainer` class and its features.
 
 ## Remarks
-Currently, the control simply mimic the shape of its content by size and by corner radius. Complicated shapes, such as text or pictures with alpha, are not yet supported.
+Currently, the control simply mimics the shape of its content by size and by corner radius. Complicated shapes, such as text or pictures with alpha, are not yet supported.
 
 ### XAML
 ```xml
