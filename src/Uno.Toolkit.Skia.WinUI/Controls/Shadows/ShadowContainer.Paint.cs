@@ -1,22 +1,25 @@
-﻿using System;
+#if false
+// We keep that as a reference cause it would be better to use the hardware-accelerated version
+#define ANDROID_REFERENTIAL_IMPL
+#endif
+
+using System;
 using System.Linq;
-
-using SkiaSharp;
-
-using Windows.UI;
-
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Controls;
+using Windows.UI;
+using SkiaSharp;
+using SkiaSharp.Views.Windows;
 using Uno.Extensions;
 using Uno.Logging;
 
-#if IS_WINUI
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Controls;
-using SkiaSharp.Views.Windows;
+#if __ANDROID__ && ANDROID_REFERENTIAL_IMPL
+using _SKXamlCanvas = SkiaSharp.Views.Windows.SKSwapChainPanel;
+using _SKPaintSurfaceEventArgs = SkiaSharp.Views.Windows.SKPaintGLSurfaceEventArgs;
 #else
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Controls;
-using SkiaSharp.Views.UWP;
+using _SKXamlCanvas = SkiaSharp.Views.Windows.SKXamlCanvas;
+using _SKPaintSurfaceEventArgs = SkiaSharp.Views.Windows.SKPaintSurfaceEventArgs;
 #endif
 
 namespace Uno.Toolkit.UI;
@@ -24,6 +27,8 @@ namespace Uno.Toolkit.UI;
 public partial class ShadowContainer
 {
 	private static readonly ILogger _logger = typeof(ShadowContainer).Log();
+
+	private static readonly ShadowsCache Cache = new ShadowsCache();
 
 	private record ShadowInfos(double Width, double Height, bool IsInner, double BlurRadius, double Spread, double X, double Y, Color color)
 	{
@@ -56,9 +61,9 @@ public partial class ShadowContainer
 	{
 		public static SKShadow From(Shadow shadow, float width, float height, float cornerRadius, float pixelRatio)
 		{
-			float blurRadius = (float)shadow.BlurRadius * pixelRatio;
+			var blurRadius = (float)shadow.BlurRadius * pixelRatio;
 			// Blur sigma conversion taken from flutter source code
-			float blurSigma = blurRadius > 0 ? blurRadius * 0.57735f + 0.5f : 0f;
+			var blurSigma = blurRadius > 0 ? blurRadius * 0.57735f + 0.5f : 0f;
 
 			// Can't use ToSKColor() or we end up with a weird compilation error asking us to reference System.Drawing
 			Color windowsUiColor = shadow.Color;
@@ -78,42 +83,36 @@ public partial class ShadowContainer
 		}
 	}
 
-	private ShadowInfos[] _shadowInfoArray = Array.Empty<ShadowInfos>();
-	private float _currentPixelRatio;
-	private Color? _currentContentBackgroundColor;
-
-	private bool NeedsPaint(double width, double height, float pixelRatio, out bool pixelRatioChanged)
+	private static bool NeedsPaint(ShadowPaintContext context, Shadow[] shadows, double width, double height, float pixelRatio, out bool pixelRatioChanged)
 	{
-		var shadows = Shadows ?? new ShadowCollection();
-		var newShadowInfos = shadows.Select(s => ShadowInfos.From(s, width, height)).ToArray();
+		var states = new ShadowPaintState(width, height, pixelRatio, ShadowInfo.Snapshot(shadows));
+		var needsPaint = states != context.LastPaintState;
+		pixelRatioChanged = states.PixelRatio != context.LastPaintState?.PixelRatio;
 
-		pixelRatioChanged = false;
-
-		bool needsPaint = !newShadowInfos.SequenceEqual(_shadowInfoArray);
-		_shadowInfoArray = newShadowInfos;
-
-		if (pixelRatio != _currentPixelRatio)
-		{
-			_currentPixelRatio = pixelRatio;
-			pixelRatioChanged = needsPaint = true;
-		}
-
+		context.LastPaintState = states;
 		return needsPaint;
 	}
 
-#if false // ANDROID  (see comment in ShadowContainer.cs)
-	private void OnSurfacePainted(object? sender, SKPaintGLSurfaceEventArgs e)
+	private void OnPaintSurface(object? sender, _SKPaintSurfaceEventArgs e)
 	{
-		if (!_notOpaqueSet && ((ViewGroup)_shadowHost).GetChildAt(0) is TextureView openGlTexture)
+		var context = sender switch
+		{
+			_SKXamlCanvas x when x == _backgroundPaintContext.ShadowHost => _backgroundPaintContext,
+			_SKXamlCanvas x when x == _foregroundPaintContext.ShadowHost => _foregroundPaintContext,
+
+			_ => throw new InvalidOperationException(),
+		};
+
+#if __ANDROID__ && ANDROID_REFERENTIAL_IMPL
+		if (!context.IsOpacitySet && (context.ShadowHost as Android.Views.ViewGroup)?.GetChildAt(0) is TextureView openGlTexture)
 		{
 			openGlTexture.SetOpaque(false);
-			_notOpaqueSet = true;
+			context.IsOpacitySet = true;
 		}
-#else
-	private void OnSurfacePainted(object? sender, SKPaintSurfaceEventArgs e)
-	{
 #endif
-		if (_shadowHost == null || _currentContent is not { ActualHeight: > 0, ActualWidth: > 0 })
+
+		if (context.ShadowHost == null ||
+			_currentContent is not { ActualHeight: > 0, ActualWidth: > 0 })
 		{
 			return;
 		}
@@ -122,11 +121,12 @@ public partial class ShadowContainer
 		var surfaceWidth = e.Info.Width;
 		var surfaceHeight = e.Info.Height;
 
-		float pixelRatio = surfaceWidth / (float)_shadowHost.Width;
-		double width = _currentContent.ActualWidth;
-		double height = _currentContent.ActualHeight;
+		var pixelRatio = (float)(surfaceWidth / context.ShadowHost.Width);
+		var width = _currentContent.ActualWidth;
+		var height = _currentContent.ActualHeight;
 
-		if (!NeedsPaint(width, height, pixelRatio, out bool pixelRatioChanged))
+		var shadows = Shadows?.Where(x => x.IsInner == context.IsInner).ToArray() ?? Array.Empty<Shadow>();
+		if (!NeedsPaint(context, shadows, width, height, pixelRatio, out bool pixelRatioChanged)) // todo@xy: split path
 		{
 			return;
 		}
@@ -135,81 +135,51 @@ public partial class ShadowContainer
 		canvas.Clear(SKColors.Transparent);
 		canvas.Save();
 
-		if (Shadows is not { Count: > 0 } shadows)
+		if (shadows.Length == 0)
 		{
 			return;
 		}
 
-		// If there is any inner shadow, we need to:
-		// 1. Get the background color from the content
-		// 2. Set the content background to transparent
-		// 3. Draw the content background with skia underneath inner shadows
-		bool hasInnerShadow = shadows.HasInnerShadow();
-		if (hasInnerShadow)
+		var key =
+			FormattableString.Invariant($"w{width},h{height}") +
+			string.Join('/', shadows.Select(x => x.ToKey()));
+		if (pixelRatioChanged)
 		{
-			// Will set the content background to transparent if needed
-			if (_currentContentBackgroundColor == null && ProcessContentBackgroundIfNeeded(out var contentBackgroundWinUIColor))
-			{
-				_currentContentBackgroundColor = contentBackgroundWinUIColor;
-			}
+			// Pixel density changed, invalidate cached image
+			Cache.Remove(key);
 		}
-		else if (_currentContentBackgroundColor.HasValue)
+		else if (Cache.TryGetValue(key, out var shadowsImage))
 		{
-			// Means that there were inner shadows, and they have been removed: restore content background
-			TrySetContentBackground(new SolidColorBrush(_currentContentBackgroundColor.Value));
-			_currentContentBackgroundColor = null;
+			canvas.DrawImage(shadowsImage, SKPoint.Empty);
+			canvas.Restore();
+			return;
 		}
 
-		string shadowsKey = shadows.ToKey(width, height, _currentContentBackgroundColor);
-		if (Cache.TryGetValue(shadowsKey, out var shadowsImage))
-		{
-			if (pixelRatioChanged)
-			{
-				// Monitor pixel density changed, need to remove cached image
-				Cache.Remove(shadowsKey);
-			}
-			else
-			{
-				canvas.DrawImage(shadowsImage, SKPoint.Empty);
-				canvas.Restore();
-				return;
-			}
-		}
+		var childWidth = (float)width * pixelRatio;
+		var childHeight = (float)height * pixelRatio;
+		var diffWidthSurfaceChild = surfaceWidth - childWidth;
+		var diffHeightSurfaceChild = surfaceHeight - childHeight;
 
-		float childWidth = (float)width * pixelRatio;
-		float childHeight = (float)height * pixelRatio;
-
-		float diffWidthSurfaceChild = surfaceWidth - childWidth;
-		float diffHeightSurfaceChild = surfaceHeight - childHeight;
 		canvas.Translate(diffWidthSurfaceChild / 2, diffHeightSurfaceChild / 2);
 
-		using var paint = new SKPaint();
-		paint.IsAntialias = true;
+		using var paint = new SKPaint() { IsAntialias = true };
+		var cornerRadius = (float)_cornerRadius.BottomRight * pixelRatio;
 
-		float cornerRadius = (float)_cornerRadius.BottomRight * pixelRatio;
-
-		foreach (var shadow in shadows.Where(s => !s.IsInner))
+		if (context.IsBackground)
 		{
-			var skShadow = SKShadow.From(shadow, childWidth, childHeight, cornerRadius, pixelRatio);
+			foreach (var shadow in shadows)
+			{
+				var skShadow = SKShadow.From(shadow, childWidth, childHeight, cornerRadius, pixelRatio);
 
-			DrawDropShadow(canvas, paint, skShadow);
+				DrawDropShadow(canvas, paint, skShadow);
+			}
 		}
-
-		// Always draw inner shadows on top of the drop shadows
-		if (hasInnerShadow)
+		else
 		{
 			var contentShape = new SKRoundRect(new SKRect(0, 0, childWidth, childHeight), cornerRadius);
 			canvas.ClipRoundRect(contentShape, antialias: true);
 
-			// Draw the content background first
-			if (_currentContentBackgroundColor.HasValue)
-			{
-				var contentBackgroundColor = ToSkiaColor(_currentContentBackgroundColor.Value);
-				DrawContentBackground(canvas, contentBackgroundColor, contentShape);
-			}
-
-			// Then we draw the inner shadows
-			foreach (var shadow in shadows.Where(s => s.IsInner))
+			foreach (var shadow in shadows)
 			{
 				var skShadow = SKShadow.From(shadow, childWidth, childHeight, cornerRadius, pixelRatio);
 
@@ -219,51 +189,14 @@ public partial class ShadowContainer
 
 		canvas.Restore();
 
-		if (!_shadowPropertyChanged)
+
+		// If a property has changed dynamically, we don't want to cache the updated shadows
+		if (!context.IsDirty)
 		{
-			// If a property has changed dynamically, we don't want to cache the updated shadows
-			Cache.AddOrUpdate(shadowsKey, surface.Snapshot());
+			Cache.AddOrUpdate(key, surface.Snapshot());
 		}
 
-		_shadowPropertyChanged = false;
-	}
-
-	private bool ProcessContentBackgroundIfNeeded(out Color? contentBackgroundColor)
-	{
-		contentBackgroundColor = null;
-		if (TryGetContentBackground(out var background))
-		{
-			if (background is not SolidColorBrush backgroundColorBrush)
-			{
-				throw new NotSupportedException("[ShadowContainer] Unsupported Background brush: when using inner shadows the only supported brush type for the Background property is SolidBrushColor");
-			}
-
-			if (backgroundColorBrush.Color != Color.FromArgb(0, 0, 0, 0))
-			{
-				contentBackgroundColor = backgroundColorBrush.Color;
-			}
-
-			TrySetContentBackground(new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)));
-			return true;
-		}
-
-		return false;
-	}
-
-	private static void DrawContentBackground(SKCanvas canvas, SKColor contentBackgroundColor, SKRoundRect childShape)
-	{
-		using var backgroundPaint = new SKPaint
-		{
-			Color = contentBackgroundColor,
-			Style = SKPaintStyle.Fill,
-		};
-
-		if (_logger.IsEnabled(LogLevel.Debug))
-		{
-			_logger.Debug(
-				$"[ShadowContainer] DrawContentBackground => color: {backgroundPaint.Color}");
-		}
-		canvas.DrawRoundRect(childShape, backgroundPaint);
+		context.IsDirty = false;
 	}
 
 	private static void DrawDropShadow(SKCanvas canvas, SKPaint paint, SKShadow shadow)
@@ -299,8 +232,7 @@ public partial class ShadowContainer
 
 		if (_logger.IsEnabled(LogLevel.Debug))
 		{
-			_logger.Debug(
-				$"[ShadowContainer] DrawDropShadow => x: {shadow.OffsetX}, y: {shadow.OffsetY}, width: {shadow.ContentWidth}, height: {shadow.ContentHeight}");
+			_logger.Debug($"[ShadowContainer] DrawDropShadow => x: {shadow.OffsetX}, y: {shadow.OffsetY}, width: {shadow.ContentWidth}, height: {shadow.ContentHeight}");
 		}
 	}
 
@@ -318,8 +250,7 @@ public partial class ShadowContainer
 
 		if (_logger.IsEnabled(LogLevel.Debug))
 		{
-			_logger.Debug(
-			$"[ShadowContainer] DrawInnerShadow => strokeWidth: {paint.StrokeWidth}, cornerRadius: {shadow.CornerRadius}, x: {shadow.OffsetX}, y: {shadow.OffsetY}, width: {shadow.ContentWidth}, height: {shadow.ContentHeight}");
+			_logger.Debug($"[ShadowContainer] DrawInnerShadow => strokeWidth: {paint.StrokeWidth}, cornerRadius: {shadow.CornerRadius}, x: {shadow.OffsetX}, y: {shadow.OffsetY}, width: {shadow.ContentWidth}, height: {shadow.ContentHeight}");
 		}
 
 		var shadowShape = new SKRoundRect(
@@ -336,47 +267,45 @@ public partial class ShadowContainer
 		canvas.DrawRoundRect(shadowShape, paint);
 	}
 
-	private bool TryGetContentBackground(out Brush? background)
-	{
-		if (_currentContent == null)
-		{
-			background = null;
-			return false;
-		}
-
-		background = _currentContent switch
-		{
-			Control control => control.Background,
-			Panel panel => panel.Background,
-			Border border => border.Background,
-			_ => null,
-		};
-
-		return background != null;
-	}
-
-	private bool TrySetContentBackground(SolidColorBrush background)
-	{
-		switch (_currentContent)
-		{
-			case Control control:
-				control.Background = background;
-				break;
-			case Panel panel:
-				panel.Background = background;
-				break;
-			case Border border:
-				border.Background = background;
-				break;
-			default:
-				return false;
-		}
-
-		return true;
-	}
-
 	private static SKColor ToSkiaColor(Color windowsUiColor)
 	{
 		return new SKColor(windowsUiColor.R, windowsUiColor.G, windowsUiColor.B, windowsUiColor.A);
+	}
+
+	/// <summary>
+	/// Record of <see cref="Shadow"/> properties at one point in time.
+	/// </summary>
+	private record ShadowInfo(double OffsetX, double OffsetY, double BlurRadius, double Spread, Color Color, double Opacity)
+	{
+		public static ShadowInfo Snapshot(Shadow x) => new(
+			x.OffsetX, x.OffsetY,
+			x.BlurRadius, x.Spread,
+			x.Color,
+			x.Opacity
+		);
+
+		public static ShadowInfo[] Snapshot(Shadow[] shadows) => shadows.Select(Snapshot).ToArray();
+	}
+
+	/// <summary>
+	/// Used in comparison to determine if the shadow needs to be repainted.
+	/// </summary>
+	private record ShadowPaintState(double Width, double Height, double PixelRatio, ShadowInfo[] ShadowInfos);
+
+	private class ShadowPaintContext
+	{
+		public _SKXamlCanvas? ShadowHost { get; set; }
+
+		public ShadowPaintState? LastPaintState { get; set; }
+
+		public bool IsBackground { get; init; }
+#if __ANDROID__ && ANDROID_REFERENTIAL_IMPL
+		public bool IsOpacitySet { get; set; }
+#endif
+		public bool IsDirty { get; set; }
+
+		// Inner shadows are drawn on top of content.
+		// In the code here, they are also refered as "foreground" shadows.
+		public bool IsInner => !IsBackground;
 	}
 }
