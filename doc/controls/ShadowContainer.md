@@ -52,7 +52,7 @@ Opacity | double | The opacity of the shadow.
 BlurRadius | double | The radius of the blur that will be applied to the shadow **[0..100]**.
 Spread | double | The spread will inflate or deflate (if negative) the control shadow size **before** applying the blur.
 
-As mentioned `IsInner` is similar to `inset` of `box-shadow` in CSS. See the images below that illustrates its effects:
+As mentioned `IsInner` is similar to `inset` of `box-shadow` in CSS. See the images below that illustrate its effects:
 
 With `inset` an Inner Shadow is rendered.
 
