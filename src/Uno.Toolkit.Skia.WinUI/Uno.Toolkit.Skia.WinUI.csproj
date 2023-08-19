@@ -1,8 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
-	<!--
-	Adding project references to this project requires some manual adjustments.
-	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
-	-->
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
 	<PropertyGroup>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid12.0</TargetFrameworks>
@@ -10,17 +6,14 @@
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net6.0-windows10.0.18362</TargetFrameworks>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
-		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
-		<AssemblyName>Uno.Toolkit.WinUI</AssemblyName>
-		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
+		<AssemblyName>Uno.Toolkit.Skia.WinUI</AssemblyName>
+		<RootNamespace>Uno.Toolkit.Skia.WinUI</RootNamespace>
+		<PackageId>Uno.Toolkit.Skia.WinUI</PackageId>
 		<DefineConstants Condition="$(_IsWindowsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Uno.Toolkit\Uno.Toolkit.csproj" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Uno.WinUI" />
@@ -29,17 +22,28 @@
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(_IsWindowsWinUI)">
-		<PackageReference Include="Microsoft.WindowsAppSDK" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
-	</ItemGroup>
-
+	<Choose>
+		<When Condition="$(_IsWindowsWinUI)">
+			<ItemGroup>
+				<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.29" />
+				<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.29" />
+				<PackageReference Include="Microsoft.WindowsAppSDK" />
+				<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+				<PackageReference Include="SkiaSharp.Views.WinUI" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-		<Content Include="Assets\**\*.png" />
 	</ItemGroup>
-
+	<ItemGroup>
+		<ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+	</ItemGroup>
+	
 	<Import Project="..\winappsdk-workaround.targets" />
-	<Import Project="xamlmerge-toolkit.props" />
-
 </Project>

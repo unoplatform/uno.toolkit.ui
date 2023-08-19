@@ -3,6 +3,11 @@
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<FrameworkLineage Condition="'$(FrameworkLineage)'==''">WinUI</FrameworkLineage>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(FrameworkLineage)' == 'WinUI'">
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>

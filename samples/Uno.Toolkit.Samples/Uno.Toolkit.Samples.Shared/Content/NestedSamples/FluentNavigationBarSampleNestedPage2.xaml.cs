@@ -14,14 +14,15 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #endif
 
-namespace Uno.Toolkit.Samples.Content.NestedSamples;
-
-public sealed partial class FluentNavigationBarSampleNestedPage2 : Page
+namespace Uno.Toolkit.Samples.Content.NestedSamples
 {
-    public FluentNavigationBarSampleNestedPage2()
-    {
-        this.InitializeComponent();
-    }
+	public sealed partial class FluentNavigationBarSampleNestedPage2 : Page
+	{
+		public FluentNavigationBarSampleNestedPage2()
+		{
+			this.InitializeComponent();
+		}
 
-	private void NavigateBack(object sender, RoutedEventArgs e) => Frame.GoBack();
+		private void NavigateBack(object sender, RoutedEventArgs e) => Frame.GoBack();
+	}
 }
