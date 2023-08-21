@@ -1,4 +1,4 @@
-#if false
+﻿#if false
 // We keep that as a reference cause it would be better to use the hardware-accelerated version
 #define ANDROID_REFERENTIAL_IMPL
 #endif
@@ -30,24 +30,6 @@ public partial class ShadowContainer
 
 	private static readonly ShadowsCache Cache = new ShadowsCache();
 
-	private record ShadowInfos(double Width, double Height, bool IsInner, double BlurRadius, double Spread, double X, double Y, Color color)
-	{
-		public static readonly ShadowInfos Empty = new ShadowInfos(0, 0, false, 0, 0, 0, 0, new Color());
-
-		public static ShadowInfos From(Shadow shadow, double width, double height)
-		{
-			return new ShadowInfos(
-				width,
-				height,
-				shadow.IsInner,
-				shadow.BlurRadius,
-				shadow.Spread,
-				shadow.OffsetX,
-				shadow.OffsetY,
-				Color.FromArgb((byte)(shadow.Color.A * shadow.Opacity), shadow.Color.R, shadow.Color.G, shadow.Color.B));
-		}
-	}
-
 	private readonly record struct SKShadow(
 		bool IsInner,
 		float OffsetX,
@@ -66,9 +48,8 @@ public partial class ShadowContainer
 			var blurSigma = blurRadius > 0 ? blurRadius * 0.57735f + 0.5f : 0f;
 
 			// Can't use ToSKColor() or we end up with a weird compilation error asking us to reference System.Drawing
-			Color windowsUiColor = shadow.Color;
-			var color = ToSkiaColor(windowsUiColor);
-			color = color.WithAlpha((byte)(color.Alpha * shadow.Opacity));
+			var compoundedAlpha = shadow.Color.A * shadow.Opacity;
+			var color = new SKColor(shadow.Color.R, shadow.Color.G, shadow.Color.B, (byte)compoundedAlpha);
 
 			return new SKShadow(
 				shadow.IsInner,
@@ -79,7 +60,8 @@ public partial class ShadowContainer
 				(float)shadow.Spread * pixelRatio,
 				width,
 				height,
-				cornerRadius);
+				cornerRadius
+			);
 		}
 	}
 
@@ -126,7 +108,7 @@ public partial class ShadowContainer
 		var height = _currentContent.ActualHeight;
 
 		var shadows = Shadows?.Where(x => x.IsInner == context.IsInner).ToArray() ?? Array.Empty<Shadow>();
-		if (!NeedsPaint(context, shadows, width, height, pixelRatio, out bool pixelRatioChanged)) // todo@xy: split path
+		if (!NeedsPaint(context, shadows, width, height, pixelRatio, out bool pixelRatioChanged))
 		{
 			return;
 		}
@@ -188,7 +170,6 @@ public partial class ShadowContainer
 		}
 
 		canvas.Restore();
-
 
 		// If a property has changed dynamically, we don't want to cache the updated shadows
 		if (!context.IsDirty)
@@ -267,11 +248,6 @@ public partial class ShadowContainer
 		canvas.DrawRoundRect(shadowShape, paint);
 	}
 
-	private static SKColor ToSkiaColor(Color windowsUiColor)
-	{
-		return new SKColor(windowsUiColor.R, windowsUiColor.G, windowsUiColor.B, windowsUiColor.A);
-	}
-
 	/// <summary>
 	/// Record of <see cref="Shadow"/> properties at one point in time.
 	/// </summary>
@@ -292,6 +268,9 @@ public partial class ShadowContainer
 	/// </summary>
 	private record ShadowPaintState(double Width, double Height, double PixelRatio, ShadowInfo[] ShadowInfos);
 
+	/// <summary>
+	/// Used to organize references and context used for shadow painting. 2 copies are required for fore- and background.
+	/// </summary>
 	private class ShadowPaintContext
 	{
 		public _SKXamlCanvas? ShadowHost { get; set; }

@@ -41,29 +41,26 @@ public partial class ShadowContainer : ContentControl
 
 	public ShadowContainer()
 	{
+<<<<<<< HEAD
 #if HAS_UNO_WINUI && !NET6_0_OR_GREATER
 		throw new NotSupportedException("ShadowContainer doesn't support Xamarin + WinUI considering moving to .NET6 or greater.");
 #else
 		Shadows = new();
 
+=======
+>>>>>>> e72a29d (refactor: ShadowContainer)
 		DefaultStyleKey = typeof(ShadowContainer);
 
-		_cornerRadius = new CornerRadius(0);
+		Shadows = new();
 
 		Loaded += ShadowContainerLoaded;
 		Unloaded += ShadowContainerUnloaded;
 #endif
 	}
 
-	private void ShadowContainerUnloaded(object sender, RoutedEventArgs e)
-	{
-		RevokeListeners();
-	}
+	private void ShadowContainerLoaded(object sender, RoutedEventArgs e) => UpdateShadows();
 
-	private void ShadowContainerLoaded(object sender, RoutedEventArgs e)
-	{
-		UpdateShadows();
-	}
+	private void ShadowContainerUnloaded(object sender, RoutedEventArgs e) => RevokeListeners();
 
 	private void RevokeListeners()
 	{
@@ -109,31 +106,16 @@ public partial class ShadowContainer : ContentControl
 			_currentContent = newElement;
 			_currentContent.SizeChanged += OnContentSizeChanged;
 
-			// todo@xy: optimizable
-			if (TryGetCornerRadius(newElement, out var cornerRadius))
+			if (FindCornerRadiusProperty(newElement) is { } dp)
 			{
-				var cornerRadiusProperty = newElement switch
-				{
-					Grid _ => Grid.CornerRadiusProperty,
-					StackPanel _ => StackPanel.CornerRadiusProperty,
-					ContentPresenter _ => ContentPresenter.CornerRadiusProperty,
-					Border _ => Border.CornerRadiusProperty,
-					Control _ => Control.CornerRadiusProperty,
-					RelativePanel _ => RelativePanel.CornerRadiusProperty,
-					_ => default,
-
-				};
-
-				if (cornerRadiusProperty != null)
-				{
-					_cornerRadiusChanged.Disposable = newElement.RegisterDisposablePropertyChangedCallback(
-						cornerRadiusProperty,
-						(s, dp) => OnCornerRadiusChanged(s, dp)
-					);
-				}
+				_cornerRadius = (CornerRadius)newElement.GetValue(dp);
+				_cornerRadiusChanged.Disposable = newElement.RegisterDisposablePropertyChangedCallback(dp, OnCornerRadiusChanged);
 			}
-
-			_cornerRadius = cornerRadius;
+			else
+			{
+				_cornerRadius = default;
+				_cornerRadiusChanged.Disposable = null;
+			}
 		}
 
 		InvalidateShadowHosts();
@@ -143,31 +125,32 @@ public partial class ShadowContainer : ContentControl
 
 	private void OnCornerRadiusChanged(DependencyObject sender, DependencyProperty dp)
 	{
-		if (_currentContent is { })
+		if (_currentContent?.GetValue(dp) is CornerRadius value)
 		{
-			if (TryGetCornerRadius(_currentContent, out var cornerRadius))
-			{
-				_cornerRadius = cornerRadius;
-				InvalidateShadowHosts();
-			}
+			_cornerRadius = value;
+			InvalidateShadowHosts();
+		}
+		else
+		{
+			_cornerRadius = default;
 		}
 	}
 
-	// todo@xy: optimizable
-	private static bool TryGetCornerRadius(FrameworkElement element, out CornerRadius cornerRadius)
+	private static DependencyProperty? FindCornerRadiusProperty(FrameworkElement element)
 	{
-		CornerRadius? localCornerRadius = element switch
+		return element switch
 		{
-			Control control => control.CornerRadius,
-			StackPanel stackPanel => stackPanel.CornerRadius,
-			RelativePanel relativePanel => relativePanel.CornerRadius,
-			Grid grid => grid.CornerRadius,
-			Border border => border.CornerRadius,
-			_ => VisualTreeHelperEx.TryGetDpValue<CornerRadius>(element, "CornerRadius", out var value) ? value : default(CornerRadius?),
-		};
+			// fast path to avoid reflection
+			Grid _ => Grid.CornerRadiusProperty,
+			StackPanel _ => StackPanel.CornerRadiusProperty,
+			ContentPresenter _ => ContentPresenter.CornerRadiusProperty,
+			Border _ => Border.CornerRadiusProperty,
+			Control _ => Control.CornerRadiusProperty,
+			RelativePanel _ => RelativePanel.CornerRadiusProperty,
 
-		cornerRadius = localCornerRadius ?? new CornerRadius(0);
-		return localCornerRadius != null;
+			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty"),
+			_ => null,
+		};
 	}
 
 	private void OnContentSizeChanged(object sender, SizeChangedEventArgs args)
