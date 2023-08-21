@@ -67,8 +67,60 @@ For more info on how `inset` works in CSS for `box-shadow` follow https://develo
 > [!IMPORTANT]
 > Be careful not to confuse the `Shadow` property with the `Shadows` property. The singular `Shadow` property comes from `UIElement`. To add shadows to the `ShadowContainer`, use only the `Shadows` property.
 
-> [!NOTE]
-> When adding shadows to the `ShadowContainer`, keep in mind that the order in which you place them matters, as shadows can overlap each other, affecting the final result. To achieve the desired effect, arrange the shadows accordingly, considering their intended layering.
+### Shadow Order
+When adding shadows to the `ShadowContainer`, keep in mind that the order in which you place them matters, as shadows can overlap each other, affecting the final result. Shadows implemented last may overlap shadows added previously. See the examples below:
+
+The following example has a red shadow and a green shadow, respectively. See that the green shadow overlaps the red shadow, since the green one was added last:
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<Page.Resources>
+	<utu:ShadowCollection x:Key="InnerShadows">
+		<utu:Shadow BlurRadius="30" OffsetX="50" OffsetY="50" Opacity="1" Spread="-5" Color="Red" IsInner="True" />
+		<utu:Shadow BlurRadius="30" OffsetX="-50" OffsetY="-50" Opacity="1" Spread="-5" Color="Green" IsInner="True" />
+	</utu:ShadowCollection>
+</Page.Resources>
+
+<StackPanel>
+	<utu:ShadowContainer Shadows="{StaticResource InnerShadows}">
+		<Grid Height="100"
+			  Width="100"
+			  Background="LightGray"
+			  CornerRadius="50" />
+	</utu:ShadowContainer>
+</StackPanel>
+```
+Result:
+
+![Green shadow covers red](../assets/green-shadow-cover.png)
+
+Now, let's change the shadow order and place the red shadow in the end. See that the red shadow, now, overlaps the green one:
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<Page.Resources>
+	<utu:ShadowCollection x:Key="InnerShadows">
+		<utu:Shadow BlurRadius="30" OffsetX="-50" OffsetY="-50" Opacity="1" Spread="-5" Color="Green" IsInner="True" />
+		<utu:Shadow BlurRadius="30" OffsetX="50" OffsetY="50" Opacity="1" Spread="-5" Color="Red" IsInner="True" />
+	</utu:ShadowCollection>
+</Page.Resources>
+
+<StackPanel>
+	<utu:ShadowContainer Shadows="{StaticResource InnerShadows}">
+		<Grid Height="100"
+			  Width="100"
+			  Background="LightGray"
+			  CornerRadius="50" />
+	</utu:ShadowContainer>
+</StackPanel>
+```
+Result:
+
+![Red shadow covers green](../assets/red-shadow-cover.png)
 
 ## Usage
 
