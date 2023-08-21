@@ -43,7 +43,7 @@ public partial class ShadowContainer
 		}
 	}
 
-	private record struct SKShadow(
+	private readonly record struct SKShadow(
 		bool IsInner,
 		float OffsetX,
 		float OffsetY,
@@ -78,7 +78,7 @@ public partial class ShadowContainer
 		}
 	}
 
-	private ShadowInfos[] _shadowInfoArray = new[] { ShadowInfos.Empty };
+	private ShadowInfos[] _shadowInfoArray = Array.Empty<ShadowInfos>();
 	private float _currentPixelRatio;
 	private Color? _currentContentBackgroundColor;
 
