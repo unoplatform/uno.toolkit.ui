@@ -78,8 +78,20 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 <Page.Resources>
 	<utu:ShadowCollection x:Key="InnerShadows">
-		<utu:Shadow BlurRadius="30" OffsetX="50" OffsetY="50" Opacity="1" Spread="-5" Color="Red" IsInner="True" />
-		<utu:Shadow BlurRadius="30" OffsetX="-50" OffsetY="-50" Opacity="1" Spread="-5" Color="Green" IsInner="True" />
+		<utu:Shadow BlurRadius="30"
+					OffsetX="50"
+					OffsetY="50"
+					Opacity="1"
+					Spread="-5"
+					Color="Red"
+					IsInner="True" />
+		<utu:Shadow BlurRadius="30"
+					OffsetX="-50"
+					OffsetY="-50"
+					Opacity="1"
+					Spread="-5"
+					Color="Green"
+					IsInner="True" />
 	</utu:ShadowCollection>
 </Page.Resources>
 
@@ -104,8 +116,20 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 <Page.Resources>
 	<utu:ShadowCollection x:Key="InnerShadows">
-		<utu:Shadow BlurRadius="30" OffsetX="-50" OffsetY="-50" Opacity="1" Spread="-5" Color="Green" IsInner="True" />
-		<utu:Shadow BlurRadius="30" OffsetX="50" OffsetY="50" Opacity="1" Spread="-5" Color="Red" IsInner="True" />
+		<utu:Shadow BlurRadius="30"
+					OffsetX="-50"
+					OffsetY="-50"
+					Opacity="1"
+					Spread="-5"
+					Color="Green"
+					IsInner="True" />
+		<utu:Shadow BlurRadius="30"
+					OffsetX="50"
+					OffsetY="50"
+					Opacity="1"
+					Spread="-5"
+					Color="Red"
+					IsInner="True" />
 	</utu:ShadowCollection>
 </Page.Resources>
 
