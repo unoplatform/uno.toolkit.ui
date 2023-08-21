@@ -67,6 +67,9 @@ For more info on how `inset` works in CSS for `box-shadow` follow https://develo
 > [!IMPORTANT]
 > Be careful not to confuse the `Shadow` property with the `Shadows` property. The singular `Shadow` property comes from `UIElement`. To add shadows to the `ShadowContainer`, use only the `Shadows` property.
 
+> [!NOTE]
+> When adding shadows to the `ShadowContainer`, keep in mind that the order in which you place them matters, as shadows can overlap each other, affecting the final result. To achieve the desired effect, arrange the shadows accordingly, considering their intended layering.
+
 ## Usage
 
 See how to add shadows to your controls with the following code and the result.
