@@ -33,9 +33,6 @@ namespace Uno.Toolkit.Samples.Content.Controls
 	[SamplePage(SampleCategory.Controls, nameof(NavigationBar))]
 	public sealed partial class NavigationBarSamplePage : Page
 	{
-		private Frame _modalFrame;
-		private Frame _modalFrameM3;
-
 		public NavigationBarSamplePage()
 		{
 			this.InitializeComponent();

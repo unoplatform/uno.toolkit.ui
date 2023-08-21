@@ -78,7 +78,6 @@ namespace Uno.Toolkit.Samples
 			}
 		}
 
-
 		private Shell BuildShell()
 		{
 			_shell = new Shell();
@@ -156,8 +155,6 @@ namespace Uno.Toolkit.Samples
 
 			foreach (var category in categories.OrderBy(x => x.Key))
 			{
-				var tier = 1;
-
 				var parentItem = default(MUXC.NavigationViewItem);
 				if (category.Key != SampleCategory.None)
 				{
