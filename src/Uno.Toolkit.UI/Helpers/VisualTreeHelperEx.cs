@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define USE_CACHED_DP_REFLECTION
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -247,8 +249,13 @@ namespace Uno.Toolkit.UI
 		internal static bool TryGetDpValue<T>(object owner, string property, out T? value)
 		{
 			if (owner is DependencyObject @do &&
+#if USE_CACHED_DP_REFLECTION
+				@do.FindDependencyPropertyUsingReflection<T>($"{property}Property") is { } dp
+#else
 				owner.GetType().GetProperty($"{property}Property", Public | Static | FlattenHierarchy)
-					?.GetValue(null, null) is DependencyProperty dp)
+					?.GetValue(null, null) is DependencyProperty dp
+#endif
+			)
 			{
 				value = (T)@do.GetValue(dp);
 				return true;
