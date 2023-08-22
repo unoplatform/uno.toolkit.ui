@@ -6,11 +6,8 @@
 using System;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Controls;
 using Windows.UI;
 using SkiaSharp;
-using SkiaSharp.Views.Windows;
 using Uno.Extensions;
 using Uno.Logging;
 
@@ -124,7 +121,11 @@ public partial class ShadowContainer
 
 		var key =
 			FormattableString.Invariant($"w{width},h{height}") +
+#if !NETSTANDARD
 			string.Join('/', shadows.Select(x => x.ToKey()));
+#else
+			string.Join("/", shadows.Select(x => x.ToKey()));
+#endif
 		if (pixelRatioChanged)
 		{
 			// Pixel density changed, invalidate cached image
