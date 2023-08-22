@@ -108,7 +108,7 @@ Result:
 
 ![Green shadow covers red](../assets/green-shadow-cover.png)
 
-Now, let's change the shadow order and place the red shadow in the end. See that the red shadow, now, overlaps the green one:
+Now, let's change the shadow order and place the red shadow at the end. See that the red shadow, now, overlaps the green one:
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
