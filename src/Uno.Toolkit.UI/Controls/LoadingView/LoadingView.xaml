@@ -55,6 +55,8 @@
 												Value="1" />
 										<Setter Target="LoadingContentPresenter.Opacity"
 												Value="0" />
+										<Setter Target="LoadingContentPresenter.Content"
+												Value="{x:Null}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

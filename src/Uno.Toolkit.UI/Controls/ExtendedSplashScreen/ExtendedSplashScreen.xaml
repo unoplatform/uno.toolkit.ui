@@ -15,8 +15,6 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-
-
 	<Style x:Key="DefaultExtendedSplashScreen"
 		   TargetType="utu:ExtendedSplashScreen">
 

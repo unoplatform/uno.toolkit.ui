@@ -142,6 +142,9 @@ namespace Uno.Toolkit.UI
 
 			_subscription.Disposable = Source?.BindIsExecuting(UpdateVisualState);
 		}
+
+		private DataTemplate? loadingContentTemplatePlaceholder;
+		private DataTemplateSelector? loadingContentTemplateSelectorPlaceholder;
 		private void UpdateVisualState()
 		{
 			if (!_isReady) return;
@@ -154,7 +157,24 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 			_currentState = targetState;
+
+			if (_currentState == VisualStateNames.Loaded)
+			{
+				loadingContentTemplatePlaceholder = LoadingContentTemplate;
+				loadingContentTemplateSelectorPlaceholder = LoadingContentTemplateSelector;
+				// Clear content template
+				LoadingContentTemplate = new DataTemplate();
+				LoadingContentTemplateSelector = new DataTemplateSelector();
+			}
+			else
+			{
+				LoadingContentTemplate = loadingContentTemplatePlaceholder!;
+				LoadingContentTemplateSelector = loadingContentTemplateSelectorPlaceholder!;
+
+			}
 			VisualStateManager.GoToState(this, targetState, IsLoaded && UseTransitions);
+
+
 		}
 	}
 }
