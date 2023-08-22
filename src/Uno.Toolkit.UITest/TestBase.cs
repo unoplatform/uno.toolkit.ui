@@ -104,8 +104,19 @@ namespace Uno.Toolkit.UITest
 			Helpers.App = _app;
 
 			_app.WaitForElementWithMessage("AppShell");
+			CheckCanRun();
 			NavigateToSample(SampleName);
 		}
+
+		/// <summary>
+		/// This method should be used for tests that we want to skip but can't do using the
+		/// Ignore attribute. An sample of impelmentation:
+		/// if (Environment.GetEnvironmentVariable("XAML_FLAVOR_BUILD") == "WinUI")
+		///	{
+		///		Assert.Inconclusive("Why this should be ignored.");
+		///	}
+		/// </summary>
+		protected virtual void CheckCanRun() { }
 
 		[TearDown]
 		public void TearDownTest()

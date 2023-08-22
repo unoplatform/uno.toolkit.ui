@@ -148,7 +148,11 @@ namespace Uno.Toolkit.Samples
 				.OrderByDescending(x => x.SortOrder.HasValue)
 				.ThenBy(x => x.SortOrder)
 				.ThenBy(x => x.Title)
-				.GroupBy(x => x.Category);
+				.GroupBy(x => x.Category)
+#if !DEBUG
+				.Where(x => x.Key != SampleCategory.Tests)
+#endif
+				;
 
 			foreach (var category in categories.OrderBy(x => x.Key))
 			{
