@@ -6,7 +6,7 @@
 		<PackageVersion Include="Microsoft.Extensions.Logging" Version="5.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
-		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.7.0-2.final" />
+		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.7.0" />
 		<!--
 		If, in the same solution, you are referencing a project that uses https://github.com/onovotny/MSBuildSdkExtras,
 		you need to make sure that the version provided here matches https://github.com/novotnyllc/MSBuildSdkExtras/blob/main/Source/MSBuild.Sdk.Extras/DefaultItems/ImplicitPackages.targets#L11.
@@ -48,6 +48,6 @@
 		<PackageVersion Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.3.1.1" />
 		<PackageVersion Include="Xamarin.Jetbrains.Annotations" Version="23.0.0.4" />
 		<PackageVersion Include="Xamarin.TestCloud.Agent" Version="0.23.0" />
-		<PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22518.1" />
+		<PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.4-preview1.23354.4" />
 	</ItemGroup>
 </Project>

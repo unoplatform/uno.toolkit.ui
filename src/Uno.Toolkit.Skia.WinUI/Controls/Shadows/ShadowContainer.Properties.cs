@@ -1,15 +1,9 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using Uno.Disposables;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-#else
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-#endif
+using Uno.Disposables;
 
 namespace Uno.Toolkit.UI;
 
@@ -42,9 +36,6 @@ public partial class ShadowContainer : ContentControl
 
 	#endregion
 
-	// True if a shadow property has changed dynamically or if we add or removed a shadow
-	private bool _shadowPropertyChanged;
-
 	private static void OnShadowsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		if (d is ShadowContainer shadowContainer)
@@ -58,30 +49,27 @@ public partial class ShadowContainer : ContentControl
 		switch (e.Action)
 		{
 			case NotifyCollectionChangedAction.Add:
-				for (int i = 0; i < e.NewItems!.Count; i++)
+				foreach (var item in e.NewItems ?? Array.Empty<object>())
 				{
-					OnShadowInserted((Shadow)e.NewItems[i]!);
+					OnShadowInserted((Shadow)item);
 				}
-
-				OnShadowSizeChanged();
-				InvalidateFromShadowPropertyChange();
-
 				break;
-			case NotifyCollectionChangedAction.Remove:
-				for (int i = 0; i < e.OldItems!.Count; i++)
-				{
-					OnShadowRemoved((Shadow)e.OldItems[i]!);
-				}
 
-				OnShadowSizeChanged();
-				InvalidateFromShadowPropertyChange();
+			case NotifyCollectionChangedAction.Remove:
+				foreach (var item in e.OldItems ?? Array.Empty<object>())
+				{
+					OnShadowRemoved((Shadow)item);
+				}
 				break;
 
 			case NotifyCollectionChangedAction.Reset:
-				OnShadowSizeChanged();
-				InvalidateFromShadowPropertyChange();
 				break;
+
+			default: return;
 		}
+
+		OnShadowSizeChanged();
+		InvalidateFromShadowPropertyChange();
 	}
 
 	private void UpdateShadows()
@@ -106,7 +94,7 @@ public partial class ShadowContainer : ContentControl
 		_shadowPropertiesChanged.Disposable = _activeShadowRegistrations;
 
 		OnShadowSizeChanged();
-		_shadowHost?.Invalidate();
+		InvalidateShadowHosts();
 	}
 
 	private void OnShadowInserted(Shadow shadow)
@@ -145,7 +133,8 @@ public partial class ShadowContainer : ContentControl
 
 	private void InvalidateFromShadowPropertyChange()
 	{
-		_shadowPropertyChanged = true;
-		_shadowHost?.Invalidate();
+		_backgroundPaintContext.IsDirty = true;
+		_foregroundPaintContext.IsDirty = true;
+		InvalidateShadowHosts();
 	}
 }
