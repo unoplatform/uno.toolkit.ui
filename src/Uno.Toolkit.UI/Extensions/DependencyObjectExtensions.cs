@@ -7,8 +7,6 @@ using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Uno.Logging;
 
-using static System.Reflection.BindingFlags;
-
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Controls;
@@ -193,9 +191,8 @@ namespace Uno.Toolkit.UI
 				return property;
 			}
 
-			property =
-				type.GetProperty(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty ??
-				type.GetField(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty;
+			property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static)?.GetValue(null) as DependencyProperty
+				?? type.GetField(propertyName, BindingFlags.Public | BindingFlags.Static)?.GetValue(null) as DependencyProperty;
 
 			if (property == null)
 			{
