@@ -46,14 +46,11 @@ public partial class ShadowContainer : ContentControl
 
 	public ShadowContainer()
 	{
-<<<<<<< HEAD
 #if HAS_UNO_WINUI && !NET6_0_OR_GREATER
 		throw new NotSupportedException("ShadowContainer doesn't support Xamarin + WinUI considering moving to .NET6 or greater.");
 #else
-=======
 		Shadows = new();
 
->>>>>>> 9d4be7f (fix(shadows): revert double shadow impl)
 		DefaultStyleKey = typeof(ShadowContainer);
 
 		_cornerRadius = new CornerRadius(0);
@@ -128,7 +125,7 @@ public partial class ShadowContainer : ContentControl
 					ContentPresenter _ => ContentPresenter.CornerRadiusProperty,
 					Border _ => Border.CornerRadiusProperty,
 					Control _ => Control.CornerRadiusProperty,
-					RelativePanel _ => RelativePanel.CornerRadiusProperty, 
+					RelativePanel _ => RelativePanel.CornerRadiusProperty,
 					_ => default,
 
 				};

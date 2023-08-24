@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
@@ -8,8 +9,8 @@ public class ShadowCollection : ObservableCollection<Shadow>
 {
 	public bool HasInnerShadow() => this.Any(s => s.IsInner);
 
-	public string ToKey(double width, double height, Windows.UI.Color? contentBackground)
-		=> string.Create(CultureInfo.InvariantCulture, $"w{width},h{height}") +
+	public string ToKey(double width, double height, Windows.UI.Color? contentBackground) =>
+		FormattableString.Invariant($"w{width},h{height}") +
 		(contentBackground.HasValue ? $",cb{contentBackground.Value}:" : ":") +
 		string.Join("/", this.Select(x => x.ToKey()));
 }

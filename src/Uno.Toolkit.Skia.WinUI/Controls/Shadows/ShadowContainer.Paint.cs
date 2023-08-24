@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Linq;
-<<<<<<< HEAD
-using Microsoft.Extensions.Logging;
-using Windows.UI;
-using SkiaSharp;
-=======
 
 using SkiaSharp;
 
 using Windows.UI;
 
 using Microsoft.Extensions.Logging;
->>>>>>> 9d4be7f (fix(shadows): revert double shadow impl)
 using Uno.Extensions;
 using Uno.Logging;
 
@@ -146,23 +140,12 @@ public partial class ShadowContainer
 			return;
 		}
 
-<<<<<<< HEAD
-		var key =
-			FormattableString.Invariant($"w{width},h{height}") +
-#if !NETSTANDARD
-			string.Join('/', shadows.Select(x => x.ToKey()));
-#else
-			string.Join("/", shadows.Select(x => x.ToKey()));
-#endif
-		if (pixelRatioChanged)
-=======
 		// If there is any inner shadow, we need to:
 		// 1. Get the background color from the content
 		// 2. Set the content background to transparent
 		// 3. Draw the content background with skia underneath inner shadows
 		bool hasInnerShadow = shadows.HasInnerShadow();
 		if (hasInnerShadow)
->>>>>>> 9d4be7f (fix(shadows): revert double shadow impl)
 		{
 			// Will set the content background to transparent if needed
 			if (_currentContentBackgroundColor == null && ProcessContentBackgroundIfNeeded(out var contentBackgroundWinUIColor))
