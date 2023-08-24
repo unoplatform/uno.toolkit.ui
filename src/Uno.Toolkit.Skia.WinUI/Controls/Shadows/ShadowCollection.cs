@@ -6,5 +6,4 @@ namespace Uno.Toolkit.UI;
 
 public class ShadowCollection : ObservableCollection<Shadow>
 {
-	public string ToKey() => string.Join("/", this.Select(x => x.ToKey()));
 }
