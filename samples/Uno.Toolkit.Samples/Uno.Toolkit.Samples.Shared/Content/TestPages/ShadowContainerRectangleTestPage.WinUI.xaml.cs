@@ -7,7 +7,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Uno.Toolkit.Samples.Entities;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -24,10 +23,10 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
 
-	[SamplePage(SampleCategory.Tests, "ShadowContainerTest")]
-	public sealed partial class ShadowContainerTestPage : Page
+	[SamplePage(SampleCategory.Tests, "ShadowContainerRectangleTest")]
+	public sealed partial class ShadowContainerRectangleTestPage : Page
 	{
-		public ShadowContainerTestPage()
+		public ShadowContainerRectangleTestPage()
 		{
 			this.InitializeComponent();
 		}
@@ -36,8 +35,7 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 		{
 			statusText.Text = "Running";
 			shadowContainer.Shadows.Clear();
-			shadowContainerRectangle.Shadows.Clear();
-			
+
 			if (!int.TryParse(xOffsetText.Text, out var xOffset))
 			{
 				xOffset = 0;
@@ -59,15 +57,6 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 				Color = Colors.Red,
 			});
 
-			shadowContainerRectangle.Shadows.Add(new UI.Shadow
-			{
-				OffsetX = xOffset,
-				OffsetY = yOffset,
-				IsInner = isInner,
-				Opacity = 1,
-				Color = Colors.Red,
-			});
-
 			statusText.Text = "Verify";
 		}
 
@@ -78,27 +67,9 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 			xOffsetText.Text = string.Empty;
 			yOffsetText.Text = string.Empty;
 			inner.IsChecked = false;
-			check_Border.IsChecked = true;
 
 			shadowContainer.Shadows.Clear();
-			shadowContainerRectangle.Shadows.Clear();
-			containerRectangle.Visibility = Visibility.Collapsed;
-			containerBorder.Visibility = Visibility.Visible;
 		}
-
-		private void Border_ClickElement(object sender, RoutedEventArgs e)
-		{
-			containerRectangle.Visibility = Visibility.Collapsed;
-			containerBorder.Visibility = Visibility.Visible;
-
-		}
-		private void Rectangle_ClickElement(object sender, RoutedEventArgs e)
-		{
-			containerRectangle.Visibility = Visibility.Visible;
-			containerBorder.Visibility = Visibility.Collapsed;
-		}
-
-
 	}
 }
 #endif
