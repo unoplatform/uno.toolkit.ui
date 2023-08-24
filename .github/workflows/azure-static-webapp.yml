@@ -14,7 +14,7 @@ on:
 jobs:
   build_and_deploy_job:
     env:
-      DIST_PATH: samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.Wasm/bin/Release/net5.0/dist
+      DIST_PATH: samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Wasm/bin/Release/net5.0/dist
 
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
           dotnet-version: '6.0.200'
 
       - run: |
-          cd samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.Wasm
+          cd samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Wasm
           dotnet build -c Release "/p:PackageVersion=${{ steps.gitversion.outputs.fullSemVer }}" /p:DisableNet6MobileTargets=true
       - uses: actions/upload-artifact@v2
         with:
