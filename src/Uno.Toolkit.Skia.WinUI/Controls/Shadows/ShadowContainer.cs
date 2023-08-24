@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using SkiaSharp.Views.Windows;
 #else
 using Windows.UI.Xaml;
@@ -29,35 +31,40 @@ public partial class ShadowContainer : ContentControl
 {
 	private const string PART_Canvas = "PART_Canvas";
 
+	private static readonly ShadowsCache Cache = new ShadowsCache();
+
+	private readonly SerialDisposable _registrations = new();
+
 	private Canvas? _canvas;
 
-#if false // ANDROID (see comment below)
-    private readonly SKSwapChainPanel _shadowHost;
-    private bool _notOpaqueSet = false;
-#else
 	private SKXamlCanvas? _shadowHost;
-#endif
-
-	private static readonly ShadowsCache Cache = new ShadowsCache();
 
 	private FrameworkElement? _currentContent;
 
-	private CornerRadius _cornerRadius;
-
 	public ShadowContainer()
 	{
+<<<<<<< HEAD
 #if HAS_UNO_WINUI && !(NET6_0_OR_GREATER || NETSTANDARD2_0)
 		throw new NotSupportedException("ShadowContainer doesn't support Xamarin + WinUI considering moving to .NET6 or greater.");
 #else
 		Shadows = new();
 
+=======
+>>>>>>> f633ff0 (fix(shadows): background handling)
 		DefaultStyleKey = typeof(ShadowContainer);
 
-		_cornerRadius = new CornerRadius(0);
+		Shadows = new();
 
 		Loaded += ShadowContainerLoaded;
 		Unloaded += ShadowContainerUnloaded;
 #endif
+	}
+
+	private void ShadowContainerLoaded(object sender, RoutedEventArgs e)
+	{
+		// todo@xy: merge both
+		RegisterShadowCollectionEvents();
+		BindToPaintingProperties();
 	}
 
 	private void ShadowContainerUnloaded(object sender, RoutedEventArgs e)
@@ -65,46 +72,73 @@ public partial class ShadowContainer : ContentControl
 		RevokeListeners();
 	}
 
-	private void ShadowContainerLoaded(object sender, RoutedEventArgs e)
+	private void BindToPaintingProperties()
 	{
-		UpdateShadows();
+		var backgroundNestedDisposable = new SerialDisposable();
+		_registrations.Disposable = new CompositeDisposable
+		{
+			this.RegisterDisposablePropertyChangedCallback(BackgroundProperty, OnBackgroundChanged),
+			this.RegisterDisposablePropertyChangedCallback(CornerRadiusProperty, OnInnerMostPropertyChanged),
+
+			backgroundNestedDisposable
+		};
+
+		// manually proc inner registration once
+		BindToBackgroundMemberProperties(Background);
+
+		void OnBackgroundChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			BindToBackgroundMemberProperties(Background);
+			_shadowHost?.Invalidate();
+		}
+		void OnInnerMostPropertyChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			_shadowHost?.Invalidate();
+		}
+
+		void BindToBackgroundMemberProperties(Brush background)
+		{
+			backgroundNestedDisposable.Disposable = background switch
+			{
+				SolidColorBrush scb => new CompositeDisposable
+				{
+					scb.RegisterDisposablePropertyChangedCallback(SolidColorBrush.ColorProperty, OnInnerMostPropertyChanged),
+					scb.RegisterDisposablePropertyChangedCallback(Brush.OpacityProperty, OnInnerMostPropertyChanged),
+				},
+
+				null => null,
+				_ => throw new NotSupportedException($"'{background.GetType().Name}' background brush is not supported."),
+			};
+		}
 	}
 
 	private void RevokeListeners()
 	{
 		_shadowsCollectionChanged.Disposable = null;
 		_shadowPropertiesChanged.Disposable = null;
-		_cornerRadiusChanged.Disposable = null;
+		_registrations.Disposable = null;
 	}
 
 	protected override void OnApplyTemplate()
 	{
+		base.OnApplyTemplate();
+
 		_canvas = GetTemplateChild(nameof(PART_Canvas)) as Canvas;
 
-
-#if false // ANDROID: We keep that as a reference cause it would be better to use the hardware-accelerated version
-        var skiaCanvas = new SKSwapChainPanel();
-        skiaCanvas.PaintSurface += OnSurfacePainted;
-#else
 		var skiaCanvas = new SKXamlCanvas();
 		skiaCanvas.PaintSurface += OnSurfacePainted;
-#endif
 
 #if __IOS__ || __MACCATALYST__
-        skiaCanvas.Opaque = false;
+		skiaCanvas.Opaque = false;
 #endif
 
 		_shadowHost = skiaCanvas;
 		_canvas?.Children.Insert(0, _shadowHost!);
-
-		base.OnApplyTemplate();
 	}
 
 	/// <inheritdoc/>
 	protected override void OnContentChanged(object oldContent, object newContent)
 	{
-		_cornerRadiusChanged.Disposable = null;
-
 		if (oldContent is FrameworkElement oldElement)
 		{
 			_canvas?.Children.Remove(oldElement);
@@ -115,6 +149,7 @@ public partial class ShadowContainer : ContentControl
 		{
 			_currentContent = newElement;
 			_currentContent.SizeChanged += OnContentSizeChanged;
+<<<<<<< HEAD
 
 			if (TryGetCornerRadius(newElement, out var cornerRadius))
 			{
@@ -140,38 +175,12 @@ public partial class ShadowContainer : ContentControl
 			}
 
 			_cornerRadius = cornerRadius;
+=======
+>>>>>>> f633ff0 (fix(shadows): background handling)
 		}
 
 		_shadowHost?.Invalidate();
 		base.OnContentChanged(oldContent, newContent);
-	}
-
-	private void OnCornerRadiusChanged(DependencyObject sender, DependencyProperty dp)
-	{
-		if (_currentContent is { })
-		{
-			if (TryGetCornerRadius(_currentContent, out var cornerRadius))
-			{
-				_cornerRadius = cornerRadius;
-				_shadowHost?.Invalidate();
-			}
-		}
-	}
-
-	private static bool TryGetCornerRadius(FrameworkElement element, out CornerRadius cornerRadius)
-	{
-		CornerRadius? localCornerRadius = element switch
-		{
-			Control control => control.CornerRadius,
-			StackPanel stackPanel => stackPanel.CornerRadius,
-			RelativePanel relativePanel => relativePanel.CornerRadius,
-			Grid grid => grid.CornerRadius,
-			Border border => border.CornerRadius,
-			_ => VisualTreeHelperEx.TryGetDpValue<CornerRadius>(element, "CornerRadius", out var value) ? value : default(CornerRadius?),
-		};
-
-		cornerRadius = localCornerRadius ?? new CornerRadius(0);
-		return localCornerRadius != null;
 	}
 
 	private void OnContentSizeChanged(object sender, SizeChangedEventArgs args)

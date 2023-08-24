@@ -15,9 +15,9 @@ namespace Uno.Toolkit.UI;
 
 public partial class ShadowContainer : ContentControl
 {
+	// fixme@xy: move everything unrelated to basic dp boilerplate back to main cs file
 	private readonly SerialDisposable _shadowsCollectionChanged = new();
 	private readonly SerialDisposable _shadowPropertiesChanged = new();
-	private readonly SerialDisposable _cornerRadiusChanged = new();
 	private readonly CompositeDisposable _activeShadowRegistrations = new CompositeDisposable();
 
 	#region DependencyProperty: Shadows
@@ -49,7 +49,7 @@ public partial class ShadowContainer : ContentControl
 	{
 		if (d is ShadowContainer shadowContainer)
 		{
-			shadowContainer.UpdateShadows();
+			shadowContainer.RegisterShadowCollectionEvents();
 		}
 	}
 
@@ -84,7 +84,7 @@ public partial class ShadowContainer : ContentControl
 		}
 	}
 
-	private void UpdateShadows()
+	private void RegisterShadowCollectionEvents()
 	{
 		_shadowsCollectionChanged.Disposable = null;
 		_shadowPropertiesChanged.Disposable = null;
