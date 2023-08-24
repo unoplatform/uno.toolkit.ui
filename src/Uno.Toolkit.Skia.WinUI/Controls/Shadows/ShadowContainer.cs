@@ -1,17 +1,18 @@
-﻿using System;
-using System.Linq;
-using Uno.Disposables;
+﻿#if false
+// We keep that as a reference cause it would be better to use the hardware-accelerated version
+#define ANDROID_REFERENTIAL_IMPL
+#endif
 
-#if IS_WINUI
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using SkiaSharp.Views.Windows;
-#else
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using SkiaSharp.Views.UWP;
-#endif
+using Uno.Disposables;
 
 #if __ANDROID__
 using Android.Views;
@@ -33,7 +34,7 @@ public partial class ShadowContainer : ContentControl
 
 	private static readonly ShadowsCache Cache = new ShadowsCache();
 
-	private readonly SerialDisposable _registrations = new();
+	private readonly SerialDisposable _eventSubscriptions = new();
 
 	private Canvas? _canvas;
 
@@ -53,38 +54,63 @@ public partial class ShadowContainer : ContentControl
 
 	private void ShadowContainerLoaded(object sender, RoutedEventArgs e)
 	{
-		// todo@xy: merge both
-		RegisterShadowCollectionEvents();
 		BindToPaintingProperties();
 	}
 
 	private void ShadowContainerUnloaded(object sender, RoutedEventArgs e)
 	{
-		RevokeListeners();
+		_eventSubscriptions.Disposable = null;
 	}
 
 	private void BindToPaintingProperties()
 	{
 		var backgroundNestedDisposable = new SerialDisposable();
-		_registrations.Disposable = new CompositeDisposable
+		var shadowsNestedDisposable = new SerialDisposable();
+		_eventSubscriptions.Disposable = new CompositeDisposable
 		{
 			this.RegisterDisposablePropertyChangedCallback(BackgroundProperty, OnBackgroundChanged),
-			this.RegisterDisposablePropertyChangedCallback(CornerRadiusProperty, OnInnerMostPropertyChanged),
+			this.RegisterDisposablePropertyChangedCallback(CornerRadiusProperty, OnInnerPropertyChanged),
+			this.RegisterDisposablePropertyChangedCallback(ShadowsProperty, OnShadowsChanged_EX),
 
-			backgroundNestedDisposable
+			backgroundNestedDisposable,
+			shadowsNestedDisposable,
 		};
 
 		// manually proc inner registration once
 		BindToBackgroundMemberProperties(Background);
+		BindToShadowCollectionChanged(Shadows);
 
 		void OnBackgroundChanged(DependencyObject sender, DependencyProperty dp)
 		{
 			BindToBackgroundMemberProperties(Background);
-			_shadowHost?.Invalidate();
+
+			InvalidateShadows();
 		}
-		void OnInnerMostPropertyChanged(DependencyObject sender, DependencyProperty dp)
+		void OnShadowsChanged_EX(DependencyObject sender, DependencyProperty dp)
 		{
-			_shadowHost?.Invalidate();
+			BindToShadowCollectionChanged(Shadows);
+
+			OnShadowSizeChanged();
+			InvalidateShadows();
+		}
+
+		void OnShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			_isShadowDirty = true;
+
+			if (Uno.Toolkit.UI.Shadow.IsShadowSizeProperty(e.PropertyName ?? ""))
+			{
+				OnShadowSizeChanged();
+			}
+			InvalidateShadows();
+		}
+		void OnInnerPropertyChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			if (sender == this && dp == CornerRadiusProperty)
+			{
+				OnShadowSizeChanged();
+			}
+			InvalidateShadows();
 		}
 
 		void BindToBackgroundMemberProperties(Brush background)
@@ -93,21 +119,64 @@ public partial class ShadowContainer : ContentControl
 			{
 				SolidColorBrush scb => new CompositeDisposable
 				{
-					scb.RegisterDisposablePropertyChangedCallback(SolidColorBrush.ColorProperty, OnInnerMostPropertyChanged),
-					scb.RegisterDisposablePropertyChangedCallback(Brush.OpacityProperty, OnInnerMostPropertyChanged),
+					scb.RegisterDisposablePropertyChangedCallback(SolidColorBrush.ColorProperty, OnInnerPropertyChanged),
+					scb.RegisterDisposablePropertyChangedCallback(Brush.OpacityProperty, OnInnerPropertyChanged),
 				},
 
 				null => null,
 				_ => throw new NotSupportedException($"'{background.GetType().Name}' background brush is not supported."),
 			};
 		}
-	}
+		void BindToShadowCollectionChanged(ShadowCollection? shadows)
+		{
+			if (shadows != null)
+			{
+				shadows.CollectionChanged += OnShadowCollectionChanged;
+				BindItems(shadows);
 
-	private void RevokeListeners()
-	{
-		_shadowsCollectionChanged.Disposable = null;
-		_shadowPropertiesChanged.Disposable = null;
-		_registrations.Disposable = null;
+				shadowsNestedDisposable.Disposable = Disposable.Create(() =>
+				{
+					shadows.CollectionChanged -= OnShadowCollectionChanged;
+					UnbindItems(shadows);
+				});
+
+				_isShadowDirty = true;
+				OnShadowSizeChanged();
+
+				void OnShadowCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+				{
+					if (e.Action != NotifyCollectionChangedAction.Move)
+					{
+						UnbindItems(e.OldItems?.Cast<Shadow>());
+						BindItems(e.NewItems?.Cast<Shadow>());
+
+						_isShadowDirty = true;
+						OnShadowSizeChanged();
+					}
+				}
+				void BindItems(IEnumerable<Shadow>? shadows)
+				{
+					foreach (var item in shadows ?? Array.Empty<Shadow>())
+					{
+						item.PropertyChanged += OnShadowPropertyChanged;
+					}
+				}
+				void UnbindItems(IEnumerable<Shadow>? shadows)
+				{
+					foreach (var item in shadows ?? Array.Empty<Shadow>())
+					{
+						item.PropertyChanged -= OnShadowPropertyChanged;
+					}
+				}
+			}
+			else
+			{
+				shadowsNestedDisposable.Disposable = null;
+
+				_isShadowDirty = true;
+				OnShadowSizeChanged();
+			}
+		}
 	}
 
 	protected override void OnApplyTemplate()
@@ -142,7 +211,7 @@ public partial class ShadowContainer : ContentControl
 			_currentContent.SizeChanged += OnContentSizeChanged;
 		}
 
-		_shadowHost?.Invalidate();
+		InvalidateShadows();
 		base.OnContentChanged(oldContent, newContent);
 	}
 
@@ -151,7 +220,15 @@ public partial class ShadowContainer : ContentControl
 		if (args.NewSize.Width > 0 && args.NewSize.Height > 0)
 		{
 			UpdateCanvasSize(args.NewSize.Width, args.NewSize.Height, Shadows);
-			_shadowHost?.Invalidate();
+			InvalidateShadows();
+		}
+	}
+
+	private void OnShadowSizeChanged()
+	{
+		if (_currentContent != null && _currentContent.ActualWidth > 0 && _currentContent.ActualHeight > 0)
+		{
+			UpdateCanvasSize(_currentContent.ActualWidth, _currentContent.ActualHeight, Shadows);
 		}
 	}
 
@@ -193,5 +270,11 @@ public partial class ShadowContainer : ContentControl
 
 		Canvas.SetLeft(_shadowHost, left);
 		Canvas.SetTop(_shadowHost, top);
+	}
+
+	private void InvalidateShadows(bool force = false)
+	{
+		// todo@xy: we should check for paint-states diff before proceeding
+		_shadowHost?.Invalidate();
 	}
 }
