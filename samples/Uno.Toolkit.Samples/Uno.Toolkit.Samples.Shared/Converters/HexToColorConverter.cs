@@ -16,7 +16,7 @@ namespace Uno.Toolkit.Samples.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			return value.ToString();
+			return value?.ToString();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
