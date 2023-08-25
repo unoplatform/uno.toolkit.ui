@@ -141,11 +141,13 @@
         "UpdatedVersion": "(,3.99.0-dev.999]"
     },
     {
+        "PackageId": "Uno.Toolkit.Skia.WinUI",
+        "UpdatedVersion": "(,3.99.0-dev.999]"
+    },
+    {
         "PackageId": "Uno.Microsoft.Toolkit.Uwp.UI.Controls",
         "UpdatedVersion": "(,7.1.999]"
     },
-
-
     {
         "PackageId": "Uno.Wasm.Bootstrap",
         "UpdatedVersion": "(,7.999.999]"
