@@ -15,11 +15,19 @@
 		<PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
 		<PackageVersion Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
 		<PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+<<<<<<< HEAD
 		<PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.0" />
 		<PackageVersion Include="SkiaSharp.Skottie" Version="2.88.2" />
 		<PackageVersion Include="SkiaSharp.Views" Version="2.80.2" />
 		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.2" />
 		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.2" />
+=======
+		<PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
+		<PackageVersion Include="SkiaSharp.Skottie" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.Views" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.5" />
+>>>>>>> f760d54 (bump skiasharp to 2.88.5 (#758))
 		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageVersion Include="Uno.Cupertino" Version="2.7.0" />
