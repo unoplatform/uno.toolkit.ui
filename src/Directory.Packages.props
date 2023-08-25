@@ -7,9 +7,11 @@
 		<PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
 		<PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
 		<PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.4-preview.84" />
-		<PackageVersion Include="SkiaSharp.Views.WinUI" Version="2.88.4-preview.84" />
-		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.4-preview.84" />
+		<PackageVersion Include="SkiaSharp" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.Views.WinUI" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.5" />
 		<PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
