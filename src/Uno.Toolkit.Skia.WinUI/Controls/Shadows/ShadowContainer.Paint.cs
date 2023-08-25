@@ -1,4 +1,4 @@
-#if false
+﻿#if false
 // We keep that as a reference cause it would be better to use the hardware-accelerated version
 #define ANDROID_REFERENTIAL_IMPL
 #endif
@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using SkiaSharp;
@@ -66,12 +67,15 @@ public partial class ShadowContainer
 		}
 
 		var canvas = surface.Canvas;
-		canvas.Clear(SKColors.Transparent);
-		canvas.Save();
 
-		if (state.ShadowInfos.Length == 0)
+		if (state.ShadowInfos.Length > 1)
 		{
-			// nothing to paint here
+			canvas.Clear(SKColors.Transparent);
+			canvas.Save();
+		}
+		else
+		{
+			DrawContentBackground(state, canvas, background ?? Colors.Transparent);
 			return;
 		}
 
@@ -113,7 +117,7 @@ public partial class ShadowContainer
 
 		if (background is { } bg)
 		{
-			DrawContentBackground(canvas, bg.ToSkiaColor(), contentShape);
+			DrawContentBackground(state, canvas, bg);
 		}
 
 		foreach (var shadow in state.GetInsetShadows())
@@ -122,7 +126,7 @@ public partial class ShadowContainer
 		}
 
 		canvas.Restore();
-		
+
 		// If a property has changed dynamically during this paint method,
 		// then we don't want to cache the updated shadows
 		if (!_isShadowDirty)
@@ -142,11 +146,14 @@ public partial class ShadowContainer
 		};
 	}
 
-	private static void DrawContentBackground(SKCanvas canvas, SKColor contentBackgroundColor, SKRoundRect childShape)
+	private static void DrawContentBackground(ShadowPaintState state, SKCanvas canvas, Color color)
 	{
+		var rect = new SKRect(0, 0, state.ContentWidth, state.ContentHeight).Scale(state.PixelRatio);
+		var shape = new SKRoundRect(rect, (float)state.CornerRadius.BottomRight * state.PixelRatio);
+
 		using var backgroundPaint = new SKPaint
 		{
-			Color = contentBackgroundColor,
+			Color = color.ToSkiaColor(),
 			Style = SKPaintStyle.Fill,
 		};
 
@@ -154,7 +161,7 @@ public partial class ShadowContainer
 		{
 			_logger.Trace($"[ShadowContainer] DrawContentBackground => color: {backgroundPaint.Color}");
 		}
-		canvas.DrawRoundRect(childShape, backgroundPaint);
+		canvas.DrawRoundRect(shape, backgroundPaint);
 	}
 
 	private static void DrawDropShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow)
