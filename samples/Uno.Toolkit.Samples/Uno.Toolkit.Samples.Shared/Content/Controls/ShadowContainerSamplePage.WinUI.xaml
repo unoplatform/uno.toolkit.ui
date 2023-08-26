@@ -14,6 +14,16 @@
 
 	<Page.Resources>
 		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<Color x:Key="ThemedColor">Red</Color>
+					<SolidColorBrush x:Key="ThemedBrush" Color="Red" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<Color x:Key="ThemedColor">Blue</Color>
+					<SolidColorBrush x:Key="ThemedBrush" Color="Blue" />
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
 			<ResourceDictionary.MergedDictionaries>
 				<!-- Known issue at the moment where we cannot re-initialize MaterialToolkitTheme to override colors with a new palette for other platforms outside of Windows -->
 				<!-- https://github.com/unoplatform/Uno.Themes/issues/1145 -->
@@ -23,6 +33,9 @@
 				<ResourceDictionary Source="Dictionary2.xaml" />
 				<ResourceDictionary Source="Dictionary1.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+
+			<SolidColorBrush x:Key="ThemedColorBrush" Color="{ThemeResource ThemedColor}" />
+
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -31,12 +44,26 @@
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<ScrollViewer HorizontalScrollMode="Disabled">
-						<StackPanel Spacing="24">
+						<StackPanel Spacing="24" Padding="20,8">
 
 							<!-- TextBox -->
-							<TextBlock Text="TextBox" />
+							<TextBlock Text="TextBox" Foreground="Pink" />
 							<StackPanel Spacing="5">
-								<TextBlock Text="Enabled" Style="{StaticResource BodyMedium}" />
+								<TextBlock Text="brush binding tests" />
+								<TextBox Width="328"
+										 Background="{ThemeResource ThemedBrush}"
+										 PlaceholderText="Label"
+										 Style="{StaticResource NeumorphicTextBoxStyle}">
+									<um:ControlExtensions.Icon>
+										<SymbolIcon Symbol="Favorite" />
+									</um:ControlExtensions.Icon>
+								</TextBox>
+								<TextBox Width="328"
+										 Background="{ThemeResource ThemedColorBrush}"
+										 PlaceholderText="Label"
+										 Style="{StaticResource NeumorphicTextBoxStyle}" />
+
+								<TextBlock Text="Enabled" />
 								<TextBox Width="328"
 										 PlaceholderText="Label"
 										 Style="{StaticResource NeumorphicTextBoxStyle}">
@@ -49,7 +76,7 @@
 										 Style="{StaticResource NeumorphicTextBoxStyle}" />
 								<TextBox Width="328" Style="{StaticResource NeumorphicTextBoxStyle}" />
 
-								<TextBlock Text="Disabled" Style="{StaticResource BodyMedium}" />
+								<TextBlock Text="Disabled" />
 								<TextBox Width="328"
 										 IsEnabled="False"
 										 PlaceholderText="Label"
@@ -68,9 +95,9 @@
 							</StackPanel>
 
 							<!-- PasswordBox -->
-							<TextBlock Text="PasswordBox" />
+							<TextBlock Text="PasswordBox" Foreground="Pink" />
 							<StackPanel Spacing="20">
-								<TextBlock Text="Enabled" Style="{StaticResource BodyMedium}" />
+								<TextBlock Text="Enabled" />
 								<PasswordBox Width="328"
 											 PlaceholderText="Label"
 											 Style="{StaticResource NeumorphicPasswordBoxStyle}">
@@ -82,7 +109,7 @@
 											 PlaceholderText="Label"
 											 Style="{StaticResource NeumorphicPasswordBoxStyle}" />
 								<PasswordBox Width="328" Style="{StaticResource NeumorphicPasswordBoxStyle}" />
-								<TextBlock Text="Disabled" Style="{StaticResource BodyMedium}" />
+								<TextBlock Text="Disabled" />
 								<PasswordBox Width="328"
 											 IsEnabled="False"
 											 PlaceholderText="Label"
@@ -98,71 +125,70 @@
 								<PasswordBox Width="328"
 											 IsEnabled="False"
 											 Style="{StaticResource NeumorphicPasswordBoxStyle}" />
-								<TextBlock Text="TextBox" />
 							</StackPanel>
 
 							<!-- ComboBox -->
-							<TextBlock Text="ComboBox" />
+							<TextBlock Text="ComboBox" Foreground="Pink" />
 							<StackPanel Spacing="16">
 
 								<StackPanel Spacing="20">
 									<!-- ComboBox Enabled -->
-									<TextBlock Text="Enabled" Style="{StaticResource BodyMedium}" />
+									<TextBlock Text="Enabled" />
 									<ComboBox Width="328"
 											  PlaceholderText="Label"
 											  Style="{StaticResource NeumorphicComboBoxStyle}"
-											  ItemsSource="{Binding Data.CbbItems}" />
+											  ItemsSource="{Binding Data.TestCollection}" />
 								</StackPanel>
 
 								<StackPanel Spacing="20">
 									<!-- ComboBox Disabled -->
-									<TextBlock Text="Disabled" Style="{StaticResource BodyMedium}" />
+									<TextBlock Text="Disabled" />
 									<ComboBox Width="328"
 											  IsEnabled="False"
 											  PlaceholderText="Label"
 											  Style="{StaticResource NeumorphicComboBoxStyle}"
-											  ItemsSource="{Binding Data.CbbItems}" />
+											  ItemsSource="{Binding Data.TestCollection}" />
 								</StackPanel>
 							</StackPanel>
 
 							<!-- Button Elevated -->
-							<TextBlock Text="Button Elevated" />
-							<StackPanel Spacing="20">
+							<TextBlock Text="Button Elevated" Foreground="Pink" />
+							<StackPanel Spacing="20" Padding="20">
 
-								<Button Style="{StaticResource NeumorphicSmallElevatedButtonStyle}" Content="Enabled" />
-								<Button Style="{StaticResource NeumorphicMediumElevatedButtonStyle}" Content="Icon Enabled">
+								<d:Button Style="{StaticResource NeumorphicSmallElevatedButtonStyle}" Content="Enabled" />
+								<d:Button Style="{StaticResource NeumorphicMediumElevatedButtonStyle}" Content="Icon Enabled">
 									<um:ControlExtensions.Icon>
 										<PathIcon Data="M12 6.85714H6.85714V12H5.14286V6.85714H0V5.14286H5.14286V0H6.85714V5.14286H12V6.85714Z" />
 									</um:ControlExtensions.Icon>
-								</Button>
-								<Button Style="{StaticResource NeumorphicLargeElevatedButtonStyle}" Content="Icon Enabled">
+								</d:Button>
+								<d:Button Style="{StaticResource NeumorphicLargeElevatedButtonStyle}" Content="Icon Enabled">
 									<um:ControlExtensions.Icon>
 										<PathIcon Data="M12 6.85714H6.85714V12H5.14286V6.85714H0V5.14286H5.14286V0H6.85714V5.14286H12V6.85714Z" />
 									</um:ControlExtensions.Icon>
-								</Button>
+								</d:Button>
 
 								<Button Style="{StaticResource NeumorphicSmallElevatedButtonStyle}"
 										Content="Disabled"
 										IsEnabled="False" />
-								<Button Style="{StaticResource NeumorphicMediumElevatedButtonStyle}"
-										Content="Icon Disabled"
-										IsEnabled="False">
+								<d:Button Style="{StaticResource NeumorphicMediumElevatedButtonStyle}"
+										  Content="Icon Disabled"
+										  IsEnabled="False">
 									<um:ControlExtensions.Icon>
 										<PathIcon Data="M12 6.85714H6.85714V12H5.14286V6.85714H0V5.14286H5.14286V0H6.85714V5.14286H12V6.85714Z" />
 									</um:ControlExtensions.Icon>
-								</Button>
-								<Button Style="{StaticResource NeumorphicLargeElevatedButtonStyle}"
-										Content="Icon Disabled"
-										IsEnabled="False">
+								</d:Button>
+								<d:Button Style="{StaticResource NeumorphicLargeElevatedButtonStyle}"
+										  Content="Icon Disabled"
+										  IsEnabled="False">
 									<um:ControlExtensions.Icon>
 										<PathIcon Data="M12 6.85714H6.85714V12H5.14286V6.85714H0V5.14286H5.14286V0H6.85714V5.14286H12V6.85714Z" />
 									</um:ControlExtensions.Icon>
-								</Button>
+								</d:Button>
 
 							</StackPanel>
 
 							<!-- Button Filled -->
-							<TextBlock Text="Button Filled" />
+							<TextBlock Text="Button Filled" Foreground="Pink" />
 							<StackPanel Spacing="20">
 
 								<Button Style="{StaticResource NeumorphicSmallFilledButtonStyle}" Content="Enabled" />
@@ -198,7 +224,7 @@
 							</StackPanel>
 
 							<!-- FAB -->
-							<TextBlock Text="FAB" />
+							<TextBlock Text="FAB" Foreground="Pink" />
 							<StackPanel Spacing="20" Orientation="Horizontal">
 
 								<Button Style="{StaticResource NeumorphicFabSmallStyle}" Content="Small">
@@ -220,7 +246,7 @@
 							</StackPanel>
 
 							<!-- ToggleButton -->
-							<TextBlock Text="ToggleButton" />
+							<TextBlock Text="ToggleButton" Foreground="Pink" />
 							<StackPanel Spacing="20">
 								<ToggleButton Style="{StaticResource NeumorphicToggleButtonStyle}">
 									<ToggleButton.Content>
@@ -300,7 +326,7 @@
 							</StackPanel>
 
 							<!-- IconButton -->
-							<TextBlock Text="IconButton" />
+							<TextBlock Text="IconButton" Foreground="Pink" />
 							<StackPanel Spacing="30">
 								<StackPanel Spacing="20" Orientation="Horizontal">
 									<Button Style="{StaticResource NeumorphicIconButtonStyle}">
@@ -346,7 +372,7 @@
 							</StackPanel>
 
 							<!-- RadioButton -->
-							<TextBlock Text="RadioButton" />
+							<TextBlock Text="RadioButton" Foreground="Pink" />
 							<StackPanel Orientation="Horizontal" Spacing="16">
 								<StackPanel Spacing="20">
 									<RadioButton GroupName="NeumorphicRadioButton_GroupeEnabled"
@@ -372,7 +398,7 @@
 							</StackPanel>
 
 							<!-- CheckBox -->
-							<TextBlock Text="CheckBox" />
+							<TextBlock Text="CheckBox" Foreground="Pink" />
 							<StackPanel Orientation="Horizontal" Spacing="16">
 								<StackPanel Spacing="20">
 									<CheckBox Content="Label" Style="{StaticResource NeumorphicCheckBoxStyle}" />
@@ -400,7 +426,7 @@
 							</StackPanel>
 
 							<!-- Chips -->
-							<TextBlock Text="Chips" />
+							<TextBlock Text="Chips" Foreground="Pink" />
 							<StackPanel Spacing="30">
 								<StackPanel Spacing="20" Orientation="Horizontal">
 
@@ -510,7 +536,7 @@
 				</smtx:XamlDisplay>-->
 
 							<!-- ToggleSwitch -->
-							<TextBlock Text="ToggleSwitch" />
+							<TextBlock Text="fixme: ToggleSwitch" Foreground="Pink" />
 							<StackPanel Spacing="20" Orientation="Vertical">
 								<ToggleSwitch Style="{StaticResource NeumorphicToggleSwitchStyle}" />
 								<ToggleSwitch Style="{StaticResource NeumorphicToggleSwitchStyle}">
@@ -552,11 +578,12 @@
 							</StackPanel>
 
 							<!-- TabBar -->
-							<TextBlock Text="TabBar" />
-							<StackPanel Spacing="16">
+							<TextBlock Text="TabBar" Foreground="Pink" />
+							<StackPanel Spacing="24" Orientation="Vertical">
 
-								<StackPanel Spacing="70" Orientation="Vertical">
-									<utu:TabBar SelectedIndex="1" Style="{StaticResource NeumorphicTopTabBarStyle}">
+								<StackPanel Spacing="70" Background="Pink">
+									<utu:TabBar SelectedIndex="1"
+												Style="{StaticResource NeumorphicTopTabBarStyle}">
 										<utu:TabBar.Items>
 											<utu:TabBarItem Content="HOME">
 												<utu:TabBarItem.Icon>
@@ -570,18 +597,13 @@
 											</utu:TabBarItem>
 										</utu:TabBar.Items>
 									</utu:TabBar>
-
 									<utu:TabBar SelectedIndex="1" Style="{StaticResource NeumorphicTopTabBarStyle}">
 										<utu:TabBar.Items>
 											<utu:TabBarItem Content="HOME" />
-
 											<utu:TabBarItem Content="SUPPORT" />
-
 											<utu:TabBarItem Content="ABOUT" />
-
 										</utu:TabBar.Items>
 									</utu:TabBar>
-
 									<utu:TabBar SelectedIndex="1" Style="{StaticResource NeumorphicTopTabBarStyle}">
 										<utu:TabBar.Items>
 											<utu:TabBarItem>
@@ -599,10 +621,10 @@
 													<FontIcon Glyph="&#xE946;" />
 												</utu:TabBarItem.Icon>
 											</utu:TabBarItem>
-
 										</utu:TabBar.Items>
 									</utu:TabBar>
-
+								</StackPanel>
+								<StackPanel Spacing="70">
 									<utu:TabBar SelectedIndex="1" Style="{StaticResource NeumorphicBottomTabBarStyle}">
 										<utu:TabBar.Items>
 											<utu:TabBarItem Content="HOME">
@@ -622,7 +644,6 @@
 											</utu:TabBarItem>
 										</utu:TabBar.Items>
 									</utu:TabBar>
-
 									<utu:TabBar SelectedIndex="1" Style="{StaticResource NeumorphicVerticalTabBarStyle}">
 										<utu:TabBar.Items>
 											<utu:TabBarItem Content="HOME">
@@ -642,6 +663,8 @@
 											</utu:TabBarItem>
 										</utu:TabBar.Items>
 									</utu:TabBar>
+								</StackPanel>
+								<StackPanel Spacing="70">
 
 									<utu:TabBar SelectedIndex="1" Style="{StaticResource NeumorphicBottomTabBarStyle}">
 										<utu:TabBar.Items>
@@ -650,7 +673,6 @@
 											<utu:TabBarItem Content="ABOUT" />
 										</utu:TabBar.Items>
 									</utu:TabBar>
-
 									<utu:TabBar SelectedIndex="1" Style="{StaticResource NeumorphicBottomTabBarStyle}">
 										<utu:TabBar.Items>
 											<utu:TabBarItem>
@@ -706,6 +728,7 @@
 										</utu:TabBar.Items>
 									</utu:TabBar>
 								</StackPanel>
+								
 							</StackPanel>
 
 						</StackPanel>

@@ -46,9 +46,15 @@ public partial class ShadowContainer
 		var surfaceWidth = e.Info.Width;
 		var surfaceHeight = e.Info.Height;
 
-		var pixelRatio = surfaceWidth / (float)_shadowHost.Width;
+		var pixelRatio = surfaceWidth / (float)_shadowHost.ActualWidth;
 		var width = (float)_currentContent.ActualWidth;
 		var height = (float)_currentContent.ActualHeight;
+
+		if (_shadowHost.Width != _shadowHost.ActualWidth ||
+			_shadowHost.Height != _shadowHost.ActualHeight)
+		{
+			return;
+		}
 
 		var background = GetBackgroundColor(Background);
 		if (background is { A: 0 })
@@ -139,7 +145,7 @@ public partial class ShadowContainer
 	{
 		return background switch
 		{
-			SolidColorBrush scb => scb.Color,
+			SolidColorBrush scb => scb.Color with { A = (byte)(scb.Color.A * scb.Opacity) },
 
 			null => default(Color?),
 			_ => throw new NotSupportedException($"Invalid background brush type: {background.GetType().Name}")

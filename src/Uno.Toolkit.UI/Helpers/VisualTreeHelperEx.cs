@@ -235,6 +235,12 @@ namespace Uno.Toolkit.UI
 					if (shape.Fill is not null) yield return $"Fill={FormatBrush(shape.Fill)}";
 					if (shape.Stroke is not null) yield return $"Stroke={FormatBrush(shape.Stroke)}*{shape.StrokeThickness}px";
 				}
+				else
+				{
+					if (TryGetDpValue<Brush>(x, "Foreground", out var foreground) && foreground != null) yield return $"Foreground={FormatBrush(foreground)}";
+					if (TryGetDpValue<Brush>(x, "Background", out var background) && background != null) yield return $"Background={FormatBrush(background)}";
+
+				}
 				if (TryGetDpValue<CornerRadius>(x, "CornerRadius", out var cr)) yield return $"CornerRadius={FormatCornerRadius(cr)}";
 				if (TryGetDpValue<Thickness>(x, "Margin", out var margin)) yield return $"Margin={FormatThickness(margin)}";
 				if (TryGetDpValue<Thickness>(x, "Padding", out var padding)) yield return $"Padding={FormatThickness(padding)}";

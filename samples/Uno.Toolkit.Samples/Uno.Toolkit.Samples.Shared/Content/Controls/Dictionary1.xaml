@@ -1,9 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					xmlns:um="using:Uno.Material">
+					xmlns:um="using:Uno.Material"
+					mc:Ignorable="d">
 
 	<!--#region Shadow ThemeDictionaries-->
 	<ResourceDictionary.ThemeDictionaries>
@@ -60,198 +63,642 @@
 
 			<!-- TextBox -->
 			<utu:ShadowCollection x:Key="TextBoxShadows">
-				<utu:Shadow OffsetX="4" OffsetY="4" BlurRadius="8" Opacity="0.4" Spread="0" IsInner="True" Color="{StaticResource ShadeShadowColor2}" />
-				<utu:Shadow OffsetX="-4" OffsetY="-4" BlurRadius="8" Opacity="0.4" Spread="0" IsInner="True" Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow OffsetX="4"
+							OffsetY="4"
+							BlurRadius="8"
+							Opacity="0.4"
+							Spread="0"
+							IsInner="True"
+							Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow OffsetX="-4"
+							OffsetY="-4"
+							BlurRadius="8"
+							Opacity="0.4"
+							Spread="0"
+							IsInner="True"
+							Color="{StaticResource LightShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<!-- ToggleButton -->
 			<utu:ShadowCollection x:Key="ToggleButtonShadows">
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-2" OffsetY="-2" Opacity="0.8" Spread="0" Color="{StaticResource LightShadowColor4}" />
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="2" OffsetY="2" Opacity="0.8" Spread="0" Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="-2"
+							OffsetY="-2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="2"
+							OffsetY="2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<!-- IconButton -->
 			<utu:ShadowCollection x:Key="IconButtonShadows">
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-2" OffsetY="-2" Opacity="0.8" Spread="0" Color="{StaticResource LightShadowColor4}" />
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="2" OffsetY="2" Opacity="0.8" Spread="0" Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="-2"
+							OffsetY="-2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="2"
+							OffsetY="2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<!-- CheckBox -->
 			<utu:ShadowCollection x:Key="NeumorphicCheckBoxShadows">
-				<utu:Shadow OffsetX="-1" OffsetY="-1" BlurRadius="4" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor2}" IsInner="False" />
-				<utu:Shadow OffsetX="1" OffsetY="1" BlurRadius="4" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor2}" IsInner="False" />
+				<utu:Shadow OffsetX="-1"
+							OffsetY="-1"
+							BlurRadius="4"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}"
+							IsInner="False" />
+				<utu:Shadow OffsetX="1"
+							OffsetY="1"
+							BlurRadius="4"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}"
+							IsInner="False" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="NeumorphicCheckBoxStateShadows">
-				<utu:Shadow OffsetX="0" OffsetY="0" BlurRadius="8" Opacity="1" Spread="8" Color="{ThemeResource PrimaryColor}" IsInner="False" />
+				<utu:Shadow OffsetX="0"
+							OffsetY="0"
+							BlurRadius="8"
+							Opacity="1"
+							Spread="8"
+							Color="{ThemeResource PrimaryColor}"
+							IsInner="False" />
 			</utu:ShadowCollection>
 
 			<!-- RadioButton -->
 			<utu:ShadowCollection x:Key="NeumorphicRadioButtonShadows">
-				<utu:Shadow OffsetX="-1" OffsetY="-1" BlurRadius="4" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor2}" IsInner="False" />
-				<utu:Shadow OffsetX="1" OffsetY="1" BlurRadius="4" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor2}" IsInner="False" />
+				<utu:Shadow OffsetX="-1"
+							OffsetY="-1"
+							BlurRadius="4"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}"
+							IsInner="False" />
+				<utu:Shadow OffsetX="1"
+							OffsetY="1"
+							BlurRadius="4"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}"
+							IsInner="False" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="NeumorphicRadioButtonStateShadows">
-				<utu:Shadow OffsetX="0" OffsetY="0" BlurRadius="8" Opacity="1" Spread="8" Color="{ThemeResource PrimaryColor}" IsInner="False" />
+				<utu:Shadow OffsetX="0"
+							OffsetY="0"
+							BlurRadius="8"
+							Opacity="1"
+							Spread="8"
+							Color="{ThemeResource PrimaryColor}"
+							IsInner="False" />
 			</utu:ShadowCollection>
 
 			<!-- ComboBox -->
 			<utu:ShadowCollection x:Key="ComboboxShadows">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<!-- TabBar -->
 			<utu:ShadowCollection x:Key="TabBarShadows">
-				<utu:Shadow BlurRadius="48" IsInner="False" OffsetX="-8" OffsetY="-16" Opacity="0.4" Spread="4" Color="{StaticResource LightShadowColor4}" />
-				<utu:Shadow BlurRadius="32" IsInner="False" OffsetX="8" OffsetY="8" Opacity="0.4" Spread="4" Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="48"
+							IsInner="False"
+							OffsetX="-8"
+							OffsetY="-16"
+							Opacity="0.4"
+							Spread="4"
+							Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="32"
+							IsInner="False"
+							OffsetX="8"
+							OffsetY="8"
+							Opacity="0.4"
+							Spread="4"
+							Color="{StaticResource ShadeShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ContentTabBarShadows">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="4" Color="{StaticResource LightShadowColor4}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="4" Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="4"
+							Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.6"
+							Spread="4"
+							Color="{StaticResource ShadeShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<!-- TabBarItem -->
 			<utu:ShadowCollection x:Key="TabBarItemShadows">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor4}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FabTabBarItemShadows">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="8" OffsetY="8" Opacity="0.2" Spread="0" Color="{StaticResource LightShadowColor7}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-8" OffsetY="-8" Opacity="0.4" Spread="0" Color="{StaticResource MediumShadowColor7}" />
-				<utu:Shadow BlurRadius="20" IsInner="False" OffsetX="12" OffsetY="12" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor7}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="8"
+							OffsetY="8"
+							Opacity="0.2"
+							Spread="0"
+							Color="{StaticResource LightShadowColor7}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-8"
+							OffsetY="-8"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource MediumShadowColor7}" />
+				<utu:Shadow BlurRadius="20"
+							IsInner="False"
+							OffsetX="12"
+							OffsetY="12"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor7}" />
 			</utu:ShadowCollection>
 
 			<!-- Elevated Button Shadows -->
 			<utu:ShadowCollection x:Key="ElevatedNormal">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor2}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ElevatedHovered">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.5" Spread="0" Color="{StaticResource LightShadowColor4}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.5" Spread="0" Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ElevatedPressed">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor4}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ElevatedDisabled">
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="-1" OffsetY="-1" Opacity="0.5" Spread="0" Color="{StaticResource LightShadowColor3}" />
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="1" OffsetY="1" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor3}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource LightShadowColor3}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor3}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ElevatedFocused">
-				<utu:Shadow BlurRadius="48" IsInner="True" OffsetX="0" OffsetY="0" Opacity="0.24" Spread="0" Color="{StaticResource ShadeShadowColor4}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor4}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="48"
+							IsInner="True"
+							OffsetX="0"
+							OffsetY="0"
+							Opacity="0.24"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<!-- Filled Button Shadows -->
 			<utu:ShadowCollection x:Key="FilledNormal">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor5}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor5}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor5}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor5}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FilledHovered">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.5" Spread="0" Color="{StaticResource LightShadowColor5}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.7" Spread="0" Color="{StaticResource ShadeShadowColor5}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource LightShadowColor5}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.7"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor5}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FilledPressed">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor5}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor5}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor5}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor5}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FilledDisabled">
 				<!-- Had to manually change some properties to achieve a closer look to figma design -->
-				<utu:Shadow BlurRadius="1" IsInner="False" OffsetX="0" OffsetY="-1" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor5}" />
-				<utu:Shadow BlurRadius="1" IsInner="False" OffsetX="1" OffsetY="1" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor5}" />
+				<utu:Shadow BlurRadius="1"
+							IsInner="False"
+							OffsetX="0"
+							OffsetY="-1"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor5}" />
+				<utu:Shadow BlurRadius="1"
+							IsInner="False"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor5}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FilledFocused">
-				<utu:Shadow BlurRadius="48" IsInner="True" OffsetX="0" OffsetY="0" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor5}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor5}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor5}" />
+				<utu:Shadow BlurRadius="48"
+							IsInner="True"
+							OffsetX="0"
+							OffsetY="0"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor5}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor5}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor5}" />
 			</utu:ShadowCollection>
 
 			<!-- FAB -->
 			<utu:ShadowCollection x:Key="FabShadows">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="8" OffsetY="8" Opacity="0.2" Spread="0" Color="{StaticResource LightShadowColor7}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-8" OffsetY="-8" Opacity="0.4" Spread="0" Color="{StaticResource MediumShadowColor7}" />
-				<utu:Shadow BlurRadius="20" IsInner="False" OffsetX="12" OffsetY="12" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor7}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="8"
+							OffsetY="8"
+							Opacity="0.2"
+							Spread="0"
+							Color="{StaticResource LightShadowColor7}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-8"
+							OffsetY="-8"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource MediumShadowColor7}" />
+				<utu:Shadow BlurRadius="20"
+							IsInner="False"
+							OffsetX="12"
+							OffsetY="12"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor7}" />
 			</utu:ShadowCollection>
 
 			<!-- Chips -->
 			<utu:ShadowCollection x:Key="ChipsShadows">
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="-1" OffsetY="-1" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor2}" />
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="1" OffsetY="1" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ChipsShadowsSelected">
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="1" OffsetY="1" Opacity="0.9" Spread="0" Color="{StaticResource ShadeShadowColor6}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="0.9" Spread="0" Color="{StaticResource LightShadowColor6}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="0.9"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor6}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.9"
+							Spread="0"
+							Color="{StaticResource LightShadowColor6}" />
 			</utu:ShadowCollection>
 
 			<!-- Slider -->
 			<utu:ShadowCollection x:Key="SliderTrackRectShadows">
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="1" OffsetY="1" Opacity="1" Spread="0" Color="{StaticResource ShadeShadowColor9}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor9}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor9}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor9}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="SliderDecreaseRectShadows">
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="2" OffsetY="2" Opacity="1" Spread="0" Color="{StaticResource ShadeShadowColor10}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-2" OffsetY="-2" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor10}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="2"
+							OffsetY="2"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor10}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-2"
+							OffsetY="-2"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor10}" />
 			</utu:ShadowCollection>
 
 			<SolidColorBrush x:Key="ThumbBackgroundDisabledBrush" Color="#4A4751" />
 
 			<utu:ShadowCollection x:Key="SliderThumbShadows">
-				<utu:Shadow BlurRadius="16" IsInner="True" OffsetX="0" OffsetY="0" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor11}" />
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="0" OffsetY="4" Opacity="0.18" Spread="0" Color="{StaticResource ShadeShadowColor11}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="True"
+							OffsetX="0"
+							OffsetY="0"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor11}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="0"
+							OffsetY="4"
+							Opacity="0.18"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor11}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="SliderThumbStateShadow">
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="0" OffsetY="0" Opacity="1" Spread="8" Color="{StaticResource PrimaryColor}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="0"
+							OffsetY="0"
+							Opacity="1"
+							Spread="8"
+							Color="{StaticResource PrimaryColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="SliderThumbDisabledShadow">
-				<utu:Shadow BlurRadius="1" IsInner="False" OffsetX="0" OffsetY="1" Opacity="0.24" Spread="0" Color="{StaticResource ShadeShadowColor11}" />
+				<utu:Shadow BlurRadius="1"
+							IsInner="False"
+							OffsetX="0"
+							OffsetY="1"
+							Opacity="0.24"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor11}" />
 			</utu:ShadowCollection>
 
 			<!-- ToggleSwitch -->
 			<utu:ShadowCollection x:Key="ToggleSwitchOffBorderShadows">
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="1" OffsetY="1" Opacity="1" Spread="2" Color="{StaticResource ShadeShadowColor2}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="0.8" Spread="4" Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="1"
+							Spread="2"
+							Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.8"
+							Spread="4"
+							Color="{StaticResource LightShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ToggleSwitchOnBorderShadows">
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="1" OffsetY="1" Opacity="1" Spread="2" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="0.6" Spread="2" Color="{StaticResource LightShadowColor8}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="1"
+							Spread="2"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.6"
+							Spread="2"
+							Color="{StaticResource LightShadowColor8}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ToggleSwitchKnobOffShadows">
-				<utu:Shadow BlurRadius="2" IsInner="False" OffsetX="2" OffsetY="2" Opacity="0.2" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="1" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="0.5" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-2" OffsetY="2" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor8}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="2" OffsetY="2" Opacity="0.8" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="False"
+							OffsetX="2"
+							OffsetY="2"
+							Opacity="0.2"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="1"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-2"
+							OffsetY="2"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor8}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="2"
+							OffsetY="2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ToggleSwitchKnobOnShadows">
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="-2" OffsetY="4" Opacity="0.8" Spread="0" Color="{StaticResource MediumShadowColor8}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="0" OffsetY="4" Opacity="0.25" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="1" OffsetY="0" Opacity="0.5" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="1" IsInner="False" OffsetX="-1" OffsetY="0" Opacity="1" Spread="1" Color="{StaticResource VariantShadowColor8}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="-2"
+							OffsetY="4"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource MediumShadowColor8}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="0"
+							OffsetY="4"
+							Opacity="0.25"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="0"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="1"
+							IsInner="False"
+							OffsetX="-1"
+							OffsetY="0"
+							Opacity="1"
+							Spread="1"
+							Color="{StaticResource VariantShadowColor8}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ToggleSwitchOnBorderDisabledShadows">
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="1" OffsetY="1" Opacity="1" Spread="2" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="0.6" Spread="2" Color="{StaticResource LightShadowColor8}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="1"
+							Spread="2"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.6"
+							Spread="2"
+							Color="{StaticResource LightShadowColor8}" />
 			</utu:ShadowCollection>
 
 		</ResourceDictionary>
@@ -300,197 +747,635 @@
 
 			<!-- TextBox -->
 			<utu:ShadowCollection x:Key="TextBoxShadows">
-				<utu:Shadow OffsetX="4" OffsetY="4" BlurRadius="4" Opacity="0.4" Spread="0" IsInner="True" Color="{StaticResource ShadeShadowColor}" />
-				<utu:Shadow OffsetX="-4" OffsetY="-4" BlurRadius="4" Opacity="0.4" Spread="0" IsInner="True" Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow OffsetX="4"
+							OffsetY="4"
+							BlurRadius="4"
+							Opacity="0.4"
+							Spread="0"
+							IsInner="True"
+							Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow OffsetX="-4"
+							OffsetY="-4"
+							BlurRadius="4"
+							Opacity="0.4"
+							Spread="0"
+							IsInner="True"
+							Color="{StaticResource LightShadowColor}" />
 			</utu:ShadowCollection>
 
 			<!-- ToggleButton -->
 			<utu:ShadowCollection x:Key="ToggleButtonShadows">
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-2" OffsetY="-2" Opacity="0.8" Spread="0" Color="{StaticResource LightShadowColor4}" />
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="2" OffsetY="2" Opacity="0.8" Spread="0" Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="-2"
+							OffsetY="-2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="2"
+							OffsetY="2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<!-- IconButton -->
 			<utu:ShadowCollection x:Key="IconButtonShadows">
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="-2" OffsetY="-2" Opacity="0.8" Spread="0" Color="{StaticResource LightShadowColor4}" />
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="2" OffsetY="2" Opacity="0.8" Spread="0" Color="{StaticResource ShadeShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="-2"
+							OffsetY="-2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource LightShadowColor4}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="2"
+							OffsetY="2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor4}" />
 			</utu:ShadowCollection>
 
 			<!-- CheckBox -->
 			<utu:ShadowCollection x:Key="NeumorphicCheckBoxShadows">
-				<utu:Shadow OffsetX="-1" OffsetY="-1" BlurRadius="2" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor}" IsInner="False" />
-				<utu:Shadow OffsetX="1" OffsetY="1" BlurRadius="2" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor}" IsInner="False" />
+				<utu:Shadow OffsetX="-1"
+							OffsetY="-1"
+							BlurRadius="2"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}"
+							IsInner="False" />
+				<utu:Shadow OffsetX="1"
+							OffsetY="1"
+							BlurRadius="2"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}"
+							IsInner="False" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="NeumorphicCheckBoxStateShadows">
-				<utu:Shadow OffsetX="0" OffsetY="0" BlurRadius="8" Opacity="1" Spread="8" Color="{ThemeResource PrimaryColor}" IsInner="False" />
+				<utu:Shadow OffsetX="0"
+							OffsetY="0"
+							BlurRadius="8"
+							Opacity="1"
+							Spread="8"
+							Color="{ThemeResource PrimaryColor}"
+							IsInner="False" />
 			</utu:ShadowCollection>
 
 			<!-- RadioButton -->
 			<utu:ShadowCollection x:Key="NeumorphicRadioButtonShadows">
-				<utu:Shadow OffsetX="-1" OffsetY="-1" BlurRadius="2" Opacity="1" Spread="0" IsInner="False" Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow OffsetX="1" OffsetY="1" BlurRadius="2" Opacity="0.6" Spread="0" IsInner="False" Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow OffsetX="-1"
+							OffsetY="-1"
+							BlurRadius="2"
+							Opacity="1"
+							Spread="0"
+							IsInner="False"
+							Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow OffsetX="1"
+							OffsetY="1"
+							BlurRadius="2"
+							Opacity="0.6"
+							Spread="0"
+							IsInner="False"
+							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="NeumorphicRadioButtonStateShadows">
-				<utu:Shadow OffsetX="0" OffsetY="0" BlurRadius="8" Opacity="1" Spread="8" Color="{ThemeResource PrimaryColor}" IsInner="False" />
+				<utu:Shadow OffsetX="0"
+							OffsetY="0"
+							BlurRadius="8"
+							Opacity="1"
+							Spread="8"
+							Color="{ThemeResource PrimaryColor}"
+							IsInner="False" />
 			</utu:ShadowCollection>
 
 			<!-- ComboBox -->
 			<utu:ShadowCollection x:Key="ComboboxShadows">
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
 			</utu:ShadowCollection>
 
 			<!-- TabBar -->
 			<utu:ShadowCollection x:Key="TabBarShadows">
-				<utu:Shadow BlurRadius="48" IsInner="False" OffsetX="-8" OffsetY="-16" Opacity="0.6" Spread="0" Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow BlurRadius="32" IsInner="False" OffsetX="8" OffsetY="8" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="48"
+							IsInner="False"
+							OffsetX="-8"
+							OffsetY="-16"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="32"
+							IsInner="False"
+							OffsetX="8"
+							OffsetY="8"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ContentTabBarShadows">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 
 			<!-- TabBarItem -->
 			<utu:ShadowCollection x:Key="TabBarItemShadows">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FabTabBarItemShadows">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-8" OffsetY="-8" Opacity="0.08" Spread="0" Color="{StaticResource ShadeShadowColor7}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="8" OffsetY="8" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor7}" />
-				<utu:Shadow BlurRadius="20" IsInner="False" OffsetX="12" OffsetY="12" Opacity="0.4" Spread="0" Color="{StaticResource MediumShadowColor7}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-8"
+							OffsetY="-8"
+							Opacity="0.08"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor7}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="8"
+							OffsetY="8"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor7}" />
+				<utu:Shadow BlurRadius="20"
+							IsInner="False"
+							OffsetX="12"
+							OffsetY="12"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource MediumShadowColor7}" />
 			</utu:ShadowCollection>
 
 			<!-- Elevated Button Shadows -->
 			<utu:ShadowCollection x:Key="ElevatedNormal">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ElevatedHovered">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.5" Spread="0" Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.5" Spread="0" Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ElevatedPressed">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ElevatedDisabled">
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="-1" OffsetY="-1" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="1" OffsetY="1" Opacity="0.16" Spread="0" Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="0.16"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ElevatedFocused">
-				<utu:Shadow BlurRadius="48" IsInner="True" OffsetX="0" OffsetY="0" Opacity="0.24" Spread="0" Color="{StaticResource ShadeShadowColor}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.4" Spread="0" Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="48"
+							IsInner="True"
+							OffsetX="0"
+							OffsetY="0"
+							Opacity="0.24"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 
 			<!-- Filled Button Shadows -->
 			<utu:ShadowCollection x:Key="FilledNormal">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor2}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FilledHovered">
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.5" Spread="0" Color="{StaticResource LightShadowColor2}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.7" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.7"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FilledPressed">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FilledDisabled">
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="-1" OffsetY="-1" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}" />
 				<!-- Opacity of 16% seems closer to the Figma design. Original is 100% -->
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="1" OffsetY="1" Opacity="0.16" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="0.16"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="FilledFocused">
-				<utu:Shadow BlurRadius="48" IsInner="True" OffsetX="0" OffsetY="0" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="-4" OffsetY="-4" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor2}" />
-				<utu:Shadow BlurRadius="16" IsInner="False" OffsetX="4" OffsetY="4" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="48"
+							IsInner="True"
+							OffsetX="0"
+							OffsetY="0"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="False"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<!-- FAB -->
 			<utu:ShadowCollection x:Key="FabShadows">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-8" OffsetY="-8" Opacity="0.08" Spread="0" Color="{StaticResource ShadeShadowColor7}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="8" OffsetY="8" Opacity="0.4" Spread="0" Color="{StaticResource LightShadowColor7}" />
-				<utu:Shadow BlurRadius="20" IsInner="False" OffsetX="12" OffsetY="12" Opacity="0.4" Spread="0" Color="{StaticResource MediumShadowColor7}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-8"
+							OffsetY="-8"
+							Opacity="0.08"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor7}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="8"
+							OffsetY="8"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource LightShadowColor7}" />
+				<utu:Shadow BlurRadius="20"
+							IsInner="False"
+							OffsetX="12"
+							OffsetY="12"
+							Opacity="0.4"
+							Spread="0"
+							Color="{StaticResource MediumShadowColor7}" />
 			</utu:ShadowCollection>
 
 			<!-- Chips -->
 			<utu:ShadowCollection x:Key="ChipsShadows">
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="-1" OffsetY="-1" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="1" OffsetY="1" Opacity="0.6" Spread="0" Color="{StaticResource ShadeShadowColor}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ChipsShadowsSelected">
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="4" OffsetY="4" Opacity="1" Spread="0" Color="{StaticResource ShadeShadowColor2}" />
-				<utu:Shadow BlurRadius="8" IsInner="True" OffsetX="-4" OffsetY="-4" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor2}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor2}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="True"
+							OffsetX="-4"
+							OffsetY="-4"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor2}" />
 			</utu:ShadowCollection>
 
 			<!-- Slider -->
 			<utu:ShadowCollection x:Key="SliderTrackRectShadows">
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="1" OffsetY="1" Opacity="1" Spread="0" Color="{StaticResource ShadeShadowColor9}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="0.8" Spread="0" Color="{StaticResource LightShadowColor9}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor9}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource LightShadowColor9}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="SliderDecreaseRectShadows">
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="2" OffsetY="2" Opacity="1" Spread="0" Color="{StaticResource ShadeShadowColor10}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-2" OffsetY="-2" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor10}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="2"
+							OffsetY="2"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor10}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-2"
+							OffsetY="-2"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor10}" />
 			</utu:ShadowCollection>
 
 			<SolidColorBrush x:Key="ThumbBackgroundDisabledBrush" Color="#D1D1D4" />
 
 			<utu:ShadowCollection x:Key="SliderThumbShadows">
-				<utu:Shadow BlurRadius="16" IsInner="True" OffsetX="0" OffsetY="0" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor11}" />
-				<utu:Shadow BlurRadius="4" IsInner="False" OffsetX="0" OffsetY="4" Opacity="0.18" Spread="0" Color="{StaticResource ShadeShadowColor11}" />
+				<utu:Shadow BlurRadius="16"
+							IsInner="True"
+							OffsetX="0"
+							OffsetY="0"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor11}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="False"
+							OffsetX="0"
+							OffsetY="4"
+							Opacity="0.18"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor11}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="SliderThumbStateShadow">
-				<utu:Shadow BlurRadius="8" IsInner="False" OffsetX="0" OffsetY="0" Opacity="1" Spread="8" Color="{StaticResource PrimaryColor}" />
+				<utu:Shadow BlurRadius="8"
+							IsInner="False"
+							OffsetX="0"
+							OffsetY="0"
+							Opacity="1"
+							Spread="8"
+							Color="{StaticResource PrimaryColor}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="SliderThumbDisabledShadow">
-				<utu:Shadow BlurRadius="1" IsInner="False" OffsetX="0" OffsetY="1" Opacity="0.24" Spread="0" Color="{StaticResource ShadeShadowColor11}" />
+				<utu:Shadow BlurRadius="1"
+							IsInner="False"
+							OffsetX="0"
+							OffsetY="1"
+							Opacity="0.24"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor11}" />
 			</utu:ShadowCollection>
 
 			<!-- ToggleSwitch -->
 			<utu:ShadowCollection x:Key="ToggleSwitchOffBorderShadows">
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="1" OffsetY="1" Opacity="0.6" Spread="2" Color="{StaticResource ShadeShadowColor5}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="0.75" Spread="4" Color="{StaticResource LightShadowColor5}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="0.6"
+							Spread="2"
+							Color="{StaticResource ShadeShadowColor5}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.75"
+							Spread="4"
+							Color="{StaticResource LightShadowColor5}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ToggleSwitchOnBorderShadows">
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="0.6" Spread="0" Color="{StaticResource LightShadowColor6}" />
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="1" OffsetY="1" Opacity="1" Spread="2" Color="{StaticResource ShadeShadowColor6}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.6"
+							Spread="0"
+							Color="{StaticResource LightShadowColor6}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="1"
+							Opacity="1"
+							Spread="2"
+							Color="{StaticResource ShadeShadowColor6}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ToggleSwitchKnobOffShadows">
-				<utu:Shadow BlurRadius="2" IsInner="False" OffsetX="2" OffsetY="0" Opacity="0.2" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="1" IsInner="True" OffsetX="-1" OffsetY="-1" Opacity="0.5" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="-2" OffsetY="2" Opacity="1" Spread="0" Color="{StaticResource LightShadowColor8}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="2" OffsetY="2" Opacity="0.8" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="False"
+							OffsetX="2"
+							OffsetY="0"
+							Opacity="0.2"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="1"
+							IsInner="True"
+							OffsetX="-1"
+							OffsetY="-1"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="-2"
+							OffsetY="2"
+							Opacity="1"
+							Spread="0"
+							Color="{StaticResource LightShadowColor8}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="2"
+							OffsetY="2"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ToggleSwitchKnobOnShadows">
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="-2" OffsetY="4" Opacity="0.8" Spread="0" Color="{StaticResource LightShadowColor6}" />
-				<utu:Shadow BlurRadius="4" IsInner="True" OffsetX="0" OffsetY="0" Opacity="0.25" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="1" OffsetY="0" Opacity="0.5" Spread="0" Color="{StaticResource ShadeShadowColor8}" />
-				<utu:Shadow BlurRadius="1" IsInner="False" OffsetX="-1" OffsetY="0" Opacity="1" Spread="1" Color="{StaticResource ShadeShadowColor6}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="-2"
+							OffsetY="4"
+							Opacity="0.8"
+							Spread="0"
+							Color="{StaticResource LightShadowColor6}" />
+				<utu:Shadow BlurRadius="4"
+							IsInner="True"
+							OffsetX="0"
+							OffsetY="0"
+							Opacity="0.25"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="1"
+							OffsetY="0"
+							Opacity="0.5"
+							Spread="0"
+							Color="{StaticResource ShadeShadowColor8}" />
+				<utu:Shadow BlurRadius="1"
+							IsInner="False"
+							OffsetX="-1"
+							OffsetY="0"
+							Opacity="1"
+							Spread="1"
+							Color="{StaticResource ShadeShadowColor6}" />
 			</utu:ShadowCollection>
 
 			<utu:ShadowCollection x:Key="ToggleSwitchOnBorderDisabledShadows">
-				<utu:Shadow BlurRadius="2" IsInner="True" OffsetX="0.5" OffsetY="0.5" Opacity="0.15" Spread="2" Color="{StaticResource ShadeShadowColor5}" />
+				<utu:Shadow BlurRadius="2"
+							IsInner="True"
+							OffsetX="0.5"
+							OffsetY="0.5"
+							Opacity="0.15"
+							Spread="2"
+							Color="{StaticResource ShadeShadowColor5}" />
 			</utu:ShadowCollection>
 
 		</ResourceDictionary>
@@ -560,6 +1445,8 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="TextBox">
 					<utu:ShadowContainer x:Name="RootPanel"
+										 CornerRadius="{TemplateBinding CornerRadius}"
+										 Background="{TemplateBinding Background}"
 										 Shadows="{ThemeResource TextBoxShadows}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
@@ -635,8 +1522,6 @@
 						<Grid x:Name="Root"
 							  Width="{TemplateBinding Width}"
 							  MinHeight="{TemplateBinding MinHeight}"
-							  CornerRadius="{TemplateBinding CornerRadius}"
-							  Background="{TemplateBinding Background}"
 							  Padding="{TemplateBinding Padding}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
@@ -737,7 +1622,10 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="PasswordBox">
-					<utu:ShadowContainer x:Name="RootPanel" Shadows="{ThemeResource TextBoxShadows}">
+					<utu:ShadowContainer x:Name="RootPanel"
+										 CornerRadius="{TemplateBinding CornerRadius}"
+										 Background="{TemplateBinding Background}"
+										 Shadows="{ThemeResource TextBoxShadows}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
@@ -812,8 +1700,6 @@
 						<Grid x:Name="Root"
 							  Width="{TemplateBinding Width}"
 							  MinHeight="{TemplateBinding MinHeight}"
-							  CornerRadius="{TemplateBinding CornerRadius}"
-							  Background="{TemplateBinding Background}"
 							  Padding="{TemplateBinding Padding}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
@@ -919,7 +1805,10 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ComboBox">
-					<utu:ShadowContainer x:Name="RootPanel" Shadows="{ThemeResource ComboboxShadows}">
+					<utu:ShadowContainer x:Name="RootPanel"
+										 Background="{TemplateBinding Background}"
+										 CornerRadius="4"
+										 Shadows="{ThemeResource ComboboxShadows}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
@@ -987,8 +1876,6 @@
 
 						<Grid x:Name="RootGrid"
 							  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-							  Background="{TemplateBinding Background}"
-							  CornerRadius="4"
 							  Width="{TemplateBinding Width}"
 							  MinHeight="{TemplateBinding MinHeight}">
 
@@ -1139,16 +2026,15 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
-					<utu:ShadowContainer x:Name="RootPanel">
+					<utu:ShadowContainer x:Name="RootPanel"
+										 Background="{TemplateBinding Background}"
+										 CornerRadius="{TemplateBinding CornerRadius}"
+										 Shadows="{ThemeResource ElevatedNormal}">
 
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 
-								<VisualState x:Name="Normal">
-									<VisualState.Setters>
-										<Setter Target="RootPanel.Shadows" Value="{ThemeResource ElevatedNormal}" />
-									</VisualState.Setters>
-								</VisualState>
+								<VisualState x:Name="Normal" />
 
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
@@ -1165,9 +2051,9 @@
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
 										<Setter Target="RootPanel.Shadows" Value="{ThemeResource ElevatedDisabled}" />
-										<Setter Target="RootGrid.Background" Value="{StaticResource OnSurfaceDisabledBrush}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{StaticResource OnSurfaceLowBrush}" />
-										<Setter Target="IconPresenter.Foreground" Value="{StaticResource OnSurfaceLowBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource OnSurfaceDisabledBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceLowBrush}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource OnSurfaceLowBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -1187,8 +2073,6 @@
 						</VisualStateManager.VisualStateGroups>
 
 						<Grid x:Name="RootGrid"
-							  Background="{TemplateBinding Background}"
-							  CornerRadius="{TemplateBinding CornerRadius}"
 							  Height="{TemplateBinding Height}"
 							  Width="{TemplateBinding Width}"
 							  MinHeight="{TemplateBinding MinWidth}">
@@ -1275,7 +2159,10 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
-					<utu:ShadowContainer x:Name="RootPanel" Shadows="{ThemeResource FilledNormal}">
+					<utu:ShadowContainer x:Name="RootPanel"
+										 Background="{TemplateBinding Background}"
+										 CornerRadius="{TemplateBinding CornerRadius}"
+										 Shadows="{ThemeResource FilledNormal}">
 
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
@@ -1297,9 +2184,9 @@
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
 										<Setter Target="RootPanel.Shadows" Value="{ThemeResource FilledDisabled}" />
-										<Setter Target="RootGrid.Background" Value="{StaticResource OnSurfaceDisabledBrush}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{StaticResource OnPrimaryLowBrush}" />
-										<Setter Target="IconPresenter.Foreground" Value="{StaticResource OnPrimaryLowBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource OnSurfaceDisabledBrush}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnPrimaryLowBrush}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource OnPrimaryLowBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -1318,8 +2205,6 @@
 						</VisualStateManager.VisualStateGroups>
 
 						<Grid x:Name="RootGrid"
-							  Background="{TemplateBinding Background}"
-							  CornerRadius="{TemplateBinding CornerRadius}"
 							  Height="{TemplateBinding Height}"
 							  Width="{TemplateBinding Width}"
 							  MinHeight="{TemplateBinding MinWidth}">
@@ -1414,13 +2299,16 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
-					<utu:ShadowContainer x:Name="RootPanel" Shadows="{ThemeResource FabShadows}">
+					<utu:ShadowContainer x:Name="RootPanel"
+										 CornerRadius="{TemplateBinding CornerRadius}"
+										 Background="{TemplateBinding Background}"
+										 Shadows="{ThemeResource FabShadows}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="RootGrid.Background" Value="{ThemeResource OnPrimaryContainerHoverBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource OnPrimaryContainerHoverBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
@@ -1428,7 +2316,7 @@
 
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="RootGrid.Background" Value="{ThemeResource OnPrimaryContainerPressedBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource OnPrimaryContainerPressedBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -1437,7 +2325,7 @@
 
 								<VisualState x:Name="Focused">
 									<VisualState.Setters>
-										<Setter Target="RootGrid.Background" Value="{ThemeResource OnPrimaryContainerFocusedBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource OnPrimaryContainerFocusedBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
@@ -1447,8 +2335,6 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 						<Grid x:Name="RootGrid"
-							  CornerRadius="{TemplateBinding CornerRadius}"
-							  Background="{TemplateBinding Background}"
 							  MinHeight="{TemplateBinding MinHeight}"
 							  MinWidth="{TemplateBinding MinWidth}">
 
@@ -1727,19 +2613,18 @@
 						</Grid.ColumnDefinitions>
 
 						<utu:ShadowContainer x:Name="StateLayer"
+											 CornerRadius="{TemplateBinding CornerRadius}"
 											 Shadows="{ThemeResource NeumorphicCheckBoxStateShadows}"
 											 Opacity="0">
-							<Grid Height="{ThemeResource CheckBoxCheckAreaSize}"
-								  Width="{ThemeResource CheckBoxCheckAreaSize}"
-								  CornerRadius="{TemplateBinding CornerRadius}" />
+							<Grid Height="{ThemeResource CheckBoxCheckAreaSize}" Width="{ThemeResource CheckBoxCheckAreaSize}" />
 						</utu:ShadowContainer>
 
-						<utu:ShadowContainer Shadows="{ThemeResource NeumorphicCheckBoxShadows}">
+						<utu:ShadowContainer Background="{TemplateBinding Background}"
+											 CornerRadius="{TemplateBinding CornerRadius}"
+											 Shadows="{ThemeResource NeumorphicCheckBoxShadows}">
 							<Grid x:Name="CheckBoxContainer"
 								  Height="{ThemeResource CheckBoxCheckAreaSize}"
-								  Width="{ThemeResource CheckBoxCheckAreaSize}"
-								  CornerRadius="{TemplateBinding CornerRadius}"
-								  Background="{TemplateBinding Background}">
+								  Width="{ThemeResource CheckBoxCheckAreaSize}">
 
 								<Path x:Name="HyphenGlyph"
 									  Data="{ThemeResource CheckBoxHyphenGlyphPathData}"
@@ -1806,13 +2691,16 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ToggleButton">
-					<utu:ShadowContainer x:Name="RootPanel" Shadows="{ThemeResource ToggleButtonShadows}">
+					<utu:ShadowContainer x:Name="RootPanel"
+										 Background="{ThemeResource PrimaryBrush}"
+										 CornerRadius="{TemplateBinding CornerRadius}"
+										 Shadows="{ThemeResource ToggleButtonShadows}">
 
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal">
 									<VisualState.Setters>
-										<Setter Target="RootGrid.Background" Value="{ThemeResource SurfaceBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource SurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerOver">
@@ -1820,7 +2708,7 @@
 										<Setter Target="ContentPresenter.Visibility" Value="Visible" />
 										<Setter Target="AlternateContentPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="HoverOverlay.Opacity" Value="1" />
-										<Setter Target="RootGrid.Background" Value="{ThemeResource SurfaceBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource SurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
@@ -1828,7 +2716,7 @@
 										<Setter Target="ContentPresenter.Visibility" Value="Visible" />
 										<Setter Target="AlternateContentPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="PressedOverlay.Opacity" Value="1" />
-										<Setter Target="RootGrid.Background" Value="{ThemeResource SurfaceBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource SurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
@@ -1836,8 +2724,8 @@
 										<Setter Target="ContentPresenter.Visibility" Value="Visible" />
 										<Setter Target="AlternateContentPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceLowBrush}" />
-										<Setter Target="RootPanel.Opacity" Value="0.38" />
-										<Setter Target="RootGrid.Background" Value="{ThemeResource SurfaceBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource SurfaceBrush}" />
+										<Setter Target="RootGrid.Opacity" Value="0.38" />
 									</VisualState.Setters>
 								</VisualState>
 
@@ -1883,8 +2771,6 @@
 						</VisualStateManager.VisualStateGroups>
 
 						<Grid x:Name="RootGrid"
-							  Background="{ThemeResource PrimaryBrush}"
-							  CornerRadius="{TemplateBinding CornerRadius}"
 							  Width="{TemplateBinding MinWidth}"
 							  Height="{TemplateBinding MinHeight}">
 							<!-- Ellipse for PointedOver State -->
@@ -2026,17 +2912,14 @@
 						</Grid.ColumnDefinitions>
 
 						<utu:ShadowContainer x:Name="StateLayer"
+											 CornerRadius="10"
 											 Shadows="{ThemeResource NeumorphicRadioButtonStateShadows}"
 											 Opacity="0">
-							<Grid Height="20"
-								  Width="20"
-								  CornerRadius="10" />
+							<Grid Height="20" Width="20" />
 						</utu:ShadowContainer>
 
-						<utu:ShadowContainer Shadows="{ThemeResource NeumorphicRadioButtonShadows}">
-							<Grid Height="20"
-								  Width="20"
-								  CornerRadius="10">
+						<utu:ShadowContainer CornerRadius="10" Shadows="{ThemeResource NeumorphicRadioButtonShadows}">
+							<Grid Height="20" Width="20">
 								<Ellipse x:Name="OuterEllipse"
 										 Height="20"
 										 Width="20"
@@ -2089,7 +2972,10 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
-					<utu:ShadowContainer x:Name="RootPanel" Shadows="{ThemeResource IconButtonShadows}">
+					<utu:ShadowContainer x:Name="RootPanel"
+										 Background="{TemplateBinding Background}"
+										 CornerRadius="{TemplateBinding CornerRadius}"
+										 Shadows="{ThemeResource IconButtonShadows}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
@@ -2116,8 +3002,6 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 						<Grid x:Name="RootGrid"
-							  Background="{TemplateBinding Background}"
-							  CornerRadius="{TemplateBinding CornerRadius}"
 							  Width="{TemplateBinding MinWidth}"
 							  Height="{TemplateBinding MinHeight}">
 							<!-- Ellipse for PointerOver State -->
@@ -2172,7 +3056,9 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Chip">
-					<utu:ShadowContainer x:Name="RootPanel">
+					<utu:ShadowContainer x:Name="RootPanel"
+										 Background="{TemplateBinding Background}"
+										 CornerRadius="{TemplateBinding CornerRadius}">
 
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
@@ -2180,7 +3066,7 @@
 									<VisualState.Setters>
 										<Setter Target="RootPanel.Shadows" Value="{ThemeResource ChipsShadows}" />
 										<Setter Target="StateOverlay.Background" Value="Transparent" />
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SurfaceBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource SurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 
@@ -2188,21 +3074,21 @@
 									<VisualState.Setters>
 										<Setter Target="RootPanel.Shadows" Value="{ThemeResource ChipsShadows}" />
 										<Setter Target="StateOverlay.Background" Value="{ThemeResource OnSurfaceHoverBrush}" />
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SurfaceBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource SurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="RootPanel.Shadows" Value="{ThemeResource ChipsShadows}" />
 										<Setter Target="StateOverlay.Background" Value="{ThemeResource OnSurfacePressedBrush}" />
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SurfaceBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource SurfaceBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
 										<Setter Target="RootPanel.Shadows" Value="{ThemeResource ChipsShadows}" />
 										<Setter Target="RootPanel.Opacity" Value="0.38" />
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SurfaceBrush}" />
+										<Setter Target="RootPanel.Background" Value="{ThemeResource SurfaceBrush}" />
 										<Setter Target="StateOverlay.Background" Value="{ThemeResource OnSurfaceDisabledBrush}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceLowBrush}" />
 										<Setter Target="PART_RemoveButton.Foreground" Value="{ThemeResource OnSurfaceLowBrush}" />
@@ -2243,10 +3129,8 @@
 						</VisualStateManager.VisualStateGroups>
 
 						<Grid x:Name="GridRoot"
-							  CornerRadius="{TemplateBinding CornerRadius}"
 							  Height="32"
-							  Margin="4"
-							  Background="{TemplateBinding Background}">
+							  Margin="4">
 							<Border x:Name="StateOverlay"
 									Background="Transparent"
 									CornerRadius="{TemplateBinding CornerRadius}" />
@@ -2320,17 +3204,21 @@
 	<Style x:Key="NeumorphicBaseTabBarStyle"
 		   BasedOn="{StaticResource DefaultTabBarStyle}"
 		   TargetType="utu:TabBar">
-		<Setter Property="Width" Value="300" />
-		<Setter Property="Height" Value="80" />
-		<Setter Property="CornerRadius" Value="16,16,0,0" />
-		<Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+		<Setter Property="MinWidth" Value="300" />
+		<Setter Property="MinHeight" Value="80" />
+		<!-- workaround: for uneven cr bug -->
+		<Setter Property="CornerRadius" Value="16" />
+		<!--<Setter Property="CornerRadius" Value="16,16,0,0" />-->
+		<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
 		<Setter Property="um:ControlExtensions.TintedBackground" Value="{x:Null}" />
 		<Setter Property="um:ControlExtensions.IsTintEnabled" Value="False" />
 		<Setter Property="SelectionIndicatorPresenterStyle" Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBar">
-					<utu:ShadowContainer Shadows="{ThemeResource TabBarShadows}">
+					<utu:ShadowContainer Background="{TemplateBinding Background}"
+										 CornerRadius="{TemplateBinding CornerRadius}"
+										 Shadows="{ThemeResource TabBarShadows}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="OrientationStates">
 								<VisualState x:Name="Horizontal">
@@ -2360,9 +3248,7 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-						<Grid x:Name="TabBarGrid"
-							  Background="{TemplateBinding Background}"
-							  CornerRadius="{TemplateBinding CornerRadius}">
+						<Grid x:Name="TabBarGrid" CornerRadius="{TemplateBinding CornerRadius}">
 							<utu:TabBarSelectionIndicatorPresenter x:Name="BelowSelectionIndicatorPresenter"
 																   Padding="{TemplateBinding Padding}"
 																   AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
@@ -2375,8 +3261,8 @@
 																   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
 																   Visibility="Collapsed" />
 							<ItemsPresenter x:Name="TabBarItemsPresenter"
-											Width="{TemplateBinding Width}"
-											Height="{TemplateBinding Height}"
+											Width="{TemplateBinding MinWidth}"
+											Height="{TemplateBinding MinHeight}"
 											Padding="{TemplateBinding Padding}" />
 							<utu:TabBarSelectionIndicatorPresenter x:Name="AboveSelectionIndicatorPresenter"
 																   Padding="{TemplateBinding Padding}"
@@ -2399,8 +3285,8 @@
 	<Style x:Key="NeumorphicVerticalTabBarStyle"
 		   BasedOn="{StaticResource NeumorphicBaseTabBarStyle}"
 		   TargetType="utu:TabBar">
-		<Setter Property="Width" Value="80" />
-		<Setter Property="Height" Value="320" />
+		<Setter Property="MinWidth" Value="80" />
+		<Setter Property="MinHeight" Value="320" />
 		<Setter Property="CornerRadius" Value="40" />
 		<Setter Property="HorizontalAlignment" Value="Center" />
 		<Setter Property="MinWidth" Value="{ThemeResource NavigationTabBarWidthOrHeight}" />
@@ -2428,10 +3314,10 @@
 	<Style x:Key="NeumorphicTopTabBarStyle"
 		   BasedOn="{StaticResource DefaultTabBarStyle}"
 		   TargetType="utu:TabBar">
-		<Setter Property="Width" Value="300" />
-		<Setter Property="Height" Value="80" />
+		<Setter Property="MinWidth" Value="300" />
+		<Setter Property="MinHeight" Value="80" />
 		<Setter Property="CornerRadius" Value="40" />
-		<Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+		<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
 		<Setter Property="um:ControlExtensions.TintedBackground" Value="{x:Null}" />
 		<Setter Property="um:ControlExtensions.IsTintEnabled" Value="False" />
 		<Setter Property="VerticalAlignment" Value="Top" />
@@ -2442,7 +3328,9 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBar">
-					<utu:ShadowContainer Shadows="{ThemeResource ContentTabBarShadows}">
+					<utu:ShadowContainer Background="{TemplateBinding Background}"
+										 CornerRadius="{TemplateBinding CornerRadius}"
+										 Shadows="{ThemeResource ContentTabBarShadows}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="OrientationStates">
 								<VisualState x:Name="Horizontal">
@@ -2472,9 +3360,8 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-						<Grid x:Name="TabBarGrid"
-							  Background="{TemplateBinding Background}"
-							  CornerRadius="{TemplateBinding CornerRadius}">
+
+						<Grid x:Name="TabBarGrid" CornerRadius="{TemplateBinding CornerRadius}">
 							<utu:TabBarSelectionIndicatorPresenter x:Name="BelowSelectionIndicatorPresenter"
 																   Padding="{TemplateBinding Padding}"
 																   AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
@@ -2487,8 +3374,8 @@
 																   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
 																   Visibility="Collapsed" />
 							<ItemsPresenter x:Name="TabBarItemsPresenter"
-											Width="{TemplateBinding Width}"
-											Height="{TemplateBinding Height}"
+											Width="{TemplateBinding MinWidth}"
+											Height="{TemplateBinding MinHeight}"
 											Padding="{TemplateBinding Padding}" />
 							<utu:TabBarSelectionIndicatorPresenter x:Name="AboveSelectionIndicatorPresenter"
 																   Padding="{TemplateBinding Padding}"
@@ -2500,7 +3387,6 @@
 																   Opacity="0"
 																   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
 																   Style="{TemplateBinding SelectionIndicatorPresenterStyle}" />
-
 						</Grid>
 					</utu:ShadowContainer>
 				</ControlTemplate>
@@ -2536,13 +3422,12 @@
 								<RowDefinition x:Name="ContentRow" Height="Auto" />
 							</Grid.RowDefinitions>
 
-							<utu:ShadowContainer x:Name="IconShadowPanel">
+							<utu:ShadowContainer x:Name="IconShadowPanel" CornerRadius="{ThemeResource NavigationTabBarItemActiveIndicatorCornerRadius}">
 								<Grid x:Name="ActiveIndicator"
 									  Width="{ThemeResource NavigationTabBarItemActiveIndicatorWidth}"
 									  Height="{ThemeResource NavigationTabBarItemActiveIndicatorHeight}"
 									  HorizontalAlignment="Center"
-									  VerticalAlignment="Center"
-									  CornerRadius="{ThemeResource NavigationTabBarItemActiveIndicatorCornerRadius}">
+									  VerticalAlignment="Center">
 
 									<Border Width="{ThemeResource NavigationTabBarItemIconHeight}"
 											Height="{ThemeResource NavigationTabBarItemIconHeight}"
@@ -2644,16 +3529,16 @@
 										<Setter Target="ContentShadowPanel.Shadows" Value="{ThemeResource TabBarItemShadows}" />
 
 										<!-- This is not working properly -->
-										<!--<Setter Target="ActiveIndicator.Background" Value="{ThemeResource OnSurfaceVariantHoverBrush}" />
-										<Setter Target="ShadowContentPresenterGrid.Background" Value="{ThemeResource OnSurfaceVariantHoverBrush}" />-->
+										<!--<Setter Target="IconShadowPanel.Background" Value="{ThemeResource OnSurfaceVariantHoverBrush}" />
+										<Setter Target="ContentShadowPanel.Background" Value="{ThemeResource OnSurfaceVariantHoverBrush}" />-->
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="IconShadowPanel.Shadows" Value="{ThemeResource TabBarItemShadows}" />
 										<Setter Target="ContentShadowPanel.Shadows" Value="{ThemeResource TabBarItemShadows}" />
-										<Setter Target="ActiveIndicator.Background" Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
-										<Setter Target="ShadowContentPresenterGrid.Background" Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
+										<Setter Target="IconShadowPanel.Background" Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
+										<Setter Target="ContentShadowPanel.Background" Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Selected">
@@ -2672,8 +3557,8 @@
 										<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
 										<Setter Target="ShadowContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
-										<Setter Target="ActiveIndicator.Background" Value="{ThemeResource OnSurfaceVariantHoverBrush}" />
-										<Setter Target="ShadowContentPresenterGrid.Background" Value="{ThemeResource OnSurfaceVariantHoverBrush}" />
+										<Setter Target="IconShadowPanel.Background" Value="{ThemeResource OnSurfaceVariantHoverBrush}" />
+										<Setter Target="ContentShadowPanel.Background" Value="{ThemeResource OnSurfaceVariantHoverBrush}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<VisualState x:Name="PressedSelected">
@@ -2683,8 +3568,8 @@
 										<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
 										<Setter Target="ShadowContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
-										<Setter Target="ActiveIndicator.Background" Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
-										<Setter Target="ShadowContentPresenterGrid.Background" Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
+										<Setter Target="IconShadowPanel.Background" Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
+										<Setter Target="ContentShadowPanel.Background" Value="{ThemeResource OnSurfaceVariantPressedBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -2692,7 +3577,7 @@
 								<VisualState x:Name="Enabled" />
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="ActiveIndicator.Background" Value="Transparent" />
+										<Setter Target="IconShadowPanel.Background" Value="Transparent" />
 										<Setter Target="Icon.Foreground" Value="{ThemeResource OnSurfaceVariantColor}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource OnSurfaceVariantColor}" />
 										<Setter Target="ShadowContentPresenter.Foreground" Value="{ThemeResource OnSurfaceVariantColor}" />
@@ -2717,7 +3602,7 @@
 										<Setter Target="ContentPresenter.VerticalAlignment" Value="Center" />
 										<Setter Target="ShadowContentPresenterGrid.Height" Value="40" />
 										<Setter Target="ShadowContentPresenterGrid.Width" Value="70" />
-										<Setter Target="ShadowContentPresenterGrid.CornerRadius" Value="20" />
+										<Setter Target="ContentShadowPanel.CornerRadius" Value="20" />
 										<Setter Target="ShadowContentPresenter.HorizontalAlignment" Value="Center" />
 										<Setter Target="ShadowContentPresenter.VerticalAlignment" Value="Center" />
 										<Setter Target="IconRow.Height" Value="0" />
@@ -2754,6 +3639,7 @@
 						  CornerRadius="{TemplateBinding CornerRadius}">
 
 						<utu:ShadowContainer x:Name="ShadowPanel"
+											 CornerRadius="34"
 											 HorizontalAlignment="Center"
 											 VerticalAlignment="Center">
 
@@ -2856,7 +3742,7 @@
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="ShadowPanel.Shadows" Value="{ThemeResource TabBarItemShadows}" />
-										<Setter Target="ContentGrid.Background" Value="{ThemeResource PrimaryPressedBrush}" />
+										<Setter Target="ShadowPanel.Background" Value="{ThemeResource PrimaryPressedBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Selected">
@@ -2871,7 +3757,7 @@
 										<Setter Target="ShadowPanel.Shadows" Value="{ThemeResource TabBarItemShadows}" />
 										<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
-										<Setter Target="ContentGrid.Background" Value="{ThemeResource PrimaryHoverBrush}" />
+										<Setter Target="ShadowPanel.Background" Value="{ThemeResource PrimaryHoverBrush}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<VisualState x:Name="PressedSelected">
@@ -2879,7 +3765,7 @@
 										<Setter Target="ShadowPanel.Shadows" Value="{ThemeResource TabBarItemShadows}" />
 										<Setter Target="Icon.Foreground" Value="{ThemeResource PrimaryBrush}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource PrimaryBrush}" />
-										<Setter Target="ContentGrid.Background" Value="{ThemeResource PrimaryPressedBrush}" />
+										<Setter Target="ShadowPanel.Background" Value="{ThemeResource PrimaryPressedBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -2939,7 +3825,9 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarItem">
-					<utu:ShadowContainer Shadows="{ThemeResource FabTabBarItemShadows}">
+					<utu:ShadowContainer CornerRadius="{TemplateBinding CornerRadius}"
+										 Background="{TemplateBinding Background}"
+										 Shadows="{ThemeResource FabTabBarItemShadows}">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
@@ -2969,9 +3857,7 @@
 						</VisualStateManager.VisualStateGroups>
 						<Grid x:Name="Root"
 							  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-							  VerticalAlignment="{TemplateBinding VerticalAlignment}"
-							  CornerRadius="{TemplateBinding CornerRadius}"
-							  Background="{TemplateBinding Background}">
+							  VerticalAlignment="{TemplateBinding VerticalAlignment}">
 
 							<Grid>
 								<StackPanel x:Name="ContentPanel"
@@ -3465,8 +4351,8 @@
 									<VisualState.Setters>
 										<Setter Target="KnobOn.Margin" Value="0" />
 										<Setter Target="KnobOff.Margin" Value="0" />
-										<Setter Target="KnobOn.CornerRadius" Value="{ThemeResource LargeThumbCornerRadius}" />
-										<Setter Target="KnobOff.CornerRadius" Value="{ThemeResource LargeThumbCornerRadius}" />
+										<Setter Target="ShadowKnobOn.CornerRadius" Value="{ThemeResource LargeThumbCornerRadius}" />
+										<Setter Target="ShadowKnobOff.CornerRadius" Value="{ThemeResource LargeThumbCornerRadius}" />
 										<Setter Target="SwitchKnobOn.Margin" Value="26,0,0,0" />
 										<Setter Target="OnIconPresenterBorder.Margin" Value="0" />
 										<Setter Target="SwitchKnobOnShadow.Visibility" Value="Visible" />
@@ -3524,7 +4410,7 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SwitchKnobBounds" Storyboard.TargetProperty="Background">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource OnSurfaceDisabledBrush}" />
 										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="KnobOff" Storyboard.TargetProperty="Background">
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ShadowKnobOff" Storyboard.TargetProperty="Background">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource OnSurfaceLowBrush}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="KnobOffBorder" Storyboard.TargetProperty="Opacity">
@@ -3533,7 +4419,7 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="KnobOnBorder" Storyboard.TargetProperty="Opacity">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="0.25" />
 										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="KnobOn" Storyboard.TargetProperty="Background">
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ShadowKnobOn" Storyboard.TargetProperty="Background">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SurfaceBrush}" />
 										</ObjectAnimationUsingKeyFrames>
 										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="KnobOn"
@@ -3789,10 +4675,9 @@
 								  BorderThickness="1"
 								  BorderBrush="{ThemeResource OutlineVariantBrush}"
 								  HorizontalAlignment="Center">
-								<utu:ShadowContainer Shadows="{ThemeResource ToggleSwitchOffBorderShadows}">
+								<utu:ShadowContainer CornerRadius="{ThemeResource SwitchKnobRadius}" Shadows="{ThemeResource ToggleSwitchOffBorderShadows}">
 									<Grid Width="{ThemeResource SwitchKnobWidth}"
 										  Height="{ThemeResource SwitchKnobHeight}"
-										  CornerRadius="{ThemeResource SwitchKnobRadius}"
 										  HorizontalAlignment="Center" />
 								</utu:ShadowContainer>
 							</Grid>
@@ -3807,10 +4692,11 @@
 								  BorderBrush="{ThemeResource OutlineVariantBrush}"
 								  HorizontalAlignment="Center"
 								  Opacity="0">
-								<utu:ShadowContainer x:Name="OnShadowPanel" Shadows="{ThemeResource ToggleSwitchOnBorderShadows}">
+								<utu:ShadowContainer x:Name="OnShadowPanel"
+													 CornerRadius="{ThemeResource SwitchKnobRadius}"
+													 Shadows="{ThemeResource ToggleSwitchOnBorderShadows}">
 									<Grid Width="{ThemeResource SwitchKnobWidth}"
 										  Height="{ThemeResource SwitchKnobHeight}"
-										  CornerRadius="{ThemeResource SwitchKnobRadius}"
 										  HorizontalAlignment="Center" />
 								</utu:ShadowContainer>
 							</Grid>
@@ -3830,7 +4716,10 @@
 									  HorizontalAlignment="Left">
 
 									<Border x:Name="KnobOnBorder">
-										<utu:ShadowContainer x:Name="ShadowKnobOn" Shadows="{ThemeResource ToggleSwitchKnobOnShadows}">
+										<utu:ShadowContainer x:Name="ShadowKnobOn"
+															 Background="{ThemeResource SurfaceBrush}"
+															 CornerRadius="12"
+															 Shadows="{ThemeResource ToggleSwitchKnobOnShadows}">
 											<!-- Knob On -->
 											<Border x:Name="KnobOn"
 													Opacity="0"
@@ -3838,9 +4727,7 @@
 													Height="{ThemeResource MediumThumbSize}"
 													Margin="{ThemeResource KnobOnMargin}"
 													VerticalAlignment="Center"
-													HorizontalAlignment="Left"
-													CornerRadius="12"
-													Background="{ThemeResource SurfaceBrush}" />
+													HorizontalAlignment="Left" />
 										</utu:ShadowContainer>
 									</Border>
 									<!-- On Icon -->
@@ -3873,16 +4760,17 @@
 									  HorizontalAlignment="Right">
 
 									<Border x:Name="KnobOffBorder">
-										<utu:ShadowContainer x:Name="ShadowKnobOff" Shadows="{ThemeResource ToggleSwitchKnobOffShadows}">
+										<utu:ShadowContainer x:Name="ShadowKnobOff"
+															 Background="{ThemeResource OnSurfaceVariantBrush}"
+															 CornerRadius="{Binding OffContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToggleSwitchOffContentToCornerRadius}}"
+															 Shadows="{ThemeResource ToggleSwitchKnobOffShadows}">
 											<!-- Knob Off -->
 											<Border x:Name="KnobOff"
-													Background="{ThemeResource OnSurfaceVariantBrush}"
 													Height="{Binding OffContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToggleSwitchOffContentToContentSize}}"
 													Width="{Binding OffContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToggleSwitchOffContentToContentSize}}"
 													Margin="{Binding OffContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToggleSwitchOffContentToContentMargin}}"
 													VerticalAlignment="Center"
-													HorizontalAlignment="Right"
-													CornerRadius="{Binding OffContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ToggleSwitchOffContentToCornerRadius}}" />
+													HorizontalAlignment="Right" />
 										</utu:ShadowContainer>
 									</Border>
 									<!-- Off Icon -->
