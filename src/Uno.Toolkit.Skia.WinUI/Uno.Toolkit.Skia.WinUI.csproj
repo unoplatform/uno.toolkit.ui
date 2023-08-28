@@ -10,6 +10,8 @@
 		<RootNamespace>Uno.Toolkit.Skia.WinUI</RootNamespace>
 		<PackageId>Uno.Toolkit.Skia.WinUI</PackageId>
 		<DefineConstants Condition="$(_IsWindowsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
+		<!-- Need to manually add NET6_0_OR_GREATER since MSBuild.Sdk.Extras/3.0.38 contains a bug that forcibly removes it -->
+		<DefineConstants Condition="$(TargetFramework.StartsWith('net6.0'))">$(DefineConstants);NET6_0_OR_GREATER</DefineConstants>
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
