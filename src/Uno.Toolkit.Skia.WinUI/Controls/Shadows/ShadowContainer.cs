@@ -46,7 +46,7 @@ public partial class ShadowContainer : ContentControl
 
 	public ShadowContainer()
 	{
-#if HAS_UNO_WINUI && !NET6_0_OR_GREATER
+#if HAS_UNO_WINUI && !(NET6_0_OR_GREATER || NETSTANDARD2_0)
 		throw new NotSupportedException("ShadowContainer doesn't support Xamarin + WinUI considering moving to .NET6 or greater.");
 #else
 		Shadows = new();

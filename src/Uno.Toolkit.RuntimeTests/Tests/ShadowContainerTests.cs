@@ -33,7 +33,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	#if HAS_UNO_WINUI && !NET6_0_OR_GREATER
+	#if HAS_UNO_WINUI && !(NET6_0_OR_GREATER || NETSTANDARD2_0)
 	[Ignore("Disabled because Skia.Sharp doesn't support Xamarin+WinUI.")]
 	#endif
 	internal partial class ShadowContainerTests
