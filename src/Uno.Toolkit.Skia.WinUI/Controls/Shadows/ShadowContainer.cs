@@ -392,11 +392,18 @@ public partial class ShadowContainer : ContentControl
 			Border border => border.CornerRadius,
 			Grid grid => grid.CornerRadius,
 			StackPanel stackpanel => stackpanel.CornerRadius,
+			Rectangle border => new CornerRadius(border.RadiusY == 0 ? 0 : (border.RadiusX / border.RadiusY) * (border.Width > border.Height ? border.Width : border.Height)),
+			Ellipse ellipse => new CornerRadius(ellipse.Height == 0 ? 0 : (ellipse.Width / ellipse.Height / 2) * (ellipse.Width > ellipse.Height ? ellipse.Width : ellipse.Height)),
 
 			Shape => null,
-			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty") is { } dp
+			DependencyObject @do =>
+				@do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty") is { } dp
 				? (CornerRadius)@do.GetValue(dp)
-				: null,
+				:
+					//@do.FindDependencyPropertyUsingReflection<CornerRadius>("RadiusXProperty") is { } radiusX
+					//? (CornerRadius)new CornerRadius((double)@do.GetValue(radiusX))
+					//:
+				null,
 			_ => null,
 		};
 	}
