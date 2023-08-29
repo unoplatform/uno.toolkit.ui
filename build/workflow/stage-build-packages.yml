@@ -1,5 +1,6 @@
 jobs:
 - job: Build_Packages
+  timeoutInMinutes: 90
   pool:
     vmImage: windows-2022
 
@@ -13,7 +14,6 @@ jobs:
 
     - task: MSBuild@1
       displayName: 'Build solution'
-      retryCountOnTaskFailure: 3
       inputs:
         solution: src/Uno.Toolkit.sln
         configuration: Release
