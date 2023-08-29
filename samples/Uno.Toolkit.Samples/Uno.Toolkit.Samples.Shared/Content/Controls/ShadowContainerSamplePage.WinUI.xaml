@@ -81,21 +81,9 @@
 						Spread="0"
 						Color="#8c76ff" />
 		</utu:ShadowCollection>
-		<utu:ShadowCollection x:Key="InnerShadows">
-			<utu:Shadow BlurRadius="30"
-						OffsetX="5"
-						OffsetY="5"
-						Opacity="1"
-						Spread="-5"
-						IsInner="True"
-						Color="#f85977"/>
-			<utu:Shadow BlurRadius="30"
-						OffsetX="-5"
-						OffsetY="-5"
-						Opacity="1"
-						Spread="-5"
-						IsInner="True"
-						Color="#67e5ad"/>
+		<utu:ShadowCollection x:Key="TestRedGreenShadows">
+			<utu:Shadow OffsetX="-5" OffsetY="-5"  BlurRadius="10" Spread="0" Color="Red" Opacity="1" IsInner="True" />
+			<utu:Shadow OffsetX="4" OffsetY="4" BlurRadius="10" Spread="0" Color="Green" Opacity="1" IsInner="True" />
 		</utu:ShadowCollection>
 	</Page.Resources>
 
@@ -106,6 +94,7 @@
 					<ScrollViewer HorizontalScrollMode="Disabled">
 						<StackPanel Spacing="24">
 
+							<!-- Calculator -->
 							<StackPanel>
 								<TextBlock Text="Many colored shadows" Style="{StaticResource TitleTextBlockStyle}" />
 								<TextBlock Text="You can add as many shadows as you like. You can also dynamically change the shadow properties." Style="{StaticResource BodyTextBlockStyle}" />
@@ -218,39 +207,8 @@
 								</utu:ShadowContainer>
 							</StackPanel>
 
+							<!-- Purple-ish Panel -->
 							<StackPanel>
-
-								<utu:ShadowContainer Margin="0,60,0,0"
-														 Background="{StaticResource UnoColor}"
-														 Shadows="{StaticResource NeumorphismBulging}">
-									<Rectangle Height="100"
-									   Width="100"
-									   
-									   RadiusX="50" 
-									   RadiusY="50" />
-								</utu:ShadowContainer>
-								
-								<utu:ShadowContainer Margin="0,60,0,0"
-														 Background="{StaticResource UnoColor}"
-														 Shadows="{StaticResource NeumorphismBulging}">
-									<Ellipse Height="100"
-											   Width="100"/>
-								</utu:ShadowContainer>
-
-
-								<utu:ShadowContainer Background="LightGray" Shadows="{StaticResource InnerShadows}">
-									<Rectangle Height="100"
-										   Width="100"
-										   RadiusX="50" 
-										   RadiusY="50" />	
-								</utu:ShadowContainer>
-
-								<TextBlock Text="Ellipse" Foreground="Black" />
-								<utu:ShadowContainer Background="LightGray" Shadows="{StaticResource InnerShadows}">
-									<Ellipse Height="100"
-										   Width="100" />
-								</utu:ShadowContainer>
-								
 								<TextBlock Text="Enable neumorphism" Style="{StaticResource TitleTextBlockStyle}" />
 								<TextBlock Text="Being able to add several shadows enables you to create neumorphic designs." Style="{StaticResource BodyTextBlockStyle}" />
 
@@ -348,6 +306,57 @@
 													CornerRadius="20"
 													Background="Transparent"
 													Foreground="White" />
+										</utu:ShadowContainer>
+									</StackPanel>
+								</StackPanel>
+							</StackPanel>
+
+							<!-- Complex Shadow Shapes -->
+							<StackPanel Spacing="8">
+								<TextBlock Text="Complex Shadow Shapes" Style="{StaticResource TitleTextBlockStyle}" />
+
+								<StackPanel>
+									<TextBlock Text="Border 200x100 CR=10,50,10,50" />
+									<StackPanel Orientation="Horizontal">
+										<Border Width="200" Height="100" CornerRadius="10,50,10,50" Background="Blue" />
+										<utu:ShadowContainer Background="Blue" Shadows="{StaticResource TestRedGreenShadows}">
+											<Border Width="200" Height="100" CornerRadius="10,50,10,50" />
+										</utu:ShadowContainer>
+									</StackPanel>
+								</StackPanel>
+								<StackPanel>
+									<TextBlock Text="Rectangle 200x100 Radius=50,20" />
+									<StackPanel Orientation="Horizontal">
+										<Rectangle Width="200" Height="100" RadiusX="50" RadiusY="20" Fill="Blue" />
+										<utu:ShadowContainer Background="Blue" Shadows="{StaticResource TestRedGreenShadows}">
+											<Rectangle Width="200" Height="100" RadiusX="50" RadiusY="20" />
+										</utu:ShadowContainer>
+									</StackPanel>
+								</StackPanel>
+								<StackPanel>
+									<TextBlock Text="Rectangle 200x100 Radius=20,20" />
+									<StackPanel Orientation="Horizontal">
+										<Rectangle Width="200" Height="100" RadiusX="20" RadiusY="20" Fill="Blue" />
+										<utu:ShadowContainer Background="Blue" Shadows="{StaticResource TestRedGreenShadows}">
+											<Rectangle Width="200" Height="100" RadiusX="20" RadiusY="20" />
+										</utu:ShadowContainer>
+									</StackPanel>
+								</StackPanel>
+								<StackPanel>
+									<TextBlock Text="Ellipse 100x100" />
+									<StackPanel Orientation="Horizontal">
+										<Ellipse Width="100" Height="100" Fill="Blue" />
+										<utu:ShadowContainer Background="Blue" Shadows="{StaticResource TestRedGreenShadows}">
+											<Ellipse Width="100" Height="100" />
+										</utu:ShadowContainer>
+									</StackPanel>
+								</StackPanel>
+								<StackPanel>
+									<TextBlock Text="Ellipse 200x100" />
+									<StackPanel Orientation="Horizontal">
+										<Ellipse Width="200" Height="100" Fill="Blue" />
+										<utu:ShadowContainer Background="Blue" Shadows="{StaticResource TestRedGreenShadows}">
+											<Ellipse Width="200" Height="100" />
 										</utu:ShadowContainer>
 									</StackPanel>
 								</StackPanel>
