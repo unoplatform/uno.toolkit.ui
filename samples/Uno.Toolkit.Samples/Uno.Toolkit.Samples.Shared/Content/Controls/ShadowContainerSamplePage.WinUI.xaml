@@ -232,7 +232,6 @@
 									</utu:ShadowContainer>
 
 									<utu:ShadowContainer Margin="0,60,0,0"
-														 CornerRadius="20"
 														 Background="{StaticResource UnoColor}"
 														 Shadows="{StaticResource NeumorphismHollow}">
 										<TextBox Width="200"
@@ -244,8 +243,7 @@
 												 PlaceholderText="Hollow element"
 												 Text="Login" />
 									</utu:ShadowContainer>
-									<utu:ShadowContainer CornerRadius="20"
-														 Background="{StaticResource UnoColor}"
+									<utu:ShadowContainer Background="{StaticResource UnoColor}"
 														 Shadows="{StaticResource NeumorphismHollow}"
 														 Margin="0,15">
 										<TextBox Width="200"
@@ -259,7 +257,6 @@
 									</utu:ShadowContainer>
 
 									<utu:ShadowContainer Margin="0,30"
-														 CornerRadius="15"
 														 Background="{StaticResource UnoColor}"
 														 Shadows="{StaticResource NeumorphismBulging}">
 										<Button Width="200"
@@ -277,9 +274,7 @@
 												Orientation="Horizontal"
 												Spacing="16">
 
-										<utu:ShadowContainer Background="{StaticResource UnoColor}"
-															 CornerRadius="20"
-															 Shadows="{StaticResource NeumorphismRaising}">
+										<utu:ShadowContainer Background="{StaticResource UnoColor}" Shadows="{StaticResource NeumorphismRaising}">
 											<Button Content="Regular"
 													CornerRadius="20"
 													BorderThickness="0"
@@ -287,9 +282,7 @@
 													Foreground="White" />
 										</utu:ShadowContainer>
 
-										<utu:ShadowContainer CornerRadius="50"
-															 Background="{StaticResource UnoColor}"
-															 Shadows="{StaticResource NeumorphismRaising}">
+										<utu:ShadowContainer Background="{StaticResource UnoColor}" Shadows="{StaticResource NeumorphismRaising}">
 											<Button Content="Round"
 													Width="100"
 													Height="100"
@@ -299,9 +292,7 @@
 													Foreground="White" />
 										</utu:ShadowContainer>
 
-										<utu:ShadowContainer Background="{StaticResource UnoColor}"
-															 CornerRadius="20"
-															 Shadows="{StaticResource NeumorphismRaising}">
+										<utu:ShadowContainer Background="{StaticResource UnoColor}" Shadows="{StaticResource NeumorphismRaising}">
 											<Button Content="Bigger"
 													Height="60"
 													BorderThickness="0"

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SkiaSharp;
+using Uno.Disposables;
 using Windows.UI;
 
 namespace Uno.Toolkit.UI;
@@ -18,4 +19,10 @@ internal static class SKExtensions
 	);
 
 	public static SKColor ToSkiaColor(this Color x) => new(x.R, x.G, x.B, x.A);
+
+	public static IDisposable SnapshotState(this SKCanvas canvas)
+	{
+		canvas.Save();
+		return Disposable.Create(() => canvas.Restore());
+	}
 }
