@@ -324,7 +324,7 @@ public partial class ShadowContainer : ContentControl
 			_canvas.Margin = contentAsFE.Margin;
 			_canvas.Margin = contentAsFE.Margin;
 
-			if (contentAsFE.Margin == new Thickness(0, 0, 0, 0))
+			if (contentAsFE.Margin == Thickness.Empty)
 			{
 				left = -newHostSpreedWidth;
 				top = -newHostSpreedHeight;

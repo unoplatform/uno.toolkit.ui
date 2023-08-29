@@ -16,8 +16,6 @@
 		<Color x:Key="UnoPink">#f85977</Color>
 		<Color x:Key="UnoBlue">#159bff</Color>
 		<Color x:Key="UnoGreen">#67e5ad</Color>
-		<Color x:Key="purple">#6858d3</Color>
-		
 
 		<utu:Shadow x:Key="DefaultShadow"
 					BlurRadius="20"
@@ -266,6 +264,7 @@
 												BorderBrush="{StaticResource UnoColor}"
 												Content="Bulging element"
 												CornerRadius="15"
+												HorizontalAlignment="Center"
 												Background="Transparent"
 												Foreground="White" />
 									</utu:ShadowContainer>
@@ -306,12 +305,9 @@
 								</StackPanel>
 
 
-							 <!--Test ShadowContainer not stretching its content by default--> 
+							 <!--Test ShadowContainer stretching its content by default--> 
 
-							<StackPanel Background="{StaticResource UnoColor}"
-										HorizontalAlignment="Stretch"
-										BorderBrush="Black"
-										BorderThickness="1"
+							<StackPanel HorizontalAlignment="Stretch"
 										Spacing="50"
 										Padding="20">
 
@@ -391,10 +387,7 @@
 							</StackPanel>
 							
 							
-							<StackPanel Background="{StaticResource UnoColor}"
-										HorizontalAlignment="Stretch"
-										BorderBrush="Black"
-										BorderThickness="1"
+							<StackPanel HorizontalAlignment="Stretch"
 										Spacing="50"
 										Padding="20">
 								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
@@ -473,10 +466,7 @@
 								</utu:ShadowContainer>
 							</StackPanel>
 
-							<StackPanel Background="{StaticResource UnoColor}"
-										HorizontalAlignment="Stretch"
-										BorderBrush="Black"
-										BorderThickness="1"
+							<StackPanel HorizontalAlignment="Stretch"
 										Spacing="50"
 										Padding="20">
 
@@ -571,10 +561,7 @@
 							</StackPanel>
 
 
-							<StackPanel Background="{StaticResource UnoColor}"
-										HorizontalAlignment="Stretch"
-										BorderBrush="Black"
-										BorderThickness="1"
+							<StackPanel HorizontalAlignment="Stretch"
 										Spacing="50"
 										Padding="20">
 
@@ -677,10 +664,7 @@
 
 
 
-							<StackPanel Background="{StaticResource UnoColor}"
-										HorizontalAlignment="Stretch"
-										BorderBrush="Black"
-										BorderThickness="1"
+							<StackPanel HorizontalAlignment="Stretch"
 										Spacing="50"
 										Padding="20">
 
