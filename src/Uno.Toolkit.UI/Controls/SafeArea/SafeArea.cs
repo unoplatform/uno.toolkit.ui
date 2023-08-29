@@ -582,7 +582,7 @@ namespace Uno.Toolkit.UI
 #if __ANDROID__
 				// Dispatching on Android prevents issues where layout/render changes occurring
 				// during the initial loading of the view are not always properly picked up by the layouting/rendering engine.
-				owner.GetDispatcherCompat().Schedule(owner.InvalidateMeasure);
+				owner.GetDispatcherCompat().Schedule(()=> owner.InvalidateMeasure());
 #endif
 				if (_log.IsEnabled(LogLevel.Debug))
 				{

@@ -7,6 +7,11 @@
 		<PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
 		<PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.0" />
 		<PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+		<PackageVersion Include="SkiaSharp" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.Views.WinUI" Version="2.88.5" />
+		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.5" />
 		<PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
@@ -32,7 +37,7 @@
 		<PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.32" />
 		<PackageVersion Include="Xamarin.UITest" Version="4.1.0" />
 		<PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
-		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.5.0-2.final" />
-		<PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22518.1" />
+		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.7.0" />
+		<PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.4-preview1.23354.4" />
 	</ItemGroup>
 </Project>

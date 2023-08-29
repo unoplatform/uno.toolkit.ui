@@ -51,5 +51,9 @@
 		<Content Include="Assets\**\*.png" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Generated\" />
+	</ItemGroup>
+
 	<Import Project="xamlmerge-toolkit.props" />
 </Project>
