@@ -165,7 +165,16 @@ public partial class ShadowContainer
 		private SKRoundRect GetContentShape(ShadowPaintState state)
 		{
 			var rect = new SKRect(0, 0, (float)ContentWidth * state.PixelRatio, (float)ContentHeight * state.PixelRatio);
-			var shape = new SKRoundRect(rect, (float)CornerRadius.BottomRight * state.PixelRatio);
+			var shape = new SKRoundRect(rect);
+
+			if (IsCornerRadiusProportional(CornerRadius))
+			{
+				shape.SetRect(rect, (float)CornerRadius.BottomRight * state.PixelRatio, (float)CornerRadius.BottomRight * state.PixelRatio);
+			}
+			else
+			{
+				shape.SetRectRadii(rect, GetPointsFromCornerRadius(CornerRadius, state.PixelRatio));
+			}
 
 			return shape;
 		}
@@ -173,6 +182,24 @@ public partial class ShadowContainer
 		public void ClipToContent(ShadowPaintState state, SKCanvas canvas)
 		{
 			canvas.ClipRoundRect(GetContentShape(state), antialias: true);
+		}
+
+		public static bool IsCornerRadiusProportional(CornerRadius CornerRadius)
+		{
+			return (float)CornerRadius.TopLeft == (float)CornerRadius.TopRight &&
+						(float)CornerRadius.TopRight == (float)CornerRadius.BottomRight &&
+						(float)CornerRadius.BottomRight == (float)CornerRadius.BottomLeft;
+		}
+
+		public static SKPoint[] GetPointsFromCornerRadius(CornerRadius CornerRadius, float pixelRatio)
+		{
+			return new SKPoint[]
+						{
+							new SKPoint((float)CornerRadius.TopLeft * pixelRatio, (float)CornerRadius.TopLeft * pixelRatio),
+							new SKPoint((float)CornerRadius.TopRight * pixelRatio, (float)CornerRadius.TopRight * pixelRatio),
+							new SKPoint((float)CornerRadius.BottomRight * pixelRatio, (float)CornerRadius.BottomRight * pixelRatio),
+							new SKPoint((float)CornerRadius.BottomLeft * pixelRatio, (float)CornerRadius.BottomLeft * pixelRatio)
+						};
 		}
 
 		public void DrawContentBackground(ShadowPaintState state, SKCanvas canvas, Color color)
