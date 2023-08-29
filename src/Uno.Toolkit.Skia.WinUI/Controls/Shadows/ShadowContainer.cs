@@ -38,21 +38,12 @@ public partial class ShadowContainer : ContentControl
 
 	public ShadowContainer()
 	{
-<<<<<<< HEAD
-#if HAS_UNO_WINUI && !(NET6_0_OR_GREATER || NETSTANDARD2_0)
-		throw new NotSupportedException("ShadowContainer doesn't support Xamarin + WinUI considering moving to .NET6 or greater.");
-#else
-		Shadows = new();
-
-=======
->>>>>>> f633ff0 (fix(shadows): background handling)
 		DefaultStyleKey = typeof(ShadowContainer);
 
 		Shadows = new();
 
 		Loaded += ShadowContainerLoaded;
 		Unloaded += ShadowContainerUnloaded;
-#endif
 	}
 
 	private void ShadowContainerLoaded(object sender, RoutedEventArgs e)
@@ -253,70 +244,9 @@ public partial class ShadowContainer : ContentControl
 			return;
 		}
 
-<<<<<<< HEAD
-		if (newContent is FrameworkElement newElement)
-		{
-			_currentContent = newElement;
-			_currentContent.SizeChanged += OnContentSizeChanged;
-<<<<<<< HEAD
-
-			if (TryGetCornerRadius(newElement, out var cornerRadius))
-			{
-				var cornerRadiusProperty = newElement switch
-				{
-					Grid _ => Grid.CornerRadiusProperty,
-					StackPanel _ => StackPanel.CornerRadiusProperty,
-					ContentPresenter _ => ContentPresenter.CornerRadiusProperty,
-					Border _ => Border.CornerRadiusProperty,
-					Control _ => Control.CornerRadiusProperty,
-					RelativePanel _ => RelativePanel.CornerRadiusProperty,
-					_ => default,
-
-				};
-
-				if (cornerRadiusProperty != null)
-				{
-					_cornerRadiusChanged.Disposable = newElement.RegisterDisposablePropertyChangedCallback(
-						cornerRadiusProperty,
-						(s, dp) => OnCornerRadiusChanged(s, dp)
-					);
-				}
-			}
-
-			_cornerRadius = cornerRadius;
-=======
->>>>>>> f633ff0 (fix(shadows): background handling)
-		}
-
-		InvalidateShadows();
-		base.OnContentChanged(oldContent, newContent);
-	}
-
-	private void OnContentSizeChanged(object sender, SizeChangedEventArgs args)
-	{
-		if (args.NewSize.Width > 0 && args.NewSize.Height > 0)
-		{
-			UpdateCanvasSize(args.NewSize.Width, args.NewSize.Height, Shadows);
-			InvalidateShadows();
-		}
-	}
-
-	private void OnShadowSizeChanged()
-	{
-		if (_currentContent != null && _currentContent.ActualWidth > 0 && _currentContent.ActualHeight > 0)
-		{
-			UpdateCanvasSize(_currentContent.ActualWidth, _currentContent.ActualHeight, Shadows);
-		}
-	}
-
-	private void UpdateCanvasSize(double childWidth, double childHeight, ShadowCollection? shadows)
-	{
-		if (_currentContent == null || _canvas == null || _shadowHost == null)
-=======
 		var childWidth = contentAsFE.ActualWidth;
 		var childHeight = contentAsFE.ActualHeight;
 		if (childWidth == 0 || childHeight == 0)
->>>>>>> b57d6e6 (chore: adjust shadow corner impl)
 		{
 			return;
 		}
