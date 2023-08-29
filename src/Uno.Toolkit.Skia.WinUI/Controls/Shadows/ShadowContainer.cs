@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Shapes;
 using SkiaSharp.Views.Windows;
 using Uno.Disposables;
 
@@ -35,8 +36,6 @@ public partial class ShadowContainer : ContentControl
 
 	private SKXamlCanvas? _shadowHost;
 
-	private FrameworkElement? _currentContent;
-
 	public ShadowContainer()
 	{
 		DefaultStyleKey = typeof(ShadowContainer);
@@ -50,6 +49,9 @@ public partial class ShadowContainer : ContentControl
 	private void ShadowContainerLoaded(object sender, RoutedEventArgs e)
 	{
 		BindToPaintingProperties();
+
+		InvalidateCanvasLayout();
+		InvalidateShadows();
 	}
 
 	private void ShadowContainerUnloaded(object sender, RoutedEventArgs e)
@@ -61,19 +63,27 @@ public partial class ShadowContainer : ContentControl
 	{
 		var backgroundNestedDisposable = new SerialDisposable();
 		var shadowsNestedDisposable = new SerialDisposable();
+		var contentNestedDisposable = new SerialDisposable();
+
 		_eventSubscriptions.Disposable = new CompositeDisposable
 		{
 			this.RegisterDisposablePropertyChangedCallback(BackgroundProperty, OnBackgroundChanged),
-			this.RegisterDisposablePropertyChangedCallback(CornerRadiusProperty, OnInnerPropertyChanged),
 			this.RegisterDisposablePropertyChangedCallback(ShadowsProperty, OnShadowsChanged),
+			this.RegisterDisposablePropertyChangedCallback(ContentProperty, OnContentChanged),
 
 			backgroundNestedDisposable,
 			shadowsNestedDisposable,
+			contentNestedDisposable,
 		};
 
 		// manually proc inner registration once
 		BindToBackgroundMemberProperties(Background);
 		BindToShadowCollectionChanged(Shadows);
+		BindToContent(Content);
+
+		// This method should not fire any of InvalidateXyz-methods directly,
+		// in order to avoid duplicated invalidate calls.
+		// Which is why the BindToXyz has been separated from the OnXyzChanged.
 
 		void OnBackgroundChanged(DependencyObject sender, DependencyProperty dp)
 		{
@@ -85,7 +95,13 @@ public partial class ShadowContainer : ContentControl
 		{
 			BindToShadowCollectionChanged(Shadows);
 
-			OnShadowSizeChanged();
+			InvalidateCanvasLayout();
+			InvalidateShadows();
+		}
+		void OnContentChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			BindToContent(Content);
+
 			InvalidateShadows();
 		}
 
@@ -95,7 +111,7 @@ public partial class ShadowContainer : ContentControl
 
 			if (Uno.Toolkit.UI.Shadow.IsShadowSizeProperty(e.PropertyName ?? ""))
 			{
-				OnShadowSizeChanged();
+				InvalidateCanvasLayout();
 			}
 			InvalidateShadows();
 		}
@@ -103,12 +119,27 @@ public partial class ShadowContainer : ContentControl
 		{
 			if (sender == this && dp == CornerRadiusProperty)
 			{
-				OnShadowSizeChanged();
+				InvalidateCanvasLayout();
 			}
 			InvalidateShadows();
 		}
+		void OnContentPropertyChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			// among the content's nested properties (CornerRadius, Margin) that gets sent here,
+			// only Margin is used in UpdateCanvasLayout
+			if (dp == FrameworkElement.MarginProperty)
+			{
+				InvalidateCanvasLayout();
+			}
+			InvalidateShadows();
+		}
+		void OnContentSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			InvalidateCanvasLayout();
+			InvalidateShadows();
+		}
 
-		void BindToBackgroundMemberProperties(Brush background)
+		void BindToBackgroundMemberProperties(Brush? background)
 		{
 			backgroundNestedDisposable.Disposable = background switch
 			{
@@ -136,7 +167,6 @@ public partial class ShadowContainer : ContentControl
 				});
 
 				_isShadowDirty = true;
-				OnShadowSizeChanged();
 
 				void OnShadowCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 				{
@@ -146,7 +176,7 @@ public partial class ShadowContainer : ContentControl
 						BindItems(e.NewItems?.Cast<Shadow>());
 
 						_isShadowDirty = true;
-						OnShadowSizeChanged();
+						InvalidateCanvasLayout();
 					}
 				}
 				void BindItems(IEnumerable<Shadow>? shadows)
@@ -169,7 +199,23 @@ public partial class ShadowContainer : ContentControl
 				shadowsNestedDisposable.Disposable = null;
 
 				_isShadowDirty = true;
-				OnShadowSizeChanged();
+			}
+		}
+		void BindToContent(object? content)
+		{
+			if (content is FrameworkElement contentAsFE)
+			{
+				contentAsFE.SizeChanged += OnContentSizeChanged;
+				contentNestedDisposable.Disposable = new CompositeDisposable
+				{
+					Disposable.Create(() => contentAsFE.SizeChanged -= OnContentSizeChanged),
+					GetCornerRadiusPropertyFor(content) is { } dp ? contentAsFE.RegisterDisposablePropertyChangedCallback(dp, OnContentPropertyChanged) : Disposable.Empty,
+					contentAsFE.RegisterDisposablePropertyChangedCallback(FrameworkElement.MarginProperty, OnContentPropertyChanged),
+				};
+			}
+			else
+			{
+				contentNestedDisposable.Disposable = null;
 			}
 		}
 	}
@@ -191,45 +237,16 @@ public partial class ShadowContainer : ContentControl
 		_canvas?.Children.Insert(0, _shadowHost!);
 	}
 
-	/// <inheritdoc/>
-	protected override void OnContentChanged(object oldContent, object newContent)
+	private void InvalidateCanvasLayout()
 	{
-		if (oldContent is FrameworkElement oldElement)
+		if (Content is not FrameworkElement contentAsFE || _canvas == null || _shadowHost == null)
 		{
-			_canvas?.Children.Remove(oldElement);
-			oldElement.SizeChanged -= OnContentSizeChanged;
+			return;
 		}
 
-		if (newContent is FrameworkElement newElement)
-		{
-			_currentContent = newElement;
-			_currentContent.SizeChanged += OnContentSizeChanged;
-		}
-
-		InvalidateShadows();
-		base.OnContentChanged(oldContent, newContent);
-	}
-
-	private void OnContentSizeChanged(object sender, SizeChangedEventArgs args)
-	{
-		if (args.NewSize.Width > 0 && args.NewSize.Height > 0)
-		{
-			UpdateCanvasSize(args.NewSize.Width, args.NewSize.Height, Shadows);
-			InvalidateShadows();
-		}
-	}
-
-	private void OnShadowSizeChanged()
-	{
-		if (_currentContent != null && _currentContent.ActualWidth > 0 && _currentContent.ActualHeight > 0)
-		{
-			UpdateCanvasSize(_currentContent.ActualWidth, _currentContent.ActualHeight, Shadows);
-		}
-	}
-
-	private void UpdateCanvasSize(double childWidth, double childHeight, ShadowCollection? shadows)
-	{
-		if (_currentContent == null || _canvas == null || _shadowHost == null)
+		var childWidth = contentAsFE.ActualWidth;
+		var childHeight = contentAsFE.ActualHeight;
+		if (childWidth == 0 || childHeight == 0)
 		{
 			return;
 		}
@@ -239,7 +256,7 @@ public partial class ShadowContainer : ContentControl
 		double maxBlurRadius = 0;
 		double maxSpread = 0;
 
-		if (shadows?.Any() == true)
+		if (Shadows is { Count: > 0 } shadows)
 		{
 			absoluteMaxOffsetX = shadows.Max(s => Math.Abs(s.OffsetX));
 			absoluteMaxOffsetY = shadows.Max(s => Math.Abs(s.OffsetY));
@@ -260,8 +277,8 @@ public partial class ShadowContainer : ContentControl
 		double diffWidthShadowHostChild = newHostWidth - childWidth;
 		double diffHeightShadowHostChild = newHostHeight - childHeight;
 
-		float left = (float)(-diffWidthShadowHostChild / 2 + _currentContent.Margin.Left);
-		float top = (float)(-diffHeightShadowHostChild / 2 + _currentContent.Margin.Top);
+		float left = (float)(-diffWidthShadowHostChild / 2 + contentAsFE.Margin.Left);
+		float top = (float)(-diffHeightShadowHostChild / 2 + contentAsFE.Margin.Top);
 
 		Canvas.SetLeft(_shadowHost, left);
 		Canvas.SetTop(_shadowHost, top);
@@ -270,5 +287,39 @@ public partial class ShadowContainer : ContentControl
 	private void InvalidateShadows(bool force = false)
 	{
 		_shadowHost?.Invalidate();
+	}
+
+	private static DependencyProperty? GetCornerRadiusPropertyFor(object? content)
+	{
+		return content switch
+		{
+			Control => Control.CornerRadiusProperty,
+
+			Border => Border.CornerRadiusProperty,
+			Grid => Grid.CornerRadiusProperty,
+			StackPanel => StackPanel.CornerRadiusProperty,
+
+			Shape => null,
+			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty"),
+			_ => null,
+		};
+	}
+
+	private static CornerRadius? GetCornerRadiusFor(object? content)
+	{
+		return content switch
+		{
+			Control corner => corner.CornerRadius,
+
+			Border border => border.CornerRadius,
+			Grid grid => grid.CornerRadius,
+			StackPanel stackpanel => stackpanel.CornerRadius,
+
+			Shape => null,
+			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty") is { } dp
+				? (CornerRadius)@do.GetValue(dp)
+				: null,
+			_ => null,
+		};
 	}
 }
