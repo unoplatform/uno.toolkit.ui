@@ -166,14 +166,15 @@ public partial class ShadowContainer
 		{
 			var rect = new SKRect(0, 0, (float)ContentWidth * state.PixelRatio, (float)ContentHeight * state.PixelRatio);
 			var shape = new SKRoundRect(rect);
+			var cornerRadius = CornerRadius;
 
-			if (IsCornerRadiusProportional(CornerRadius))
+			if (IsCornerRadiusProportional(cornerRadius))
 			{
-				shape.SetRect(rect, (float)CornerRadius.BottomRight * state.PixelRatio, (float)CornerRadius.BottomRight * state.PixelRatio);
+				shape.SetRect(rect, (float)cornerRadius.BottomRight * state.PixelRatio, (float)cornerRadius.BottomRight * state.PixelRatio);
 			}
 			else
 			{
-				shape.SetRectRadii(rect, GetPointsFromCornerRadius(CornerRadius, state.PixelRatio));
+				shape.SetRectRadii(rect, GetPointsFromCornerRadius(cornerRadius, state.PixelRatio));
 			}
 
 			return shape;
