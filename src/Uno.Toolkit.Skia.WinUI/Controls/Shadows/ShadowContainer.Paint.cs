@@ -168,39 +168,33 @@ public partial class ShadowContainer
 			var shape = new SKRoundRect(rect);
 			var cornerRadius = CornerRadius;
 
-			if (IsCornerRadiusProportional(cornerRadius))
+			if (IsCornerRadiusProportional())
 			{
 				shape.SetRect(rect, (float)cornerRadius.BottomRight * state.PixelRatio, (float)cornerRadius.BottomRight * state.PixelRatio);
 			}
 			else
 			{
-				shape.SetRectRadii(rect, GetPointsFromCornerRadius(cornerRadius, state.PixelRatio));
+				var points = new[] { cornerRadius.TopLeft, cornerRadius.TopRight, cornerRadius.BottomRight, cornerRadius.BottomLeft }
+								.Select(x => (float)x * state.PixelRatio)
+								.Select(x => new SKPoint(x, x))
+								.ToArray();
+				shape.SetRectRadii(rect, points);
 			}
 
 			return shape;
 		}
 
+		private bool IsCornerRadiusProportional()
+		{
+			var cornerRadius = CornerRadius;
+			return (float)cornerRadius.TopLeft == (float)cornerRadius.TopRight &&
+						(float)cornerRadius.TopRight == (float)cornerRadius.BottomRight &&
+						(float)cornerRadius.BottomRight == (float)cornerRadius.BottomLeft;
+		}
+
 		public void ClipToContent(ShadowPaintState state, SKCanvas canvas)
 		{
 			canvas.ClipRoundRect(GetContentShape(state), antialias: true);
-		}
-
-		public static bool IsCornerRadiusProportional(CornerRadius CornerRadius)
-		{
-			return (float)CornerRadius.TopLeft == (float)CornerRadius.TopRight &&
-						(float)CornerRadius.TopRight == (float)CornerRadius.BottomRight &&
-						(float)CornerRadius.BottomRight == (float)CornerRadius.BottomLeft;
-		}
-
-		public static SKPoint[] GetPointsFromCornerRadius(CornerRadius CornerRadius, float pixelRatio)
-		{
-			return new SKPoint[]
-						{
-							new SKPoint((float)CornerRadius.TopLeft * pixelRatio, (float)CornerRadius.TopLeft * pixelRatio),
-							new SKPoint((float)CornerRadius.TopRight * pixelRatio, (float)CornerRadius.TopRight * pixelRatio),
-							new SKPoint((float)CornerRadius.BottomRight * pixelRatio, (float)CornerRadius.BottomRight * pixelRatio),
-							new SKPoint((float)CornerRadius.BottomLeft * pixelRatio, (float)CornerRadius.BottomLeft * pixelRatio)
-						};
 		}
 
 		public void DrawContentBackground(ShadowPaintState state, SKCanvas canvas, Color color)
