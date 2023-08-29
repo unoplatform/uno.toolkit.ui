@@ -304,6 +304,19 @@ public partial class ShadowContainer
 
 		public override int GetHashCode()
 		{
+#if NETSTANDARD2_0
+			var hash = 1214348419;
+
+			hash = hash * -1521134295 + Shape.GetHashCode();
+			hash = hash * -1521134295 + Background.GetHashCode();
+			hash = hash * -1521134295 + PixelRatio.GetHashCode();
+			foreach (var item in Shadows)
+			{
+				hash = hash * -1521134295 + item.GetHashCode();
+			}
+
+			return hash;
+#else
 			var hash = new HashCode();
 
 			hash.Add(Shape.GetHashCode());
@@ -315,6 +328,7 @@ public partial class ShadowContainer
 			}
 
 			return hash.ToHashCode();
+#endif
 		}
 
 		public bool Equals(ShadowPaintState? x) =>
