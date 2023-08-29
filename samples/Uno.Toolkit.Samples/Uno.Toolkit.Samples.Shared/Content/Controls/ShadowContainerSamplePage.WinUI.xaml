@@ -81,6 +81,22 @@
 						Spread="0"
 						Color="#8c76ff" />
 		</utu:ShadowCollection>
+		<utu:ShadowCollection x:Key="InnerShadows">
+			<utu:Shadow BlurRadius="30"
+						OffsetX="5"
+						OffsetY="5"
+						Opacity="1"
+						Spread="-5"
+						IsInner="True"
+						Color="#f85977"/>
+			<utu:Shadow BlurRadius="30"
+						OffsetX="-5"
+						OffsetY="-5"
+						Opacity="1"
+						Spread="-5"
+						IsInner="True"
+						Color="#67e5ad"/>
+		</utu:ShadowCollection>
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -203,6 +219,38 @@
 							</StackPanel>
 
 							<StackPanel>
+
+								<utu:ShadowContainer Margin="0,60,0,0"
+														 Background="{StaticResource UnoColor}"
+														 Shadows="{StaticResource NeumorphismBulging}">
+									<Rectangle Height="100"
+									   Width="100"
+									   
+									   RadiusX="50" 
+									   RadiusY="50" />
+								</utu:ShadowContainer>
+								
+								<utu:ShadowContainer Margin="0,60,0,0"
+														 Background="{StaticResource UnoColor}"
+														 Shadows="{StaticResource NeumorphismBulging}">
+									<Ellipse Height="100"
+											   Width="100"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Background="LightGray" Shadows="{StaticResource InnerShadows}">
+									<Rectangle Height="100"
+										   Width="100"
+										   RadiusX="50" 
+										   RadiusY="50" />	
+								</utu:ShadowContainer>
+
+								<TextBlock Text="Ellipse" Foreground="Black" />
+								<utu:ShadowContainer Background="LightGray" Shadows="{StaticResource InnerShadows}">
+									<Ellipse Height="100"
+										   Width="100" />
+								</utu:ShadowContainer>
+								
 								<TextBlock Text="Enable neumorphism" Style="{StaticResource TitleTextBlockStyle}" />
 								<TextBlock Text="Being able to add several shadows enables you to create neumorphic designs." Style="{StaticResource BodyTextBlockStyle}" />
 
