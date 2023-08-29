@@ -8,8 +8,7 @@
 					xmlns:netstdref="http://uno.ui/netstdref"
 					mc:Ignorable="android ios netstdref">
 
-	<Style x:Key="DefaultShadowContainerStyle"
-	   TargetType="utu:ShadowContainer">
+	<Style x:Key="DefaultShadowContainerStyle" TargetType="utu:ShadowContainer">
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -18,19 +17,21 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:ShadowContainer">
+					<!--
+						note: Dont template-bind Background or CornerRadius here.
+						They will be painted in skia impl (see: ShadowContainer.Paint.cs).
+					-->
 					<Canvas x:Name="PART_Canvas"
-						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-						VerticalAlignment="{TemplateBinding VerticalAlignment}"
-						Background="{TemplateBinding Background}">
+							HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalAlignment}">
 						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-									  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-									  Content="{TemplateBinding Content}" />
+										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										  Content="{TemplateBinding Content}" />
 					</Canvas>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
 
-	<Style BasedOn="{StaticResource DefaultShadowContainerStyle}"
-	   TargetType="utu:ShadowContainer" />
+	<Style BasedOn="{StaticResource DefaultShadowContainerStyle}" TargetType="utu:ShadowContainer" />
 </ResourceDictionary>
