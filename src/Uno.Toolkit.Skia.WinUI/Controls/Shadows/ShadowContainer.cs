@@ -27,9 +27,7 @@ namespace Uno.Toolkit.UI;
 public partial class ShadowContainer : ContentControl
 {
 	private const string PART_Canvas = "PART_Canvas";
-	private const string PART_Canvas_Inner = "PART_Canvas_Inner";
 	private const string PART_ShadowOwner = "PART_ShadowOwner";
-	private const string PART_ContentPresenter = "PART_ContentPresenter";
 
 	private static readonly ShadowsCache Cache = new ShadowsCache();
 
@@ -37,8 +35,6 @@ public partial class ShadowContainer : ContentControl
 	
 	private Grid? _panel;
 	private Canvas? _canvas;
-	private ContentPresenter? _contentPresenter;
-
 	private SKXamlCanvas? _shadowHost;
 
 	public ShadowContainer()
@@ -181,6 +177,7 @@ public partial class ShadowContainer : ContentControl
 						BindItems(e.NewItems?.Cast<Shadow>());
 
 						_isShadowDirty = true;
+
 						InvalidateCanvasLayout();
 					}
 				}
@@ -231,7 +228,6 @@ public partial class ShadowContainer : ContentControl
 
 		_canvas = GetTemplateChild(nameof(PART_Canvas)) as Canvas;
 		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
-		_contentPresenter = GetTemplateChild(nameof(PART_ContentPresenter)) as ContentPresenter;
 
 		var skiaCanvas = new SKXamlCanvas();
 		skiaCanvas.PaintSurface += OnSurfacePainted;
@@ -241,13 +237,15 @@ public partial class ShadowContainer : ContentControl
 #endif
 
 		_shadowHost = skiaCanvas;
-		_currentContent = (FrameworkElement?)_contentPresenter?.Content;
 		_canvas?.Children.Insert(0, _shadowHost!);
 	}
 
 	private void InvalidateCanvasLayout()
 	{
-		if (Content is not FrameworkElement contentAsFE || _canvas == null || _shadowHost == null)
+		if (Content is not FrameworkElement contentAsFE ||
+				_panel == null ||
+				_canvas == null ||
+				_shadowHost == null)
 		{
 			return;
 		}
@@ -272,22 +270,94 @@ public partial class ShadowContainer : ContentControl
 			maxSpread = shadows.Max(s => s.Spread);
 		}
 
-		_canvas.Height = childHeight;
-		_canvas.Width = childWidth;
-#if __ANDROID__ || __IOS__
-		_canvas.GetDispatcherCompat().Schedule(() => _canvas.InvalidateMeasure());
-#endif
-		double newHostHeight = childHeight + maxBlurRadius * 2 + absoluteMaxOffsetY * 2 + maxSpread * 2;
-		double newHostWidth = childWidth + maxBlurRadius * 2 + absoluteMaxOffsetX * 2 + maxSpread * 2;
+		//		_canvas.Height = childHeight;
+		//		_canvas.Width = childWidth;
+		//#if __ANDROID__ || __IOS__
+		//		_canvas.GetDispatcherCompat().Schedule(() => _canvas.InvalidateMeasure());
+		//#endif
+		//		double newHostHeight = childHeight + maxBlurRadius * 2 + absoluteMaxOffsetY * 2 + maxSpread * 2;
+		//		double newHostWidth = childWidth + maxBlurRadius * 2 + absoluteMaxOffsetX * 2 + maxSpread * 2;
+		//		_shadowHost.Height = newHostHeight;
+		//		_shadowHost.Width = newHostWidth;
+
+		//		double diffWidthShadowHostChild = newHostWidth - childWidth;
+		//		double diffHeightShadowHostChild = newHostHeight - childHeight;
+
+		//		float left = (float)(-diffWidthShadowHostChild / 2 + contentAsFE.Margin.Left);
+		//		float top = (float)(-diffHeightShadowHostChild / 2 + contentAsFE.Margin.Top);
+
+
+
+
+
+
+
+
+
+		_canvas.Width = contentAsFE.ActualWidth - contentAsFE.Margin.Left - contentAsFE.Margin.Right;
+		if (_canvas.Width < 0)
+		{
+			_canvas.Width = 0;
+		}
+		_canvas.Height = contentAsFE.ActualHeight - contentAsFE.Margin.Top - contentAsFE.Margin.Bottom;
+		if (_canvas.Height < 0)
+		{
+			_canvas.Height = 0;
+		}
+		_canvas.HorizontalAlignment = contentAsFE.HorizontalAlignment;
+		_canvas.VerticalAlignment = contentAsFE.VerticalAlignment;
+
+		double newHostSpreedHeight = maxBlurRadius + absoluteMaxOffsetY + maxSpread;
+		double newHostSpreedWidth = maxBlurRadius + absoluteMaxOffsetX + maxSpread;
+
+		double newHostHeight = contentAsFE.ActualHeight + newHostSpreedHeight * 2;
+		double newHostWidth = contentAsFE.ActualWidth + newHostSpreedWidth * 2;
+
 		_shadowHost.Height = newHostHeight;
 		_shadowHost.Width = newHostWidth;
 
-		double diffWidthShadowHostChild = newHostWidth - childWidth;
-		double diffHeightShadowHostChild = newHostHeight - childHeight;
+		double top = 0;
+		double left = 0;
 
-		float left = (float)(-diffWidthShadowHostChild / 2 + contentAsFE.Margin.Left);
-		float top = (float)(-diffHeightShadowHostChild / 2 + contentAsFE.Margin.Top);
+		if (contentAsFE.VerticalAlignment == VerticalAlignment.Center)
+		{
+			_canvas.Margin = contentAsFE.Margin;
+			_canvas.Margin = contentAsFE.Margin;
 
+			if (contentAsFE.Margin == new Thickness(0, 0, 0, 0))
+			{
+				left = -newHostSpreedWidth;
+				top = -newHostSpreedHeight;
+			}
+			else
+			{
+				left = -newHostSpreedWidth
+							- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? 0 : 0)
+							- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Right ? contentAsFE.ActualWidth : 0)
+							- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Stretch ? +contentAsFE.Margin.Left / 2 + contentAsFE.Margin.Right / 2 : 0)
+							- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Center ? contentAsFE.ActualWidth / 2 : 0)
+
+							;
+				top = -newHostSpreedHeight - contentAsFE.ActualHeight / 2;
+			}
+
+		}
+		else
+		{
+			left = -(newHostSpreedWidth
+									+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? -contentAsFE.Margin.Left : 0)
+									+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Right && contentAsFE.VerticalAlignment != VerticalAlignment.Center ? contentAsFE.Margin.Right == 0 ? 0 :
+													contentAsFE.ActualWidth + contentAsFE.Margin.Right - _canvas.Margin.Right : 0)
+									+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Stretch ? contentAsFE.Margin.Right : 0)
+									+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Center ? contentAsFE.Margin.Left : 0)
+									);
+			top = -(newHostSpreedHeight
+											+ (contentAsFE.VerticalAlignment == VerticalAlignment.Top ? -contentAsFE.Margin.Top : 0)
+											+ (contentAsFE.VerticalAlignment == VerticalAlignment.Bottom ? +contentAsFE.Margin.Bottom + contentAsFE.ActualHeight : 0)
+											+ (contentAsFE.VerticalAlignment == VerticalAlignment.Stretch ? contentAsFE.Margin.Bottom : 0)
+											+ (contentAsFE.VerticalAlignment == VerticalAlignment.Center ? contentAsFE.Margin.Top : 0)
+										);
+		}
 		Canvas.SetLeft(_shadowHost, left);
 		Canvas.SetTop(_shadowHost, top);
 	}
