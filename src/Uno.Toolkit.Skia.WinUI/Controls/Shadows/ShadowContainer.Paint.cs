@@ -175,9 +175,9 @@ public partial class ShadowContainer
 			else
 			{
 				var points = new[] { cornerRadius.TopLeft, cornerRadius.TopRight, cornerRadius.BottomRight, cornerRadius.BottomLeft }
-								.Select(x => (float)x * state.PixelRatio)
-								.Select(x => new SKPoint(x, x))
-								.ToArray();
+					.Select(x => (float)x * state.PixelRatio)
+					.Select(x => new SKPoint(x, x))
+					.ToArray();
 				shape.SetRectRadii(rect, points);
 			}
 
@@ -187,9 +187,10 @@ public partial class ShadowContainer
 		private bool IsCornerRadiusProportional()
 		{
 			var cornerRadius = CornerRadius;
-			return (float)cornerRadius.TopLeft == (float)cornerRadius.TopRight &&
-						(float)cornerRadius.TopRight == (float)cornerRadius.BottomRight &&
-						(float)cornerRadius.BottomRight == (float)cornerRadius.BottomLeft;
+			return
+				(float)cornerRadius.TopLeft == (float)cornerRadius.TopRight &&
+				(float)cornerRadius.TopRight == (float)cornerRadius.BottomRight &&
+				(float)cornerRadius.BottomRight == (float)cornerRadius.BottomLeft;
 		}
 
 		public void ClipToContent(ShadowPaintState state, SKCanvas canvas)
