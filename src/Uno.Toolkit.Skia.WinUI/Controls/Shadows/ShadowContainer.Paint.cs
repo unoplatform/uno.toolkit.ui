@@ -133,19 +133,21 @@ public partial class ShadowContainer
 		};
 	}
 
-	private IShadowShapeContext GetShadowShapeContext(object? content)
+	private IShadowShapeContext GetShadowShapeContext(object content)
 	{
 		return content switch
 		{
-			FrameworkElement fe => new RectangularShadowShapeContext(fe.ActualWidth, fe.ActualHeight, GetCornerRadiusFor(Content) ?? default),
+			// any dp used here, beside width/height that is covered by SizeChanged, needs to register for dp changed in: BindToPaintingProperties\BindToContent()
+			Ellipse ellipse => new RadiusXYRectShadowShapeContext(ellipse.ActualWidth, ellipse.ActualHeight, ellipse.ActualWidth / 2, ellipse.ActualHeight / 2),
+			Rectangle rect => new RadiusXYRectShadowShapeContext(rect.ActualWidth, rect.ActualHeight, rect.RadiusX, rect.RadiusY),
+			FrameworkElement fe => new CornerRadiusRectShadowShapeContext(fe.ActualWidth, fe.ActualHeight, GetCornerRadiusFor(Content) ?? default),
 
-			null => RectangularShadowShapeContext.Empty,
 			_ => throw new NotSupportedException($"Unsupported content type: {content.GetType().Name}"),
 		};
 	}
 
 	/// <summary>
-	/// Serves both as a record of states relevant to shadow shape, and the implementations for painting the shadows
+	/// Serves both as a record of states relevant to shadow shape (not <see cref="Shape"/>, but in the broad sense), and the implementations for painting the shadows.
 	/// </summary>
 	private interface IShadowShapeContext
 	{
@@ -158,17 +160,9 @@ public partial class ShadowContainer
 		void DrawInnerShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow);
 	}
 
-	private record RectangularShadowShapeContext(double ContentWidth, double ContentHeight, CornerRadius CornerRadius) : IShadowShapeContext
+	private abstract record RoundRectShadowShapeContext(double Width, double Height) : IShadowShapeContext
 	{
-		public static readonly RectangularShadowShapeContext Empty = new(0, 0, default);
-
-		private SKRoundRect GetContentShape(ShadowPaintState state)
-		{
-			var rect = new SKRect(0, 0, (float)ContentWidth * state.PixelRatio, (float)ContentHeight * state.PixelRatio);
-			var shape = new SKRoundRect(rect, (float)CornerRadius.BottomRight * state.PixelRatio);
-
-			return shape;
-		}
+		protected abstract SKRoundRect GetContentShape(ShadowPaintState state);
 
 		public void ClipToContent(ShadowPaintState state, SKCanvas canvas)
 		{
@@ -231,7 +225,6 @@ public partial class ShadowContainer
 
 		public void DrawInnerShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow)
 		{
-			var cornerRadius = (float)CornerRadius.BottomRight * state.PixelRatio;
 			var spread = (float)shadow.Spread * state.PixelRatio;
 			var offsetX = (float)shadow.OffsetX * state.PixelRatio;
 			var offsetY = (float)shadow.OffsetY * state.PixelRatio;
@@ -253,9 +246,36 @@ public partial class ShadowContainer
 
 			if (_logger.IsEnabled(LogLevel.Trace))
 			{
-				_logger.Trace($"[ShadowContainer] DrawInnerShadow => strokeWidth: {paint.StrokeWidth}, cornerRadius: {cornerRadius}, x: {offsetX}, y: {offsetY}, width: {shape.Rect.Width}, height: {shape.Rect.Height}");
+				_logger.Trace($"[ShadowContainer] DrawInnerShadow => strokeWidth: {paint.StrokeWidth}, x: {offsetX}, y: {offsetY}, width: {shape.Rect.Width}, height: {shape.Rect.Height}");
 			}
 			canvas.DrawRoundRect(shape, paint);
+		}
+	}
+
+	private record CornerRadiusRectShadowShapeContext(double Width, double Height, CornerRadius CornerRadius) : RoundRectShadowShapeContext(Width, Height)
+	{
+		protected override SKRoundRect GetContentShape(ShadowPaintState state)
+		{
+			var rect = new SKRect(0, 0, (float)Width * state.PixelRatio, (float)Height * state.PixelRatio);
+			var radii = new[] { CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft }
+				.Select(x => (float)x * state.PixelRatio)
+				.Select(x => new SKPoint(x, x))
+				.ToArray();
+			var shape = new SKRoundRect();
+			shape.SetRectRadii(rect, radii);
+			
+			return shape;
+		}
+	}
+
+	private record RadiusXYRectShadowShapeContext(double Width, double Height, double RadiusX, double RadiusY) : RoundRectShadowShapeContext(Width, Height)
+	{
+		protected override SKRoundRect GetContentShape(ShadowPaintState state)
+		{
+			var rect = new SKRect(0, 0, (float)Width * state.PixelRatio, (float)Height * state.PixelRatio);
+			var shape = new SKRoundRect(rect, (float)RadiusX * state.PixelRatio, (float)RadiusY * state.PixelRatio);
+			
+			return shape;
 		}
 	}
 
