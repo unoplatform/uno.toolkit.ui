@@ -104,8 +104,8 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 
 
 		[Test]
-		[TestCase(10, 10, false)]
-		[TestCase(-10, -10, false)]
+		[TestCase(9, 9, false)]
+		[TestCase(-9, -9, false)]
 		public void When_AsymmetricShadowsCorner(int xOffset, int yOffset, bool inner)
 		{
 			var shadowContainer = App.WaitForElementWithMessage("shadowContainer");
