@@ -100,6 +100,136 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 		}
 
 
+		[Test]
+		[TestCase(10, 10, false)]
+		[TestCase(-10, -10, false)]
+		public void When_ShadowsIrregularCorner(int xOffset, int yOffset, bool inner)
+		{
+			var shadowContainer = App.WaitForElementWithMessage("shadowContainer");
+			App.Tap("check_IrregularCorner");
+			shadowContainer = App.WaitForElementWithMessage("shadowContainerIrregularCorner");
+			var runButton = App.MarkedAnywhere("runButton");
+			var resetButton = App.MarkedAnywhere("resetButton");
+			var statusText = App.MarkedAnywhere("statusText");
+
+
+			App.MarkedAnywhere("xOffsetText").ClearText().EnterTextAndDismiss(xOffset.ToString());
+			App.MarkedAnywhere("yOffsetText").ClearText().EnterTextAndDismiss(yOffset.ToString());
+			var innerCheck = App.MarkedAnywhere("inner");
+
+			innerCheck.SetDependencyPropertyValue("IsChecked", inner.ToString());
+			App.WaitForDependencyPropertyValue(innerCheck, "IsChecked", inner);
+
+			runButton.FastTap();
+
+			App.WaitForDependencyPropertyValue<string>(statusText, "Text", "Verify");
+			var outerTestRect = App.GetPhysicalRect("outerBorderIrregularCorner");
+
+			var caseName = $"Shadow_x{xOffset}_y{yOffset}{(inner ? "_Inner" : "_Outer")}";
+
+			using var screenshot = TakeScreenshot(caseName);
+
+
+
+			int currentX = 3;
+			int currentY = 3;
+
+			int absXOffset = Math.Abs(xOffset);
+			int absYOffset = Math.Abs(yOffset);
+
+			while (currentX < absXOffset || currentY < absYOffset)
+			{
+
+				var beginX = (int)outerTestRect.X;
+				var beginY = (int)outerTestRect.Y;
+				var centerX = (int)outerTestRect.CenterX;
+				var centerY = (int)outerTestRect.CenterY;
+				var endX = (int)outerTestRect.Right;
+				var endY = (int)outerTestRect.Bottom;
+
+				//CornerRadius="0,100,0,100"
+				/*
+				 * Points for test
+				 	 _______________________
+					|	1		7		4	|
+					|		A		C		|
+					|	2		8		5	|
+					|		B		D		|
+					|	3		9		6	|
+					 _______________________
+				*/
+
+				//1
+				var leftTopOuterTestPoint = new Point(beginX + currentX, beginY + currentY);
+				//2
+				var leftMiddleOuterTestPoint = new Point(beginX + currentX, centerY);
+				//3
+				var leftBottomOuterTestPoint = new Point(beginX + currentX, endY - currentY);
+
+				//4
+				var rightTopOuterTestPoint = new Point(endX - currentX, beginY + currentY);
+				//5
+				var rightMiddleOuterTestPoint = new Point(endX - currentX, centerY);
+				//6
+				var rightBottomOuterTestPoint = new Point(endX - currentX, endY - currentY);
+
+				//7
+				var centerTopOuterTestPoint = new Point(centerX - currentX, beginY + currentY);
+				//8
+				var centerMiddleOuterTestPoint = new Point(centerX - currentX, centerY);
+				//9
+				var centerBottomOuterTestPoint = new Point(centerX - currentX, endY - currentY);
+
+				//A
+				var cornerTopLeftOuterTestPoint = new Point(beginX + (endX - beginX) / 5 * 2 + currentX, beginY + (endY - beginY) / 5 * 2 + currentY);
+				//B
+				var cornerBottomLeftOuterTestPoint = new Point(beginX + (endX - beginX) / 5 * 4 + currentX, beginY + (endY - beginY) / 5 * 2 - currentY);
+				//C
+				var cornerTopRightOuterTestPoint = new Point(beginX + (endX - beginX) / 5 * 2 - currentX, beginY + (endY - beginY) / 5 * 4 + currentY);
+				//D
+				var cornerBottomRightOuterTestPoint = new Point(beginX + (endX - beginX) / 5 * 4 - currentX, beginY + (endY - beginY) / 5 * 4 - currentY);
+
+				var outerDefault = inner ? Blue : Red;
+
+				AssertExpectations(new[] {
+					(leftTopOuterTestPoint, xOffset < 0 ? outerDefault : Blue),
+					(leftMiddleOuterTestPoint, Blue),
+					(leftBottomOuterTestPoint, Blue),
+
+					(rightTopOuterTestPoint, Blue),
+					(rightMiddleOuterTestPoint, Blue),
+					(rightBottomOuterTestPoint, xOffset < 0 ? Blue : outerDefault),
+
+					(centerTopOuterTestPoint, Blue),
+					(centerMiddleOuterTestPoint, Green),
+					(centerBottomOuterTestPoint, Blue ),
+
+					(cornerTopLeftOuterTestPoint, Green),
+					(cornerBottomLeftOuterTestPoint, Blue),
+					(cornerTopRightOuterTestPoint, Blue),
+					(cornerBottomRightOuterTestPoint, Green)
+				});
+
+				void AssertExpectations((Point TestPoint, string Color)[] expectations)
+				{
+					foreach (var expectation in expectations)
+					{
+						ImageAssert.HasPixels(
+							screenshot,
+							ExpectedPixels
+								.At(expectation.TestPoint)
+								.Named($"{caseName}_at_{expectation.TestPoint.X}_{expectation.TestPoint.Y}_offset_{currentX}_{currentY}")
+								.Pixel(expectation.Color)
+						);
+					}
+				}
+
+				currentX = Math.Min(++currentX, absXOffset);
+				currentY = Math.Min(++currentY, absYOffset);
+			}
+			resetButton.FastTap();
+		}
+
 		public void Check_Assert(IAppRect outerBorderRect, IAppRect borderRect, int xOffset, int yOffset, bool inner)
 		{
 

@@ -51,6 +51,26 @@
 				</utu:ShadowContainer>
 			</Border>
 		</StackPanel>
+
+		<StackPanel HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					x:Name="containerIrregularCorner"
+					Visibility="Collapsed">
+			<Border x:Name="outerBorderIrregularCorner"
+					Background="Blue"
+					Padding="10"
+					Height="220"
+					Width="220">
+				<utu:ShadowContainer x:Name="shadowContainerIrregularCorner" 
+							Background="Green">
+
+					<Border Width="200"
+							Height="200"
+							CornerRadius="0,200,0,200"
+							x:Name="borderIrregularCorner"/>
+				</utu:ShadowContainer>
+			</Border>
+		</StackPanel>
 		<StackPanel Spacing="10"
 					Grid.Row="1"
 					Orientation="Horizontal"
@@ -83,6 +103,9 @@
 
 					<TextBlock Text="Rectangle"/>
 					<RadioButton GroupName="RadioGroup" Content="Rectangle" x:Name="check_Rectangle" Click="Rectangle_ClickElement" />
+
+					<TextBlock Text="Irrelugar Corner Radius"/>
+					<RadioButton GroupName="RadioGroup" Content="Irrelugar Corner Radius" x:Name="check_IrregularCorner" Click="IrregularCorner_ClickElement" />
 
 				</StackPanel>
 			</StackPanel>
