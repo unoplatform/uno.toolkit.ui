@@ -106,10 +106,12 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 		public void When_ShadowsIrregularCorner(int xOffset, int yOffset, bool inner)
 		{
 			var shadowContainer = App.WaitForElementWithMessage("shadowContainer");
+			var resetButton = App.MarkedAnywhere("resetButton");
+			resetButton.FastTap();
+
 			App.Tap("check_IrregularCorner");
 			shadowContainer = App.WaitForElementWithMessage("shadowContainerIrregularCorner");
 			var runButton = App.MarkedAnywhere("runButton");
-			var resetButton = App.MarkedAnywhere("resetButton");
 			var statusText = App.MarkedAnywhere("statusText");
 
 
