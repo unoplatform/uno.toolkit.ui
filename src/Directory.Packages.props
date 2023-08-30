@@ -15,11 +15,11 @@
 		<PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
 		<PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
-		<PackageVersion Include="Uno.Cupertino" Version="2.7.0-dev.102" />
-		<PackageVersion Include="Uno.Cupertino.WinUI" Version="2.7.0-dev.102" />
+		<PackageVersion Include="Uno.Cupertino" Version="2.8.0-dev.6" />
+		<PackageVersion Include="Uno.Cupertino.WinUI" Version="2.8.0-dev.6" />
 		<PackageVersion Include="Uno.SourceGenerationTasks" Version="4.2.0" />
-		<PackageVersion Include="Uno.Material" Version="2.7.0-dev.102" />
-		<PackageVersion Include="Uno.Material.WinUI" Version="2.7.0-dev.102" />
+		<PackageVersion Include="Uno.Material" Version="2.8.0-dev.6" />
+		<PackageVersion Include="Uno.Material.WinUI" Version="2.8.0-dev.6" />
 		<PackageVersion Include="Uno.UI" Version="4.7.37" />
 		<PackageVersion Include="Uno.WinUI" Version="4.7.37" />
 		<PackageVersion Include="Uno.XamlMerge.Task" Version="1.1.0-dev.12" />

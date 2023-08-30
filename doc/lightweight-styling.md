@@ -47,6 +47,7 @@ For more information about the lightweight styling resource keys used in each co
 - [Card](controls/CardAndCardContentControl.md#lightweight-styling)
 - [CardContentControl](controls/CardAndCardContentControl.md#lightweight-styling-1)
 - [Chip](controls/ChipAndChipGroup.md#lightweight-styling)
+- [Divider](controls/Divider.md#lightweight-styling)
 - [NavigationBar](controls/NavigationBar.md#lightweight-styling)
 - [TabBar](controls/TabBarAndTabBarItem.md#lightweight-styling)
 
