@@ -6,7 +6,7 @@ The `Uno.Toolkit.UI` library adds the following controls:
 - `AutoLayout`: A custom panel used by the [Figma plugin](https://platform.uno/unofigma/) to bridge the gap between Figma and UWP layout implementation.
 - [`Card` and `CardContentControl`](controls/CardAndCardContentControl.md): \[Material control\] Cards contain content and actions that relate information about a subject.
 - [`Chip` and `ChipGroup`](controls/ChipAndChipGroup.md): \[Material control\] Chips are compact elements that represent an input, attribute, or action.
-- `Divider`: \[Material control\] A divider is a thin line that groups content in lists and layouts.
+- [`Divider`](controls/Divider.md): \[Material control\] A divider is a thin line that groups content in lists and layouts.
 - [`DrawerControl`](controls/DrawerControl.md): A container to display additional content, in a hidden pane that can be revealed using a swipe gesture, like a drawer.
 - [`DrawerFlyoutPresenter`](controls/DrawerFlyoutPresenter.md): A specialized `ContentPresenter` to be used in the template of a `FlyoutPresenter` to enable gesture support.
 - [`LoadingView`](controls/LoadingView.md): A control that indicates that the UI is waiting on a task to complete.
