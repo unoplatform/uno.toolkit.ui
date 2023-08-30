@@ -28,6 +28,8 @@
       href: controls/CardAndCardContentControl.md
     - name: Chip and ChipGroup
       href: controls/ChipAndChipGroup.md
+    - name: Divider
+      href: controls/Divider.md
     - name: DrawerControl
       href: controls/DrawerControl.md
     - name: DrawerFlyoutPresenter

@@ -1,0 +1,12 @@
+## Lightweight Styling
+
+Key|Type|Value
+-|-|-
+DividerForeground|SolidColorBrush|OutlineVariantBrush
+DividerSubHeaderForeground|SolidColorBrush|OnSurfaceLowBrush
+DividerSubHeaderFontFamily|FontFamily|MaterialMediumFontFamily
+DividerSubHeaderFontWeight|FontWeight|BodySmallFontWeight
+DividerSubHeaderFontSize|FontSize|BodySmallFontSize
+DividerSubHeaderCharacterSpacing|CharacterSpacing|BodySmallCharacterSpacing
+DividerSubHeaderMargin|Thickness|0,4,0,0
+DividerHeight|Double|1

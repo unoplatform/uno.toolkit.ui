@@ -2,15 +2,39 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:utu="using:Uno.Toolkit.UI">
 
-	<x:Double x:Key="MaterialDividerHeight">1</x:Double>
 
-	<Style x:Key="MaterialDividerStyle"
-		   TargetType="utu:Divider">
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<StaticResource x:Key="DividerForeground" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="DividerSubHeaderForeground" ResourceKey="OnSurfaceLowBrush" />
 
-		<Setter Property="Foreground"
-				Value="{ThemeResource OnSurfaceFocusedBrush}" />
-		<Setter Property="SubHeaderForeground"
-				Value="{ThemeResource OnSurfaceLowBrush}" />
+			<StaticResource x:Key="DividerSubHeaderFontFamily" ResourceKey="MaterialMediumFontFamily" />
+			<StaticResource x:Key="DividerSubHeaderFontWeight" ResourceKey="BodySmallFontWeight" />
+			<StaticResource x:Key="DividerSubHeaderFontSize" ResourceKey="BodySmallFontSize" />
+			<StaticResource x:Key="DividerSubHeaderCharacterSpacing" ResourceKey="BodySmallCharacterSpacing" />
+
+			<Thickness x:Key="DividerSubHeaderMargin">0,4,0,0</Thickness>
+			<x:Double x:Key="DividerHeight">1</x:Double>
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="DividerForeground" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="DividerSubHeaderForeground" ResourceKey="OnSurfaceLowBrush" />
+
+			<StaticResource x:Key="DividerSubHeaderFontFamily" ResourceKey="MaterialMediumFontFamily" />
+			<StaticResource x:Key="DividerSubHeaderFontWeight" ResourceKey="BodySmallFontWeight" />
+			<StaticResource x:Key="DividerSubHeaderFontSize" ResourceKey="BodySmallFontSize" />
+			<StaticResource x:Key="DividerSubHeaderCharacterSpacing" ResourceKey="BodySmallCharacterSpacing" />
+
+			<Thickness x:Key="DividerSubHeaderMargin">0,4,0,0</Thickness>
+			<x:Double x:Key="DividerHeight">1</x:Double>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+
+	<Style x:Key="MaterialDividerStyle" TargetType="utu:Divider">
+
+		<Setter Property="Foreground" Value="{ThemeResource DividerForeground}" />
+		<Setter Property="SubHeaderForeground" Value="{ThemeResource DividerSubHeaderForeground}" />
 
 		<Setter Property="Template">
 			<Setter.Value>
@@ -21,21 +45,23 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
-						<Rectangle Fill="{TemplateBinding Foreground}"
-								   Height="{StaticResource MaterialDividerHeight}" />
+						<Rectangle Fill="{TemplateBinding Foreground}" Height="{ThemeResource DividerHeight}" />
 
 						<TextBlock Text="{TemplateBinding SubHeader}"
 								   Visibility="{Binding SubHeader, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed}"
-								   Style="{StaticResource BodySmall}"
+								   FontFamily="{ThemeResource DividerSubHeaderFontFamily}"
+								   FontWeight="{ThemeResource DividerSubHeaderFontWeight}"
+								   CharacterSpacing="{ThemeResource DividerSubHeaderCharacterSpacing}"
+								   FontSize="{ThemeResource DividerSubHeaderFontSize}"
 								   Foreground="{TemplateBinding SubHeaderForeground}"
-								   Margin="0,4,0,0"
+								   Margin="{ThemeResource DividerSubHeaderMargin}"
 								   Grid.Row="1" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
-	
+
 	<Style x:Key="MaterialDefaultDividerStyle"
 		   TargetType="utu:Divider"
 		   BasedOn="{StaticResource MaterialDividerStyle}" />
