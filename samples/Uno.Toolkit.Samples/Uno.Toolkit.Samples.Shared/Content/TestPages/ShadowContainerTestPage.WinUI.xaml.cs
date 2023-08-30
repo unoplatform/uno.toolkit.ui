@@ -86,7 +86,6 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 
 		private void reset_Click(object sender, RoutedEventArgs e)
 		{
-			SelectedElement = ElementState.Border;
 
 			statusText.Text = string.Empty;
 
@@ -94,6 +93,7 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 			yOffsetText.Text = string.Empty;
 			inner.IsChecked = false;
 			check_Border.IsChecked = true;
+			SelectedElement = ElementState.Border;
 
 			shadowContainer.Shadows.Clear();
 			shadowContainerRectangle.Shadows.Clear();
