@@ -1,44 +1,44 @@
 <Project ToolsVersion="15.0">
-	<PropertyGroup>
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-	</PropertyGroup>
-	<ItemGroup>
-		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-		<PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
-		<PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
-		<PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-		<PackageVersion Include="SkiaSharp" Version="2.88.5" />
-		<PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="2.88.5" />
-		<PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.5" />
-		<PackageVersion Include="SkiaSharp.Views.WinUI" Version="2.88.5" />
-		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.5" />
-		<PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
-		<PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-		<PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
-		<PackageVersion Include="Uno.Cupertino" Version="3.0.0-dev.336" />
-		<PackageVersion Include="Uno.Cupertino.WinUI" Version="3.0.0-dev.336" />
-		<PackageVersion Include="Uno.Extensions.Markup.Generators" Version="1.0.0-dev.166" />
-		<PackageVersion Include="Uno.SourceGenerationTasks" Version="4.2.0" />
-		<PackageVersion Include="Uno.WinUI.Markup" Version="4.8.0-dev.43" />
-		<PackageVersion Include="Uno.Material" Version="3.0.0-dev.336" />
-		<PackageVersion Include="Uno.Material.WinUI" Version="3.0.0-dev.336" />
-		<PackageVersion Include="Uno.UI" Version="5.0.0-dev.1728" />
-		<PackageVersion Include="Uno.WinUI" Version="5.0.0-dev.1728" />
-		<PackageVersion Include="Uno.XamlMerge.Task" Version="1.1.0-dev.12" />
-		<PackageVersion Include="FluentAssertions" Version="5.10.3" />
-		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-		<PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageVersion Include="NUnit" Version="3.13.3" />
-		<PackageVersion Include="NUnit3TestAdapter" Version="4.3.1" />
-		<PackageVersion Include="NunitXml.TestLogger" Version="3.0.131" />
-		<PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="0.14.0-dev.54" />
-		<PackageVersion Include="Uno.UITest" Version="1.1.0-dev.59" />
-		<PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.59" />
-		<PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.59" />
-		<PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.59" />
-		<PackageVersion Include="Xamarin.UITest" Version="4.1.4" />
-		<PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
-		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.7.0-2.final" />
-		<PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22518.1" />
-	</ItemGroup>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
+    <PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <PackageVersion Include="SkiaSharp" Version="2.88.5" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="2.88.5" />
+    <PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.5" />
+    <PackageVersion Include="SkiaSharp.Views.WinUI" Version="2.88.5" />
+    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.5" />
+    <PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
+    <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
+    <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
+    <PackageVersion Include="Uno.Cupertino" Version="3.0.0-dev.352" />
+    <PackageVersion Include="Uno.Cupertino.WinUI" Version="3.0.0-dev.352" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="1.0.0-dev.166" />
+    <PackageVersion Include="Uno.SourceGenerationTasks" Version="4.2.0" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="4.8.0-dev.43" />
+    <PackageVersion Include="Uno.Material" Version="3.0.0-dev.352" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="3.0.0-dev.352" />
+    <PackageVersion Include="Uno.UI" Version="5.0.0-dev.1728" />
+    <PackageVersion Include="Uno.WinUI" Version="5.0.0-dev.1728" />
+    <PackageVersion Include="Uno.XamlMerge.Task" Version="1.1.0-dev.12" />
+    <PackageVersion Include="FluentAssertions" Version="5.10.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageVersion Include="NUnit" Version="3.13.3" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.3.1" />
+    <PackageVersion Include="NunitXml.TestLogger" Version="3.0.131" />
+    <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="0.14.0-dev.54" />
+    <PackageVersion Include="Uno.UITest" Version="1.1.0-dev.59" />
+    <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.59" />
+    <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.59" />
+    <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.59" />
+    <PackageVersion Include="Xamarin.UITest" Version="4.1.4" />
+    <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
+    <PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="4.7.0-2.final" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0-preview1.22518.1" />
+  </ItemGroup>
 </Project>
