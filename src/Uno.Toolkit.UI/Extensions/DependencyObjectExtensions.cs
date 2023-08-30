@@ -19,6 +19,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 #endif
 
+using static System.Reflection.BindingFlags;
+
 namespace Uno.Toolkit.UI
 {
 	internal static class DependencyObjectExtensions
@@ -191,19 +193,18 @@ namespace Uno.Toolkit.UI
 				return property;
 			}
 
-			property = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static)?.GetValue(null) as DependencyProperty
-				?? type.GetField(propertyName, BindingFlags.Public | BindingFlags.Static)?.GetValue(null) as DependencyProperty;
+			property =
+				type.GetProperty(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty ??
+				type.GetField(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty;
 
+#if HAS_UNO
 			if (property == null)
 			{
-#if HAS_UNO
-				dependencyObject.Log().LogWarning($"The {propertyName} dependency property does not exist on {type}");
-#endif
+				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{type}.{propertyName}' dependency property does not exist.");
 			}
-#if HAS_UNO
 			else if (property.GetType() != propertyType)
 			{
-				dependencyObject.Log().LogWarning($"The {propertyName} dependency property {type} is not of the {propertyType} Type.");
+				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{type}.{propertyName}' dependency property is not of the expected '{propertyType}' type.");
 				property = null;
 			}
 #endif
