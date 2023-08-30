@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Drawing;
+using System.Reflection;
 using Uno.Toolkit.UITest.Extensions;
 using Uno.Toolkit.UITest.Framework;
 using Uno.UITest;
@@ -35,7 +36,7 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 			var shadowContainer = App.WaitForElementWithMessage("shadowContainer");
 			var runButton = App.MarkedAnywhere("runButton");
 			var resetButton = App.MarkedAnywhere("resetButton");
-			
+
 
 			var statusText = App.MarkedAnywhere("statusText");
 			var shadowRect = App.GetPhysicalRect("shadowContainer");
@@ -53,7 +54,8 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 			var outerBorderRect = App.GetPhysicalRect("outerBorder");
 			var elementRect = App.GetPhysicalRect("border");
 
-			Check_Assert(outerBorderRect, elementRect, xOffset, yOffset, inner);
+			var caseName = $"Shadow_x{xOffset}_y{yOffset}{(inner ? "_Inner" : "_Outer")}";
+			Check_Assert(outerBorderRect, elementRect, xOffset, yOffset, inner, caseName);
 
 			resetButton.FastTap();
 
@@ -94,7 +96,8 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 			var outerBorderRect = App.GetPhysicalRect("outerBorderRetangle");
 			var elementRect = App.GetPhysicalRect("rectangle");
 
-			Check_Assert(outerBorderRect, elementRect, xOffset, yOffset, inner);
+			var caseName = $"ShadowRectangle_x{xOffset}_y{yOffset}{(inner ? "_Inner" : "_Outer")}";
+			Check_Assert(outerBorderRect, elementRect, xOffset, yOffset, inner, caseName);
 			resetButton.FastTap();
 
 		}
@@ -103,7 +106,7 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 		[Test]
 		[TestCase(10, 10, false)]
 		[TestCase(-10, -10, false)]
-		public void When_ShadowsIrregularCorner(int xOffset, int yOffset, bool inner)
+		public void When_AsymmetricShadowsCorner(int xOffset, int yOffset, bool inner)
 		{
 			var shadowContainer = App.WaitForElementWithMessage("shadowContainer");
 			var resetButton = App.MarkedAnywhere("resetButton");
@@ -127,7 +130,7 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 			App.WaitForDependencyPropertyValue<string>(statusText, "Text", "Verify");
 			var outerTestRect = App.GetPhysicalRect("outerBorderIrregularCorner");
 
-			var caseName = $"Shadow_x{xOffset}_y{yOffset}{(inner ? "_Inner" : "_Outer")}";
+			var caseName = $"ShadowIrregular_x{xOffset}_y{yOffset}{(inner ? "_Inner" : "_Outer")}";
 
 			using var screenshot = TakeScreenshot(caseName);
 
@@ -229,13 +232,12 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 				currentX = Math.Min(++currentX, absXOffset);
 				currentY = Math.Min(++currentY, absYOffset);
 			}
-			resetButton.FastTap();
+			//resetButton.FastTap();
 		}
 
-		public void Check_Assert(IAppRect outerBorderRect, IAppRect borderRect, int xOffset, int yOffset, bool inner)
+		public void Check_Assert(IAppRect outerBorderRect, IAppRect borderRect, int xOffset, int yOffset, bool inner, string caseName)
 		{
 
-			var caseName = $"Shadow_x{xOffset}_y{yOffset}{(inner ? "_Inner" : "_Outer")}";
 			using var screenshot = TakeScreenshot(caseName);
 
 			
