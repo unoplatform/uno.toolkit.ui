@@ -23,14 +23,14 @@
 					OffsetY="10"
 					Opacity="0.5"
 					Spread="0"
-					Color="{StaticResource UnoColor}" />
+					Color="{StaticResource UnoPink}" />
 
 		<utu:ShadowCollection x:Name="ButtonShadows">
 			<utu:Shadow BlurRadius="20"
 						OffsetX="8"
 						OffsetY="8"
 						Opacity="0.5"
-						Color="{StaticResource UnoColor}" />
+						Color="{StaticResource UnoPink}" />
 		</utu:ShadowCollection>
 
 		<utu:ShadowCollection x:Key="NeumorphismRaising">
@@ -39,7 +39,7 @@
 						OffsetY="10"
 						Opacity="1"
 						Spread="-5"
-						Color="#6858d3" />
+						Color="{StaticResource UnoPink}" />
 			<utu:Shadow BlurRadius="30"
 						OffsetX="-10"
 						OffsetY="-10"
@@ -55,7 +55,7 @@
 						OffsetY="5"
 						Opacity="1"
 						Spread="0"
-						Color="#6858d3" />
+						Color="{StaticResource UnoPink}" />
 			<utu:Shadow BlurRadius="10"
 						IsInner="True"
 						OffsetX="-4"
@@ -72,7 +72,7 @@
 						OffsetY="-5"
 						Opacity="1"
 						Spread="0"
-						Color="#6858d3" />
+						Color="{StaticResource UnoPink}" />
 			<utu:Shadow BlurRadius="10"
 						IsInner="True"
 						OffsetX="4"
@@ -264,6 +264,7 @@
 												BorderBrush="{StaticResource UnoColor}"
 												Content="Bulging element"
 												CornerRadius="15"
+												HorizontalAlignment="Center"
 												Background="Transparent"
 												Foreground="White" />
 									</utu:ShadowContainer>
@@ -303,7 +304,522 @@
 									</StackPanel>
 								</StackPanel>
 
+
+							 <!--Test ShadowContainer stretching its content by default--> 
+
+							<StackPanel HorizontalAlignment="Stretch"
+										Spacing="50"
+										Padding="20">
+
+								<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Shadows element"
+											 Text="NO Padding NO Margin"/>
+								</utu:ShadowContainer>
+
+								<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Shadows element"
+											 Text="Padding"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Shadows element"
+											 Text="Margin"
+											 Margin="30,30,30,30"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Shadows element"
+											 Text="Padding + Margin diff"
+											 Margin="15,30,50,30"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Shadows element"
+											 Text="Padding"
+											 Padding="15,30,50,30"/>
+								</utu:ShadowContainer>
 							</StackPanel>
+							
+							
+							<StackPanel HorizontalAlignment="Stretch"
+										Spacing="50"
+										Padding="20">
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="NO Padding NO Margin"/>
+								</utu:ShadowContainer>
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="Padding"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="Margin"
+											 Margin="30,30,30,30"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="Padding + Margin diff"
+											 Margin="15,30,50,30"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox 
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="Padding"
+											 Padding="15,30,50,30"/>
+								</utu:ShadowContainer>
+							</StackPanel>
+
+							<StackPanel HorizontalAlignment="Stretch"
+										Spacing="50"
+										Padding="20">
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Center"/>
+								</utu:ShadowContainer>
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Right"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Right"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Right"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="Right"
+											 Margin="200,30,30,30"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Left"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Left"
+											 Margin="15,30,200,30"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox 
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Left"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="Left"
+											 Padding="15,30,50,30"/>
+								</utu:ShadowContainer>
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Center"
+													 HorizontalContentAlignment="Center"
+													 Background="{StaticResource UnoColor}">
+									<TextBox 
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Left"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="Left on ShadowContainer Center"
+											 Padding="15,30,50,30"/>
+								</utu:ShadowContainer>
+							</StackPanel>
+
+
+							<StackPanel HorizontalAlignment="Stretch"
+										Spacing="50"
+										Padding="20">
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Center"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Center"/>
+								</utu:ShadowContainer>
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Right"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Right"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Right"
+											 VerticalAlignment="Top"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Right Top "/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Left"
+											 VerticalAlignment="Bottom"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Left"
+											 Margin="15,100,50,200"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox 
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Left"
+											 VerticalAlignment="Top"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="Left"
+											 Margin="15,100,50,100"/>
+								</utu:ShadowContainer>
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismHollow}"
+													 HorizontalAlignment="Center"
+													 HorizontalContentAlignment="Center"
+													 Background="{StaticResource UnoColor}">
+									<TextBox 
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Left"
+											 VerticalAlignment="Top"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Hollow element"
+											 Text="Left on ShadowContainer Center"
+											 Padding="15,200,50,100"/>
+								</utu:ShadowContainer>
+							</StackPanel>
+
+
+
+
+							<StackPanel HorizontalAlignment="Stretch"
+										Spacing="50"
+										Padding="20">
+
+
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulging}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Left"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Left Margin 0,130,300,20"
+											 Margin="0,130,300,20"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulging}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Left"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Left Margin 300,20,0,130"
+											 Margin="300,20,0,130"/>
+								</utu:ShadowContainer>
+
+
+
+
+
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulging}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Right"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Right Margin 0,130,300,20"
+											 Margin="0,130,300,20"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulging}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Right"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Right Margin 300,20,0,130"
+											 Margin="300,20,0,130"/>
+								</utu:ShadowContainer>
+
+
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulging}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Center"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Center Margin 0,130,300,20"
+											 Margin="0,130,300,20"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulging}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Center"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Center Margin 300,20,0,130"
+											 Margin="300,20,0,130"/>
+								</utu:ShadowContainer>
+
+
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulging}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Stretch Margin 0,130,300,20"
+											 Margin="0,130,300,20"/>
+								</utu:ShadowContainer>
+
+
+								<utu:ShadowContainer Shadows="{StaticResource NeumorphismBulging}"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
+													 Background="{StaticResource UnoColor}">
+									<TextBox Padding="10"
+											 
+											 BorderThickness="0"
+											 CornerRadius="20"
+											 Foreground="White"
+											 HorizontalAlignment="Stretch"
+											 VerticalAlignment="Center"
+											 PlaceholderForeground="LightGray"
+											 PlaceholderText="Raising element"
+											 Text="Stretch Margin 300,20,0,130"
+											 Margin="300,20,0,130"/>
+								</utu:ShadowContainer>
+
+
+							</StackPanel>
+
+						</StackPanel>
 
 						</StackPanel>
 					</ScrollViewer>
