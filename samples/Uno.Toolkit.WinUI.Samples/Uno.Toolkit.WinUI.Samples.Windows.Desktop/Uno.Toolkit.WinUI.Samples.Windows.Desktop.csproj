@@ -38,4 +38,8 @@
 
 	<Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
 
+	<ItemGroup>
+	  <Page Remove="C:\Work\uno.toolkit.ui\samples\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Content\TestPages\ShadowContainerRectangleTestPage.WinUI.xaml" />
+	</ItemGroup>
+
 </Project>
