@@ -37,7 +37,8 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 			statusText.Text = "Running";
 			shadowContainer.Shadows.Clear();
 			shadowContainerRectangle.Shadows.Clear();
-			
+			shadowContainerIrregularCorner.Shadows.Clear();
+
 			if (!int.TryParse(xOffsetText.Text, out var xOffset))
 			{
 				xOffset = 0;
@@ -68,6 +69,15 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 				Color = Colors.Red,
 			});
 
+			shadowContainerIrregularCorner.Shadows.Add(new UI.Shadow
+			{
+				OffsetX = xOffset,
+				OffsetY = yOffset,
+				IsInner = isInner,
+				Opacity = 1,
+				Color = Colors.Red,
+			});
+
 			statusText.Text = "Verify";
 		}
 
@@ -82,6 +92,9 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 
 			shadowContainer.Shadows.Clear();
 			shadowContainerRectangle.Shadows.Clear();
+			shadowContainerIrregularCorner.Shadows.Clear();
+
+			containerIrregularCorner.Visibility = Visibility.Collapsed;
 			containerRectangle.Visibility = Visibility.Collapsed;
 			containerBorder.Visibility = Visibility.Visible;
 		}
@@ -90,14 +103,22 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 		{
 			containerRectangle.Visibility = Visibility.Collapsed;
 			containerBorder.Visibility = Visibility.Visible;
+			containerIrregularCorner.Visibility = Visibility.Collapsed;
 
 		}
 		private void Rectangle_ClickElement(object sender, RoutedEventArgs e)
 		{
 			containerRectangle.Visibility = Visibility.Visible;
 			containerBorder.Visibility = Visibility.Collapsed;
+			containerIrregularCorner.Visibility = Visibility.Collapsed;
 		}
-
+		private void IrregularCorner_ClickElement(object sender, RoutedEventArgs e)
+		{
+			containerRectangle.Visibility = Visibility.Collapsed;
+			containerBorder.Visibility = Visibility.Collapsed;
+			containerIrregularCorner.Visibility = Visibility.Visible;
+		}
+		
 
 	}
 }
