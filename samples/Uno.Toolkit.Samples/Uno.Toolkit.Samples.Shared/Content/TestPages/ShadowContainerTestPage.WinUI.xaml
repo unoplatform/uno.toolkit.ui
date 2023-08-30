@@ -22,11 +22,11 @@
 					Padding="10"
 					Height="220"
 					Width="220">
-				<utu:ShadowContainer x:Name="shadowContainer">
+				<utu:ShadowContainer x:Name="shadowContainer"
+							Background="Green">
 						<Border Width="200"
 							Height="200"
-							x:Name="border"
-							Background="Green"/>
+							x:Name="border"/>
 				</utu:ShadowContainer>
 			</Border>
 		
@@ -41,12 +41,12 @@
 					Padding="10"
 					Height="220"
 					Width="220">
-				<utu:ShadowContainer x:Name="shadowContainerRectangle">
+				<utu:ShadowContainer x:Name="shadowContainerRectangle" 
+							Background="Green">
 
 					<Rectangle Width="200"
 							Height="200"
-							x:Name="rectangle"
-							Fill="Green"/>
+							x:Name="rectangle"/>
 
 				</utu:ShadowContainer>
 			</Border>
