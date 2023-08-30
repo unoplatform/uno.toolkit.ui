@@ -58,11 +58,11 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 			var xStart = xOffset < 0 ? (int)outerBorderRect.X : (int)outerBorderRect.Right;
 			var yStart = yOffset < 0 ? (int)outerBorderRect.Y : (int)outerBorderRect.Bottom;
 
-			int currentX = 1;
-			int currentY = 1;
-
 			int absXOffset = Math.Abs(xOffset);
 			int absYOffset = Math.Abs(yOffset);
+
+			int currentX = absXOffset * 2;
+			int currentY = absYOffset * 2;
 
 			while (currentX < absXOffset || currentY < absYOffset)
 			{
