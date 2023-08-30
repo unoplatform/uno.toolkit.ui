@@ -148,16 +148,6 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 
 	public event PropertyChangedEventHandler? PropertyChanged;
 
-	internal static bool IsShadowProperty(string propertyName)
-	{
-		return propertyName == nameof(OffsetX) || propertyName == nameof(OffsetY) ||
-			   propertyName == nameof(IsInner) ||
-			   propertyName == nameof(Color) ||
-			   propertyName == nameof(Opacity) ||
-			   propertyName == nameof(BlurRadius) ||
-			   propertyName == nameof(Spread);
-	}
-
 	internal static bool IsShadowSizeProperty(string propertyName)
 	{
 		return propertyName == nameof(OffsetX) || propertyName == nameof(OffsetY) ||
@@ -173,9 +163,6 @@ public partial class Shadow : DependencyObject, INotifyPropertyChanged
 
 	public override string ToString() =>
 		$"{{ IsInner: {{{IsInner}}}, Offset: {{{OffsetX}, {OffsetY}}} Color: {{A={Color.A}, R={Color.R}, G={Color.G}, B={Color.B}}}, Opacity: {Opacity}, BlurRadius: {BlurRadius}, Spread: {Spread} }}";
-
-	public string ToKey() =>
-		string.Join(",", IsInner, OffsetX, OffsetY, Color.ToString(), Opacity, BlurRadius, Spread);
 
 	public Shadow Clone()
 	{
