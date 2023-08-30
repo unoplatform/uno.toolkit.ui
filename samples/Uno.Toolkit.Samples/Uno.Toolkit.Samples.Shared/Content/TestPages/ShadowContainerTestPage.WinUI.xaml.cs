@@ -27,6 +27,13 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 	[SamplePage(SampleCategory.Tests, "ShadowContainerTest")]
 	public sealed partial class ShadowContainerTestPage : Page
 	{
+		private enum ElementState
+		{
+			Border,
+			Rectangle,
+			BorderIrregular
+		}
+		private ElementState SelectedElement;
 		public ShadowContainerTestPage()
 		{
 			this.InitializeComponent();
@@ -34,7 +41,9 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 
 		private void runButton_Click(object sender, RoutedEventArgs e)
 		{
+			UpdateVisibilityElement();
 			statusText.Text = "Running";
+
 			shadowContainer.Shadows.Clear();
 			shadowContainerRectangle.Shadows.Clear();
 			shadowContainerIrregularCorner.Shadows.Clear();
@@ -50,39 +59,35 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 			}
 
 			var isInner = inner.IsChecked ?? false;
-
-			shadowContainer.Shadows.Add(new UI.Shadow
+			var shadow = new UI.Shadow
 			{
 				OffsetX = xOffset,
 				OffsetY = yOffset,
 				IsInner = isInner,
 				Opacity = 1,
 				Color = Colors.Red,
-			});
-
-			shadowContainerRectangle.Shadows.Add(new UI.Shadow
+			};
+			switch (SelectedElement)
 			{
-				OffsetX = xOffset,
-				OffsetY = yOffset,
-				IsInner = isInner,
-				Opacity = 1,
-				Color = Colors.Red,
-			});
+				case ElementState.Border:
+					shadowContainer.Shadows.Add(shadow);
+					break;
+				case ElementState.Rectangle:
+					shadowContainerRectangle.Shadows.Add(shadow);
+					break;
+				case ElementState.BorderIrregular:
+					shadowContainerIrregularCorner.Shadows.Add(shadow);
+					break;
 
-			shadowContainerIrregularCorner.Shadows.Add(new UI.Shadow
-			{
-				OffsetX = xOffset,
-				OffsetY = yOffset,
-				IsInner = isInner,
-				Opacity = 1,
-				Color = Colors.Red,
-			});
+			}
 
 			statusText.Text = "Verify";
 		}
 
 		private void reset_Click(object sender, RoutedEventArgs e)
 		{
+			SelectedElement = ElementState.Border;
+
 			statusText.Text = string.Empty;
 
 			xOffsetText.Text = string.Empty;
@@ -94,32 +99,46 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 			shadowContainerRectangle.Shadows.Clear();
 			shadowContainerIrregularCorner.Shadows.Clear();
 
-			containerIrregularCorner.Visibility = Visibility.Collapsed;
-			containerRectangle.Visibility = Visibility.Collapsed;
-			containerBorder.Visibility = Visibility.Visible;
+			UpdateVisibilityElement();
+
 		}
 
 		private void Border_ClickElement(object sender, RoutedEventArgs e)
 		{
-			containerRectangle.Visibility = Visibility.Collapsed;
-			containerBorder.Visibility = Visibility.Visible;
-			containerIrregularCorner.Visibility = Visibility.Collapsed;
-
+			SelectedElement = ElementState.Border;
+			UpdateVisibilityElement();
 		}
 		private void Rectangle_ClickElement(object sender, RoutedEventArgs e)
 		{
-			containerRectangle.Visibility = Visibility.Visible;
-			containerBorder.Visibility = Visibility.Collapsed;
-			containerIrregularCorner.Visibility = Visibility.Collapsed;
+			SelectedElement = ElementState.Rectangle;
+			UpdateVisibilityElement();
 		}
 		private void IrregularCorner_ClickElement(object sender, RoutedEventArgs e)
 		{
+			SelectedElement = ElementState.BorderIrregular;
+			UpdateVisibilityElement();
+		}
+
+		private void UpdateVisibilityElement()
+		{
+			statusText.Text = string.Empty;
+			containerIrregularCorner.Visibility = Visibility.Collapsed;
 			containerRectangle.Visibility = Visibility.Collapsed;
 			containerBorder.Visibility = Visibility.Collapsed;
-			containerIrregularCorner.Visibility = Visibility.Visible;
-		}
-		
+			switch (SelectedElement)
+			{
+				case ElementState.Border:
+					containerBorder.Visibility = Visibility.Visible;
+					break;
+				case ElementState.Rectangle:
+					containerRectangle.Visibility = Visibility.Visible;
+					break;
+				case ElementState.BorderIrregular:
+					containerIrregularCorner.Visibility = Visibility.Visible;
+					break;
 
+			}
+		}
 	}
 }
 #endif
