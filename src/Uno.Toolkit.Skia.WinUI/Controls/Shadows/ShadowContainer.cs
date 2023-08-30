@@ -118,10 +118,6 @@ public partial class ShadowContainer : ContentControl
 		}
 		void OnInnerPropertyChanged(DependencyObject sender, DependencyProperty dp)
 		{
-			if (sender == this && dp == CornerRadiusProperty)
-			{
-				InvalidateCanvasLayout();
-			}
 			InvalidateShadows();
 		}
 		void OnContentPropertyChanged(DependencyObject sender, DependencyProperty dp)
@@ -207,13 +203,29 @@ public partial class ShadowContainer : ContentControl
 		{
 			if (content is FrameworkElement contentAsFE)
 			{
-				contentAsFE.SizeChanged += OnContentSizeChanged;
 				contentNestedDisposable.Disposable = new CompositeDisposable
 				{
-					Disposable.Create(() => contentAsFE.SizeChanged -= OnContentSizeChanged),
-					GetCornerRadiusPropertyFor(content) is { } dp ? contentAsFE.RegisterDisposablePropertyChangedCallback(dp, OnContentPropertyChanged) : Disposable.Empty,
-					contentAsFE.RegisterDisposablePropertyChangedCallback(FrameworkElement.MarginProperty, OnContentPropertyChanged),
+					RegisterSizeChangedHandler(contentAsFE, OnContentSizeChanged),
+					RegisterNestedPropertyChangedSafe<FrameworkElement>(GetCornerRadiusPropertyFor(content)),
+					RegisterNestedPropertyChangedSafe<Rectangle>(Rectangle.RadiusXProperty),
+					RegisterNestedPropertyChangedSafe<Rectangle>(Rectangle.RadiusYProperty),
+					RegisterNestedPropertyChangedSafe<FrameworkElement>(FrameworkElement.MarginProperty),
 				};
+
+				static IDisposable RegisterSizeChangedHandler(FrameworkElement fe, SizeChangedEventHandler handler)
+				{
+					fe.SizeChanged += handler;
+					return Disposable.Create(() => fe.SizeChanged -= handler);
+				}
+				IDisposable RegisterNestedPropertyChangedSafe<T>(DependencyProperty? dp, DependencyPropertyChangedCallback? callback = null)
+				{
+					if (contentAsFE is T && dp is { })
+					{
+						return contentAsFE.RegisterDisposablePropertyChangedCallback(dp, callback ?? OnContentPropertyChanged);
+					}
+
+					return Disposable.Empty;
+				}
 			}
 			else
 			{
@@ -377,7 +389,7 @@ public partial class ShadowContainer : ContentControl
 			Grid => Grid.CornerRadiusProperty,
 			StackPanel => StackPanel.CornerRadiusProperty,
 
-			Shape => null,
+			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
 			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty"),
 			_ => null,
 		};
@@ -393,7 +405,7 @@ public partial class ShadowContainer : ContentControl
 			Grid grid => grid.CornerRadius,
 			StackPanel stackpanel => stackpanel.CornerRadius,
 
-			Shape => null,
+			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
 			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty") is { } dp
 				? (CornerRadius)@do.GetValue(dp)
 				: null,
