@@ -6,7 +6,6 @@ mode: Mainline
 # See https://github.com/GitTools/GitVersion/issues/2461#issuecomment-733658087
 # next-version: 3.0
 
-
 branches:
   main:
     mode: ContinuousDeployment
