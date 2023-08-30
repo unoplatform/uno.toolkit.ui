@@ -84,227 +84,228 @@
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<sample:SamplePageLayout x:Name="SamplePageLayout"
-								 IsDesignAgnostic="True">
+		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<ScrollViewer HorizontalScrollMode="Disabled">
-						<StackPanel>
+						<StackPanel Spacing="24">
 
-							<TextBlock Margin="0,24,0,0"
-									   Style="{StaticResource TitleTextBlockStyle}"
-									   Text="Many colored shadows" />
-							<TextBlock Style="{StaticResource BodyTextBlockStyle}"
-									   Text="You can add as many shadows as you like. You can also dynamically change the shadow properties." />
+							<StackPanel>
+								<TextBlock Text="Many colored shadows" Style="{StaticResource TitleTextBlockStyle}" />
+								<TextBlock Text="You can add as many shadows as you like. You can also dynamically change the shadow properties." Style="{StaticResource BodyTextBlockStyle}" />
 
-							<utu:ShadowContainer x:Name="ShadowContainer"
-												 Margin="32">
-								<utu:ShadowContainer.Shadows>
-									<utu:ShadowCollection x:Name="Shadows">
-										<utu:Shadow BlurRadius="20"
-													OffsetX="10"
-													OffsetY="10"
-													Opacity="0.5"
-													Spread="0"
-													Color="{StaticResource UnoColor}" />
-										<utu:Shadow BlurRadius="20"
-													OffsetX="-10"
-													OffsetY="-10"
-													Opacity="0.5"
-													Spread="0"
-													Color="{StaticResource UnoPink}" />
-									</utu:ShadowCollection>
-								</utu:ShadowContainer.Shadows>
-								<StackPanel MinWidth="300"
-											MaxWidth="500"
-											Padding="16"
-											Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-											BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
-											BorderThickness="1"
-											CornerRadius="20">
-									<ItemsControl x:Name="ShadowsItemsControl">
-										<ItemsControl.ItemsPanel>
-											<ItemsPanelTemplate>
-												<StackPanel Orientation="Vertical"
-															Spacing="10" />
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-										<ItemsControl.ItemTemplate>
-											<DataTemplate>
-												<Grid ColumnSpacing="5"
-													  RowSpacing="5">
-													<Grid.RowDefinitions>
-														<RowDefinition Height="Auto" />
-														<RowDefinition Height="Auto" />
-													</Grid.RowDefinitions>
-													<Grid.ColumnDefinitions>
-														<ColumnDefinition Width="70" />
-														<ColumnDefinition Width="70" />
-														<ColumnDefinition Width="60" />
-														<ColumnDefinition Width="80" />
-													</Grid.ColumnDefinitions>
+								<utu:ShadowContainer x:Name="ShadowContainer"
+													 Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+													 CornerRadius="20"
+													 Margin="32">
+									<utu:ShadowContainer.Shadows>
+										<utu:ShadowCollection x:Name="Shadows">
+											<utu:Shadow BlurRadius="20"
+														OffsetX="10"
+														OffsetY="10"
+														Opacity="0.5"
+														Spread="0"
+														Color="{StaticResource UnoColor}" />
+											<utu:Shadow BlurRadius="20"
+														OffsetX="-10"
+														OffsetY="-10"
+														Opacity="0.5"
+														Spread="0"
+														Color="{StaticResource UnoPink}" />
+										</utu:ShadowCollection>
+									</utu:ShadowContainer.Shadows>
+									<StackPanel MinWidth="300"
+												MaxWidth="500"
+												Padding="16"
+												BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
+												CornerRadius="20"
+												BorderThickness="1">
+										<ItemsControl x:Name="ShadowsItemsControl">
+											<ItemsControl.ItemsPanel>
+												<ItemsPanelTemplate>
+													<StackPanel Orientation="Vertical" Spacing="10" />
+												</ItemsPanelTemplate>
+											</ItemsControl.ItemsPanel>
+											<ItemsControl.ItemTemplate>
+												<DataTemplate>
+													<Grid ColumnSpacing="5" RowSpacing="5">
+														<Grid.RowDefinitions>
+															<RowDefinition Height="Auto" />
+															<RowDefinition Height="Auto" />
+														</Grid.RowDefinitions>
+														<Grid.ColumnDefinitions>
+															<ColumnDefinition Width="70" />
+															<ColumnDefinition Width="70" />
+															<ColumnDefinition Width="60" />
+															<ColumnDefinition Width="80" />
+														</Grid.ColumnDefinitions>
 
-													<TextBox Grid.ColumnSpan="2"
-															 PlaceholderText="Color"
-															 Text="{Binding Color, Mode=TwoWay, Converter={StaticResource HexToColor}}">
-														<TextBox.Foreground>
-															<SolidColorBrush Color="{Binding Color}" />
-														</TextBox.Foreground>
-													</TextBox>
-													<TextBox Grid.Column="2"
-															 PlaceholderText="Opacity"
-															 Text="{Binding Opacity, Mode=TwoWay}" />
-													<CheckBox Grid.Column="3"
-															  Padding="5,0"
-															  Content="Inner"
-															  IsChecked="{Binding IsInner, Mode=TwoWay}" />
+														<TextBox Grid.ColumnSpan="2"
+																 PlaceholderText="Color"
+																 Text="{Binding Color, Mode=TwoWay, Converter={StaticResource HexToColor}}">
+															<TextBox.Foreground>
+																<SolidColorBrush Color="{Binding Color}" />
+															</TextBox.Foreground>
+														</TextBox>
+														<TextBox Grid.Column="2"
+																 PlaceholderText="Opacity"
+																 Text="{Binding Opacity, Mode=TwoWay}" />
+														<CheckBox Grid.Column="3"
+																  Padding="5,0"
+																  Content="Inner"
+																  IsChecked="{Binding IsInner, Mode=TwoWay}" />
 
-													<TextBox Grid.Row="1"
-															 PlaceholderText="X"
-															 Text="{Binding OffsetX, Mode=TwoWay}" />
-													<TextBox Grid.Row="1"
-															 Grid.Column="1"
-															 PlaceholderText="Y"
-															 Text="{Binding OffsetY, Mode=TwoWay}" />
-													<TextBox Grid.Row="1"
-															 Grid.Column="2"
-															 PlaceholderText="Blur"
-															 Text="{Binding BlurRadius, Mode=TwoWay}" />
-													<TextBox Grid.Row="1"
-															 Grid.Column="3"
-															 PlaceholderText="Spread"
-															 Text="{Binding Spread, Mode=TwoWay}" />
+														<TextBox Grid.Row="1"
+																 PlaceholderText="X"
+																 Text="{Binding OffsetX, Mode=TwoWay}" />
+														<TextBox Grid.Row="1"
+																 Grid.Column="1"
+																 PlaceholderText="Y"
+																 Text="{Binding OffsetY, Mode=TwoWay}" />
+														<TextBox Grid.Row="1"
+																 Grid.Column="2"
+																 PlaceholderText="Blur"
+																 Text="{Binding BlurRadius, Mode=TwoWay}" />
+														<TextBox Grid.Row="1"
+																 Grid.Column="3"
+																 PlaceholderText="Spread"
+																 Text="{Binding Spread, Mode=TwoWay}" />
 
-												</Grid>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-									<StackPanel Margin="0,16,0,0"
+													</Grid>
+												</DataTemplate>
+											</ItemsControl.ItemTemplate>
+										</ItemsControl>
+										<StackPanel Margin="0,16,0,0"
+													HorizontalAlignment="Center"
+													Orientation="Horizontal"
+													Spacing="16">
+											<utu:ShadowContainer Background="{StaticResource UnoColor}"
+																 CornerRadius="20"
+																 Shadows="{StaticResource ButtonShadows}">
+												<Button Content="Add Shadow"
+														Click="AddShadow"
+														Background="Transparent"
+														BorderThickness="1"
+														Foreground="White" />
+											</utu:ShadowContainer>
+											<utu:ShadowContainer Background="{StaticResource UnoColor}"
+																 CornerRadius="20"
+																 Shadows="{StaticResource ButtonShadows}">
+												<Button Content="Remove Shadow"
+														Click="RemoveShadow"
+														Background="Transparent"
+														BorderThickness="1"
+														Foreground="White" />
+											</utu:ShadowContainer>
+										</StackPanel>
+									</StackPanel>
+								</utu:ShadowContainer>
+							</StackPanel>
+
+							<StackPanel>
+								<TextBlock Text="Enable neumorphism" Style="{StaticResource TitleTextBlockStyle}" />
+								<TextBlock Text="Being able to add several shadows enables you to create neumorphic designs." Style="{StaticResource BodyTextBlockStyle}" />
+
+								<StackPanel Width="400"
+											Margin="0,20"
+											Padding="20"
+											Background="{StaticResource UnoColor}"
+											CornerRadius="30">
+									<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
+										<Grid Width="300"
+											  Padding="20"
+											  Background="{StaticResource UnoColor}"
+											  CornerRadius="20">
+											<Grid.RowDefinitions>
+												<RowDefinition Height="20" />
+												<RowDefinition Height="20" />
+											</Grid.RowDefinitions>
+
+											<TextBlock FontSize="15"
+													   Foreground="White"
+													   Text="Neumorphism" />
+											<TextBlock Grid.Row="1"
+													   FontSize="12"
+													   Foreground="White"
+													   Text="Raising element" />
+										</Grid>
+									</utu:ShadowContainer>
+
+									<utu:ShadowContainer Margin="0,60,0,0"
+														 Background="{StaticResource UnoColor}"
+														 Shadows="{StaticResource NeumorphismHollow}">
+										<TextBox Width="200"
+												 Padding="10"
+												 BorderThickness="0"
+												 CornerRadius="20"
+												 Foreground="White"
+												 PlaceholderForeground="LightGray"
+												 PlaceholderText="Hollow element"
+												 Text="Login" />
+									</utu:ShadowContainer>
+									<utu:ShadowContainer Background="{StaticResource UnoColor}"
+														 Shadows="{StaticResource NeumorphismHollow}"
+														 Margin="0,15">
+										<TextBox Width="200"
+												 Padding="10"
+												 BorderThickness="0"
+												 CornerRadius="20"
+												 Foreground="White"
+												 PlaceholderForeground="LightGray"
+												 PlaceholderText="Hollow element"
+												 Text="Password" />
+									</utu:ShadowContainer>
+
+									<utu:ShadowContainer Margin="0,30"
+														 Background="{StaticResource UnoColor}"
+														 Shadows="{StaticResource NeumorphismBulging}">
+										<Button Width="200"
+												Height="40"
+												BorderBrush="{StaticResource UnoColor}"
+												Content="Bulging element"
+												CornerRadius="15"
+												Background="Transparent"
+												Foreground="White" />
+									</utu:ShadowContainer>
+
+									<StackPanel Margin="0,30,0,0"
+												Padding="16"
 												HorizontalAlignment="Center"
 												Orientation="Horizontal"
 												Spacing="16">
-										<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}">
-											<Button Background="{StaticResource UnoColor}"
-													BorderThickness="1"
-													Click="AddShadow"
-													Content="Add Shadow"
+
+										<utu:ShadowContainer Background="{StaticResource UnoColor}" Shadows="{StaticResource NeumorphismRaising}">
+											<Button Content="Regular"
+													CornerRadius="20"
+													BorderThickness="0"
+													Background="Transparent"
 													Foreground="White" />
 										</utu:ShadowContainer>
-										<utu:ShadowContainer Shadows="{StaticResource ButtonShadows}">
-											<Button Background="{StaticResource UnoColor}"
-													BorderThickness="1"
-													Click="RemoveShadow"
-													Content="Remove Shadow"
+
+										<utu:ShadowContainer Background="{StaticResource UnoColor}" Shadows="{StaticResource NeumorphismRaising}">
+											<Button Content="Round"
+													Width="100"
+													Height="100"
+													BorderBrush="{StaticResource UnoColor}"
+													CornerRadius="50"
+													Background="Transparent"
+													Foreground="White" />
+										</utu:ShadowContainer>
+
+										<utu:ShadowContainer Background="{StaticResource UnoColor}" Shadows="{StaticResource NeumorphismRaising}">
+											<Button Content="Bigger"
+													Height="60"
+													BorderThickness="0"
+													CornerRadius="20"
+													Background="Transparent"
 													Foreground="White" />
 										</utu:ShadowContainer>
 									</StackPanel>
 								</StackPanel>
-							</utu:ShadowContainer>
 
-
-							<TextBlock Margin="0,24,0,0"
-									   Style="{StaticResource TitleTextBlockStyle}"
-									   Text="Enable neumorphism" />
-							<TextBlock Style="{StaticResource BodyTextBlockStyle}"
-									   Text="Being able to add several shadows enables you to create neumorphic designs." />
-
-
-							<StackPanel Width="400"
-										Margin="0,32"
-										Padding="32"
-										Background="{StaticResource UnoColor}"
-										CornerRadius="30">
-								<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
-									<Grid Width="300"
-										  Padding="20"
-										  Background="{StaticResource UnoColor}"
-										  CornerRadius="20">
-										<Grid.RowDefinitions>
-											<RowDefinition Height="20" />
-											<RowDefinition Height="20" />
-										</Grid.RowDefinitions>
-
-										<TextBlock FontSize="15"
-												   Foreground="White"
-												   Text="Neumorphism" />
-										<TextBlock Grid.Row="1"
-												   FontSize="12"
-												   Foreground="White"
-												   Text="Raising element" />
-									</Grid>
-								</utu:ShadowContainer>
-
-								<utu:ShadowContainer Margin="0,60,0,0"
-													 Shadows="{StaticResource NeumorphismHollow}">
-									<TextBox Width="200"
-											 Padding="10"
-											 Background="{StaticResource UnoColor}"
-											 BorderThickness="0"
-											 CornerRadius="20"
-											 Foreground="White"
-											 PlaceholderForeground="LightGray"
-											 PlaceholderText="Hollow element"
-											 Text="Login" />
-								</utu:ShadowContainer>
-								<utu:ShadowContainer Margin="0,15"
-													 Shadows="{StaticResource NeumorphismHollow}">
-									<TextBox Width="200"
-											 Padding="10"
-											 Background="{StaticResource UnoColor}"
-											 BorderThickness="0"
-											 CornerRadius="20"
-											 Foreground="White"
-											 PlaceholderForeground="LightGray"
-											 PlaceholderText="Hollow element"
-											 Text="Password" />
-								</utu:ShadowContainer>
-
-								<utu:ShadowContainer Margin="0,30"
-													 Shadows="{StaticResource NeumorphismBulging}">
-									<Button Width="200"
-											Height="40"
-											Background="{StaticResource UnoColor}"
-											BorderBrush="{StaticResource UnoColor}"
-											Content="Bulging element"
-											CornerRadius="15"
-											Foreground="White" />
-								</utu:ShadowContainer>
-
-								<StackPanel Margin="0,30,0,0"
-											Padding="24"
-											HorizontalAlignment="Center"
-											Orientation="Horizontal"
-											Spacing="16">
-
-									<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
-										<Button Background="{StaticResource UnoColor}"
-												BorderThickness="0"
-												Content="Regular"
-												Foreground="White" />
-									</utu:ShadowContainer>
-
-									<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
-										<Button Width="80"
-												Height="80"
-												Background="{StaticResource UnoColor}"
-												BorderBrush="{StaticResource UnoColor}"
-												Content="Circular"
-												CornerRadius="40"
-												Foreground="White" />
-									</utu:ShadowContainer>
-
-									<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
-										<Button Height="60"
-												Background="{StaticResource UnoColor}"
-												BorderThickness="0"
-												Content="Bigger"
-												CornerRadius="20"
-												Foreground="White" />
-									</utu:ShadowContainer>
-								</StackPanel>
 							</StackPanel>
-						</StackPanel>
 
+						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>
