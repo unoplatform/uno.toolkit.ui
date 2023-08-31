@@ -28,6 +28,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI.ViewManagement;
+using FluentAssertions;
 
 namespace Uno.Toolkit.RuntimeTests.Tests
 {
@@ -137,6 +138,72 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			}
 		}
 #endif
+
+		[TestMethod]
+		public async Task _AsdAsdReLayoutsAfterChangeInSize()
+		{
+			ShadowContainer.ClearCache();
+
+			var internalBorder = new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) };
+			bool createdNewCanvas = false;
+
+			var shadowContainer = new ShadowContainer
+			{
+				Content = internalBorder,
+				Shadows = new ShadowCollection
+				{
+					new UI.Shadow
+					{
+						Color = Colors.Blue,
+						OffsetX = 10,
+						OffsetY = 10,
+						IsInner = false,
+						Opacity = 1,
+
+					}
+				}
+			};
+
+			UnitTestsUIContentHelper.Content = shadowContainer;
+
+			shadowContainer.SurfacePaintCompleted += SurfacePaintCompleted; ;
+
+			shadowContainer.Shadows.Add(new UI.Shadow
+			{
+				Color = Colors.Red,
+				OffsetX = 10,
+				OffsetY = 10,
+				IsInner = false,
+				Opacity = 1,
+			});
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+			await UnitTestsUIContentHelper.WaitForLoaded(shadowContainer);
+			createdNewCanvas.Should().BeTrue();
+			createdNewCanvas = false;
+
+			// Changing the height of the children content of the shadow. 
+			internalBorder.Height = 400;
+
+			// WaitForIdle doesnt work when called a second time on WinUI.
+			var idleTask = UnitTestsUIContentHelper.WaitForIdle();
+			var delayTask = Task.Delay(1000);
+
+			await Task.WhenAll(idleTask, delayTask);
+
+			createdNewCanvas.Should().BeTrue();
+
+			shadowContainer.SurfacePaintCompleted -= SurfacePaintCompleted; ;
+
+			void SurfacePaintCompleted(object? sender, ShadowContainer.SurfacePaintCompletedEventArgs args)
+			{
+				// OnSurfacePainted can be called several times, we must make sure that the canvas is regenerated at least once.
+				if (createdNewCanvas == false)
+				{
+					createdNewCanvas = args.CreatedNewCanvas;
+				}
+			}
+		}
 	}
 }
 #endif
