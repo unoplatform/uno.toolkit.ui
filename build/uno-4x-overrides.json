@@ -100,46 +100,47 @@
 
     {
         "PackageId": "Uno.Cupertino",
-        "UpdatedVersion": "(,2.99.0-dev.999]"
+        "UpdatedVersion": "(,3.99.0-dev.999]"
     },
     {
         "PackageId": "Uno.Material",
-        "UpdatedVersion": "(,2.99.0-dev.999]"
+        "UpdatedVersion": "(,3.99.0-dev.999]"
     },
     {
         "PackageId": "Uno.Cupertino.WinUI",
-        "UpdatedVersion": "(,2.99.0-dev.999]"
+        "UpdatedVersion": "(,3.99.0-dev.999]"
     },
     {
         "PackageId": "Uno.Material.WinUI",
-        "UpdatedVersion": "(,2.99.0-dev.999]"
+        "UpdatedVersion": "(,3.99.0-dev.999]"
     },
 
 
     {
         "PackageId": "Uno.Toolkit.UI",
-        "UpdatedVersion": "(,3.99.0-dev.999]"
+        "UpdatedVersion": "(,4.99.0-dev.999]"
     },
     {
         "PackageId": "Uno.Toolkit.UI.Cupertino",
-        "UpdatedVersion": "(,3.99.0-dev.999]"
+        "UpdatedVersion": "(,4.99.0-dev.999]"
     },
     {
         "PackageId": "Uno.Toolkit.UI.Material",
-        "UpdatedVersion": "(,3.99.0-dev.999]"
+        "UpdatedVersion": "(,4.99.0-dev.999]"
     },
     {
         "PackageId": "Uno.Toolkit.WinUI",
-        "UpdatedVersion": "(,3.99.0-dev.999]"
+        "UpdatedVersion": "(,4.99.0-dev.999]"
     },
     {
         "PackageId": "Uno.Toolkit.WinUI.Cupertino",
-        "UpdatedVersion": "(,3.99.0-dev.999]"
+        "UpdatedVersion": "(,4.99.0-dev.999]"
     },
     {
         "PackageId": "Uno.Toolkit.WinUI.Material",
-        "UpdatedVersion": "(,3.99.0-dev.999]"
+        "UpdatedVersion": "(,4.99.0-dev.999]"
     },
+    
     {
         "PackageId": "Uno.Microsoft.Toolkit.Uwp.UI.Controls",
         "UpdatedVersion": "(,7.1.999]"
