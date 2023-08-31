@@ -36,6 +36,91 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	[RunsOnUIThread]
 	internal partial class ShadowContainerTests
 	{
+
+		[TestMethod]
+		[DataRow(10, 10, false, 0)]
+		[DataRow(-10, -10, false, 0)]
+		[DataRow(10, 10, true, 0)]
+		[DataRow(-10, -10, true, 0)]
+		[DataRow(10, 10, false, 100)]
+		[DataRow(-10, -10, false, 100)]
+		[DataRow(10, 10, true, 100)]
+		[DataRow(-10, -10, true, 100)]
+		public async Task ShadowsCornerRadius_Content(int offsetX, int offsetY, bool inner, double bottomRightCorner )
+		{
+			if (!ImageAssertHelper.IsScreenshotSupported())
+			{
+				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
+			}
+
+			var shadowContainer = new ShadowContainer
+			{
+				HorizontalAlignment = HorizontalAlignment.Left,
+				VerticalAlignment = VerticalAlignment.Top,
+				Background = new SolidColorBrush(Colors.Green),
+				Content = new Border { Height = 200, Width = 200, CornerRadius = new CornerRadius(0, 0, bottomRightCorner, 0) }
+			};
+
+			shadowContainer.Shadows.Add(new UI.Shadow
+			{
+				Color = Colors.Red,
+				OffsetX = offsetX,
+				OffsetY = offsetY,
+				IsInner = inner,
+				Opacity = 1,
+			});
+
+			var stackPanel = new StackPanel
+			{
+				Width = 220,
+				Height = 220,
+				Padding = new Thickness(10),
+				Background = new SolidColorBrush(Colors.Yellow),
+				Children =
+				{
+					shadowContainer,
+				}
+			};
+			var absOffsetX = Math.Abs(offsetX);
+			var absOffsetY = Math.Abs(offsetY);
+			var canvasMargin = absOffsetX + absOffsetY;
+			UnitTestsUIContentHelper.Content = stackPanel;
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+			await UnitTestsUIContentHelper.WaitForLoaded(stackPanel);
+			await Task.Yield();
+
+			//Validate current structure.
+			var grid = shadowContainer.GetChildren().First() as Grid;
+			var canvas = grid?.GetChildren().First() as Canvas;
+			var skXamlCanvas = canvas?.GetChildren().First() as SKXamlCanvas;
+			var contentPresenter = grid?.GetChildren().Skip(1).First() as ContentPresenter;
+			var border = contentPresenter?.GetChildren().First() as Border;
+
+			//Validate element measurements
+			Assert.AreEqual(grid?.ActualWidth, canvas?.ActualWidth);
+			Assert.AreEqual(canvas?.ActualWidth, border?.ActualWidth);
+			Assert.AreEqual(skXamlCanvas?.ActualWidth, border?.ActualWidth + canvasMargin);
+
+			//Validate point colors
+			var renderer = await stackPanel.TakeScreenshot();
+
+			//TopLeft
+			await renderer.AssertColorAt(inner ? offsetX < 0 ? Colors.Green : Colors.Red : offsetX < 0 ? Colors.Red : Colors.Yellow, inner ? absOffsetX + 1 : 1, inner ? absOffsetY + 1 : 1);
+
+			//TopRight
+			await renderer.AssertColorAt(inner ? Colors.Red : Colors.Yellow, (int)((stackPanel?.ActualWidth ?? 0) - (inner ? absOffsetX + 1 : 1)), inner ? absOffsetY + 1 : 1);
+
+			//BottonLeft
+			await renderer.AssertColorAt(Colors.Yellow, 1, (int)((stackPanel?.ActualHeight ?? 0) - (inner ? absOffsetX + 1 : 1)));
+
+			//BottonRight and CornerCurve
+			var color = bottomRightCorner > 50 ? Colors.Yellow : (offsetX < 0 ? inner ? Colors.Red : Colors.Yellow : inner ? Colors.Green : Colors.Red);
+			await renderer.AssertColorAt(color, (int)((stackPanel?.ActualWidth ?? 0) -(inner ? absOffsetX + 1 : 1)), (int)((stackPanel?.ActualHeight ?? 0) - (inner ? absOffsetY + 1 : 1)));
+
+		}
+
+
 		[TestMethod]
 		public async Task Displays_Content()
 		{
