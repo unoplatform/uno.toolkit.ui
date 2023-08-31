@@ -23,19 +23,90 @@
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<sample:SamplePageLayout x:Name="SamplePageLayout"
-								 IsDesignAgnostic="True">
+		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
-					<ScrollViewer HorizontalScrollMode="Disabled">
-						<Grid Background="{ThemeResource SurfaceBrush}"
-							  Height="600">
-							<utu:Chip Content="My Chip"
-									  HorizontalAlignment="Center"
-									  VerticalAlignment="Center"
-									  Style="{StaticResource NeumorphicChipStyle}" />
-						</Grid>
-					</ScrollViewer>
+					<StackPanel Background="{ThemeResource SurfaceBrush}" Padding="32">
+
+						<TextBlock Text="hover to see" />
+						<ToggleButton>
+							<ToggleButton.Template>
+								<ControlTemplate TargetType="ToggleButton">
+									<utu:ShadowContainer x:Name="RootPanel" Background="Green">
+
+										<VisualStateManager.VisualStateGroups>
+											<VisualStateGroup x:Name="CommonStates">
+												<VisualState x:Name="Normal" />
+												<VisualState x:Name="PointerOver">
+													<VisualState.Setters>
+														<Setter Target="StateOverlay.Background" Value="Red" />
+													</VisualState.Setters>
+												</VisualState>
+												<VisualState x:Name="Pressed">
+													<VisualState.Setters>
+														<Setter Target="StateOverlay.Background" Value="Red" />
+													</VisualState.Setters>
+												</VisualState>
+												<VisualState x:Name="Disabled" />
+												<VisualState x:Name="Checked" />
+												<VisualState x:Name="CheckedPointerOver">
+													<VisualState.Setters>
+														<Setter Target="StateOverlay.Background" Value="Red" />
+													</VisualState.Setters>
+												</VisualState>
+												<VisualState x:Name="CheckedPressed">
+													<VisualState.Setters>
+														<Setter Target="StateOverlay.Background" Value="Red" />
+													</VisualState.Setters>
+												</VisualState>
+												<VisualState x:Name="CheckedDisabled" />
+											</VisualStateGroup>
+										</VisualStateManager.VisualStateGroups>
+
+										<utu:ShadowContainer.Shadows>
+											<utu:ShadowCollection>
+												<utu:Shadow OffsetX="1" OffsetY="1" BlurRadius="4" Spread="0" Color="#000000" Opacity="0.6" IsInner="False" />
+												<utu:Shadow OffsetX="-1" OffsetY="-1" BlurRadius="4" Spread="0" Color="#615B71" Opacity="1" IsInner="False" />
+											</utu:ShadowCollection>
+										</utu:ShadowContainer.Shadows>
+										<Grid x:Name="GridRoot"
+											  CornerRadius="8"
+											  Height="32"
+											  Margin="4">
+											<Border x:Name="StateOverlay"
+													Background="Transparent"
+													CornerRadius="8" />
+										</Grid>
+									</utu:ShadowContainer>
+								</ControlTemplate>
+							</ToggleButton.Template>
+						</ToggleButton>
+
+						<TextBlock Text="Always in hover state" />
+						<ToggleButton>
+							<ToggleButton.Template>
+								<ControlTemplate TargetType="ToggleButton">
+									<utu:ShadowContainer x:Name="RootPanel" Background="Green">
+										<utu:ShadowContainer.Shadows>
+											<utu:ShadowCollection>
+												<utu:Shadow OffsetX="1" OffsetY="1" BlurRadius="4" Spread="0" Color="#000000" Opacity="0.6" IsInner="False" />
+												<utu:Shadow OffsetX="-1" OffsetY="-1" BlurRadius="4" Spread="0" Color="#615B71" Opacity="1" IsInner="False" />
+											</utu:ShadowCollection>
+										</utu:ShadowContainer.Shadows>
+										<Grid x:Name="GridRoot"
+											  CornerRadius="8"
+											  Height="32"
+											  Margin="4">
+											<Border x:Name="StateOverlay"
+													Background="Red"
+													CornerRadius="8" />
+										</Grid>
+									</utu:ShadowContainer>
+								</ControlTemplate>
+							</ToggleButton.Template>
+						</ToggleButton>
+
+					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>
 		</sample:SamplePageLayout>
