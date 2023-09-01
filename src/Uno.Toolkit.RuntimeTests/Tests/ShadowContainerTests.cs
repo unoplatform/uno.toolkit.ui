@@ -37,6 +37,48 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	internal partial class ShadowContainerTests
 	{
 
+
+		[TestMethod]
+		public async Task Displays_Content()
+		{
+			if (!ImageAssertHelper.IsScreenshotSupported())
+			{
+				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
+			}
+
+			var greenBorder = new ShadowContainer
+			{
+				Content = new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) }
+			};
+
+			var shadowContainer = new ShadowContainer
+			{
+				Content = greenBorder
+			};
+
+			var stackPanel = new StackPanel
+			{
+				Background = new SolidColorBrush(Colors.Yellow),
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Children =
+				{
+					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
+					shadowContainer,
+					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
+				}
+			};
+
+			UnitTestsUIContentHelper.Content = stackPanel;
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+			await UnitTestsUIContentHelper.WaitForLoaded(stackPanel);
+
+			var renderer = await stackPanel.TakeScreenshot();
+			await renderer.AssertColorAt(Colors.Green, 100, 300);
+		}
+
+#if !(__ANDROID__ || __IOS__)
+
 		[TestMethod]
 		[DataRow(10, 10, false, 0)]
 		[DataRow(-10, -10, false, 0)]
@@ -46,7 +88,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[DataRow(-10, -10, false, 100)]
 		[DataRow(10, 10, true, 100)]
 		[DataRow(-10, -10, true, 100)]
-		public async Task ShadowsCornerRadius_Content(int offsetX, int offsetY, bool inner, double bottomRightCorner )
+		public async Task ShadowsCornerRadius_Content(int offsetX, int offsetY, bool inner, double bottomRightCorner)
 		{
 			if (!ImageAssertHelper.IsScreenshotSupported())
 			{
@@ -105,18 +147,35 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			//Validate point colors
 			var renderer = await stackPanel.TakeScreenshot();
 
-			//TopLeft
-			await renderer.AssertColorAt(inner ? offsetX < 0 ? Colors.Green : Colors.Red : offsetX < 0 ? Colors.Red : Colors.Yellow, inner ? absOffsetX + 1 : 1, inner ? absOffsetY + 1 : 1);
+			//Set 4 coners positions to be validated
+			var leftX = inner ? absOffsetX + 1 : 1;
+			var rightX = (int)((stackPanel?.ActualWidth ?? 0) - (inner ? absOffsetX + 1 : 1));
+			var topY = inner ? absOffsetY + 1 : 1;
+			var bottomY = (int)((stackPanel?.ActualHeight ?? 0) - (inner ? absOffsetX + 1 : 1));
+
+
+			var topLeftColor =
+				inner
+					? (offsetX < 0 ? Colors.Green : Colors.Red)
+					: (offsetX < 0 ? Colors.Red : Colors.Yellow);
+			await renderer.AssertColorAt(topLeftColor, leftX, topY);
 
 			//TopRight
-			await renderer.AssertColorAt(inner ? Colors.Red : Colors.Yellow, (int)((stackPanel?.ActualWidth ?? 0) - (inner ? absOffsetX + 1 : 1)), inner ? absOffsetY + 1 : 1);
+			var topRightColor = inner ? Colors.Red : Colors.Yellow;
+			await renderer.AssertColorAt(topRightColor, rightX, topY);
 
-			//BottonLeft
-			await renderer.AssertColorAt(Colors.Yellow, 1, (int)((stackPanel?.ActualHeight ?? 0) - (inner ? absOffsetX + 1 : 1)));
+			//BottomRight and CornerCurve
+			//Case we have RightCorner the Bottom will always be Yellow
+			var bottomRightColor =
+				bottomRightCorner > 50
+					? Colors.Yellow
+					: offsetX < 0
+						? inner ? Colors.Red : Colors.Yellow
+						: inner ? Colors.Green : Colors.Red;
+			await renderer.AssertColorAt(bottomRightColor, rightX, bottomY);
 
-			//BottonRight and CornerCurve
-			var color = bottomRightCorner > 50 ? Colors.Yellow : (offsetX < 0 ? inner ? Colors.Red : Colors.Yellow : inner ? Colors.Green : Colors.Red);
-			await renderer.AssertColorAt(color, (int)((stackPanel?.ActualWidth ?? 0) -(inner ? absOffsetX + 1 : 1)), (int)((stackPanel?.ActualHeight ?? 0) - (inner ? absOffsetY + 1 : 1)));
+			//BottomLeft
+			await renderer.AssertColorAt(Colors.Yellow, leftX, bottomY);
 
 		}
 

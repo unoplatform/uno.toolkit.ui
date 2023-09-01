@@ -274,9 +274,9 @@ public partial class ShadowContainer
 			var rect = new SKRect(0, 0, (float)Width * state.PixelRatio, (float)Height * state.PixelRatio);
 			var radii = new SKPoint[] {
 				new SKPoint((float)CornerRadius.TopLeft * state.PixelRatio, (float)CornerRadius.TopLeft * state.PixelRatio),
-				new SKPoint((float)(state.PixelRatio * CornerRadius.TopRight), (float)(state.PixelRatio * CornerRadius.TopRight)),
-				new SKPoint((float)(state.PixelRatio * CornerRadius.BottomRight),(float)(state.PixelRatio * CornerRadius.BottomRight)),
-				new SKPoint((float)(state.PixelRatio * CornerRadius.BottomLeft), (float)(state.PixelRatio * CornerRadius.BottomLeft))
+				new SKPoint((float)CornerRadius.TopRight * state.PixelRatio, (float)CornerRadius.TopRight * state.PixelRatio),
+				new SKPoint((float)CornerRadius.BottomRight * state.PixelRatio,(float)CornerRadius.BottomRight * state.PixelRatio),
+				new SKPoint((float)CornerRadius.BottomLeft * state.PixelRatio, (float)CornerRadius.BottomLeft * state.PixelRatio)
 			};
 			var shape = new SKRoundRect();
 			shape.SetRectRadii(rect, radii);
