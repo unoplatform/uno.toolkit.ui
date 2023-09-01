@@ -24,13 +24,18 @@ For general information about [lightweight styling](https://learn.microsoft.com/
 Just like in [Uno.Themes](xref:uno.themes.lightweightstyling), some interactive controls have multiple states (eg. ChipForeground*PointerOver*, ChipForeground*Pressed*, ChipForeground*Disabled*). Combined with these, the Chip control also has a **Checked** state. [These links](lightweight-styling#resource-keys) list the resource keys for each control.
 
 ```xml
-<utu:Chip Content="Overriden Chip Style" Style="{StaticResource FilterChipStyle}">
+<utu:Chip Content="Default Chip Style" />
+
+<utu:Chip Content="Overridden Chip Style">
 	<utu:Chip.Resources>
 		<SolidColorBrush x:Key="ChipForeground" Color="DarkGreen" />
 		<SolidColorBrush x:Key="ChipBackground" Color="LightGreen" />
 		<SolidColorBrush x:Key="ChipBorderBrush" Color="DarkGreen" />
+	</utu:Chip.Resources>
+</utu:Chip>
 
-		<!-- Overriding the PointerOver brushes -->
+<utu:Chip Content="Overridden Chip Style (PointerOver)">
+	<utu:Chip.Resources>
 		<SolidColorBrush x:Key="ChipForegroundPointerOver" Color="DarkRed" />
 		<SolidColorBrush x:Key="ChipBackgroundPointerOver" Color="LightPink" />
 		<SolidColorBrush x:Key="ChipBorderBrushPointerOver" Color="DarkRed" />
