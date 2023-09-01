@@ -24,9 +24,9 @@ public partial class ShadowContainer
 	private ShadowPaintState? _lastPaintState;
 	private bool _isShadowDirty;
 
-	public event EventHandler<SurfacePaintCompletedEventArgs>? SurfacePaintCompleted;
+	internal event EventHandler<SurfacePaintCompletedEventArgs>? SurfacePaintCompleted;
 
-	public static void ClearCache()
+	internal static void ClearCache()
 	{
 		Cache.Clear();
 	}

@@ -140,7 +140,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 #endif
 
 		[TestMethod]
-		public async Task _AsdAsdReLayoutsAfterChangeInSize()
+		public async Task ShadowContainer_ReLayoutsAfterChangeInSize()
 		{
 			ShadowContainer.ClearCache();
 
