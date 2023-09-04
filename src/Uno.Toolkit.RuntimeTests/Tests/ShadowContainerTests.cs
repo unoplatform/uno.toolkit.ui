@@ -77,15 +77,16 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await renderer.AssertColorAt(Colors.Green, 100, 300);
 		}
 
+#if !(__ANDROID__ || __IOS__)
 		[TestMethod]
 		[DataRow(10, 10, false)]
-		//[DataRow(10, 10, true)]
-		//[DataRow(-10, -10, false)]
-		//[DataRow(-10, -10, true)]
-		//[DataRow(-10, 10, true)]
-		//[DataRow(10, -10, true)]
-		//[DataRow(-10, 10, false)]
-		//[DataRow(10, -10, false)]
+		[DataRow(10, 10, true)]
+		[DataRow(-10, -10, false)]
+		[DataRow(-10, -10, true)]
+		[DataRow(-10, 10, true)]
+		[DataRow(10, -10, true)]
+		[DataRow(-10, 10, false)]
+		[DataRow(10, -10, false)]
 		public async Task Outer_Shadows(int offsetX, int offsetY, bool inner)
 		{
 			if (!ImageAssertHelper.IsScreenshotSupported())
@@ -123,27 +124,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var xStart = offsetX < 0 ? (int)bounds.Left : (int)bounds.Right;
 			var yStart = offsetY < 0 ? (int)bounds.Top : (int)bounds.Bottom;
 
-
-			var pixels = await renderer!.GetPixelsAsync();
-			var dir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-
-			var c = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "image.png");
-			using (var fileStream = File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "image.png")).AsRandomAccessStream())
-			{
-				var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fileStream);
-
-				encoder.SetPixelData(
-					BitmapPixelFormat.Bgra8,
-					BitmapAlphaMode.Ignore,
-					(uint)renderer.PixelWidth,
-					(uint)renderer.PixelHeight,
-					96, 96,
-					pixels.ToArray()
-				);
-
-				await encoder.FlushAsync();
-			}
-
 			await renderer.AssertColorAt(Colors.Green, 100, 100);
 			await renderer.AssertColorAt(Colors.Red, 210, 100);
 
@@ -159,6 +139,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				await renderer.AssertColorAt(Colors.Red, (int)bounds.Width / 2, yStart + y);
 			}
 		}
+#endif
 	}
 }
 #endif
