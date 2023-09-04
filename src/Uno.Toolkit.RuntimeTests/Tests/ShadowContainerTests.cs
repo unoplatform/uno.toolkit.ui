@@ -77,6 +77,45 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await renderer.AssertColorAt(Colors.Green, 100, 300);
 		}
 
+<<<<<<< HEAD
+=======
+		[TestMethod]
+		public async Task Displays_Content_With_Margin()
+		{
+			var shadowContainer = new ShadowContainer
+			{
+				Content = new Border
+				{
+					Margin = new Thickness(50),
+					Height = 50,
+					Width = 50,
+					Background = new SolidColorBrush(Colors.Green)
+				}
+			};
+
+			var stackPanel = new StackPanel
+			{
+				Background = new SolidColorBrush(Colors.Yellow),
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Children =
+				{
+					new Border { Height = 150, Width = 150, Background = new SolidColorBrush(Colors.Red) },
+					shadowContainer,
+					new Border { Height = 150, Width = 150, Background = new SolidColorBrush(Colors.Red) },
+				}
+			};
+
+			UnitTestsUIContentHelper.Content = stackPanel;
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+			await UnitTestsUIContentHelper.WaitForLoaded(stackPanel);
+
+			var renderer = await stackPanel.TakeScreenshot();
+			await renderer.AssertColorAt(Colors.Green, 75, 225);
+		}
+
+#if !(__ANDROID__ || __IOS__)
+>>>>>>> 070bee8 (fix(ShadowContainer): ensure canvas does not have negative dimension (#804))
 		[TestMethod]
 		[DataRow(10, 10, false)]
 		//[DataRow(10, 10, true)]
