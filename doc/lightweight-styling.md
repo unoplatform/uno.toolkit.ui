@@ -10,7 +10,7 @@ For general information about [lightweight styling](https://learn.microsoft.com/
 ```xml
 <utu:Chip Content="Default Chip Style" Style="{StaticResource FilterChipStyle}" />
 
-<utu:Chip Content="Overriden Chip Style" Style="{StaticResource FilterChipStyle}">
+<utu:Chip Content="Overridden Chip Style" Style="{StaticResource FilterChipStyle}">
 	<utu:Chip.Resources>
 		<SolidColorBrush x:Key="ChipForeground" Color="DarkGreen" />
 		<SolidColorBrush x:Key="ChipBackground" Color="LightGreen" />
@@ -19,9 +19,9 @@ For general information about [lightweight styling](https://learn.microsoft.com/
 </utu:Chip>
 ```
 
-![Material - Button lightweight styling](assets/material-lightweight-styling-anatomy.png)
+![Material - Chip lightweight styling anatomy](assets/material-lightweight-styling-anatomy.png)
 
-Just like in [Uno.Themes](xref:uno.themes.lightweightstyling), some interactive controls have multiple states (eg. ChipForeground*PointerOver*, ChipForeground*Pressed*, ChipForeground*Disabled*). Combined with these, the Chip control also has a **Checked** state. [These links](lightweight-styling#resource-keys) list the resource keys for each control.
+Just like in [Uno Themes](xref:uno.themes.lightweightstyling), some interactive controls have multiple states (eg. ChipForeground**PointerOver**, ChipForeground**Pressed**, ChipForeground**Disabled**). Combined with these, the Chip control also has a **Checked** state.
 
 ```xml
 <utu:Chip Content="Default Chip Style" />
@@ -43,7 +43,7 @@ Just like in [Uno.Themes](xref:uno.themes.lightweightstyling), some interactive 
 </utu:Chip>
 ```
 
-![Material - Button lightweight styling](assets/material-chip-pointerover-lightweight-styling.png)
+![Material - Chip lightweight styling](assets/material-chip-pointerover-lightweight-styling.png)
 
 ## Resource Keys
 
@@ -58,4 +58,5 @@ For more information about the lightweight styling resource keys used in each co
 
 ### Further Reading
 
-https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling
+[Lightweight Styling (Windows Dev Docs)](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling)
+[Lightweigth Styling with Uno Themes](xref:uno.themes.lightweightstyling)
