@@ -77,8 +77,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await renderer.AssertColorAt(Colors.Green, 100, 300);
 		}
 
-<<<<<<< HEAD
-=======
 		[TestMethod]
 		public async Task Displays_Content_With_Margin()
 		{
@@ -115,7 +113,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 #if !(__ANDROID__ || __IOS__)
->>>>>>> 070bee8 (fix(ShadowContainer): ensure canvas does not have negative dimension (#804))
 		[TestMethod]
 		[DataRow(10, 10, false)]
 		//[DataRow(10, 10, true)]
