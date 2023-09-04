@@ -175,6 +175,7 @@ public partial class ShadowContainer : ContentControl
 						_isShadowDirty = true;
 
 						InvalidateCanvasLayout();
+						InvalidateShadows();
 					}
 				}
 				void BindItems(IEnumerable<Shadow>? shadows)
