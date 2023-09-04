@@ -298,24 +298,9 @@ public partial class ShadowContainer : ContentControl
 		//		float left = (float)(-diffWidthShadowHostChild / 2 + contentAsFE.Margin.Left);
 		//		float top = (float)(-diffHeightShadowHostChild / 2 + contentAsFE.Margin.Top);
 
-
-
-
-
-
-
-
-
-		_canvas.Width = contentAsFE.ActualWidth - contentAsFE.Margin.Left - contentAsFE.Margin.Right;
-		if (_canvas.Width < 0)
-		{
-			_canvas.Width = 0;
-		}
-		_canvas.Height = contentAsFE.ActualHeight - contentAsFE.Margin.Top - contentAsFE.Margin.Bottom;
-		if (_canvas.Height < 0)
-		{
-			_canvas.Height = 0;
-		}
+		_canvas.Width = Math.Max(contentAsFE.ActualWidth - contentAsFE.Margin.Left - contentAsFE.Margin.Right, 0);
+		_canvas.Height = Math.Max(contentAsFE.ActualHeight - contentAsFE.Margin.Top - contentAsFE.Margin.Bottom, 0);
+	
 		_canvas.HorizontalAlignment = contentAsFE.HorizontalAlignment;
 		_canvas.VerticalAlignment = contentAsFE.VerticalAlignment;
 
