@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -253,7 +254,7 @@ public partial class ShadowContainer : ContentControl
 		_canvas?.Children.Insert(0, _shadowHost!);
 	}
 
-	private void InvalidateCanvasLayout()
+	private async void InvalidateCanvasLayout()
 	{
 		if (Content is not FrameworkElement contentAsFE ||
 				_panel == null ||
@@ -262,6 +263,11 @@ public partial class ShadowContainer : ContentControl
 		{
 			return;
 		}
+
+		//Needed to allow Canvas to free up allocated space so content can reduce in size.
+		_canvas.Width = 0;
+		_canvas.Height = 0;
+		await Task.Yield();
 
 		var childWidth = contentAsFE.ActualWidth;
 		var childHeight = contentAsFE.ActualHeight;
@@ -283,25 +289,16 @@ public partial class ShadowContainer : ContentControl
 			maxSpread = shadows.Max(s => s.Spread);
 		}
 
-		//		_canvas.Height = childHeight;
-		//		_canvas.Width = childWidth;
-		//#if __ANDROID__ || __IOS__
-		//		_canvas.GetDispatcherCompat().Schedule(() => _canvas.InvalidateMeasure());
-		//#endif
-		//		double newHostHeight = childHeight + maxBlurRadius * 2 + absoluteMaxOffsetY * 2 + maxSpread * 2;
-		//		double newHostWidth = childWidth + maxBlurRadius * 2 + absoluteMaxOffsetX * 2 + maxSpread * 2;
-		//		_shadowHost.Height = newHostHeight;
-		//		_shadowHost.Width = newHostWidth;
-
-		//		double diffWidthShadowHostChild = newHostWidth - childWidth;
-		//		double diffHeightShadowHostChild = newHostHeight - childHeight;
-
-		//		float left = (float)(-diffWidthShadowHostChild / 2 + contentAsFE.Margin.Left);
-		//		float top = (float)(-diffHeightShadowHostChild / 2 + contentAsFE.Margin.Top);
-
-		_canvas.Width = Math.Max(contentAsFE.ActualWidth - contentAsFE.Margin.Left - contentAsFE.Margin.Right, 0);
-		_canvas.Height = Math.Max(contentAsFE.ActualHeight - contentAsFE.Margin.Top - contentAsFE.Margin.Bottom, 0);
-	
+		_canvas.Width = contentAsFE.ActualWidth - contentAsFE.Margin.Left - contentAsFE.Margin.Right;
+		if (_canvas.Width < 0)
+		{
+			_canvas.Width = 0;
+		}
+		_canvas.Height = contentAsFE.ActualHeight - contentAsFE.Margin.Top - contentAsFE.Margin.Bottom;
+		if (_canvas.Height < 0)
+		{
+			_canvas.Height = 0;
+		}
 		_canvas.HorizontalAlignment = contentAsFE.HorizontalAlignment;
 		_canvas.VerticalAlignment = contentAsFE.VerticalAlignment;
 
@@ -329,32 +326,31 @@ public partial class ShadowContainer : ContentControl
 			}
 			else
 			{
-				left = -newHostSpreedWidth
-							- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? 0 : 0)
-							- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Right ? contentAsFE.ActualWidth : 0)
-							- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Stretch ? +contentAsFE.Margin.Left / 2 + contentAsFE.Margin.Right / 2 : 0)
-							- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Center ? contentAsFE.ActualWidth / 2 : 0)
-
-							;
+				left =
+					-newHostSpreedWidth
+					- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? 0 : 0)
+					- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Right ? contentAsFE.ActualWidth : 0)
+					- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Stretch ? +contentAsFE.Margin.Left / 2 + contentAsFE.Margin.Right / 2 : 0)
+					- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Center ? contentAsFE.ActualWidth / 2 : 0);
 				top = -newHostSpreedHeight - contentAsFE.ActualHeight / 2;
 			}
 
 		}
 		else
 		{
-			left = -(newHostSpreedWidth
-									+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? -contentAsFE.Margin.Left : 0)
-									+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Right && contentAsFE.VerticalAlignment != VerticalAlignment.Center ? contentAsFE.Margin.Right == 0 ? 0 :
-													contentAsFE.ActualWidth + contentAsFE.Margin.Right - _canvas.Margin.Right : 0)
-									+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Stretch ? contentAsFE.Margin.Right : 0)
-									+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Center ? contentAsFE.Margin.Left : 0)
-									);
-			top = -(newHostSpreedHeight
-											+ (contentAsFE.VerticalAlignment == VerticalAlignment.Top ? -contentAsFE.Margin.Top : 0)
-											+ (contentAsFE.VerticalAlignment == VerticalAlignment.Bottom ? +contentAsFE.Margin.Bottom + contentAsFE.ActualHeight : 0)
-											+ (contentAsFE.VerticalAlignment == VerticalAlignment.Stretch ? contentAsFE.Margin.Bottom : 0)
-											+ (contentAsFE.VerticalAlignment == VerticalAlignment.Center ? contentAsFE.Margin.Top : 0)
-										);
+			left =
+				-newHostSpreedWidth
+				- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? -contentAsFE.Margin.Left : 0)
+				- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Right ? contentAsFE.Margin.Right == 0 ? 0 :
+								contentAsFE.ActualWidth + contentAsFE.Margin.Right - _canvas.Margin.Right : 0)
+				- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Stretch ? contentAsFE.Margin.Right : 0)
+				- (contentAsFE.HorizontalAlignment == HorizontalAlignment.Center ? contentAsFE.Margin.Left : 0);
+			top =
+				-newHostSpreedHeight
+				- (contentAsFE.VerticalAlignment == VerticalAlignment.Top ? -contentAsFE.Margin.Top : 0)
+				- (contentAsFE.VerticalAlignment == VerticalAlignment.Bottom ? +contentAsFE.Margin.Bottom + contentAsFE.ActualHeight : 0)
+				- (contentAsFE.VerticalAlignment == VerticalAlignment.Stretch ? contentAsFE.Margin.Bottom : 0)
+				- (contentAsFE.VerticalAlignment == VerticalAlignment.Center ? contentAsFE.Margin.Top : 0);
 		}
 		Canvas.SetLeft(_shadowHost, left);
 		Canvas.SetTop(_shadowHost, top);
