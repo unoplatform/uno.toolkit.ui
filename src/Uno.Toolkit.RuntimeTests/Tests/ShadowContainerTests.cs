@@ -195,6 +195,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				await renderer.AssertColorAt(Colors.Red, (int)bounds.Width / 2, yStart + y);
 			}
 		}
+#endif
 	}
 }
 #endif
