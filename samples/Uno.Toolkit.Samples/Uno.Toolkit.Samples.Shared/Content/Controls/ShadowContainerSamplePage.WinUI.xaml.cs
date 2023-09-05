@@ -24,6 +24,9 @@ namespace Uno.Toolkit.Samples.Content.Controls
 
 					var shadowsItemsControl = SamplePageLayout.GetSampleChild<ItemsControl>(Design.Agnostic, "ShadowsItemsControl");
 					shadowsItemsControl.ItemsSource = _shadows;
+					var shadowsItemsControlTest = SamplePageLayout.GetSampleChild<ItemsControl>(Design.Agnostic, "ShadowsItemsControlTest");
+					shadowsItemsControlTest.ItemsSource = _shadows;
+					
 				}
 			};
 		}
