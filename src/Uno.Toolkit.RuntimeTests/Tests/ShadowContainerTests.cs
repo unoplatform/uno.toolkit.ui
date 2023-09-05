@@ -17,9 +17,6 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
-
-
-
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
@@ -113,7 +110,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await renderer.AssertColorAt(Colors.Green, 75, 225);
 		}
 
-#if !(__ANDROID__ || __IOS__)
 		[TestMethod]
 		[DataRow(10, 10, false)]
 		[DataRow(10, 10, true)]
