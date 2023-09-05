@@ -166,7 +166,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			UnitTestsUIContentHelper.Content = shadowContainer;
 
-			shadowContainer.SurfacePaintCompleted += SurfacePaintCompleted; ;
+			shadowContainer.SurfacePaintCompleted += SurfacePaintCompleted;
 
 			shadowContainer.Shadows.Add(new UI.Shadow
 			{
