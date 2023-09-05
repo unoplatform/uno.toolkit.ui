@@ -59,4 +59,4 @@ For more information about the lightweight styling resource keys used in each co
 ### Further Reading
 
 [Lightweight Styling (Windows Dev Docs)](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling)
-[Lightweigth Styling with Uno Themes](xref:uno.themes.lightweightstyling)
+[Lightweight Styling with Uno Themes](xref:uno.themes.lightweightstyling)
