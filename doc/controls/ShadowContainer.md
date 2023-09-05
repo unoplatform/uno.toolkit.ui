@@ -11,6 +11,21 @@ A reference to [Uno.Toolkit.Skia.WinUI](https://www.nuget.org/packages/Uno.Toolk
 ## Remarks
 Currently, the control simply mimics the shape of its content by size and by corner radius. Complicated shapes, such as text or pictures with alpha, are not yet supported.
 
+> [!WARNING]
+> In order for inset (inner) shadows to be painted on top of the background, the `ShadowContainer`'s child element should not have a `.Background` or `.Fill`(for `Shape`s), it should be omitted or set to transparent. And, the background/fill value should be instead set on the `ShadowContainer` itself.
+
+```xml
+<!-- DO -->
+<utu:ShadowContainer Background="..." Shadows="...">
+    <Grid>...</Grid>
+</utu:ShadowContainer>
+
+<!-- DON'T -->
+<utu:ShadowContainer Shadows="...">
+    <Grid Background="..." >...</Grid>
+</utu:ShadowContainer>
+```
+
 ### XAML
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -96,10 +111,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </Page.Resources>
 
 <StackPanel>
-	<utu:ShadowContainer Shadows="{StaticResource InnerShadows}">
+	<utu:ShadowContainer Background="LightGray"
+						 Shadows="{StaticResource InnerShadows}">
 		<Grid Height="100"
 			  Width="100"
-			  Background="LightGray"
 			  CornerRadius="50" />
 	</utu:ShadowContainer>
 </StackPanel>
@@ -134,10 +149,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </Page.Resources>
 
 <StackPanel>
-	<utu:ShadowContainer Shadows="{StaticResource InnerShadows}">
+	<utu:ShadowContainer  Background="LightGray"
+						  Shadows="{StaticResource InnerShadows}">
 		<Grid Height="100"
 			  Width="100"
-			  Background="LightGray"
 			  CornerRadius="50" />
 	</utu:ShadowContainer>
 </StackPanel>
@@ -167,7 +182,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 	</utu:ShadowCollection>
 </Page.Resources>
 
-<utu:ShadowContainer>
+<utu:ShadowContainer Background="White">
 	<utu:ShadowContainer.Shadows>
 		<!-- You can define your shadows directly -->
 		<utu:ShadowCollection x:Name="Shadows">
@@ -187,7 +202,6 @@ xmlns:utu="using:Uno.Toolkit.UI"
 	</utu:ShadowContainer.Shadows>
 	<StackPanel Width="300"
 				Padding="16"
-				Background="White"
 				BorderThickness="1"
 				CornerRadius="20"
 				Spacing="16">
@@ -226,7 +240,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 [Following neumorphism rules](https://neumorphism.io), choose one background color, 2 shadow colors, and create a cool neumorphism style.
 
-To achieve neumorphic depth effects (instead of having a raised element, it will feel as if it was hollow or bulging), set the `IsInner` property of a shadow to `True`. 
+To achieve neumorphic depth effects (instead of having a raised element, it will feel as if it was hollow or bulging), set the `IsInner` property of a shadow to `True`.
 
  - The shadow will then be displayed *inside* the element instead of behind.
  - This is equivalent to the `inset` property of the CSS `box-shadow` as mentioned previously.
@@ -301,10 +315,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 			Padding="32"
 			Background="{StaticResource UnoColor}"
 			CornerRadius="30">
-	<utu:ShadowContainer Shadows="{StaticResource NeumorphismRaising}">
+	<utu:ShadowContainer Background="{StaticResource UnoColor}"
+						 Shadows="{StaticResource NeumorphismRaising}">
 		<Grid Width="300"
 			  Padding="20"
-			  Background="{StaticResource UnoColor}"
 			  CornerRadius="20">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="20" />
@@ -321,12 +335,13 @@ xmlns:utu="using:Uno.Toolkit.UI"
 		</Grid>
 	</utu:ShadowContainer>
 
-	<utu:ShadowContainer Margin="0,60,0,0" Shadows="{StaticResource NeumorphismHollow}">
+	<utu:ShadowContainer Margin="0,60,0,0"
+						 Background="{StaticResource UnoColor}"
+						 Shadows="{StaticResource NeumorphismHollow}">
 		<TextBox Width="200"
 				 Height="40"
 				 Padding="15,10,15,0"
 				 VerticalAlignment="Center"
-				 Background="{StaticResource UnoColor}"
 				 BorderThickness="0"
 				 CornerRadius="20"
 				 Foreground="White"
@@ -410,19 +425,19 @@ xmlns:utu="using:Uno.Toolkit.UI"
 			<Color x:Key="ShadeShadowColor">SkyBlue</Color>
 
 			<utu:ShadowCollection x:Key="ButtonShadows">
-				<utu:Shadow BlurRadius="10" 
-							IsInner="True" 
-							OffsetX="-5" 
-							OffsetY="-5" 
-							Opacity="1" 
-							Spread="0" 
+				<utu:Shadow BlurRadius="10"
+							IsInner="True"
+							OffsetX="-5"
+							OffsetY="-5"
+							Opacity="1"
+							Spread="0"
 							Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow BlurRadius="10" 
-							IsInner="True" 
-							OffsetX="4" 
-							OffsetY="4" 
-							Opacity="1" 
-							Spread="0" 
+				<utu:Shadow BlurRadius="10"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="1"
+							Spread="0"
 							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 		</ResourceDictionary>
@@ -431,19 +446,19 @@ xmlns:utu="using:Uno.Toolkit.UI"
 			<Color x:Key="ShadeShadowColor">Green</Color>
 
 			<utu:ShadowCollection x:Key="ButtonShadows">
-				<utu:Shadow BlurRadius="10" 
-							IsInner="True" 
-							OffsetX="-5" 
-							OffsetY="-5" 
-							Opacity="1" 
-							Spread="0" 
+				<utu:Shadow BlurRadius="10"
+							IsInner="True"
+							OffsetX="-5"
+							OffsetY="-5"
+							Opacity="1"
+							Spread="0"
 							Color="{StaticResource LightShadowColor}" />
-				<utu:Shadow BlurRadius="10" 
-							IsInner="True" 
-							OffsetX="4" 
-							OffsetY="4" 
-							Opacity="1" 
-							Spread="0" 
+				<utu:Shadow BlurRadius="10"
+							IsInner="True"
+							OffsetX="4"
+							OffsetY="4"
+							Opacity="1"
+							Spread="0"
 							Color="{StaticResource ShadeShadowColor}" />
 			</utu:ShadowCollection>
 		</ResourceDictionary>
@@ -451,10 +466,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </ResourceDictionary>
 ...
 
-<utu:ShadowContainer Shadows="{ThemeResource ButtonShadows}">
+<utu:ShadowContainer Background="{StaticResource UnoColor}"
+					 Shadows="{ThemeResource ButtonShadows}">
 	<Button Width="200"
 			Height="40"
-			Background="{StaticResource UnoColor}"
 			BorderBrush="{StaticResource UnoColor}"
 			Content="Save"
 			CornerRadius="15"
