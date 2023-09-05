@@ -71,6 +71,16 @@ public class ShadowsCache
 		return _shadowsCache.TryRemove(key, out var _);
 	}
 
+	internal void Clear()
+	{
+		if (_logger.IsEnabled(LogLevel.Trace))
+		{
+			_logger.Trace("Cleared [ShadowsCache]");
+		}
+
+		_shadowsCache.Clear();
+	}
+
 	private class CacheBucket
 	{
 		public CacheBucket(SKImage bitmap)

@@ -24,6 +24,18 @@ public partial class ShadowContainer
 	private ShadowPaintState? _lastPaintState;
 	private bool _isShadowDirty;
 
+	internal event EventHandler<SurfacePaintCompletedEventArgs>? SurfacePaintCompleted;
+
+	internal static void ClearCache()
+	{
+		Cache.Clear();
+	}
+
+	private void OnSurfacePaintCompleted(bool createdNewCanvas)
+	{
+		SurfacePaintCompleted?.Invoke(this, new SurfacePaintCompletedEventArgs(createdNewCanvas));
+	}
+
 	private bool NeedsPaint(ShadowPaintState state, out bool pixelRatioChanged)
 	{
 		var needsPaint = state != _lastPaintState;
@@ -84,6 +96,7 @@ public partial class ShadowContainer
 			else
 			{
 				canvas.DrawImage(snapshot, SKPoint.Empty);
+				OnSurfacePaintCompleted(createdNewCanvas: false);
 				return;
 			}
 		}
@@ -120,6 +133,8 @@ public partial class ShadowContainer
 		{
 			Cache.AddOrUpdate(key, e.Surface.Snapshot());
 		}
+
+		OnSurfacePaintCompleted(createdNewCanvas: true);
 	}
 
 	private static Color? GetBackgroundColor(Brush? background)
@@ -357,5 +372,15 @@ public partial class ShadowContainer
 			Background == y.Background &&
 			PixelRatio == y.PixelRatio &&
 			Shadows.SequenceEqual(y.Shadows);
+	}
+
+	public class SurfacePaintCompletedEventArgs : EventArgs
+	{
+		public bool CreatedNewCanvas { get; }
+
+		public SurfacePaintCompletedEventArgs(bool createdNewCanvas)
+		{
+			CreatedNewCanvas = createdNewCanvas;
+		}
 	}
 }
