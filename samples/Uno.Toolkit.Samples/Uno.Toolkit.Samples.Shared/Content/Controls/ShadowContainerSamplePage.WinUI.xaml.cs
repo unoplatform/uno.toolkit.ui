@@ -22,7 +22,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
 				{
 					_shadows = shadowContainer.Shadows;
 
-					var shadowsItemsControl = SamplePageLayout.GetSampleChild<ItemsControl>(Design.Agnostic, "ShadowsItemsControl");
+					var shadowsItemsControl = SamplePageLayout.GetSampleChild<ItemsRepeater>(Design.Agnostic, "ShadowsItemsControl");
 					shadowsItemsControl.ItemsSource = _shadows;
 				}
 			};
