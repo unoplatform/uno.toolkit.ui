@@ -185,11 +185,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			// Changing the height of the children content of the shadow. 
 			internalBorder.Height = 400;
 
-			// WaitForIdle doesnt work when called a second time on WinUI.
-			var idleTask = UnitTestsUIContentHelper.WaitForIdle();
-			var delayTask = Task.Delay(1000);
-
-			await Task.WhenAll(idleTask, delayTask);
+			await UnitTestsUIContentHelper.WaitForIdle();
 
 			createdNewCanvas.Should().BeTrue();
 
