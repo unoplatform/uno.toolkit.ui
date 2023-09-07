@@ -1,6 +1,7 @@
 ---
 uid: Toolkit.Controls.ShadowContainer
 ---
+# ShadowContainer
 
 ## Summary
 The `ShadowContainer` provides the ability to layer multiple shadows to its content.
