@@ -117,7 +117,10 @@ namespace Uno.Toolkit.UI
 			return nextPosPoint.X;
 		}
 
-
+		// TO REVIEW: #719
+		// This no longer seems to serve any purpose, selector offset seems to render correctly without it.
+		// Having this actually causes buggy behavior
+		// ******************************************************************************************************
 		public void UpdateOffset(int position, double progress, double totalOffset)
 		{
 			UIElement? selectionIndicator;
@@ -168,6 +171,7 @@ namespace Uno.Toolkit.UI
 				: indicatorPosition - ((1 - progress) * distance)
 			);
 		}
+		// ******************************************************************************************************
 
 		private void UpdateOffsetToPosition(int position, UIElement selectionIndicator)
 		{

@@ -56,16 +56,8 @@ namespace Uno.Toolkit.UI
 				&& sender is FlipView flipView
 				&& flipView.FindFirstChild<ViewPager>() is { } viewPager)
 			{
-				viewPager.PageScrolled += OnPageScrolled;
-				_scrolledRevoker.Disposable = Disposable.Create(() => viewPager.PageScrolled -= OnPageScrolled);
-
 				_flipViewSizeChangedRevoker.Disposable = null;
 			}
-		}
-
-		private void OnPageScrolled(object? sender, ViewPager.PageScrolledEventArgs e)
-		{
-			UpdateOffset(e.Position, e.PositionOffset, GetOffset(e));
 		}
 
 		private double GetOffset(ViewPager.PageScrolledEventArgs e)

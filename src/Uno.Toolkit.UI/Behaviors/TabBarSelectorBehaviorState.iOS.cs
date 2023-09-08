@@ -72,15 +72,6 @@ namespace Uno.Toolkit.UI
 			_flipViewSource = flipViewSource;
 		}
 
-		public override void Scrolled(UIScrollView scrollView)
-		{
-			var offset = scrollView.ContentOffset.X;
-
-			if (GetProgress(offset) is (int position, double positionOffset))
-			{
-				_state.UpdateOffset(position, positionOffset, offset);
-			}
-		}
 		public override void DecelerationEnded(UIScrollView scrollView)
 		{
 			_flipViewSource?.DecelerationEnded(scrollView);

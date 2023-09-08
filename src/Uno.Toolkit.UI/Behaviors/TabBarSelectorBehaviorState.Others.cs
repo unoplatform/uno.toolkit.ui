@@ -66,26 +66,6 @@ namespace Uno.Toolkit.UI
 			}
 
 			Console.WriteLine($"ViewChanged: offset={scrollViewer.HorizontalOffset}");
-
-			// The inner ScrollViewer of a FlipView on UWP uses strange values for HorizontalOffset.
-			// It seems that there is a 1-based index of the FlipViewItems.
-			// So if we are on the first FlipViewItem, the HorizontalOffset of the ScrollViewer will actually be 2,
-			// since the offset is relative to the end of the viewable item
-			// -------------
-			// |   |   |   |
-			// |   |   |   |
-			// -------------
-			// 1   2   3   4    
-			var offset =
-#if WINDOWS || WINDOWS_UWP
-				(scrollViewer.HorizontalOffset - 2) * Selector.ActualWidth;
-#else
-				scrollViewer.HorizontalOffset;
-#endif
-			if (GetProgress(offset) is (int position, double positionOffset))
-			{
-				UpdateOffset(position, positionOffset, offset);
-			}
 		}
 
 		private (int, double)? GetProgress(double offset)
