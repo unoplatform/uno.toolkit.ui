@@ -36,8 +36,12 @@ public partial class ShadowContainer : ContentControl
 
 	private Grid? _panel;
 	private Canvas? _canvas;
-	private SKXamlCanvas? _shadowHost;
 
+#if WINDOWS
+	private SKXamlCanvas?  _shadowHost = new SKXamlCanvas();
+#else
+	private SKSwapChainPanel? _shadowHost = new SKSwapChainPanel();
+#endif
 	public ShadowContainer()
 	{
 		DefaultStyleKey = typeof(ShadowContainer);
@@ -243,14 +247,20 @@ public partial class ShadowContainer : ContentControl
 		_canvas = GetTemplateChild(nameof(PART_Canvas)) as Canvas;
 		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
 
+#if WINDOWS
 		var skiaCanvas = new SKXamlCanvas();
 		skiaCanvas.PaintSurface += OnSurfacePainted;
+#else
+		var skiaCanvas = new SKSwapChainPanel();
+		skiaCanvas.PaintSurface += OnSurfacePaintedSKSwap;
+#endif
+		
 
 #if __IOS__ || __MACCATALYST__
 		skiaCanvas.Opaque = false;
 #endif
 
-		_shadowHost = skiaCanvas;
+				_shadowHost = skiaCanvas;
 		_canvas?.Children.Insert(0, _shadowHost!);
 	}
 

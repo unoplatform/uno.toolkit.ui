@@ -45,7 +45,25 @@ public partial class ShadowContainer
 		return needsPaint;
 	}
 
+	private void OnSurfacePaintedSKSwap(object? sender, SKPaintGLSurfaceEventArgs e)
+	{
+		var canvas = e.Surface.Canvas;
+		var info = e.Info;
+
+		var surface = e.Surface;
+
+		Render(canvas, info, surface);
+	}
 	private void OnSurfacePainted(object? sender, SKPaintSurfaceEventArgs e)
+	{
+		var canvas = e.Surface.Canvas;
+		var info = e.Info;
+		var surface = e.Surface;
+
+		Render(canvas, info, surface);
+	}
+
+	private void Render(SKCanvas canvas, SKImageInfo info, SKSurface surface)
 	{
 		if (_shadowHost == null ||
 			Content is not FrameworkElement { ActualHeight: > 0, ActualWidth: > 0 } contentAsFE)
@@ -62,7 +80,7 @@ public partial class ShadowContainer
 		}
 
 		var shape = GetShadowShapeContext(Content);
-		var pixelRatio = (float)(e.Info.Width / _shadowHost.ActualWidth);
+		var pixelRatio = (float)(info.Width / _shadowHost.ActualWidth);
 		var state = new ShadowPaintState(shape, background, pixelRatio, ShadowInfo.Snapshot(Shadows));
 		_isShadowDirty = false;
 
@@ -71,7 +89,6 @@ public partial class ShadowContainer
 			return;
 		}
 
-		var canvas = e.Surface.Canvas;
 		canvas.Clear(SKColors.Transparent);
 
 		if (state.Shadows.Length == 0)
@@ -103,8 +120,8 @@ public partial class ShadowContainer
 
 		// relative to the SKCanvas, the entire content is padded to leave room for drop shadow
 		// here, we need to re-calibrate the coord system to zero on the top-left corner of the content
-		var deltaWidth = e.Info.Width - ((float)contentAsFE.ActualWidth * pixelRatio);
-		var deltaHeight = e.Info.Height - ((float)contentAsFE.ActualHeight * pixelRatio);
+		var deltaWidth = info.Width - ((float)contentAsFE.ActualWidth * pixelRatio);
+		var deltaHeight = info.Height - ((float)contentAsFE.ActualHeight * pixelRatio);
 		canvas.Translate(deltaWidth / 2, deltaHeight / 2);
 
 		using var paint = new SKPaint() { IsAntialias = true };
@@ -131,7 +148,7 @@ public partial class ShadowContainer
 		// then we don't want to cache the updated shadows
 		if (!_isShadowDirty)
 		{
-			Cache.AddOrUpdate(key, e.Surface.Snapshot());
+			Cache.AddOrUpdate(key, surface.Snapshot());
 		}
 
 		OnSurfacePaintCompleted(createdNewCanvas: true);
