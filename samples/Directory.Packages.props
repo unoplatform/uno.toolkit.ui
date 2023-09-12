@@ -18,10 +18,10 @@
     <PackageVersion Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
-    <PackageVersion Include="SkiaSharp.Skottie" Version="2.88.5" />
-    <PackageVersion Include="SkiaSharp.Views" Version="2.88.5" />
-    <PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.5" />
-    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.5" />
+    <PackageVersion Include="SkiaSharp.Skottie" Version="2.88.6-preview.1.2" />
+    <PackageVersion Include="SkiaSharp.Views" Version="2.88.6-preview.1.2" />
+    <PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.6-preview.1.2" />
+    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.6-preview.1.2" />
     <PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
     <PackageVersion Include="Uno.Cupertino" Version="3.0.0-dev.352" />

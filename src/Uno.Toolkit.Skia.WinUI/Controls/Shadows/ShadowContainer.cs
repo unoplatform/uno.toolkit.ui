@@ -260,16 +260,16 @@ public partial class ShadowContainer : ContentControl
 		skiaCanvas.Opaque = false;
 #endif
 
-				_shadowHost = skiaCanvas;
+		_shadowHost = skiaCanvas;
 		_canvas?.Children.Insert(0, _shadowHost!);
 	}
 
 	private void InvalidateCanvasLayout()
 	{
 		if (Content is not FrameworkElement contentAsFE ||
-						_panel == null ||
-						_canvas == null ||
-						_shadowHost == null)
+			_panel == null ||
+			_canvas == null ||
+			_shadowHost == null)
 		{
 			return;
 		}
@@ -284,9 +284,9 @@ public partial class ShadowContainer : ContentControl
 	private void InvalidateCanvasLayoutSize()
 	{
 		if (Content is not FrameworkElement contentAsFE ||
-						_panel == null ||
-						_canvas == null ||
-						_shadowHost == null)
+			_panel == null ||
+			_canvas == null ||
+			_shadowHost == null)
 		{
 			return;
 		}
