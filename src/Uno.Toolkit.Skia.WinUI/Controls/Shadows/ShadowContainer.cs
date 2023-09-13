@@ -134,7 +134,6 @@ public partial class ShadowContainer : ContentControl
 		void OnContentSizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			InvalidateCanvasLayout();
-			InvalidateShadows();
 		}
 
 		void BindToBackgroundMemberProperties(Brush? background)
@@ -176,7 +175,6 @@ public partial class ShadowContainer : ContentControl
 						_isShadowDirty = true;
 
 						InvalidateCanvasLayout();
-						InvalidateShadows();
 					}
 				}
 				void BindItems(IEnumerable<Shadow>? shadows)
