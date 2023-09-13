@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -34,9 +33,14 @@ public partial class ShadowContainer : ContentControl
 
 	private readonly SerialDisposable _eventSubscriptions = new();
 
+	private readonly SerialDisposable _shadowHostSubscriptions = new();
+
 	private Grid? _panel;
 	private Canvas? _canvas;
+
 	private SKXamlCanvas? _shadowHost;
+
+	private bool _isShadowHostDirty = true;
 
 	public ShadowContainer()
 	{
@@ -244,6 +248,7 @@ public partial class ShadowContainer : ContentControl
 		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
 
 		var skiaCanvas = new SKXamlCanvas();
+
 		skiaCanvas.PaintSurface += OnSurfacePainted;
 
 #if __IOS__ || __MACCATALYST__
@@ -252,6 +257,24 @@ public partial class ShadowContainer : ContentControl
 
 		_shadowHost = skiaCanvas;
 		_canvas?.Children.Insert(0, _shadowHost!);
+
+		BindToShadowHost(_shadowHost);
+	}
+
+	private void BindToShadowHost(SKXamlCanvas skiaCanvas)
+	{
+		_shadowHostSubscriptions.Disposable?.Dispose();
+		skiaCanvas.SizeChanged += OnShadowHostSizeChanged;
+		_shadowHostSubscriptions.Disposable = new CompositeDisposable
+		{
+			Disposable.Create(() => skiaCanvas.SizeChanged -= OnShadowHostSizeChanged),
+		};
+
+		// When the skia canvas size changes, the whole canvas is cleared: we'll need to redraw the shadows.
+		void OnShadowHostSizeChanged(object sender, SizeChangedEventArgs args)
+		{
+			_isShadowHostDirty = true;
+		}
 	}
 
 	private void InvalidateCanvasLayout()
@@ -288,7 +311,6 @@ public partial class ShadowContainer : ContentControl
 			return;
 		}
 
-
 #if __ANDROID__ || __IOS__
 		_canvas.GetDispatcherCompat().Schedule(() => _canvas.InvalidateMeasure());
 #endif
@@ -318,15 +340,13 @@ public partial class ShadowContainer : ContentControl
 		_canvas.HorizontalAlignment = contentAsFE.HorizontalAlignment;
 		_canvas.VerticalAlignment = contentAsFE.VerticalAlignment;
 
-
-
 		double left =
-			+(contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? -newHostSpreedWidth : 0)
+			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? -newHostSpreedWidth : 0)
 			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Right ? -newHostSpreedWidth - childWidth / 2 : 0)
 			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Stretch ? -newHostSpreedWidth - childWidth / 4 : 0)
 			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Center ? -newHostSpreedWidth - childWidth / 4 : 0);
 		double top =
-			+(contentAsFE.VerticalAlignment == VerticalAlignment.Top ? -newHostSpreedHeight : 0)
+			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Top ? -newHostSpreedHeight : 0)
 			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Bottom ? -newHostSpreedHeight - childHeight / 2 : 0)
 			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Stretch ? -newHostSpreedHeight - childHeight / 4 : 0)
 			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Center ? -newHostSpreedHeight - childHeight / 4 : 0);

@@ -39,10 +39,11 @@ public partial class ShadowContainer
 
 	private bool NeedsPaint(ShadowPaintState state, out bool pixelRatioChanged)
 	{
-		var needsPaint = state != _lastPaintState;
+		var needsPaint = state != _lastPaintState || _isShadowHostDirty;
 		pixelRatioChanged = _lastPaintState != null && state.PixelRatio != _lastPaintState.PixelRatio;
 
 		_lastPaintState = state;
+		_isShadowHostDirty = false;
 		return needsPaint;
 	}
 
@@ -77,7 +78,6 @@ public partial class ShadowContainer
 
 		if (state.Shadows.Length == 0)
 		{
-			canvas.Clear(SKColors.Transparent);
 			shape.DrawContentBackground(state, canvas, background ?? Colors.Transparent);
 			return;
 		}
