@@ -143,7 +143,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 		}
 
-#if !(__ANDROID__ || __IOS__)
 		[TestMethod]
 		public async Task Displays_Content_With_Margin()
 		{
