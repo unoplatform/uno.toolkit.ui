@@ -272,10 +272,12 @@ public partial class ShadowContainer
 		protected override SKRoundRect GetContentShape(ShadowPaintState state)
 		{
 			var rect = new SKRect(0, 0, (float)Width * state.PixelRatio, (float)Height * state.PixelRatio);
-			var radii = new[] { CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft }
-				.Select(x => (float)x * state.PixelRatio)
-				.Select(x => new SKPoint(x, x))
-				.ToArray();
+			var radii = new SKPoint[] {
+				new SKPoint((float)CornerRadius.TopLeft * state.PixelRatio, (float)CornerRadius.TopLeft * state.PixelRatio),
+				new SKPoint((float)CornerRadius.TopRight * state.PixelRatio, (float)CornerRadius.TopRight * state.PixelRatio),
+				new SKPoint((float)CornerRadius.BottomRight * state.PixelRatio,(float)CornerRadius.BottomRight * state.PixelRatio),
+				new SKPoint((float)CornerRadius.BottomLeft * state.PixelRatio, (float)CornerRadius.BottomLeft * state.PixelRatio)
+			};
 			var shape = new SKRoundRect();
 			shape.SetRectRadii(rect, radii);
 			
