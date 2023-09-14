@@ -84,7 +84,7 @@ public partial class ShadowContainer
 		using var _ = canvas.SnapshotState();
 
 		var key =
-			FormattableString.Invariant($"[{contentAsFE.ActualWidth}x{contentAsFE.ActualHeight},{_shadowHost.ActualWidth}x{_shadowHost.ActualHeight},{background}]: ") +
+			FormattableString.Invariant($"[{contentAsFE.ActualWidth}x{contentAsFE.ActualHeight},{_shadowHost.ActualWidth}x{_shadowHost.ActualHeight},{background},{shape.ToString()}]: ") +
 			string.Join("; ", state.Shadows.Select(x => x.ToKey()));
 		if (Cache.TryGetValue(key, out var snapshot))
 		{
