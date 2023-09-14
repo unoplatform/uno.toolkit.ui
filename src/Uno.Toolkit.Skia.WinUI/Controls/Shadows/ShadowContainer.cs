@@ -33,8 +33,6 @@ public partial class ShadowContainer : ContentControl
 
 	private readonly SerialDisposable _eventSubscriptions = new();
 
-	private readonly SerialDisposable _shadowHostSubscriptions = new();
-
 	private Grid? _panel;
 	private Canvas? _canvas;
 
@@ -77,6 +75,8 @@ public partial class ShadowContainer : ContentControl
 			this.RegisterDisposablePropertyChangedCallback(ShadowsProperty, OnShadowsChanged),
 			this.RegisterDisposablePropertyChangedCallback(ContentProperty, OnContentChanged),
 
+			RegisterDisposableShadowHostSizeChangedCallback(OnShadowHostSizeChanged),
+
 			backgroundNestedDisposable,
 			shadowsNestedDisposable,
 			contentNestedDisposable,
@@ -90,7 +90,7 @@ public partial class ShadowContainer : ContentControl
 		// This method should not fire any of InvalidateXyz-methods directly,
 		// in order to avoid duplicated invalidate calls.
 		// Which is why the BindToXyz has been separated from the OnXyzChanged.
-
+		
 		void OnBackgroundChanged(DependencyObject sender, DependencyProperty dp)
 		{
 			BindToBackgroundMemberProperties(Background);
@@ -110,6 +110,11 @@ public partial class ShadowContainer : ContentControl
 
 			InvalidateShadows();
 		}
+		// When the skia canvas size changes, the whole canvas is cleared: we'll need to redraw the shadows.
+		void OnShadowHostSizeChanged(object sender, SizeChangedEventArgs args)
+		{
+			_isShadowHostDirty = true;
+		}
 
 		void OnShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
@@ -121,6 +126,7 @@ public partial class ShadowContainer : ContentControl
 			}
 			InvalidateShadows();
 		}
+
 		void OnInnerPropertyChanged(DependencyObject sender, DependencyProperty dp)
 		{
 			InvalidateShadows();
@@ -139,6 +145,21 @@ public partial class ShadowContainer : ContentControl
 		{
 			InvalidateCanvasLayout();
 			InvalidateShadows();
+		}
+
+		SerialDisposable RegisterDisposableShadowHostSizeChangedCallback(SizeChangedEventHandler sizeChanged)
+		{
+			if (_shadowHost == null)
+			{
+				return new SerialDisposable();
+			}
+
+			_shadowHost.SizeChanged += OnShadowHostSizeChanged;
+			return new SerialDisposable
+			{
+				Disposable = Disposable.Create(() => _shadowHost.SizeChanged -= sizeChanged),
+			};
+
 		}
 
 		void BindToBackgroundMemberProperties(Brush? background)
@@ -257,25 +278,9 @@ public partial class ShadowContainer : ContentControl
 
 		_shadowHost = skiaCanvas;
 		_canvas?.Children.Insert(0, _shadowHost!);
-
-		BindToShadowHost(_shadowHost);
 	}
 
-	private void BindToShadowHost(SKXamlCanvas skiaCanvas)
-	{
-		_shadowHostSubscriptions.Disposable?.Dispose();
-		skiaCanvas.SizeChanged += OnShadowHostSizeChanged;
-		_shadowHostSubscriptions.Disposable = new CompositeDisposable
-		{
-			Disposable.Create(() => skiaCanvas.SizeChanged -= OnShadowHostSizeChanged),
-		};
-
-		// When the skia canvas size changes, the whole canvas is cleared: we'll need to redraw the shadows.
-		void OnShadowHostSizeChanged(object sender, SizeChangedEventArgs args)
-		{
-			_isShadowHostDirty = true;
-		}
-	}
+	
 
 	private void InvalidateCanvasLayout()
 	{
