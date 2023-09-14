@@ -4,7 +4,7 @@ uid: Toolkit.Migration.Material2.0
 
 # Updating to Material Toolkit v4
 
-Material Toolkit v4 introduces support for [Lightweight Styling](lightweight-styling.md) and, as a result, many resource keys have been added as well as renamed. For a list of all the new resource keys, please refer to the [Lightweight Styling documentation](lightweight-styling.md#resource-keys).
+Material Toolkit v5 introduces support for [Lightweight Styling](lightweight-styling.md) and, as a result, many resource keys have been added as well as renamed. For a list of all the new resource keys, please refer to the [Lightweight Styling documentation](lightweight-styling.md#resource-keys).
 
 Along with the above list of new resource keys, below is a list of the resource keys that have been removed or renamed.
 
