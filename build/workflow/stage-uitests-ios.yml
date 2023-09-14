@@ -71,14 +71,10 @@
 
 - job: iOS_UITests
   displayName: 'Run iOS UI Tests'
-<<<<<<< HEAD
   dependsOn:
   - iOS_Build_For_Tests
   - Toolkit_UITests_Build
-  timeoutInMinutes: 90
-=======
   timeoutInMinutes: 120
->>>>>>> 50eed77 ([ShadowContainer] CornerRadius performance issue (#790))
   variables:
     CI_Build: true
     SourceLinkEnabled: false
