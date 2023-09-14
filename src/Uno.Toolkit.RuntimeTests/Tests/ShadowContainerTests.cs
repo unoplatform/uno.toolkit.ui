@@ -26,6 +26,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI.ViewManagement;
 using FluentAssertions;
+using SkiaSharp;
+using SkiaSharp.Views.Windows;
+using System.Drawing;
+using Windows.Globalization.DateTimeFormatting;
 
 namespace Uno.Toolkit.RuntimeTests.Tests
 {
@@ -36,46 +40,109 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 #endif
 	internal partial class ShadowContainerTests
 	{
+
+#if !(__ANDROID__ || __IOS__)
+
 		[TestMethod]
-		public async Task Displays_Content()
+		[DataRow(10, 10, false, 0)]
+		[DataRow(-10, -10, false, 0)]
+		[DataRow(10, 10, true, 0)]
+		[DataRow(-10, -10, true, 0)]
+		[DataRow(10, 10, false, 100)]
+		[DataRow(-10, -10, false, 100)]
+		[DataRow(10, 10, true, 100)]
+		[DataRow(-10, -10, true, 100)]
+		public async Task ShadowsCornerRadius_Content(int offsetX, int offsetY, bool inner, double bottomRightCorner)
 		{
 			if (!ImageAssertHelper.IsScreenshotSupported())
 			{
 				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
 			}
 
-			var greenBorder = new ShadowContainer
-			{
-				Content = new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) }
-			};
-
 			var shadowContainer = new ShadowContainer
 			{
-				Content = greenBorder
+				HorizontalAlignment = HorizontalAlignment.Left,
+				VerticalAlignment = VerticalAlignment.Top,
+				Background = new SolidColorBrush(Colors.Green),
+				Content = new Border { Height = 200, Width = 200, CornerRadius = new CornerRadius(0, 0, bottomRightCorner, 0) }
 			};
+
+			shadowContainer.Shadows.Add(new UI.Shadow
+			{
+				Color = Colors.Red,
+				OffsetX = offsetX,
+				OffsetY = offsetY,
+				IsInner = inner,
+				Opacity = 1,
+			});
 
 			var stackPanel = new StackPanel
 			{
+				Width = 220,
+				Height = 220,
+				Padding = new Thickness(10),
 				Background = new SolidColorBrush(Colors.Yellow),
-				HorizontalAlignment = HorizontalAlignment.Center,
 				Children =
 				{
-					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
 					shadowContainer,
-					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
 				}
 			};
-
+			var absOffsetX = Math.Abs(offsetX);
+			var absOffsetY = Math.Abs(offsetY);
+			var canvasMargin = absOffsetX + absOffsetY;
 			UnitTestsUIContentHelper.Content = stackPanel;
 
 			await UnitTestsUIContentHelper.WaitForIdle();
 			await UnitTestsUIContentHelper.WaitForLoaded(stackPanel);
+			await Task.Yield();
 
+			//Validate current structure.
+			var grid = shadowContainer.GetChildren().First() as Grid;
+			var canvas = grid?.GetChildren().First() as Canvas;
+			var skXamlCanvas = canvas?.GetChildren().First() as SKXamlCanvas;
+			var contentPresenter = grid?.GetChildren().Skip(1).First() as ContentPresenter;
+			var border = contentPresenter?.GetChildren().First() as Border;
+
+			//Validate element measurements
+			Assert.AreEqual(grid?.ActualWidth, canvas?.ActualWidth);
+			Assert.AreEqual(canvas?.ActualWidth, border?.ActualWidth);
+			Assert.AreEqual(skXamlCanvas?.ActualWidth, border?.ActualWidth + canvasMargin);
+
+			//Validate point colors
 			var renderer = await stackPanel.TakeScreenshot();
-			await renderer.AssertColorAt(Colors.Green, 100, 300);
+
+			//Set 4 coners positions to be validated
+			var leftX = inner ? absOffsetX + 1 : 1;
+			var rightX = (int)((stackPanel?.ActualWidth ?? 0) - (inner ? absOffsetX + 1 : 1));
+			var topY = inner ? absOffsetY + 1 : 1;
+			var bottomY = (int)((stackPanel?.ActualHeight ?? 0) - (inner ? absOffsetX + 1 : 1));
+
+
+			var topLeftColor =
+				inner
+					? (offsetX < 0 ? Colors.Green : Colors.Red)
+					: (offsetX < 0 ? Colors.Red : Colors.Yellow);
+			await renderer.AssertColorAt(topLeftColor, leftX, topY);
+
+			//TopRight
+			var topRightColor = inner ? Colors.Red : Colors.Yellow;
+			await renderer.AssertColorAt(topRightColor, rightX, topY);
+
+			//BottomRight and CornerCurve
+			//Case we have RightCorner the Bottom will always be Yellow
+			var bottomRightColor =
+				bottomRightCorner > 50
+					? Colors.Yellow
+					: offsetX < 0
+						? inner ? Colors.Red : Colors.Yellow
+						: inner ? Colors.Green : Colors.Red;
+			await renderer.AssertColorAt(bottomRightColor, rightX, bottomY);
+
+			//BottomLeft
+			await renderer.AssertColorAt(Colors.Yellow, leftX, bottomY);
+
 		}
 
-#if !(__ANDROID__ || __IOS__)
 		[TestMethod]
 		public async Task Displays_Content_With_Margin()
 		{
@@ -173,6 +240,45 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			}
 		}
 #endif
+
+		[TestMethod]
+		public async Task Displays_Content()
+		{
+			if (!ImageAssertHelper.IsScreenshotSupported())
+			{
+				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
+			}
+
+			var greenBorder = new ShadowContainer
+			{
+				Content = new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) }
+			};
+
+			var shadowContainer = new ShadowContainer
+			{
+				Content = greenBorder
+			};
+
+			var stackPanel = new StackPanel
+			{
+				Background = new SolidColorBrush(Colors.Yellow),
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Children =
+				{
+					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
+					shadowContainer,
+					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
+				}
+			};
+
+			UnitTestsUIContentHelper.Content = stackPanel;
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+			await UnitTestsUIContentHelper.WaitForLoaded(stackPanel);
+
+			var renderer = await stackPanel.TakeScreenshot();
+			await renderer.AssertColorAt(Colors.Green, 100, 300);
+		}
 
 		[TestMethod]
 		public async Task ShadowContainer_ReLayoutsAfterChangeInSize()
