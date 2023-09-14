@@ -29,6 +29,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI.ViewManagement;
 using FluentAssertions;
+using SkiaSharp;
+using SkiaSharp.Views.Windows;
+using System.Drawing;
+using Windows.Globalization.DateTimeFormatting;
 
 namespace Uno.Toolkit.RuntimeTests.Tests
 {
@@ -36,46 +40,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	[RunsOnUIThread]
 	internal partial class ShadowContainerTests
 	{
-
-
-		[TestMethod]
-		public async Task Displays_Content()
-		{
-			if (!ImageAssertHelper.IsScreenshotSupported())
-			{
-				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
-			}
-
-			var greenBorder = new ShadowContainer
-			{
-				Content = new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) }
-			};
-
-			var shadowContainer = new ShadowContainer
-			{
-				Content = greenBorder
-			};
-
-			var stackPanel = new StackPanel
-			{
-				Background = new SolidColorBrush(Colors.Yellow),
-				HorizontalAlignment = HorizontalAlignment.Center,
-				Children =
-				{
-					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
-					shadowContainer,
-					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
-				}
-			};
-
-			UnitTestsUIContentHelper.Content = stackPanel;
-
-			await UnitTestsUIContentHelper.WaitForIdle();
-			await UnitTestsUIContentHelper.WaitForLoaded(stackPanel);
-
-			var renderer = await stackPanel.TakeScreenshot();
-			await renderer.AssertColorAt(Colors.Green, 100, 300);
-		}
 
 #if !(__ANDROID__ || __IOS__)
 
@@ -179,46 +143,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 		}
 
-
-		[TestMethod]
-		public async Task Displays_Content()
-		{
-			if (!ImageAssertHelper.IsScreenshotSupported())
-			{
-				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
-			}
-
-			var greenBorder = new ShadowContainer
-			{
-				Content = new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) }
-			};
-
-			var shadowContainer = new ShadowContainer
-			{
-				Content = greenBorder
-			};
-
-			var stackPanel = new StackPanel
-			{
-				Background = new SolidColorBrush(Colors.Yellow),
-				HorizontalAlignment = HorizontalAlignment.Center,
-				Children =
-				{
-					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
-					shadowContainer,
-					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
-				}
-			};
-
-			UnitTestsUIContentHelper.Content = stackPanel;
-
-			await UnitTestsUIContentHelper.WaitForIdle();
-			await UnitTestsUIContentHelper.WaitForLoaded(stackPanel);
-
-			var renderer = await stackPanel.TakeScreenshot();
-			await renderer.AssertColorAt(Colors.Green, 100, 300);
-		}
-
 		[TestMethod]
 		public async Task Displays_Content_With_Margin()
 		{
@@ -254,7 +178,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await renderer.AssertColorAt(Colors.Green, 75, 225);
 		}
 
-#if !(__ANDROID__ || __IOS__)
 		[TestMethod]
 		[DataRow(10, 10, false)]
 		[DataRow(10, 10, true)]
@@ -317,6 +240,45 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			}
 		}
 #endif
+
+		[TestMethod]
+		public async Task Displays_Content()
+		{
+			if (!ImageAssertHelper.IsScreenshotSupported())
+			{
+				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
+			}
+
+			var greenBorder = new ShadowContainer
+			{
+				Content = new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) }
+			};
+
+			var shadowContainer = new ShadowContainer
+			{
+				Content = greenBorder
+			};
+
+			var stackPanel = new StackPanel
+			{
+				Background = new SolidColorBrush(Colors.Yellow),
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Children =
+				{
+					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
+					shadowContainer,
+					new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Red) },
+				}
+			};
+
+			UnitTestsUIContentHelper.Content = stackPanel;
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+			await UnitTestsUIContentHelper.WaitForLoaded(stackPanel);
+
+			var renderer = await stackPanel.TakeScreenshot();
+			await renderer.AssertColorAt(Colors.Green, 100, 300);
+		}
 
 		[TestMethod]
 		public async Task ShadowContainer_ReLayoutsAfterChangeInSize()
