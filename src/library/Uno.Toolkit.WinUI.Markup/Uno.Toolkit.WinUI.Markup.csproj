@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
 
 	<!--
 	Adding project references to this project requires some manual adjustments.
@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All"/>
+		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All" />
 		<PackageReference Include="Uno.WinUI.Markup" />
 	</ItemGroup>
 
