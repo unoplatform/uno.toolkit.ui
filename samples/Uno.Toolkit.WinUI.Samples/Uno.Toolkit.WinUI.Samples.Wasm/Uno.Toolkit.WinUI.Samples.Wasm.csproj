@@ -11,6 +11,8 @@
     <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
+	  <WasmShellMonoRuntimeExecutionMode>InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
+	  <WasmShellEnableEmccProfiling>true</WasmShellEnableEmccProfiling>
   </PropertyGroup>
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>

@@ -39,6 +39,9 @@ public partial class ShadowContainer
 
 	private bool NeedsPaint(ShadowPaintState state, out bool pixelRatioChanged)
 	{
+		//var needsPaint = true;
+		//pixelRatioChanged = state.PixelRatio != _lastPaintState?.PixelRatio;
+
 		var needsPaint = state != _lastPaintState || _isShadowHostDirty;
 		pixelRatioChanged = _lastPaintState != null && state.PixelRatio != _lastPaintState.PixelRatio;
 
@@ -47,8 +50,30 @@ public partial class ShadowContainer
 		return needsPaint;
 	}
 
+	static int _invalidationCount;
+	static int _paintAvoidedCount;
+	static int _paintCacheCount;
+	static int _paintShadowsCount;
+	static DateTime? _startTime;
+
+	static void DebugLog(string message)
+	{
+		var elapsed = DateTime.Now - _startTime!.Value;
+		Console.WriteLine($"[ShadowContainer] {elapsed} " +  message);
+		System.Diagnostics.Debug.WriteLine($"[ShadowContainer] {elapsed} " +  message);
+	}
+
 	private void OnSurfacePainted(object? sender, SKPaintSurfaceEventArgs e)
 	{
+		if (_startTime == null)
+		{
+			_startTime = DateTime.Now;
+		}
+
+		//if (!_isShadowDirty && !_isShadowHostDirty)
+		//{
+		//}
+
 		if (_shadowHost == null ||
 			Content is not FrameworkElement { ActualHeight: > 0, ActualWidth: > 0 } contentAsFE)
 		{
@@ -68,8 +93,11 @@ public partial class ShadowContainer
 		var state = new ShadowPaintState(shape, background, pixelRatio, ShadowInfo.Snapshot(Shadows));
 		_isShadowDirty = false;
 
+		DebugLog($"InvalidationCount: {++_invalidationCount}, PaintAvoidedCount: {_paintAvoidedCount}, PaintCacheCount: {_paintCacheCount}, PaintShadowsCount: {_paintShadowsCount}");
+
 		if (!NeedsPaint(state, out bool pixelRatioChanged))
 		{
+			++_paintAvoidedCount;
 			return;
 		}
 
@@ -101,11 +129,14 @@ public partial class ShadowContainer
 			}
 			else
 			{
+				++_paintCacheCount;
 				canvas.DrawImage(snapshot, SKPoint.Empty);
 				OnSurfacePaintCompleted(createdNewCanvas: false);
 				return;
 			}
 		}
+
+		++_paintShadowsCount;
 
 		// relative to the SKCanvas, the entire content is padded to leave room for drop shadow
 		// here, we need to re-calibrate the coord system to zero on the top-left corner of the content
