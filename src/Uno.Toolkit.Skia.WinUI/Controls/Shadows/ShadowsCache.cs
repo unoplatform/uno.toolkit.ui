@@ -10,21 +10,22 @@ using Uno.Extensions;
 using Uno.Logging;
 
 namespace Uno.Toolkit.UI;
+
 public class ShadowsCache
 {
 	private const int CleanupInterval = 30;
 
 	private static readonly ILogger _logger = typeof(ShadowsCache).Log();
 
-	private static readonly Predicate<CacheBucket> OneHitSinceAShortTime =
-		(bucket) => bucket.Hit == 1 && (DateTime.UtcNow - bucket.LastHit).TotalMinutes > 1;
+	private static readonly Func<CacheBucket, DateTime, bool> OneHitSinceAShortTime =
+		(bucket, time) => bucket.Hit == 1 && (time - bucket.LastHit).TotalMinutes > 1;
 
-	private static readonly Predicate<CacheBucket> SeveralHitsSinceALongTime =
-		(bucket) => bucket.Hit > 1 && (DateTime.UtcNow - bucket.LastHit).TotalMinutes > 3;
+	private static readonly Func<CacheBucket, DateTime, bool> SeveralHitsSinceALongTime =
+		(bucket, time) => bucket.Hit > 1 && (time - bucket.LastHit).TotalMinutes > 3;
 
-	private readonly ConcurrentDictionary<string, CacheBucket> _shadowsCache = new ConcurrentDictionary<string, CacheBucket>();
+	private readonly ConcurrentDictionary<string, CacheBucket> _shadowsCache = new();
 
-	private DateTime _lastCleanupTime = DateTime.UtcNow;
+	private DateTime _lastCleanupUtcTime = DateTime.UtcNow;
 
 	public void AddOrUpdate(string key, SKImage image)
 	{
@@ -33,9 +34,9 @@ public class ShadowsCache
 			_logger.Trace($"[ShadowsCache] AddOrUpdate => key: {key}");
 		}
 
-		var bucket = _shadowsCache.AddOrUpdate(
+		_shadowsCache.AddOrUpdate(
 			key,
-			(key) =>
+			_ =>
 			{
 				if (_logger.IsEnabled(LogLevel.Trace))
 				{
@@ -43,7 +44,7 @@ public class ShadowsCache
 				}
 				return new CacheBucket(image);
 			},
-			(key, existing) =>
+			(_, existing) =>
 			{
 				existing.AddHit();
 				if (_logger.IsEnabled(LogLevel.Trace))
@@ -62,6 +63,7 @@ public class ShadowsCache
 		{
 			_logger.Trace($"[ShadowsCache] TryGet => key: {key}");
 		}
+
 		if (_shadowsCache.TryGetValue(key, out var bucket))
 		{
 			bucket.AddHit();
@@ -120,15 +122,15 @@ public class ShadowsCache
 
 	public async void CleanupIfNeeded()
 	{
-		if ((DateTime.UtcNow - _lastCleanupTime).TotalSeconds > CleanupInterval)
+		if (!_shadowsCache.IsEmpty && (DateTime.UtcNow - _lastCleanupUtcTime).TotalSeconds > CleanupInterval)
 		{
 			try
 			{
-				await CleanupAsync();
+				await CleanupAsync().ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine($"[ShadowsCache] Cleanup failed: {ex}");
+				_logger.Warn($"[ShadowsCache] Cleanup failed: {ex}");
 			}
 		}
 	}
@@ -138,25 +140,36 @@ public class ShadowsCache
 	/// </summary>
 	private Task CleanupAsync()
 	{
-		_lastCleanupTime = DateTime.UtcNow;
+		_lastCleanupUtcTime = DateTime.UtcNow;
 
 		return Task.Run(() =>
 		{
-			Stopwatch stopwatch = new Stopwatch();
-			stopwatch.Start();
-			System.Diagnostics.Debug.WriteLine($"[ShadowsCache] Cleanup starting");
+			var stopwatch = new Stopwatch();
+			if (_logger.IsEnabled(LogLevel.Trace))
+			{
+				stopwatch.Start();
+				_logger.Trace($"[ShadowsCache] Cleanup starting");
+			}
+
+			DateTime utcNow = DateTime.UtcNow;
 			int removedShadows = 0;
 			foreach (var expiredBucket in _shadowsCache
-				.Where(x => OneHitSinceAShortTime(x.Value) || SeveralHitsSinceALongTime(x.Value)))
+				.Where(x => OneHitSinceAShortTime(x.Value, utcNow) || SeveralHitsSinceALongTime(x.Value, utcNow)))
 			{
-				if (_shadowsCache.TryRemove(expiredBucket.Key, out var _))
+				if (_shadowsCache.TryRemove(expiredBucket.Key, out _))
 				{
 					removedShadows++;
 				}
 			}
 
-			stopwatch.Stop();
-			System.Diagnostics.Debug.WriteLine($"[ShadowsCache] Cleanup done in {stopwatch.ElapsedMilliseconds} ms ({removedShadows} shadows removed)");
+			if (_logger.IsEnabled(LogLevel.Trace))
+			{
+				stopwatch.Stop();
+				if (_logger.IsEnabled(LogLevel.Trace))
+				{
+					_logger.Trace($"[ShadowsCache] Cleanup done in {stopwatch.ElapsedMilliseconds} ms ({removedShadows} shadows removed)");
+				}
+			}
 		});		
 	}
 }
