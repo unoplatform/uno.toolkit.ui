@@ -6,6 +6,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.UI;
 
-public sealed partial class AutoLayout : RelativePanel
+public partial class AutoLayout : RelativePanel
 {
 }
