@@ -405,6 +405,50 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
+	public async Task When_Measure()
+	{
+		var SUT = new AutoLayout()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0))
+		};
+
+		var flipView = new FlipView();
+
+		var border0 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 255, 255)),
+			Width = 2000,
+			Height = 2000,
+		};
+
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 40,
+			Height = 40,
+		};
+
+		var border2 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 40,
+			Height = 40,
+		};
+
+		AutoLayout.SetPrimaryAlignment(flipView, AutoLayoutPrimaryAlignment.Stretch);
+
+		flipView.Items.Add(border0);
+		SUT.Children.Add(flipView);
+		SUT.Children.Add(border1);
+		SUT.Children.Add(border2);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var border0Transform = border0.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		Assert.AreEqual(0, border0Transform.Y);
+	}
+
+	[TestMethod]
 	[RequiresFullWindow]
 	public async Task When_Fixed_Dimensions_Padding_And_SpaceBetween_Vertical()
 	{
