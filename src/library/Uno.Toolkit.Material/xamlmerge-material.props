@@ -6,7 +6,6 @@
 
 		<XamlMergeInput Include="Styles\Controls\v1\**\*.xaml" MergeFile="mergedpages.$(FrameworkLineage).v1.xaml" />
 		<XamlMergeInput Include="Styles\Controls\v2\**\*.xaml" MergeFile="mergedpages.$(FrameworkLineage).v2.xaml" />
-		<XamlMergeInput Include="Resources\AssetCatalog.$(FrameworkLineage).xaml" MergeFile="mergedpages.$(FrameworkLineage).v2.xaml" />
 	</ItemGroup>
 	<Import Project="..\..\xamlmerge.props" />
 </Project>

@@ -18,6 +18,7 @@
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:um="using:Uno.Material"
 					xmlns:utu="using:Uno.Toolkit.UI"
+					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					mc:Ignorable="android ios not_win mobile">
 
 	<ResourceDictionary.ThemeDictionaries>
@@ -81,6 +82,7 @@
 			<x:Double x:Key="NavBarAppBarThemeCompactHeight">56</x:Double>
 			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
 			<Visibility x:Key="NavBarAppBarButtonHasFlyoutChevronVisibility">Collapsed</Visibility>
+			<x:String x:Key="NavigationBarBackIconData">M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z</x:String>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Light">
 			<StaticResource x:Key="NavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="CommandBarEllipsisIconForegroundDisabled" />
@@ -137,6 +139,7 @@
 			<x:Double x:Key="NavBarAppBarThemeCompactHeight">56</x:Double>
 			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
 			<Visibility x:Key="NavBarAppBarButtonHasFlyoutChevronVisibility">Collapsed</Visibility>
+			<x:String x:Key="NavigationBarBackIconData">M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z</x:String>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
@@ -178,10 +181,10 @@
 		   BasedOn="{StaticResource MaterialAppBarButtonStyle}"
 		   TargetType="AppBarButton">
 		<Setter Property="Foreground" Value="{ThemeResource NavigationBarMainCommandForeground}" />
-		<not_mobile:Setter Property="Icon">
-			<not_mobile:Setter.Value>
-				<BitmapIcon UriSource="{StaticResource MaterialBackButtonUriSource}" />
-			</not_mobile:Setter.Value>
+		<not_mobile:Setter Property="Icon" win:Value="{x:Null}">
+			<not_win:Setter.Value>
+				<PathIcon Data="{ThemeResource NavigationBarBackIconData}" />
+			</not_win:Setter.Value>
 		</not_mobile:Setter>
 	</Style>
 
