@@ -41,6 +41,7 @@
 
 	<Style x:Key="DefaultMainCommandStyle"
 		   TargetType="AppBarButton">
+		<!-- Native back icons are used on mobile platforms -->
 		<not_mobile:Setter Property="Icon" win:Value="{x:Null}">
 			<not_win:Setter.Value>
 				<SymbolIcon Symbol="Back" />

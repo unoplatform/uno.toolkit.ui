@@ -181,6 +181,7 @@
 		   BasedOn="{StaticResource MaterialAppBarButtonStyle}"
 		   TargetType="AppBarButton">
 		<Setter Property="Foreground" Value="{ThemeResource NavigationBarMainCommandForeground}" />
+		<!-- Native back icons are used on mobile platforms -->
 		<not_mobile:Setter Property="Icon" win:Value="{x:Null}">
 			<not_win:Setter.Value>
 				<PathIcon Data="{ThemeResource NavigationBarBackIconData}" />
