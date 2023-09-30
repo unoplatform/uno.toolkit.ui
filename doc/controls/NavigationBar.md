@@ -307,6 +307,10 @@ If no `MainCommand` is provided in the XAML, the `NavigationBar` will render the
 
 On **Android**, only icons are supported (`AppBarButton.Icon`). This is due to a platform limitation, which can be explained by the fact that `NavigationBar.Content` is left-aligned.
 
+> [!WARNING]
+> Due to [platform limitations](https://github.com/microsoft/microsoft-ui-xaml/issues/1494) on Windows only, a default back button icon is not provided out of the box. You will need to provide your own icon on each instance of the `NavigationBar` where you want to display a back button. On Android and iOS, the native default back button icon is used. On all other platforms, a back button icon is bundled in the default styles for the `NavigationBar`.
+
+
 ### MainCommand Properties
 
 ### Label
@@ -390,7 +394,7 @@ Gets or sets the back button icon for the `MainCommand`.
 
 Remarks:
 
-Only supports `BitmapImage`
+Only supports `BitmapImage` on iOS/Android
 
 ## Lightweight Styling
 
