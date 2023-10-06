@@ -310,7 +310,51 @@
 							<StackPanel Spacing="8">
 								<TextBlock Text="Complex Shadow Shapes" Style="{StaticResource TitleTextBlockStyle}" />
 
-								<StackPanel>
+								<!--
+									Should be the same as: https://developer.mozilla.org/fr/docs/Web/CSS/CSS_backgrounds_and_borders/Box-shadow_generator
+									element {
+									width: 300px;	height: 100px;	background-color: #7A67F8;	position: relative;
+									box-shadow:
+									6px -5px 5px 0px #E88BAB,
+									inset 5px -5px 5px 0px #94DB6D,
+									inset -20px -10px 10px 10px #000000;
+									}
+								-->
+								<utu:ShadowContainer Margin="0,30" Background="{StaticResource UnoColor}">
+									<utu:ShadowContainer.Shadows>
+										<utu:ShadowCollection>
+											<utu:Shadow IsInner="True"
+														OffsetX="-20"
+														OffsetY="-10"
+														BlurRadius="10"
+														Spread="10"
+														Color="Black"
+														Opacity="1" />
+											<utu:Shadow IsInner="True"
+														OffsetX="5"
+														OffsetY="-5"
+														BlurRadius="5"
+														Spread="0"
+														Color="#94DB6D"
+														Opacity="1" />
+											<utu:Shadow OffsetX="6"
+														OffsetY="-5"
+														BlurRadius="5"
+														Spread="0"
+														Color="#E88BAB"
+														Opacity="1" />
+										</utu:ShadowCollection>
+									</utu:ShadowContainer.Shadows>
+									<Button Width="300"
+											Height="100"
+											Background="Transparent"
+											BorderThickness="0"
+											Content="CSS box-shadow"
+											CornerRadius="0"
+											Foreground="White" />
+								</utu:ShadowContainer>
+								
+								<StackPanel>									
 									<TextBlock Text="Border 200x100 CR=10,50,10,50" />
 									<StackPanel Orientation="Horizontal">
 										<Border Width="200" Height="100" CornerRadius="10,50,10,50" Background="Blue" />

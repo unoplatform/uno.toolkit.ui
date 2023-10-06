@@ -23,6 +23,7 @@ public partial class ShadowContainer
 
 	private ShadowPaintState? _lastPaintState;
 	private bool _isShadowDirty;
+	private int _paintCount;
 
 	internal event EventHandler<SurfacePaintCompletedEventArgs>? SurfacePaintCompleted;
 
@@ -38,10 +39,11 @@ public partial class ShadowContainer
 
 	private bool NeedsPaint(ShadowPaintState state, out bool pixelRatioChanged)
 	{
-		var needsPaint = state != _lastPaintState;
-		pixelRatioChanged = state.PixelRatio != _lastPaintState?.PixelRatio;
+		var needsPaint = state != _lastPaintState || _isShadowHostDirty;
+		pixelRatioChanged = _lastPaintState != null && state.PixelRatio != _lastPaintState.PixelRatio;
 
 		_lastPaintState = state;
+		_isShadowHostDirty = false;
 		return needsPaint;
 	}
 
@@ -76,9 +78,13 @@ public partial class ShadowContainer
 
 		if (state.Shadows.Length == 0)
 		{
-			canvas.Clear(SKColors.Transparent);
 			shape.DrawContentBackground(state, canvas, background ?? Colors.Transparent);
 			return;
+		}
+
+		if (_logger.IsEnabled(LogLevel.Trace))
+		{
+			_logger.Trace($"[ShadowContainer] Painting shadows (x{++_paintCount}) for content {Content.GetType().Name}, actualSize: {contentAsFE.ActualWidth}x{contentAsFE.ActualHeight}");
 		}
 
 		using var _ = canvas.SnapshotState();
@@ -148,7 +154,7 @@ public partial class ShadowContainer
 		};
 	}
 
-	private IShadowShapeContext GetShadowShapeContext(object content)
+	private ShadowShapeContext GetShadowShapeContext(object content)
 	{
 		return content switch
 		{
@@ -163,28 +169,29 @@ public partial class ShadowContainer
 
 	/// <summary>
 	/// Serves both as a record of states relevant to shadow shape (not <see cref="Shape"/>, but in the broad sense), and the implementations for painting the shadows.
+	/// We can't use an interface here or we will lose the ability to compare instances of this class (thanks to generated Equals).
 	/// </summary>
-	private interface IShadowShapeContext
+	private abstract record ShadowShapeContext
 	{
-		void ClipToContent(ShadowPaintState state, SKCanvas canvas);
+		public abstract void ClipToContent(ShadowPaintState state, SKCanvas canvas);
 
-		void DrawContentBackground(ShadowPaintState state, SKCanvas canvas, Color color);
+		public abstract void DrawContentBackground(ShadowPaintState state, SKCanvas canvas, Color color);
 
-		void DrawDropShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow);
+		public abstract void DrawDropShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow);
 
-		void DrawInnerShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow);
+		public abstract void DrawInnerShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow);
 	}
 
-	private abstract record RoundRectShadowShapeContext(double Width, double Height) : IShadowShapeContext
+	private abstract record RoundRectShadowShapeContext(double Width, double Height) : ShadowShapeContext
 	{
 		protected abstract SKRoundRect GetContentShape(ShadowPaintState state);
 
-		public void ClipToContent(ShadowPaintState state, SKCanvas canvas)
+		public override void ClipToContent(ShadowPaintState state, SKCanvas canvas)
 		{
 			canvas.ClipRoundRect(GetContentShape(state), antialias: true);
 		}
 
-		public void DrawContentBackground(ShadowPaintState state, SKCanvas canvas, Color color)
+		public override void DrawContentBackground(ShadowPaintState state, SKCanvas canvas, Color color)
 		{
 			var shape = GetContentShape(state);
 			using var backgroundPaint = new SKPaint
@@ -200,7 +207,7 @@ public partial class ShadowContainer
 			canvas.DrawRoundRect(shape, backgroundPaint);
 		}
 
-		public void DrawDropShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow)
+		public override void DrawDropShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow)
 		{
 			var spread = (float)shadow.Spread * state.PixelRatio;
 			var offsetX = (float)shadow.OffsetX * state.PixelRatio;
@@ -238,7 +245,7 @@ public partial class ShadowContainer
 			canvas.DrawRoundRect(shape, paint);
 		}
 
-		public void DrawInnerShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow)
+		public override void DrawInnerShadow(ShadowPaintState state, SKCanvas canvas, SKPaint paint, ShadowInfo shadow)
 		{
 			var spread = (float)shadow.Spread * state.PixelRatio;
 			var offsetX = (float)shadow.OffsetX * state.PixelRatio;
@@ -329,7 +336,7 @@ public partial class ShadowContainer
 	/// Used in comparison to determine if the shadow needs to be repainted.
 	/// </summary>
 	private sealed record ShadowPaintState(
-		IShadowShapeContext Shape,
+		ShadowShapeContext Shape,
 		Color? Background,
 		float PixelRatio,
 		ShadowInfo[] Shadows)
@@ -369,11 +376,11 @@ public partial class ShadowContainer
 		}
 
 		public bool Equals(ShadowPaintState? x) =>
-			x is { } y &&
-			Shape == y.Shape &&
-			Background == y.Background &&
-			PixelRatio == y.PixelRatio &&
-			Shadows.SequenceEqual(y.Shadows);
+			x is not null &&
+			Shape == x.Shape &&
+			Background == x.Background &&
+			PixelRatio == x.PixelRatio &&
+			Shadows.SequenceEqual(x.Shadows);
 	}
 
 	public class SurfacePaintCompletedEventArgs : EventArgs

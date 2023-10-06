@@ -10,6 +10,7 @@ using Uno.Extensions;
 using Uno.Logging;
 
 namespace Uno.Toolkit.UI;
+
 public class ShadowsCache
 {
 	private const int CleanupInterval = 30;
