@@ -6,6 +6,7 @@ using Uno.Extensions;
 using Uno.Logging;
 
 namespace Uno.Toolkit.UI;
+
 public class ShadowsCache
 {
 	private static readonly ILogger _logger = typeof(ShadowsCache).Log();
