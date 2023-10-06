@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -36,7 +35,10 @@ public partial class ShadowContainer : ContentControl
 
 	private Grid? _panel;
 	private Canvas? _canvas;
+
 	private SKXamlCanvas? _shadowHost;
+
+	private bool _isShadowHostDirty = true;
 
 	public ShadowContainer()
 	{
@@ -73,6 +75,8 @@ public partial class ShadowContainer : ContentControl
 			this.RegisterDisposablePropertyChangedCallback(ShadowsProperty, OnShadowsChanged),
 			this.RegisterDisposablePropertyChangedCallback(ContentProperty, OnContentChanged),
 
+			RegisterDisposableShadowHostSizeChangedCallback(OnShadowHostSizeChanged),
+
 			backgroundNestedDisposable,
 			shadowsNestedDisposable,
 			contentNestedDisposable,
@@ -86,7 +90,7 @@ public partial class ShadowContainer : ContentControl
 		// This method should not fire any of InvalidateXyz-methods directly,
 		// in order to avoid duplicated invalidate calls.
 		// Which is why the BindToXyz has been separated from the OnXyzChanged.
-
+		
 		void OnBackgroundChanged(DependencyObject sender, DependencyProperty dp)
 		{
 			BindToBackgroundMemberProperties(Background);
@@ -106,6 +110,11 @@ public partial class ShadowContainer : ContentControl
 
 			InvalidateShadows();
 		}
+		// When the skia canvas size changes, the whole canvas is cleared: we'll need to redraw the shadows.
+		void OnShadowHostSizeChanged(object sender, SizeChangedEventArgs args)
+		{
+			_isShadowHostDirty = true;
+		}
 
 		void OnShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
@@ -117,6 +126,7 @@ public partial class ShadowContainer : ContentControl
 			}
 			InvalidateShadows();
 		}
+
 		void OnInnerPropertyChanged(DependencyObject sender, DependencyProperty dp)
 		{
 			InvalidateShadows();
@@ -135,6 +145,21 @@ public partial class ShadowContainer : ContentControl
 		{
 			InvalidateCanvasLayout();
 			InvalidateShadows();
+		}
+
+		SerialDisposable RegisterDisposableShadowHostSizeChangedCallback(SizeChangedEventHandler sizeChanged)
+		{
+			if (_shadowHost == null)
+			{
+				return new SerialDisposable();
+			}
+
+			_shadowHost.SizeChanged += OnShadowHostSizeChanged;
+			return new SerialDisposable
+			{
+				Disposable = Disposable.Create(() => _shadowHost.SizeChanged -= sizeChanged),
+			};
+
 		}
 
 		void BindToBackgroundMemberProperties(Brush? background)
@@ -244,6 +269,7 @@ public partial class ShadowContainer : ContentControl
 		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
 
 		var skiaCanvas = new SKXamlCanvas();
+
 		skiaCanvas.PaintSurface += OnSurfacePainted;
 
 #if __IOS__ || __MACCATALYST__
@@ -253,6 +279,8 @@ public partial class ShadowContainer : ContentControl
 		_shadowHost = skiaCanvas;
 		_canvas?.Children.Insert(0, _shadowHost!);
 	}
+
+	
 
 	private void InvalidateCanvasLayout()
 	{
@@ -288,7 +316,6 @@ public partial class ShadowContainer : ContentControl
 			return;
 		}
 
-
 #if __ANDROID__ || __IOS__
 		_canvas.GetDispatcherCompat().Schedule(() => _canvas.InvalidateMeasure());
 #endif
@@ -318,15 +345,13 @@ public partial class ShadowContainer : ContentControl
 		_canvas.HorizontalAlignment = contentAsFE.HorizontalAlignment;
 		_canvas.VerticalAlignment = contentAsFE.VerticalAlignment;
 
-
-
 		double left =
-			+(contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? -newHostSpreedWidth : 0)
+			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? -newHostSpreedWidth : 0)
 			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Right ? -newHostSpreedWidth - childWidth / 2 : 0)
 			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Stretch ? -newHostSpreedWidth - childWidth / 4 : 0)
 			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Center ? -newHostSpreedWidth - childWidth / 4 : 0);
 		double top =
-			+(contentAsFE.VerticalAlignment == VerticalAlignment.Top ? -newHostSpreedHeight : 0)
+			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Top ? -newHostSpreedHeight : 0)
 			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Bottom ? -newHostSpreedHeight - childHeight / 2 : 0)
 			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Stretch ? -newHostSpreedHeight - childHeight / 4 : 0)
 			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Center ? -newHostSpreedHeight - childHeight / 4 : 0);
