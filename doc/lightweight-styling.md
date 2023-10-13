@@ -56,6 +56,9 @@ For more information about the lightweight styling resource keys used in each co
 - [NavigationBar](controls/NavigationBar.md#lightweight-styling)
 - [TabBar](controls/TabBarAndTabBarItem.md#lightweight-styling)
 
+## Resource extension
+To apply lightweight styling to a style, you can use [StyleExtensions.Resource](helpers/style-extensions.md).
+
 ### Further Reading
 
 [Lightweight Styling (Windows Dev Docs)](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling)
