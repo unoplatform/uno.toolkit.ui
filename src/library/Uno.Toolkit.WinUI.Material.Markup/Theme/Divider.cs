@@ -1,0 +1,54 @@
+using System;
+using Windows.UI;
+using Microsoft.UI.Text;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+using Uno.Extensions.Markup;
+using Uno.Extensions.Markup.Internals;
+
+namespace Uno.Toolkit.Markup;
+
+public static partial class Theme
+{
+	public static partial class Divider
+	{
+		public static partial class Resources
+		{
+			public static partial class Divider
+			{
+				[ResourceKeyDefinition(typeof(Brush), "DividerForeground")]
+				public static ThemeResourceKey<Brush> Foreground => new("DividerForeground");
+
+				[ResourceKeyDefinition(typeof(double), "DividerHeight")]
+				public static ThemeResourceKey<double> Height => new("DividerHeight");
+			}
+
+			public static partial class SubHeader
+			{
+				[ResourceKeyDefinition(typeof(int), "DividerSubHeaderCharacterSpacing")]
+				public static ThemeResourceKey<int> CharacterSpacing => new("DividerSubHeaderCharacterSpacing");
+
+				[ResourceKeyDefinition(typeof(FontFamily), "DividerSubHeaderFontFamily")]
+				public static ThemeResourceKey<FontFamily> FontFamily => new("DividerSubHeaderFontFamily");
+
+				[ResourceKeyDefinition(typeof(double), "DividerSubHeaderFontSize")]
+				public static ThemeResourceKey<double> FontSize => new("DividerSubHeaderFontSize");
+
+				[ResourceKeyDefinition(typeof(string), "DividerSubHeaderFontWeight")]
+				public static ThemeResourceKey<string> FontWeight => new("DividerSubHeaderFontWeight");
+
+				[ResourceKeyDefinition(typeof(Brush), "DividerSubHeaderForeground")]
+				public static ThemeResourceKey<Brush> Foreground => new("DividerSubHeaderForeground");
+
+				[ResourceKeyDefinition(typeof(Thickness), "DividerSubHeaderMargin")]
+				public static ThemeResourceKey<Thickness> Margin => new("DividerSubHeaderMargin");
+			}
+		}
+
+		public static partial class Styles
+		{
+			[ResourceKeyDefinition(typeof(Style), "MaterialDividerStyle", TargetType = typeof(global::Uno.Toolkit.UI.Divider))]
+			public static StaticResourceKey<Style> Default => new("MaterialDividerStyle");
+		}
+	}
+}
