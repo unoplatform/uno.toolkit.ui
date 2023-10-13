@@ -23,6 +23,6 @@
 		<Message Importance="high" Text="OVERRIDING NUGET PACKAGE CACHE: $(_TargetNugetFolder) [and $(TargetPlatformVersion)]" />
 
 		<Copy SourceFiles="@(_OutputFiles)" DestinationFiles="@(_OutputFiles->'$(_TargetNugetFolder)\%(RecursiveDir)%(Filename)%(Extension)')" />
-		<Copy Condition="'$(TargetPlatformVersion)'!='' and $(TargetFramework.Contains('net6.0-')) and !$(TargetFramework.Contains('windows10'))" SourceFiles="@(_OutputFiles)" DestinationFiles="@(_OutputFiles->'$(_TargetNugetFolder)$(TargetPlatformVersion)\%(RecursiveDir)%(Filename)%(Extension)')" />
+		<Copy Condition="'$(TargetPlatformVersion)'!='' and $(TargetFramework.Contains('net7.0-')) and !$(TargetFramework.Contains('windows10'))" SourceFiles="@(_OutputFiles)" DestinationFiles="@(_OutputFiles->'$(_TargetNugetFolder)$(TargetPlatformVersion)\%(RecursiveDir)%(Filename)%(Extension)')" />
 	</Target>
 </Project>
