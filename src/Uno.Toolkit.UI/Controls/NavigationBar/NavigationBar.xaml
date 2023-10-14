@@ -1476,7 +1476,8 @@
 
 	<ios:ControlTemplate x:Key="NativeNavigationBarTemplate"
 						 TargetType="utu:NavigationBar">
-		<Border BorderThickness="{TemplateBinding Padding}">
+		<Border BorderThickness="{TemplateBinding Padding}"
+				Background="{TemplateBinding Background}">
 			<utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter"
 											  Height="44" />
 			<!-- TODO: 1px line -->
