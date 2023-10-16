@@ -222,17 +222,21 @@ namespace Uno.Toolkit.UI
 		{
 			if (_lastActivePage is { } page)
 			{
+#if !HAS_UNO
 				page.GetDispatcherCompat().Schedule(() => {
+#endif
 					if (GetSubscription(page) != null &&
-					GetForeground(page) is StatusBarForegroundTheme.Auto or StatusBarForegroundTheme.AutoInverse &&
-					GetSystemTheme() is var theme && theme != _lastAppliedTheme)
-					{
-						// this will prevent deadlock, as setting the XamlStatusBar.Foreground will trigger ColorValuesChanged
-						_lastAppliedTheme = theme;
+						GetForeground(page) is StatusBarForegroundTheme.Auto or StatusBarForegroundTheme.AutoInverse &&
+						GetSystemTheme() is var theme && theme != _lastAppliedTheme)
+						{
+							// this will prevent deadlock, as setting the XamlStatusBar.Foreground will trigger ColorValuesChanged
+							_lastAppliedTheme = theme;
 
-						UpdateStatusBar(page);
-					}
+							UpdateStatusBar(page);
+						}
+#if !HAS_UNO
 				});
+#endif
 			}
 		}
 
