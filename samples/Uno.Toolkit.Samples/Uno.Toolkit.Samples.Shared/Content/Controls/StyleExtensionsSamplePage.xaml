@@ -10,54 +10,71 @@
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Page.Resources>
-		<Style x:Key="OverridenFilledButtonStyle"
+		<Style x:Key="OverridenButtonStyle"
 			   TargetType="Button"
-			   BasedOn="{StaticResource MaterialFilledButtonStyle}">
+			   BasedOn="{StaticResource DefaultButtonStyle}">
 			<Setter Property="utu:StyleExtensions.Resources">
 				<Setter.Value>
 					<ResourceDictionary>
 						<ResourceDictionary.ThemeDictionaries>
 							<ResourceDictionary x:Key="Default">
-								<SolidColorBrush x:Key="FilledButtonForeground"
+								<SolidColorBrush x:Key="ButtonForeground"
+												 Color="LightGreen" />
+								<SolidColorBrush x:Key="ButtonBackground"
 												 Color="DarkGreen" />
-								<SolidColorBrush x:Key="FilledButtonBackground"
+								<SolidColorBrush x:Key="ButtonBorderBrush"
 												 Color="LightGreen" />
 
-								<SolidColorBrush x:Key="FilledButtonForegroundPointerOver"
+								<SolidColorBrush x:Key="ButtonForegroundPointerOver"
+												 Color="LightCoral" />
+								<SolidColorBrush x:Key="ButtonBackgroundPointerOver"
 												 Color="DarkRed" />
-								<SolidColorBrush x:Key="FilledButtonBackgroundPointerOver"
-												 Color="LightPink" />
+								<SolidColorBrush x:Key="ButtonBorderBrushPointerOver"
+												 Color="LightCoral" />
 
-								<SolidColorBrush x:Key="FilledButtonForegroundPressed"
+								<SolidColorBrush x:Key="ButtonForegroundPressed"
+												 Color="LightSkyBlue" />
+								<SolidColorBrush x:Key="ButtonBackgroundPressed"
 												 Color="DarkBlue" />
-								<SolidColorBrush x:Key="FilledButtonBackgroundPressed"
-												 Color="LightSteelBlue" />
+								<SolidColorBrush x:Key="ButtonBorderBrushPressed"
+												 Color="LightSkyBlue" />
 
-								<SolidColorBrush x:Key="FilledButtonForegroundFocused"
-												 Color="AntiqueWhite" />
-								<SolidColorBrush x:Key="FilledButtonBackgroundFocused"
-												 Color="DarkMagenta" />
+								<SolidColorBrush x:Key="ButtonForegroundDisabled"
+												 Color="DarkSlateGray" />
+								<SolidColorBrush x:Key="ButtonBackgroundDisabled"
+												 Color="Gray" />
+								<SolidColorBrush x:Key="ButtonBorderBrushDisabled"
+												 Color="DarkSlateGray" />
 							</ResourceDictionary>
 							<ResourceDictionary x:Key="Light">
-								<SolidColorBrush x:Key="FilledButtonForeground"
-												 Color="LightGreen" />
-								<SolidColorBrush x:Key="FilledButtonBackground"
+								<SolidColorBrush x:Key="ButtonForeground"
+												 Color="DarkGreen" />
+								<SolidColorBrush x:Key="ButtonBackground"
+												 Color="PaleGreen" />
+								<SolidColorBrush x:Key="ButtonBorderBrush"
 												 Color="DarkGreen" />
 
-								<SolidColorBrush x:Key="FilledButtonForegroundPointerOver"
-												 Color="LightPink" />
-								<SolidColorBrush x:Key="FilledButtonBackgroundPointerOver"
+								<SolidColorBrush x:Key="ButtonForegroundPointerOver"
+												 Color="DarkRed" />
+								<SolidColorBrush x:Key="ButtonBackgroundPointerOver"
+												 Color="Pink" />
+								<SolidColorBrush x:Key="ButtonBorderBrushPointerOver"
 												 Color="DarkRed" />
 
-								<SolidColorBrush x:Key="FilledButtonForegroundPressed"
-												 Color="LightSteelBlue" />
-								<SolidColorBrush x:Key="FilledButtonBackgroundPressed"
+								<SolidColorBrush x:Key="ButtonForegroundPressed"
+												 Color="DarkBlue" />
+								<SolidColorBrush x:Key="ButtonBackgroundPressed"
+												 Color="SkyBlue" />
+								<SolidColorBrush x:Key="ButtonBorderBrushPressed"
 												 Color="DarkBlue" />
 
-								<SolidColorBrush x:Key="FilledButtonForegroundFocused"
-												 Color="DarkMagenta" />
-								<SolidColorBrush x:Key="FilledButtonBackgroundFocused"
-												 Color="AntiqueWhite" />
+								<SolidColorBrush x:Key="ButtonForegroundDisabled"
+												 Color="DarkSlateGray" />
+								<SolidColorBrush x:Key="ButtonBackgroundDisabled"
+												 Color="LightGray" />
+								<SolidColorBrush x:Key="ButtonBorderBrushDisabled"
+												 Color="DarkSlateGray" />
+
 							</ResourceDictionary>
 						</ResourceDictionary.ThemeDictionaries>
 					</ResourceDictionary>
@@ -72,17 +89,17 @@
 				<DataTemplate>
 					<StackPanel Padding="0,20"
 								Spacing="20">
-						<TextBlock Text="StyleExtensions.Resource"
-								   Style="{StaticResource MaterialHeadline5}" />
+						<TextBlock Text="StyleExtensions.Resources"
+								   FontSize="24" />
 
 						<TextBlock Text="This property can be used in order to assign a resource dictionary to a style and facilitate lightweight Styling:"
-								   Style="{StaticResource MaterialBody1}" />
+								   FontSize="16" />
 
-						<Button Style="{StaticResource MaterialFilledButtonStyle}"
-								Content="Default filled Button" />
+						<Button Style="{StaticResource DefaultButtonStyle}"
+								Content="Default Button" />
 
-						<Button Style="{StaticResource OverridenFilledButtonStyle}"
-								Content="Overriden filled Button" />
+						<Button Style="{StaticResource OverridenButtonStyle}"
+								Content="Overriden Button" />
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>

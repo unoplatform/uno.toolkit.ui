@@ -33,7 +33,7 @@ namespace Uno.Toolkit.UI
 		{
 			if (d is Control control && e.NewValue is ResourceDictionary newResources)
 			{
-				control.Resources.MergedDictionaries.Add(newResources);
+				control.Resources = newResources;
 			}
 		}
 	}
