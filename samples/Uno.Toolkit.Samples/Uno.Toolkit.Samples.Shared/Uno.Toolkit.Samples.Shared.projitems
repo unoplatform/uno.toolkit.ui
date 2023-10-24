@@ -56,8 +56,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\StatusBarSamplePage.xaml.cs">
       <DependentUpon>StatusBarSamplePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\StyleExtensionsSamplePage.xaml.cs">
-      <DependentUpon>StyleExtensionsSamplePage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ResourceExtensionsSamplePage.xaml.cs">
+      <DependentUpon>ResourceExtensionsSamplePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\TabBarItemExtensionsSamplePage.xaml.cs">
       <DependentUpon>TabBarItemExtensionsSamplePage.xaml</DependentUpon>
@@ -273,7 +273,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\StyleExtensionsSamplePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ResourceExtensionsSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

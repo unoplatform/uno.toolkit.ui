@@ -57,7 +57,7 @@ For more information about the lightweight styling resource keys used in each co
 - [TabBar](controls/TabBarAndTabBarItem.md#lightweight-styling)
 
 ## Resources extension
-To apply lightweight styling to a style, you can use [StyleExtensions.Resources](helpers/style-extensions.md).
+To apply lightweight styling to a style, you can use [ResourceExtensions.Resources](helpers/resource-extensions.md).
 
 ### Further Reading
 

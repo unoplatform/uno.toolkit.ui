@@ -22,10 +22,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class StyleExtensionsTest
+internal class ResourceExtensionsTest
 {
 	[TestMethod]
-	public async Task StyleExtensionsResourcesPropertyAppliedToStyleTest()
+	public async Task ResourceExtensionsResourcesPropertyAppliedToStyleTest()
 	{
 		// Arrange
 		var colorBrush = new SolidColorBrush(Colors.DarkGreen);
@@ -40,7 +40,7 @@ internal class StyleExtensionsTest
 		{
 			Setters =
 			{
-				new Setter { Property = StyleExtensions.ResourcesProperty, Value = resourceDictionary }
+				new Setter { Property = ResourceExtensions.ResourcesProperty, Value = resourceDictionary }
 			}
 		};
 
@@ -58,7 +58,7 @@ internal class StyleExtensionsTest
 	}
 
 	[TestMethod]
-	public async Task StyleExtensionsResourcesPropertyAppliedToControlTest()
+	public async Task ResourceExtensionsResourcesPropertyAppliedToControlTest()
 	{
 		// Arrange
 		var testValue = "TestValue";
@@ -72,7 +72,7 @@ internal class StyleExtensionsTest
 		};
 
 		// Act
-		StyleExtensions.SetResources(button, resourceDictionary);
+		ResourceExtensions.SetResources(button, resourceDictionary);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(button);
 
@@ -81,7 +81,7 @@ internal class StyleExtensionsTest
 	}
 
 	[TestMethod]
-	public async Task StyleExtensionsOldResourcesRemovedWhenDictionaryChangesTest()
+	public async Task ResourceExtensionsOldResourcesRemovedWhenDictionaryChangesTest()
 	{
 		// Arrange
 		var initialColorBrush = new SolidColorBrush(Colors.DarkGreen);
@@ -104,7 +104,7 @@ internal class StyleExtensionsTest
 		{
 			Setters =
 			{
-				new Setter { Property = StyleExtensions.ResourcesProperty, Value = initialResourceDictionary }
+				new Setter { Property = ResourceExtensions.ResourcesProperty, Value = initialResourceDictionary }
 			}
 		};
 
@@ -115,7 +115,7 @@ internal class StyleExtensionsTest
 
 		// Act
 		// Update the resource dictionary applied to the button
-		StyleExtensions.SetResources(button, updatedResourceDictionary);
+		ResourceExtensions.SetResources(button, updatedResourceDictionary);
 		await UnitTestUIContentHelperEx.SetContentAndWait(button);
 
 		// Assert

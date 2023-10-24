@@ -1,4 +1,4 @@
-﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.StyleExtensionsSamplePage"
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.ResourceExtensionsSamplePage"
 	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
@@ -13,7 +13,7 @@
 		<Style x:Key="OverridenButtonStyle"
 			   TargetType="Button"
 			   BasedOn="{StaticResource DefaultButtonStyle}">
-			<Setter Property="utu:StyleExtensions.Resources">
+			<Setter Property="utu:ResourceExtensions.Resources">
 				<Setter.Value>
 					<ResourceDictionary>
 						<ResourceDictionary.ThemeDictionaries>
@@ -89,7 +89,7 @@
 				<DataTemplate>
 					<StackPanel Padding="0,20"
 								Spacing="20">
-						<TextBlock Text="StyleExtensions.Resources"
+						<TextBlock Text="ResourceExtensions.Resources"
 								   FontSize="24" />
 
 						<TextBlock Text="This property can be used in order to assign a resource dictionary to a style and facilitate lightweight Styling:"

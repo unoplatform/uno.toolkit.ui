@@ -13,10 +13,10 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Behaviors, nameof(StyleExtensions), SourceSdk.UnoToolkit)]
-	public sealed partial class StyleExtensionsSamplePage : Page
+	[SamplePage(SampleCategory.Behaviors, nameof(ResourceExtensions), SourceSdk.UnoToolkit)]
+	public sealed partial class ResourceExtensionsSamplePage : Page
 	{
-		public StyleExtensionsSamplePage()
+		public ResourceExtensionsSamplePage()
 		{
 			this.InitializeComponent();
 		}

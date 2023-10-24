@@ -1,5 +1,5 @@
 ---
-uid: Toolkit.Helpers.StyleExtensions
+uid: Toolkit.Helpers.ResourceExtensions
 ---
 
 ## Resources
@@ -12,7 +12,7 @@ Here is an example of how lightweight styling could be applied on a Button's sty
 <Style x:Key="OverridenFilledButtonStyle"
 	   TargetType="Button"
 	   BasedOn="{StaticResource MaterialFilledButtonStyle}">
-	<Setter Property="utu:StyleExtensions.Resources">
+	<Setter Property="utu:ResourceExtensions.Resources">
 		<Setter.Value>
 			<ResourceDictionary>
 				<ResourceDictionary.ThemeDictionaries>

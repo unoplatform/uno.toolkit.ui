@@ -14,10 +14,10 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.UI
 {
-	public static class StyleExtensions
+	public static class ResourceExtensions
 	{
 		public static readonly DependencyProperty ResourcesProperty =
-		DependencyProperty.RegisterAttached("Resources", typeof(ResourceDictionary), typeof(StyleExtensions), new PropertyMetadata(null, OnResourcesChanged));
+		DependencyProperty.RegisterAttached("Resources", typeof(ResourceDictionary), typeof(ResourceExtensions), new PropertyMetadata(null, OnResourcesChanged));
 
 		public static ResourceDictionary GetResources(UIElement element)
 		{
