@@ -1,0 +1,108 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.ResourceExtensionsSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Page.Resources>
+		<Style x:Key="OverridenButtonStyle"
+			   TargetType="Button"
+			   BasedOn="{StaticResource DefaultButtonStyle}">
+			<Setter Property="utu:ResourceExtensions.Resources">
+				<Setter.Value>
+					<ResourceDictionary>
+						<ResourceDictionary.ThemeDictionaries>
+							<ResourceDictionary x:Key="Default">
+								<SolidColorBrush x:Key="ButtonForeground"
+												 Color="LightGreen" />
+								<SolidColorBrush x:Key="ButtonBackground"
+												 Color="DarkGreen" />
+								<SolidColorBrush x:Key="ButtonBorderBrush"
+												 Color="LightGreen" />
+
+								<SolidColorBrush x:Key="ButtonForegroundPointerOver"
+												 Color="LightCoral" />
+								<SolidColorBrush x:Key="ButtonBackgroundPointerOver"
+												 Color="DarkRed" />
+								<SolidColorBrush x:Key="ButtonBorderBrushPointerOver"
+												 Color="LightCoral" />
+
+								<SolidColorBrush x:Key="ButtonForegroundPressed"
+												 Color="LightSkyBlue" />
+								<SolidColorBrush x:Key="ButtonBackgroundPressed"
+												 Color="DarkBlue" />
+								<SolidColorBrush x:Key="ButtonBorderBrushPressed"
+												 Color="LightSkyBlue" />
+
+								<SolidColorBrush x:Key="ButtonForegroundDisabled"
+												 Color="DarkSlateGray" />
+								<SolidColorBrush x:Key="ButtonBackgroundDisabled"
+												 Color="Gray" />
+								<SolidColorBrush x:Key="ButtonBorderBrushDisabled"
+												 Color="DarkSlateGray" />
+							</ResourceDictionary>
+							<ResourceDictionary x:Key="Light">
+								<SolidColorBrush x:Key="ButtonForeground"
+												 Color="DarkGreen" />
+								<SolidColorBrush x:Key="ButtonBackground"
+												 Color="PaleGreen" />
+								<SolidColorBrush x:Key="ButtonBorderBrush"
+												 Color="DarkGreen" />
+
+								<SolidColorBrush x:Key="ButtonForegroundPointerOver"
+												 Color="DarkRed" />
+								<SolidColorBrush x:Key="ButtonBackgroundPointerOver"
+												 Color="Pink" />
+								<SolidColorBrush x:Key="ButtonBorderBrushPointerOver"
+												 Color="DarkRed" />
+
+								<SolidColorBrush x:Key="ButtonForegroundPressed"
+												 Color="DarkBlue" />
+								<SolidColorBrush x:Key="ButtonBackgroundPressed"
+												 Color="SkyBlue" />
+								<SolidColorBrush x:Key="ButtonBorderBrushPressed"
+												 Color="DarkBlue" />
+
+								<SolidColorBrush x:Key="ButtonForegroundDisabled"
+												 Color="DarkSlateGray" />
+								<SolidColorBrush x:Key="ButtonBackgroundDisabled"
+												 Color="LightGray" />
+								<SolidColorBrush x:Key="ButtonBorderBrushDisabled"
+												 Color="DarkSlateGray" />
+
+							</ResourceDictionary>
+						</ResourceDictionary.ThemeDictionaries>
+					</ResourceDictionary>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Page.Resources>
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<sample:SamplePageLayout IsDesignAgnostic="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<StackPanel Padding="0,20"
+								Spacing="20">
+						<TextBlock Text="ResourceExtensions.Resources"
+								   FontSize="24" />
+
+						<TextBlock Text="This property can be used in order to assign a resource dictionary to a style and facilitate lightweight Styling:"
+								   FontSize="16" />
+
+						<Button Style="{StaticResource DefaultButtonStyle}"
+								Content="Default Button" />
+
+						<Button Style="{StaticResource OverridenButtonStyle}"
+								Content="Overriden Button" />
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>
