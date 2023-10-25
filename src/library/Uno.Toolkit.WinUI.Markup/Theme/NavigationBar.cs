@@ -1,8 +1,8 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Text;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Uno.Extensions.Markup.Internals;
 using Uno.Extensions.Markup;
-using Microsoft.UI.Text;
+using Uno.Extensions.Markup.Internals;
 
 namespace Uno.Toolkit.UI.Markup;
 
