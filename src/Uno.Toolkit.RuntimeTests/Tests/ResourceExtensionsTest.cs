@@ -25,7 +25,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 internal class ResourceExtensionsTest
 {
 	[TestMethod]
-	public async Task ResourceExtensionsResourcesPropertyAppliedToStyleTest()
+	public async Task ResourcesProperty_StyleSetter()
 	{
 		// Arrange
 		var colorBrush = new SolidColorBrush(Colors.DarkGreen);
@@ -58,7 +58,7 @@ internal class ResourceExtensionsTest
 	}
 
 	[TestMethod]
-	public async Task ResourceExtensionsResourcesPropertyAppliedToControlTest()
+	public async Task ResourcesProperty_Control()
 	{
 		// Arrange
 		var testValue = "TestValue";
@@ -81,7 +81,7 @@ internal class ResourceExtensionsTest
 	}
 
 	[TestMethod]
-	public async Task ResourceExtensionsOldResourcesRemovedWhenDictionaryChangesTest()
+	public async Task ResourcesProperty_OverrideExistingResources()
 	{
 		// Arrange
 		var initialColorBrush = new SolidColorBrush(Colors.DarkGreen);

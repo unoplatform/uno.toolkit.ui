@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,18 +17,20 @@ namespace Uno.Toolkit.UI
 {
 	public static class ResourceExtensions
 	{
-		public static readonly DependencyProperty ResourcesProperty =
-		DependencyProperty.RegisterAttached("Resources", typeof(ResourceDictionary), typeof(ResourceExtensions), new PropertyMetadata(null, OnResourcesChanged));
+		#region DependencyProperty: Resources
 
-		public static ResourceDictionary GetResources(UIElement element)
-		{
-			return (ResourceDictionary)element.GetValue(ResourcesProperty);
-		}
+		public static DependencyProperty ResourcesProperty { [DynamicDependency(nameof(GetResources))] get; } = DependencyProperty.RegisterAttached(
+			"Resources",
+			typeof(ResourceDictionary),
+			typeof(ResourceExtensions),
+			new PropertyMetadata(default(ResourceDictionary), OnResourcesChanged));
 
-		public static void SetResources(UIElement element, ResourceDictionary value)
-		{
-			element.SetValue(ResourcesProperty, value);
-		}
+		[DynamicDependency(nameof(SetResources))]
+		public static ResourceDictionary GetResources(FrameworkElement obj) => (ResourceDictionary)obj.GetValue(ResourcesProperty);
+		[DynamicDependency(nameof(GetResources))]
+		public static void SetResources(FrameworkElement obj, ResourceDictionary value) => obj.SetValue(ResourcesProperty, value);
+
+		#endregion
 
 		private static void OnResourcesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
