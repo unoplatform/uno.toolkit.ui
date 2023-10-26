@@ -59,7 +59,7 @@
 	</Choose>
 
 	<PropertyGroup Condition="'$(IsMarkupProject)'=='true'">
-		<IsPackable>false</IsPackable>
+		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsTestProject)'=='false'">
