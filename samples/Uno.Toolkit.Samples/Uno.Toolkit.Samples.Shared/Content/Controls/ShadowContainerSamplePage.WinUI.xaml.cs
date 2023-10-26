@@ -18,11 +18,13 @@ namespace Uno.Toolkit.Samples.Content.Controls
 
 			this.Loaded += (s, e) =>
 			{
-				var shadowContainer = SamplePageLayout.GetSampleChild<ShadowContainer>(Design.Agnostic, "ShadowContainer");
-				_shadows = shadowContainer.Shadows;
+				if (SamplePageLayout.GetSampleChild<ShadowContainer>(Design.Agnostic, "ShadowContainer") is { } shadowContainer)
+				{
+					_shadows = shadowContainer.Shadows;
 
-				var shadowsItemsControl = SamplePageLayout.GetSampleChild<ItemsControl>(Design.Agnostic, "ShadowsItemsControl");
-				shadowsItemsControl.ItemsSource = _shadows;
+					var shadowsItemsControl = SamplePageLayout.GetSampleChild<ItemsRepeater>(Design.Agnostic, "ShadowsItemsControl");
+					shadowsItemsControl.ItemsSource = _shadows;
+				}
 			};
 		}
 

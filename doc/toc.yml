@@ -28,6 +28,8 @@
       href: controls/CardAndCardContentControl.md
     - name: Chip and ChipGroup
       href: controls/ChipAndChipGroup.md
+    - name: Divider
+      href: controls/Divider.md
     - name: DrawerControl
       href: controls/DrawerControl.md
     - name: DrawerFlyoutPresenter
@@ -38,6 +40,8 @@
       href: controls/NavigationBar.md
     - name: SafeArea
       href: controls/SafeArea.md
+    - name: ShadowContainer
+      href: controls/ShadowContainer.md
     - name: TabBar and TabBarItem
       href: controls/TabBarAndTabBarItem.md
   # ***************** Reference\Helpers *******************

@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Shapes;
 using SkiaSharp.Views.Windows;
-#else
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using SkiaSharp.Views.UWP;
-#endif
+using Uno.Disposables;
 
 #if __ANDROID__
 using Android.Views;
@@ -28,194 +27,375 @@ namespace Uno.Toolkit.UI;
 public partial class ShadowContainer : ContentControl
 {
 	private const string PART_Canvas = "PART_Canvas";
-
-	private Canvas? _canvas;
-
-#if false // ANDROID (see comment below)
-    private readonly SKSwapChainPanel _shadowHost;
-    private bool _notOpaqueSet = false;
-#else
-	private SKXamlCanvas? _shadowHost;
-#endif
+	private const string PART_ShadowOwner = "PART_ShadowOwner";
 
 	private static readonly ShadowsCache Cache = new ShadowsCache();
 
-	private FrameworkElement? _currentContent;
+	private readonly SerialDisposable _eventSubscriptions = new();
 
-	private CornerRadius _cornerRadius;
+	private Grid? _panel;
+	private Canvas? _canvas;
+
+	private SKXamlCanvas? _shadowHost;
+
+	private bool _isShadowHostDirty = true;
 
 	public ShadowContainer()
 	{
-		Shadows = new();
-
 		DefaultStyleKey = typeof(ShadowContainer);
 
-		_cornerRadius = new CornerRadius(0);
+		Shadows = new();
 
 		Loaded += ShadowContainerLoaded;
 		Unloaded += ShadowContainerUnloaded;
 	}
 
-	private void ShadowContainerUnloaded(object sender, RoutedEventArgs e)
-	{
-		RevokeListeners();
-	}
-
 	private void ShadowContainerLoaded(object sender, RoutedEventArgs e)
 	{
-		UpdateShadows();
+		BindToPaintingProperties();
+
+		InvalidateCanvasLayout();
+		InvalidateShadows();
 	}
 
-	private void RevokeListeners()
+	private void ShadowContainerUnloaded(object sender, RoutedEventArgs e)
 	{
-		_shadowsCollectionChanged.Disposable = null;
-		_shadowPropertiesChanged.Disposable = null;
-		_cornerRadiusChanged.Disposable = null;
+		_eventSubscriptions.Disposable = null;
+	}
+
+	private void BindToPaintingProperties()
+	{
+		var backgroundNestedDisposable = new SerialDisposable();
+		var shadowsNestedDisposable = new SerialDisposable();
+		var contentNestedDisposable = new SerialDisposable();
+
+		_eventSubscriptions.Disposable = new CompositeDisposable
+		{
+			this.RegisterDisposablePropertyChangedCallback(BackgroundProperty, OnBackgroundChanged),
+			this.RegisterDisposablePropertyChangedCallback(ShadowsProperty, OnShadowsChanged),
+			this.RegisterDisposablePropertyChangedCallback(ContentProperty, OnContentChanged),
+
+			RegisterDisposableShadowHostSizeChangedCallback(OnShadowHostSizeChanged),
+
+			backgroundNestedDisposable,
+			shadowsNestedDisposable,
+			contentNestedDisposable,
+		};
+
+		// manually proc inner registration once
+		BindToBackgroundMemberProperties(Background);
+		BindToShadowCollectionChanged(Shadows);
+		BindToContent(Content);
+
+		// This method should not fire any of InvalidateXyz-methods directly,
+		// in order to avoid duplicated invalidate calls.
+		// Which is why the BindToXyz has been separated from the OnXyzChanged.
+		
+		void OnBackgroundChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			BindToBackgroundMemberProperties(Background);
+
+			InvalidateShadows();
+		}
+		void OnShadowsChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			BindToShadowCollectionChanged(Shadows);
+
+			InvalidateCanvasLayout();
+			InvalidateShadows();
+		}
+		void OnContentChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			BindToContent(Content);
+
+			InvalidateShadows();
+		}
+		// When the skia canvas size changes, the whole canvas is cleared: we'll need to redraw the shadows.
+		void OnShadowHostSizeChanged(object sender, SizeChangedEventArgs args)
+		{
+			_isShadowHostDirty = true;
+		}
+
+		void OnShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			_isShadowDirty = true;
+
+			if (Uno.Toolkit.UI.Shadow.IsShadowSizeProperty(e.PropertyName ?? ""))
+			{
+				InvalidateCanvasLayout();
+			}
+			InvalidateShadows();
+		}
+
+		void OnInnerPropertyChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			InvalidateShadows();
+		}
+		void OnContentPropertyChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			// among the content's nested properties (CornerRadius, Margin) that gets sent here,
+			// only Margin is used in UpdateCanvasLayout
+			if (dp == FrameworkElement.MarginProperty)
+			{
+				InvalidateCanvasLayout();
+			}
+			InvalidateShadows();
+		}
+		void OnContentSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			InvalidateCanvasLayout();
+			InvalidateShadows();
+		}
+
+		SerialDisposable RegisterDisposableShadowHostSizeChangedCallback(SizeChangedEventHandler sizeChanged)
+		{
+			if (_shadowHost == null)
+			{
+				return new SerialDisposable();
+			}
+
+			_shadowHost.SizeChanged += OnShadowHostSizeChanged;
+			return new SerialDisposable
+			{
+				Disposable = Disposable.Create(() => _shadowHost.SizeChanged -= sizeChanged),
+			};
+
+		}
+
+		void BindToBackgroundMemberProperties(Brush? background)
+		{
+			backgroundNestedDisposable.Disposable = background switch
+			{
+				SolidColorBrush scb => new CompositeDisposable
+				{
+					scb.RegisterDisposablePropertyChangedCallback(SolidColorBrush.ColorProperty, OnInnerPropertyChanged),
+					scb.RegisterDisposablePropertyChangedCallback(Brush.OpacityProperty, OnInnerPropertyChanged),
+				},
+
+				null => null,
+				_ => throw new NotSupportedException($"'{background.GetType().Name}' background brush is not supported."),
+			};
+		}
+		void BindToShadowCollectionChanged(ShadowCollection? shadows)
+		{
+			if (shadows != null)
+			{
+				shadows.CollectionChanged += OnShadowCollectionChanged;
+				BindItems(shadows);
+
+				shadowsNestedDisposable.Disposable = Disposable.Create(() =>
+				{
+					shadows.CollectionChanged -= OnShadowCollectionChanged;
+					UnbindItems(shadows);
+				});
+
+				_isShadowDirty = true;
+
+				void OnShadowCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+				{
+					if (e.Action != NotifyCollectionChangedAction.Move)
+					{
+						UnbindItems(e.OldItems?.Cast<Shadow>());
+						BindItems(e.NewItems?.Cast<Shadow>());
+
+						_isShadowDirty = true;
+
+						InvalidateCanvasLayout();
+						InvalidateShadows();
+					}
+				}
+				void BindItems(IEnumerable<Shadow>? shadows)
+				{
+					foreach (var item in shadows ?? Array.Empty<Shadow>())
+					{
+						item.PropertyChanged += OnShadowPropertyChanged;
+					}
+				}
+				void UnbindItems(IEnumerable<Shadow>? shadows)
+				{
+					foreach (var item in shadows ?? Array.Empty<Shadow>())
+					{
+						item.PropertyChanged -= OnShadowPropertyChanged;
+					}
+				}
+			}
+			else
+			{
+				shadowsNestedDisposable.Disposable = null;
+
+				_isShadowDirty = true;
+			}
+		}
+		void BindToContent(object? content)
+		{
+			if (content is FrameworkElement contentAsFE)
+			{
+				contentNestedDisposable.Disposable = new CompositeDisposable
+				{
+					RegisterSizeChangedHandler(contentAsFE, OnContentSizeChanged),
+					RegisterNestedPropertyChangedSafe<FrameworkElement>(GetCornerRadiusPropertyFor(content)),
+					RegisterNestedPropertyChangedSafe<Rectangle>(Rectangle.RadiusXProperty),
+					RegisterNestedPropertyChangedSafe<Rectangle>(Rectangle.RadiusYProperty),
+					RegisterNestedPropertyChangedSafe<FrameworkElement>(FrameworkElement.MarginProperty),
+				};
+
+				static IDisposable RegisterSizeChangedHandler(FrameworkElement fe, SizeChangedEventHandler handler)
+				{
+					fe.SizeChanged += handler;
+					return Disposable.Create(() => fe.SizeChanged -= handler);
+				}
+				IDisposable RegisterNestedPropertyChangedSafe<T>(DependencyProperty? dp, DependencyPropertyChangedCallback? callback = null)
+				{
+					if (contentAsFE is T && dp is { })
+					{
+						return contentAsFE.RegisterDisposablePropertyChangedCallback(dp, callback ?? OnContentPropertyChanged);
+					}
+
+					return Disposable.Empty;
+				}
+			}
+			else
+			{
+				contentNestedDisposable.Disposable = null;
+			}
+		}
 	}
 
 	protected override void OnApplyTemplate()
 	{
+		base.OnApplyTemplate();
+
 		_canvas = GetTemplateChild(nameof(PART_Canvas)) as Canvas;
+		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
 
-
-#if false // ANDROID: We keep that as a reference cause it would be better to use the hardware-accelerated version
-        var skiaCanvas = new SKSwapChainPanel();
-        skiaCanvas.PaintSurface += OnSurfacePainted;
-#else
 		var skiaCanvas = new SKXamlCanvas();
+
 		skiaCanvas.PaintSurface += OnSurfacePainted;
-#endif
 
 #if __IOS__ || __MACCATALYST__
-        skiaCanvas.Opaque = false;
+		skiaCanvas.Opaque = false;
 #endif
 
 		_shadowHost = skiaCanvas;
 		_canvas?.Children.Insert(0, _shadowHost!);
-
-		base.OnApplyTemplate();
 	}
 
-	/// <inheritdoc/>
-	protected override void OnContentChanged(object oldContent, object newContent)
+	
+
+	private void InvalidateCanvasLayout()
 	{
-		_cornerRadiusChanged.Disposable = null;
-
-		if (oldContent is FrameworkElement oldElement)
-		{
-			_canvas?.Children.Remove(oldElement);
-			oldElement.SizeChanged -= OnContentSizeChanged;
-		}
-
-		if (newContent is FrameworkElement newElement)
-		{
-			_currentContent = newElement;
-			_currentContent.SizeChanged += OnContentSizeChanged;
-
-			if (TryGetCornerRadius(newElement, out var cornerRadius))
-			{
-				var cornerRadiusProperty = newElement switch
-				{
-					Grid _ => Grid.CornerRadiusProperty,
-					StackPanel _ => StackPanel.CornerRadiusProperty,
-					ContentPresenter _ => ContentPresenter.CornerRadiusProperty,
-					Border _ => Border.CornerRadiusProperty,
-					Control _ => Control.CornerRadiusProperty,
-					RelativePanel _ => RelativePanel.CornerRadiusProperty, 
-					_ => default,
-
-				};
-
-				if (cornerRadiusProperty != null)
-				{
-					_cornerRadiusChanged.Disposable = newElement.RegisterDisposablePropertyChangedCallback(
-						cornerRadiusProperty,
-						(s, dp) => OnCornerRadiusChanged(s, dp)
-					);
-				}
-			}
-
-			_cornerRadius = cornerRadius;
-		}
-
-		_shadowHost?.Invalidate();
-		base.OnContentChanged(oldContent, newContent);
-	}
-
-	private void OnCornerRadiusChanged(DependencyObject sender, DependencyProperty dp)
-	{
-		if (_currentContent is { })
-		{
-			if (TryGetCornerRadius(_currentContent, out var cornerRadius))
-			{
-				_cornerRadius = cornerRadius;
-				_shadowHost?.Invalidate();
-			}
-		}
-	}
-
-	private static bool TryGetCornerRadius(FrameworkElement element, out CornerRadius cornerRadius)
-	{
-		CornerRadius? localCornerRadius = element switch
-		{
-			Control control => control.CornerRadius,
-			StackPanel stackPanel => stackPanel.CornerRadius,
-			RelativePanel relativePanel => relativePanel.CornerRadius,
-			Grid grid => grid.CornerRadius,
-			Border border => border.CornerRadius,
-			_ => VisualTreeHelperEx.TryGetDpValue<CornerRadius>(element, "CornerRadius", out var value) ? value : default(CornerRadius?),
-		};
-
-		cornerRadius = localCornerRadius ?? new CornerRadius(0);
-		return localCornerRadius != null;
-	}
-
-	private void OnContentSizeChanged(object sender, SizeChangedEventArgs args)
-	{
-		if (args.NewSize.Width > 0 && args.NewSize.Height > 0)
-		{
-			UpdateCanvasSize(args.NewSize.Width, args.NewSize.Height, Shadows);
-			_shadowHost?.Invalidate();
-		}
-	}
-
-	private void UpdateCanvasSize(double childWidth, double childHeight, ShadowCollection? shadows)
-	{
-		if (_currentContent == null || _canvas == null || _shadowHost == null)
+		if (Content is not FrameworkElement contentAsFE ||
+						_panel == null ||
+						_canvas == null ||
+						_shadowHost == null)
 		{
 			return;
 		}
 
+#if __ANDROID__ || __IOS__
+		this.GetDispatcherCompat().Schedule(() => InvalidateCanvasLayoutSize());
+#else
+		InvalidateCanvasLayoutSize();
+#endif
+
+	}
+	private void InvalidateCanvasLayoutSize()
+	{
+		if (Content is not FrameworkElement contentAsFE ||
+						_panel == null ||
+						_canvas == null ||
+						_shadowHost == null)
+		{
+			return;
+		}
+
+		var childWidth = contentAsFE.ActualWidth;
+		var childHeight = contentAsFE.ActualHeight;
+		if (childWidth == 0 || childHeight == 0)
+		{
+			return;
+		}
+
+#if __ANDROID__ || __IOS__
+		_canvas.GetDispatcherCompat().Schedule(() => _canvas.InvalidateMeasure());
+#endif
 		double absoluteMaxOffsetX = 0;
 		double absoluteMaxOffsetY = 0;
 		double maxBlurRadius = 0;
 		double maxSpread = 0;
 
-		if (shadows?.Any() == true)
+		if (Shadows is { Count: > 0 } shadows)
 		{
 			absoluteMaxOffsetX = shadows.Max(s => Math.Abs(s.OffsetX));
 			absoluteMaxOffsetY = shadows.Max(s => Math.Abs(s.OffsetY));
 			maxBlurRadius = shadows.Max(s => s.BlurRadius);
-			maxSpread = shadows.Max(s => s.Spread);
+			maxSpread = shadows.Max(s => Math.Abs(s.Spread));
 		}
 
-		_canvas.Height = childHeight;
-		_canvas.Width = childWidth;
-#if __ANDROID__ || __IOS__
-		_canvas.GetDispatcherCompat().Schedule(() => _canvas.InvalidateMeasure());
-#endif
-		double newHostHeight = childHeight + maxBlurRadius * 2 + absoluteMaxOffsetY * 2 + maxSpread * 2;
-		double newHostWidth = childWidth + maxBlurRadius * 2 + absoluteMaxOffsetX * 2 + maxSpread * 2;
+		double newHostSpreedHeight = maxBlurRadius + absoluteMaxOffsetY + maxSpread;
+		double newHostSpreedWidth = maxBlurRadius + absoluteMaxOffsetX + maxSpread;
+
+		double newHostHeight = childHeight + newHostSpreedHeight * 2;
+		double newHostWidth = childWidth + newHostSpreedWidth * 2;
 		_shadowHost.Height = newHostHeight;
 		_shadowHost.Width = newHostWidth;
+		_canvas.Height = childHeight / 2;
+		_canvas.Width = childWidth / 2;
+		_canvas.Margin = contentAsFE.Margin;
+		_canvas.HorizontalAlignment = contentAsFE.HorizontalAlignment;
+		_canvas.VerticalAlignment = contentAsFE.VerticalAlignment;
 
-		double diffWidthShadowHostChild = newHostWidth - childWidth;
-		double diffHeightShadowHostChild = newHostHeight - childHeight;
-
-		float left = (float)(-diffWidthShadowHostChild / 2 + _currentContent.Margin.Left);
-		float top = (float)(-diffHeightShadowHostChild / 2 + _currentContent.Margin.Top);
+		double left =
+			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Left ? -newHostSpreedWidth : 0)
+			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Right ? -newHostSpreedWidth - childWidth / 2 : 0)
+			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Stretch ? -newHostSpreedWidth - childWidth / 4 : 0)
+			+ (contentAsFE.HorizontalAlignment == HorizontalAlignment.Center ? -newHostSpreedWidth - childWidth / 4 : 0);
+		double top =
+			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Top ? -newHostSpreedHeight : 0)
+			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Bottom ? -newHostSpreedHeight - childHeight / 2 : 0)
+			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Stretch ? -newHostSpreedHeight - childHeight / 4 : 0)
+			+ (contentAsFE.VerticalAlignment == VerticalAlignment.Center ? -newHostSpreedHeight - childHeight / 4 : 0);
 
 		Canvas.SetLeft(_shadowHost, left);
 		Canvas.SetTop(_shadowHost, top);
+	}
+
+	private void InvalidateShadows(bool force = false)
+	{
+		_shadowHost?.Invalidate();
+	}
+
+	private static DependencyProperty? GetCornerRadiusPropertyFor(object? content)
+	{
+		return content switch
+		{
+			Control => Control.CornerRadiusProperty,
+
+			Border => Border.CornerRadiusProperty,
+			Grid => Grid.CornerRadiusProperty,
+			StackPanel => StackPanel.CornerRadiusProperty,
+
+			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
+			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty"),
+			_ => null,
+		};
+	}
+
+	private static CornerRadius? GetCornerRadiusFor(object? content)
+	{
+		return content switch
+		{
+			Control corner => corner.CornerRadius,
+
+			Border border => border.CornerRadius,
+			Grid grid => grid.CornerRadius,
+			StackPanel stackpanel => stackpanel.CornerRadius,
+
+			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
+			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty") is { } dp
+				? (CornerRadius)@do.GetValue(dp)
+				: null,
+			_ => null,
+		};
 	}
 }

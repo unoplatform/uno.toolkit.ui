@@ -8,29 +8,35 @@
 					xmlns:netstdref="http://uno.ui/netstdref"
 					mc:Ignorable="android ios netstdref">
 
-	<Style x:Key="DefaultShadowContainerStyle"
-	   TargetType="utu:ShadowContainer">
+	<Style x:Key="DefaultShadowContainerStyle" TargetType="utu:ShadowContainer">
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
-		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Stretch" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:ShadowContainer">
-					<Canvas x:Name="PART_Canvas"
-						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-						VerticalAlignment="{TemplateBinding VerticalAlignment}"
-						Background="{TemplateBinding Background}">
-						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-									  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-									  Content="{TemplateBinding Content}" />
-					</Canvas>
+					<!--
+						note: Dont template-bind Background or CornerRadius here.
+						They will be painted in skia impl (see: ShadowContainer.Paint.cs).
+					-->
+					<Grid x:Name="PART_ShadowOwner"
+							HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalAlignment}">
+
+						<Canvas x:Name="PART_Canvas"
+								HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+
+						<ContentPresenter x:Name="PART_ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										  Content="{TemplateBinding Content}" />
+					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
 
-	<Style BasedOn="{StaticResource DefaultShadowContainerStyle}"
-	   TargetType="utu:ShadowContainer" />
+	<Style BasedOn="{StaticResource DefaultShadowContainerStyle}" TargetType="utu:ShadowContainer" />
 </ResourceDictionary>

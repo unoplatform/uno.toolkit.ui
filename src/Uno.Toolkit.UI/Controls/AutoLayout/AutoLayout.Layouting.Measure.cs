@@ -283,7 +283,7 @@ partial class AutoLayout
 		{
 			var child = _calculatedChildren![i];
 
-			if (child.Role == AutoLayoutRole.Filled || child.IsVisible)
+			if (child.Role == AutoLayoutRole.Filled && child.IsVisible)
 			{
 				filledChildrenCount++;
 			}
