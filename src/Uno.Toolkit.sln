@@ -70,6 +70,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5D8F2DC4-1792-4822-933A-D7B9E7CD5BFE}"
 	ProjectSection(SolutionItems) = preProject
 		..\build\workflow\pipeline.yml = ..\build\workflow\pipeline.yml
+		..\build\workflow\stage-build-packages.yml = ..\build\workflow\stage-build-packages.yml
 		..\build\workflow\stage-build.yml = ..\build\workflow\stage-build.yml
 		..\build\workflow\stage-uitests-android.yml = ..\build\workflow\stage-uitests-android.yml
 		..\build\workflow\stage-uitests-ios.yml = ..\build\workflow\stage-uitests-ios.yml
