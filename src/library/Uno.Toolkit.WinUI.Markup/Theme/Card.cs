@@ -15,8 +15,11 @@ public static partial class Theme
 			{
 				public static partial class Elevated
 				{
-					[ResourceKeyDefinition(typeof(Brush), "AvatarElevatedCardBackground")]
-					public static ThemeResourceKey<Brush> Background => new("AvatarElevatedCardBackground");
+					public static partial class Background
+					{
+						[ResourceKeyDefinition(typeof(Brush), "AvatarElevatedCardBackground")]
+						public static ThemeResourceKey<Brush> Default => new("AvatarElevatedCardBackground");
+					}
 
 					public static partial class BorderBrush
 					{
@@ -33,8 +36,11 @@ public static partial class Theme
 
 				public static partial class Filled
 				{
-					[ResourceKeyDefinition(typeof(Brush), "AvatarFilledCardBackground")]
-					public static ThemeResourceKey<Brush> Background => new("AvatarFilledCardBackground");
+					public static partial class Background
+					{
+						[ResourceKeyDefinition(typeof(Brush), "AvatarFilledCardBackground")]
+						public static ThemeResourceKey<Brush> Default => new("AvatarFilledCardBackground");
+					}
 
 					public static partial class BorderBrush
 					{
@@ -51,18 +57,27 @@ public static partial class Theme
 
 				public static partial class Outlined
 				{
-					[ResourceKeyDefinition(typeof(Brush), "AvatarOutlinedCardBackground")]
-					public static ThemeResourceKey<Brush> Background => new("AvatarOutlinedCardBackground");
+					public static partial class Background
+					{
+						[ResourceKeyDefinition(typeof(Brush), "AvatarOutlinedCardBackground")]
+						public static ThemeResourceKey<Brush> Default => new("AvatarOutlinedCardBackground");
+					}
 
-					[ResourceKeyDefinition(typeof(Brush), "AvatarOutlinedCardBorderBrush")]
-					public static ThemeResourceKey<Brush> BorderBrush => new("AvatarOutlinedCardBorderBrush");
+					public static partial class BorderBrush
+					{
+						[ResourceKeyDefinition(typeof(Brush), "AvatarOutlinedCardBorderBrush")]
+						public static ThemeResourceKey<Brush> Default => new("AvatarOutlinedCardBorderBrush");
+					}
 				}
 			}
 
 			public static partial class Elevated
 			{
-				[ResourceKeyDefinition(typeof(Brush), "ElevatedCardBackground")]
-				public static ThemeResourceKey<Brush> Background => new("ElevatedCardBackground");
+				public static partial class Background
+				{
+					[ResourceKeyDefinition(typeof(Brush), "ElevatedCardBackground")]
+					public static ThemeResourceKey<Brush> Default => new("ElevatedCardBackground");
+				}
 
 				public static partial class BorderBrush
 				{
@@ -79,8 +94,11 @@ public static partial class Theme
 
 			public static partial class Filled
 			{
-				[ResourceKeyDefinition(typeof(Brush), "FilledCardBackground")]
-				public static ThemeResourceKey<Brush> Background => new("FilledCardBackground");
+				public static partial class Background
+				{
+					[ResourceKeyDefinition(typeof(Brush), "FilledCardBackground")]
+					public static ThemeResourceKey<Brush> Default => new("FilledCardBackground");
+				}
 
 				public static partial class BorderBrush
 				{
@@ -97,19 +115,28 @@ public static partial class Theme
 
 			public static partial class Outlined
 			{
-				[ResourceKeyDefinition(typeof(Brush), "OutlinedCardBackground")]
-				public static ThemeResourceKey<Brush> Background => new("OutlinedCardBackground");
+				public static partial class Background
+				{
+					[ResourceKeyDefinition(typeof(Brush), "OutlinedCardBackground")]
+					public static ThemeResourceKey<Brush> Default => new("OutlinedCardBackground");
+				}
 
-				[ResourceKeyDefinition(typeof(Brush), "OutlinedCardBorderBrush")]
-				public static ThemeResourceKey<Brush> BorderBrush => new("OutlinedCardBorderBrush");
+				public static partial class BorderBrush
+				{
+					[ResourceKeyDefinition(typeof(Brush), "OutlinedCardBorderBrush")]
+					public static ThemeResourceKey<Brush> Default => new("OutlinedCardBorderBrush");
+				}
 			}
 
 			public static partial class SmallMedia
 			{
 				public static partial class Elevated
 				{
-					[ResourceKeyDefinition(typeof(Brush), "SmallMediaElevatedCardBackground")]
-					public static ThemeResourceKey<Brush> Background => new("SmallMediaElevatedCardBackground");
+					public static partial class Background
+					{
+						[ResourceKeyDefinition(typeof(Brush), "SmallMediaElevatedCardBackground")]
+						public static ThemeResourceKey<Brush> Default => new("SmallMediaElevatedCardBackground");
+					}
 
 					public static partial class BorderBrush
 					{
@@ -126,8 +153,11 @@ public static partial class Theme
 
 				public static partial class Filled
 				{
-					[ResourceKeyDefinition(typeof(Brush), "SmallMediaFilledCardBackground")]
-					public static ThemeResourceKey<Brush> Background => new("SmallMediaFilledCardBackground");
+					public static partial class Background
+					{
+						[ResourceKeyDefinition(typeof(Brush), "SmallMediaFilledCardBackground")]
+						public static ThemeResourceKey<Brush> Default => new("SmallMediaFilledCardBackground");
+					}
 
 					public static partial class BorderBrush
 					{
@@ -144,11 +174,17 @@ public static partial class Theme
 
 				public static partial class Outlined
 				{
-					[ResourceKeyDefinition(typeof(Brush), "SmallMediaOutlinedCardBackground")]
-					public static ThemeResourceKey<Brush> Background => new("SmallMediaOutlinedCardBackground");
+					public static partial class Background
+					{
+						[ResourceKeyDefinition(typeof(Brush), "SmallMediaOutlinedCardBackground")]
+						public static ThemeResourceKey<Brush> Default => new("SmallMediaOutlinedCardBackground");
+					}
 
-					[ResourceKeyDefinition(typeof(Brush), "SmallMediaOutlinedCardBorderBrush")]
-					public static ThemeResourceKey<Brush> BorderBrush => new("SmallMediaOutlinedCardBorderBrush");
+					public static partial class BorderBrush
+					{
+						[ResourceKeyDefinition(typeof(Brush), "SmallMediaOutlinedCardBorderBrush")]
+						public static ThemeResourceKey<Brush> Default => new("SmallMediaOutlinedCardBorderBrush");
+					}
 				}
 			}
 		}

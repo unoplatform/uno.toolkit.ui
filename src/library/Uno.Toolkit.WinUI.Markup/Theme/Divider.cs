@@ -13,8 +13,11 @@ public static partial class Theme
 		{
 			public static partial class Default
 			{
-				[ResourceKeyDefinition(typeof(Brush), "DividerForeground")]
-				public static ThemeResourceKey<Brush> Foreground => new("DividerForeground");
+				public static partial class Foreground
+				{
+					[ResourceKeyDefinition(typeof(Brush), "DividerForeground")]
+					public static ThemeResourceKey<Brush> Default => new("DividerForeground");
+				}
 
 				[ResourceKeyDefinition(typeof(double), "DividerHeight")]
 				public static ThemeResourceKey<double> Height => new("DividerHeight");
@@ -36,8 +39,11 @@ public static partial class Theme
 						public static ThemeResourceKey<string> FontWeight => new("DividerSubHeaderFontWeight");
 					}
 
-					[ResourceKeyDefinition(typeof(Brush), "DividerSubHeaderForeground")]
-					public static ThemeResourceKey<Brush> Foreground => new("DividerSubHeaderForeground");
+					public static partial class Foreground
+					{
+						[ResourceKeyDefinition(typeof(Brush), "DividerSubHeaderForeground")]
+						public static ThemeResourceKey<Brush> Default => new("DividerSubHeaderForeground");
+					}
 
 					[ResourceKeyDefinition(typeof(Thickness), "DividerSubHeaderMargin")]
 					public static ThemeResourceKey<Thickness> Margin => new("DividerSubHeaderMargin");

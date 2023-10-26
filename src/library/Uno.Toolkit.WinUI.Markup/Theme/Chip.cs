@@ -13,8 +13,11 @@ public static partial class Theme
 		{
 			public static partial class Assist
 			{
-				[ResourceKeyDefinition(typeof(Brush), "ChipBorderBrush")]
-				public static ThemeResourceKey<Brush> BorderBrush => new("ChipBorderBrush");
+				public static partial class BorderBrush
+				{
+					[ResourceKeyDefinition(typeof(Brush), "ChipBorderBrush")]
+					public static ThemeResourceKey<Brush> Default => new("ChipBorderBrush");
+				}
 
 				[ResourceKeyDefinition(typeof(Thickness), "ChipBorderThickness")]
 				public static ThemeResourceKey<Thickness> BorderThickness => new("ChipBorderThickness");
@@ -171,11 +174,16 @@ public static partial class Theme
 
 				public static partial class DeleteIcon
 				{
-					[ResourceKeyDefinition(typeof(Brush), "ChipDeleteIconBackground")]
-					public static ThemeResourceKey<Brush> Background => new("ChipDeleteIconBackground");
-
-					[ResourceKeyDefinition(typeof(Brush), "ChipDeleteIconForeground")]
-					public static ThemeResourceKey<Brush> Foreground => new("ChipDeleteIconForeground");
+					public static partial class Background
+					{
+						[ResourceKeyDefinition(typeof(Brush), "ChipDeleteIconBackground")]
+						public static ThemeResourceKey<Brush> Default => new("ChipDeleteIconBackground");
+					}
+					public static partial class Foreground
+					{
+						[ResourceKeyDefinition(typeof(Brush), "ChipDeleteIconForeground")]
+						public static ThemeResourceKey<Brush> Default => new("ChipDeleteIconForeground");
+					}
 
 					[ResourceKeyDefinition(typeof(double), "ChipDeleteIconContainerLength")]
 					public static ThemeResourceKey<double> ContainerLength => new("ChipDeleteIconContainerLength");
