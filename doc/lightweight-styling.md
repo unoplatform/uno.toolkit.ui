@@ -11,11 +11,11 @@ For general information about [lightweight styling](https://learn.microsoft.com/
 <utu:Chip Content="Default Chip Style" Style="{StaticResource FilterChipStyle}" />
 
 <utu:Chip Content="Overridden Chip Style" Style="{StaticResource FilterChipStyle}">
-	<utu:Chip.Resources>
-		<SolidColorBrush x:Key="ChipForeground" Color="DarkGreen" />
-		<SolidColorBrush x:Key="ChipBackground" Color="LightGreen" />
-		<SolidColorBrush x:Key="ChipBorderBrush" Color="DarkGreen" />
-	</utu:Chip.Resources>
+    <utu:Chip.Resources>
+        <SolidColorBrush x:Key="ChipForeground" Color="DarkGreen" />
+        <SolidColorBrush x:Key="ChipBackground" Color="LightGreen" />
+        <SolidColorBrush x:Key="ChipBorderBrush" Color="DarkGreen" />
+    </utu:Chip.Resources>
 </utu:Chip>
 ```
 
@@ -27,23 +27,27 @@ Just like in [Uno Themes](xref:uno.themes.lightweightstyling), some interactive 
 <utu:Chip Content="Default Chip Style" />
 
 <utu:Chip Content="Overridden Chip Style">
-	<utu:Chip.Resources>
-		<SolidColorBrush x:Key="ChipForeground" Color="DarkGreen" />
-		<SolidColorBrush x:Key="ChipBackground" Color="LightGreen" />
-		<SolidColorBrush x:Key="ChipBorderBrush" Color="DarkGreen" />
-	</utu:Chip.Resources>
+    <utu:Chip.Resources>
+        <SolidColorBrush x:Key="ChipForeground" Color="DarkGreen" />
+        <SolidColorBrush x:Key="ChipBackground" Color="LightGreen" />
+        <SolidColorBrush x:Key="ChipBorderBrush" Color="DarkGreen" />
+    </utu:Chip.Resources>
 </utu:Chip>
 
 <utu:Chip Content="Overridden Chip Style (PointerOver)">
-	<utu:Chip.Resources>
-		<SolidColorBrush x:Key="ChipForegroundPointerOver" Color="DarkRed" />
-		<SolidColorBrush x:Key="ChipBackgroundPointerOver" Color="LightPink" />
-		<SolidColorBrush x:Key="ChipBorderBrushPointerOver" Color="DarkRed" />
-	</utu:Chip.Resources>
+    <utu:Chip.Resources>
+        <SolidColorBrush x:Key="ChipForegroundPointerOver" Color="DarkRed" />
+        <SolidColorBrush x:Key="ChipBackgroundPointerOver" Color="LightPink" />
+        <SolidColorBrush x:Key="ChipBorderBrushPointerOver" Color="DarkRed" />
+    </utu:Chip.Resources>
 </utu:Chip>
 ```
 
 ![Material - Chip lightweight styling](assets/material-chip-pointerover-lightweight-styling.png)
+
+## C# Markup
+
+All Lightweight Styling resource keys can also be used in C# Markup through a collection of static helper classes available in the [Uno.Toolkit.WinUI.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup/) NuGet package. For further information regarding usage of C# Markup for Lightweight Styling, refer to the [C# Markup documentation in Uno Themes](xref:uno.themes.lightweightstyling#c-markup)
 
 ## Resource Keys
 
@@ -56,7 +60,8 @@ For more information about the lightweight styling resource keys used in each co
 - [NavigationBar](controls/NavigationBar.md#lightweight-styling)
 - [TabBar](controls/TabBarAndTabBarItem.md#lightweight-styling)
 
-## Resources extension
+## Resource Extensions
+
 You can use [ResourceExtensions.Resources](helpers/resource-extensions.md) to override the lightweight styling resources of a control or a style. 
 
 ### Further Reading
