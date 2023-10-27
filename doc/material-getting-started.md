@@ -134,8 +134,8 @@ this.Build(r => r.UseMaterialToolkit(
     //optional
     new Styles.ColorPaletteOverride(),
     //optional
-    new Styles.MaterialFontsOverride())
-);
+    new Styles.MaterialFontsOverride()
+));
 ```
 
 > [!NOTE]: The [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package includes the base [Toolkit Markup package](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup) as a dependency. Therefore, there is no need to add the `Uno.Toolkit.WinUI.Markup` package separately. Furthermore, the `UseMaterialToolkit` extension method also initializes the Toolkit library, so there is no need to call the `UseToolkit` extension method in your `AppResources.cs`.
