@@ -120,6 +120,26 @@ In `AppResources.xaml`, instead of initializing `MaterialFonts`, you would use t
                       FontOverrideSource="ms-appx:///PROJECT_NAME/Style/Application/FontOverride.xaml" />
 ```
 
+## Using C# Markup
+
+The Material Toolkit library also has support for C# Markup through a [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet Package.
+
+To get started with Material Toolkit in your C# Markup application, add the `Uno.Toolkit.WinUI.Material.Markup` NuGet package to your **App Code Library** project and your platform heads.
+Then, add the following code to your `AppResources.cs`:
+
+```csharp
+using Uno.Toolkit.UI.Material.Markup;
+
+this.Build(r => r.UseMaterialToolkit(
+    //optional
+    new Styles.ColorPaletteOverride(),
+    //optional
+    new Styles.MaterialFontsOverride())
+);
+```
+
+> [!NOTE]: The [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package includes the base [Toolkit Markup package](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup) as a dependency. Therefore, there is no need to add the `Uno.Toolkit.WinUI.Markup` package separately. Furthermore, the `UseMaterialToolkit` extension method also initializes the Toolkit library, so there is no need to call the `UseToolkit` extension method in your `AppResources.cs`.
+
 ## Additional Resources
 
 - [Uno Platform Material Toolkit Sample App](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialToolkitSample)

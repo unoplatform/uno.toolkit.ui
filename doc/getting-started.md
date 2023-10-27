@@ -20,19 +20,20 @@ This article is a guide for installing the base Uno.Toolkit library, additional 
 2. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
 3. Install the [**`Uno.Toolkit.WinUI`**](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material) package
 4. Add the resources to `AppResources.xaml`:
-	```xml
-	<ResourceDictionary>
-		<ResourceDictionary.MergedDictionaries>
 
-			<!-- Load Uno.Toolkit.UI resources -->
-			<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+    ```xml
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
 
-			<!-- Load custom application resources -->
-			<!-- ... -->
+            <!-- Load Uno.Toolkit.UI resources -->
+            <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
 
-		</ResourceDictionary.MergedDictionaries>
-	</ResourceDictionary>
-	```
+            <!-- Load custom application resources -->
+            <!-- ... -->
+
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+    ```
 
 #### Previous Installation Method
 
@@ -40,33 +41,49 @@ If your application is based on the older solution template that includes a shar
 
 1. Open your existing Uno project
 2. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose either:
- 	- The [`Uno.Toolkit.UI`](https://www.nuget.org/packages/Uno.Material/) package when targetting Xamarin/UWP
-	- The [`Uno.Toolkit.WinUI`](https://www.nuget.org/packages/Uno.Material.WinUI) package when targetting net6.0+/WinUI
+    - The [`Uno.Toolkit.UI`](https://www.nuget.org/packages/Uno.Material/) package when targetting Xamarin/UWP
+    - The [`Uno.Toolkit.WinUI`](https://www.nuget.org/packages/Uno.Material.WinUI) package when targetting net6.0+/WinUI
 
 3. Select the following projects for installation:
-	- `PROJECT_NAME.Wasm.csproj`
-	- `PROJECT_NAME.Mobile.csproj` (or `PROJECT_NAME.iOS.csproj`, `PROJECT_NAME.Droid.csproj`, `PROJECT_NAME.macOS.csproj` if you have an existing project)
-	- `PROJECT_NAME.Skia.Gtk.csproj`
-	- `PROJECT_NAME.Skia.WPF.csproj`
-	- `PROJECT_NAME.Windows.csproj` (or `PROJECT_NAME.UWP.csproj` for existing projects)
-3. Add the resources to `App.xaml`:
-	```xml
-	<Application ...>
-		<Application.Resources>
-			<ResourceDictionary>
-				<ResourceDictionary.MergedDictionaries>
+    - `PROJECT_NAME.Wasm.csproj`
+    - `PROJECT_NAME.Mobile.csproj` (or `PROJECT_NAME.iOS.csproj`, `PROJECT_NAME.Droid.csproj`, `PROJECT_NAME.macOS.csproj` if you have an existing project)
+    - `PROJECT_NAME.Skia.Gtk.csproj`
+    - `PROJECT_NAME.Skia.WPF.csproj`
+    - `PROJECT_NAME.Windows.csproj` (or `PROJECT_NAME.UWP.csproj` for existing projects)
+4. Add the resources to `App.xaml`:
 
-					<!-- Load WinUI resources -->
-					<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+    ```xml
+    <Application ...>
+        <Application.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
 
-					<!-- Load Uno.Toolkit.UI resources -->
-					<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+                    <!-- Load WinUI resources -->
+                    <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
-					<!-- Load custom application resources -->
-					<!-- ... -->
+                    <!-- Load Uno.Toolkit.UI resources -->
+                    <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
 
-				</ResourceDictionary.MergedDictionaries>
-			</ResourceDictionary>
-		</Application.Resources>
-	</Application>
-	```
+                    <!-- Load custom application resources -->
+                    <!-- ... -->
+
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Application.Resources>
+    </Application>
+    ```
+
+## Using C# Markup
+
+The Toolkit library also has support for C# Markup through a [Uno.Toolkit.WinUI.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup) NuGet Package.
+
+To get started with Toolkit in your C# Markup application, add the `Uno.Toolkit.WinUI.Markup` NuGet package to your **App Code Library** project and your platform heads.
+Then, add the following code to your `AppResources.cs`:
+
+```csharp
+using Uno.Toolkit.UI.Markup;
+
+this.Build(r => r.UseToolkit());
+```
+
+> [!NOTE]: If you are using the [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package, follow the steps in the [Using C# Markup for the Material Toolkit](./material-getting-started.md#using-c-markup) guide instead as it includes the Toolkit library.
