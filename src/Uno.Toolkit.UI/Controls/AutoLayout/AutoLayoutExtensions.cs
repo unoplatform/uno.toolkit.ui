@@ -80,7 +80,6 @@ namespace Uno.Toolkit.UI
 			};
 		}
 
-
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal static double GetMinLength(this FrameworkElement frameworkElement, Orientation orientation)
 		{
@@ -88,6 +87,17 @@ namespace Uno.Toolkit.UI
 			{
 				Orientation.Horizontal => frameworkElement.MinWidth,
 				Orientation.Vertical => frameworkElement.MinHeight,
+				_ => throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null),
+			};
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		internal static double GetMaxLength(this FrameworkElement frameworkElement, Orientation orientation)
+		{
+			return orientation switch
+			{
+				Orientation.Horizontal => frameworkElement.MaxWidth,
+				Orientation.Vertical => frameworkElement.MaxHeight,
 				_ => throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null),
 			};
 		}

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.Foundation;
 
@@ -29,7 +30,9 @@ partial class AutoLayout
 		var borderThicknessLength = borderThickness.GetLength(orientation);
 
 		var totalNonFilledStackedSize = 0d;
+		var totalOfFillMaxSize = 0d; 
 		var numberOfFilledChildren = 0;
+		var numberOfFilledChildrenWithMax = 0;
 		var numberOfStackedChildren = 0;
 		var haveStartPadding = false;
 		var haveEndPadding = false;
@@ -65,6 +68,12 @@ partial class AutoLayout
 					continue; // Independent children are not stacked, skip it from the calculation
 				case AutoLayoutRole.Filled:
 					numberOfFilledChildren++;
+					if (calculatedChild.Element as FrameworkElement is { } frameworkElement && double.IsInfinity(frameworkElement.GetMaxLength(orientation)) is false)
+					{
+						var maxLenght = frameworkElement.GetMaxLength(orientation);
+						numberOfFilledChildrenWithMax++;
+						totalOfFillMaxSize = totalOfFillMaxSize + maxLenght;
+					}
 					break;
 				case AutoLayoutRole.Hug:
 				case AutoLayoutRole.Fixed:
@@ -119,7 +128,15 @@ partial class AutoLayout
 			? (availableSizeForStackedChildren - (totalNonFilledStackedSize + totalSpacingSize)) / numberOfFilledChildren
 			: 0;
 
-		EnsureZeroFloor(ref filledChildrenSize);
+		var filledMaxSurplus = (filledChildrenSize * numberOfFilledChildrenWithMax) - totalOfFillMaxSize;
+
+		EnsureZeroFloor(ref filledMaxSurplus);
+
+		var filledChildrenSizeAfterMaxSize = numberOfFilledChildren - numberOfFilledChildrenWithMax > 0 ?
+			filledChildrenSize + (filledMaxSurplus / (numberOfFilledChildren - numberOfFilledChildrenWithMax)) :
+		    filledChildrenSize + GetChildrenLowerThanAllocateSurplus(_calculatedChildren, filledChildrenSize);
+
+		 EnsureZeroFloor(ref filledChildrenSizeAfterMaxSize);
 
 		// Establish actual inter-element spacing.
 		var spacingOffset = justify == AutoLayoutJustify.SpaceBetween && !atLeastOneFilledChild
@@ -128,13 +145,18 @@ partial class AutoLayout
 			// Fallback to the Spacing property
 			: spacing;
 
+
+		var haveMoreFilled = (numberOfFilledChildren - numberOfFilledChildrenWithMax) > 0;
+
 		var primaryAxisAlignmentOffset = PrimaryAxisAlignmentOffsetSize(
+			totalOfFillMaxSize,
 			primaryAxisAlignment,
 			availableSizeForStackedChildren,
 			totalNonFilledStackedSize,
-			atLeastOneFilledChild,
+			haveMoreFilled,
 			spacing,
-			numberOfStackedChildren);
+			numberOfStackedChildren,
+			filledChildrenSizeAfterMaxSize);
 
 		currentOffset += primaryAxisAlignmentOffset;
 
@@ -166,7 +188,7 @@ partial class AutoLayout
 
 			// Length depends on the role of the child
 			var childLength = child.Role == AutoLayoutRole.Filled
-				? filledChildrenSize
+				? Math.Min(child.MeasuredLength, filledChildrenSizeAfterMaxSize)
 				: child.MeasuredLength;
 
 			var offsetRelativeToPadding = currentOffset - (startPadding + borderThicknessLength);
@@ -179,37 +201,28 @@ partial class AutoLayout
 
 			EnsureZeroFloor(ref childLength);
 
-			// Calculate the counter length of the child (size in the other dimension than
-			var childCounterLength = GetCounterLength(child.Element);
-
-			var childFinalCounterLength = isHorizontal
-				? double.IsNaN(childCounterLength) ? child.Element.DesiredSize.Height : childCounterLength
-				: double.IsNaN(childCounterLength) ? child.Element.DesiredSize.Width : childCounterLength;
-
-			EnsureZeroFloor(ref childFinalCounterLength);
-
 			// Calculate the position of the child by applying the alignment instructions
 			var counterAlignment = GetCounterAlignment(child.Element);
-
-			var haveCounterStartPadding = counterAlignment is AutoLayoutAlignment.Stretch or AutoLayoutAlignment.Start;
+			var isStretch = counterAlignment is AutoLayoutAlignment.Stretch || (child.Element is FrameworkElement fe && fe.GetCounterLength(orientation) is double.NaN);
+			var haveCounterStartPadding = isStretch || counterAlignment is AutoLayoutAlignment.Start;
 			var counterStartPadding = haveCounterStartPadding ? (isHorizontal ? padding.Top : padding.Left) : 0;
 
 			var haveCounterEndPadding = counterAlignment is AutoLayoutAlignment.Stretch or AutoLayoutAlignment.End;
 			var counterEndPadding = haveCounterEndPadding ? (isHorizontal ? padding.Bottom : padding.Right) : 0;
 
 			var counterBorderLength = borderThickness.GetCounterLength(orientation);
-			var availableCounterLength = finalSize.GetCounterLength(orientation) - (counterStartPadding + counterEndPadding + counterBorderLength);
 
+			var availableCounterLength = finalSize.GetCounterLength(orientation) - (counterStartPadding + counterEndPadding + counterBorderLength);
 			EnsureZeroFloor(ref availableCounterLength);
 
 			var childSize = isHorizontal
-				? new Size(childLength, counterAlignment is AutoLayoutAlignment.Stretch ? availableCounterLength : childFinalCounterLength)
-				: new Size(counterAlignment is AutoLayoutAlignment.Stretch ? availableCounterLength : childFinalCounterLength, childLength);
+				? new Size(childLength, availableCounterLength)
+				: new Size(availableCounterLength, childLength);
 
 			ApplyMinMaxValues(child.Element, orientation, ref childSize);
 
 			var counterAlignmentOffset =
-				ComputeCounterAlignmentOffset(counterAlignment, childFinalCounterLength, availableCounterLength, counterStartPadding, borderThickness.GetCounterStartLength(orientation));
+				ComputeCounterAlignmentOffset(counterAlignment, childSize.GetCounterLength(orientation), availableCounterLength, counterStartPadding, borderThickness.GetCounterStartLength(orientation));
 
 			var childOffsetPosition = new Point(
 				isHorizontal ? currentOffset : counterAlignmentOffset,
@@ -304,28 +317,56 @@ partial class AutoLayout
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static double PrimaryAxisAlignmentOffsetSize(
+		double totalOfFillMaxSize,
 		AutoLayoutAlignment autoLayoutAlignment,
 		double availableSizeForStackedChildren,
 		double totalNonFilledStackedSize,
-		bool atLeastOneFilledChild,
+		bool haveMoreFilled,
 		double spacing,
-		int numberOfStackedChildren)
+		int numberOfStackedChildren,
+		double filledChildrenSizeAfterMaxSize)
 	{
-		if (atLeastOneFilledChild || autoLayoutAlignment is AutoLayoutAlignment.Start)
+		if (haveMoreFilled || autoLayoutAlignment is AutoLayoutAlignment.Start)
 		{
 			return 0;
 		}
 
 		var totalSpacingSize = spacing * (numberOfStackedChildren - 1);
 
-		var alignmentOffsetSize = availableSizeForStackedChildren -
-			(totalNonFilledStackedSize + totalSpacingSize);
+		var fillOverflow = filledChildrenSizeAfterMaxSize > 0 ? totalOfFillMaxSize : filledChildrenSizeAfterMaxSize;
 
-		return autoLayoutAlignment switch
+		var alignmentOffsetSize = availableSizeForStackedChildren -
+			(totalNonFilledStackedSize + totalSpacingSize + fillOverflow);
+
+		 return autoLayoutAlignment switch
 		{
-			AutoLayoutAlignment.End => alignmentOffsetSize,
+			AutoLayoutAlignment.End when (filledChildrenSizeAfterMaxSize == 0 || filledChildrenSizeAfterMaxSize > 0 && alignmentOffsetSize > 0 ) => alignmentOffsetSize,
 			AutoLayoutAlignment.Center when alignmentOffsetSize > 0 => alignmentOffsetSize / 2,
 			_ => 0
 		};
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	private static double GetChildrenLowerThanAllocateSurplus(CalculatedChildren[] calculatedChildren, double filledChildrenSizeBeforeMaxSize)
+	{
+		int countFilledChildrenGreaterThanAllocated = 0;
+		double sumSurplusFromLower = 0d;
+
+		for (int i = 0; i < calculatedChildren.Length; i++)
+		{
+			if (calculatedChildren[i].Role is AutoLayoutRole.Filled)
+			{
+				if (calculatedChildren[i].MeasuredLength > filledChildrenSizeBeforeMaxSize)
+				{
+					countFilledChildrenGreaterThanAllocated++;
+				}
+				else
+				{
+					sumSurplusFromLower += filledChildrenSizeBeforeMaxSize - calculatedChildren[i].MeasuredLength;
+				}
+			}
+		}
+
+		return countFilledChildrenGreaterThanAllocated > 0 ? sumSurplusFromLower / countFilledChildrenGreaterThanAllocated : 0;
 	}
 }

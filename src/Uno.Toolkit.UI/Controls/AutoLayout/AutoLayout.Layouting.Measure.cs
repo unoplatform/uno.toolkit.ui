@@ -286,8 +286,8 @@ partial class AutoLayout
 			if (child.Role == AutoLayoutRole.Filled && child.IsVisible)
 			{
 				filledChildrenCount++;
+				}
 			}
-		}
 
 		if (filledChildrenCount <= 0)
 		{
@@ -307,8 +307,8 @@ partial class AutoLayout
 
 			MeasureChild(child.Element, orientation, filledSize, availableCounterSize, ref desiredCounterSize, counterPaddingSize);
 
-			child.MeasuredLength = filledSize;
-		}  
+			child.MeasuredLength = child.Element is FrameworkElement fe ? Math.Min(fe.GetMaxLength(orientation), double.MaxValue) : double.MaxValue;
+		}
 
 		return true; // at least one filled child
 	}
@@ -494,4 +494,6 @@ partial class AutoLayout
 			frameworkElement.HorizontalAlignment = isCounterAlignmentStretch ? HorizontalAlignment.Stretch : frameworkElement.HorizontalAlignment;
 		}
 	}
+
+
 }
