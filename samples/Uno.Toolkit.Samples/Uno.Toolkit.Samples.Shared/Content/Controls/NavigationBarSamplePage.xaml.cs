@@ -9,6 +9,9 @@ using Windows.Foundation.Collections;
 using Uno.Toolkit.Samples.Content.NestedSamples;
 using Uno.Toolkit.UI;
 using Uno.Toolkit.Samples.Helpers;
+using UIKit;
+using System.Threading.Tasks;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -45,16 +48,36 @@ namespace Uno.Toolkit.Samples.Content.Controls
 			modalFrame?.Navigate(typeof(MaterialNavigationBarSample_ModalPage1));
 		}
 
-		private void M3ModalFlyout_Opened(object sender, object e)
+		private async void M3ModalFlyout_Opened(object sender, object e)
 		{
-			var flyoutContent = (sender as Flyout)?.Content;
-			var modalFrameM3 = VisualTreeHelperEx.GetFirstDescendant<Frame>(flyoutContent, x => x.Name == "M3ModalFrame");
-			modalFrameM3.Navigated += (s, e) =>
+			if (sender is Flyout flyout)
 			{
-				//modalFrameM3.BackStack.Clear();
-				var page = modalFrameM3.TreeGraph();
-			};
-			modalFrameM3?.Navigate(typeof(M3MaterialNavigationBarSample_ModalPage1));
+				var modalFrameM3 = VisualTreeHelperEx.GetFirstDescendant<Grid>(flyout.Content, x => x.Name == "M3ModalFrame");
+				Console.WriteLine(modalFrameM3.ShowLocalVisualTree());
+			
+				await Task.Delay(3000);
+
+				modalFrameM3.AddChild(new Border
+					{
+						Background = new SolidColorBrush(Microsoft.UI.Colors.Red),
+						Width = 200,
+						Height = 200
+					});
+
+					Console.WriteLine(modalFrameM3.ShowLocalVisualTree());
+
+			}
+			//var flyoutContent = (sender as Flyout)?.Content;
+
+			// var modalFrameM3 = VisualTreeHelperEx.GetFirstDescendant<Frame>(flyoutContent, x => x.Name == "M3ModalFrame");
+			// modalFrameM3.Navigated += async (s, e) =>
+			// {
+			// 	//modalFrameM3.BackStack.Clear();
+			// 	await Task.Delay(5000);
+			// 	var page = modalFrameM3.ShowLocalVisualTree();
+			// 	Console.WriteLine(page);
+			// };
+			// modalFrameM3?.Navigate(typeof(M3MaterialNavigationBarSample_ModalPage1));
 		}
 
 		private void LaunchFullScreenMaterialSample(object sender, RoutedEventArgs e)

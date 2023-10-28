@@ -77,8 +77,7 @@
 									Opened="M3ModalFlyout_Opened"
 									FlyoutPresenterStyle="{StaticResource RightDrawerFlyoutPresenterStyle}"
 									Placement="Full">
-								<Grid>
-									<Frame x:Name="M3ModalFrame" />
+								<Grid x:Name="M3ModalFrame">
 								</Grid>
 							</Flyout>
 						</Button.Flyout>
