@@ -260,6 +260,32 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			AssertNavigationBar(frame);
 		}
 
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task Can_Navigate_Forward_And_Backwards()
+		{
+			var frame = new Frame() { Width = 400, Height = 400 };
+			var content = new Grid { Children = { frame } };
+			
+			await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var firstNavBar = await frame.NavigateAndGetNavBar<NavBarFirstPage>();
+
+			await UnitTestsUIContentHelper.WaitForLoaded(firstNavBar!);
+
+			var secondNavBar = await frame.NavigateAndGetNavBar<NavBarSecondPage>();
+			
+			await UnitTestsUIContentHelper.WaitForLoaded(secondNavBar!);
+
+			await Task.Delay(1000);
+
+			frame.GoBack();
+
+			await UnitTestsUIContentHelper.WaitForLoaded(firstNavBar!);
+		}
+
 
 #if __ANDROID__
 		private static void AssertNavigationBar(Frame frame)
@@ -534,17 +560,14 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	{
 #if __IOS__
 		public static UINavigationBar? GetNativeNavBar(this NavigationBar? navBar) => navBar
-			?.TryGetRenderer<NavigationBar, NavigationBarRenderer>()
-			?.Native;
+			?.TryGetNative<NavigationBar, NavigationBarRenderer, UINavigationBar>(out var native) ?? false ? native : null;
 
 		public static UINavigationItem? GetNativeNavItem(this NavigationBar? navBar) => navBar
-			?.TryGetRenderer<NavigationBar, NavigationBarNavigationItemRenderer>()
-			?.Native;
+			?.TryGetNative<NavigationBar, NavigationBarNavigationItemRenderer, UINavigationItem>(out var native) ?? false ? native : null;
 
 #elif __ANDROID__
 		public static AndroidX.AppCompat.Widget.Toolbar? GetNativeNavBar(this NavigationBar? navBar) => navBar
-			?.TryGetRenderer<NavigationBar, NavigationBarRenderer>()
-			?.Native;
+			?.TryGetNative<NavigationBar, NavigationBarRenderer, AndroidX.AppCompat.Widget.Toolbar>(out var native) ?? false ? native : null;
 #endif
 		public static Task<NavigationBar?> NavigateAndGetNavBar<TPage>(this Frame frame) where TPage : Page
 		{
