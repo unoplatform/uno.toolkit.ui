@@ -91,12 +91,14 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		public bool HasNative => _native != null;
+
 		private void OnNativeChanged()
 		{
 			// We remove subscriptions to the previous pair of element and native 
 			_subscriptions.Dispose();
 
-			if (_native != null)
+			if (HasNative)
 			{
 				_subscriptions = new CompositeDisposable(Initialize());
 			}
@@ -109,7 +111,7 @@ namespace Uno.Toolkit.UI
 		public void Invalidate()
 		{
 			// We don't render anything if there's no rendering target
-			if (_native != null
+			if (HasNative
 				// Prevent Render() being called reentrantly - this can happen when the Element's parent changes within the Render() method
 				&& !_isRendering)
 			{
@@ -150,6 +152,25 @@ namespace Uno.Toolkit.UI
 			}
 
 			return renderer;
+		}
+
+		public static bool TryGetNative<TElement, TRenderer, TNative>(this TElement element, out TNative? native)
+			where TElement :
+#if HAS_UNO
+			class,
+#endif
+			DependencyObject
+			where TRenderer : Renderer<TElement, TNative>
+			where TNative : class
+		{
+			native = null;
+			if (TryGetRenderer<TElement, TRenderer>(element) is { } renderer && renderer.HasNative)
+			{
+				native = renderer.Native;
+				return true;
+			}
+
+			return false;
 		}
 
 		public static void SetRenderer<TElement, TRenderer>(this TElement element, TRenderer? renderer)

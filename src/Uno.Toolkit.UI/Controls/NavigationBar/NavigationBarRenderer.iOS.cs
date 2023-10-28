@@ -36,17 +36,7 @@ namespace Uno.Toolkit.UI
 	{
 		public NavigationBarRenderer(NavigationBar element) : base(element) { }
 
-		protected override UINavigationBar CreateNativeInstance()
-		{
-			var navigationBar = new UINavigationBar();
-			if (Element is { } element)
-			{
-				var renderer = element.GetOrAddRenderer(navBar => new NavigationBarNavigationItemRenderer(navBar));
-				navigationBar.PushNavigationItem(renderer.Native, false);
-			}
-
-			return navigationBar;
-		}
+		protected override UINavigationBar CreateNativeInstance() => throw new NotSupportedException("The Native instance must be provided.");
 
 		protected override IEnumerable<IDisposable> Initialize()
 		{

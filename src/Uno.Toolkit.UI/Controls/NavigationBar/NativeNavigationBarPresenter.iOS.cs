@@ -38,7 +38,6 @@ namespace Uno.Toolkit.UI
 		private SerialDisposable _mainCommandClickHandler = new SerialDisposable();
 		private WeakReference<NavigationBar?>? _navBarRef;
 
-		private UINavigationBar? _navigationBar;
 		private readonly bool _isPhone = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone;
 
 		public NativeNavigationBarPresenter()
@@ -73,52 +72,54 @@ namespace Uno.Toolkit.UI
 				_navBarRef = new WeakReference<NavigationBar?>(navBar);
 			}
 
-			_navigationBar = navBar?.GetOrAddDefaultRenderer().Native;
-
 			if (navBar is { })
 			{
 				navBar.MainCommand.Click += OnMainCommandClick;
 				_mainCommandClickHandler.Disposable = null;
 				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClick);
-			}
 
-			if (_navigationBar == null)
-			{
-				throw new InvalidOperationException("No NavigationBar from renderer");
-			}
-
-			_navigationBar.SetNeedsLayout();
-
-			var navigationBarSuperview = _navigationBar?.Superview;
-
-			// Allows the UINavigationController's NavigationBar instance to be moved to the Page. This feature
-			// is used in the context of the sample application to test NavigationBars outside of a NativeFramePresenter for 
-			// UI Testing. In general cases, this should not happen as the bar may be moved back to to this presenter while
-			// another page is already visible, making this bar overlay on top of another.			
-			if (FeatureConfiguration.CommandBar.AllowNativePresenterContent && (navigationBarSuperview == null || navigationBarSuperview is NativeNavigationBarPresenter))
-			{
-				Content = _navigationBar;
-			}
-
-			var statusBar = XamlStatusBar.GetForCurrentView();
-
-			statusBar.Showing += OnStatusBarChanged;
-			statusBar.Hiding += OnStatusBarChanged;
-
-			_statusBarSubscription.Disposable = Disposable.Create(() =>
-			{
-				statusBar.Showing -= OnStatusBarChanged;
-				statusBar.Hiding -= OnStatusBarChanged;
-			});
-
-			// iOS doesn't automatically update the navigation bar position when the status bar visibility changes.
-			void OnStatusBarChanged(XamlStatusBar sender, object args)
-			{
-				_navigationBar!.SetNeedsLayout();
-				_navigationBar!.Superview.SetNeedsLayout();
+				LayoutNativeNavBar(navBar);
 			}
 		}
 
+		private void LayoutNativeNavBar(NavigationBar navBar)
+		{
+			if (navBar.TryGetNative<NavigationBar, NavigationBarRenderer, UINavigationBar>(out var nativeBar)
+				&& nativeBar is { })
+			{
+				nativeBar.SetNeedsLayout();
+
+				var navigationBarSuperview = nativeBar.Superview;
+
+				// Allows the UINavigationController's NavigationBar instance to be moved to the Page. This feature
+				// is used in the context of the sample application to test NavigationBars outside of a NativeFramePresenter for 
+				// UI Testing. In general cases, this should not happen as the bar may be moved back to to this presenter while
+				// another page is already visible, making this bar overlay on top of another.			
+				if (FeatureConfiguration.CommandBar.AllowNativePresenterContent && (navigationBarSuperview == null || navigationBarSuperview is NativeNavigationBarPresenter))
+				{
+					Content = nativeBar;
+				}
+
+				var statusBar = XamlStatusBar.GetForCurrentView();
+
+				statusBar.Showing += OnStatusBarChanged;
+				statusBar.Hiding += OnStatusBarChanged;
+
+				_statusBarSubscription.Disposable = Disposable.Create(() =>
+				{
+					statusBar.Showing -= OnStatusBarChanged;
+					statusBar.Hiding -= OnStatusBarChanged;
+				});
+
+				// iOS doesn't automatically update the navigation bar position when the status bar visibility changes.
+				void OnStatusBarChanged(XamlStatusBar sender, object args)
+				{
+					nativeBar.SetNeedsLayout();
+					nativeBar.Superview.SetNeedsLayout();
+				}
+			}
+		}
+		
 		private void OnMainCommandClick(object sender, RoutedEventArgs e)
 		{
 			NavigationBar? navBar = null;

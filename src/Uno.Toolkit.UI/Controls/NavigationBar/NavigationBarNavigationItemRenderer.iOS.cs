@@ -50,7 +50,7 @@ namespace Uno.Toolkit.UI
 
 		public NavigationBarNavigationItemRenderer(NavigationBar element) : base(element) { }
 
-		protected override UINavigationItem CreateNativeInstance() => new UINavigationItem();
+		protected override UINavigationItem CreateNativeInstance() => throw new NotSupportedException("The Native instance must be provided.");
 
 		protected override IEnumerable<IDisposable> Initialize()
 		{
