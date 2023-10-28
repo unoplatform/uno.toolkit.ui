@@ -132,6 +132,7 @@ namespace Uno.Toolkit.UI
 						}
 					};
 					_drawerContentPresenter.SizeChanged += DrawerContentPresenterSizeChanged;
+					_drawerContentPresenter.LayoutUpdated += _drawerContentPresenter_LayoutUpdated;
 				}
 			};
 
@@ -141,6 +142,11 @@ namespace Uno.Toolkit.UI
 			LayoutUpdated += OnLayoutUpdated;
 
 			_isReady = true;
+		}
+
+		private void _drawerContentPresenter_LayoutUpdated(object sender, object e)
+		{
+			throw new NotImplementedException();
 		}
 
 		private void DrawerContentPresenterSizeChanged(object sender, SizeChangedEventArgs e)
@@ -301,34 +307,34 @@ namespace Uno.Toolkit.UI
 			
 			if (_storyboard == null) return;
 
-			if (_translateAnimation != null)
-			{
-				var vectoredLength = GetVectoredLength();
+			//if (_translateAnimation != null)
+			//{
+			//	var vectoredLength = GetVectoredLength();
 
-				// windows: _drawerContentPresenter is not measured on reopening
-				// in such case, all numerical values here are invalid
-				if (_drawerContentPresenter.ActualSize == default)
-				{
-					// attempt to recover with last measured size,
-					// which normally shouldnt change in common scenario...
-					if (_lastMeasuredFlyoutContentSize is { } lastMeasured)
-					{
-						// note: despite having the right values here to play the animation,
-						// the drawer still blink into existence without the slide-in effect
-						vectoredLength = IsOpenDirectionHorizontal() ? lastMeasured.Width : lastMeasured.Height;
-						fromRatio = TranslateOffset / vectoredLength;
-					}
-					else
-					{
-						// the assumption is false, the control is openning for the first time
-						// this is unsalvageable
-						return;
-					}
-				}
+			//	// windows: _drawerContentPresenter is not measured on reopening
+			//	// in such case, all numerical values here are invalid
+			//	if (_drawerContentPresenter.ActualSize == default)
+			//	{
+			//		// attempt to recover with last measured size,
+			//		// which normally shouldnt change in common scenario...
+			//		if (_lastMeasuredFlyoutContentSize is { } lastMeasured)
+			//		{
+			//			// note: despite having the right values here to play the animation,
+			//			// the drawer still blink into existence without the slide-in effect
+			//			vectoredLength = IsOpenDirectionHorizontal() ? lastMeasured.Width : lastMeasured.Height;
+			//			fromRatio = TranslateOffset / vectoredLength;
+			//		}
+			//		else
+			//		{
+			//			// the assumption is false, the control is openning for the first time
+			//			// this is unsalvageable
+			//			return;
+			//		}
+			//	}
 
-				_translateAnimation.From = fromRatio * vectoredLength;
-				_translateAnimation.To = toRatio * vectoredLength;
-			}
+			//	_translateAnimation.From = fromRatio * vectoredLength;
+			//	_translateAnimation.To = toRatio * vectoredLength;
+			//}
 
 			if (_opacityAnimation != null)
 			{

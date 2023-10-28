@@ -49,6 +49,11 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		{
 			var flyoutContent = (sender as Flyout)?.Content;
 			var modalFrameM3 = VisualTreeHelperEx.GetFirstDescendant<Frame>(flyoutContent, x => x.Name == "M3ModalFrame");
+			modalFrameM3.Navigated += (s, e) =>
+			{
+				//modalFrameM3.BackStack.Clear();
+				var page = modalFrameM3.TreeGraph();
+			};
 			modalFrameM3?.Navigate(typeof(M3MaterialNavigationBarSample_ModalPage1));
 		}
 

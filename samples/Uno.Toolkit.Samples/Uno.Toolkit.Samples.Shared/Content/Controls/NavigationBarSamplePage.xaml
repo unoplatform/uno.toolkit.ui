@@ -30,14 +30,8 @@
 						<Button.Flyout>
 							<Flyout x:Name="ModalFlyout"
 									Opened="ModalFlyout_Opened"
-									Placement="Bottom">
-								<Flyout.FlyoutPresenterStyle>
-									<Style TargetType="FlyoutPresenter">
-										<Setter Property="MinWidth" Value="200" />
-										<Setter Property="MinHeight" Value="200" />
-									</Style>
-								</Flyout.FlyoutPresenterStyle>
-
+									FlyoutPresenterStyle="{StaticResource RightDrawerFlyoutPresenterStyle}"
+									Placement="Full">
 								<Grid>
 									<Frame x:Name="ModalFrame" />
 								</Grid>
@@ -81,14 +75,8 @@
 						<Button.Flyout>
 							<Flyout x:Name="M3ModalFlyout"
 									Opened="M3ModalFlyout_Opened"
+									FlyoutPresenterStyle="{StaticResource RightDrawerFlyoutPresenterStyle}"
 									Placement="Full">
-								<Flyout.FlyoutPresenterStyle>
-									<Style TargetType="FlyoutPresenter">
-										<Setter Property="Width" Value="900" />
-										<Setter Property="MinHeight" Value="600" />
-									</Style>
-								</Flyout.FlyoutPresenterStyle>
-
 								<Grid>
 									<Frame x:Name="M3ModalFrame" />
 								</Grid>

@@ -66,7 +66,7 @@ namespace Uno.Toolkit.Samples
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-#if DEBUG && false
+#if DEBUG
 			ActivateDebugPanel();
 #endif
 			SetDarkLightToggleInitialState();
