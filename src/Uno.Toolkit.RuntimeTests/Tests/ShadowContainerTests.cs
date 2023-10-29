@@ -242,6 +242,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 #endif
 
 		[TestMethod]
+		[Ignore("https://github.com/unoplatform/uno.toolkit.ui/issues/887")]
 		public async Task Displays_Content()
 		{
 			if (!ImageAssertHelper.IsScreenshotSupported())
