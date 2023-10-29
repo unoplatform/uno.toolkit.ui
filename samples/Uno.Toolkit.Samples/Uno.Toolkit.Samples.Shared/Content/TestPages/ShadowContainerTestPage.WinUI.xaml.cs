@@ -7,7 +7,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Uno.Toolkit.Samples.Entities;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
