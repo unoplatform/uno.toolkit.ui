@@ -19,7 +19,6 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 
 		[Test]
 		[AutoRetry]
-		[Ignore("https://github.com/unoplatform/uno.toolkit.ui/issues/887")]
 		public void When_Top_TabBar()
 		{
 			const string FlipViewItemTextPrefix = "TopTabBar_FlipView_Item_Text_";
@@ -37,7 +36,6 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 
 		[Test]
 		[AutoRetry]
-		[Ignore("https://github.com/unoplatform/uno.toolkit.ui/issues/887")]
 		public void When_Bottom_TabBar()
 		{
 			const string FlipViewItemTextPrefix = "BottomTabBar_FlipView_Item_Text_";
@@ -55,7 +53,6 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 
 		[Test]
 		[AutoRetry]
-		[Ignore("https://github.com/unoplatform/uno.toolkit.ui/issues/887")]
 		public void When_Vertical_TabBar()
 		{
 			const string FlipViewItemTextPrefix = "VerticalTabBar_FlipView_Item_Text_";
