@@ -41,7 +41,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	internal partial class NavigationBarTests
 	{
 		[TestMethod]
-		[DataRow(MainCommandMode.Back, DisplayName = nameof(MainCommandMode.Back))]
+		// Disabled https://github.com/unoplatform/uno.toolkit.ui/issues/887
+		// [DataRow(MainCommandMode.Back, DisplayName = nameof(MainCommandMode.Back))]
 		[DataRow(MainCommandMode.Action, DisplayName = nameof(MainCommandMode.Action))]
 		public async Task MainCommand_In_Popup_Without_Page(MainCommandMode mainCommandMode)
 		{
