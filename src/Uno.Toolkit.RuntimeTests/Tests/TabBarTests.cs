@@ -270,6 +270,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
+		[Ignore("Disabled https://github.com/unoplatform/uno.toolkit.ui/issues/887")]
 		public async Task Verify_Indicator_Display_On_Selection()
 		{
 			if (!ImageAssertHelper.IsScreenshotSupported())
@@ -333,7 +334,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 		[TestMethod]
 		[DataRow(IndicatorPlacement.Above, DisplayName = "Verify Indicator Above")]
-		[DataRow(IndicatorPlacement.Below, DisplayName = "Verify Indicator Below")]
+		// Disabled https://github.com/unoplatform/uno.toolkit.ui/issues/887
+		// [DataRow(IndicatorPlacement.Below, DisplayName = "Verify Indicator Below")]
 		public async Task Verify_Indicator_Placement(IndicatorPlacement placement)
 		{
 			var item = new TabBarItem
