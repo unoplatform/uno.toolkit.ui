@@ -431,7 +431,6 @@
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <utu:TabBarSelectionIndicatorPresenter
                             x:Name="BelowSelectionIndicatorPresenter"
-                            Margin="{TemplateBinding Padding}"
                             AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
                             Content="{TemplateBinding SelectionIndicatorContent}"
                             ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
@@ -441,10 +440,9 @@
                             Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                             Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
                             Visibility="Collapsed" />
-                        <ItemsPresenter x:Name="TabBarItemsPresenter" Margin="{TemplateBinding Padding}" />
+                        <ItemsPresenter x:Name="TabBarItemsPresenter" Padding="{TemplateBinding Padding}" />
                         <utu:TabBarSelectionIndicatorPresenter
                             x:Name="AboveSelectionIndicatorPresenter"
-                            Margin="{TemplateBinding Padding}"
                             AutomationProperties.AutomationId="AboveSelectionIndicatorPresenter"
                             Content="{TemplateBinding SelectionIndicatorContent}"
                             ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
