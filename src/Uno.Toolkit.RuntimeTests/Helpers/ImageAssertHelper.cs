@@ -67,10 +67,10 @@ namespace Uno.Toolkit.RuntimeTests.Helpers
 		/// <param name="element">The element to take a screenshot of.</param>
 		public static async Task<RenderTargetBitmap?> TakeScreenshot(this UIElement? element)
 		{
-			if (IsScreenshotSupported())
+			if (element is { } && IsScreenshotSupported())
 			{
 				var renderer = new RenderTargetBitmap();
-				await renderer.RenderAsync(element);
+				await renderer.RenderAsync(element, (int)element.ActualSize.X, (int)element.ActualSize.Y); // We explicitly set the size to ignore the screen scaling
 				return renderer;
 			}
 			else
