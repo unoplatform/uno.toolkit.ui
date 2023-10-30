@@ -327,7 +327,7 @@ partial class AutoLayout
 
 		if (child as FrameworkElement is { } frameworkElement)
 		{
-			UpdateCounterAlignmentToStretch(ref frameworkElement, isOrientationHorizontal, isPrimaryAlignmentStretch, isCounterAlignmentStretch);
+			UpdateCounterAlignment(ref frameworkElement, isOrientationHorizontal, isPrimaryAlignmentStretch, GetCounterAlignment(child));
 
 			var isStretch = isOrientationHorizontal ?
 				frameworkElement.VerticalAlignment is VerticalAlignment.Stretch :
@@ -481,19 +481,17 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static void UpdateCounterAlignmentToStretch(ref FrameworkElement frameworkElement, bool isHorizontal, bool isPrimaryAlignmentStretch, bool isCounterAlignmentStretch)
+	private static void UpdateCounterAlignment(ref FrameworkElement frameworkElement, bool isHorizontal, bool isPrimaryAlignmentStretch, AutoLayoutAlignment counterAlignment)
 	{
 		if (isHorizontal)
 		{
 			frameworkElement.HorizontalAlignment = isPrimaryAlignmentStretch ? HorizontalAlignment.Stretch : frameworkElement.HorizontalAlignment;
-			frameworkElement.VerticalAlignment = isCounterAlignmentStretch ? VerticalAlignment.Stretch : frameworkElement.VerticalAlignment;
+			frameworkElement.VerticalAlignment = counterAlignment.ToVerticalAlignment();
 		}
 		else
 		{
 			frameworkElement.VerticalAlignment = isPrimaryAlignmentStretch ? VerticalAlignment.Stretch : frameworkElement.VerticalAlignment;
-			frameworkElement.HorizontalAlignment = isCounterAlignmentStretch ? HorizontalAlignment.Stretch : frameworkElement.HorizontalAlignment;
+			frameworkElement.HorizontalAlignment = counterAlignment.ToHorizontalAlignment();
 		}
 	}
-
-
 }
