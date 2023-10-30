@@ -112,11 +112,9 @@
 															   Foreground="{TemplateBinding Foreground}"
 															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
 															   AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
-															   Margin="{TemplateBinding Padding}"
 															   Opacity="0"
 															   Visibility="Collapsed" />
-						<ItemsPresenter x:Name="TabBarItemsPresenter"
-										Margin="{TemplateBinding Padding}" />
+						<ItemsPresenter x:Name="TabBarItemsPresenter" Padding="{TemplateBinding Padding}" />
 						<utu:TabBarSelectionIndicatorPresenter x:Name="AboveSelectionIndicatorPresenter"
 															   Content="{TemplateBinding SelectionIndicatorContent}"
 															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
@@ -125,7 +123,6 @@
 															   Foreground="{TemplateBinding Foreground}"
 															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
 															   AutomationProperties.AutomationId="AboveSelectionIndicatorPresenter"
-															   Margin="{TemplateBinding Padding}"
 															   Opacity="0" />
 					</Grid>
 				</ControlTemplate>
