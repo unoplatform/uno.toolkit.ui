@@ -484,4 +484,45 @@ internal class AutoLayoutTest
 		Assert.AreEqual(160, SUT.ActualHeight);
 		Assert.AreEqual(122, SUT.ActualWidth);
 	}
+
+	[TestMethod]
+	[RequiresFullWindow]
+	public async Task When_Hug_With_CounterAlignment()
+	{
+		var SUT = new AutoLayout()
+		{
+			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 300,
+			Height = 100
+		};
+
+		var textBlock = new TextBlock()
+		{
+			Text = "Oh no!",
+		};
+
+		var button = new Button()
+		{
+			Content = "Something went wrong",
+		};
+
+		AutoLayout.SetCounterAlignment(textBlock, AutoLayoutAlignment.Center);
+		AutoLayout.SetCounterAlignment(button, AutoLayoutAlignment.End);
+
+		SUT.Children.Add(textBlock);
+		SUT.Children.Add(button);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+
+		var textBlockTransform = textBlock.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		var buttonTransform = button.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+
+		var autoLayoutAcutalWidth = SUT.ActualWidth / 2;
+		var textBlockCenter = textBlock.ActualWidth / 2;
+
+		Assert.AreEqual(Math.Ceiling(autoLayoutAcutalWidth - textBlockCenter), Math.Ceiling(textBlockTransform!.X));
+		Assert.AreEqual(Math.Ceiling(SUT.ActualWidth - button.ActualWidth), Math.Ceiling(buttonTransform!.X));
+	}
 }
