@@ -282,6 +282,7 @@ namespace Uno.Toolkit.UI
 			private Thickness _appliedPadding = new Thickness(0);
 			private Thickness _appliedMargin = new Thickness(0);
 			private readonly CompositeDisposable _subscriptions = new();
+			private ScrollViewer? _scrollAncestor;
 
 			internal SafeAreaDetails(FrameworkElement owner)
 			{
@@ -346,6 +347,14 @@ namespace Uno.Toolkit.UI
 						inputPane.Showing -= OnInputPaneChanged;
 						inputPane.Hiding -= OnInputPaneChanged;
 					});
+				}
+
+				if (GetScrollAncestor() is { } scrollAncestor)
+				{
+					_scrollAncestor = scrollAncestor;
+
+					_scrollAncestor.SizeChanged += OnInsetUpdateRequired;
+					_subscriptions.Add(() => _scrollAncestor.SizeChanged -= OnInsetUpdateRequired);
 				}
 			}
 
@@ -420,10 +429,8 @@ namespace Uno.Toolkit.UI
 
 				if (windowPadding != default)
 				{
-					var scrollAncestor = GetScrollAncestor();
-
 					// If the owner view is scrollable, the visibility of interest is that of the scroll viewport.
-					var fixedControl = scrollAncestor ?? Owner;
+					var fixedControl = _scrollAncestor ?? Owner;
 
 					// Using relativeTo: null instead of Window.Current.Content since there are cases when the current UIElement
 					// may be outside the bounds of the current Window content, for example, when the element is hosted in a modal window.
@@ -431,9 +438,9 @@ namespace Uno.Toolkit.UI
 
 					visibilityPadding = CalculateVisibilityInsets(OffsetVisibleBounds, controlBounds);
 
-					if (scrollAncestor != null)
+					if (_scrollAncestor is { } scrollViewer)
 					{
-						visibilityPadding = AdjustScrollableInsets(visibilityPadding, scrollAncestor);
+						visibilityPadding = AdjustScrollableInsets(visibilityPadding, scrollViewer);
 					}
 				}
 				else
