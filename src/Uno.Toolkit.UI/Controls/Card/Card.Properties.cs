@@ -30,12 +30,8 @@ namespace Uno.Toolkit.UI
 			public const string PointerFocused = nameof(PointerFocused);
 		}
 
-		private static readonly Windows.UI.Color DefaultShadowColor
-#if __ANDROID__
-			= Colors.Black;
-#else
-			= Windows.UI.Color.FromArgb(64, 0, 0, 0);
-#endif
+		private static readonly Windows.UI.Color DefaultShadowColor = 
+			Windows.UI.Color.FromArgb(64, 0, 0, 0);
 	}
 
 	public partial class Card
