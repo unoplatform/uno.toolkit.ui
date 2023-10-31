@@ -23,6 +23,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI;
+using Windows.Networking.Connectivity;
 #else
 using Windows.UI.Xaml.Controls;
 using Windows.UI;
@@ -49,24 +50,27 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var navigationBar = new NavigationBar { Content = "Title", MainCommandMode = mainCommandMode };
 			var popup = new Popup { Width = 100, Height = 100, HorizontalOffset = 100, VerticalOffset = 100, Child = new StackPanel { Children = { navigationBar } } };
 			var content = new StackPanel { Children = { popup } };
-
-			try
+			
+			var openedTask = new TaskCompletionSource<object>();
+			EventHandler<object> popupOpened = async (s, e) => 
 			{
-				await UnitTestUIContentHelperEx.SetContentAndWait(content);
-
-				popup.IsOpen = true;
-
-				await UnitTestsUIContentHelper.WaitForIdle();
-				await UnitTestsUIContentHelper.WaitForLoaded(popup);
-
 				Assert.IsTrue(navigationBar.TryPerformMainCommand() == shouldGoBack, "Unexpected result from TryPerformMainCommand");
 
 				await UnitTestsUIContentHelper.WaitForIdle();
 
 				Assert.IsTrue(popup.IsOpen == !shouldGoBack, "Popup is in an incorrect state");
+			};
+
+			try
+			{
+				await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+				popup.Opened += popupOpened;
+				popup.IsOpen = true;
 			}
 			finally
 			{
+				popup.Opened -= popupOpened;
 				popup.IsOpen = false;
 			}
 		}
