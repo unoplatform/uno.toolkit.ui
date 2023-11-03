@@ -50,8 +50,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var navigationBar = new NavigationBar { Content = "Title", MainCommandMode = mainCommandMode };
 			var popup = new Popup { Width = 100, Height = 100, HorizontalOffset = 100, VerticalOffset = 100, Child = new StackPanel { Children = { navigationBar } } };
 			var content = new StackPanel { Children = { popup } };
-			
-			var openedTask = new TaskCompletionSource<object>();
+
 			EventHandler<object> popupOpened = async (s, e) => 
 			{
 				Assert.IsTrue(navigationBar.TryPerformMainCommand() == shouldGoBack, "Unexpected result from TryPerformMainCommand");
