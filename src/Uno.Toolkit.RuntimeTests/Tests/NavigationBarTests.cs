@@ -11,7 +11,7 @@ using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using Windows.System;
-
+using Windows.Foundation;
 #if __IOS__
 using UIKit;
 #endif
@@ -23,6 +23,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI;
+using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 #else
 using Windows.UI.Xaml.Controls;
 using Windows.UI;
@@ -31,6 +32,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using static Uno.UI.FeatureConfiguration;
+using AppBarButton = Windows.UI.Xaml.Controls.AppBarButton;
 #endif
 
 
@@ -40,6 +43,23 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	[RunsOnUIThread]
 	internal partial class NavigationBarTests
 	{
+#if !(__ANDROID__ || __IOS__)
+		[TestMethod]
+		public async Task NavigationBar_Renders_MainCommand()
+		{
+			var mainCommand = new AppBarButton();
+			var navigationBar = new NavigationBar { Content = "Title", MainCommandMode = MainCommandMode.Action, MainCommand = mainCommand };
+			var content = new Grid { Children = { navigationBar } };
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+
+			Assert.IsTrue(mainCommand.ActualHeight > 0, "MainCommand.ActualHeight is not greater than 0");
+			Assert.IsTrue(mainCommand.ActualWidth > 0, "MainCommand.ActualWidth is not greater than 0");
+		}
+
+#endif
+
 		[TestMethod]
 		[DataRow(MainCommandMode.Back, DisplayName = nameof(MainCommandMode.Back))]
 		[DataRow(MainCommandMode.Action, DisplayName = nameof(MainCommandMode.Action))]
