@@ -23,7 +23,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI;
-using AppBarButton = Microsoft.UI.Xaml.Controls.AppBarButton;
 #else
 using Windows.UI.Xaml.Controls;
 using Windows.UI;
@@ -32,8 +31,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using static Uno.UI.FeatureConfiguration;
-using AppBarButton = Windows.UI.Xaml.Controls.AppBarButton;
 #endif
 
 
