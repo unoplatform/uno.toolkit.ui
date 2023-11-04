@@ -428,7 +428,8 @@
                         x:Name="TabBarGrid"
                         Background="{Binding Path=(um:ControlExtensions.TintedBackground), RelativeSource={RelativeSource TemplatedParent}}"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
+                        BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}">
                         <utu:TabBarSelectionIndicatorPresenter
                             x:Name="BelowSelectionIndicatorPresenter"
                             AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
@@ -440,7 +441,7 @@
                             Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                             Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
                             Visibility="Collapsed" />
-                        <ItemsPresenter x:Name="TabBarItemsPresenter" Padding="{TemplateBinding Padding}" />
+                        <ItemsPresenter x:Name="TabBarItemsPresenter" Margin="{TemplateBinding Padding}"/>
                         <utu:TabBarSelectionIndicatorPresenter
                             x:Name="AboveSelectionIndicatorPresenter"
                             AutomationProperties.AutomationId="AboveSelectionIndicatorPresenter"

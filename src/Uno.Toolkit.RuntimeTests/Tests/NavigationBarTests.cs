@@ -67,23 +67,25 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var popup = new Popup { Width = 100, Height = 100, HorizontalOffset = 100, VerticalOffset = 100, Child = new StackPanel { Children = { navigationBar } } };
 			var content = new StackPanel { Children = { popup } };
 
-			try
+			EventHandler<object> popupOpened = async (s, e) => 
 			{
-				await UnitTestUIContentHelperEx.SetContentAndWait(content);
-
-				popup.IsOpen = true;
-
-				await UnitTestsUIContentHelper.WaitForIdle();
-				await UnitTestsUIContentHelper.WaitForLoaded(popup);
-
 				Assert.IsTrue(navigationBar.TryPerformMainCommand() == shouldGoBack, "Unexpected result from TryPerformMainCommand");
 
 				await UnitTestsUIContentHelper.WaitForIdle();
 
 				Assert.IsTrue(popup.IsOpen == !shouldGoBack, "Popup is in an incorrect state");
+			};
+
+			try
+			{
+				await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+				popup.Opened += popupOpened;
+				popup.IsOpen = true;
 			}
 			finally
 			{
+				popup.Opened -= popupOpened;
 				popup.IsOpen = false;
 			}
 		}

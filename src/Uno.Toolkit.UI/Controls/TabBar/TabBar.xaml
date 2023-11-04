@@ -114,7 +114,7 @@
 															   AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
 															   Opacity="0"
 															   Visibility="Collapsed" />
-						<ItemsPresenter x:Name="TabBarItemsPresenter" Padding="{TemplateBinding Padding}" />
+						<ItemsPresenter x:Name="TabBarItemsPresenter" Margin="{TemplateBinding Padding}" />
 						<utu:TabBarSelectionIndicatorPresenter x:Name="AboveSelectionIndicatorPresenter"
 															   Content="{TemplateBinding SelectionIndicatorContent}"
 															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"

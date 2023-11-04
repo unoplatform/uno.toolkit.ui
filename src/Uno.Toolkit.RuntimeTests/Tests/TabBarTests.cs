@@ -229,7 +229,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			var rootGrid = XamlHelper.LoadXaml<Grid>(@$"
 				<Grid>
-					<utu:TabBar xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" x:Name=""MyTabBar"" Style=""{{StaticResource {styleName}}}"">
+					<utu:TabBar xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" Padding=""{padding[0]},{padding[1]},{padding[2]},{padding[3]}"" Background=""Red"" x:Name=""MyTabBar"" Style=""{{StaticResource {styleName}}}"">
 						<utu:TabBar.Items>
 							<utu:TabBarItem Content=""1"" />
 							<utu:TabBarItem Content=""2"" />
@@ -240,7 +240,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			");
 
 			var tabBar = (TabBar)rootGrid.FindName("MyTabBar");
-			tabBar.Padding = new Thickness(padding[0], padding[1], padding[2], padding[3]);
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(rootGrid);
 
