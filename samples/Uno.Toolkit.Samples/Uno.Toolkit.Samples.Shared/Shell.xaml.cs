@@ -1,4 +1,4 @@
-﻿#if !IS_WINUI || HAS_UNO
+#if !IS_WINUI || HAS_UNO
 #define SYS_NAV_MGR_SUPPORTED
 #endif
 
@@ -238,6 +238,17 @@ namespace Uno.Toolkit.Samples
 				// - for any page, the active section of SamplePageLayout if present OR the content of that page
 				// ...
 				// todo: add support for [RequiresFullWindow], flyout, nested navigation sample
+
+				var popups = VisualTreeHelper
+#if IS_WINUI
+					.GetOpenPopupsForXamlRoot(XamlRoot);
+#else
+					.GetOpenPopups(XamlWindow.Current);
+#endif
+				if (popups.LastOrDefault() is { } popup)
+				{
+					return popup.Child;
+				}
 
 				var content = NavigationViewControl.Content;
 				if (content is RuntimeTestRunner runner)
