@@ -332,6 +332,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 		[TestMethod]
 		[DataRow(IndicatorPlacement.Above, DisplayName = "Verify Indicator Above")]
+		[DataRow(IndicatorPlacement.Below, DisplayName = "Verify Indicator Below")]
 		public async Task Verify_Indicator_Placement(IndicatorPlacement placement)
 		{
 			var item = new TabBarItem
