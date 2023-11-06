@@ -5,6 +5,7 @@ uid: Toolkit.Controls.DrawerFlyoutPresenter
 ## Summary
 `DrawerFlyoutPresenter` is a special `ContentPresenter` to be used in the template of a `FlyoutPresenter` to enable gesture support.
 
+
 ## Properties
 ### Remarks
 All of the properties below can be used both as a dependency property or as an attached property, much like the `ScrollViewer` properties:
@@ -25,6 +26,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 ### Properties
+todo@xy: add entry for DrawerDepth
+
 Property|Type|Description
 -|-|-
 OpenDirection|DrawerOpenDirection|Gets or sets the direction in which the drawer opens toward.<br/>note: The position of drawer when opened is the opposite of this value.
@@ -32,6 +35,9 @@ LightDismissOverlayBackground|Brush|Gets or sets the brush used to paint the lig
 IsGestureEnabled|bool|Get or sets a value that indicates whether the user can interact with the control using gesture. The default value is `true`.
 
 ## Usage
+todo@xy: add examples here and in sample page for
+    - depth at different value: Auto, x*, 1*, x
+    - [FAQ] corner radius with proper background
 
 To use this, simply use a `Flyout` with `Placement="Full"` and one of the followings as the `FlyoutPresenterStyle`:
 > note: The direction here indicates the initial position of the drawer. The open direction is the opposite.

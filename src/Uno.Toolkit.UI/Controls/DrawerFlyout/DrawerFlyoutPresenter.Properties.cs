@@ -17,8 +17,10 @@ namespace Uno.Toolkit.UI
 {
 	public partial class DrawerFlyoutPresenter
 	{
+		// purely cosmetic class, and to emphasis the presence of default values
 		internal static class DefaultValues
 		{
+			public static readonly GridLength DrawerDepth = new GridLength(0.66, GridUnitType.Star);
 			public const DrawerOpenDirection OpenDirection = DrawerOpenDirection.Up;
 			public const bool IsGestureEnabled = true;
 		}
@@ -43,9 +45,10 @@ namespace Uno.Toolkit.UI
 		#endregion
 
 		// note: These properties below can function both as a direct DP (from the owner) and as an attached DP (from any dependency object),
-		// just like the ScrollViewer properties.
+		// just like the ScrollViewer properties. This is to allow the properties to be used both on the DrawerFlyoutPresenter directly and
+		// as attached property on the Flyout.FlyoutPresenterStyle.
 
-		#region AttachedProperty: OpenDirection = Top
+		#region AttachedProperty: OpenDirection = Up
 
 		public static DependencyProperty OpenDirectionProperty { [DynamicDependency(nameof(GetOpenDirection))] get; } = DependencyProperty.RegisterAttached(
 			nameof(OpenDirection),
@@ -69,6 +72,37 @@ namespace Uno.Toolkit.UI
 		public static DrawerOpenDirection GetOpenDirection(DependencyObject obj) => (DrawerOpenDirection)obj.GetValue(OpenDirectionProperty);
 		[DynamicDependency(nameof(GetOpenDirection))]
 		public static void SetOpenDirection(DependencyObject obj, DrawerOpenDirection value) => obj.SetValue(OpenDirectionProperty, value);
+
+		#endregion
+		#region AttachedProperty: DrawerDepth = new GridLength(0.66, GridUnitType.Star)
+
+		/// <summary>
+		/// Get or sets the depth (width or height depending on the <see cref="OpenDirection"/>) of the drawer.
+		/// </summary>
+		/// <remarks>
+		/// This value has 3 mode based on <seealso cref="GridUnitType"/>:
+		/// <list type="bullet">
+		/// <item><see cref="GridUnitType.Auto"/>: Fit to flyout content.</item>
+		/// <item><see cref="GridUnitType.Star"/>: At given ratio of screen/flyout width or height. Valid range is between 0* and 1*, excluding 0* itself.</item>
+		/// <item><see cref="GridUnitType.Pixel"/>: Fixed at the given value.</item>
+		/// </list>
+		/// </remarks>
+		public static DependencyProperty DrawerDepthProperty { [DynamicDependency(nameof(GetDrawerDepth))] get; } = DependencyProperty.RegisterAttached(
+			nameof(DrawerDepth),
+			typeof(GridLength),
+			typeof(DrawerFlyoutPresenter),
+			new PropertyMetadata(DefaultValues.DrawerDepth, OnDrawerDepthChanged));
+
+		public GridLength DrawerDepth
+		{
+			get => (GridLength)GetValue(DrawerDepthProperty);
+			set => SetValue(DrawerDepthProperty, value);
+		}
+
+		[DynamicDependency(nameof(SetDrawerDepth))]
+		public static GridLength GetDrawerDepth(DependencyObject obj) => (GridLength)obj.GetValue(DrawerDepthProperty);
+		[DynamicDependency(nameof(GetDrawerDepth))]
+		public static void SetDrawerDepth(DependencyObject obj, GridLength value) => obj.SetValue(DrawerDepthProperty, value);
 
 		#endregion
 		#region AttachedProperty: LightDismissOverlayBackground
@@ -118,7 +152,8 @@ namespace Uno.Toolkit.UI
 
 		#endregion
 
-		private static void OnOpenDirectionChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => (control as DrawerFlyoutPresenter)?.OnOpenDirectionChanged(e);
-		private static void OnIsOpenChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => (control as DrawerFlyoutPresenter)?.OnIsOpenChanged(e);
+		private static void OnDrawerDepthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as DrawerFlyoutPresenter)?.OnDrawerDepthChanged(e);
+		private static void OnOpenDirectionChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as DrawerFlyoutPresenter)?.OnOpenDirectionChanged(e);
+		private static void OnIsOpenChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as DrawerFlyoutPresenter)?.OnIsOpenChanged(e);
 	}
 }
