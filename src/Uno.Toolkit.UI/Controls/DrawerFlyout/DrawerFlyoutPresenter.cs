@@ -1,4 +1,4 @@
-﻿#if HAS_UNO
+#if HAS_UNO
 //#define STORYBOARD_RETARGET_ISSUE // PATCHED https://github.com/unoplatform/uno/issues/6960
 #define MANIPULATION_ABSOLUTE_COORD_ISSUE // https://github.com/unoplatform/uno/issues/6964
 #endif
@@ -290,8 +290,8 @@ namespace Uno.Toolkit.UI
 
 			if (_lightDismissOverlay != null)
 			{
-				_lightDismissOverlay.Opacity = 1 - ratio;
-				_lightDismissOverlay.IsHitTestVisible = ratio != 1;
+				_lightDismissOverlay.Opacity = ratio;
+				_lightDismissOverlay.IsHitTestVisible = ratio == 1;
 			}
 		}
 
