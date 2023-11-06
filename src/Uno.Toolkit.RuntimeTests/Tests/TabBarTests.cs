@@ -208,14 +208,13 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[DataRow(Orientation.Horizontal, new[] { 0, 50, 0, 0 }, DisplayName = "Horizontal at [0,50,0,0]")]
 		[DataRow(Orientation.Horizontal, new[] { 0, 0, 0, 50 }, DisplayName = "Horizontal at [0,0,0,50]")]
 		[DataRow(Orientation.Horizontal, new[] { 0, 30, 0, 20 }, DisplayName = "Horizontal at [0,30,0,20]")]
-		// Disabled for https://github.com/unoplatform/uno.toolkit.ui/issues/887
-		// [DataRow(Orientation.Vertical, new[] { 0, 0, 0, 0 }, DisplayName = "Vertical at [0,0,0,0]")]
-		// [DataRow(Orientation.Vertical, new[] { 30, 0, 0, 0 }, DisplayName = "Vertical at [30,0,0,0]")]
-		// [DataRow(Orientation.Vertical, new[] { 0, 0, 30, 0 }, DisplayName = "Vertical at [0,0,30,0]")]
-		// [DataRow(Orientation.Vertical, new[] { 30, 0, 30, 0 }, DisplayName = "Vertical at [30,0,30,0]")]
-		// [DataRow(Orientation.Vertical, new[] { 50, 0, 0, 0 }, DisplayName = "Vertical at [50,0,0,0]")]
-		// [DataRow(Orientation.Vertical, new[] { 0, 0, 50, 0 }, DisplayName = "Vertical at [0,0,50,0]")]
-		// [DataRow(Orientation.Vertical, new[] { 30, 0, 20, 0 }, DisplayName = "Vertical at [30,0,20,0]")]
+		[DataRow(Orientation.Vertical, new[] { 0, 0, 0, 0 }, DisplayName = "Vertical at [0,0,0,0]")]
+		[DataRow(Orientation.Vertical, new[] { 30, 0, 0, 0 }, DisplayName = "Vertical at [30,0,0,0]")]
+		[DataRow(Orientation.Vertical, new[] { 0, 0, 30, 0 }, DisplayName = "Vertical at [0,0,30,0]")]
+		[DataRow(Orientation.Vertical, new[] { 30, 0, 30, 0 }, DisplayName = "Vertical at [30,0,30,0]")]
+		[DataRow(Orientation.Vertical, new[] { 50, 0, 0, 0 }, DisplayName = "Vertical at [50,0,0,0]")]
+		[DataRow(Orientation.Vertical, new[] { 0, 0, 50, 0 }, DisplayName = "Vertical at [0,0,50,0]")]
+		[DataRow(Orientation.Vertical, new[] { 30, 0, 20, 0 }, DisplayName = "Vertical at [30,0,20,0]")]
 		public async Task Verify_Padding(
 			Orientation orientation,
 			int[] padding)
@@ -270,7 +269,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
-		[Ignore("Disabled https://github.com/unoplatform/uno.toolkit.ui/issues/887")]
 		public async Task Verify_Indicator_Display_On_Selection()
 		{
 			if (!ImageAssertHelper.IsScreenshotSupported())
@@ -334,8 +332,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 		[TestMethod]
 		[DataRow(IndicatorPlacement.Above, DisplayName = "Verify Indicator Above")]
-		// Disabled https://github.com/unoplatform/uno.toolkit.ui/issues/887
-		// [DataRow(IndicatorPlacement.Below, DisplayName = "Verify Indicator Below")]
 		public async Task Verify_Indicator_Placement(IndicatorPlacement placement)
 		{
 			var item = new TabBarItem
