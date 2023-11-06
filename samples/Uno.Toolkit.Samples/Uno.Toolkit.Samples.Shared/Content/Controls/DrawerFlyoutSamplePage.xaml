@@ -78,11 +78,10 @@
 											<Flyout.FlyoutPresenterStyle>
 												<Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
 													<Setter Property="CornerRadius" Value="16,16,0,0" />
+													<Setter Property="Background" Value="SkyBlue" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All"
-														Padding="16,16,0,0"
-														Background="SkyBlue">
+											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -95,12 +94,11 @@
 											<Flyout.FlyoutPresenterStyle>
 												<Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
 													<Setter Property="CornerRadius" Value="16,16,0,0" />
+													<Setter Property="Background" Value="SkyBlue" />
 													<Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80FFC0CB" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<Border toolkit:VisibleBoundsPadding.PaddingMask="All"
-													Padding="16,16,0,0"
-													Background="SkyBlue">
+											<Border toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
 												<StackPanel Padding="8">
 													<TextBlock Text="text" />
 													<Button Content="button" />

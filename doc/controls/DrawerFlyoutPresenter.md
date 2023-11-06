@@ -16,28 +16,40 @@ xmlns:utu="using:Uno.Toolkit.UI"
        BasedOn="{StaticResource DrawerFlyoutPresenterStyle}"
        TargetType="FlyoutPresenter">
     <Setter Property="utu:DrawerFlyoutPresenter.OpenDirection" Value="Top" />
+    <Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="0.66*" />
     <Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80808080" />
     <Setter Property="utu:DrawerFlyoutPresenter.IsGestureEnabled" Value="True" />
 </Style>
 <!-- and/or -->
 <utu:DrawerFlyoutPresenter OpenDirection="Top"
+                           DrawerDepth="0.66*"
                            LightDismissOverlayBackground="#80808080"
                            IsGestureEnabled="True" />
 ```
 
 ### Properties
-todo@xy: add entry for DrawerDepth
-
 Property|Type|Description
 -|-|-
 OpenDirection|DrawerOpenDirection|Gets or sets the direction in which the drawer opens toward.<br/>note: The position of drawer when opened is the opposite of this value.
+DrawerDepth|GridLength|Get or sets the depth (width or height depending on the `OpenDirection`) of the drawer.\*
 LightDismissOverlayBackground|Brush|Gets or sets the brush used to paint the light dismiss overlay. The default value is `#80808080` (from the default style).
 IsGestureEnabled|bool|Get or sets a value that indicates whether the user can interact with the control using gesture. The default value is `true`.
 
 ## Usage
-todo@xy: add examples here and in sample page for
-    - depth at different value: Auto, x*, 1*, x
-    - [FAQ] corner radius with proper background
+- For DrawerDepth, this value has 3 mode based on `GridUnitType`:
+    ```xml
+    <Style TargetType="FlyoutPresenter">
+        <Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="Auto" />
+        <Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="0.66*" />
+        <Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="150" />
+    <!-- and/or -->
+    <DrawerFlyoutPresenter DrawerDepth="Auto" />
+    <DrawerFlyoutPresenter DrawerDepth="0.66*" />
+    <DrawerFlyoutPresenter DrawerDepth="150" />
+    ```
+    - `GridUnitType.Auto`: Fit to flyout content.
+    - `GridUnitType.Star`: At given ratio of screen/flyout width or height. Valid range is between 0* and 1*, excluding 0* itself.
+    - `GridUnitType.Pixel`: Fixed at the given value.
 
 To use this, simply use a `Flyout` with `Placement="Full"` and one of the followings as the `FlyoutPresenterStyle`:
 > note: The direction here indicates the initial position of the drawer. The open direction is the opposite.
@@ -63,3 +75,34 @@ Example:
 </Button>
 ```
 > note: Here `VisibleBoundsPadding.PaddingMask` is used to prevent the content from being placed outside of the user-interactable area on mobile devices.
+
+### Extended Use Cases
+- Rounded Corner
+    ```xml
+    <Flyout Placement="Full">
+        <Flyout.FlyoutPresenterStyle>
+            <Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                <Setter Property="CornerRadius" Value="16,16,0,0" />
+            </Style>
+        </Flyout.FlyoutPresenterStyle>
+        <Border toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
+            <!-- flyout content -->
+        </Border>
+    </Flyout>
+    ```
+    > remarks: `Padding` is used on the flyout content to avoid content being clipped.
+- Custom background
+    ```xml
+    <Flyout Placement="Full">
+        <Flyout.FlyoutPresenterStyle>
+            <Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                <Setter Property="Background" Value="SkyBlue" />
+            </Style>
+        </Flyout.FlyoutPresenterStyle>
+        <Border toolkit:VisibleBoundsPadding.PaddingMask="All" >
+        <!--<Border toolkit:VisibleBoundsPadding.PaddingMask="All" Background="SkyBlue">-->
+            <!-- flyout content -->
+        </Border>
+    </Flyout>
+    ```
+    > remarks: Do not set `Background` directly from the flyout content. Instead, `Background` should be set from style setter to avoid edge bleeding on certain platforms, and to avoid background being painted on the rounded corners.
