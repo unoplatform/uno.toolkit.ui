@@ -1,0 +1,29 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Helpers.ResponsiveExtensionsSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<sample:SamplePageLayout IsDesignAgnostic="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="{utu:Responsive Narrow=Vertical, Wide=Horizontal}">
+						<Grid>
+							<!-- A -->
+							<TextBlock Text="A"/>
+						</Grid>
+						<Grid>
+							<!-- B -->
+							<TextBlock Text="B"/>
+						</Grid>
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>
