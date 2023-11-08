@@ -7,8 +7,35 @@
 	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  mc:Ignorable="d"
+	  xmlns:todo="what should be done"
+	  xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  mc:Ignorable="d todo"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Page.Resources>
+		<!--
+			microsoft/microsoft-ui-xaml/issues/6388 (winui, and on windows only):
+			If you define attached property setter on a style with BasedOn another style with Template defined from a separate class library
+			it will throw when the template is materialized:
+			> Failed to assign to property 'Uno.Toolkit.UI.DrawerFlyoutPresenter.OpenDirection'.
+			^ It will mention the first attached property used in the template, regardless of which attached property setter that triggered it.
+			
+			The workaround here is to define the template in the consuming assembly again.
+			It doesn't matter if it is used or not.
+		-->
+		<win:Style x:Key="MUX6388_Workaround_ForDefinitionOnly" TargetType="FlyoutPresenter">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="FlyoutPresenter">
+						<utu:DrawerFlyoutPresenter todo:Note="This is not the full template, we are just making explicit reference to these definitions below"
+												   OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
+												   DrawerDepth="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerDepth}"
+												   LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
+												   IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}" />
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</win:Style>
+	</Page.Resources>
 
 	<Grid Background="{ThemeResource SurfaceBrush}">
 		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
@@ -16,6 +43,7 @@
 				<DataTemplate>
 					<ScrollViewer HorizontalScrollMode="Disabled">
 						<StackPanel>
+
 							<TextBlock Text="Use a DrawerFlyoutPresenter to display flyout with gesture support." Style="{StaticResource BodyTextBlockStyle}" />
 
 							<!-- basic usage -->
@@ -27,7 +55,6 @@
 							<TextBlock Text="- TopDrawerFlyoutPresenterStyle" Style="{StaticResource BodyTextBlockStyle}" />
 							<TextBlock Text="- RightDrawerFlyoutPresenterStyle" Style="{StaticResource BodyTextBlockStyle}" />
 							<TextBlock Text="- BottomDrawerFlyoutPresenterStyle" Style="{StaticResource BodyTextBlockStyle}" />
-
 							<StackPanel Spacing="8" Margin="0,24,0,0">
 								<Button Content="Left Drawer">
 									<Button.Flyout>
@@ -71,43 +98,10 @@
 								</Button>
 							</StackPanel>
 
+							<!-- overriding DrawerDepth -->
+							<TextBlock Text="You can inherit the above styles, and override utu:DrawerFlyoutPresenter.DrawerDepth in a setter to customize the depth of drawer." Style="{StaticResource BodyTextBlockStyle}" />
 							<StackPanel Spacing="8" Margin="0,24,0,0">
-								<Button Content="Rounded Corner Drawer">
-									<Button.Flyout>
-										<Flyout Placement="Full">
-											<Flyout.FlyoutPresenterStyle>
-												<Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-													<Setter Property="CornerRadius" Value="16,16,0,0" />
-													<Setter Property="Background" Value="SkyBlue" />
-												</Style>
-											</Flyout.FlyoutPresenterStyle>
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
-												<TextBlock Text="text" />
-												<Button Content="button" />
-											</StackPanel>
-										</Flyout>
-									</Button.Flyout>
-								</Button>
-								<Button Content="Custom LightDismiss Color Drawer">
-									<Button.Flyout>
-										<Flyout Placement="Full">
-											<Flyout.FlyoutPresenterStyle>
-												<Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-													<Setter Property="CornerRadius" Value="16,16,0,0" />
-													<Setter Property="Background" Value="SkyBlue" />
-													<Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80FFC0CB" />
-												</Style>
-											</Flyout.FlyoutPresenterStyle>
-											<Border toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
-												<StackPanel Padding="8">
-													<TextBlock Text="text" />
-													<Button Content="button" />
-												</StackPanel>
-											</Border>
-										</Flyout>
-									</Button.Flyout>
-								</Button>
-								<Button Content="Full Drawer">
+								<Button Content="Full Drawer (Value='*')">
 									<Button.Flyout>
 										<Flyout Placement="Full">
 											<Flyout.FlyoutPresenterStyle>
@@ -122,7 +116,7 @@
 										</Flyout>
 									</Button.Flyout>
 								</Button>
-								<Button Content="Half Drawer">
+								<Button Content="Half Drawer (Value='0.5*')">
 									<Button.Flyout>
 										<Flyout Placement="Full">
 											<Flyout.FlyoutPresenterStyle>
@@ -137,7 +131,7 @@
 										</Flyout>
 									</Button.Flyout>
 								</Button>
-								<Button Content="Fit-to-Content Drawer">
+								<Button Content="Fit-to-Content Drawer (Value='Auto')">
 									<Button.Flyout>
 										<Flyout Placement="Full">
 											<Flyout.FlyoutPresenterStyle>
@@ -164,6 +158,47 @@
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
+										</Flyout>
+									</Button.Flyout>
+								</Button>
+							</StackPanel>
+
+							<!-- other custom examples -->
+							<TextBlock Text="Other custom examples:" Style="{StaticResource BodyTextBlockStyle}" />
+							<StackPanel Spacing="8" Margin="0,24,0,0">
+								<Button Content="Rounded Corner Drawer">
+									<Button.Flyout>
+										<Flyout Placement="Full">
+											<Flyout.FlyoutPresenterStyle>
+												<Style BasedOn="{StaticResource DrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+													<Setter Property="CornerRadius" Value="16,16,0,0" />
+													<Setter Property="Background" Value="SkyBlue" />
+												</Style>
+											</Flyout.FlyoutPresenterStyle>
+											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
+												<TextBlock Text="text" />
+												<Button Content="button" />
+											</StackPanel>
+										</Flyout>
+									</Button.Flyout>
+								</Button>
+								<Button Content="Custom LightDismiss Color Drawer">
+									<Button.Flyout>
+										<Flyout Placement="Full">
+											<Flyout.FlyoutPresenterStyle>
+												<Style BasedOn="{StaticResource DrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+													<Setter Property="CornerRadius" Value="16,16,0,0" />
+													<Setter Property="Background" Value="SkyBlue" />
+													<Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80FFC0CB" />
+													<Setter Property="utu:DrawerFlyoutPresenter.IsGestureEnabled" Value="True" />
+												</Style>
+											</Flyout.FlyoutPresenterStyle>
+											<Border toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
+												<StackPanel Padding="8">
+													<TextBlock Text="text" />
+													<Button Content="button" />
+												</StackPanel>
+											</Border>
 										</Flyout>
 									</Button.Flyout>
 								</Button>

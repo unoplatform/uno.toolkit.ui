@@ -2,12 +2,10 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:utu="using:Uno.Toolkit.UI"
-					xmlns:winToolkit="using:Uno.Toolkit.UI"
-					xmlns:not_win="http://uno.ui/not_win"
-					mc:Ignorable="not_win">
+					xmlns:todo="what should be done"
+					mc:Ignorable="todo">
 
-	<Style x:Key="DefaultDrawerFlyoutPresenterStyle"
-		   TargetType="utu:DrawerFlyoutPresenter">
+	<Style x:Key="DefaultDrawerFlyoutPresenterStyle" TargetType="utu:DrawerFlyoutPresenter">
 		<Setter Property="CornerRadius" Value="0" />
 		<Setter Property="LightDismissOverlayBackground" Value="#80808080" />
 
@@ -21,8 +19,7 @@
 				<ControlTemplate TargetType="utu:DrawerFlyoutPresenter">
 					<Grid x:Name="RootPanel">
 
-						<Border x:Name="LightDismissOverlay"
-								Background="{TemplateBinding LightDismissOverlayBackground}" />
+						<Border x:Name="LightDismissOverlay" Background="{TemplateBinding LightDismissOverlayBackground}" />
 
 						<!-- H/VAlignment will be set in ApplyTemplate or OnOpenDirectionChanged, no need to set them here -->
 						<!--
@@ -43,11 +40,9 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-	<Style TargetType="utu:DrawerFlyoutPresenter"
-		   BasedOn="{StaticResource DefaultDrawerFlyoutPresenterStyle}" />
+	<Style TargetType="utu:DrawerFlyoutPresenter" BasedOn="{StaticResource DefaultDrawerFlyoutPresenterStyle}" />
 
-	<Style x:Key="DrawerFlyoutPresenterStyle"
-		   TargetType="FlyoutPresenter">
+	<Style x:Key="DrawerFlyoutPresenterStyle" TargetType="FlyoutPresenter">
 		<Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80808080" />
 
 		<Setter Property="Margin" Value="0" />
@@ -75,14 +70,10 @@
 											   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 											   VerticalAlignment="{TemplateBinding VerticalAlignment}"
 											   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-											   winToolkit:OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
-											   not_win:OpenDirection="{Binding Path=(utu:DrawerFlyoutPresenter.OpenDirection), RelativeSource={RelativeSource Mode=TemplatedParent}}"
-											   winToolkit:DrawerDepth="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerDepth}"
-											   not_win:DrawerDepth="{Binding Path=(utu:DrawerFlyoutPresenter.DrawerDepth), RelativeSource={RelativeSource Mode=TemplatedParent}}"
-											   winToolkit:LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
-											   not_win:LightDismissOverlayBackground="{Binding Path=(utu:DrawerFlyoutPresenter.LightDismissOverlayBackground), RelativeSource={RelativeSource Mode=TemplatedParent}}"
-											   winToolkit:IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}"
-											   not_win:IsGestureEnabled="{Binding Path=(utu:DrawerFlyoutPresenter.IsGestureEnabled), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+											   OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
+											   DrawerDepth="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerDepth}"
+											   LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
+											   IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
