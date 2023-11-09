@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -21,6 +21,9 @@ using XamlWindow = Windows.UI.Xaml.Window;
 
 namespace Uno.Toolkit.UI;
 
+/// <summary>
+/// A markup extension that returns values based on the current window size.
+/// </summary>
 public partial class ResponsiveExtension : MarkupExtension
 {
 #if WINDOWS_UWP
@@ -32,40 +35,64 @@ public partial class ResponsiveExtension : MarkupExtension
 
 	public object? Narrow { get; set; }
 	public object? Wide { get; set; }
+	public double WidthThreshold { get; set; } = 800;
+
+	public ResponsiveExtension()
+	{
+	}
 
 #if WINDOWS_UWP
+	/// <inheritdoc/>
 	protected override object? ProvideValue()
 	{
 		const string Message = "This feature is not supported on UWP for windows as it depends on WinUI3 api. It still works on all non-Windows UWP platforms and all WinUI 3 platforms.";
 		return ShouldThrow ? throw new PlatformNotSupportedException(Message) : null;
 	}
 #else
-	protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
+#if HAS_UNO
+	/// <inheritdoc/>
+	protected override object? ProvideValue()
 	{
-		var window = XamlWindow.Current;
-		var initialOrientation = window.Bounds.Width >= window.Bounds.Height ? Orientation.Horizontal : Orientation.Vertical;
+		// non-Windows blocked by #14361
+		//var value = XamlWindow.Current.Bounds.Width >= WidthThreshold ? Wide : Narrow;
 
-		var responsiveValue = new ResponsiveValue { Value = initialOrientation == Orientation.Horizontal ? Wide : Narrow };
+		//XamlWindow.Current.SizeChanged += (s, e) =>
+		//{
+		//	value = e.Size.Width >= WidthThreshold ? Wide : Narrow;
+		//};
 
-		window.SizeChanged += (s, e) =>
-		{
-			var newOrientation = e.Size.Width >= e.Size.Height ? Orientation.Horizontal : Orientation.Vertical;
-			responsiveValue.Value = newOrientation == Orientation.Horizontal ? Wide : Narrow;
-		};
-
-		return responsiveValue;
+		//return value;
+		return WidthThreshold > 800 ? Wide : Narrow;
 	}
 #endif
 
-	public partial class ResponsiveValue : DependencyObject
+#if IS_WINUI
+	/// <inheritdoc/>
+	protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
 	{
-		public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
-			"Value", typeof(object), typeof(ResponsiveValue), new PropertyMetadata(null));
+#if WINDOWS
+		object? value = Narrow;
+		var provideValueTarget = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+		var frameworkElement = provideValueTarget?.TargetObject as FrameworkElement;
+		var targetProperty = provideValueTarget?.TargetProperty as ProvideValueTargetProperty;
+		var dependencyProperty = frameworkElement?.FindDependencyPropertyUsingReflection($"{targetProperty?.Name}Property");
 
-		public object? Value
+		if (frameworkElement is null) return value;
+
+		frameworkElement.Loaded += (s, e) =>
 		{
-			get => GetValue(ValueProperty);
-			set => SetValue(ValueProperty, value);
-		}
+			frameworkElement.XamlRoot.Changed += (s, e) =>
+			{
+				value = s.Size.Width > WidthThreshold ? Wide : Narrow;
+				frameworkElement?.SetValue(dependencyProperty, value);
+			};
+		};
+
+		return value;
+#else
+		return ProvideValue();
+#endif
 	}
-}
+#endif
+#endif
+	}
