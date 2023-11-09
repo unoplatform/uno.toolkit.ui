@@ -83,25 +83,124 @@ public partial class ResponsiveView : ContentControl
 	{
 		UIElement? contentToSet = null;
 
-		if (_currentWindowWidth < ViewSize.ExtraNarrowSize && ExtraNarrowContent is not null)
+		if(_currentWindowWidth <= ViewSize.ExtraNarrowSize)
 		{
-			contentToSet = ExtraNarrowContent;
+			if(ExtraNarrowContent is not null)
+			{
+				contentToSet = ExtraNarrowContent;
+			}
+			else if(NarrowContent is not null)
+			{
+				contentToSet = NarrowContent;
+			}
+			else if (DefaultContent is not null)
+			{
+				contentToSet = DefaultContent;
+			}
+			else if (WideContent is not null)
+			{
+				contentToSet = WideContent;
+			}
+			else if (ExtraWideContent is not null)
+			{
+				contentToSet = ExtraWideContent;
+			}
 		}
-		else if (_currentWindowWidth >= ViewSize.ExtraNarrowSize && _currentWindowWidth < ViewSize.NarrowSize && NarrowContent is not null)
+
+		if (_currentWindowWidth <= ViewSize.NarrowSize && _currentWindowWidth > ViewSize.ExtraNarrowSize)
 		{
-			contentToSet = NarrowContent;
+			if (NarrowContent is not null)
+			{
+				contentToSet = NarrowContent;
+			}
+			else if (ExtraNarrowContent is not null)
+			{
+				contentToSet = ExtraNarrowContent;
+			}
+			else if (DefaultContent is not null)
+			{
+				contentToSet = DefaultContent;
+			}
+			else if (WideContent is not null)
+			{
+				contentToSet = WideContent;
+			}
+			else if (ExtraWideContent is not null)
+			{
+				contentToSet = ExtraWideContent;
+			}
 		}
-		else if (_currentWindowWidth >= ViewSize.NarrowSize && _currentWindowWidth < ViewSize.DefaultSize && DefaultContent is not null)
+
+		if (_currentWindowWidth <= ViewSize.DefaultSize && _currentWindowWidth > ViewSize.NarrowSize)
 		{
-			contentToSet = DefaultContent;
+			if (DefaultContent is not null)
+			{
+				contentToSet = DefaultContent;
+			}
+			else if (NarrowContent is not null)
+			{
+				contentToSet = NarrowContent;
+			}
+			else if (WideContent is not null)
+			{
+				contentToSet = WideContent;
+			}
+			else if (ExtraWideContent is not null)
+			{
+				contentToSet = ExtraWideContent;
+			}
+			else if (ExtraNarrowContent is not null)
+			{
+				contentToSet = ExtraNarrowContent;
+			}
 		}
-		else if (_currentWindowWidth >= ViewSize.DefaultSize && _currentWindowWidth < ViewSize.WideSize && WideContent is not null)
+
+		if (_currentWindowWidth <= ViewSize.WideSize && _currentWindowWidth > ViewSize.DefaultSize)
 		{
-			contentToSet = WideContent;
+			if (WideContent is not null)
+			{
+				contentToSet = WideContent;
+			}
+			else if (DefaultContent is not null)
+			{
+				contentToSet = DefaultContent;
+			}
+			else if (ExtraWideContent is not null)
+			{
+				contentToSet = ExtraWideContent;
+			}
+			else if (NarrowContent is not null)
+			{
+				contentToSet = NarrowContent;
+			}
+			else if (ExtraNarrowContent is not null)
+			{
+				contentToSet = ExtraNarrowContent;
+			}
 		}
-		else if (_currentWindowWidth >= ViewSize.WideSize && _currentWindowWidth < ViewSize.ExtraWideSize && ExtraWideContent is not null)
+
+		if (_currentWindowWidth <= ViewSize.ExtraWideSize && _currentWindowWidth > ViewSize.WideSize)
 		{
-			contentToSet = ExtraWideContent;
+			if (ExtraWideContent is not null)
+			{
+				contentToSet = ExtraWideContent;
+			}
+			else if (WideContent is not null)
+			{
+				contentToSet = WideContent;
+			}
+			else if (DefaultContent is not null)
+			{
+				contentToSet = DefaultContent;
+			}
+			else if (NarrowContent is not null)
+			{
+				contentToSet = NarrowContent;
+			}
+			else if (ExtraNarrowContent is not null)
+			{
+				contentToSet = ExtraNarrowContent;
+			}
 		}
 
 		if (contentToSet is not null)
@@ -109,7 +208,6 @@ public partial class ResponsiveView : ContentControl
 			Content = contentToSet;
 		}
 	}
-
 }
 
 public static class ViewSize
