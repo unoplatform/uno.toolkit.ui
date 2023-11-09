@@ -13,50 +13,50 @@ namespace Uno.Toolkit.UI;
 public partial class ResponsiveView : ContentControl
 {
 	#region DependencyProperty
-	public UIElement ExtraNarrowContent
+	public DataTemplate ExtraNarrowContent
 	{
-		get { return (UIElement)GetValue(ExtraNarrowContentProperty); }
+		get { return (DataTemplate)GetValue(ExtraNarrowContentProperty); }
 		set { SetValue(ExtraNarrowContentProperty, value); }
 	}
 
 	public static readonly DependencyProperty ExtraNarrowContentProperty =
-		DependencyProperty.Register("ExtraNarrowContent", typeof(UIElement), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("ExtraNarrowContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
 
-	public UIElement NarrowContent
+	public DataTemplate NarrowContent
 	{
-		get { return (UIElement)GetValue(NarrowContentProperty); }
+		get { return (DataTemplate)GetValue(NarrowContentProperty); }
 		set { SetValue(NarrowContentProperty, value); }
 	}
 
 	public static readonly DependencyProperty NarrowContentProperty =
-		DependencyProperty.Register("NarrowContent", typeof(UIElement), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("NarrowContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
 
-	public UIElement DefaultContent
+	public DataTemplate DefaultContent
 	{
-		get { return (UIElement)GetValue(DefaultContentProperty); }
+		get { return (DataTemplate)GetValue(DefaultContentProperty); }
 		set { SetValue(DefaultContentProperty, value); }
 	}
 
 	public static readonly DependencyProperty DefaultContentProperty =
-		DependencyProperty.Register("DefaultContent", typeof(UIElement), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("DefaultContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
 
-	public UIElement WideContent
+	public DataTemplate WideContent
 	{
-		get { return (UIElement)GetValue(WideContentProperty); }
+		get { return (DataTemplate)GetValue(WideContentProperty); }
 		set { SetValue(WideContentProperty, value); }
 	}
 
 	public static readonly DependencyProperty WideContentProperty =
-		DependencyProperty.Register("WideContent", typeof(UIElement), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("WideContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
 
-	public UIElement ExtraWideContent
+	public DataTemplate ExtraWideContent
 	{
-		get { return (UIElement)GetValue(ExtraWideContentProperty); }
+		get { return (DataTemplate)GetValue(ExtraWideContentProperty); }
 		set { SetValue(ExtraWideContentProperty, value); }
 	}
 
 	public static readonly DependencyProperty ExtraWideContentProperty =
-		DependencyProperty.Register("ExtraWideContent", typeof(UIElement), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("ExtraWideContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
 
 	#endregion
 
@@ -81,7 +81,7 @@ public partial class ResponsiveView : ContentControl
 
 	private void UpdateContent()
 	{
-		UIElement? contentToSet = null;
+		DataTemplate? contentToSet = null;
 
 		if(_currentWindowWidth <= ViewSize.ExtraNarrowSize)
 		{
@@ -205,7 +205,7 @@ public partial class ResponsiveView : ContentControl
 
 		if (contentToSet is not null)
 		{
-			Content = contentToSet;
+			Content = contentToSet.LoadContent() as UIElement;
 		}
 	}
 }
