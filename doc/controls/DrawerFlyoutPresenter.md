@@ -5,7 +5,6 @@ uid: Toolkit.Controls.DrawerFlyoutPresenter
 ## Summary
 `DrawerFlyoutPresenter` is a special `ContentPresenter` to be used in the template of a `FlyoutPresenter` to enable gesture support.
 
-
 ## Properties
 ### Remarks
 All of the properties below can be used both as a dependency property or as an attached property, much like the `ScrollViewer` properties:
@@ -25,6 +24,34 @@ xmlns:utu="using:Uno.Toolkit.UI"
                            DrawerDepth="0.66*"
                            LightDismissOverlayBackground="#80808080"
                            IsGestureEnabled="True" />
+```
+
+> note:
+There is current a bug on windows that prevent the usage of attached property style setter. The workaround is to add the following code in your application:
+```xml
+<!--
+    microsoft/microsoft-ui-xaml#6388 (winui, and on windows only):
+    If you define attached property setter on a style with BasedOn another style with Template defined from a separate class library
+    it will throw when the template is materialized:
+    > Failed to assign to property 'Uno.Toolkit.UI.DrawerFlyoutPresenter.OpenDirection'.
+    ^ It will mention the first attached property used in the template, regardless of which attached property setter that triggered it.
+
+    The workaround here is to define the template in the consuming assembly again.
+    It doesn't matter if it is used or not.
+-->
+<win:Style x:Key="MUX6388_Workaround_ForDefinitionOnly" TargetType="FlyoutPresenter">
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="FlyoutPresenter">
+                <!-- This is not the full template, we are just making explicit reference to these definitions below -->
+                <utu:DrawerFlyoutPresenter OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
+                                            DrawerDepth="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerDepth}"
+                                            LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
+                                            IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}" />
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</win:Style>
 ```
 
 ### Properties
@@ -52,7 +79,7 @@ IsGestureEnabled|bool|Get or sets a value that indicates whether the user can in
     - `GridUnitType.Pixel`: Fixed at the given value.
 
 To use this, simply use a `Flyout` with `Placement="Full"` and one of the followings as the `FlyoutPresenterStyle`:
-> note: The direction here indicates the initial position of the drawer. The open direction is the opposite.
+> note: The direction here indicates the initial position of the drawer (where it opens from). The open animation direction is the opposite.
 - `LeftDrawerFlyoutPresenterStyle`
 - `TopDrawerFlyoutPresenterStyle`
 - `RightDrawerFlyoutPresenterStyle`
