@@ -1,18 +1,16 @@
 ﻿#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using XamlWindow = Microsoft.UI.Xaml.Window;
 #else
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XamlWindow = Windows.UI.Xaml.Window;
 #endif
+
 namespace Uno.Toolkit.UI;
 
 public partial class ResponsiveView : ContentControl
 {
-	#region DependencyProperty
+	#region Content DependencyProperties
 	public DataTemplate ExtraNarrowContent
 	{
 		get { return (DataTemplate)GetValue(ExtraNarrowContentProperty); }
@@ -60,36 +58,44 @@ public partial class ResponsiveView : ContentControl
 
 	#endregion
 
-	private static double _currentWindowWidth => XamlWindow.Current.Bounds.Width;
-
 	public ResponsiveView()
 	{
 		this.DefaultStyleKey = typeof(ResponsiveView);
-		Loaded += OnLoaded;
-		XamlWindow.Current.SizeChanged += Current_SizeChanged;
 	}
 
-	private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+	protected override void OnApplyTemplate()
 	{
-		UpdateContent();
+		base.OnApplyTemplate();
+
+		FrameworkElement root = (FrameworkElement)GetTemplateChild("RootElement");
+
+		if (VisualStateManager.GetVisualStateGroups(root)[0] is VisualStateGroup group)
+		{
+			group.CurrentStateChanged += OnVisualStateChanged;
+
+			// TODO: When first appearing `Content` has nothing since content is only added when VisualState is changed
+			// How to handle this?
+			// Force the current State?
+		}
 	}
 
-	private void OnLoaded(object sender, RoutedEventArgs e)
+	private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
 	{
-		UpdateContent();
-	}
+		var currentState = e.NewState?.Name;
 
-	private void UpdateContent()
-	{
+		if (currentState is null)
+			return;
+
 		DataTemplate? contentToSet = null;
 
-		if(_currentWindowWidth <= ViewSize.ExtraNarrowSize)
+		// TODO: Refactor/Improve
+		if (currentState == "ExtraNarrowSize")
 		{
-			if(ExtraNarrowContent is not null)
+			if (ExtraNarrowContent is not null)
 			{
 				contentToSet = ExtraNarrowContent;
 			}
-			else if(NarrowContent is not null)
+			else if (NarrowContent is not null)
 			{
 				contentToSet = NarrowContent;
 			}
@@ -106,8 +112,7 @@ public partial class ResponsiveView : ContentControl
 				contentToSet = ExtraWideContent;
 			}
 		}
-
-		if (_currentWindowWidth <= ViewSize.NarrowSize && _currentWindowWidth > ViewSize.ExtraNarrowSize)
+		else if (currentState == "NarrowSize")
 		{
 			if (NarrowContent is not null)
 			{
@@ -130,8 +135,7 @@ public partial class ResponsiveView : ContentControl
 				contentToSet = ExtraWideContent;
 			}
 		}
-
-		if (_currentWindowWidth <= ViewSize.DefaultSize && _currentWindowWidth > ViewSize.NarrowSize)
+		else if (currentState == "DefaultSize")
 		{
 			if (DefaultContent is not null)
 			{
@@ -154,8 +158,7 @@ public partial class ResponsiveView : ContentControl
 				contentToSet = ExtraNarrowContent;
 			}
 		}
-
-		if (_currentWindowWidth <= ViewSize.WideSize && _currentWindowWidth > ViewSize.DefaultSize)
+		else if (currentState == "WideSize")
 		{
 			if (WideContent is not null)
 			{
@@ -178,8 +181,7 @@ public partial class ResponsiveView : ContentControl
 				contentToSet = ExtraNarrowContent;
 			}
 		}
-
-		if (_currentWindowWidth <= ViewSize.ExtraWideSize && _currentWindowWidth > ViewSize.WideSize)
+		else if (currentState == "ExtraWideSize")
 		{
 			if (ExtraWideContent is not null)
 			{
@@ -208,13 +210,4 @@ public partial class ResponsiveView : ContentControl
 			Content = contentToSet.LoadContent() as UIElement;
 		}
 	}
-}
-
-public static class ViewSize
-{
-	public const int ExtraNarrowSize = 250;
-	public const int NarrowSize = 500;
-	public const int DefaultSize = 800;
-	public const int WideSize = 1100;
-	public const int ExtraWideSize = 1400;
 }
