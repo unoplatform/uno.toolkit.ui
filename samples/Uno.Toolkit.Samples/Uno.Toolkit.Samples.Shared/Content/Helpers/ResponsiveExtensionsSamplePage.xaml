@@ -12,7 +12,7 @@
 		<sample:SamplePageLayout IsDesignAgnostic="True">
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
-					<StackPanel Orientation="{utu:Responsive Narrow=Vertical, Wide=Horizontal}">
+					<!--<StackPanel Orientation="{utu:Responsive Narrow=Vertical, Wide=Horizontal}">
 						<Grid>
 							<TextBlock Text="A" />
 						</Grid>
@@ -34,6 +34,11 @@
 								   FontSize="{utu:Responsive Narrow=15,
 															 Wide=30,
 															 WidthThreshold=300}" />
+					</StackPanel>-->
+					<StackPanel>
+						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 700', Wide='Wide Threshold 700', WidthThreshold=700}" />
+						<TextBlock Text="{utu:Responsive Narrow='Narrow Default Threshold 800', Wide='Wide Default Threshold 800'}" />
+						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 900', Wide='Wide Threshold 900', WidthThreshold=900}" />
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>

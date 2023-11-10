@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -22,7 +19,7 @@ using XamlWindow = Windows.UI.Xaml.Window;
 namespace Uno.Toolkit.UI;
 
 /// <summary>
-/// A markup extension that returns values based on the current window size.
+/// A markup extension that updates a property based on the current window width.
 /// </summary>
 public partial class ResponsiveExtension : MarkupExtension
 {
@@ -49,28 +46,10 @@ public partial class ResponsiveExtension : MarkupExtension
 		return ShouldThrow ? throw new PlatformNotSupportedException(Message) : null;
 	}
 #else
-#if HAS_UNO
-	/// <inheritdoc/>
-	protected override object? ProvideValue()
-	{
-		// non-Windows blocked by #14361
-		//var value = XamlWindow.Current.Bounds.Width >= WidthThreshold ? Wide : Narrow;
 
-		//XamlWindow.Current.SizeChanged += (s, e) =>
-		//{
-		//	value = e.Size.Width >= WidthThreshold ? Wide : Narrow;
-		//};
-
-		//return value;
-		return WidthThreshold > 800 ? Wide : Narrow;
-	}
-#endif
-
-#if IS_WINUI
 	/// <inheritdoc/>
 	protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
 	{
-#if WINDOWS
 		object? value = Narrow;
 		var provideValueTarget = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
 		var frameworkElement = provideValueTarget?.TargetObject as FrameworkElement;
@@ -79,20 +58,31 @@ public partial class ResponsiveExtension : MarkupExtension
 
 		if (frameworkElement is null) return value;
 
+#if HAS_UNO
+		value = XamlWindow.Current.Bounds.Width > WidthThreshold ? Wide : Narrow;
+
+		XamlWindow.Current.SizeChanged += (s, e) =>
+		{
+			value = XamlWindow.Current.Bounds.Width > WidthThreshold ? Wide : Narrow;
+			frameworkElement?.SetValue(dependencyProperty, value);
+		};
+#endif
+
+#if WINDOWS
 		frameworkElement.Loaded += (s, e) =>
 		{
-			frameworkElement.XamlRoot.Changed += (s, e) =>
+			value = frameworkElement.XamlRoot.Size.Width > WidthThreshold ? Wide : Narrow;
+			frameworkElement?.SetValue(dependencyProperty, value);
+
+			frameworkElement!.XamlRoot.Changed += (s, e) =>
 			{
 				value = s.Size.Width > WidthThreshold ? Wide : Narrow;
 				frameworkElement?.SetValue(dependencyProperty, value);
 			};
 		};
+#endif
 
 		return value;
-#else
-		return ProvideValue();
-#endif
 	}
 #endif
-#endif
-	}
+}
