@@ -88,121 +88,23 @@ public partial class ResponsiveView : ContentControl
 
 		DataTemplate? contentToSet = null;
 
-		// TODO: Refactor/Improve
-		if (currentState == "ExtraNarrowSize")
+		switch (currentState)
 		{
-			if (ExtraNarrowContent is not null)
-			{
-				contentToSet = ExtraNarrowContent;
-			}
-			else if (NarrowContent is not null)
-			{
-				contentToSet = NarrowContent;
-			}
-			else if (DefaultContent is not null)
-			{
-				contentToSet = DefaultContent;
-			}
-			else if (WideContent is not null)
-			{
-				contentToSet = WideContent;
-			}
-			else if (ExtraWideContent is not null)
-			{
-				contentToSet = ExtraWideContent;
-			}
-		}
-		else if (currentState == "NarrowSize")
-		{
-			if (NarrowContent is not null)
-			{
-				contentToSet = NarrowContent;
-			}
-			else if (ExtraNarrowContent is not null)
-			{
-				contentToSet = ExtraNarrowContent;
-			}
-			else if (DefaultContent is not null)
-			{
-				contentToSet = DefaultContent;
-			}
-			else if (WideContent is not null)
-			{
-				contentToSet = WideContent;
-			}
-			else if (ExtraWideContent is not null)
-			{
-				contentToSet = ExtraWideContent;
-			}
-		}
-		else if (currentState == "DefaultSize")
-		{
-			if (DefaultContent is not null)
-			{
-				contentToSet = DefaultContent;
-			}
-			else if (NarrowContent is not null)
-			{
-				contentToSet = NarrowContent;
-			}
-			else if (WideContent is not null)
-			{
-				contentToSet = WideContent;
-			}
-			else if (ExtraWideContent is not null)
-			{
-				contentToSet = ExtraWideContent;
-			}
-			else if (ExtraNarrowContent is not null)
-			{
-				contentToSet = ExtraNarrowContent;
-			}
-		}
-		else if (currentState == "WideSize")
-		{
-			if (WideContent is not null)
-			{
-				contentToSet = WideContent;
-			}
-			else if (DefaultContent is not null)
-			{
-				contentToSet = DefaultContent;
-			}
-			else if (ExtraWideContent is not null)
-			{
-				contentToSet = ExtraWideContent;
-			}
-			else if (NarrowContent is not null)
-			{
-				contentToSet = NarrowContent;
-			}
-			else if (ExtraNarrowContent is not null)
-			{
-				contentToSet = ExtraNarrowContent;
-			}
-		}
-		else if (currentState == "ExtraWideSize")
-		{
-			if (ExtraWideContent is not null)
-			{
-				contentToSet = ExtraWideContent;
-			}
-			else if (WideContent is not null)
-			{
-				contentToSet = WideContent;
-			}
-			else if (DefaultContent is not null)
-			{
-				contentToSet = DefaultContent;
-			}
-			else if (NarrowContent is not null)
-			{
-				contentToSet = NarrowContent;
-			}
-			else if (ExtraNarrowContent is not null)
-			{
-				contentToSet = ExtraNarrowContent;
-			}
+			case "ExtraNarrowSize":
+				contentToSet = ExtraNarrowContent ?? NarrowContent ?? DefaultContent ?? WideContent ?? ExtraWideContent;
+				break;
+			case "NarrowSize":
+				contentToSet = NarrowContent ?? ExtraNarrowContent ?? DefaultContent ?? WideContent ?? ExtraWideContent;
+				break;
+			case "DefaultSize":
+				contentToSet = DefaultContent ?? NarrowContent ?? WideContent ?? ExtraWideContent ?? ExtraNarrowContent;
+				break;
+			case "WideSize":
+				contentToSet = WideContent ?? DefaultContent ?? ExtraWideContent ?? NarrowContent ?? ExtraNarrowContent;
+				break;
+			case "ExtraWideSize":
+				contentToSet = ExtraWideContent ?? WideContent ?? DefaultContent ?? NarrowContent ?? ExtraNarrowContent;
+				break;
 		}
 
 		if (contentToSet is not null)
