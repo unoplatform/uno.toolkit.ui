@@ -14,7 +14,7 @@
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<StackPanel>
-						<utu:ResponsiveView Style="{StaticResource ResponsiveViewStyle}">
+						<utu:ResponsiveView>
 							<utu:ResponsiveView.ExtraNarrowContent>
 								<DataTemplate>
 									<TextBlock Text="Extra Narrow" 
