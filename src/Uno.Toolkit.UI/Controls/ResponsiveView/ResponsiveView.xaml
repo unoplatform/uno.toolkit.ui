@@ -4,13 +4,14 @@
 					xmlns:todo="what should be done"
 					mc:Ignorable="todo">
 
-	<x:Double x:Key="ResponsiveViewExtraNarrow">250</x:Double>
-	<x:Double x:Key="ResponsiveViewNarrow">500</x:Double>
+	<x:Double x:Key="ResponsiveViewExtraNarrow">150</x:Double>
+	<x:Double x:Key="ResponsiveViewNarrow">350</x:Double>
 	<x:Double x:Key="ResponsiveViewDefault">800</x:Double>
-	<x:Double x:Key="ResponsiveViewWide">1100</x:Double>
-	<x:Double x:Key="ResponsiveViewExtraWide">1400</x:Double>
+	<x:Double x:Key="ResponsiveViewWide">1200</x:Double>
+	<x:Double x:Key="ResponsiveViewExtraWide">1500</x:Double>
 
-	<Style TargetType="utu:ResponsiveView">
+	<Style TargetType="utu:ResponsiveView"
+		   x:Key="ResponsiveViewStyle">
 		<Style.Setters>
 			<Setter Property="Template">
 				<Setter.Value>
