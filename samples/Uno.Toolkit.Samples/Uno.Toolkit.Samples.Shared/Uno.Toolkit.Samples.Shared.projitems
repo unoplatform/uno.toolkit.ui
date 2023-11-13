@@ -25,6 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\AutoLayoutPage.xaml.cs">
       <DependentUpon>AutoLayoutPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ResponsiveViewSamplePage.xaml.cs">
+      <DependentUpon>ResponsiveViewSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\CardSamplePage.xaml.cs">
       <DependentUpon>CardSamplePage.xaml</DependentUpon>
     </Compile>
@@ -218,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\AutoLayoutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ResponsiveViewSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
