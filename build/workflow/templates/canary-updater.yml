@@ -32,3 +32,12 @@ steps:
           set-content $a }
     displayName: 'Adjust AndroidManifest.xml package name'
     condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
+
+  - pwsh: |
+      gci -r -include android-uitest-run.sh |
+      foreach-object {
+          $a = $_.fullname; ( get-content $a ) |
+          foreach-object { $_ -replace '-Signed.apk','_canary-Signed.apk' } |
+          set-content $a }
+    displayName: 'Adjust Android test scripts'
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
