@@ -73,9 +73,10 @@ public partial class ResponsiveView : ContentControl
 		{
 			group.CurrentStateChanged += OnVisualStateChanged;
 
-			// TODO: When first appearing `Content` has nothing since content is only added when VisualState is changed
-			// How to handle this?
-			// Force the current State?
+			var currentState = group.CurrentState;
+
+			if (currentState is { })
+				SetContent(currentState.Name);
 		}
 	}
 
@@ -86,9 +87,14 @@ public partial class ResponsiveView : ContentControl
 		if (currentState is null)
 			return;
 
+		SetContent(currentState);
+	}
+
+	private void SetContent(string visualState)
+	{
 		DataTemplate? contentToSet = null;
 
-		switch (currentState)
+		switch (visualState)
 		{
 			case "ExtraNarrowSize":
 				contentToSet = ExtraNarrowContent ?? NarrowContent ?? DefaultContent ?? WideContent ?? ExtraWideContent;
