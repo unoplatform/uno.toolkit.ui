@@ -14,35 +14,137 @@
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<StackPanel>
+						<StackPanel.Resources>
+							<Color x:Key="UnoGreen">#67E5AD</Color>
+							<Color x:Key="UnoPurple">#7A67F8</Color>
+							<Color x:Key="UnoRed">#F85977</Color>
+							<Color x:Key="UnoBlue">#159BFF</Color>
+						</StackPanel.Resources>
 						<utu:ResponsiveView>
 							<utu:ResponsiveView.ExtraNarrowContent>
 								<DataTemplate>
-									<TextBlock Text="Extra Narrow" 
-											   Style="{StaticResource DisplayLarge}" />
+									<StackPanel Spacing="16">
+										<TextBlock Text="Extra Narrow"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplaySmall}" />
+										<StackPanel Orientation="Vertical"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="100"
+													   Width="100"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="100"
+													   Width="100"
+													   Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="100"
+													   Width="100"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="100"
+													   Width="100"
+													   Fill="{StaticResource UnoBlue}" />
+
+										</StackPanel>
+									</StackPanel>
 								</DataTemplate>
 							</utu:ResponsiveView.ExtraNarrowContent>
 							<utu:ResponsiveView.NarrowContent>
 								<DataTemplate>
-									<TextBlock Text="Narrow" 
-											   Style="{StaticResource DisplayLarge}" />
+									<StackPanel Spacing="16">
+										<TextBlock Text="Narrow"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplaySmall}" />
+										<StackPanel Orientation="Vertical"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="150"
+													   Width="150"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="150"
+													   Width="150"
+													   Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="150"
+													   Width="150"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="150"
+													   Width="150"
+													   Fill="{StaticResource UnoBlue}" />
+										</StackPanel>
+									</StackPanel>
 								</DataTemplate>
 							</utu:ResponsiveView.NarrowContent>
 							<utu:ResponsiveView.DefaultContent>
 								<DataTemplate>
-									<TextBlock Text="Default" 
-											   Style="{StaticResource DisplayLarge}" />
+									<StackPanel Spacing="16">
+										<TextBlock Text="Default"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplayMedium}" />
+										<StackPanel Orientation="Vertical"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="200"
+													   Width="200"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="200"
+													   Width="200"
+													   Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="200"
+													   Width="200"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="200"
+													   Width="200"
+													   Fill="{StaticResource UnoBlue}" />
+										</StackPanel>
+									</StackPanel>
 								</DataTemplate>
 							</utu:ResponsiveView.DefaultContent>
 							<utu:ResponsiveView.WideContent>
 								<DataTemplate>
-									<TextBlock Text="Wide"
-											   Style="{StaticResource DisplayLarge}" />
+									<StackPanel Spacing="16">
+										<TextBlock Text="Wide"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplayLarge}" />
+										<StackPanel Orientation="Horizontal"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="250"
+													   Width="250"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="250"
+													   Width="250"
+													   Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="250"
+													   Width="250"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="250"
+													   Width="250"
+													   Fill="{StaticResource UnoBlue}" />
+										</StackPanel>
+									</StackPanel>
 								</DataTemplate>
 							</utu:ResponsiveView.WideContent>
 							<utu:ResponsiveView.ExtraWideContent>
 								<DataTemplate>
-									<TextBlock Text="Extra Wide"
-											   Style="{StaticResource DisplayLarge}" />
+									<StackPanel Spacing="16">
+										<TextBlock Text="Extra Wide"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplayLarge}" />
+										<StackPanel Orientation="Horizontal"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="300"
+													   Width="300"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="300"
+													   Width="300"
+													   Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="300"
+													   Width="300"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="300"
+													   Width="300"
+													   Fill="{StaticResource UnoBlue}" />
+										</StackPanel>
+									</StackPanel>
 								</DataTemplate>
 							</utu:ResponsiveView.ExtraWideContent>
 						</utu:ResponsiveView>
