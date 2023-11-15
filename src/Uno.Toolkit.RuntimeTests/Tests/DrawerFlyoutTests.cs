@@ -28,17 +28,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 [RunsOnUIThread]
 internal class DrawerFlyoutTests
 {
-	[TestCleanup] // note that this is only run, after each [TestMethod], **not** between [DataRow].
-	public void CloseOpenPopup()
-	{
-		// killing the host, will close the associated popup.
-		UnitTestsUIContentHelper.Content = null;
-	}
-
 	[TestMethod]
 	public async Task Can_Open()
 	{
-		var SUT = XamlHelper.LoadXaml<Button>("""
+		var host = XamlHelper.LoadXaml<Button>("""
 			<Button Content="Asd">
 				<Button.Flyout>
 					<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource DrawerFlyoutPresenterStyle}">
@@ -49,11 +42,18 @@ internal class DrawerFlyoutTests
 				</Button.Flyout>
 			</Button>
 		""");
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-		SUT.Flyout.ShowAt(SUT);
+		try
+		{
+			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+			host.Flyout.ShowAt(host);
 
-		GetOpenPopup();
+			await UnitTestUIContentHelperEx.WaitFor(() => GetOpenPopupsCompat().Any(), message: "Timeout waiting on flyout open");
+		}
+		finally
+		{
+			host.Flyout.Hide();
+		}
 	}
 
 #if !HAS_UNO // uno#14372: can't use "xmlns'd attached property style setter" with XamlReader
@@ -61,7 +61,7 @@ internal class DrawerFlyoutTests
 #endif
 	public async Task AttachedProperty_Inheritance()
 	{
-		var SUT = BuildButtonFlyout($$"""
+		var host = BuildButtonFlyout($$"""
 			<Flyout Placement="Full">
 				<Flyout.FlyoutPresenterStyle>
 					<Style BasedOn="{StaticResource DrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
@@ -76,27 +76,37 @@ internal class DrawerFlyoutTests
 				</Border>
 			</Flyout>
 		""");
-		
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
-		SUT.Flyout.ShowAt(SUT);
+
+		try
+		{
+			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+			host.Flyout.ShowAt(host);
 
 #if !HAS_UNO
-		await UnitTestUIContentHelperEx.WaitFor(() => GetOpenPopupsCompat().Any(), message: "Timeout waiting on flyout open");
+			await UnitTestUIContentHelperEx.WaitFor(() => GetOpenPopupsCompat().Any(), message: "Timeout waiting on flyout open");
 #endif
 
-		var popup = GetOpenPopup();
-		var child = popup.Child as FlyoutPresenter ?? throw new InvalidOperationException("FlyoutPresenter not found");
-		await UnitTestsUIContentHelper.WaitForLoaded(child);
+			var popup = GetOpenPopup();
+			var child = popup.Child as FlyoutPresenter ?? throw new InvalidOperationException("FlyoutPresenter not found");
+			await UnitTestsUIContentHelper.WaitForLoaded(child);
 
-		var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
+			var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
 
-		Assert.AreEqual(presenter.OpenDirection, DrawerOpenDirection.Left);
-		Assert.AreEqual(presenter.DrawerDepth, new GridLength(312, GridUnitType.Star));
-		Assert.AreEqual(presenter.IsGestureEnabled, true);
-		Assert.AreEqual((presenter.LightDismissOverlayBackground as SolidColorBrush)?.Color, Colors.Pink);
+			Assert.AreEqual(presenter.OpenDirection, DrawerOpenDirection.Left);
+			Assert.AreEqual(presenter.DrawerDepth, new GridLength(312, GridUnitType.Star));
+			Assert.AreEqual(presenter.IsGestureEnabled, true);
+			Assert.AreEqual((presenter.LightDismissOverlayBackground as SolidColorBrush)?.Color, Colors.Pink);
+		}
+		finally
+		{
+			host.Flyout.Hide();
+		}
 	}
 
 	[TestMethod]
+#if __ANDROID__
+	[Ignore("blocked behind uno#14420: flyout having 0 size")]
+#endif
 	[DataRow(DrawerOpenDirection.Left)]
 	[DataRow(DrawerOpenDirection.Up)]
 	[DataRow(DrawerOpenDirection.Right)]
@@ -104,7 +114,7 @@ internal class DrawerFlyoutTests
 	public async Task OpenDirection_Layout(DrawerOpenDirection openDirection)
 	{
 #if !HAS_UNO // uno#14372: can't use "xmlns'd attached property style setter" with XamlReader
-		var SUT = BuildButtonFlyout($$"""
+		var host = BuildButtonFlyout($$"""
 			<Flyout Placement="Full">
 				<Flyout.FlyoutPresenterStyle>
 					<Style BasedOn="{StaticResource DrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
@@ -120,7 +130,7 @@ internal class DrawerFlyoutTests
 			</Flyout>
 		""");
 #else
-		var SUT = new Button
+		var host = new Button
 		{
 			Content = "Asd",
 			Flyout = new LambdaDrawerFlyout(Setup)
@@ -128,7 +138,8 @@ internal class DrawerFlyoutTests
 				Content = new Border
 				{
 					Name = "FlyoutContentBorder",
-					Child = new TextBlock { Text = "Asd" },
+					Background = new SolidColorBrush(Colors.Pink),
+					Child = new TextBlock { Text = openDirection.ToString() },
 				}
 			}
 		};
@@ -141,40 +152,51 @@ internal class DrawerFlyoutTests
 		}
 #endif
 
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
-		SUT.Flyout.ShowAt(SUT);
+		try
+		{
+			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+			host.Flyout.ShowAt(host);
 
 #if !HAS_UNO
-		await UnitTestUIContentHelperEx.WaitFor(() => GetOpenPopupsCompat().Any(), message: "Timeout waiting on flyout open");
+			await UnitTestUIContentHelperEx.WaitFor(() => GetOpenPopupsCompat().Any(), message: "Timeout waiting on flyout open");
 #endif
 
-		var popup = GetOpenPopup();
-		var child = popup.Child as FlyoutPresenter ?? throw new InvalidOperationException("FlyoutPresenter not found");
-		await UnitTestsUIContentHelper.WaitForLoaded(child);
+			var popup = GetOpenPopup();
+			var child = popup.Child as FlyoutPresenter ?? throw new InvalidOperationException("FlyoutPresenter not found");
+			await UnitTestsUIContentHelper.WaitForLoaded(child);
 
-		//var tree = popup.Child.TreeGraph();
-		//FlyoutPresenter // Actual=1024x800, Constraints=[96,NaN,NaN]x[40,NaN,NaN], HV=Stretch/Stretch, HVC=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
-		//	DrawerFlyoutPresenter // Actual=1024x800, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, HVC=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
-		//		Grid#RootPanel // Actual=1024x800, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
-		//			Border#LightDismissOverlay // Actual=1024x800, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=0, Visibility=Visible
-		//			ContentPresenter#DrawerContentPresenter // Actual=512x800, Constraints=[0,512,∞]x[0,NaN,∞], HV=Right/Stretch, HVC=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
-		//				Border#FlyoutContentBorder // Actual=510x798, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
-		//					TextBlock // Actual=23.1875x18.62109375, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, Text="Asd", Margin=0, Padding=0, Opacity=1, Visibility=Visible
-		
-		var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
-		var content = presenter.Content is Border { Name: "FlyoutContentBorder" } border ? border : throw new InvalidOperationException("#FlyoutContentBorder not found");
-
-		Assert.AreEqual(presenter.OpenDirection, openDirection, "Unexpected OpenDirection");
-		Assert.IsFalse(presenter.ActualWidth == 0 || presenter.ActualHeight == 0, $"DrawerFlyoutPresenter Actual: {presenter.ActualWidth}x{presenter.ActualHeight}");
-
-		var ctx = openDirection is DrawerOpenDirection.Left or DrawerOpenDirection.Right
-			? (AvailableLength: presenter.ActualWidth, ContentLength: content.ActualWidth, PrimaryAxis: nameof(presenter.Width))
-			: (AvailableLength: presenter.ActualHeight, ContentLength: content.ActualHeight, PrimaryAxis: nameof(presenter.Height));
-		Assert.AreEqual(ctx.AvailableLength * 0.5, ctx.ContentLength, ctx.AvailableLength * 0.05, $"Invalid content size, expecting it to be half of given: {presenter.ActualWidth}x{presenter.ActualHeight} vs {content.ActualWidth}x{content.ActualHeight}, axis={ctx.PrimaryAxis}, direction={openDirection}");
-
-#if !HAS_UNO
-		UnitTestsUIContentHelper.Content = null;
+			//var tree = popup.Child.TreeGraph();
+			//FlyoutPresenter // Actual=1024x800, Constraints=[96,NaN,NaN]x[40,NaN,NaN], HV=Stretch/Stretch, HVC=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
+			//	DrawerFlyoutPresenter // Actual=1024x800, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, HVC=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
+			//		Grid#RootPanel // Actual=1024x800, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
+			//			Border#LightDismissOverlay // Actual=1024x800, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=0, Visibility=Visible
+			//			ContentPresenter#DrawerContentPresenter // Actual=512x800, Constraints=[0,512,∞]x[0,NaN,∞], HV=Right/Stretch, HVC=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
+			//				Border#FlyoutContentBorder // Actual=510x798, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
+			//					TextBlock // Actual=23.1875x18.62109375, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, Text="Asd", Margin=0, Padding=0, Opacity=1, Visibility=Visible
+			//Console.WriteLine(tree);
+			var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
+			var content = presenter.Content is Border { Name: "FlyoutContentBorder" } border ? border : throw new InvalidOperationException("#FlyoutContentBorder not found");
+			
+#if HAS_UNO && !__MOBILE__ // this is only really needed for wasm, but we don't have a good #define to use here
+			// wait until the layout settle
+			await Task.Delay(1000);
 #endif
+			Assert.AreEqual(presenter.OpenDirection, openDirection, "Unexpected OpenDirection");
+			Assert.IsFalse(presenter.ActualWidth == 0 || presenter.ActualHeight == 0, $"DrawerFlyoutPresenter Actual: {presenter.ActualWidth}x{presenter.ActualHeight}");
+
+			var ctx = openDirection is DrawerOpenDirection.Left or DrawerOpenDirection.Right
+				? (AvailableLength: presenter.ActualWidth, ContentLength: content.ActualWidth, PrimaryAxis: nameof(presenter.Width))
+				: (AvailableLength: presenter.ActualHeight, ContentLength: content.ActualHeight, PrimaryAxis: nameof(presenter.Height));
+			Assert.AreEqual(
+				ctx.AvailableLength * 0.5,
+				ctx.ContentLength,
+				ctx.AvailableLength * 0.05, // error margin at 5%
+				$"Invalid content size, expecting it to be half of given: {presenter.ActualWidth}x{presenter.ActualHeight} vs {content.ActualWidth}x{content.ActualHeight}, axis={ctx.PrimaryAxis}, direction={openDirection}");
+		}
+		finally
+		{
+			host.Flyout.Hide();
+		}
 	}
 
 	private static Button BuildButtonFlyout(string flyoutXaml, string? header = null)
