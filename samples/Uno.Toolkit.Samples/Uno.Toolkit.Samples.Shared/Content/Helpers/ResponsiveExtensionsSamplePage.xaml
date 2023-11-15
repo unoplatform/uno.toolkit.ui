@@ -12,33 +12,33 @@
 		<sample:SamplePageLayout IsDesignAgnostic="True">
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
-					<!--<StackPanel Orientation="{utu:Responsive Narrow=Vertical, Wide=Horizontal}">
-						<Grid>
+					<StackPanel Spacing="40">
+						<TextBlock Text="Orientation test | Narrow=Vertical | Wide=Horizontal" />
+						<StackPanel Orientation="{utu:Responsive Narrow=Vertical, Wide=Horizontal}">
 							<TextBlock Text="A" />
-						</Grid>
-						<Grid>
 							<TextBlock Text="B" />
-						</Grid>
-						<Grid>
 							<TextBlock Text="C" />
-						</Grid>
-						<TextBlock Text="{utu:Responsive Narrow='Narrow th2000 15px',
-														 Wide='Wide th2000 30px',
-														 WidthThreshold=2000}"
-								   FontSize="{utu:Responsive Narrow=15,
-															 Wide=30,
-															 WidthThreshold=2000}" />
-						<TextBlock Text="{utu:Responsive Narrow='Narrow th300 15px',
-														 Wide='Wide th300 30px',
-														 WidthThreshold=300}"
-								   FontSize="{utu:Responsive Narrow=15,
-															 Wide=30,
-															 WidthThreshold=300}" />
-					</StackPanel>-->
-					<StackPanel>
-						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 700', Wide='Wide Threshold 700', WidthThreshold=700}" />
-						<TextBlock Text="{utu:Responsive Narrow='Narrow Default Threshold 800', Wide='Wide Default Threshold 800'}" />
-						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 900', Wide='Wide Threshold 900', WidthThreshold=900}" />
+						</StackPanel>
+
+						<TextBlock Text="Text test" />
+						<StackPanel>
+							<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 700', Wide='Wide Threshold 700', WidthThreshold=700}" />
+							<TextBlock Text="{utu:Responsive Narrow='Narrow Default Threshold 800', Wide='Wide Default Threshold 800'}" />
+							<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 900', Wide='Wide Threshold 900', WidthThreshold=900}" />
+						</StackPanel>
+
+						<TextBlock Text="FontSize test" />
+						<StackPanel>
+							<TextBlock Text="Narrow 15 Wide 30"
+									   FontSize="{utu:Responsive Narrow=15,
+																 Wide=30}" />
+						</StackPanel>
+
+						<TextBlock Text="Color test | Narrow Blue | Wide Crimson" />
+						<Border Width="30"
+								Height="30"
+								Background="{utu:Responsive Narrow='Blue',
+															Wide='Crimson'}" />
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>
