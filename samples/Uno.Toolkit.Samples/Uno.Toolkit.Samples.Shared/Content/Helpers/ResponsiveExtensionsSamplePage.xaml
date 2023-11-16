@@ -7,6 +7,14 @@
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Page.Resources>
+		<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
+		<Orientation x:Key="WideOrientation">Horizontal</Orientation>
+		<x:Double x:Key="NarrowFontSize">15</x:Double>
+		<x:Double x:Key="WideFontSize">30</x:Double>
+		<SolidColorBrush x:Key="NarrowRed">Crimson</SolidColorBrush>
+		<SolidColorBrush x:Key="WideBlue">Blue</SolidColorBrush>
+	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<sample:SamplePageLayout IsDesignAgnostic="True">
@@ -14,7 +22,7 @@
 				<DataTemplate>
 					<StackPanel Spacing="40">
 						<TextBlock Text="Orientation test | Narrow=Vertical | Wide=Horizontal" />
-						<StackPanel Orientation="{utu:Responsive Narrow=Vertical, Wide=Horizontal}">
+						<StackPanel Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
 							<TextBlock Text="A" />
 							<TextBlock Text="B" />
 							<TextBlock Text="C" />
@@ -30,15 +38,15 @@
 						<TextBlock Text="FontSize test" />
 						<StackPanel>
 							<TextBlock Text="Narrow 15 Wide 30"
-									   FontSize="{utu:Responsive Narrow=15,
-																 Wide=30}" />
+									   FontSize="{utu:Responsive Narrow={StaticResource NarrowFontSize},
+																 Wide={StaticResource WideFontSize}}" />
 						</StackPanel>
 
-						<TextBlock Text="Color test | Narrow Blue | Wide Crimson" />
+						<TextBlock Text="Color test | Narrow Red | Wide Blue" />
 						<Border Width="30"
 								Height="30"
-								Background="{utu:Responsive Narrow='Blue',
-															Wide='Crimson'}" />
+								Background="{utu:Responsive Narrow={StaticResource NarrowRed},
+															Wide={StaticResource WideBlue}}" />
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>

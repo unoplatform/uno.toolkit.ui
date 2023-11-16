@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
+using Uno.Toolkit.UI.Helpers;
 using XamlWindow = Microsoft.UI.Xaml.Window;
 #else
 using Windows.UI.Xaml;
@@ -42,15 +43,19 @@ public partial class ResponsiveExtension : MarkupExtension
 	/// <inheritdoc/>
 	protected override object? ProvideValue()
 	{
-		const string Message = "This feature is not supported on UWP for windows as it depends on WinUI3 api. It still works on all non-Windows UWP platforms and all WinUI 3 platforms.";
-		return ShouldThrow ? throw new PlatformNotSupportedException(Message) : null;
+		// TODO can't update value because limitations of UWP log warning
+		return GetInitialValue();
 	}
 #else
 
 	/// <inheritdoc/>
 	protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
 	{
+		UpdateFutureValues(serviceProvider);
+		return GetInitialValue();
+
 		object? value = Narrow;
+
 		var provideValueTarget = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
 		var frameworkElement = provideValueTarget?.TargetObject as FrameworkElement;
 		var targetProperty = provideValueTarget?.TargetProperty as ProvideValueTargetProperty;
@@ -85,4 +90,24 @@ public partial class ResponsiveExtension : MarkupExtension
 		return value;
 	}
 #endif
+
+	private object? GetInitialValue()
+	{
+		return XamlWindow.Current.Bounds.Width > WidthThreshold ? Wide : Narrow;
+	}
+
+#if !WINDOWS_UWP
+	private void UpdateFutureValues(IXamlServiceProvider serviceProvider)
+	{
+		//throw new NotImplementedException();
+		ResponsiveHelper.Instance.Register(this);
+	}
+
+	private void UpdateValue()
+	{
+
+		throw new NotImplementedException();
+	}
+#endif
+
 }
