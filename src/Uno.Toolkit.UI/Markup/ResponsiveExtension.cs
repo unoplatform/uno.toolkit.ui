@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -7,6 +8,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Uno.Toolkit.UI.Helpers;
+using Windows.Foundation;
 using XamlWindow = Microsoft.UI.Xaml.Window;
 #else
 using Windows.UI.Xaml;
@@ -23,17 +25,24 @@ namespace Uno.Toolkit.UI;
 /// A markup extension that updates a property based on the current window width.
 /// </summary>
 public partial class ResponsiveExtension : MarkupExtension
-{
-#if WINDOWS_UWP
-	/// <summary>
-	/// Define whether <see cref="ProvideValue()" /> should throw or just result null.
-	/// </summary>
-	public static bool ShouldThrow = true;
+#if !WINDOWS_UWP
+	, IResponsiveCallback
 #endif
+{
+	private WeakReference? _weakTarget;
+	private DependencyProperty? _targetProperty;
 
+	public object? Narrowest { get; set; }
 	public object? Narrow { get; set; }
+	public object? Normal { get; set; }
 	public object? Wide { get; set; }
-	public double WidthThreshold { get; set; } = 800;
+	public object? Widest { get; set; }
+
+	public ResponsiveLayout? Layout { get; set; }
+
+	// <Page.Resources>
+	//     <utu:ResponsiveLayout x:Key="CustomLayout" Normal="601" Wide="801" .../>
+	// <Asd Property="{Responsive Narrow=..., Wide=..., Layout="{StaticResource CustomLayout}}" />
 
 	public ResponsiveExtension()
 	{
@@ -47,66 +56,65 @@ public partial class ResponsiveExtension : MarkupExtension
 		return GetInitialValue();
 	}
 #else
-
 	/// <inheritdoc/>
 	protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
 	{
-		UpdateFutureValues(serviceProvider);
+		BindToSizeChanged(serviceProvider);
+
 		return GetInitialValue();
-
-		object? value = Narrow;
-
-		var provideValueTarget = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-		var frameworkElement = provideValueTarget?.TargetObject as FrameworkElement;
-		var targetProperty = provideValueTarget?.TargetProperty as ProvideValueTargetProperty;
-		var dependencyProperty = frameworkElement?.FindDependencyPropertyUsingReflection($"{targetProperty?.Name}Property");
-
-		if (frameworkElement is null) return value;
-
-#if HAS_UNO
-		value = XamlWindow.Current.Bounds.Width > WidthThreshold ? Wide : Narrow;
-
-		XamlWindow.Current.SizeChanged += (s, e) =>
-		{
-			value = XamlWindow.Current.Bounds.Width > WidthThreshold ? Wide : Narrow;
-			frameworkElement?.SetValue(dependencyProperty, value);
-		};
-#endif
-
-#if WINDOWS
-		frameworkElement.Loaded += (s, e) =>
-		{
-			value = frameworkElement.XamlRoot.Size.Width > WidthThreshold ? Wide : Narrow;
-			frameworkElement?.SetValue(dependencyProperty, value);
-
-			frameworkElement!.XamlRoot.Changed += (s, e) =>
-			{
-				value = s.Size.Width > WidthThreshold ? Wide : Narrow;
-				frameworkElement?.SetValue(dependencyProperty, value);
-			};
-		};
-#endif
-
-		return value;
 	}
 #endif
 
 	private object? GetInitialValue()
 	{
-		return XamlWindow.Current.Bounds.Width > WidthThreshold ? Wide : Narrow;
+		var helper = ResponsiveHelper.GetForCurrentView();
+
+		return GetValueForSize(helper.WindowSize, Layout ?? helper.Layout);
+	}
+
+	private object? GetValueForSize(Size size, ResponsiveLayout layout)
+	{
+		var defs = new (double MinWidth, object? Value)?[]
+		{
+			(layout.Narrowest, Narrowest),
+			(layout.Narrow, Narrow),
+			(layout.Normal, Normal),
+			(layout.Wide, Wide),
+			(layout.Widest, Widest),
+		}.Where(x => x.Value != null).ToArray();
+
+		var match = defs.FirstOrDefault(y => y?.MinWidth >= size.Width) ?? defs.LastOrDefault();
+
+		return match?.Value;
 	}
 
 #if !WINDOWS_UWP
-	private void UpdateFutureValues(IXamlServiceProvider serviceProvider)
+	private void BindToSizeChanged(IXamlServiceProvider serviceProvider)
 	{
-		//throw new NotImplementedException();
-		ResponsiveHelper.Instance.Register(this);
+		if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget pvt &&
+			pvt.TargetObject is FrameworkElement target &&
+			pvt.TargetProperty is ProvideValueTargetProperty pvtp &&
+			target.FindDependencyPropertyUsingReflection($"{pvtp?.Name}Property") is DependencyProperty dp)
+		{
+			_weakTarget = new WeakReference(target);
+			_targetProperty = dp;
+
+			ResponsiveHelper.GetForCurrentView().Register(this);
+		}
+		else
+		{
+			// log error
+		}
 	}
 
-	private void UpdateValue()
+	public void OnSizeChanged(Size size, ResponsiveLayout layout)
 	{
-
-		throw new NotImplementedException();
+		if (_weakTarget?.IsAlive == true &&
+			_weakTarget.Target is FrameworkElement target &&
+			_targetProperty is not null)
+		{
+			target.SetValue(_targetProperty, GetValueForSize(size, Layout ?? layout));
+		}
 	}
 #endif
 
