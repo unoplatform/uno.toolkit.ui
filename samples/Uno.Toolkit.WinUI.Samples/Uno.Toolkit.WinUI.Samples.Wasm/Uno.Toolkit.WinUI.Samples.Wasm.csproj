@@ -1,70 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <NoWarn>NU1701</NoWarn>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<NoWarn>NU1701</NoWarn>
 		<WasmShellIncludeWindowsCompatibility>false</WasmShellIncludeWindowsCompatibility>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
-    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup>
-    <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
-    <IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
-    <DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup>
-    <Content Include="Assets\SplashScreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckInput Include="..\Uno.Toolkit.Samples.Shared\**\*.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="WasmCSS\**\*.css" />
-    <EmbeddedResource Include="WasmScripts\**\*.js" />
-    <UpToDateCheckInput Include="WasmCSS\**\*" />
-    <UpToDateCheckInput Include="WasmScripts\**\*" />
-  </ItemGroup>
-  <ItemGroup>
-    <LinkerDescriptor Include="LinkerConfig.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <!--
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
+		<WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
+		<DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+		<DebugType>portable</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
+		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
+		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="Assets\SplashScreen.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<UpToDateCheckInput Include="..\Uno.Toolkit.Samples.Shared\**\*.xaml" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="WasmCSS\**\*.css" />
+		<EmbeddedResource Include="WasmScripts\**\*.js" />
+		<UpToDateCheckInput Include="WasmCSS\**\*" />
+		<UpToDateCheckInput Include="WasmScripts\**\*" />
+	</ItemGroup>
+	<ItemGroup>
+		<LinkerDescriptor Include="LinkerConfig.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<!--
     This item group is required by the project template because of the
     new SDK-Style project, otherwise some files are not added automatically.
 
     You can safely remove this ItemGroup completely.
     -->
-    <None Include="Program.cs" />
-    <None Include="LinkerConfig.xml" />
-    <None Include="wwwroot\web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging" />
-    <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" />
-    <PackageReference Include="Uno.Material.WinUI" />
-    <PackageReference Include="Uno.WinUI.WebAssembly" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" />
-    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
-    <PackageReference Include="Uno.Core.Extensions.Compatibility" />
-    <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
-    <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
-    <ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.WinUI.csproj" />
-    <ProjectReference Include="..\..\..\src\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
-    <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
-    <ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj" />
-  </ItemGroup>
-  <Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
+		<None Include="Program.cs" />
+		<None Include="LinkerConfig.xml" />
+		<None Include="wwwroot\web.config" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging" />
+		<PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" />
+		<PackageReference Include="Uno.Material.WinUI" />
+		<PackageReference Include="Uno.WinUI.WebAssembly" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.Wasm.Bootstrap" />
+		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
+		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
+		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.WinUI.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj" />
+	</ItemGroup>
+	<Import Project="..\..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.Shared\Uno.Toolkit.Samples.Shared.projitems" Label="Shared" />
 </Project>
