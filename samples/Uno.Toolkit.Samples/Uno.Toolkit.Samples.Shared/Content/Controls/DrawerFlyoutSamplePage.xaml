@@ -28,7 +28,7 @@
 					<ControlTemplate TargetType="FlyoutPresenter">
 						<utu:DrawerFlyoutPresenter todo:Note="This is not the full template, we are just making explicit reference to these definitions below"
 												   OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
-												   DrawerDepth="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerDepth}"
+												   DrawerLength="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerLength}"
 												   LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
 												   IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}" />
 					</ControlTemplate>
@@ -98,15 +98,15 @@
 								</Button>
 							</StackPanel>
 
-							<!-- overriding DrawerDepth -->
-							<TextBlock Text="You can inherit the above styles, and override utu:DrawerFlyoutPresenter.DrawerDepth in a setter to customize the depth of drawer." Style="{StaticResource BodyTextBlockStyle}" />
+							<!-- overriding DrawerLength -->
+							<TextBlock Text="You can inherit the above styles, and override utu:DrawerFlyoutPresenter.DrawerLength in a setter to customize the depth of drawer." Style="{StaticResource BodyTextBlockStyle}" />
 							<StackPanel Spacing="8" Margin="0,24,0,0">
 								<Button Content="Full Drawer (Value='*')">
 									<Button.Flyout>
 										<Flyout Placement="Full">
 											<Flyout.FlyoutPresenterStyle>
 												<Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-													<Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="*" />
+													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="*" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
 											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="8">
@@ -121,7 +121,7 @@
 										<Flyout Placement="Full">
 											<Flyout.FlyoutPresenterStyle>
 												<Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-													<Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="0.5*" />
+													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="0.5*" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
 											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="8">
@@ -136,7 +136,7 @@
 										<Flyout Placement="Full">
 											<Flyout.FlyoutPresenterStyle>
 												<Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-													<Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="Auto" />
+													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="Auto" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
 											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="8">
@@ -151,7 +151,7 @@
 										<Flyout Placement="Full">
 											<Flyout.FlyoutPresenterStyle>
 												<Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-													<Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="150" />
+													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="150" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
 											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="8">

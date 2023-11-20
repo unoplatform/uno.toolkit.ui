@@ -66,7 +66,7 @@ internal class DrawerFlyoutTests
 				<Flyout.FlyoutPresenterStyle>
 					<Style BasedOn="{StaticResource DrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
 						<Setter Property="utu:DrawerFlyoutPresenter.OpenDirection" Value="Left" />
-						<Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="312*" />
+						<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="312*" />
 						<Setter Property="utu:DrawerFlyoutPresenter.IsGestureEnabled" Value="True" />
 						<Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="Pink" />
 					</Style>
@@ -93,7 +93,7 @@ internal class DrawerFlyoutTests
 			var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
 
 			Assert.AreEqual(presenter.OpenDirection, DrawerOpenDirection.Left);
-			Assert.AreEqual(presenter.DrawerDepth, new GridLength(312, GridUnitType.Star));
+			Assert.AreEqual(presenter.DrawerLength, new GridLength(312, GridUnitType.Star));
 			Assert.AreEqual(presenter.IsGestureEnabled, true);
 			Assert.AreEqual((presenter.LightDismissOverlayBackground as SolidColorBrush)?.Color, Colors.Pink);
 		}
@@ -119,7 +119,7 @@ internal class DrawerFlyoutTests
 				<Flyout.FlyoutPresenterStyle>
 					<Style BasedOn="{StaticResource DrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
 						<Setter Property="utu:DrawerFlyoutPresenter.OpenDirection" Value="{{openDirection}}" />
-						<Setter Property="utu:DrawerFlyoutPresenter.DrawerDepth" Value="0.5*" />
+						<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="0.5*" />
 						<Setter Property="Background" Value="SkyBlue" />
 						<Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80FFC0CB" />
 					</Style>
@@ -148,7 +148,7 @@ internal class DrawerFlyoutTests
 			presenter.Background = new SolidColorBrush(Colors.Pink with { A = 127 });
 			presenter.LightDismissOverlayBackground = new SolidColorBrush(Colors.SkyBlue);
 			presenter.OpenDirection = openDirection;
-			presenter.DrawerDepth = new GridLength(0.5, GridUnitType.Star);
+			presenter.DrawerLength = new GridLength(0.5, GridUnitType.Star);
 		}
 #endif
 
@@ -176,7 +176,7 @@ internal class DrawerFlyoutTests
 			//Console.WriteLine(tree);
 			var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
 			var content = presenter.Content is Border { Name: "FlyoutContentBorder" } border ? border : throw new InvalidOperationException("#FlyoutContentBorder not found");
-			
+
 #if HAS_UNO && !__MOBILE__ // this is only really needed for wasm, but we don't have a good #define to use here
 			// wait until the layout settle
 			await Task.Delay(1000);

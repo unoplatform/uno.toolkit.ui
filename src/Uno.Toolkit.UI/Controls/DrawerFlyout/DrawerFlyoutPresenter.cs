@@ -173,7 +173,7 @@ namespace Uno.Toolkit.UI
 			UpdateIsOpen(true, animate: true);
 		}
 
-		private void OnDrawerDepthChanged(DependencyPropertyChangedEventArgs e)
+		private void OnDrawerLengthChanged(DependencyPropertyChangedEventArgs e)
 		{
 			if (!_isReady) return;
 
@@ -229,7 +229,7 @@ namespace Uno.Toolkit.UI
 			if (!_isGestureCaptured || !IsGestureEnabled) return;
 			e.Handled = true;
 
-			var length = GetActualDrawerDepth();
+			var length = GetActualDrawerLength();
 			var cumulative = IsOpenDirectionHorizontal() ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
 			var currentOffset = UseNegativeTranslation()
 				? Clamp(-length, _startingTranslateOffset + cumulative, 0)
@@ -246,7 +246,7 @@ namespace Uno.Toolkit.UI
 			e.Handled = true;
 
 			StopRunningAnimation();
-			var length = GetActualDrawerDepth();
+			var length = GetActualDrawerLength();
 			var cumulative = IsOpenDirectionHorizontal() ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
 
 			var isInCorrectDirection = Math.Sign(cumulative) == (IsOpen ^ UseNegativeTranslation() ? 1 : -1);
@@ -263,7 +263,7 @@ namespace Uno.Toolkit.UI
 
 		private void UpdateIsOpen(bool willBeOpen, bool animate = true)
 		{
-			var length = GetActualDrawerDepth();
+			var length = GetActualDrawerLength();
 			var currentOffset = TranslateOffset;
 			var targetOffset = GetSnappingOffsetFor(willBeOpen);
 			var relativeDistanceRatio = Math.Abs(Math.Abs(currentOffset) - Math.Abs(targetOffset)) / length;
@@ -408,17 +408,17 @@ namespace Uno.Toolkit.UI
 		{
 			if (_drawerContentPresenter == null) return;
 
-			var depth = DrawerDepth;
-			var availableLength = IsOpenDirectionHorizontal() ? ActualWidth : ActualHeight;
-			var length = depth.GridUnitType switch
+			var length = DrawerLength;
+			var available = IsOpenDirectionHorizontal() ? ActualWidth : ActualHeight;
+			var value = length.GridUnitType switch
 			{
 				GridUnitType.Auto => double.NaN,
-				GridUnitType.Star => 0 < depth.Value && depth.Value <= 1
-					? availableLength * GetSafeStarValue(depth.Value)
-					: availableLength,
-				GridUnitType.Pixel => availableLength != 0 && depth.Value >= availableLength
+				GridUnitType.Star => 0 < length.Value && length.Value <= 1
+					? available * GetSafeStarValue(length.Value)
+					: available,
+				GridUnitType.Pixel => available != 0 && length.Value >= available
 					? double.NaN
-					: Math.Min(availableLength, depth.Value),
+					: Math.Min(available, length.Value),
 
 				_ => double.NaN,
 			};
@@ -426,11 +426,11 @@ namespace Uno.Toolkit.UI
 			if (IsOpenDirectionHorizontal())
 			{
 				_drawerContentPresenter.Height = double.NaN;
-				_drawerContentPresenter.Width = length;
+				_drawerContentPresenter.Width = value;
 			}
 			else
 			{
-				_drawerContentPresenter.Height = length;
+				_drawerContentPresenter.Height = value;
 				_drawerContentPresenter.Width = double.NaN;
 			}
 
@@ -508,7 +508,7 @@ namespace Uno.Toolkit.UI
 			};
 		}
 
-		private double GetActualDrawerDepth()
+		private double GetActualDrawerLength()
 		{
 			if (_drawerContentPresenter == null) throw new InvalidOperationException($"{nameof(_drawerContentPresenter)} is null");
 
@@ -519,7 +519,7 @@ namespace Uno.Toolkit.UI
 
 		private double GetVectoredLength()
 		{
-			return UseNegativeTranslation() ? -GetActualDrawerDepth() : GetActualDrawerDepth();
+			return UseNegativeTranslation() ? -GetActualDrawerLength() : GetActualDrawerLength();
 		}
 
 		private Popup FindHostPopup()

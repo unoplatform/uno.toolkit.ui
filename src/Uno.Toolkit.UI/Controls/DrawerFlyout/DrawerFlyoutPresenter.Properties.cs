@@ -20,7 +20,7 @@ namespace Uno.Toolkit.UI
 		// purely cosmetic class, and to emphasis the presence of default values
 		internal static class DefaultValues
 		{
-			public static readonly GridLength DrawerDepth = new GridLength(0.66, GridUnitType.Star);
+			public static readonly GridLength DrawerLength = new GridLength(0.66, GridUnitType.Star);
 			public const DrawerOpenDirection OpenDirection = DrawerOpenDirection.Up;
 			public const bool IsGestureEnabled = true;
 		}
@@ -74,10 +74,10 @@ namespace Uno.Toolkit.UI
 		public static void SetOpenDirection(DependencyObject obj, DrawerOpenDirection value) => obj.SetValue(OpenDirectionProperty, value);
 
 		#endregion
-		#region AttachedProperty: DrawerDepth = new GridLength(0.66, GridUnitType.Star)
+		#region AttachedProperty: DrawerLength = new GridLength(0.66, GridUnitType.Star)
 
 		/// <summary>
-		/// Get or sets the depth (width or height depending on the <see cref="OpenDirection"/>) of the drawer.
+		/// Get or sets the length (width or height depending on the <see cref="OpenDirection"/>) of the drawer.
 		/// </summary>
 		/// <remarks>
 		/// This value has 3 mode based on <seealso cref="GridUnitType"/>:
@@ -87,22 +87,22 @@ namespace Uno.Toolkit.UI
 		/// <item><see cref="GridUnitType.Pixel"/>: Fixed at the given value.</item>
 		/// </list>
 		/// </remarks>
-		public static DependencyProperty DrawerDepthProperty { [DynamicDependency(nameof(GetDrawerDepth))] get; } = DependencyProperty.RegisterAttached(
-			nameof(DrawerDepth),
+		public static DependencyProperty DrawerLengthProperty { [DynamicDependency(nameof(GetDrawerLength))] get; } = DependencyProperty.RegisterAttached(
+			nameof(DrawerLength),
 			typeof(GridLength),
 			typeof(DrawerFlyoutPresenter),
-			new PropertyMetadata(DefaultValues.DrawerDepth, OnDrawerDepthChanged));
+			new PropertyMetadata(DefaultValues.DrawerLength, OnDrawerLengthChanged));
 
-		public GridLength DrawerDepth
+		public GridLength DrawerLength
 		{
-			get => (GridLength)GetValue(DrawerDepthProperty);
-			set => SetValue(DrawerDepthProperty, value);
+			get => (GridLength)GetValue(DrawerLengthProperty);
+			set => SetValue(DrawerLengthProperty, value);
 		}
 
-		[DynamicDependency(nameof(SetDrawerDepth))]
-		public static GridLength GetDrawerDepth(DependencyObject obj) => (GridLength)obj.GetValue(DrawerDepthProperty);
-		[DynamicDependency(nameof(GetDrawerDepth))]
-		public static void SetDrawerDepth(DependencyObject obj, GridLength value) => obj.SetValue(DrawerDepthProperty, value);
+		[DynamicDependency(nameof(SetDrawerLength))]
+		public static GridLength GetDrawerLength(DependencyObject obj) => (GridLength)obj.GetValue(DrawerLengthProperty);
+		[DynamicDependency(nameof(GetDrawerLength))]
+		public static void SetDrawerLength(DependencyObject obj, GridLength value) => obj.SetValue(DrawerLengthProperty, value);
 
 		#endregion
 		#region AttachedProperty: LightDismissOverlayBackground
@@ -152,7 +152,7 @@ namespace Uno.Toolkit.UI
 
 		#endregion
 
-		private static void OnDrawerDepthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as DrawerFlyoutPresenter)?.OnDrawerDepthChanged(e);
+		private static void OnDrawerLengthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as DrawerFlyoutPresenter)?.OnDrawerLengthChanged(e);
 		private static void OnOpenDirectionChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as DrawerFlyoutPresenter)?.OnOpenDirectionChanged(e);
 		private static void OnIsOpenChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as DrawerFlyoutPresenter)?.OnIsOpenChanged(e);
 	}

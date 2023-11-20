@@ -71,7 +71,7 @@
 											   VerticalAlignment="{TemplateBinding VerticalAlignment}"
 											   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
 											   OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
-											   DrawerDepth="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerDepth}"
+											   DrawerLength="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerLength}"
 											   LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
 											   IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}" />
 				</ControlTemplate>
