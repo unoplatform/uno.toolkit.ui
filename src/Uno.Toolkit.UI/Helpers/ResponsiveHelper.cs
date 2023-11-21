@@ -14,7 +14,7 @@ internal interface IResponsiveCallback
 	void OnSizeChanged(Size size, ResponsiveLayout layout);
 }
 
-public class ResponsiveLayout : DependencyObject
+public partial class ResponsiveLayout : DependencyObject
 {
 	#region DependencyProperty: Narrowest
 
@@ -112,7 +112,7 @@ internal class ResponsiveHelper
 
 	public static ResponsiveHelper GetForCurrentView() => _instance.Value;
 
-	private ResponsiveHelper() { }
+	internal ResponsiveHelper() { }
 
 	public void HookupEvent(Window window)
 	{

@@ -99,6 +99,9 @@ namespace Uno.Toolkit.Samples
 			_window = XamlWindow.Current;
 #endif
 
+			var helper = UI.Helpers.ResponsiveHelper.GetForCurrentView();
+			helper.HookupEvent(_window);
+
 			if (_window.Content is null)
 			{
 				var loadable = new ManualLoadable { IsExecuting = true };

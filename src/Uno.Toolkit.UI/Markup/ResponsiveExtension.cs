@@ -24,7 +24,7 @@ namespace Uno.Toolkit.UI;
 /// <summary>
 /// A markup extension that updates a property based on the current window width.
 /// </summary>
-public partial class ResponsiveExtension : MarkupExtension
+public class ResponsiveExtension : MarkupExtension
 #if !WINDOWS_UWP
 	, IResponsiveCallback
 #endif
@@ -39,10 +39,6 @@ public partial class ResponsiveExtension : MarkupExtension
 	public object? Widest { get; set; }
 
 	public ResponsiveLayout? Layout { get; set; }
-
-	// <Page.Resources>
-	//     <utu:ResponsiveLayout x:Key="CustomLayout" Normal="601" Wide="801" .../>
-	// <Asd Property="{Responsive Narrow=..., Wide=..., Layout="{StaticResource CustomLayout}}" />
 
 	public ResponsiveExtension()
 	{
@@ -81,7 +77,7 @@ public partial class ResponsiveExtension : MarkupExtension
 			(layout.Normal, Normal),
 			(layout.Wide, Wide),
 			(layout.Widest, Widest),
-		}.Where(x => x.Value != null).ToArray();
+		}.Where(x => x?.Value != null).ToArray();
 
 		var match = defs.FirstOrDefault(y => y?.MinWidth >= size.Width) ?? defs.LastOrDefault();
 
