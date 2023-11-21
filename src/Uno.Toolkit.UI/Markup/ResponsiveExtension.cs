@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using Uno.Extensions;
+using Uno.Logging;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -24,12 +26,12 @@ namespace Uno.Toolkit.UI;
 /// <summary>
 /// A markup extension that updates a property based on the current window width.
 /// </summary>
-public class ResponsiveExtension : MarkupExtension
+public partial class ResponsiveExtension : MarkupExtension
 #if !WINDOWS_UWP
 	, IResponsiveCallback
 #endif
 {
-	private WeakReference? _weakTarget;
+	internal WeakReference? _weakTarget;
 	private DependencyProperty? _targetProperty;
 
 	public object? Narrowest { get; set; }
@@ -48,7 +50,7 @@ public class ResponsiveExtension : MarkupExtension
 	/// <inheritdoc/>
 	protected override object? ProvideValue()
 	{
-		// TODO can't update value because limitations of UWP log warning
+		this.Log().WarnIfEnabled("The property value, once initially set, cannot be updated due to UWP limitation. Consider upgrading to WinUI, on which the service provider context is exposed through a ProvideValue overload.");
 		return GetInitialValue();
 	}
 #else
@@ -99,7 +101,7 @@ public class ResponsiveExtension : MarkupExtension
 		}
 		else
 		{
-			// log error
+			this.Log().Error($"Failed to register {nameof(ResponsiveExtension)}");
 		}
 	}
 
