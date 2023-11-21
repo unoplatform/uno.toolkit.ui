@@ -95,7 +95,10 @@ namespace Uno.Toolkit.UI
 			UpdateTranslateAnimationTargetProperty();
 			_storyboard.Children.Add(_translateAnimation);
 
+			// no point updating size here, as we lack the flyout size that is unknown until LayoutUpdated
 			UpdateSwipeContentPresenterLayout();
+			//UpdateSwipeContentPresenterSize();
+
 			UpdateManipulationMode();
 			ManipulationStarted += OnManipulationStarted;
 			ManipulationDelta += OnManipulationDelta;
@@ -154,6 +157,9 @@ namespace Uno.Toolkit.UI
 			{
 				_initOnceOnLayoutUpdated = false;
 
+				UpdateSwipeContentPresenterLayout();
+				UpdateSwipeContentPresenterSize();
+
 				// reset to close position, and animate to open position
 				UpdateOpenness(false);
 				UpdateIsOpen(true, animate: true);
@@ -165,6 +171,17 @@ namespace Uno.Toolkit.UI
 			// reset to close position, and animate to open position
 			UpdateOpenness(false);
 			UpdateIsOpen(true, animate: true);
+		}
+
+		private void OnDrawerLengthChanged(DependencyPropertyChangedEventArgs e)
+		{
+			if (!_isReady) return;
+
+			StopRunningAnimation();
+
+			UpdateSwipeContentPresenterLayout();
+			UpdateSwipeContentPresenterSize();
+			UpdateIsOpen(IsOpen, animate: false);
 		}
 
 		private void OnIsOpenChanged(DependencyPropertyChangedEventArgs e)
@@ -212,7 +229,7 @@ namespace Uno.Toolkit.UI
 			if (!_isGestureCaptured || !IsGestureEnabled) return;
 			e.Handled = true;
 
-			var length = GetActualDrawerDepth();
+			var length = GetActualDrawerLength();
 			var cumulative = IsOpenDirectionHorizontal() ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
 			var currentOffset = UseNegativeTranslation()
 				? Clamp(-length, _startingTranslateOffset + cumulative, 0)
@@ -229,7 +246,7 @@ namespace Uno.Toolkit.UI
 			e.Handled = true;
 
 			StopRunningAnimation();
-			var length = GetActualDrawerDepth();
+			var length = GetActualDrawerLength();
 			var cumulative = IsOpenDirectionHorizontal() ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
 
 			var isInCorrectDirection = Math.Sign(cumulative) == (IsOpen ^ UseNegativeTranslation() ? 1 : -1);
@@ -246,7 +263,7 @@ namespace Uno.Toolkit.UI
 
 		private void UpdateIsOpen(bool willBeOpen, bool animate = true)
 		{
-			var length = GetActualDrawerDepth();
+			var length = GetActualDrawerLength();
 			var currentOffset = TranslateOffset;
 			var targetOffset = GetSnappingOffsetFor(willBeOpen);
 			var relativeDistanceRatio = Math.Abs(Math.Abs(currentOffset) - Math.Abs(targetOffset)) / length;
@@ -290,15 +307,15 @@ namespace Uno.Toolkit.UI
 
 			if (_lightDismissOverlay != null)
 			{
-				_lightDismissOverlay.Opacity = 1 - ratio;
-				_lightDismissOverlay.IsHitTestVisible = ratio != 1;
+				_lightDismissOverlay.Opacity = ratio;
+				_lightDismissOverlay.IsHitTestVisible = ratio == 1;
 			}
 		}
 
 		private void PlayAnimation(double fromRatio, bool willBeOpen)
 		{
 			var toRatio = willBeOpen ? 0 : 1;
-			
+
 			if (_storyboard == null) return;
 
 			if (_translateAnimation != null)
@@ -310,7 +327,7 @@ namespace Uno.Toolkit.UI
 				if (_drawerContentPresenter.ActualSize == default)
 				{
 					// attempt to recover with last measured size,
-					// which normally shouldnt change in common scenario...
+					// which normally shouldn't change in common scenario...
 					if (_lastMeasuredFlyoutContentSize is { } lastMeasured)
 					{
 						// note: despite having the right values here to play the animation,
@@ -320,7 +337,7 @@ namespace Uno.Toolkit.UI
 					}
 					else
 					{
-						// the assumption is false, the control is openning for the first time
+						// the assumption is false, the control is opening for the first time
 						// this is unsalvageable
 						return;
 					}
@@ -373,37 +390,51 @@ namespace Uno.Toolkit.UI
 		{
 			if (_drawerContentPresenter == null) return;
 
-			switch (OpenDirection)
+			// align the presenter to guarantee the right corner sticks to the edge.
+			(_drawerContentPresenter.HorizontalAlignment, _drawerContentPresenter.VerticalAlignment) = OpenDirection switch
 			{
-				case DrawerOpenDirection.Left:
-					_drawerContentPresenter.HorizontalAlignment = HorizontalAlignment.Right;
-					_drawerContentPresenter.VerticalAlignment = VerticalAlignment.Stretch;
-					_drawerContentPresenter.HorizontalContentAlignment = HorizontalAlignment.Right;
-					_drawerContentPresenter.VerticalContentAlignment = VerticalAlignment.Stretch;
-					break;
+				DrawerOpenDirection.Left => (HorizontalAlignment.Right, VerticalAlignment.Stretch),
+				DrawerOpenDirection.Down => (HorizontalAlignment.Stretch, VerticalAlignment.Top),
+				DrawerOpenDirection.Up => (HorizontalAlignment.Stretch, VerticalAlignment.Bottom),
+				_ => (HorizontalAlignment.Left, VerticalAlignment.Stretch),
+			};
 
-				case DrawerOpenDirection.Down:
-					_drawerContentPresenter.HorizontalAlignment = HorizontalAlignment.Stretch;
-					_drawerContentPresenter.VerticalAlignment = VerticalAlignment.Top;
-					_drawerContentPresenter.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-					_drawerContentPresenter.VerticalContentAlignment = VerticalAlignment.Top;
-					break;
+			// but, align its content, so that it can stretch.
+			_drawerContentPresenter.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+			_drawerContentPresenter.VerticalContentAlignment = VerticalAlignment.Stretch;
+		}
 
-				case DrawerOpenDirection.Up:
-					_drawerContentPresenter.HorizontalAlignment = HorizontalAlignment.Stretch;
-					_drawerContentPresenter.VerticalAlignment = VerticalAlignment.Bottom;
-					_drawerContentPresenter.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-					_drawerContentPresenter.VerticalContentAlignment = VerticalAlignment.Bottom;
-					break;
+		private void UpdateSwipeContentPresenterSize()
+		{
+			if (_drawerContentPresenter == null) return;
 
-				case DrawerOpenDirection.Right:
-				default:
-					_drawerContentPresenter.HorizontalAlignment = HorizontalAlignment.Left;
-					_drawerContentPresenter.VerticalAlignment = VerticalAlignment.Stretch;
-					_drawerContentPresenter.HorizontalContentAlignment = HorizontalAlignment.Left;
-					_drawerContentPresenter.VerticalContentAlignment = VerticalAlignment.Stretch;
-					break;
+			var length = DrawerLength;
+			var available = IsOpenDirectionHorizontal() ? ActualWidth : ActualHeight;
+			var value = length.GridUnitType switch
+			{
+				GridUnitType.Auto => double.NaN,
+				GridUnitType.Star => 0 < length.Value && length.Value <= 1
+					? available * GetSafeStarValue(length.Value)
+					: available,
+				GridUnitType.Pixel => available != 0 && length.Value >= available
+					? double.NaN
+					: Math.Min(available, length.Value),
+
+				_ => double.NaN,
+			};
+
+			if (IsOpenDirectionHorizontal())
+			{
+				_drawerContentPresenter.Height = double.NaN;
+				_drawerContentPresenter.Width = value;
 			}
+			else
+			{
+				_drawerContentPresenter.Height = value;
+				_drawerContentPresenter.Width = double.NaN;
+			}
+
+			double GetSafeStarValue(double starValue) => 0 < starValue && starValue <= 1 ? starValue : 0.66;
 		}
 
 		private void UpdateTranslateAnimationTargetProperty()
@@ -442,13 +473,12 @@ namespace Uno.Toolkit.UI
 		private bool ShouldHandleManipulationFrom(object source)
 		{
 			// only the content area should respond to gesture
-#pragma warning disable CS0252 // Possible unintended reference comparison
-			if (source == _lightDismissOverlay) return false;
+
+			if (ReferenceEquals(source, _lightDismissOverlay)) return false;
 
 			// note: on uwp, we cant distinguish the origin of the event, as it would always be from this DrawerFlyoutPresenter.
-			return source == this
+			return ReferenceEquals(source, this)
 				|| (source is DependencyObject sourceAsDO && VisualTreeHelperEx.GetAncestors(sourceAsDO).Any(x => x == this));
-#pragma warning restore CS0252
 		}
 
 		private double GetSnappingOffsetFor(bool isOpen)
@@ -478,7 +508,7 @@ namespace Uno.Toolkit.UI
 			};
 		}
 
-		private double GetActualDrawerDepth()
+		private double GetActualDrawerLength()
 		{
 			if (_drawerContentPresenter == null) throw new InvalidOperationException($"{nameof(_drawerContentPresenter)} is null");
 
@@ -489,7 +519,7 @@ namespace Uno.Toolkit.UI
 
 		private double GetVectoredLength()
 		{
-			return UseNegativeTranslation() ? -GetActualDrawerDepth() : GetActualDrawerDepth();
+			return UseNegativeTranslation() ? -GetActualDrawerLength() : GetActualDrawerLength();
 		}
 
 		private Popup FindHostPopup()

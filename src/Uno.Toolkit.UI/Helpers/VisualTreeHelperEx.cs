@@ -51,6 +51,15 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		/// <param name="reference">Any node of the visual tree</param>
 		public static string TreeGraph(this DependencyObject reference) => TreeGraph(reference, DebugVTNode);
+		
+		/// <summary>
+		/// Produces a text representation of the visual tree, using the provided method of description.
+		/// </summary>
+		/// <param name="reference">Any node of the visual tree</param>
+		/// <param name="describeProperties">A function to describe the properties of interest of a visual tree node.</param>
+		/// <returns></returns>
+		public static string TreeGraph(this DependencyObject reference, Func<object, IEnumerable<string>> describeProperties) =>
+			TreeGraph(reference, x => DebugVTNode(x, describeProperties));
 
 		/// <summary>
 		/// Produces a text representation of the visual tree, using the provided method of description.
@@ -58,7 +67,7 @@ namespace Uno.Toolkit.UI
 		/// <param name="reference">Any node of the visual tree</param>
 		/// <param name="describe">A function to describe a visual tree node in a single line.</param>
 		/// <returns></returns>
-		public static string TreeGraph(this DependencyObject reference, Func<DependencyObject, string> describe)
+		public static string TreeGraph(this DependencyObject reference, Func<object, string> describe)
 		{
 			var buffer = new StringBuilder();
 			Walk(reference);
@@ -72,7 +81,7 @@ namespace Uno.Toolkit.UI
 					Walk(child, depth + 1);
 				}
 			}
-			void Print(DependencyObject o, int depth)
+			void Print(object o, int depth)
 			{
 				buffer
 					.Append(new string(' ', depth * 4))
@@ -185,16 +194,12 @@ namespace Uno.Toolkit.UI
 	{
 		private static string DebugVTNode(object x)
 		{
-			return new StringBuilder()
-				.Append(x.GetType().Name)
-				.Append((x as FrameworkElement)?.Name is string { Length: > 0 } xname ? $"#{xname}" : string.Empty)
-				.Append($" // {string.Join(", ", GetDetails())}")
-				.ToString();
+			return DebugVTNode(x, GetDetails);
 
-			IEnumerable<string> GetDetails()
+			static IEnumerable<string> GetDetails(object x)
 			{
 #if __IOS__
-				if (x is _View view)
+				if (x is _View view && view.Superview is { })
 				{
 					var abs = view.Superview.ConvertPointToView(view.Frame.Location, toView: null);
 					yield return $"Abs=[Rect {view.Frame.Width:0.#}x{view.Frame.Height:0.#}@{abs.X:0.#},{abs.Y:0.#}]";
@@ -208,7 +213,7 @@ namespace Uno.Toolkit.UI
 				if (x is FrameworkElement fe)
 				{
 					yield return $"Actual={fe.ActualWidth}x{fe.ActualHeight}";
-					// yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
+					yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
 					yield return $"HV={fe.HorizontalAlignment}/{fe.VerticalAlignment}";
 				}
 				if (x is UIElement uie)
@@ -221,6 +226,11 @@ namespace Uno.Toolkit.UI
 					yield return $"Offset={sv.HorizontalOffset:0.#},{sv.VerticalOffset:0.#}";
 					yield return $"Viewport={sv.ViewportWidth:0.#}x{sv.ViewportHeight:0.#}";
 					yield return $"Extent={sv.ExtentWidth:0.#}x{sv.ExtentHeight:0.#}";
+				}
+				if (TryGetDpValue<HorizontalAlignment>(x, "HorizontalContentAlignment", out var hca) |
+					TryGetDpValue<HorizontalAlignment>(x, "VerticalContentAlignment", out var vca))
+				{
+					yield return $"HVC={hca}/{vca}";
 				}
 				if (x is ListViewItem lvi)
 				{
@@ -241,6 +251,30 @@ namespace Uno.Toolkit.UI
 				if (TryGetDpValue<double>(x, "Opacity", out var opacity)) yield return $"Opacity={opacity}";
 				if (TryGetDpValue<Visibility>(x, "Visibility", out var visibility)) yield return $"Visibility={visibility}";
 				if (GetActiveVisualStates(x as Control) is { } states) yield return $"VisualStates={states}";
+			}
+		}
+		private static string DebugVTNode(object x, Func<object, IEnumerable<string>> describeProperties)
+		{
+			if (x is null) return "<null>";
+
+			return new StringBuilder()
+				.Append(x.GetType().Name)
+				.Append((x as FrameworkElement)?.Name is string { Length: > 0 } xname ? $"#{xname}" : string.Empty)
+				.Append(GetPropertiesDescriptionSafe())
+				.ToString();
+
+			string? GetPropertiesDescriptionSafe()
+			{
+				try
+				{
+					return string.Join(", ", describeProperties(x)) is { Length: > 0 } propertiesDescription
+						? $" // {propertiesDescription}"
+						: null;
+				}
+				catch (Exception e)
+				{
+					return $"// threw {e.GetType().Name}: {EscapeMultiline(e.Message, escapeTabs: true)}";
+				}
 			}
 		}
 

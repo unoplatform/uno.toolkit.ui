@@ -62,4 +62,18 @@ internal static class PrettyPrint
 
 		return b.GetType().Name;
 	}
+
+	internal static string EscapeMultiline(string s, bool escapeTabs = false)
+	{
+		s = s
+			.Replace("\r", "\\r")
+			.Replace("\n", "\\n");
+
+		if (escapeTabs)
+		{
+			s = s.Replace("\t", "\\t");
+		}
+
+		return s;
+	}
 }
