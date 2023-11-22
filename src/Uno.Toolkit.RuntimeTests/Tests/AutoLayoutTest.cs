@@ -369,6 +369,54 @@ internal class AutoLayoutTest
 
 	[TestMethod]
 	[RequiresFullWindow]
+	[DataRow(Orientation.Vertical, 80, 140, 125, 125)]
+	[DataRow(Orientation.Horizontal, 110, 110, 70, 180)]
+	public async Task When_Axis_Are_Center_With_No_Homogeneous_Padding(Orientation orientation, double rec1expectedY, double rec2expectedY, double rec1expectedX, double rec2expectedX)
+	{
+		var SUT = new AutoLayout()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
+			Padding = new Thickness(150, 20, 100, 50),
+			Spacing = 10, 
+			Width = 300,
+			Height = 300,
+			Orientation = orientation,
+			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
+		};
+
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 100,
+			Height = 50,
+		};
+
+		var border2 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 100,
+			Height = 50,
+		};
+
+		AutoLayout.SetCounterAlignment(border1, AutoLayoutAlignment.Center);
+		AutoLayout.SetCounterAlignment(border2, AutoLayoutAlignment.Center);
+
+		SUT.Children.Add(border1);
+		SUT.Children.Add(border2);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var border1Transform = border1.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		var border2Transform = border2.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+
+		Assert.AreEqual(rec1expectedY, border1Transform!.Y);
+		Assert.AreEqual(rec2expectedY, border2Transform!.Y);
+		Assert.AreEqual(rec1expectedX, border1Transform!.X);
+		Assert.AreEqual(rec2expectedX, border2Transform!.X);
+	}
+
+	[TestMethod]
+	[RequiresFullWindow]
 	public async Task When_Fixed_Dimensions_Padding_And_SpaceBetween_Horizontal()
 	{
 		var SUT = new AutoLayout()
