@@ -68,6 +68,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\Helpers\BindingExtensionsSamplePage.xaml.cs">
       <DependentUpon>BindingExtensionsSamplePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Helpers\ResponsiveExtensionsSamplePage.xaml.cs">
+      <DependentUpon>ResponsiveExtensionsSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\FluentNavigationBarSampleNestedPage1.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\FluentNavigationBarSampleNestedPage2.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialBottomBarSampleNestedPage.xaml.cs">
@@ -286,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Helpers\BindingExtensionsSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Helpers\ResponsiveExtensionsSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

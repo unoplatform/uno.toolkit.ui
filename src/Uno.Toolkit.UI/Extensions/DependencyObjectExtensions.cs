@@ -214,6 +214,32 @@ namespace Uno.Toolkit.UI
 			return property;
 		}
 
+		public static DependencyProperty? FindDependencyPropertyUsingReflection(this DependencyObject dependencyObject, string propertyName)
+		{
+			var type = dependencyObject.GetType();
+			var key = (ownerType: type, propertyName);
+
+			if (_dependencyPropertyReflectionCache.TryGetValue(key, out var property))
+			{
+				return property;
+			}
+
+			property =
+				type.GetProperty(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty ??
+				type.GetField(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty;
+
+#if HAS_UNO
+			if (property == null)
+			{
+				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{type}.{propertyName}' dependency property does not exist.");
+			}
+#endif
+
+			_dependencyPropertyReflectionCache[key] = property;
+
+			return property;
+		}
+
 		public static bool TryGetValue(this DependencyObject dependencyObject, DependencyProperty dependencyProperty, out DependencyObject? value)
 		{
 			value = default;
