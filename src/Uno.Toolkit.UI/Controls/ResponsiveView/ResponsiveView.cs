@@ -1,4 +1,7 @@
-﻿#if IS_WINUI
+﻿using System.Linq;
+using Windows.Foundation;
+
+#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 #else
@@ -9,17 +12,24 @@ using Windows.UI.Xaml.Controls;
 namespace Uno.Toolkit.UI;
 
 public partial class ResponsiveView : ContentControl
+#if !WINDOWS_UWP
+	, IResponsiveCallback
+#endif
 {
-	#region Content DependencyProperties
-	public DataTemplate ExtraNarrowContent
+	#region DependencyProperties
+
+	#region Narrowest DP
+	public DataTemplate NarrowestContent
 	{
-		get { return (DataTemplate)GetValue(ExtraNarrowContentProperty); }
-		set { SetValue(ExtraNarrowContentProperty, value); }
+		get { return (DataTemplate)GetValue(NarrowestContentProperty); }
+		set { SetValue(NarrowestContentProperty, value); }
 	}
 
-	public static readonly DependencyProperty ExtraNarrowContentProperty =
-		DependencyProperty.Register("ExtraNarrowContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+	public static readonly DependencyProperty NarrowestContentProperty =
+		DependencyProperty.Register("NarrowestContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+	#endregion
 
+	#region Narrow DP
 	public DataTemplate NarrowContent
 	{
 		get { return (DataTemplate)GetValue(NarrowContentProperty); }
@@ -28,16 +38,20 @@ public partial class ResponsiveView : ContentControl
 
 	public static readonly DependencyProperty NarrowContentProperty =
 		DependencyProperty.Register("NarrowContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+	#endregion
 
-	public DataTemplate DefaultContent
+	#region Normal DP
+	public DataTemplate NormalContent
 	{
-		get { return (DataTemplate)GetValue(DefaultContentProperty); }
-		set { SetValue(DefaultContentProperty, value); }
+		get { return (DataTemplate)GetValue(NormalContentProperty); }
+		set { SetValue(NormalContentProperty, value); }
 	}
 
-	public static readonly DependencyProperty DefaultContentProperty =
-		DependencyProperty.Register("DefaultContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+	public static readonly DependencyProperty NormalContentProperty =
+		DependencyProperty.Register("NormalContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+	#endregion
 
+	#region Wide DP
 	public DataTemplate WideContent
 	{
 		get { return (DataTemplate)GetValue(WideContentProperty); }
@@ -46,73 +60,83 @@ public partial class ResponsiveView : ContentControl
 
 	public static readonly DependencyProperty WideContentProperty =
 		DependencyProperty.Register("WideContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+	#endregion
 
-	public DataTemplate ExtraWideContent
+	#region Widest DP
+	public DataTemplate WidestContent
 	{
-		get { return (DataTemplate)GetValue(ExtraWideContentProperty); }
-		set { SetValue(ExtraWideContentProperty, value); }
+		get { return (DataTemplate)GetValue(WidestContentProperty); }
+		set { SetValue(WidestContentProperty, value); }
 	}
 
-	public static readonly DependencyProperty ExtraWideContentProperty =
-		DependencyProperty.Register("ExtraWideContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+	public static readonly DependencyProperty WidestContentProperty =
+		DependencyProperty.Register("WidestContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+	#endregion
+
+	#region ResponsiveLayout DP
+	public static DependencyProperty ResponsiveLayoutProperty { get; } = DependencyProperty.Register(
+		nameof(ResponsiveLayout),
+		typeof(ResponsiveLayout),
+		typeof(ResponsiveView),
+		new PropertyMetadata(default));
+
+	public ResponsiveLayout ResponsiveLayout
+	{
+		get => (ResponsiveLayout)GetValue(ResponsiveLayoutProperty);
+		set => SetValue(ResponsiveLayoutProperty, value);
+	}
+	#endregion
 
 	#endregion
 
 	public ResponsiveView()
 	{
 		this.DefaultStyleKey = typeof(ResponsiveView);
+
+		ResponsiveHelper.GetForCurrentView().Register(this);
+
+		Loaded += ResponsiveView_Loaded;
 	}
 
-	protected override void OnApplyTemplate()
+	private void ResponsiveView_Loaded(object sender, RoutedEventArgs e)
 	{
-		base.OnApplyTemplate();
+		var contentToSet = GetInitialValue();
 
-		FrameworkElement root = (FrameworkElement)GetTemplateChild("RootElement");
+		SetContent(contentToSet);
+	}
 
-		if (VisualStateManager.GetVisualStateGroups(root)[0] is VisualStateGroup group)
+	private DataTemplate? GetInitialValue()
+	{
+		var helper = ResponsiveHelper.GetForCurrentView();
+
+		return GetValueForSize(helper.WindowSize, ResponsiveLayout ?? helper.Layout);
+	}
+
+	private DataTemplate? GetValueForSize(Size size, ResponsiveLayout layout)
+	{
+		var defs = new (double MinWidth, DataTemplate? Value)?[]
 		{
-			group.CurrentStateChanged += OnVisualStateChanged;
+			(layout.Narrowest, NarrowestContent),
+			(layout.Narrow, NarrowContent),
+			(layout.Normal, NormalContent),
+			(layout.Wide, WideContent),
+			(layout.Widest, WidestContent),
+		}.Where(x => x?.Value != null).ToArray();
 
-			var currentState = group.CurrentState;
+		var match = defs.FirstOrDefault(y => y?.MinWidth >= size.Width) ?? defs.LastOrDefault();
 
-			if (currentState is { })
-				SetContent(currentState.Name);
-		}
+		return match?.Value;
 	}
 
-	private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
+	public void OnSizeChanged(Size size, ResponsiveLayout layout)
 	{
-		var currentState = e.NewState?.Name;
+		var contentToSet = GetValueForSize(size, ResponsiveLayout ?? layout);
 
-		if (currentState is null)
-			return;
-
-		SetContent(currentState);
+		SetContent(contentToSet);
 	}
 
-	private void SetContent(string visualState)
+	private void SetContent(DataTemplate? contentToSet)
 	{
-		DataTemplate? contentToSet = null;
-
-		switch (visualState)
-		{
-			case "ExtraNarrowSize":
-				contentToSet = ExtraNarrowContent ?? NarrowContent ?? DefaultContent ?? WideContent ?? ExtraWideContent;
-				break;
-			case "NarrowSize":
-				contentToSet = NarrowContent ?? ExtraNarrowContent ?? DefaultContent ?? WideContent ?? ExtraWideContent;
-				break;
-			case "DefaultSize":
-				contentToSet = DefaultContent ?? NarrowContent ?? WideContent ?? ExtraWideContent ?? ExtraNarrowContent;
-				break;
-			case "WideSize":
-				contentToSet = WideContent ?? DefaultContent ?? ExtraWideContent ?? NarrowContent ?? ExtraNarrowContent;
-				break;
-			case "ExtraWideSize":
-				contentToSet = ExtraWideContent ?? WideContent ?? DefaultContent ?? NarrowContent ?? ExtraNarrowContent;
-				break;
-		}
-
 		if (contentToSet is not null)
 		{
 			Content = contentToSet.LoadContent() as UIElement;
