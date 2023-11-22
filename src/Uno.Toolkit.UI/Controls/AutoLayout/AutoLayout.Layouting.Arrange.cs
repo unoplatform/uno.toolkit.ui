@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.Foundation;
@@ -36,6 +37,8 @@ partial class AutoLayout
 		var numberOfStackedChildren = 0;
 		var haveStartPadding = false;
 		var haveEndPadding = false;
+		var startPadding = isHorizontal ? padding.Left : padding.Top;
+		var endPadding = isHorizontal ? padding.Right : padding.Bottom;
 
 		if (_calculatedChildren is null || children.Count != _calculatedChildren.Length)
 		{
@@ -99,26 +102,22 @@ partial class AutoLayout
 				break;
 			case AutoLayoutAlignment.Center:
 				var havePadding = atLeastOneFilledChild || justify == AutoLayoutJustify.SpaceBetween;
-				haveEndPadding = havePadding;
 				haveStartPadding = havePadding;
+				haveEndPadding = havePadding;
 				break;
 		}
 
-		var startPadding = haveStartPadding
-			? isHorizontal ? padding.Left : padding.Top
-			: 0d;
-		var endPadding = haveEndPadding
-			? isHorizontal ? padding.Right : padding.Bottom
-			: 0d;
+		var applicableStartPadding = haveStartPadding ? isHorizontal ? padding.Left : padding.Top : 0;
+		var applicableEndPadding = haveEndPadding ? isHorizontal ? padding.Right : padding.Bottom : 0;
 
-		var totalPaddingSize = startPadding + endPadding;
+		var totalPaddingSize = applicableStartPadding + applicableEndPadding;
 
 		// Available Size is the final size minus the border thickness and the padding
 		var availableSizeForStackedChildren = finalSize.GetLength(orientation) - (borderThicknessLength + totalPaddingSize);
 		EnsureZeroFloor(ref availableSizeForStackedChildren);
 
 		// Start the offset at the border + start padding
-		var currentOffset = borderThickness.GetStartLength(orientation) + startPadding;
+		var currentOffset = borderThickness.GetStartLength(orientation) + applicableStartPadding;
 
 		// Calculate the defined inter-element spacing size (if any, not taking care of SpaceBetween yet)
 		var totalSpacingSize = spacing * (numberOfStackedChildren - 1);
@@ -156,7 +155,9 @@ partial class AutoLayout
 			haveMoreFilled,
 			spacing,
 			numberOfStackedChildren,
-			filledChildrenSizeAfterMaxSize);
+			filledChildrenSizeAfterMaxSize,
+			startPadding,
+			endPadding);
 
 		currentOffset += primaryAxisAlignmentOffset;
 
@@ -191,7 +192,7 @@ partial class AutoLayout
 				? Math.Min(child.MeasuredLength, filledChildrenSizeAfterMaxSize)
 				: child.MeasuredLength;
 
-			var offsetRelativeToPadding = currentOffset - (startPadding + borderThicknessLength);
+			var offsetRelativeToPadding = currentOffset - (applicableStartPadding + borderThicknessLength);
 
 			if (childLength > availableSizeForStackedChildren - offsetRelativeToPadding)
 			{
@@ -222,11 +223,13 @@ partial class AutoLayout
 			ApplyMinMaxValues(child.Element, orientation, ref childSize);
 
 			var counterAlignmentOffset =
-				ComputeCounterAlignmentOffset(counterAlignment, childSize.GetCounterLength(orientation), availableCounterLength, counterStartPadding, borderThickness.GetCounterStartLength(orientation));
+				ComputeCounterAlignmentOffset(counterAlignment, childSize.GetCounterLength(orientation), availableCounterLength, padding, isHorizontal);
+
+			var calculatedOffset = counterAlignmentOffset + counterStartPadding + borderThickness.GetCounterStartLength(orientation);
 
 			var childOffsetPosition = new Point(
-				isHorizontal ? currentOffset : counterAlignmentOffset,
-				isHorizontal ? counterAlignmentOffset : currentOffset);
+				isHorizontal ? currentOffset : calculatedOffset,
+				isHorizontal ? calculatedOffset : currentOffset);
 
 			// Arrange the child to its final position, determined by the calculated offset and size
 			child.Element.Arrange(new Rect(childOffsetPosition, childSize));
@@ -287,19 +290,25 @@ partial class AutoLayout
 		AutoLayoutAlignment autoLayoutAlignment,
 		double childCounterLength,
 		double availableCounterLength,
-		double counterStartPadding,
-		double counterBorderThickness)
+		Thickness padding,
+		bool isHorizontal)
 	{
-		var alignmentOffsetSize = availableCounterLength - childCounterLength;
-
-		var calculatedOffset =  autoLayoutAlignment switch
+		switch (autoLayoutAlignment)
 		{
-			AutoLayoutAlignment.End => alignmentOffsetSize,
-			AutoLayoutAlignment.Center when alignmentOffsetSize > 0 => alignmentOffsetSize / 2,
-			_ => 0
-		};
+			case AutoLayoutAlignment.Center:
+				var counterStartPadding = isHorizontal ? padding.Top : padding.Left;
+				var counterEndPadding = isHorizontal ? padding.Bottom : padding.Right;
+				var alignmentOffsetSize = availableCounterLength - (counterStartPadding + counterEndPadding);
+				var relativeOffset = Math.Abs(alignmentOffsetSize) / 2;
 
-		return calculatedOffset + counterStartPadding + counterBorderThickness;
+				return alignmentOffsetSize > 0 ?
+					(relativeOffset + counterStartPadding) - (childCounterLength / 2) :
+					relativeOffset + (availableCounterLength - counterEndPadding) - (childCounterLength / 2);
+			case AutoLayoutAlignment.End:
+				return availableCounterLength - childCounterLength;
+			default:
+				return 0;
+		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -324,7 +333,9 @@ partial class AutoLayout
 		bool haveMoreFilled,
 		double spacing,
 		int numberOfStackedChildren,
-		double filledChildrenSizeAfterMaxSize)
+		double filledChildrenSizeAfterMaxSize,
+		double startPadding,
+		double endPadding)
 	{
 		if (haveMoreFilled || autoLayoutAlignment is AutoLayoutAlignment.Start)
 		{
@@ -335,15 +346,22 @@ partial class AutoLayout
 
 		var fillOverflow = filledChildrenSizeAfterMaxSize > 0 ? totalOfFillMaxSize : filledChildrenSizeAfterMaxSize;
 
-		var alignmentOffsetSize = availableSizeForStackedChildren -
-			(totalNonFilledStackedSize + totalSpacingSize + fillOverflow);
+		var occupiedSpace = totalNonFilledStackedSize + totalSpacingSize + fillOverflow;
 
-		 return autoLayoutAlignment switch
+		switch (autoLayoutAlignment)
 		{
-			AutoLayoutAlignment.End when (filledChildrenSizeAfterMaxSize == 0 || filledChildrenSizeAfterMaxSize > 0 && alignmentOffsetSize > 0 ) => alignmentOffsetSize,
-			AutoLayoutAlignment.Center when alignmentOffsetSize > 0 => alignmentOffsetSize / 2,
-			_ => 0
-		};
+			case AutoLayoutAlignment.Center:
+				var alignmentOffsetSize = availableSizeForStackedChildren - (startPadding + endPadding);
+				var relativeOffset = Math.Abs(alignmentOffsetSize) / 2;
+
+				return alignmentOffsetSize > 0 ?
+					(relativeOffset + startPadding) - (occupiedSpace / 2) :
+					relativeOffset + (availableSizeForStackedChildren - endPadding) - (occupiedSpace / 2);
+			case AutoLayoutAlignment.End when filledChildrenSizeAfterMaxSize == 0 || filledChildrenSizeAfterMaxSize > 0 :
+				return availableSizeForStackedChildren - occupiedSpace;
+			default:
+				return 0;
+		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
