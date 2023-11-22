@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Core;
 #endif
 
-namespace Uno.Toolkit.UI;
+namespace Uno.Toolkit.UI.Helpers;
 
 internal interface IResponsiveCallback
 {

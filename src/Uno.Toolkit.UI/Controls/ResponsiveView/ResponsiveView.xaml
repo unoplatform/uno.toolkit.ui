@@ -5,7 +5,7 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="todo">
 
-	<ResourceDictionary.MergedDictionaries>
+	<!--<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary>
 			<utu:ResponsiveLayout x:Key="ResponsiveLayoutInstance" />
 		</ResourceDictionary>
@@ -56,5 +56,5 @@
 	</Style>
 
 	<Style BasedOn="{StaticResource DefaultResponsiveViewStyle}"
-		   TargetType="utu:ResponsiveView"/>
+		   TargetType="utu:ResponsiveView"/>-->
 </ResourceDictionary>

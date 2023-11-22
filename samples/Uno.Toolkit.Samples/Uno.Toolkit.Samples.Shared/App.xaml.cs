@@ -7,6 +7,7 @@ using Uno.UI;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Graphics.Display;
+using Uno.Toolkit.UI.Helpers;
 
 #if __IOS__
 using Foundation;
