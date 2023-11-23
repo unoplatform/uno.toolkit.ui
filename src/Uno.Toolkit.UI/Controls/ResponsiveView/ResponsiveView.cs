@@ -11,10 +11,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.UI;
 
-public partial class ResponsiveView : ContentControl
-#if !WINDOWS_UWP
-	, IResponsiveCallback
-#endif
+public partial class ResponsiveView : ContentControl, IResponsiveCallback
 {
 	#region DependencyProperties
 
@@ -100,9 +97,13 @@ public partial class ResponsiveView : ContentControl
 
 	private void ResponsiveView_Loaded(object sender, RoutedEventArgs e)
 	{
-		var contentToSet = GetInitialValue();
+		var dataTemplate = GetInitialValue();
 
-		SetContent(contentToSet);
+#if WINDOWS || WINDOWS_UWP
+		Content = dataTemplate?.LoadContent() as UIElement;
+#else
+		ContentTemplate = dataTemplate;
+#endif
 	}
 
 	private DataTemplate? GetInitialValue()
@@ -130,16 +131,12 @@ public partial class ResponsiveView : ContentControl
 
 	public void OnSizeChanged(Size size, ResponsiveLayout layout)
 	{
-		var contentToSet = GetValueForSize(size, ResponsiveLayout ?? layout);
+		var dataTemplate = GetValueForSize(size, ResponsiveLayout ?? layout);
 
-		SetContent(contentToSet);
-	}
-
-	private void SetContent(DataTemplate? contentToSet)
-	{
-		if (contentToSet is not null)
-		{
-			Content = contentToSet.LoadContent() as UIElement;
-		}
+#if WINDOWS || WINDOWS_UWP
+		Content = dataTemplate?.LoadContent() as UIElement;
+#else
+		ContentTemplate = dataTemplate;
+#endif
 	}
 }

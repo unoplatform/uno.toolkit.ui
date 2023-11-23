@@ -4,7 +4,7 @@
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  xmlns:hlp="using:Uno.Toolkit.UI.Helpers"
+	  xmlns:helpers="using:Uno.Toolkit.UI.Helpers"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  mc:Ignorable="d"
@@ -23,13 +23,13 @@
 						</StackPanel.Resources>
 						<utu:ResponsiveView>
 							<utu:ResponsiveView.ResponsiveLayout>
-								<hlp:ResponsiveLayout>
-									<hlp:ResponsiveLayout.Narrowest>150</hlp:ResponsiveLayout.Narrowest>
-									<hlp:ResponsiveLayout.Narrow>1100</hlp:ResponsiveLayout.Narrow>
-									<hlp:ResponsiveLayout.Normal>1300</hlp:ResponsiveLayout.Normal>
-									<hlp:ResponsiveLayout.Wide>1400</hlp:ResponsiveLayout.Wide>
-									<hlp:ResponsiveLayout.Widest>1500</hlp:ResponsiveLayout.Widest>
-								</hlp:ResponsiveLayout>
+								<helpers:ResponsiveLayout>
+									<helpers:ResponsiveLayout.Narrowest>200</helpers:ResponsiveLayout.Narrowest>
+									<helpers:ResponsiveLayout.Narrow>350</helpers:ResponsiveLayout.Narrow>
+									<helpers:ResponsiveLayout.Normal>800</helpers:ResponsiveLayout.Normal>
+									<helpers:ResponsiveLayout.Wide>1200</helpers:ResponsiveLayout.Wide>
+									<helpers:ResponsiveLayout.Widest>1500</helpers:ResponsiveLayout.Widest>
+								</helpers:ResponsiveLayout>
 							</utu:ResponsiveView.ResponsiveLayout>
 							<utu:ResponsiveView.NarrowestContent>
 								<DataTemplate>
