@@ -23,7 +23,11 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	}
 
 	public static readonly DependencyProperty NarrowestContentProperty =
-		DependencyProperty.Register("NarrowestContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("NarrowestContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNarrowestContentChanged));
+
+	private static void OnNarrowestContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveContentChanged(d, e);
+
 	#endregion
 
 	#region Narrow DP
@@ -34,7 +38,10 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	}
 
 	public static readonly DependencyProperty NarrowContentProperty =
-		DependencyProperty.Register("NarrowContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("NarrowContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNarrowContentChanged));
+
+	private static void OnNarrowContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveContentChanged(d, e);
 	#endregion
 
 	#region Normal DP
@@ -45,7 +52,10 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	}
 
 	public static readonly DependencyProperty NormalContentProperty =
-		DependencyProperty.Register("NormalContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("NormalContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNormalContentChanged));
+
+	private static void OnNormalContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveContentChanged(d, e);
 	#endregion
 
 	#region Wide DP
@@ -56,7 +66,10 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	}
 
 	public static readonly DependencyProperty WideContentProperty =
-		DependencyProperty.Register("WideContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("WideContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnWideContentChanged));
+
+	private static void OnWideContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveContentChanged(d, e);
 	#endregion
 
 	#region Widest DP
@@ -67,7 +80,10 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	}
 
 	public static readonly DependencyProperty WidestContentProperty =
-		DependencyProperty.Register("WidestContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null));
+		DependencyProperty.Register("WidestContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnWidestContentChanged));
+
+	private static void OnWidestContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveContentChanged(d, e);
 	#endregion
 
 	#region ResponsiveLayout DP
@@ -84,6 +100,14 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	}
 	#endregion
 
+	private static void OnResponsiveContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		if (d is ResponsiveView { IsLoaded: true } view)
+		{
+			var dataTemplate = view.GetInitialValue();
+			view.Content = dataTemplate?.LoadContent() as UIElement;
+		}
+	}
 	#endregion
 
 	public ResponsiveView()
@@ -98,12 +122,7 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	private void ResponsiveView_Loaded(object sender, RoutedEventArgs e)
 	{
 		var dataTemplate = GetInitialValue();
-
-#if WINDOWS || WINDOWS_UWP
 		Content = dataTemplate?.LoadContent() as UIElement;
-#else
-		ContentTemplate = dataTemplate;
-#endif
 	}
 
 	private DataTemplate? GetInitialValue()
@@ -132,11 +151,6 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	public void OnSizeChanged(Size size, ResponsiveLayout layout)
 	{
 		var dataTemplate = GetValueForSize(size, ResponsiveLayout ?? layout);
-
-#if WINDOWS || WINDOWS_UWP
 		Content = dataTemplate?.LoadContent() as UIElement;
-#else
-		ContentTemplate = dataTemplate;
-#endif
 	}
 }
