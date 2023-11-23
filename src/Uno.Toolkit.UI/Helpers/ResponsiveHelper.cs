@@ -1,15 +1,17 @@
 #if HAS_UNO
 #define UNO14502_WORKAROUND // https://github.com/unoplatform/uno/issues/14502
 #endif
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.Foundation;
+
+#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Windows.Foundation;
+#else
+using Windows.UI.Xaml;
+using Windows.UI.Core;
+#endif
 
 namespace Uno.Toolkit.UI.Helpers;
 

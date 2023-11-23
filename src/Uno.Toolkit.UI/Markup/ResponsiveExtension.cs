@@ -2,23 +2,15 @@ using System;
 using System.Linq;
 using Uno.Extensions;
 using Uno.Logging;
+using Uno.Toolkit.UI.Helpers;
+using Windows.Foundation;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
-using Microsoft.UI.Xaml.Media;
-using Uno.Toolkit.UI.Helpers;
-using Windows.Foundation;
-using XamlWindow = Microsoft.UI.Xaml.Window;
 #else
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
-using XamlWindow = Windows.UI.Xaml.Window;
 #endif
 
 namespace Uno.Toolkit.UI;
@@ -29,8 +21,9 @@ namespace Uno.Toolkit.UI;
 public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 {
 	internal WeakReference? _weakTarget;
+#if !WINDOWS_UWP
 	private DependencyProperty? _targetProperty;
-
+#endif
 	public object? Narrowest { get; set; }
 	public object? Narrow { get; set; }
 	public object? Normal { get; set; }
@@ -47,7 +40,7 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 	/// <inheritdoc/>
 	protected override object? ProvideValue()
 	{
-		this.Log().WarnIfEnabled("The property value, once initially set, cannot be updated due to UWP limitation. Consider upgrading to WinUI, on which the service provider context is exposed through a ProvideValue overload.");
+		this.Log().WarnIfEnabled(() => "The property value, once initially set, cannot be updated due to UWP limitation. Consider upgrading to WinUI, on which the service provider context is exposed through a ProvideValue overload.");
 		return GetInitialValue();
 	}
 #else
