@@ -65,7 +65,6 @@ namespace Uno.Toolkit.UI
 		private bool _isReady;
 		private bool _isGestureCaptured;
 		private bool _initOnceOnLoaded = true;
-		private bool _initOnceOnLayoutUpdated = true;
 		private double _startingTranslateOffset;
 		private bool _suppressIsOpenHandler;
 
@@ -95,7 +94,7 @@ namespace Uno.Toolkit.UI
 			UpdateTranslateAnimationTargetProperty();
 			_storyboard.Children.Add(_translateAnimation);
 
-			// no point updating size here, as we lack the flyout size that is unknown until LayoutUpdated
+			// no point updating size here, as we lack the flyout size that is unknown until SizeChanged
 			UpdateSwipeContentPresenterLayout();
 			//UpdateSwipeContentPresenterSize();
 
@@ -141,9 +140,17 @@ namespace Uno.Toolkit.UI
 			// note: by the time we got here, the popup would be already opened, thus we will miss the first opened event.
 			// in order to catch it, we use LayoutUpdated; Loaded event cannot be used here, as the _drawerContentPresenter
 			// still don't have its Actual(Width|Height) set which are needed for changing the position.
-			LayoutUpdated += OnLayoutUpdated;
+			SizeChanged += OnSizeChanged;
 
 			_isReady = true;
+		}
+
+		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (!HasConcreteActualSize()) return;
+
+			UpdateSwipeContentPresenterLayout();
+			UpdateSwipeContentPresenterSize();
 		}
 
 		private void DrawerContentPresenterSizeChanged(object sender, SizeChangedEventArgs e)
@@ -151,23 +158,10 @@ namespace Uno.Toolkit.UI
 			_lastMeasuredFlyoutContentSize = e.NewSize;
 		}
 
-		private void OnLayoutUpdated(object sender, object e)
-		{
-			if (_initOnceOnLayoutUpdated)
-			{
-				_initOnceOnLayoutUpdated = false;
-
-				UpdateSwipeContentPresenterLayout();
-				UpdateSwipeContentPresenterSize();
-
-				// reset to close position, and animate to open position
-				UpdateOpenness(false);
-				UpdateIsOpen(true, animate: true);
-			}
-		}
-
 		private void OnPopupOpened(object sender, object e)
 		{
+			if (!HasConcreteActualSize()) return;
+
 			// reset to close position, and animate to open position
 			UpdateOpenness(false);
 			UpdateIsOpen(true, animate: true);
@@ -199,6 +193,7 @@ namespace Uno.Toolkit.UI
 
 			StopRunningAnimation();
 			UpdateSwipeContentPresenterLayout();
+			UpdateSwipeContentPresenterSize();
 			UpdateManipulationMode();
 			UpdateTranslateAnimationTargetProperty();
 			ResetOtherAxisTranslateOffset();
@@ -507,6 +502,8 @@ namespace Uno.Toolkit.UI
 				_ => true,
 			};
 		}
+
+		private bool HasConcreteActualSize() => ActualWidth > 0 && ActualHeight > 0;
 
 		private double GetActualDrawerLength()
 		{
