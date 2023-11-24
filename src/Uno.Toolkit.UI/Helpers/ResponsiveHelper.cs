@@ -4,10 +4,9 @@
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
-
+using Uno.Disposables;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Core;
@@ -111,6 +110,9 @@ public partial class ResponsiveLayout : DependencyObject
 internal class ResponsiveHelper
 {
 	private static readonly Lazy<ResponsiveHelper> _instance = new Lazy<ResponsiveHelper>(() => new ResponsiveHelper());
+	private static readonly ResponsiveHelper _debugInstance = new();
+	private static bool UseDebuggableInstance;
+
 	private readonly List<WeakReference> _callbacks = new();
 #if UNO14502_WORKAROUND
 	private List<IResponsiveCallback> _hardCallbackReferences = new();
@@ -119,7 +121,7 @@ internal class ResponsiveHelper
 	public ResponsiveLayout Layout { get; private set; } = ResponsiveLayout.Create(150, 300, 600, 800, 1080);
 	public Size WindowSize { get; private set; } = Size.Empty;
 
-	public static ResponsiveHelper GetForCurrentView() => _instance.Value;
+	public static ResponsiveHelper GetForCurrentView() => UseDebuggableInstance ? _debugInstance : _instance.Value;
 
 	private ResponsiveHelper() { }
 
@@ -174,5 +176,17 @@ internal class ResponsiveHelper
 
 		var wr = new WeakReference(host);
 		_callbacks.Add(wr);
+	}
+
+	internal static IDisposable UsingDebuggableInstance()
+	{
+		UseDebuggableInstance = true;
+
+		return Disposable.Create(() => UseDebuggableInstance = false);
+	}
+
+	internal static void SetDebugSize(Size size)
+	{
+		_debugInstance.WindowSize = size;
 	}
 }
