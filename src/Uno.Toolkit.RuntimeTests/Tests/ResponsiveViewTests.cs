@@ -197,11 +197,10 @@ internal class ResponsiveViewTests
 			""");
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(host);
-
 			Assert.AreEqual(typeof(TextBlock), host.Content.GetType());
 
-			//ResponsiveHelper.SetDebugSize(new Size(800, 400));
-			//Assert.AreEqual(typeof(TextBox), host.Content.GetType());
+			ResponsiveHelper.SetDebugSize(new Size(800, 400));
+			Assert.AreEqual(typeof(TextBox), host.Content.GetType());
 		}
 	}
 #endif
