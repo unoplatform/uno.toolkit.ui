@@ -132,9 +132,11 @@ internal class ResponsiveHelper
 		window.SizeChanged += OnWindowSizeChanged;
 	}
 
-	private void OnWindowSizeChanged(object sender, WindowSizeChangedEventArgs e)
+	private void OnWindowSizeChanged(object sender, WindowSizeChangedEventArgs e) => OnWindowSizeChanged(e.Size);
+
+	private void OnWindowSizeChanged(Size size)
 	{
-		WindowSize = e.Size;
+		WindowSize = size;
 
 		// Clean up collected references
 		_callbacks.RemoveAll(reference => !reference.IsAlive);
@@ -185,8 +187,5 @@ internal class ResponsiveHelper
 		return Disposable.Create(() => UseDebuggableInstance = false);
 	}
 
-	internal static void SetDebugSize(Size size)
-	{
-		_debugInstance.WindowSize = size;
-	}
+	internal static void SetDebugSize(Size size) => _debugInstance.OnWindowSizeChanged(size);
 }
