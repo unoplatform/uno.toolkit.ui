@@ -5,15 +5,22 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:hlp="using:Uno.Toolkit.UI.Helpers"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 	<Page.Resources>
 		<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
 		<Orientation x:Key="WideOrientation">Horizontal</Orientation>
 		<x:Double x:Key="NarrowFontSize">15</x:Double>
-		<x:Double x:Key="WideFontSize">30</x:Double>
+		<x:Double x:Key="WideFontSize">25</x:Double>
 		<SolidColorBrush x:Key="NarrowRed">Crimson</SolidColorBrush>
 		<SolidColorBrush x:Key="WideBlue">Blue</SolidColorBrush>
+		<hlp:ResponsiveLayout x:Key="CustomLayout"
+							  Narrowest="200"
+							  Narrow="350"
+							  Normal="800"
+							  Wide="1200"
+							  Widest="1500" />
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -32,7 +39,7 @@
 						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 300', Normal='Normal Threshold 600', Wide='Wide Threshold 800'}" />
 
 						<TextBlock Text="FontSize test" FontWeight="Bold" />
-						<TextBlock Text="Normal 15 Wide 30"
+						<TextBlock Text="Normal 15 Wide 25"
 								   FontSize="{utu:Responsive Normal={StaticResource NarrowFontSize},
 															 Wide={StaticResource WideFontSize}}" />
 
@@ -42,6 +49,18 @@
 								HorizontalAlignment="Left"
 								Background="{utu:Responsive Normal={StaticResource NarrowRed},
 															Wide={StaticResource WideBlue}}" />
+						
+						<TextBlock Text="Custom values override" FontWeight="Bold" />
+						<TextBlock>
+							<TextBlock.Text>
+								<utu:ResponsiveExtension Layout="{StaticResource CustomLayout}"
+											 Narrowest="This is the narrowest screen size."
+											 Narrow="This is a narrow screen size."
+											 Normal="This is a normal screen size."
+											 Wide="This is a wide screen size."
+											 Widest="This is the widest screen size." />
+							</TextBlock.Text>
+						</TextBlock>
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>
