@@ -110,11 +110,7 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	}
 	#endregion
 
-#if WINDOWS || WINDOWS_UWP
-	public object ResponsiveContent => Content;
-#else
-	public object ResponsiveContent => ContentTemplateRoot;
-#endif
+	private DataTemplate? _currentContent;
 
 	public ResponsiveView()
 	{
@@ -127,12 +123,9 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 
 	private void ResponsiveView_Loaded(object sender, RoutedEventArgs e)
 	{
-		var dataTemplate = GetInitialValue();
-#if WINDOWS || WINDOWS_UWP
-		Content = dataTemplate?.LoadContent() as UIElement;
-#else
-        ContentTemplate = dataTemplate;
-#endif
+		_currentContent = GetInitialValue();
+
+		Content = _currentContent?.LoadContent() as UIElement;
 	}
 
 	private DataTemplate? GetInitialValue()
@@ -161,10 +154,11 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	public void OnSizeChanged(Size size, ResponsiveLayout layout)
 	{
 		var dataTemplate = GetValueForSize(size, ResponsiveLayout ?? layout);
-#if WINDOWS || WINDOWS_UWP
-		Content = dataTemplate?.LoadContent() as UIElement;
-#else
-        ContentTemplate = dataTemplate;
-#endif
+
+		if (dataTemplate != _currentContent)
+		{
+			_currentContent = dataTemplate;
+			Content = dataTemplate?.LoadContent() as UIElement;
+		}
 	}
 }

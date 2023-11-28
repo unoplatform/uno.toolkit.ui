@@ -39,7 +39,6 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 | WideContent       | DataTemplate     | Content to be displayed on a wide screen size.                                                      |
 | WidestContent     | DataTemplate     | Content to be displayed on the widest screen size.                                                  |
 | ResponsiveLayout  | ResponsiveLayout | Overrides the MaxWidth for each screen size: `Narrowest`, `Narrow`, `Normal`, `Wide`, and `Widest`. |
-| ResponsiveContent | object           | Gets the current Content being displayed.                                                           |
 
 ### Usage
 

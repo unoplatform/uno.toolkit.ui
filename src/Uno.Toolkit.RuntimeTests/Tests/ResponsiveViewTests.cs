@@ -44,7 +44,7 @@ internal class ResponsiveViewTests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
-			var element = (TextBlock)host.ResponsiveContent;
+			var element = (TextBlock)host.Content;
 
 			Assert.AreEqual("Narrow", element.Text);
 		}
@@ -79,7 +79,7 @@ internal class ResponsiveViewTests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
-			Assert.AreEqual(typeof(Rectangle), host.ResponsiveContent.GetType());
+			Assert.AreEqual(typeof(Rectangle), host.Content.GetType());
 		}
 	}
 
@@ -121,7 +121,7 @@ internal class ResponsiveViewTests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
-			Assert.AreEqual(typeof(Ellipse), host.ResponsiveContent.GetType());
+			Assert.AreEqual(typeof(Ellipse), host.Content.GetType());
 		}
 	}
 
@@ -159,7 +159,7 @@ internal class ResponsiveViewTests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
-			Assert.AreEqual(typeof(Ellipse), host.ResponsiveContent.GetType());
+			Assert.AreEqual(typeof(Ellipse), host.Content.GetType());
 		}
 	}
 
@@ -196,10 +196,10 @@ internal class ResponsiveViewTests
 			""");
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(host);
-			Assert.AreEqual(typeof(TextBlock), host.ResponsiveContent.GetType());
+			Assert.AreEqual(typeof(TextBlock), host.Content.GetType());
 
 			ResponsiveHelper.SetDebugSize(new Size(800, 400));
-			Assert.AreEqual(typeof(TextBox), host.ResponsiveContent.GetType());
+			Assert.AreEqual(typeof(TextBox), host.Content.GetType());
 		}
 	}
 }
