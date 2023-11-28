@@ -573,4 +573,43 @@ internal class AutoLayoutTest
 		Assert.AreEqual(Math.Ceiling(autoLayoutAcutalWidth - textBlockCenter), Math.Ceiling(textBlockTransform!.X));
 		Assert.AreEqual(Math.Ceiling(SUT.ActualWidth - button.ActualWidth), Math.Ceiling(buttonTransform!.X));
 	}
+
+	[TestMethod]
+	[RequiresFullWindow]
+	public async Task When_Hug_With_Padding()
+	{
+		var SUT = new AutoLayout()
+		{
+			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 300,
+			Height = 300,
+			Padding = new Thickness(50)
+		};
+
+		var autolayout = new AutoLayout()
+		{
+			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
+		};
+
+		var textBlock = new TextBlock()
+		{
+			Text = "should be center",
+		};
+
+		AutoLayout.SetCounterAlignment(textBlock, AutoLayoutAlignment.Center);
+		AutoLayout.SetCounterAlignment(autolayout, AutoLayoutAlignment.Center);
+
+		SUT.Children.Add(autolayout);
+		autolayout.Children.Add(textBlock);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var textBlockTransform = textBlock.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+
+		var autoLayoutAcutalWidth = SUT.ActualWidth / 2;
+		var textBlockCenter = textBlock.ActualWidth / 2;
+
+		Assert.AreEqual(Math.Ceiling(autoLayoutAcutalWidth - textBlockCenter), Math.Ceiling(textBlockTransform!.X));
+	}
 }

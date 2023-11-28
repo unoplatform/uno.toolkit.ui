@@ -204,7 +204,7 @@ partial class AutoLayout
 
 			// Calculate the position of the child by applying the alignment instructions
 			var counterAlignment = GetCounterAlignment(child.Element);
-			var isStretch = counterAlignment is AutoLayoutAlignment.Stretch || (child.Element is FrameworkElement fe && fe.GetCounterLength(orientation) is double.NaN);
+			var isStretch = counterAlignment is AutoLayoutAlignment.Stretch || (child.Element is FrameworkElement fe && fe.GetCounterLength(orientation) is double.NaN) && child.Role is not AutoLayoutRole.Hug;
 			var haveCounterStartPadding = isStretch || counterAlignment is AutoLayoutAlignment.Start;
 			var counterStartPadding = haveCounterStartPadding ? (isHorizontal ? padding.Top : padding.Left) : 0;
 
@@ -287,13 +287,13 @@ partial class AutoLayout
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static double ComputeCounterAlignmentOffset(
-		AutoLayoutAlignment autoLayoutAlignment,
+		AutoLayoutAlignment counterAlignment,
 		double childCounterLength,
 		double availableCounterLength,
 		Thickness padding,
 		bool isHorizontal)
 	{
-		switch (autoLayoutAlignment)
+		switch (counterAlignment)
 		{
 			case AutoLayoutAlignment.Center:
 				var counterStartPadding = isHorizontal ? padding.Top : padding.Left;
