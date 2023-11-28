@@ -38,6 +38,8 @@
       href: controls/LoadingView.md
     - name: NavigationBar
       href: controls/NavigationBar.md
+    - name: ResponsiveView
+      href: controls/ResponsiveView.md
     - name: SafeArea
       href: controls/SafeArea.md
     - name: ShadowContainer

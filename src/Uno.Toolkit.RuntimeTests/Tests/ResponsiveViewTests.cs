@@ -163,7 +163,6 @@ internal class ResponsiveViewTests
 		}
 	}
 
-#if !IS_UWP || HAS_UNO
 	[TestMethod]
 	public async Task ResponsiveView_WideContent_SizeChanged()
 	{
@@ -203,5 +202,4 @@ internal class ResponsiveViewTests
 			Assert.AreEqual(typeof(TextBox), host.ResponsiveContent.GetType());
 		}
 	}
-#endif
 }
