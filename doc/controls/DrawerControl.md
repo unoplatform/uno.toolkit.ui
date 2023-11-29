@@ -74,6 +74,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
     </utu:DrawerControl.DrawerContent>
 </utu:DrawerControl>
 ```
+![](../assets/DrawerControls.png)
 
 #### NavigationView with drawer
 The `DrawerControl` can also be used to enhance [`NavigationView` (muxc)](https://docs.microsoft.com/en-us/windows/winui/api/microsoft.ui.xaml.controls.navigationview?view=winui-3.0) with gesture support, using the `DrawerNavigationViewStyle`:

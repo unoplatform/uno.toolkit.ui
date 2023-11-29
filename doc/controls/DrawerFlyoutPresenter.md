@@ -102,6 +102,9 @@ Example:
         </Flyout>
     </Button.Flyout>
 </Button>
+
+![](../assets/DrawerFlyoutPresenter.png)
+
 ```
 > note: Here `VisibleBoundsPadding.PaddingMask` is used to prevent the content from being placed outside of the user-interactable area on mobile devices.
 

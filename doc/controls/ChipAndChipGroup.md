@@ -78,6 +78,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 	</utu:Chip.Icon>
 </utu:Chip>
 ```
+![](../assets/chips.png)
+
 
 ## Lightweight Styling
 
