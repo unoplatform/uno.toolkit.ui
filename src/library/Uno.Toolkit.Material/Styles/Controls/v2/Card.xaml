@@ -617,6 +617,7 @@
 						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
 						Background="{TemplateBinding Background}"
 						BorderThickness="{TemplateBinding BorderThickness}"
+						BorderBrush="{TemplateBinding BorderBrush}"
 						CornerRadius="{TemplateBinding CornerRadius}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
