@@ -29,16 +29,16 @@ internal class ResponsiveViewTests
 
 			var host = XamlHelper.LoadXaml<ResponsiveView>("""
 				<utu:ResponsiveView>
-					<utu:ResponsiveView.NarrowContent>
+					<utu:ResponsiveView.NarrowTemplate>
 						<DataTemplate>
 							<TextBlock Text="Narrow" />
 						</DataTemplate>
-					</utu:ResponsiveView.NarrowContent>
-					<utu:ResponsiveView.WideContent>
+					</utu:ResponsiveView.NarrowTemplate>
+					<utu:ResponsiveView.WideTemplate>
 						<DataTemplate>
 							<TextBlock Text="Wide" />
 						</DataTemplate>
-					</utu:ResponsiveView.WideContent>
+					</utu:ResponsiveView.WideTemplate>
 				</utu:ResponsiveView>
 			""");
 
@@ -59,21 +59,21 @@ internal class ResponsiveViewTests
 
 			var host = XamlHelper.LoadXaml<ResponsiveView>("""
 				<utu:ResponsiveView>
-					<utu:ResponsiveView.NarrowContent>
+					<utu:ResponsiveView.NarrowTemplate>
 						<DataTemplate>
 							<TextBlock Text="Narrow" />
 						</DataTemplate>
-					</utu:ResponsiveView.NarrowContent>
-					<utu:ResponsiveView.NormalContent>
+					</utu:ResponsiveView.NarrowTemplate>
+					<utu:ResponsiveView.NormalTemplate>
 						<DataTemplate>
 							<Rectangle Width="400" Height="400" />
 						</DataTemplate>
-					</utu:ResponsiveView.NormalContent>
-					<utu:ResponsiveView.WideContent>
+					</utu:ResponsiveView.NormalTemplate>
+					<utu:ResponsiveView.WideTemplate>
 						<DataTemplate>
 							<TextBlock Text="Wide" />
 						</DataTemplate>
-					</utu:ResponsiveView.WideContent>
+					</utu:ResponsiveView.WideTemplate>
 				</utu:ResponsiveView>
 			""");
 
@@ -101,21 +101,21 @@ internal class ResponsiveViewTests
 							<helpers:ResponsiveLayout.Widest>1500</helpers:ResponsiveLayout.Widest>
 						</helpers:ResponsiveLayout>
 					</utu:ResponsiveView.ResponsiveLayout>
-					<utu:ResponsiveView.NarrowestContent>
+					<utu:ResponsiveView.NarrowestTemplate>
 						<DataTemplate>
 							<Ellipse Width="100" Height="100" />
 						</DataTemplate>
-					</utu:ResponsiveView.NarrowestContent>
-					<utu:ResponsiveView.NarrowContent>
+					</utu:ResponsiveView.NarrowestTemplate>
+					<utu:ResponsiveView.NarrowTemplate>
 						<DataTemplate>
 							<Rectangle Width="100" Height="100" />
 						</DataTemplate>
-					</utu:ResponsiveView.NarrowContent>
-					<utu:ResponsiveView.WideContent>
+					</utu:ResponsiveView.NarrowTemplate>
+					<utu:ResponsiveView.WideTemplate>
 						<DataTemplate>
 							<TextBlock Text="Wide" />
 						</DataTemplate>
-					</utu:ResponsiveView.WideContent>
+					</utu:ResponsiveView.WideTemplate>
 				</utu:ResponsiveView>
 			""");
 
@@ -134,26 +134,26 @@ internal class ResponsiveViewTests
 
 			var host = XamlHelper.LoadXaml<ResponsiveView>("""
 				<utu:ResponsiveView>
-					<utu:ResponsiveView.NarrowContent>
+					<utu:ResponsiveView.NarrowTemplate>
 						<DataTemplate>
 							<TextBlock Text="Narrow" />
 						</DataTemplate>
-					</utu:ResponsiveView.NarrowContent>
-					<utu:ResponsiveView.NormalContent>
+					</utu:ResponsiveView.NarrowTemplate>
+					<utu:ResponsiveView.NormalTemplate>
 						<DataTemplate>
 							<Rectangle Width="400" Height="400" />
 						</DataTemplate>
-					</utu:ResponsiveView.NormalContent>
-					<utu:ResponsiveView.WideContent>
+					</utu:ResponsiveView.NormalTemplate>
+					<utu:ResponsiveView.WideTemplate>
 						<DataTemplate>
 							<TextBlock Text="Wide" />
 						</DataTemplate>
-					</utu:ResponsiveView.WideContent>
-					<utu:ResponsiveView.WidestContent>
+					</utu:ResponsiveView.WideTemplate>
+					<utu:ResponsiveView.WidestTemplate>
 						<DataTemplate>
 							<Ellipse Width="400" Height="400" />
 						</DataTemplate>
-					</utu:ResponsiveView.WidestContent>
+					</utu:ResponsiveView.WidestTemplate>
 				</utu:ResponsiveView>
 			""");
 
@@ -172,26 +172,26 @@ internal class ResponsiveViewTests
 
 			var host = XamlHelper.LoadXaml<ResponsiveView>("""
 				<utu:ResponsiveView>
-					<utu:ResponsiveView.NarrowContent>
+					<utu:ResponsiveView.NarrowTemplate>
 						<DataTemplate>
 							<TextBlock Text="Narrow" />
 						</DataTemplate>
-					</utu:ResponsiveView.NarrowContent>
-					<utu:ResponsiveView.NormalContent>
+					</utu:ResponsiveView.NarrowTemplate>
+					<utu:ResponsiveView.NormalTemplate>
 						<DataTemplate>
 							<Rectangle Width="400" Height="400" />
 						</DataTemplate>
-					</utu:ResponsiveView.NormalContent>
-					<utu:ResponsiveView.WideContent>
+					</utu:ResponsiveView.NormalTemplate>
+					<utu:ResponsiveView.WideTemplate>
 						<DataTemplate>
 							<TextBox Text="Wide" />
 						</DataTemplate>
-					</utu:ResponsiveView.WideContent>
-					<utu:ResponsiveView.WidestContent>
+					</utu:ResponsiveView.WideTemplate>
+					<utu:ResponsiveView.WidestTemplate>
 						<DataTemplate>
 							<Ellipse Width="400" Height="400" />
 						</DataTemplate>
-					</utu:ResponsiveView.WidestContent>
+					</utu:ResponsiveView.WidestTemplate>
 				</utu:ResponsiveView>
 			""");
 

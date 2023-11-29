@@ -31,7 +31,7 @@
 									<helpers:ResponsiveLayout.Widest>1500</helpers:ResponsiveLayout.Widest>
 								</helpers:ResponsiveLayout>
 							</utu:ResponsiveView.ResponsiveLayout>
-							<utu:ResponsiveView.NarrowestContent>
+							<utu:ResponsiveView.NarrowestTemplate>
 								<DataTemplate>
 									<StackPanel Spacing="16">
 										<TextBlock Text="Extra Narrow"
@@ -56,8 +56,8 @@
 										</StackPanel>
 									</StackPanel>
 								</DataTemplate>
-							</utu:ResponsiveView.NarrowestContent>
-							<utu:ResponsiveView.NarrowContent>
+							</utu:ResponsiveView.NarrowestTemplate>
+							<utu:ResponsiveView.NarrowTemplate>
 								<DataTemplate>
 									<StackPanel Spacing="16">
 										<TextBlock Text="Narrow"
@@ -81,8 +81,8 @@
 										</StackPanel>
 									</StackPanel>
 								</DataTemplate>
-							</utu:ResponsiveView.NarrowContent>
-							<utu:ResponsiveView.NormalContent>
+							</utu:ResponsiveView.NarrowTemplate>
+							<utu:ResponsiveView.NormalTemplate>
 								<DataTemplate>
 									<StackPanel Spacing="16">
 										<TextBlock Text="Default"
@@ -106,8 +106,8 @@
 										</StackPanel>
 									</StackPanel>
 								</DataTemplate>
-							</utu:ResponsiveView.NormalContent>
-							<utu:ResponsiveView.WideContent>
+							</utu:ResponsiveView.NormalTemplate>
+							<utu:ResponsiveView.WideTemplate>
 								<DataTemplate>
 									<StackPanel Spacing="16">
 										<TextBlock Text="Wide"
@@ -131,8 +131,8 @@
 										</StackPanel>
 									</StackPanel>
 								</DataTemplate>
-							</utu:ResponsiveView.WideContent>
-							<utu:ResponsiveView.WidestContent>
+							</utu:ResponsiveView.WideTemplate>
+							<utu:ResponsiveView.WidestTemplate>
 								<DataTemplate>
 									<StackPanel Spacing="16">
 										<TextBlock Text="Extra Wide"
@@ -156,7 +156,7 @@
 										</StackPanel>
 									</StackPanel>
 								</DataTemplate>
-							</utu:ResponsiveView.WidestContent>
+							</utu:ResponsiveView.WidestTemplate>
 						</utu:ResponsiveView>
 					</StackPanel>
 				</DataTemplate>

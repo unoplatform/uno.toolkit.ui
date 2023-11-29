@@ -16,74 +16,74 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	#region DependencyProperties
 
 	#region Narrowest DP
-	public DataTemplate NarrowestContent
+	public DataTemplate NarrowestTemplate
 	{
-		get { return (DataTemplate)GetValue(NarrowestContentProperty); }
-		set { SetValue(NarrowestContentProperty, value); }
+		get { return (DataTemplate)GetValue(NarrowestTemplateProperty); }
+		set { SetValue(NarrowestTemplateProperty, value); }
 	}
 
-	public static readonly DependencyProperty NarrowestContentProperty =
-		DependencyProperty.Register("NarrowestContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNarrowestContentChanged));
+	public static readonly DependencyProperty NarrowestTemplateProperty =
+		DependencyProperty.Register("NarrowestTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNarrowestTemplateChanged));
 
-	private static void OnNarrowestContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveContentChanged(d, e);
+	private static void OnNarrowestTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveTemplateChanged(d, e);
 
 	#endregion
 
 	#region Narrow DP
-	public DataTemplate NarrowContent
+	public DataTemplate NarrowTemplate
 	{
-		get { return (DataTemplate)GetValue(NarrowContentProperty); }
-		set { SetValue(NarrowContentProperty, value); }
+		get { return (DataTemplate)GetValue(NarrowTemplateProperty); }
+		set { SetValue(NarrowTemplateProperty, value); }
 	}
 
-	public static readonly DependencyProperty NarrowContentProperty =
-		DependencyProperty.Register("NarrowContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNarrowContentChanged));
+	public static readonly DependencyProperty NarrowTemplateProperty =
+		DependencyProperty.Register("NarrowTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNarrowTemplateChanged));
 
-	private static void OnNarrowContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveContentChanged(d, e);
+	private static void OnNarrowTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveTemplateChanged(d, e);
 	#endregion
 
 	#region Normal DP
-	public DataTemplate NormalContent
+	public DataTemplate NormalTemplate
 	{
-		get { return (DataTemplate)GetValue(NormalContentProperty); }
-		set { SetValue(NormalContentProperty, value); }
+		get { return (DataTemplate)GetValue(NormalTemplateProperty); }
+		set { SetValue(NormalTemplateProperty, value); }
 	}
 
-	public static readonly DependencyProperty NormalContentProperty =
-		DependencyProperty.Register("NormalContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNormalContentChanged));
+	public static readonly DependencyProperty NormalTemplateProperty =
+		DependencyProperty.Register("NormalTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNormalTemplateChanged));
 
-	private static void OnNormalContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveContentChanged(d, e);
+	private static void OnNormalTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveTemplateChanged(d, e);
 	#endregion
 
 	#region Wide DP
-	public DataTemplate WideContent
+	public DataTemplate WideTemplate
 	{
-		get { return (DataTemplate)GetValue(WideContentProperty); }
-		set { SetValue(WideContentProperty, value); }
+		get { return (DataTemplate)GetValue(WideTemplateProperty); }
+		set { SetValue(WideTemplateProperty, value); }
 	}
 
-	public static readonly DependencyProperty WideContentProperty =
-		DependencyProperty.Register("WideContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnWideContentChanged));
+	public static readonly DependencyProperty WideTemplateProperty =
+		DependencyProperty.Register("WideTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnWideTemplateChanged));
 
-	private static void OnWideContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveContentChanged(d, e);
+	private static void OnWideTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveTemplateChanged(d, e);
 	#endregion
 
 	#region Widest DP
-	public DataTemplate WidestContent
+	public DataTemplate WidestTemplate
 	{
-		get { return (DataTemplate)GetValue(WidestContentProperty); }
-		set { SetValue(WidestContentProperty, value); }
+		get { return (DataTemplate)GetValue(WidestTemplateProperty); }
+		set { SetValue(WidestTemplateProperty, value); }
 	}
 
-	public static readonly DependencyProperty WidestContentProperty =
-		DependencyProperty.Register("WidestContent", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnWidestContentChanged));
+	public static readonly DependencyProperty WidestTemplateProperty =
+		DependencyProperty.Register("WidestTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnWidestTemplateChanged));
 
-	private static void OnWidestContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveContentChanged(d, e);
+	private static void OnWidestTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		=> OnResponsiveTemplateChanged(d, e);
 	#endregion
 
 	#region ResponsiveLayout DP
@@ -100,7 +100,7 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	}
 	#endregion
 
-	private static void OnResponsiveContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	private static void OnResponsiveTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		if (d is ResponsiveView { IsLoaded: true } view)
 		{
@@ -139,11 +139,11 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 	{
 		var defs = new (double MinWidth, DataTemplate? Value)?[]
 		{
-			(layout.Narrowest, NarrowestContent),
-			(layout.Narrow, NarrowContent),
-			(layout.Normal, NormalContent),
-			(layout.Wide, WideContent),
-			(layout.Widest, WidestContent),
+			(layout.Narrowest, NarrowestTemplate),
+			(layout.Narrow, NarrowTemplate),
+			(layout.Normal, NormalTemplate),
+			(layout.Wide, WideTemplate),
+			(layout.Widest, WidestTemplate),
 		}.Where(x => x?.Value != null).ToArray();
 
 		var match = defs.FirstOrDefault(y => y?.MinWidth >= size.Width) ?? defs.LastOrDefault();

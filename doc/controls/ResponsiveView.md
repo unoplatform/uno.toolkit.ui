@@ -31,14 +31,14 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 | ResponsiveView() | Initializes a new instance of the `ResponsiveView` class. |
 
 ### Properties
-| Property          | Type             | Description                                                                                         |
-| ----------------- | ---------------- | --------------------------------------------------------------------------------------------------- |
-| NarrowestContent  | DataTemplate     | Content to be displayed on the narrowest screen size.                                               |
-| NarrowContent     | DataTemplate     | Content to be displayed on a narrow screen size.                                                    |
-| NormalContent     | DataTemplate     | Content to be displayed on a normal screen size.                                                    |
-| WideContent       | DataTemplate     | Content to be displayed on a wide screen size.                                                      |
-| WidestContent     | DataTemplate     | Content to be displayed on the widest screen size.                                                  |
-| ResponsiveLayout  | ResponsiveLayout | Overrides the MaxWidth for each screen size: `Narrowest`, `Narrow`, `Normal`, `Wide`, and `Widest`. |
+| Property          | Type             | Description                                             |
+| ----------------- | ---------------- | ------------------------------------------------------- |
+| NarrowestTemplate | DataTemplate     | Template to be displayed on the narrowest screen size.  |
+| NarrowTemplate    | DataTemplate     | Template to be displayed on a narrow screen size.       |
+| NormalTemplate    | DataTemplate     | Template to be displayed on a normal screen size.       |
+| WideTemplate      | DataTemplate     | Template to be displayed on a wide screen size.         |
+| WidestTemplate    | DataTemplate     | Template to be displayed on the widest screen size.     |
+| ResponsiveLayout  | ResponsiveLayout | Overrides the screen size threshold/breakpoints.        |
 
 ### Usage
 
@@ -46,31 +46,31 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 <utu:ResponsiveView>
-    <utu:ResponsiveView.NarrowestContent>
+    <utu:ResponsiveView.NarrowestTemplate>
         <DataTemplate>
             <!-- Narrowest content -->
         </DataTemplate>
-    </utu:ResponsiveView.NarrowestContent>
-    <utu:ResponsiveView.NarrowContent>
+    </utu:ResponsiveView.NarrowestTemplate>
+    <utu:ResponsiveView.NarrowTemplate>
         <DataTemplate>
             <!-- Narrow content -->
         </DataTemplate>
-    </utu:ResponsiveView.NarrowContent>
-    <utu:ResponsiveView.NormalContent>
+    </utu:ResponsiveView.NarrowTemplate>
+    <utu:ResponsiveView.NormalTemplate>
         <DataTemplate>
             <!-- Normal content -->
         </DataTemplate>
-    </utu:ResponsiveView.NormalContent>
-    <utu:ResponsiveView.WideContent>
+    </utu:ResponsiveView.NormalTemplate>
+    <utu:ResponsiveView.WideTemplate>
         <DataTemplate>
            <!-- Wide content -->
         </DataTemplate>
-    </utu:ResponsiveView.WideContent>
-    <utu:ResponsiveView.WidestContent>
+    </utu:ResponsiveView.WideTemplate>
+    <utu:ResponsiveView.WidestTemplate>
         <DataTemplate>
            <!-- Widest content -->
         </DataTemplate>
-    </utu:ResponsiveView.WidestContent>
+    </utu:ResponsiveView.WidestTemplate>
 </utu:ResponsiveView>
 ```
 
@@ -102,30 +102,30 @@ xmlns:hlp="using:Uno.Toolkit.UI.Helpers"
             <hlp:ResponsiveLayout.Widest>1500</hlp:ResponsiveLayout.Widest>
         </hlp:ResponsiveLayout>
     </utu:ResponsiveView.ResponsiveLayout>
-    <utu:ResponsiveView.NarrowestContent>
+    <utu:ResponsiveView.NarrowestTemplate>
         <DataTemplate>
             <!-- Narrowest content -->
         </DataTemplate>
-    </utu:ResponsiveView.NarrowestContent>
-    <utu:ResponsiveView.NarrowContent>
+    </utu:ResponsiveView.NarrowestTemplate>
+    <utu:ResponsiveView.NarrowTemplate>
         <DataTemplate>
             <!-- Narrow content -->
         </DataTemplate>
-    </utu:ResponsiveView.NarrowContent>
-    <utu:ResponsiveView.NormalContent>
+    </utu:ResponsiveView.NarrowTemplate>
+    <utu:ResponsiveView.NormalTemplate>
         <DataTemplate>
             <!-- Normal content -->
         </DataTemplate>
-    </utu:ResponsiveView.NormalContent>
-    <utu:ResponsiveView.WideContent>
+    </utu:ResponsiveView.NormalTemplate>
+    <utu:ResponsiveView.WideTemplate>
         <DataTemplate>
            <!-- Wide content -->
         </DataTemplate>
-    </utu:ResponsiveView.WideContent>
-    <utu:ResponsiveView.WidestContent>
+    </utu:ResponsiveView.WideTemplate>
+    <utu:ResponsiveView.WidestTemplate>
         <DataTemplate>
            <!-- Widest content -->
         </DataTemplate>
-    </utu:ResponsiveView.WidestContent>
+    </utu:ResponsiveView.WidestTemplate>
 </utu:ResponsiveView>
 ```
