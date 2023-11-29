@@ -4,21 +4,8 @@ uid: Toolkit.UI.ResponsiveExtension
 # ResponsiveExtension
 
 ## Summary
-The `ResponsiveExtension` class is a markup extension in the Uno Toolkit UI library that allows you to adapt the properties of a UI element based on the current window width.
-This is particularly useful for creating responsive designs that look good on a variety of screen sizes.
-
-### C#
-```csharp
-public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
-```
-
-### XAML
-```xml
-xmlns:utu="using:Uno.Toolkit.UI"
-...
-
-<utu:ResponsiveExtension />
-```
+The `ResponsiveExtension` class is a markup extension in the Uno Toolkit UI library that enables the adaptation of UI element properties based on the current window width.
+This functionality provides a dynamic and responsive user interface experience.
 
 ### Inheritance 
 Object &#8594; MarkupExtension &#8594; ResponsiveExtension
@@ -29,18 +16,17 @@ Object &#8594; MarkupExtension &#8594; ResponsiveExtension
 | ResponsiveExtension() | Initializes a new instance of the `ResponsiveExtension` class. |
 
 ### Properties
-| Property   | Type             | Description                                                                                         |
-| ---------- | ---------------- | --------------------------------------------------------------------------------------------------- |
-| Narrowest  | object           | Value to be used when the screen size is at its narrowest.                                          |
-| Narrow     | object           | Value to be used when the screen size is narrow.                                                    |
-| Normal     | object           | Value to be used when the screen size is normal.                                                    |
-| Wide       | object           | Value to be used when the screen size is wide.                                                      |
-| Widest     | object           | Value to be used when the screen size is at its widest.                                             |
-| Layout     | ResponsiveLayout | Overrides the MaxWidth for each screen size: `Narrowest`, `Narrow`, `Normal`, `Wide`, and `Widest`. |
+| Property   | Type             | Description                                                |
+| ---------- | ---------------- | ---------------------------------------------------------- |
+| Narrowest  | object           | Value to be used when the screen size is at its narrowest. |
+| Narrow     | object           | Value to be used when the screen size is narrow.           |
+| Normal     | object           | Value to be used when the screen size is normal.           |
+| Wide       | object           | Value to be used when the screen size is wide.             |
+| Widest     | object           | Value to be used when the screen size is at its widest.    |
+| Layout     | ResponsiveLayout | Overrides the screen size thresholds/breakpoints.          |
 
 ### Usage
 ```xml
-<!-- Include the following XAML namespace to use the sample below -->
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 <Page.Resources>
@@ -48,45 +34,42 @@ xmlns:utu="using:Uno.Toolkit.UI"
 	<SolidColorBrush x:Key="WideBlue">Blue</SolidColorBrush>
 </Page.Resources>
 ...
-<Border Width="30"
-		Height="30"
-		HorizontalAlignment="Left"
-		Background="{utu:Responsive Normal={StaticResource NarrowRed},
-									Wide={StaticResource WideBlue}}" />
+<TextBlock Text="Asd"
+		   Background="{utu:Responsive Narrow={StaticResource NarrowRed}, Wide={StaticResource WideBlue}}" />
 ```
 
 ## Remarks
-**Platform Limitations**: The ability to update property values when the window size changes is only available on targets other than Windows UWP. On UWP targets, where only the parameterless constructor is available, the property value can only be set initially and cannot be updated if the window size changes. This is a limitation of UWP, and the class logs a warning message when the extension is used on UWP.
+**Property type limitation**: Content property values other than strings must be appropriately typed for the markup extension to interpret them correctly.
+In the usage example above, the values `NarrowRed` and `WideBlue` are properly typed as they refer to the `StaticResource` keys defined in `Page.Resources`.
+For instance, using `Background={utu:Responsive Narrow=SkyBlue, Wide=Pink}` would be incorrect, while the string literal usage under `<TextBlock Text="{utu:Responsive Narrow='Narrow format', Wide='Wide format'}" />` is accepted.
 
-**Initialization**: The `ResponsiveHelper` needs to be hooked up to the window’s `SizeChanged` event in order for it to receive updates when the window size changes. This is typically done in the `App.xaml.cs` file, where you can get the current window and call the `HookupEvent` method on the `ResponsiveHelper`. It’s important to do this when the app launches, otherwise the `ResponsiveExtension` won’t be able to update the property values when the window size changes.
+**Platform limitation**: The ability to update property values when the window size changes is only available on targets other than Windows UWP.
+Due to a limitation of the UWP API (Windows target only), the `MarkupExtension.ProvideValue(IXamlServiceProvider)` overload is unavailable, which is required to continuously update the value.
+Because of this, the markup extension will only provide the initial value, and will not respond to window size changes.
+
+**Initialization**: The `ResponsiveHelper` needs to be hooked up to the window's `SizeChanged` event in order for it to receive updates when the window size changes.
+This is typically done in the `App.xaml.cs` file, where you can get the current window and call the `HookupEvent` method on the `ResponsiveHelper`.
+It is important to do this when the app launches, otherwise the `ResponsiveExtension` won't be able to update the property values when the window size changes.
 
 Here is an example of how this might be achieved:
 
 ```cs
-#if IS_WINUI
-using XamlWindow = Microsoft.UI.Xaml.Window;
-#else
-using XamlWindow = Windows.UI.Xaml.Window;
-#endif
-...
-public sealed partial class App : Application
+protected override void OnLaunched(LaunchActivatedEventArgs args)
 {
-	private XamlWindow _window;
-...
-#if NET5_0_OR_GREATER && WINDOWS && !HAS_UNO
-	_window = new XamlWindow();
-	_window.Activate();
+#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
+	MainWindow = new Window();
 #else
-	_window = XamlWindow.Current;
+	MainWindow = Microsoft.UI.Xaml.Window.Current;
 #endif
-
+	// ...
 	var helper = Uno.Toolkit.UI.Helpers.ResponsiveHelper.GetForCurrentView();
-	helper.HookupEvent(_window);
+	helper.HookupEvent(MainWindow);
 }
 ```
 
 ## ResponsiveLayout
-Provides the ability to override the default breakpoints (i.e., the window widths at which the value changes) for the screen sizes. This is done using an instance of the ResponsiveLayout class.
+Provides the ability to override the default breakpoints (i.e., the window widths at which the value changes) for the screen sizes.
+This is done using an instance of the `ResponsiveLayout` class.
 
 ### Properties
 | Property   | Type             | Description            |
@@ -100,7 +83,6 @@ Provides the ability to override the default breakpoints (i.e., the window width
 ### Usage
 
 ```xml
-<!-- Include the following XAML namespace to use the sample below -->
 xmlns:utu="using:Uno.Toolkit.UI"
 xmlns:hlp="using:Uno.Toolkit.UI.Helpers"
 ...
