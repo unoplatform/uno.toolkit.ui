@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Core;
 #endif
 
-namespace Uno.Toolkit.UI.Helpers;
+namespace Uno.Toolkit.UI;
 
 internal interface IResponsiveCallback
 {

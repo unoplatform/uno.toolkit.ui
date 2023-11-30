@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.UI.RuntimeTests;
 using Uno.Toolkit.RuntimeTests.Helpers;
-using Uno.Toolkit.UI.Helpers;
 using Windows.Foundation;
 using Uno.Toolkit.UI;
 
@@ -91,15 +90,15 @@ internal class ResponsiveViewTests
 			ResponsiveHelper.SetDebugSize(new Size(322, 400));
 
 			var host = XamlHelper.LoadXaml<ResponsiveView>("""
-				<utu:ResponsiveView xmlns:helpers="using:Uno.Toolkit.UI.Helpers">
+				<utu:ResponsiveView>
 					<utu:ResponsiveView.ResponsiveLayout>
-						<helpers:ResponsiveLayout>
-							<helpers:ResponsiveLayout.Narrowest>350</helpers:ResponsiveLayout.Narrowest>
-							<helpers:ResponsiveLayout.Narrow>450</helpers:ResponsiveLayout.Narrow>
-							<helpers:ResponsiveLayout.Normal>800</helpers:ResponsiveLayout.Normal>
-							<helpers:ResponsiveLayout.Wide>1200</helpers:ResponsiveLayout.Wide>
-							<helpers:ResponsiveLayout.Widest>1500</helpers:ResponsiveLayout.Widest>
-						</helpers:ResponsiveLayout>
+						<utu:ResponsiveLayout>
+							<utu:ResponsiveLayout.Narrowest>350</utu:ResponsiveLayout.Narrowest>
+							<utu:ResponsiveLayout.Narrow>450</utu:ResponsiveLayout.Narrow>
+							<utu:ResponsiveLayout.Normal>800</utu:ResponsiveLayout.Normal>
+							<utu:ResponsiveLayout.Wide>1200</utu:ResponsiveLayout.Wide>
+							<utu:ResponsiveLayout.Widest>1500</utu:ResponsiveLayout.Widest>
+						</utu:ResponsiveLayout>
 					</utu:ResponsiveView.ResponsiveLayout>
 					<utu:ResponsiveView.NarrowestTemplate>
 						<DataTemplate>
