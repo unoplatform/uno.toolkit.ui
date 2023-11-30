@@ -28,37 +28,42 @@
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<StackPanel Spacing="20">
-						<TextBlock Text="Orientation test | Normal=Vertical | Wide=Horizontal" FontWeight="Bold" />
+						<TextBlock Text="Orientation test | Normal=Vertical | Wide=Horizontal"
+								   FontWeight="Bold" />
 						<StackPanel Orientation="{utu:Responsive Normal={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
 							<TextBlock Text="A" />
 							<TextBlock Text="B" />
 							<TextBlock Text="C" />
 						</StackPanel>
 
-						<TextBlock Text="Text test" FontWeight="Bold" />
+						<TextBlock Text="Text test"
+								   FontWeight="Bold" />
 						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 300', Normal='Normal Threshold 600', Wide='Wide Threshold 800'}" />
 
-						<TextBlock Text="FontSize test" FontWeight="Bold" />
+						<TextBlock Text="FontSize test"
+								   FontWeight="Bold" />
 						<TextBlock Text="Normal 15 Wide 25"
 								   FontSize="{utu:Responsive Normal={StaticResource NarrowFontSize},
 															 Wide={StaticResource WideFontSize}}" />
 
-						<TextBlock Text="Color test | Normal Red | Wide Blue" FontWeight="Bold" />
+						<TextBlock Text="Color test | Normal Red | Wide Blue"
+								   FontWeight="Bold" />
 						<Border Width="30"
 								Height="30"
 								HorizontalAlignment="Left"
 								Background="{utu:Responsive Normal={StaticResource NarrowRed},
 															Wide={StaticResource WideBlue}}" />
-						
-						<TextBlock Text="Custom values override" FontWeight="Bold" />
+
+						<TextBlock Text="Custom values override"
+								   FontWeight="Bold" />
 						<TextBlock>
 							<TextBlock.Text>
 								<utu:ResponsiveExtension Layout="{StaticResource CustomLayout}"
-											 Narrowest="This is the narrowest screen size."
-											 Narrow="This is a narrow screen size."
-											 Normal="This is a normal screen size."
-											 Wide="This is a wide screen size."
-											 Widest="This is the widest screen size." />
+														 Narrowest="This is the narrowest screen size."
+														 Narrow="This is a narrow screen size."
+														 Normal="This is a normal screen size."
+														 Wide="This is a wide screen size."
+														 Widest="This is the widest screen size." />
 							</TextBlock.Text>
 						</TextBlock>
 					</StackPanel>

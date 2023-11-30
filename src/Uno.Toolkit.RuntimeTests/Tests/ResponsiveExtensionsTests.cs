@@ -1,185 +1,192 @@
-﻿using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Uno.UI.RuntimeTests;
-using Uno.Toolkit.RuntimeTests.Helpers;
-using Uno.Toolkit.UI.Helpers;
-using Windows.Foundation;
+﻿// Disabled until fix is implemented for https://github.com/unoplatform/uno/issues/14620
 
-#if IS_WINUI
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI;
-using Microsoft.UI.Xaml.Media;
-#else
-using Windows.UI.Xaml.Controls;
-using Windows.UI;
-using Windows.UI.Xaml.Media;
-#endif
+//using System.Threading.Tasks;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using Uno.UI.RuntimeTests;
+//using Uno.Toolkit.RuntimeTests.Helpers;
+//using Uno.Toolkit.UI.Helpers;
+//using Windows.Foundation;
 
-namespace Uno.Toolkit.RuntimeTests.Tests;
+//#if IS_WINUI
+//using Microsoft.UI.Xaml.Controls;
+//using Microsoft.UI;
+//using Microsoft.UI.Xaml.Media;
+//#else
+//using Windows.UI.Xaml.Controls;
+//using Windows.UI;
+//using Windows.UI.Xaml.Media;
+//#endif
 
-[TestClass]
-[RunsOnUIThread]
-internal class ResponsiveExtensionsTests
-{
-	[TestMethod]
-	public async Task ProvideValue_String_Initial()
-	{
-		using (ResponsiveHelper.UsingDebuggableInstance())
-		{
-			ResponsiveHelper.SetDebugSize(new Size(300, 400));
+//namespace Uno.Toolkit.RuntimeTests.Tests;
 
-			var host = XamlHelper.LoadXaml<TextBlock>("""
-				<TextBlock Text="{utu:Responsive Narrow=asd, Wide=qwe}" />
-			""");
+//[TestClass]
+//[RunsOnUIThread]
+//internal class ResponsiveExtensionsTests
+//{
+//	private static readonly Size NarrowSize = new Size(300, 400);
+//	private static readonly Size WideSize = new Size(800, 400);
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+//	[TestMethod]
+//	public async Task ProvideValue_String_InitialValue()
+//	{
+//		using (ResponsiveHelper.UsingDebuggableInstance())
+//		{
+//			ResponsiveHelper.SetDebugSize(NarrowSize);
 
-			Assert.AreEqual("asd", host.Text);
-		}
-	}
+//			var host = XamlHelper.LoadXaml<TextBlock>("""
+//				<TextBlock Text="{utu:Responsive Narrow=asd, Wide=qwe}" />
+//			""");
 
-#if !IS_UWP || HAS_UNO
-	[TestMethod]
-	public async Task ProvideValue_String_SizeChange()
-	{
-		using (ResponsiveHelper.UsingDebuggableInstance())
-		{
-			ResponsiveHelper.SetDebugSize(new Size(300, 400));
+//			await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
-			var host = XamlHelper.LoadXaml<TextBlock>("""
-				<TextBlock Text="{utu:Responsive Narrow=asd, Wide=qwe}" />
-			""");
+//			Assert.AreEqual("asd", host.Text);
+//		}
+//	}
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+//#if !IS_UWP || HAS_UNO
+//	[TestMethod]
+//	public async Task ProvideValue_String_SizeChange()
+//	{
+//		using (ResponsiveHelper.UsingDebuggableInstance())
+//		{
+//			ResponsiveHelper.SetDebugSize(NarrowSize);
 
-			Assert.AreEqual("asd", host.Text);
+//			var host = XamlHelper.LoadXaml<TextBlock>("""
+//				<TextBlock Text="{utu:Responsive Narrow=asd, Wide=qwe}" />
+//			""");
 
-			ResponsiveHelper.SetDebugSize(new Size(800, 400));
+//			await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
-			Assert.AreEqual("qwe", host.Text);
-		}
-	}
-#endif
+//			Assert.AreEqual("asd", host.Text);
 
-	[TestMethod]
-	public async Task ProvideValue_Color_Initial()
-	{
-		using (ResponsiveHelper.UsingDebuggableInstance())
-		{
-			ResponsiveHelper.SetDebugSize(new Size(300, 400));
+//			ResponsiveHelper.SetDebugSize(WideSize);
 
-			var host = XamlHelper.LoadXaml<StackPanel>("""
-				<StackPanel>
-					<StackPanel.Resources>
-						<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
-						<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
-					</StackPanel.Resources>
-					<Border x:Name="MyBorder" Width="30" Height="30" Background="{utu:Responsive Narrow={StaticResource BorderRed}, Wide={StaticResource BorderBlue}}" />
-				</StackPanel>
-			""");
+//			Assert.AreEqual("qwe", host.Text);
+//		}
+//	}
+//#endif
 
-			var border = (Border)host.FindName("MyBorder");
+//	[TestMethod]
+//	public async Task ProvideValue_Color_InitialValue()
+//	{
+//		using (ResponsiveHelper.UsingDebuggableInstance())
+//		{
+//			ResponsiveHelper.SetDebugSize(NarrowSize);
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+//			var border = XamlHelper.LoadXaml<Border>("""
+//				<Border Width="30"
+//						Height="30">
+//					<Border.Resources>
+//						<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
+//						<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
+//					</Border.Resources>
+//					<Border.Background>
+//						<utu:Responsive Narrow="{StaticResource BorderRed}" Wide="{StaticResource BorderBlue}" />
+//					</Border.Background>
+//				</Border>
+//			""");
 
-			Assert.AreEqual(Colors.Red, ((SolidColorBrush)border.Background).Color);
-		}
-	}
+//			await UnitTestUIContentHelperEx.SetContentAndWait(border);
 
-#if !IS_UWP || HAS_UNO
-	[TestMethod]
-	public async Task ProvideValue_Color_SizeChange()
-	{
-		using (ResponsiveHelper.UsingDebuggableInstance())
-		{
-			ResponsiveHelper.SetDebugSize(new Size(300, 400));
+//			Assert.AreEqual(Colors.Red, ((SolidColorBrush)border.Background).Color);
+//		}
+//	}
 
-			var host = XamlHelper.LoadXaml<StackPanel>("""
-				<StackPanel>
-					<StackPanel.Resources>
-						<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
-						<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
-					</StackPanel.Resources>
-					<Border x:Name="MyBorder" Width="30" Height="30" Background="{utu:Responsive Narrow={StaticResource BorderRed}, Wide={StaticResource BorderBlue}}" />
-				</StackPanel>
-			""");
+//#if !IS_UWP || HAS_UNO
+//	[TestMethod]
+//	public async Task ProvideValue_Color_SizeChange()
+//	{
+//		using (ResponsiveHelper.UsingDebuggableInstance())
+//		{
+//			ResponsiveHelper.SetDebugSize(NarrowSize);
 
-			var border = (Border)host.FindName("MyBorder");
+//			var border = XamlHelper.LoadXaml<Border>("""
+//				<Border Width="30"
+//						Height="30">
+//					<Border.Resources>
+//						<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
+//						<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
+//					</Border.Resources>
+//					<Border.Background>
+//						<utu:Responsive Narrow="{StaticResource BorderRed}" Wide="{StaticResource BorderBlue}" />
+//					</Border.Background>
+//				</Border>
+//			""");
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+//			await UnitTestUIContentHelperEx.SetContentAndWait(border);
 
-			Assert.AreEqual(Colors.Red, ((SolidColorBrush)border.Background).Color);
+//			Assert.AreEqual(Colors.Red, ((SolidColorBrush)border.Background).Color);
 
-			ResponsiveHelper.SetDebugSize(new Size(800, 400));
+//			ResponsiveHelper.SetDebugSize(WideSize);
 
-			Assert.AreEqual(Colors.Blue, ((SolidColorBrush)border.Background).Color);
+//			Assert.AreEqual(Colors.Blue, ((SolidColorBrush)border.Background).Color);
 
-		}
-	}
-#endif
+//		}
+//	}
+//#endif
 
-	[TestMethod]
-	public async Task ProvideValue_Orientation_Initial()
-	{
-		using (ResponsiveHelper.UsingDebuggableInstance())
-		{
-			ResponsiveHelper.SetDebugSize(new Size(300, 400));
+//	[TestMethod]
+//	public async Task ProvideValue_Orientation_InitialValue()
+//	{
+//		using (ResponsiveHelper.UsingDebuggableInstance())
+//		{
+//			ResponsiveHelper.SetDebugSize(NarrowSize);
 
-			var host = XamlHelper.LoadXaml<StackPanel>("""
-				<StackPanel>
-					<StackPanel.Resources>
-						<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
-						<Orientation x:Key="WideOrientation">Horizontal</Orientation>
-					</StackPanel.Resources>
-					<StackPanel x:Name="MyStackPanel" Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
-						<TextBlock Text="A" />
-						<TextBlock Text="B" />
-						<TextBlock Text="C" />
-					</StackPanel>
-				</StackPanel>
-			""");
+//			var host = XamlHelper.LoadXaml<StackPanel>("""
+//				<StackPanel>
+//					<StackPanel.Resources>
+//						<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
+//						<Orientation x:Key="WideOrientation">Horizontal</Orientation>
+//					</StackPanel.Resources>
+//					<StackPanel x:Name="MyStackPanel" Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
+//						<TextBlock Text="A" />
+//						<TextBlock Text="B" />
+//						<TextBlock Text="C" />
+//					</StackPanel>
+//				</StackPanel>
+//			""");
 
-			var stackPanel = (StackPanel)host.FindName("MyStackPanel");
+//			var stackPanel = (StackPanel)host.FindName("MyStackPanel");
 			
-			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+//			await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
-			Assert.AreEqual(Orientation.Vertical, stackPanel.Orientation);
-		}
-	}
+//			Assert.AreEqual(Orientation.Vertical, stackPanel.Orientation);
+//		}
+//	}
 
-#if !IS_UWP || HAS_UNO
-	[TestMethod]
-	public async Task ProvideValue_Orientation_SizeChange()
-	{
-		using (ResponsiveHelper.UsingDebuggableInstance())
-		{
-			ResponsiveHelper.SetDebugSize(new Size(300, 400));
+//#if !IS_UWP || HAS_UNO
+//	[TestMethod]
+//	public async Task ProvideValue_Orientation_SizeChange()
+//	{
+//		using (ResponsiveHelper.UsingDebuggableInstance())
+//		{
+//			ResponsiveHelper.SetDebugSize(NarrowSize);
 
-			var host = XamlHelper.LoadXaml<StackPanel>("""
-				<StackPanel>
-					<StackPanel.Resources>
-						<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
-						<Orientation x:Key="WideOrientation">Horizontal</Orientation>
-					</StackPanel.Resources>
-					<StackPanel x:Name="MyStackPanel" Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
-						<TextBlock Text="A" />
-						<TextBlock Text="B" />
-						<TextBlock Text="C" />
-					</StackPanel>
-				</StackPanel>
-			""");
+//			var host = XamlHelper.LoadXaml<StackPanel>("""
+//				<StackPanel>
+//					<StackPanel.Resources>
+//						<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
+//						<Orientation x:Key="WideOrientation">Horizontal</Orientation>
+//					</StackPanel.Resources>
+//					<StackPanel x:Name="MyStackPanel" Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
+//						<TextBlock Text="A" />
+//						<TextBlock Text="B" />
+//						<TextBlock Text="C" />
+//					</StackPanel>
+//				</StackPanel>
+//			""");
 
-			var stackPanel = (StackPanel)host.FindName("MyStackPanel");
+//			var stackPanel = (StackPanel)host.FindName("MyStackPanel");
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+//			await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
-			Assert.AreEqual(Orientation.Vertical, stackPanel.Orientation);
+//			Assert.AreEqual(Orientation.Vertical, stackPanel.Orientation);
 
-			ResponsiveHelper.SetDebugSize(new Size(800, 400));
+//			ResponsiveHelper.SetDebugSize(WideSize);
 
-			Assert.AreEqual(Orientation.Horizontal, stackPanel.Orientation);
-		}
-	}
-#endif
+//			Assert.AreEqual(Orientation.Horizontal, stackPanel.Orientation);
+//		}
+//	}
+//#endif
 
-}
+//}

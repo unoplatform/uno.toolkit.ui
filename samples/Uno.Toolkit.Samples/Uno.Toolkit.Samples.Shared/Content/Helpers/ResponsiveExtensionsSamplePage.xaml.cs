@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.Samples.Content.Helpers;
 
-[SamplePage(SampleCategory.Helpers, "Responsive Extensions")]
+[SamplePage(SampleCategory.Helpers, "Responsive Extensions", SourceSdk.UnoToolkit)]
 public sealed partial class ResponsiveExtensionsSamplePage : Page
 {
 	public ResponsiveExtensionsSamplePage()
