@@ -22,6 +22,8 @@ internal interface IResponsiveCallback
 
 public partial class ResponsiveLayout : DependencyObject
 {
+	internal const string DefaultResourceKey = "DefaultResponsiveLayout";
+
 	#region DependencyProperty: Narrowest
 
 	public static DependencyProperty NarrowestProperty { get; } = DependencyProperty.Register(
@@ -106,7 +108,11 @@ public partial class ResponsiveLayout : DependencyObject
 		Wide = wide,
 		Widest = widest,
 	};
+
+	public override string ToString() => "[" + string.Join(",", Narrowest, Narrow, Normal, Wide, Widest) + "]";
 }
+
+internal record ResolvedLayout<T>(string Layout, T Value);
 
 public class ResponsiveHelper
 {
@@ -144,7 +150,7 @@ public class ResponsiveHelper
 
 		foreach (var reference in _callbacks.ToArray())
 		{
-			if (reference.IsAlive && reference.Target is IResponsiveCallback callback)
+			if (reference.Target is IResponsiveCallback callback)
 			{
 #if UNO14502_WORKAROUND
 				// Note: In ResponsiveExtensionsSamplePage, if we are using SamplePageLayout with the template,
@@ -154,7 +160,7 @@ public class ResponsiveHelper
 
 				// We are using a hard reference to keep the markup extension alive.
 				// We need to check if its reference target is still alive. If it is not, then it should be removed.
-				if (callback is ResponsiveExtension { _weakTarget: { IsAlive: false } })
+				if (callback is ResponsiveExtension { TargetWeakRef: { IsAlive: false } })
 				{
 					_hardCallbackReferences.Remove(callback);
 					_callbacks.Remove(reference);

@@ -5,8 +5,10 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  mc:Ignorable="d"
+	  xmlns:void="used for commenting out node or attribute"
+	  mc:Ignorable="d void"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
 	<Page.Resources>
 		<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
 		<Orientation x:Key="WideOrientation">Horizontal</Orientation>
@@ -14,12 +16,6 @@
 		<x:Double x:Key="WideFontSize">25</x:Double>
 		<SolidColorBrush x:Key="NarrowRed">Crimson</SolidColorBrush>
 		<SolidColorBrush x:Key="WideBlue">Blue</SolidColorBrush>
-		<utu:ResponsiveLayout x:Key="CustomLayout"
-							  Narrowest="200"
-							  Narrow="350"
-							  Normal="800"
-							  Wide="1200"
-							  Widest="1500" />
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -27,44 +23,56 @@
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<StackPanel Spacing="20">
-						<TextBlock Text="Orientation test | Normal=Vertical | Wide=Horizontal"
-								   FontWeight="Bold" />
+
+						<TextBlock Text="Orientation test | Normal=Vertical | Wide=Horizontal" FontWeight="Bold" />
 						<StackPanel Orientation="{utu:Responsive Normal={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
 							<TextBlock Text="A" />
 							<TextBlock Text="B" />
 							<TextBlock Text="C" />
 						</StackPanel>
 
-						<TextBlock Text="Text test"
-								   FontWeight="Bold" />
+						<TextBlock Text="Text test" FontWeight="Bold" />
 						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 300', Normal='Normal Threshold 600', Wide='Wide Threshold 800'}" />
 
-						<TextBlock Text="FontSize test"
-								   FontWeight="Bold" />
-						<TextBlock Text="Normal 15 Wide 25"
-								   FontSize="{utu:Responsive Normal={StaticResource NarrowFontSize},
-															 Wide={StaticResource WideFontSize}}" />
+						<TextBlock Text="FontSize test" FontWeight="Bold" />
+						<TextBlock Text="Normal 15 Wide 25" FontSize="{utu:Responsive Normal={StaticResource NarrowFontSize}, Wide={StaticResource WideFontSize}}" />
 
-						<TextBlock Text="Color test | Normal Red | Wide Blue"
-								   FontWeight="Bold" />
+						<TextBlock Text="Color test | Normal Red | Wide Blue" FontWeight="Bold" />
 						<Border Width="30"
 								Height="30"
 								HorizontalAlignment="Left"
 								Background="{utu:Responsive Normal={StaticResource NarrowRed},
 															Wide={StaticResource WideBlue}}" />
 
-						<TextBlock Text="Custom values override"
-								   FontWeight="Bold" />
-						<TextBlock>
-							<TextBlock.Text>
-								<utu:ResponsiveExtension Layout="{StaticResource CustomLayout}"
-														 Narrowest="This is the narrowest screen size."
-														 Narrow="This is a narrow screen size."
-														 Normal="This is a normal screen size."
-														 Wide="This is a wide screen size."
-														 Widest="This is the widest screen size." />
-							</TextBlock.Text>
-						</TextBlock>
+						<TextBlock Text="Custom values override" FontWeight="Bold" />
+						<StackPanel>
+							<TextBlock Text="Global Override:" />
+							<TextBlock Text="{utu:Responsive Narrowest=Narrowest, Narrow=Narrow, Normal=Normal, Wide=Wide, Widest=Widest}" />
+							<StackPanel>
+								<StackPanel.Resources>
+									<!-- inheritable override with +50px all -->
+									<utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
+														  Narrowest="200"
+														  Narrow="350"
+														  Normal="650"
+														  Wide="850"
+														  Widest="1130" />
+
+									<!-- local override with +100px all -->
+									<utu:ResponsiveLayout x:Key="CustomLayout"
+														  Narrowest="250"
+														  Narrow="400"
+														  Normal="700"
+														  Wide="900"
+														  Widest="1180" />
+								</StackPanel.Resources>
+
+								<TextBlock Text="Inherited Override:" />
+								<TextBlock x:Name="TestBlock" Text="{utu:Responsive Narrowest=Narrowest, Narrow=Narrow, Normal=Normal, Wide=Wide, Widest=Widest}" />
+								<TextBlock Text="Local Override:" />
+								<TextBlock Text="{utu:Responsive Layout={StaticResource CustomLayout}, Narrowest=Narrowest, Narrow=Narrow, Normal=Normal, Wide=Wide, Widest=Widest}" />
+							</StackPanel>
+						</StackPanel>
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>
