@@ -247,13 +247,14 @@ namespace Uno.Toolkit.Samples
 		/// <returns></returns>
 		public ContentPresenter GetActivePresenter()
 		{
-			return _design switch
+			var mode = (IsDesignAgnostic ? Design.Agnostic : _design);
+			return mode switch
 			{
 				Design.Material => this
 					.GetFirstDescendant<ContentPresenter>(x =>
 						x.Name is "M2MaterialContentPresenter" or "M3MaterialContentPresenter" &&
 						x.Visibility == Visibility.Visible),
-				_ => (ContentPresenter)GetTemplateChild($"{_design}ContentPresenter"),
+				_ => (ContentPresenter)GetTemplateChild($"{mode}ContentPresenter"),
 			};
 		}
 
