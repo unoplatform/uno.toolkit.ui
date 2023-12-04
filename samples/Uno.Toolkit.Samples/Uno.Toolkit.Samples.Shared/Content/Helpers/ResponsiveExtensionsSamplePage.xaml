@@ -5,7 +5,6 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  xmlns:hlp="using:Uno.Toolkit.UI.Helpers"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 	<Page.Resources>
@@ -15,7 +14,7 @@
 		<x:Double x:Key="WideFontSize">25</x:Double>
 		<SolidColorBrush x:Key="NarrowRed">Crimson</SolidColorBrush>
 		<SolidColorBrush x:Key="WideBlue">Blue</SolidColorBrush>
-		<hlp:ResponsiveLayout x:Key="CustomLayout"
+		<utu:ResponsiveLayout x:Key="CustomLayout"
 							  Narrowest="200"
 							  Narrow="350"
 							  Normal="800"

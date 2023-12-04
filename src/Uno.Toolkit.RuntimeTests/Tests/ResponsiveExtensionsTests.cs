@@ -4,7 +4,7 @@
 //using Microsoft.VisualStudio.TestTools.UnitTesting;
 //using Uno.UI.RuntimeTests;
 //using Uno.Toolkit.RuntimeTests.Helpers;
-//using Uno.Toolkit.UI.Helpers;
+//using Uno.Toolkit.UI;
 //using Windows.Foundation;
 
 //#if IS_WINUI
@@ -147,7 +147,7 @@
 //			""");
 
 //			var stackPanel = (StackPanel)host.FindName("MyStackPanel");
-			
+
 //			await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
 //			Assert.AreEqual(Orientation.Vertical, stackPanel.Orientation);

@@ -7,7 +7,7 @@ uid: Toolkit.Helpers.ResponsiveExtension
 The `ResponsiveExtension` class is a markup extension that enables the customization of `UIElement` properties based on screen size.
 This functionality provides a dynamic and responsive user interface experience.
 
-### Inheritance 
+### Inheritance
 Object &#8594; MarkupExtension &#8594; ResponsiveExtension
 
 ### Constructors
@@ -58,7 +58,7 @@ protected override void OnLaunched(LaunchActivatedEventArgs args)
 	MainWindow = Microsoft.UI.Xaml.Window.Current;
 #endif
 	// ...
-	var helper = Uno.Toolkit.UI.Helpers.ResponsiveHelper.GetForCurrentView();
+	var helper = Uno.Toolkit.UI.ResponsiveHelper.GetForCurrentView();
 	helper.HookupEvent(MainWindow);
 }
 ```

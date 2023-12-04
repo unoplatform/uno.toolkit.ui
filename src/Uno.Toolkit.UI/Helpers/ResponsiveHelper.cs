@@ -1,6 +1,7 @@
 #if HAS_UNO
 #define UNO14502_WORKAROUND // https://github.com/unoplatform/uno/issues/14502
 #endif
+
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
@@ -12,7 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Core;
 #endif
 
-namespace Uno.Toolkit.UI.Helpers;
+namespace Uno.Toolkit.UI;
 
 internal interface IResponsiveCallback
 {

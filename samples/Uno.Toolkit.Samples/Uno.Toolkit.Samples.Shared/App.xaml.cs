@@ -98,8 +98,7 @@ namespace Uno.Toolkit.Samples
 #else
 			_window = XamlWindow.Current;
 #endif
-
-			var helper = UI.Helpers.ResponsiveHelper.GetForCurrentView();
+			var helper = ResponsiveHelper.GetForCurrentView();
 			helper.HookupEvent(_window);
 
 			if (_window.Content is null)

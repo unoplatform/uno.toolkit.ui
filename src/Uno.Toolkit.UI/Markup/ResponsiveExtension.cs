@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Uno.Extensions;
 using Uno.Logging;
-using Uno.Toolkit.UI.Helpers;
 using Windows.Foundation;
 
 #if IS_WINUI
