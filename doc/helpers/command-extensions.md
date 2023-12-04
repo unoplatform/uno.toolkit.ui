@@ -1,10 +1,13 @@
 ---
 uid: Toolkit.Helpers.CommandExtensions
 ---
-# CommandExtensions Attached Properties
+
+# Command Extensions
+
 Provides Command/CommandParameter attached properties for common scenarios.
 
-## Properties
+## Attached Properties
+
 Property|Type|Description
 -|-|-
 Command|ICommand|Sets the command to execute when `TextBox`/`PasswordBox` enter key is pressed, `ListViewBase.ItemClick`, `NavigationView.ItemInvoked`, and `ItemsRepeater` item tapped.
@@ -14,6 +17,7 @@ Command on `TextBox`/`PasswordBox`\*: Having this set will also cause the keyboa
 Command on `ListView`\*: [`IsItemClickEnabled`](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase.isitemclickenabled) must also be set to true for this to work.
 
 ### Remarks
+
 - For Command, the relevant parameter is also provided for the `CanExecute` and `Execute` call:
   > Unless CommandParameter is set, which replaces the following.
   - `TextBox.Text`
@@ -23,6 +27,7 @@ Command on `ListView`\*: [`IsItemClickEnabled`](https://docs.microsoft.com/en-us
   - `ItemsRepeater`'s item root's DataContext
 
 ## Usage
+
 ```xml
 <!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -33,16 +38,16 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 <!-- ListView item click-->
 <ListView ItemsSource="123"
-		  IsItemClickEnabled="True"
-		  utu:CommandExtensions.Command="{Binding UpdateSelection}" />
+          IsItemClickEnabled="True"
+          utu:CommandExtensions.Command="{Binding UpdateSelection}" />
 
 <!-- NavigationView item invoke -->
 <NavigationView utu:CommandExtensions.Command="{Binding Navigate}">
-	<NavigationView.MenuItems>
-		<NavigationViewItem Content="Apple" />
-		<NavigationViewItem Content="Banana" />
-		<NavigationViewItem Content="Cactus" />
-	</NavigationView.MenuItems>
+    <NavigationView.MenuItems>
+        <NavigationViewItem Content="Apple" />
+        <NavigationViewItem Content="Banana" />
+        <NavigationViewItem Content="Cactus" />
+    </NavigationView.MenuItems>
 </NavigationView>
 
 <muxc:ItemsRepeater ItemsSource="123" utu:CommandExtensions.Command="{Binding UpdateSelection}" />

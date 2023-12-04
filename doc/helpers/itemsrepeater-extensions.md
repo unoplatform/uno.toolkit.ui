@@ -1,10 +1,13 @@
 ---
 uid: Toolkit.Helpers.ItemRepeaterExtensions
 ---
-# ItemsRepeaterExtensions Attached Properties
+
+# ItemsRepeater Extensions
+
 Provides selection support for `ItemsRepeater`.
 
-## Properties
+## Attached Properties
+
 Property|Type|Description
 -|-|-
 SelectedItem|object|Two-ways bindable property for the current/first(in Multiple mode) selected item.\*
@@ -14,6 +17,7 @@ SelectedIndexes|IList\<int>|Two-ways bindable property for the current selected 
 SelectionMode|ItemsSelectionMode|Gets or sets the selection behavior: `None`, `SingleOrNone`, `Single`, `Multiple` <br/> note: Changing this value will cause the `Selected-`properties to be re-coerced.
 
 ### Remarks
+
 - `Selected-`properties only takes effect when `SelectionMode` is set to a valid value that is not `None`.
 - `ItemsSelectionMode`: Defines constants that specify the selection behavior.
   > Different numbers of selected items are guaranteed: None=0, SingleOrNone=0 or 1, Single=1, Multiple=0 or many.
@@ -23,6 +27,7 @@ SelectionMode|ItemsSelectionMode|Gets or sets the selection behavior: `None`, `S
   - `Multiple`: The current item cannot be deselected.
 
 ## Usage
+
 ```xml
 <!-- Include the following XAML namespaces to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -45,5 +50,6 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 ```
 
 ### Remarks
+
 - The selection feature from this extensions support ItemTemplate whose the root element is a `SelectorItem` or `ToggleButton`(which includes `Chip`).
 - `RadioButton`: Multiple mode is not supported due to control limitation.
