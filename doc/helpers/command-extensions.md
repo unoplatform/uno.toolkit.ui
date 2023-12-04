@@ -1,10 +1,10 @@
 ---
 uid: Toolkit.Helpers.CommandExtensions
 ---
-# CommandExtensions Attached Properties
+# Command Extensions
 Provides Command/CommandParameter attached properties for common scenarios.
 
-## Properties
+## Attached Properties
 Property|Type|Description
 -|-|-
 Command|ICommand|Sets the command to execute when `TextBox`/`PasswordBox` enter key is pressed, `ListViewBase.ItemClick`, `NavigationView.ItemInvoked`, and `ItemsRepeater` item tapped.

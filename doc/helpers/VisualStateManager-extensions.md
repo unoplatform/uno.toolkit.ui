@@ -1,7 +1,7 @@
 ---
 uid: Toolkit.Helpers.VisualStateManagerExtensions
 ---
-# VisualStateManagerExtensions Attached Properties
+# VisualStateManager Extensions
 Provides a way of manipulating the visual states of `Control` with attached property.
 
 ## Remarks
@@ -17,7 +17,7 @@ Provides a way of manipulating the visual states of `Control` with attached prop
 ```
 This "first child" is more common known as the template root within the context of a `ControlTemplate` where you typically have a top-level `Grid`/`Border`/Panel with the x:Name that contains "Root".
 
-## Properties
+## Attached Properties
 Property|Type|Description
 -|-|-
 States|string|Sets the visual states of the control.\*

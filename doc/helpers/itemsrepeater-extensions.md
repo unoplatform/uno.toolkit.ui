@@ -1,10 +1,10 @@
 ---
 uid: Toolkit.Helpers.ItemRepeaterExtensions
 ---
-# ItemsRepeaterExtensions Attached Properties
+# ItemsRepeater Extensions
 Provides selection support for `ItemsRepeater`.
 
-## Properties
+## Attached Properties
 Property|Type|Description
 -|-|-
 SelectedItem|object|Two-ways bindable property for the current/first(in Multiple mode) selected item.\*

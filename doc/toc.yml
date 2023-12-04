@@ -49,17 +49,23 @@
     items:
     - name: AncestorBinding and ItemsControlBinding
       href: helpers/ancestor-itemscontrol-binding.md
-    - name: CommandExtensions attached properties
+    - name: CommandExtensions Extensions
       href: helpers/command-extensions.md
-    - name: InputExtensions attached properties
+    - name: FlipView Extensions
+      href: helpers/FlipView-extensions.md
+    - name: InputExtensions Extensions
       href: helpers/input-extensions.md
-    - name: ItemsRepeaterExtensions Attached Properties
+    - name: ItemsRepeater Extensions
       href: helpers/itemsrepeater-extensions.md
-    - name: StatusBar attached properties
+    - name: Resource Extensions
+      href: helpers/resource-extensions.md
+    - name: Selector Extensions
+      href: helpers/Selector-extensions.md
+    - name: StatusBar Extensions
       href: helpers/StatusBar-extensions.md
-    - name: TabBarItem attached properties
+    - name: TabBarItem Extensions
       href: helpers/TabBarItem-extensions.md
-    - name: VisualStateManager attached properties
+    - name: VisualStateManager Extensions
       href: helpers/VisualStateManager-extensions.md
   # ***************** Reference\Styles **********************
   - name: Styles

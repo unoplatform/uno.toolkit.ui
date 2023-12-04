@@ -1,10 +1,10 @@
 ---
 uid: Toolkit.Helpers.TabBarItemExtensions
 ---
-# TabBarItemExtensions Attached Properties
+# TabBarItem Extensions
 Provides additional features for `TabBarItem`.
 
-## Properties
+## Attached Properties
 Property|Type|Description
 -|-|-
 OnClickBehaviors|TBIOnClickBehavior\*|Backing property for the `TabBarItem` on-click behaviors when already selected.

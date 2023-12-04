@@ -1,10 +1,10 @@
 ---
 uid: Toolkit.Helpers.InputExtensions
 ---
-# InputExtensions Attached Properties
+# Input Extensions
 Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
 
-## Properties
+## Attached Properties
 Property|Type|Description
 -|-|-
 AutoDismiss|bool|Whether the soft-keyboard will be dismissed when the enter key is pressed.
