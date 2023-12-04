@@ -1,11 +1,12 @@
 ---
 uid: Toolkit.Helpers.FlipViewExtensions
 ---
-# SelectorExtensions Attached Properties
+# FlipView Extensions
 
 Provides additional features for `FlipView`.
 
-## Properties
+## Attached Properties
+
 Property|Type|Description
 -|-|-
 Next|FlipView| Sets the `FlipView` that should be moved to its next item
