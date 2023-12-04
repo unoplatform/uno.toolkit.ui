@@ -4,12 +4,12 @@ uid: Toolkit.Helpers.StatusBarExtensions
 
 # StatusBar Extensions
 
-Provides two attached properties on `Page` to controls the visual of the status bar on mobile platforms.
+Provides two attached properties on `Page` to control the visuals of the status bar on mobile platforms.
 
 ## Remarks
 
 The attached properties do nothing on platforms other than iOS and Android.
-For iOS, `UIViewControllerBasedStatusBarAppearance` should set to false in `info.plist`.
+For iOS, `UIViewControllerBasedStatusBarAppearance` should be set to false in `info.plist`.
 
 ## Attached Properties
 
