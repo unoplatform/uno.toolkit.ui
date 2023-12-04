@@ -1,11 +1,13 @@
 ---
 uid: Toolkit.Helpers.SelectorExtensions
 ---
+
 # Selector Extensions
 
 Provides an easy integration between `PipsPager` and `Selector` controls.
 
 ## Attached Properties
+
 Property|Type|Description
 -|-|-
 PipsPagerProperty|PipsPager| Backing property for the `PipsPager` that will interact with the `Selector` control.
@@ -13,6 +15,7 @@ PipsPagerProperty|PipsPager| Backing property for the `PipsPager` that will inte
 When the `SelectorExtensions.PipsPager` is set, the control will take care of updating the `NumberOfPages` and the `SelectedIndex` properties automatically.
 
 ## Usage
+
 ```xml
 <!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"

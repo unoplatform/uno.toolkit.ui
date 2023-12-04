@@ -1,10 +1,13 @@
 ---
 uid: Toolkit.Helpers.VisualStateManagerExtensions
 ---
+
 # VisualStateManager Extensions
+
 Provides a way of manipulating the visual states of `Control` with attached property.
 
 ## Remarks
+
 `VisualStateManager.GoToState` is typically used with `Control` where you would set `<VisualStateManager.VisualStateGroups>` on the root element of the ControlTemplate. Because this class is implemented using the same method, it means that if you are setting `StatesProperty` on an element, the `VisualStateManager.VisualStateGroups` should not be set on the very same element, but its first child:
 ```xml
 <Page utu:VisualStateManagerExtensions.States="{Binding OnboardingState, Mode=OneWay}">
@@ -15,9 +18,11 @@ Provides a way of manipulating the visual states of `Control` with attached prop
     <Grid>
         <VisualStateManager.VisualStateGroups>...
 ```
+
 This "first child" is more common known as the template root within the context of a `ControlTemplate` where you typically have a top-level `Grid`/`Border`/Panel with the x:Name that contains "Root".
 
 ## Attached Properties
+
 Property|Type|Description
 -|-|-
 States|string|Sets the visual states of the control.\*
@@ -110,4 +115,3 @@ public class ViewModel : ViewModelBase
     }
 }
 ```
-

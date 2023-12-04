@@ -1,10 +1,13 @@
 ---
 uid: Toolkit.Helpers.InputExtensions
 ---
+
 # Input Extensions
+
 Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
 
 ## Attached Properties
+
 Property|Type|Description
 -|-|-
 AutoDismiss|bool|Whether the soft-keyboard will be dismissed when the enter key is pressed.
@@ -14,11 +17,13 @@ AutoFocusNextElement|Control|Sets the next control to focus when the enter key i
 AutoFocusNext and AutoFocusNextElement\*: Having either or both of the two properties set will enable the focus next behavior. AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
 
 ### Remarks
+
 - AutoFocusNext and AutoFocusNextElement have different focus target:
   - AutoFocusNext is determined by `FocusManager.FindNextFocusableElement`
   - AutoFocusNextElement is provided by the value.
 
 ## Usage
+
 ```xml
 <!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"

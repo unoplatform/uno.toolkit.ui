@@ -1,10 +1,13 @@
 ---
 uid: Toolkit.Helpers.TabBarItemExtensions
 ---
+
 # TabBarItem Extensions
+
 Provides additional features for `TabBarItem`.
 
 ## Attached Properties
+
 Property|Type|Description
 -|-|-
 OnClickBehaviors|TBIOnClickBehavior\*|Backing property for the `TabBarItem` on-click behaviors when already selected.
@@ -18,6 +21,7 @@ TBIOnClickBehavior\*: Specifies the on-click behaviors of `TabBarItem`:
 OnClickBehaviorsTarget\*: The content host which the on-click behavior is applied is either the target itself or one of its descendent (via deep first search) suitable for the behavior. When omitted, the parent of `TabBar` will serve as the target.
 
 ## Usage
+
 ```xml
 <!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"

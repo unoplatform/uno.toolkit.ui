@@ -1,14 +1,18 @@
 ---
 uid: Toolkit.Helpers.StatusBarExtensions
 ---
+
 # StatusBar Extensions
+
 Provides two attached properties on `Page` to controls the visual of the status bar on mobile platforms.
 
 ## Remarks
+
 The attached properties do nothing on platforms other than iOS and Android.
 For iOS, `UIViewControllerBasedStatusBarAppearance` should set to false in `info.plist`.
 
 ## Attached Properties
+
 Property|Type|Description
 -|-|-
 Foreground|StatusBarForegroundTheme\*|Sets the foreground color for the text and icons on the status bar. Possible values are: `None, Light, Dark, Auto or AutoInverse`.
@@ -19,6 +23,7 @@ StatusBarForegroundTheme\*: `Auto` and `AutoInverse` will set the foreground in 
 - AutoInverse: dark/black in the dark mode, and light/white in the light mode
 
 ## Usage
+
 ```xml
 <Page ...
       xmlns:utu="using:Uno.Toolkit.UI"
