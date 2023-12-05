@@ -108,7 +108,7 @@ public partial class ResponsiveLayout : DependencyObject
 	};
 }
 
-internal class ResponsiveHelper
+public class ResponsiveHelper
 {
 	private static readonly Lazy<ResponsiveHelper> _instance = new Lazy<ResponsiveHelper>(() => new ResponsiveHelper());
 	private static readonly ResponsiveHelper _debugInstance = new();
