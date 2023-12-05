@@ -579,7 +579,7 @@ Remarks:
 * When set to `False`, the native Android `NavigationBar` will attempt to display the `AppBarButton` directly on the `Toolbar` if there is room available
 
 
-# FAQ
+# FAQ: NavigationBar
 
 ## How can I remove the back button title from all pages on iOS?
   
