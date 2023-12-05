@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+#if HAS_UNO
+#define UNO14502_WORKAROUND // https://github.com/unoplatform/uno/issues/14502
+#endif
+
 using System;
+using System.Collections.Generic;
 using Windows.Foundation;
 using Uno.Disposables;
-
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 #else
@@ -108,9 +111,13 @@ public partial class ResponsiveLayout : DependencyObject
 internal class ResponsiveHelper
 {
 	private static readonly Lazy<ResponsiveHelper> _instance = new Lazy<ResponsiveHelper>(() => new ResponsiveHelper());
-	private readonly List<WeakReference> _references = new();
 	private static readonly ResponsiveHelper _debugInstance = new();
 	private static bool UseDebuggableInstance;
+
+	private readonly List<WeakReference> _callbacks = new();
+#if UNO14502_WORKAROUND
+	private List<IResponsiveCallback> _hardCallbackReferences = new();
+#endif
 
 	public ResponsiveLayout Layout { get; private set; } = ResponsiveLayout.Create(150, 300, 600, 800, 1080);
 	public Size WindowSize { get; private set; } = Size.Empty;
@@ -126,19 +133,35 @@ internal class ResponsiveHelper
 		window.SizeChanged += OnWindowSizeChanged;
 	}
 
-	internal static void SetDebugSize(Size size) => _debugInstance.OnWindowSizeChanged(size);
 	private void OnWindowSizeChanged(object sender, WindowSizeChangedEventArgs e) => OnWindowSizeChanged(e.Size);
 
 	private void OnWindowSizeChanged(Size size)
 	{
 		WindowSize = size;
 
-		_references.RemoveAll(reference => !reference.IsAlive);
+		// Clean up collected references
+		_callbacks.RemoveAll(reference => !reference.IsAlive);
 
-		foreach (var reference in _references.ToArray())
+		foreach (var reference in _callbacks.ToArray())
 		{
 			if (reference.IsAlive && reference.Target is IResponsiveCallback callback)
 			{
+#if UNO14502_WORKAROUND
+				// Note: In ResponsiveExtensionsSamplePage, if we are using SamplePageLayout with the template,
+				// it seems to keep the controls (_weakTarget) alive, even if we navigate out and back (new page).
+				// However, if we remove the SamplePageLayout, and add the template as a child instead,
+				// the controls will be properly collected.
+
+				// We are using a hard reference to keep the markup extension alive.
+				// We need to check if its reference target is still alive. If it is not, then it should be removed.
+				if (callback is ResponsiveExtension { _weakTarget: { IsAlive: false } })
+				{
+					_hardCallbackReferences.Remove(callback);
+					_callbacks.Remove(reference);
+
+					continue;
+				}
+#endif
 				callback.OnSizeChanged(WindowSize, Layout);
 			}
 		}
@@ -146,8 +169,16 @@ internal class ResponsiveHelper
 
 	internal void Register(IResponsiveCallback host)
 	{
+#if UNO14502_WORKAROUND
+		// The workaround is only needed for ResponsiveExtension (MarkupExtension)
+		if (host is ResponsiveExtension)
+		{
+			_hardCallbackReferences.Add(host);
+		}
+#endif
+
 		var wr = new WeakReference(host);
-		_references.Add(wr);
+		_callbacks.Add(wr);
 	}
 
 	internal static IDisposable UsingDebuggableInstance()
@@ -156,4 +187,6 @@ internal class ResponsiveHelper
 
 		return Disposable.Create(() => UseDebuggableInstance = false);
 	}
+
+	internal static void SetDebugSize(Size size) => _debugInstance.OnWindowSizeChanged(size);
 }

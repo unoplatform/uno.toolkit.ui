@@ -59,6 +59,9 @@
       href: helpers/input-extensions.md
     - name: ItemsRepeater Extensions
       href: helpers/itemsrepeater-extensions.md
+    - name: Responsive markup extension
+      href: helpers/responsive-extension.md
+    - name: StatusBar attached properties
     - name: Resource Extensions
       href: helpers/resource-extensions.md
     - name: Selector Extensions
