@@ -5,18 +5,9 @@
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  xmlns:void="used for commenting out node or attribute"
+	  xmlns:void="used for quickly commenting out node or attribute"
 	  mc:Ignorable="d void"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-	<Page.Resources>
-		<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
-		<Orientation x:Key="WideOrientation">Horizontal</Orientation>
-		<x:Double x:Key="NarrowFontSize">15</x:Double>
-		<x:Double x:Key="WideFontSize">25</x:Double>
-		<SolidColorBrush x:Key="NarrowRed">Crimson</SolidColorBrush>
-		<SolidColorBrush x:Key="WideBlue">Blue</SolidColorBrush>
-	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<sample:SamplePageLayout IsDesignAgnostic="True">
@@ -25,7 +16,7 @@
 					<StackPanel Spacing="20">
 
 						<TextBlock Text="Orientation test | Normal=Vertical | Wide=Horizontal" FontWeight="Bold" />
-						<StackPanel Orientation="{utu:Responsive Normal={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
+						<StackPanel Orientation="{utu:Responsive Normal=Vertical, Wide=Horizontal}">
 							<TextBlock Text="A" />
 							<TextBlock Text="B" />
 							<TextBlock Text="C" />
@@ -35,14 +26,14 @@
 						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 300', Normal='Normal Threshold 600', Wide='Wide Threshold 800'}" />
 
 						<TextBlock Text="FontSize test" FontWeight="Bold" />
-						<TextBlock Text="Normal 15 Wide 25" FontSize="{utu:Responsive Normal={StaticResource NarrowFontSize}, Wide={StaticResource WideFontSize}}" />
+						<TextBlock Text="Normal 15 Wide 25" FontSize="{utu:Responsive Normal=15, Wide=25}" />
 
 						<TextBlock Text="Color test | Normal Red | Wide Blue" FontWeight="Bold" />
 						<Border Width="30"
 								Height="30"
 								HorizontalAlignment="Left"
-								Background="{utu:Responsive Normal={StaticResource NarrowRed},
-															Wide={StaticResource WideBlue}}" />
+								Background="{utu:Responsive Normal=Red,
+															Wide=Blue}" />
 
 						<TextBlock Text="Custom values override" FontWeight="Bold" />
 						<StackPanel>

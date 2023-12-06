@@ -5,9 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
+using Windows.Foundation;
 using Uno.Extensions;
 using Uno.Logging;
-using Windows.Foundation;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -16,6 +17,8 @@ using Microsoft.UI.Xaml.Markup;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 #endif
+
+using static System.Reflection.BindingFlags;
 
 namespace Uno.Toolkit.UI;
 
@@ -32,6 +35,8 @@ public partial class ResponsiveExtension // for debugging
 /// </summary>
 public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 {
+	private static readonly ILogger _logger = typeof(ResponsiveExtension).Log();
+
 	public object? Narrowest { get; set; }
 	public object? Narrow { get; set; }
 	public object? Normal { get; set; }
@@ -42,6 +47,7 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 
 #if SUPPORTS_XAML_SERVICE_PROVIDER
 	internal WeakReference? TargetWeakRef { get; private set; }
+	private Type? _propertyType;
 	private DependencyProperty? _targetProperty;
 #endif
 	internal ResolvedLayout<object?>? ResolvedValue { get; private set; }
@@ -90,10 +96,20 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 		var match = defs.FirstOrNull(y => y.MinWidth >= size.Width) ?? defs.LastOrNull();
 		var resolved = match?.Value;
 
+#if DEBUG
 		LastUsedLayout = layout;
+#endif
 		ResolvedValue = resolved;
 
-		return resolved?.Value;
+		var result = resolved?.Value;
+#if SUPPORTS_XAML_SERVICE_PROVIDER
+		if (result != null && _propertyType != null && result.GetType() != _propertyType)
+		{
+			result = XamlCastSafe(result, _propertyType);
+		}
+#endif
+
+		return result;
 	}
 
 #if SUPPORTS_XAML_SERVICE_PROVIDER
@@ -102,11 +118,16 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 		if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget pvt &&
 			pvt.TargetObject is FrameworkElement target &&
 			pvt.TargetProperty is ProvideValueTargetProperty pvtp &&
-			target.FindDependencyPropertyUsingReflection($"{pvtp?.Name}Property") is DependencyProperty dp)
+			target.FindDependencyPropertyUsingReflection($"{pvtp.Name}Property") is DependencyProperty dp)
 		{
 			TargetWeakRef = new WeakReference(target);
 			_targetProperty = dp;
-
+			_propertyType =
+#if HAS_UNO // workaround for uno#14719: uno doesn't inject the proper pvtp.Type
+				target.GetType().GetProperty(pvtp.Name, Public | Instance | FlattenHierarchy)?.PropertyType;
+#else
+				pvtp.Type;
+#endif
 			// here, we need to bind to two events:
 			// 1. Window.SizeChanged for obvious reason
 			// 2. Control.Loaded because the initial value(result of ProvideValue) is resolved without the inherited .resources
@@ -116,7 +137,7 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 			target.Loaded += OnTargetLoaded;
 
 #if DEBUG
-			TrackedInstances.Add((TargetWeakRef, pvtp!.Name, new WeakReference(this)));
+			TrackedInstances.Add((TargetWeakRef, pvtp.Name, new WeakReference(this)));
 #endif
 		}
 		else
@@ -148,6 +169,23 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 			target.SetValue(_targetProperty, ResolveValue(size, GetAppliedLayout() ?? layout));
 		}
 #endif
+	}
+
+	private static object? XamlCastSafe(object value, Type type)
+	{
+		try
+		{
+			return XamlBindingHelper.ConvertValue(type, value);
+		}
+		catch (Exception)
+		{
+			if (_logger.IsEnabled(LogLevel.Error))
+			{
+				_logger.LogError($"Failed to convert value from '{value.GetType().Name}' to '{type.Name}'");
+			}
+
+			return value;
+		}
 	}
 
 	internal ResponsiveLayout? GetAppliedLayout() =>
