@@ -50,12 +50,12 @@ protected override void OnLaunched(LaunchActivatedEventArgs args)
 }
 ```
 ## Platform limitation (UWP-desktop)
-`ResponsiveExtension` relies on `MarkupExtension.ProvideValue(IXamlServiceProvider)` to find the target control and property for continuous update of value, and to obtain the property type to apply automatic type conversion as its value properties are parsed as string by the xaml engine. Because this overload is a new addition to WinUI only, UWP project targeting windows will not have access to these features. Uno UWP project against non-windows targets do not have this limitation. However, the windows app may crash or misbehave if you attempt to use this markup on non-string property.
+`ResponsiveExtension` relies on `MarkupExtension.ProvideValue(IXamlServiceProvider)` to find the target control and property for continuous value updates, and to obtain the property type to apply automatic type conversion, as its value properties are parsed as string by the XAML engine. Since this overload is a recent addition exclusive to WinUI, UWP projects targeting Windows won't have access to these features. Uno UWP projects targeting non-Windows platforms do not face this limitation. However, the Windows app may crash or present unexpected behavior if you attempt to use this markup on a non-string property.
 ```xml
 <Border Background="{utu:Responsive Narrow=Red, Wide=Blue}"
         Tag="This will not work on Uwp for windows" />
 ```
-You can workaround this, by declaring the values are resources and use `{StaticResource}` to refer to them:
+You can workaround this by declaring the values as resources and using {StaticResource} to refer to them:
 ```xml
 <Page.Resources>
     <SolidColorBrush x:Key="RedBrush">Red</SolidColorBrush>
@@ -68,7 +68,7 @@ You can workaround this, by declaring the values are resources and use `{StaticR
 ## Usage
 
 > [!TIP]
-> It is not necessary to define every template or layout breakpoints: Narrowest,Narrow,Normal,Wide,Widest. You can just define the bare minimum needed.
+> It is not necessary to define every template or layout breakpoint: Narrowest, Narrow, Normal, Wide, Widest. You can just define the bare minimum needed.
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"

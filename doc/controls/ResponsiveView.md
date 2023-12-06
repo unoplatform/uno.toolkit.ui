@@ -54,7 +54,7 @@ Provides the ability to override the breakpoint for each screen size: `Narrowest
 ## Usage
 
 > [!TIP]
-> It is not necessary to define every template or layout breakpoints: Narrowest,Narrow,Normal,Wide,Widest. You can just define the bare minimum needed.
+> It is not necessary to define every template or layout breakpoint: Narrowest, Narrow, Normal, Wide, Widest. You can just define the bare minimum needed.
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -102,7 +102,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 > [!NOTE]
-> This `ResponsiveLayout` can also be provided from different locations. In the order of precedences, they are:
+> This `ResponsiveLayout` can also be provided from different locations. In order of precedences, they are:
 > - from the `.ResponsiveLayout` property
 > - in `ResponsiveView`'s parent `.Resources` with `x:Key="DefaultResponsiveLayout"`, or its ancestor's...
 > - in `Application.Resources` with `x:Key="DefaultResponsiveLayout"`
