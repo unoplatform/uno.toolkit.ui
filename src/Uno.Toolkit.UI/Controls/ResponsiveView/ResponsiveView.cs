@@ -1,6 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using Windows.Foundation;
-using System;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -14,7 +13,8 @@ namespace Uno.Toolkit.UI;
 
 public partial class ResponsiveView : ContentControl, IResponsiveCallback
 {
-	internal ResolvedLayout<DataTemplate?>? ResolvedLayout { get; private set; }
+	public Layout? CurrentLayout { get; private set; }
+	internal (ResponsiveLayout Layout, Size Size, Layout? Result) LastResolved { get; private set; }
 
 	public ResponsiveView()
 	{
@@ -25,45 +25,46 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 		Loaded += ResponsiveView_Loaded;
 	}
 
-	private void ResponsiveView_Loaded(object sender, RoutedEventArgs e)
-	{
-		ResolveTemplate();
-	}
+	private void ResponsiveView_Loaded(object sender, RoutedEventArgs e) => UpdateTemplate(forceApplyValue: true);
 
-	public void OnSizeChanged(Size size, ResponsiveLayout layout)
-	{
-		ResolveTemplate(size, GetAppliedLayout() ?? layout);
-	}
+	public void OnSizeChanged(ResponsiveHelper helper) => UpdateTemplate(helper);
 
-	private void ResolveTemplate()
+	private void UpdateTemplate(ResponsiveHelper? helper = null, bool forceApplyValue = false)
 	{
 		if (!IsLoaded) return;
 
-		var helper = ResponsiveHelper.GetForCurrentView();
+		helper ??= ResponsiveHelper.GetForCurrentView();
+		var resolved = helper.ResolveLayout(GetAppliedLayout(), GetAvailableLayoutOptions());
 
-		ResolveTemplate(helper.WindowSize, GetAppliedLayout() ?? helper.Layout);
-	}
-
-	private void ResolveTemplate(Size size, ResponsiveLayout layout)
-	{
-		if (!IsLoaded) return;
-
-		var defs = new (double MinWidth, ResolvedLayout<DataTemplate?> Value)[]
+		if (forceApplyValue || CurrentLayout != resolved.Result)
 		{
-			(layout.Narrowest, new(nameof(layout.Narrowest), NarrowestTemplate)),
-			(layout.Narrow, new(nameof(layout.Narrow), NarrowTemplate)),
-			(layout.Normal, new(nameof(layout.Normal), NormalTemplate)),
-			(layout.Wide, new(nameof(layout.Wide), WideTemplate)),
-			(layout.Widest, new(nameof(layout.Widest), WidestTemplate)),
-		}.Where(x => x.Value.Value != null).ToArray();
-		var match = defs.FirstOrNull(y => y.MinWidth >= size.Width) ?? defs.LastOrNull();
-		var resolved = match?.Value;
+			Content = GetTemplateFor(resolved.Result)?.LoadContent() as UIElement;
 
-		if (resolved != ResolvedLayout)
-		{
-			Content = resolved?.Value?.LoadContent() as UIElement;
-			ResolvedLayout = resolved;
+			CurrentLayout = resolved.Result;
+			LastResolved = resolved;
 		}
+	}
+
+	private DataTemplate? GetTemplateFor(Layout? layout)
+	{
+		return layout switch
+		{
+			UI.Layout.Narrowest => NarrowestTemplate,
+			UI.Layout.Narrow => NarrowTemplate,
+			UI.Layout.Normal => NormalTemplate,
+			UI.Layout.Wide => WideTemplate,
+			UI.Layout.Widest => WidestTemplate,
+			_ => null,
+		};
+	}
+
+	private IEnumerable<Layout> GetAvailableLayoutOptions()
+	{
+		if (NarrowestTemplate != null) yield return UI.Layout.Narrowest;
+		if (NarrowTemplate != null) yield return UI.Layout.Narrow;
+		if (NormalTemplate != null) yield return UI.Layout.Normal;
+		if (WideTemplate != null) yield return UI.Layout.Wide;
+		if (WidestTemplate != null) yield return UI.Layout.Widest;
 	}
 
 	internal ResponsiveLayout? GetAppliedLayout() =>

@@ -18,7 +18,7 @@ namespace Uno.Toolkit.UI;
 
 internal interface IResponsiveCallback
 {
-	void OnSizeChanged(Size size, ResponsiveLayout layout);
+	void OnSizeChanged(ResponsiveHelper sender);
 }
 
 public partial class ResponsiveLayout : DependencyObject
@@ -113,7 +113,7 @@ public partial class ResponsiveLayout : DependencyObject
 	public override string ToString() => "[" + string.Join(",", Narrowest, Narrow, Normal, Wide, Widest) + "]";
 }
 
-internal record ResolvedLayout<T>(string Layout, T Value);
+public enum Layout { Narrowest, Narrow, Normal, Wide, Widest }
 
 public class ResponsiveHelper
 {
@@ -123,7 +123,7 @@ public class ResponsiveHelper
 
 	private readonly List<WeakReference> _callbacks = new();
 #if UNO14502_WORKAROUND
-	private List<IResponsiveCallback> _hardCallbackReferences = new();
+	private readonly List<IResponsiveCallback> _hardCallbackReferences = new();
 #endif
 
 	public ResponsiveLayout Layout { get; private set; } = ResponsiveLayout.Create(150, 300, 600, 800, 1080);
@@ -169,7 +169,7 @@ public class ResponsiveHelper
 					continue;
 				}
 #endif
-				callback.OnSizeChanged(WindowSize, Layout);
+				callback.OnSizeChanged(this);
 			}
 		}
 	}
@@ -186,6 +186,26 @@ public class ResponsiveHelper
 
 		var wr = new WeakReference(host);
 		_callbacks.Add(wr);
+	}
+
+	internal (ResponsiveLayout Layout, Size Size, Layout? Result) ResolveLayout(ResponsiveLayout? layout, IEnumerable<Layout> options)
+	{
+		layout ??= Layout;
+		var result =
+			options.FirstOrNull(SatisfyLayoutThreshold) ??
+			options.LastOrNull();
+
+		return (layout, WindowSize, result);
+
+		bool SatisfyLayoutThreshold(Layout x) => x switch
+		{
+			UI.Layout.Narrowest => layout.Narrowest,
+			UI.Layout.Narrow => layout.Narrow,
+			UI.Layout.Normal => layout.Normal,
+			UI.Layout.Wide => layout.Wide,
+			UI.Layout.Widest => layout.Widest,
+			_ => double.NaN,
+		} >= WindowSize.Width;
 	}
 
 	internal static IDisposable UsingDebuggableInstance()
