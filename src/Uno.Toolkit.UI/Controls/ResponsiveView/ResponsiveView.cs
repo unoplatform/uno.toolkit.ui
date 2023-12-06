@@ -68,5 +68,6 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 
 	internal ResponsiveLayout? GetAppliedLayout() =>
 		ResponsiveLayout ??
-		this.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
+		this.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey) ??
+		Application.Current.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
 }

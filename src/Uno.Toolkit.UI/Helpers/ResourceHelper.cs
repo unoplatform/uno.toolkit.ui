@@ -22,4 +22,14 @@ internal static class ResourceHelper
 
 		return null;
 	}
+
+	public static T? ResolveLocalResource<T>(this Application resourceProvider, object key) where T : class
+		=> resourceProvider.ResolveLocalResource(key) as T;
+
+	public static object? ResolveLocalResource(this Application resourceProvider, object key)
+	{
+		if (resourceProvider.Resources.TryGetValue(key, out var resource)) return resource;
+
+		return null;
+	}
 }

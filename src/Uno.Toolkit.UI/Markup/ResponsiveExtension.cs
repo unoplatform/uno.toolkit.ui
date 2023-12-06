@@ -190,5 +190,6 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 
 	internal ResponsiveLayout? GetAppliedLayout() =>
 		Layout ??
-		(TargetWeakRef?.Target as FrameworkElement)?.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
+		(TargetWeakRef?.Target as FrameworkElement)?.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey) ??
+		Application.Current.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
 }
