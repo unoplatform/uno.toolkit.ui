@@ -3,7 +3,6 @@
 #endif
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Windows.Foundation;
@@ -190,6 +189,8 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 
 	internal ResponsiveLayout? GetAppliedLayout() =>
 		Layout ??
+#if SUPPORTS_XAML_SERVICE_PROVIDER
 		(TargetWeakRef?.Target as FrameworkElement)?.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey) ??
+#endif
 		Application.Current.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
 }
