@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define TREEGRAPH_VERBOSE_LAYOUT
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -198,6 +200,8 @@ namespace Uno.Toolkit.UI
 
 			static IEnumerable<string> GetDetails(object x)
 			{
+				#region Common Details: Layout (high priority)
+#if TREEGRAPH_VERBOSE_LAYOUT
 #if __IOS__
 				if (x is _View view && view.Superview is { })
 				{
@@ -210,10 +214,13 @@ namespace Uno.Toolkit.UI
 					yield return $"Rect={FormatViewRect(view)}";
 				}
 #endif
+#endif
 				if (x is FrameworkElement fe)
 				{
 					yield return $"Actual={fe.ActualWidth}x{fe.ActualHeight}";
+#if TREEGRAPH_VERBOSE_LAYOUT
 					yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
+#endif
 					yield return $"HV={fe.HorizontalAlignment}/{fe.VerticalAlignment}";
 				}
 				if (x is UIElement uie)
@@ -221,16 +228,20 @@ namespace Uno.Toolkit.UI
 					//yield return $"Desired={FormatSize(uie.DesiredSize)}";
 					//yield return $"LAS={FormatSize(uie.LastAvailableSize)}";
 				}
+#if TREEGRAPH_VERBOSE_LAYOUT
+				if (TryGetDpValue<HorizontalAlignment>(x, "HorizontalContentAlignment", out var hca) |
+					TryGetDpValue<HorizontalAlignment>(x, "VerticalContentAlignment", out var vca))
+				{
+					yield return $"HVC={hca}/{vca}";
+				}
+#endif
+				#endregion
+				#region WinUI Control Details
 				if (x is ScrollViewer sv)
 				{
 					yield return $"Offset={sv.HorizontalOffset:0.#},{sv.VerticalOffset:0.#}";
 					yield return $"Viewport={sv.ViewportWidth:0.#}x{sv.ViewportHeight:0.#}";
 					yield return $"Extent={sv.ExtentWidth:0.#}x{sv.ExtentHeight:0.#}";
-				}
-				if (TryGetDpValue<HorizontalAlignment>(x, "HorizontalContentAlignment", out var hca) |
-					TryGetDpValue<HorizontalAlignment>(x, "VerticalContentAlignment", out var vca))
-				{
-					yield return $"HVC={hca}/{vca}";
 				}
 				if (x is ListViewItem lvi)
 				{
@@ -238,19 +249,41 @@ namespace Uno.Toolkit.UI
 				}
 				if (x is TextBlock txt && !string.IsNullOrEmpty(txt.Text))
 				{
-					yield return $"Text=\"{Regex.Escape(txt.Text)}\"";
+					yield return $"Text=\"{EscapeMultiline(txt.Text)}\"";
 				}
 				if (x is Shape shape)
 				{
 					if (shape.Fill is not null) yield return $"Fill={FormatBrush(shape.Fill)}";
 					if (shape.Stroke is not null) yield return $"Stroke={FormatBrush(shape.Stroke)}*{shape.StrokeThickness}px";
 				}
+				#endregion
+				#region Toolkit Control Details
+				if (x is ResponsiveView rv)
+				{
+					if (rv.ResolvedLayout is { } resolved) yield return $"Resolved={resolved.Layout}";
+					yield return $"Layout={rv.GetAppliedLayout()}";
+				}
+#if DEBUG
+				if (ResponsiveExtension.TrackedInstances.Where(y => y.Owner.Target == x).ToArray() is { Length: > 0 } instances)
+				{
+					foreach (var item in instances)
+					{
+						if (item.Extension.Target is ResponsiveExtension re)
+						{
+							yield return $"{item.Property}@Responsive: {re.LastUsedLayout}->{re.ResolvedValue?.Layout}\\{re.ResolvedValue?.Value}";
+						}
+					}
+				}
+#endif
+				#endregion
+				#region Common Details: Layout,Misc (low priority)
 				if (TryGetDpValue<CornerRadius>(x, "CornerRadius", out var cr)) yield return $"CornerRadius={FormatCornerRadius(cr)}";
 				if (TryGetDpValue<Thickness>(x, "Margin", out var margin)) yield return $"Margin={FormatThickness(margin)}";
 				if (TryGetDpValue<Thickness>(x, "Padding", out var padding)) yield return $"Padding={FormatThickness(padding)}";
 				if (TryGetDpValue<double>(x, "Opacity", out var opacity)) yield return $"Opacity={opacity}";
 				if (TryGetDpValue<Visibility>(x, "Visibility", out var visibility)) yield return $"Visibility={visibility}";
 				if (GetActiveVisualStates(x as Control) is { } states) yield return $"VisualStates={states}";
+				#endregion
 			}
 		}
 		private static string DebugVTNode(object x, Func<object, IEnumerable<string>> describeProperties)

@@ -3,17 +3,11 @@ uid: Toolkit.Helpers.ResponsiveExtension
 ---
 # ResponsiveExtension
 
-## Summary
 The `ResponsiveExtension` class is a markup extension that enables the customization of `UIElement` properties based on screen size.
 This functionality provides a dynamic and responsive user interface experience.
 
 ### Inheritance
 Object &#8594; MarkupExtension &#8594; ResponsiveExtension
-
-### Constructors
-| Constructor           | Description                                                    |
-|-----------------------|----------------------------------------------------------------|
-| ResponsiveExtension() | Initializes a new instance of the `ResponsiveExtension` class. |
 
 ## Properties
 | Property   | Type             | Description                                                |
@@ -39,16 +33,8 @@ This is done using an instance of the `ResponsiveLayout` class.
 | Widest     | double           | Default value is 1080. |
 
 ## Remarks
-**Platform limitation**: The ability to update property values when the window size changes is only available on targets other than Windows UWP.
-Due to a limitation of the UWP API (Windows target only), the `MarkupExtension.ProvideValue(IXamlServiceProvider)` overload is unavailable, which is required to continuously update the value.
-Because of this, the markup extension will only provide the initial value, and will not respond to window size changes.
-
-**Initialization**: The `ResponsiveHelper` needs to be hooked up to the window's `SizeChanged` event in order for it to receive updates when the window size changes.
-This is typically done in the `OnLaunched` method in the `App` class, where you can get the current window and call the `HookupEvent` method on the `ResponsiveHelper`.
-It is important to do this when the app launches, otherwise the `ResponsiveExtension` won't be able to update the property values when the window size changes.
-
-Here is an example of how this might be achieved:
-
+**Initialization**: The `ResponsiveHelper` needs to be hooked up to the window's `SizeChanged` event in order for this markup to receive updates when the window size changes.
+This is typically done in the `OnLaunched` method in the `App` class, where you can get the current `Window` instance for `ResponsiveHelper.HookupEvent`:
 ```cs
 protected override void OnLaunched(LaunchActivatedEventArgs args)
 {
@@ -57,54 +43,57 @@ protected override void OnLaunched(LaunchActivatedEventArgs args)
 #else
 	MainWindow = Microsoft.UI.Xaml.Window.Current;
 #endif
+
 	// ...
 	var helper = Uno.Toolkit.UI.ResponsiveHelper.GetForCurrentView();
 	helper.HookupEvent(MainWindow);
 }
 ```
+## Platform limitation (UWP-desktop)
+`ResponsiveExtension` relies on `MarkupExtension.ProvideValue(IXamlServiceProvider)` to find the target control and property for continuous value updates, and to obtain the property type to apply automatic type conversion, as its value properties are parsed as string by the XAML engine. Since this overload is a recent addition exclusive to WinUI, UWP projects targeting Windows won't have access to these features. Uno UWP projects targeting non-Windows platforms do not face this limitation. However, the Windows app may crash or present unexpected behavior if you attempt to use this markup on a non-string property.
+```xml
+<Border Background="{utu:Responsive Narrow=Red, Wide=Blue}"
+        Tag="This will not work on Uwp for windows" />
+```
+You can workaround this by declaring the values as resources and using {StaticResource} to refer to them:
+```xml
+<Page.Resources>
+    <SolidColorBrush x:Key="RedBrush">Red</SolidColorBrush>
+    <SolidColorBrush x:Key="BlueBrush">Blue</SolidColorBrush>
+...
 
-**Property type limitation**: Content property values other than strings must be appropriately typed for the markup extension to interpret them correctly.
-In the basic usage example below, the values `NarrowRed` and `WideBlue` are properly typed as they refer to the `StaticResource` keys defined in `Page.Resources`.
-For instance, using `Background={utu:Responsive Narrow=SkyBlue, Wide=Pink}` would be incorrect, while the string literal usage under `<TextBlock Text="{utu:Responsive Narrow='Narrow format', Wide='Wide format'}" />` is accepted.
-
+<Border Background="{utu:Responsive Narrow={StaticResource RedBrush},
+                                    Wide={StaticResource BlueBrush}}" />
+```
 ## Usage
 
-### Basic example
+> [!TIP]
+> It is not necessary to define every template or layout breakpoint: Narrowest, Narrow, Normal, Wide, Widest. You can just define the bare minimum needed.
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
-<Page.Resources>
-	<SolidColorBrush x:Key="NarrowRed">Crimson</SolidColorBrush>
-	<SolidColorBrush x:Key="WideBlue">Blue</SolidColorBrush>
-</Page.Resources>
-...
-<TextBlock Text="Asd"
-		   Background="{utu:Responsive Narrow={StaticResource NarrowRed}, Wide={StaticResource WideBlue}}" />
+
+<TextBlock Background="{utu:Responsive Narrow=Red, Wide=Blue}" Text="Asd" />
 ```
 
 ### Custom thresholds
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
-xmlns:hlp="using:Uno.Toolkit.UI.Helpers"
 ...
+
 <Page.Resources>
-	<hlp:ResponsiveLayout x:Key="CustomLayout"
-							Narrowest="200"
-							Narrow="350"
-							Normal="800"
-							Wide="1200"
-							Widest="1500" />
+	<utu:ResponsiveLayout x:Key="CustomLayout" Narrow="400" Wide="800" />
 </Page.Resources>
 ...
-<TextBlock>
-	<TextBlock.Text>
-		<utu:ResponsiveExtension Layout="{StaticResource CustomLayout}"
-								 Narrowest="This is the narrowest screen size."
-								 Narrow="This is a narrow screen size."
-								 Normal="This is a normal screen size."
-								 Wide="This is a wide screen size."
-								 Widest="This is the widest screen size." />
-	</TextBlock.Text>
-</TextBlock>
+
+<TextBlock Text="{utu:Responsive Layout={StaticResource CustomLayout}, Narrow=Narrow, Wide=Wide}" />
 ```
+
+> [!NOTE]
+> This `ResponsiveLayout` can also be provided from different locations. In the order of precedences, they are:
+> - from the `Layout` property
+> - in the property owner's parent `.Resources` with `x:Key="DefaultResponsiveLayout"`, or the property owner's parent's parent's...
+> - in `Application.Resources` with `x:Key="DefaultResponsiveLayout"`
+> - from the hardcoded `ResponsiveHelper.Layout`
 

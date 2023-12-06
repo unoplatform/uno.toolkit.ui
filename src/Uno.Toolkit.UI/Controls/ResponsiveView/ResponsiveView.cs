@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using Windows.Foundation;
+using System;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,104 +14,7 @@ namespace Uno.Toolkit.UI;
 
 public partial class ResponsiveView : ContentControl, IResponsiveCallback
 {
-	#region DependencyProperties
-
-	#region Narrowest DP
-	public DataTemplate NarrowestTemplate
-	{
-		get { return (DataTemplate)GetValue(NarrowestTemplateProperty); }
-		set { SetValue(NarrowestTemplateProperty, value); }
-	}
-
-	public static readonly DependencyProperty NarrowestTemplateProperty =
-		DependencyProperty.Register("NarrowestTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNarrowestTemplateChanged));
-
-	private static void OnNarrowestTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveTemplateChanged(d, e);
-
-	#endregion
-
-	#region Narrow DP
-	public DataTemplate NarrowTemplate
-	{
-		get { return (DataTemplate)GetValue(NarrowTemplateProperty); }
-		set { SetValue(NarrowTemplateProperty, value); }
-	}
-
-	public static readonly DependencyProperty NarrowTemplateProperty =
-		DependencyProperty.Register("NarrowTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNarrowTemplateChanged));
-
-	private static void OnNarrowTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveTemplateChanged(d, e);
-	#endregion
-
-	#region Normal DP
-	public DataTemplate NormalTemplate
-	{
-		get { return (DataTemplate)GetValue(NormalTemplateProperty); }
-		set { SetValue(NormalTemplateProperty, value); }
-	}
-
-	public static readonly DependencyProperty NormalTemplateProperty =
-		DependencyProperty.Register("NormalTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnNormalTemplateChanged));
-
-	private static void OnNormalTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveTemplateChanged(d, e);
-	#endregion
-
-	#region Wide DP
-	public DataTemplate WideTemplate
-	{
-		get { return (DataTemplate)GetValue(WideTemplateProperty); }
-		set { SetValue(WideTemplateProperty, value); }
-	}
-
-	public static readonly DependencyProperty WideTemplateProperty =
-		DependencyProperty.Register("WideTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnWideTemplateChanged));
-
-	private static void OnWideTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveTemplateChanged(d, e);
-	#endregion
-
-	#region Widest DP
-	public DataTemplate WidestTemplate
-	{
-		get { return (DataTemplate)GetValue(WidestTemplateProperty); }
-		set { SetValue(WidestTemplateProperty, value); }
-	}
-
-	public static readonly DependencyProperty WidestTemplateProperty =
-		DependencyProperty.Register("WidestTemplate", typeof(DataTemplate), typeof(ResponsiveView), new PropertyMetadata(null, OnWidestTemplateChanged));
-
-	private static void OnWidestTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		=> OnResponsiveTemplateChanged(d, e);
-	#endregion
-
-	#region ResponsiveLayout DP
-	public static DependencyProperty ResponsiveLayoutProperty { get; } = DependencyProperty.Register(
-		nameof(ResponsiveLayout),
-		typeof(ResponsiveLayout),
-		typeof(ResponsiveView),
-		new PropertyMetadata(default));
-
-	public ResponsiveLayout ResponsiveLayout
-	{
-		get => (ResponsiveLayout)GetValue(ResponsiveLayoutProperty);
-		set => SetValue(ResponsiveLayoutProperty, value);
-	}
-	#endregion
-
-	private static void OnResponsiveTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		if (d is ResponsiveView { IsLoaded: true } view)
-		{
-			var dataTemplate = view.GetInitialValue();
-			view.Content = dataTemplate?.LoadContent() as UIElement;
-		}
-	}
-	#endregion
-
-	private DataTemplate? _currentContent;
+	internal ResolvedLayout<DataTemplate?>? ResolvedLayout { get; private set; }
 
 	public ResponsiveView()
 	{
@@ -122,42 +27,47 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 
 	private void ResponsiveView_Loaded(object sender, RoutedEventArgs e)
 	{
-		_currentContent = GetInitialValue();
-
-		Content = _currentContent?.LoadContent() as UIElement;
-	}
-
-	private DataTemplate? GetInitialValue()
-	{
-		var helper = ResponsiveHelper.GetForCurrentView();
-
-		return GetValueForSize(helper.WindowSize, ResponsiveLayout ?? helper.Layout);
-	}
-
-	private DataTemplate? GetValueForSize(Size size, ResponsiveLayout layout)
-	{
-		var defs = new (double MinWidth, DataTemplate? Value)?[]
-		{
-			(layout.Narrowest, NarrowestTemplate),
-			(layout.Narrow, NarrowTemplate),
-			(layout.Normal, NormalTemplate),
-			(layout.Wide, WideTemplate),
-			(layout.Widest, WidestTemplate),
-		}.Where(x => x?.Value != null).ToArray();
-
-		var match = defs.FirstOrDefault(y => y?.MinWidth >= size.Width) ?? defs.LastOrDefault();
-
-		return match?.Value;
+		ResolveTemplate();
 	}
 
 	public void OnSizeChanged(Size size, ResponsiveLayout layout)
 	{
-		var dataTemplate = GetValueForSize(size, ResponsiveLayout ?? layout);
+		ResolveTemplate(size, GetAppliedLayout() ?? layout);
+	}
 
-		if (dataTemplate != _currentContent)
+	private void ResolveTemplate()
+	{
+		if (!IsLoaded) return;
+
+		var helper = ResponsiveHelper.GetForCurrentView();
+
+		ResolveTemplate(helper.WindowSize, GetAppliedLayout() ?? helper.Layout);
+	}
+
+	private void ResolveTemplate(Size size, ResponsiveLayout layout)
+	{
+		if (!IsLoaded) return;
+
+		var defs = new (double MinWidth, ResolvedLayout<DataTemplate?> Value)[]
 		{
-			_currentContent = dataTemplate;
-			Content = dataTemplate?.LoadContent() as UIElement;
+			(layout.Narrowest, new(nameof(layout.Narrowest), NarrowestTemplate)),
+			(layout.Narrow, new(nameof(layout.Narrow), NarrowTemplate)),
+			(layout.Normal, new(nameof(layout.Normal), NormalTemplate)),
+			(layout.Wide, new(nameof(layout.Wide), WideTemplate)),
+			(layout.Widest, new(nameof(layout.Widest), WidestTemplate)),
+		}.Where(x => x.Value.Value != null).ToArray();
+		var match = defs.FirstOrNull(y => y.MinWidth >= size.Width) ?? defs.LastOrNull();
+		var resolved = match?.Value;
+
+		if (resolved != ResolvedLayout)
+		{
+			Content = resolved?.Value?.LoadContent() as UIElement;
+			ResolvedLayout = resolved;
 		}
 	}
+
+	internal ResponsiveLayout? GetAppliedLayout() =>
+		ResponsiveLayout ??
+		this.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey) ??
+		Application.Current.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
 }
