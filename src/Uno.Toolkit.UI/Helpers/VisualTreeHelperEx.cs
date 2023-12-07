@@ -260,8 +260,7 @@ namespace Uno.Toolkit.UI
 				#region Toolkit Control Details
 				if (x is ResponsiveView rv)
 				{
-					if (rv.ResolvedLayout is { } resolved) yield return $"Resolved={resolved.Layout}";
-					yield return $"Layout={rv.GetAppliedLayout()}";
+					yield return $"Responsive: {FormatSize(rv.LastResolved.Size)}@{rv.LastResolved.Layout}->{rv.LastResolved.Result}";
 				}
 #if DEBUG
 				if (ResponsiveExtension.TrackedInstances.Where(y => y.Owner.Target == x).ToArray() is { Length: > 0 } instances)
@@ -270,7 +269,7 @@ namespace Uno.Toolkit.UI
 					{
 						if (item.Extension.Target is ResponsiveExtension re)
 						{
-							yield return $"{item.Property}@Responsive: {re.LastUsedLayout}->{re.ResolvedValue?.Layout}\\{re.ResolvedValue?.Value}";
+							yield return $"{item.Property}@Responsive: {FormatSize(re.LastResolved.Size)}@{re.LastResolved.Layout}->{re.LastResolved.Result}\\{re.CurrentValue}";
 						}
 					}
 				}

@@ -100,11 +100,11 @@ public partial class ResponsiveView
 
 	#endregion
 
-	private static void OnNarrowestTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.ResolveTemplate();
-	private static void OnNarrowTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.ResolveTemplate();
-	private static void OnNormalTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.ResolveTemplate();
-	private static void OnWideTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.ResolveTemplate();
-	private static void OnWidestTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.ResolveTemplate();
+	private static void OnNarrowestTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.UpdateTemplate(forceApplyValue: true);
+	private static void OnNarrowTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.UpdateTemplate(forceApplyValue: true);
+	private static void OnNormalTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.UpdateTemplate(forceApplyValue: true);
+	private static void OnWideTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.UpdateTemplate(forceApplyValue: true);
+	private static void OnWidestTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.UpdateTemplate(forceApplyValue: true);
 
-	private static void OnResponsiveLayoutChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.ResolveTemplate();
+	private static void OnResponsiveLayoutChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as ResponsiveView)?.UpdateTemplate();
 }

@@ -3,11 +3,15 @@
 #endif
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Windows.Foundation;
 using Uno.Extensions;
 using Uno.Logging;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+
+
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -49,10 +53,10 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 	private Type? _propertyType;
 	private DependencyProperty? _targetProperty;
 #endif
-	internal ResolvedLayout<object?>? ResolvedValue { get; private set; }
-#if DEBUG
-	internal ResponsiveLayout? LastUsedLayout { get; private set; }
-#endif
+
+	public Layout? CurrentLayout { get; private set; }
+	internal object? CurrentValue { get; private set; }
+	internal (ResponsiveLayout Layout, Size Size, Layout? Result) LastResolved { get; private set; }
 
 	public ResponsiveExtension()
 	{
@@ -62,7 +66,7 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 	/// <inheritdoc/>
 	protected override object? ProvideValue()
 	{
-		this.Log().WarnIfEnabled(() => "The property value, once initially set, cannot be updated due to UWP limitation. Consider upgrading to WinUI, on which the service provider context is exposed through a ProvideValue overload.");
+		_logger.WarnIfEnabled(() => "The property value, once initially set, cannot be updated due to UWP limitation. Consider upgrading to WinUI, on which the service provider context is exposed through a ProvideValue overload.");
 		return ResolveValue();
 	}
 #else
@@ -74,42 +78,6 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 		return ResolveValue();
 	}
 #endif
-
-	private object? ResolveValue()
-	{
-		var helper = ResponsiveHelper.GetForCurrentView();
-
-		return ResolveValue(helper.WindowSize, GetAppliedLayout() ?? helper.Layout);
-	}
-
-	private object? ResolveValue(Size size, ResponsiveLayout layout)
-	{
-		var defs = new (double MinWidth, ResolvedLayout<object?> Value)[]
-		{
-			(layout.Narrowest, new(nameof(layout.Narrowest), Narrowest)),
-			(layout.Narrow, new(nameof(layout.Narrow), Narrow)),
-			(layout.Normal, new(nameof(layout.Normal), Normal)),
-			(layout.Wide, new(nameof(layout.Wide), Wide)),
-			(layout.Widest, new(nameof(layout.Widest), Widest)),
-		}.Where(x => x.Value.Value != null).ToArray();
-		var match = defs.FirstOrNull(y => y.MinWidth >= size.Width) ?? defs.LastOrNull();
-		var resolved = match?.Value;
-
-#if DEBUG
-		LastUsedLayout = layout;
-#endif
-		ResolvedValue = resolved;
-
-		var result = resolved?.Value;
-#if SUPPORTS_XAML_SERVICE_PROVIDER
-		if (result != null && _propertyType != null && result.GetType() != _propertyType)
-		{
-			result = XamlCastSafe(result, _propertyType);
-		}
-#endif
-
-		return result;
-	}
 
 #if SUPPORTS_XAML_SERVICE_PROVIDER
 	private void BindToEvents(IXamlServiceProvider serviceProvider)
@@ -123,7 +91,7 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 			_targetProperty = dp;
 			_propertyType =
 #if HAS_UNO // workaround for uno#14719: uno doesn't inject the proper pvtp.Type
-				target.GetType().GetProperty(pvtp.Name, Public | Instance | FlattenHierarchy)?.PropertyType;
+				typeof(DependencyProperty).GetProperty("Type", Instance | NonPublic)?.GetValue(dp) as Type;
 #else
 				pvtp.Type;
 #endif
@@ -154,20 +122,48 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 			// Along the visual tree, we may have a DefaultResponsiveLayout defined in the resources which could cause a different value to be resolved.
 			// But because in ProvideValue, the target has not been added to the visual tree yet, we cannot access the "full" .resources yet.
 			// So we need to rectify that here.
-			target.SetValue(_targetProperty, ResolveValue());
+			UpdateBindingIfNeeded(forceApplyValue: true);
 		}
 	}
 #endif
 
-	public void OnSizeChanged(Size size, ResponsiveLayout layout)
+	public void OnSizeChanged(ResponsiveHelper helper) => UpdateBindingIfNeeded(helper);
+
+	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "platform-specific block...")]
+	private void UpdateBindingIfNeeded(ResponsiveHelper? helper = null, bool forceApplyValue = false)
 	{
 #if SUPPORTS_XAML_SERVICE_PROVIDER
+		helper ??= ResponsiveHelper.GetForCurrentView();
+
 		if (TargetWeakRef?.Target is FrameworkElement target &&
 			_targetProperty is not null)
 		{
-			target.SetValue(_targetProperty, ResolveValue(size, GetAppliedLayout() ?? layout));
+			var resolved = helper.ResolveLayout(GetAppliedLayout(), GetAvailableLayoutOptions());
+			if (forceApplyValue || CurrentLayout != resolved.Result)
+			{
+				var value = GetValueFor(resolved.Result);
+
+				target.SetValue(_targetProperty, value);
+
+				CurrentValue = value;
+				CurrentLayout = resolved.Result;
+				LastResolved = resolved;
+			}
 		}
 #endif
+	}
+
+	private object? ResolveValue()
+	{
+		var helper = ResponsiveHelper.GetForCurrentView();
+		var resolved = helper.ResolveLayout(GetAppliedLayout(), GetAvailableLayoutOptions());
+		var value = GetValueFor(resolved.Result);
+		
+		CurrentValue = value;
+		CurrentLayout = resolved.Result;
+		LastResolved = resolved;
+
+		return value;
 	}
 
 	private static object? XamlCastSafe(object value, Type type)
@@ -185,6 +181,36 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 
 			return value;
 		}
+	}
+
+	private object? GetValueFor(Layout? layout)
+	{
+		var value =  layout switch
+		{
+			UI.Layout.Narrowest => Narrowest,
+			UI.Layout.Narrow => Narrow,
+			UI.Layout.Normal => Normal,
+			UI.Layout.Wide => Wide,
+			UI.Layout.Widest => Widest,
+			_ => null,
+		};
+#if SUPPORTS_XAML_SERVICE_PROVIDER
+		if (value != null && _propertyType != null && value.GetType() != _propertyType)
+		{
+			value = XamlCastSafe(value, _propertyType);
+		}
+#endif
+
+		return value;
+	}
+
+	private IEnumerable<Layout> GetAvailableLayoutOptions()
+	{
+		if (Narrowest != null) yield return UI.Layout.Narrowest;
+		if (Narrow != null) yield return UI.Layout.Narrow;
+		if (Normal != null) yield return UI.Layout.Normal;
+		if (Wide != null) yield return UI.Layout.Wide;
+		if (Widest != null) yield return UI.Layout.Widest;
 	}
 
 	internal ResponsiveLayout? GetAppliedLayout() =>
