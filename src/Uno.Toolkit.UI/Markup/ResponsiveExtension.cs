@@ -9,6 +9,8 @@ using Windows.Foundation;
 using Uno.Extensions;
 using Uno.Logging;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+
 
 
 #if IS_WINUI
@@ -89,7 +91,7 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 			_targetProperty = dp;
 			_propertyType =
 #if HAS_UNO // workaround for uno#14719: uno doesn't inject the proper pvtp.Type
-				target.GetType().GetProperty(pvtp.Name, Public | Instance | FlattenHierarchy)?.PropertyType;
+				typeof(DependencyProperty).GetProperty("Type", Instance | NonPublic)?.GetValue(dp) as Type;
 #else
 				pvtp.Type;
 #endif
@@ -139,7 +141,8 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 			var resolved = helper.ResolveLayout(GetAppliedLayout(), GetAvailableLayoutOptions());
 			if (forceApplyValue || CurrentLayout != resolved.Result)
 			{
-				var value = resolved.Result;
+				var value = GetValueFor(resolved.Result);
+
 				target.SetValue(_targetProperty, value);
 
 				CurrentValue = value;
