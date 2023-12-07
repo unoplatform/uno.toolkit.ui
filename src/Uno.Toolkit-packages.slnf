@@ -1,0 +1,17 @@
+{
+  "solution": {
+    "path": "Uno.Toolkit.sln",
+    "projects": [
+      "Uno.Toolkit.Skia.WinUI\\Uno.Toolkit.Skia.WinUI.csproj",
+      "Uno.Toolkit.UI\\Uno.Toolkit.UI.csproj",
+      "Uno.Toolkit.UI\\Uno.Toolkit.WinUI.csproj",
+      "Uno.Toolkit\\Uno.Toolkit.csproj",
+      "library\\Uno.Toolkit.Cupertino\\Uno.Toolkit.UI.Cupertino.csproj",
+      "library\\Uno.Toolkit.Cupertino\\Uno.Toolkit.WinUI.Cupertino.csproj",
+      "library\\Uno.Toolkit.Material\\Uno.Toolkit.UI.Material.csproj",
+      "library\\Uno.Toolkit.Material\\Uno.Toolkit.WinUI.Material.csproj",
+      "library\\Uno.Toolkit.WinUI.Markup\\Uno.Toolkit.WinUI.Markup.csproj",
+      "library\\Uno.Toolkit.WinUI.Material.Markup\\Uno.Toolkit.WinUI.Material.Markup.csproj"
+    ]
+  }
+}
