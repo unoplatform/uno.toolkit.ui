@@ -376,7 +376,7 @@ public partial class ShadowContainer : ContentControl
 			StackPanel => StackPanel.CornerRadiusProperty,
 
 			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
-			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty"),
+			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadiusProperty"),
 			_ => null,
 		};
 	}
@@ -392,7 +392,7 @@ public partial class ShadowContainer : ContentControl
 			StackPanel stackpanel => stackpanel.CornerRadius,
 
 			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
-			DependencyObject @do => @do.FindDependencyPropertyUsingReflection<CornerRadius>("CornerRadiusProperty") is { } dp
+			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadiusProperty") is { } dp
 				? (CornerRadius)@do.GetValue(dp)
 				: null,
 			_ => null,

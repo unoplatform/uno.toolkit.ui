@@ -85,7 +85,7 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 		if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget pvt &&
 			pvt.TargetObject is FrameworkElement target &&
 			pvt.TargetProperty is ProvideValueTargetProperty pvtp &&
-			target.FindDependencyPropertyUsingReflection($"{pvtp.Name}Property") is DependencyProperty dp)
+			target.FindDependencyProperty($"{pvtp.Name}Property") is DependencyProperty dp)
 		{
 			TargetWeakRef = new WeakReference(target);
 			_targetProperty = dp;
