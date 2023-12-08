@@ -4,14 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using Windows.Foundation;
 using Uno.Extensions;
 using Uno.Logging;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-
-
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -85,21 +82,16 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 		if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget pvt &&
 			pvt.TargetObject is FrameworkElement target &&
 			pvt.TargetProperty is ProvideValueTargetProperty pvtp &&
-			target.FindDependencyProperty($"{pvtp.Name}Property") is DependencyProperty dp)
+			pvtp.DeclaringType.FindDependencyProperty($"{pvtp.Name}Property") is DependencyProperty dp)
 		{
 			TargetWeakRef = new WeakReference(target);
 			_targetProperty = dp;
-			_propertyType =
-#if HAS_UNO // workaround for uno#14719: uno doesn't inject the proper pvtp.Type
-				typeof(DependencyProperty).GetProperty("Type", Instance | NonPublic)?.GetValue(dp) as Type;
-#else
-				pvtp.Type;
-#endif
+			_propertyType = pvtp.Type;
+
 			// here, we need to bind to two events:
 			// 1. Window.SizeChanged for obvious reason
 			// 2. Control.Loaded because the initial value(result of ProvideValue) is resolved without the inherited .resources
 			//		which may define a different DefaultResponsiveLayout resource somewhere along the visual tree, so we need to rectify that.
-
 			ResponsiveHelper.GetForCurrentView().Register(this);
 			target.Loaded += OnTargetLoaded;
 
@@ -158,7 +150,7 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 		var helper = ResponsiveHelper.GetForCurrentView();
 		var resolved = helper.ResolveLayout(GetAppliedLayout(), GetAvailableLayoutOptions());
 		var value = GetValueFor(resolved.Result);
-		
+
 		CurrentValue = value;
 		CurrentLayout = resolved.Result;
 		LastResolved = resolved;
