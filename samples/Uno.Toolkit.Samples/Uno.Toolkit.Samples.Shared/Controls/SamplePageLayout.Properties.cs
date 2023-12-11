@@ -14,6 +14,10 @@ namespace Uno.Toolkit.Samples
 {
 	public partial class SamplePageLayout
 	{
+		// UseSampleDataAsDC: Set the data-context for the templates to be the Sample.Data property instead. (Allowing direct binding, instead of having to prefix the path with `Data.`.)
+		//		^ By default the data-context within the various templates will be set to Sample (which is created with the [SamplePage] attribute).
+		//		^ To access the injected data-context (SamplePageAttribute.DataType instanced), you would normally need to bind to `Data.`. Setting this eliminates that part.
+
 		#region Property: Title
 
 		public static DependencyProperty TitleProperty { get; } = DependencyProperty.Register(
@@ -86,6 +90,21 @@ namespace Uno.Toolkit.Samples
 		{
 			get => (bool)GetValue(IsDesignAgnosticProperty);
 			set => SetValue(IsDesignAgnosticProperty, value);
+		}
+
+		#endregion
+		#region Property: UseSampleDataAsDC
+
+		public static DependencyProperty UseSampleDataAsDCProperty { get; } = DependencyProperty.Register(
+			nameof(UseSampleDataAsDC),
+			typeof(bool),
+			typeof(SamplePageLayout),
+			new PropertyMetadata(default(bool), OnUseSampleDataAsDCChanged));
+
+		public bool UseSampleDataAsDC
+		{
+			get => (bool)GetValue(UseSampleDataAsDCProperty);
+			set => SetValue(UseSampleDataAsDCProperty, value);
 		}
 
 		#endregion
@@ -178,5 +197,10 @@ namespace Uno.Toolkit.Samples
 		}
 
 		#endregion
+	}
+
+	public partial class SamplePageLayout
+	{
+		private static void OnUseSampleDataAsDCChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => (sender as SamplePageLayout)?.UpdateSampleDataContext();
 	}
 }

@@ -12,9 +12,11 @@ using Uno.Toolkit.Samples.Helpers;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 #endif
 
 namespace Uno.Toolkit.Samples
@@ -37,6 +39,7 @@ namespace Uno.Toolkit.Samples
 		private const string ScrollViewerPartName = "PART_ScrollViewer";
 		private const string TopPartName = "PART_MobileTopBar";
 		private const string MaterialVersionComboBoxName = "MaterialVersionComboBox";
+		private const string SampleContainerName = "SampleContainer";
 
 		private static Design _design = Design.Material;
 
@@ -59,6 +62,7 @@ namespace Uno.Toolkit.Samples
 		private FrameworkElement _top;
 		private ScrollViewer _scrollViewer;
 		private ComboBox _materialVersionComboBox;
+		private Grid _sampleContainer;
 
 		private readonly SerialDisposable _subscriptions = new SerialDisposable();
 
@@ -93,6 +97,7 @@ namespace Uno.Toolkit.Samples
 			_scrollViewer = (ScrollViewer)GetTemplateChild(ScrollViewerPartName);
 			_top = (FrameworkElement)GetTemplateChild(TopPartName);
 			_materialVersionComboBox = (ComboBox)GetTemplateChild(MaterialVersionComboBoxName);
+			_sampleContainer = (Grid)GetTemplateChild(SampleContainerName);
 
 			// ensure previous subscriptions is removed before adding new ones, in case OnApplyTemplate is called multiple times
 			var disposables = new CompositeDisposable();
@@ -116,6 +121,7 @@ namespace Uno.Toolkit.Samples
 			BindOnClick(_stickyFluentRadioButton);
 
 			UpdateLayoutRadioButtons();
+			UpdateSampleDataContext();
 
 			void BindOnClick(RadioButton radio)
 			{
@@ -139,14 +145,23 @@ namespace Uno.Toolkit.Samples
 			}
 		}
 
+		private void UpdateSampleDataContext()
+		{
+			if (_sampleContainer is null) return;
+
+			if (UseSampleDataAsDC)
+			{
+				_sampleContainer.SetBinding(Grid.DataContextProperty, new Binding { Path = new PropertyPath(nameof(Sample.Data)) });
+			}
+			else
+			{
+				_sampleContainer.ClearValue(Grid.DataContextProperty);
+			}
+		}
+
 		private void OnMaterialVersionComboBoxLoaded(object sender, RoutedEventArgs e)
 		{
 			_materialVersionComboBox.SelectedIndex = 1;
-		}
-
-		private void RegisterEvent(RoutedEventHandler click)
-		{
-			click += OnLayoutRadioButtonChecked;
 		}
 
 		private void UpdateLayoutRadioButtons()

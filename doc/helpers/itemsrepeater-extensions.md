@@ -28,26 +28,73 @@ SelectionMode|ItemsSelectionMode|Gets or sets the selection behavior: `None`, `S
 
 ## Usage
 
+View-Model:
+```cs
+private class ViewModel : INotifyPropertyChanged
+{
+    public int[] MultiItemsSource { get; set; }
+    public object[] MultiSelectedItems { get; set; }
+    public int[] MultiSelectedIndexes { get; set; }
+
+    public int[] SingleItemsSource { get; set; }
+    public int SingleSelectedItem { get; set; }
+    public int SingleSelectedIndex { get; set; }
+}
+```
+
+Xaml:
 ```xml
 <!-- Include the following XAML namespaces to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"
 xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 ...
 
-<muxc:ItemsRepeater ItemsSource="{Binding ...}"
-                    utu:ItemsRepeaterExtensions.SelectionMode="Single">
+<!-- Multi-Selection -->
+<muxc:ItemsRepeater ItemsSource="{Binding MultiItemsSource}"
+                    utu:ItemsRepeaterExtensions.SelectionMode="Multiple"
+                    utu:ItemsRepeaterExtensions.SelectedItems="{Binding MultiSelectedItems, Mode=TwoWay}"
+                    utu:ItemsRepeaterExtensions.SelectedIndexes="{Binding MultiSelectedIndexes, Mode=TwoWay}">
     <muxc:ItemsRepeater.ItemTemplate>
         <DataTemplate>
-            <!-- pick one: -->
+            <!--
+                The root element of the ItemTemplate needs to be one of these below,
+                in order for the selection visual to work.
+                No additional binding on IsChecked/IsSelected needed; It is handled by this extensions.
+            -->
             <ListViewItem Content="{Binding}" />
             <!-- <CheckBox Content="{Binding}" /> -->
-            <!-- <RadioButton Content="{Binding}" /> -->
             <!-- <ToggleButton Content="{Binding}" /> -->
             <!-- <utu:Chip Content="{Binding}" /> -->
+            <!-- <RadioButton Content="{Binding}" /> -->
+        </DataTemplate>
+    </muxc:ItemsRepeater.ItemTemplate>
+</muxc:ItemsRepeater>
+
+<!-- Single-Selection -->
+<muxc:ItemsRepeater ItemsSource="{Binding SingleItemsSource}"
+                    utu:ItemsRepeaterExtensions.SelectionMode="Single"
+                    utu:ItemsRepeaterExtensions.SelectedItem="{Binding SingleSelectedItem, Mode=TwoWay}"
+                    utu:ItemsRepeaterExtensions.SelectedIndex="{Binding SingleSelectedIndex, Mode=TwoWay}">
+    <muxc:ItemsRepeater.ItemTemplate>
+        <DataTemplate>
+            <!--
+                The root element of the ItemTemplate needs to be one of these below,
+                in order for the selection visual to work.
+                No additional binding on IsChecked/IsSelected needed; It is handled by this extensions.
+            -->
+            <!-- <ListViewItem Content="{Binding}" /> -->
+            <!-- <CheckBox Content="{Binding}" /> -->
+            <!-- <ToggleButton Content="{Binding}" /> -->
+            <!-- <utu:Chip Content="{Binding}" /> -->
+            <RadioButton Content="{Binding}" />
         </DataTemplate>
     </muxc:ItemsRepeater.ItemTemplate>
 </muxc:ItemsRepeater>
 ```
+
+> [!NOTE]
+> While the `SelectedItems` property **needs** to be bound to a property of type `object[]`,
+> the `SelectedItem` property can be bound to a property of type `object` or the type of items-source's item.
 
 ### Remarks
 
