@@ -218,6 +218,10 @@ namespace Uno.Toolkit.UI
 
 		internal event EventHandler? ParentChanged;
 
+#pragma warning disable IDE0052 // Remove unread private members
+		private UIView? _superView;
+#pragma warning restore IDE0052 // Remove unread private members
+
 		public override void SetSuperviewNeedsLayout()
 		{
 			// Skip the base invocation because the base fetches the native parent
@@ -235,6 +239,12 @@ namespace Uno.Toolkit.UI
 		// so we can restore the NavigationBar parent that can propagate the DataContext
 		public override void MovedToSuperview()
 		{
+			// Store an explicit reference to the superview in order to avoid 
+			// generic access from the framework element infrastructure.
+			// This will avoid the superview from being natively released
+			// while this view may still try to use it and corrupt the heap, then
+			// cause NSObject_Disposer:Drain to fail randomly.
+			_superView = Superview;
 			base.MovedToSuperview();
 
 			ParentChanged?.Invoke(this, EventArgs.Empty);
