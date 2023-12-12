@@ -34,6 +34,8 @@
       href: controls/DrawerControl.md
     - name: DrawerFlyoutPresenter
       href: controls/DrawerFlyoutPresenter.md
+    - name: ExtendedSplashScreen
+      href: controls/ExtendedSplashScreen.md
     - name: LoadingView
       href: controls/LoadingView.md
     - name: NavigationBar
