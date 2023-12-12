@@ -98,7 +98,7 @@ Along with the new Material Design 3 styles, our Material Toolkit NuGet packages
 > [!WARNING]
 > In order to continue using the v1 styles, some changes are required in your `App.xaml`.
 
-Since the Material Toolkit has a dependency on the Uno Material library, it is required to first follow the steps in the **_Continue Using v1 Styles_** section of the [Uno Material v2 migration documentation](external/uno.themes/doc/material-migration.md).
+Since the Material Toolkit has a dependency on the Uno Material library, it is required to first follow the steps in the **_Continue Using v1 Styles_** section of the [Uno Material v2 migration documentation](xref:uno.themes.material.migration).
 
 The Material Toolkit v2 NuGet package contains both sets of v1 and v2 styles. Within your `App.xaml`, you will need to replace the reference to `MaterialToolkitResources` with `MaterialToolkitResourcesV1`.
 
