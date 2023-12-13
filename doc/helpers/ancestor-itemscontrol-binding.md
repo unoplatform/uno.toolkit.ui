@@ -4,8 +4,8 @@ uid: Toolkit.Helpers.Bindings
 
 # AncestorBinding & ItemsControlBinding
 
-These markup extensions provides relative binding based on ancestor type. If you are familiar with WPF, they are very similar to `{RelativeSource Mode=FindAncestor}`.
-They are typically used from inside a `DataTemplate` to access element outside of said data-template which is not normally accessible (eg: through `ElementName` binding). The common usage is to access the parent data-context from inside the `ItemsControl.ItemTemplate`.
+These markup extensions provide relative binding based on ancestor type. If you are familiar with WPF, they are very similar to `{RelativeSource Mode=FindAncestor}`.
+They are typically used from inside a `DataTemplate` to access elements outside of said data-template which is not normally accessible (eg: through `ElementName` binding). The common usage is to access the parent data-context from inside the `ItemsControl.ItemTemplate`.
 
 ## Remarks
 
@@ -37,7 +37,7 @@ public class ExampleModel
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
-<!-- assuming the data-context is set to an instance of ExampleModel -->
+<!-- Assuming the DataContext is set to an instance of ExampleModel -->
 <ListView ItemsSource="{Binding Items}">
     <ListView.ItemTemplate>
         <DataTemplate>
@@ -54,7 +54,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## AncestorBinding
 
-This markup extension provides a mean to bind to an ancestor of a specific type.
+This markup extension provides a means to bind to an ancestor of a specific type.
 
 ### Properties
 
@@ -77,7 +77,7 @@ public class ExampleModel
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
-<!-- assuming the data-context is set to an instance of ExampleModel -->
+<!-- Assuming the DataContext is set to an instance of ExampleModel -->
 <Border Tag="From Border">
     <ListView ItemsSource="{Binding Items}" Tag="From ListView">
         <ListView.ItemTemplate>

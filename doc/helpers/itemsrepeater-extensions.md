@@ -59,7 +59,7 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
             <!--
                 The root element of the ItemTemplate needs to be one of these below,
                 in order for the selection visual to work.
-                No additional binding on IsChecked/IsSelected needed; It is handled by this extensions.
+                No additional binding on IsChecked/IsSelected is needed; It is handled by this extension.
             -->
             <ListViewItem Content="{Binding}" />
             <!-- <CheckBox Content="{Binding}" /> -->
@@ -80,7 +80,7 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
             <!--
                 The root element of the ItemTemplate needs to be one of these below,
                 in order for the selection visual to work.
-                No additional binding on IsChecked/IsSelected needed; It is handled by this extensions.
+                No additional binding on IsChecked/IsSelected is needed; It is handled by this extension.
             -->
             <!-- <ListViewItem Content="{Binding}" /> -->
             <!-- <CheckBox Content="{Binding}" /> -->
@@ -94,9 +94,9 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 
 > [!NOTE]
 > While the `SelectedItems` property **needs** to be bound to a property of type `object[]`,
-> the `SelectedItem` property can be bound to a property of type `object` or the type of items-source's item.
+> the `SelectedItem` property can be bound to a property of type `object` or the item type of the `ItemsSource` collection.
 
 ### Remarks
 
-- The selection feature from this extensions support ItemTemplate whose the root element is a `SelectorItem` or `ToggleButton`(which includes `Chip`).
+- The selection feature from this extension supports ItemTemplate whose root element is a `SelectorItem` or `ToggleButton`(which includes `Chip`).
 - `RadioButton`: Multiple mode is not supported due to control limitation.

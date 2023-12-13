@@ -15,8 +15,8 @@ namespace Uno.Toolkit.Samples
 	public partial class SamplePageLayout
 	{
 		// UseSampleDataAsDC: Set the data-context for the templates to be the Sample.Data property instead. (Allowing direct binding, instead of having to prefix the path with `Data.`.)
-		//		^ By default the data-context within the various templates will be set to Sample (which is created with the [SamplePage] attribute).
-		//		^ To access the injected data-context (SamplePageAttribute.DataType instanced), you would normally need to bind to `Data.`. Setting this eliminates that part.
+		//		^ By default the DataContext within the various templates will be set to Sample (which is created with the [SamplePage] attribute).
+		//		^ To access the injected DataContext (SamplePageAttribute.DataType instanced), you would normally need to bind to `Data.`. Setting this eliminates that part.
 
 		#region Property: Title
 
