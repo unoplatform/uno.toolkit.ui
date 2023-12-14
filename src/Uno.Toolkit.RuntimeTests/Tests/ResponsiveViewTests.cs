@@ -54,7 +54,7 @@ internal class ResponsiveViewTests
 	{
 		using (ResponsiveHelper.UsingDebuggableInstance())
 		{
-			ResponsiveHelper.SetDebugSize(new Size(599, 400));
+			ResponsiveHelper.SetDebugSize(new Size(600, 400));
 
 			var host = XamlHelper.LoadXaml<ResponsiveView>("""
 				<utu:ResponsiveView>
