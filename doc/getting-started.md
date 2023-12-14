@@ -5,21 +5,18 @@ uid: Toolkit.GettingStarted
 
 ## Uno Toolkit Library
 
-The Uno.Toolkit library is available as NuGet packages that can be added to any new or existing Uno solution.
-
-> [!NOTE]
-> As of [Uno 4.7](https://platform.uno/blog/uno-platform-4-7-new-project-template-performance-improvements-and-more/), the solution template of an Uno app has changed. There is no longer a Shared project (.shproj), it has been replaced with a regular cross-platform library containing all user code files, referred to as the **App Code Library** project. This also implies that package references can be included in a single location without the previous need to include those in all project heads.
+The Uno Toolkit library is available as NuGet packages that can be added to any new or existing Uno solution.
 
 This article is a guide for installing the base Uno.Toolkit library, additional steps are needed when installing the Toolkit support libraries for Uno.Material and Uno.Cupertino. Most controls within the base Toolkit library are not designed to be used without an underlying design system installed. After following the installation steps below, refer to the following guides for Material/Cupertino support:
 
-- [Getting Started with Material for Toolkit](./material-getting-started.md)
-- [Getting Started with Cupertino for Toolkit](./cupertino-getting-started.md)
+- [Getting Started with Material for Toolkit](xref:Toolkit.GettingStarted.Material)
+- [Getting Started with Cupertino for Toolkit](xref:Toolkit.GettingStarted.Cupertino)
 
 ### Installation
 
 1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
 2. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
-3. Install the [**`Uno.Toolkit.WinUI`**](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material) package
+3. Install the [**`Uno.Toolkit.WinUI`**](https://www.nuget.org/packages/Uno.Toolkit.WinUI) package
 4. Add the resources to `AppResources.xaml`:
 
     ```xml
@@ -42,8 +39,8 @@ If your application is based on the older solution template that includes a shar
 
 1. Open your existing Uno project
 2. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose either:
-    - The [`Uno.Toolkit.UI`](https://www.nuget.org/packages/Uno.Material/) package when targetting Xamarin/UWP
-    - The [`Uno.Toolkit.WinUI`](https://www.nuget.org/packages/Uno.Material.WinUI) package when targetting net6.0+/WinUI
+    - The [`Uno.Toolkit.UI`](https://www.nuget.org/packages/Uno.Toolkit.UI/) package when targetting Xamarin/UWP
+    - The [`Uno.Toolkit.WinUI`](https://www.nuget.org/packages/Uno.Toolkit.WinUI) package when targetting net6.0+/WinUI
 
 3. Select the following projects for installation:
     - `PROJECT_NAME.Wasm.csproj`
@@ -87,4 +84,5 @@ using Uno.Toolkit.UI.Markup;
 this.Build(r => r.UseToolkit());
 ```
 
-> [!NOTE]: If you are using the [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package, follow the steps in the [Using C# Markup for the Material Toolkit](./material-getting-started.md#using-c-markup) guide instead as it includes the Toolkit library.
+> [!NOTE]
+> If you are using the [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package, follow the steps in the [Using C# Markup for the Material Toolkit](xref:Toolkit.GettingStarted.Material#using-c-markup) guide instead as it includes the Toolkit library.

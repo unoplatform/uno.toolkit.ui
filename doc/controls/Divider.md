@@ -10,7 +10,17 @@ Property|Type|Description
 SubHeader|String|Gets or sets the text of the text below the Divider.
 SubHeaderForeground|Brush|Gets or sets the foreground of the subheader.
 
-## Lightweight Styling
+## Styling
+
+The following styles and resources are available for styling the `Divider` using the [Toolkit Material](xref:Toolkit.GettingStarted.Material) library.
+
+### Style Keys
+
+Key|Default Style?
+-|-
+DividerStyle|True
+
+### Lightweight Styling Keys
 
 Key|Type|Value
 -|-|-

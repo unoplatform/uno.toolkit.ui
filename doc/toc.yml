@@ -1,25 +1,30 @@
-# ******************* Overview *******************
+# ********************** Overview **********************
 - name: Overview
-  href: getting-started.md
   items:
-  # ***************** Material *******************
-  - name: Material
-    href: material-getting-started.md
-  # ***************** Cupertino ******************
-  - name: Cupertino
-    href: cupertino-getting-started.md
-  # ***************** Lightweight Styling ********
-  - name: Lightweight Styling
-    href: lightweight-styling.md
+  # ********************** Themes **********************
+  - name: Styles
+    items:
+    # ********************** Material **********************
+    - name: Material
+      href: styles/material-getting-started.md
+    # ********************** Cupertino **********************
+    - name: Cupertino
+      href: styles/cupertino-getting-started.md
+    # ********************** Lightweight Styling **********************
+    - name: Lightweight Styling
+      href: styles/lightweight-styling.md
+  # ********************** Upgrading **********************      
+  - name: Upgrading
+    items:
+    - name: Upgrading to Toolkit Material 4.0
+      href: upgrading/upgrading-to-toolkit-material-4.md
+    - name: Upgrading to Toolkit Material 2.0
+      href: upgrading/upgrading-to-toolkit-material-2.md
 
-# ******************* Learn **********************
-#- name: Learn
-  #items: ToDo
-
-# ******************* Reference ******************
+# ********************** Reference **********************
 - name: Reference
   items:
-  # ***************** Reference\Controls *******************
+  # ********************** Reference\Controls **********************
   - name: Controls
     items:
     - name: AutoLayout
@@ -48,34 +53,29 @@
       href: controls/ShadowContainer.md
     - name: TabBar and TabBarItem
       href: controls/TabBarAndTabBarItem.md
-  # ***************** Reference\Helpers *******************
-  - name: Helpers
+  # ********************** Reference\Extensions **********************
+  - name: Extensions
     items:
     - name: AncestorBinding and ItemsControlBinding
-      href: helpers/ancestor-itemscontrol-binding.md
-    - name: CommandExtensions Extensions
-      href: helpers/command-extensions.md
-    - name: FlipView Extensions
-      href: helpers/FlipView-extensions.md
-    - name: InputExtensions Extensions
-      href: helpers/input-extensions.md
-    - name: ItemsRepeater Extensions
-      href: helpers/itemsrepeater-extensions.md
-    - name: Responsive markup extension
-      href: helpers/responsive-extension.md
-    - name: StatusBar attached properties
-    - name: Resource Extensions
-      href: helpers/resource-extensions.md
-    - name: Selector Extensions
-      href: helpers/Selector-extensions.md
-    - name: StatusBar Extensions
-      href: helpers/StatusBar-extensions.md
-    - name: TabBarItem Extensions
-      href: helpers/TabBarItem-extensions.md
-    - name: VisualStateManager Extensions
-      href: helpers/VisualStateManager-extensions.md
-  # ***************** Reference\Styles **********************
-  - name: Styles
-    href: controls-styles.md
-  - name: Migrate to Uno Material v2
-    href: material-migration.md
+      href: extensions/ancestor-itemscontrol-binding.md
+    - name: Command
+      href: extensions/command-extensions.md
+    - name: FlipView
+      href: extensions/FlipView-extensions.md
+    - name: Input
+      href: extensions/input-extensions.md
+    - name: ItemsRepeater
+      href: extensions/itemsrepeater-extensions.md
+    - name: Responsive Markup
+      href: extensions/responsive-extension.md
+    - name: Resources
+      href: extensions/resource-extensions.md
+    - name: Selector
+      href: extensions/Selector-extensions.md
+    - name: StatusBar
+      href: extensions/StatusBar-extensions.md
+    - name: TabBarItem
+      href: extensions/TabBarItem-extensions.md
+    - name: VisualStateManager
+      href: extensions/VisualStateManager-extensions.md
+

@@ -4,7 +4,7 @@ uid: Toolkit.GettingStarted.Material
 # Uno Toolkit Material Library
 
 <p align="center">
-  <img src="assets/material-toolkit-design-system.png">
+  <img src="../assets/material-toolkit-design-system.png">
 </p>
 
 The Uno.Toolkit.Material library is available as NuGet packages that can be added to any new or existing Uno solution.
@@ -33,9 +33,6 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 | FontOverrideSource     | string      | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material FontFamily resources            |
 
 ## Installation
-
-> [!NOTE]
-> As of [Uno Platform 4.7](https://platform.uno/blog/uno-platform-4-7-new-project-template-performance-improvements-and-more/), the solution template of the Uno app has changed. There is no longer a Shared project (.shproj), it has been replaced with a regular cross-platform library containing all user code files, referred to as the **App Code Library** project. This also implies that package references can be included in a single location without the previous need to include those in all project heads.
 
 1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
 2. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
@@ -100,7 +97,7 @@ With `MaterialToolkitTheme`, you do not need to explicitly initialize `MaterialT
 
 ### Customize Colors
 
-Follow the steps [here](https://platform.uno/docs/articles/external/uno.themes/doc/material-getting-started.html#customize-color-palette) to create a `ColorPaletteOverride.xaml` file and add it to your **App Code Library** project (`PROJECT_NAME.csproj`)
+Follow the steps [here](xref:Uno.Themes.Material.GetStarted#customization) to create a `ColorPaletteOverride.xaml` file and add it to your **App Code Library** project (`PROJECT_NAME.csproj`)
 
 In `AppResources.xaml`, instead of initializing `MaterialColors`, you would use the `ColorOverrideSource` property on `MaterialToolkitTheme`:
 
@@ -111,7 +108,7 @@ In `AppResources.xaml`, instead of initializing `MaterialColors`, you would use 
 
 ### Customize Fonts
 
-Follow the steps [here](https://platform.uno/docs/articles/external/uno.themes/doc/material-getting-started.html#change-default-font) to create a `FontOverride.xaml` file and add it to your **App Code Library** project (`PROJECT_NAME.csproj`)
+Follow the steps [here](xref:Uno.Themes.Material.GetStarted#customization) to create a `FontOverride.xaml` file and add it to your **App Code Library** project (`PROJECT_NAME.csproj`)
 
 In `AppResources.xaml`, instead of initializing `MaterialFonts`, you would use the `FontOverrideSource` property on `MaterialToolkitTheme`:
 
@@ -138,11 +135,12 @@ this.Build(r => r.UseMaterialToolkit(
 ));
 ```
 
-> [!NOTE]: The [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package includes the base [Toolkit Markup package](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup) as a dependency. Therefore, there is no need to add the `Uno.Toolkit.WinUI.Markup` package separately. Furthermore, the `UseMaterialToolkit` extension method also initializes the Toolkit library, so there is no need to call the `UseToolkit` extension method in your `AppResources.cs`.
+> [!NOTE]
+> The [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package includes the base [Toolkit Markup package](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup) as a dependency. Therefore, there is no need to add the `Uno.Toolkit.WinUI.Markup` package separately. Furthermore, the `UseMaterialToolkit` extension method also initializes the Toolkit library, so there is no need to call the `UseToolkit` extension method in your `AppResources.cs`.
 
 ## Additional Resources
 
 - [Uno Platform Material Toolkit Sample App](https://github.com/unoplatform/Uno.Samples/tree/master/UI/UnoMaterialToolkitSample)
-- [Uno Platform Material Toolkit Figma File](https://www.figma.com/community/file/1110792522046146058)
+- [Uno Platform Material Toolkit Figma File](hhttps://aka.platform.uno/uno-figma-material-toolkit)
 - [Official Material Design 3 Guidelines](https://m3.material.io/components)
 - [Official Material Design 3 Theme Builder](https://m3.material.io/theme-builder)

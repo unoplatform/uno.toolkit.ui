@@ -7,9 +7,6 @@ The Uno.Toolkit.Cupertino library is available as NuGet packages that can be add
 
 ## Installation
 
-> [!NOTE]
-> As of [Uno Platform 4.7](https://platform.uno/blog/uno-platform-4-7-new-project-template-performance-improvements-and-more/), the solution template of the Uno app has changed. There is no longer a Shared project (.shproj), it has been replaced with a regular cross-platform library containing all user code files, referred to as the **App Code Library** project. This also implies that package references can be included in a single location without the previous need to include those in all project heads.
-
 1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
 2. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
 3. Install the [**`Uno.Toolkit.WinUI.Cupertino`**](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Cupertino) package
@@ -81,4 +78,4 @@ If your application is based on the older solution template that includes a shar
 
 ## Customization
 
-For instructions on changing the default color palette or the font family, please refer to [this guide](https://platform.uno/docs/articles/external/uno.themes/doc/cupertino-getting-started.html#customization).
+For instructions on changing the default color palette or the font family, please refer to [this guide](xref:Uno.Themes.Cupertino.GetStarted#customization).

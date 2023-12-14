@@ -4,7 +4,7 @@ uid: Toolkit.Controls.TabBar
 # TabBar & TabBarItem
 
 > [!TIP]
-> This guide covers details for `TabBar` and `TabBarItem` specifically. If you are just getting started with the Uno Toolkit Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
+> This guide covers details for `TabBar` and `TabBarItem` specifically. If you are just getting started with the Uno Toolkit Library, please see our [general getting started](xref:Toolkit.GettingStarted) page to make sure you have the correct setup in place.
 
 ## Summary
 
@@ -244,7 +244,7 @@ If further customization is required, such as custom animations when sliding the
 
 Toolkit provides a barebones default style for `TabBar` and `TabBarItem`. It is recommended to use either:
 
-* [One of the pre-built styles](../controls-styles.md#control-styles) that come packaged within the `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` libraries
+* One of the pre-built styles that come packaged within the `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` libraries
 * A custom-built style that is defined within the consuming application
 
 The styles that exist within the Toolkit Theming Libraries are built for the most common scenarios in which a `TabBar` could be used.
@@ -503,7 +503,25 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </utu:TabBarItem>
 ```
 
-## Lightweight Styling
+## Styling
+
+### Material
+
+The following styles and resources are available for styling the `TabBar` using the [Toolkit Material](xref:Toolkit.GettingStarted.Material) library.
+
+#### Style Keys
+
+Control|Key|
+-|-
+utu:TabBar|BottomTabBarStyle|
+utu:TabBar|TopTabBarStyle|
+utu:TabBar|ColoredTopTabBarStyle|
+utu:TabBar|VerticalTabBarStyle|
+utu:TabBarItem|BottomFabTabBarItemStyle|
+utu:TabBarItem|BottomTabBarItemStyle|
+utu:TabBarItem|VerticalTabBarItemStyle|
+
+#### Lightweight Styling Keys
 
 Key|Type|Value
 -|-|-
@@ -659,3 +677,22 @@ NavigationTabBarForegroundSelected|SolidColorBrush|OnSurfaceBrush
 NavigationTabBarForegroundSelectedPointerOver|SolidColorBrush|OnSurfaceBrush
 NavigationTabBarForegroundSelectedPressed|SolidColorBrush|OnSurfaceBrush
 NavigationTabBarBorderBrush|SolidColorBrush|SystemControlTransparentBrush
+
+### Cupertino
+
+The following styles and resources are available for styling the `TabBar` using the [Toolkit Cupertino](xref:Toolkit.GettingStarted.Cupertino) library.
+
+#### Style Keys
+
+Control|Key
+-|-
+utu:TabBar|CupertinoBottomTabBarStyle|
+utu:TabBarItem|CupertinoBottomTabBarItemStyle|
+
+#### Lightweight Styling Keys
+
+Key|Type|Value
+-|-|-
+CupertinoBottomTabBarInactiveColor|Color|#757575
+CupertinoBottomTabBarBackgroundColor|Color|#F0161616
+CupertinoBottomTabBarBorderColor|Color|#29000000
