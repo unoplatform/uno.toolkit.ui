@@ -36,7 +36,7 @@ public sealed partial class ItemsRepeaterExtensionsSamplePage : Page
 		public ViewModel()
 		{
 			MultiItemsSource = new int[] { 1, 2, 3, 4, 5};
-			MultiSelectedIndexes = [ 0, 1, 2 ];
+			MultiSelectedIndexes = new[] { 0, 1, 2 };
 			MultiSelectedItems = MultiSelectedIndexes.Select(x => MultiItemsSource[x]).Cast<object>().ToArray();
 
 			SingleItemsSource = new int[] { 1, 2, 3, 4, 5};

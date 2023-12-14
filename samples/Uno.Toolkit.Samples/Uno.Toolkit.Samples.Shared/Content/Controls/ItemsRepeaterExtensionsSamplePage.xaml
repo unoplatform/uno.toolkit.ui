@@ -3,6 +3,7 @@
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:utu="using:Uno.Toolkit.UI"
@@ -34,51 +35,51 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<ItemsRepeater Grid.Column="0"
+							<muxc:ItemsRepeater Grid.Column="0"
 										   ItemsSource="{Binding MultiItemsSource}"
 										   utu:ItemsRepeaterExtensions.SelectionMode="Multiple"
 										   utu:ItemsRepeaterExtensions.SelectedItems="{Binding MultiSelectedItems, Mode=TwoWay}"
 										   utu:ItemsRepeaterExtensions.SelectedIndexes="{Binding MultiSelectedIndexes, Mode=TwoWay}">
-								<ItemsRepeater.ItemTemplate>
+								<muxc:ItemsRepeater.ItemTemplate>
 									<DataTemplate>
 										<ListViewItem Content="{Binding}" />
 									</DataTemplate>
-								</ItemsRepeater.ItemTemplate>
-							</ItemsRepeater>
+								</muxc:ItemsRepeater.ItemTemplate>
+							</muxc:ItemsRepeater>
 
-							<ItemsRepeater Grid.Column="1"
+							<muxc:ItemsRepeater Grid.Column="1"
 										   ItemsSource="{Binding MultiItemsSource}"
 										   utu:ItemsRepeaterExtensions.SelectionMode="Multiple"
 										   utu:ItemsRepeaterExtensions.SelectedItems="{Binding MultiSelectedItems, Mode=TwoWay}"
 										   utu:ItemsRepeaterExtensions.SelectedIndexes="{Binding MultiSelectedIndexes, Mode=TwoWay}">
-								<ItemsRepeater.ItemTemplate>
+								<muxc:ItemsRepeater.ItemTemplate>
 									<DataTemplate>
 										<CheckBox Content="{Binding}" />
 									</DataTemplate>
-								</ItemsRepeater.ItemTemplate>
-							</ItemsRepeater>
-							<ItemsRepeater Grid.Column="2"
+								</muxc:ItemsRepeater.ItemTemplate>
+							</muxc:ItemsRepeater>
+							<muxc:ItemsRepeater Grid.Column="2"
 										   ItemsSource="{Binding MultiItemsSource}"
 										   utu:ItemsRepeaterExtensions.SelectionMode="Multiple"
 										   utu:ItemsRepeaterExtensions.SelectedItems="{Binding MultiSelectedItems, Mode=TwoWay}"
 										   utu:ItemsRepeaterExtensions.SelectedIndexes="{Binding MultiSelectedIndexes, Mode=TwoWay}">
-								<ItemsRepeater.ItemTemplate>
+								<muxc:ItemsRepeater.ItemTemplate>
 									<DataTemplate>
 										<ToggleButton Content="{Binding}" />
 									</DataTemplate>
-								</ItemsRepeater.ItemTemplate>
-							</ItemsRepeater>
-							<ItemsRepeater Grid.Column="3"
+								</muxc:ItemsRepeater.ItemTemplate>
+							</muxc:ItemsRepeater>
+							<muxc:ItemsRepeater Grid.Column="3"
 										   ItemsSource="{Binding MultiItemsSource}"
 										   utu:ItemsRepeaterExtensions.SelectionMode="Multiple"
 										   utu:ItemsRepeaterExtensions.SelectedItems="{Binding MultiSelectedItems, Mode=TwoWay}"
 										   utu:ItemsRepeaterExtensions.SelectedIndexes="{Binding MultiSelectedIndexes, Mode=TwoWay}">
-								<ItemsRepeater.ItemTemplate>
+								<muxc:ItemsRepeater.ItemTemplate>
 									<DataTemplate>
 										<utu:Chip Content="{Binding}" />
 									</DataTemplate>
-								</ItemsRepeater.ItemTemplate>
-							</ItemsRepeater>
+								</muxc:ItemsRepeater.ItemTemplate>
+							</muxc:ItemsRepeater>
 						</Grid>
 
 						<!-- Single-select -->
@@ -89,16 +90,16 @@
 							<Run Text="at index " />
 							<Run Text="{Binding SingleSelectedIndex}" />
 						</TextBlock>
-						<ItemsRepeater ItemsSource="{Binding SingleItemsSource}"
+						<muxc:ItemsRepeater ItemsSource="{Binding SingleItemsSource}"
 									   utu:ItemsRepeaterExtensions.SelectionMode="Single"
 									   utu:ItemsRepeaterExtensions.SelectedItem="{Binding SingleSelectedItem, Mode=TwoWay}"
 									   utu:ItemsRepeaterExtensions.SelectedIndex="{Binding SingleSelectedIndex, Mode=TwoWay}">
-							<ItemsRepeater.ItemTemplate>
+							<muxc:ItemsRepeater.ItemTemplate>
 								<DataTemplate>
 									<RadioButton Content="{Binding}" />
 								</DataTemplate>
-							</ItemsRepeater.ItemTemplate>
-						</ItemsRepeater>
+							</muxc:ItemsRepeater.ItemTemplate>
+						</muxc:ItemsRepeater>
 
 					</StackPanel>
 				</DataTemplate>
