@@ -8,6 +8,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
+
+#if IS_WINUI
+using Microsoft.UI.Xaml;
+#else
+using Windows.UI.Xaml;
+#endif
+
+using ChipControl = Uno.Toolkit.UI.Chip; // ios/macos: to avoid collision with `global::Chip` namespace...
 using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 using static Uno.Toolkit.RuntimeTests.Tests.ItemsRepeaterChipTests; // to borrow helper methods
 
@@ -38,5 +46,32 @@ internal class ItemsRepeaterExtensionTests
 			_ => default(Action) ?? throw new ArgumentOutOfRangeException(property),
 		})();
 		Assert.AreEqual(true, IsChipSelectedAt(SUT, 1));
+	}
+
+	[TestMethod]
+	public async Task When_NestedSelectionHost()
+	{
+		var source = Enumerable.Range(0, 3).ToList();
+		var SUT = new ItemsRepeater
+		{
+			ItemsSource = source,
+			ItemTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+				<DataTemplate>
+					<Border>
+						<utu:Chip Content="{Binding}" utu:ItemsRepeaterExtensions.IsSelectionHost="True" />
+					</Border>
+				</DataTemplate>
+				"""),
+		};
+		ItemsRepeaterExtensions.SetUseNestedSelectionHost(SUT, true);
+		ItemsRepeaterExtensions.SetSelectionMode(SUT, ItemsSelectionMode.Single);
+		ItemsRepeaterExtensions.SetSelectedIndex(SUT, 1);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var root = SUT.TryGetElement(1);
+		var chip = root?.FindChild<ChipControl>();
+
+		Assert.IsTrue(chip?.IsChecked == true);
 	}
 }
