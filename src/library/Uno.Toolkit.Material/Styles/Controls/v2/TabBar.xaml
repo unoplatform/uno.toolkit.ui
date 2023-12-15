@@ -401,25 +401,12 @@
 
 	</ResourceDictionary.ThemeDictionaries>
 
-    <!--  WORKAROUND: ControlExtensions must be explicitly referenced as an attribute to avoid a crash on WinAppSDK apps, and not just as a a setter property  -->
-    <Style x:Key="WorkaroundTabBarStyle" TargetType="utu:TabBar">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="utu:TabBar">
-                    <Grid um:ControlExtensions.IsTintEnabled="False" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
 	<!--#region TabBar Styles-->
 
 	<Style
 			x:Key="BaseMaterialTabBarStyle"
 			BasedOn="{StaticResource DefaultTabBarStyle}"
 			TargetType="utu:TabBar">
-        <Setter Property="um:ControlExtensions.TintedBackground" Value="{x:Null}" />
-        <Setter Property="um:ControlExtensions.IsTintEnabled" Value="True" />
 		<Setter Property="SelectionIndicatorPresenterStyle" Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}" />
 		<Setter Property="CornerRadius" Value="0" />
         <Setter Property="Template">
@@ -427,7 +414,7 @@
                 <ControlTemplate TargetType="utu:TabBar">
                     <Grid x:Name="TabBarGrid">
 						<Border x:Name="BackgroundBorder"
-								Background="{Binding Path=(um:ControlExtensions.TintedBackground), RelativeSource={RelativeSource TemplatedParent}}"
+                                Background="{TemplateBinding Background}"
 								BorderBrush="{TemplateBinding BorderBrush}"
 								BorderThickness="{TemplateBinding BorderThickness}"
 								CornerRadius="{TemplateBinding CornerRadius}" />
@@ -492,7 +479,6 @@
         x:Key="MaterialVerticalTabBarStyle"
         BasedOn="{StaticResource BaseMaterialTabBarStyle}"
         TargetType="utu:TabBar">
-        <Setter Property="um:ControlExtensions.Elevation" Value="1" />
 		<Setter Property="Background" Value="{ThemeResource VerticalTabBarBackground}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="{ThemeResource NavigationTabBarWidthOrHeight}" />
@@ -512,7 +498,6 @@
         x:Key="MaterialBottomTabBarStyle"
         BasedOn="{StaticResource BaseMaterialTabBarStyle}"
         TargetType="utu:TabBar">
-        <Setter Property="um:ControlExtensions.Elevation" Value="1" />
 		<Setter Property="Background" Value="{ThemeResource BottomTabBarBackground}" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="MinHeight" Value="{ThemeResource NavigationTabBarWidthOrHeight}" />
