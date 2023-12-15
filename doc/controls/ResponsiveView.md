@@ -26,9 +26,6 @@ protected override void OnLaunched(LaunchActivatedEventArgs args)
 }
 ```
 
-## Inheritance
-Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl
-
 ## Properties
 | Property          | Type             | Description                                             |
 | ----------------- | ---------------- | ------------------------------------------------------- |
@@ -42,7 +39,7 @@ Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#859
 ### ResponsiveLayout
 Provides the ability to override the breakpoint for each screen size: `Narrowest`, `Narrow`, `Normal`, `Wide`, and `Widest`.
 
-### Properties
+#### Properties
 | Property   | Type   | Description            |
 | ---------- | ------ | ---------------------- |
 | Narrowest  | double | Default value is 150.  |
@@ -50,6 +47,49 @@ Provides the ability to override the breakpoint for each screen size: `Narrowest
 | Normal     | double | Default value is 600.  |
 | Wide       | double | Default value is 800.  |
 | Widest     | double | Default value is 1080. |
+
+#### Resolution Logics
+The layouts whose value(ResponsiveExtension) or template(ResponsiveView) is not provided are first discarded. From the remaining layouts, we look for the first layout whose breakpoint at met by the current screen width. If none are found, the first layout is return regardless of its breakpoint.
+
+Below are the selected layout at different screen width if all layouts are provided:
+
+Width|Layout
+-|-
+149|Narrowest
+150(Narrowest)|Narrowest
+151|Narrowest
+299|Narrowest
+300(Narrow)|Narrow
+301|Narrow
+599|Narrow
+600(Normal)|Normal
+601|Normal
+799|Normal
+800(Wide)|Wide
+801|Wide
+1079|Wide
+1080(Widest)|Widest
+1081|Widest
+
+Here are the selected layout at different screen width if only `Narrow` and `Wide` are provided:
+
+Width|Layout
+-|-
+149|Narrow
+150(~~Narrowest~~)|Narrow
+151|Narrow
+299|Narrow
+300(Narrow)|Narrow
+301|Narrow
+599|Narrow
+600(~~Normal~~)|Narrow
+601|Narrow
+799|Narrow
+800(Wide)|Wide
+801|Wide
+1079|Wide
+1080(~~Widest~~)|Wide
+1081|Wide
 
 ## Usage
 

@@ -3,6 +3,7 @@
 #endif
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Windows.Foundation;
 using Uno.Disposables;
@@ -109,6 +110,8 @@ public partial class ResponsiveLayout : DependencyObject
 		Wide = wide,
 		Widest = widest,
 	};
+	
+	public IEnumerable<double> GetBreakpoints() => new[] { Narrowest, Narrow, Normal, Wide, Widest };
 
 	public override string ToString() => "[" + string.Join(",", Narrowest, Narrow, Normal, Wide, Widest) + "]";
 }
@@ -191,21 +194,35 @@ public class ResponsiveHelper
 	internal (ResponsiveLayout Layout, Size Size, Layout? Result) ResolveLayout(ResponsiveLayout? layout, IEnumerable<Layout> options)
 	{
 		layout ??= Layout;
-		var result =
-			options.FirstOrNull(SatisfyLayoutThreshold) ??
-			options.LastOrNull();
+		var result = ResolveLayoutCore(layout, WindowSize.Width, options);
 
 		return (layout, WindowSize, result);
+	}
 
-		bool SatisfyLayoutThreshold(Layout x) => x switch
+	internal static Layout? ResolveLayoutCore(ResponsiveLayout layout, double width, IEnumerable<Layout> options)
+	{
+		return options
+			.Concat(new Layout[] { (Layout)int.MaxValue }) // used to get the +inf for the last one's upper-boundary
+			.ZipSkipOne()
+			.Select(x => new
+			{
+				Layout = x.Previous,
+				InclusiveLBound = GetThreshold(x.Previous),
+				ExclusiveUBound = GetThreshold(x.Current),
+			})
+			.FirstOrDefault(x => x.InclusiveLBound <= width && width < x.ExclusiveUBound)
+			?.Layout ?? options.FirstOrNull();
+
+		double GetThreshold(Layout x) => x switch
 		{
 			UI.Layout.Narrowest => layout.Narrowest,
 			UI.Layout.Narrow => layout.Narrow,
 			UI.Layout.Normal => layout.Normal,
 			UI.Layout.Wide => layout.Wide,
 			UI.Layout.Widest => layout.Widest,
-			_ => double.NaN,
-		} >= WindowSize.Width;
+
+			_ => double.PositiveInfinity,
+		};
 	}
 
 	internal static IDisposable UsingDebuggableInstance()
