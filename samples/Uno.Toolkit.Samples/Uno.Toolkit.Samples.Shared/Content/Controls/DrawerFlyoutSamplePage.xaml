@@ -59,7 +59,7 @@
 								<Button Content="Left Drawer">
 									<Button.Flyout>
 										<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource LeftDrawerFlyoutPresenterStyle}">
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Background="{ThemeResource SurfaceBrush}">
+											<StackPanel utu:SafeArea.Insets="All" Background="{ThemeResource SurfaceBrush}">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -69,7 +69,7 @@
 								<Button Content="Top Drawer">
 									<Button.Flyout>
 										<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource TopDrawerFlyoutPresenterStyle}">
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Background="{ThemeResource SurfaceBrush}">
+											<StackPanel utu:SafeArea.Insets="All" Background="{ThemeResource SurfaceBrush}">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -79,7 +79,7 @@
 								<Button Content="Right Drawer">
 									<Button.Flyout>
 										<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource RightDrawerFlyoutPresenterStyle}">
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Background="{ThemeResource SurfaceBrush}">
+											<StackPanel utu:SafeArea.Insets="All" Background="{ThemeResource SurfaceBrush}">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -89,7 +89,7 @@
 								<Button Content="Bottom Drawer">
 									<Button.Flyout>
 										<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource BottomDrawerFlyoutPresenterStyle}">
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Background="{ThemeResource SurfaceBrush}">
+											<StackPanel utu:SafeArea.Insets="All" Background="{ThemeResource SurfaceBrush}">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -109,7 +109,7 @@
 													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="*" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="8">
+											<StackPanel utu:SafeArea.Insets="All" Padding="8">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -124,7 +124,7 @@
 													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="0.5*" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="8">
+											<StackPanel utu:SafeArea.Insets="All" Padding="8">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -139,7 +139,7 @@
 													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="Auto" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="8">
+											<StackPanel utu:SafeArea.Insets="All" Padding="8">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -154,7 +154,7 @@
 													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="150" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="8">
+											<StackPanel utu:SafeArea.Insets="All" Padding="8">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -175,7 +175,7 @@
 													<Setter Property="Background" Value="SkyBlue" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
+											<StackPanel utu:SafeArea.Insets="All" Padding="16,16,0,0">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -193,7 +193,7 @@
 													<Setter Property="utu:DrawerFlyoutPresenter.IsGestureEnabled" Value="True" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<Border toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
+											<Border utu:SafeArea.Insets="All" Padding="16,16,0,0">
 												<StackPanel Padding="8">
 													<TextBlock Text="text" />
 													<Button Content="button" />

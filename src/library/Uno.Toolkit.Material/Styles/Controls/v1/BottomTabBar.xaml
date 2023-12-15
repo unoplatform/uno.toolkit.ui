@@ -58,7 +58,7 @@
 				Value="{ThemeResource MaterialBottomTabBarBackground}" />
         <Setter Property="IsTabStop"
 				Value="False" />
-        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+        <Setter Property="utu:SafeArea.Insets"
 				Value="Bottom" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
@@ -364,7 +364,7 @@
 				Value="{ThemeResource MaterialBottomTabBarBackground}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
-		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+		<Setter Property="utu:SafeArea.Insets"
 				Value="Bottom" />
 		<Setter Property="ItemsPanel">
 			<Setter.Value>

@@ -16,7 +16,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Content="Cupertino Bottom TabBar Sample Page"
-						   toolkit:VisibleBoundsPadding.PaddingMask="Top"
+						   utu:SafeArea.Insets="Top"
 						   MainCommandMode="Action">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Click="NavigateBack">

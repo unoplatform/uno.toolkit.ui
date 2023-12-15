@@ -26,7 +26,7 @@
         <ios:Setter Property="Height"
                     Value="NaN" />
         <Setter Property="MainCommandStyle" Value="{StaticResource MaterialMainCommandStyle}" />
-        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+        <Setter Property="utu:SafeArea.Insets" Value="Top" />
         <Setter Property="Template" Value="{StaticResource NativeNavigationBarTemplate}" />
 
     </mobile:Style>
@@ -36,7 +36,7 @@
            TargetType="utu:NavigationBar">
 		<ios:Setter Property="Height"
                     Value="NaN" />
-		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask" Value="Top" />
+		<Setter Property="utu:SafeArea.Insets" Value="Top" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource MaterialModalMainCommandStyle}" />
 		<Setter Property="Template" Value="{StaticResource NativeNavigationBarTemplate}" />
 

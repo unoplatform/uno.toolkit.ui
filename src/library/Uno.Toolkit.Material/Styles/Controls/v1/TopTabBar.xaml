@@ -80,7 +80,7 @@
 				Value="{StaticResource MaterialTopTabBarBackground}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
-		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+		<Setter Property="utu:SafeArea.Insets"
 				Value="Top" />
 		<Setter Property="Height"
 				Value="{StaticResource MaterialTopTabBarHeight}" />
@@ -130,7 +130,7 @@
 				Value="{StaticResource MaterialTopTabBarBackground}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
-		<Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+		<Setter Property="utu:SafeArea.Insets"
 				Value="Top" />
 		<Setter Property="Height"
 				Value="{StaticResource MaterialTopTabBarHeight}" />
@@ -582,7 +582,7 @@
 				Value="{StaticResource MaterialColoredTopTabBarBackground}" />
         <Setter Property="IsTabStop"
 				Value="False" />
-        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+        <Setter Property="utu:SafeArea.Insets"
 				Value="Top" />
         <Setter Property="Height"
 				Value="{StaticResource MaterialColoredTopTabBarHeight}" />
@@ -632,7 +632,7 @@
 				Value="{StaticResource MaterialColoredTopTabBarBackground}" />
         <Setter Property="IsTabStop"
 				Value="False" />
-        <Setter Property="toolkit:VisibleBoundsPadding.PaddingMask"
+        <Setter Property="utu:SafeArea.Insets"
 				Value="Top" />
         <Setter Property="Height"
 				Value="{StaticResource MaterialColoredTopTabBarHeight}" />
