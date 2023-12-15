@@ -4,7 +4,7 @@ uid: Toolkit.Controls.Card
 # Card & CardContentControl
 
 > [!TIP]
-> This guide covers details for `Card` and `CardContentControl` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
+> This guide covers details for `Card` and `CardContentControl` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](xref:Toolkit.GettingStarted) page to make sure you have the correct setup in place.
 
 ## Summary
 `Card` and `CardContentControl` represent controls identifiable as a single, contained unit used to visually group related child content and actions that relate information about a subject.
@@ -13,6 +13,7 @@ A card's layout and dimensions depend on its contents.
 ## Remarks
 Currently, there are three [Material](https://m3.material.io/components/cards/) styles for `Card` and `CardContentControl` that you can use.
 Depending on the amount of user attention you want to draw to the content you can use:
+
 - `ElevatedCardStyle` or `ElevatedCardContentControlStyle` to add a subtle z-axis elevation.
 - `FilledCardStyle` or `FilledCardContentControlStyle` to display a simple background color without any elevation or border for the card.
 - `OutlinedCardStyle` or `OutlinedCardContentControlStyle` to display a simple solid stroke along the border of the card.
@@ -89,7 +90,25 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ### Examples
 ![](../assets/card-samples.png)
 
-## Lightweight Styling
+### Styling
+
+The following styles and resources are available for styling the `Card` using the [Toolkit Material](xref:Toolkit.GettingStarted.Material) library.
+
+#### Style Keys
+
+Key|
+-|
+FilledCardStyle|
+OutlinedCardStyle|
+ElevatedCardStyle|
+AvatarFilledCardStyle|
+AvatarOutlinedCardStyle|
+AvatarElevatedCardStyle|
+SmallMediaFilledCardStyle|
+SmallMediaOutlinedCardStyle|
+SmallMediaElevatedCardStyle|
+
+#### Lightweight Styling Keys
 
 Key|Type|Value
 -|-|-
@@ -209,7 +228,19 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ### Examples
 ![](../assets/cardcontentcontrol-samples.png)
 
-## Lightweight Styling
+### Styling
+
+The following styles and resources are available for styling the `CardContentControl` using the [Toolkit Material](xref:Toolkit.GettingStarted.Material) library.
+
+#### Style Keys
+
+Key|
+-|
+FilledCardContentControlStyle|
+OutlinedCardContentControlStyle|
+ElevatedCardContentControlStyle|
+
+#### Lightweight Styling Keys
 
 Key|Type|Value
 -|-|-

@@ -4,7 +4,7 @@ uid: Toolkit.Controls.SegmentedControls
 # Segmented Controls
 
 > [!TIP] 
-> This guide covers details for `Segmented Controls` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
+> This guide covers details for `Segmented Controls` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](xref:Toolkit.GettingStarted) page to make sure you have the correct setup in place.
 
 ## Summary
 
@@ -43,3 +43,16 @@ xmlns:utu="using:Uno.Toolkit.UI"
 	</utu:TabBar.Items>
 </utu:TabBar>
 ```
+
+## Styling
+
+The following segmented control styles are available for styling the `TabBar` using the [Toolkit Cupertino](xref:Toolkit.GettingStarted.Cupertino) library.
+
+#### Style Keys
+
+Control|Key
+-|-
+utu:TabBar|CupertinoSegmentedStyle|
+utu:TabBar|CupertinoSlidingSegmentedStyle|
+utu:TabBarItem|CupertinoSegmentedItemStyle|
+utu:TabBarItem|CupertinoSlidingSegmentedItemStyle|

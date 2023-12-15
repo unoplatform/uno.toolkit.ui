@@ -139,3 +139,17 @@ Example:
     > <Border toolkit:VisibleBoundsPadding.PaddingMask="All" Background="SkyBlue">
     > ```
     > Instead, `Background` should be set from style setter to avoid edge bleeding on certain platforms, and to avoid default background being painted on the rounded corners.
+
+## Styling
+
+The following styles are available for the `DrawerFlyoutPresenter`:
+
+### Style Keys
+
+Key|Default Style?
+-|-
+DrawerFlyoutPresenterStyle|True
+LeftDrawerFlyoutPresenterStyle|
+TopDrawerFlyoutPresenterStyle|
+RightDrawerFlyoutPresenterStyle|
+BottomDrawerFlyoutPresenterStyle|
