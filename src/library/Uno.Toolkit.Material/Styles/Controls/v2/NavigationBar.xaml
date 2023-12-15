@@ -77,7 +77,7 @@
 			<StaticResource x:Key="NavigationBarMaterialEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
 			<StaticResource x:Key="NavigationBarMaterialEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
 
-			<x:Double x:Key="NavBarAppBarButtonContentHeight">24</x:Double>
+			<x:Double x:Key="NavBarAppBarButtonContentHeight">20</x:Double>
 			<x:Double x:Key="NavBarMainCommandAppBarButtonContentHeight">16</x:Double>
 			<x:Double x:Key="NavBarAppBarThemeCompactHeight">56</x:Double>
 			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
@@ -134,7 +134,7 @@
 			<StaticResource x:Key="NavigationBarMaterialEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
 			<StaticResource x:Key="NavigationBarMaterialEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
 
-			<x:Double x:Key="NavBarAppBarButtonContentHeight">24</x:Double>
+			<x:Double x:Key="NavBarAppBarButtonContentHeight">20</x:Double>
 			<x:Double x:Key="NavBarMainCommandAppBarButtonContentHeight">16</x:Double>
 			<x:Double x:Key="NavBarAppBarThemeCompactHeight">56</x:Double>
 			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
@@ -249,7 +249,7 @@
 														  Value="0" />
 								</DoubleAnimationUsingKeyFrames>
 							</Storyboard>
-							<StaticResource x:Key="MaterialAppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
+							<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
 							<StaticResource x:Key="AppBarThemeCompactHeight" ResourceKey="NavBarAppBarThemeCompactHeight" />
 							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}"
 								   TargetType="SplitButton" />
@@ -287,7 +287,7 @@
 												  Margin="{TemplateBinding Padding}"
 												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
 									<ContentPresenter.Resources>
-										<StaticResource x:Key="MaterialAppBarButtonContentHeight" ResourceKey="NavBarMainCommandAppBarButtonContentHeight" />
+										<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarMainCommandAppBarButtonContentHeight" />
 									</ContentPresenter.Resources>
 								</ContentPresenter>
 
@@ -721,7 +721,7 @@
 														  Value="0" />
 								</DoubleAnimationUsingKeyFrames>
 							</Storyboard>
-							<StaticResource x:Key="MaterialAppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
+							<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
 							<StaticResource x:Key="AppBarThemeCompactHeight" ResourceKey="NavBarAppBarThemeCompactHeight" />
 							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}"
 								   TargetType="SplitButton" />
