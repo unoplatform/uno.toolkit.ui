@@ -69,11 +69,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBar">
-					<Grid x:Name="TabBarGrid"
-						  Background="{TemplateBinding Background}"
-						  BorderBrush="{TemplateBinding BorderBrush}"
-						  BorderThickness="{TemplateBinding BorderThickness}"
-						  CornerRadius="{TemplateBinding CornerRadius}">
+					<Grid x:Name="TabBarGrid">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="OrientationStates">
 								<VisualState x:Name="Horizontal">
@@ -103,7 +99,11 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-
+						<Border x:Name="BackgroundBorder"
+								Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								CornerRadius="{TemplateBinding CornerRadius}" />
 						<utu:TabBarSelectionIndicatorPresenter x:Name="BelowSelectionIndicatorPresenter"
 															   Content="{TemplateBinding SelectionIndicatorContent}"
 															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
