@@ -24,7 +24,7 @@
     items:
     - name: AutoLayout
       href: controls/AutoLayoutControl.md
-    - name: Cards
+    - name: Card and CardContentControl
       href: controls/CardAndCardContentControl.md
     - name: Chip and ChipGroup
       href: controls/ChipAndChipGroup.md
@@ -70,6 +70,8 @@
       href: helpers/Selector-extensions.md
     - name: StatusBar Extensions
       href: helpers/StatusBar-extensions.md
+    - name: SystemTheme Extensions
+      href: helpers/SystemTheme-extensions.md
     - name: TabBarItem Extensions
       href: helpers/TabBarItem-extensions.md
     - name: VisualStateManager Extensions
