@@ -15,7 +15,13 @@ This article is a guide for installing the base Uno.Toolkit library, additional 
 - [Getting Started with Material for Toolkit](./material-getting-started.md)
 - [Getting Started with Cupertino for Toolkit](./cupertino-getting-started.md)
 
-### Installation
+## Installation
+
+I created the  project using 
+
+### [**Wizard**](#tab/wizard)
+
+
 
 1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
 2. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
@@ -35,6 +41,16 @@ This article is a guide for installing the base Uno.Toolkit library, additional 
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
     ```
+# [**dotnet new**](#tab/dotnet-new)
+
+1. When creating a new project using [dotnet new template](https://platform.uno/docs/articles/get-started-dotnet-new.html?tabs=windows#uno-platform-application) ensure that you include `-toolkit` in dotnet new  command . For example  `dotnet new unoapp -preset blank -o MyApp -toolkit`. Including the `-toolkit` option in the command ensures proper configuration of the Uno Toolkit for the newly created application.
+
+2. To incorporate the Uno Toolkit into an existing project, navigate to the **App Code Library** in the Terminal. Once in the command line interface, execute the following command:`dotnet add package Uno.Toolkit.WinUI --version [latest version number]`. Ensure to replace `[latest version number] `with the actual latest version number, which can be obtained from [Uno.Toolkit.UI](https://www.nuget.org/packages/Uno.Toolkit.UI). This command adds the Uno Toolkit package to your project.
+
+
+
+***
+
 
 #### Previous Installation Method
 
@@ -73,6 +89,8 @@ If your application is based on the older solution template that includes a shar
         </Application.Resources>
     </Application>
     ```
+
+    
 
 ## Using C# Markup
 
