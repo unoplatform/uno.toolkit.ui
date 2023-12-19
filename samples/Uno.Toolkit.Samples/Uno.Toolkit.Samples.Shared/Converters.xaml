@@ -36,4 +36,6 @@
 
     <converters:HexToColorConverter x:Key="HexToColor" />
 
+	<converters:EnumerableConverter x:Key="StringJoinConverter" Mode="StringJoin" />
+
 </ResourceDictionary>

@@ -1,13 +1,46 @@
 ---
 uid: Toolkit.Helpers.ResponsiveExtension
 ---
+
 # ResponsiveExtension
 
 The `ResponsiveExtension` class is a markup extension that enables the customization of `UIElement` properties based on screen size.
 This functionality provides a dynamic and responsive user interface experience.
 
-### Inheritance
-Object &#8594; MarkupExtension &#8594; ResponsiveExtension
+## Remarks
+**Initialization**: The `ResponsiveHelper` needs to be hooked up to the window's `SizeChanged` event in order for this markup to receive updates when the window size changes.
+This is typically done in the `OnLaunched` method in the `App` class, where you can get the current `Window` instance for `ResponsiveHelper.HookupEvent`:
+```cs
+protected override void OnLaunched(LaunchActivatedEventArgs args)
+{
+#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
+	MainWindow = new Window();
+#else
+	MainWindow = Microsoft.UI.Xaml.Window.Current;
+#endif
+
+	// ...
+	var helper = Uno.Toolkit.UI.ResponsiveHelper.GetForCurrentView();
+	helper.HookupEvent(MainWindow);
+}
+```
+
+## Platform limitation (UWP-desktop)
+`ResponsiveExtension` relies on `MarkupExtension.ProvideValue(IXamlServiceProvider)` to find the target control and property for continuous value updates, and to obtain the property type to apply automatic type conversion, as its value properties are parsed as string by the XAML engine. Since this overload is a recent addition exclusive to WinUI, UWP projects targeting Windows won't have access to these features. Uno UWP projects targeting non-Windows platforms do not face this limitation. However, the Windows app may crash or present unexpected behavior if you attempt to use this markup on a non-string property.
+```xml
+<Border Background="{utu:Responsive Narrow=Red, Wide=Blue}"
+        Tag="This will not work on Uwp for windows" />
+```
+You can workaround this by declaring the values as resources and using {StaticResource} to refer to them:
+```xml
+<Page.Resources>
+    <SolidColorBrush x:Key="RedBrush">Red</SolidColorBrush>
+    <SolidColorBrush x:Key="BlueBrush">Blue</SolidColorBrush>
+...
+
+<Border Background="{utu:Responsive Narrow={StaticResource RedBrush},
+                                    Wide={StaticResource BlueBrush}}" />
+```
 
 ## Properties
 | Property   | Type             | Description                                                |
@@ -32,39 +65,50 @@ This is done using an instance of the `ResponsiveLayout` class.
 | Wide       | double           | Default value is 800.  |
 | Widest     | double           | Default value is 1080. |
 
-## Remarks
-**Initialization**: The `ResponsiveHelper` needs to be hooked up to the window's `SizeChanged` event in order for this markup to receive updates when the window size changes.
-This is typically done in the `OnLaunched` method in the `App` class, where you can get the current `Window` instance for `ResponsiveHelper.HookupEvent`:
-```cs
-protected override void OnLaunched(LaunchActivatedEventArgs args)
-{
-#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
-	MainWindow = new Window();
-#else
-	MainWindow = Microsoft.UI.Xaml.Window.Current;
-#endif
+#### Resolution Logics
+The layouts whose value(ResponsiveExtension) or template(ResponsiveView) is not provided are first discarded. From the remaining layouts, we look for the first layout whose breakpoint at met by the current screen width. If none are found, the first layout is return regardless of its breakpoint.
 
-	// ...
-	var helper = Uno.Toolkit.UI.ResponsiveHelper.GetForCurrentView();
-	helper.HookupEvent(MainWindow);
-}
-```
-## Platform limitation (UWP-desktop)
-`ResponsiveExtension` relies on `MarkupExtension.ProvideValue(IXamlServiceProvider)` to find the target control and property for continuous value updates, and to obtain the property type to apply automatic type conversion, as its value properties are parsed as string by the XAML engine. Since this overload is a recent addition exclusive to WinUI, UWP projects targeting Windows won't have access to these features. Uno UWP projects targeting non-Windows platforms do not face this limitation. However, the Windows app may crash or present unexpected behavior if you attempt to use this markup on a non-string property.
-```xml
-<Border Background="{utu:Responsive Narrow=Red, Wide=Blue}"
-        Tag="This will not work on Uwp for windows" />
-```
-You can workaround this by declaring the values as resources and using {StaticResource} to refer to them:
-```xml
-<Page.Resources>
-    <SolidColorBrush x:Key="RedBrush">Red</SolidColorBrush>
-    <SolidColorBrush x:Key="BlueBrush">Blue</SolidColorBrush>
-...
+Below are the selected layout at different screen width if all layouts are provided:
 
-<Border Background="{utu:Responsive Narrow={StaticResource RedBrush},
-                                    Wide={StaticResource BlueBrush}}" />
-```
+Width|Layout
+-|-
+149|Narrowest
+150(Narrowest)|Narrowest
+151|Narrowest
+299|Narrowest
+300(Narrow)|Narrow
+301|Narrow
+599|Narrow
+600(Normal)|Normal
+601|Normal
+799|Normal
+800(Wide)|Wide
+801|Wide
+1079|Wide
+1080(Widest)|Widest
+1081|Widest
+
+Here are the selected layout at different screen width if only `Narrow` and `Wide` are provided:
+
+Width|Layout
+-|-
+149|Narrow
+150(~~Narrowest~~)|Narrow
+151|Narrow
+299|Narrow
+300(Narrow)|Narrow
+301|Narrow
+599|Narrow
+600(~~Normal~~)|Narrow
+601|Narrow
+799|Narrow
+800(Wide)|Wide
+801|Wide
+1079|Wide
+1080(~~Widest~~)|Wide
+1081|Wide
+
+
 ## Usage
 
 > [!TIP]
@@ -76,6 +120,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 <TextBlock Background="{utu:Responsive Narrow=Red, Wide=Blue}" Text="Asd" />
 ```
+
+
 
 ### Custom thresholds
 ```xml

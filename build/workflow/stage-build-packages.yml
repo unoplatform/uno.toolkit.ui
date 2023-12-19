@@ -13,9 +13,9 @@ jobs:
       displayName: Install Windows SDK 19041
 
     - task: MSBuild@1
-      displayName: 'Build solution'
+      displayName: 'Build Packages'
       inputs:
-        solution: src/Uno.Toolkit.sln
+        solution: src/Uno.Toolkit-packages.slnf
         configuration: Release
         msbuildLocationMethod: version
         msbuildVersion: latest

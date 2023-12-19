@@ -66,5 +66,5 @@ You can use [ResourceExtensions.Resources](helpers/resource-extensions.md) to ov
 
 ### Further Reading
 
-[Lightweight Styling (Windows Dev Docs)](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling)
-[Lightweight Styling with Uno Themes](xref:uno.themes.lightweightstyling)
+ - [Lightweight Styling (Windows Dev Docs)](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling)
+ - [Lightweight Styling with Uno Themes](xref:uno.themes.lightweightstyling)
