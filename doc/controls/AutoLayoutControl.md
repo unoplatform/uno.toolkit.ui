@@ -17,16 +17,26 @@ uid: Toolkit.Controls.AutoLayoutControl
 public partial class AutoLayout : Control
 ```
 
-### XAML
+### Usage
 
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
-
 <utu:AutoLayout>
-    contents
+    <!-- Content -->
 </utu:AutoLayout>
 ```
+# [**C#**](#tab/csharp)
+```cs
+using Uno.Toolkit.UI;
+...
+new AutoLayout()
+    .Children(
+        // Content
+    )
+```
+***
 
 ### Inheritance
 

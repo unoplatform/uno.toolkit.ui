@@ -66,25 +66,48 @@ The Card control comes with all the built-in properties of a `Control`, and also
 > Consider using [CardContentControl](#cardcontentcontrol) if you need full control over the content layout.
 
 ### Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <!-- ElevatedCardStyle -->
 <utu:Card HeaderContent="Elevated card"
-		  SubHeaderContent="With title and subtitle"
-		  Style="{StaticResource ElevatedCardStyle}" />
+			SubHeaderContent="With title and subtitle"
+			Style="{StaticResource ElevatedCardStyle}" />
 
 <!-- FilledCardStyle -->
 <utu:Card HeaderContent="Filled card"
-		  SubHeaderContent="With title and subtitle"
-		  Style="{StaticResource FilledCardStyle}" />
+			SubHeaderContent="With title and subtitle"
+			Style="{StaticResource FilledCardStyle}" />
 
 <!-- OutlinedCardStyle -->
 <utu:Card HeaderContent="Outlined card"
-		  SubHeaderContent="With title and subtitle"
-		  Style="{StaticResource OutlinedCardStyle}" />
+			SubHeaderContent="With title and subtitle"
+			Style="{StaticResource OutlinedCardStyle}" />
 ```
+
+# [**C#**](#tab/csharp)
+```cs
+using Uno.Toolkit.UI.Markup;
+
+// ElevatedCardStyle
+new Card()
+	.HeaderContent("Elevated card")
+	.SubHeaderContent("With title and subtitle")
+	.Style(Theme.Card.Styles.Elevated),
+// FilledCardStyle
+new Card()
+	.HeaderContent("Elevated card")
+	.SubHeaderContent("With title and subtitle")
+	.Style(Theme.Card.Styles.Filled),
+// OutlinedCardStyle
+new Card()
+	.HeaderContent("Elevated card")
+	.SubHeaderContent("With title and subtitle")
+	.Style(Theme.Card.Styles.Outlined)
+```
+***
 
 ### Examples
 ![](../assets/card-samples.png)
@@ -134,7 +157,9 @@ The `CardContentControl` is based on `ContentControl` and allows you to customiz
 public partial class CardContentControl : ContentControl
 ```
 
-### XAML
+### Usage
+
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -144,11 +169,23 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <utu:CardContentControl>
 	<utu:CardContentControl.ContentTemplate>
 		<DataTemplate>
-			content
+			<!-- Content -->
 		</DataTemplate>
 	</utu:CardContentControl.ContentTemplate>
 </utu:CardContentControl>
 ```
+
+# [**C#**](#tab/csharp)
+```cs
+new CardContentControl()
+...
+
+new CardContentControl()
+    .ContentTemplate(() => 
+		// Content
+	)
+```
+***
 
 ### Inheritance
 Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; CardContentControl
@@ -168,6 +205,7 @@ The Card control comes with all the built-in properties of a `ContentControl`, a
 | IsClickable               | bool              | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
 
 ### Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -205,7 +243,46 @@ xmlns:utu="using:Uno.Toolkit.UI"
 	</utu:CardContentControl.ContentTemplate>
 </utu:CardContentControl>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+// ElevatedCardContentControlStyle
+new CardContentControl()
+	.Style(Theme.CardContentControl.Styles.Elevated)
+	.ContentTemplate(() => 
+		new Grid()
+			.Children(
+				new TextBlock()
+					.Text("Elevated card")
+					.MaxLines(1)
+					.Style(Theme.TextBlock.Styles.HeadlineMedium)
+			)
+	),
+ // FilledCardContentControlStyle
+new CardContentControl()
+	.Style(Theme.CardContentControl.Styles.Filled)
+	.ContentTemplate(() =>
+		new Grid()
+			.Children(
+				new TextBlock()
+					.Text("Filled card")
+					.MaxLines(1)
+					.Style(Theme.TextBlock.Styles.HeadlineMedium)
+			)
+	),
+//OutlinedCardContentControlStyle
+new CardContentControl()
+	.Style(Theme.CardContentControl.Styles.Outlined)
+	.ContentTemplate(() =>
+		new Grid()
+			.Children(
+				new TextBlock()
+					.Text("Outlined card")
+					.MaxLines(1)
+					.Style(Theme.TextBlock.Styles.HeadlineMedium)
+			)
+	)
+```
+***
 ### Examples
 ![](../assets/cardcontentcontrol-samples.png)
 
