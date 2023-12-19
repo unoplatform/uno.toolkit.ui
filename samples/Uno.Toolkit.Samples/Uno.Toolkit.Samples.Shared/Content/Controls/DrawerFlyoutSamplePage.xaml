@@ -58,7 +58,7 @@
 								<Button Content="Left Drawer">
 									<Button.Flyout>
 										<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource LeftDrawerFlyoutPresenterStyle}">
-											<StackPanel utu:SafeArea.Insets="All" Background="{ThemeResource SurfaceBrush}">
+											<StackPanel utu:SafeArea.Insets="VisibleBounds" Background="{ThemeResource SurfaceBrush}">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -68,7 +68,7 @@
 								<Button Content="Top Drawer">
 									<Button.Flyout>
 										<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource TopDrawerFlyoutPresenterStyle}">
-											<StackPanel utu:SafeArea.Insets="All" Background="{ThemeResource SurfaceBrush}">
+											<StackPanel utu:SafeArea.Insets="VisibleBounds" Background="{ThemeResource SurfaceBrush}">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -78,7 +78,7 @@
 								<Button Content="Right Drawer">
 									<Button.Flyout>
 										<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource RightDrawerFlyoutPresenterStyle}">
-											<StackPanel utu:SafeArea.Insets="All" Background="{ThemeResource SurfaceBrush}">
+											<StackPanel utu:SafeArea.Insets="VisibleBounds" Background="{ThemeResource SurfaceBrush}">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -88,7 +88,7 @@
 								<Button Content="Bottom Drawer">
 									<Button.Flyout>
 										<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource BottomDrawerFlyoutPresenterStyle}">
-											<StackPanel utu:SafeArea.Insets="All" Background="{ThemeResource SurfaceBrush}">
+											<StackPanel utu:SafeArea.Insets="VisibleBounds" Background="{ThemeResource SurfaceBrush}">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -108,7 +108,7 @@
 													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="*" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel utu:SafeArea.Insets="All" Padding="8">
+											<StackPanel utu:SafeArea.Insets="VisibleBounds" Padding="8">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -123,7 +123,7 @@
 													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="0.5*" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel utu:SafeArea.Insets="All" Padding="8">
+											<StackPanel utu:SafeArea.Insets="VisibleBounds" Padding="8">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -138,7 +138,7 @@
 													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="Auto" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel utu:SafeArea.Insets="All" Padding="8">
+											<StackPanel utu:SafeArea.Insets="VisibleBounds" Padding="8">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -153,7 +153,7 @@
 													<Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="150" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel utu:SafeArea.Insets="All" Padding="8">
+											<StackPanel utu:SafeArea.Insets="VisibleBounds" Padding="8">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
@@ -174,7 +174,7 @@
 													<Setter Property="Background" Value="SkyBlue" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
-											<StackPanel utu:SafeArea.Insets="All" Padding="16,16,0,0">
+											<StackPanel utu:SafeArea.Insets="VisibleBounds" Padding="16,16,0,0">
 												<TextBlock Text="text" />
 												<Button Content="button" />
 											</StackPanel>
