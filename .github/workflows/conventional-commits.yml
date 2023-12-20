@@ -4,7 +4,8 @@ on:
   pull_request:
     branches:
       - main
-      - release/* 
+      - release/*
+      - feature/*
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
