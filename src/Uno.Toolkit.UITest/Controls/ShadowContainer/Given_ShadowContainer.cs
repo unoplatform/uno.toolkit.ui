@@ -22,7 +22,6 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 
 		[Test]
 		[TestCase(10, 10, false)]
-		[TestCase(10, 10, false)]
 		[TestCase(10, 10, true)]
 		[TestCase(-10, -10, false)]
 		[TestCase(-10, -10, true)]
@@ -63,7 +62,6 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 
 
 		[Test]
-		[TestCase(10, 10, false)]
 		[TestCase(10, 10, false)]
 		[TestCase(10, 10, true)]
 		[TestCase(-10, -10, false)]
