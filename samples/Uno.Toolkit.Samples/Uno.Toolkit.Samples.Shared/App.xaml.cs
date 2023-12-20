@@ -74,6 +74,7 @@ namespace Uno.Toolkit.Samples
 #endif
 #if __ANDROID__ && USE_UITESTS
 			FeatureConfiguration.NativeFramePresenter.AndroidUnloadInactivePages = true;
+			FeatureConfiguration.FrameworkTemplate.IsPoolingEnabled = false;
 #endif
 		}
 
