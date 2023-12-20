@@ -1,4 +1,4 @@
-﻿#if IS_WINUI
+﻿#if IS_WINUI && !__ANDROID__ //TODO: Re-enable when Android no longer crashes: https://github.com/unoplatform/uno.toolkit.ui/issues/982
 using NUnit.Framework;
 using System;
 using System.Drawing;
