@@ -15,6 +15,15 @@
 				<DataTemplate>
 					<StackPanel Spacing="20">
 
+						<!-- string literal -->
+						<TextBlock Text="Text test" FontWeight="Bold" />
+						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 300', Normal='Normal Threshold 600', Wide='Wide Threshold 800'}" />
+
+						<!-- primitive literal -->
+						<TextBlock Text="FontSize test" FontWeight="Bold" />
+						<TextBlock Text="Normal 15 Wide 25" FontSize="{utu:Responsive Normal=15, Wide=25}" />
+
+						<!-- enum literal -->
 						<TextBlock Text="Orientation test | Normal=Vertical | Wide=Horizontal" FontWeight="Bold" />
 						<StackPanel Orientation="{utu:Responsive Normal=Vertical, Wide=Horizontal}">
 							<TextBlock Text="A" />
@@ -22,12 +31,7 @@
 							<TextBlock Text="C" />
 						</StackPanel>
 
-						<TextBlock Text="Text test" FontWeight="Bold" />
-						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 300', Normal='Normal Threshold 600', Wide='Wide Threshold 800'}" />
-
-						<TextBlock Text="FontSize test" FontWeight="Bold" />
-						<TextBlock Text="Normal 15 Wide 25" FontSize="{utu:Responsive Normal=15, Wide=25}" />
-
+						<!-- xaml parsable object -->
 						<TextBlock Text="Color test | Normal Red | Wide Blue" FontWeight="Bold" />
 						<Border Width="30"
 								Height="30"
@@ -35,6 +39,21 @@
 								Background="{utu:Responsive Normal=Red,
 															Wide=Blue}" />
 
+						<!-- attached property -->
+						<TextBlock Text="Grid.Column test: Narrowest=0, 1, 0, 1, Widest=0" FontWeight="Bold" />
+						<Grid Width="100"
+							  Height="50"
+							  Background="SkyBlue"
+							  HorizontalAlignment="Left">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<Border Grid.Column="{utu:Responsive Narrowest=0, Narrow=1, Normal=0, Wide=1, Widest=0}" Background="Pink" />
+						</Grid>
+
+						<!-- layout overriding -->
 						<TextBlock Text="Custom values override" FontWeight="Bold" />
 						<StackPanel>
 							<TextBlock Text="Global Override:" />

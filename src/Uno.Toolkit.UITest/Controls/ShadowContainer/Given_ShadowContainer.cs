@@ -22,7 +22,6 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 
 		[Test]
 		[TestCase(10, 10, false)]
-		[TestCase(10, 10, false)]
 		[TestCase(10, 10, true)]
 		[TestCase(-10, -10, false)]
 		[TestCase(-10, -10, true)]
@@ -30,6 +29,8 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 		[TestCase(10, -10, true)]
 		[TestCase(-10, 10, false)]
 		[TestCase(10, -10, false)]
+		//TODO: Re-enable when Android no longer crashes: https://github.com/unoplatform/uno.toolkit.ui/issues/982
+		[ActivePlatforms(Platform.Browser, Platform.iOS)] 
 		public void When_Shadows(int xOffset, int yOffset, bool inner)
 		{
 
@@ -64,7 +65,6 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 
 		[Test]
 		[TestCase(10, 10, false)]
-		[TestCase(10, 10, false)]
 		[TestCase(10, 10, true)]
 		[TestCase(-10, -10, false)]
 		[TestCase(-10, -10, true)]
@@ -72,6 +72,8 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 		[TestCase(10, -10, true)]
 		[TestCase(-10, 10, false)]
 		[TestCase(10, -10, false)]
+		//TODO: Re-enable when Android no longer crashes: https://github.com/unoplatform/uno.toolkit.ui/issues/982
+		[ActivePlatforms(Platform.Browser, Platform.iOS)]
 		public void When_RectangleShadows(int xOffset, int yOffset, bool inner)
 		{
 
@@ -106,6 +108,8 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 		[Test]
 		[TestCase(10, 10, false)]
 		[TestCase(-10, -10, false)]
+		//TODO: Re-enable when Android no longer crashes: https://github.com/unoplatform/uno.toolkit.ui/issues/982
+		[ActivePlatforms(Platform.Browser, Platform.iOS)]
 		public void When_AsymmetricShadowsCorner(int xOffset, int yOffset, bool inner)
 		{
 			var shadowContainer = App.WaitForElementWithMessage("shadowContainer");

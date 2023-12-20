@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Uno.Disposables;
 using Uno.Extensions;
-using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Uno.Logging;
 
@@ -25,7 +25,7 @@ namespace Uno.Toolkit.UI
 {
 	internal static class DependencyObjectExtensions
 	{
-		private static Dictionary<(Type type, string property), DependencyProperty?> _dependencyPropertyReflectionCache = new Dictionary<(Type, string), DependencyProperty?>(2);
+		private static Dictionary<(Type Type, string Property), DependencyProperty?> _dependencyPropertyReflectionCache = new Dictionary<(Type, string), DependencyProperty?>(2);
 
 #if HAS_UNO
 		/// <summary>
@@ -182,65 +182,55 @@ namespace Uno.Toolkit.UI
 		}
 #endif
 
-		public static DependencyProperty? FindDependencyPropertyUsingReflection<TProperty>(this DependencyObject dependencyObject, string propertyName)
+		public static DependencyProperty? FindDependencyProperty<TProperty>(this DependencyObject owner, string propertyName) => owner.GetType().FindDependencyProperty<TProperty>(propertyName);
+
+		public static DependencyProperty? FindDependencyProperty(this DependencyObject owner, string propertyName) => owner.GetType().FindDependencyProperty(propertyName);
+
+		public static DependencyProperty? FindDependencyProperty<TProperty>(this Type ownerOrDescendantType, string propertyName)
 		{
-			var type = dependencyObject.GetType();
 			var propertyType = typeof(TProperty);
-			var key = (ownerType: type, propertyName);
-
-			if (_dependencyPropertyReflectionCache.TryGetValue(key, out var property))
-			{
-				return property;
-			}
-
-			property =
-				type.GetProperty(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty ??
-				type.GetField(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty;
+			var property = FindDependencyProperty(ownerOrDescendantType, propertyName);
 
 #if HAS_UNO
-			if (property == null)
+			// note: for winui, it is no possible to obtain the property type from DependencyProperty by reflection.
+			// we can only check the sibling {propertyName} property or G/Set{propertyName} method (for attached dp) for the property type.
+			if (property != null && (
+				property.GetType().GetProperty("Type", NonPublic | Instance)?.GetValue(property) is not Type type ||
+				type != propertyType
+			))
 			{
-				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{type}.{propertyName}' dependency property does not exist.");
-			}
-			else if (property.GetType() != propertyType)
-			{
-				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{type}.{propertyName}' dependency property is not of the expected '{propertyType}' type.");
+				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{ownerOrDescendantType.GetType().Name}.{propertyName}' dependency property is not of the expected '{propertyType.Name}' type.");
 				property = null;
 			}
 #endif
 
-			_dependencyPropertyReflectionCache[key] = property;
-
 			return property;
 		}
 
-		public static DependencyProperty? FindDependencyPropertyUsingReflection(this DependencyObject dependencyObject, string propertyName)
+		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName)
 		{
-			var type = dependencyObject.GetType();
+			var type = ownerOrDescendantType;
 			var key = (ownerType: type, propertyName);
 
-			if (_dependencyPropertyReflectionCache.TryGetValue(key, out var property))
+			// given that we are doing FlattenHierarchy lookup, it is fine that we are storing multiple pairs of (types-to-same-dp)
+			// since it is not worth the trouble to handle the type hierarchy...
+			if (!_dependencyPropertyReflectionCache.TryGetValue(key, out var property))
 			{
-				return property;
+				property =
+					type.GetProperty(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty ??
+					type.GetField(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty;
+				_dependencyPropertyReflectionCache[key] = property;
 			}
 
-			property =
-				type.GetProperty(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty ??
-				type.GetField(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty;
-
-#if HAS_UNO
 			if (property == null)
 			{
-				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{type}.{propertyName}' dependency property does not exist.");
+				typeof(DependencyObjectExtensions).Log().LogWarning($"The dependency property '{propertyName}' does not exist on '{type}' or its ancestors.");
 			}
-#endif
-
-			_dependencyPropertyReflectionCache[key] = property;
 
 			return property;
 		}
 
-		public static bool TryGetValue(this DependencyObject dependencyObject, DependencyProperty dependencyProperty, out DependencyObject? value)
+		private static bool TryGetValue(this DependencyObject dependencyObject, DependencyProperty dependencyProperty, out DependencyObject? value)
 		{
 			value = default;
 
