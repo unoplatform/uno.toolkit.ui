@@ -17,7 +17,7 @@ This article is a guide for installing the base Uno.Toolkit library, additional 
 
 ## Installation
 
-I created the  project using 
+The Uno Toolkit library can be included in your application by using the [Visual Studio Wizard](xref:Uno.GettingStarted.CreateAnApp.VS2022) and/or the [`dotnet new` templates](xref:Uno.GetStarted.dotnet-new)
 
 ### [**Wizard**](#tab/wizard)
 
@@ -41,11 +41,15 @@ I created the  project using
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
     ```
-# [**dotnet new**](#tab/dotnet-new)
+### [**dotnet new**](#tab/dotnet-new)
 
-1. When creating a new project using [dotnet new template](https://platform.uno/docs/articles/get-started-dotnet-new.html?tabs=windows#uno-platform-application) ensure that you include `-toolkit` in dotnet new  command . For example  `dotnet new unoapp -preset blank -o MyApp -toolkit`. Including the `-toolkit` option in the command ensures proper configuration of the Uno Toolkit for the newly created application.
+1. When creating a new project using the `dotnet new` templates, make sure to include the [`-toolkit` option](xref:Uno.GettingStarted.UsingWizard.Features#toolkit) in the `dotnet new unoapp` command.     
+    
+    `dotnet new unoapp -preset blank -o MyApp -toolkit` 
 
-2. To incorporate the Uno Toolkit into an existing project, navigate to the **App Code Library** in the Terminal. Once in the command line interface, execute the following command:`dotnet add package Uno.Toolkit.WinUI --version [latest version number]`. Ensure to replace `[latest version number] `with the actual latest version number, which can be obtained from [Uno.Toolkit.UI](https://www.nuget.org/packages/Uno.Toolkit.UI). This command adds the Uno Toolkit package to your project.
+2. To incorporate the Uno Toolkit into an existing application, you must add the [Uno.Toolkit.WinUI NuGet package](https://www.nuget.org/packages/Uno.Toolkit.WinUI) to the **App Code Library** project as well as the platform heads. An easy way to do this is through the command line. Run the following command within the directory of each `.csproj`:       
+    
+    `dotnet add package Uno.Toolkit.WinUI --version [latest version number]`. Make sure to replace `[latest version number] `with the actual latest NuGet version number.
 
 
 
@@ -89,8 +93,6 @@ If your application is based on the older solution template that includes a shar
         </Application.Resources>
     </Application>
     ```
-
-    
 
 ## Using C# Markup
 
