@@ -115,7 +115,7 @@ fi
 
 # Build the sample, while the emulator is starting
 cd $UNO_UITEST_MOBILE_PROJECT_PATH
-dotnet publish -f net7.0-android -c Release /p:RuntimeIdentifier=android-x64 /p:IsUiAutomationMappingEnabled=True /p:AndroidUseSharedRuntime=False /p:RunAOTCompilation=False /bl:$BASE_ARTIFACTS_PATH/android-$XAML_FLAVOR_BUILD-uitest.binlog
+dotnet publish -f net7.0-android -c Release /p:RuntimeIdentifier=android-x64 /p:FrameworkLineage=$XAML_FLAVOR_BUILD /p:IsUiAutomationMappingEnabled=True /p:AndroidUseSharedRuntime=False /p:RunAOTCompilation=False /bl:$BASE_ARTIFACTS_PATH/android-$XAML_FLAVOR_BUILD-uitest.binlog
 
 # list active devices
 $ANDROID_HOME/platform-tools/adb devices
