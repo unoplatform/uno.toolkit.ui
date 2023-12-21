@@ -62,6 +62,7 @@ sealed class ChipRemovingEventArgs : EventArgs
 ```
 
 ### Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -71,14 +72,38 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <utu:Chip Content="Filter Chip" IsChecked="True" Style="{StaticResource FilterChipStyle}" />
 <utu:Chip Content="Suggestion Chip" IsChecked="True" Style="{StaticResource SuggestionChipStyle}" />
 
-<!-- with icon -->
+<!-- With icon -->
 <utu:Chip Content="Chip" Style="{StaticResource MaterialChipStyle}">
 	<utu:Chip.Icon>
 		<Image Source="ms-appx:///Assets/Avatar.png" />
 	</utu:Chip.Icon>
 </utu:Chip>
 ```
+# [**C#**](#tab/csharp)
+```cs
+new Chip()
+    .Content("Assist Chip")
+    .Style(Theme.Chip.Styles.Assist),
+new Chip()
+    .Content("Input Chip")
+    .Style(Theme.Chip.Styles.Input),
+new Chip()
+    .Content("Filter Chip")
+    .Style(Theme.Chip.Styles.Filter),
+new Chip()
+    .Content("Suggestion Chip")
+    .Style(Theme.Chip.Styles.Suggestion),
 
+// With icon
+new Chip()
+    .Content("Chip")
+    .Style(Theme.Chip.Styles.Default)
+    .Icon(
+        new Image()
+            .Source("ms-appx:///Assets/Avatar.png")
+    )
+```
+***
 ## Lightweight Styling
 
 Key|Type|Value
@@ -162,7 +187,8 @@ ElevatedChipBackground|SolidColorBrush|SurfaceBrush
 public partial class ChipGroup : ItemsControl
 ```
 
-### XAML
+### Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -170,10 +196,20 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <utu:ChipGroup .../>
 -or-
 <utu:ChipGroup>
-    oneOrMoreItems
+    <!-- One or more Items -->
 </utu:ChipGroup>
 ```
+# [**C#**](#tab/csharp)
+```cs
+new ChipGroup()
+...
 
+new ChipGroup()
+    .Items(
+        // One or more Items
+    )
+```
+***
 ### Inheritance
 Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ItemsControl &#8594; ChipGroup
 
@@ -226,7 +262,8 @@ class ChipItemRemovingEventHandler : ChipItemEventHandler
 }
 ```
 
-### Usage
+#### Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -258,3 +295,31 @@ xmlns:utu="using:Uno.Toolkit.UI"
                SelectionMode="Multiple"
                Style="{StaticResource SuggestionChipGroupStyle}" />
 ```
+# [**C#**](#tab/csharp)
+```cs
+// example with binding
+new ChipGroup()
+    .ItemsSource(() => vm.ChipsList)
+    .Style(Theme.ChipGroup.Styles.Suggestion)
+    .ItemTemplate<ToDoItem>(item => new TextBlock()
+                                        .Text(() => item.Name)
+                           ),
+
+// single selection with binding
+new ChipGroup()
+    .ItemsSource(() => vm.ChipsList)
+    .SelectedItem(x => x.Bind(() => vm.SelectedItem).TwoWay())
+    .SelectionMode(ChipSelectionMode.Single)
+    .Style(Theme.ChipGroup.Styles.Suggestion),
+
+// multi-selection with binding
+new ChipGroup()
+    .ItemsSource(() => vm.ChipsList)
+    .SelectedItems(x => x.Bind(() => vm.SelectedItems).TwoWay())
+    .SelectionMode(ChipSelectionMode.Multiple)
+    .Style(Theme.ChipGroup.Styles.Suggestion)
+```
+
+> [!IMPORTANT]
+> ItemClick Event are currently not supported in C# Markup.
+***

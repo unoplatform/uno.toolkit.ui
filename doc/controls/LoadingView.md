@@ -29,6 +29,7 @@ Represents an `ILoadable` that forwards the `ILoadable.IsExecuting` state of its
 Represents an `ILoadable` aggregate that is `ILoadable.IsExecuting` when any of its nested Sources is.
 
 ## Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -68,6 +69,60 @@ xmlns:utu="using:Uno.Toolkit.UI"
     </utu:LoadingView.LoadingContent>
 <utu:LoadingView>
 ```
+# [**C#**](#tab/csharp)
+```cs
+// single source example
+new LoadingView()
+    .Source(() => vm.FetchWeatherForecasts)
+    .Content(
+        new Grid()
+            .RowDefinitions("Auto,*")
+            .Children(
+                new Button()
+                    .Grid(row:0)
+                    .Content("Refresh")
+                    .Command(() => vm.FetchWeatherForecasts),
+                new ListView()
+                    .Grid(row:1)
+                    .ItemsSource(() => vm.Forecasts)
+            )
+    )
+    .LoadingContent(
+        new StackPanel()
+            .Children(
+                new TextBlock()
+                    .Text("Scrying..."),
+                new Image()
+                    .Source("ms-appx:///Assets/CrystalBall.jpg")
+            )
+    )
+
+// multi-sources example
+new LoadingView()
+    .Source(
+        new CompositeLoadableSource()
+            .Content(
+                new LoadableSource()
+                    .Source(() => vm.LoadContent0Command),
+                new LoadableSource()
+                    .Source(() => vm.LoadContent1Command)
+            )
+    )
+    .Content(
+        new StackPanel()
+            .Children(
+                new ListView()
+                    .ItemsSource(() => vm.Content0),
+                new ListView()
+                    .ItemsSource(() => vm.Content1)
+            )
+    )
+    .LoadingContent(
+        new ProgressRing()
+            .IsActive(true)
+    )
+```
+***
 
 ```cs
 private class ViewModel : ViewModelBase
