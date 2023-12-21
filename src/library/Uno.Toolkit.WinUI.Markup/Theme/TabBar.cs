@@ -110,9 +110,17 @@ public static partial class Theme
 					public static ThemeResourceKey<Brush> Default => new("NavigationTabBarBorderBrush");
 				}
 
+				public static partial class TintBrush
+				{
+					[ResourceKeyDefinition(typeof(Brush), "NavigationTabBarTintBrush")]
+					public static ThemeResourceKey<Brush> Default => new("NavigationTabBarTintBrush");
+				}
+
 				[ResourceKeyDefinition(typeof(double), "NavigationTabBarWidthOrHeight")]
 				public static ThemeResourceKey<double> WidthOrHeight => new("NavigationTabBarWidthOrHeight");
 
+				[ResourceKeyDefinition(typeof(double), "NavigationTabBarTintOpacity")]
+				public static ThemeResourceKey<double> TintOpacity => new("NavigationTabBarTintOpacity");
 			}
 		}
 

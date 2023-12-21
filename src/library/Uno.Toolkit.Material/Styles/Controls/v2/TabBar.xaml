@@ -21,6 +21,7 @@
 			<x:Double x:Key="NavigationTabBarItemActiveIndicatorHeight">32</x:Double>
 			<Thickness x:Key="NavigationTabBarItemPadding">0,12,0,16</Thickness>
 			<CornerRadius x:Key="NavigationTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
+			<x:Double x:Key="NavigationTabBarTintOpacity">0.08</x:Double>
 
 			<!--  Top TabBar Resources  -->
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
@@ -204,6 +205,7 @@
 
 			<StaticResource x:Key="NavigationTabBarBorderBrush" ResourceKey="SystemControlTransparentBrush" />
 
+			<SolidColorBrush x:Key="NavigationTabBarTintBrush" Color="{StaticResource SurfaceTintColor}" Opacity="{StaticResource NavigationTabBarTintOpacity}" />
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Light">
@@ -214,6 +216,7 @@
 			<x:Double x:Key="NavigationTabBarItemActiveIndicatorHeight">32</x:Double>
 			<Thickness x:Key="NavigationTabBarItemPadding">0,12,0,16</Thickness>
 			<CornerRadius x:Key="NavigationTabBarItemActiveIndicatorCornerRadius">16</CornerRadius>
+			<x:Double x:Key="NavigationTabBarTintOpacity">0.08</x:Double>
 
 			<!--  Top TabBar Resources  -->
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
@@ -397,6 +400,7 @@
 
 			<StaticResource x:Key="NavigationTabBarBorderBrush" ResourceKey="SystemControlTransparentBrush" />
 
+			<SolidColorBrush x:Key="NavigationTabBarTintBrush" Color="{StaticResource SurfaceTintColor}" Opacity="{StaticResource NavigationTabBarTintOpacity}" />
 		</ResourceDictionary>
 
 	</ResourceDictionary.ThemeDictionaries>
@@ -475,9 +479,83 @@
         </Setter>
     </Style>
 
+	<Style x:Key="MaterialBaseNavigationTabBarStyle"
+		   BasedOn="{StaticResource DefaultTabBarStyle}"
+		   TargetType="utu:TabBar">
+		<Setter Property="SelectionIndicatorPresenterStyle" Value="{StaticResource MaterialTabBarSelectionIndicatorPresenterStyle}" />
+		<Setter Property="CornerRadius" Value="0" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:TabBar">
+					<Grid x:Name="TabBarGrid">
+						<Border x:Name="BackgroundBorder"
+								Background="{TemplateBinding Background}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								CornerRadius="{TemplateBinding CornerRadius}" />
+						<Border x:Name="TintBorder"
+								Background="{ThemeResource NavigationTabBarTintBrush}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								CornerRadius="{TemplateBinding CornerRadius}" />
+						<utu:TabBarSelectionIndicatorPresenter x:Name="BelowSelectionIndicatorPresenter"
+															   AutomationProperties.AutomationId="BelowSelectionIndicatorPresenter"
+															   Content="{TemplateBinding SelectionIndicatorContent}"
+															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+															   Foreground="{TemplateBinding Foreground}"
+															   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
+															   Opacity="0"
+															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+															   Style="{TemplateBinding SelectionIndicatorPresenterStyle}"
+															   Visibility="Collapsed" />
+						<ItemsPresenter x:Name="TabBarItemsPresenter"
+										Margin="{TemplateBinding Padding}" />
+						<utu:TabBarSelectionIndicatorPresenter x:Name="AboveSelectionIndicatorPresenter"
+															   AutomationProperties.AutomationId="AboveSelectionIndicatorPresenter"
+															   Content="{TemplateBinding SelectionIndicatorContent}"
+															   ContentTemplate="{TemplateBinding SelectionIndicatorContentTemplate}"
+															   Foreground="{TemplateBinding Foreground}"
+															   IndicatorTransitionMode="{TemplateBinding SelectionIndicatorTransitionMode}"
+															   Opacity="0"
+															   Owner="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+															   Style="{TemplateBinding SelectionIndicatorPresenterStyle}" />
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="OrientationStates">
+								<VisualState x:Name="Horizontal">
+									<VisualState.Setters>
+										<Setter Target="BelowSelectionIndicatorPresenter.VerticalContentAlignment" Value="Stretch" />
+										<Setter Target="BelowSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Left" />
+										<Setter Target="AboveSelectionIndicatorPresenter.VerticalContentAlignment" Value="Stretch" />
+										<Setter Target="AboveSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Left" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Vertical">
+									<VisualState.Setters>
+										<Setter Target="BelowSelectionIndicatorPresenter.VerticalContentAlignment" Value="Top" />
+										<Setter Target="BelowSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Stretch" />
+										<Setter Target="AboveSelectionIndicatorPresenter.VerticalContentAlignment" Value="Top" />
+										<Setter Target="AboveSelectionIndicatorPresenter.HorizontalContentAlignment" Value="Stretch" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="IndicatorPlacementStates">
+								<VisualState x:Name="Above" />
+								<VisualState x:Name="Below">
+									<VisualState.Setters>
+										<Setter Target="BelowSelectionIndicatorPresenter.Visibility" Value="Visible" />
+										<Setter Target="AboveSelectionIndicatorPresenter.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
 	<Style
         x:Key="MaterialVerticalTabBarStyle"
-        BasedOn="{StaticResource BaseMaterialTabBarStyle}"
+        BasedOn="{StaticResource MaterialBaseNavigationTabBarStyle}"
         TargetType="utu:TabBar">
 		<Setter Property="Background" Value="{ThemeResource VerticalTabBarBackground}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -496,7 +574,7 @@
 
 	<Style
         x:Key="MaterialBottomTabBarStyle"
-        BasedOn="{StaticResource BaseMaterialTabBarStyle}"
+        BasedOn="{StaticResource MaterialBaseNavigationTabBarStyle}"
         TargetType="utu:TabBar">
 		<Setter Property="Background" Value="{ThemeResource BottomTabBarBackground}" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
