@@ -224,6 +224,7 @@ public MainPage()
 #### [**Padding (default)**](#tab/padding)
 
 Top TabBar:
+
 **XAML**
 ```diff
 <utu:TabBar Background="Purple"
@@ -237,6 +238,7 @@ new TabBar()
 ```
 
 Bottom TabBar:
+
 **XAML**
 ```diff
 <utu:TabBar Grid.Row="2"
@@ -257,6 +259,7 @@ new TabBar()
 #### [**Margin**](#tab/margin)
 
 Top TabBar:
+
 **XAML**
 ```diff
 <utu:TabBar Background="Purple"
@@ -271,6 +274,7 @@ new TabBar()
 ```
 
 Bottom TabBar:
+
 **XAML**
 ```diff
 <utu:TabBar Grid.Row="2"
@@ -285,7 +289,6 @@ new TabBar()
 +   .SafeArea(SafeArea.InsetMask.Bottom, SafeArea.InsetMode.Margin)
     .Background(Colors.Purple)
 ```
-
 
 ![safearea_with_margin_alpha](../assets/safearea_with_margin.png)
 ***
@@ -522,14 +525,14 @@ There are alternative usages of `SafeArea` that may be considered in this situat
 
 1. Have your own ScrollViewer defined within the XAML and then you can simply wrap that `ScrollViewer` with any container, such as `Grid`, and use the `SafeArea` attached properties on that wrapping container.
 
-    <table>
-      <tr>
-        <th>Page</th>
-        <th>XAML</th>
-      </tr>
-    <tr>
+<table>
+  <tr>
+    <th>Page</th>
+    <th>XAML</th>
+  </tr>
+  <tr>
     <td><img src="../assets/safearea-login-scroll.gif" width="400px"/> </td>
-        <td>
+    <td>
 **XAML**
 ```diff
 <Page ...
