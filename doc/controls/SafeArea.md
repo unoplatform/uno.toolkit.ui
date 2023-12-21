@@ -418,7 +418,7 @@ In this next example, we attempt to have the UI adapt to the keyboard by attachi
 <table>
   <tr>
     <th>Page</th>
-    <th>XAML</th>
+    <th>Code</th>
   </tr>
   <tr>
    <td><img src="../assets/safearea-login-static.gif" width="400px"/> </td>
@@ -528,11 +528,12 @@ There are alternative usages of `SafeArea` that may be considered in this situat
 <table>
   <tr>
     <th>Page</th>
-    <th>XAML</th>
+    <th>Code</th>
   </tr>
   <tr>
     <td><img src="../assets/safearea-login-scroll.gif" width="400px"/> </td>
     <td>
+
 **XAML**
 ```diff
 <Page ...
@@ -569,9 +570,10 @@ There are alternative usages of `SafeArea` that may be considered in this situat
 +           )
 +   )
 ```
-    </td>
-    </tr>
-    </table>
+
+</td>
+</tr>
+</table>
 
 2. If you do not want to have the whole page scrollable, you could wrap only the FormPanel `StackPanel` within a `SafeArea` instead of the root `Grid`. This may not always have the best visual effect as can be seen in the demonstration below
 
