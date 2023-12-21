@@ -224,69 +224,68 @@ public MainPage()
 #### [**Padding (default)**](#tab/padding)
 
 Top TabBar:
-# [**XAML**](#tab/xaml)
+**XAML**
 ```diff
 <utu:TabBar Background="Purple"
 +           utu:SafeArea.Insets="Top">
 ```
-# [**C#**](#tab/csharp)
+**C#**
 ```diff
 new TabBar()
     .Background(Colors.Purple)
 +   .SafeArea(SafeArea.InsetMask.Top)
 ```
-***
+
 Bottom TabBar:
-# [**XAML**](#tab/xaml)
+**XAML**
 ```diff
 <utu:TabBar Grid.Row="2"
 +           utu:SafeArea.Insets="Bottom"
             Background="Purple">
 ```
-# [**C#**](#tab/csharp)
+**C#**
 ```diff
 new TabBar()
     .Grid(row: 2)
 +   .SafeArea(SafeArea.InsetMask.Bottom)
     .Background(Colors.Purple)
 ```
-***
+
 
 ![safearea_with_padding_alpha](../assets/safearea_with_padding.png)
 
 #### [**Margin**](#tab/margin)
 
 Top TabBar:
-# [**XAML**](#tab/xaml)
+**XAML**
 ```diff
 <utu:TabBar Background="Purple"
 +           utu:SafeArea.Insets="Top"
 +           utu:SafeArea.Mode="Margin">
 ```
-# [**C#**](#tab/csharp)
+**C#**
 ```diff
 new TabBar()
     .Background(Colors.Purple)
 +   .SafeArea(SafeArea.InsetMask.Top, SafeArea.InsetMode.Margin)
 ```
-***
 
 Bottom TabBar:
-# [**XAML**](#tab/xaml)
+**XAML**
 ```diff
 <utu:TabBar Grid.Row="2"
 +           utu:SafeArea.Insets="Bottom"
 +           utu:SafeArea.Mode="Margin"
             Background="Purple">
 ```
-# [**C#**](#tab/csharp)
+**C#**
 ```diff
 new TabBar()
     .Grid(row: 2)
 +   .SafeArea(SafeArea.InsetMask.Bottom, SafeArea.InsetMode.Margin)
     .Background(Colors.Purple)
 ```
-***
+
 
 ![safearea_with_margin_alpha](../assets/safearea_with_margin.png)
 ***
@@ -319,7 +318,7 @@ Notice in this first example (without `SafeArea` in use) that the Username and P
    <td><img src="../assets/safearea-login-static.gif" width="400px"/> </td>
     <td>
 
-# [**XAML**](#tab/xaml)
+**XAML**
 ```xml
 <Page xmlns:utu="using:Uno.Toolkit.UI" ...>
     <Grid Padding="50,0">
@@ -361,7 +360,7 @@ Notice in this first example (without `SafeArea` in use) that the Username and P
     </Grid>
 </Page>
 ```
-# [**C#**](#tab/csharp)
+**C#**
 ```cs
 new Grid()
     .Padding(new Thickness(50,0,50,0))
@@ -406,7 +405,7 @@ new Grid()
     )
 
 ```
-***
+
 </td>
   </tr>
 </table>
@@ -422,7 +421,7 @@ In this next example, we attempt to have the UI adapt to the keyboard by attachi
    <td><img src="../assets/safearea-login-static.gif" width="400px"/> </td>
     <td>
 
-# [**XAML**](#tab/xaml)
+**XAML**
 ```diff
  <StackPanel Grid.Row="2"
              x:Name="FormPanel"
@@ -450,7 +449,7 @@ In this next example, we attempt to have the UI adapt to the keyboard by attachi
              Margin="0,30" />
  </StackPanel>
 ```
-# [**C#**](#tab/csharp)
+**C#**
 ```diff
 new StackPanel()
     .Grid(row: 2)
@@ -483,7 +482,7 @@ new StackPanel()
             .Margin(new Thickness(0, 30, 0, 30))
     )
 ```
-***
+
 </td>
 </tr>
 </table>
@@ -524,50 +523,49 @@ There are alternative usages of `SafeArea` that may be considered in this situat
 1. Have your own ScrollViewer defined within the XAML and then you can simply wrap that `ScrollViewer` with any container, such as `Grid`, and use the `SafeArea` attached properties on that wrapping container.
 
     <table>
-    <tr>
+      <tr>
         <th>Page</th>
         <th>XAML</th>
-    </tr>
+      </tr>
     <tr>
     <td><img src="../assets/safearea-login-scroll.gif" width="400px"/> </td>
         <td>
-    # [**XAML**](#tab/xaml)
-    ```diff
-    <Page ...
-        xmlns:utu="using:Uno.Toolkit.UI">
-    +    <Grid utu:SafeArea.Insets="SoftInput">
-    +        <ScrollViewer>
-                <Grid Padding="50,0">
-                    <!--  0: Logo, 1: Spacer, 2: FormPanel  -->
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    ...
-    +            </Grid>
-    +        </ScrollViewer>
-        </Grid>
-    </Page>
-    ```
-    # [**C#**](#tab/csharp)
-    ```diff
-    + new Grid()
-    +   .SafeArea(SafeArea.InsetMask.SoftInput)
-    +   .Children(
-    +       new ScrollViewer()
-    +           .Content(
-                    new Grid()
-                        .Padding(new Thickness(50,0,50,0))
-                        // 0: Logo, 1: Spacing, 2: FormPanel
-                        .RowDefinitions("Auto, 40, *")
-                        .Children(
+**XAML**
+```diff
+<Page ...
+    xmlns:utu="using:Uno.Toolkit.UI">
++    <Grid utu:SafeArea.Insets="SoftInput">
++        <ScrollViewer>
+            <Grid Padding="50,0">
+                <!--  0: Logo, 1: Spacer, 2: FormPanel  -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                ...
++            </Grid>
++        </ScrollViewer>
+    </Grid>
+</Page>
+```
+**C#**
+```diff
++ new Grid()
++   .SafeArea(SafeArea.InsetMask.SoftInput)
++   .Children(
++       new ScrollViewer()
++           .Content(
+                new Grid()
+                    .Padding(new Thickness(50,0,50,0))
+                    // 0: Logo, 1: Spacing, 2: FormPanel
+                    .RowDefinitions("Auto, 40, *")
+                    .Children(
                         ...
-                        )
-    +           )
-    +   )
-    ```
-    ***
+                    )
++           )
++   )
+```
     </td>
     </tr>
     </table>

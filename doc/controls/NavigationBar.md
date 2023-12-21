@@ -417,7 +417,7 @@ new NavigationBar()
     .Content("Title")
     .MainCommand(
         new AppBarButton()
-            .Label("BackButtonTitle)
+            .Label("BackButtonTitle")
     )
 ```
 ***
