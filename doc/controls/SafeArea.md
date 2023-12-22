@@ -17,6 +17,7 @@ In some cases, it is acceptable for visible content to be partially obscured (a 
 
 `SafeArea` can be used as a control or as a set of attached properties on another `FrameworkElement`, much like the `ScrollViewer`:
 
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 
@@ -30,6 +31,17 @@ xmlns:utu="using:Uno.Toolkit.UI"
     <!-- Content -->
 </SafeArea>
 ```
+# [**C#**](#tab/csharp)
+```cs
+new Grid()
+    .SafeArea(SafeArea.InsetMask.VisibleBounds)
+    .Children(
+        // Content
+    )
+```
+> [!IMPORTANT]
+> `SafeArea` as control is currently not supported in C# Markup.
+***
 
 > [!WARNING]
 > In most cases, the attached properties and the `SafeArea` control can be used interchangeably. However, be aware that using `SafeArea` as a control while `Insets` contains `InsetMask.SoftInput` will introduce a `ScrollViewer` into the visual tree as the content root of the `SafeArea`. Please refer to the [SoftInput usage section](#using-insetmasksoftinput-for-on-screen-keyboards).
@@ -66,6 +78,7 @@ Here we are using the Toolkit's [`TabBar`](TabBarAndTabBarItem.md) with both the
 
 Given the following XAML, we can see what SafeArea is doing and what the differences are between an `InsetMode` of `Padding` versus `Margin`.
 
+# [**XAML**](#tab/xaml)
 ```xml
 <Page xmlns:utu="using:Uno.Toolkit.UI">
     <Grid>
@@ -88,10 +101,10 @@ Given the following XAML, we can see what SafeArea is doing and what the differe
         </utu:TabBar>
 
         <TextBlock Text="Page Content"
-                    FontSize="30"
-                    Grid.Row="1"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center" />
+                   FontSize="30"
+                   Grid.Row="1"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center" />
 
         <utu:TabBar Grid.Row="2"
                     Background="Purple">
@@ -129,6 +142,80 @@ Given the following XAML, we can see what SafeArea is doing and what the differe
     </Grid>
 </Page>
 ```
+# [**C#**](#tab/csharp)
+```cs
+public MainPage()
+{
+    this.DataContext<BindableMainModel>((page, vm) => page
+        .Content(
+            new Grid()
+                .RowDefinitions("Auto,*,Auto")
+                .Children(
+                    new TabBar()
+                        .Background(Colors.Purple)
+                        .Items(
+                            new TabBarItem()
+                                .Foreground(Colors.White)
+                                .Content("Home"),
+                            new TabBarItem()
+                                .Foreground(Colors.White)
+                                .Content("Search"),
+                            new TabBarItem()
+                                .Foreground(Colors.White)
+                                .Content("Support"),
+                            new TabBarItem()
+                                .Foreground(Colors.White)
+                                .Content("About")
+                        ),
+                    new TextBlock()
+                        .Text("Page Content")
+                        .FontSize(30)
+                        .Grid(row: 1)
+                        .VerticalAlignment(VerticalAlignment.Center)
+                        .HorizontalAlignment(HorizontalAlignment.Center),
+                    new TabBar()
+                        .Grid(row: 2)
+                        .Background(Colors.Purple)
+                        .Items(
+                           new TabBarItem() 
+                                .Foreground(Colors.White)
+                                .Content("Home")
+                                .Icon(
+                                    new FontIcon()
+                                        .Foreground(Colors.White)
+                                        .Glyph("&#xE80F;")
+                                ),
+                            new TabBarItem()
+                                .Foreground(Colors.White)
+                                .Content("Search")
+                                .Icon(
+                                    new FontIcon()
+                                        .Foreground(Colors.White)
+                                        .Glyph("&#xe721;") 
+                                ),
+                             new TabBarItem()
+                                .Foreground(Colors.White)
+                                .Content("Support")
+                                .Icon(
+                                    new FontIcon()
+                                        .Foreground(Colors.White)
+                                        .Glyph("&#xE8F2;") 
+                                ),
+                            new TabBarItem()
+                                .Foreground(Colors.White)
+                                .Content("About")
+                                .Icon(
+                                    new FontIcon()
+                                        .Foreground(Colors.White)
+                                        .Glyph("&#xE946;") 
+                                )
+                        )
+                )
+        )
+    );
+}
+```
+***
 
 #### [**Without SafeArea**](#tab/none)
 
@@ -138,18 +225,34 @@ Given the following XAML, we can see what SafeArea is doing and what the differe
 
 Top TabBar:
 
+**XAML**
 ```diff
 <utu:TabBar Background="Purple"
 +           utu:SafeArea.Insets="Top">
 ```
+**C#**
+```diff
+new TabBar()
+    .Background(Colors.Purple)
++   .SafeArea(SafeArea.InsetMask.Top)
+```
 
 Bottom TabBar:
 
+**XAML**
 ```diff
 <utu:TabBar Grid.Row="2"
 +           utu:SafeArea.Insets="Bottom"
             Background="Purple">
 ```
+**C#**
+```diff
+new TabBar()
+    .Grid(row: 2)
++   .SafeArea(SafeArea.InsetMask.Bottom)
+    .Background(Colors.Purple)
+```
+
 
 ![safearea_with_padding_alpha](../assets/safearea_with_padding.png)
 
@@ -157,23 +260,37 @@ Bottom TabBar:
 
 Top TabBar:
 
+**XAML**
 ```diff
 <utu:TabBar Background="Purple"
 +           utu:SafeArea.Insets="Top"
 +           utu:SafeArea.Mode="Margin">
 ```
+**C#**
+```diff
+new TabBar()
+    .Background(Colors.Purple)
++   .SafeArea(SafeArea.InsetMask.Top, SafeArea.InsetMode.Margin)
+```
 
 Bottom TabBar:
 
+**XAML**
 ```diff
 <utu:TabBar Grid.Row="2"
 +           utu:SafeArea.Insets="Bottom"
 +           utu:SafeArea.Mode="Margin"
             Background="Purple">
 ```
+**C#**
+```diff
+new TabBar()
+    .Grid(row: 2)
++   .SafeArea(SafeArea.InsetMask.Bottom, SafeArea.InsetMode.Margin)
+    .Background(Colors.Purple)
+```
 
 ![safearea_with_margin_alpha](../assets/safearea_with_margin.png)
-
 ***
 
 ### Using `InsetMask.SoftInput` for on-screen keyboards
@@ -204,6 +321,7 @@ Notice in this first example (without `SafeArea` in use) that the Username and P
    <td><img src="../assets/safearea-login-static.gif" width="400px"/> </td>
     <td>
 
+**XAML**
 ```xml
 <Page xmlns:utu="using:Uno.Toolkit.UI" ...>
     <Grid Padding="50,0">
@@ -245,6 +363,51 @@ Notice in this first example (without `SafeArea` in use) that the Username and P
     </Grid>
 </Page>
 ```
+**C#**
+```cs
+new Grid()
+    .Padding(new Thickness(50,0,50,0))
+    // 0: Logo, 1: Spacing, 2: FormPanel
+    .RowDefinitions("Auto, 40, *")
+    .Children(
+        // Logo
+        new Image()
+            .Source("ms-appx:///Assets/uno-logo.png")
+            .VerticalAlignment(VerticalAlignment.Stretch)
+            .HorizontalAlignment(HorizontalAlignment.Stretch),
+        // FormPanel
+        new StackPanel()
+            .Grid(row: 2)
+            .Spacing(20)
+            .Children(
+                new TextBlock()
+                    .Text("Welcome to Uno!")
+                    .HorizontalAlignment(HorizontalAlignment.Center)
+                    .FontSize(35),
+                new PersonPicture()
+                    .ProfilePicture("ms-appx:///Assets/profile.png"),
+                new TextBox()
+                    .PlaceholderText("Username"),
+                new StackPanel()
+                    .Orientation(Orientation.Horizontal)
+                    .Spacing(4)
+                    .Children(
+                        new CheckBox()
+                            .Padding(0)
+                            .MinWidth(0),
+                        new TextBlock()
+                            .Text("Remember me")
+                            .VerticalAlignment(VerticalAlignment.Center)
+                    ),
+                new Button()
+                    .Content("Login")
+                    .VerticalAlignment(VerticalAlignment.Top)
+                    .HorizontalAlignment(HorizontalAlignment.Stretch)
+                    .Margin(new Thickness(0, 30, 0, 30))
+            )
+    )
+
+```
 
 </td>
   </tr>
@@ -255,12 +418,13 @@ In this next example, we attempt to have the UI adapt to the keyboard by attachi
 <table>
   <tr>
     <th>Page</th>
-    <th>XAML</th>
+    <th>Code</th>
   </tr>
   <tr>
    <td><img src="../assets/safearea-login-static.gif" width="400px"/> </td>
     <td>
 
+**XAML**
 ```diff
  <StackPanel Grid.Row="2"
              x:Name="FormPanel"
@@ -287,6 +451,39 @@ In this next example, we attempt to have the UI adapt to the keyboard by attachi
              HorizontalAlignment="Stretch"
              Margin="0,30" />
  </StackPanel>
+```
+**C#**
+```diff
+new StackPanel()
+    .Grid(row: 2)
++   .SafeArea(SafeArea.InsetMask.SoftInput)  
+    .Spacing(20)
+    .Children(
+        new TextBlock()
+            .Text("Welcome to Uno!")
+            .HorizontalAlignment(HorizontalAlignment.Center)
+            .FontSize(35),
+        new PersonPicture()
+            .ProfilePicture("ms-appx:///Assets/profile.png"),
+        new TextBox()
+            .PlaceholderText("Username"),
+        new StackPanel()
+            .Orientation(Orientation.Horizontal)
+            .Spacing(4)
+            .Children(
+                new CheckBox()
+                    .Padding(0)
+                    .MinWidth(0),
+                new TextBlock()
+                    .Text("Remember me")
+                    .VerticalAlignment(VerticalAlignment.Center)
+            ),
+        new Button()
+            .Content("Login")
+            .VerticalAlignment(VerticalAlignment.Top)
+            .HorizontalAlignment(HorizontalAlignment.Stretch)
+            .Margin(new Thickness(0, 30, 0, 30))
+    )
 ```
 
 </td>
@@ -328,37 +525,55 @@ There are alternative usages of `SafeArea` that may be considered in this situat
 
 1. Have your own ScrollViewer defined within the XAML and then you can simply wrap that `ScrollViewer` with any container, such as `Grid`, and use the `SafeArea` attached properties on that wrapping container.
 
-    <table>
-    <tr>
-        <th>Page</th>
-        <th>XAML</th>
-    </tr>
-    <tr>
+<table>
+  <tr>
+    <th>Page</th>
+    <th>Code</th>
+  </tr>
+  <tr>
     <td><img src="../assets/safearea-login-scroll.gif" width="400px"/> </td>
-        <td>
+    <td>
 
-    ```diff
-    <Page ...
-        xmlns:utu="using:Uno.Toolkit.UI">
-    +    <Grid utu:SafeArea.Insets="SoftInput">
-    +        <ScrollViewer>
-                <Grid Padding="50,0">
-                    <!--  0: Logo, 1: Spacer, 2: FormPanel  -->
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    ...
-    +            </Grid>
-    +        </ScrollViewer>
-        </Grid>
-    </Page>
-    ```
+**XAML**
+```diff
+<Page ...
+    xmlns:utu="using:Uno.Toolkit.UI">
++    <Grid utu:SafeArea.Insets="SoftInput">
++        <ScrollViewer>
+            <Grid Padding="50,0">
+                <!--  0: Logo, 1: Spacer, 2: FormPanel  -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                ...
++            </Grid>
++        </ScrollViewer>
+    </Grid>
+</Page>
+```
+**C#**
+```diff
++ new Grid()
++   .SafeArea(SafeArea.InsetMask.SoftInput)
++   .Children(
++       new ScrollViewer()
++           .Content(
+                new Grid()
+                    .Padding(new Thickness(50,0,50,0))
+                    // 0: Logo, 1: Spacing, 2: FormPanel
+                    .RowDefinitions("Auto, 40, *")
+                    .Children(
+                        ...
+                    )
++           )
++   )
+```
 
-    </td>
-    </tr>
-    </table>
+</td>
+</tr>
+</table>
 
 2. If you do not want to have the whole page scrollable, you could wrap only the FormPanel `StackPanel` within a `SafeArea` instead of the root `Grid`. This may not always have the best visual effect as can be seen in the demonstration below
 

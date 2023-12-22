@@ -24,6 +24,7 @@ DividerSubHeaderMargin|Thickness|0,4,0,0
 DividerHeight|Double|1
 
 ## Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -36,3 +37,16 @@ xmlns:utu="using:Uno.Toolkit.UI"
 			 SubHeaderForeground="Black" />
 <TextBlock Text="Asd" />
 ```
+# [**C#**](#tab/csharp)
+```cs
+new TextBlock()
+	.Text("Asd"),
+new Divider(),
+new TextBlock()
+	.Text("Asd"),
+new Divider()
+	.Foreground(Colors.Gray)
+	.SubHeader("Separator")
+	.SubHeaderForeground(Colors.Black)
+```
+***

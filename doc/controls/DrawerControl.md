@@ -17,20 +17,32 @@ Due to the lack of clipping, this control should be used as a full window-sized 
 public partial class DrawerControl : ContentControl
 ```
 
-### XAML
+### Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <utu:DrawerControl>
     <utu:DrawerControl.Content>
-        content
+        <!-- content -->
     </utu:DrawerControl.Content>
     <utu:DrawerControl.DrawerContent>
-        drawerContent
+        <!-- drawerContent -->
     </utu:DrawerControl.DrawerContent>
 </utu:DrawerControl>
 ```
+# [**C#**](#tab/csharp)
+```cs
+new DrawerControl()
+    .Content(
+        // content
+    )
+    .DrawerContent(
+        // drawerContent
+    )
+```
+***
 
 ### Inheritance 
 Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; DrawerControl
@@ -55,6 +67,7 @@ OpenDirection|DrawerOpenDirection=Right|Gets or sets the direction in which the 
 
 ### Usage
 #### Basic usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:toolkit="using:Uno.UI.Toolkit"
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -68,15 +81,34 @@ xmlns:utu="using:Uno.Toolkit.UI"
     <utu:DrawerControl.DrawerContent>
         <Grid toolkit:VisibleBoundsPadding.PaddingMask="All"
               Padding="16">
-              <!-- Drawer Content... -->
+              <!-- Drawer Content ... -->
               <TextBlock Text="Drawer" />
         </Grid>
     </utu:DrawerControl.DrawerContent>
 </utu:DrawerControl>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new DrawerControl()
+    .Content(
+        // Main Content ...
+        new Frame()
+    )
+    .DrawerContent(
+        new Grid()
+            .VisibleBoundsPadding(PaddingMask.All)
+            .Padding(16)
+            .Children(
+                // DrawerControl ...
+                new TextBlock()
+                    .Text("Drawer")
+            )
+    )
+```
+***
 #### NavigationView with drawer
 The `DrawerControl` can also be used to enhance [`NavigationView` (muxc)](https://docs.microsoft.com/en-us/windows/winui/api/microsoft.ui.xaml.controls.navigationview?view=winui-3.0) with gesture support, using the `DrawerNavigationViewStyle`:
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -97,7 +129,28 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     </muxc:NavigationView.Content>
 </muxc:NavigationView>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new NavigationView()
+    .PaneTitle("Gesture NavView")
+    .OpenPaneLength(320)
+    .DrawerControlBehavior(fitToDrawerContent: false)
+    //TODO Couldnt find Drawer Style
+    .Style(Theme.NavigationView.Styles.Drawer)
+    .MenuItems(
+        new NavigationViewItem()
+            .Content("Home"),
+        new NavigationViewItem()
+            .Content("Page 1"),
+        new NavigationViewItem()
+            .Content("Page 2"),
+        new NavigationViewItem()
+            .Content("Page 3")
+    )
+    .Content(
+        new Frame()
+    )
+```
 From the `NavigationView`, the properties of the `DrawerControl` can be accessed through the same/similarly named properties or via attached properties:
 
 DrawerControl|NavigationView

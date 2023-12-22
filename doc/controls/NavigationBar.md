@@ -16,14 +16,19 @@ This document highlights some of the differences you might encounter when workin
 public partial class NavigationBar : ContentControl
 ```
 
-### XAML
+### Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <utu:NavigationBar .../>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+```
+***
 ### Inheritance 
 Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; NavigationBar
 
@@ -50,11 +55,16 @@ Under the hood, this mode uses a custom-styled `CommandBar`. It is templatable a
 ![](../assets/navbar-windows-page2.png)
 
 #### Usage Example
-
+# [**XAML**](#tab/xaml)
 ```xml
 <Style TargetType="utu:NavigationBar" BasedOn="{StaticResource XamlDefaultNavigationBar}" />
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new Style<NavigationBar>()
+    .BasedOn("XamlDefaultNavigationBar")
+```
+***
 ### Native
 
 This mode is the default for Android and iOS. It uses platform-specific controls to ensure a more native user experience.
@@ -78,11 +88,16 @@ This mode is the default for Android and iOS. It uses platform-specific controls
 The rest of this document will exclusively cover the native mode.
 
 #### Usage Example
-
-```cs
+# [**XAML**](#tab/xaml)
+```xml
 <Style TargetType="NavigationBar" BasedOn="{StaticResource NativeDefaultNavigationBar}" />
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new Style<NavigationBar>()
+    .BasedOn("NativeDefaultNavigationBar")
+```
+***
 Remarks:
 
 In this mode, the `NavigationBar` can't be fully customized like other templatable controls would. Additionally, you can't customize the visual states of either the `NavigationBar` or its `AppBarButtons`.
@@ -140,19 +155,34 @@ When `Content` is a `string`, it's displayed using the platform's default font f
 
 ![](../assets/navbar-ios-content-string.png)
 
+# [**XAML**](#tab/xaml)
 ```xml
 <utu:NavigationBar Content="Title">
 	<utu:NavigationBar.PrimaryCommands>
 		<AppBarButton Label="Share">
 			<AppBarButton.Icon>
 				<BitmapIcon ShowAsMonochrome="False"
-							UriSource="ms-appx:///Assets/Share.png" />
+							      UriSource="ms-appx:///Assets/Share.png" />
 			</AppBarButton.Icon>
 		</AppBarButton>
 	</utu:NavigationBar.PrimaryCommands>
 </utu:NavigationBar>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content("Title")
+    .PrimaryCommands(
+        new AppBarButton()
+            .Label("Share")
+            .Icon(
+                new BitmapIcon()
+                    .ShowAsMonochrome(false)
+                    .UriSource(new Uri("ms-appx:///Assets/Share.png"))
+            )
+    )
+```
+***
 
 | Platform | FontFamily    | FontSize | HorizontalAlignment |
 |----------|---------------|----------|---------------------|
@@ -170,23 +200,39 @@ When `Content` is a `FrameworkElement`, it's displayed within the available area
 ![](../assets/navbar-android-content-fe.png)
 
 ![](../assets/navbar-ios-content-fe.png)
-
+# [**XAML**](#tab/xaml)
 ```xml
 <utu:NavigationBar>
   	<utu:NavigationBar.Content>
-    <TextBox />
+      <TextBox />
 	</utu:NavigationBar.Content>
 	<utu:NavigationBar.PrimaryCommands>
 		<AppBarButton Label="Share">
 			<AppBarButton.Icon>
 				<BitmapIcon ShowAsMonochrome="False"
-							UriSource="ms-appx:///Assets/Share.png" />
+							      UriSource="ms-appx:///Assets/Share.png" />
 			</AppBarButton.Icon>
 		</AppBarButton>
 	</utu:NavigationBar.PrimaryCommands>
 </utu:NavigationBar>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content(
+        new TextBox()
+    )
+    .PrimaryCommands(
+        new AppBarButton()
+            .Label("Share")
+            .Icon(
+                new BitmapIcon()
+                    .ShowAsMonochrome(false)
+                    .UriSource(new Uri("ms-appx:///Assets/Share.png"))
+            )
+    )
+```
+***
 
 Please note that:
 * `HorizontalContentAlignment` and `VerticalContentAlignment` are ignored.
@@ -200,12 +246,20 @@ Gets or sets a `Brush` that describes the foreground color.
 
 ![](../assets/navbar-ios-fg.png)
 
+# [**XAML**](#tab/xaml)
 ```xml
 <utu:NavigationBar Content="Title"
                    Foreground="Red">
                    ...
 </utu:NavigationBar>
 ```
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content("Title")
+    .Foreground(Colors.Red)
+```
+***
 
 Remarks:
 
@@ -221,18 +275,34 @@ Gets the collection of primary command elements for the `NavigationBar`.
 
 ![](../assets/navbar-ios-primary.png)
 
+# [**XAML**](#tab/xaml)
 ```xml
 <utu:NavigationBar Content="Title">
 	<utu:NavigationBar.PrimaryCommands>
 		<AppBarButton Label="Search">
 			<AppBarButton.Icon>
 				<BitmapIcon ShowAsMonochrome="False"
-							UriSource="ms-appx:///Assets/Search.png" />
+							      UriSource="ms-appx:///Assets/Search.png" />
 			</AppBarButton.Icon>
 		</AppBarButton>
 	</utu:NavigationBar.PrimaryCommands>
 </utu:NavigationBar>
 ```
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content("Title")
+    .PrimaryCommands(
+        new AppBarButton()
+            .Label("Stretch")
+            .Icon(
+                new BitmapIcon()
+                    .ShowAsMonochrome(false)
+                    .UriSource(new Uri("ms-appx:///Assets/Search.png"))
+            )
+    )
+```
+***
 
 Remarks:
 
@@ -248,6 +318,7 @@ Gets the collection of secondary command elements for the `NavigationBar`.
 
 ![](../assets/navbar-android-secondary-open.png)
 
+# [**XAML**](#tab/xaml)
 ```xml
 <utu:NavigationBar Content="Title">
 	<utu:NavigationBar.SecondaryCommands>
@@ -257,7 +328,20 @@ Gets the collection of secondary command elements for the `NavigationBar`.
 	</utu:NavigationBar.SecondaryCommands>
 </utu:NavigationBar>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content("Title")
+    .SecondaryCommands(
+        new AppBarButton()
+            .Label("Item 1"),
+        new AppBarButton()
+            .Label("Item 2"),
+        new AppBarButton()
+            .Label("Item 3")
+    )
+```
+***
 Remarks:
 
 * Not supported on **iOS**. 
@@ -319,6 +403,7 @@ Gets or sets the back button title for the `MainCommand`.
 
 ![](../assets/navbar-ios-back-title.png)
 
+# [**XAML**](#tab/xaml)
 ```xml
 <utu:NavigationBar Content="Title">
 	<utu:NavigationBar.MainCommand>
@@ -326,7 +411,16 @@ Gets or sets the back button title for the `MainCommand`.
 	</utu:NavigationBar.MainCommand>
 </utu:NavigationBar>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content("Title")
+    .MainCommand(
+        new AppBarButton()
+            .Label("BackButtonTitle")
+    )
+```
+***
 Remarks:
 
 Only supported on **iOS**.
@@ -346,6 +440,7 @@ Gets or sets the back button foreground for the `MainCommand`.
 
 ![](../assets/navbar-ios-back-fg.png)
 
+# [**XAML**](#tab/xaml)
 ```xml
 <utu:NavigationBar Content="Title">
 	<utu:NavigationBar.MainCommand>
@@ -353,20 +448,39 @@ Gets or sets the back button foreground for the `MainCommand`.
 	</utu:NavigationBar.MainCommand>
 </utu:NavigationBar>
 ```
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content("Title")
+    .MainCommand(
+        new AppBarButton()
+            .Foreground(Colors.Red)
+    )
+```
+***
 
 OR 
+# [**XAML**](#tab/xaml)
 ```xml
 <Style x:Key="MyCustomAppBarButtonStyle" TargetType="AppBarButton">
   <Setter Property="Foreground"
-            Value="Red" />
+          Value="Red" />
 </Style>
 
-  <Style TargetType="utu:NavigationBar">
-      <Setter Property="MainCommandStyle"
-              Value="{StaticResource MyCustomAppBarButtonStyle}" />
-  </Style>
+<Style TargetType="utu:NavigationBar">
+    <Setter Property="MainCommandStyle"
+            Value="{StaticResource MyCustomAppBarButtonStyle}" />
+</Style>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new Style<NavigationBar>()
+    .Setters(s => s.MainCommandStyle(
+                    new Style<AppBarButton>()
+                        .Setters(s => s.Foreground(Colors.Red))
+    ))
+```
+***
 Remarks:
 
 Only supports `SolidColorBrush`.
@@ -379,6 +493,7 @@ Gets or sets the back button icon for the `MainCommand`.
 
 ![](../assets/navbar-ios-back-icon.png)
 
+# [**XAML**](#tab/xaml)
 ```xml
 <utu:NavigationBar Content="Title">
   <utu:NavigationBar.MainCommand>
@@ -390,7 +505,19 @@ Gets or sets the back button icon for the `MainCommand`.
   </utu:NavigationBar.MainCommand>
 </utu:NavigationBar>
 ```
-
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content("Title")
+    .MainCommand(
+        new AppBarButton()
+            .Icon(
+                new BitmapIcon()
+                    .UriSource(new Uri("ms-appx:///Assets/Close.png"))
+            )
+    )
+```
+***
 
 Remarks:
 
@@ -582,7 +709,7 @@ Remarks:
 # FAQ: NavigationBar
 
 ## How can I remove the back button title from all pages on iOS?
-  
+  # [**XAML**](#tab/xaml)
   ```xml
   xmlns:utu="using:Uno.Toolkit.UI"
   ...
@@ -599,9 +726,20 @@ Remarks:
               Value="{StaticResource MyCustomAppBarButtonStyle}" />
   </Style>
   ```
-
+  # [**C#**](#tab/csharp)
+  ```cs
+  new Style<NavigationBar>()
+      .BasedOn("NavigationBarStyle")
+      .Setters(s => s.MainCommandStyle(
+                      new Style<AppBarButton>()
+                          .BasedOn("AppBarButtonStyle")
+                          .Setters(s => s.Label(""))
+      ))
+  ```
+  ***
 ## How can I change the back button icon/arrow/chevron in my app?
-  
+
+  # [**XAML**](#tab/xaml)
   ```xml
   xmlns:utu="using:Uno.Toolkit.UI"
   ...
@@ -615,9 +753,22 @@ Remarks:
     </utu:NavigationBar.MainCommand>
   </utu:NavigationBar>
   ```
+  # [**C#**](#tab/csharp)
+  ```cs
+  new NavigationBar()
+      .Content("Page Title")
+      .MainCommand(
+          new AppBarButton()
+              .Icon(
+                  new BitmapIcon()
+                      .UriSource(new Uri("ms-appx:///Assets/Back.png"))
+              )
+      )
+  ```
+  ***
 
 ## How can I change the color of the back button?
-
+  # [**XAML**](#tab/xaml)
   ```xml
   xmlns:utu="using:Uno.Toolkit.UI"
   ...
@@ -628,6 +779,17 @@ Remarks:
     </utu:NavigationBar.MainCommand>
   </utu:NavigationBar>  
   ```
+  # [**C#**](#tab/csharp)
+  ```cs
+  new NavigationBar()
+      .Content("Page Title")
+      .MainCommand(
+          new AppBarButton()
+              .Foreground(Colors.Red)
+              .ShowAsMonochrome(false)
+      )
+  ```
+  ***
 
 ## Why does my back button display "Back" on iOS?
   
@@ -653,7 +815,8 @@ Remarks:
 ## How can I add a badge to an AppBarButton?
   
   You can implement your own badge by setting a custom content on `AppBarButton`:
-  
+
+  # [**XAML**](#tab/xaml)
   ```xml
   <AppBarButton>
       <AppBarButton.Content>
@@ -682,20 +845,63 @@ Remarks:
       </AppBarButton.Content>
   </AppBarButton>
   ```
+  # [**C#**](#tab/csharp)
+  ```cs
+  new AppBarButton()
+      .Content(
+          new Grid()
+              .Height(48)
+              .Width(48)
+              .Children(
+                  new Image()
+                      .Source("ms-appx:///Assets/Icons/cart.png")
+                      .VerticalAlignment(VerticalAlignment.Center)
+                      .HorizontalAlignment(HorizontalAlignment.Center),
+                  new Border()
+                      .VerticalAlignment(VerticalAlignment.Top)
+                      .HorizontalAlignment(HorizontalAlignment.Right)
+                      .Background(Colors.Red)
+                      .Margin(new Thickness(8, 4, 8, 4))
+                      .Padding(new Thickness(4, 0, 4, 0))
+                      .MinWidth(16)
+                      .Height(16)
+                      .CornerRadius(new CornerRadius(8))
+                      .Child(
+                          new TextBlock()
+                              .HorizontalAlignment(HorizontalAlignment.Center)
+                              .VerticalAlignment(VerticalAlignment)
+                              .Foreground(Colors.White)
+                              .FontSize(8)
+                              .Text("0")
+                      )
+              )
+      )
+  ```
+  ***
   
 ## How can I set custom content to an AppBarButton?
   
-  You can set a custom content to an `AppBarButton` like this:
-  
-  ```xml
-  <AppBarButton>
-      <AppBarButton.Content>
-          <!-- Custom content goes here -->
-          <TextBlock Text="asd" />
-      </AppBarButton.Content>
-  </AppBarButton>
-  ```
-  
+You can set a custom content to an `AppBarButton` like this:
+# [**XAML**](#tab/xaml)
+```xml
+<AppBarButton>
+    <AppBarButton.Content>
+        <!-- Custom content goes here -->
+        <TextBlock Text="asd" />
+    </AppBarButton.Content>
+</AppBarButton>
+```
+# [**C#**](#tab/csharp)
+```cs
+new AppBarButton()
+    .Content(
+        //Custom content goes here
+        new TextBlock()
+            .Text("asd")
+    )
+```
+***
+
 ## Why does my NavigationBar always appear at the top of the page on iOS?
   
   You can't place your `NavigationBar` anywhere other than at the top of the `Page` on **iOS**. See the **Placement** section for details.
@@ -721,21 +927,35 @@ Remarks:
   `Page` only supports a single `NavigationBar` at a time. To display two `NavigationBar`s side by side (i.e., master-detail), you should place two `Frame`s side by side and put a `NavigationBar` in the `Page` of each `Frame`.
   
 ## How can I add a burger menu to the left of my NavigationBar?
-    
-  ```xml
-  xmlns:utu="using:Uno.Toolkit.UI"
-  ...
-  <utu:NavigationBar>
-      <utu:NavigationBar.MainCommand>
-        <AppBarButton Command="{Binding ToggleMenu}">
-          <AppBarButton.Icon>
-              <BitmapIcon UriSource="ms-appx:///Assets/Icons/menu.png" />
-          </AppBarButton.Icon>
-        </AppBarButton>
-      </utu:NavigationBar.MainCommand>
-  </utu:NavigationBar>
-  ```
-  
+
+# [**XAML**](#tab/xaml)
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+<utu:NavigationBar>
+    <utu:NavigationBar.MainCommand>
+      <AppBarButton Command="{Binding ToggleMenu}">
+        <AppBarButton.Icon>
+            <BitmapIcon UriSource="ms-appx:///Assets/Icons/menu.png" />
+        </AppBarButton.Icon>
+      </AppBarButton>
+    </utu:NavigationBar.MainCommand>
+</utu:NavigationBar>
+```
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .MainCommand(
+        new AppBarButton()
+            .Command(() => vm.ToggleMenu)
+            .Icon(
+                new BitmapIcon()
+                    .UriSource(new Uri("ms-appx:///Assets/Icons/menu.png"))
+            )
+    )
+```
+***
+
 ## Why doesn't Flyout work on my AppBarButton?
   
   `AppBarButton` doesn't currently support `Flyout` when using `NavigationBar` in native mode. You can use `MenuFlyout` instead.
@@ -775,19 +995,29 @@ Remarks:
   
 ## How can I customize the font of the NavigationBar title/content?
   
-  To customize the font of the `NavigationBar`'s title, you must set a custom `FrameworkElement` as the `Content` of your `NavigationBar`:
-  
-  ```xml
-  xmlns:utu="using:Uno.Toolkit.UI"
-  ...
-  <utu:NavigationBar>
-      <utu:NavigationBar.Content>
-          <TextBlock Text="Title"
-                     FontFamily="{StaticResource CustomFontFamily}" />
-      </utu:NavigationBar.Content>
-  </utu:NavigationBar>
-  ```
-  
+To customize the font of the `NavigationBar`'s title, you must set a custom `FrameworkElement` as the `Content` of your `NavigationBar`:
+# [**XAML**](#tab/xaml)
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+<utu:NavigationBar>
+    <utu:NavigationBar.Content>
+        <TextBlock Text="Title"
+                    FontFamily="{StaticResource CustomFontFamily}" />
+    </utu:NavigationBar.Content>
+</utu:NavigationBar>
+```
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content(
+        new TextBlock()
+            .Text("Title")
+            .FontFamily(StaticResource.Get<FontFamily>("CustomFontFamily"))
+    )
+```
+***
+
 ## Why doesn't my NavigationBar scroll when placed inside a ScrollViewer on iOS?
   
   `NavigationBar` can't be placed inside a `ScrollViewer`. It must be anchored to the top of your `Page` at all times. Please refer to the **Placement** section for details.
@@ -810,37 +1040,64 @@ Remarks:
   
 ## Why doesn't my AppBarToggleButton work?
   
-  `AppBarToggleButton` is not currently supported.
-  
-  To implement a similar effect, you can bind your `AppBarButton`'s icon to a state using a converter:
-  
-  ```xml
-  xmlns:utu="using:Uno.Toolkit.UI"
-  ...
-  <utu:NavigationBar>
-      <AppBarButton Command="{Binding ToggleIsFavorite}">
-          <AppBarButton.Icon>
-              <BitmapIcon UriSource="{Binding IsFavorite, Converter={StaticResource IsFavoriteToStarIcon}}" />
-          </AppBarButton.Icon>
-      </AppBarButton>
-  </utu:NavigationBar>
-  ```
+`AppBarToggleButton` is not currently supported.
+
+To implement a similar effect, you can bind your `AppBarButton`'s icon to a state using a converter:
+# [**XAML**](#tab/xaml)
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+<utu:NavigationBar>
+    <AppBarButton Command="{Binding ToggleIsFavorite}">
+        <AppBarButton.Icon>
+            <BitmapIcon UriSource="{Binding IsFavorite, Converter={StaticResource IsFavoriteToStarIcon}}" />
+        </AppBarButton.Icon>
+    </AppBarButton>
+</utu:NavigationBar>
+```
+# [**C#**](#tab/csharp)
+```cs
+new NavigationBar()
+    .Content(
+      new AppBarButton()
+          .Command(()=> vm.ToggleIsFavorite)
+          .Icon(
+              new BitmapIcon()
+                  // TODO: is this correct?
+                  .UriSource(() => vm.IsFavorite, isFavorite => isFavorite ? new Uri("ms-appx:///Assets/Icons/filled_star.png") : new Uri("ms-appx:///Assets/Icons/outlined_star.png"))
+          )
+    )
+```
+***
   
 ## How can I show an image under my NavigationBar?
   
-  You can show an image under a `NavigationBar` by making its background transparent and superposing it over an `Image`:
-  
-  ```xml
-  xmlns:utu="using:Uno.Toolkit.UI"
-  ...
-  <Grid>
-      <Image Source="http://www.example.com/image.png">
-      <utu:NavigationBar Background="Transparent"
-                  VerticalAlignment="Top" />
-  </Grid>
-  ```
-  
-  ![](assets/NavigationBar/ios/transparent.png)
+You can show an image under a `NavigationBar` by making its background transparent and superposing it over an `Image`:
+
+# [**XAML**](#tab/xaml)
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+<Grid>
+    <Image Source="http://www.example.com/image.png" />
+    <utu:NavigationBar Background="Transparent"
+                       VerticalAlignment="Top" />
+</Grid>
+```
+# [**C#**](#tab/csharp)
+```cs
+new Grid()
+    .Children(
+        new Image()
+            .Source("http://www.example.com/image.png"),
+        new NavigationBar()
+            .Background(Colors.Transparent)
+            .VerticalAlignment(VerticalAlignment.Top)
+    )
+```
+***
+
+![](assets/NavigationBar/ios/transparent.png)
   
 ## What size should my AppBarButton icons be?
   
@@ -848,24 +1105,37 @@ Remarks:
   
 ## Why does my back button icon change when swiping back on iOS?
   
-  This can happen when navigating between two pages with `NavigationBar`s using different `MainCommand.Icon`s
-  
-  To avoid this issue, please make sure that all `NavigationBar`s use the same `BitmapIcon` for their `MainCommand.Icon` by using a style:
-  
-  ```xml
-  xmlns:utu="using:Uno.Toolkit.UI"
-  ...
-  <Style x:Key="MyCustomMainCommandStyle" TargetType="AppBarButton">
-    <Setter Property="Icon">
-      <Setter.Value>
-        <BitmapIcon UriSource="ms-appx:///Assets/Icons/back.png" />
-      </Setter.Value>
-    </Setter>
-  </Style>
+This can happen when navigating between two pages with `NavigationBar`s using different `MainCommand.Icon`s
 
-  <Style TargetType="utu:NavigationBar">
-      <Setter Property="MainCommandStyle"
-              Value="{StaticResource MyCustomMainCommandStyle}" />
-      </Setter>
-  </Style>
-  ```
+To avoid this issue, please make sure that all `NavigationBar`s use the same `BitmapIcon` for their `MainCommand.Icon` by using a style:
+
+# [**XAML**](#tab/xaml)
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+<Style x:Key="MyCustomMainCommandStyle" TargetType="AppBarButton">
+  <Setter Property="Icon">
+    <Setter.Value>
+      <BitmapIcon UriSource="ms-appx:///Assets/Icons/back.png" />
+    </Setter.Value>
+  </Setter>
+</Style>
+
+<Style TargetType="utu:NavigationBar">
+    <Setter Property="MainCommandStyle"
+            Value="{StaticResource MyCustomMainCommandStyle}" />
+    </Setter>
+</Style>
+```
+# [**C#**](#tab/csharp)
+```cs
+new Style<NavigationBar>()
+    .Setters(x => x.MainCommandStyle(
+        new Style<AppBarButton>()
+            .Setters(s => s.Icon(
+                new BitmapIcon()
+                    .UriSource(new Uri("ms-appx:///Assets/Icons/back.png"))
+            ))
+    ))
+```
+***

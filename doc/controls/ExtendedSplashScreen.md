@@ -15,17 +15,17 @@ SplashIsEnabled|bool|Gets a value that determines whether native splash is to be
 
 
 ## Usage
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
-<!-- example -->
 <utu:ExtendedSplashScreen x:Name="Splash"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Platforms="Android,iOS,Windows">
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch"
+                          Platforms="Android,iOS,Windows">
     <utu:ExtendedSplashScreen.LoadingContentTemplate>
         <DataTemplate>
             <Grid>
@@ -35,13 +35,36 @@ xmlns:utu="using:Uno.Toolkit.UI"
                 </Grid.RowDefinitions>
 
                 <ProgressRing IsActive="True"
-                            Grid.Row="1"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Height="100"
-                            Width="100" />
+                              Grid.Row="1"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Height="100"
+                              Width="100" />
             </Grid>
         </DataTemplate>
     </utu:ExtendedSplashScreen.LoadingContentTemplate>
 </utu:ExtendedSplashScreen>
 ```
+# [**C#**](#tab/csharp)
+```cs
+new ExtendedSplashScreen()
+    .HorizontalAlignment(HorizontalAlignment.Stretch)
+    .VerticalAlignment(VerticalAlignment.Stretch)
+    .HorizontalContentAlignment(HorizontalAlignment.Stretch)
+    .VerticalContentAlignment(VerticalAlignment.Stretch)
+    .Platforms(//TODO how to add multiple choices?)
+    .LoadingContentTemplate(() =>
+        new Grid()
+            .RowDefinitions("2*, Auto")
+            .Children(
+                new ProgressRing()
+                    .IsActive(true)
+                    .Grid(row: 1)
+                    .VerticalAlignment(VerticalAlignment.Center)
+                    .HorizontalAlignment(HorizontalAlignment.Center)
+                    .Height(100)
+                    .Width(100)
+            )
+    )
+```
+***

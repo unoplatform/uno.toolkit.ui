@@ -8,6 +8,7 @@ uid: Toolkit.Controls.DrawerFlyoutPresenter
 ## Properties
 ### Remarks
 All of the properties below can be used both as a dependency property or as an attached property, much like the `ScrollViewer` properties:
+# [**XAML**](#tab/xaml)
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 
@@ -25,6 +26,22 @@ xmlns:utu="using:Uno.Toolkit.UI"
                            LightDismissOverlayBackground="#80808080"
                            IsGestureEnabled="True" />
 ```
+# [**C#**](#tab/csharp)
+```cs
+new Style<FlyoutPresenter>()
+    .BasedOn("DrawerFlyoutPresenterStyle")
+    .Setters(s => s.DrawerFlyoutPresenter(x => x.OpenDirection(DrawerOpenDirection.Up)))
+    .Setters(s => s.DrawerFlyoutPresenter(x => x.LightDismissOverlayBackground("#80808080")))
+    .Setters(s => s.DrawerFlyoutPresenter(x => x.IsGestureEnabled(true)))
+// and/or
+new DrawerFlyoutPresenter()
+    .OpenDirection(DrawerOpenDirection.Up)
+    .LightDismissOverlayBackground("#80808080")
+    .IsGestureEnabled(true)
+```
+> [!IMPORTANT]
+> `DrawerLength` is currently not supported in C# Markup.
+***
 
 > [!IMPORTANT]
 > There is currently a bug on windows that prevents the usage of attached property style setters. The workaround is to add the following code in your application:
@@ -88,6 +105,7 @@ To use this, simply use a `Flyout` with `Placement="Full"` and one of the follow
 - `BottomDrawerFlyoutPresenterStyle` (OpenDirection=Up)
 
 Example:
+# [**XAML**](#tab/xaml)
 ```xml
 <Button Content="Bottom Drawer"
         xmlns:toolkit="using:Uno.UI.Toolkit">
@@ -103,11 +121,35 @@ Example:
     </Button.Flyout>
 </Button>
 ```
+# [**C#**](#tab/csharp)
+```cs
+new Button()
+    .Flyout(
+        new Flyout()
+            .Placement(FlyoutPlacementMode.Full)
+            //TODO couldn't find BottomDrawer style
+            .FlyoutPresenterStyle(Theme.FlyoutPresenter.Styles.BottomDrawer)
+            .Content(
+                new StackPanel()
+                    .VisibleBoundsPadding(PaddingMask.All)
+                    .Background(Colors.SkyBlue)
+                    .MinHeight(200)
+                    .Children(
+                        new TextBlock()
+                            .Text("text"),
+                        new Button()
+                            .Content("button")
+                    )
+            )
+    )
+```
+***
 > [!NOTE]
 > Here `VisibleBoundsPadding.PaddingMask` is used to prevent the content from being placed outside of the user-interactable area on mobile devices.
 
 ### Extended Use Cases
 - Rounded Corner
+    # [**XAML**](#tab/xaml)
     ```xml
     <Flyout Placement="Full">
         <Flyout.FlyoutPresenterStyle>
@@ -120,8 +162,27 @@ Example:
         </Border>
     </Flyout>
     ```
+    # [**C#**](#tab/csharp)
+    ```cs
+    new Flyout()
+        .Placement(FlyoutPlacementMode.Full)
+        .FlyoutPresenterStyle(
+            new Style<FlyoutPresenter>()
+                .BasedOn("BottomDrawerFlyoutPresenterStyle")
+                .Setters(s => s.CornerRadius(new CornerRadius(16, 16, 0, 0)))
+        )
+        .Content(
+            new Border()
+                .VisibleBoundsPadding(PaddingMask.All)
+                .Padding(new Thickness(16, 16, 0, 0))
+        )
+    ```
+    ***
+
     > remarks: `Padding` is used on the flyout content to avoid content being clipped.
+
 - Custom background
+    # [**XAML**](#tab/xaml)
     ```xml
     <Flyout Placement="Full">
         <Flyout.FlyoutPresenterStyle>
@@ -134,8 +195,29 @@ Example:
         </Border>
     </Flyout>
     ```
+    # [**C#**](#tab/csharp)
+    ```cs
+    new Flyout()
+        .Placement(FlyoutPlacementMode.Full)
+        .FlyoutPresenterStyle(
+            new Style<FlyoutPresenter>()
+                .BasedOn("BottomDrawerFlyoutPresenterStyle")
+                .Setters(s => s.Background(Colors.SkyBlue))
+        )
+        .Content(
+            new Border()
+                .VisibleBoundsPadding(PaddingMask.All)
+                .Padding(new Thickness(16, 16, 0, 0))
+        )
+    ```
+    ***
     > remarks: Avoid setting `Background` directly on the flyout content:
     > ```xml
     > <Border toolkit:VisibleBoundsPadding.PaddingMask="All" Background="SkyBlue">
+    > ```
+    > ```cs
+    > new Border()
+    >     .Placement(FlyoutPlacementMode.Full)
+    >     .Background(Colors.SkyBlue)
     > ```
     > Instead, `Background` should be set from style setter to avoid edge bleeding on certain platforms, and to avoid default background being painted on the rounded corners.
