@@ -508,6 +508,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 Key|Type|Value
 -|-|-
 NavigationTabBarWidthOrHeight|Double|80
+NavigationTabBarTintOpacity|Double|0.8
 NavigationTabBarItemIconHeight|Double|18
 NavigationTabBarItemActiveIndicatorWidth|Double|64
 NavigationTabBarItemActiveIndicatorHeight|Double|32
@@ -659,3 +660,4 @@ NavigationTabBarForegroundSelected|SolidColorBrush|OnSurfaceBrush
 NavigationTabBarForegroundSelectedPointerOver|SolidColorBrush|OnSurfaceBrush
 NavigationTabBarForegroundSelectedPressed|SolidColorBrush|OnSurfaceBrush
 NavigationTabBarBorderBrush|SolidColorBrush|SystemControlTransparentBrush
+NavigationTabBarTintBrush|SolidColorBrush|SurfaceTintColor@NavigationTabBarTintOpacity
