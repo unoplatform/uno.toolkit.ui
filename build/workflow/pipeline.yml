@@ -45,10 +45,22 @@ variables:
   IsCanaryBranch: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries/')]
   IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
 
-jobs:
-- template: stage-build-packages.yml
-- template: stage-uitests-wasm.yml
-- template: stage-build-ios.yml
-- template: stage-build-android.yml
-- template: stage-uitests-ios.yml
-- template: stage-uitests-android.yml
+stages:
+- stage: Validations
+  displayName: Validations
+  jobs:
+  - template: stage-validations.yml
+
+- stage: Packages
+  dependsOn: Validations
+  jobs:
+  - template: stage-build-packages.yml
+
+- stage: Tests
+  dependsOn: Validations
+  jobs:
+  - template: stage-uitests-wasm.yml
+  - template: stage-build-ios.yml
+  - template: stage-uitests-ios.yml
+  - template: stage-build-android.yml
+  - template: stage-uitests-android.yml

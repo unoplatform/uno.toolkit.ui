@@ -2,12 +2,15 @@
 uid: Toolkit.Controls.DrawerFlyoutPresenter
 ---
 # DrawerFlyoutPresenter
+
 ## Summary
+
 `DrawerFlyoutPresenter` is a special `ContentPresenter` to be used in the template of a `FlyoutPresenter` to enable gesture support.
 
-## Properties
-### Remarks
+## Remarks
+
 All of the properties below can be used both as a dependency property or as an attached property, much like the `ScrollViewer` properties:
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 
@@ -55,7 +58,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </win:Style>
 ```
 
-### Properties
+## Properties
+
 Property|Type|Description
 -|-|-
 OpenDirection|DrawerOpenDirection=`Up`|Gets or sets the direction in which the drawer opens toward.<br/>note: The position of drawer when opened is the opposite of this value.
@@ -64,7 +68,9 @@ LightDismissOverlayBackground|Brush|Gets or sets the brush used to paint the lig
 IsGestureEnabled|bool=`true`|Get or sets a value that indicates whether the user can interact with the control using gesture.
 
 notes:
+
 - For DrawerLength, this value has 3 mode based on `GridUnitType`:
+
     ```xml
     <Style TargetType="FlyoutPresenter">
         <Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="Auto" />
@@ -75,19 +81,23 @@ notes:
     <DrawerFlyoutPresenter DrawerLength="0.66*" />
     <DrawerFlyoutPresenter DrawerLength="150" />
     ```
-    - `GridUnitType.Auto`: Fit to flyout content.
-    - `GridUnitType.Star`: At given ratio of screen/flyout width or height. Valid range is between 0* and 1*, excluding 0* itself.
-    - `GridUnitType.Pixel`: Fixed at the given value.
 
-## Usage
+  - `GridUnitType.Auto`: Fit to flyout content.
+  - `GridUnitType.Star`: At given ratio of screen/flyout width or height. Valid range is between 0* and 1*, excluding 0* itself. <!-- markdownlint-disable-line MD037 -->
+  - `GridUnitType.Pixel`: Fixed at the given value.
+
+### Usage
+
 To use this, simply use a `Flyout` with `Placement="Full"` and one of the followings as the `FlyoutPresenterStyle`:
 > note: The name prefix here indicates the initial position of the drawer (where it opens from). The open animation direction (`OpenDirection`) is the opposite.
+
 - `LeftDrawerFlyoutPresenterStyle` (OpenDirection=Right)
 - `TopDrawerFlyoutPresenterStyle` (OpenDirection=Down)
 - `RightDrawerFlyoutPresenterStyle` (OpenDirection=Left)
 - `BottomDrawerFlyoutPresenterStyle` (OpenDirection=Up)
 
 Example:
+
 ```xml
 <Button Content="Bottom Drawer"
         xmlns:toolkit="using:Uno.UI.Toolkit">
@@ -103,11 +113,14 @@ Example:
     </Button.Flyout>
 </Button>
 ```
+
 > [!NOTE]
 > Here `VisibleBoundsPadding.PaddingMask` is used to prevent the content from being placed outside of the user-interactable area on mobile devices.
 
 ### Extended Use Cases
+
 - Rounded Corner
+
     ```xml
     <Flyout Placement="Full">
         <Flyout.FlyoutPresenterStyle>
@@ -120,8 +133,10 @@ Example:
         </Border>
     </Flyout>
     ```
+
     > remarks: `Padding` is used on the flyout content to avoid content being clipped.
 - Custom background
+
     ```xml
     <Flyout Placement="Full">
         <Flyout.FlyoutPresenterStyle>
@@ -134,8 +149,11 @@ Example:
         </Border>
     </Flyout>
     ```
+
     > remarks: Avoid setting `Background` directly on the flyout content:
+    >
     > ```xml
     > <Border toolkit:VisibleBoundsPadding.PaddingMask="All" Background="SkyBlue">
     > ```
+    >
     > Instead, `Background` should be set from style setter to avoid edge bleeding on certain platforms, and to avoid default background being painted on the rounded corners.

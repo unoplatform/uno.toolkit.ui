@@ -9,6 +9,7 @@ Provides a way of manipulating the visual states of `Control` with attached prop
 ## Remarks
 
 `VisualStateManager.GoToState` is typically used with `Control` where you would set `<VisualStateManager.VisualStateGroups>` on the root element of the ControlTemplate. Because this class is implemented using the same method, it means that if you are setting `StatesProperty` on an element, the `VisualStateManager.VisualStateGroups` should not be set on the very same element, but its first child:
+
 ```xml
 <Page utu:VisualStateManagerExtensions.States="{Binding OnboardingState, Mode=OneWay}">
     <!-- Wrong -->
@@ -28,9 +29,10 @@ Property|Type|Description
 States|string|Sets the visual states of the control.\*
 
 States\*: The accepted value can be a space, comma or semi-colon separated list of visual state names. eg:
-  - "LoggedIn": just a single state
-  - "LoggedIn, OnMeteredNetwork": two concurrent states from different visual state groups
-  - "Pressed, Selected, PressedSelected": with a combined state
+
+- "LoggedIn": just a single state
+- "LoggedIn, OnMeteredNetwork": two concurrent states from different visual state groups
+- "Pressed, Selected, PressedSelected": with a combined state
 
 ## Usage
 

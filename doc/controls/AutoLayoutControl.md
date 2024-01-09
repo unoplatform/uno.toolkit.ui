@@ -4,14 +4,14 @@ uid: Toolkit.Controls.AutoLayoutControl
 
 # AutoLayout
 
-> [!TIP] 
+> [!TIP]
 > This guide covers details for the `AutoLayout` control. If you are just getting started with the Uno Toolkit UI Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 
 ## Summary
 
 `AutoLayout` arranges child elements into a single row or column, depending on the `Orientation` property. The control is intended to reflect the same behaviors as the [AutoLayout Frame component in Figma](https://www.figma.com/widget-docs/api/component-AutoLayout).
 
-### C#
+### C# <!-- markdownlint-disable-line -->
 
 ```csharp
 public partial class AutoLayout : Control
