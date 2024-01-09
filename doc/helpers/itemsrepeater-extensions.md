@@ -29,6 +29,7 @@ SelectionMode|ItemsSelectionMode|Gets or sets the selection behavior: `None`, `S
 ## Usage
 
 View-Model:
+
 ```cs
 private class ViewModel : INotifyPropertyChanged
 {
@@ -43,6 +44,7 @@ private class ViewModel : INotifyPropertyChanged
 ```
 
 Xaml:
+
 ```xml
 <!-- Include the following XAML namespaces to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"

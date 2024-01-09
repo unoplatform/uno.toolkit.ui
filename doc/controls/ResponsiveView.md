@@ -11,22 +11,24 @@ The `ResponsiveView` control adapts to different screen sizes by dynamically cho
 
 **Initialization**: The `ResponsiveHelper` needs to be hooked up to the window's `SizeChanged` event in order for this control to receive updates when the window size changes.
 This is typically done in the `OnLaunched` method in the `App` class, where you can get the current `Window` instance for `ResponsiveHelper.HookupEvent`:
+
 ```cs
 protected override void OnLaunched(LaunchActivatedEventArgs args)
 {
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
-	MainWindow = new Window();
+    MainWindow = new Window();
 #else
-	MainWindow = Microsoft.UI.Xaml.Window.Current;
+    MainWindow = Microsoft.UI.Xaml.Window.Current;
 #endif
 
-	// ...
-	var helper = Uno.Toolkit.UI.ResponsiveHelper.GetForCurrentView();
-	helper.HookupEvent(MainWindow);
+    // ...
+    var helper = Uno.Toolkit.UI.ResponsiveHelper.GetForCurrentView();
+    helper.HookupEvent(MainWindow);
 }
 ```
 
 ## Properties
+
 | Property          | Type             | Description                                             |
 | ----------------- | ---------------- | ------------------------------------------------------- |
 | NarrowestTemplate | DataTemplate     | Template to be displayed on the narrowest screen size.  |
@@ -37,9 +39,11 @@ protected override void OnLaunched(LaunchActivatedEventArgs args)
 | ResponsiveLayout  | ResponsiveLayout | Overrides the screen size threshold/breakpoints.        |
 
 ### ResponsiveLayout
+
 Provides the ability to override the breakpoint for each screen size: `Narrowest`, `Narrow`, `Normal`, `Wide`, and `Widest`.
 
 #### Properties
+
 | Property   | Type   | Description            |
 | ---------- | ------ | ---------------------- |
 | Narrowest  | double | Default value is 150.  |
@@ -49,6 +53,7 @@ Provides the ability to override the breakpoint for each screen size: `Narrowest
 | Widest     | double | Default value is 1080. |
 
 #### Resolution Logics
+
 The layouts whose value(ResponsiveExtension) or template(ResponsiveView) is not provided are first discarded. From the remaining layouts, we look for the first layout whose breakpoint at met by the current screen width. If none are found, the first layout is return regardless of its breakpoint.
 
 Below are the selected layout at different screen width if all layouts are provided:
@@ -143,6 +148,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 > [!NOTE]
 > This `ResponsiveLayout` can also be provided from different locations. In order of precedences, they are:
+>
 > - from the `.ResponsiveLayout` property
 > - in `ResponsiveView`'s parent `.Resources` with `x:Key="DefaultResponsiveLayout"`, or its ancestor's...
 > - in `Application.Resources` with `x:Key="DefaultResponsiveLayout"`

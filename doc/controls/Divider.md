@@ -2,9 +2,11 @@
 uid: Toolkit.Controls.Divider
 ---
 # Divider
+
 A divider is a thin line that groups content in lists and layouts.
 
 ## Properties
+
 Property|Type|Description
 -|-|-
 SubHeader|String|Gets or sets the text of the text below the Divider.
@@ -24,6 +26,7 @@ DividerSubHeaderMargin|Thickness|0,4,0,0
 DividerHeight|Double|1
 
 ## Usage
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -32,7 +35,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <utu:Divider />
 <TextBlock Text="Asd" />
 <utu:Divider Foreground="Gray"
-			 SubHeader="Separator"
-			 SubHeaderForeground="Black" />
+             SubHeader="Separator"
+             SubHeaderForeground="Black" />
 <TextBlock Text="Asd" />
 ```

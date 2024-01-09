@@ -25,6 +25,7 @@ Property|Type|Description
 Path|string|Binding path from the ancestor.
 
 ### Usage
+
 ```cs
 public class ExampleModel
 {
@@ -32,6 +33,7 @@ public class ExampleModel
     public string SomeText { get; } = "Lorem Ipsum";
 }
 ```
+
 ```xml
 <!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -72,6 +74,7 @@ public class ExampleModel
     public string SomeText { get; } = "Lorem Ipsum";
 }
 ```
+
 ```xml
 <!-- Include the following XAML namespace to use the samples below -->
 xmlns:utu="using:Uno.Toolkit.UI"

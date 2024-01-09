@@ -1,10 +1,13 @@
 ---
 uid: Toolkit.Controls.LoadingView
 ---
+
 # LoadingView
+
 Represents a control that indicates that the UI is waiting on a task to complete.
 
 ## Properties
+
 Property|Type|Description
 -|-|-
 Source|ILoadable|Gets and sets the source `ILoadable` associated with this control.
@@ -14,21 +17,26 @@ LoadingContentTemplateSelector|DataTemplateSelector|Gets or sets the template se
 UseTransitions|bool|Gets and sets whether transitions will run when going between states.
 
 ## ILoadable
+
 Describes if this instance is currently in a busy state and notifies subscribers that said state when has changed.
 
 ### Members
+
 Property|Type|Description
 -|-|-
 IsExecuting|bool|Indicates whether the instance is doing work.
 IsExecutingChanged|EventHandler?|Event that fires when the `IsExecuting` state has changed.
 
 ### LoadableSource
+
 Represents an `ILoadable` that forwards the `ILoadable.IsExecuting` state of its Source.
 
 ### CompositeLoadableSource
+
 Represents an `ILoadable` aggregate that is `ILoadable.IsExecuting` when any of its nested Sources is.
 
 ## Usage
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -98,6 +106,7 @@ private class ViewModel : ViewModelBase
 ```
 
 AsyncCommand implements ILoadable to notify the LoadingView of ongoing work:
+
 ```cs
 public class AsyncCommand : ICommand, ILoadable
 {

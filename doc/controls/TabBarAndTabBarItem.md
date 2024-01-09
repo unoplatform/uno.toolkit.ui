@@ -14,7 +14,7 @@ Represents a control that provides a list of `TabItem`s to select from. The `Tab
 
 `TabBarItem` is a specialized `SelectorItem` that includes functionality such as triggering an `ICommand` on click/tap or displaying a flyout.
 
-### C#
+### C# <!-- markdownlint-disable-line -->
 
 ```csharp
 public partial class TabBarItem : SelectorItem
@@ -65,7 +65,7 @@ Click|RoutedEventHandler|Occurs when the `TabBarItem` is pressed.
 
 `TabBar` is a specialized `ItemsControl` used to present a collection of `TabBarItem`s.
 
-### C#
+### C# <!-- markdownlint-disable-line -->
 
 ```csharp
 public partial class TabBar : ItemsControl
@@ -173,11 +173,12 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 The result would be:
 
-![](../assets/tabbar-selection-red.png)
+![TabBar selection](../assets/tabbar-selection-red.png)
 
 ### IndicatorTransitionMode
 
-The selection indicator has two different transition modes: 
+The selection indicator has two different transition modes:
+
 - `IndicatorTransitionMode.Snap` (default mode):
 
   ![TabBar with snap selection](../assets/tabbar-selection-snap.gif)
@@ -209,7 +210,7 @@ By default, the selection indicator is rendered above, on "on top" of, the actua
 </utu:TabBar>
 ```
 
-![](../assets/tabbar-indicator-placement-above.png)
+![TabBar with indication placement above](../assets/tabbar-indicator-placement-above.png)
 
 The `SelectionIndicatorPlacement` property can be used to render the selection indicator "below" the content so it does not obscure the `TabBarItem`:
 
@@ -233,8 +234,7 @@ The `SelectionIndicatorPlacement` property can be used to render the selection i
 </utu:TabBar>
 ```
 
-![](../assets/tabbar-indicator-placement-below.png)
-
+![TabBar with indication placement below](../assets/tabbar-indicator-placement-below.png)
 
 ### Further Customization
 
@@ -244,8 +244,8 @@ If further customization is required, such as custom animations when sliding the
 
 Toolkit provides a barebones default style for `TabBar` and `TabBarItem`. It is recommended to use either:
 
-* [One of the pre-built styles](../controls-styles.md#control-styles) that come packaged within the `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` libraries
-* A custom-built style that is defined within the consuming application
+- [One of the pre-built styles](../controls-styles.md#control-styles) that come packaged within the `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` libraries
+- A custom-built style that is defined within the consuming application
 
 The styles that exist within the Toolkit Theming Libraries are built for the most common scenarios in which a `TabBar` could be used.
 
@@ -270,7 +270,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </utu:TabBar>
 ```
 
-![](../assets/tabbar-android-top.png)
+![TabBar on Android using the ColoredTopTabBarStyle](../assets/tabbar-android-top.png)
 
 ### "Bottom" `TabBar` Style
 
@@ -309,11 +309,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 #### Material
 
-![](../assets/tabbar-android-material-bottom.png)
+![TabBar on Android using the Material Bottom Style](../assets/tabbar-android-material-bottom.png)
 
 #### Cupertino
 
-![](../assets/tabbar-ios-cupertino-bottom.png)
+![TabBar on iOS using the Cupertino Bottom Style](../assets/tabbar-ios-cupertino-bottom.png)
 
 ### "Vertical" `TabBar` Style
 
@@ -352,7 +352,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 #### Material
 
-![](../assets/tabbar-android-material-vertical.png)
+![TabBar on Android using the Material Vertical Style](../assets/tabbar-android-material-vertical.png)
 
 There are some styles that are built specifically for the Cupertino theme. These styles are used to emulate a [`UISegmentedControl`](https://developer.apple.com/documentation/uikit/uisegmentedcontrol)
 
@@ -377,8 +377,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </utu:TabBar>
 ```
 
-![](../assets/tabbar-android-segmented.png)
-![](../assets/tabbar-android-sliding-segmented.png)
+![TabBar on Android using the SegmentedStyle](../assets/tabbar-android-segmented.png)
+![TabBar on Android using the SlidingSegmentedStyle](../assets/tabbar-android-sliding-segmented.png)
 
 ### `TabBarItem` Style
 
@@ -451,8 +451,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </utu:TabBar>
 ```
 
-![](../assets/tabbar-android-material-bottom-fab.png)
-![](../assets/tabbar-android-material-bottom-fab-flyout.png)
+![TabBar on Android using the BottomFabTabBarItemStyle](../assets/tabbar-android-material-bottom-fab.png)
+![TabBar on Android using the BottomFabTabBarItemStyle with flyout opened](../assets/tabbar-android-material-bottom-fab-flyout.png)
 
 #### Badge usage for the Material `TabBar` styles
 
@@ -462,13 +462,13 @@ Badges can contain dynamic information, such as the number of new messages.
 
 Currently, only the Material Theme Toolkit Library contains a `BottomTabBarItemStyle` or `VerticalTabBarItemStyle` that you can use to display a badge (which is optional).
 
-![](../assets/tabbaritem-winui-material-badges.png)
+![TabBar with Badge usage](../assets/tabbaritem-winui-material-badges.png)
 
 ##### Small Badge
 
 A small badge uses only shape to indicate a status change or new notification.
 
-![](../assets/tabbaritem-winui-material-smallbadge.png)
+![TabBar with small Badge](../assets/tabbaritem-winui-material-smallbadge.png)
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -487,7 +487,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 A large badge displays a number within a container to indicate a quantifiable status change related to a destination.
 
-![](../assets/tabbaritem-winui-material-largebadge.png)
+![TabBar with large Badge](../assets/tabbaritem-winui-material-largebadge.png)
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"

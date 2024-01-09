@@ -1,6 +1,7 @@
 ---
 uid: Toolkit.Controls.SafeArea
 ---
+
 # SafeArea
 
 `SafeArea` is a specialized control that overrides the `Padding` or `Margin` properties of its child/attached control to ensure that its inner content is always within the [`ApplicationView.VisibleBounds`](https://docs.microsoft.com/en-us/uwp/api/windows.ui.viewmanagement.applicationview.visiblebounds?view=winrt-22621) rectangle.
@@ -130,11 +131,11 @@ Given the following XAML, we can see what SafeArea is doing and what the differe
 </Page>
 ```
 
-#### [**Without SafeArea**](#tab/none)
+#### [**Without SafeArea**](#tab/none) <!-- markdownlint-disable-line MD051 -->
 
 ![safearea_without_padding_alpha](../assets/safearea_without_padding.png)
 
-#### [**Padding (default)**](#tab/padding)
+#### [**Padding (default)**](#tab/padding) <!-- markdownlint-disable-line MD051 -->
 
 Top TabBar:
 
@@ -153,7 +154,7 @@ Bottom TabBar:
 
 ![safearea_with_padding_alpha](../assets/safearea_with_padding.png)
 
-#### [**Margin**](#tab/margin)
+#### [**Margin**](#tab/margin) <!-- markdownlint-disable-line MD051 -->
 
 Top TabBar:
 
@@ -182,7 +183,7 @@ The `InsetMask.SoftInput` value is used to ensure that the specified area will a
 
 > [!WARNING]
 > Special care must be taken when using `InsetMask.SoftInput` for Android applications. Combining `SafeArea`'s `SoftInput` logic within an Activity whose [`WindowSoftInputMode`](https://developer.android.com/guide/topics/manifest/activity-element#wsoft) is set to `adjustResize` or `adjustPan` may result in undesired behavior, especially when working with text entry controls such as `TextBox` or `PasswordBox`. It is possible to set the `WindowSoftInputMode` to `adjustNothing`. More information on Android specific keyboard behaviors can be found [here](https://developer.android.com/develop/ui/views/touch-and-input/keyboard-input/visibility).
-
+>
 > [!IMPORTANT]
 > While the `SafeArea` attached properties may be used on any `FrameworkElement`, it is strongly recommended that, when using the `InsetMask.SoftInput` flag, you should either:
 >
@@ -201,7 +202,7 @@ Notice in this first example (without `SafeArea` in use) that the Username and P
     <th>XAML</th>
   </tr>
   <tr>
-   <td><img src="../assets/safearea-login-static.gif" width="400px"/> </td>
+   <td><img src="../assets/safearea-login-static.gif" width="400px" alt="SafeArea Login Example"/></td>
     <td>
 
 ```xml
@@ -258,7 +259,7 @@ In this next example, we attempt to have the UI adapt to the keyboard by attachi
     <th>XAML</th>
   </tr>
   <tr>
-   <td><img src="../assets/safearea-login-static.gif" width="400px"/> </td>
+   <td><img src="../assets/safearea-login-static.gif" width="400px" alt="SafeArea Login Example"/></td>
     <td>
 
 ```diff
@@ -301,7 +302,7 @@ The recommended solution in this case would be to use a combination of `SafeArea
     <th>XAML</th>
   </tr>
   <tr>
-   <td><img src="../assets/safearea-login-scroll.gif" width="400px"/> </td>
+   <td><img src="../assets/safearea-login-scroll.gif" width="400px" alt="SafeArea Login Example"/></td>
    <td>
 
 ```diff
@@ -334,7 +335,7 @@ There are alternative usages of `SafeArea` that may be considered in this situat
         <th>XAML</th>
     </tr>
     <tr>
-    <td><img src="../assets/safearea-login-scroll.gif" width="400px"/> </td>
+    <td><img src="../assets/safearea-login-scroll.gif" width="400px" alt="SafeArea Login Example"/></td>
         <td>
 
     ```diff
@@ -368,7 +369,7 @@ There are alternative usages of `SafeArea` that may be considered in this situat
         <th>XAML</th>
     </tr>
     <tr>
-    <td><img src="../assets/safearea-login-scroll-stackpanel.gif" width="400px"/> </td>
+    <td><img src="../assets/safearea-login-scroll-stackpanel.gif" width="400px" alt="SafeArea Login Example"/></td>
         <td>
 
     ```diff

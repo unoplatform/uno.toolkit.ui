@@ -2,6 +2,7 @@
 uid: Toolkit.Controls.ExtendedSplashScreen
 ---
 # ExtendedSplashScreen
+
 Represents a control, derived from [`LoadingView`](xref:Toolkit.Controls.LoadingView) that continues to display the native splash screen for an extended amount of time, allowing the application to fully load the UI. See [`LoadingView`](xref:Toolkit.Controls.LoadingView) for Properties and other Members that are inherited.
 
 ## Properties
@@ -13,8 +14,8 @@ SplashScreen|SplashScreen|Gets or sets the `SplashScreen` entity that's availabl
 Window|Window|Gets or sets the `Window` for the application that is used to size the splash screen
 SplashIsEnabled|bool|Gets a value that determines whether native splash is to be displayed for the current platform at runtime. Note for Android 12+ the native splash screen is always disabled irrespective of the Platforms value.
 
-
 ## Usage
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...

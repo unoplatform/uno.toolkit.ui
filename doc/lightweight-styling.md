@@ -62,9 +62,9 @@ For more information about the lightweight styling resource keys used in each co
 
 ## Resource Extensions
 
-You can use [ResourceExtensions.Resources](helpers/resource-extensions.md) to override the lightweight styling resources of a control or a style. 
+You can use [ResourceExtensions.Resources](helpers/resource-extensions.md) to override the lightweight styling resources of a control or a style.
 
 ### Further Reading
 
- - [Lightweight Styling (Windows Dev Docs)](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling)
- - [Lightweight Styling with Uno Themes](xref:uno.themes.lightweightstyling)
+- [Lightweight Styling (Windows Dev Docs)](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling)
+- [Lightweight Styling with Uno Themes](xref:uno.themes.lightweightstyling)

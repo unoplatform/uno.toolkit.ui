@@ -7,18 +7,22 @@ uid: Toolkit.Controls.Chip
 > This guide covers details for `Chip` and `ChipGroup` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 
 ## Summary
+
 `Chip` is a control that can be used for selection, filtering, or performing an action from a list.
 `ChipGroup` is a container that can house a collection of `Chip`s.
 
 ## Chip
+
 `Chip` is derived from `ToggleButton`, a control that an user can select (check) or deselect (uncheck).
 
-### C#
+### C# <!-- markdownlint-disable-line -->
+
 ```csharp
 public partial class Chip : ToggleButton
 ```
 
 ### XAML
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -27,14 +31,17 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 ### Inheritance
+
 Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; ButtonBase &#8594; ToggleButton &#8594; Chip
 
 ### Constructors
+
 | Constructor | Description                                     |
 |-------------|-------------------------------------------------|
 | Chip()      | Initializes a new instance of the `Chip` class. |
 
 ### Properties
+
 Property|Type|Description
 -|-|-
 CanRemove|bool|Gets or sets whether the remove button is visible.
@@ -45,6 +52,7 @@ RemovedCommand|ICommand|Gets or sets the command to invoke when the remove butto
 RemovedCommandParameter|object|Gets or sets the parameter to pass to the RemovedCommand property.
 
 ### Events
+
 Event|Type|Description
 -|-|-
 Removed|RoutedEventHandler|Occurs when the remove button is pressed.
@@ -62,6 +70,7 @@ sealed class ChipRemovingEventArgs : EventArgs
 ```
 
 ### Usage
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -73,9 +82,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 <!-- with icon -->
 <utu:Chip Content="Chip" Style="{StaticResource MaterialChipStyle}">
-	<utu:Chip.Icon>
-		<Image Source="ms-appx:///Assets/Avatar.png" />
-	</utu:Chip.Icon>
+    <utu:Chip.Icon>
+        <Image Source="ms-appx:///Assets/Avatar.png" />
+    </utu:Chip.Icon>
 </utu:Chip>
 ```
 
@@ -155,14 +164,17 @@ ChipRippleFeedback|SolidColorBrush|OnSurfaceFocusedBrush
 ElevatedChipBackground|SolidColorBrush|SurfaceBrush
 
 ## ChipGroup
+
 `ChipGroup` is a specialized `ItemsControl` used to present a collection of `Chip`s.
 
-### C#
+### C# <!-- markdownlint-disable-line -->
+
 ```csharp
 public partial class ChipGroup : ItemsControl
 ```
 
 ### XAML
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -175,14 +187,17 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 ### Inheritance
+
 Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ItemsControl &#8594; ChipGroup
 
 ### Constructors
+
 | Constructor  | Description                                          |
 |--------------|------------------------------------------------------|
 | ChipGroup()  | Initializes a new instance of the `ChipGroup` class. |
 
 ### Properties
+
 Property|Type|Description
 -|-|-
 CanRemove|bool|Gets or sets the value of each `Chip.CanRemove`.
@@ -193,6 +208,7 @@ SelectionMemberPath|string|Gets or sets the path which each `Chip.IsChecked` is 
 SelectionMode|ChipSelectionMode\*|Gets or sets the selection behavior: `None`, `SingleOrNone`, `Single`, `Multiple` <br/> note: Changing this value will cause `SelectedItem` and `SelectedItems` to be re-coerced.
 
 #### Remarks
+
 - `ChipSelectionMode`: Defines constants that specify the selection behavior for a ChipGroup.
   > Different numbers of selected items are guaranteed: None=0, SingleOrNone=0 or 1, Single=1, Multiple=0 or many.
   - `None`: Selection is disabled.
@@ -201,6 +217,7 @@ SelectionMode|ChipSelectionMode\*|Gets or sets the selection behavior: `None`, `
   - `Multiple`: The current item cannot be deselected.
 
 ### Events
+
 All events below are forwarded from the nested `Chip`s:
 Event|Type|Description
 -|-|-
@@ -227,6 +244,7 @@ class ChipItemRemovingEventHandler : ChipItemEventHandler
 ```
 
 ### Usage
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...

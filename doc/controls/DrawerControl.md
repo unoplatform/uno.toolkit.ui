@@ -3,21 +3,25 @@ uid: Toolkit.Controls.DrawerControl
 ---
 # DrawerControl
 
-> [!TIP] 
+> [!TIP]
 > This guide covers details for `DrawerControl` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 
 ## Summary
+
 `DrawerControl` is a container with two views; one view for the main content, and another view that can be revealed with a swipe gesture.
 
 ## Remarks
+
 Due to the lack of clipping, this control should be used as a full window-sized control or, at least, the side where the drawer opens from should be placed on the edge of the screen.
 
-### C#
+### C# <!-- markdownlint-disable-line -->
+
 ```csharp
 public partial class DrawerControl : ContentControl
 ```
 
 ### XAML
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
@@ -32,15 +36,18 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </utu:DrawerControl>
 ```
 
-### Inheritance 
+### Inheritance
+
 Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; DrawerControl
 
 ### Constructors
+
 | Constructor     | Description                                              |
 |-----------------|----------------------------------------------------------|
 | DrawerControl() | Initializes a new instance of the `DrawerControl` class. |
 
 ### Properties
+
 Property|Type|Description
 -|-|-
 DrawerBackground|Brush|Gets or sets the background of the drawer.
@@ -54,7 +61,9 @@ LightDismissOverlayBackground|Brush|Gets or sets the brush used to paint the lig
 OpenDirection|DrawerOpenDirection=Right|Gets or sets the direction in which the drawer opens toward. <br/>note: The position of the drawer when opened is the opposite of this value.
 
 ### Usage
+
 #### Basic usage
+
 ```xml
 xmlns:toolkit="using:Uno.UI.Toolkit"
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -76,7 +85,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 #### NavigationView with drawer
+
 The `DrawerControl` can also be used to enhance [`NavigationView` (muxc)](https://docs.microsoft.com/en-us/windows/winui/api/microsoft.ui.xaml.controls.navigationview?view=winui-3.0) with gesture support, using the `DrawerNavigationViewStyle`:
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
