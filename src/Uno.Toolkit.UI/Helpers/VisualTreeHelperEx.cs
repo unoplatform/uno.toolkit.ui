@@ -260,16 +260,20 @@ namespace Uno.Toolkit.UI
 				#region Toolkit Control Details
 				if (x is ResponsiveView rv)
 				{
-					yield return $"Responsive: {FormatSize(rv.LastResolved.Size)}@{rv.LastResolved.Layout}->{rv.LastResolved.Result}";
+					yield return rv.LastResolved is { }
+						? $"Responsive: {FormatSize(rv.LastResolved.Size)}@{rv.LastResolved.Layout}->{rv.LastResolved.Result}"
+						: "Responsive: unresolved";
 				}
-#if DEBUG
+#if !WINDOWS_UWP
 				if (ResponsiveExtension.TrackedInstances.Where(y => y.Owner.Target == x).ToArray() is { Length: > 0 } instances)
 				{
 					foreach (var item in instances)
 					{
 						if (item.Extension.Target is ResponsiveExtension re)
 						{
-							yield return $"{item.Property}@Responsive: {FormatSize(re.LastResolved.Size)}@{re.LastResolved.Layout}->{re.LastResolved.Result}\\{re.CurrentValue}";
+							yield return re.LastResolved is { }
+								? $"{item.Property}@Responsive: {FormatSize(re.LastResolved.Size)}@{re.LastResolved.Layout}->{re.LastResolved.Result}\\{re.CurrentValue}"
+								: $"{item.Property}@Responsive: unresolved";
 						}
 					}
 				}
