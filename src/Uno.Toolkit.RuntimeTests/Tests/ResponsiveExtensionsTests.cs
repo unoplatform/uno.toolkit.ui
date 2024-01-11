@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if HAS_UNO || !IS_UWP
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,6 +25,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 [Ignore("blocked by #14620: dynamically loaded MarkupExtension are not initialized.")] // https://github.com/unoplatform/uno/issues/14620
 #elif IS_UWP
 [Ignore("ResponsiveExtension is not supported on UWP.")]
+#else
+// just to be clear, the tests is currently only running on WINUI_DESKTOP
 #endif
 [RunsOnUIThread]
 internal class ResponsiveExtensionsTests
@@ -158,3 +161,4 @@ internal class ResponsiveExtensionsTests
 		Assert.AreEqual(Orientation.Horizontal, sut.Orientation);
 	}
 }
+#endif
