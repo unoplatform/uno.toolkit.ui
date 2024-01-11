@@ -124,15 +124,6 @@ public static partial class Theme
 					public static ThemeResourceKey<Brush> CheckedDisabled => new("ChipForegroundCheckedDisabled");
 				}
 
-				public static partial class CheckGlyph
-				{
-					[ResourceKeyDefinition(typeof(Thickness), "ChipCheckGlyphPadding")]
-					public static ThemeResourceKey<Thickness> Padding => new("ChipCheckGlyphPadding");
-
-					[ResourceKeyDefinition(typeof(double), "ChipCheckGlyphSize")]
-					public static ThemeResourceKey<double> Size => new("ChipCheckGlyphSize");
-				}
-
 				public static partial class Icon
 				{
 					public static partial class Foreground
