@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Windows.Foundation;
 
 #if IS_WINUI
@@ -11,31 +12,52 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.UI;
 
-public partial class ResponsiveView : ContentControl, IResponsiveCallback
+public partial class ResponsiveView : ContentControl
 {
 	public Layout? CurrentLayout { get; private set; }
-	internal (ResponsiveLayout Layout, Size Size, Layout? Result) LastResolved { get; private set; }
+	internal ResolvedLayout? LastResolved { get; private set; }
 
 	public ResponsiveView()
 	{
-		this.DefaultStyleKey = typeof(ResponsiveView);
+		DefaultStyleKey = typeof(ResponsiveView);
 
-		ResponsiveHelper.GetForCurrentView().Register(this);
-
-		Loaded += ResponsiveView_Loaded;
+		Loaded += OnLoaded;
 	}
 
-	private void ResponsiveView_Loaded(object sender, RoutedEventArgs e) => UpdateTemplate(forceApplyValue: true);
+	private void OnLoaded(object sender, RoutedEventArgs e)
+	{
+		if (XamlRoot is null) return;
 
-	public void OnSizeChanged(ResponsiveHelper helper) => UpdateTemplate(helper);
+		UpdateTemplate(forceApplyValue: true);
 
-	private void UpdateTemplate(ResponsiveHelper? helper = null, bool forceApplyValue = false)
+		XamlRoot.Changed -= OnXamlRootPropertyChanged;
+		XamlRoot.Changed += OnXamlRootPropertyChanged;
+	}
+
+	private void OnXamlRootPropertyChanged(XamlRoot sender, XamlRootChangedEventArgs args)
+	{
+		if (sender.Size == LastResolved?.Size) return;
+
+		UpdateTemplate();
+	}
+
+	internal void ForceResponsiveSize(Size size)
+	{
+		var resolved = ResponsiveHelper.ResolveLayout(size, GetAppliedLayout(), GetAvailableLayoutOptions());
+		UpdateTemplate(resolved, forceApplyValue: true);
+	}
+
+	private void UpdateTemplate(bool forceApplyValue = false)
 	{
 		if (!IsLoaded) return;
+		if (XamlRoot is null) return;
+		
+		var resolved = ResponsiveHelper.ResolveLayout(XamlRoot.Size, GetAppliedLayout(), GetAvailableLayoutOptions());
+		UpdateTemplate(resolved, forceApplyValue);
+	}
 
-		helper ??= ResponsiveHelper.GetForCurrentView();
-		var resolved = helper.ResolveLayout(GetAppliedLayout(), GetAvailableLayoutOptions());
-
+	private void UpdateTemplate(ResolvedLayout resolved, bool forceApplyValue = false)
+	{
 		if (forceApplyValue || CurrentLayout != resolved.Result)
 		{
 			Content = GetTemplateFor(resolved.Result)?.LoadContent() as UIElement;
@@ -54,6 +76,7 @@ public partial class ResponsiveView : ContentControl, IResponsiveCallback
 			UI.Layout.Normal => NormalTemplate,
 			UI.Layout.Wide => WideTemplate,
 			UI.Layout.Widest => WidestTemplate,
+
 			_ => null,
 		};
 	}

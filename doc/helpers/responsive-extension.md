@@ -7,29 +7,9 @@ uid: Toolkit.Helpers.ResponsiveExtension
 The `ResponsiveExtension` class is a markup extension that enables the customization of `UIElement` properties based on screen size.
 This functionality provides a dynamic and responsive user interface experience.
 
-## Remarks
-
-**Initialization**: The `ResponsiveHelper` needs to be hooked up to the window's `SizeChanged` event in order for this markup to receive updates when the window size changes.
-This is typically done in the `OnLaunched` method in the `App` class, where you can get the current `Window` instance for `ResponsiveHelper.HookupEvent`:
-
-```cs
-protected override void OnLaunched(LaunchActivatedEventArgs args)
-{
-#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
-    MainWindow = new Window();
-#else
-    MainWindow = Microsoft.UI.Xaml.Window.Current;
-#endif
-
-    // ...
-    var helper = Uno.Toolkit.UI.ResponsiveHelper.GetForCurrentView();
-    helper.HookupEvent(MainWindow);
-}
-```
-
 ## Platform limitation (UWP-desktop)
 
-`ResponsiveExtension` relies on `MarkupExtension.ProvideValue(IXamlServiceProvider)` to find the target control and property for continuous value updates, and to obtain the property type to apply automatic type conversion, as its value properties are parsed as string by the XAML engine. Since this overload is a recent addition exclusive to WinUI, UWP projects targeting Windows won't have access to these features. Uno UWP projects targeting non-Windows platforms do not face this limitation. However, the Windows app may crash or present unexpected behavior if you attempt to use this markup on a non-string property.
+`ResponsiveExtension` relies on `MarkupExtension.ProvideValue(IXamlServiceProvider)` to find the target control and property for continuous value updates, and to obtain the property type to apply automatic type conversion, as its value properties are parsed as `string` by the XAML engine. Since this overload is a recent addition exclusive to WinUI, UWP projects targeting Windows won't have access to these features. Uno UWP projects targeting non-Windows platforms do not face this limitation. However, the Windows app may crash or present unexpected behavior if you attempt to use this markup on a non-`string` property.
 
 ```xml
 <Border Background="{utu:Responsive Narrow=Red, Wide=Blue}"
@@ -137,7 +117,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <Page.Resources>
-    <utu:ResponsiveLayout x:Key="CustomLayout" 
+    <utu:ResponsiveLayout x:Key="CustomLayout"
                           Narrow="400"
                           Wide="800" />
 </Page.Resources>
@@ -147,9 +127,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 > [!NOTE]
-> This `ResponsiveLayout` can also be provided from different locations. In the order of precedences, they are:
+> The `ResponsiveLayout` can also be provided from different locations. In the order of precedences, they are:
 >
 > - from the `Layout` property
 > - in the property owner's parent `.Resources` with `x:Key="DefaultResponsiveLayout"`, or the property owner's parent's parent's...
 > - in `Application.Resources` with `x:Key="DefaultResponsiveLayout"`
-> - from the hardcoded `ResponsiveHelper.Layout`
+> - from the hardcoded `ResponsiveHelper.DefaultLayout` which is defined as [150/300/600/800/1080]

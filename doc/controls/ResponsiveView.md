@@ -9,24 +9,6 @@ The `ResponsiveView` provides the ability to display different content based on 
 
 The `ResponsiveView` control adapts to different screen sizes by dynamically choosing the right template. It looks at the current screen width and the defined templates. Since not all templates need a value, the control ensures a smooth user experience by picking the smallest defined template that satisfies the width requirements. If no match is found, it defaults to the largest defined template.
 
-**Initialization**: The `ResponsiveHelper` needs to be hooked up to the window's `SizeChanged` event in order for this control to receive updates when the window size changes.
-This is typically done in the `OnLaunched` method in the `App` class, where you can get the current `Window` instance for `ResponsiveHelper.HookupEvent`:
-
-```cs
-protected override void OnLaunched(LaunchActivatedEventArgs args)
-{
-#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
-    MainWindow = new Window();
-#else
-    MainWindow = Microsoft.UI.Xaml.Window.Current;
-#endif
-
-    // ...
-    var helper = Uno.Toolkit.UI.ResponsiveHelper.GetForCurrentView();
-    helper.HookupEvent(MainWindow);
-}
-```
-
 ## Properties
 
 | Property          | Type             | Description                                             |
@@ -147,9 +129,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 > [!NOTE]
-> This `ResponsiveLayout` can also be provided from different locations. In order of precedences, they are:
+> The `ResponsiveLayout` can also be provided from different locations. In order of precedences, they are:
 >
 > - from the `.ResponsiveLayout` property
 > - in `ResponsiveView`'s parent `.Resources` with `x:Key="DefaultResponsiveLayout"`, or its ancestor's...
 > - in `Application.Resources` with `x:Key="DefaultResponsiveLayout"`
-> - from the hardcoded `ResponsiveHelper.Layout`
+> - from the hardcoded `ResponsiveHelper.DefaultLayout` which is defined as [150/300/600/800/1080]

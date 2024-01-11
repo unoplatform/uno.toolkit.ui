@@ -22,7 +22,7 @@ public class ResponsiveHelperTests
 	public void When_Resolving_AllLayout()
 	{
 		var layout = DefaultLayout;
-		var options = Enum.GetValues<Layout>();
+		var options = new[] { Layout.Narrowest, Layout.Narrow, Layout.Normal, Layout.Wide, Layout.Widest };
 
 		Assert.AreEqual(Layout.Narrowest, ResponsiveHelper.ResolveLayoutCore(layout, 149, options), "149");
 		Assert.AreEqual(Layout.Narrowest, ResponsiveHelper.ResolveLayoutCore(layout, 150, options), "150"); // breakpoint=Narrowest

@@ -1,10 +1,12 @@
-#if !WINDOWS_UWP
-#define SUPPORTS_XAML_SERVICE_PROVIDER
+#if HAS_UNO
+#define UNO14502_WORKAROUND // https://github.com/unoplatform/uno/issues/14502
 #endif
 
+#if !WINDOWS_UWP
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using Windows.Foundation;
 using Uno.Extensions;
@@ -22,20 +24,16 @@ using static System.Reflection.BindingFlags;
 
 namespace Uno.Toolkit.UI;
 
-#if DEBUG
-public partial class ResponsiveExtension // for debugging
-{
-	// Used by TreeGraph to obtain the ResponsiveExtension(s) declared on the Owner.
-	internal static List<(WeakReference Owner, string Property, WeakReference Extension)> TrackedInstances { get; } = new();
-}
-#endif
-
 /// <summary>
 /// A markup extension that updates a property based on the current window width.
 /// </summary>
-public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
+public partial class ResponsiveExtension : MarkupExtension
 {
 	private static readonly ILogger _logger = typeof(ResponsiveExtension).Log();
+
+#if UNO14502_WORKAROUND
+	private ResponsiveExtension _selfHardReference;
+#endif
 
 	public object? Narrowest { get; set; }
 	public object? Narrow { get; set; }
@@ -45,63 +43,47 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 
 	public ResponsiveLayout? Layout { get; set; }
 
-#if SUPPORTS_XAML_SERVICE_PROVIDER
-	internal WeakReference? TargetWeakRef { get; private set; }
-	private Type? _propertyType;
+	private WeakReference? _targetWeakRef;
 	private DependencyProperty? _targetProperty;
-#endif
+	private Type? _propertyType;
 
 	public Layout? CurrentLayout { get; private set; }
 	internal object? CurrentValue { get; private set; }
-	internal (ResponsiveLayout Layout, Size Size, Layout? Result) LastResolved { get; private set; }
+	internal ResolvedLayout? LastResolved { get; private set; }
 
 	public ResponsiveExtension()
 	{
+#if UNO14502_WORKAROUND
+		_selfHardReference = this;
+#endif
 	}
 
-#if !SUPPORTS_XAML_SERVICE_PROVIDER
-	/// <inheritdoc/>
-	protected override object? ProvideValue()
-	{
-		_logger.WarnIfEnabled(() => "The property value, once initially set, cannot be updated due to UWP limitation. Consider upgrading to WinUI, on which the service provider context is exposed through a ProvideValue overload.");
-		return ResolveValue();
-	}
-#else
 	/// <inheritdoc/>
 	protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
-	{
-		BindToEvents(serviceProvider);
-
-		return ResolveValue();
-	}
-#endif
-
-#if SUPPORTS_XAML_SERVICE_PROVIDER
-	private void BindToEvents(IXamlServiceProvider serviceProvider)
 	{
 		if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget pvt &&
 			pvt.TargetObject is FrameworkElement target &&
 			pvt.TargetProperty is ProvideValueTargetProperty pvtp &&
 			pvtp.DeclaringType.FindDependencyProperty($"{pvtp.Name}Property") is DependencyProperty dp)
 		{
-			TargetWeakRef = new WeakReference(target);
+			_targetWeakRef = new WeakReference(target);
 			_targetProperty = dp;
 			_propertyType = pvtp.Type;
 
-			// here, we need to bind to two events:
-			// 1. Window.SizeChanged for obvious reason
-			// 2. Control.Loaded because the initial value(result of ProvideValue) is resolved without the inherited .resources
-			//		which may define a different DefaultResponsiveLayout resource somewhere along the visual tree, so we need to rectify that.
-			ResponsiveHelper.GetForCurrentView().Register(this);
 			target.Loaded += OnTargetLoaded;
 
-#if DEBUG
-			TrackedInstances.Add((TargetWeakRef, pvtp.Name, new WeakReference(this)));
-#endif
+			TrackedInstances.Add((_targetWeakRef, pvtp.Name, new WeakReference(this)));
+
+			// try to return a somewhat valid value for now
+			return _propertyType?.IsValueType == true
+				? Activator.CreateInstance(_propertyType)
+				: default;
 		}
 		else
 		{
 			this.Log().Error($"Failed to register {nameof(ResponsiveExtension)}");
+
+			return default;
 		}
 	}
 
@@ -109,29 +91,43 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 	{
 		if (TargetWeakRef is { IsAlive: true, Target: FrameworkElement target })
 		{
-			target.Loaded -= OnTargetLoaded;
+			if (target.XamlRoot is null) return;
+
+			target.XamlRoot.Changed -= OnTargetXamlRootPropertyChanged;
+			target.XamlRoot.Changed += OnTargetXamlRootPropertyChanged;
 
 			// Along the visual tree, we may have a DefaultResponsiveLayout defined in the resources which could cause a different value to be resolved.
 			// But because in ProvideValue, the target has not been added to the visual tree yet, we cannot access the "full" .resources yet.
 			// So we need to rectify that here.
-			UpdateBindingIfNeeded(forceApplyValue: true);
+			UpdateBinding(target.XamlRoot, forceApplyValue: true);
 		}
 	}
-#endif
 
-	public void OnSizeChanged(ResponsiveHelper helper) => UpdateBindingIfNeeded(helper);
-
-	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "platform-specific block...")]
-	private void UpdateBindingIfNeeded(ResponsiveHelper? helper = null, bool forceApplyValue = false)
+	private void OnTargetXamlRootPropertyChanged(XamlRoot sender, XamlRootChangedEventArgs args)
 	{
-#if SUPPORTS_XAML_SERVICE_PROVIDER
-		helper ??= ResponsiveHelper.GetForCurrentView();
+		if (sender.Size == LastResolved?.Size) return;
 
-		if (TargetWeakRef?.Target is FrameworkElement target &&
-			_targetProperty is not null)
+		UpdateBinding(sender);
+	}
+
+	internal void ForceResponsiveSize(Size size)
+	{
+		var resolved = ResponsiveHelper.ResolveLayout(size, GetAppliedLayout(), GetAvailableLayoutOptions());
+		UpdateBinding(resolved, forceApplyValue: true);
+	}
+	
+	private void UpdateBinding(XamlRoot root, bool forceApplyValue = false)
+	{
+		var resolved = ResponsiveHelper.ResolveLayout(root.Size, GetAppliedLayout(), GetAvailableLayoutOptions());
+		UpdateBinding(resolved, forceApplyValue);
+	}
+
+	private void UpdateBinding(ResolvedLayout resolved, bool forceApplyValue = false)
+	{
+		if (forceApplyValue || CurrentLayout != resolved.Result)
 		{
-			var resolved = helper.ResolveLayout(GetAppliedLayout(), GetAvailableLayoutOptions());
-			if (forceApplyValue || CurrentLayout != resolved.Result)
+			if (TargetWeakRef?.Target is FrameworkElement target &&
+				_targetProperty is not null)
 			{
 				var value = GetValueFor(resolved.Result);
 
@@ -142,20 +138,6 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 				LastResolved = resolved;
 			}
 		}
-#endif
-	}
-
-	private object? ResolveValue()
-	{
-		var helper = ResponsiveHelper.GetForCurrentView();
-		var resolved = helper.ResolveLayout(GetAppliedLayout(), GetAvailableLayoutOptions());
-		var value = GetValueFor(resolved.Result);
-
-		CurrentValue = value;
-		CurrentLayout = resolved.Result;
-		LastResolved = resolved;
-
-		return value;
 	}
 
 	private static object? XamlCastSafe(object value, Type type)
@@ -186,12 +168,10 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 			UI.Layout.Widest => Widest,
 			_ => null,
 		};
-#if SUPPORTS_XAML_SERVICE_PROVIDER
 		if (value != null && _propertyType != null && value.GetType() != _propertyType)
 		{
 			value = XamlCastSafe(value, _propertyType);
 		}
-#endif
 
 		return value;
 	}
@@ -207,8 +187,26 @@ public partial class ResponsiveExtension : MarkupExtension, IResponsiveCallback
 
 	internal ResponsiveLayout? GetAppliedLayout() =>
 		Layout ??
-#if SUPPORTS_XAML_SERVICE_PROVIDER
 		(TargetWeakRef?.Target as FrameworkElement)?.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey) ??
-#endif
 		Application.Current.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
 }
+public partial class ResponsiveExtension
+{
+	// Used by TreeGraph to obtain the ResponsiveExtension(s) associated with the owner.
+	internal static List<(WeakReference Owner, string Property, WeakReference Extension)> TrackedInstances { get; } = new();
+
+	internal WeakReference? TargetWeakRef => _targetWeakRef;
+
+	internal static ResponsiveExtension[] GetAllInstancesFor(DependencyObject owner) => TrackedInstances
+		.Where(x => x.Owner?.Target as DependencyObject == owner)
+		.Select(x => x.Extension.Target)
+		.OfType<ResponsiveExtension>()
+		.ToArray();
+
+	internal static ResponsiveExtension? GetInstanceFor(DependencyObject owner, string property) => TrackedInstances
+		.Where(x => x.Owner?.Target as DependencyObject == owner && x.Property == property)
+		.Select(x => x.Extension.Target)
+		.OfType<ResponsiveExtension>()
+		.FirstOrDefault();
+}
+#endif
