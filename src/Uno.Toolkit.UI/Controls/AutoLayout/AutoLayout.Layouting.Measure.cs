@@ -226,7 +226,8 @@ partial class AutoLayout
 				fixedSize, // The available size for the child is its defined fixed size
 				availableCounterSize,
 				ref desiredCounterSize,
-				counterPaddingSize);
+				counterPaddingSize,
+				CounterAxisAlignment);
 
 			Decrement(ref remainingSize, fixedSize);
 		}
@@ -255,7 +256,8 @@ partial class AutoLayout
 				double.PositiveInfinity, // We don't want the child to limit its own desired size to available one
 				availableCounterSize,
 				ref desiredCounterSize,
-				counterPaddingSize);
+				counterPaddingSize,
+				CounterAxisAlignment);
 
 			calculatedChild.MeasuredLength = desiredSize;
 
@@ -305,7 +307,7 @@ partial class AutoLayout
 				continue;
 			}
 
-			MeasureChild(child.Element, orientation, filledSize, availableCounterSize, ref desiredCounterSize, counterPaddingSize);
+			MeasureChild(child.Element, orientation, filledSize, availableCounterSize, ref desiredCounterSize, counterPaddingSize, CounterAxisAlignment);
 
 			child.MeasuredLength = child.Element is FrameworkElement fe ? Math.Min(fe.GetMaxLength(orientation), double.MaxValue) : double.MaxValue;
 		}
@@ -319,7 +321,8 @@ partial class AutoLayout
 		double availableSize,
 		double availableCounterSize,
 		ref double desiredCounterSize,
-		double counterPaddingSize)
+		double counterPaddingSize,
+		AutoLayoutAlignment counterAxisAlignment)
 	{
 		var isOrientationHorizontal = orientation is Orientation.Horizontal;
 		var isPrimaryAlignmentStretch = GetPrimaryAlignment(child) is AutoLayoutPrimaryAlignment.Stretch;
@@ -327,7 +330,9 @@ partial class AutoLayout
 
 		if (child as FrameworkElement is { } frameworkElement)
 		{
-			UpdateCounterAlignment(ref frameworkElement, isOrientationHorizontal, isPrimaryAlignmentStretch, GetCounterAlignment(child));
+			var test = frameworkElement.ReadLocalValue(CounterAlignmentProperty) == DependencyProperty.UnsetValue ? counterAxisAlignment : GetCounterAlignment(child);
+
+			UpdateCounterAlignment(ref frameworkElement, isOrientationHorizontal, isPrimaryAlignmentStretch, test);
 
 			var isStretch = isOrientationHorizontal ?
 				frameworkElement.VerticalAlignment is VerticalAlignment.Stretch :

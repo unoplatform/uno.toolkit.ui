@@ -77,6 +77,19 @@ partial class AutoLayout
 		set => SetValue(PrimaryAxisAlignmentProperty, value);
 	}
 
+	// -- PrimaryAxisAlignment DependencyProperty --
+	public static readonly DependencyProperty CounterAxisAlignmentProperty = DependencyProperty.Register(
+		nameof(CounterAxisAlignment),
+		typeof(AutoLayoutAlignment),
+		typeof(AutoLayout),
+		new PropertyMetadata(default(AutoLayoutAlignment), propertyChangedCallback: InvalidateArrangeCallback));
+
+	public AutoLayoutAlignment CounterAxisAlignment
+	{
+		get => (AutoLayoutAlignment)GetValue(CounterAxisAlignmentProperty);
+		set => SetValue(CounterAxisAlignmentProperty, value);
+	}
+
 	// -- PrimaryAlignment Attached Property --
 	[DynamicDependency(nameof(GetPrimaryAlignment))]
 	public static readonly DependencyProperty PrimaryAlignmentProperty = DependencyProperty.RegisterAttached(
@@ -98,20 +111,20 @@ partial class AutoLayout
 	}
 
 	// -- CounterAlignment Attached Property --
-	[DynamicDependency(nameof(GetCounterAlignment))]
+	//[DynamicDependency(nameof(GetCounterAlignment))]
 	public static readonly DependencyProperty CounterAlignmentProperty = DependencyProperty.RegisterAttached(
-		"CounterAlignment",
+        "CounterAlignment",
 		typeof(AutoLayoutAlignment),
 		typeof(AutoLayout),
-		new PropertyMetadata(AutoLayoutAlignment.Stretch, propertyChangedCallback: InvalidateArrangeCallback));
+		new PropertyMetadata(default(AutoLayoutAlignment), propertyChangedCallback: InvalidateArrangeCallback));
 
-	[DynamicDependency(nameof(GetCounterAlignment))]
+	//[DynamicDependency(nameof(GetCounterAlignment))]
 	public static void SetCounterAlignment(DependencyObject element, AutoLayoutAlignment value)
 	{
 		element.SetValue(CounterAlignmentProperty, value);
 	}
 
-	[DynamicDependency(nameof(SetCounterAlignment))]
+	//[DynamicDependency(nameof(SetCounterAlignment))]
 	public static AutoLayoutAlignment GetCounterAlignment(DependencyObject element)
 	{
 		return (AutoLayoutAlignment)element.GetValue(CounterAlignmentProperty);
