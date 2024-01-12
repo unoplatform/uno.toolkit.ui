@@ -17,7 +17,7 @@ jobs:
   - bash: npm install -g cspell
     displayName: Install cSpell
 
-  - bash: cspell --config $(Build.SourcesDirectory)/build/workflow/cspell.json "**/*.md" --no-progress
+  - bash: cspell --config $(Build.SourcesDirectory)/build/workflow/cspell.json "**/*.md" "**/toc.yml" --no-progress
     displayName: Run Spell Checking
 
 - job: markdown_link

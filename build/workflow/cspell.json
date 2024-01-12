@@ -38,6 +38,8 @@
 		"hectopascals",
 		"Inlines",
 		"interactable",
+		"itemscontrol",
+		"itemsrepeater",
 		"keychain",
 		"laggy",
 		"layouter",
