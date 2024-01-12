@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.UI.Core;
 using Uno.Extensions;
 using Uno.Toolkit.Samples.Content;
@@ -27,6 +28,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+
 using XamlLaunchActivatedEventArgs = Microsoft.UI.Xaml.LaunchActivatedEventArgs;
 using XamlWindow = Microsoft.UI.Xaml.Window;
 #else
@@ -37,9 +39,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+
 using XamlLaunchActivatedEventArgs = Windows.ApplicationModel.Activation.LaunchActivatedEventArgs;
 using XamlWindow = Windows.UI.Xaml.Window;
 #endif
+
 using MUXC = Microsoft.UI.Xaml.Controls;
 
 
@@ -122,10 +126,6 @@ namespace Uno.Toolkit.Samples
 		{
 			var isInsideNestedSample = NestedSampleFrame.Content != null;
 
-			NavViewToggleButton.Visibility = isInsideNestedSample
-				? Visibility.Collapsed
-				: Visibility.Visible;
-
 			// prevent empty frame from blocking the content (nav-view) behind it
 			NestedSampleFrame.Visibility = isInsideNestedSample
 				? Visibility.Visible
@@ -159,7 +159,6 @@ namespace Uno.Toolkit.Samples
 			{
 				return false;
 			}
-
 
 			if (NestedSampleFrame.CanGoBack)
 			{
@@ -197,35 +196,6 @@ namespace Uno.Toolkit.Samples
 				// There is no other ways of knowing this, since this "navigation" effectively
 				// just changes the visibility of the nested frame that overlays everything.
 				handler.OnExitedFromNestedSample(sender);
-			}
-		}
-
-		private void NavViewToggleButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (NavigationViewControl.PaneDisplayMode == MUXC.NavigationViewPaneDisplayMode.LeftMinimal)
-			{
-				NavigationViewControl.IsPaneOpen = !NavigationViewControl.IsPaneOpen;
-			}
-			else if (NavigationViewControl.PaneDisplayMode == MUXC.NavigationViewPaneDisplayMode.Left)
-			{
-				NavigationViewControl.IsPaneVisible = !NavigationViewControl.IsPaneVisible;
-				NavigationViewControl.IsPaneOpen = NavigationViewControl.IsPaneVisible;
-			}
-		}
-
-		private void NavigationViewControl_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			// This could be done using VisualState with Adaptive triggers, but an issue prevents this currently - https://github.com/unoplatform/uno/issues/5168
-			var desktopWidth = (double)Application.Current.Resources["DesktopAdaptiveThresholdWidth"];
-			if (e.NewSize.Width >= desktopWidth && NavigationViewControl.PaneDisplayMode != MUXC.NavigationViewPaneDisplayMode.Left)
-			{
-				NavigationViewControl.PaneDisplayMode = MUXC.NavigationViewPaneDisplayMode.Left;
-				NavigationViewControl.IsPaneOpen = true;
-			}
-			else if (e.NewSize.Width < desktopWidth && NavigationViewControl.PaneDisplayMode != MUXC.NavigationViewPaneDisplayMode.LeftMinimal)
-			{
-				NavigationViewControl.IsPaneVisible = true;
-				NavigationViewControl.PaneDisplayMode = MUXC.NavigationViewPaneDisplayMode.LeftMinimal;
 			}
 		}
 
@@ -294,12 +264,17 @@ namespace Uno.Toolkit.Samples
 			//if (Debugger.IsAttached) Debugger.Break();
 		}
 
-		private async void DebugVTAsync(object sender, RoutedEventArgs e)
+		private void DebugVTAsync(object sender, RoutedEventArgs e)
 		{
-			// leave some time to perform action like: opening combo/flyout or navigation
-			await Task.Delay(5000);
+			VisualStateManager.GoToState(NavigationView, "ListSizeFull", useTransitions: false);
+		}
 
-			DebugVT(sender, e);
+		private void NavigationViewControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs e)
+		{
+			if (e.DisplayMode == MUXC.NavigationViewDisplayMode.Expanded)
+			{
+				NavigationViewControl.IsPaneOpen = NavigationViewControl.IsPaneVisible;
+			}
 		}
 	}
 }

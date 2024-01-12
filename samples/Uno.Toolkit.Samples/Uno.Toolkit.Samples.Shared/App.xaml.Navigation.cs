@@ -15,11 +15,15 @@ using Uno.Toolkit.Samples.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Markup;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
@@ -161,8 +165,9 @@ namespace Uno.Toolkit.Samples
 					parentItem = new MUXC.NavigationViewItem
 					{
 						Content = category.Key.GetDescription() ?? category.Key.ToString(),
+						Icon = CreateIconElement(GetCategoryIconSource(category.Key)),
 						SelectsOnInvoked = false,
-					}.Apply(NavViewItemVisualStateFix);
+					};
 					AutomationProperties.SetAutomationId(parentItem, "Section_" + parentItem.Content);
 
 					nv.MenuItems.Add(parentItem);
@@ -173,27 +178,57 @@ namespace Uno.Toolkit.Samples
 					var item = new MUXC.NavigationViewItem
 					{
 						Content = sample.Title,
+						Icon = CreateIconElement(sample.IconSource ?? GetCategoryItemIconSource(category.Key)),
 						DataContext = sample,
-					}.Apply(NavViewItemVisualStateFix);
+					};
 					AutomationProperties.SetAutomationId(item, "Section_" + item.Content);
 
 					(parentItem?.MenuItems ?? nv.MenuItems).Add(item);
 				}
 			}
 
-			void NavViewItemVisualStateFix(MUXC.NavigationViewItem nvi)
+			object GetCategoryIconSource(SampleCategory category)
 			{
-				// gallery#107: on uwp and uno, deselecting a NVI by selecting another NVI will leave the former in the "Selected" state
-				// to workaround this, we force reset the visual state when IsSelected becomes false
-				nvi.RegisterPropertyChangedCallback(MUXC.NavigationViewItemBase.IsSelectedProperty, (s, e) =>
+				switch (category)
 				{
-					if (!nvi.IsSelected)
+					case SampleCategory.Behaviors: return Icons.Behaviors.CategoryHeader;
+					case SampleCategory.Controls: return Icons.Controls.CategoryHeader;
+					case SampleCategory.Helpers: return Icons.Helpers.CategoryHeader;
+					case SampleCategory.Tests: return Icons.Tests.CategoryHeader;
+
+					default: return Icons.Controls.CategoryHeader;
+				}
+			}
+			object GetCategoryItemIconSource(SampleCategory category)
+			{
+				switch (category)
+				{
+					case SampleCategory.Behaviors: return Icons.Behaviors.Behavior;
+					case SampleCategory.Controls: return Icons.Controls.Control;
+					case SampleCategory.Tests: return Icons.Tests.Test;
+
+					case SampleCategory.Helpers: 
+					default: return Icons.Placeholder;
+				}
+			}
+			IconElement CreateIconElement(object source)
+			{
+				if (source is string path)
+				{
+					return new PathIcon()
 					{
-						// depending on the DisplayMode, a NVIP may or may not be used.
-						var nvip = nvi.GetFirstDescendant<MUXCP.NavigationViewItemPresenter>(x => x.Name == "NavigationViewItemPresenter");
-						VisualStateManager.GoToState((Control)nvip ?? nvi, "Normal", true);
-					}
-				});
+						Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), path)
+					};
+				}
+				if (source is Symbol symbol && symbol != default)
+				{
+					return new SymbolIcon(symbol);
+				}
+
+				return new PathIcon()
+				{
+					Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), Icons.Placeholder)
+				};
 			}
 		}
 

@@ -31,7 +31,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.Samples.Content.Helpers
 {
-	[SamplePage(SampleCategory.Helpers, "Binding Extensions", SourceSdk.Uno, DataType = typeof(BindingExtensionsVM))]
+	[SamplePage(SampleCategory.Helpers, "Binding Extensions", SourceSdk.Uno, DataType = typeof(BindingExtensionsVM), IconPath = Icons.Helpers.MarkupExtension)]
 	public sealed partial class BindingExtensionsSamplePage : Page
 	{
 		public BindingExtensionsSamplePage()
