@@ -75,9 +75,7 @@ public partial class ResponsiveExtension : MarkupExtension
 			TrackedInstances.Add((_targetWeakRef, pvtp.Name, new WeakReference(this)));
 
 			// try to return a somewhat valid value for now
-			return _propertyType?.IsValueType == true
-				? Activator.CreateInstance(_propertyType)
-				: default;
+			return GetValueFor(GetAvailableLayoutOptions().FirstOrNull());
 		}
 		else
 		{
