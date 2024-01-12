@@ -75,9 +75,7 @@ public partial class ResponsiveExtension : MarkupExtension
 			TrackedInstances.Add((_targetWeakRef, pvtp.Name, new WeakReference(this)));
 
 			// try to return a somewhat valid value for now
-			return _propertyType?.IsValueType == true
-				? Activator.CreateInstance(_propertyType)
-				: default;
+			return GetValueFor(GetAvailableLayoutOptions().FirstOrNull());
 		}
 		else
 		{
@@ -115,7 +113,7 @@ public partial class ResponsiveExtension : MarkupExtension
 		var resolved = ResponsiveHelper.ResolveLayout(size, GetAppliedLayout(), GetAvailableLayoutOptions());
 		UpdateBinding(resolved, forceApplyValue: true);
 	}
-	
+
 	private void UpdateBinding(XamlRoot root, bool forceApplyValue = false)
 	{
 		var resolved = ResponsiveHelper.ResolveLayout(root.Size, GetAppliedLayout(), GetAvailableLayoutOptions());
@@ -144,13 +142,18 @@ public partial class ResponsiveExtension : MarkupExtension
 	{
 		try
 		{
+			if (type.IsEnum && Enum.TryParse(type, value as string, out var parsed))
+			{
+				return parsed;
+			}
+
 			return XamlBindingHelper.ConvertValue(type, value);
 		}
-		catch (Exception)
+		catch (Exception e)
 		{
 			if (_logger.IsEnabled(LogLevel.Error))
 			{
-				_logger.LogError($"Failed to convert value from '{value.GetType().Name}' to '{type.Name}'");
+				_logger.LogError(e, $"Failed to convert value from '{value.GetType().Name}' to '{type.Name}'");
 			}
 
 			return value;
