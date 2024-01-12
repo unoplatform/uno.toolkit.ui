@@ -17,13 +17,13 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <Style x:Key="CustomDrawerFlyoutPresenterStyle"
        BasedOn="{StaticResource DrawerFlyoutPresenterStyle}"
        TargetType="FlyoutPresenter">
-    <Setter Property="utu:DrawerFlyoutPresenter.OpenDirection" Value="Top" />
+    <Setter Property="utu:DrawerFlyoutPresenter.OpenDirection" Value="Up" />
     <Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="0.66*" />
     <Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80808080" />
     <Setter Property="utu:DrawerFlyoutPresenter.IsGestureEnabled" Value="True" />
 </Style>
 <!-- and/or -->
-<utu:DrawerFlyoutPresenter OpenDirection="Top"
+<utu:DrawerFlyoutPresenter OpenDirection="Up"
                            DrawerLength="0.66*"
                            LightDismissOverlayBackground="#80808080"
                            IsGestureEnabled="True" />
