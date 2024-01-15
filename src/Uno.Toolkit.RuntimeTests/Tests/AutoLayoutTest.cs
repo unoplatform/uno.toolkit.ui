@@ -729,4 +729,36 @@ internal class AutoLayoutTest
 
 		Assert.AreEqual(Math.Ceiling(autoLayoutAcutalWidth - textBlockCenter), Math.Ceiling(textBlockTransform!.X));
 	}
+
+	[TestMethod]
+	[RequiresFullWindow]
+	public async Task When_CounterAlignment_stretch()
+	{
+		var SUT = new AutoLayout()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 300,
+			Height = 300,
+			Padding = new Thickness(50)
+		};
+
+		var rectangle = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 255, 255)),
+		};
+
+		AutoLayout.SetPrimaryAlignment(rectangle, AutoLayoutPrimaryAlignment.Stretch);
+		AutoLayout.SetCounterAlignment(rectangle, AutoLayoutAlignment.Stretch);
+
+		SUT.Children.Add(rectangle);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var borderBlockTransform = rectangle.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+
+		var autoLayoutAcutalWidth = SUT.ActualWidth / 2;
+		var borderBlockCenter = rectangle.ActualWidth / 2;
+
+		Assert.AreEqual(Math.Ceiling(autoLayoutAcutalWidth - borderBlockCenter), Math.Ceiling(borderBlockTransform!.X));
+	}
 }

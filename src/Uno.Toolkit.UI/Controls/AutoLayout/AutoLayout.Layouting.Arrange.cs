@@ -213,7 +213,7 @@ partial class AutoLayout
 			var haveCounterStartPadding = isStretch || counterAlignment is AutoLayoutAlignment.Start;
 			var counterStartPadding = haveCounterStartPadding ? (isHorizontal ? padding.Top : padding.Left) : 0;
 
-			var haveCounterEndPadding = counterAlignment is AutoLayoutAlignment.Stretch or AutoLayoutAlignment.End;
+			var haveCounterEndPadding = isStretch || counterAlignment is AutoLayoutAlignment.End;
 			var counterEndPadding = haveCounterEndPadding ? (isHorizontal ? padding.Bottom : padding.Right) : 0;
 
 			var counterBorderLength = borderThickness.GetCounterLength(orientation);
