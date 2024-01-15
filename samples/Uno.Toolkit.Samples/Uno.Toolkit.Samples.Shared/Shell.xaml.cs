@@ -269,7 +269,7 @@ namespace Uno.Toolkit.Samples
 			VisualStateManager.GoToState(NavigationView, "ListSizeFull", useTransitions: false);
 		}
 
-		private void NavigationViewControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs e)
+		private void NavigationViewControl_DisplayModeChanged(MUXC.NavigationView sender, MUXC.NavigationViewDisplayModeChangedEventArgs e)
 		{
 			if (e.DisplayMode == MUXC.NavigationViewDisplayMode.Expanded)
 			{
