@@ -294,6 +294,84 @@ internal class AutoLayoutTest
 
 	[TestMethod]
 	[RequiresFullWindow]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 25)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 25, 100)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 25)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 25)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 100, 25)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 25, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
+
+	// Issue with TransformToVisual not having the same result in iOS and Android and WinIU uno issue #11774
+	//https://github.com/unoplatform/uno/issues/11774
+#if !(__IOS__ || __ANDROID__)
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, 25, -50)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, -50)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, -50, 25)]
+	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, -50, 100)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 25)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, -50)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Center, 25, -50)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, -50)]
+	[DataRow(false, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, -50, 100)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(true, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.End, 100, -50)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, -50, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 100)]
+	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, 100)]
+#endif
+
+	public async Task When_Padding_CounterAxis(bool isStretch, Orientation orientation, AutoLayoutAlignment primaryAxisAlignment, AutoLayoutAlignment counterAlignment, double rec1expected, double rec2expected)
+	{
+		var SUT = new AutoLayout()
+		{
+			Orientation = orientation,
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
+			Padding = new Thickness(100),
+			Width = 400,
+			Height = 400,
+			PrimaryAxisAlignment = primaryAxisAlignment,
+			CounterAxisAlignment = counterAlignment,
+		};
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = orientation is Orientation.Horizontal && isStretch ? double.NaN : 350,
+			Height = orientation is Orientation.Vertical && isStretch ? double.NaN : 350,
+		};
+
+		if (isStretch)
+		{
+			AutoLayout.SetPrimaryAlignment(border1, AutoLayoutPrimaryAlignment.Stretch);
+		}
+
+		SUT.Children.Add(border1);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var border1Transform = border1.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+
+		Assert.AreEqual(rec1expected, border1Transform!.Y);
+		Assert.AreEqual(rec2expected, border1Transform!.X);
+	}
+
+	[TestMethod]
+	[RequiresFullWindow]
 	[DataRow(Orientation.Vertical, 10, 340, 280)]
 	[DataRow(Orientation.Horizontal, 10, 240, 100)]
 	public async Task When_Space_between_With_AbsolutePosition(Orientation orientation, double expected1, double expected2, double expected3)
@@ -590,6 +668,7 @@ internal class AutoLayoutTest
 		var autolayout = new AutoLayout()
 		{
 			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 255, 255)),
 		};
 
 		var textBlock = new TextBlock()
@@ -599,6 +678,44 @@ internal class AutoLayoutTest
 
 		AutoLayout.SetCounterAlignment(textBlock, AutoLayoutAlignment.Center);
 		AutoLayout.SetCounterAlignment(autolayout, AutoLayoutAlignment.Center);
+
+		SUT.Children.Add(autolayout);
+		autolayout.Children.Add(textBlock);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var textBlockTransform = textBlock.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+
+		var autoLayoutAcutalWidth = SUT.ActualWidth / 2;
+		var textBlockCenter = textBlock.ActualWidth / 2;
+
+		Assert.AreEqual(Math.Ceiling(autoLayoutAcutalWidth - textBlockCenter), Math.Ceiling(textBlockTransform!.X));
+	}
+
+	[TestMethod]
+	[RequiresFullWindow]
+	public async Task When_Hug_With_Padding_CounterAxis()
+	{
+		var SUT = new AutoLayout()
+		{
+			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
+			CounterAxisAlignment = AutoLayoutAlignment.Center,
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Width = 300,
+			Height = 300,
+			Padding = new Thickness(50)
+		};
+
+		var autolayout = new AutoLayout()
+		{
+			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 255, 255)),
+		};
+
+		var textBlock = new TextBlock()
+		{
+			Text = "should be center",
+		};
 
 		SUT.Children.Add(autolayout);
 		autolayout.Children.Add(textBlock);

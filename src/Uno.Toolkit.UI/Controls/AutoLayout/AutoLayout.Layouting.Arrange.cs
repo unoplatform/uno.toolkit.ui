@@ -203,8 +203,13 @@ partial class AutoLayout
 			EnsureZeroFloor(ref childLength);
 
 			// Calculate the position of the child by applying the alignment instructions
-			var counterAlignment = GetCounterAlignment(child.Element);
-			var isStretch = counterAlignment is AutoLayoutAlignment.Stretch || (child.Element is FrameworkElement fe && fe.GetCounterLength(orientation) is double.NaN) && child.Role is not AutoLayoutRole.Hug;
+			var counterA = child.Element.ReadLocalValue(CounterAlignmentProperty);
+            var isCounterAlignemntDefined = counterA != DependencyProperty.UnsetValue;
+
+			var childCounterAlignment = GetCounterAlignment(child.Element);
+			var isStretch = childCounterAlignment is AutoLayoutAlignment.Stretch;
+			var useCounterAxisAlignement = isStretch || !isCounterAlignemntDefined;
+			var counterAlignment = useCounterAxisAlignement ? this.CounterAxisAlignment : childCounterAlignment;
 			var haveCounterStartPadding = isStretch || counterAlignment is AutoLayoutAlignment.Start;
 			var counterStartPadding = haveCounterStartPadding ? (isHorizontal ? padding.Top : padding.Left) : 0;
 
@@ -287,7 +292,7 @@ partial class AutoLayout
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static double ComputeCounterAlignmentOffset(
-		AutoLayoutAlignment counterAlignment,
+		AutoLayoutAlignment? counterAlignment,
 		double childCounterLength,
 		double availableCounterLength,
 		Thickness padding,
@@ -301,9 +306,10 @@ partial class AutoLayout
 				var alignmentOffsetSize = availableCounterLength - (counterStartPadding + counterEndPadding);
 				var relativeOffset = Math.Abs(alignmentOffsetSize) / 2;
 
-				return alignmentOffsetSize > 0 ?
+				var test = alignmentOffsetSize > 0 ?
 					(relativeOffset + counterStartPadding) - (childCounterLength / 2) :
 					relativeOffset + (availableCounterLength - counterEndPadding) - (childCounterLength / 2);
+				return test;
 			case AutoLayoutAlignment.End:
 				return availableCounterLength - childCounterLength;
 			default:
