@@ -41,13 +41,18 @@ namespace Uno.Toolkit.UI
 
 		#region State Attached Property (private)
 		[DynamicDependency(nameof(SetState))]
+// TODO: Review whether DependencyObject can be changed to TabBar
+#pragma warning disable CA1859 // Use concrete types when possible for improved performance 
 		private static TabBarSelectorBehaviorState? GetState(DependencyObject obj)
 		{
 			return (TabBarSelectorBehaviorState)obj.GetValue(StateProperty);
 		}
 
 		[DynamicDependency(nameof(GetState))]
+		// TODO: Review whether DependencyObject can be changed to TabBar
+#pragma warning disable CA1859 // Use concrete types when possible for improved performance 
 		private static void SetState(DependencyObject obj, TabBarSelectorBehaviorState? value)
+#pragma warning restore CA1859 // Use concrete types when possible for improved performance
 		{
 			obj.SetValue(StateProperty, value);
 		}

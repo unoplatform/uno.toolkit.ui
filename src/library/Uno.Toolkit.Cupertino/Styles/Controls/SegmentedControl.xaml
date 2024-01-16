@@ -44,9 +44,6 @@
     <StaticResource x:Key="CupertinoSegmentedControlItemForegroundSelectedPressed"
 							ResourceKey="CupertinoSystemBackgroundBrush" />
 
-    <StaticResource x:Key="CupertinoSegmentedControlItemBorderBrush"
-							ResourceKey="CupertinoBlueBrush" />
-    
     <x:Double x:Key="CupertinoSegmentedControlFontSize">12</x:Double>
     <FontFamily x:Key="CupertinoSegmentedControlFontFamily">SF Pro</FontFamily>
     <x:Double x:Key="CupertinoSegmentedControlHeight">28</x:Double>

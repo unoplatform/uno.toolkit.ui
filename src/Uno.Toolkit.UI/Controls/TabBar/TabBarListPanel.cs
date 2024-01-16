@@ -43,9 +43,9 @@ namespace Uno.Toolkit.UI
 			var widthOfWidest = 0d;
 			var heightOfTallest = 0d;
 
-			var visibleChildren = Children.Where(IsVisible);
+			var visibleChildren = Children.Where(IsVisible).ToArray();
 
-			var count = visibleChildren.Count();
+			var count = visibleChildren.Length;
 			if (count < 1)
 			{
 				return availableSize.FiniteOrDefault(default);
@@ -95,8 +95,8 @@ namespace Uno.Toolkit.UI
 
 		protected override Size ArrangeOverride(Size finalSize)
 		{
-			var visibleChildren = Children.Where(IsVisible);
-			var count = visibleChildren.Count();
+			var visibleChildren = Children.Where(IsVisible).ToArray();
+			var count = visibleChildren.Length;
 			if (count < 1)
 			{
 				return finalSize;
