@@ -330,9 +330,9 @@ partial class AutoLayout
 
 		if (child as FrameworkElement is { } frameworkElement)
 		{
-			var test = frameworkElement.ReadLocalValue(CounterAlignmentProperty) == DependencyProperty.UnsetValue ? counterAxisAlignment : GetCounterAlignment(child);
+			var counterAlignment = frameworkElement.ReadLocalValue(CounterAlignmentProperty) == DependencyProperty.UnsetValue ? counterAxisAlignment : GetCounterAlignment(child);
 
-			UpdateCounterAlignment(ref frameworkElement, isOrientationHorizontal, isPrimaryAlignmentStretch, test);
+			UpdateCounterAlignment(ref frameworkElement, isOrientationHorizontal, isPrimaryAlignmentStretch, counterAlignment);
 
 			var isStretch = isOrientationHorizontal ?
 				frameworkElement.VerticalAlignment is VerticalAlignment.Stretch :
