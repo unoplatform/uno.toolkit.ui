@@ -37,11 +37,12 @@
     <Thickness x:Key="CupertinoBottomTabBarItemContentMargin">0,0,0,12</Thickness>
     <Thickness x:Key="CupertinoBottomTabBarItemContentOnlyMargin">12,0</Thickness>
 
+	<!-- Which of these CupertinoBottomTabBarBackground resources is correct -->
     <StaticResource x:Key="CupertinoBottomTabBarBackground"
 							ResourceKey="CupertinoBottomTabBarBackgroundBrush" />
 
-    <StaticResource x:Key="CupertinoBottomTabBarBackground"
-							ResourceKey="SystemControlTransparentBrush" />
+    <!--<StaticResource x:Key="CupertinoBottomTabBarBackground"
+							ResourceKey="SystemControlTransparentBrush" />-->
     <StaticResource x:Key="CupertinoBottomTabBarBackgroundPointerOver"
 							ResourceKey="SystemControlTransparentBrush" />
     <StaticResource x:Key="CupertinoBottomTabBarBackgroundPressed"

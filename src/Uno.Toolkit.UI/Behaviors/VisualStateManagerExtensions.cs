@@ -46,6 +46,8 @@ public static class VisualStateManagerExtensions
 		typeof(VisualStateManagerExtensions),
 		new PropertyMetadata(default(string), OnStatesChanged));
 
+	private static readonly char[] separator = new char[] { ',', ';', ' ' };
+
 	/// <summary>
 	/// Sets the visual states of the control.
 	/// </summary>
@@ -72,7 +74,7 @@ public static class VisualStateManagerExtensions
 	{
 		if (sender is Control control && e.NewValue is string { Length: >0 } value)
 		{
-			var states = value.Split(new char[] { ',', ';', ' ' }, StringSplitOptions.RemoveEmptyEntries)
+			var states = value.Split(separator, StringSplitOptions.RemoveEmptyEntries)
 				.Where(x => !string.IsNullOrEmpty(x))
 				.Select(x => x.Trim())
 				.ToArray();
@@ -89,7 +91,7 @@ public static class VisualStateManagerExtensions
 				anySuccessed |= success;
 			}
 
-			if (states.Any() && !anySuccessed)
+			if (states.Length != 0 && !anySuccessed)
 			{
 				WarnForMisplacedVisualStateGroups(control);
 			}

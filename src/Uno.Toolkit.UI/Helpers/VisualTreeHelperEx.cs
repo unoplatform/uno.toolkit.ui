@@ -53,7 +53,7 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		/// <param name="reference">Any node of the visual tree</param>
 		public static string TreeGraph(this DependencyObject reference) => TreeGraph(reference, DebugVTNode);
-		
+
 		/// <summary>
 		/// Produces a text representation of the visual tree, using the provided method of description.
 		/// </summary>
@@ -112,7 +112,7 @@ namespace Uno.Toolkit.UI
 		public static T? GetFirstAncestor<T>(this DependencyObject reference, Func<T, bool> predicate) => GetAncestors(reference)
 			.OfType<T>()
 			.FirstOrDefault(predicate);
-		
+
 		/// <summary>
 		/// Returns the first ancestor of a specified type that satisfies the <paramref name="predicate"/>.
 		/// </summary>
@@ -374,21 +374,22 @@ namespace Uno.Toolkit.UI
 			}
 
 #if __IOS__
-			private static IEnumerable<_View> GetChildren(_View reference)
+			private static _View[] GetChildren(_View reference)
 			{
 				return reference.Subviews;
 			}
 #elif __ANDROID__
-			private static IEnumerable<_View> GetChildren(_View reference)
+			private static _View[] GetChildren(_View reference)
 			{
 				if (reference is Android.Views.ViewGroup vg)
 				{
 					return Enumerable
 						.Range(0, vg.ChildCount)
-						.Select(vg.GetChildAt)!;
+						.Select(idx => vg.GetChildAt(idx)!)
+						.ToArray();
 				}
 
-				return Enumerable.Empty<_View>();
+				return Array.Empty<_View>();
 			}
 #endif
 		}

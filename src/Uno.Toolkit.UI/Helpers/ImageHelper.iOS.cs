@@ -11,6 +11,8 @@ namespace Uno.Toolkit.UI
 {
 	internal static class ImageHelper
 	{
+		private static readonly char[] trimChars = new[] { '/' };
+
 		public static UIImage? FromUri(Uri? uri)
 		{
 			if (uri == null)
@@ -19,7 +21,7 @@ namespace Uno.Toolkit.UI
 			}
 
 			var bundleName = Path.GetFileName(uri.AbsolutePath);
-			var bundlePath = uri.PathAndQuery.TrimStart(new[] { '/' });
+			var bundlePath = uri.PathAndQuery.TrimStart(trimChars);
 
 			var image = UIImage.FromFile(bundleName) ?? UIImage.FromFile(bundlePath);
 			return image;

@@ -108,7 +108,7 @@ namespace Uno.Toolkit.UI
 
 			_isUpdatingStack = true;
 
-			while (_stackUpdates.Any())
+			while (_stackUpdates.Count != 0)
 			{
 				var navigation = _stackUpdates.Dequeue();
 				await UpdateStack(navigation.pageEntry, navigation.args);
@@ -187,7 +187,7 @@ namespace Uno.Toolkit.UI
 							_pageStack.Children.Insert(0, newPage);
 						}
 					}
-				break;
+					break;
 			}
 
 			_currentEntry = newEntry;
@@ -199,7 +199,9 @@ namespace Uno.Toolkit.UI
 			return !(entry?.NavigationTransitionInfo is SuppressNavigationTransitionInfo);
 		}
 
+#pragma warning disable CA1859 // Use concrete types when possible for improved performance - Returning Android.Views.Animations.AnimationSet only applicable on Android
 		private static Animation GetEnterAnimation()
+#pragma warning restore CA1859 // Use concrete types when possible for improved performance
 		{
 			// Source:
 			// https://android.googlesource.com/platform/frameworks/base/+/android-cts-7.1_r5/core/res/res/anim/activity_open_enter.xml
@@ -236,7 +238,9 @@ namespace Uno.Toolkit.UI
 			return enterAnimation;
 		}
 
+#pragma warning disable CA1859 // Use concrete types when possible for improved performance - Returning Android.Views.Animations.AnimationSet only applicable on Android
 		private static Animation GetExitAnimation()
+#pragma warning restore CA1859 // Use concrete types when possible for improved performance
 		{
 			// Source:
 			// https://android.googlesource.com/platform/frameworks/base/+/android-cts-7.1_r5/core/res/res/anim/activity_close_exit.xml

@@ -108,7 +108,7 @@ namespace Uno.Toolkit.UI
 				catch
 				{
 					var entry = Assembly.GetEntryAssembly();
-					var res = entry?.GetManifestResourceNames()?.FirstOrDefault(x => x.ToLower().Contains(WasmAppManifestFilename));
+					var res = entry?.GetManifestResourceNames()?.FirstOrDefault(x => x.ToLower().Contains(WasmAppManifestFilename, StringComparison.InvariantCultureIgnoreCase));
 					if (string.IsNullOrWhiteSpace(res))
 					{
 						return null;
@@ -125,8 +125,8 @@ namespace Uno.Toolkit.UI
 				{
 					return null;
 				}
-				var startIdx = manifestString.IndexOf("{") + 1;
-				var endIdx = manifestString.LastIndexOf("}") - 1;
+				var startIdx = manifestString.IndexOf('{') + 1;
+				var endIdx = manifestString.LastIndexOf('}') - 1;
 				manifestString = manifestString.Substring(startIdx, endIdx - startIdx); // Trim "var UnoAppManifest = " from the start of the file so we're left with just the JSON
 				var pairs = (from pair in manifestString.Trim().Split(',')
 							 let bits = pair.Split(':')
