@@ -38,7 +38,7 @@
                     <utu:LoadingView.LoadingContentTemplate>
                         <DataTemplate>
                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-						<ProgressRing IsActive="True" />
+						<ProgressRing />
                                 <TextBlock Text="{Binding}" />
                             </StackPanel>
                         </DataTemplate>

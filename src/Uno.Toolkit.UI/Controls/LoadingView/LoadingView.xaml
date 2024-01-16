@@ -48,13 +48,18 @@
 										</Storyboard>
 									</VisualTransition>
 								</VisualStateGroup.Transitions>
-								<VisualState x:Name="Loading" />
+								<VisualState x:Name="Loading">
+									<VisualState.Setters>
+										<Setter Target="LoadingContentPresenter.(utu:ProgressRingExtensions.IsActive)" Value="true"/>
+									</VisualState.Setters>
+								</VisualState>
 								<VisualState x:Name="Loaded">
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Opacity"
 												Value="1" />
 										<Setter Target="LoadingContentPresenter.Opacity"
 												Value="0" />
+										<Setter Target="LoadingContentPresenter.(utu:ProgressRingExtensions.IsActive)" Value="false"/>
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -62,12 +67,14 @@
 
 						<ContentPresenter x:Name="ContentPresenter"
 										  Content="{TemplateBinding Content}"
+										  utu:ProgressRingExtensions.IsActive="false"
 										  Opacity="0"
 										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										  HorizontalContentAlignment="Stretch"
 										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 										  VerticalContentAlignment="Stretch" />
 						<ContentControl x:Name="LoadingContentPresenter"
+										utu:ProgressRingExtensions.IsActive="false"
 										Content="{TemplateBinding LoadingContent}"
 										ContentTemplate="{TemplateBinding LoadingContentTemplate}"
 										ContentTemplateSelector="{TemplateBinding LoadingContentTemplateSelector}"
