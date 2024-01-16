@@ -202,6 +202,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FromNullToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FromStringToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\HexToColorConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Icons.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Data\TestCollections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Design.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Sample.cs" />

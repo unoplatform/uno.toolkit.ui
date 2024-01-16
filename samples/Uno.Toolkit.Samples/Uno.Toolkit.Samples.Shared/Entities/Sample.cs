@@ -18,6 +18,7 @@ namespace Uno.Toolkit.Samples.Entities
 		public Sample(SamplePageAttribute attribute, Type viewType)
 		{
 			Category = attribute.Category;
+			IconSource = attribute.IconSymbol == default ? (object)attribute.IconPath : (object)attribute.IconSymbol;
 			Title = attribute.Title;
 			Description = attribute.Description;
 			DocumentationLink = attribute.DocumentationLink;
@@ -44,6 +45,8 @@ namespace Uno.Toolkit.Samples.Entities
 		}
 
 		public SampleCategory Category { get; set; }
+
+		public object IconSource { get; }
 
 		public string Title { get; }
 

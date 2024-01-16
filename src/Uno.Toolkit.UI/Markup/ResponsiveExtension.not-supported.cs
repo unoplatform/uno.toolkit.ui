@@ -22,6 +22,14 @@ public partial class ResponsiveExtension : MarkupExtension
 {
 	private static readonly ILogger _logger = typeof(ResponsiveExtension).Log();
 
+	public object? Narrowest { get; set; }
+	public object? Narrow { get; set; }
+	public object? Normal { get; set; }
+	public object? Wide { get; set; }
+	public object? Widest { get; set; }
+
+	public ResponsiveLayout? Layout { get; set; }
+
 	/// <inheritdoc/>
 	protected override object? ProvideValue()
 	{

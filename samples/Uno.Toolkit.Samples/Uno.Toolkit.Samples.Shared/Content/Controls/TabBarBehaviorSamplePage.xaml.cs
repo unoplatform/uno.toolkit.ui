@@ -37,7 +37,6 @@ namespace Uno.Toolkit.Samples.Content.Controls
 	{
 		public TabBarBehaviorSamplePage()
 		{
-			
 			this.InitializeComponent();
 		}
 	}
