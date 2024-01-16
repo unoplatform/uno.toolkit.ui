@@ -48,6 +48,8 @@
 				Value="50" />
 		<Setter Property="utu:DrawerControlBehavior.IsGestureEnabled"
 				Value="True" />
+		<Setter Property="utu:DrawerControlBehavior.IsLightDismissEnabled"
+				Value="True" />
 		<Setter Property="utu:DrawerControlBehavior.FitToDrawerContent"
 				Value="False" />
 
@@ -65,6 +67,7 @@
 									   LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.LightDismissOverlayBackground)}"
 									   EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
 									   IsGestureEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.IsGestureEnabled)}"
+									   IsLightDismissEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.IsLightDismissEnabled)}"
 									   FitToDrawerContent="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(utu:DrawerControlBehavior.FitToDrawerContent)}"
 									   Background="{TemplateBinding Background}">
 						<utu:DrawerControl.Content>
@@ -113,6 +116,8 @@
 				Value="50" />
 		<Setter Property="utu:DrawerControlBehavior.IsGestureEnabled"
 				Value="True" />
+		<Setter Property="utu:DrawerControlBehavior.IsLightDismissEnabled"
+				Value="True" />
 		<Setter Property="utu:DrawerControlBehavior.FitToDrawerContent"
 				Value="False" />
 
@@ -149,6 +154,7 @@
 									   utu:DrawerControlBehavior.LightDismissOverlayBackground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.LightDismissOverlayBackground)}"
 									   utu:DrawerControlBehavior.EdgeSwipeDetectionLength="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.EdgeSwipeDetectionLength)}"
 									   utu:DrawerControlBehavior.IsGestureEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.IsGestureEnabled)}"
+									   utu:DrawerControlBehavior.IsLightDismissEnabled="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.IsLightDismissEnabled)}"
 									   utu:DrawerControlBehavior.FitToDrawerContent="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(utu:DrawerControlBehavior.FitToDrawerContent)}"
 									   Style="{StaticResource DrawerSplitViewStyle}">
 

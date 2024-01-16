@@ -73,7 +73,8 @@
 											   OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
 											   DrawerLength="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerLength}"
 											   LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
-											   IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}" />
+											   IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}"
+											   IsLightDismissEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsLightDismissEnabled}" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

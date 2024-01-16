@@ -29,7 +29,8 @@
 												   OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
 												   DrawerLength="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerLength}"
 												   LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
-												   IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}" />
+												   IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}"
+												   IsLightDismissEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsLightDismissEnabled}" />
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
@@ -190,6 +191,23 @@
 													<Setter Property="Background" Value="SkyBlue" />
 													<Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80FFC0CB" />
 													<Setter Property="utu:DrawerFlyoutPresenter.IsGestureEnabled" Value="True" />
+												</Style>
+											</Flyout.FlyoutPresenterStyle>
+											<Border utu:SafeArea.Insets="All" Padding="16,16,0,0">
+												<StackPanel Padding="8">
+													<TextBlock Text="text" />
+													<Button Content="button" />
+												</StackPanel>
+											</Border>
+										</Flyout>
+									</Button.Flyout>
+								</Button>
+								<Button Content="No LightDismiss Drawer">
+									<Button.Flyout>
+										<Flyout Placement="Full">
+											<Flyout.FlyoutPresenterStyle>
+												<Style BasedOn="{StaticResource DrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+													<Setter Property="utu:DrawerFlyoutPresenter.IsLightDismissEnabled" Value="False" />
 												</Style>
 											</Flyout.FlyoutPresenterStyle>
 											<Border utu:SafeArea.Insets="All" Padding="16,16,0,0">
