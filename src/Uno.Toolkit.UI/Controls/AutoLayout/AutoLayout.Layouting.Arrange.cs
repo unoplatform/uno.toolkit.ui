@@ -203,13 +203,10 @@ partial class AutoLayout
 			EnsureZeroFloor(ref childLength);
 
 			// Calculate the position of the child by applying the alignment instructions
-			var counterA = child.Element.ReadLocalValue(CounterAlignmentProperty);
-            var isCounterAlignemntDefined = counterA != DependencyProperty.UnsetValue;
+			var isCounterAlignemntDefined = child.Element.ReadLocalValue(CounterAlignmentProperty) as AutoLayoutAlignment? is { };
 
-			var childCounterAlignment = GetCounterAlignment(child.Element);
-			var isStretch = childCounterAlignment is AutoLayoutAlignment.Stretch;
-			var useCounterAxisAlignement = isStretch || !isCounterAlignemntDefined;
-			var counterAlignment = useCounterAxisAlignement ? this.CounterAxisAlignment : childCounterAlignment;
+			var counterAlignment = !isCounterAlignemntDefined ? this.CounterAxisAlignment : GetCounterAlignment(child.Element);
+			var isStretch = counterAlignment is AutoLayoutAlignment.Stretch;
 			var haveCounterStartPadding = isStretch || counterAlignment is AutoLayoutAlignment.Start;
 			var counterStartPadding = haveCounterStartPadding ? (isHorizontal ? padding.Top : padding.Left) : 0;
 

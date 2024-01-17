@@ -732,7 +732,9 @@ internal class AutoLayoutTest
 
 	[TestMethod]
 	[RequiresFullWindow]
-	public async Task When_CounterAlignment_stretch()
+	[DataRow(false)]
+	[DataRow(true)]
+	public async Task When_CounterAlignment_stretch(bool isLegacy)
 	{
 		var SUT = new AutoLayout()
 		{
@@ -748,7 +750,13 @@ internal class AutoLayoutTest
 		};
 
 		AutoLayout.SetPrimaryAlignment(rectangle, AutoLayoutPrimaryAlignment.Stretch);
-		AutoLayout.SetCounterAlignment(rectangle, AutoLayoutAlignment.Stretch);
+
+		if (isLegacy is false)
+		{
+			//If not legacy CounterAxisAlignment should always be defined.
+			SUT.CounterAxisAlignment = AutoLayoutAlignment.Start;
+			AutoLayout.SetCounterAlignment(rectangle, AutoLayoutAlignment.Stretch);
+		}
 
 		SUT.Children.Add(rectangle);
 
