@@ -22,7 +22,7 @@ namespace Uno.Toolkit.UI
 	/// when it is nested inside another control like <see cref="SplitView"/> or <see cref="NavigationView"/>.
 	/// </summary>
 	/// <example>
-	/// Usage exmaple:
+	/// Usage example:
 	/// <code>
 	/// &lt;muxc:NavigationView
 	///   behaviors:DrawerControlBehavior.LightDismissOverlayBackground=&quot;SkyBlue&quot;
@@ -102,6 +102,20 @@ namespace Uno.Toolkit.UI
 		public static bool GetIsGestureEnabled(DependencyObject obj) => (bool)obj.GetValue(IsGestureEnabledProperty);
 		[DynamicDependency(nameof(GetIsGestureEnabled))]
 		public static void SetIsGestureEnabled(DependencyObject obj, bool value) => obj.SetValue(IsGestureEnabledProperty, value);
+
+		#endregion
+		#region DependencyProperty: IsLightDismissEnabled = true
+
+		public static DependencyProperty IsLightDismissEnabledProperty { [DynamicDependency(nameof(GetIsLightDismissEnabled))] get; } = DependencyProperty.RegisterAttached(
+			"IsLightDismissEnabled",
+			typeof(bool),
+			typeof(DrawerControlBehavior),
+			new PropertyMetadata(DrawerControl.DefaultValues.IsLightDismissEnabled));
+
+		[DynamicDependency(nameof(SetIsLightDismissEnabled))]
+		public static bool GetIsLightDismissEnabled(DependencyObject obj) => (bool)obj.GetValue(IsLightDismissEnabledProperty);
+		[DynamicDependency(nameof(GetIsLightDismissEnabled))]
+		public static void SetIsLightDismissEnabled(DependencyObject obj, bool value) => obj.SetValue(IsLightDismissEnabledProperty, value);
 
 		#endregion
 		#region DependencyProperty: FitToDrawerContent = true

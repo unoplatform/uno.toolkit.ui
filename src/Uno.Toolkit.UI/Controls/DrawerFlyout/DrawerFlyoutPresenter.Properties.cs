@@ -23,6 +23,7 @@ namespace Uno.Toolkit.UI
 			public static readonly GridLength DrawerLength = new GridLength(0.66, GridUnitType.Star);
 			public const DrawerOpenDirection OpenDirection = DrawerOpenDirection.Up;
 			public const bool IsGestureEnabled = true;
+			public const bool IsLightDismissEnabled = true;
 		}
 
 		#region DependencyProperty: [Private] IsOpen
@@ -149,6 +150,29 @@ namespace Uno.Toolkit.UI
 		public static bool GetIsGestureEnabled(DependencyObject obj) => (bool)obj.GetValue(IsGestureEnabledProperty);
 		[DynamicDependency(nameof(GetIsGestureEnabled))]
 		public static void SetIsGestureEnabled(DependencyObject obj, bool value) => obj.SetValue(IsGestureEnabledProperty, value);
+
+		#endregion
+		#region DependencyProperty: IsLightDismissEnabled = true
+
+		public static DependencyProperty IsLightDismissEnabledProperty { [DynamicDependency(nameof(GetIsGestureEnabled))] get; } = DependencyProperty.RegisterAttached(
+			nameof(IsLightDismissEnabled),
+			typeof(bool),
+			typeof(DrawerFlyoutPresenter),
+			new PropertyMetadata(DefaultValues.IsLightDismissEnabled));
+
+		/// <summary>
+		/// Gets or sets a value that indicates whether the drawer flyout can be light-dismissed.
+		/// </summary>
+		public bool IsLightDismissEnabled
+		{
+			get => (bool)GetValue(IsLightDismissEnabledProperty);
+			set => SetValue(IsLightDismissEnabledProperty, value);
+		}
+
+		[DynamicDependency(nameof(SetIsLightDismissEnabled))]
+		public static bool GetIsLightDismissEnabled(DependencyObject obj) => (bool)obj.GetValue(IsLightDismissEnabledProperty);
+		[DynamicDependency(nameof(GetIsLightDismissEnabled))]
+		public static void SetIsLightDismissEnabled(DependencyObject obj, bool value) => obj.SetValue(IsLightDismissEnabledProperty, value);
 
 		#endregion
 

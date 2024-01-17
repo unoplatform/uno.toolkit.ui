@@ -21,12 +21,14 @@ xmlns:utu="using:Uno.Toolkit.UI"
     <Setter Property="utu:DrawerFlyoutPresenter.DrawerLength" Value="0.66*" />
     <Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80808080" />
     <Setter Property="utu:DrawerFlyoutPresenter.IsGestureEnabled" Value="True" />
+    <Setter Property="utu:DrawerFlyoutPresenter.IsLightDismissEnabled" Value="True" />
 </Style>
 <!-- and/or -->
 <utu:DrawerFlyoutPresenter OpenDirection="Up"
                            DrawerLength="0.66*"
                            LightDismissOverlayBackground="#80808080"
-                           IsGestureEnabled="True" />
+                           IsGestureEnabled="True"
+                           IsLightDismissEnabled="True" />
 ```
 
 > [!IMPORTANT]
@@ -51,7 +53,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
                 <utu:DrawerFlyoutPresenter OpenDirection="{TemplateBinding utu:DrawerFlyoutPresenter.OpenDirection}"
                                             DrawerLength="{TemplateBinding utu:DrawerFlyoutPresenter.DrawerLength}"
                                             LightDismissOverlayBackground="{TemplateBinding utu:DrawerFlyoutPresenter.LightDismissOverlayBackground}"
-                                            IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}" />
+                                            IsGestureEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsGestureEnabled}"
+                                            IsLightDismissEnabled="{TemplateBinding utu:DrawerFlyoutPresenter.IsLightDismissEnabled}" />
             </ControlTemplate>
         </Setter.Value>
     </Setter>
@@ -66,6 +69,7 @@ OpenDirection|DrawerOpenDirection=`Up`|Gets or sets the direction in which the d
 DrawerLength|GridLength=`0.66*`|Get or sets the length (width or height depending on the `OpenDirection`) of the drawer.\*
 LightDismissOverlayBackground|Brush|Gets or sets the brush used to paint the light dismiss overlay. The default value is `#80808080` (from the default style).
 IsGestureEnabled|bool=`true`|Get or sets a value that indicates whether the user can interact with the control using gesture.
+IsLightDismissEnabled|bool=`true`|Gets or sets a value that indicates whether the drawer flyout can be light-dismissed.
 
 notes:
 

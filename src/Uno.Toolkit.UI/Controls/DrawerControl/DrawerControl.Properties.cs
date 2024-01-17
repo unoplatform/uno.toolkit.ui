@@ -31,11 +31,13 @@ namespace Uno.Toolkit.UI
 		 * LightDismissOverlayBackground: ...
 		 * EdgeSwipeDetectionLength: The length (width or height depending on the OpenDirection) of the area allowed for opening swipe gesture.
 		 * IsGestureEnabled: Used to en/disable swipe gesture.
+		 * IsLightDismissEnabled: Used to en/disable light-dismiss.
 		 */
 
 		internal static class DefaultValues
 		{
 			public const bool IsGestureEnabled = true;
+			public const bool IsLightDismissEnabled = true;
 			public const bool FitToDrawerContent = true;
 		}
 
@@ -209,6 +211,24 @@ namespace Uno.Toolkit.UI
 		{
 			get => (bool)GetValue(IsGestureEnabledProperty);
 			set => SetValue(IsGestureEnabledProperty, value);
+		}
+
+		#endregion
+		#region DependencyProperty: IsLightDismissEnabled = true
+
+		public static DependencyProperty IsLightDismissEnabledProperty { get; } = DependencyProperty.Register(
+			nameof(IsLightDismissEnabled),
+			typeof(bool),
+			typeof(DrawerControl),
+			new PropertyMetadata(DefaultValues.IsLightDismissEnabled));
+
+		/// <summary>
+		/// Gets or sets a value that indicates whether the drawer can be light-dismissed.
+		/// </summary>
+		public bool IsLightDismissEnabled
+		{
+			get => (bool)GetValue(IsLightDismissEnabledProperty);
+			set => SetValue(IsLightDismissEnabledProperty, value);
 		}
 
 		#endregion

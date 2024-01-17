@@ -272,6 +272,8 @@ namespace Uno.Toolkit.UI
 
 		private void OnLightDismissOverlayTapped(object sender, TappedRoutedEventArgs e)
 		{
+			if (!IsLightDismissEnabled) return;
+
 			StopRunningAnimation();
 			UpdateIsOpen(false);
 		}
