@@ -26,13 +26,13 @@ using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 
 namespace Uno.Toolkit.UI
 {
-	public static class ProgressRingExtensions
+	public static class ProgressExtensions
 	{
 		public static readonly DependencyProperty IsActiveProperty =
 			DependencyProperty.RegisterAttached(
 				"IsActive",
 				typeof(bool),
-				typeof(ProgressRingExtensions),
+				typeof(ProgressExtensions),
 				new PropertyMetadata(false, IsActiveChanged));
 
 		private static void IsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -40,9 +40,16 @@ namespace Uno.Toolkit.UI
 			if (d is FrameworkElement element &&
 				e.NewValue is bool isActive)
 			{				
-				foreach (var item in element.EnumerateDescendants().OfType<ProgressRing>())
+				foreach (var item in element.EnumerateDescendants())
 				{
-					item.IsActive = isActive;
+					if(item is ProgressRing progressRing)
+					{
+						progressRing.IsActive = isActive;
+					}
+					else if(item is ProgressBar progressBar)
+					{
+						progressBar.IsIndeterminate = isActive;
+					}
 				}
 			}
 		}
