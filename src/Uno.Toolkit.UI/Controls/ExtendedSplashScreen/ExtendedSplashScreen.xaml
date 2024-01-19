@@ -59,8 +59,8 @@
 								</VisualStateGroup.Transitions>
 								<VisualState x:Name="Loading">
 									<VisualState.Setters>
-										<Setter Target="LoadingContentPresenter.(utu:ProgressRingExtensions.IsActive)" Value="true"/>
-										<Setter Target="SplashScreenPresenter.(utu:ProgressRingExtensions.IsActive)" Value="true"/>
+										<Setter Target="LoadingContentPresenter.(utu:ProgressExtensions.IsActive)" Value="true"/>
+										<Setter Target="SplashScreenPresenter.(utu:ProgressExtensions.IsActive)" Value="true"/>
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Loaded">
@@ -75,8 +75,8 @@
 												Value="Collapsed" />
 										<Setter Target="LoadingContentPresenter.Visibility"
 												Value="Collapsed" />
-										<Setter Target="LoadingContentPresenter.(utu:ProgressRingExtensions.IsActive)" Value="false"/>
-										<Setter Target="SplashScreenPresenter.(utu:ProgressRingExtensions.IsActive)" Value="false"/>
+										<Setter Target="LoadingContentPresenter.(utu:ProgressExtensions.IsActive)" Value="false"/>
+										<Setter Target="SplashScreenPresenter.(utu:ProgressExtensions.IsActive)" Value="false"/>
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -91,7 +91,7 @@
 										  VerticalContentAlignment="Stretch" />
 						<ContentPresenter x:Name="SplashScreenPresenter"
 										  Content="{TemplateBinding SplashScreenContent}"
-										  utu:ProgressRingExtensions.IsActive="false"
+										  utu:ProgressExtensions.IsActive="false"
 										  IsHitTestVisible="False"
 										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										  HorizontalContentAlignment="Stretch"
@@ -100,7 +100,7 @@
 						<ContentControl x:Name="LoadingContentPresenter"
 										Content="{TemplateBinding LoadingContent}"
 										IsHitTestVisible="False"
-										utu:ProgressRingExtensions.IsActive="false"
+										utu:ProgressExtensions.IsActive="false"
 										ContentTemplate="{TemplateBinding LoadingContentTemplate}"
 										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										HorizontalContentAlignment="Stretch"
