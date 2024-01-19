@@ -30,14 +30,14 @@ You can workaround this by declaring the values as resources and using {StaticRe
 
 ## Properties
 
-| Property   | Type             | Description                                                |
-| ---------- | ---------------- | ---------------------------------------------------------- |
-| Narrowest  | object           | Value to be used when the screen size is at its narrowest. |
-| Narrow     | object           | Value to be used when the screen size is narrow.           |
-| Normal     | object           | Value to be used when the screen size is normal.           |
-| Wide       | object           | Value to be used when the screen size is wide.             |
-| Widest     | object           | Value to be used when the screen size is at its widest.    |
-| Layout     | ResponsiveLayout | Overrides the screen size thresholds/breakpoints.          |
+| Property    | Type               | Description                                                |
+|-------------|--------------------|------------------------------------------------------------|
+| `Narrowest` | `object`           | Value to be used when the screen size is at its narrowest. |
+| `Narrow`    | `object`           | Value to be used when the screen size is narrow.           |
+| `Normal`    | `object`           | Value to be used when the screen size is normal.           |
+| `Wide`      | `object`           | Value to be used when the screen size is wide.             |
+| `Widest`    | `object`           | Value to be used when the screen size is at its widest.    |
+| `Layout`    | `ResponsiveLayout` | Overrides the screen size thresholds/breakpoints.          |
 
 ### ResponsiveLayout
 
@@ -46,13 +46,13 @@ This is done using an instance of the `ResponsiveLayout` class.
 
 #### Properties
 
-| Property   | Type             | Description            |
-| ---------- | ---------------- | ---------------------- |
-| Narrowest  | double           | Default value is 150.  |
-| Narrow     | double           | Default value is 300.  |
-| Normal     | double           | Default value is 600.  |
-| Wide       | double           | Default value is 800.  |
-| Widest     | double           | Default value is 1080. |
+| Property    | Type     | Description            |
+|-------------|----------|------------------------|
+| `Narrowest` | `double` | Default value is 150.  |
+| `Narrow`    | `double` | Default value is 300.  |
+| `Normal`    | `double` | Default value is 600.  |
+| `Wide`      | `double` | Default value is 800.  |
+| `Widest`    | `double` | Default value is 1080. |
 
 #### Resolution Logics
 
@@ -60,43 +60,43 @@ The layouts whose value(ResponsiveExtension) or template(ResponsiveView) is not 
 
 Below are the selected layout at different screen width if all layouts are provided:
 
-Width|Layout
--|-
-149|Narrowest
-150(Narrowest)|Narrowest
-151|Narrowest
-299|Narrowest
-300(Narrow)|Narrow
-301|Narrow
-599|Narrow
-600(Normal)|Normal
-601|Normal
-799|Normal
-800(Wide)|Wide
-801|Wide
-1079|Wide
-1080(Widest)|Widest
-1081|Widest
+| Width          | Layout    |
+|----------------|-----------|
+| 149            | Narrowest |
+| 150(Narrowest) | Narrowest |
+| 151            | Narrowest |
+| 299            | Narrowest |
+| 300(Narrow)    | Narrow    |
+| 301            | Narrow    |
+| 599            | Narrow    |
+| 600(Normal)    | Normal    |
+| 601            | Normal    |
+| 799            | Normal    |
+| 800(Wide)      | Wide      |
+| 801            | Wide      |
+| 1079           | Wide      |
+| 1080(Widest)   | Widest    |
+| 1081           | Widest    |
 
 Here are the selected layout at different screen width if only `Narrow` and `Wide` are provided:
 
-Width|Layout
--|-
-149|Narrow
-150(~~Narrowest~~)|Narrow
-151|Narrow
-299|Narrow
-300(Narrow)|Narrow
-301|Narrow
-599|Narrow
-600(~~Normal~~)|Narrow
-601|Narrow
-799|Narrow
-800(Wide)|Wide
-801|Wide
-1079|Wide
-1080(~~Widest~~)|Wide
-1081|Wide
+| Width              | Layout |
+|--------------------|--------|
+| 149                | Narrow |
+| 150(~~Narrowest~~) | Narrow |
+| 151                | Narrow |
+| 299                | Narrow |
+| 300(Narrow)        | Narrow |
+| 301                | Narrow |
+| 599                | Narrow |
+| 600(~~Normal~~)    | Narrow |
+| 601                | Narrow |
+| 799                | Narrow |
+| 800(Wide)          | Wide   |
+| 801                | Wide   |
+| 1079               | Wide   |
+| 1080(~~Widest~~)   | Wide   |
+| 1081               | Wide   |
 
 ## Usage
 

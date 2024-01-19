@@ -4,13 +4,13 @@ uid: Toolkit.Helpers.ResourceExtensions
 
 # Resource Extensions
 
-This extension facilitates assigning a specific ResourceDictionary directly to a control's style. It simplifies [lightweight styling](../lightweight-styling.md) by eliminating the necessity to declare each resource on the page explicitly, enabling the easy creation of diverse visual elements with shared styles but varied attributes. The extension also supports the reuse of resource dictionaries across different control styles, enhancing consistency and efficiency in the UI design process.
+This extension facilitates assigning a specific `ResourceDictionary` directly to a control's style. It simplifies [lightweight styling](../lightweight-styling.md) by eliminating the necessity to declare each resource on the page explicitly, enabling the easy creation of diverse visual elements with shared styles but varied attributes. The extension also supports the reuse of resource dictionaries across different control styles, enhancing consistency and efficiency in the UI design process.
 
 ## Attached Properties
 
-Property|Type|Description
--|-|-
-Resources|ResourceDictionary|Gets or sets the ResourceDictionary to be applied to the control's style
+| Property    | Type                 | Description                                                                |
+|-------------|----------------------|----------------------------------------------------------------------------|
+| `Resources` | `ResourceDictionary` | Gets or sets the `ResourceDictionary` to be applied to the control's style |
 
 ## Usage
 

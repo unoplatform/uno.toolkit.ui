@@ -6,7 +6,7 @@
 
 [![Open Uno in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/unoplatform/uno.toolkit.ui)
 [![Azure DevOps](https://uno-platform.visualstudio.com/Uno%20Platform/_apis/build/status/Uno%20Platform/Uno.WindowsCommunityToolkit%20-%20CI?branchName=unorel%2F7.1)](https://uno-platform.visualstudio.com/Uno%20Platform/_build/latest?definitionId=14&branchName=unorel%2F7.1)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.md)
 
 Uno Toolkit provides a set of higher-level UI Controls designed specifically for multi-platform, responsive applications.
 

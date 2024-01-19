@@ -20,13 +20,13 @@ This markup extension provides a binding to the closest parent ItemsControl. Thi
 
 ### Properties
 
-Property|Type|Description
--|-|-
-Path|string|Binding path from the ancestor.
+| Property   | Type     | Description                     |
+|------------|----------|---------------------------------|
+| `Path`     | `string` | Binding path from the ancestor. |
 
 ### Usage
 
-```cs
+```csharp
 public class ExampleModel
 {
     public int[] Items { get; } = new[] { 1, 2, 3 };
@@ -60,14 +60,14 @@ This markup extension provides a means to bind to an ancestor of a specific type
 
 ### Properties
 
-Property|Type|Description
--|-|-
-AncestorType|Type|Type of ancestor to bind from.
-Path|string|Binding path from the ancestor.
+| Property       | Type     | Description                     |
+|----------------|----------|---------------------------------|
+| `AncestorType` | `Type`   | Type of ancestor to bind from.  |
+| `Path`         | `string` | Binding path from the ancestor. |
 
 ### Usage
 
-```cs
+```csharp
 public class ExampleModel
 {
     public int[] Items { get; } = new[] { 1, 2, 3 };

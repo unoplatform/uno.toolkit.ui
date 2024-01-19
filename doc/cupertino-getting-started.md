@@ -60,7 +60,7 @@ If your application is based on the older solution template that includes a shar
 
                     <!-- Load WinUI resources -->
                     <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                    
+
                     <!-- Load Cupertino resources -->
                     <CupertinoColors xmlns="using:Uno.Cupertino"  />
                     <CupertinoFonts xmlns="using:Uno.Cupertino"  />
@@ -81,4 +81,4 @@ If your application is based on the older solution template that includes a shar
 
 ## Customization
 
-For instructions on changing the default color palette or the font family, please refer to [this guide](https://platform.uno/docs/articles/external/uno.themes/doc/cupertino-getting-started.html#customization).
+For instructions on changing the default color palette or the font family, please refer to the [Customization section in Uno.Cupertino guide](https://platform.uno/docs/articles/external/uno.themes/doc/cupertino-getting-started.html#customization).
