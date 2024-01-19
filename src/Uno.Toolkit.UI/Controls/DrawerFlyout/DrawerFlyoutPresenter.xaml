@@ -48,8 +48,8 @@
 		<Setter Property="Margin" Value="0" />
 		<Setter Property="Padding" Value="0" />
 
-		<Setter Property="MaxWidth" Value="NaN" />
-		<Setter Property="MaxHeight" Value="NaN" />
+		<Setter Property="MaxWidth" Value="PositiveInfinity" />
+		<Setter Property="MaxHeight" Value="PositiveInfinity" />
 
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
