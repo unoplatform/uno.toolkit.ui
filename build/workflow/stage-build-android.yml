@@ -29,6 +29,7 @@ jobs:
   - template: templates/dotnet-workload-install-windows.yml
   - template: templates/canary-updater.yml
   - template: templates/gitversion.yml
+  - template: templates/set-app-versions.yml
 
   - task: DownloadSecureFile@1
     name: keyStore
@@ -46,7 +47,7 @@ jobs:
   - script: |
       cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -f net7.0-android -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog 
+      dotnet build -f net7.0-android -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
     displayName: Build project for Release - (net7.0-android)
     condition: eq(variables['System.PullRequest.IsFork'],'True')
 
