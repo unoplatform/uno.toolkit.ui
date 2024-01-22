@@ -25,7 +25,7 @@ Depending on the amount of user attention you want to draw to the content you ca
 
 The `Card` control is based on `Control` and allows you to customize the control's content through [additional properties](#properties) to fit your needs.
 
-### C# <!-- markdownlint-disable-line -->
+### C\#
 
 ```csharp
 public partial class Card : Control
@@ -42,35 +42,35 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Inheritance
 
-Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; Card
+`Object` &#8594; `DependencyObject` &#8594; `UIElement` &#8594; `FrameworkElement` &#8594; `Control` &#8594; `Card`
 
 ### Constructors
 
-| Constructor    | Description                                           |
-|----------------|-------------------------------------------------------|
-| Card()         | Initializes a new instance of the `Card` class.       |
+| Constructor | Description                                     |
+|-------------|-------------------------------------------------|
+| `Card()`    | Initializes a new instance of the `Card` class. |
 
 ### Properties
 
-The Card control comes with all the built-in properties of a `Control`, and also a few additional properties listed below that let you tailor the content to be displayed:
+The `Card` control comes with all the built-in properties of a `Control`, and also a few additional properties listed below that let you tailor the content to be displayed:
 
-| Property                  | Type              | Description                                                                                   |
-|---------------------------|-------------------|-----------------------------------------------------------------------------------------------|
-| HeaderContent             | object            | Gets or sets the content for the control's header.                                            |
-| HeaderContentTemplate     | DataTemplate      | Gets or sets the data template used to display the content of the control's header.           |
-| SubHeaderContent          | object            | Gets or sets the content for the control's subheader.                                         |
-| SubHeaderContentTemplate  | DataTemplate      | Gets or sets the data template used to display the content of the control's subheader.        |
-| AvatarContent             | object            | Gets or sets the content for the control's avatar.                                            |
-| AvatarContentTemplate     | DataTemplate      | Gets or sets the data template used to display the content of the control's avatar.           |
-| MediaContent              | object            | Gets or sets the content for the control's media area.                                        |
-| MediaContentTemplate      | DataTemplate      | Gets or sets the data template used to display the content of the control's media area.       |
-| SupportingContent         | object            | Gets or sets the content for the control's supporting area.                                   |
-| SupportingContentTemplate | DataTemplate      | Gets or sets the data template used to display the content of the control's supporting area.  |
-| IconsContent              | object            | Gets or sets the content for the control's icons.                                             |
-| IconsContentTemplate      | DataTemplate      | Gets or sets the data template used to display the content of the control's icons.            |
-| Elevation                 | double            | Gets or sets the elevation of the control.                                                    |
-| ShadowColor               | Color             | Gets or sets the color to use for the shadow of the control.                                  |
-| IsClickable               | bool              | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
+| Property                    | Type           | Description                                                                                   |
+|-----------------------------|----------------|-----------------------------------------------------------------------------------------------|
+| `HeaderContent`             | `object`       | Gets or sets the content for the control's header.                                            |
+| `HeaderContentTemplate`     | `DataTemplate` | Gets or sets the data template used to display the content of the control's header.           |
+| `SubHeaderContent`          | `object`       | Gets or sets the content for the control's subheader.                                         |
+| `SubHeaderContentTemplate`  | `DataTemplate` | Gets or sets the data template used to display the content of the control's subheader.        |
+| `AvatarContent`             | `object`       | Gets or sets the content for the control's avatar.                                            |
+| `AvatarContentTemplate`     | `DataTemplate` | Gets or sets the data template used to display the content of the control's avatar.           |
+| `MediaContent`              | `object`       | Gets or sets the content for the control's media area.                                        |
+| `MediaContentTemplate`      | `DataTemplate` | Gets or sets the data template used to display the content of the control's media area.       |
+| `SupportingContent`         | `object`       | Gets or sets the content for the control's supporting area.                                   |
+| `SupportingContentTemplate` | `DataTemplate` | Gets or sets the data template used to display the content of the control's supporting area.  |
+| `IconsContent`              | `object`       | Gets or sets the content for the control's icons.                                             |
+| `IconsContentTemplate`      | `DataTemplate` | Gets or sets the data template used to display the content of the control's icons.            |
+| `Elevation`                 | `double`       | Gets or sets the elevation of the control.                                                    |
+| `ShadowColor`               | `Color`        | Gets or sets the color to use for the shadow of the control.                                  |
+| `IsClickable`               | `bool`         | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
 
 > [!TIP]
 > Consider using [CardContentControl](#cardcontentcontrol) if you need full control over the content layout.
@@ -103,46 +103,46 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
-Key|Type|Value
--|-|-
-ContentTemplateForeground|SolidColorBrush|OnSurfaceMediumBrush
-ContentTemplateBorderBrush|SolidColorBrush|OnSurfaceMediumBrush
-FilledCardBackground|SolidColorBrush|SurfaceBrush
-FilledCardBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-FilledCardBorderBrushPointerOver|SolidColorBrush|OnSurfaceHoverBrush
-FilledCardBorderBrushFocused|SolidColorBrush|OnSurfaceFocusedBrush
-AvatarFilledCardBackground|SolidColorBrush|SurfaceBrush
-AvatarFilledCardBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-AvatarFilledCardBorderBrushPointerOver|SolidColorBrush|OnSurfaceHoverBrush
-AvatarFilledCardBorderBrushFocused|SolidColorBrush|OnSurfaceFocusedBrush
-SmallMediaFilledCardBackground|SolidColorBrush|SurfaceBrush
-SmallMediaFilledCardBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-SmallMediaFilledCardBorderBrushPointerOver|SolidColorBrush|OnSurfaceHoverBrush
-SmallMediaFilledCardBorderBrushFocused|SolidColorBrush|OnSurfaceFocusedBrush
-OutlinedCardBackground|SolidColorBrush|SurfaceBrush
-OutlinedCardBorderBrush|SolidColorBrush|OutlineBrush
-AvatarOutlinedCardBackground|SolidColorBrush|SurfaceBrush
-AvatarOutlinedCardBorderBrush|SolidColorBrush|OutlineBrush
-SmallMediaOutlinedCardBackground|SolidColorBrush|SurfaceBrush
-SmallMediaOutlinedCardBorderBrush|SolidColorBrush|OutlineBrush
-ElevatedCardBackground|SolidColorBrush|SurfaceBrush
-ElevatedCardBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-ElevatedCardBorderBrushPointerOver|SolidColorBrush|OnSurfaceHoverBrush
-ElevatedCardBorderBrushFocused|SolidColorBrush|OnSurfaceFocusedBrush
-AvatarElevatedCardBackground|SolidColorBrush|SurfaceBrush
-AvatarElevatedCardBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-AvatarElevatedCardBorderBrushPointerOver|SolidColorBrush|OnSurfaceHoverBrush
-AvatarElevatedCardBorderBrushFocused|SolidColorBrush|OnSurfaceFocusedBrush
-SmallMediaElevatedCardBackground|SolidColorBrush|SurfaceBrush
-SmallMediaElevatedCardBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-SmallMediaElevatedCardBorderBrushPointerOver|SolidColorBrush|OnSurfaceHoverBrush
-SmallMediaElevatedCardBorderBrushFocused|SolidColorBrush|OnSurfaceFocusedBrush
+| Key                                            | Type              | Value                           |
+|------------------------------------------------|-------------------|---------------------------------|
+| `ContentTemplateForeground`                    | `SolidColorBrush` | `OnSurfaceMediumBrush`          |
+| `ContentTemplateBorderBrush`                   | `SolidColorBrush` | `OnSurfaceMediumBrush`          |
+| `FilledCardBackground`                         | `SolidColorBrush` | `SurfaceBrush`                  |
+| `FilledCardBorderBrush`                        | `SolidColorBrush` | `SystemControlTransparentBrush` |
+| `FilledCardBorderBrushPointerOver`             | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
+| `FilledCardBorderBrushFocused`                 | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
+| `AvatarFilledCardBackground`                   | `SolidColorBrush` | `SurfaceBrush`                  |
+| `AvatarFilledCardBorderBrush`                  | `SolidColorBrush` | `SystemControlTransparentBrush` |
+| `AvatarFilledCardBorderBrushPointerOver`       | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
+| `AvatarFilledCardBorderBrushFocused`           | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
+| `SmallMediaFilledCardBackground`               | `SolidColorBrush` | `SurfaceBrush`                  |
+| `SmallMediaFilledCardBorderBrush`              | `SolidColorBrush` | `SystemControlTransparentBrush` |
+| `SmallMediaFilledCardBorderBrushPointerOver`   | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
+| `SmallMediaFilledCardBorderBrushFocused`       | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
+| `OutlinedCardBackground`                       | `SolidColorBrush` | `SurfaceBrush`                  |
+| `OutlinedCardBorderBrush`                      | `SolidColorBrush` | `OutlineBrush`                  |
+| `AvatarOutlinedCardBackground`                 | `SolidColorBrush` | `SurfaceBrush`                  |
+| `AvatarOutlinedCardBorderBrush`                | `SolidColorBrush` | `OutlineBrush`                  |
+| `SmallMediaOutlinedCardBackground`             | `SolidColorBrush` | `SurfaceBrush`                  |
+| `SmallMediaOutlinedCardBorderBrush`            | `SolidColorBrush` | `OutlineBrush`                  |
+| `ElevatedCardBackground`                       | `SolidColorBrush` | `SurfaceBrush`                  |
+| `ElevatedCardBorderBrush`                      | `SolidColorBrush` | `SystemControlTransparentBrush` |
+| `ElevatedCardBorderBrushPointerOver`           | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
+| `ElevatedCardBorderBrushFocused`               | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
+| `AvatarElevatedCardBackground`                 | `SolidColorBrush` | `SurfaceBrush`                  |
+| `AvatarElevatedCardBorderBrush`                | `SolidColorBrush` | `SystemControlTransparentBrush` |
+| `AvatarElevatedCardBorderBrushPointerOver`     | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
+| `AvatarElevatedCardBorderBrushFocused`         | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
+| `SmallMediaElevatedCardBackground`             | `SolidColorBrush` | `SurfaceBrush`                  |
+| `SmallMediaElevatedCardBorderBrush`            | `SolidColorBrush` | `SystemControlTransparentBrush` |
+| `SmallMediaElevatedCardBorderBrushPointerOver` | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
+| `SmallMediaElevatedCardBorderBrushFocused`     | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
 
 ## CardContentControl
 
 The `CardContentControl` is based on `ContentControl` and allows you to customize the entire content through `DataTemplate` to fit your needs.
 
-### C# <!-- markdownlint-disable-line -->
+### C\#
 
 ```csharp
 public partial class CardContentControl : ContentControl
@@ -167,23 +167,23 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Inheritance
 
-Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; CardContentControl
+`Object` &#8594; `DependencyObject` &#8594; `UIElement` &#8594; `FrameworkElement` &#8594; `Control` &#8594; `ContentControl` &#8594; `CardContentControl`
 
 ### Constructors
 
-| Constructor           | Description                                                   |
-|-----------------------|---------------------------------------------------------------|
-| CardContentControl()  | Initializes a new instance of the `CardContentControl` class. |
+| Constructor            | Description                                                   |
+|------------------------|---------------------------------------------------------------|
+| `CardContentControl()` | Initializes a new instance of the `CardContentControl` class. |
 
 ### Properties
 
-The Card control comes with all the built-in properties of a `ContentControl`, and also a few additional properties listed below:
+The `Card` control comes with all the built-in properties of a `ContentControl`, and also a few additional properties listed below:
 
-| Property                  | Type              | Description                                                                                   |
-|---------------------------|-------------------|-----------------------------------------------------------------------------------------------|
-| Elevation                 | double            | Gets or sets the elevation of the control.                                                    |
-| ShadowColor               | Color             | Gets or sets the color to use for the shadow of the control.                                  |
-| IsClickable               | bool              | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
+| Property      | Type     | Description                                                                                   |
+|---------------|----------|-----------------------------------------------------------------------------------------------|
+| `Elevation`   | `double` | Gets or sets the elevation of the control.                                                    |
+| `ShadowColor` | `Color`  | Gets or sets the color to use for the shadow of the control.                                  |
+| `IsClickable` | `bool`   | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
 
 ### Usage
 
@@ -231,17 +231,17 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
-Key|Type|Value
--|-|-
-FilledCardContentBackground|SolidColorBrush|SurfaceBrush
-FilledCardContentBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-FilledCardContentBorderBrushPointerOver|SolidColorBrush|OnSurfaceHoverBrush
-FilledCardContentBorderBrushFocused|SolidColorBrush|OnSurfaceFocusedBrush
-FilledCardContentBorderBrushPressed|SolidColorBrush|OnSurfacePressedBrush
-OutlinedCardContentBackground|SolidColorBrush|SurfaceBrush
-OutlinedCardContentBorderBrush|SolidColorBrush|OutlineBrush
-ElevatedCardContentBackground|SolidColorBrush|SurfaceBrush
-ElevatedCardContentBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-ElevatedCardContentBorderBrushPointerOver|SolidColorBrush|OnSurfaceHoverBrush
-ElevatedCardContentBorderBrushFocused|SolidColorBrush|OnSurfaceFocusedBrush
-ElevatedCardContentBorderBrushPressed|SolidColorBrush|OnSurfacePressedBrush
+| Key                                         | Type              | Value                           |
+|---------------------------------------------|-------------------|---------------------------------|
+| `FilledCardContentBackground`               | `SolidColorBrush` | `SurfaceBrush`                  |
+| `FilledCardContentBorderBrush`              | `SolidColorBrush` | `SystemControlTransparentBrush` |
+| `FilledCardContentBorderBrushPointerOver`   | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
+| `FilledCardContentBorderBrushFocused`       | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
+| `FilledCardContentBorderBrushPressed`       | `SolidColorBrush` | `OnSurfacePressedBrush`         |
+| `OutlinedCardContentBackground`             | `SolidColorBrush` | `SurfaceBrush`                  |
+| `OutlinedCardContentBorderBrush`            | `SolidColorBrush` | `OutlineBrush`                  |
+| `ElevatedCardContentBackground`             | `SolidColorBrush` | `SurfaceBrush`                  |
+| `ElevatedCardContentBorderBrush`            | `SolidColorBrush` | `SystemControlTransparentBrush` |
+| `ElevatedCardContentBorderBrushPointerOver` | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
+| `ElevatedCardContentBorderBrushFocused`     | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
+| `ElevatedCardContentBorderBrushPressed`     | `SolidColorBrush` | `OnSurfacePressedBrush`         |

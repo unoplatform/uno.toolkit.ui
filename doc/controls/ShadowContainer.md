@@ -52,13 +52,13 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Inheritance
 
-Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl > ShadowContainer
+`Object` &#8594; `DependencyObject` &#8594; `UIElement` &#8594; `FrameworkElement` &#8594; `Control` &#8594; `ContentControl` &#8594; `ShadowContainer`
 
 ### Properties
 
-| Property | Type             | Description |
-| -------- | ---------------- | ----------- |
-Shadows  | ShadowCollection |  The collection of shadows that will be displayed under your control. A `ShadowCollection` can be stored in a resource dictionary to have a consistent style throughout your app. The `ShadowCollection` implements `INotifyCollectionChanged`.
+| Property   | Type               | Description                                                                                                                                                                                                                                    |
+|------------|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Shadows`  | `ShadowCollection` | The collection of shadows that will be displayed under your control. A `ShadowCollection` can be stored in a resource dictionary to have a consistent style throughout your app. The `ShadowCollection` implements `INotifyCollectionChanged`. |
 
 ## Shadow
 
@@ -66,15 +66,15 @@ Dependency object representing a single shadow.
 
 ### Shadow Properties
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-IsInner | bool | True if this shadow is an inner shadow (similar to `inset` of `box-shadow` in CSS).
-OffsetX | double | The X offset of the shadow.
-OffsetY | double | The Y offset of the shadow.
-Color | Color | The color of the shadow. It will be multiplied by the `Opacity` property before rendering.
-Opacity | double | The opacity of the shadow.
-BlurRadius | double | The radius of the blur that will be applied to the shadow **[0..100]**.
-Spread | double | The spread will inflate or deflate (if negative) the control shadow size **before** applying the blur.
+| Property     | Type     | Description                                                                                            |
+|--------------|----------|--------------------------------------------------------------------------------------------------------|
+| `IsInner`    | `bool`   | True if this shadow is an inner shadow (similar to `inset` of `box-shadow` in CSS).                    |
+| `OffsetX`    | `double` | The X offset of the shadow.                                                                            |
+| `OffsetY`    | `double` | The Y offset of the shadow.                                                                            |
+| `Color`      | `Color`  | The color of the shadow. It will be multiplied by the `Opacity` property before rendering.             |
+| `Opacity`    | `double` | The opacity of the shadow.                                                                             |
+| `BlurRadius` | `double` | The radius of the blur that will be applied to the shadow **[0..100]**.                                |
+| `Spread`     | `double` | The spread will inflate or deflate (if negative) the control shadow size **before** applying the blur. |
 
 As mentioned `IsInner` is similar to `inset` of `box-shadow` in CSS. See the images below that illustrate its effects:
 
@@ -86,7 +86,7 @@ Without `inset` a Drop (outer) Shadow is rendered.
 
 ![CSS box-shadow without inset](../assets/box-shadow.png)
 
-For more info on how `inset` works in CSS for `box-shadow` follow https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow#values.
+For more info on how `inset` works in CSS for `box-shadow`, see [`box-shadow` values](https://developer.mozilla.org/docs/Web/CSS/box-shadow#values).
 
 > [!IMPORTANT]
 > Be careful not to confuse the `Shadow` property with the `Shadows` property. The singular `Shadow` property comes from `UIElement`. To add shadows to the `ShadowContainer`, use only the `Shadows` property.

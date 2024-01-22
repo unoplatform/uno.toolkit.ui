@@ -14,7 +14,7 @@ Represents a control that provides a list of `TabItem`s to select from. The `Tab
 
 `TabBarItem` is a specialized `SelectorItem` that includes functionality such as triggering an `ICommand` on click/tap or displaying a flyout.
 
-### C# <!-- markdownlint-disable-line -->
+### C\#
 
 ```csharp
 public partial class TabBarItem : SelectorItem
@@ -35,37 +35,37 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Inheritance
 
-Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ContentControl &#8594; SelectorItem &#8594; TabBarItem
+`Object` &#8594; `DependencyObject` &#8594; `UIElement` &#8594; `FrameworkElement` &#8594; `Control` &#8594; `ContentControl` &#8594; `SelectorItem` &#8594; `TabBarItem`
 
 ### Constructors
 
-| Constructor  | Description                                           |
-|--------------|-------------------------------------------------------|
-| TabBarItem() | Initializes a new instance of the `TabBarItem` class. |
+| Constructor    | Description                                           |
+|----------------|-------------------------------------------------------|
+| `TabBarItem()` | Initializes a new instance of the `TabBarItem` class. |
 
 ### Properties
 
-Property|Type|Description
--|-|-
-BadgeValue|string|Gets or sets the value to be displayed in the badge of the `TabBarItem`. If a value is set the large badge will be displayed otherwise it will be the small badge. (Currently only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`)
-BadgeVisibility|Visibility|Gets or sets the badge visibility of the `TabBarItem`. (Currently only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`)
-Command|ICommand|Gets or sets the command to invoke when the `TabBarItem` is pressed.
-CommandParameter|object|Gets or sets the parameter to pass to the `Command` property.
-Flyout|double|Gets or sets the flyout associated with this `TabBarItem`.
-Icon|IconElement|Gets or sets the icon of the `TabBarItem`.
-IsSelectable|bool|Gets or sets whether the `TabBarItem` can be selected.
+| Property           | Type          | Description                                                                                                                                                                                                                                                                                    |
+|--------------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `BadgeValue`       | `string`      | Gets or sets the value to be displayed in the badge of the `TabBarItem`. If a value is set the large badge will be displayed otherwise it will be the small badge. (Currently only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`) |
+| `BadgeVisibility`  | `Visibility`  | Gets or sets the badge visibility of the `TabBarItem`. (Currently only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`)                                                                                                             |
+| `Command`          | `ICommand`    | Gets or sets the command to invoke when the `TabBarItem` is pressed.                                                                                                                                                                                                                           |
+| `CommandParameter` | `object`      | Gets or sets the parameter to pass to the `Command` property.                                                                                                                                                                                                                                  |
+| `Flyout`           | `double`      | Gets or sets the flyout associated with this `TabBarItem`.                                                                                                                                                                                                                                     |
+| `Icon`             | `IconElement` | Gets or sets the icon of the `TabBarItem`.                                                                                                                                                                                                                                                     |
+| `IsSelectable`     | `bool`        | Gets or sets whether the `TabBarItem` can be selected.                                                                                                                                                                                                                                         |
 
 ### Events
 
-Event|Type|Description
--|-|-
-Click|RoutedEventHandler|Occurs when the `TabBarItem` is pressed.
+| Event   | Type                 | Description                              |
+|---------|----------------------|------------------------------------------|
+| `Click` | `RoutedEventHandler` | Occurs when the `TabBarItem` is pressed. |
 
 ## TabBar
 
 `TabBar` is a specialized `ItemsControl` used to present a collection of `TabBarItem`s.
 
-### C# <!-- markdownlint-disable-line -->
+### C\#
 
 ```csharp
 public partial class TabBar : ItemsControl
@@ -92,38 +92,39 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Inheritance
 
-Object &#8594; DependencyObject &#8594; UIElement &#8594; FrameworkElement &#8594; Control &#8594; ItemsControl &#8594; TabBar
+`Object` &#8594; `DependencyObject` &#8594; `UIElement` &#8594; `FrameworkElement` &#8594; `Control` &#8594; `ItemsControl` &#8594; `TabBar`
 
 ### Constructors
 
 | Constructor | Description                                       |
 |-------------|---------------------------------------------------|
-| TabBar()    | Initializes a new instance of the `TabBar` class. |
+| `TabBar()`  | Initializes a new instance of the `TabBar` class. |
 
 ### Properties
 
-Property|Type|Description
--|-|-
-SelectedIndex|int|Gets or sets the index of the selected item.
-SelectedItem|object|Gets or sets the selected item.
-Orientation|Orientation|Gets or sets the dimension by which the items are stacked
-SelectionIndicatorContent|object|Gets or sets the content to be displayed as the selection indicator
-SelectionIndicatorContentTemplate|DataTemplate|Gets or sets the data template that is used to display the content of the selection indicator
-SelectionIndicatorPresenterStyle|Style|Gets or sets the style to be applied for the content of the `TabBarSelectionIndicatorPresenter`
-SelectionIndicatorTransitionMode|IndicatorTransitionMode|Gets or sets the behavior of the selection indicator. The indicator can either slide or snap to the newly selected item. Defaults to `Snap`
-SelectionIndicatorPlacement|IndicatorPlacement|Gets or sets the placement of the selection indicator. The indicator can either be displayed `Above` or `Below` the TabBarItem Content. Defaults to `Above`
+| Property                            | Type                      | Description                                                                                                                                                 |
+|-------------------------------------|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `SelectedIndex`                     | `int`                     | Gets or sets the index of the selected item.                                                                                                                |
+| `SelectedItem`                      | `object`                  | Gets or sets the selected item.                                                                                                                             |
+| `Orientation`                       | `Orientation`             | Gets or sets the dimension by which the items are stacked                                                                                                   |
+| `SelectionIndicatorContent`         | `object`                  | Gets or sets the content to be displayed as the selection indicator                                                                                         |
+| `SelectionIndicatorContentTemplate` | `DataTemplate`            | Gets or sets the data template that is used to display the content of the selection indicator                                                               |
+| `SelectionIndicatorPresenterStyle`  | `Style`                   | Gets or sets the style to be applied for the content of the `TabBarSelectionIndicatorPresenter`                                                             |
+| `SelectionIndicatorTransitionMode`  | `IndicatorTransitionMode` | Gets or sets the behavior of the selection indicator. The indicator can either slide or snap to the newly selected item. Defaults to `Snap`                 |
+| `SelectionIndicatorPlacement`       | `IndicatorPlacement`      | Gets or sets the placement of the selection indicator. The indicator can either be displayed `Above` or `Below` the TabBarItem Content. Defaults to `Above` |
 
-> Note: `TabBar` only supports the single selection mode.
+> [!NOTE]
+> `TabBar` only supports the single selection mode.
 
 ### Events
 
 All events below are forwarded from the nested `TabBarItem`s:
 
-Event|Type|Description
--|-|-
-SelectionChanged|`TypedEventHandler<TabBar, TabBarSelectionChangedEventArgs>`|Occurs when a `TabBarItem`'s selection state has changed.
+| Event              | Type                                                         | Description                                               |
+|--------------------|--------------------------------------------------------------|-----------------------------------------------------------|
+| `SelectionChanged` | `TypedEventHandler<TabBar, TabBarSelectionChangedEventArgs>` | Occurs when a `TabBarItem`'s selection state has changed. |
 
-```cs
+```csharp
 class TabBarSelectionChangedEventArgs : EventArgs
 {
     // Gets the newly selected TabBarItem
@@ -384,15 +385,15 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 The Uno Toolkit provides several styles of `TabBarItem` for both Material and Cupertino themes.
 
-Style Key|Material|Cupertino
--|-|-
-BottomFabTabBarItemStyle|&check;|
-BottomTabBarItemStyle|&check;|&check;|
-ColoredTopTabBarItemStyle|&check;|
-SegmentedItemStyle||&check;|
-SlidingSegmentedItemStyle|&check;|
-TopTabBarItemStyle|&check;|
-VerticalTabBarItemStyle|&check;|
+| Style Key                   | Material | Cupertino |
+|-----------------------------|----------|-----------|
+| `BottomFabTabBarItemStyle`  | &check;  |           |
+| `BottomTabBarItemStyle`     | &check;  | &check;   |
+| `ColoredTopTabBarItemStyle` | &check;  |           |
+| `SegmentedItemStyle`        |          | &check;   |
+| `SlidingSegmentedItemStyle` | &check;  |           |
+| `TopTabBarItemStyle`        | &check;  |           |
+| `VerticalTabBarItemStyle`   | &check;  |           |
 
 These pre-built styles can be used for more complex `TabBar` scenarios. For example, using the BottomFabTabBarItemStyle, we can embed Floating Action Buttons into the `TabBar`.
 
@@ -505,159 +506,159 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
-Key|Type|Value
--|-|-
-NavigationTabBarWidthOrHeight|Double|80
-NavigationTabBarTintOpacity|Double|0.8
-NavigationTabBarItemIconHeight|Double|18
-NavigationTabBarItemActiveIndicatorWidth|Double|64
-NavigationTabBarItemActiveIndicatorHeight|Double|32
-NavigationTabBarItemPadding|Thickness|0,12,0,16
-NavigationTabBarItemActiveIndicatorCornerRadius|CornerRadius|16
-TopTabBarHeight|Double|48
-TopTabBarItemIconHeight|Double|20
-TopTabBarItemContentMargin|Thickness|0
-FabTabBarItemOffset|Double|-32
-FabTabBarItemContentWidthOrHeight|Double|16
-FabTabBarItemIconTextPadding|Double|12
-FabTabBarItemCornerRadius|CornerRadius|16
-FabTabBarItemPadding|Thickness|20
-NavigationTabBarItemSmallBadgeHeight|Double|6
-NavigationTabBarItemSmallBadgeWidth|Double|6
-NavigationTabBarItemSmallBadgeMargin|Thickness|0,4,20,0
-NavigationTabBarItemLargeBadgeHeight|Double|16
-NavigationTabBarItemLargeBadgeMinWidth|Double|16
-NavigationTabBarItemLargeBadgeMargin|Thickness|32,2,0,0
-NavigationTabBarItemLargeBadgePadding|Thickness|4,0
-NavigationTabBarItemLargeBadgeCornerRadius|CornerRadius|8
-VerticalTabBarBackground|SolidColorBrush|SurfaceBrush
-BottomTabBarBackground|SolidColorBrush|SurfaceBrush
-TopTabBarBackground|SolidColorBrush|BackgroundBrush
-TopTabBarBottomBorderBrush|SolidColorBrush|PrimaryBrush
-ColoredTopTabBarBackground|SolidColorBrush|PrimaryBrush
-ColoredTopTabBarBottomBorderBrush|SolidColorBrush|OnPrimaryBrush
-ColoredTopTabBarItemBackground|SolidColorBrush|SystemControlTransparentBrush
-ColoredTopTabBarItemBackgroundPointerOver|SolidColorBrush|OnPrimaryHoverBrush
-ColoredTopTabBarItemBackgroundFocused|SolidColorBrush|OnPrimaryLowBrush
-ColoredTopTabBarItemBackgroundPressed|SolidColorBrush|OnPrimaryPressedBrush
-ColoredTopTabBarItemBackgroundDisabled|SolidColorBrush|SystemControlTransparentBrush
-ColoredTopTabBarItemBackgroundSelected|SolidColorBrush|SystemControlTransparentBrush
-ColoredTopTabBarItemBackgroundSelectedPointerOver|SolidColorBrush|OnPrimaryHoverBrush
-ColoredTopTabBarItemBackgroundSelectedPressed|SolidColorBrush|OnPrimaryPressedBrush
-ColoredTopTabBarItemForeground|SolidColorBrush|OnPrimaryMediumBrush
-ColoredTopTabBarItemForegroundPointerOver|SolidColorBrush|OnPrimaryMediumBrush
-ColoredTopTabBarItemForegroundFocused|SolidColorBrush|OnPrimaryMediumBrush
-ColoredTopTabBarItemForegroundPressed|SolidColorBrush|OnPrimaryMediumBrush
-ColoredTopTabBarItemForegroundDisabled|SolidColorBrush|SystemControlDisabledBaseMediumLowBrush
-ColoredTopTabBarItemForegroundSelected|SolidColorBrush|OnPrimaryBrush
-ColoredTopTabBarItemForegroundSelectedPointerOver|SolidColorBrush|OnPrimaryBrush
-ColoredTopTabBarItemForegroundSelectedPressed|SolidColorBrush|OnPrimaryBrush
-ColoredTopTabBarItemIconForeground|SolidColorBrush|SystemControlTransparentBrush
-ColoredTopTabBarItemIconForegroundPointerOver|SolidColorBrush|OnPrimaryMediumBrush
-ColoredTopTabBarItemIconForegroundFocused|SolidColorBrush|SystemControlTransparentBrush
-ColoredTopTabBarItemIconForegroundPressed|SolidColorBrush|OnPrimaryMediumBrush
-ColoredTopTabBarItemIconForegroundDisabled|SolidColorBrush|SystemControlDisabledBaseMediumLowBrush
-ColoredTopTabBarItemIconForegroundSelected|SolidColorBrush|OnPrimaryBrush
-ColoredTopTabBarItemIconForegroundSelectedPointerOver|SolidColorBrush|OnPrimaryBrush
-ColoredTopTabBarItemIconForegroundSelectedPressed|SolidColorBrush|OnPrimaryBrush
-ColoredTopTabBarItemPointerFillBrush|SolidColorBrush|SystemControlTransparentBrush
-ColoredTopTabBarItemPointerFillBrushPointerOver|SolidColorBrush|OnPrimaryHoverBrush
-ColoredTopTabBarItemPointerFillBrushFocused|SolidColorBrush|OnPrimaryLowBrush
-ColoredTopTabBarItemPointerFillBrushPressed|SolidColorBrush|OnPrimaryPressedBrush
-ColoredTopTabBarItemPointerFillBrushDisabled|SolidColorBrush|SystemControlTransparentBrush
-ColoredTopTabBarItemPointerFillBrushSelected|SolidColorBrush|SystemControlTransparentBrush
-ColoredTopTabBarItemPointerFillBrushSelectedPointerOver|SolidColorBrush|OnPrimaryHoverBrush
-ColoredTopTabBarItemPointerFillBrushSelectedPressed|SolidColorBrush|OnPrimaryPressedBrush
-ColoredTopTabBarItemRippleFeedback|SolidColorBrush|PrimaryBrush
-FabTabBarItemBackground|SolidColorBrush|PrimaryContainerBrush
-FabTabBarItemBackgroundPointerOver|SolidColorBrush|OnPrimaryContainerHoverBrush
-FabTabBarItemBackgroundFocused|SolidColorBrush|OnPrimaryContainerFocusedBrush
-FabTabBarItemBackgroundPressed|SolidColorBrush|OnPrimaryContainerPressedBrush
-FabTabBarItemBackgroundDisabled|SolidColorBrush|OnSurfaceDisabledLowBrush
-FabTabBarItemBackgroundSelected|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemBackgroundSelectedPointerOver|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemBackgroundSelectedPressed|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemForeground|SolidColorBrush|OnPrimaryContainerBrush
-FabTabBarItemForegroundPointerOver|SolidColorBrush|OnPrimaryContainerBrush
-FabTabBarItemForegroundFocused|SolidColorBrush|OnPrimaryContainerBrush
-FabTabBarItemForegroundPressed|SolidColorBrush|OnPrimaryContainerBrush
-FabTabBarItemForegroundDisabled|SolidColorBrush|OnSurfaceDisabledBrush
-FabTabBarItemForegroundSelected|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemForegroundSelectedPointerOver|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemForegroundSelectedPressed|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemIconForeground|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemIconForegroundPointerOver|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemIconForegroundFocused|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemIconForegroundPressed|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemIconForegroundDisabled|SolidColorBrush|OnSurfaceDisabledBrush
-FabTabBarItemIconForegroundSelected|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemIconForegroundSelectedPointerOver|SolidColorBrush|SystemControlTransparentBrush
-FabTabBarItemIconForegroundSelectedPressed|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarItemActiveIndicatorBackground|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarItemActiveIndicatorBackgroundPointerOver|SolidColorBrush|OnSurfaceVariantHoverBrush
-NavigationTabBarItemActiveIndicatorBackgroundPressed|SolidColorBrush|OnSurfaceVariantPressedBrush
-NavigationTabBarItemActiveIndicatorBackgroundDisabled|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarItemActiveIndicatorBackgroundSelected|SolidColorBrush|SecondaryContainerBrush
-NavigationTabBarItemActiveIndicatorBackgroundSelectedPointerOver|SolidColorBrush|OnSurfaceHoverBrush
-NavigationTabBarItemActiveIndicatorBackgroundSelectedPressed|SolidColorBrush|OnSurfacePressedBrush
-NavigationTabBarItemIconForeground|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarItemIconForegroundPointerOver|SolidColorBrush|OnSurfaceVariantBrush
-NavigationTabBarItemIconForegroundPressed|SolidColorBrush|OnSurfaceVariantBrush
-NavigationTabBarItemIconForegroundDisabled|SolidColorBrush|SystemControlDisabledBaseMediumLowBrush
-NavigationTabBarItemIconForegroundSelected|SolidColorBrush|OnSecondaryContainerBrush
-NavigationTabBarItemIconForegroundSelectedPointerOver|SolidColorBrush|OnSecondaryContainerBrush
-NavigationTabBarItemIconForegroundSelectedPressed|SolidColorBrush|OnSecondaryContainerBrush
-NavigationTabBarItemErrorBrush|SolidColorBrush|ErrorBrush
-NavigationTabBarItemOnErrorBrush|SolidColorBrush|OnErrorBrush
-NavigationTabBarItemPointerFillBrush|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarItemRippleFeedback|SolidColorBrush|OnSurfaceBrush
-TopTabBarItemBackground|SolidColorBrush|SystemControlTransparentBrush
-TopTabBarItemBackgroundPointerOver|SolidColorBrush|PrimaryHoverBrush
-TopTabBarItemBackgroundFocused|SolidColorBrush|PrimaryLowBrush
-TopTabBarItemBackgroundPressed|SolidColorBrush|PrimaryPressedBrush
-TopTabBarItemBackgroundDisabled|SolidColorBrush|SystemControlTransparentBrush
-TopTabBarItemBackgroundSelected|SolidColorBrush|SystemControlTransparentBrush
-TopTabBarItemBackgroundSelectedPointerOver|SolidColorBrush|PrimaryHoverBrush
-TopTabBarItemBackgroundSelectedPressed|SolidColorBrush|PrimaryPressedBrush
-TopTabBarItemForeground|SolidColorBrush|OnSurfaceMediumBrush
-TopTabBarItemForegroundPointerOver|SolidColorBrush|OnSurfaceMediumBrush
-TopTabBarItemForegroundFocused|SolidColorBrush|OnSurfaceMediumBrush
-TopTabBarItemForegroundPressed|SolidColorBrush|OnSurfaceMediumBrush
-TopTabBarItemForegroundDisabled|SolidColorBrush|SystemControlDisabledBaseMediumLowBrush
-TopTabBarItemForegroundSelected|SolidColorBrush|PrimaryBrush
-TopTabBarItemForegroundSelectedPointerOver|SolidColorBrush|PrimaryBrush
-TopTabBarItemForegroundSelectedPressed|SolidColorBrush|PrimaryBrush
-TopTabBarItemBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-TopTabBarItemIconForeground|SolidColorBrush|SystemControlTransparentBrush
-TopTabBarItemIconForegroundPointerOver|SolidColorBrush|OnSurfaceMediumBrush
-TopTabBarItemIconForegroundFocused|SolidColorBrush|SystemControlTransparentBrush
-TopTabBarItemIconForegroundPressed|SolidColorBrush|OnSurfaceMediumBrush
-TopTabBarItemIconForegroundDisabled|SolidColorBrush|SystemControlDisabledBaseMediumLowBrush
-TopTabBarItemIconForegroundSelected|SolidColorBrush|PrimaryBrush
-TopTabBarItemIconForegroundSelectedPointerOver|SolidColorBrush|PrimaryBrush
-TopTabBarItemIconForegroundSelectedPressed|SolidColorBrush|PrimaryBrush
-TopTabBarItemPointerFillBrush|SolidColorBrush|SystemControlTransparentBrush
-TopTabBarItemPointerFillBrushPointerOver|SolidColorBrush|PrimaryHoverBrush
-TopTabBarItemPointerFillBrushFocused|SolidColorBrush|PrimaryLowBrush
-TopTabBarItemPointerFillBrushPressed|SolidColorBrush|PrimaryPressedBrush
-TopTabBarItemPointerFillBrushDisabled|SolidColorBrush|SystemControlTransparentBrush
-TopTabBarItemPointerFillBrushSelected|SolidColorBrush|SystemControlTransparentBrush
-TopTabBarItemPointerFillBrushSelectedPointerOver|SolidColorBrush|PrimaryHoverBrush
-TopTabBarItemPointerFillBrushSelectedPressed|SolidColorBrush|PrimaryPressedBrush
-TopTabBarItemRippleFeedback|SolidColorBrush|PrimaryBrush
-NavigationTabBarBackground|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarBackgroundPointerOver|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarBackgroundFocused|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarBackgroundPressed|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarBackgroundSelected|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarBackgroundSelectedPointerOver|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarBackgroundSelectedPressed|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarForeground|SolidColorBrush|OnSurfaceVariantBrush
-NavigationTabBarForegroundPointerOver|SolidColorBrush|OnSurfaceVariantBrush
-NavigationTabBarForegroundPressed|SolidColorBrush|OnSurfaceVariantBrush
-NavigationTabBarForegroundDisabled|SolidColorBrush|SystemControlDisabledBaseMediumLowBrush
-NavigationTabBarForegroundSelected|SolidColorBrush|OnSurfaceBrush
-NavigationTabBarForegroundSelectedPointerOver|SolidColorBrush|OnSurfaceBrush
-NavigationTabBarForegroundSelectedPressed|SolidColorBrush|OnSurfaceBrush
-NavigationTabBarBorderBrush|SolidColorBrush|SystemControlTransparentBrush
-NavigationTabBarTintBrush|SolidColorBrush|SurfaceTintColor@NavigationTabBarTintOpacity
+| Key                                                                  | Type            | Value                                        |
+|----------------------------------------------------------------------|-----------------|----------------------------------------------|
+| `NavigationTabBarWidthOrHeight`                                    | `Double`          | 80                                           |
+| `NavigationTabBarTintOpacity`                                      | `Double`          | 0.8                                          |
+| `NavigationTabBarItemIconHeight`                                   | `Double`          | 18                                           |
+| `NavigationTabBarItemActiveIndicatorWidth`                         | `Double`          | 64                                           |
+| `NavigationTabBarItemActiveIndicatorHeight`                        | `Double`          | 32                                           |
+| `NavigationTabBarItemPadding`                                      | `Thickness`       | 0,12,0,16                                    |
+| `NavigationTabBarItemActiveIndicatorCornerRadius`                  | `CornerRadius`    | 16                                           |
+| `TopTabBarHeight`                                                  | `Double`          | 48                                           |
+| `TopTabBarItemIconHeight`                                          | `Double`          | 20                                           |
+| `TopTabBarItemContentMargin`                                       | `Thickness`       | 0                                            |
+| `FabTabBarItemOffset`                                              | `Double`          | -32                                          |
+| `FabTabBarItemContentWidthOrHeight`                                | `Double`          | 16                                           |
+| `FabTabBarItemIconTextPadding`                                     | `Double`          | 12                                           |
+| `FabTabBarItemCornerRadius`                                        | `CornerRadius`    | 16                                           |
+| `FabTabBarItemPadding`                                             | `Thickness`       | 20                                           |
+| `NavigationTabBarItemSmallBadgeHeight`                             | `Double`          | 6                                            |
+| `NavigationTabBarItemSmallBadgeWidth`                              | `Double`          | 6                                            |
+| `NavigationTabBarItemSmallBadgeMargin`                             | `Thickness`       | 0,4,20,0                                     |
+| `NavigationTabBarItemLargeBadgeHeight`                             | `Double`          | 16                                           |
+| `NavigationTabBarItemLargeBadgeMinWidth`                           | `Double`          | 16                                           |
+| `NavigationTabBarItemLargeBadgeMargin`                             | `Thickness`       | 32,2,0,0                                     |
+| `NavigationTabBarItemLargeBadgePadding`                            | `Thickness`       | 4,0                                          |
+| `NavigationTabBarItemLargeBadgeCornerRadius`                       | `CornerRadius`    | 8                                            |
+| `VerticalTabBarBackground`                                         | `SolidColorBrush` | SurfaceBrush                                 |
+| `BottomTabBarBackground`                                           | `SolidColorBrush` | SurfaceBrush                                 |
+| `TopTabBarBackground`                                              | `SolidColorBrush` | BackgroundBrush                              |
+| `TopTabBarBottomBorderBrush`                                       | `SolidColorBrush` | PrimaryBrush                                 |
+| `ColoredTopTabBarBackground`                                       | `SolidColorBrush` | PrimaryBrush                                 |
+| `ColoredTopTabBarBottomBorderBrush`                                | `SolidColorBrush` | OnPrimaryBrush                               |
+| `ColoredTopTabBarItemBackground`                                   | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `ColoredTopTabBarItemBackgroundPointerOver`                        | `SolidColorBrush` | OnPrimaryHoverBrush                          |
+| `ColoredTopTabBarItemBackgroundFocused`                            | `SolidColorBrush` | OnPrimaryLowBrush                            |
+| `ColoredTopTabBarItemBackgroundPressed`                            | `SolidColorBrush` | OnPrimaryPressedBrush                        |
+| `ColoredTopTabBarItemBackgroundDisabled`                           | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `ColoredTopTabBarItemBackgroundSelected`                           | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `ColoredTopTabBarItemBackgroundSelectedPointerOver`                | `SolidColorBrush` | OnPrimaryHoverBrush                          |
+| `ColoredTopTabBarItemBackgroundSelectedPressed`                    | `SolidColorBrush` | OnPrimaryPressedBrush                        |
+| `ColoredTopTabBarItemForeground`                                   | `SolidColorBrush` | OnPrimaryMediumBrush                         |
+| `ColoredTopTabBarItemForegroundPointerOver`                        | `SolidColorBrush` | OnPrimaryMediumBrush                         |
+| `ColoredTopTabBarItemForegroundFocused`                            | `SolidColorBrush` | OnPrimaryMediumBrush                         |
+| `ColoredTopTabBarItemForegroundPressed`                            | `SolidColorBrush` | OnPrimaryMediumBrush                         |
+| `ColoredTopTabBarItemForegroundDisabled`                           | `SolidColorBrush` | SystemControlDisabledBaseMediumLowBrush      |
+| `ColoredTopTabBarItemForegroundSelected`                           | `SolidColorBrush` | OnPrimaryBrush                               |
+| `ColoredTopTabBarItemForegroundSelectedPointerOver`                | `SolidColorBrush` | OnPrimaryBrush                               |
+| `ColoredTopTabBarItemForegroundSelectedPressed`                    | `SolidColorBrush` | OnPrimaryBrush                               |
+| `ColoredTopTabBarItemIconForeground`                               | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `ColoredTopTabBarItemIconForegroundPointerOver`                    | `SolidColorBrush` | OnPrimaryMediumBrush                         |
+| `ColoredTopTabBarItemIconForegroundFocused`                        | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `ColoredTopTabBarItemIconForegroundPressed`                        | `SolidColorBrush` | OnPrimaryMediumBrush                         |
+| `ColoredTopTabBarItemIconForegroundDisabled`                       | `SolidColorBrush` | SystemControlDisabledBaseMediumLowBrush      |
+| `ColoredTopTabBarItemIconForegroundSelected`                       | `SolidColorBrush` | OnPrimaryBrush                               |
+| `ColoredTopTabBarItemIconForegroundSelectedPointerOver`            | `SolidColorBrush` | OnPrimaryBrush                               |
+| `ColoredTopTabBarItemIconForegroundSelectedPressed`                | `SolidColorBrush` | OnPrimaryBrush                               |
+| `ColoredTopTabBarItemPointerFillBrush`                             | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `ColoredTopTabBarItemPointerFillBrushPointerOver`                  | `SolidColorBrush` | OnPrimaryHoverBrush                          |
+| `ColoredTopTabBarItemPointerFillBrushFocused`                      | `SolidColorBrush` | OnPrimaryLowBrush                            |
+| `ColoredTopTabBarItemPointerFillBrushPressed`                      | `SolidColorBrush` | OnPrimaryPressedBrush                        |
+| `ColoredTopTabBarItemPointerFillBrushDisabled`                     | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `ColoredTopTabBarItemPointerFillBrushSelected`                     | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `ColoredTopTabBarItemPointerFillBrushSelectedPointerOver`          | `SolidColorBrush` | OnPrimaryHoverBrush                          |
+| `ColoredTopTabBarItemPointerFillBrushSelectedPressed`              | `SolidColorBrush` | OnPrimaryPressedBrush                        |
+| `ColoredTopTabBarItemRippleFeedback`                               | `SolidColorBrush` | PrimaryBrush                                 |
+| `FabTabBarItemBackground`                                          | `SolidColorBrush` | PrimaryContainerBrush                        |
+| `FabTabBarItemBackgroundPointerOver`                               | `SolidColorBrush` | OnPrimaryContainerHoverBrush                 |
+| `FabTabBarItemBackgroundFocused`                                   | `SolidColorBrush` | OnPrimaryContainerFocusedBrush               |
+| `FabTabBarItemBackgroundPressed`                                   | `SolidColorBrush` | OnPrimaryContainerPressedBrush               |
+| `FabTabBarItemBackgroundDisabled`                                  | `SolidColorBrush` | OnSurfaceDisabledLowBrush                    |
+| `FabTabBarItemBackgroundSelected`                                  | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemBackgroundSelectedPointerOver`                       | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemBackgroundSelectedPressed`                           | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemForeground`                                          | `SolidColorBrush` | OnPrimaryContainerBrush                      |
+| `FabTabBarItemForegroundPointerOver`                               | `SolidColorBrush` | OnPrimaryContainerBrush                      |
+| `FabTabBarItemForegroundFocused`                                   | `SolidColorBrush` | OnPrimaryContainerBrush                      |
+| `FabTabBarItemForegroundPressed`                                   | `SolidColorBrush` | OnPrimaryContainerBrush                      |
+| `FabTabBarItemForegroundDisabled`                                  | `SolidColorBrush` | OnSurfaceDisabledBrush                       |
+| `FabTabBarItemForegroundSelected`                                  | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemForegroundSelectedPointerOver`                       | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemForegroundSelectedPressed`                           | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemIconForeground`                                      | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemIconForegroundPointerOver`                           | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemIconForegroundFocused`                               | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemIconForegroundPressed`                               | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemIconForegroundDisabled`                              | `SolidColorBrush` | OnSurfaceDisabledBrush                       |
+| `FabTabBarItemIconForegroundSelected`                              | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemIconForegroundSelectedPointerOver`                   | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `FabTabBarItemIconForegroundSelectedPressed`                       | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarItemActiveIndicatorBackground`                    | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarItemActiveIndicatorBackgroundPointerOver`         | `SolidColorBrush` | OnSurfaceVariantHoverBrush                   |
+| `NavigationTabBarItemActiveIndicatorBackgroundPressed`             | `SolidColorBrush` | OnSurfaceVariantPressedBrush                 |
+| `NavigationTabBarItemActiveIndicatorBackgroundDisabled`            | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarItemActiveIndicatorBackgroundSelected`            | `SolidColorBrush` | SecondaryContainerBrush                      |
+| `NavigationTabBarItemActiveIndicatorBackgroundSelectedPointerOver` | `SolidColorBrush` | OnSurfaceHoverBrush                          |
+| `NavigationTabBarItemActiveIndicatorBackgroundSelectedPressed`     | `SolidColorBrush` | OnSurfacePressedBrush                        |
+| `NavigationTabBarItemIconForeground`                               | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarItemIconForegroundPointerOver`                    | `SolidColorBrush` | OnSurfaceVariantBrush                        |
+| `NavigationTabBarItemIconForegroundPressed`                        | `SolidColorBrush` | OnSurfaceVariantBrush                        |
+| `NavigationTabBarItemIconForegroundDisabled`                       | `SolidColorBrush` | SystemControlDisabledBaseMediumLowBrush      |
+| `NavigationTabBarItemIconForegroundSelected`                       | `SolidColorBrush` | OnSecondaryContainerBrush                    |
+| `NavigationTabBarItemIconForegroundSelectedPointerOver`            | `SolidColorBrush` | OnSecondaryContainerBrush                    |
+| `NavigationTabBarItemIconForegroundSelectedPressed`                | `SolidColorBrush` | OnSecondaryContainerBrush                    |
+| `NavigationTabBarItemErrorBrush`                                   | `SolidColorBrush` | ErrorBrush                                   |
+| `NavigationTabBarItemOnErrorBrush`                                 | `SolidColorBrush` | OnErrorBrush                                 |
+| `NavigationTabBarItemPointerFillBrush`                             | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarItemRippleFeedback`                               | `SolidColorBrush` | OnSurfaceBrush                               |
+| `TopTabBarItemBackground`                                          | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `TopTabBarItemBackgroundPointerOver`                               | `SolidColorBrush` | PrimaryHoverBrush                            |
+| `TopTabBarItemBackgroundFocused`                                   | `SolidColorBrush` | PrimaryLowBrush                              |
+| `TopTabBarItemBackgroundPressed`                                   | `SolidColorBrush` | PrimaryPressedBrush                          |
+| `TopTabBarItemBackgroundDisabled`                                  | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `TopTabBarItemBackgroundSelected`                                  | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `TopTabBarItemBackgroundSelectedPointerOver`                       | `SolidColorBrush` | PrimaryHoverBrush                            |
+| `TopTabBarItemBackgroundSelectedPressed`                           | `SolidColorBrush` | PrimaryPressedBrush                          |
+| `TopTabBarItemForeground`                                          | `SolidColorBrush` | OnSurfaceMediumBrush                         |
+| `TopTabBarItemForegroundPointerOver`                               | `SolidColorBrush` | OnSurfaceMediumBrush                         |
+| `TopTabBarItemForegroundFocused`                                   | `SolidColorBrush` | OnSurfaceMediumBrush                         |
+| `TopTabBarItemForegroundPressed`                                   | `SolidColorBrush` | OnSurfaceMediumBrush                         |
+| `TopTabBarItemForegroundDisabled`                                  | `SolidColorBrush` | SystemControlDisabledBaseMediumLowBrush      |
+| `TopTabBarItemForegroundSelected`                                  | `SolidColorBrush` | PrimaryBrush                                 |
+| `TopTabBarItemForegroundSelectedPointerOver`                       | `SolidColorBrush` | PrimaryBrush                                 |
+| `TopTabBarItemForegroundSelectedPressed`                           | `SolidColorBrush` | PrimaryBrush                                 |
+| `TopTabBarItemBorderBrush`                                         | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `TopTabBarItemIconForeground`                                      | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `TopTabBarItemIconForegroundPointerOver`                           | `SolidColorBrush` | OnSurfaceMediumBrush                         |
+| `TopTabBarItemIconForegroundFocused`                               | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `TopTabBarItemIconForegroundPressed`                               | `SolidColorBrush` | OnSurfaceMediumBrush                         |
+| `TopTabBarItemIconForegroundDisabled`                              | `SolidColorBrush` | SystemControlDisabledBaseMediumLowBrush      |
+| `TopTabBarItemIconForegroundSelected`                              | `SolidColorBrush` | PrimaryBrush                                 |
+| `TopTabBarItemIconForegroundSelectedPointerOver`                   | `SolidColorBrush` | PrimaryBrush                                 |
+| `TopTabBarItemIconForegroundSelectedPressed`                       | `SolidColorBrush` | PrimaryBrush                                 |
+| `TopTabBarItemPointerFillBrush`                                    | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `TopTabBarItemPointerFillBrushPointerOver`                         | `SolidColorBrush` | PrimaryHoverBrush                            |
+| `TopTabBarItemPointerFillBrushFocused`                             | `SolidColorBrush` | PrimaryLowBrush                              |
+| `TopTabBarItemPointerFillBrushPressed`                             | `SolidColorBrush` | PrimaryPressedBrush                          |
+| `TopTabBarItemPointerFillBrushDisabled`                            | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `TopTabBarItemPointerFillBrushSelected`                            | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `TopTabBarItemPointerFillBrushSelectedPointerOver`                 | `SolidColorBrush` | PrimaryHoverBrush                            |
+| `TopTabBarItemPointerFillBrushSelectedPressed`                     | `SolidColorBrush` | PrimaryPressedBrush                          |
+| `TopTabBarItemRippleFeedback`                                      | `SolidColorBrush` | PrimaryBrush                                 |
+| `NavigationTabBarBackground`                                       | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarBackgroundPointerOver`                            | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarBackgroundFocused`                                | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarBackgroundPressed`                                | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarBackgroundSelected`                               | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarBackgroundSelectedPointerOver`                    | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarBackgroundSelectedPressed`                        | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarForeground`                                       | `SolidColorBrush` | OnSurfaceVariantBrush                        |
+| `NavigationTabBarForegroundPointerOver`                            | `SolidColorBrush` | OnSurfaceVariantBrush                        |
+| `NavigationTabBarForegroundPressed`                                | `SolidColorBrush` | OnSurfaceVariantBrush                        |
+| `NavigationTabBarForegroundDisabled`                               | `SolidColorBrush` | SystemControlDisabledBaseMediumLowBrush      |
+| `NavigationTabBarForegroundSelected`                               | `SolidColorBrush` | OnSurfaceBrush                               |
+| `NavigationTabBarForegroundSelectedPointerOver`                    | `SolidColorBrush` | OnSurfaceBrush                               |
+| `NavigationTabBarForegroundSelectedPressed`                        | `SolidColorBrush` | OnSurfaceBrush                               |
+| `NavigationTabBarBorderBrush`                                      | `SolidColorBrush` | SystemControlTransparentBrush                |
+| `NavigationTabBarTintBrush`                                        | `SolidColorBrush` | SurfaceTintColor@NavigationTabBarTintOpacity |

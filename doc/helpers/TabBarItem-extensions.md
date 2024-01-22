@@ -10,16 +10,16 @@ Provides additional features for `TabBarItem`.
 
 Property|Type|Description
 -|-|-
-OnClickBehaviors|TBIOnClickBehavior\*|Backing property for the `TabBarItem` on-click behaviors when already selected.
-OnClickBehaviorsTarget|UIElement|Optional. Backing property for the target of OnClickBehaviors.\*
+`OnClickBehaviors`|`TBIOnClickBehaviors`\*|Backing property for the `TabBarItem` on-click behaviors when already selected.
+`OnClickBehaviorsTarget`|UIElement|Optional. Backing property for the target of `OnClickBehaviors`.\*
 
-TBIOnClickBehavior\*: Specifies the on-click behaviors of `TabBarItem`:
+`TBIOnClickBehaviors`\*: Specifies the on-click behaviors of `TabBarItem`:
 
 - `BackNavigation`: Find the first `NavigationView` with back stack to back navigate.
 - `ScrollToTop`: Find the first `ListView` or `ScrollViewer` to reset scroll position.
 - `Auto`: All of above.
 
-OnClickBehaviorsTarget\*: The content host which the on-click behavior is applied is either the target itself or one of its descendent (via deep first search) suitable for the behavior. When omitted, the parent of `TabBar` will serve as the target.
+`OnClickBehaviorsTarget`\*: The content host which the on-click behavior is applied is either the target itself or one of its descendent (via deep first search) suitable for the behavior. When omitted, the parent of `TabBar` will serve as the target.
 
 ## Usage
 

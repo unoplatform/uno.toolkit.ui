@@ -20,17 +20,17 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 
 #### Constructors
 
-| Constructor    | Description                                           |
-|----------------|-------------------------------------------------------|
-| MaterialToolkitTheme()         | Initializes a new instance of the `MaterialToolkitTheme` resource dictionary.       |
-| MaterialToolkitTheme(ResourceDictionary? colorOverride, ResourceDictionary? fontOverride)         | Initializes a new instance of the `MaterialToolkitTheme` resource dictionary and applies the given overrides       |
+| Constructor                                                                                 | Description                                                                                                  |
+|---------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| `MaterialToolkitTheme()`                                                                    | Initializes a new instance of the `MaterialToolkitTheme` resource dictionary.                                |
+| `MaterialToolkitTheme(ResourceDictionary? colorOverride, ResourceDictionary? fontOverride)` | Initializes a new instance of the `MaterialToolkitTheme` resource dictionary and applies the given overrides |
 
 #### Properties
 
-| Property                  | Type              | Description                                                                                   |
-|---------------------------|-------------------|-----------------------------------------------------------------------------------------------|
-| ColorOverrideSource             | string            | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material Color resources                                            |
-| FontOverrideSource     | string      | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material FontFamily resources            |
+| Property              | Type     | Description                                                                                                                                                                            |
+|-----------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ColorOverrideSource` | `string` | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material Color resources      |
+| `FontOverrideSource`  | `string` | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material FontFamily resources |
 
 ## Installation
 
@@ -81,7 +81,7 @@ If your application is based on the older solution template that includes a shar
 
                     <!-- Load WinUI resources -->
                     <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                    
+
                     <!-- Load Material Toolkit resources (also loads the base Uno.Material resources) -->
                     <MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material" />
 
@@ -138,7 +138,8 @@ this.Build(r => r.UseMaterialToolkit(
 ));
 ```
 
-> [!NOTE]: The [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package includes the base [Toolkit Markup package](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup) as a dependency. Therefore, there is no need to add the `Uno.Toolkit.WinUI.Markup` package separately. Furthermore, the `UseMaterialToolkit` extension method also initializes the Toolkit library, so there is no need to call the `UseToolkit` extension method in your `AppResources.cs`.
+> [!NOTE]
+> The [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package includes the base [Toolkit Markup package](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup) as a dependency. Therefore, there is no need to add the `Uno.Toolkit.WinUI.Markup` package separately. Furthermore, the `UseMaterialToolkit` extension method also initializes the Toolkit library, so there is no need to call the `UseToolkit` extension method in your `AppResources.cs`.
 
 ## Additional Resources
 

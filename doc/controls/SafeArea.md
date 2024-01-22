@@ -4,7 +4,7 @@ uid: Toolkit.Controls.SafeArea
 
 # SafeArea
 
-`SafeArea` is a specialized control that overrides the `Padding` or `Margin` properties of its child/attached control to ensure that its inner content is always within the [`ApplicationView.VisibleBounds`](https://docs.microsoft.com/en-us/uwp/api/windows.ui.viewmanagement.applicationview.visiblebounds?view=winrt-22621) rectangle.
+`SafeArea` is a specialized control that overrides the `Padding` or `Margin` properties of its child/attached control to ensure that its inner content is always within the [`ApplicationView.VisibleBounds`](https://learn.microsoft.com/uwp/api/windows.ui.viewmanagement.applicationview.visiblebounds) rectangle.
 
 The `ApplicationView.VisibleBounds` is the rectangular area of the screen which is completely unobscured by any window decoration, such as the status bar, rounded screen corners, or any type of screen notch.
 
@@ -35,10 +35,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 > [!WARNING]
 > In most cases, the attached properties and the `SafeArea` control can be used interchangeably. However, be aware that using `SafeArea` as a control while `Insets` contains `InsetMask.SoftInput` will introduce a `ScrollViewer` into the visual tree as the content root of the `SafeArea`. Please refer to the [SoftInput usage section](#using-insetmasksoftinput-for-on-screen-keyboards).
 
-Property|Type|Description
--|-|-
-Insets|`InsetMask`|Gets or sets the specific bound(s) of the "safe" area that you want to be considered when `SafeArea` attempts to apply the Padding or Margin. Defaults to `InsetMask.None`.
-Mode|`InsetMode`|Gets or sets whether the `SafeArea` insets will be applied to the control's `Margin` or its `Padding`. Defaults to `InsetMode.Padding`.
+| Property | Type        | Description                                                                                                                                                                 |
+|----------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Insets` | `InsetMask` | Gets or sets the specific bound(s) of the "safe" area that you want to be considered when `SafeArea` attempts to apply the Padding or Margin. Defaults to `InsetMask.None`. |
+| `Mode`   | `InsetMode` | Gets or sets whether the `SafeArea` insets will be applied to the control's `Margin` or its `Padding`. Defaults to `InsetMode.Padding`.                                     |
 
 ## Usage
 
@@ -63,7 +63,7 @@ The default `Mode` for `SafeArea` is set to `InsetMode.Padding`. Using the Paddi
 Here we are using the Toolkit's [`TabBar`](TabBarAndTabBarItem.md) with both the `TopTabBarStyle` and the `BottomTabBarStyle`. Both controls have their `Background`s set to `Purple`. Note the differences within the unsafe areas of the screen between the `Padding` mode and the `Margin` mode.
 
 > [!NOTE]
-> The `BottomTabBarStyle` uses `SafeArea` and has the `Insets` property set to `Bottom` by default. This is removed from the style for the purpose of the demontration below.
+> The `BottomTabBarStyle` uses `SafeArea` and has the `Insets` property set to `Bottom` by default. This is removed from the style for the purpose of the demonstration below.
 
 Given the following XAML, we can see what SafeArea is doing and what the differences are between an `InsetMode` of `Padding` versus `Margin`.
 

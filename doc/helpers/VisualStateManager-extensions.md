@@ -24,9 +24,9 @@ This "first child" is more common known as the template root within the context 
 
 ## Attached Properties
 
-Property|Type|Description
--|-|-
-States|string|Sets the visual states of the control.\*
+| Property | Type     | Description                              |
+|----------|----------|------------------------------------------|
+| `States` | `string` | Sets the visual states of the control.\* |
 
 States\*: The accepted value can be a space, comma or semi-colon separated list of visual state names. eg:
 
@@ -96,7 +96,7 @@ States\*: The accepted value can be a space, comma or semi-colon separated list 
                 Grid.Row="1" Grid.ColumnSpan="3" />
 ```
 
-```cs
+```csharp
 public class ViewModel : ViewModelBase
 {
     public string PageState { get => GetProperty<string>(); set => SetProperty(value); }

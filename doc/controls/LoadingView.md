@@ -8,13 +8,13 @@ Represents a control that indicates that the UI is waiting on a task to complete
 
 ## Properties
 
-Property|Type|Description
--|-|-
-Source|ILoadable|Gets and sets the source `ILoadable` associated with this control.
-LoadingContent|object|Gets or sets the content to be displayed during loading/waiting.
-LoadingContentTemplate|DataTemplate|Gets or sets the template to be used to display the LoadingContent during loading/waiting.
-LoadingContentTemplateSelector|DataTemplateSelector|Gets or sets the template selector to be used to display the LoadingContent during loading/waiting.
-UseTransitions|bool|Gets and sets whether transitions will run when going between states.
+| Property                         | Type                   | Description                                                                                         |
+|----------------------------------|------------------------|-----------------------------------------------------------------------------------------------------|
+| `Source`                         | `ILoadable`            | Gets and sets the source `ILoadable` associated with this control.                                  |
+| `LoadingContent`                 | `object`               | Gets or sets the content to be displayed during loading/waiting.                                    |
+| `LoadingContentTemplate`         | `DataTemplate`         | Gets or sets the template to be used to display the LoadingContent during loading/waiting.          |
+| `LoadingContentTemplateSelector` | `DataTemplateSelector` | Gets or sets the template selector to be used to display the LoadingContent during loading/waiting. |
+| `UseTransitions`                 | `bool`                 | Gets and sets whether transitions will run when going between states.                               |
 
 ## ILoadable
 
@@ -22,10 +22,10 @@ Describes if this instance is currently in a busy state and notifies subscribers
 
 ### Members
 
-Property|Type|Description
--|-|-
-IsExecuting|bool|Indicates whether the instance is doing work.
-IsExecutingChanged|EventHandler?|Event that fires when the `IsExecuting` state has changed.
+| Property             | Type            | Description                                                |
+|----------------------|-----------------|------------------------------------------------------------|
+| `IsExecuting`        | `bool`          | Indicates whether the instance is doing work.              |
+| `IsExecutingChanged` | `EventHandler?` | Event that fires when the `IsExecuting` state has changed. |
 
 ### LoadableSource
 
@@ -77,7 +77,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <utu:LoadingView>
 ```
 
-```cs
+```csharp
 private class ViewModel : ViewModelBase
 {
     public string Content0 { get => GetProperty<string>(); set => SetProperty(value); }
@@ -107,7 +107,7 @@ private class ViewModel : ViewModelBase
 
 AsyncCommand implements ILoadable to notify the LoadingView of ongoing work:
 
-```cs
+```csharp
 public class AsyncCommand : ICommand, ILoadable
 {
     public event EventHandler CanExecuteChanged;

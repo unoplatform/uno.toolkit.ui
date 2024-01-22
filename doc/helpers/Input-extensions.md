@@ -8,19 +8,19 @@ Provides various attached properties for _input controls_, such as `TextBox` and
 
 ## Attached Properties
 
-Property|Type|Description
--|-|-
-AutoDismiss|bool|Whether the soft-keyboard will be dismissed when the enter key is pressed.
-AutoFocusNext|bool|Whether the focus will move to the next focusable element when the enter key is pressed.\*
-AutoFocusNextElement|Control|Sets the next control to focus when the enter key is pressed.\*
+| Property               | Type      | Description                                                                                |
+|------------------------|-----------|--------------------------------------------------------------------------------------------|
+| `AutoDismiss`          | `bool`    | Whether the soft-keyboard will be dismissed when the enter key is pressed.                 |
+| `AutoFocusNext`        | `bool`    | Whether the focus will move to the next focusable element when the enter key is pressed.\* |
+| `AutoFocusNextElement` | `Control` | Sets the next control to focus when the enter key is pressed.\*                            |
 
-AutoFocusNext and AutoFocusNextElement\*: Having either or both of the two properties set will enable the focus next behavior. AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
+`AutoFocusNext` and `AutoFocusNextElement`\*: Having either or both of the two properties set will enable the focus next behavior. `AutoFocusNextElement` will take precedences over `AutoFocusNext` when both are set.
 
 ### Remarks
 
-- AutoFocusNext and AutoFocusNextElement have different focus target:
-  - AutoFocusNext is determined by `FocusManager.FindNextFocusableElement`
-  - AutoFocusNextElement is provided by the value.
+- `AutoFocusNext` and `AutoFocusNextElement` have different focus target:
+  - `AutoFocusNext` is determined by `FocusManager.FindNextFocusableElement`
+  - `AutoFocusNextElement` is provided by the value.
 
 ## Usage
 

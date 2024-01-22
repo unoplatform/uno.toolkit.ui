@@ -11,14 +11,14 @@ The `ResponsiveView` control adapts to different screen sizes by dynamically cho
 
 ## Properties
 
-| Property          | Type             | Description                                             |
-| ----------------- | ---------------- | ------------------------------------------------------- |
-| NarrowestTemplate | DataTemplate     | Template to be displayed on the narrowest screen size.  |
-| NarrowTemplate    | DataTemplate     | Template to be displayed on a narrow screen size.       |
-| NormalTemplate    | DataTemplate     | Template to be displayed on a normal screen size.       |
-| WideTemplate      | DataTemplate     | Template to be displayed on a wide screen size.         |
-| WidestTemplate    | DataTemplate     | Template to be displayed on the widest screen size.     |
-| ResponsiveLayout  | ResponsiveLayout | Overrides the screen size threshold/breakpoints.        |
+| Property            | Type               | Description                                             |
+| ------------------- | ------------------ | ------------------------------------------------------- |
+| `NarrowestTemplate` | `DataTemplate`     | Template to be displayed on the narrowest screen size.  |
+| `NarrowTemplate`    | `DataTemplate`     | Template to be displayed on a narrow screen size.       |
+| `NormalTemplate`    | `DataTemplate`     | Template to be displayed on a normal screen size.       |
+| `WideTemplate`      | `DataTemplate`     | Template to be displayed on a wide screen size.         |
+| `WidestTemplate`    | `DataTemplate`     | Template to be displayed on the widest screen size.     |
+| `ResponsiveLayout`  | `ResponsiveLayout` | Overrides the screen size threshold/breakpoints.        |
 
 ### ResponsiveLayout
 
@@ -26,13 +26,13 @@ Provides the ability to override the breakpoint for each screen size: `Narrowest
 
 #### Properties
 
-| Property   | Type   | Description            |
-| ---------- | ------ | ---------------------- |
-| Narrowest  | double | Default value is 150.  |
-| Narrow     | double | Default value is 300.  |
-| Normal     | double | Default value is 600.  |
-| Wide       | double | Default value is 800.  |
-| Widest     | double | Default value is 1080. |
+| Property     | Type     | Description            |
+| ------------ | -------- | ---------------------- |
+| `Narrowest`  | `double` | Default value is 150.  |
+| `Narrow`     | `double` | Default value is 300.  |
+| `Normal`     | `double` | Default value is 600.  |
+| `Wide`       | `double` | Default value is 800.  |
+| `Widest`     | `double` | Default value is 1080. |
 
 #### Resolution Logics
 
@@ -40,43 +40,43 @@ The layouts whose value(ResponsiveExtension) or template(ResponsiveView) is not 
 
 Below are the selected layout at different screen width if all layouts are provided:
 
-Width|Layout
--|-
-149|Narrowest
-150(Narrowest)|Narrowest
-151|Narrowest
-299|Narrowest
-300(Narrow)|Narrow
-301|Narrow
-599|Narrow
-600(Normal)|Normal
-601|Normal
-799|Normal
-800(Wide)|Wide
-801|Wide
-1079|Wide
-1080(Widest)|Widest
-1081|Widest
+| Width          | Layout    |
+|----------------|-----------|
+| 149            | Narrowest |
+| 150(Narrowest) | Narrowest |
+| 151            | Narrowest |
+| 299            | Narrowest |
+| 300(Narrow)    | Narrow    |
+| 301            | Narrow    |
+| 599            | Narrow    |
+| 600(Normal)    | Normal    |
+| 601            | Normal    |
+| 799            | Normal    |
+| 800(Wide)      | Wide      |
+| 801            | Wide      |
+| 1079           | Wide      |
+| 1080(Widest)   | Widest    |
+| 1081           | Widest    |
 
 Here are the selected layout at different screen width if only `Narrow` and `Wide` are provided:
 
-Width|Layout
--|-
-149|Narrow
-150(~~Narrowest~~)|Narrow
-151|Narrow
-299|Narrow
-300(Narrow)|Narrow
-301|Narrow
-599|Narrow
-600(~~Normal~~)|Narrow
-601|Narrow
-799|Narrow
-800(Wide)|Wide
-801|Wide
-1079|Wide
-1080(~~Widest~~)|Wide
-1081|Wide
+| Width              | Layout |
+|--------------------|--------|
+| 149                | Narrow |
+| 150(~~Narrowest~~) | Narrow |
+| 151                | Narrow |
+| 299                | Narrow |
+| 300(Narrow)        | Narrow |
+| 301                | Narrow |
+| 599                | Narrow |
+| 600(~~Normal~~)    | Narrow |
+| 601                | Narrow |
+| 799                | Narrow |
+| 800(Wide)          | Wide   |
+| 801                | Wide   |
+| 1079               | Wide   |
+| 1080(~~Widest~~)   | Wide   |
+| 1081               | Wide   |
 
 ## Usage
 

@@ -8,13 +8,13 @@ Provides Command/CommandParameter attached properties for common scenarios.
 
 ## Attached Properties
 
-Property|Type|Description
--|-|-
-Command|ICommand|Sets the command to execute when `TextBox`/`PasswordBox` enter key is pressed, `ListViewBase.ItemClick`, `NavigationView.ItemInvoked`, and `ItemsRepeater` item tapped.
-CommandParameter|ICommand|Sets the parameter to pass to the Command property.
+| Property           | Type       | Description                                                                                                                                                             |
+|--------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Command`          | `ICommand` | Sets the command to execute when `TextBox`/`PasswordBox` enter key is pressed, `ListViewBase.ItemClick`, `NavigationView.ItemInvoked`, and `ItemsRepeater` item tapped. |
+| `CommandParameter` | `ICommand` | Sets the parameter to pass to the Command property.                                                                                                                     |
 
 Command on `TextBox`/`PasswordBox`\*: Having this set will also cause the keyboard dismiss on enter.
-Command on `ListView`\*: [`IsItemClickEnabled`](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase.isitemclickenabled) must also be set to true for this to work.
+Command on `ListView`\*: [`IsItemClickEnabled`](https://learn.microsoft.com/uwp/api/windows.ui.xaml.controls.listviewbase.isitemclickenabled) must also be set to true for this to work.
 
 ### Remarks
 

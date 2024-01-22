@@ -8,13 +8,13 @@ Provides selection support for `ItemsRepeater`.
 
 ## Attached Properties
 
-Property|Type|Description
--|-|-
-SelectedItem|object|Two-ways bindable property for the current/first(in Multiple mode) selected item.\*
-SelectedIndex|int|Two-ways bindable property for the current/first(in Multiple mode) selected index.\*
-SelectedItems|IList\<object>|Two-ways bindable property for the current selected items.\*
-SelectedIndexes|IList\<int>|Two-ways bindable property for the current selected indexes.\*
-SelectionMode|ItemsSelectionMode|Gets or sets the selection behavior: `None`, `SingleOrNone`, `Single`, `Multiple` <br/> note: Changing this value will cause the `Selected-`properties to be re-coerced.
+| Property          | Type                 | Description                                                                                                                                                              |
+|-------------------|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `SelectedItem`    | `object`             | Two-ways bindable property for the current/first(in Multiple mode) selected item.\*                                                                                      |
+| `SelectedIndex`   | `int`                | Two-ways bindable property for the current/first(in Multiple mode) selected index.\*                                                                                     |
+| `SelectedItems`   | `IList<object>`      | Two-ways bindable property for the current selected items.\*                                                                                                             |
+| `SelectedIndexes` | `IList<int>`         | Two-ways bindable property for the current selected indexes.\*                                                                                                           |
+| `SelectionMode`   | `ItemsSelectionMode` | Gets or sets the selection behavior: `None`, `SingleOrNone`, `Single`, `Multiple` <br/> note: Changing this value will cause the `Selected-`properties to be re-coerced. |
 
 ### Remarks
 
@@ -30,7 +30,7 @@ SelectionMode|ItemsSelectionMode|Gets or sets the selection behavior: `None`, `S
 
 View-Model:
 
-```cs
+```csharp
 private class ViewModel : INotifyPropertyChanged
 {
     public int[] MultiItemsSource { get; set; }

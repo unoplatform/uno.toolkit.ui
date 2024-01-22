@@ -63,13 +63,13 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Properties
 
-Property|Type|Description
--|-|-
-OpenDirection|DrawerOpenDirection=`Up`|Gets or sets the direction in which the drawer opens toward.<br/>note: The position of drawer when opened is the opposite of this value.
-DrawerLength|GridLength=`0.66*`|Get or sets the length (width or height depending on the `OpenDirection`) of the drawer.\*
-LightDismissOverlayBackground|Brush|Gets or sets the brush used to paint the light dismiss overlay. The default value is `#80808080` (from the default style).
-IsGestureEnabled|bool=`true`|Get or sets a value that indicates whether the user can interact with the control using gesture.
-IsLightDismissEnabled|bool=`true`|Gets or sets a value that indicates whether the drawer flyout can be light-dismissed.
+| Property                        | Type                       | Description                                                                                                                              |
+|---------------------------------|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `OpenDirection`                 | `DrawerOpenDirection`=`Up` | Gets or sets the direction in which the drawer opens toward.<br/>note: The position of drawer when opened is the opposite of this value. |
+| `DrawerLength`                  | `GridLength`=`0.66*`       | Get or sets the length (width or height depending on the `OpenDirection`) of the drawer.\*                                               |
+| `LightDismissOverlayBackground` | `Brush`                    | Gets or sets the brush used to paint the light dismiss overlay. The default value is `#80808080` (from the default style).               |
+| `IsGestureEnabled`              | `bool`=`true`              | Get or sets a value that indicates whether the user can interact with the control using gesture.                                         |
+| `IsLightDismissEnabled`         | `bool`=`true`              | Gets or sets a value that indicates whether the drawer flyout can be light-dismissed.                                                    |
 
 notes:
 
@@ -87,18 +87,20 @@ notes:
     ```
 
   - `GridUnitType.Auto`: Fit to flyout content.
-  - `GridUnitType.Star`: At given ratio of screen/flyout width or height. Valid range is between 0* and 1*, excluding 0* itself. <!-- markdownlint-disable-line MD037 -->
+  - `GridUnitType.Star`: At given ratio of screen/flyout width or height. Valid range is between 0\* and 1\*, excluding 0\* itself.
   - `GridUnitType.Pixel`: Fixed at the given value.
 
 ### Usage
 
-To use this, simply use a `Flyout` with `Placement="Full"` and one of the followings as the `FlyoutPresenterStyle`:
-> note: The name prefix here indicates the initial position of the drawer (where it opens from). The open animation direction (`OpenDirection`) is the opposite.
+To use this, simply use a `Flyout` with `Placement="Full"` and one of the followings as the `FlyoutPresenterStyle`.
 
-- `LeftDrawerFlyoutPresenterStyle` (OpenDirection=Right)
-- `TopDrawerFlyoutPresenterStyle` (OpenDirection=Down)
-- `RightDrawerFlyoutPresenterStyle` (OpenDirection=Left)
-- `BottomDrawerFlyoutPresenterStyle` (OpenDirection=Up)
+> [!NOTE]
+> The name prefix here indicates the initial position of the drawer (where it opens from). The open animation direction (`OpenDirection`) is the opposite.
+>
+> - `LeftDrawerFlyoutPresenterStyle` (OpenDirection=Right)
+> - `TopDrawerFlyoutPresenterStyle` (OpenDirection=Down)
+> - `RightDrawerFlyoutPresenterStyle` (OpenDirection=Left)
+> - `BottomDrawerFlyoutPresenterStyle` (OpenDirection=Up)
 
 Example:
 

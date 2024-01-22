@@ -87,4 +87,5 @@ using Uno.Toolkit.UI.Markup;
 this.Build(r => r.UseToolkit());
 ```
 
-> [!NOTE]: If you are using the [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package, follow the steps in the [Using C# Markup for the Material Toolkit](./material-getting-started.md#using-c-markup) guide instead as it includes the Toolkit library.
+> [!NOTE]
+> If you are using the [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package, follow the steps in the [Using C# Markup for the Material Toolkit](./material-getting-started.md#using-c-markup) guide instead as it includes the Toolkit library.

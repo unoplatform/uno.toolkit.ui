@@ -7,10 +7,10 @@ Provides additional features for `FlipView`.
 
 ## Attached Properties
 
-Property|Type|Description
--|-|-
-Next|FlipView| Sets the `FlipView` that should be moved to its next item
-Previous|FlipView| Sets the `FlipView` that should be moved to its previous item
+| Property   | Type       | Description                                                   |
+|------------|------------|---------------------------------------------------------------|
+| `Next`     | `FlipView` | Sets the `FlipView` that should be moved to its next item     |
+| `Previous` | `FlipView` | Sets the `FlipView` that should be moved to its previous item |
 
 The `Next` and `Previous` properties will provide an easy hook to allow other controls, that derive from `ButtonBase`, to control the navigation between `FlipView.Items`, moving to the next or previous item, respectively.
 
