@@ -1,7 +1,7 @@
 jobs:
 - job: iOS
 
-  timeoutInMinutes: 90 
+  timeoutInMinutes: 90
 
   strategy:
     maxParallel: 2
@@ -20,7 +20,7 @@ jobs:
         CI_Build: true
   pool:
     vmImage: 'macOS-12'
-  
+
   variables:
    - group: unoplatform.apple.ios.appstore.distribution
 
@@ -32,7 +32,7 @@ jobs:
       certPwd: '$(appleappstorecertificatepassword)'
       keychain: temp
       deleteCert: true
-  
+
   - task: InstallAppleProvisioningProfile@1
     displayName: 'Install Apple Provisioning Profile (UWP)'
     condition: eq(variables['IsCanaryBranch'], false)
@@ -64,6 +64,7 @@ jobs:
   - template: templates/dotnet-workload-install-mac.yml
   - template: templates/canary-updater.yml
   - template: templates/gitversion.yml
+  - template: templates/set-app-versions.yml
 
   - bash: |
       cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile

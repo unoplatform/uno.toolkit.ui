@@ -8,10 +8,6 @@ jobs:
     - template: templates/gitversion.yml
     - template: templates/dotnet-workload-install-windows.yml
 
-    # This SDK version is needed as long as `uap10.0` will be supported in Uno.Core
-    - powershell: .\build\Install-WindowsSdkISO.ps1 19041
-      displayName: Install Windows SDK 19041
-
     - task: MSBuild@1
       displayName: 'Build Packages'
       inputs:
@@ -21,10 +17,6 @@ jobs:
         msbuildVersion: latest
         maximumCpuCount: true
         msbuildArguments: /m /v:m /r /p:GeneratePackageOnBuild=true /p:UseDotNetNativeToolchain=false /p:AotAssemblies=false "/p:PackageVersion=$(GitVersion.FullSemVer)" "/p:InformationalVersion=$(GitVersion.InformationalVersion)" /detailedsummary /bl:$(build.artifactstagingdirectory)/toolkit-build-packages.binlog
-
-    - task: DotNetCoreInstaller@0
-      inputs:
-        version: '2.1.504'
 
     - task: PowerShell@2
       displayName: Authenticode Sign Packages
