@@ -72,7 +72,7 @@ Option 2:- To incorporate the Uno Toolkit into an existing application, you must
 ***
 
 
-#### Previous Installation Method
+## Previous Installation Method
 
 If your application is based on the older solution template that includes a shared project (.shproj), follow these steps:
 
