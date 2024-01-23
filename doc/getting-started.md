@@ -49,9 +49,11 @@ Option 1:- When creating a new project using the `dotnet new` templates, make su
 
 Option 2:- To incorporate the Uno Toolkit into an existing application, you must add the [Uno.Toolkit.WinUI NuGet package](https://www.nuget.org/packages/Uno.Toolkit.WinUI) to the **App Code Library** project as well as the platform heads. An easy way to do this is through the command line. Run the following command within the directory of each `.csproj`:       
     
-    `dotnet add package Uno.Toolkit.WinUI --version [latest version number]`. Make sure to replace `[latest version number] `with the actual latest NuGet version number.
+    `dotnet add package Uno.Toolkit.WinUI --version [latest version number]. 
 
-    Also Add the resources to `AppResources.xaml`:
+ Make sure to replace `[latest version number] `with the actual latest NuGet version number.
+ 
+ Add the resources to `AppResources.xaml`:
 
     ```xml
     <ResourceDictionary>
@@ -66,8 +68,6 @@ Option 2:- To incorporate the Uno Toolkit into an existing application, you must
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
     ```
-
-
 
 ***
 
