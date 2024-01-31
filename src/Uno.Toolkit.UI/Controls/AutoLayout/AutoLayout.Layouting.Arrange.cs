@@ -31,7 +31,7 @@ partial class AutoLayout
 		var borderThicknessLength = borderThickness.GetLength(orientation);
 
 		var totalNonFilledStackedSize = 0d;
-		var totalOfFillMaxSize = 0d; 
+		var totalOfFillMaxSize = 0d;
 		var numberOfFilledChildren = 0;
 		var numberOfFilledChildrenWithMax = 0;
 		var numberOfStackedChildren = 0;
@@ -40,11 +40,21 @@ partial class AutoLayout
 		var startPadding = isHorizontal ? padding.Left : padding.Top;
 		var endPadding = isHorizontal ? padding.Right : padding.Bottom;
 
-		if (_calculatedChildren is null || children.Count != _calculatedChildren.Length)
+		if (_calculatedChildren is null)
 		{
-			// Children list changed, invalidate measure and wait for next pass
+			// If the panel has not been measured yet, we need to measure it now.
 			InvalidateMeasure();
 			return finalSize;
+		}
+
+		if (children.Count != _calculatedChildren.Length
+			|| finalSize != DesiredSize)
+		{
+			// If the number of children has changed, or the final size if different than
+			// what was measured, we need to re-measure the children using the new final size.
+			// This usually happens when the panel is used in a ScrollViewer, and the ScrollViewer
+			// is measuring the panel with an infinite size, and then arranging it with a finite size.
+			MeasureOverride(finalSize);
 		}
 
 		// 1. Calculate the total size of non-filled and filled children

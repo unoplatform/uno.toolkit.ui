@@ -446,6 +446,47 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
+	public async Task When_Stretched_PrimaryAlignment_In_ScrollViewer()
+	{
+		var SUT = new AutoLayout()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
+			Orientation = Orientation.Vertical,
+		};
+
+		var scrollViewer = new ScrollViewer()
+		{
+			Width = 300,
+			Height = 300,
+			Content = SUT,
+		};
+
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+		};
+
+		var border2 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			MinHeight = 25,
+		};
+
+		AutoLayout.SetPrimaryAlignment(border1, AutoLayoutPrimaryAlignment.Stretch);
+
+		SUT.Children.Add(border1);
+		SUT.Children.Add(border2);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(scrollViewer);
+
+		var border1Transform = border1.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		var border2Transform = border2.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+
+		border1Transform!.Y.Should().Be(0);
+		border2Transform!.Y.Should().Be(275);
+	}
+
+	[TestMethod]
 	[RequiresFullWindow]
 	[DataRow(Orientation.Vertical, 80, 140, 125, 125)]
 	[DataRow(Orientation.Horizontal, 110, 110, 70, 180)]
@@ -455,7 +496,7 @@ internal class AutoLayoutTest
 		{
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
 			Padding = new Thickness(150, 20, 100, 50),
-			Spacing = 10, 
+			Spacing = 10,
 			Width = 300,
 			Height = 300,
 			Orientation = orientation,
@@ -648,8 +689,8 @@ internal class AutoLayoutTest
 		var autoLayoutAcutalWidth = SUT.ActualWidth / 2;
 		var textBlockCenter = textBlock.ActualWidth / 2;
 
-		Assert.AreEqual(Math.Ceiling(autoLayoutAcutalWidth - textBlockCenter), Math.Ceiling(textBlockTransform!.X));
-		Assert.AreEqual(Math.Ceiling(SUT.ActualWidth - button.ActualWidth), Math.Ceiling(buttonTransform!.X));
+		textBlockTransform.X.Should().BeApproximately(autoLayoutAcutalWidth - textBlockCenter, precision: 1d);
+		buttonTransform.X.Should().BeApproximately(SUT.ActualWidth - button.ActualWidth, precision: 1d);
 	}
 
 	[TestMethod]
@@ -689,7 +730,7 @@ internal class AutoLayoutTest
 		var autoLayoutAcutalWidth = SUT.ActualWidth / 2;
 		var textBlockCenter = textBlock.ActualWidth / 2;
 
-		Assert.AreEqual(Math.Ceiling(autoLayoutAcutalWidth - textBlockCenter), Math.Ceiling(textBlockTransform!.X));
+		textBlockTransform.X.Should().BeApproximately(autoLayoutAcutalWidth - textBlockCenter, precision: 1d);
 	}
 
 	[TestMethod]
@@ -727,7 +768,7 @@ internal class AutoLayoutTest
 		var autoLayoutAcutalWidth = SUT.ActualWidth / 2;
 		var textBlockCenter = textBlock.ActualWidth / 2;
 
-		Assert.AreEqual(Math.Ceiling(autoLayoutAcutalWidth - textBlockCenter), Math.Ceiling(textBlockTransform!.X));
+		textBlockTransform.X.Should().BeApproximately(autoLayoutAcutalWidth - textBlockCenter, precision: 1d);
 	}
 
 	[TestMethod]
