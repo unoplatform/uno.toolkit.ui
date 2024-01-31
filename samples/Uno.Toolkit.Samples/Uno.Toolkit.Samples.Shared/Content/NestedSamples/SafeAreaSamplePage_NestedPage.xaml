@@ -8,7 +8,6 @@
 	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  xmlns:utu="using:Uno.Toolkit.UI"
 	  xmlns:ut="using:Uno.Themes"
 	  Background="Green"
 	  mc:Ignorable="d">
