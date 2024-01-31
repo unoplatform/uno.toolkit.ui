@@ -48,7 +48,7 @@
 						<Rectangle Fill="{TemplateBinding Foreground}" Height="{ThemeResource DividerHeight}" />
 
 						<TextBlock Text="{TemplateBinding SubHeader}"
-								   Visibility="{Binding SubHeader, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed}"
+								   Visibility="{Binding SubHeader, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource EmptyToCollapsedConverter}, FallbackValue=Collapsed}"
 								   FontFamily="{ThemeResource DividerSubHeaderFontFamily}"
 								   FontWeight="{ThemeResource DividerSubHeaderFontWeight}"
 								   CharacterSpacing="{ThemeResource DividerSubHeaderCharacterSpacing}"

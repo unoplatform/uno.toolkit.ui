@@ -155,7 +155,7 @@
                                         </Viewbox>
 
                                         <!-- Icon/Content spacing -->
-                                        <Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                                        <Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
                                             <Border Width="{StaticResource MaterialFabIconTextPadding}"
 													Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
                                         </Border>
@@ -485,7 +485,7 @@
 										</Viewbox>
 
 										<!-- Icon/Content spacing -->
-										<Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyToCollapsed}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+										<Border Visibility="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
 											<Border Width="{StaticResource MaterialFabIconTextPadding}"
 													Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
 										</Border>
