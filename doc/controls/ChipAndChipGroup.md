@@ -93,7 +93,6 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 | Key                                    | Type              | Value                               |
 |----------------------------------------|-------------------|-------------------------------------|
-| `ChipCheckGlyphSize`                   | `Double`          | 20                                  |
 | `ChipContentMinHeight`                 | `Double`          | 20                                  |
 | `ChipDeleteIconContainerLength`        | `Double`          | 18                                  |
 | `ChipDeleteIconLength`                 | `Double`          | 11                                  |
@@ -104,7 +103,6 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `ChipSize`                             | `Double`          | 12                                  |
 | `ChipCornerRadius`                     | `CornerRadius`    | 8                                   |
 | `ChipBorderThickness`                  | `Thickness`       | 1                                   |
-| `ChipCheckGlyphPadding`                | `Thickness`       | 2                                   |
 | `ChipContentMargin`                    | `Thickness`       | 8,0                                 |
 | `ChipElevationBorderThickness`         | `Thickness`       | 0                                   |
 | `ChipElevationMargin`                  | `Thickness`       | 4                                   |
