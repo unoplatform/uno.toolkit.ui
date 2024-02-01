@@ -65,7 +65,7 @@
 				Value="{ThemeResource CupertinoTertiarySystemFillBrush}" />
 		<Setter Property="IsTabStop"
 				Value="False" />
-		<Setter Property="Height"
+		<Setter Property="MinHeight"
 				Value="{StaticResource CupertinoSlidingSegmentedControlHeight}" />
 		<Setter Property="SelectionIndicatorTransitionMode"
 				Value="Slide" />
