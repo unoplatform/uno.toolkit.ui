@@ -410,7 +410,7 @@
 					<toolkit:ElevatedView Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}"
 					                      Margin="{StaticResource CupertinoSlidingSegmentedItemMargin}"
 										  Background="Transparent"
-										  CornerRadius="{CustomResource CupertinoSlidingSegmentedItemCornerRadius}"
+										  CornerRadius="{StaticResource CupertinoSlidingSegmentedItemCornerRadius}"
 										  Elevation="5"
 										  ShadowColor="#CC94949A">
 						<Rectangle Fill="{ThemeResource SystemBackgroundColor}"
