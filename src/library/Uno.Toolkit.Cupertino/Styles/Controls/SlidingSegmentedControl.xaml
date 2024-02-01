@@ -50,6 +50,9 @@
 	<x:Double x:Key="CupertinoSlidingSegmentedItemIconWidth">16</x:Double>
 	<Thickness x:Key="CupertinoSlidingSegmentedItemContentMargin">0,0,0,12</Thickness>
 	<Thickness x:Key="CupertinoSlidingSegmentedItemContentOnlyMargin">12,0</Thickness>
+	<Thickness x:Key="CupertinoSlidingSegmentedItemMargin">3</Thickness>
+	<x:Double x:Key="CupertinoSlidingSegmentedItemRadius">6</x:Double>
+	<CornerRadius x:Key="CupertinoSlidingSegmentedItemCornerRadius">6</CornerRadius>
 	<SolidColorBrush x:Key="CupertinoSlidingSegmentedControlItemForegroundPressed"
 					 Color="{ThemeResource LabelColor}"
 					 Opacity="0.2" />
@@ -84,17 +87,16 @@
 			<Setter.Value>
 				<DataTemplate>
 					<toolkit:ElevatedView Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}"
-										  Height="28"
+										  Margin="{StaticResource CupertinoSlidingSegmentedItemMargin}"
 										  Background="Transparent"
-										  CornerRadius="8"
+										  CornerRadius="{StaticResource CupertinoSlidingSegmentedItemCornerRadius}"
 										  Elevation="5"
 										  ShadowColor="#CC94949A">
 						<Rectangle Fill="{ThemeResource SystemBackgroundColor}"
 								   VerticalAlignment="Stretch"
 								   HorizontalAlignment="Stretch"
-								   RadiusX="8"
-								   RadiusY="8"
-								   Height="24"
+								   RadiusX="{StaticResource CupertinoSlidingSegmentedItemRadius}"
+								   RadiusY="{StaticResource CupertinoSlidingSegmentedItemRadius}"
 								   Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth, Converter={StaticResource DeflateWidthConverter}}" />
 					</toolkit:ElevatedView>
 				</DataTemplate>
@@ -406,17 +408,16 @@
 			<Setter.Value>
 				<DataTemplate>
 					<toolkit:ElevatedView Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}"
-										  Height="28"
+					                      Margin="{StaticResource CupertinoSlidingSegmentedItemMargin}"
 										  Background="Transparent"
-										  CornerRadius="8"
+										  CornerRadius="{CustomResource CupertinoSlidingSegmentedItemCornerRadius}"
 										  Elevation="5"
 										  ShadowColor="#CC94949A">
 						<Rectangle Fill="{ThemeResource SystemBackgroundColor}"
 								   VerticalAlignment="Stretch"
 								   HorizontalAlignment="Stretch"
-								   RadiusX="8"
-								   RadiusY="8"
-								   Height="24"
+								   RadiusX="{StaticResource CupertinoSlidingSegmentedItemRadius}"
+								   RadiusY="{StaticResource CupertinoSlidingSegmentedItemRadius}"
 								   Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth, Converter={StaticResource DeflateWidthConverter}}" />
 					</toolkit:ElevatedView>
 				</DataTemplate>
