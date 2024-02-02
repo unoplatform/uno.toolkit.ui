@@ -250,7 +250,7 @@
                                         Content="{TemplateBinding Icon}"
                                         ContentTemplate="{TemplateBinding IconTemplate}"
                                         Foreground="{ThemeResource ChipIconForeground}"
-                                        Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource NullToCollapsed}, FallbackValue=Collapsed}" />
+                                        Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed}" />
 
                                     <!--  C1: Content  -->
                                     <ContentPresenter
@@ -271,7 +271,7 @@
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                         Foreground="{TemplateBinding Foreground}"
                                         Style="{StaticResource ChipDeleteIconButtonStyle}"
-                                        Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource FalseToCollapsed}, FallbackValue=Collapsed}" />
+                                        Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource FalseToCollapsedConverter}, FallbackValue=Collapsed}" />
                                 </Grid>
                             </Grid>
                         </toolkit:ElevatedView>

@@ -363,7 +363,7 @@
 														  Content="{TemplateBinding Icon}"
 														  ContentTemplate="{TemplateBinding IconTemplate}"
 														  Foreground="{ThemeResource ChipIconForeground}"
-														  Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialNullToCollapsedConverter}, FallbackValue=Collapsed}" />
+														  Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed}" />
 
 										<!-- C1: Content -->
 										<ContentPresenter x:Name="ContentPresenter"
@@ -384,7 +384,7 @@
 												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 												Foreground="{TemplateBinding Foreground}"
 												Style="{StaticResource MaterialChipDeleteIconButtonStyle}"
-												Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MaterialTrueToVisible}, FallbackValue=Collapsed}" />
+												Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}, FallbackValue=Collapsed}" />
 									</Grid>
 								</um:Ripple>
 							</Grid>
