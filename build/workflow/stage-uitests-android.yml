@@ -1,83 +1,71 @@
 ﻿jobs:
-- job: Android_UITests
-  displayName: 'Run Android UI Tests'
-  timeoutInMinutes: 90
-  variables:
-    CI_Build: true
-    SourceLinkEnabled: false
+- job: Android
 
   strategy:
-    maxParallel: 4
+    maxParallel: 2
     matrix:
-      UWP:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: Automated
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-UWP-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-uwp-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit_uwp
       WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
-        XAML_FLAVOR_BUILD: WinUI
-        UITEST_TEST_MODE_NAME: Automated
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-WinUI-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-winui-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
-      UWP_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: RuntimeTests
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-UWP-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-uwp-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit_uwp
-      WinUI_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
-        XAML_FLAVOR_BUILD: WinUI
-        UITEST_TEST_MODE_NAME: RuntimeTests
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-WinUI-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-winui-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
+        ArtifactName: android-winui
+        ProjectName: Uno.Toolkit.WinUI.Samples
+        GeneratePackageOnBuild: false
+        ApplicationBuildNumberOffset: 50
+        VersionCodeOffset: 1
+        DisableNet7MobileTargets: true
+      UWP:
+        ArtifactName: android-uwp
+        ProjectName: Uno.Toolkit.Samples
+        GeneratePackageOnBuild: false
+        ApplicationBuildNumberOffset: 50
+        VersionCodeOffset: 1
+        DisableNet7MobileTargets: true
 
   pool:
-    vmImage: 'macOS-13'
+    vmImage: windows-2022
+
+  variables:
+  - group: 'UnoPlatform KeyStore'
 
   steps:
-  - checkout: self
-    clean: true
-
-  - template: templates/dotnet-workload-install-mac.yml
+  - template: templates/dotnet-workload-install-windows.yml
   - template: templates/canary-updater.yml
-  - template: templates/jdk-setup.yml
+  - template: templates/gitversion.yml
+  - template: templates/set-app-versions.yml
 
-  - task: PowerShell@2
-    displayName: 'Install coreutils'
+  - task: DownloadSecureFile@1
+    name: keyStore
+    displayName: "Download keystore from secure files"
     inputs:
-      targetType: inline
-      script: |
-        brew install coreutils
+      secureFile: unoplatform.jks
 
-  - bash: |
-      chmod +x $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
-      $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
-    displayName: Run Android UITests ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))
+  - script: |
+      cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
+      echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
+      dotnet publish -f net7.0-android -c Release /t:SignAndroidPackage "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /p:AndroidSigningKeyStore=$(keyStore.secureFilePath) /p:AndroidSigningStorePass=$(AndroidSigningStorePass) /p:AndroidSigningKeyPass=$(AndroidSigningKeyPass) /p:AndroidSigningKeyAlias=$(AndroidSigningKeyAlias) /p:AndroidKeyStore=true  /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
+    displayName: Build project for Release - (net7.0-android)
+    condition: eq(variables['System.PullRequest.IsFork'],'False')
 
-  - task: PublishTestResults@2
-    condition: always()
-    retryCountOnTaskFailure: 3
+  - script: |
+      cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
+      echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
+      dotnet build -f net7.0-android -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /p:AndroidKeyStore=false /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
+    displayName: Build project for Release - (net7.0-android)
+    condition: eq(variables['System.PullRequest.IsFork'],'True')
+
+  - task: CopyFiles@2
+    displayName: 'Publish Binaries'
     inputs:
-      testRunTitle: 'Android UITest Run ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))'
-      testResultsFormat: 'NUnit'
-      testResultsFiles: $(build.sourcesdirectory)/build/$(UNO_TEST_RESULTS_FILE_NAME)
-      failTaskOnFailedTests: true
+      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/
+      Contents:  |
+        **/*.apk
+        **/*.aab
+      TargetFolder: $(build.artifactstagingdirectory)
+      CleanTargetFolder: false
+      OverWrite: false
+      flattenFolders: false
 
   - task: PublishBuildArtifacts@1
     condition: always()
-    retryCountOnTaskFailure: 3
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: toolkit-uitests
+      ArtifactName: $(ArtifactName)
       ArtifactType: Container
