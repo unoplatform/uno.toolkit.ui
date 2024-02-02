@@ -14,37 +14,37 @@
 		<sample:SamplePageLayout.DesignAgnosticTemplate>
 			<DataTemplate>
 				<StackPanel>
-					<utu:LoadingView DataContext="{Binding Data}"
-									 LoadingContent="Loading...."
-									 x:Name="LoadingView">
-						<utu:LoadingView.Source>
-							<utu:CompositeLoadableSource>
-								<utu:LoadableSource Source="{Binding LoadContent0Command}" />
-								<utu:LoadableSource Source="{Binding LoadContent1Command}" />
-							</utu:CompositeLoadableSource>
-						</utu:LoadingView.Source>
+				<utu:LoadingView DataContext="{Binding Data}"
+                                 LoadingContent="Loading...."
+								 x:Name="LoadingView">
+					<utu:LoadingView.Source>
+						<utu:CompositeLoadableSource>
+							<utu:LoadableSource Source="{Binding LoadContent0Command}" />
+							<utu:LoadableSource Source="{Binding LoadContent1Command}" />
+						</utu:CompositeLoadableSource>
+					</utu:LoadingView.Source>
 
-						<StackPanel x:Name="TestPanel">
-							<TextBlock Text="{Binding Text}" />
-							<ListView ItemsSource="{Binding Source}" />
+					<StackPanel x:Name="TestPanel">
+						<TextBlock Text="{Binding Text}" />
+						<ListView ItemsSource="{Binding Source}" />
 
-							<Button Content="Reload Text"
-									Command="{Binding LoadContent0Command}" />
-							<Button Content="Reload List"
-									Command="{Binding LoadContent1Command}" />
-						</StackPanel>
+						<Button Content="Reload Text"
+								Command="{Binding LoadContent0Command}" />
+						<Button Content="Reload List"
+								Command="{Binding LoadContent1Command}" />
+					</StackPanel>
 
-
-						<utu:LoadingView.LoadingContentTemplate>
-							<DataTemplate>
-								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-									<ProgressRing />
-									<ProgressBar Width="200" />
-									<TextBlock Text="{Binding}" />
-								</StackPanel>
-							</DataTemplate>
-						</utu:LoadingView.LoadingContentTemplate>
-					</utu:LoadingView>
+					<utu:LoadingView.LoadingContentTemplate>
+						<DataTemplate>
+							<StackPanel HorizontalAlignment="Center" 
+										VerticalAlignment="Center">
+								<ProgressRing />
+								<ProgressBar Width="200" />
+								<TextBlock Text="{Binding}" />
+							</StackPanel>
+						</DataTemplate>
+					</utu:LoadingView.LoadingContentTemplate>
+				</utu:LoadingView>
 					<ToggleSwitch IsOn="{Binding UseTransitions, ElementName=LoadingView, Mode=TwoWay}">
 						<ToggleSwitch.OnContent>
 							<TextBlock Text="Transitions enabled" />
