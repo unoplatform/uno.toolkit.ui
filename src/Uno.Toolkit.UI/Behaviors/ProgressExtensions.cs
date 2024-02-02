@@ -41,7 +41,7 @@ namespace Uno.Toolkit.UI
 			if (d is FrameworkElement element &&
 				e.NewValue is bool isActive)
 			{
-				foreach (var item in element.EnumerateDescendants())
+				foreach (var item in element.GetChildren())
 				{
 					if (item is ProgressRing progressRing)
 					{
