@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Uno.UI.Extensions;
 
@@ -18,12 +19,22 @@ namespace Uno.Toolkit.UI
 {
 	public static class ProgressExtensions
 	{
-		public static readonly DependencyProperty IsActiveProperty =
-			DependencyProperty.RegisterAttached(
-				"IsActive",
-				typeof(bool),
-				typeof(ProgressExtensions),
-				new PropertyMetadata(false, IsActiveChanged));
+		#region DependencyProperty: IsActive
+
+		/// <summary>
+		/// Backing property for a value which recursively sets whether the
+		/// nested progress controls are displaying a loading animation.
+		/// </summary>
+		public static readonly DependencyProperty IsActiveProperty = DependencyProperty.RegisterAttached(
+			"IsActive",
+			typeof(bool),
+			typeof(ProgressExtensions),
+			new PropertyMetadata(false, IsActiveChanged));
+
+		public static bool GetIsActive(FrameworkElement element) => (bool)element.GetValue(IsActiveProperty);
+		public static void SetIsActive(FrameworkElement element, bool value) => element.SetValue(IsActiveProperty, value);
+
+		#endregion
 
 		private static void IsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
@@ -43,36 +54,5 @@ namespace Uno.Toolkit.UI
 				}
 			}
 		}
-
-		public static void SetIsActive(this FrameworkElement element, bool value)
-		{
-			element.SetValue(IsActiveProperty, value);
-		}
-
-		public static bool GetIsActive(this FrameworkElement element)
-		{
-			return (bool)element.GetValue(IsActiveProperty);
-		}
-
-#if WINDOWS_UWP || WINDOWS
-		// Copied from Uno.UI.Extensions.ViewExtensions for Windows targets
-		private static IEnumerable<DependencyObject> EnumerateDescendants(this DependencyObject reference)
-		{
-			foreach (DependencyObject child in reference.EnumerateChildren())
-			{
-				yield return child;
-				foreach (DependencyObject item in child.EnumerateDescendants())
-				{
-					yield return item;
-				}
-			}
-		}
-
-		private static IEnumerable<DependencyObject> EnumerateChildren(this DependencyObject reference)
-		{
-			return from x in Enumerable.Range(0, VisualTreeHelper.GetChildrenCount(reference))
-											  select VisualTreeHelper.GetChild(reference, x);
-		}
-#endif
 	}
 }
