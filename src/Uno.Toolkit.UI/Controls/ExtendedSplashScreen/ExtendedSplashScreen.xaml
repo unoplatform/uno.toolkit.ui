@@ -57,7 +57,12 @@
 										</Storyboard>
 									</VisualTransition>
 								</VisualStateGroup.Transitions>
-								<VisualState x:Name="Loading" />
+								<VisualState x:Name="Loading">
+									<VisualState.Setters>
+										<Setter Target="LoadingContentPresenter.(utu:ProgressExtensions.IsActive)" Value="true"/>
+										<Setter Target="SplashScreenPresenter.(utu:ProgressExtensions.IsActive)" Value="true"/>
+									</VisualState.Setters>
+								</VisualState>
 								<VisualState x:Name="Loaded">
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Opacity"
@@ -70,6 +75,8 @@
 												Value="Collapsed" />
 										<Setter Target="LoadingContentPresenter.Visibility"
 												Value="Collapsed" />
+										<Setter Target="LoadingContentPresenter.(utu:ProgressExtensions.IsActive)" Value="false"/>
+										<Setter Target="SplashScreenPresenter.(utu:ProgressExtensions.IsActive)" Value="false"/>
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -84,6 +91,7 @@
 										  VerticalContentAlignment="Stretch" />
 						<ContentPresenter x:Name="SplashScreenPresenter"
 										  Content="{TemplateBinding SplashScreenContent}"
+										  utu:ProgressExtensions.IsActive="false"
 										  IsHitTestVisible="False"
 										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										  HorizontalContentAlignment="Stretch"
@@ -92,6 +100,7 @@
 						<ContentControl x:Name="LoadingContentPresenter"
 										Content="{TemplateBinding LoadingContent}"
 										IsHitTestVisible="False"
+										utu:ProgressExtensions.IsActive="false"
 										ContentTemplate="{TemplateBinding LoadingContentTemplate}"
 										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										HorizontalContentAlignment="Stretch"
