@@ -234,8 +234,11 @@ partial class AutoLayout
 
 			ApplyMinMaxValues(child.Element, orientation, ref childSize);
 
+			var AligmentForCounterAlignmentOffset = counterAlignment is AutoLayoutAlignment.Stretch ? CounterAxisAlignment : counterAlignment;
+
+
 			var counterAlignmentOffset =
-				ComputeCounterAlignmentOffset(counterAlignment, childSize.GetCounterLength(orientation), availableCounterLength, padding, isHorizontal);
+				ComputeCounterAlignmentOffset(AligmentForCounterAlignmentOffset, childSize.GetCounterLength(orientation), availableCounterLength, padding, isHorizontal);
 
 			var calculatedOffset = counterAlignmentOffset + counterStartPadding + borderThickness.GetCounterStartLength(orientation);
 
