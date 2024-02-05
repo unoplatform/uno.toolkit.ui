@@ -39,6 +39,10 @@
 		<Content Include="Assets\**\*.png" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
+		<Using Include="Uno.Toolkit.UI" />
+	</ItemGroup>
+
 	<Import Project="..\winappsdk-workaround.targets" />
 	<Import Project="xamlmerge-toolkit.props" />
 

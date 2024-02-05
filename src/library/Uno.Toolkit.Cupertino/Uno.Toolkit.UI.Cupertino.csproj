@@ -57,5 +57,9 @@
 		</ItemGroup>
 	</Target>
 
+	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
+		<Using Include="Uno.Toolkit.UI.Cupertino" />
+	</ItemGroup>
+
 	<Import Project="xamlmerge-cupertino.props" />
 </Project>
