@@ -34,15 +34,16 @@
 								Command="{Binding LoadContent1Command}" />
 					</StackPanel>
 
-
-                    <utu:LoadingView.LoadingContentTemplate>
-                        <DataTemplate>
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-						<ProgressRing IsActive="True" />
-                                <TextBlock Text="{Binding}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </utu:LoadingView.LoadingContentTemplate>
+					<utu:LoadingView.LoadingContentTemplate>
+						<DataTemplate>
+							<StackPanel HorizontalAlignment="Center" 
+										VerticalAlignment="Center">
+								<ProgressRing />
+								<ProgressBar Width="200" />
+								<TextBlock Text="{Binding}" />
+							</StackPanel>
+						</DataTemplate>
+					</utu:LoadingView.LoadingContentTemplate>
 				</utu:LoadingView>
 					<ToggleSwitch IsOn="{Binding UseTransitions, ElementName=LoadingView, Mode=TwoWay}">
 						<ToggleSwitch.OnContent>
