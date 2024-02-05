@@ -19,7 +19,7 @@ jobs:
         VersionCodeOffset: 50
         CI_Build: true
   pool:
-    vmImage: 'macOS-12'
+    vmImage: 'macOS-13'
 
   variables:
    - group: unoplatform.apple.ios.appstore.distribution
@@ -76,7 +76,7 @@ jobs:
   - bash: |
       cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -f net7.0-ios -c Release /p:RuntimeIdentifier=ios-arm64 "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+      dotnet build -f net7.0-ios -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
     displayName: Build project for Release - (net7.0-ios)
     condition: eq(variables['System.PullRequest.IsFork'],'True')
 
