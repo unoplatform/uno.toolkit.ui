@@ -8,4 +8,7 @@
 		<Description>Primitives shared by Uno Toolkit.</Description>
 	</PropertyGroup>
 
+	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
+		<Using Include="Uno.Toolkit" />
+	</ItemGroup>
 </Project>

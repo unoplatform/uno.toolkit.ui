@@ -46,6 +46,10 @@
 		<ProjectReference Include="..\..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
+		<Using Include="Uno.Toolkit.UI.Material" />
+	</ItemGroup>
+
 	<Import Project="..\..\winappsdk-workaround.targets" />
 	<Import Project="xamlmerge-material.props" />
 </Project>

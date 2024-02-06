@@ -29,5 +29,9 @@
 		<PackageDescription>A set of C# for Markup helpers for Uno.Toolkit.WinUI</PackageDescription>
 	</PropertyGroup>
 
+	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
+		<Using Include="Uno.Toolkit.UI.Markup" />
+	</ItemGroup>
+
 	<Import Project="..\..\winappsdk-workaround.targets" />
 </Project>
