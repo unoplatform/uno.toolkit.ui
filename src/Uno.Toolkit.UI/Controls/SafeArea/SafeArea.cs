@@ -234,10 +234,10 @@ namespace Uno.Toolkit.UI
 			if (withSoftInput)
 			{
 				var inputRect = InputPane.GetForCurrentView()?.OccludedRect ?? Rect.Empty;
-				if (inputRect.Top != 0 && inputRect.Top < visibleBounds.Bottom)
+				if (inputRect.Top != 0 && inputRect.Top < visibleBounds.Bottom && XamlWindow.Current is { } xamlWindow)
 				{
 
-					var windowBottom = XamlWindow.Current.Bounds.Bottom;
+					var windowBottom = xamlWindow.Bounds.Bottom;
 #if __ANDROID__
 					var totalOffset = Math.Max(0, inputRect.Bottom - windowBottom);
 
@@ -636,7 +636,7 @@ namespace Uno.Toolkit.UI
 
 			internal void UpdateSafeAreaOverride()
 			{
-				if (Owner is { } owner)
+				if (Owner is { } owner && XamlWindow.Current is { } xamlWindow)
 				{
 					var safeAreaOverride = GetSafeAreaOverride(owner);
 
@@ -646,7 +646,7 @@ namespace Uno.Toolkit.UI
 						return;
 					}
 
-					var fullBounds = XamlWindow.Current.Bounds;
+					var fullBounds = xamlWindow.Bounds;
 					var height = fullBounds.Height - unsafeArea.Top - unsafeArea.Bottom;
 					var width = fullBounds.Width - unsafeArea.Left - unsafeArea.Right;
 
