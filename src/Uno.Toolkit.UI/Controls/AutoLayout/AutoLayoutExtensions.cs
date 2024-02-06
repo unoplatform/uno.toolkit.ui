@@ -37,8 +37,17 @@ namespace Uno.Toolkit.UI
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal static double GetLength(this FrameworkElement frameworkElement, Orientation orientation)
+		internal static double GetPrimaryLength(this FrameworkElement frameworkElement, Orientation orientation)
 		{
+			// Check first if a PrimaryLength attached property is set on the element
+			// (legacy stuff - not really used anymore because it's too verbose and difficult to understand)
+			var primaryLength = AutoLayout.GetPrimaryLength(frameworkElement);
+			if (double.IsFinite(primaryLength))
+			{
+				return primaryLength;
+			}
+
+			// Fallback to width or height depending on the orientation
 			return orientation switch
 			{
 				Orientation.Horizontal => frameworkElement.Width,
@@ -112,18 +121,6 @@ namespace Uno.Toolkit.UI
 		internal static double GetCounterLength(this Thickness thickness, Orientation orientation)
 		{
 			return thickness.GetLength(orientation == Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal);
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal static double GetCounterLength(this FrameworkElement frameworkElement, Orientation orientation)
-		{
-			return frameworkElement.GetLength(orientation == Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal);
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal static double GetMinCounterLength(this FrameworkElement frameworkElement, Orientation orientation)
-		{
-			return frameworkElement.GetMinLength(orientation == Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal);
 		}
 
 		internal static HorizontalAlignment ToHorizontalAlignment(this AutoLayoutAlignment layoutAlignment)
