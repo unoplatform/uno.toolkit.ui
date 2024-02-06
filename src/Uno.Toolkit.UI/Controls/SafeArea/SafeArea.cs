@@ -234,7 +234,7 @@ namespace Uno.Toolkit.UI
 			if (withSoftInput)
 			{
 				var inputRect = InputPane.GetForCurrentView()?.OccludedRect ?? Rect.Empty;
-				if (inputRect.Top != 0 && inputRect.Top < visibleBounds.Bottom)
+				if (inputRect.Top != 0 && inputRect.Top < visibleBounds.Bottom && XamlWindow.Current is { } xamlWindow)
 				{
 
 					var windowBottom = XamlWindow.Current!.Bounds.Bottom;
@@ -636,7 +636,7 @@ namespace Uno.Toolkit.UI
 
 			internal void UpdateSafeAreaOverride()
 			{
-				if (Owner is { } owner)
+				if (Owner is { } owner && XamlWindow.Current is { } xamlWindow)
 				{
 					var safeAreaOverride = GetSafeAreaOverride(owner);
 
