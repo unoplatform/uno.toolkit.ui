@@ -37,12 +37,18 @@ namespace Uno.Toolkit.UI
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		internal static bool IsFinite(this double value)
+		{
+			return !double.IsNaN(value) && !double.IsInfinity(value);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal static double GetPrimaryLength(this FrameworkElement frameworkElement, Orientation orientation)
 		{
 			// Check first if a PrimaryLength attached property is set on the element
 			// (legacy stuff - not really used anymore because it's too verbose and difficult to understand)
 			var primaryLength = AutoLayout.GetPrimaryLength(frameworkElement);
-			if (double.IsFinite(primaryLength))
+			if (primaryLength.IsFinite())
 			{
 				return primaryLength;
 			}
