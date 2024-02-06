@@ -319,11 +319,11 @@ partial class AutoLayout
 				var maxLength = fe.GetMaxLength(orientation);
 				var length = fe.GetPrimaryLength(orientation);
 
-				if (double.IsFinite(maxLength))
+				if (maxLength.IsFinite())
 				{
-					child.MeasuredLength = double.IsFinite(length) ? Math.Min(maxLength, length) : maxLength;
+					child.MeasuredLength = length.IsFinite() ? Math.Min(maxLength, length) : maxLength;
 				}
-				else if (double.IsFinite(length))
+				else if (length.IsFinite())
 				{
 					child.MeasuredLength = length;
 				}
