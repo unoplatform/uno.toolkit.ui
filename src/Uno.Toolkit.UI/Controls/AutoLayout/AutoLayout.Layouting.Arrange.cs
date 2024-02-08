@@ -81,11 +81,10 @@ partial class AutoLayout
 					continue; // Independent children are not stacked, skip it from the calculation
 				case AutoLayoutRole.Filled:
 					numberOfFilledChildren++;
-					if (calculatedChild.Element as FrameworkElement is { } frameworkElement && double.IsInfinity(frameworkElement.GetMaxLength(orientation)) is false)
+					if (calculatedChild.MeasuredLength < double.MaxValue)
 					{
-						var maxLenght = frameworkElement.GetMaxLength(orientation);
+						totalOfFillMaxSize += calculatedChild.MeasuredLength;
 						numberOfFilledChildrenWithMax++;
-						totalOfFillMaxSize = totalOfFillMaxSize + maxLenght;
 					}
 					break;
 				case AutoLayoutRole.Hug:
@@ -141,9 +140,9 @@ partial class AutoLayout
 
 		EnsureZeroFloor(ref filledMaxSurplus);
 
-		var filledChildrenSizeAfterMaxSize = numberOfFilledChildren - numberOfFilledChildrenWithMax > 0 ?
-			filledChildrenSize + (filledMaxSurplus / (numberOfFilledChildren - numberOfFilledChildrenWithMax)) :
-		    filledChildrenSize + GetChildrenLowerThanAllocateSurplus(_calculatedChildren, filledChildrenSize);
+		var filledChildrenSizeAfterMaxSize = numberOfFilledChildren - numberOfFilledChildrenWithMax > 0
+			? filledChildrenSize + (filledMaxSurplus / (numberOfFilledChildren - numberOfFilledChildrenWithMax))
+			: filledChildrenSize + GetChildrenLowerThanAllocateSurplus(_calculatedChildren, filledChildrenSize);
 
 		 EnsureZeroFloor(ref filledChildrenSizeAfterMaxSize);
 
@@ -213,9 +212,14 @@ partial class AutoLayout
 			EnsureZeroFloor(ref childLength);
 
 			// Calculate the position of the child by applying the alignment instructions
-			var isCounterAlignemntDefined = child.Element.ReadLocalValue(CounterAlignmentProperty) as AutoLayoutAlignment? is { };
 
-			var counterAlignment = !isCounterAlignemntDefined ? this.CounterAxisAlignment : GetCounterAlignment(child.Element);
+			// Check if the child has a local value for CounterAlignment
+			if (child.Element.ReadLocalValue(CounterAlignmentProperty) is not AutoLayoutAlignment counterAlignment)
+			{
+				// If not, use the panel's CounterAXisAlignment property instead
+				counterAlignment = CounterAxisAlignment;
+			}
+
 			var isStretch = counterAlignment is AutoLayoutAlignment.Stretch;
 			var haveCounterStartPadding = isStretch || counterAlignment is AutoLayoutAlignment.Start;
 			var counterStartPadding = haveCounterStartPadding ? (isHorizontal ? padding.Top : padding.Left) : 0;
@@ -234,8 +238,10 @@ partial class AutoLayout
 
 			ApplyMinMaxValues(child.Element, orientation, ref childSize);
 
+			var alignmentForCounterAlignmentOffset = counterAlignment is AutoLayoutAlignment.Stretch ? CounterAxisAlignment : counterAlignment;
+
 			var counterAlignmentOffset =
-				ComputeCounterAlignmentOffset(counterAlignment, childSize.GetCounterLength(orientation), availableCounterLength, padding, isHorizontal);
+				ComputeCounterAlignmentOffset(alignmentForCounterAlignmentOffset, childSize.GetCounterLength(orientation), availableCounterLength, padding, isHorizontal);
 
 			var calculatedOffset = counterAlignmentOffset + counterStartPadding + borderThickness.GetCounterStartLength(orientation);
 

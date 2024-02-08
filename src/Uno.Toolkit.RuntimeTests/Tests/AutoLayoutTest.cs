@@ -446,6 +446,85 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
+	[DataRow(300d, 100d)]
+	[DataRow(100d, 0d)]
+	[DataRow(120d, 10d)]
+	public async Task When_PrimaryAxisAlignment_Centered_And_Filled_Single_Element_With_MaxSize(double height, double expectedOffset)
+	{
+		var SUT = new AutoLayout()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
+			Orientation = Orientation.Vertical,
+			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
+			Width = 300,
+			Height = height,
+		};
+
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			MaxHeight = 100,
+			MaxWidth = 100,
+		};
+
+		AutoLayout.SetPrimaryAlignment(border1, AutoLayoutPrimaryAlignment.Stretch);
+
+		SUT.Children.Add(border1);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var border1Transform = border1.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		border1Transform!.Y.Should().BeApproximately(expectedOffset, precision: 1d);
+	}
+
+	[TestMethod]
+	[DataRow(300d, 75d, 125d)]
+	[DataRow(150d, 0d, 50d)]
+	public async Task When_PrimaryAxisAlignment_Centered_And_Filled_Elements_With_MaxSize(
+		double height,
+		double expectedOffset1,
+		double expectedOffset2)
+	{
+		var SUT = new AutoLayout()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
+			Orientation = Orientation.Vertical,
+			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
+			Width = 300,
+			Height = height,
+		};
+
+		var border1 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Height = 50,
+			MaxWidth = 100,
+		};
+
+		var border2 = new Border()
+		{
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			MaxHeight = 100,
+			MaxWidth = 100,
+		};
+
+		AutoLayout.SetPrimaryAlignment(border1, AutoLayoutPrimaryAlignment.Auto);
+		AutoLayout.SetPrimaryAlignment(border2, AutoLayoutPrimaryAlignment.Stretch);
+
+		SUT.Children.Add(border1);
+		SUT.Children.Add(border2);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var border1Transform = border1.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+		var border2Transform = border2.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
+
+		border1Transform!.Y.Should().BeApproximately(expectedOffset1, precision: 1d);
+		border2Transform!.Y.Should().BeApproximately(expectedOffset2, precision: 1d);
+	}
+
+
+	[TestMethod]
 	public async Task When_Stretched_PrimaryAlignment_In_ScrollViewer()
 	{
 		var SUT = new AutoLayout()
