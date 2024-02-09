@@ -22,7 +22,7 @@ steps:
           foreach-object { $_ -replace "<string>uno.platform.toolkit-uwp</string>","<string>uno.platform.toolkit-uwp-canary</string>" -replace "<string>uno.platform.toolkit</string>","<string>uno.platform.toolkit-canary</string>" } |
           set-content $a }
     displayName: 'Adjust info.plist bundle name'
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
+    condition: eq(variables['IsCanaryBranch'], true)
 
   - pwsh: |
       gci -r -include AndroidManifest.xml |
@@ -31,4 +31,13 @@ steps:
           foreach-object { $_ -replace 'package="uno.platform.toolkit-uwp"','package="uno.platform.toolkit-uwp-canary"' -replace 'package="uno.platform.toolkit"','package="uno.platform.toolkit-canary"' } |
           set-content $a }
     displayName: 'Adjust AndroidManifest.xml package name'
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
+    condition: eq(variables['IsCanaryBranch'], true)
+
+  - pwsh: |
+      gci -r -include android-uitest-run.sh |
+      foreach-object {
+          $a = $_.fullname; ( get-content $a ) |
+          foreach-object { $_ -replace '"uno.platform.toolkit_uwp"','"uno.platform.toolkit_uwp_canary"' -replace '"uno.platform.toolkit"','"uno.platform.toolkit_canary"' } |
+          set-content $a }
+    displayName: 'Adjust Android UI Tests Scripts SAMPLEAPP_NAME'
+    condition: eq(variables['IsCanaryBranch'], true)

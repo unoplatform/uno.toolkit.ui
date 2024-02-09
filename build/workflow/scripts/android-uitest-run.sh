@@ -16,6 +16,14 @@ then
 	export TEST_FILTERS="FullyQualifiedName ~ Uno.Toolkit.UITest.RuntimeTests";
 fi
 
+if [ "$XAML_FLAVOR_BUILD" == 'UWP' ];
+then
+	export SAMPLEAPP_NAME="uno.platform.toolkit_uwp";
+elif [ "$XAML_FLAVOR_BUILD" == 'WinUI' ];
+then
+	export SAMPLEAPP_NAME="uno.platform.toolkit";
+fi
+
 export UNO_UITEST_PLATFORM=Android
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/android/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
