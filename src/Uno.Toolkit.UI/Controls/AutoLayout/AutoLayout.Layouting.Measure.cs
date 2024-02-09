@@ -168,23 +168,24 @@ partial class AutoLayout
 				role = AutoLayoutRole.Independent;
 				numberOfStackedChildren--;
 			}
-			else if (GetPrimaryAlignment(child) == AutoLayoutPrimaryAlignment.Stretch && !filledAsHug)
+			else if (child is FrameworkElement frameworkElement)
 			{
-				atLeastOneFilledChild = true;
-				role = AutoLayoutRole.Filled;
-			}
-			else if(GetPrimaryLength(child) is var l and >= 0 and < double.PositiveInfinity)
-			{
-				role = AutoLayoutRole.Fixed;
-				length = l;
-			}
-			else
-			{
-				var size = child is FrameworkElement frameworkElement ?
-					Math.Max(frameworkElement.GetLength(orientation), frameworkElement.GetMinLength(orientation)) :
-					-1;
+				var size = frameworkElement.GetPrimaryLength(orientation) is var l and >= 0 and < double.PositiveInfinity
+					? l
+					: -1; // no size defined
+				var minSize = frameworkElement.GetMinLength(orientation);
+				var maxSize = Math.Max(frameworkElement.GetMaxLength(orientation), minSize);
 
-				if (size >= 0)
+				// Apply min/max size constraints
+				size = size >= 0 ? Math.Max(Math.Min(size, maxSize), minSize) : size;
+
+				if (GetPrimaryAlignment(child) == AutoLayoutPrimaryAlignment.Stretch && !filledAsHug)
+				{
+					// If the max size is not defined, we can't use it as the hug size
+					role = AutoLayoutRole.Filled;
+					atLeastOneFilledChild = true;
+				}
+				else if (size >= 0)
 				{
 					role = AutoLayoutRole.Fixed;
 					length = size;
@@ -193,6 +194,10 @@ partial class AutoLayout
 				{
 					role = AutoLayoutRole.Hug;
 				}
+			}
+			else
+			{
+				role = AutoLayoutRole.Hug;
 			}
 
 			_calculatedChildren[i] = new CalculatedChildren(child, role, length);
@@ -285,11 +290,11 @@ partial class AutoLayout
 		{
 			var child = _calculatedChildren![i];
 
-			if (child.Role == AutoLayoutRole.Filled && child.IsVisible)
+			if (child is { Role: AutoLayoutRole.Filled, IsVisible: true })
 			{
 				filledChildrenCount++;
-				}
 			}
+		}
 
 		if (filledChildrenCount <= 0)
 		{
@@ -309,7 +314,24 @@ partial class AutoLayout
 
 			MeasureChild(child.Element, orientation, filledSize, availableCounterSize, ref desiredCounterSize, counterPaddingSize, CounterAxisAlignment);
 
-			child.MeasuredLength = child.Element is FrameworkElement fe ? Math.Min(fe.GetMaxLength(orientation), double.MaxValue) : double.MaxValue;
+			if (child.Element is FrameworkElement fe)
+			{
+				var maxLength = fe.GetMaxLength(orientation);
+				var length = fe.GetPrimaryLength(orientation);
+
+				if (maxLength.IsFinite())
+				{
+					child.MeasuredLength = length.IsFinite() ? Math.Min(maxLength, length) : maxLength;
+				}
+				else if (length.IsFinite())
+				{
+					child.MeasuredLength = length;
+				}
+				else
+				{
+					child.MeasuredLength = double.MaxValue;
+				}
+			}
 		}
 
 		return true; // at least one filled child
@@ -473,6 +495,7 @@ partial class AutoLayout
 		/// <remarks>
 		/// Will be zero when the element is absolutely positioned, because it is not stacked
 		/// with others.
+		/// When the element role is FILLED, this value will be the maximum length of the element.
 		/// </remarks>
 		internal double MeasuredLength { get; set; }
 	}
