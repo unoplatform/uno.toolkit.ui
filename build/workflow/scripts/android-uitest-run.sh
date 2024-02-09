@@ -160,8 +160,11 @@ dotnet test \
 	-v m \
 	|| true
 
-## Copy the results file to the results folder
-cp $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH $BASE_ARTIFACTS_PATH
+
+if [[ -f $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH ]]; then
+	## Copy the results file to the results folder
+	cp $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH $BASE_ARTIFACTS_PATH
+fi
 
 ## Dump the emulator's system log
 $ANDROID_HOME/platform-tools/adb shell logcat -d > $UNO_UITEST_SCREENSHOT_PATH/android-device-log.txt
