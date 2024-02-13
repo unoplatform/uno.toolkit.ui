@@ -79,6 +79,8 @@ Exposes visual states as attachable properties that lets you bind a string on a 
 | `utu:TabBar`             | `TopTabBarStyle`                   |                 |
 | `utu:TabBar`             | `ColoredTopTabBarStyle`            |                 |
 | `utu:TabBar`             | `VerticalTabBarStyle`              |                 |
+| `utu:TabBarItem`         | `FabTabBarItemStyle`               |                 |
+| `utu:TabBarItem`         | `NavigationTabBarItemStyle`        |                 |
 | `utu:TabBarItem`         | `BottomFabTabBarItemStyle`         |                 |
 | `utu:TabBarItem`         | `BottomTabBarItemStyle`            |                 |
 | `utu:TabBarItem`         | `VerticalTabBarItemStyle`          |                 |
