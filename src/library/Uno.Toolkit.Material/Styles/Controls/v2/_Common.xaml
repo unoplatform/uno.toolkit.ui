@@ -59,4 +59,6 @@
 	<StaticResource x:Key="ElevatedCardContentControlStyle" ResourceKey="MaterialElevatedCardContentControlStyle" />
 	<StaticResource x:Key="VerticalTabBarStyle" ResourceKey="MaterialVerticalTabBarStyle" />
 	<StaticResource x:Key="VerticalTabBarItemStyle" ResourceKey="MaterialVerticalTabBarItemStyle" />
+	<StaticResource x:Key="FabTabBarItemStyle" ResourceKey="MaterialFabTabBarItemStyle" />
+	<StaticResource x:Key="NavigationTabBarItemStyle" ResourceKey="MaterialNavigationTabBarItemStyle" />
 </ResourceDictionary>
