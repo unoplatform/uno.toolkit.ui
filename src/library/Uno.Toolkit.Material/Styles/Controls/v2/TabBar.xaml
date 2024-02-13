@@ -834,14 +834,19 @@
         </Setter>
     </Style>
 
-    <Style
+	<Style
+     x:Key="MaterialNavigationTabBarItemStyle"
+     BasedOn="{StaticResource MaterialBaseNavigationTabBarItemStyle}"
+     TargetType="utu:TabBarItem" />
+	
+	<Style
         x:Key="MaterialVerticalTabBarItemStyle"
-        BasedOn="{StaticResource MaterialBaseNavigationTabBarItemStyle}"
+        BasedOn="{StaticResource MaterialNavigationTabBarItemStyle}"
         TargetType="utu:TabBarItem" />
 
     <Style
         x:Key="MaterialBottomTabBarItemStyle"
-        BasedOn="{StaticResource MaterialBaseNavigationTabBarItemStyle}"
+        BasedOn="{StaticResource MaterialNavigationTabBarItemStyle}"
         TargetType="utu:TabBarItem" />
 
     <Style x:Key="MaterialTopTabBarItemStyle" TargetType="utu:TabBarItem">
@@ -1277,14 +1282,18 @@
         </Setter>
     </Style>
 
-    <Style
+	<Style x:Key="MaterialFabTabBarItemStyle"
+		   BasedOn="{StaticResource MaterialBaseFabTabBarItemStyle}"
+		   TargetType="utu:TabBarItem" />
+
+	<Style
         x:Key="MaterialVerticalFabTabBarItemStyle"
-        BasedOn="{StaticResource MaterialBaseFabTabBarItemStyle}"
+        BasedOn="{StaticResource MaterialFabTabBarItemStyle}"
         TargetType="utu:TabBarItem" />
 
     <Style
         x:Key="MaterialBottomFabTabBarItemStyle"
-        BasedOn="{StaticResource MaterialBaseFabTabBarItemStyle}"
+        BasedOn="{StaticResource MaterialFabTabBarItemStyle}"
         TargetType="utu:TabBarItem">
         <!--  KNOWN ISSUE: The part of the FAB that is translated outside of the TabBar bounds is not clickable  -->
         <!--  https://github.com/unoplatform/uno/issues/7393  -->
