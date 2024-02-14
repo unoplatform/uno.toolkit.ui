@@ -26,8 +26,9 @@
 			<!--  Top TabBar Resources  -->
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
 			<x:Double x:Key="TopTabBarItemIconHeight">20</x:Double>
-			<Thickness x:Key="TopTabBarItemContentMargin">0,0,0,0</Thickness>
-
+			<Thickness x:Key="TopTabBarItemContentMargin">8,0,0,0</Thickness>
+			<Thickness x:Key="TopTabBarItemContentOnlyMargin">0</Thickness>
+			
 			<!--  FAB Resources  -->
 			<x:Double x:Key="FabTabBarItemOffset">-32</x:Double>
 			<x:Double x:Key="FabTabBarItemContentWidthOrHeight">16</x:Double>
@@ -221,8 +222,9 @@
 			<!--  Top TabBar Resources  -->
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
 			<x:Double x:Key="TopTabBarItemIconHeight">20</x:Double>
-			<Thickness x:Key="TopTabBarItemContentMargin">0,0,0,0</Thickness>
-
+			<Thickness x:Key="TopTabBarItemContentMargin">8,0,0,0</Thickness>
+			<Thickness x:Key="TopTabBarItemContentOnlyMargin">0</Thickness>
+			
 			<!--  FAB Resources  -->
 			<x:Double x:Key="FabTabBarItemOffset">-32</x:Double>
 			<x:Double x:Key="FabTabBarItemContentWidthOrHeight">16</x:Double>
@@ -853,9 +855,9 @@
         <Setter Property="Background" Value="{ThemeResource TopTabBarItemBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource TopTabBarItemForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource TopTabBarItemBorderBrush}" />
-        <Setter Property="FontFamily" Value="{ThemeResource MaterialRegularFontFamily}" />
-        <Setter Property="FontSize" Value="{ThemeResource LabelLargeFontSize}" />
-        <Setter Property="FontWeight" Value="{ThemeResource LabelLargeFontWeight}" />
+		<Setter Property="FontFamily" Value="{ThemeResource LabelLargeFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource LabelLargeFontSize}" />
+		<Setter Property="FontWeight" Value="{ThemeResource LabelLargeFontWeight}" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -883,7 +885,7 @@
                                         Fill="{ThemeResource TopTabBarItemPointerFillBrush}"
                                         Visibility="Collapsed" />
 
-                                    <Grid x:Name="ContentGrid" ColumnSpacing="8">
+                                    <Grid x:Name="ContentGrid">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition x:Name="IconRow" Width="*" />
                                             <ColumnDefinition x:Name="ContentRow" Width="Auto" />
@@ -909,6 +911,8 @@
                                             ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
                                             ContentTransitions="{TemplateBinding ContentTransitions}"
                                             FontSize="{TemplateBinding FontSize}"
+                                            FontWeight="{TemplateBinding FontWeight}"
+                                            FontFamily="{TemplateBinding FontFamily}"
                                             Foreground="{TemplateBinding Foreground}"
                                             TextWrapping="NoWrap" />
                                     </Grid>
@@ -994,8 +998,8 @@
                                 <VisualState x:Name="ContentOnly">
                                     <VisualState.Setters>
                                         <Setter Target="IconBox.Visibility" Value="Collapsed" />
-                                        <Setter Target="ContentPresenter.Margin" Value="12,0" />
-                                        <Setter Target="IconRow.Width" Value="0" />
+										<Setter Target="ContentPresenter.Margin" Value="{ThemeResource TopTabBarItemContentOnlyMargin}" />
+										<Setter Target="IconRow.Width" Value="0" />
                                         <Setter Target="ContentRow.Width" Value="*" />
                                     </VisualState.Setters>
                                 </VisualState>
@@ -1063,6 +1067,8 @@
                                             ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
                                             ContentTransitions="{TemplateBinding ContentTransitions}"
                                             FontSize="{TemplateBinding FontSize}"
+                                            FontWeight="{TemplateBinding FontWeight}"
+                                            FontFamily="{TemplateBinding FontFamily}"
                                             Foreground="{TemplateBinding Foreground}"
                                             TextWrapping="NoWrap" />
                                     </Grid>
