@@ -57,7 +57,7 @@ namespace Uno.Toolkit.UITest.Controls.NavigationBar
 			App.WaitForElementWithMessage("M3Page1NavBar");
 
 			PlatformHelpers.On(
-				iOS: () => App.FastTap("CloseIcon"),
+				iOS: () => App.FastTap("M3_NavBar_Close_Button"),
 				Android: () => App.FastTap(q => q.Marked("M3Page1NavBar").Descendant("AppCompatImageButton"))
 			);
 			;

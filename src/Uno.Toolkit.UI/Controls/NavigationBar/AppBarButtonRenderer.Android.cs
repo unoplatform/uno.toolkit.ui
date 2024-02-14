@@ -99,6 +99,8 @@ namespace Uno.Toolkit.UI
 					new[] { AppBarButton.LabelProperty },
 					new[] { AppBarButton.IconProperty },
 					new[] { AppBarButton.IconProperty, BitmapIcon.UriSourceProperty },
+					new[] { AppBarButton.IconProperty, IconElement.ForegroundProperty },
+					new[] { AppBarButton.IconProperty, IconElement.ForegroundProperty, SolidColorBrush.ColorProperty },
 					new[] { AppBarButton.ContentProperty },
 					new[] { AppBarButton.ContentProperty, FrameworkElement.VisibilityProperty },
 					new[] { AppBarButton.OpacityProperty },
@@ -115,7 +117,7 @@ namespace Uno.Toolkit.UI
 		protected override void Render()
 		{
 			// NavigationBar::PrimaryCommands -> !IsInOverflow -> AsAction.Never -> displayed directly on navbar
-			// NavigationBar::SecondaryCommands -> IsInOverflow -> AsAction.Awalys -> (displayed as flyout menu items under [...])
+			// NavigationBar::SecondaryCommands -> IsInOverflow -> AsAction.Always -> (displayed as flyout menu items under [...])
 
 			if (Native is not { } native)
 			{
@@ -132,24 +134,45 @@ namespace Uno.Toolkit.UI
 
 			string? titleText = element.Label;
 
-			native.SetTitle(null);
-			native.SetActionView(null);
-			native.SetIcon(null);
-
-			// (Icon ?? Content) and Label
-			if (!TrySetIcon() && element.Content is { } content)
+			if (_isInOverflow)
 			{
-				if (content is string text)
+				native.SetTitle(null);
+				native.SetActionView(null);
+				native.SetIcon(null);
+			}
+			else
+			{
+				var iconOrContent = element.Icon ?? element.Content;
+				switch (iconOrContent)
 				{
-					titleText = text;
-				}
-				else if (content is FrameworkElement { Visibility: Visibility.Visible } fe &&
-					_appBarButtonWrapper is { } wrapper)
-				{
-					_elementParent = element.Parent;
-					wrapper.Child = element;
-					element.SetParent(_elementParent);
-					native.SetActionView(wrapper);
+					case string text:
+						native.SetIcon(null);
+						native.SetActionView(null);
+						native.SetTitle(text);
+						break;
+
+					case FrameworkElement fe:
+						if (fe.Visibility == Visibility.Visible && _appBarButtonWrapper is { } wrapper)
+						{
+							_elementParent = element.Parent;
+							wrapper.Child = element;
+
+							//Restore the original parent if any, as we
+							// want the DataContext to flow properly from the
+							// CommandBar.
+							element.SetParent(_elementParent);
+
+							native.SetIcon(null);
+							native.SetActionView(wrapper);
+							native.SetTitle(null);
+						}
+						break;
+
+					default:
+						native.SetIcon(null);
+						native.SetActionView(null);
+						native.SetTitle(null);
+						break;
 				}
 			}
 
@@ -170,19 +193,6 @@ namespace Uno.Toolkit.UI
 			var foreground = element.Foreground as SolidColorBrush;
 			var foregroundColor = foreground?.Color;
 			var foregroundOpacity = 0d;
-
-			if (native.Icon != null)
-			{
-				if (element.TryGetIconColor(out var iconColor))
-				{
-					foregroundOpacity = iconColor.A / 255d;
-					DrawableCompat.SetTint(native.Icon, (Android.Graphics.Color)iconColor);
-				}
-				else
-				{
-					DrawableCompat.SetTintList(native.Icon, null);
-				}
-			}
 
 			if (titleText != null)
 			{
@@ -210,31 +220,6 @@ namespace Uno.Toolkit.UI
 				var opacity = element.Opacity;
 				var finalOpacity = isEnabledOpacity * foregroundOpacity * opacity;
 				var alpha = (int)(finalOpacity * 255);
-				native.Icon?.SetAlpha(alpha);
-			}
-
-			bool TrySetIcon()
-			{
-				if (element?.Icon is { } icon)
-				{
-					if (icon is BitmapIcon bitmap)
-					{
-						if (bitmap.UriSource is { } uriSource)
-						{
-							var drawable = DrawableHelper.FromUri(uriSource);
-							native.SetIcon(drawable);
-						}
-
-						return true;
-					}
-					else
-					{
-						this.Log().WarnIfEnabled(() => $"{icon.GetType().Name ?? "FontIcon, PathIcon and SymbolIcon"} are not supported. Use BitmapIcon instead with UriSource.");
-						native.SetIcon(null);
-					}
-				}
-
-				return false;
 			}
 		}
 		
