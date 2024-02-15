@@ -61,6 +61,8 @@
       href: helpers/input-extensions.md
     - name: ItemsRepeater Extensions
       href: helpers/itemsrepeater-extensions.md
+    - name: Progress Extensions
+      href: helpers/progress-extensions.md
     - name: Responsive markup extension
       href: helpers/responsive-extension.md
     - name: StatusBar attached properties
