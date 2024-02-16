@@ -79,15 +79,12 @@ namespace Uno.Toolkit.UI
 		{
 			// Content
 			_appBarButtonWrapper = new AppBarButtonWrapper();
-			if (Element?.Content is FrameworkElement content && content.Visibility == Visibility.Visible)
-			{
-				var elementsParent = Element.Parent;
-				_appBarButtonWrapper.SetParent(elementsParent);
 
-				yield return Disposable.Create(() =>
-				{
-					Element.ViewAttachedToWindow -= OnElementAttachedToWindow;
-				});
+			var iconOrContent = Element?.Icon ?? Element?.Content;
+			if (Element is { } && iconOrContent is FrameworkElement content && content.Visibility == Visibility.Visible)
+			{
+				_elementParent = Element.Parent;
+				_appBarButtonWrapper.SetParent(_elementParent);
 			}
 
 			yield return Disposable.Create(() => _appBarButtonWrapper = null);
@@ -111,6 +108,11 @@ namespace Uno.Toolkit.UI
 					new[] { AppBarButton.IsEnabledProperty },
 					new[] { AppBarButton.IsInOverflowProperty }
 				);
+
+				yield return Disposable.Create(() =>
+				{
+					element.ViewAttachedToWindow -= OnElementAttachedToWindow;
+				});
 			}
 		}
 
@@ -154,7 +156,6 @@ namespace Uno.Toolkit.UI
 					case FrameworkElement fe:
 						if (fe.Visibility == Visibility.Visible && _appBarButtonWrapper is { } wrapper)
 						{
-							_elementParent = element.Parent;
 							wrapper.Child = element;
 
 							//Restore the original parent if any, as we
@@ -222,7 +223,6 @@ namespace Uno.Toolkit.UI
 				var alpha = (int)(finalOpacity * 255);
 			}
 		}
-		
 	}
 
 	internal partial class AppBarButtonWrapper : Border
