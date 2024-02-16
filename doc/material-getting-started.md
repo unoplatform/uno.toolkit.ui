@@ -1,13 +1,13 @@
 ---
 uid: Toolkit.GettingStarted.Material
 ---
-# Uno Toolkit Material Library
+# Uno Material Toolkit Library
 
 <p align="center">
   <img src="assets/material-toolkit-design-system.png" alt="Material Toolkit Design System">
 </p>
 
-The Uno.Toolkit.Material library is available as NuGet packages that can be added to any new or existing Uno solution.
+The Uno Material Toolkit provides a set of resources and styles based on [Material Design guidelines](https://m3.material.io/) for the controls included in the base [Uno Toolkit library](xref:Toolkit.GettingStarted)
 
 ## Getting Started
 
