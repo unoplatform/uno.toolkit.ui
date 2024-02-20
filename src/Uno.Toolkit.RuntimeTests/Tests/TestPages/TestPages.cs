@@ -2,7 +2,6 @@
 using Uno.Toolkit.UI;
 using Uno.Disposables;
 
-
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
