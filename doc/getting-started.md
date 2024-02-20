@@ -15,7 +15,13 @@ This article is a guide for installing the base Uno.Toolkit library, additional 
 - [Getting Started with Material for Toolkit](./material-getting-started.md)
 - [Getting Started with Cupertino for Toolkit](./cupertino-getting-started.md)
 
-### Installation
+## Installation
+
+The Uno Toolkit library can be included in your application by using the [Visual Studio Wizard](xref:Uno.GettingStarted.CreateAnApp.VS2022) and/or the [`dotnet new` templates](xref:Uno.GetStarted.dotnet-new)
+
+### [**Wizard**](#tab/wizard)
+
+
 
 1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
 2. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
@@ -35,8 +41,38 @@ This article is a guide for installing the base Uno.Toolkit library, additional 
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
     ```
+### [**dotnet new**](#tab/dotnet-new)
 
-#### Previous Installation Method
+Option 1:- When creating a new project using the `dotnet new` templates, make sure  to include the [`-toolkit` option](xref:Uno.GettingStarted.UsingWizard.Features#toolkit) in the `dotnet new unoapp` command.     
+    
+    `dotnet new unoapp -preset blank -o MyApp -toolkit` 
+
+Option 2:- To incorporate the Uno Toolkit into an existing application, you must add the [Uno.Toolkit.WinUI NuGet package](https://www.nuget.org/packages/Uno.Toolkit.WinUI) to the **App Code Library** project as well as the platform heads. An easy way to do this is through the command line. Run the following command within the directory of each `.csproj`:       
+    
+    `dotnet add package Uno.Toolkit.WinUI --version [latest version number]. 
+
+ Make sure to replace `[latest version number] `with the actual latest NuGet version number.
+ 
+ Add the resources to `AppResources.xaml`:
+
+    ```xml
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+
+            <!-- Load Uno.Toolkit.UI resources -->
+            <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+
+            <!-- Load custom application resources -->
+            <!-- ... -->
+
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+    ```
+
+***
+
+
+## Previous Installation Method
 
 If your application is based on the older solution template that includes a shared project (.shproj), follow these steps:
 
