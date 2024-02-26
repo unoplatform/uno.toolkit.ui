@@ -12,6 +12,17 @@ The `ApplicationView.VisibleBounds` is the rectangular area of the screen which 
 
 In some cases, it is acceptable for visible content to be partially obscured (a page background for example) and it should extend to fill the entire window. Other types of content should be restricted to the visible bounds (for instance: readable text, or interactive controls). `SafeArea` enables this kind of fine-grained control over responsiveness to the safe and "unsafe" areas of the screen.
 
+<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/H-HkMzYCiOM"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    </iframe>
+</div>
+
 ## Properties
 
 ### Remarks
