@@ -41,10 +41,10 @@ namespace Uno.Toolkit.UI
 			new PropertyMetadata(default(Brush)));
 
 		[DynamicDependency(nameof(SetDrawerBackground))]
-		public static Brush GetDrawerBackground(DrawerControl obj) => (Brush)obj.GetValue(DrawerBackgroundProperty);
+		public static Brush GetDrawerBackground(DependencyObject obj) => (Brush)obj.GetValue(DrawerBackgroundProperty);
 
 		[DynamicDependency(nameof(GetDrawerBackground))]
-		public static void SetDrawerBackground(DrawerControl obj, Brush value) => obj.SetValue(DrawerBackgroundProperty, value);
+		public static void SetDrawerBackground(DependencyObject obj, Brush value) => obj.SetValue(DrawerBackgroundProperty, value);
 
 		#endregion
 		#region DependencyProperty: OpenDirection
@@ -127,9 +127,9 @@ namespace Uno.Toolkit.UI
 			new PropertyMetadata(DrawerControl.DefaultValues.FitToDrawerContent));
 
 		[DynamicDependency(nameof(SetFitToDrawerContent))]
-		public static bool GetFitToDrawerContent(DrawerControl obj) => (bool)obj.GetValue(FitToDrawerContentProperty);
+		public static bool GetFitToDrawerContent(DependencyObject obj) => (bool)obj.GetValue(FitToDrawerContentProperty);
 		[DynamicDependency(nameof(GetFitToDrawerContent))]
-		public static void SetFitToDrawerContent(DrawerControl obj, bool value) => obj.SetValue(FitToDrawerContentProperty, value);
+		public static void SetFitToDrawerContent(DependencyObject obj, bool value) => obj.SetValue(FitToDrawerContentProperty, value);
 
 		#endregion
 	}

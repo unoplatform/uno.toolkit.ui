@@ -17,7 +17,6 @@ Provides two attached properties on `Page` to control the visuals of the status 
     </iframe>
 </div>
 
-
 ## Remarks
 
 The attached properties do nothing on platforms other than iOS and Android.
