@@ -30,10 +30,14 @@ For a larger example and features demo, visit the [Uno Gallery](https://github.c
 
 All documentation for `Uno.Toolkit.UI` can be found on our [website](https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html).
 
+## Where can I get support?
+
+Support is available through [GitHub Discussions](https://github.com/unoplatform/uno/discussions) or [Discord Server](https://platform.uno/discord) - where our engineering team and community will be able to help you.
+
 ## Contributing
 
 Please read our [contributing guide](https://github.com/unoplatform/uno/blob/master/CONTRIBUTING.md) to learn about our development process and how to propose bug fixes and improvements.
-Come visit us on our [Discord Channel #uno-platform](https://discord.gg/eBHZSKG) for help on how to contribute!
+Come visit us on our [Discord Server](https://platform.uno/discord) for help on how to contribute!
 
 Contribute to Uno in your browser using [GitPod.io](https://gitpod.io), follow [our guide here](https://platform.uno/docs/articles/features/working-with-gitpod.html).
 
