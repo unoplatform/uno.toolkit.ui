@@ -58,5 +58,9 @@
 		<Using Include="Uno.Toolkit.UI" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)'=='net7.0-android'">
+	  <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" />
+	</ItemGroup>
+
 	<Import Project="xamlmerge-toolkit.props" />
 </Project>
