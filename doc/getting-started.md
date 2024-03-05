@@ -15,6 +15,17 @@ This article is a guide for installing the base Uno.Toolkit library, additional 
 - [Getting Started with Material for Toolkit](./material-getting-started.md)
 - [Getting Started with Cupertino for Toolkit](./cupertino-getting-started.md)
 
+<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/sDmyWJaQp4Q"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    </iframe>
+</div>
+
 ### Installation
 
 1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
