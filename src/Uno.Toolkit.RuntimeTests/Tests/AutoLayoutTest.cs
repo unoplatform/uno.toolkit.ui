@@ -733,6 +733,10 @@ internal class AutoLayoutTest
 
 	[TestMethod]
 	[RequiresFullWindow]
+#if __ANDROID__
+	//https://github.com/unoplatform/uno.toolkit.ui/issues/1051
+	[Ignore("This test is ignored until a fix for uno.toolkit.ui#1051 is available")]
+#endif
 	public async Task When_Hug_With_CounterAlignment()
 	{
 		var SUT = new AutoLayout()
