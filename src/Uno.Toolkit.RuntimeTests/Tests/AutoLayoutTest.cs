@@ -764,16 +764,20 @@ internal class AutoLayoutTest
 		SUT.Children.Add(textBlock);
 		SUT.Children.Add(button);
 
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+#if __ANDROID__
+		// TODO: Remove workaround after this issue is fixed https://github.com/unoplatform/uno.toolkit.ui/issues/1051
+		var border = new Border();
+		border.Children.Add(SUT);
 
+		await UnitTestUIContentHelperEx.SetContentAndWait(border);
+#else
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+#endif
 
 		var textBlockTransform = textBlock.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
 		var buttonTransform = button.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
 
-		var autoLayoutAcutalWidth = SUT.ActualWidth / 2;
-		var textBlockCenter = textBlock.ActualWidth / 2;
-
-		textBlockTransform.X.Should().BeApproximately(autoLayoutAcutalWidth - textBlockCenter, precision: 1d);
+		textBlockTransform.X.Should().BeApproximately((SUT.ActualWidth / 2) - (textBlock.ActualWidth / 2), precision: 1d);
 		buttonTransform.X.Should().BeApproximately(SUT.ActualWidth - button.ActualWidth, precision: 1d);
 	}
 
