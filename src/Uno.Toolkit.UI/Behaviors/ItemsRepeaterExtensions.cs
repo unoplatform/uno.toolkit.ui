@@ -8,16 +8,20 @@ using Microsoft.Extensions.Logging;
 using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Logging;
+using Windows.ApplicationModel.Activation;
+
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 #endif
@@ -240,7 +244,7 @@ public static partial class ItemsRepeaterExtensions
 			{
 				var indexes = MapStateToIndexes();
 
-				// validate indexes are within bounds
+				// validate selectedIndexes are within bounds
 				var count = ir.ItemsSourceView.Count;
 				if (indexes.All(x => 0 <= x && x < count))
 				{
@@ -276,7 +280,7 @@ public static partial class ItemsRepeaterExtensions
 
 #if HAS_UNO || true // ItemsSourceView::IndexOf is not defined
 				return Enumerable.Join(
-					Enumerable.Range(0, ir.ItemsSourceView.Count), // all valid indexes
+					Enumerable.Range(0, ir.ItemsSourceView.Count), // all valid selectedIndexes
 					selectedItems,
 					ir.ItemsSourceView.GetAt,
 					x => x,
@@ -314,8 +318,11 @@ public static partial class ItemsRepeaterExtensions
 		// When we reach here, it should be guaranteed that default selection state has been applied,
 		// and we can rely on it to synchronize the selection on the view-level.
 		var selected = GetSelectedIndexes(sender)?.Contains(args.Index) ?? false;
+		var selectionInfo = sender.ItemsSource as ISelectionInfo;
 
-		SetItemSelection(args.Element, selected);
+		selected = selectionInfo?.IsSelected(args.Index) ?? selected;
+
+		SetItemSelection(sender, args.Element, selected);
 	}
 	private static void OnItemsRepeaterItemsSourceChanged(DependencyObject sender, DependencyProperty dp)
 	{
@@ -327,7 +334,7 @@ public static partial class ItemsRepeaterExtensions
 			{
 				SetIsSynchronizingSelection(ir, true);
 
-				TrySynchronizeDefaultSelection(ir, shouldBaseFromSelectionState: false);
+				TrySynchronizeDefaultSelection(ir, shouldBaseFromSelectionState: ir.ItemsSource is ISelectionInfo);
 				// Unlike in OnSelectionModeChanged, ir.GetChildren() still holds old materialized elements from previous ItemsSource.
 				// There is nothing to do here; We can just let OnItemsRepeaterElementPrepared to handle the rest.
 			}
@@ -367,7 +374,8 @@ public static partial class ItemsRepeaterExtensions
 			{
 				if (shouldBaseFromSelectionState)
 				{
-					return TryCoerceSelectionFromIndexes(ir)
+					return TryCoerceSelectionFromSelectionInfo(ir)
+						|| TryCoerceSelectionFromIndexes(ir)
 						|| TryCoerceSelectionFromItems(ir)
 						|| TryCoerceSelectionFromIndex(ir)
 						|| TryCoerceSelectionFromItem(ir)
@@ -384,7 +392,8 @@ public static partial class ItemsRepeaterExtensions
 			{
 				if (shouldBaseFromSelectionState)
 				{
-					return TryCoerceSelectionFromIndex(ir)
+					return TryCoerceSelectionFromSelectionInfo(ir)
+						|| TryCoerceSelectionFromIndex(ir)
 						|| TryCoerceSelectionFromItem(ir)
 						|| TryCoerceSelectionFromIndexes(ir)
 						|| TryCoerceSelectionFromItems(ir)
@@ -401,10 +410,37 @@ public static partial class ItemsRepeaterExtensions
 			{
 				throw new ArgumentOutOfRangeException($"ItemsSelectionMode: {mode}");
 			}
+
 		}
 
 		return false;
 	}
+
+	private static bool TryCoerceSelectionFromSelectionInfo(ItemsRepeater ir)
+	{
+		if (ir.ItemsSource is ISelectionInfo selectionInfo)
+		{
+			var mode = GetSelectionMode(ir);
+			if (mode is ItemsSelectionMode.Single or ItemsSelectionMode.SingleOrNone)
+			{
+				if (selectionInfo.GetSelectedRanges() is { Count: > 0 } ranges)
+				{
+					return SetSelectionStates(ir, ranges[0].FirstIndex);
+				}
+			}
+			else if (mode is ItemsSelectionMode.Multiple)
+			{
+				var selectedIndexes = selectionInfo
+					.GetSelectedRanges()
+					.Expand();
+
+				return SetSelectionStates(ir, selectedIndexes);
+			}
+		}
+
+		return false;
+	}
+
 	private static bool TryCoerceSelectionFromIndex(ItemsRepeater ir)
 	{
 		if (GetSelectedIndex(ir) is { } index &&
@@ -427,7 +463,7 @@ public static partial class ItemsRepeaterExtensions
 	}
 	private static bool TryCoerceSelectionFromIndexes(ItemsRepeater ir)
 	{
-		// note: Do not accept partially matched indexes/items.
+		// note: Do not accept partially matched selectedIndexes/items.
 		if (GetSelectedIndexes(ir) is { Count: > 0 } indexes &&
 			indexes.All(x => 0 <= x && x <= ir.ItemsSourceView.Count))
 		{
@@ -438,7 +474,7 @@ public static partial class ItemsRepeaterExtensions
 	}
 	private static bool TryCoerceSelectionFromItems(ItemsRepeater ir)
 	{
-		// note: Do not accept partially matched indexes/items.
+		// note: Do not accept partially matched selectedIndexes/items.
 		if (GetSelectedItems(ir) is { Count: > 0 } items &&
 			items.Select(ir.ItemsSourceView.IndexOf).ToArray() is { } indexes &&
 			indexes.All(x => 0 <= x && x <= ir.ItemsSourceView.Count))
@@ -454,7 +490,7 @@ public static partial class ItemsRepeaterExtensions
 		{
 			if (ir.ItemsSourceView is { Count: > 0 } isv)
 			{
-				return SetSelectionStates(ir, indexes: 0);
+				return SetSelectionStates(ir, 0);
 			}
 		}
 
@@ -462,9 +498,12 @@ public static partial class ItemsRepeaterExtensions
 	}
 	private static bool SetEmptySelection(ItemsRepeater ir)
 	{
-		return SetSelectionStates(ir, indexes: null);
+		return SetSelectionStates(ir, null);
 	}
-	private static bool SetSelectionStates(ItemsRepeater ir, params int[]? indexes)
+
+	private static bool SetSelectionStates(ItemsRepeater ir, int index) => SetSelectionStates(ir, new[] { index });
+
+	private static bool SetSelectionStates(ItemsRepeater ir, int[]? indexes, int[]? diffIndexes = null)
 	{
 		if (indexes is { Length: > 0 })
 		{
@@ -474,6 +513,7 @@ public static partial class ItemsRepeaterExtensions
 			SetSelectedItem(ir, items[0]);
 			SetSelectedIndexes(ir, indexes);
 			SetSelectedItems(ir, items);
+			SetSelectionInfoRanges(ir, indexes, diffIndexes);
 		}
 		else
 		{
@@ -481,9 +521,45 @@ public static partial class ItemsRepeaterExtensions
 			SetSelectedItem(ir, null);
 			SetSelectedIndexes(ir, Array.Empty<int>());
 			SetSelectedItems(ir, Array.Empty<object>());
+			SetSelectionInfoRanges(ir, Array.Empty<int>());
+
 		}
 
 		return true;
+	}
+
+	private static void SetSelectionInfoRanges(ItemsRepeater ir, int[] selectedIndexes, int[]? diffIndexes = null)
+	{
+		if (ir.ItemsSource is not ISelectionInfo selectionInfo) return;
+
+		IEnumerable<int>? indexesToDeselect = null;
+		IEnumerable<int>? indexesToSelect = null;
+
+		// diffIndexes is used to optimize the selection change, by updating only the elements that are not in the new selection.
+		if (diffIndexes is { Length: > 0 })
+		{
+			var selectionLookup = diffIndexes.ToLookup(keySelector: idx => selectedIndexes.Contains(idx));
+
+			indexesToDeselect = selectionLookup[false];
+			indexesToSelect = selectionLookup[true];
+		}
+		else
+		{
+			var alreadySelectedIndexes = selectionInfo.GetSelectedRanges().Expand();
+
+			indexesToDeselect = alreadySelectedIndexes.Where(toDeselect => !selectedIndexes.Contains(toDeselect));
+			indexesToSelect = selectedIndexes.Except(alreadySelectedIndexes);
+		}
+
+		foreach (var range in indexesToDeselect.Safe().ReduceToRange())
+		{
+			selectionInfo.DeselectRange(range);
+		}
+
+		foreach (var range in indexesToSelect.Safe().ReduceToRange())
+		{
+			selectionInfo.SelectRange(range);
+		}
 	}
 
 	private static void SynchronizeMaterializedElementsSelection(ItemsRepeater ir)
@@ -495,7 +571,7 @@ public static partial class ItemsRepeaterExtensions
 			if (element is UIElement uie &&
 				ir.GetElementIndex(uie) is var index && index != -1)
 			{
-				SetItemSelection(uie, indexes.Contains(index));
+				SetItemSelection(ir, uie, indexes.Contains(index));
 			}
 		}
 	}
@@ -527,32 +603,33 @@ public static partial class ItemsRepeaterExtensions
 				.Distinct()
 				.ToArray();
 
-			SetSelectionStates(ir, updated);
+			SetSelectionStates(ir, updated, diffIndexes);
+
+			var selectionInfo = ir.ItemsSource as ISelectionInfo;
 			foreach (var diffIndex in diffIndexes)
 			{
+				var isSelected = selectionInfo?.IsSelected(diffIndex) ?? updated.Contains(diffIndex);
+
+				// non-materialized element will be handled by OnItemsRepeaterElementPrepared when its is materializing
 				if (ir.TryGetElement(diffIndex) is { } materialized)
 				{
-					SetItemSelection(materialized, updated.Contains(diffIndex));
-				}
-				else
-				{
-					// non-materialized element will be handled by OnItemsRepeaterElementPrepared when its is materializing
+					SetItemSelection(ir, materialized, isSelected);
 				}
 			}
-
 		}
 		finally
 		{
 			SetIsSynchronizingSelection(ir, false);
 		}
 	}
-	internal static void SetItemSelection(DependencyObject x, bool value)
+
+	internal static void SetItemSelection(ItemsRepeater ir, UIElement element, bool value)
 	{
-		if (x is SelectorItem si)
+		if (element is SelectorItem si)
 		{
 			si.IsSelected = value;
 		}
-		else if (x is ToggleButton toggle)
+		else if (element is ToggleButton toggle)
 		{
 			toggle.IsChecked = value;
 		}
