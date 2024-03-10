@@ -1,4 +1,4 @@
-﻿#if WINDOWS || WINDOWS_UWP || NET472_OR_GREATER || NETSTANDARD2_0
+﻿#if WINDOWS || WINDOWS_UWP || UNO_REFERENCE_API
 using System;
 using System.Linq;
 using System.Threading;
