@@ -129,6 +129,9 @@ Example:
         </Flyout>
     </Button.Flyout>
 </Button>
+
+![](../assets/DrawerFlyoutPresenter.png)
+
 ```
 
 > [!NOTE]
