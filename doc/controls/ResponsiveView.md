@@ -82,6 +82,7 @@ Here are the selected layout at different screen width if only `Narrow` and `Wid
 
 If you prefer instructional videos, you can follow our tutorials on how to work with ResponsiveView using XAML or C# markup:
 
+<<<<<<< HEAD
 ### [**XAML**](#tab/techbite-xaml) <!-- markdownlint-disable-line MD051 -->
 
 <div style="position: relative; width: 100%; padding-bottom: 56.25%;">
@@ -96,6 +97,9 @@ If you prefer instructional videos, you can follow our tutorials on how to work 
 </div>
 
 ### [**C# Markup**](#tab/techbite-csmarkup) <!-- markdownlint-disable-line MD051 -->
+=======
+### [**XAML**](#tab/techbite-xaml)
+>>>>>>> ec1b941 (docs: Reference Tech Bites videos in docs pt.2  (#1067))
 
 <div style="position: relative; width: 100%; padding-bottom: 56.25%;">
     <iframe
@@ -108,6 +112,22 @@ If you prefer instructional videos, you can follow our tutorials on how to work 
     </iframe>
 </div>
 
+<<<<<<< HEAD
+=======
+### [**C# Markup**](#tab/techbite-csmarkup)
+
+<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/VgpC79ErNRI"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    </iframe>
+</div>
+
+>>>>>>> ec1b941 (docs: Reference Tech Bites videos in docs pt.2  (#1067))
 ***
 
 > [!TIP]
