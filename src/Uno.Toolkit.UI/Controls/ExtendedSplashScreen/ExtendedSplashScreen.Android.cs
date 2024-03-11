@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Uno.Extensions;
 using Uno.Logging;
 using Uno.UI;
-using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using System.Runtime.InteropServices;
 using Android.OS;
@@ -38,7 +37,7 @@ public partial class ExtendedSplashScreen
 		}
 	}
 
-	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+	private static Task<FrameworkElement?> GetNativeSplashScreen()
 	{
 		try
 		{

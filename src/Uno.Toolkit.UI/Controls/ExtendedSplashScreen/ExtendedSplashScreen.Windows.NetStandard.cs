@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
-using Windows.ApplicationModel.Activation;
 using Windows.Graphics.Display;
 using System.Reflection;
 using System.IO;
@@ -51,7 +50,7 @@ namespace Uno.Toolkit.UI
 					RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY")) // Legacy Value (Bootstrapper 1.2.0-dev.29 or earlier).
 					|| RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 
-		private static async Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+		private static async Task<FrameworkElement?> GetNativeSplashScreen()
 		{
 			// Position of image aligns with WASM Bootstrapper style for splash image
 			// see https://github.com/unoplatform/Uno.Wasm.Bootstrap/blob/7d82af66c7dc587f6d1f6b6382860051fc2d92a0/src/Uno.Wasm.Bootstrap/WasmCSS/uno-bootstrap.css#L21
