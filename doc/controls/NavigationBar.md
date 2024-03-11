@@ -11,6 +11,19 @@ uid: Toolkit.Controls.NavigationBar
 
 The `NavigationBar` represents a specialized app bar that provides the layout for `AppBarButton` and navigation logic.
 
+For a quick introduction to `NavigationBar`, you can check out our introductory video below:
+
+<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/4-Q0hy2BnMI"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    </iframe>
+</div>
+
 This document highlights some of the differences you might encounter when working with the native mode of `NavigationBar` on either **iOS** or **Android**.
 
 ### C\#
