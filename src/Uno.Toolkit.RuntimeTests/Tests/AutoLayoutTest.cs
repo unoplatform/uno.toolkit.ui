@@ -767,7 +767,7 @@ internal class AutoLayoutTest
 #if __ANDROID__
 		// TODO: Remove workaround after this issue is fixed https://github.com/unoplatform/uno.toolkit.ui/issues/1051
 		var border = new Border();
-		border.Children.Add(SUT);
+		border.Child = SUT;
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(border);
 #else
