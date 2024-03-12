@@ -19,7 +19,6 @@ using Android.Util;
 using Size = Windows.Foundation.Size;
 using Activity = Android.App.Activity;
 using AndroidSplashScreen = AndroidX.Core.SplashScreen.SplashScreen;
-using Uno.Toolkit.UI.Controls;
 using Android;
 using Windows.Devices.Sensors;
 using Android.Content.Res;
