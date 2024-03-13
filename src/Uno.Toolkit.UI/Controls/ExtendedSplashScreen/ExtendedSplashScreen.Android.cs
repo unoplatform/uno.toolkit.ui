@@ -129,7 +129,7 @@ public partial class ExtendedSplashScreen
 
 		if (Instance is not null)
 		{
-			Instance.SplashScreenContent = await GetNativeSplashScreen(null) ?? new Border();
+			Instance.SplashScreenContent = await GetNativeSplashScreen() ?? new Border();
 		}
 
 		// Remove the native splash now that we've set the extended one.
