@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+	<attr name="splashScreenIconSize" format="dimension" />
+	<style name="ExtendedSplashScreenTheme">
+		<item name="splashScreenIconSize">288dp</item>
+	</style>
+</resources>

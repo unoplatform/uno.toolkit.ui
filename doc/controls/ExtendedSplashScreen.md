@@ -46,3 +46,17 @@ xmlns:utu="using:Uno.Toolkit.UI"
     </utu:ExtendedSplashScreen.LoadingContentTemplate>
 </utu:ExtendedSplashScreen>
 ```
+
+## Setup on Android
+
+To use the `ExtendedSplashScreen` on Android, you need to add the following to your `MainActivity`:
+
+```csharp
+ protected override void OnCreate(Bundle bundle)
+{ 
+    // Handle the splash screen transition.
+    Uno.Toolkit.UI.ExtendedSplashScreen.Init(this);
+
+    base.OnCreate(bundle);
+}
+```
