@@ -67,7 +67,7 @@ public partial class ExtendedSplashScreen
 	/// </summary>
 	public static void Init(Activity activity)
 	{
-		// Below API 31, the AndroidX SplashScreen impl relies on a theme attribute (splashScreenIconSize) that is only part of the pre-built "Theme.SplashScreen" themes.
+		// Below API 31, the AndroidX SplashScreen implementation relies on a theme attribute (splashScreenIconSize) that is only part of the pre-built "Theme.SplashScreen" themes.
 		// If the current Activity theme is not set to a SplashScreen theme, we apply it here to ensure the SplashScreen APIs work as expected
 		// ref: https://developer.android.com/develop/ui/views/launch/splash-screen/migrate#migrate
 		if (Build.VERSION.SdkInt < BuildVersionCodes.S)
