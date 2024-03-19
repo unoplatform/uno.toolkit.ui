@@ -1,4 +1,4 @@
-﻿#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP) && !UNO_REFERENCE_API
+﻿#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP) && !__SKIA_OR_WASM__
 using System.Threading.Tasks;
 
 namespace Uno.Toolkit.UI;

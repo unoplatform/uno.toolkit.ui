@@ -1,4 +1,4 @@
-﻿#if WINDOWS || WINDOWS_UWP || UNO_REFERENCE_API
+﻿#if WINDOWS || WINDOWS_UWP || __SKIA_OR_WASM__
 using System;
 using System.Linq;
 using System.Threading;
