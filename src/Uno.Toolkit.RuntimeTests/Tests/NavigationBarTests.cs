@@ -58,8 +58,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task MainCommand_Works_From_Code_Init()
 		{
-
-			NavigationBar? firstPageNavBar = null;
 			bool success = false;
 			var frame = new Frame() { Width = 400, Height = 400 };
 			frame.Navigated += (s, e) =>
