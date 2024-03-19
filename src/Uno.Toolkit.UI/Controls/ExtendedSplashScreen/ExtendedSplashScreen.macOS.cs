@@ -5,7 +5,7 @@ namespace Uno.Toolkit.UI;
 
 public partial class ExtendedSplashScreen
 {
-	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
+	private static Task<FrameworkElement?> GetNativeSplashScreen()
 	{
 		return Task.FromResult<FrameworkElement?>(null);
 	}
