@@ -55,6 +55,36 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsTrue(mainCommand.ActualWidth > 0, "MainCommand.ActualWidth is not greater than 0");
 		}
 
+		[TestMethod]
+		public async Task MainCommand_Works_From_Code_Init()
+		{
+
+			NavigationBar? firstPageNavBar = null;
+			bool success = false;
+			var frame = new Frame() { Width = 400, Height = 400 };
+			frame.Navigated += (s, e) =>
+			{
+				success = e.NavigationMode == NavigationMode.Back && e.SourcePageType == typeof(FirstPage);
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
+
+
+			frame.Navigate(typeof(FirstPage));
+			frame.Navigate(typeof(LabelTitlePage));
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var page = frame.Content as LabelTitlePage;
+			if (page?.FindChild<NavigationBar>() is { } navBar)
+			{
+				firstPageNavBar = navBar;
+			}
+
+			firstPageNavBar?.MainCommand.RaiseClick();
+
+			Assert.IsTrue(success);
+		}
 #endif
 
 		[TestMethod]

@@ -49,6 +49,8 @@ namespace Uno.Toolkit.UI
 
 			_weakNavBar = new WeakReference<NavigationBar?>(owner);
 			SetBindings();
+
+			RegisterEvents();
 		}
 		protected override void OnApplyTemplate()
 		{
