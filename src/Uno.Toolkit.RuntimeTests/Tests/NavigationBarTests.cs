@@ -76,12 +76,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await UnitTestsUIContentHelper.WaitForIdle();
 
 			var page = frame.Content as LabelTitlePage;
-			if (page?.FindChild<NavigationBar>() is { } navBar)
-			{
-				firstPageNavBar = navBar;
-			}
-
-			firstPageNavBar?.MainCommand.RaiseClick();
+			page?.FindChild<NavigationBar>()?.MainCommand.RaiseClick();
 
 			Assert.IsTrue(success);
 		}
