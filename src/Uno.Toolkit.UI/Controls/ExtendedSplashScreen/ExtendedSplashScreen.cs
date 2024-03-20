@@ -95,15 +95,4 @@ Window? Window
 			SplashScreenContent = splashScreenContent;
 		}
 	}
-
-
-#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP) && !NETSTANDARD2_0
-	private static Task<FrameworkElement?> GetNativeSplashScreen()
-	{
-		return Task.FromResult<FrameworkElement?>(null);
-	}
-
-	public bool SplashIsEnabled => (Platforms & SplashScreenPlatform.All) != 0;
-#endif
-
 }
