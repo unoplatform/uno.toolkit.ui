@@ -1,9 +1,9 @@
 ﻿#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP) && !__SKIA_OR_WASM__
 
 #if IS_WINUI
-using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
 #else
-using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 #endif
 using System.Threading.Tasks;
 
