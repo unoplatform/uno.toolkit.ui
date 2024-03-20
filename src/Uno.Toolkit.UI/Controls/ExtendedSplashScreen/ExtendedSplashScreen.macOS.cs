@@ -1,4 +1,5 @@
 ﻿#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP) && !__SKIA_OR_WASM__
+using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 
 namespace Uno.Toolkit.UI;
