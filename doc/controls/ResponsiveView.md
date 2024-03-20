@@ -82,7 +82,7 @@ Here are the selected layout at different screen width if only `Narrow` and `Wid
 
 If you prefer instructional videos, you can follow our tutorials on how to work with ResponsiveView using XAML or C# markup:
 
-### [**XAML**](#tab/techbite-xaml)
+### [**XAML**](#tab/techbite-xaml) <!-- markdownlint-disable-line MD051 -->
 
 <div style="position: relative; width: 100%; padding-bottom: 56.25%;">
     <iframe
@@ -95,7 +95,7 @@ If you prefer instructional videos, you can follow our tutorials on how to work 
     </iframe>
 </div>
 
-### [**C# Markup**](#tab/techbite-csmarkup)
+### [**C# Markup**](#tab/techbite-csmarkup) <!-- markdownlint-disable-line MD051 -->
 
 <div style="position: relative; width: 100%; padding-bottom: 56.25%;">
     <iframe
