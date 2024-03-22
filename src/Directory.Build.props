@@ -43,7 +43,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="build\Package.targets" PackagePath="buildTransitive\$(PackageId).targets" Pack="true" Condition="Exists('build\Package.targets')" />
+		<None Include="$(MSBuildProjectDirectory)\build\Package.targets" PackagePath="buildTransitive\$(PackageId).targets" Pack="true" Condition="Exists('build\Package.targets')" />
 	</ItemGroup>
 
 	<Choose>
