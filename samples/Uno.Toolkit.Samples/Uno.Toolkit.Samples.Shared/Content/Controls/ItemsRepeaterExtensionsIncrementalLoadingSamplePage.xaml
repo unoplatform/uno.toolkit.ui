@@ -1,0 +1,55 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.ItemsRepeaterExtensionsIncrementalLoadingSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid Background="{ThemeResource SurfaceBrush}">
+		<sample:SamplePageLayout x:Name="SamplePageLayout"
+								 IsDesignAgnostic="True"
+								 UseSampleDataAsDC="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<ScrollViewer>
+							<muxc:ItemsRepeater ItemsSource="{Binding InfiniteItemsSource}"
+												HorizontalAlignment="Center"
+												utu:ItemsRepeaterExtensions.SupportsIncrementalLoading="True"
+												utu:ItemsRepeaterExtensions.IsLoading="{Binding IsLoading, Mode=TwoWay}">
+								<muxc:ItemsRepeater.ItemTemplate>
+									<DataTemplate>
+										<Border BorderBrush="Black"
+												Background="Red"
+												BorderThickness="2"
+												Width="100"
+												Height="100">
+											<TextBlock Text="{Binding}"
+													   FontSize="32"
+													   HorizontalAlignment="Center"
+													   VerticalAlignment="Center" />
+										</Border>
+									</DataTemplate>
+								</muxc:ItemsRepeater.ItemTemplate>
+							</muxc:ItemsRepeater>
+						</ScrollViewer>
+						<TextBlock HorizontalAlignment="Center"
+								   Grid.Row="1"
+								   VerticalAlignment="Center"
+								   Visibility="{Binding IsLoading, Converter={StaticResource FalseToCollapsed}}"
+								   Text="Loading more..." />
+					</Grid>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>
