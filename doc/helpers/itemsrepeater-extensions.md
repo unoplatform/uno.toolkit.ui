@@ -60,16 +60,16 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
                     utu:ItemsRepeaterExtensions.SelectedIndexes="{Binding MultiSelectedIndexes, Mode=TwoWay}">
     <muxc:ItemsRepeater.ItemTemplate>
         <DataTemplate>
-    <!--
-        The root element of the ItemTemplate needs to be one of these below,
-        in order for the selection visual to work.
-        No additional binding on IsChecked/IsSelected is needed; It is handled by this extension.
-    -->
-    <ListViewItem Content="{Binding}" />
-    <!-- <CheckBox Content="{Binding}" /> -->
-    <!-- <ToggleButton Content="{Binding}" /> -->
-    <!-- <utu:Chip Content="{Binding}" /> -->
-    <!-- <RadioButton Content="{Binding}" /> -->
+            <!--
+                The root element of the ItemTemplate needs to be one of these below,
+                in order for the selection visual to work.
+                No additional binding on IsChecked/IsSelected is needed; It is handled by this extension.
+            -->
+            <ListViewItem Content="{Binding}" />
+            <!-- <CheckBox Content="{Binding}" /> -->
+            <!-- <ToggleButton Content="{Binding}" /> -->
+            <!-- <utu:Chip Content="{Binding}" /> -->
+            <!-- <RadioButton Content="{Binding}" /> -->
         </DataTemplate>
     </muxc:ItemsRepeater.ItemTemplate>
 </muxc:ItemsRepeater>
