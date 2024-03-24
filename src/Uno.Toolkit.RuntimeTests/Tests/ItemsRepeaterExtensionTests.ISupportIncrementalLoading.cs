@@ -47,13 +47,13 @@ partial class ItemsRepeaterExtensionTests
 		var initial = GetCurrenState();
 
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null);
+		sv.ChangeView(null, 10_000, null, disableAnimation: true);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var firstScroll = GetCurrenState();
 
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null);
+		sv.ChangeView(null, 10_000, null, disableAnimation: true);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var secondScroll = GetCurrenState();
@@ -93,7 +93,7 @@ partial class ItemsRepeaterExtensionTests
 		var initial = GetCurrenState();
 
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null);
+		sv.ChangeView(null, 10_000, null, disableAnimation: true);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var firstScroll = GetCurrenState();
@@ -102,7 +102,7 @@ partial class ItemsRepeaterExtensionTests
 		source.HasMoreItems = false;
 
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null);
+		sv.ChangeView(null, 10_000, null, disableAnimation: true);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var secondScroll = GetCurrenState();
@@ -140,7 +140,7 @@ partial class ItemsRepeaterExtensionTests
 		await Task.Delay(1000);
 
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null);
+		sv.ChangeView(null, 10_000, null, disableAnimation: true);
 
 		await UnitTestUIContentHelperEx.WaitFor(() => ItemsRepeaterExtensions.GetIsLoading(ir), timeoutMS: 2000, message: "IsLoading should become true");
 		await UnitTestUIContentHelperEx.WaitFor(() => !ItemsRepeaterExtensions.GetIsLoading(ir), timeoutMS: 2000, message: "IsLoading should become false when done loading more items");
