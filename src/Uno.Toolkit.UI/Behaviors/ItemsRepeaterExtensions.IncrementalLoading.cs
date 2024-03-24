@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,6 +22,9 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
+using UniformGridLayout = Microsoft.UI.Xaml.Controls.UniformGridLayout;
+using StackLayout = Microsoft.UI.Xaml.Controls.StackLayout;
+using FlowLayout = Microsoft.UI.Xaml.Controls.FlowLayout;
 #endif
 
 namespace Uno.Toolkit.UI
@@ -138,16 +142,25 @@ namespace Uno.Toolkit.UI
 			if (sender is not ItemsRepeater ir || ir.ItemsSource is not ISupportIncrementalLoading incrementalLoading) return;
 			if (GetIsLoading(ir)) return;
 
-			var averageItemSize = GetAverageItemSize(ir);
+			var orientation = GetOrientation(ir);
+
+			var averageItemLength = GetAverageItemLength(ir, orientation);
+
+			(double itemsRepeaterMajorSize, double viewPortLength, double viewportEdge) = orientation switch
+			{
+				Orientation.Vertical => (ir.ActualHeight, args.EffectiveViewport.Height, args.EffectiveViewport.Bottom),
+				Orientation.Horizontal => (ir.ActualWidth, args.EffectiveViewport.Width, args.EffectiveViewport.Right),
+				_ => throw new InvalidOperationException($"Invalid orientation value: {orientation}"),
+			};
 
 			// A "page" is defined as the estimated number of items that could fit in the ItemsRepeater's EffectiveViewport.
-			var pageSize = averageItemSize > 0 ? args.EffectiveViewport.Height / averageItemSize : 0d;
+			var pageSize = averageItemLength > 0 ? viewPortLength / averageItemLength : 0d;
 
 			var desiredItemBuffer = (GetIncrementalLoadingThreshold(ir) + 1) * pageSize;
 
-			var distanceToEnd = ir.ActualHeight - args.EffectiveViewport.Bottom.FiniteOrDefault(0d);
+			var distanceToEnd = itemsRepeaterMajorSize - viewportEdge.FiniteOrDefault(0d);
 
-			var remainingItems = averageItemSize > 0 ? distanceToEnd / averageItemSize : 0d;
+			var remainingItems = averageItemLength > 0 ? distanceToEnd / averageItemLength : 0d;
 
 			if (remainingItems <= desiredItemBuffer && incrementalLoading.HasMoreItems)
 			{
@@ -167,21 +180,46 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private static double GetAverageItemSize(ItemsRepeater ir)
+		private static Orientation GetOrientation(ItemsRepeater ir)
+		{
+			if (TryGetOrientation(ir, out var orientation))
+			{
+				return orientation!.Value;
+			}
+
+			var layout = ir.Layout;
+			var property = layout.FindDependencyProperty<Orientation>("OrientationProperty");
+			return property != null && layout.GetValue(property) is Orientation o ? o : Orientation.Vertical;
+		}
+
+		private static bool TryGetOrientation(ItemsRepeater ir, [NotNullWhen(false)]out Orientation? orientation)
+		{
+			(bool result, orientation) = ir.Layout switch
+			{
+				StackLayout sl => (true, sl.Orientation),
+				UniformGridLayout ugl => (true, ugl.Orientation),
+				FlowLayout flow => (true, flow.Orientation),
+				_ => (false, default)
+			};
+
+			return result;
+		}
+
+		private static double GetAverageItemLength(ItemsRepeater ir, Orientation orientation)
 		{
 			var count = 0;
-			var totalHeight = 0d;
+			var total = 0d;
 
 			foreach (var child in ir.GetChildren())
 			{
 				if (child is FrameworkElement fe)
 				{
 					count++;
-					totalHeight += fe.ActualHeight;
+					total += orientation == Orientation.Vertical ? fe.ActualHeight : fe.ActualWidth;
 				}
 			}
 
-			return count > 0 ? totalHeight / count : 0d;
+			return count > 0 ? total / count : 0d;
 		}
 	}
 }

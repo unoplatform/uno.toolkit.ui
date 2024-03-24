@@ -16,16 +16,55 @@
 								 UseSampleDataAsDC="True">
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
-					<Grid>
+					<Grid RowSpacing="20">
 						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
-						<ScrollViewer>
-							<muxc:ItemsRepeater ItemsSource="{Binding InfiniteItemsSource}"
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<ScrollViewer HorizontalScrollMode="Enabled"
+										  HorizontalScrollBarVisibility="Visible"
+										  VerticalScrollMode="Disabled"
+										  VerticalScrollBarVisibility="Disabled">
+								<muxc:ItemsRepeater ItemsSource="{Binding HorizontalInfiniteItemsSource}"
+													VerticalAlignment="Center"
+													utu:ItemsRepeaterExtensions.SupportsIncrementalLoading="True"
+													utu:ItemsRepeaterExtensions.IsLoading="{Binding IsHorizontalLoading, Mode=TwoWay}">
+									<muxc:ItemsRepeater.Layout>
+										<muxc:StackLayout Orientation="Horizontal" />
+									</muxc:ItemsRepeater.Layout>
+									<muxc:ItemsRepeater.ItemTemplate>
+										<DataTemplate>
+											<Border BorderBrush="Black"
+													Background="Red"
+													BorderThickness="2"
+													Width="100"
+													Height="100">
+												<TextBlock Text="{Binding}"
+														   FontSize="32"
+														   HorizontalAlignment="Center"
+														   VerticalAlignment="Center" />
+											</Border>
+										</DataTemplate>
+									</muxc:ItemsRepeater.ItemTemplate>
+								</muxc:ItemsRepeater>
+							</ScrollViewer>
+							<TextBlock HorizontalAlignment="Center"
+									   Grid.Column="1"
+									   VerticalAlignment="Center"
+									   Visibility="{Binding IsHorizontalLoading, Converter={StaticResource FalseToCollapsed}}"
+									   Text="Loading more..." />
+						</Grid>
+						<ScrollViewer Grid.Row="1">
+							<muxc:ItemsRepeater ItemsSource="{Binding VerticalInfiniteItemsSource}"
 												HorizontalAlignment="Center"
 												utu:ItemsRepeaterExtensions.SupportsIncrementalLoading="True"
-												utu:ItemsRepeaterExtensions.IsLoading="{Binding IsLoading, Mode=TwoWay}">
+												utu:ItemsRepeaterExtensions.IsLoading="{Binding IsVerticalLoading, Mode=TwoWay}">
 								<muxc:ItemsRepeater.ItemTemplate>
 									<DataTemplate>
 										<Border BorderBrush="Black"
@@ -43,9 +82,9 @@
 							</muxc:ItemsRepeater>
 						</ScrollViewer>
 						<TextBlock HorizontalAlignment="Center"
-								   Grid.Row="1"
+								   Grid.Row="2"
 								   VerticalAlignment="Center"
-								   Visibility="{Binding IsLoading, Converter={StaticResource FalseToCollapsed}}"
+								   Visibility="{Binding IsVerticalLoading, Converter={StaticResource FalseToCollapsed}}"
 								   Text="Loading more..." />
 					</Grid>
 				</DataTemplate>

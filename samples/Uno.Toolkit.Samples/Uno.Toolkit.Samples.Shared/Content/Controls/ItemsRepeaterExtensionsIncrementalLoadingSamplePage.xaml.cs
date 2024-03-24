@@ -29,12 +29,20 @@ public sealed partial class ItemsRepeaterExtensionsIncrementalLoadingSamplePage 
 	private class IncrementalLoadingViewModel : ViewModelBase
 	{
 		private const int BatchSize = 25;
-		public bool IsLoading { get => GetProperty<bool>(); set => SetProperty(value); }
-		public InfiniteSource<int> InfiniteItemsSource { get => GetProperty<InfiniteSource<int>>(); set => SetProperty(value); }
+		public bool IsVerticalLoading { get => GetProperty<bool>(); set => SetProperty(value); }
+		public bool IsHorizontalLoading { get => GetProperty<bool>(); set => SetProperty(value); }
+		public InfiniteSource<int> VerticalInfiniteItemsSource { get => GetProperty<InfiniteSource<int>>(); set => SetProperty(value); }
+		public InfiniteSource<int> HorizontalInfiniteItemsSource { get => GetProperty<InfiniteSource<int>>(); set => SetProperty(value); }
 
 		public IncrementalLoadingViewModel()
 		{
-			InfiniteItemsSource = new InfiniteSource<int>(async start =>
+			VerticalInfiniteItemsSource = new InfiniteSource<int>(async start =>
+			{
+				await Task.Delay(2000);
+				return Enumerable.Range(start, BatchSize).ToArray();
+			});
+
+			HorizontalInfiniteItemsSource = new InfiniteSource<int>(async start =>
 			{
 				await Task.Delay(2000);
 				return Enumerable.Range(start, BatchSize).ToArray();
