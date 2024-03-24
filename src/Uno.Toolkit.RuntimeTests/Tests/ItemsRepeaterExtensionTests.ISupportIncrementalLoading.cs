@@ -27,7 +27,9 @@ partial class ItemsRepeaterExtensionTests
 	[TestMethod]
 	[RequiresFullWindow]
 	[RunsOnUIThread]
-	public async Task When_Incremental_Load()
+	[DataRow(Orientation.Vertical)]
+	[DataRow(Orientation.Horizontal)]
+	public async Task When_Incremental_Load(Orientation orientation)
 	{
 		const int BatchSize = 25;
 
@@ -37,23 +39,30 @@ partial class ItemsRepeaterExtensionTests
 			return Enumerable.Range(start, BatchSize).ToArray();
 		});
 
-		var SUT = new Grid() { Height = 210, VerticalAlignment = VerticalAlignment.Bottom };
-		var ir = SetupIncrementalLoadingItemsRepeater(source);
-		var sv = new ScrollViewer { ir };
+		var SUT = new Grid() { Height = 210, Width = 210, VerticalAlignment = VerticalAlignment.Bottom };
+		var ir = SetupIncrementalLoadingItemsRepeater(source, orientation);
+		var sv = SetupScrollViewer(ir);
 		SUT.Children.Add(sv);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 		await Task.Delay(1000);
 		var initial = GetCurrenState();
 
+		(double? hOffset, double? vOffset) = orientation switch
+		{
+			Orientation.Vertical => ((double?)null, 10_000),
+			Orientation.Horizontal => (10_000, default),
+			_ => throw new NotSupportedException()
+		};
+
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null, disableAnimation: true);
+		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var firstScroll = GetCurrenState();
 
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null, disableAnimation: true);
+		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var secondScroll = GetCurrenState();
@@ -71,10 +80,27 @@ partial class ItemsRepeaterExtensionTests
 		);
 	}
 
+	private static ScrollViewer SetupScrollViewer(ItemsRepeater ir)
+	{
+		var sv = new ScrollViewer
+		{
+			HorizontalScrollMode = ScrollMode.Enabled,
+			HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+			VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
+			VerticalScrollMode = ScrollMode.Enabled
+		};
+
+		sv.Add(ir);
+
+		return sv;
+	}
+
 	[TestMethod]
 	[RequiresFullWindow]
 	[RunsOnUIThread]
-	public async Task When_Incremental_Load_ShouldStop()
+	[DataRow(Orientation.Vertical)]
+	[DataRow(Orientation.Horizontal)]
+	public async Task When_Incremental_Load_ShouldStop(Orientation orientation)
 	{
 		const int BatchSize = 25;
 		var source = new InfiniteSource<int>(async start =>
@@ -82,9 +108,9 @@ partial class ItemsRepeaterExtensionTests
 			await Task.Delay(25);
 			return Enumerable.Range(start, BatchSize).ToArray();
 		});
-		var SUT = new Grid() { Height = 210, VerticalAlignment = VerticalAlignment.Bottom };
-		var ir = SetupIncrementalLoadingItemsRepeater(source);
-		var sv = new ScrollViewer { ir };
+		var SUT = new Grid() { Height = 210, Width = 210, VerticalAlignment = VerticalAlignment.Bottom };
+		var ir = SetupIncrementalLoadingItemsRepeater(source, orientation);
+		var sv = SetupScrollViewer(ir);
 		SUT.Children.Add(sv);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
@@ -92,8 +118,15 @@ partial class ItemsRepeaterExtensionTests
 		await Task.Delay(1000);
 		var initial = GetCurrenState();
 
+		(double? hOffset, double? vOffset) = orientation switch
+		{
+			Orientation.Vertical => ((double?)null, 10_000),
+			Orientation.Horizontal => (10_000, default),
+			_ => throw new NotSupportedException()
+		};
+
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null, disableAnimation: true);
+		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var firstScroll = GetCurrenState();
@@ -102,7 +135,7 @@ partial class ItemsRepeaterExtensionTests
 		source.HasMoreItems = false;
 
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null, disableAnimation: true);
+		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var secondScroll = GetCurrenState();
@@ -123,7 +156,9 @@ partial class ItemsRepeaterExtensionTests
 	[TestMethod]
 	[RequiresFullWindow]
 	[RunsOnUIThread]
-	public async Task When_Incremental_Load_IsLoading()
+	[DataRow(Orientation.Vertical)]
+	[DataRow(Orientation.Horizontal)]
+	public async Task When_Incremental_Load_IsLoading(Orientation orientation)
 	{
 		const int BatchSize = 25;
 		var source = new InfiniteSource<int>(async start =>
@@ -131,29 +166,37 @@ partial class ItemsRepeaterExtensionTests
 			await Task.Delay(1000);
 			return Enumerable.Range(start, BatchSize).ToArray();
 		});
-		var SUT = new Grid() { Height = 210, VerticalAlignment = VerticalAlignment.Bottom };
-		var ir = SetupIncrementalLoadingItemsRepeater(source);
-		var sv = new ScrollViewer { ir };
+		var SUT = new Grid() { Height = 210, Width = 210, VerticalAlignment = VerticalAlignment.Bottom };
+		var ir = SetupIncrementalLoadingItemsRepeater(source, orientation);
+		var sv = SetupScrollViewer(ir);
 		SUT.Children.Add(sv);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
-		await Task.Delay(1000);
+		await Task.Delay(2000);
+
+		(double? hOffset, double? vOffset) = orientation switch
+		{
+			Orientation.Vertical => ((double?)null, 10_000),
+			Orientation.Horizontal => (10_000, default),
+			_ => throw new NotSupportedException()
+		};
 
 		// scroll to bottom
-		sv.ChangeView(null, 10_000, null, disableAnimation: true);
+		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
 
 		await UnitTestUIContentHelperEx.WaitFor(() => ItemsRepeaterExtensions.GetIsLoading(ir), timeoutMS: 2000, message: "IsLoading should become true");
 		await UnitTestUIContentHelperEx.WaitFor(() => !ItemsRepeaterExtensions.GetIsLoading(ir), timeoutMS: 2000, message: "IsLoading should become false when done loading more items");
 	}
 
-	internal static ItemsRepeater SetupIncrementalLoadingItemsRepeater(object source)
+	internal static ItemsRepeater SetupIncrementalLoadingItemsRepeater(object source, Orientation orientation)
 	{
 		var ir = new ItemsRepeater
 		{
+			Layout = new Microsoft.UI.Xaml.Controls.StackLayout { Orientation = orientation },
 			ItemsSource = source,
 			ItemTemplate = XamlHelper.LoadXaml<DataTemplate>("""
 				<DataTemplate>
-					<Border Width="152"
+					<Border Width="29"
 							Height="29"
 							Background="LightSeaGreen">
 						<TextBlock Text="{Binding}"
