@@ -24,7 +24,11 @@ using Windows.UI.Xaml.Input;
 using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 using UniformGridLayout = Microsoft.UI.Xaml.Controls.UniformGridLayout;
 using StackLayout = Microsoft.UI.Xaml.Controls.StackLayout;
+
+#if HAS_UNO
 using FlowLayout = Microsoft.UI.Xaml.Controls.FlowLayout;
+#endif
+
 #endif
 
 namespace Uno.Toolkit.UI
@@ -182,23 +186,25 @@ namespace Uno.Toolkit.UI
 
 		private static Orientation GetOrientation(ItemsRepeater ir)
 		{
-			if (TryGetOrientation(ir, out var orientation))
+			if (TryGetOrientation(ir, out var orientation) && orientation is { } o)
 			{
-				return orientation!.Value;
+				return o;
 			}
 
 			var layout = ir.Layout;
 			var property = layout.FindDependencyProperty<Orientation>("OrientationProperty");
-			return property != null && layout.GetValue(property) is Orientation o ? o : Orientation.Vertical;
+			return property != null && layout.GetValue(property) is Orientation orien ? orien : Orientation.Vertical;
 		}
 
-		private static bool TryGetOrientation(ItemsRepeater ir, [NotNullWhen(false)]out Orientation? orientation)
+		private static bool TryGetOrientation(ItemsRepeater ir, out Orientation? orientation)
 		{
 			(bool result, orientation) = ir.Layout switch
 			{
 				StackLayout sl => (true, sl.Orientation),
 				UniformGridLayout ugl => (true, ugl.Orientation),
+#if HAS_UNO
 				FlowLayout flow => (true, flow.Orientation),
+#endif
 				_ => (false, default)
 			};
 
