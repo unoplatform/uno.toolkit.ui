@@ -14,6 +14,13 @@
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<StackPanel Spacing="20">
+						<StackPanel.Resources>
+							<GridLength x:Key="GL50">50</GridLength>
+							<GridLength x:Key="GL150">150</GridLength>
+							<SolidColorBrush x:Key="Red">Red</SolidColorBrush>
+							<SolidColorBrush x:Key="Green">Green</SolidColorBrush>
+							<SolidColorBrush x:Key="Blue">Blue</SolidColorBrush>
+						</StackPanel.Resources>
 
 						<!-- string literal -->
 						<TextBlock Text="Text test" FontWeight="Bold" />
@@ -53,6 +60,35 @@
 							<Border Grid.Column="{utu:Responsive Narrowest=0, Narrow=1, Normal=0, Wide=1, Widest=0}" Background="Pink" />
 						</Grid>
 
+						<!-- non-FE: Grid.Column/RowDefinitions -->
+						<TextBlock Text="Grid.ColumnDefinition test" />
+						<Grid utu:ResponsiveBehavior.IsEnabled="True"
+							  Height="50"
+							  HorizontalAlignment="Left">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL150}, Normal={StaticResource GL50}, Wide={StaticResource GL150}, Widest={StaticResource GL50}}" />
+								<ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL50}, Normal={StaticResource GL150}, Wide={StaticResource GL50}, Widest={StaticResource GL150}}" />
+							</Grid.ColumnDefinitions>
+
+							<Border Grid.Column="0" Background="Pink" />
+							<Border Grid.Column="1" Background="SkyBlue" />
+						</Grid>
+
+						<!-- non-FE: TextBlock.Inlines -->
+						<TextBlock Text="TextBlock.Inlines test" />
+						<TextBlock utu:ResponsiveBehavior.IsEnabled="True">
+							<Run Text="asd" Foreground="{utu:Responsive Narrow={StaticResource Red}, Normal={StaticResource Blue}, Wide={StaticResource Green}, Widest={StaticResource Red}}" />
+							<Run Text="qwe" Foreground="{utu:Responsive Narrow={StaticResource Green}, Normal={StaticResource Red}, Wide={StaticResource Blue}, Widest={StaticResource Green}}" />
+							<Run Text="zxc" Foreground="{utu:Responsive Narrow={StaticResource Blue}, Normal={StaticResource Green}, Wide={StaticResource Red}, Widest={StaticResource Blue}}" />
+							<Span FontStyle="Italic">
+								<Run Text="asd" Foreground="{utu:Responsive Narrow={StaticResource Red}, Normal={StaticResource Blue}, Wide={StaticResource Green}, Widest={StaticResource Red}}" />
+								<Run Text="qwe" Foreground="{utu:Responsive Narrow={StaticResource Green}, Normal={StaticResource Red}, Wide={StaticResource Blue}, Widest={StaticResource Green}}" />
+								<Span>
+									<Run Text="zxc" Foreground="{utu:Responsive Narrow={StaticResource Blue}, Normal={StaticResource Green}, Wide={StaticResource Red}, Widest={StaticResource Blue}}" />
+								</Span>
+							</Span>
+						</TextBlock>
+
 						<!-- layout overriding -->
 						<TextBlock Text="Custom values override" FontWeight="Bold" />
 						<StackPanel>
@@ -83,6 +119,7 @@
 								<TextBlock Text="{utu:Responsive Layout={StaticResource CustomLayout}, Narrowest=Narrowest, Narrow=Narrow, Normal=Normal, Wide=Wide, Widest=Widest}" />
 							</StackPanel>
 						</StackPanel>
+
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>
