@@ -20,7 +20,7 @@ Provides selection and incremental loading support for `ItemsRepeater`.
 
 #### Remarks
 
-- `Selected-`properties only takes effect when `SelectionMode` is set to a valid value that is not `None`.
+- `Selected-`properties only take effect when `SelectionMode` is set to a valid value that is not `None`.
 - `ItemsSelectionMode`: Defines constants that specify the selection behavior.
   > Different numbers of selected items are guaranteed: None=0, SingleOrNone=0 or 1, Single=1, Multiple=0 or many.
   - `None`: Selection is disabled.
@@ -103,7 +103,7 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 #### Remarks
 
 - The selection feature from this extension supports ItemTemplate whose root element is a `SelectorItem` or `ToggleButton`(which includes `Chip`).
-- `RadioButton`: Multiple mode is not supported due to control limitation.
+- `RadioButton`: Multiple mode is not supported due to control limitations.
 
 ## Incremental Loading
 
