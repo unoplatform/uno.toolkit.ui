@@ -1,6 +1,9 @@
 #if HAS_UNO
 #define UNO14502_WORKAROUND // https://github.com/unoplatform/uno/issues/14502
 #endif
+#if WINDOWS
+#define TOOLKIT1082_WORKAROUND // https://github.com/unoplatform/uno.toolkit.ui/issues/1082
+#endif
 
 #if !WINDOWS_UWP
 using System;
@@ -14,13 +17,15 @@ using Uno.Logging;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Markup;
 #else
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Markup;
 #endif
-
-using static System.Reflection.BindingFlags;
 
 namespace Uno.Toolkit.UI;
 
@@ -29,12 +34,6 @@ namespace Uno.Toolkit.UI;
 /// </summary>
 public partial class ResponsiveExtension : MarkupExtension
 {
-	private static readonly ILogger _logger = typeof(ResponsiveExtension).Log();
-
-#if UNO14502_WORKAROUND
-	private ResponsiveExtension _selfHardReference;
-#endif
-
 	public object? Narrowest { get; set; }
 	public object? Narrow { get; set; }
 	public object? Normal { get; set; }
@@ -42,8 +41,20 @@ public partial class ResponsiveExtension : MarkupExtension
 	public object? Widest { get; set; }
 
 	public ResponsiveLayout? Layout { get; set; }
+}
+public partial class ResponsiveExtension
+{
+	private static readonly ILogger _logger = typeof(ResponsiveExtension).Log();
+
+#if UNO14502_WORKAROUND
+	private static List<ResponsiveExtension> HardSelfReferences { get; } = new();
+#endif
+#if TOOLKIT1082_WORKAROUND
+	private DependencyObject? _hardTargetReference;
+#endif
 
 	private WeakReference? _targetWeakRef;
+	private WeakReference? _proxyHostWeakRef;
 	private DependencyProperty? _targetProperty;
 	private Type? _propertyType;
 
@@ -51,64 +62,104 @@ public partial class ResponsiveExtension : MarkupExtension
 	internal object? CurrentValue { get; private set; }
 	internal ResolvedLayout? LastResolved { get; private set; }
 
+	// Two notions here:
+	// 1. Target/Owner refers to the DependencyObject whose DP had this ResponsiveExtension assigned. (except for WeakReference::Target ofc)
+	// 2. Host/ProxyHost refers to the relevant FrameworkElement that can provide the Loaded event + the XamlRoot. The target is usually the Host.
+	//		However if we have a non-FrameworkElement target, say ColumnDefinition or Run(TextBlock.Inlines),
+	//		then we need a proxy host that can provide Loaded+XamlRoot, like Grid for ColumnDef or TextBlock for Run.
+
 	public ResponsiveExtension()
 	{
 #if UNO14502_WORKAROUND
-		_selfHardReference = this;
+		HardSelfReferences.Add(this);
 #endif
 	}
 
 	/// <inheritdoc/>
 	protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
 	{
-		if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget pvt &&
-			pvt.TargetObject is FrameworkElement target &&
-			pvt.TargetProperty is ProvideValueTargetProperty pvtp &&
+		var pvt = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+		if (pvt?.TargetObject is DependencyObject target &&
+			(target is FrameworkElement || ResponsiveBehavior.IsChildSupported(target)) &&
+			pvt?.TargetProperty is ProvideValueTargetProperty pvtp &&
 			pvtp.DeclaringType.FindDependencyProperty($"{pvtp.Name}Property") is DependencyProperty dp)
 		{
 			_targetWeakRef = new WeakReference(target);
 			_targetProperty = dp;
 			_propertyType = pvtp.Type;
 
-			target.Loaded += OnTargetLoaded;
+			if (target is FrameworkElement targetAsFE)
+			{
+				targetAsFE.Loaded += OnTargetLoaded;
+			}
+			else
+			{
+#if TOOLKIT1082_WORKAROUND
+				if (ShouldPreserveTargetInHardRef(target))
+				{
+					// workaround: on windows, the column/row-definition instance can somehow be replaced
+					// causing UpdateBinding to fail. By preserving a hard-ref, we prevent this from happening.
+					_hardTargetReference = target;
+				}
+#endif
 
-			TrackedInstances.Add((_targetWeakRef, pvtp.Name, new WeakReference(this)));
+				// nothing to do here. ResponsiveBehavior will take over from here on.
+			}
 
-			// try to return a somewhat valid value for now
-			return GetValueFor(GetAvailableLayoutOptions().FirstOrNull());
+			TrackedInstances.Add((_targetWeakRef, pvtp.Name, new WeakReference(this, trackResurrection: true)));
 		}
 		else
 		{
 			this.Log().Error($"Failed to register {nameof(ResponsiveExtension)}");
-
-			return default;
 		}
+
+		return GetValueFor(GetAvailableLayoutOptions().FirstOrNull());
 	}
 
 	private void OnTargetLoaded(object sender, RoutedEventArgs e)
 	{
-		if (TargetWeakRef is { IsAlive: true, Target: FrameworkElement target })
+		if (TargetWeakRef is { Target: FrameworkElement target })
 		{
-			if (target.XamlRoot is null) return;
-
-			target.XamlRoot.Changed -= OnTargetXamlRootPropertyChanged;
-			target.XamlRoot.Changed += OnTargetXamlRootPropertyChanged;
-
-			// Along the visual tree, we may have a DefaultResponsiveLayout defined in the resources which could cause a different value to be resolved.
-			// But because in ProvideValue, the target has not been added to the visual tree yet, we cannot access the "full" .resources yet.
-			// So we need to rectify that here.
-			UpdateBinding(target.XamlRoot, forceApplyValue: true);
+			Initialize(target);
 		}
+	}
+
+	internal void InitializeByProxy(FrameworkElement proxyHost)
+	{
+		_proxyHostWeakRef = new WeakReference(proxyHost);
+
+		if (TargetWeakRef is { Target: DependencyObject })
+		{
+			Initialize(proxyHost);
+		}
+	}
+
+	private void Initialize(FrameworkElement selfOrProxyHost)
+	{
+		if (selfOrProxyHost.XamlRoot is null) return;
+
+		selfOrProxyHost.XamlRoot.Changed -= OnTargetXamlRootPropertyChanged;
+		selfOrProxyHost.XamlRoot.Changed += OnTargetXamlRootPropertyChanged;
+
+		// Along the visual tree, we may have a DefaultResponsiveLayout defined in the resources which could cause a different value to be resolved.
+		// But because in ProvideValue, the target has not been added to the visual tree yet, we cannot access the "full" .resources yet.
+		// So we need to rectify that here.
+		UpdateBinding(selfOrProxyHost.XamlRoot, forceApplyValue: true);
 	}
 
 	private void OnTargetXamlRootPropertyChanged(XamlRoot sender, XamlRootChangedEventArgs args)
 	{
 		if (sender.Size == LastResolved?.Size) return;
-
+		if (CleanupIfHostDisposed())
+		{
+			sender.Changed -= OnTargetXamlRootPropertyChanged;
+			return;
+		}
+		
 		UpdateBinding(sender);
 	}
 
-	internal void ForceResponsiveSize(Size size)
+	internal void ForceResponsiveSize(Size size) // test backdoor
 	{
 		var resolved = ResponsiveHelper.ResolveLayout(size, GetAppliedLayout(), GetAvailableLayoutOptions());
 		UpdateBinding(resolved, forceApplyValue: true);
@@ -124,7 +175,7 @@ public partial class ResponsiveExtension : MarkupExtension
 	{
 		if (forceApplyValue || CurrentLayout != resolved.Result)
 		{
-			if (TargetWeakRef?.Target is FrameworkElement target &&
+			if (TargetWeakRef?.Target is DependencyObject target &&
 				_targetProperty is not null)
 			{
 				var value = GetValueFor(resolved.Result);
@@ -192,24 +243,59 @@ public partial class ResponsiveExtension : MarkupExtension
 		Layout ??
 		(TargetWeakRef?.Target as FrameworkElement)?.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey) ??
 		Application.Current.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
+
+	private bool CleanupIfHostDisposed()
+	{
+		// if self/proxy host was disposed, remove the circular references to allow self-disposal.
+		if ((_proxyHostWeakRef is { Target: null }) ||
+			(_proxyHostWeakRef is null && _targetWeakRef is { Target: null }))
+		{
+#if UNO14502_WORKAROUND
+			HardSelfReferences.Remove(this);
+#endif
+#if TOOLKIT1082_WORKAROUND
+			_hardTargetReference = null;
+#endif
+			RemoveTracking(this);
+
+			return true;
+		}
+
+		return false;
+	}
+
+#if TOOLKIT1082_WORKAROUND
+	private static bool ShouldPreserveTargetInHardRef(DependencyObject target) => target is (
+		ColumnDefinition or RowDefinition or
+		Inline
+	);
+#endif
 }
 public partial class ResponsiveExtension
 {
-	// Used by TreeGraph to obtain the ResponsiveExtension(s) associated with the owner.
+	// Provide lookup from owner to extension(s). Used by TreeGraph and ResponsiveBehavior
 	internal static List<(WeakReference Owner, string Property, WeakReference Extension)> TrackedInstances { get; } = new();
 
 	internal WeakReference? TargetWeakRef => _targetWeakRef;
 
 	internal static ResponsiveExtension[] GetAllInstancesFor(DependencyObject owner) => TrackedInstances
-		.Where(x => x.Owner?.Target as DependencyObject == owner)
+		.Where(x => ReferenceEquals(x.Owner?.Target, owner))
 		.Select(x => x.Extension.Target)
 		.OfType<ResponsiveExtension>()
 		.ToArray();
 
 	internal static ResponsiveExtension? GetInstanceFor(DependencyObject owner, string property) => TrackedInstances
-		.Where(x => x.Owner?.Target as DependencyObject == owner && x.Property == property)
+		.Where(x => ReferenceEquals(x.Owner?.Target, owner) && x.Property == property)
 		.Select(x => x.Extension.Target)
 		.OfType<ResponsiveExtension>()
 		.FirstOrDefault();
+
+	private static void RemoveTracking(ResponsiveExtension extension)
+	{
+		if (TrackedInstances.FirstOrNull(x => x.Extension.Target as ResponsiveExtension == extension) is { } instance)
+		{
+			TrackedInstances.Remove(instance);
+		}
+	}
 }
 #endif
