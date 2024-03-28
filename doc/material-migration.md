@@ -4,6 +4,22 @@ uid: Toolkit.Migration.Material2.0
 
 # Updating Material Toolkit Version
 
+## Updating to Material Toolkit v6
+
+Material Toolkit v6 contains a dependency on [Uno Material](Uno.Themes.Material.GetStarted) which, as of its v5 release, introduces breaking changes that can affect applications using the Material Toolkit. Refer to the [Uno Material v5 migration documentation](xref:Uno.Themes.Material.Migration#updating-to-unothemes-v50) for further information.
+
+### Opacity and brushes
+
+The opacity values of certain brushes have been adjusted in Uno Material v5. The following table shows the changes in opacity values:
+
+| Opacity variant | Old Value | New Value |
+|-----------------|-----------|-----------|
+| Medium          | 0.54      | 0.64      |
+| Disabled        | 0.38      | 0.12      |
+| DisabledLow     | 0.12      | *removed* |
+
+Existing explicit references to `-DisabledLow` resources have been updated to use `-Disabled`.
+
 ## Updating to Material Toolkit v4
 
 Material Toolkit v4 introduces support for [Lightweight Styling](lightweight-styling.md) and, as a result, many resource keys have been added as well as renamed. For a list of all the new resource keys, please refer to the [Lightweight Styling documentation](lightweight-styling.md#resource-keys).

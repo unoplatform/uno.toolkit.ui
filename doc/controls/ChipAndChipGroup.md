@@ -111,7 +111,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `ChipBackgroundPointerOver`            | `SolidColorBrush` | `SystemControlTransparentBrush`     |
 | `ChipBackgroundFocused`                | `SolidColorBrush` | `SystemControlTransparentBrush`     |
 | `ChipBackgroundPressed`                | `SolidColorBrush` | `SystemControlTransparentBrush`     |
-| `ChipBackgroundDisabled`               | `SolidColorBrush` | `OnSurfaceDisabledLowBrush`         |
+| `ChipBackgroundDisabled`               | `SolidColorBrush` | `OnSurfaceDisabledBrush`            |
 | `ChipBackgroundChecked`                | `SolidColorBrush` | `SecondaryContainerBrush`           |
 | `ChipBackgroundCheckedPointerOver`     | `SolidColorBrush` | `SecondaryContainerBrush`           |
 | `ChipBackgroundCheckedFocused`         | `SolidColorBrush` | `SystemControlTransparentBrush`     |
@@ -143,7 +143,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `ChipBorderBrushPointerOver`           | `SolidColorBrush` | `OutlineBrush`                      |
 | `ChipBorderBrushFocused`               | `SolidColorBrush` | `SystemControlTransparentBrush`     |
 | `ChipBorderBrushPressed`               | `SolidColorBrush` | `OutlineBrush`                      |
-| `ChipBorderBrushDisabled`              | `SolidColorBrush` | `OnSurfaceVariantDisabledLowBrush`  |
+| `ChipBorderBrushDisabled`              | `SolidColorBrush` | `OnSurfaceVariantDisabledBrush`     |
 | `ChipBorderBrushChecked`               | `SolidColorBrush` | `OutlineBrush`                      |
 | `ChipBorderBrushCheckedPointerOver`    | `SolidColorBrush` | `OutlineBrush`                      |
 | `ChipBorderBrushCheckedFocused`        | `SolidColorBrush` | `SystemControlTransparentBrush`     |

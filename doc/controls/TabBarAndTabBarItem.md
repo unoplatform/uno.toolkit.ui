@@ -574,7 +574,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `FabTabBarItemBackgroundPointerOver`                               | `SolidColorBrush` | OnPrimaryContainerHoverBrush                 |
 | `FabTabBarItemBackgroundFocused`                                   | `SolidColorBrush` | OnPrimaryContainerFocusedBrush               |
 | `FabTabBarItemBackgroundPressed`                                   | `SolidColorBrush` | OnPrimaryContainerPressedBrush               |
-| `FabTabBarItemBackgroundDisabled`                                  | `SolidColorBrush` | OnSurfaceDisabledLowBrush                    |
+| `FabTabBarItemBackgroundDisabled`                                  | `SolidColorBrush` | OnSurfaceDisabledBrush                    |
 | `FabTabBarItemBackgroundSelected`                                  | `SolidColorBrush` | SystemControlTransparentBrush                |
 | `FabTabBarItemBackgroundSelectedPointerOver`                       | `SolidColorBrush` | SystemControlTransparentBrush                |
 | `FabTabBarItemBackgroundSelectedPressed`                           | `SolidColorBrush` | SystemControlTransparentBrush                |
