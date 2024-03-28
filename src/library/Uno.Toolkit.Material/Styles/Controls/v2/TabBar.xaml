@@ -101,7 +101,7 @@
 			<StaticResource x:Key="FabTabBarItemBackgroundPointerOver" ResourceKey="OnPrimaryContainerHoverBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundFocused" ResourceKey="OnPrimaryContainerFocusedBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundPressed" ResourceKey="OnPrimaryContainerPressedBrush" />
-			<StaticResource x:Key="FabTabBarItemBackgroundDisabled" ResourceKey="OnSurfaceDisabledLowBrush" />
+			<StaticResource x:Key="FabTabBarItemBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundSelectedPointerOver" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundSelectedPressed" ResourceKey="SystemControlTransparentBrush" />
@@ -297,7 +297,7 @@
 			<StaticResource x:Key="FabTabBarItemBackgroundPointerOver" ResourceKey="OnPrimaryContainerHoverBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundFocused" ResourceKey="OnPrimaryContainerFocusedBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundPressed" ResourceKey="OnPrimaryContainerPressedBrush" />
-			<StaticResource x:Key="FabTabBarItemBackgroundDisabled" ResourceKey="OnSurfaceDisabledLowBrush" />
+			<StaticResource x:Key="FabTabBarItemBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundSelectedPointerOver" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="FabTabBarItemBackgroundSelectedPressed" ResourceKey="SystemControlTransparentBrush" />
