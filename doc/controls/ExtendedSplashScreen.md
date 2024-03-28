@@ -3,30 +3,60 @@ uid: Toolkit.Controls.ExtendedSplashScreen
 ---
 # ExtendedSplashScreen
 
-Represents a control, derived from [`LoadingView`](xref:Toolkit.Controls.LoadingView) that continues to display the native splash screen for an extended amount of time, allowing the application to fully load the UI. See [`LoadingView`](xref:Toolkit.Controls.LoadingView) for Properties and other Members that are inherited.
+Represents a control, derived from [`LoadingView`](xref:Toolkit.Controls.LoadingView) that displays a view which replicates the appearance and behavior of the target platform's native application loading screen.
+
+Refer to [`LoadingView`](xref:Toolkit.Controls.LoadingView) for a list of inherited members.
+
+## Remarks
+
+The term _splash screen_ commonly refers to a view that is displayed when the user launches the application. Note that only a subset of the supported targets define a native splash screen construct that is displayed by the platform.
+
+A common use case for this control is to display an application loading element for extended durations after transitioning from the native splash screen. This is useful for scenarios where the application is performing a longer-running operation, such as loading data or performing a network request upon startup.
+
+`ExtendedSplashScreen` is a custom implementation, and does not require the presence of a native splash screen. As such, it can serve as an application's standalone loading screen, regardless of whether the platform provides a native equivalent.
+
+> [!TIP]
+> Users expect applications to load quickly after they launch them, so it is important to minimize the duration that a splash screen is displayed. `ExtendedSplashScreen` is intended to support a consistent user experience across platforms where scenarios necessitate a longer startup process.
 
 ## Properties
 
-| Property          | Type                   | Description                                                                                                                                                                                                                                          |
-|-------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Platforms`       | `SplashScreenPlatform` | Gets or sets which platforms load the native splash screen (`All` by default). This is an flag enumeration, meaning you can specify multiple values that will be combined (eg `Android,iOS` will show native splash screen for only Android and iOS) |
-| `SplashScreen`    | `SplashScreen`         | Gets or sets the `SplashScreen` entity that's available for UWP that defines where the splash screen image is positioned.                                                                                                                            |
-| `Window`          | `Window`               | Gets or sets the `Window` for the application that is used to size the splash screen.                                                                                                                                                                |
-| `SplashIsEnabled` | `bool`                 | Gets a value that determines whether native splash is to be displayed for the current platform at runtime. Note for Android 12+ the native splash screen is always disabled irrespective of the Platforms value.                                     |
+| Property | Type | Description | Value |
+|----------|------|-------------|---------------|
+| **Platforms** | `SplashScreenPlatform` | Gets or sets the platform(s) where extended splash screen should be used. This is a flag enumeration, which allows for combining multiple values. | Default value is **All**. Other possible values include **Android**, **iOS**, **Windows**, **WebAssembly**, **Skia**, and **None**. |
+| **SplashIsEnabled** | `bool` | Gets a value representing whether the current environment is to display this splash screen. | **True** if the current platform is included in the **Platforms** property, otherwise **false**. |
+<!-- | **Window** | `Window` | Gets or sets a window for the application that is used to size the splash screen. | -->
+
+## Methods
+
+| Method | Return Type | Description |
+|--------|-------------|-------------|
+| **Init** | `void` | Initializes the splash screen for the provided `Activity` instance. This static method should be invoked from the **OnCreate** override in `MainActivity`.<br/>**Note: This method only needs to be called on Android** |
 
 ## Usage
 
-```xml
-xmlns:utu="using:Uno.Toolkit.UI"
-...
+### SplashScreenPlatform
 
-<!-- example -->
+The following code snippet will only display the splash screen on Android and iOS.
+
+```xml
 <utu:ExtendedSplashScreen x:Name="Splash"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Platforms="Android,iOS,Windows">
+                          Platforms="Android,iOS"
+...
+```
+
+### ExtendedSplashScreen in XAML
+
+The example below demonstrates how to use `ExtendedSplashScreen` from XAML. The [**LoadingContentTemplate**](xref:Toolkit.Controls.LoadingView) property below is inherited from `LoadingView`. It is used to define content that will be displayed during the loading/waiting state.
+
+```xml
+<!-- xmlns:utu="using:Uno.Toolkit.UI" -->
+
+<utu:ExtendedSplashScreen x:Name="Splash"
+                          Platforms="Android,iOS"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch">
     <utu:ExtendedSplashScreen.LoadingContentTemplate>
         <DataTemplate>
             <Grid>
@@ -36,11 +66,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
                 </Grid.RowDefinitions>
 
                 <ProgressRing IsActive="True"
-                            Grid.Row="1"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Height="100"
-                            Width="100" />
+                              Grid.Row="1"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Height="100"
+                              Width="100" />
             </Grid>
         </DataTemplate>
     </utu:ExtendedSplashScreen.LoadingContentTemplate>
