@@ -19,6 +19,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ItemsRepeaterExtensionsIncrementalLoadingSamplePage.xaml.cs">
+      <DependentUpon>ItemsRepeaterExtensionsIncrementalLoadingSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ItemsRepeaterExtensionsSamplePage.xaml.cs">
       <DependentUpon>ItemsRepeaterExtensionsSamplePage.xaml</DependentUpon>
     </Compile>
@@ -202,6 +205,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FromNullToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\FromStringToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\HexToColorConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Data\InfiniteSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Icons.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Data\TestCollections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Design.cs" />
@@ -224,6 +228,10 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ItemsRepeaterExtensionsIncrementalLoadingSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ItemsRepeaterExtensionsSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
