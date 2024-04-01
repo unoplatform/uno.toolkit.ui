@@ -3,13 +3,13 @@ uid: Toolkit.Controls.ExtendedSplashScreen
 ---
 # ExtendedSplashScreen
 
-Represents a control, derived from [`LoadingView`](xref:Toolkit.Controls.LoadingView) that displays a view which replicates the appearance and behavior of the target platform's native application loading screen.
+Represents a control, derived from [`LoadingView`](xref:Toolkit.Controls.LoadingView) that displays a view that replicates the appearance and behavior of the target platform's native application loading screen.
 
 Refer to [`LoadingView`](xref:Toolkit.Controls.LoadingView) for a list of inherited members.
 
 ## Remarks
 
-The term _splash screen_ commonly refers to a view that is displayed when the user launches the application. Note that only a subset of the supported targets define a native splash screen construct that is displayed by the platform.
+The term _splash screen_ commonly refers to a view that is displayed when the user launches the application. Note that only a subset of the supported targets defines a native splash screen construct that is displayed by the platform.
 
 A common use case for this control is to display an application loading element for extended durations after transitioning from the native splash screen. This is useful for scenarios where the application is performing a longer-running operation, such as loading data or performing a network request upon startup.
 
