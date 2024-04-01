@@ -182,4 +182,4 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 
 #### Remarks
 
-- The above XAML will automatically prefetch enough items to fill the viewport with 5 pages worth of items when the user scrolls to within 2 pages of the end of the list.
+- The above XAML will automatically prefetch enough items to fill the viewport with 5 pages worth of items when the user scrolls to within the last 2 pages of the list.
