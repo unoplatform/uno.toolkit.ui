@@ -68,7 +68,7 @@ namespace Uno.Toolkit.UI
 		[DynamicDependency(nameof(SetIsLoading))]
 		public static bool GetIsLoading(ItemsRepeater obj) => (bool)obj.GetValue(IsLoadingProperty);
 		[DynamicDependency(nameof(GetIsLoading))]
-		private static void SetIsLoading(ItemsRepeater obj, bool value) => obj.SetValue(IsLoadingProperty, value);
+		public static void SetIsLoading(ItemsRepeater obj, bool value) => obj.SetValue(IsLoadingProperty, value);
 
 		#endregion
 
@@ -109,7 +109,7 @@ namespace Uno.Toolkit.UI
 
 		#endregion
 
-		#region DependencyProperty: IncrementalLoadingSubscription
+		#region DependencyProperty: IncrementalLoadingSubscription [Private]
 
 		private static DependencyProperty IncrementalLoadingSubscriptionProperty { [DynamicDependency(nameof(GetIncrementalLoadingSubscription))] get; } = DependencyProperty.RegisterAttached(
 			"IncrementalLoadingSubscription",
@@ -143,7 +143,7 @@ namespace Uno.Toolkit.UI
 		// The EffectiveViewport is the intersection of all known viewports that contain the ItemsRepeater in their sub-tree
 		private static async void OnEffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
 		{
-			if (sender is not ItemsRepeater ir || ir.ItemsSource is not ISupportIncrementalLoading incrementalLoading) return;
+			if (!(sender is ItemsRepeater { ItemsSource: ISupportIncrementalLoading il } ir)) return;
 			if (GetIsLoading(ir)) return;
 
 			var orientation = GetOrientation(ir);
@@ -166,12 +166,12 @@ namespace Uno.Toolkit.UI
 
 			var remainingItems = averageItemLength > 0 ? distanceToEnd / averageItemLength : 0d;
 
-			if (remainingItems <= desiredItemBuffer && incrementalLoading.HasMoreItems)
+			if (remainingItems <= desiredItemBuffer && il.HasMoreItems)
 			{
 				SetIsLoading(ir, true);
 				try
 				{
-					await incrementalLoading.LoadMoreItemsAsync((uint)(GetDataFetchSize(ir) * Math.Max(1, pageSize)));
+					await il.LoadMoreItemsAsync((uint)(GetDataFetchSize(ir) * Math.Max(1, pageSize)));
 				}
 				catch (Exception e)
 				{
@@ -212,20 +212,9 @@ namespace Uno.Toolkit.UI
 		}
 
 		private static double GetAverageItemLength(ItemsRepeater ir, Orientation orientation)
-		{
-			var count = 0;
-			var total = 0d;
-
-			foreach (var child in ir.GetChildren())
-			{
-				if (child is FrameworkElement fe)
-				{
-					count++;
-					total += orientation == Orientation.Vertical ? fe.ActualHeight : fe.ActualWidth;
-				}
-			}
-
-			return count > 0 ? total / count : 0d;
-		}
+			=> ir.GetChildren()
+				 .Select(x => (orientation == Orientation.Vertical ? (x as FrameworkElement)?.ActualHeight : (x as FrameworkElement)?.ActualWidth) ?? 0d)
+				 .DefaultIfEmpty(0d)
+				 .Average();
 	}
 }

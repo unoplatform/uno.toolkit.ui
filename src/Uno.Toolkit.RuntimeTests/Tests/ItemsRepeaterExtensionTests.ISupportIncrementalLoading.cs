@@ -39,12 +39,11 @@ partial class ItemsRepeaterExtensionTests
 			return Enumerable.Range(start, BatchSize).ToArray();
 		});
 
-		var SUT = new Grid() { Height = 210, Width = 210, VerticalAlignment = VerticalAlignment.Bottom };
-		var ir = SetupIncrementalLoadingItemsRepeater(source, orientation);
-		var sv = SetupScrollViewer(ir);
-		SUT.Children.Add(sv);
+		(Grid panel, ItemsRepeater sut, ScrollViewer sv) = BuildSetup(source, orientation);
 
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+		panel.Children.Add(sv);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(panel);
 		await Task.Delay(1000);
 		var initial = GetCurrenState();
 
@@ -76,23 +75,8 @@ partial class ItemsRepeaterExtensionTests
 		(int LastLoaded, int LastMaterialized) GetCurrenState() =>
 		(
 			source.LastIndex,
-			Enumerable.Range(0, source.LastIndex).Reverse().FirstOrDefault(x => ir.TryGetElement(x) != null)
+			Enumerable.Range(0, source.LastIndex).Reverse().FirstOrDefault(x => sut.TryGetElement(x) != null)
 		);
-	}
-
-	private static ScrollViewer SetupScrollViewer(ItemsRepeater ir)
-	{
-		var sv = new ScrollViewer
-		{
-			HorizontalScrollMode = ScrollMode.Enabled,
-			HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
-			VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
-			VerticalScrollMode = ScrollMode.Enabled
-		};
-
-		sv.Add(ir);
-
-		return sv;
 	}
 
 	[TestMethod]
@@ -108,13 +92,12 @@ partial class ItemsRepeaterExtensionTests
 			await Task.Delay(25);
 			return Enumerable.Range(start, BatchSize).ToArray();
 		});
-		var SUT = new Grid() { Height = 210, Width = 210, VerticalAlignment = VerticalAlignment.Bottom };
-		var ir = SetupIncrementalLoadingItemsRepeater(source, orientation);
-		var sv = SetupScrollViewer(ir);
-		SUT.Children.Add(sv);
 
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+		(Grid panel, ItemsRepeater sut, ScrollViewer sv) = BuildSetup(source, orientation);
 
+		panel.Children.Add(sv);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(panel);
 		await Task.Delay(1000);
 		var initial = GetCurrenState();
 
@@ -149,7 +132,7 @@ partial class ItemsRepeaterExtensionTests
 		(int LastLoaded, int LastMaterialized) GetCurrenState() =>
 		(
 			source.LastIndex,
-			Enumerable.Range(0, source.LastIndex).Reverse().FirstOrDefault(x => ir.TryGetElement(x) != null)
+			Enumerable.Range(0, source.LastIndex).Reverse().FirstOrDefault(x => sut.TryGetElement(x) != null)
 		);
 	}
 
@@ -166,12 +149,11 @@ partial class ItemsRepeaterExtensionTests
 			await Task.Delay(1000);
 			return Enumerable.Range(start, BatchSize).ToArray();
 		});
-		var SUT = new Grid() { Height = 210, Width = 210, VerticalAlignment = VerticalAlignment.Bottom };
-		var ir = SetupIncrementalLoadingItemsRepeater(source, orientation);
-		var sv = SetupScrollViewer(ir);
-		SUT.Children.Add(sv);
 
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+		(Grid panel, ItemsRepeater sut, ScrollViewer sv) = BuildSetup(source, orientation);
+		panel.Children.Add(sv);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(panel);
 		await Task.Delay(2000);
 
 		(double? hOffset, double? vOffset) = orientation switch
@@ -184,11 +166,11 @@ partial class ItemsRepeaterExtensionTests
 		// scroll to bottom
 		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
 
-		await UnitTestUIContentHelperEx.WaitFor(() => ItemsRepeaterExtensions.GetIsLoading(ir), timeoutMS: 2000, message: "IsLoading should become true");
-		await UnitTestUIContentHelperEx.WaitFor(() => !ItemsRepeaterExtensions.GetIsLoading(ir), timeoutMS: 2000, message: "IsLoading should become false when done loading more items");
+		await UnitTestUIContentHelperEx.WaitFor(() => ItemsRepeaterExtensions.GetIsLoading(sut), timeoutMS: 2000, message: "IsLoading should become true");
+		await UnitTestUIContentHelperEx.WaitFor(() => !ItemsRepeaterExtensions.GetIsLoading(sut), timeoutMS: 2000, message: "IsLoading should become false when done loading more items");
 	}
 
-	internal static ItemsRepeater SetupIncrementalLoadingItemsRepeater(object source, Orientation orientation)
+	private static ItemsRepeater SetupIncrementalLoadingItemsRepeater(object source, Orientation orientation)
 	{
 		var ir = new ItemsRepeater
 		{
@@ -209,6 +191,27 @@ partial class ItemsRepeaterExtensionTests
 		ItemsRepeaterExtensions.SetSupportsIncrementalLoading(ir, true);
 
 		return ir;
+	}
+
+	private static ScrollViewer SetupScrollViewer(ItemsRepeater ir)
+	{
+		return new ScrollViewer
+		{
+			Content = ir,
+			HorizontalScrollMode = ScrollMode.Enabled,
+			HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+			VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
+			VerticalScrollMode = ScrollMode.Enabled
+		};
+	}
+
+	private static (Grid panel, ItemsRepeater sut, ScrollViewer vs) BuildSetup(object source, Orientation orientation)
+	{
+		var panel = new Grid() { Height = 210, Width = 210, VerticalAlignment = VerticalAlignment.Bottom };
+		var sut = SetupIncrementalLoadingItemsRepeater(source, orientation);
+		var sv = SetupScrollViewer(sut);
+
+		return (panel, sut, sv);
 	}
 }
 
