@@ -34,9 +34,9 @@ A common use case for this control is to display an application loading element 
 
 ## Usage
 
-### SplashScreenPlatform
+### Specify platforms to display splash screen
 
-The following code snippet will only display the splash screen on Android and iOS.
+The following code snippet will only display the splash screen on Android and iOS by specifying a `SplashScreenPlatform` value for the `Platforms` property.
 
 ```xml
 <utu:ExtendedSplashScreen x:Name="Splash"
@@ -44,9 +44,9 @@ The following code snippet will only display the splash screen on Android and iO
 ...
 ```
 
-### ExtendedSplashScreen in XAML
+### Set loading state content
 
-The example below demonstrates how to use `ExtendedSplashScreen` from XAML. The [**LoadingContentTemplate**](xref:Toolkit.Controls.LoadingView) property below is inherited from `LoadingView`. It is used to define content that will be displayed during the loading/waiting state.
+The example below demonstrates a typical use of `ExtendedSplashScreen` in XAML. The [**LoadingContentTemplate**](xref:Toolkit.Controls.LoadingView) property below is inherited from `LoadingView`. This property is used to define content that will be displayed during the loading/waiting state.
 
 ```xml
 <!-- xmlns:utu="using:Uno.Toolkit.UI" -->
