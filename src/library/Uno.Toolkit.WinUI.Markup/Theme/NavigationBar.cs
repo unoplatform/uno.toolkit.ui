@@ -6,7 +6,7 @@ using Uno.Extensions.Markup.Internals;
 
 namespace Uno.Toolkit.UI.Markup;
 
-public static partial class Theme
+public static partial class ToolkitTheme
 {
 	public static partial class NavigationBar
 	{
