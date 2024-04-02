@@ -52,11 +52,7 @@ The example below demonstrates a typical use of `ExtendedSplashScreen` in XAML. 
 <!-- xmlns:utu="using:Uno.Toolkit.UI" -->
 
 <utu:ExtendedSplashScreen x:Name="Splash"
-                          Platforms="Android,iOS"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
-                          HorizontalContentAlignment="Stretch"
-                          VerticalContentAlignment="Stretch">
+                          Platforms="Android,iOS">
     <utu:ExtendedSplashScreen.LoadingContentTemplate>
         <DataTemplate>
             <Grid>
