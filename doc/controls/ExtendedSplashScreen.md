@@ -46,7 +46,7 @@ The following code snippet will only display the splash screen on Android and iO
 
 ### Set loading state content
 
-The example below demonstrates a typical use of `ExtendedSplashScreen` in XAML. The [**LoadingContentTemplate**](xref:Toolkit.Controls.LoadingView) property below is inherited from `LoadingView`. This property is used to define content that will be displayed during the loading/waiting state.
+The example below demonstrates a typical use of `ExtendedSplashScreen` in XAML. The [**LoadingContentTemplate**](xref:Toolkit.Controls.LoadingView) property below is inherited from `LoadingView`. This property is used to define the content that will be displayed during the loading/waiting state.
 
 ```xml
 <!-- xmlns:utu="using:Uno.Toolkit.UI" -->
