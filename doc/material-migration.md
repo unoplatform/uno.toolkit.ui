@@ -20,6 +20,23 @@ The opacity values of certain brushes have been adjusted in Uno Material v5. The
 
 Existing explicit references to `-DisabledLow` resources have been updated to use `-Disabled`.
 
+### Markup Theme class name
+
+The `Theme` class in the `Uno.Toolkit.UI.Markup` has been renamed to `ToolkitTheme` in order to no longer clash with the `Theme` class from `Uno.Themes.Markup`. 
+
+This affects all references to the `Theme` class in the `Uno.Toolkit.UI.Markup` namespace, which are outlined in the table below:
+
+| Class                  | Old                          | New                                                               |
+|------------------------|------------------------------|-------------------------------------------------------------------|
+| `Card`                 | `Theme.Card.*`               | `ToolkitTheme.Card.*`                                             |
+| `CardContentControl`   | `Theme.CardContentControl.*` | `ToolkitTheme.CardContentControl.*`                               |
+| `Chip`                 | `Theme.Chip.*`               | `ToolkitTheme.Chip.*`                                             |
+| `ChipGroup`            | `Theme.ChipGroup.*`          | `ToolkitTheme.ChipGroup.*`                                        |
+| `Divider`              | `Theme.Divider.*`            | `ToolkitTheme.Divider.*`                                          |
+| `NavigationBar`        | `Theme.NavigationBar.*`      | `ToolkitTheme.NavigationBar.*`                                    |
+| `TabBar`               | `Theme.TabBar.*`             | `ToolkitTheme.TabBar.*`                                           |
+| `TabBar`               | `Theme.TabBarItem.*`         | `ToolkitTheme.TabBarItem.*`                                       |
+
 ## Updating to Material Toolkit v4
 
 Material Toolkit v4 introduces support for [Lightweight Styling](lightweight-styling.md) and, as a result, many resource keys have been added as well as renamed. For a list of all the new resource keys, please refer to the [Lightweight Styling documentation](lightweight-styling.md#resource-keys).
