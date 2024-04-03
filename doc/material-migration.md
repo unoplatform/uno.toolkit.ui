@@ -22,7 +22,7 @@ Existing explicit references to `-DisabledLow` resources have been updated to us
 
 ### Markup Theme class name
 
-The `Theme` class in the `Uno.Toolkit.UI.Markup` has been renamed to `ToolkitTheme` in order to no longer clash with the `Theme` class from `Uno.Themes.Markup`. 
+The `Theme` class in the `Uno.Toolkit.UI.Markup` has been renamed to `ToolkitTheme` in order to no longer clash with the `Theme` class from `Uno.Themes.Markup`.
 
 This affects all references to the `Theme` class in the `Uno.Toolkit.UI.Markup` namespace, which are outlined in the table below:
 
