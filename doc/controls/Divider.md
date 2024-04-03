@@ -14,11 +14,11 @@ A divider is a thin line that groups content in lists and layouts.
 
 ## Lightweight Styling
 
-| Key                              | Type             | Value                     |
-|----------------------------------|------------------|---------------------------|
+| Key                              | Type                 | Value                       |
+|------------------------------------|--------------------|-----------------------------|
 | `DividerForeground`                | `SolidColorBrush`  | `OutlineVariantBrush`       |
 | `DividerSubHeaderForeground`       | `SolidColorBrush`  | `OnSurfaceLowBrush`         |
-| `DividerSubHeaderFontFamily`       | `FontFamily`       | `MaterialMediumFontFamily`  |
+| `DividerSubHeaderFontFamily`       | `FontFamily`       | `BodySmallFontFamily`       |
 | `DividerSubHeaderFontWeight`       | `FontWeight`       | `BodySmallFontWeight`       |
 | `DividerSubHeaderFontSize`         | `FontSize`         | `BodySmallFontSize`         |
 | `DividerSubHeaderCharacterSpacing` | `CharacterSpacing` | `BodySmallCharacterSpacing` |

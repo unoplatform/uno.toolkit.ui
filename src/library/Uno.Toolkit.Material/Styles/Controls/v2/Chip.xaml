@@ -375,7 +375,7 @@
 														  Content="{TemplateBinding Content}"
 														  ContentTemplate="{TemplateBinding ContentTemplate}"
 														  ContentTransitions="{TemplateBinding ContentTransitions}"
-														  FontFamily="{ThemeResource MaterialMediumFontFamily}"
+														  FontFamily="{ThemeResource LabelLargeFontFamily}"
 														  Foreground="{TemplateBinding Foreground}" />
 
 										<!-- C2: Remove Button -->
