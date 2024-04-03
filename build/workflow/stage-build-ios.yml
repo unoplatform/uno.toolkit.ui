@@ -18,6 +18,7 @@ jobs:
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 50
         CI_Build: true
+
   pool:
     vmImage: 'macOS-13'
 
