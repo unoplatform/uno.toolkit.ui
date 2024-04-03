@@ -114,6 +114,16 @@ public partial class ShadowContainer : ContentControl
 		void OnShadowHostSizeChanged(object sender, SizeChangedEventArgs args)
 		{
 			_isShadowHostDirty = true;
+
+			// This is not necessary on WinUI, but is necessary on Uno due to behavior mismatch in ActualWidth/ActualHeight.
+			// For the ShadowContainerSamplePage, when we add a new shadow, we are expanding the StackPanel that's wrapped in ShadowContainer.
+			// We get through InvalidateCanvasLayout via OnContentSizeChanged and we update SKXamlCanvas.Height to the new Height
+			// On WinUI, the updated Height is immediately reflected on ActualHeight, but that's not the case on Uno.
+			// So, SKXamlCanvas still has its internal SKCanvas with the old size (as it relies on ActualHeight)
+			// see https://github.com/mono/SkiaSharp/blob/a290ccffc74bc95a45569e8b74e77be851d4a688/source/SkiaSharp.Views.Uno/SkiaSharp.Views.Uno.WinUI.Shared/SKXamlCanvas.cs#L140
+			// Then we end up drawing the old size.
+			// To account for Uno's mismatched behavior, we call InvalidateShadows.
+			InvalidateShadows();
 		}
 
 		void OnShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -280,7 +290,6 @@ public partial class ShadowContainer : ContentControl
 		_canvas?.Children.Insert(0, _shadowHost!);
 	}
 
-	
 
 	private void InvalidateCanvasLayout()
 	{
