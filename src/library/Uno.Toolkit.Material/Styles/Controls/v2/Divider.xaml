@@ -8,7 +8,7 @@
 			<StaticResource x:Key="DividerForeground" ResourceKey="OutlineVariantBrush" />
 			<StaticResource x:Key="DividerSubHeaderForeground" ResourceKey="OnSurfaceLowBrush" />
 
-			<StaticResource x:Key="DividerSubHeaderFontFamily" ResourceKey="MaterialMediumFontFamily" />
+			<StaticResource x:Key="DividerSubHeaderFontFamily" ResourceKey="BodySmallFontFamily" />
 			<StaticResource x:Key="DividerSubHeaderFontWeight" ResourceKey="BodySmallFontWeight" />
 			<StaticResource x:Key="DividerSubHeaderFontSize" ResourceKey="BodySmallFontSize" />
 			<StaticResource x:Key="DividerSubHeaderCharacterSpacing" ResourceKey="BodySmallCharacterSpacing" />
@@ -20,7 +20,7 @@
 			<StaticResource x:Key="DividerForeground" ResourceKey="OutlineVariantBrush" />
 			<StaticResource x:Key="DividerSubHeaderForeground" ResourceKey="OnSurfaceLowBrush" />
 
-			<StaticResource x:Key="DividerSubHeaderFontFamily" ResourceKey="MaterialMediumFontFamily" />
+			<StaticResource x:Key="DividerSubHeaderFontFamily" ResourceKey="BodySmallFontFamily" />
 			<StaticResource x:Key="DividerSubHeaderFontWeight" ResourceKey="BodySmallFontWeight" />
 			<StaticResource x:Key="DividerSubHeaderFontSize" ResourceKey="BodySmallFontSize" />
 			<StaticResource x:Key="DividerSubHeaderCharacterSpacing" ResourceKey="BodySmallCharacterSpacing" />

@@ -634,7 +634,7 @@
         - BottomTabBar (known as NavigationBar in Material Design 3: https://m3.material.io/components/navigation-bar/overview)
     -->
     <Style x:Key="MaterialBaseNavigationTabBarItemStyle" TargetType="utu:TabBarItem">
-        <Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
+        <Setter Property="FontFamily" Value="{ThemeResource LabelMediumFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource LabelMediumFontSize}" />
         <Setter Property="FontWeight" Value="{ThemeResource LabelMediumFontWeight}" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -1170,7 +1170,7 @@
 
     <!--#region FAB TabBarItem Styles-->
     <Style x:Key="MaterialBaseFabTabBarItemStyle" TargetType="utu:TabBarItem">
-        <Setter Property="FontFamily" Value="{ThemeResource MaterialMediumFontFamily}" />
+        <Setter Property="FontFamily" Value="{ThemeResource LabelMediumFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource LabelMediumFontSize}" />
         <Setter Property="FontWeight" Value="{ThemeResource LabelMediumFontWeight}" />
         <Setter Property="IsSelectable" Value="False" />
