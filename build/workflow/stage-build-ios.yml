@@ -20,7 +20,7 @@ jobs:
         CI_Build: true
 
   pool:
-    vmImage: 'macOS-13'
+    vmImage: 'macOS-12'
 
   variables:
    - group: unoplatform.apple.ios.appstore.distribution
