@@ -13,12 +13,8 @@ trigger:
     - '/'
     exclude:
     - .dependabot/
-    - .github/
-    # don't trigger the CI if only docs files are changed
-    - doc/*
-    - '**/*.md'
 
-pr: 
+pr:
   branches:
     include:
       - main
@@ -33,10 +29,6 @@ pr:
     - '/'
     exclude:
     - .dependabot/
-    - .github/
-    # don't trigger the CI if only docs files are changed
-    - doc/*
-    - '**/*.md'
 
 variables:
   # Path where packages (nuget or app packages) will be copied to.
@@ -46,18 +38,32 @@ variables:
   IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
 
 stages:
-- stage: Validations
-  displayName: Validations
+- stage: Determine_Changes
+  displayName: Determine Changes
   jobs:
-  - template: stage-validations.yml
+  - template: stage-determine-changes.yml
+
+- stage: Docs_Validations
+  displayName: Docs Validations
+  dependsOn: Determine_Changes
+  # Trigger this stage when docs files are changed
+  condition: or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true'))
+  jobs:
+  - template: stage-docs-validations.yml
 
 - stage: Packages
-  dependsOn: Validations
+  displayName: Packages
+  dependsOn: Determine_Changes
+  # Don't trigger this stage if only docs files are changed
+  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
   jobs:
   - template: stage-build-packages.yml
 
 - stage: Tests
-  dependsOn: Validations
+  displayName: Tests
+  dependsOn: Determine_Changes
+  # Don't trigger this stage if only docs files are changed
+  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
   jobs:
   - template: stage-uitests-wasm.yml
   - template: stage-build-ios.yml
