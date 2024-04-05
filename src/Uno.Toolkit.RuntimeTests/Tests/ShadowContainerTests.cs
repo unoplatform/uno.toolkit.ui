@@ -120,10 +120,13 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				Color = Colors.Blue,
 			});
 
+			// Adding 50x50 border to stack panel so that the stack panel itself is 50x100
 			sp.Children.Add(new Border() { Width = 50, Height = 50 });
 
 			await UnitTestsUIContentHelper.WaitForIdle();
 
+			// The expected height is 160
+			// 100 is the stack panel height, and (10 offset + 20 blur) (top and bottom)
 			Assert.AreEqual(160d, lastActualHeight);
 		}
 
