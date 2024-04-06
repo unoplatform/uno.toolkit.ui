@@ -33,6 +33,7 @@ using SkiaSharp;
 using SkiaSharp.Views.Windows;
 using System.Drawing;
 using Windows.Globalization.DateTimeFormatting;
+using Windows.Devices.Haptics;
 
 namespace Uno.Toolkit.RuntimeTests.Tests
 {
@@ -42,6 +43,93 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	{
 
 #if !(__ANDROID__ || __IOS__)
+		[TestMethod]
+		public async Task When_Element_Is_Resized()
+		{
+			var sp = new StackPanel()
+			{
+				Children =
+				{
+					new Border() { Width = 50, Height = 50 },
+				}
+			};
+
+			var shadowContainer = new ShadowContainer
+			{
+				HorizontalAlignment = HorizontalAlignment.Left,
+				VerticalAlignment = VerticalAlignment.Top,
+				Background = new SolidColorBrush(Colors.Green),
+				Content = sp,
+				Shadows =
+				{
+					new UI.Shadow()
+					{
+						BlurRadius = 20,
+						OffsetX = 10,
+						OffsetY = 10,
+						Opacity = 0.5,
+						Spread = 0,
+						Color = Colors.Red,
+					},
+				}
+			};
+
+			var grid = new Grid()
+			{
+				RowDefinitions =
+				{
+					new RowDefinition()
+					{
+						Height = GridLength.Auto,
+					},
+					new RowDefinition()
+					{
+						Height = new GridLength(1, GridUnitType.Star),
+					},
+				},
+				Children =
+				{
+					shadowContainer,
+				},
+			};
+
+			UnitTestsUIContentHelper.Content = grid;
+			await UnitTestsUIContentHelper.WaitForIdle();
+			await UnitTestsUIContentHelper.WaitForLoaded(grid);
+
+			var shadowContainerChildGrid = (Grid)shadowContainer.GetChildren().First();
+			var canvas = (Canvas)shadowContainerChildGrid.GetChildren().First();
+			var skXamlCanvas = (SKXamlCanvas)canvas.GetChildren().First();
+
+			var lastActualHeight = double.NaN;
+			shadowContainer.SurfacePaintCompleted += (a, b) =>
+			{
+				if (double.IsNaN(lastActualHeight) || skXamlCanvas.ActualHeight > lastActualHeight)
+				{
+					lastActualHeight = skXamlCanvas.ActualHeight;
+				}
+			};
+
+			shadowContainer.Shadows.Add(new UI.Shadow()
+			{
+				BlurRadius = 20,
+				OffsetX = -10,
+				OffsetY = -10,
+				Opacity = 0.5,
+				Spread = 0,
+				Color = Colors.Blue,
+			});
+
+			// Adding 50x50 border to stack panel so that the stack panel itself is 50x100
+			sp.Children.Add(new Border() { Width = 50, Height = 50 });
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			// The expected height is 160
+			// 100 is the stack panel height, and (10 offset + 20 blur) (top and bottom)
+			Assert.AreEqual(160d, lastActualHeight);
+		}
+
 
 		[TestMethod]
 		[DataRow(10, 10, false, 0)]
@@ -194,8 +282,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
 			}
 
-			var parentBorder = new Border {Height = 500, Width = 500, HorizontalAlignment = HorizontalAlignment.Center, Background = new SolidColorBrush(Colors.Yellow) };
-			var border = new Border { HorizontalAlignment = HorizontalAlignment.Center,  Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) };
+			var parentBorder = new Border { Height = 500, Width = 500, HorizontalAlignment = HorizontalAlignment.Center, Background = new SolidColorBrush(Colors.Yellow) };
+			var border = new Border { HorizontalAlignment = HorizontalAlignment.Center, Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) };
 			var shadowContainer = new ShadowContainer
 			{
 				HorizontalAlignment = HorizontalAlignment.Center,
