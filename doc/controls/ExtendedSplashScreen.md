@@ -22,9 +22,8 @@ A common use case for this control is to display an application loading element 
 
 | Property | Type | Description | Value |
 |----------|------|-------------|---------------|
-| **Platforms** | `SplashScreenPlatform` | Gets or sets the platform(s) where extended splash screen should be used. This is a flag enumeration, which allows for combining multiple values. | Default value is **All**. Other possible values include **Android**, **iOS**, **Windows**, **WebAssembly**, **Skia**, and **None**. |
+| **Platforms** | `SplashScreenPlatform` | Gets or sets the platform(s) where extended splash screen should be used. This is a flag enumeration, which allows for combining multiple values eg: `"Android,iOS"` | Default value is **All**. Other possible values include **Android**, **iOS**, **Windows**, **WebAssembly**, **Skia**, and **None**. |
 | **SplashIsEnabled** | `bool` | Gets a value representing whether the current environment is to display this splash screen. | **True** if the current platform is included in the **Platforms** property, otherwise **false**. |
-<!-- | **Window** | `Window` | Gets or sets a window for the application that is used to size the splash screen. | -->
 
 ## Methods
 
@@ -40,8 +39,7 @@ The following code snippet will only display the splash screen on Android and iO
 
 ```xml
 <utu:ExtendedSplashScreen x:Name="Splash"
-                          Platforms="Android,iOS"
-...
+                          Platforms="Android,iOS" />
 ```
 
 ### Set loading state content
