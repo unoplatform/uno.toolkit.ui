@@ -116,7 +116,7 @@ protected override async void OnLaunched(LaunchActivatedEventArgs args)
 
 With these changes, the splash screen will be displayed while the application first launches, and the main application content will be displayed once the loading state is complete.
 
-In order to prolong the splash screen display, you can use set the `Source` property of the `ExtendedSplashScreen` control to any custom implementation of the `ILoadable` interface. More information on how to use the `ILoadable` interface can be found in the [`LoadingView`](xref:Toolkit.Controls.LoadingView#iloadable) documentation.
+In order to prolong the splash screen display, you can set the `Source` property of the `ExtendedSplashScreen` control to any custom implementation of the `ILoadable` interface. More information on how to use the `ILoadable` interface can be found in the [`LoadingView`](xref:Toolkit.Controls.LoadingView#iloadable) documentation.
 
 ## Setup on Android
 
