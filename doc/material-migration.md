@@ -2,11 +2,11 @@
 uid: Toolkit.Migration.Material2.0
 ---
 
-# Updating Material Toolkit Version
+# Upgrading Material Toolkit Version
 
-## Updating to Material Toolkit v6
+## Upgrading to Material Toolkit v6
 
-Material Toolkit v6 contains a dependency on [Uno Material](Uno.Themes.Material.GetStarted) which, as of its v5 release, introduces breaking changes that can affect applications using the Material Toolkit. Refer to the [Uno Material v5 migration documentation](xref:Uno.Themes.Material.Migration#updating-to-unothemes-v50) for further information.
+Material Toolkit v6 contains a dependency on [Uno Material](Uno.Themes.Material.GetStarted) which, as of its v5 release, introduces breaking changes that can affect applications using the Material Toolkit. Refer to the [Uno Material v5 upgrade documentation](xref:Uno.Themes.Material.Migration#upgrading-to-uno-themes-v50) for further information.
 
 ### Opacity and brushes
 
@@ -37,7 +37,7 @@ This affects all references to the `Theme` class in the `Uno.Toolkit.UI.Markup` 
 | `TabBar`               | `Theme.TabBar.*`             | `ToolkitTheme.TabBar.*`                                           |
 | `TabBar`               | `Theme.TabBarItem.*`         | `ToolkitTheme.TabBarItem.*`                                       |
 
-## Updating to Material Toolkit v4
+## Upgrading to Material Toolkit v4
 
 Material Toolkit v4 introduces support for [Lightweight Styling](lightweight-styling.md) and, as a result, many resource keys have been added as well as renamed. For a list of all the new resource keys, please refer to the [Lightweight Styling documentation](lightweight-styling.md#resource-keys).
 
@@ -116,7 +116,7 @@ Along with the above list of new resource keys, below is a list of the resource 
 | `MaterialNavigationTabBarItemIconHeight`                  | `NavigationTabBarItemIconHeight`                  | 18        |
 | `MaterialNavigationTabBarWidthOrHeight`                   | `NavigationTabBarWidthOrHeight`                   | 80        |
 
-## Updating Material Toolkit to Uno Material v2
+## Upgrading Material Toolkit to Uno Material v2
 
 Starting with version 2.0.0 of the [Uno.Toolkit.UI.Material](https://www.nuget.org/packages/Uno.Toolkit.UI.Material/2.0.0) and [Uno.Toolkit.WinUI.Material](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material/2.0.0) packages, users can now take advantage of the new [Material Design 3](https://m3.material.io/) design system from Google.
 Along with the new Material Design 3 styles, our Material Toolkit NuGet packages will continue to support the previous Material Design 2 styles. In order to achieve this backward compatibility, we have had to make some changes to the way the Material toolkit is initialized within your `App.xaml`.
