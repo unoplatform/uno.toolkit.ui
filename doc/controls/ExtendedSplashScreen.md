@@ -44,7 +44,7 @@ The following code snippet will only display the splash screen on Android and iO
 
 ### Setup the splash screen
 
-The following code snippet demonstrate a suggested pattern for using the `ExtendedSplashScreen`. The first step is to define a custom `UserControl` that will be used as the main shell for the application content. This control will be used to host the `ExtendedSplashScreen` and the main application content.
+The following code snippet demonstrates a suggested pattern for using the `ExtendedSplashScreen`. The first step is to define a custom `UserControl` that will be used as the main shell for the application content. This control will be used to host the `ExtendedSplashScreen` and the main application content.
 
 `Shell.xaml`:
 
