@@ -42,17 +42,28 @@ The following code snippet will only display the splash screen on Android and iO
                           Platforms="Android,iOS" />
 ```
 
-### Set loading state content
+### Setup the splash screen
 
-The example below demonstrates a typical use of `ExtendedSplashScreen` in XAML. The [**LoadingContentTemplate**](xref:Toolkit.Controls.LoadingView) property below is inherited from `LoadingView`. This property is used to define the content that will be displayed during the loading/waiting state.
+The following code snippet demonstrate a suggested pattern for using the `ExtendedSplashScreen`. The first step is to define a custom `UserControl` that will be used as the main shell for the application content. This control will be used to host the `ExtendedSplashScreen` and the main application content.
+
+`Shell.xaml`:
 
 ```xml
-<!-- xmlns:utu="using:Uno.Toolkit.UI" -->
+<UserControl x:Class="SplashScreenApp.Shell"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:SplashScreenApp"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:utu="using:Uno.Toolkit.UI"
+             mc:Ignorable="d">
 
-<utu:ExtendedSplashScreen x:Name="Splash"
-                          Platforms="Android,iOS">
-    <utu:ExtendedSplashScreen.LoadingContentTemplate>
-        <DataTemplate>
+    <utu:ExtendedSplashScreen x:Name="Splash"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch">
+        <utu:ExtendedSplashScreen.LoadingContent>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*" />
@@ -66,10 +77,46 @@ The example below demonstrates a typical use of `ExtendedSplashScreen` in XAML. 
                               Height="100"
                               Width="100" />
             </Grid>
-        </DataTemplate>
-    </utu:ExtendedSplashScreen.LoadingContentTemplate>
-</utu:ExtendedSplashScreen>
+        </utu:ExtendedSplashScreen.LoadingContent>
+        <utu:ExtendedSplashScreen.Content>
+            <Frame x:Name="ShellFrame" />
+        </utu:ExtendedSplashScreen.Content>
+    </utu:ExtendedSplashScreen>
+</UserControl>
 ```
+
+The `ExtendedSplashScreen` control's `LoadingContent` is used to display the splash screen and any custom content while the application is loading. The `Content` property is used to define the main application content that will be displayed after the loading state.
+
+Next, the `Shell` control should be used as the root visual for the `Window` in the `App.cs`.
+
+`App.cs`:
+
+```csharp
+protected override async void OnLaunched(LaunchActivatedEventArgs args)
+{
+    // Code ommited for brevity
+
+    if (MainWindow.Content is not Shell shell)
+    {
+        shell = new Shell();
+
+        MainWindow.Content = shell;
+
+        shell.RootFrame.NavigationFailed += OnNavigationFailed;
+    }
+
+    if (shell.RootFrame.Content == null)
+    {
+        shell.RootFrame.Navigate(typeof(MainPage), args.Arguments);
+    }
+
+    MainWindow.Activate();
+}
+```
+
+With these changes, the splash screen will be displayed while the application first launches, and the main application content will be displayed once the loading state is complete.
+
+In order to prolong the splash screen display, you can use set the `Source` property of the `ExtendedSplashScreen` control to any custom implementation of the `ILoadable` interface. More information on how to use the `ILoadable` interface can be found in the [`LoadingView`](xref:Toolkit.Controls.LoadingView#iloadable) documentation.
 
 ## Setup on Android
 
