@@ -1,19 +1,67 @@
 ---
 uid: Toolkit.GettingStarted.Cupertino
 ---
-# Uno Toolkit Cupertino Library
+# Uno Cupertino Toolkit Library
 
-The Uno.Toolkit.Cupertino library is available as NuGet packages that can be added to any new or existing Uno solution.
+The Uno Cupertino Toolkit library is available as NuGet packages that can be added to any new or existing Uno solution.
 
 ## Installation
 
-> [!NOTE]
-> As of [Uno Platform 4.7](https://platform.uno/blog/uno-platform-4-7-new-project-template-performance-improvements-and-more/), the solution template of the Uno app has changed. There is no longer a Shared project (.shproj), it has been replaced with a regular cross-platform library containing all user code files, referred to as the **App Code Library** project. This also implies that package references can be included in a single location without the previous need to include those in all project heads.
+### Creating a new project with the Uno Material Toolkit
 
-1. Open an existing Uno project, or create a new Uno project using the `Multi-Platform App (Uno Platform)` template.
-2. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
-3. Install the [**`Uno.Toolkit.WinUI.Cupertino`**](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Cupertino) package
-4. Add the resources to `AppResources.xaml`:
+1. Install the [`dotnet new` CLI templates](xref:Uno.GetStarted.dotnet-new) with:
+
+```bash
+dotnet new install Uno.Templates
+```
+
+2. Create a new application with:
+
+```bash
+dotnet new unoapp -o CupertinoToolkitApp -toolkit -theme cupertino
+```
+
+---
+
+### Installing Uno Cupertino Toolkit in an existing project
+
+Depending on the type of project template that the Uno Platform application was created with, follow the instructions below to install the Uno Cupertino Toolkit.
+
+# [**Single Project Template**](#tab/singleproj)
+
+1. Edit your project file (`PROJECT_NAME.csproj`) and add `Toolkit` and `Cupertino` to the list of `UnoFeatures`:
+
+    ```xml
+    <UnoFeatures>Toolkit;Cupertino</UnoFeatures>
+    ```
+
+2. Initialize the resources in the `App.xaml`:
+
+    ```xml
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <!-- Code ommitted of brevity -->
+
+                <!-- Load Cupertino resources -->
+                <CupertinoColors xmlns="using:Uno.Cupertino"  />
+                <CupertinoFonts xmlns="using:Uno.Cupertino"  />
+                <CupertinoResources xmlns="using:Uno.Cupertino" />
+
+                <!-- Load Cupertino Toolkit resources -->
+                <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+                <CupertinoToolkitResources xmlns="using:Uno.Toolkit.UI.Cupertino" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+    ```
+
+# [**Multi-Head Project Template**](#tab/multihead)
+
+1. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
+2. Install the [`Uno.Toolkit.WinUI.Cupertino`](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Cupertino)
+3. Add the resources to `AppResources.xaml`:
 
     ```xml
     <ResourceDictionary>
@@ -28,29 +76,23 @@ The Uno.Toolkit.Cupertino library is available as NuGet packages that can be add
             <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
             <CupertinoToolkitResources xmlns="using:Uno.Toolkit.UI.Cupertino" />
 
-            <!-- Load custom application resources -->
-            <!-- ... -->
-
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
     ```
 
-### Installing the Cupertino Toolkit on previous versions of Uno Platform
+# [**Shared Project (.shproj) Template**](#tab/shproj)
 
-If your application is based on the older solution template that includes a shared project (.shproj), follow these steps:
+1. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose either:
+     - The [`Uno.Toolkit.UI.Cupertino`](https://www.nuget.org/packages/Uno.Toolkit.UI.Cupertino/) package when targetting Xamarin/UWP
+     - The [`Uno.Toolkit.WinUI.Cupertino`](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Cupertino) package when targetting net6.0+/WinUI
 
-1. Open your existing Uno project
-2. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose either:
-    - The [**`Uno.Toolkit.UI.Cupertino`**](https://www.nuget.org/packages/Uno.Toolkit.UI.Cupertino) package when targetting Xamarin/UWP
-    - The [**`Uno.Toolkit.WinUI.Cupertino`**](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Cupertino) package when targetting net6.0+/WinUI
-
-3. Select the following projects for installation:
+2. Select the following projects for installation:
     - `PROJECT_NAME.Wasm.csproj`
-    - `PROJECT_NAME.Mobile.csproj` (or `PROJECT_NAME.iOS.csproj`, `PROJECT_NAME.Droid.csproj`, `PROJECT_NAME.macOS.csproj` if you have an existing project)
+    - `PROJECT_NAME.Mobile.csproj` (or `PROJECT_NAME.iOS.csproj`, `PROJECT_NAME.Droid.csproj`, and `PROJECT_NAME.macOS.csproj` if you have an existing project)
     - `PROJECT_NAME.Skia.Gtk.csproj`
     - `PROJECT_NAME.Skia.WPF.csproj`
     - `PROJECT_NAME.Windows.csproj` (or `PROJECT_NAME.UWP.csproj` for existing projects)
-4. Add the resources to `App.xaml`:
+3. Add the following resources inside `App.xaml`:
 
     ```xml
     <Application ...>
@@ -79,6 +121,8 @@ If your application is based on the older solution template that includes a shar
     </Application>
     ```
 
+---
+
 ## Customization
 
-For instructions on changing the default color palette or the font family, please refer to the [Customization section in Uno.Cupertino guide](https://platform.uno/docs/articles/external/uno.themes/doc/cupertino-getting-started.html#customization).
+For instructions on changing the default color palette or the font family, please refer to the [Uno Cupertino Customization guide](xref:Uno.Themes.Cupertino.GetStarted#customization).
