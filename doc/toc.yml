@@ -79,5 +79,5 @@
   # ***************** Reference\Styles **********************
   - name: Styles
     href: controls-styles.md
-  - name: Migrate to Uno Material v2
+  - name: Upgrading Material Toolkit
     href: material-migration.md
