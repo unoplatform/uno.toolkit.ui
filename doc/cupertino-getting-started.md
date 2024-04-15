@@ -27,7 +27,7 @@ dotnet new unoapp -o CupertinoToolkitApp -toolkit -theme cupertino
 
 Depending on the type of project template that the Uno Platform application was created with, follow the instructions below to install the Uno Cupertino Toolkit.
 
-# [**Single Project Template**](#tab/singleproj)
+#### [**Single Project Template**](#tab/singleproj)
 
 1. Edit your project file (`PROJECT_NAME.csproj`) and add `Toolkit` and `Cupertino` to the list of `UnoFeatures`:
 
@@ -57,7 +57,7 @@ Depending on the type of project template that the Uno Platform application was 
     </Application.Resources>
     ```
 
-# [**Multi-Head Project Template**](#tab/multihead)
+# [**Multi-Head Project Template (Legacy)**](#tab/multihead)
 
 1. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
 2. Install the [`Uno.Toolkit.WinUI.Cupertino`](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Cupertino)
@@ -80,7 +80,7 @@ Depending on the type of project template that the Uno Platform application was 
     </ResourceDictionary>
     ```
 
-# [**Shared Project (.shproj) Template**](#tab/shproj)
+#### [**Shared Project (.shproj) Template (Legacy)**](#tab/shproj)
 
 1. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose either:
      - The [`Uno.Toolkit.UI.Cupertino`](https://www.nuget.org/packages/Uno.Toolkit.UI.Cupertino/) package when targetting Xamarin/UWP

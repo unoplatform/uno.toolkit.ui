@@ -34,7 +34,7 @@ This article is a guide for installing the base Uno Toolkit library, additional 
 
     ![Toolkit selection in the Uno Platform Template Wizard](assets/toolkit-wizard.png)
 
-# [**CLI**](#tab/cli)
+#### [**CLI**](#tab/cli)
 
 1. Install the [`dotnet new` CLI templates](xref:Uno.GetStarted.dotnet-new) with:
 
@@ -54,7 +54,7 @@ dotnet new unoapp -o ToolkitApp -toolkit
 
 Depending on the type of project template that the Uno Platform application was created with, follow the instructions below to install Uno Toolkit.
 
-# [**Single Project Template**](#tab/singleproj)
+#### [**Single Project Template**](#tab/singleproj)
 
 1. Edit your project file (`PROJECT_NAME.csproj`) and add `Toolkit` to the list of `UnoFeatures`:
 
@@ -77,7 +77,7 @@ Depending on the type of project template that the Uno Platform application was 
     </Application.Resources>
     ```
 
-# [**Multi-Head Project Template**](#tab/multihead)
+# [**Multi-Head Project Template (Legacy)**](#tab/multihead)
 
 1. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
 2. Install the [`Uno.Toolkit.WinUI`](https://www.nuget.org/packages/Uno.Toolkit.WinUI)
@@ -93,7 +93,7 @@ Depending on the type of project template that the Uno Platform application was 
     </ResourceDictionary>
     ```
 
-# [**Shared Project (.shproj) Template**](#tab/shproj)
+# [**Shared Project (.shproj) Template (Legacy)**](#tab/shproj)
 
 1. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose either:
      - The [`Uno.Toolkit.UI`](https://www.nuget.org/packages/Uno.Toolkit.UI/) package when targetting Xamarin/UWP

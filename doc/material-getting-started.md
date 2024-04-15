@@ -36,7 +36,7 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 
 ### Creating a new project with the Uno Material Toolkit
 
-# [**Wizard**](#tab/wizard)
+#### [**Wizard**](#tab/wizard)
 
 1. Follow the steps in the [Getting Started with Visual Studio](xref:Uno.GettingStarted.CreateAnApp.VS2022#create-the-app) instructions to launch the Uno Platform Template Wizard.
 2. Select `Material` under the `Theme` section.
@@ -47,7 +47,7 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 
     ![Toolkit selection in the Uno Platform Template Wizard](assets/material-toolkit-wizard-feature.png)
 
-# [**CLI**](#tab/cli)
+#### [**CLI**](#tab/cli)
 
 1. Install the [`dotnet new` CLI templates](xref:Uno.GetStarted.dotnet-new) with:
 
@@ -67,7 +67,7 @@ dotnet new unoapp -o MaterialToolkitApp -toolkit -theme material
 
 Depending on the type of project template that the Uno Platform application was created with, follow the instructions below to install the Uno Material Toolkit.
 
-# [**Single Project Template**](#tab/singleproj)
+#### [**Single Project Template**](#tab/singleproj)
 
 1. Edit your project file (`PROJECT_NAME.csproj`) and add `Toolkit` and `Material` to the list of `UnoFeatures`:
 
@@ -90,7 +90,7 @@ Depending on the type of project template that the Uno Platform application was 
     </Application.Resources>
     ```
 
-# [**Multi-Head Project Template**](#tab/multihead)
+#### [**Multi-Head Project Template (Legacy)**](#tab/multihead)
 
 1. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
 2. Install the [`Uno.Toolkit.WinUI.Material`](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material)
@@ -106,7 +106,7 @@ Depending on the type of project template that the Uno Platform application was 
     </ResourceDictionary>
     ```
 
-# [**Shared Project (.shproj) Template**](#tab/shproj)
+#### [**Shared Project (.shproj) Template (Legacy)**](#tab/shproj)
 
 1. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose either:
      - The [`Uno.Toolkit.UI.Material`](https://www.nuget.org/packages/Uno.Toolkit.UI.Material/) package when targetting Xamarin/UWP
@@ -173,7 +173,7 @@ In `App.xaml`, use the `FontOverrideSource` property on `MaterialToolkitTheme`:
 The Uno Material Toolkit library also has support for C# Markup through a [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet Package.
 
 To get started with the Uno Material Toolkit in your C# Markup application, add the `Uno.Toolkit.WinUI.Material.Markup` NuGet package to your application project.
-Then, add the following code to your `App.cs`:
+Then, add the following code to your `App.xaml.cs`:
 
 ```csharp
 using Uno.Toolkit.UI.Material.Markup;
@@ -187,7 +187,7 @@ this.Build(r => r.UseMaterialToolkit(
 ```
 
 > [!NOTE]
-> The [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package includes the base [Uno Toolkit Markup package](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup) as a dependency. Therefore, there is no need to add the `Uno.Toolkit.WinUI.Markup` package separately. Furthermore, the `UseMaterialToolkit` extension method also initializes the base Uno Toolkit library, so there is no need to call the `UseToolkit` extension method in your `App.cs`.
+> The [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet package includes the base [Uno Toolkit Markup package](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Markup) as a dependency. Therefore, there is no need to add the `Uno.Toolkit.WinUI.Markup` package separately. Furthermore, the `UseMaterialToolkit` extension method also initializes the base Uno Toolkit library, so there is no need to call the `UseToolkit` extension method in your `App.xaml.cs`.
 
 ## Additional Resources
 
