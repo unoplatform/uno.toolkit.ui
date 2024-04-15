@@ -27,7 +27,7 @@ This article is a guide for installing the base Uno Toolkit library, additional 
 
 ### Creating a new project with Uno Toolkit
 
-# [**Wizard**](#tab/wizard)
+#### [**Wizard**](#tab/wizard)
 
 1. Follow the steps in the [Getting Started with Visual Studio](xref:Uno.GettingStarted.CreateAnApp.VS2022#create-the-app) instructions to launch the Uno Platform Template Wizard.
 2. Select `Toolkit` under the `Features` section.
