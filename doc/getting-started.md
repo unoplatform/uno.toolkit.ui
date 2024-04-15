@@ -77,7 +77,7 @@ Depending on the type of project template that the Uno Platform application was 
     </Application.Resources>
     ```
 
-# [**Multi-Head Project Template (Legacy)**](#tab/multihead)
+#### [**Multi-Head Project Template (Legacy)**](#tab/multihead)
 
 1. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
 2. Install the [`Uno.Toolkit.WinUI`](https://www.nuget.org/packages/Uno.Toolkit.WinUI)
@@ -93,7 +93,7 @@ Depending on the type of project template that the Uno Platform application was 
     </ResourceDictionary>
     ```
 
-# [**Shared Project (.shproj) Template (Legacy)**](#tab/shproj)
+#### [**Shared Project (.shproj) Template (Legacy)**](#tab/shproj)
 
 1. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose either:
      - The [`Uno.Toolkit.UI`](https://www.nuget.org/packages/Uno.Toolkit.UI/) package when targetting Xamarin/UWP

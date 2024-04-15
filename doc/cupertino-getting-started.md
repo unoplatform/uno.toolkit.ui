@@ -60,7 +60,7 @@ Depending on the type of project template that the Uno Platform application was 
     </Application.Resources>
     ```
 
-# [**Multi-Head Project Template (Legacy)**](#tab/multihead)
+#### [**Multi-Head Project Template (Legacy)**](#tab/multihead)
 
 1. In the Solution Explorer panel, right-click on your app's **App Code Library** project (`PROJECT_NAME.csproj`) and select `Manage NuGet Packages...`
 2. Install the [`Uno.Toolkit.WinUI.Cupertino`](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Cupertino)
