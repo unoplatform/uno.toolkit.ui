@@ -85,7 +85,7 @@ Depending on the type of project template that the Uno Platform application was 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
-                <!-- Code ommitted of brevity -->
+                <!-- Code omitted of brevity -->
 
                 <MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material" />
             </ResourceDictionary.MergedDictionaries>

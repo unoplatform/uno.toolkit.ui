@@ -69,7 +69,7 @@ Depending on the type of project template that the Uno Platform application was 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
-                <!-- Code ommitted of brevity -->
+                <!-- Code omitted of brevity -->
 
                 <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
             </ResourceDictionary.MergedDictionaries>
