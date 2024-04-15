@@ -54,15 +54,15 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 
 1. Install the [`dotnet new` CLI templates](xref:Uno.GetStarted.dotnet-new) with:
 
-```bash
-dotnet new install Uno.Templates
-```
+    ```bash
+    dotnet new install Uno.Templates
+    ```
 
 2. Create a new application with:
 
-```bash
-dotnet new unoapp -o MaterialToolkitApp -toolkit -theme material
-```
+    ```bash
+    dotnet new unoapp -o MaterialToolkitApp -toolkit -theme material
+    ```
 
 ---
 

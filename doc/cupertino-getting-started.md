@@ -14,15 +14,15 @@ The Uno Cupertino Toolkit library is available as NuGet packages that can be add
 
 1. Install the [`dotnet new` CLI templates](xref:Uno.GetStarted.dotnet-new) with:
 
-```bash
-dotnet new install Uno.Templates
-```
+    ```bash
+    dotnet new install Uno.Templates
+    ```
 
 2. Create a new application with:
 
-```bash
-dotnet new unoapp -o CupertinoToolkitApp -toolkit -theme cupertino
-```
+    ```bash
+    dotnet new unoapp -o CupertinoToolkitApp -toolkit -theme cupertino
+    ```
 
 ---
 

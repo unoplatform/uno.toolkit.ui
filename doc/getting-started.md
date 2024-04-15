@@ -38,15 +38,15 @@ This article is a guide for installing the base Uno Toolkit library, additional 
 
 1. Install the [`dotnet new` CLI templates](xref:Uno.GetStarted.dotnet-new) with:
 
-```bash
-dotnet new install Uno.Templates
-```
+    ```bash
+    dotnet new install Uno.Templates
+    ```
 
 2. Create a new application with:
 
-```bash
-dotnet new unoapp -o ToolkitApp -toolkit
-```
+    ```bash
+    dotnet new unoapp -o ToolkitApp -toolkit
+    ```
 
 ---
 
