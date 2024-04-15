@@ -25,6 +25,9 @@ dotnet new unoapp -o CupertinoToolkitApp -toolkit -theme cupertino
 
 ### Installing Uno Cupertino Toolkit in an existing project
 
+> [!NOTE]
+> Make sure to setup your environment first by [following our instructions](xref:Uno.GetStarted.vs2022).
+
 Depending on the type of project template that the Uno Platform application was created with, follow the instructions below to install the Uno Cupertino Toolkit.
 
 #### [**Single Project Template**](#tab/singleproj)
