@@ -7,6 +7,9 @@ The Uno Cupertino Toolkit library is available as NuGet packages that can be add
 
 ## Installation
 
+> [!NOTE]
+> Make sure to setup your environment first by [following our instructions](xref:Uno.GetStarted.vs2022).
+
 ### Creating a new project with the Uno Material Toolkit
 
 1. Install the [`dotnet new` CLI templates](xref:Uno.GetStarted.dotnet-new) with:
@@ -24,9 +27,6 @@ dotnet new unoapp -o CupertinoToolkitApp -toolkit -theme cupertino
 ---
 
 ### Installing Uno Cupertino Toolkit in an existing project
-
-> [!NOTE]
-> Make sure to setup your environment first by [following our instructions](xref:Uno.GetStarted.vs2022).
 
 Depending on the type of project template that the Uno Platform application was created with, follow the instructions below to install the Uno Cupertino Toolkit.
 

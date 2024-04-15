@@ -34,10 +34,10 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 
 ## Installation
 
-### Creating a new project with the Uno Material Toolkit
-
 > [!NOTE]
 > Make sure to setup your environment first by [following our instructions](xref:Uno.GetStarted.vs2022).
+
+### Creating a new project with the Uno Material Toolkit
 
 #### [**Wizard**](#tab/wizard)
 
