@@ -420,7 +420,7 @@ Only supports `BitmapImage` on iOS/Android
 | `NavigationBarForeground`                                              | `SolidColorBrush` | OnSurfaceBrush                          |
 | `NavigationBarBackground`                                              | `SolidColorBrush` | SurfaceBrush                            |
 | `NavigationBarPadding`                                                 | `Thickness`       | 4,0,0,0                                 |
-| `NavigationBarFontFamily`                                              | `FontFamily`      | MaterialRegularFontFamily               |
+| `NavigationBarFontFamily`                                              | `FontFamily`      | TitleLargeFontFamily                    |
 | `NavigationBarFontWeight`                                              | `String`          | TitleLargeFontWeight                    |
 | `NavigationBarFontSize`                                                | `Double`          | TitleLargeFontSize                      |
 | `MaterialModalNavigationBarMainCommandForeground`                      | `SolidColorBrush` | OnSurfaceBrush                          |

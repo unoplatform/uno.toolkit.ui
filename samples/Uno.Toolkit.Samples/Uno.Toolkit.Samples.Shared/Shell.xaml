@@ -66,8 +66,10 @@
 					HorizontalAlignment="Center"
 					VerticalAlignment="Bottom">
 			<StackPanel Orientation="Horizontal">
-				<Button Content="DebugVT" Click="DebugVT" />
-				<Button Content="T" Click="DebugVTAsync" />
+				<Button Content="DebugVT"
+						Click="DebugVT" />
+				<Button Content="T"
+						Click="DebugVTAsync" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>

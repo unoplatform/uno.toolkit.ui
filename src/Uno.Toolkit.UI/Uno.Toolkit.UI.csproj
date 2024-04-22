@@ -18,6 +18,11 @@
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 	</PropertyGroup>
 
+	<!-- Undo this as part of https://github.com/unoplatform/uno.toolkit.ui/issues/1078 once we update to Uno 5.1+ -->
+	<PropertyGroup>
+		<DefineConstants Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == ''">$(DefineConstants);__SKIA_OR_WASM__</DefineConstants>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\Uno.Toolkit\Uno.Toolkit.csproj" />
 	</ItemGroup>
@@ -56,6 +61,10 @@
 
 	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
 		<Using Include="Uno.Toolkit.UI" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='net7.0-android'">
+	  <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" />
 	</ItemGroup>
 
 	<Import Project="xamlmerge-toolkit.props" />

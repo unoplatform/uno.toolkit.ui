@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.Samples.Content.Controls;
 
-[SamplePage(SampleCategory.Behaviors, nameof(ItemsRepeaterExtensions), SourceSdk.UnoToolkit, DataType = typeof(ViewModel))]
+[SamplePage(SampleCategory.Behaviors, "IR Selection", SourceSdk.UnoToolkit, DataType = typeof(ViewModel))]
 public sealed partial class ItemsRepeaterExtensionsSamplePage : Page
 {
 	public ItemsRepeaterExtensionsSamplePage()

@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Uno.Disposables;
 using Uno.Extensions;
-using Windows.ApplicationModel.Activation;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,7 +29,7 @@ public partial class ExtendedSplashScreen : LoadingView
 		new PropertyMetadata(SplashScreenPlatform.All));
 
 	/// <summary>
-	/// Gets or sets the list of platforms where extended splash screen should be used.
+	/// Gets or sets the platform(s) where extended splash screen should be used.
 	/// </summary>
 	public SplashScreenPlatform Platforms
 	{
@@ -38,8 +37,6 @@ public partial class ExtendedSplashScreen : LoadingView
 		set => SetValue(PlatformsProperty, value);
 	}
 	#endregion
-
-	public SplashScreen? SplashScreen { get; set; }
 
 	#region DependencyProperty: SplashScreenContent
 	internal static DependencyProperty SplashScreenContentProperty { get; } = DependencyProperty.Register(
@@ -58,6 +55,8 @@ public partial class ExtendedSplashScreen : LoadingView
 	}
 	#endregion
 
+	protected static ExtendedSplashScreen? Instance { get; private set; }
+
 	public
 #if __IOS__ || __MACOS__ // hides UIView.Window and NSView.Window
 	new
@@ -65,6 +64,13 @@ public partial class ExtendedSplashScreen : LoadingView
 Window? Window
 	{ get; set; }
 
+	public ExtendedSplashScreen()
+	{
+		Instance = this;
+		InitPartial();
+	}
+
+	partial void InitPartial();
 
 	protected override void OnApplyTemplate()
 	{
@@ -80,7 +86,7 @@ Window? Window
 
 	private async Task LoadNativeSplashScreen()
 	{
-		var splashScreenContent = await GetNativeSplashScreen(SplashScreen);
+		var splashScreenContent = await GetNativeSplashScreen();
 
 		if (splashScreenContent is not null)
 		{
@@ -89,15 +95,4 @@ Window? Window
 			SplashScreenContent = splashScreenContent;
 		}
 	}
-
-
-#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP) && !NETSTANDARD2_0
-	private static Task<FrameworkElement?> GetNativeSplashScreen(SplashScreen? splashScreen)
-	{
-		return Task.FromResult<FrameworkElement?>(null);
-	}
-
-	public bool SplashIsEnabled => (Platforms & SplashScreenPlatform.All) != 0;
-#endif
-
 }

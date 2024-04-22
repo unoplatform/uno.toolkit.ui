@@ -1,0 +1,5 @@
+<Project>
+	<ItemGroup Condition=" ('$(ImplicitUsings)' == 'true' OR '$(ImplicitUsings)' == 'enable') AND '$(UnoDisableToolkitCupertinoImplicitUsings)' != 'true'  ">
+		<Using Include="Uno.Toolkit.UI.Cupertino" />
+	</ItemGroup>
+</Project>

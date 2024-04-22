@@ -10,12 +10,21 @@ using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 using static Uno.Toolkit.RuntimeTests.Tests.ItemsRepeaterChipTests; // to borrow helper methods
+using Uno.Extensions;
+using Uno.Toolkit.RuntimeTests.Extensions;
+
+
+#if IS_WINUI
+using Microsoft.UI.Xaml.Data;
+#else
+using Windows.UI.Xaml.Data;
+#endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class ItemsRepeaterExtensionTests
+internal partial class ItemsRepeaterExtensionTests
 {
 	[TestMethod]
 	[DataRow(nameof(ItemsRepeaterExtensions.SelectedItemProperty))]

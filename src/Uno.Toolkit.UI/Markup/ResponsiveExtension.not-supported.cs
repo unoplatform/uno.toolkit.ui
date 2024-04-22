@@ -1,6 +1,7 @@
 ﻿#if WINDOWS_UWP
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,5 +37,16 @@ public partial class ResponsiveExtension : MarkupExtension
 		_logger.WarnIfEnabled(() => "This xaml markup extension is not supported on UWP. Consider upgrading to WinUI.");
 		return null;
 	}
+
+	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "blank method needed uwp build")]
+	internal void InitializeByProxy(FrameworkElement proxyHost) { }
+}
+public partial class ResponsiveExtension
+{
+	internal static List<(WeakReference Owner, string Property, WeakReference Extension)> TrackedInstances { get; } = new();
+
+	internal static ResponsiveExtension[] GetAllInstancesFor(DependencyObject owner) => Array.Empty<ResponsiveExtension>();
+
+	internal static ResponsiveExtension? GetInstanceFor(DependencyObject owner, string property) => null;
 }
 #endif

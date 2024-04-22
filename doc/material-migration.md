@@ -2,9 +2,42 @@
 uid: Toolkit.Migration.Material2.0
 ---
 
-# Updating Material Toolkit Version
+# Upgrading Material Toolkit Version
 
-## Updating to Material Toolkit v4
+## Upgrading to Material Toolkit v6
+
+Material Toolkit v6 contains a dependency on [Uno Material](Uno.Themes.Material.GetStarted) which, as of its v5 release, introduces breaking changes that can affect applications using the Material Toolkit. Refer to the [Uno Material v5 upgrade documentation](xref:Uno.Themes.Material.Migration#upgrading-to-uno-themes-v50) for further information.
+
+### Opacity and brushes
+
+The opacity values of certain brushes have been adjusted in Uno Material v5. The following table shows the changes in opacity values:
+
+| Opacity variant | Old Value | New Value |
+|-----------------|-----------|-----------|
+| Medium          | 0.54      | 0.64      |
+| Disabled        | 0.38      | 0.12      |
+| DisabledLow     | 0.12      | *removed* |
+
+Existing explicit references to `-DisabledLow` resources have been updated to use `-Disabled`.
+
+### Markup Theme class name
+
+The `Theme` class in the `Uno.Toolkit.UI.Markup` has been renamed to `ToolkitTheme` in order to no longer clash with the `Theme` class from `Uno.Themes.Markup`.
+
+This affects all references to the `Theme` class in the `Uno.Toolkit.UI.Markup` namespace, which are outlined in the table below:
+
+| Class                  | Old                          | New                                                               |
+|------------------------|------------------------------|-------------------------------------------------------------------|
+| `Card`                 | `Theme.Card.*`               | `ToolkitTheme.Card.*`                                             |
+| `CardContentControl`   | `Theme.CardContentControl.*` | `ToolkitTheme.CardContentControl.*`                               |
+| `Chip`                 | `Theme.Chip.*`               | `ToolkitTheme.Chip.*`                                             |
+| `ChipGroup`            | `Theme.ChipGroup.*`          | `ToolkitTheme.ChipGroup.*`                                        |
+| `Divider`              | `Theme.Divider.*`            | `ToolkitTheme.Divider.*`                                          |
+| `NavigationBar`        | `Theme.NavigationBar.*`      | `ToolkitTheme.NavigationBar.*`                                    |
+| `TabBar`               | `Theme.TabBar.*`             | `ToolkitTheme.TabBar.*`                                           |
+| `TabBar`               | `Theme.TabBarItem.*`         | `ToolkitTheme.TabBarItem.*`                                       |
+
+## Upgrading to Material Toolkit v4
 
 Material Toolkit v4 introduces support for [Lightweight Styling](lightweight-styling.md) and, as a result, many resource keys have been added as well as renamed. For a list of all the new resource keys, please refer to the [Lightweight Styling documentation](lightweight-styling.md#resource-keys).
 
@@ -21,7 +54,7 @@ Along with the above list of new resource keys, below is a list of the resource 
 | `MaterialChipCornerRadius`                    | `ChipCornerRadius`              | 8                                                                 |
 | `MaterialChipIconSize`                        | `ChipIconSize`                  | 18                                                                |
 | `MaterialChipElevation`                       | `ChipElevation`                 | 4                                                                 |
-| `M3MateriaChipCheckGlyphSize`                 | **_REMOVED_**                   | 20                                                                |
+| `M3MateriaChipCheckGlyphSize`                 | ***REMOVED***                   | 20                                                                |
 | `MaterialChipBorderThickness`                 | `ChipBorderThickness`           | 1                                                                 |
 | `MaterialChipDeleteIconLength`                | `ChipDeleteIconLength`          | 11                                                                |
 | `MaterialChipDeleteIconContainerLength`       | `ChipDeleteIconContainerLength` | 18                                                                |
@@ -33,21 +66,21 @@ Along with the above list of new resource keys, below is a list of the resource 
 | `MaterialChipDisabledForeground`              | `ChipForegroundDisabled`        | `OnSurfaceDisabledBrush`                                          |
 | `MaterialChipIconDisabledForeground`          | `ChipIconForegroundDisabled`    | `OnSurfaceDisabledBrush`                                          |
 | `MaterialChipIconForeground`                  | `ChipIconForeground`            | `PrimaryBrush`                                                    |
-| `MaterialChipSelectedPressedForeground`       | **_REMOVED_**                   | `OnSecondaryContainerBrush`                                       |
-| `MaterialChipSelectedFocusedForeground`       | **_REMOVED_**                   | `OnSecondaryContainerBrush`                                       |
-| `MaterialChipSelectedPointerOverForeground`   | **_REMOVED_**                   | `OnSecondaryContainerBrush`                                       |
-| `MaterialChipSelectedForeground`              | **_REMOVED_**                   | `OnSecondaryContainerBrush`                                       |
+| `MaterialChipSelectedPressedForeground`       | ***REMOVED***                   | `OnSecondaryContainerBrush`                                       |
+| `MaterialChipSelectedFocusedForeground`       | ***REMOVED***                   | `OnSecondaryContainerBrush`                                       |
+| `MaterialChipSelectedPointerOverForeground`   | ***REMOVED***                   | `OnSecondaryContainerBrush`                                       |
+| `MaterialChipSelectedForeground`              | ***REMOVED***                   | `OnSecondaryContainerBrush`                                       |
 | `MaterialChipPressedForeground`               | `ChipForegroundPressed`         | `OnSurfaceVariantBrush`                                           |
 | `MaterialChipFocusedForeground`               | `ChipForegroundFocused`         | `OnSurfaceVariantBrush` -> `SystemControlTransparentBrush`        |
 | `MaterialChipPointerOverForeground`           | `ChipForegroundPointerOver`     | `OnSurfaceVariantBrush`                                           |
 | `MaterialChipForeground`                      | `ChipForeground`                | `OnSurfaceVariantBrush`                                           |
-| `MaterialChipSelectedPressedStateOverlay`     | **_REMOVED_**                   | `OnSecondaryContainerSelectedBrush`                               |
-| `MaterialChipSelectedFocusedStateOverlay`     | **_REMOVED_**                   | `OnSecondaryContainerFocusedBrush`                                |
-| `MaterialChipSelectedPointerOverStateOverlay` | **_REMOVED_**                   | `OnSecondaryContainerHoverBrush`                                  |
+| `MaterialChipSelectedPressedStateOverlay`     | ***REMOVED***                   | `OnSecondaryContainerSelectedBrush`                               |
+| `MaterialChipSelectedFocusedStateOverlay`     | ***REMOVED***                   | `OnSecondaryContainerFocusedBrush`                                |
+| `MaterialChipSelectedPointerOverStateOverlay` | ***REMOVED***                   | `OnSecondaryContainerHoverBrush`                                  |
 | `MaterialChipPressedStateOverlay`             | `ChipStateOverlayPressed`       | `OnSurfaceVariantPressedBrush`                                    |
 | `MaterialChipFocusedStateOverlay`             | `ChipStateOverlayFocused`       | `OnSurfaceVariantFocusedBrush` -> `SystemControlTransparentBrush` |
 | `MaterialChipPointerOverStateOverlay`         | `ChipStateOverlayPointerOver`   | `OnSurfaceVariantHoverBrush`                                      |
-| `MaterialChipSelectedBackground`              | **_REMOVED_**                   | `SecondaryContainerBrush`                                         |
+| `MaterialChipSelectedBackground`              | ***REMOVED***                   | `SecondaryContainerBrush`                                         |
 | `MaterialChipBackground`                      | `ChipBackground`                | `SystemControlTransparentBrush`                                   |
 
 ### Divider
@@ -83,7 +116,7 @@ Along with the above list of new resource keys, below is a list of the resource 
 | `MaterialNavigationTabBarItemIconHeight`                  | `NavigationTabBarItemIconHeight`                  | 18        |
 | `MaterialNavigationTabBarWidthOrHeight`                   | `NavigationTabBarWidthOrHeight`                   | 80        |
 
-## Updating Material Toolkit to Uno Material v2
+## Upgrading Material Toolkit to Uno Material v2
 
 Starting with version 2.0.0 of the [Uno.Toolkit.UI.Material](https://www.nuget.org/packages/Uno.Toolkit.UI.Material/2.0.0) and [Uno.Toolkit.WinUI.Material](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material/2.0.0) packages, users can now take advantage of the new [Material Design 3](https://m3.material.io/) design system from Google.
 Along with the new Material Design 3 styles, our Material Toolkit NuGet packages will continue to support the previous Material Design 2 styles. In order to achieve this backward compatibility, we have had to make some changes to the way the Material toolkit is initialized within your `App.xaml`.
@@ -102,7 +135,7 @@ Along with the new Material Design 3 styles, our Material Toolkit NuGet packages
 > In order to continue using the v1 styles, some changes are required in your `App.xaml`.
 
 <!-- TODO: Use xref link. For some reason, it currently doesn't work. -->
-Since the Material Toolkit has a dependency on the Uno Material library, it is required to first follow the steps in the **_Continue Using v1 Styles_** section of the [Uno Material v2 migration documentation](https://platform.uno/docs/articles/external/uno.themes/doc/material-migration.html).
+Since the Material Toolkit has a dependency on the Uno Material library, it is required to first follow the steps in the ***Continue Using v1 Styles*** section of the [Uno Material v2 migration documentation](https://platform.uno/docs/articles/external/uno.themes/doc/material-migration.html).
 
 The Material Toolkit v2 NuGet package contains both sets of v1 and v2 styles. Within your `App.xaml`, you will need to replace the reference to `MaterialToolkitResources` with `MaterialToolkitResourcesV1`.
 

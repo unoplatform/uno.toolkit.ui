@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Uno.UI.Extensions;
@@ -41,7 +41,7 @@ namespace Uno.Toolkit.UI
 			if (d is FrameworkElement element &&
 				e.NewValue is bool isActive)
 			{
-				foreach (var item in element.GetChildren())
+				foreach (var item in element.GetDescendants())
 				{
 					if (item is ProgressRing progressRing)
 					{

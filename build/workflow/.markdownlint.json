@@ -5,5 +5,6 @@
 	"no-bare-urls": false,
 	"no-inline-html": false,
 	"no-duplicate-heading": false,
-	"no-emphasis-as-heading": false
+	"no-emphasis-as-heading": false,
+	"MD051": false
 }
