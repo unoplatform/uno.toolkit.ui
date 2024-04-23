@@ -5,6 +5,17 @@ uid: Toolkit.Controls.ExtendedSplashScreen
 
 Represents a control, derived from [`LoadingView`](xref:Toolkit.Controls.LoadingView) that continues to display the native splash screen for an extended amount of time, allowing the application to fully load the UI. See [`LoadingView`](xref:Toolkit.Controls.LoadingView) for Properties and other Members that are inherited.
 
+<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/jMI4E2e9gYE"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    </iframe>
+</div>
+
 ## Properties
 
 | Property          | Type                   | Description                                                                                                                                                                                                                                          |
