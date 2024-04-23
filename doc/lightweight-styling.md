@@ -5,6 +5,17 @@ uid: Toolkit.LightweightStyling
 
 For general information about [lightweight styling](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling), check out [Lightweight Styling in Uno.Themes](xref:uno.themes.lightweightstyling).
 
+<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/5CsJHMTlNAw"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    </iframe>
+</div>
+
 ## Example
 
 ```xml
