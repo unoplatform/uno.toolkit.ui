@@ -6,6 +6,17 @@ uid: Toolkit.Helpers.ResourceExtensions
 
 This extension facilitates assigning a specific `ResourceDictionary` directly to a control's style. It simplifies [lightweight styling](../lightweight-styling.md) by eliminating the necessity to declare each resource on the page explicitly, enabling the easy creation of diverse visual elements with shared styles but varied attributes. The extension also supports the reuse of resource dictionaries across different control styles, enhancing consistency and efficiency in the UI design process.
 
+<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/OwQkYSlowfU"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    </iframe>
+</div>
+
 ## Attached Properties
 
 | Property    | Type                 | Description                                                                |
