@@ -11,6 +11,12 @@ using Uno.Logging;
 using Windows.System;
 using Windows.UI.ViewManagement;
 
+#if __ANDROID__
+using Android.Views.InputMethods;
+#elif __IOS__
+using UIKit;
+#endif
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -27,10 +33,36 @@ namespace Uno.Toolkit.UI
 	{
 		private static readonly ILogger _logger = typeof(InputExtensions).Log();
 
+		public enum ReturnType {
+			Default,
+			Done,
+			Go,
+			Next,
+			Search,
+			Send
+		}
+
+		#region DependencyProperty: ReturnType
+
+		/// <summary>
+		/// Backing property for what type of return the soft keyboard will show.
+		/// </summary>
+		public static DependencyProperty ReturnTypeProperty { [DynamicDependency(nameof(GetReturnType))] get; } = DependencyProperty.RegisterAttached(
+			"ReturnType",
+			typeof(ReturnType),
+			typeof(InputExtensions),
+			new PropertyMetadata(ReturnType.Default, OnReturnTypeChanged));
+
+		[DynamicDependency(nameof(SetReturnType))]
+		public static ReturnType GetReturnType(DependencyObject obj) => (ReturnType)obj.GetValue(ReturnTypeProperty);
+		[DynamicDependency(nameof(GetReturnType))]
+		public static void SetReturnType(DependencyObject obj, ReturnType value) => obj.SetValue(ReturnTypeProperty, value);
+
+		#endregion
 		#region DependencyProperty: AutoDismiss
 
 		/// <summary>
-		/// Backing property for whether the soft-keyboard will be dismissed when the enter key is pressed.
+		/// Backing property for whether the soft keyboard will be dismissed when the enter key is pressed.
 		/// </summary>
 		public static DependencyProperty AutoDismissProperty { [DynamicDependency(nameof(GetAutoDismiss))] get; } = DependencyProperty.RegisterAttached(
 			"AutoDismiss",
@@ -109,6 +141,36 @@ namespace Uno.Toolkit.UI
 			return host is TextBox || host is PasswordBox;
 		}
 
+		private static void OnReturnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (sender is Control control && (sender is TextBox || sender is PasswordBox) && e.NewValue is ReturnType returnType)
+			{
+#if __ANDROID__
+				ImeAction imeAction = GetImeActionFromReturnType(returnType);
+
+				if (control is TextBox textBox)
+				{
+					textBox.ImeOptions = imeAction;
+				}
+				else if (control is PasswordBox passwordBox)
+				{
+					passwordBox.ImeOptions = imeAction;
+				}
+#elif __IOS__
+				UIReturnKeyType returnKeyType = GetReturnKeyTypeFromReturnType(returnType);
+
+				if (control is TextBox textBox)
+				{
+					textBox.ReturnKeyType = returnKeyType;
+				}
+				else if (control is PasswordBox passwordBox)
+				{
+					passwordBox.ReturnKeyType = returnKeyType;
+				}
+#endif
+			}
+		}
+
 		private static void OnAutoDismissChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
 		private static void OnAutoFocusNextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
 		private static void OnAutoFocusNextElementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
@@ -177,5 +239,37 @@ namespace Uno.Toolkit.UI
 				_ => default,
 			};
 		}
+
+#if __ANDROID__
+		private static ImeAction GetImeActionFromReturnType(ReturnType returnType)
+		{
+			switch (returnType)
+			{
+				case ReturnType.Next: return ImeAction.Next;
+				case ReturnType.Go: return ImeAction.Go;
+				case ReturnType.Search: return ImeAction.Search;
+				case ReturnType.Send: return ImeAction.Send;
+				case ReturnType.Done: return ImeAction.Done;
+				case ReturnType.Default:
+				default: return ImeAction.Unspecified;
+			}
+		}
+#endif
+
+#if __IOS__
+		private static UIReturnKeyType GetReturnKeyTypeFromReturnType(ReturnType returnType)
+		{
+			switch (returnType)
+			{
+			    case ReturnType.Next: return UIReturnKeyType.Next;
+				case ReturnType.Go: return UIReturnKeyType.Go;
+				case ReturnType.Search: return UIReturnKeyType.Search;
+				case ReturnType.Send: return UIReturnKeyType.Send;
+				case ReturnType.Done: return UIReturnKeyType.Done;
+				case ReturnType.Default:
+				default: return UIReturnKeyType.Default;
+			}
+		}
+#endif
 	}
 }
