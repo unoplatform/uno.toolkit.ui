@@ -99,7 +99,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				SelectedItem = 1,
 			};
 
-
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
 			Assert.AreEqual(source[1], SUT.SelectedItem);
