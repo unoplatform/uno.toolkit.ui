@@ -234,7 +234,7 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			var newlySelectedItem = SelectedItem as TabBarItem;
+			var newlySelectedItem = this.FindContainer<TabBarItem>(SelectedItem);
 			if (!IsReady && newlySelectedItem != null)
 			{
 				return;
