@@ -143,27 +143,31 @@ namespace Uno.Toolkit.UI
 
 		private static void OnReturnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (sender is Control control && (sender is TextBox || sender is PasswordBox) && e.NewValue is ReturnType returnType)
+			if (sender is TextBox || sender is PasswordBox)
 			{
+				if (e.NewValue is not ReturnType returnType)
+				{
+					returnType = ReturnType.Default;
+				}
 #if __ANDROID__
 				ImeAction imeAction = GetImeActionFromReturnType(returnType);
 
-				if (control is TextBox textBox)
+				if (sender is TextBox textBox)
 				{
 					textBox.ImeOptions = imeAction;
 				}
-				else if (control is PasswordBox passwordBox)
+				else if (sender is PasswordBox passwordBox)
 				{
 					passwordBox.ImeOptions = imeAction;
 				}
 #elif __IOS__
 				UIReturnKeyType returnKeyType = GetReturnKeyTypeFromReturnType(returnType);
 
-				if (control is TextBox textBox)
+				if (sender is TextBox textBox)
 				{
 					textBox.ReturnKeyType = returnKeyType;
 				}
-				else if (control is PasswordBox passwordBox)
+				else if (sender is PasswordBox passwordBox)
 				{
 					passwordBox.ReturnKeyType = returnKeyType;
 				}
@@ -241,35 +245,27 @@ namespace Uno.Toolkit.UI
 		}
 
 #if __ANDROID__
-		private static ImeAction GetImeActionFromReturnType(ReturnType returnType)
+		private static ImeAction GetImeActionFromReturnType(ReturnType returnType) => returnType switch
 		{
-			switch (returnType)
-			{
-				case ReturnType.Next: return ImeAction.Next;
-				case ReturnType.Go: return ImeAction.Go;
-				case ReturnType.Search: return ImeAction.Search;
-				case ReturnType.Send: return ImeAction.Send;
-				case ReturnType.Done: return ImeAction.Done;
-				case ReturnType.Default:
-				default: return ImeAction.Unspecified;
-			}
-		}
+			ReturnType.Next => ImeAction.Next,
+			ReturnType.Go => ImeAction.Go,
+			ReturnType.Search => ImeAction.Search,
+			ReturnType.Send => ImeAction.Send,
+			ReturnType.Done => ImeAction.Done,
+			ReturnType.Default or _ => ImeAction.Unspecified
+		};
 #endif
 
 #if __IOS__
-		private static UIReturnKeyType GetReturnKeyTypeFromReturnType(ReturnType returnType)
+		private static UIReturnKeyType GetReturnKeyTypeFromReturnType(ReturnType returnType) => returnType switch
 		{
-			switch (returnType)
-			{
-			    case ReturnType.Next: return UIReturnKeyType.Next;
-				case ReturnType.Go: return UIReturnKeyType.Go;
-				case ReturnType.Search: return UIReturnKeyType.Search;
-				case ReturnType.Send: return UIReturnKeyType.Send;
-				case ReturnType.Done: return UIReturnKeyType.Done;
-				case ReturnType.Default:
-				default: return UIReturnKeyType.Default;
-			}
-		}
+			ReturnType.Next => UIReturnKeyType.Next,
+			ReturnType.Go => UIReturnKeyType.Go,
+			ReturnType.Search => UIReturnKeyType.Search,
+			ReturnType.Send => UIReturnKeyType.Send,
+			ReturnType.Done => UIReturnKeyType.Done,
+			ReturnType.Default or _ => UIReturnKeyType.Default
+		};
 #endif
 	}
 }
