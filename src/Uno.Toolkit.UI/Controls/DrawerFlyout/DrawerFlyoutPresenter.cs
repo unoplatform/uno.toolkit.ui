@@ -525,7 +525,7 @@ namespace Uno.Toolkit.UI
         {
             if (this.FindFirstParent<FlyoutPresenter>() is FlyoutPresenter flyoutPresenter)
             {
-                return VisualTreeHelper.GetOpenPopups(XamlWindow.Current).FirstOrDefault(x => x.Child == flyoutPresenter);
+                return VisualTreeHelper.GetOpenPopupsForXamlRoot(XamlRoot).FirstOrDefault(x => x.Child == flyoutPresenter);
             }
 
             return default;
