@@ -521,21 +521,15 @@ namespace Uno.Toolkit.UI
 			return UseNegativeTranslation() ? -GetActualDrawerLength() : GetActualDrawerLength();
 		}
 
-		private Popup FindHostPopup()
-		{
-			if (VisualTreeHelper.GetParent(this) is FlyoutPresenter parent)
-			{
-				return VisualTreeHelper
-#if IS_WINUI
-					.GetOpenPopupsForXamlRoot(XamlRoot)
-#else
-					.GetOpenPopups(XamlWindow.Current)
-#endif
-					.FirstOrDefault(x => x.Child == parent);
-			}
+        private Popup FindHostPopup()
+        {
+            if (this.FindFirstParent<FlyoutPresenter>() is FlyoutPresenter flyoutPresenter)
+            {
+                return VisualTreeHelper.GetOpenPopups(XamlWindow.Current).FirstOrDefault(x => x.Child == flyoutPresenter);
+            }
 
-			return default;
-		}
+            return default;
+        }
 
 		private static double Clamp(double min, double value, double max)
 		{
