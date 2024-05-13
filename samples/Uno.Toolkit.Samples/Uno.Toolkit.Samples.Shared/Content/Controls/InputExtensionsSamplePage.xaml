@@ -31,8 +31,18 @@
 						</StackPanel>
 
 						<StackPanel Spacing="8">
-							<TextBlock Text="Dismiss soft-keyboard on enter" />
+							<TextBlock Text="Dismiss soft keyboard on enter" />
 							<TextBox utu:InputExtensions.AutoDismiss="True" />
+						</StackPanel>
+
+						<StackPanel Spacing="8">
+							<TextBlock Text="Soft keyboards of different return types" />
+							<TextBox Text="Default" utu:InputExtensions.ReturnType="Default" />
+							<TextBox Text="Done" utu:InputExtensions.ReturnType="Done" />
+							<TextBox Text="Go" utu:InputExtensions.ReturnType="Go" />
+							<TextBox Text="Next" utu:InputExtensions.ReturnType="Next" />
+							<TextBox Text="Search" utu:InputExtensions.ReturnType="Search" />
+							<TextBox Text="Send" utu:InputExtensions.ReturnType="Send" />
 						</StackPanel>
 
 					</StackPanel>

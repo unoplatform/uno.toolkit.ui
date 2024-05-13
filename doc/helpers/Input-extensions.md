@@ -8,13 +8,14 @@ Provides various attached properties for _input controls_, such as `TextBox` and
 
 ## Attached Properties
 
-| Property               | Type      | Description                                                                                |
-|------------------------|-----------|--------------------------------------------------------------------------------------------|
-| `AutoDismiss`          | `bool`    | Whether the soft-keyboard will be dismissed when the enter key is pressed.                 |
-| `AutoFocusNext`        | `bool`    | Whether the focus will move to the next focusable element when the enter key is pressed.\* |
-| `AutoFocusNextElement` | `Control` | Sets the next control to focus when the enter key is pressed.\*                            |
+| Property               | Type         | Description                                                                                                                                       |
+|------------------------|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| `AutoDismiss`          | `bool`       | Whether the soft keyboard will be dismissed when the enter key is pressed.                                                                        |
+| `AutoFocusNext`        | `bool`       | Whether the focus will move to the next focusable element when the enter key is pressed.\*                                                        |
+| `AutoFocusNextElement` | `Control`    | Sets the next control to focus when the enter key is pressed.\*                                                                                   |
+| `ReturnType`           | `ReturnType` | The type of return button on a soft keyboard for Android/iOS. It can be one of the following options: __Default, Done, Go, Next, Search, Send__.  |
 
-`AutoFocusNext` and `AutoFocusNextElement`\*: Having either or both of the two properties set will enable the focus next behavior. `AutoFocusNextElement` will take precedences over `AutoFocusNext` when both are set.
+`AutoFocusNext` and `AutoFocusNextElement`\*: Having either or both of the two properties set will enable the focus next behavior. `AutoFocusNextElement` will take precedence over `AutoFocusNext` when both are set.
 
 ### Remarks
 
@@ -35,6 +36,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <TextBox x:Name="Input3" utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=Input1}" />
 <TextBox x:Name="Input4" utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=Input3}" />
 
-<!-- Dismiss soft-keyboard on enter -->
+<!-- Dismiss soft keyboard on enter -->
 <TextBox utu:InputExtensions.AutoDismiss="True" />
+
+<!-- Soft keyboard with send as return button -->
+<TextBox utu:InputExtensions.ReturnType="Send" />
 ```
