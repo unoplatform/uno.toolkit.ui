@@ -1,0 +1,62 @@
+jobs:
+- job: iOS
+
+  timeoutInMinutes: 90
+
+  strategy:
+    maxParallel: 2
+    matrix:
+      WinUI:
+        ArtifactName: ios-winui
+        ProjectName: Uno.Toolkit.WinUI.Samples
+        ApplicationBuildNumberOffset: 50
+        VersionCodeOffset: 50
+        CI_Build: true
+      UWP:
+        ArtifactName: ios-uwp
+        ProjectName: Uno.Toolkit.Samples
+        ApplicationBuildNumberOffset: 50
+        VersionCodeOffset: 50
+        CI_Build: true
+
+  pool:
+    vmImage: 'windows-2022'
+
+  variables:
+    CombinedConfiguration: Release|Any CPU
+
+  steps:
+
+  - template: templates/dotnet-install.yml
+  - template: templates/canary-updater.yml
+  - template: templates/gitversion.yml
+  - template: templates/set-app-versions.yml
+  - template: templates/jdk-setup.yml
+
+  - task: MSBuild@1
+    inputs:
+      solution: samples\Uno.Toolkit.WinUI.Samples\Uno.Toolkit.WinUI.Samples.Windows.Desktop\Uno.Toolkit.WinUI.Samples.Windows.Desktop.csproj
+      msbuildLocationMethod: version
+      msbuildVersion: latest
+      msbuildArchitecture: x86
+      msbuildArguments: /r /t:Publish /m /v:m /p:Configuration=Release /p:RuntimeIdentifier=win10-x64 /p:GenerateAppxPackageOnBuild=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-wasdk.binlog
+      clean: false
+      logProjectEvents: false
+      createLogFile: false
+
+  - task: CopyFiles@2
+    displayName: 'Publish Binaries'
+    retryCountOnTaskFailure: 3
+    inputs:
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Windows.Desktop/bin/Release
+      Contents: '**'
+      TargetFolder: $(build.artifactstagingdirectory)
+      CleanTargetFolder: false
+      OverWrite: false
+      flattenFolders: false
+
+  - task: PublishBuildArtifacts@1
+    retryCountOnTaskFailure: 3
+    condition: always()
+    inputs:
+      ArtifactName: $(ArtifactName)
