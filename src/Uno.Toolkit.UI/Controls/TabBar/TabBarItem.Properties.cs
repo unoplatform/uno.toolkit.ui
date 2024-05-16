@@ -51,6 +51,17 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register("BadgeValue", typeof(string), typeof(TabBarItem), new PropertyMetadata(default(string?), OnPropertyChanged));
 		#endregion
 
+		#region InfoBadge
+		public Control InfoBadge
+		{
+			get => (Control)GetValue(InfoBadgeProperty);
+			set => SetValue(InfoBadgeProperty, value);
+		}
+
+		public static readonly DependencyProperty InfoBadgeProperty =
+			DependencyProperty.Register(nameof(InfoBadge), typeof(Control), typeof(TabBarItem), new PropertyMetadata(null, OnPropertyChanged));
+		#endregion
+
 		#region IsSelectable
 		public bool IsSelectable
 		{

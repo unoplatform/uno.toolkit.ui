@@ -5,6 +5,7 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  mc:Ignorable="d">
 
@@ -47,11 +48,18 @@
 								<utu:TabBarItem.Icon>
 									<FontIcon Glyph="&#xE8F2;" />
 								</utu:TabBarItem.Icon>
+								<utu:TabBarItem.InfoBadge>
+									<muxc:InfoBadge Style="{StaticResource MaterialSmallInfoBadgeBottomTabBarItemStyle}" />
+								</utu:TabBarItem.InfoBadge>
 							</utu:TabBarItem>
 							<utu:TabBarItem Content="ABOUT">
 								<utu:TabBarItem.Icon>
 									<FontIcon Glyph="&#xE946;" />
 								</utu:TabBarItem.Icon>
+								<utu:TabBarItem.InfoBadge>
+									<muxc:InfoBadge Value="42"
+													Style="{StaticResource MaterialLargeInfoBadgeBottomTabBarItemStyle}" />
+								</utu:TabBarItem.InfoBadge>
 							</utu:TabBarItem>
 
 						</utu:TabBar.Items>
