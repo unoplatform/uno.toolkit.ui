@@ -96,7 +96,7 @@ partial class AutoLayout
 		"PrimaryAlignment",
 		typeof(AutoLayoutPrimaryAlignment),
 		typeof(AutoLayout),
-		new PropertyMetadata(default(AutoLayoutPrimaryAlignment), propertyChangedCallback: InvalidateArrangeCallback));
+		new PropertyMetadata(default(AutoLayoutPrimaryAlignment), propertyChangedCallback: InvalidateParentAutoLayoutArrangeCallback));
 
 	[DynamicDependency(nameof(GetPrimaryAlignment))]
 	public static void SetPrimaryAlignment(DependencyObject element, AutoLayoutPrimaryAlignment value)
@@ -116,7 +116,7 @@ partial class AutoLayout
         "CounterAlignment",
 		typeof(AutoLayoutAlignment),
 		typeof(AutoLayout),
-		new PropertyMetadata(default(AutoLayoutAlignment), propertyChangedCallback: InvalidateArrangeCallback));
+		new PropertyMetadata(default(AutoLayoutAlignment), propertyChangedCallback: InvalidateParentAutoLayoutArrangeCallback));
 
 	[DynamicDependency(nameof(GetCounterAlignment))]
 	public static void SetCounterAlignment(DependencyObject element, AutoLayoutAlignment value)
@@ -203,6 +203,13 @@ partial class AutoLayout
 		if (d is UIElement element)
 		{
 			element.InvalidateArrange();
+		}
+	}
+	private static void InvalidateParentAutoLayoutArrangeCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		if (d is FrameworkElement { Parent: AutoLayout al })
+		{
+			al.InvalidateArrange();
 		}
 	}
 }
