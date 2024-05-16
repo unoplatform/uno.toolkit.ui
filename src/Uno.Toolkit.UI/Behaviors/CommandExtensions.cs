@@ -108,6 +108,14 @@ namespace Uno.Toolkit.UI
 					nv.ItemInvoked += OnNavigationViewItemInvoked;
 				}
 			}
+			else if (sender is UIElement uie)
+			{
+				uie.Tapped -= OnUIElementTapped;
+				if (GetCommand(sender) is { } command)
+				{
+					uie.Tapped += OnUIElementTapped;
+				}
+			}
 			else
 			{
 				if (_logger.IsEnabled(LogLevel.Warning))
@@ -136,10 +144,15 @@ namespace Uno.Toolkit.UI
 
 			TryInvokeCommand(host, GetCommandParameter(host) ?? e.ClickedItem);
 		}
-
 		private static void OnNavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs e)
 		{
 			TryInvokeCommand(sender, GetCommandParameter(sender) ?? e.InvokedItem);
+		}
+		private static void OnUIElementTapped(object sender, TappedRoutedEventArgs e)
+		{
+			if (sender is not  UIElement host) return;
+
+			TryInvokeCommand(host, GetCommandParameter(host) ?? host);
 		}
 	}
 }
