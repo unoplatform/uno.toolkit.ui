@@ -29,16 +29,19 @@ namespace Uno.Toolkit.Samples.Content.Controls
 			public string SelectionDebugText { get => GetProperty<string>(); set => SetProperty(value); }
 			public string NavigationDebugText { get => GetProperty<string>(); set => SetProperty(value); }
 			public string ItemsRepeaterDebugText { get => GetProperty<string>(); set => SetProperty(value); }
+			public string ElementDebugText { get => GetProperty<string>(); set => SetProperty(value); }
 
 			public ICommand DebugInputCommand => new Command(DebugInput);
 			public ICommand DebugSelectionCommand => new Command(DebugSelection);
 			public ICommand DebugNavigationCommand => new Command(DebugNavigation);
 			public ICommand DebugItemsRepeaterCommand => new Command(DebugItemsRepeater);
+			public ICommand DebugElementTappedCommand => new Command(DebugElement);
 
 			private void DebugInput(object parameter) => InputDebugText = Invariant($"{DateTime.Now:HH:mm:ss}: parameter={parameter}");
 			private void DebugSelection(object parameter) => SelectionDebugText = Invariant($"{DateTime.Now:HH:mm:ss}: parameter={parameter}");
 			private void DebugNavigation(object parameter) => NavigationDebugText = Invariant($"{DateTime.Now:HH:mm:ss}: parameter={parameter}");
 			private void DebugItemsRepeater(object parameter) => ItemsRepeaterDebugText = Invariant($"{DateTime.Now:HH:mm:ss}: parameter={parameter}");
+			private void DebugElement(object parameter) => ElementDebugText = Invariant($"{DateTime.Now:HH:mm:ss}: parameter={parameter}");
 		}
 	}
 }
