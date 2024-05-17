@@ -150,7 +150,7 @@ namespace Uno.Toolkit.UI
 		}
 		private static void OnUIElementTapped(object sender, TappedRoutedEventArgs e)
 		{
-			if (sender is not  UIElement host) return;
+			if (sender is not UIElement host) return;
 
 			TryInvokeCommand(host, GetCommandParameter(host) ?? host);
 		}
