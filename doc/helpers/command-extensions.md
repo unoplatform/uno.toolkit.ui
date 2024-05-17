@@ -10,7 +10,7 @@ Provides Command/CommandParameter attached properties for common scenarios.
 
 | Property           | Type       | Description                                                     |
 |--------------------|------------|-----------------------------------------------------------------|
-| `Command`          | `ICommand` | Sets the command to execute when interacted with the control.\* |
+| `Command`          | `ICommand` | Sets the command to execute when interacting with the control.\* |
 | `CommandParameter` | `object`   | Sets the parameter to pass to the Command property.             |
 
 ### Remarks
@@ -19,7 +19,7 @@ Provides Command/CommandParameter attached properties for common scenarios.
   - `ListViewBase.ItemClick`
   - `NavigationView.ItemInvoked`
   - `ItemsRepeater` item tapped
-  - `TextBox` and `PasswordBox` when Enter key is pressed
+  - `TextBox` and `PasswordBox` when the Enter key is pressed
   - any `UIElement` tapped
 - For Command, the relevant parameter is also provided for the `CanExecute` and `Execute` call:
   > Unless CommandParameter is set, which replaces the following.
@@ -28,7 +28,7 @@ Provides Command/CommandParameter attached properties for common scenarios.
   - `ItemClickEventArgs.ClickedItem` from `ListView.ItemClick`
   - `NavigationViewItemInvokedEventArgs.InvokedItem` from `NavigationView.ItemInvoked`
   - `ItemsRepeater`'s item root's DataContext
-- Command on `TextBox`/`PasswordBox`\*: Having this set will also cause the keyboard dismiss on enter.
+- Command on `TextBox`/`PasswordBox`\*: Having this set will also cause the keyboard to dismiss on enter.
 - Command on `ListView`\*: [`IsItemClickEnabled`](https://learn.microsoft.com/uwp/api/windows.ui.xaml.controls.listviewbase.isitemclickenabled) must also be set to true for this to work.
 
 ## Usage
