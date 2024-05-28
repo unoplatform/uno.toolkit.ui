@@ -74,7 +74,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await UnitTestsUIContentHelper.WaitForIdle();
 
 			var page = frame.Content as LabelTitlePage;
+#if HAS_UNO
 			page?.FindChild<NavigationBar>()?.MainCommand.RaiseClick();
+#endif
 
 			Assert.IsTrue(success);
 		}
