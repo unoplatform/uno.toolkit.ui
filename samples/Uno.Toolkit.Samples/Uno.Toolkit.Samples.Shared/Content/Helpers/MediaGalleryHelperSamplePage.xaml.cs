@@ -66,7 +66,8 @@ public class MediaGalleryHelperSampleVM : ViewModelBase
 		{
 			Title = "Permission check",
 			Content = $"Access {(success ? "granted" : "denied")}.",
-			CloseButtonText = "OK"
+			CloseButtonText = "OK",
+			XamlRoot = XamlRoot
 		}.ShowAsync();
 	});
 
@@ -84,7 +85,8 @@ public class MediaGalleryHelperSampleVM : ViewModelBase
 			{
 				Title = "Permission required",
 				Content = "The app requires access to the device's gallery to save the image.",
-				CloseButtonText = "OK"
+				CloseButtonText = "OK",
+				XamlRoot = XamlRoot
 			}.ShowAsync();
 		}
 	});
@@ -105,7 +107,8 @@ public class MediaGalleryHelperSampleVM : ViewModelBase
 			{
 				Title = "Permission required",
 				Content = "The app requires access to the device's gallery to save the image.",
-				CloseButtonText = "OK"
+				CloseButtonText = "OK",
+				XamlRoot = XamlRoot
 			}.ShowAsync();
 		}
 	});
