@@ -76,7 +76,7 @@ public class MediaGalleryHelperSampleVM : ViewModelBase
 		{
 			var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UnoLogo.png", UriKind.Absolute));
 			using var stream = await file.OpenStreamForReadAsync();
-			await MediaGallery.SaveAsync(MediaFileType.Image, stream, "UnoLogo.png", false);
+			await MediaGallery.SaveAsync(MediaFileType.Image, stream, "UnoLogo.png");
 		}
 		else
 		{
@@ -97,7 +97,7 @@ public class MediaGalleryHelperSampleVM : ViewModelBase
 			using var stream = await file.OpenStreamForReadAsync();
 
 			var fileName = Guid.NewGuid() + ".png";
-			await MediaGallery.SaveAsync(MediaFileType.Image, stream, fileName, false);
+			await MediaGallery.SaveAsync(MediaFileType.Image, stream, fileName);
 		}
 		else
 		{
@@ -116,7 +116,7 @@ public class MediaGalleryHelperSampleVM : ViewModelBase
 		{
 			var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UnoLogo.png", UriKind.Absolute));
 			using var stream = await file.OpenStreamForReadAsync();
-			await MediaGallery.SaveAsync(MediaFileType.Image, stream, "UnoLogo.png", true);
+			await MediaGallery.SaveAsync(MediaFileType.Image, stream, "UnoLogo.png");
 		}
 		else
 		{

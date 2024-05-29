@@ -27,10 +27,10 @@ public static partial class MediaGallery
 	/// <param name="data">Byte array representing the file.</param>
 	/// <param name="targetFileName">Target file name.</param>
 	/// <returns>Task representing the progress of the operation.</returns>
-	public static async Task<MediaGallerySaveResult> SaveAsync(MediaFileType type, byte[] data, string targetFileName, bool overwrite)
+	public static async Task SaveAsync(MediaFileType type, byte[] data, string targetFileName)
 	{
 		using var memoryStream = new MemoryStream(data);
-		return await SaveAsync(type, memoryStream, targetFileName, overwrite);
+		await SaveAsync(type, memoryStream, targetFileName);
 	}
 
 	/// <summary>
@@ -40,7 +40,7 @@ public static partial class MediaGallery
 	/// <param name="stream">Stream representing the file.</param>
 	/// <param name="targetFileName">Target file name.</param>
 	/// <returns>Task representing the progress of the operation.</returns>
-	public static async Task<MediaGallerySaveResult> SaveAsync(MediaFileType type, Stream stream, string targetFileName, bool overwrite) =>
-		await SavePlatformAsync(type, stream, targetFileName, overwrite);
+	public static async Task SaveAsync(MediaFileType type, Stream stream, string targetFileName) =>
+		await SavePlatformAsync(type, stream, targetFileName);
 }
 #endif

@@ -34,7 +34,7 @@ partial class MediaGallery
 		}
 	}
 
-	private static async Task<MediaGallerySaveResult> SavePlatformAsync(MediaFileType type, Stream sourceStream, string targetFileName, bool overwrite)
+	private static async Task SavePlatformAsync(MediaFileType type, Stream sourceStream, string targetFileName)
 	{
 		var context = Application.Context;
 		var contentResolver = context.ContentResolver ?? throw new InvalidOperationException("ContentResolver is not set.");
@@ -76,23 +76,6 @@ partial class MediaGallery
 		if (relativePath is null)
 		{
 			throw new InvalidOperationException($"Relative path for {type} is not available.");
-		}
-
-		// Check if file already exists
-		if (!overwrite)
-		{
-			using var cursor = contentResolver.Query(externalContentUri, null, $"{IMediaColumns.DisplayName} = ?", new[] { targetFileName }, null);
-
-			if (cursor is null)
-			{
-				throw new InvalidOperationException("Could not query media content");
-			}
-
-			if (cursor.MoveToFirst())
-			{
-				cursor.Close();
-				return MediaGallerySaveResult.Exists;
-			}
 		}
 
 		if ((int)Build.VERSION.SdkInt >= 29)
@@ -142,8 +125,6 @@ partial class MediaGallery
 			context.SendBroadcast(mediaScanIntent);
 #pragma warning restore CS0618 // Type or member is obsolete
 		}
-
-		return MediaGallerySaveResult.Success;
 	}
 
 	private static long TimeMillis(DateTime current) => (long)GetTimeDifference(current).TotalMilliseconds;
