@@ -1,7 +1,7 @@
 ﻿#if __IOS__
+using Foundation;
 using Photos;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using UIKit;
@@ -12,65 +12,49 @@ public partial class MediaGallery
 {
 	private static readonly string _requiredInfoPlistKey = HasOSVersion(14) ? "NSPhotoLibraryAddUsageDescription" : "NSPhotoLibraryUsageDescription";
 
-	private static Task<bool> CheckAccessPlatformAsync()
+	private static async Task<bool> CheckAccessPlatformAsync()
 	{
-		if (NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString(usageKey)))
+		if (!NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString(_requiredInfoPlistKey)))
 		{
-
+			throw new InvalidOperationException($"The Info.plist file is missing the required key '{_requiredInfoPlistKey}'.");
 		}
-		var auth = HasOSVersion(14) ?
+
+		var authorizationStatus = HasOSVersion(14) ?
 			PHPhotoLibrary.GetAuthorizationStatus(PHAccessLevel.AddOnly) :
+#pragma warning disable CA1422 // Deprecated API
 			PHPhotoLibrary.AuthorizationStatus;
+#pragma warning restore CA1422 // Deprecated API
 
-		return Task.FromResult(Convert(auth));
-	}
-
-	/// <summary>Request <see cref="SaveMediaPermission"/> from the user.</summary>
-	/// <returns>The status of the permission that was requested.</returns>
-	public override async Task<PermissionStatus> RequestAsync()
-	{
-		var status = await CheckStatusAsync();
-		if (status == PermissionStatus.Granted)
-			return status;
-
-		var auth = HasOSVersion(14)
-			? await PHPhotoLibrary.RequestAuthorizationAsync(PHAccessLevel.AddOnly)
-			: await PHPhotoLibrary.RequestAuthorizationAsync();
-
-		return Convert(auth);
-	}
-
-	PermissionStatus Convert(PHAuthorizationStatus status)
-		=> status switch
+		if (!IsAuthorized(authorizationStatus))
 		{
-			PHAuthorizationStatus.Authorized => PermissionStatus.Granted,
-			PHAuthorizationStatus.Limited => PermissionStatus.Granted,
-			PHAuthorizationStatus.Denied => PermissionStatus.Denied,
-			PHAuthorizationStatus.Restricted => PermissionStatus.Restricted,
-			_ => PermissionStatus.Unknown,
-		};
+			authorizationStatus = HasOSVersion(14) ?
+				await PHPhotoLibrary.RequestAuthorizationAsync(PHAccessLevel.AddOnly) :
+#pragma warning disable CA1422 // Deprecated API
+				await PHPhotoLibrary.RequestAuthorizationAsync();
+#pragma warning restore CA1422 // Deprecated API
+		}
 
+		return IsAuthorized(authorizationStatus);
+	}
 
-	public static Task<MediaGallerySaveResult> SavePlatformAsync(MediaFileType type, Stream sourceStream, string targetFileName, bool overwrite)
+	private static async Task SavePlatformAsync(MediaFileType type, Stream sourceStream, string targetFileName)
 	{
-		throw new NotImplementedException();
 		var tempFile = Path.Combine(Path.GetTempPath(), targetFileName);
 		try
 		{
 			// Write stream copy to temp
 			using var fileStream = File.Create(tempFile);
-			await stream.CopyToAsync(fileStream);
+			await sourceStream.CopyToAsync(fileStream);
 
 			// get the file uri
 			var fileUri = new NSUrl(tempFile);
 
 			await PhotoLibraryPerformChanges(() =>
 			{
-				using var request = type == MediaFileType.Video
-				? PHAssetChangeRequest.FromVideo(fileUri)
-				: PHAssetChangeRequest.FromImage(fileUri);
+				using var request = type == MediaFileType.Image ?
+					PHAssetChangeRequest.FromImage(fileUri) :
+					PHAssetChangeRequest.FromVideo(fileUri);
 			}).ConfigureAwait(false);
-
 		}
 		finally
 		{
@@ -81,7 +65,7 @@ public partial class MediaGallery
 
 	static async Task PhotoLibraryPerformChanges(Action action)
 	{
-		var tcs = new TaskCompletionSource<Exception>(TaskCreationOptions.RunContinuationsAsynchronously);
+		var tcs = new TaskCompletionSource<Exception?>(TaskCreationOptions.RunContinuationsAsynchronously);
 
 		PHPhotoLibrary.SharedPhotoLibrary.PerformChanges(
 			() =>
@@ -96,13 +80,17 @@ public partial class MediaGallery
 				}
 			},
 			(success, error) =>
-				tcs.TrySetResult(error != null ? new NSErrorException(error) : null));
+				tcs.TrySetResult(error is not null ? new NSErrorException(error) : null));
 
 		var exception = await tcs.Task;
-		if (exception != null)
+		if (exception is not null)
+		{
 			throw exception;
+		}
 	}
 
 	private static bool HasOSVersion(int major) => UIDevice.CurrentDevice.CheckSystemVersion(major, 0);
+
+	private static bool IsAuthorized(PHAuthorizationStatus status) => status is PHAuthorizationStatus.Authorized or PHAuthorizationStatus.Limited;
 }
 #endif
