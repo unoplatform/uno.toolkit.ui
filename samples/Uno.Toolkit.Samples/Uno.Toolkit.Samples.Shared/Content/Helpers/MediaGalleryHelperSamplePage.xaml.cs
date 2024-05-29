@@ -109,24 +109,5 @@ public class MediaGalleryHelperSampleVM : ViewModelBase
 			}.ShowAsync();
 		}
 	});
-
-	public ICommand SaveAndOverwriteCommand => new Command(async (_) =>
-	{
-		if (await MediaGallery.CheckAccessAsync())
-		{
-			var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UnoLogo.png", UriKind.Absolute));
-			using var stream = await file.OpenStreamForReadAsync();
-			await MediaGallery.SaveAsync(MediaFileType.Image, stream, "UnoLogo.png");
-		}
-		else
-		{
-			await new ContentDialog
-			{
-				Title = "Permission required",
-				Content = "The app requires access to the device's gallery to save the image.",
-				CloseButtonText = "OK"
-			}.ShowAsync();
-		}
-	});
 #endif
 }

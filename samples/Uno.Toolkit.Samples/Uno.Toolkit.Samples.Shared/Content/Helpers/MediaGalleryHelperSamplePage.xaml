@@ -19,7 +19,6 @@
                         <Button Command="{Binding Data.CheckAccessCommand}">Check access</Button>
                         <Button Command="{Binding Data.SaveCommand}">Save UnoLogo.png to gallery</Button>
                         <Button Command="{Binding Data.SaveRandomNameCommand}">Save with random name to gallery</Button>
-                        <Button Command="{Binding Data.SaveAndOverwriteCommand}">Save UnoLogo.png to gallery and overwrite</Button>
                     </StackPanel>
                 </DataTemplate>
             </sample:SamplePageLayout.DesignAgnosticTemplate>

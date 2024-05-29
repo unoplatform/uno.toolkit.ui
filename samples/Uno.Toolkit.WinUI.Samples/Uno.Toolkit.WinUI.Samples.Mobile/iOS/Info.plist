@@ -49,7 +49,8 @@
 	<string>Assets.xcassets/iconapp.appiconset</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app would like to save photos to your gallery</string>
 	<!--
 	Adjust this to your application's encryption usage.
 	<key>ITSAppUsesNonExemptEncryption</key>
