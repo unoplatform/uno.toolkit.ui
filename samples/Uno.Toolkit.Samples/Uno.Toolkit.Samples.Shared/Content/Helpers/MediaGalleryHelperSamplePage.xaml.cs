@@ -7,8 +7,15 @@ using System.Text;
 using Uno.Toolkit.Samples.Entities;
 using Uno.Toolkit.Samples.Helpers;
 using Uno.Toolkit.Samples.ViewModels;
+using Uno.Toolkit.UI;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using System.Windows.Input;
+using System.Net.WebSockets;
+using Windows.Storage;
+
+
+
 #if IS_WINUI
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -31,11 +38,95 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.Samples.Content.Helpers;
 
-[SamplePage(SampleCategory.Helpers, "MediaGalleryHelper", SourceSdk.Uno, DataType = typeof(BindingExtensionsVM), IconSymbol = Symbol.BrowsePhotos)]
+[SamplePage(SampleCategory.Helpers, "MediaGalleryHelper", SourceSdk.Uno, IconSymbol = Symbol.BrowsePhotos, DataType = typeof(MediaGalleryHelperSampleVM))]
 public sealed partial class MediaGalleryHelperSamplePage : Page
 {
 	public MediaGalleryHelperSamplePage()
 	{
 		this.InitializeComponent();
+		this.Loaded += (s, e) =>
+		{
+			if ((DataContext as Sample)?.Data is MediaGalleryHelperSampleVM vm)
+			{
+				vm.XamlRoot = this.XamlRoot;
+			}
+		};
 	}
+}
+
+public class MediaGalleryHelperSampleVM : ViewModelBase
+{
+	public XamlRoot XamlRoot { get; set; }
+
+#if __ANDROID__ || __IOS__
+	public ICommand CheckAccessCommand => new Command(async (_) =>
+	{
+		var success = await MediaGallery.CheckAccessAsync();
+		await new ContentDialog
+		{
+			Title = "Permission check",
+			Content = $"Access {(success ? "granted" : "denied")}.",
+			CloseButtonText = "OK"
+		}.ShowAsync();
+	});
+
+	public ICommand SaveCommand => new Command(async (_) =>
+	{
+		if (await MediaGallery.CheckAccessAsync())
+		{
+			var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UnoLogo.png", UriKind.Absolute));
+			using var stream = await file.OpenStreamForReadAsync();
+			await MediaGallery.SaveAsync(MediaFileType.Image, stream, "UnoLogo.png", false);
+		}
+		else
+		{
+			await new ContentDialog
+			{
+				Title = "Permission required",
+				Content = "The app requires access to the device's gallery to save the image.",
+				CloseButtonText = "OK"
+			}.ShowAsync();
+		}
+	});
+
+	public ICommand SaveRandomNameCommand => new Command(async (_) =>
+	{
+		if (await MediaGallery.CheckAccessAsync())
+		{
+			var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UnoLogo.png", UriKind.Absolute));
+			using var stream = await file.OpenStreamForReadAsync();
+
+			var fileName = Guid.NewGuid() + ".png";
+			await MediaGallery.SaveAsync(MediaFileType.Image, stream, fileName, false);
+		}
+		else
+		{
+			await new ContentDialog
+			{
+				Title = "Permission required",
+				Content = "The app requires access to the device's gallery to save the image.",
+				CloseButtonText = "OK"
+			}.ShowAsync();
+		}
+	});
+
+	public ICommand SaveAndOverwriteCommand => new Command(async (_) =>
+	{
+		if (await MediaGallery.CheckAccessAsync())
+		{
+			var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/UnoLogo.png", UriKind.Absolute));
+			using var stream = await file.OpenStreamForReadAsync();
+			await MediaGallery.SaveAsync(MediaFileType.Image, stream, "UnoLogo.png", true);
+		}
+		else
+		{
+			await new ContentDialog
+			{
+				Title = "Permission required",
+				Content = "The app requires access to the device's gallery to save the image.",
+				CloseButtonText = "OK"
+			}.ShowAsync();
+		}
+	});
+#endif
 }

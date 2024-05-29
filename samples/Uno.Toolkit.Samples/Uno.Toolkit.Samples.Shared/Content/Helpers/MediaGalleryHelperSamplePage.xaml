@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Uno.Toolkit.Samples.Content.Helpers"
     xmlns:local="using:Uno.Toolkit.Samples.Content.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sample="using:Uno.Toolkit.Samples"
@@ -15,29 +16,10 @@
             <sample:SamplePageLayout.DesignAgnosticTemplate>
                 <DataTemplate>
                     <StackPanel>
-
-                        <TextBlock TextWrapping="WrapWholeWords">
-                            note: This feature requires winui3 to work. It is not supported on the windows head of UWP.
-                            You can however still use it on uno platforms with UWP.
-                        </TextBlock>
-
-                        <ListView ItemsSource="{Binding Data.Items}" Tag="ListView's Tag property">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel
-                                        Padding="8"
-                                        BorderBrush="Red"
-                                        BorderThickness="1">
-                                        <TextBlock Text="{Binding}" />
-
-                                        <TextBlock Text="You can bind on the first ancestor of certain type." />
-                                        <TextBlock Text="{utu:AncestorBinding AncestorType=ListView, Path=Tag}" />
-                                        <TextBlock Text="{utu:ItemsControlBinding Path=DataContext.Data.PropertyOnSameLevelAsItems}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-
+                        <Button Command="{Binding Data.CheckAccessCommand}">Check access</Button>
+                        <Button Command="{Binding Data.SaveCommand}">Save UnoLogo.png to gallery</Button>
+                        <Button Command="{Binding Data.SaveRandomNameCommand}">Save with random name to gallery</Button>
+                        <Button Command="{Binding Data.SaveAndOverwriteCommand}">Save UnoLogo.png to gallery and overwrite</Button>
                     </StackPanel>
                 </DataTemplate>
             </sample:SamplePageLayout.DesignAgnosticTemplate>
