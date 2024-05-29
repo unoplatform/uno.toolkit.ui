@@ -1,9 +1,14 @@
 ﻿#if __ANDROID__
-using System;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.OS;
 using Android.Provider;
+using Android.Webkit;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.Extensions;
 using static Android.Provider.MediaStore;
 using Environment = Android.OS.Environment;
 using File = Java.IO.File;
@@ -13,76 +18,138 @@ using Uri = Android.Net.Uri;
 
 namespace Uno.Toolkit.UI;
 
-public partial class MediaGallery
+partial class MediaGallery
 {
-	private Task<bool> CheckAccessPlatformAsync()
+	private static readonly DateTime _unixStartDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+	private static async Task<bool> CheckAccessPlatformAsync()
 	{
-		throw new NotImplementedException();
+		if ((int)Build.VERSION.SdkInt < 29)
+		{
+			return await PermissionsHelper.CheckWriteExternalStoragePermission(default);
+		}
+		else
+		{
+			return true;
+		}
 	}
 
-	public Task SavePlatformAsync(MediaFileType type, Stream stream, string targetFileName)
+	private static async Task<MediaGallerySaveResult> SavePlatformAsync(MediaFileType type, Stream sourceStream, string targetFileName, bool overwrite)
 	{
-		throw new NotImplementedException();
-//		var albumName = AppInfo.Name;
+		var context = Application.Context;
+		var contentResolver = context.ContentResolver ?? throw new InvalidOperationException("ContentResolver is not set.");
 
-//		var context = Application.Context;
-//		var dateTimeNow = DateTime.Now;
+		var appFolderName = Package.Current.DisplayName;
+		// Ensure folder name is file system safe
+		appFolderName = string.Join("_", appFolderName.Split(Path.GetInvalidFileNameChars()));
 
-//		var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(targetFileName);
-//		var extension = Path.GetExtension(targetFileName).ToLower();
-//		var newFileName = $"{GetNewImageName(dateTimeNow, fileNameWithoutExtension)}{extension}";
+		var dateTimeNow = DateTime.Now;
 
-//		using var values = new ContentValues();
+		var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(targetFileName);
+		var extension = Path.GetExtension(targetFileName).ToLower();
 
-//		values.Put(IMediaColumns.DateAdded, TimeSeconds(dateTimeNow));
-//		values.Put(IMediaColumns.Title, fileNameWithoutExtension);
-//		values.Put(IMediaColumns.DisplayName, newFileName);
+		using var values = new ContentValues();
 
-//		var mimeType = MimeTypeMap.Singleton.GetMimeTypeFromExtension(extension.Replace(".", string.Empty));
-//		if (!string.IsNullOrWhiteSpace(mimeType))
-//			values.Put(IMediaColumns.MimeType, mimeType);
+		values.Put(IMediaColumns.DateAdded, TimeSeconds(dateTimeNow));
+		values.Put(IMediaColumns.Title, fileNameWithoutExtension);
+		values.Put(IMediaColumns.DisplayName, targetFileName);
 
-//		using var externalContentUri = type == MediaFileType.Image
-//			? MediaStore.Images.Media.ExternalContentUri
-//			: MediaStore.Video.Media.ExternalContentUri;
+		var mimeTypeMap = MimeTypeMap.Singleton ?? throw new InvalidOperationException("MimeTypeMap is not set.");
 
-//		var relativePath = type == MediaFileType.Image
-//			? Environment.DirectoryPictures
-//			: Environment.DirectoryMovies;
+		var mimeType = mimeTypeMap.GetMimeTypeFromExtension(extension.Replace(".", string.Empty));
+		if (!string.IsNullOrWhiteSpace(mimeType))
+			values.Put(IMediaColumns.MimeType, mimeType);
 
-//		if (Platform.HasSdkVersion(29))
-//		{
-//			values.Put(IMediaColumns.RelativePath, Path.Combine(relativePath, albumName));
-//			values.Put(IMediaColumns.IsPending, true);
+		using var externalContentUri = type == MediaFileType.Image
+			? Images.Media.ExternalContentUri
+			: Video.Media.ExternalContentUri;
 
-//			using var uri = context.ContentResolver.Insert(externalContentUri, values);
-//			using var stream = context.ContentResolver.OpenOutputStream(uri);
-//			await fileStream.CopyToAsync(stream);
-//			stream.Close();
+		if (externalContentUri is null)
+		{
+			throw new InvalidOperationException($"External Content URI for {type} is not available.");
+		}
 
-//			values.Put(IMediaColumns.IsPending, false);
-//			context.ContentResolver.Update(uri, values, null, null);
-//		}
-//		else
-//		{
-//#pragma warning disable CS0618 // Type or member is obsolete
-//			using var directory = new File(Environment.GetExternalStoragePublicDirectory(relativePath), albumName);
+		var relativePath = type == MediaFileType.Image
+			? Environment.DirectoryPictures
+			: Environment.DirectoryMovies;
 
-//			directory.Mkdirs();
-//			using var file = new File(directory, newFileName);
+		if (relativePath is null)
+		{
+			throw new InvalidOperationException($"Relative path for {type} is not available.");
+		}
 
-//			using var fileOutputStream = System.IO.File.Create(file.AbsolutePath);
-//			await fileStream.CopyToAsync(fileOutputStream);
-//			fileOutputStream.Close();
+		// Check if file already exists
+		if (!overwrite)
+		{
+			using var cursor = contentResolver.Query(externalContentUri, null, $"{IMediaColumns.DisplayName} = ?", new[] { targetFileName }, null);
 
-//			values.Put(MediaColumns.Data, file.AbsolutePath);
-//			context.ContentResolver.Insert(externalContentUri, values);
+			if (cursor is null)
+			{
+				throw new InvalidOperationException("Could not query media content");
+			}
 
-//			using var mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-//			mediaScanIntent.SetData(Uri.FromFile(file));
-//			context.SendBroadcast(mediaScanIntent);
-//#pragma warning restore CS0618 // Type or member is obsolete
-//		}
+			if (cursor.MoveToFirst())
+			{
+				cursor.Close();
+				return MediaGallerySaveResult.Exists;
+			}
+		}
+
+		if ((int)Build.VERSION.SdkInt >= 29)
+		{
+			values.Put(IMediaColumns.RelativePath, Path.Combine(relativePath, appFolderName));
+			values.Put(IMediaColumns.IsPending, true);
+
+			using var uri = contentResolver.Insert(externalContentUri, values);
+
+			if (uri is null)
+			{
+				throw new InvalidOperationException("Could not generate new content URI");
+			}
+
+			using var stream = contentResolver.OpenOutputStream(uri);
+
+			if (stream is null)
+			{
+				throw new InvalidOperationException("Could not open output stream");
+			}
+
+			await sourceStream.CopyToAsync(stream);
+			stream.Close();
+
+			values.Put(IMediaColumns.IsPending, false);
+			context.ContentResolver.Update(uri, values, null, null);
+		}
+		else
+		{
+#pragma warning disable CS0618 // Type or member is obsolete
+			using var directory = new File(Environment.GetExternalStoragePublicDirectory(relativePath), appFolderName);
+			directory.Mkdirs();
+
+			using var file = new File(directory, targetFileName);
+
+			using var fileOutputStream = System.IO.File.Create(file.AbsolutePath);
+			await sourceStream.CopyToAsync(fileOutputStream);
+			fileOutputStream.Close();
+
+			values.Put(IMediaColumns.Data, file.AbsolutePath);
+			contentResolver.Insert(externalContentUri, values);
+
+#pragma warning disable CA1422 // Validate platform compatibility
+			using var mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+#pragma warning restore CA1422 // Validate platform compatibility
+			mediaScanIntent.SetData(Uri.FromFile(file));
+			context.SendBroadcast(mediaScanIntent);
+#pragma warning restore CS0618 // Type or member is obsolete
+		}
+
+		return MediaGallerySaveResult.Success;
 	}
+
+	private static long TimeMillis(DateTime current) => (long)GetTimeDifference(current).TotalMilliseconds;
+
+	private static long TimeSeconds(DateTime current) => (long)GetTimeDifference(current).TotalSeconds;
+
+	private static TimeSpan GetTimeDifference(DateTime current) => current.ToUniversalTime() - _unixStartDate;
 }
 #endif
