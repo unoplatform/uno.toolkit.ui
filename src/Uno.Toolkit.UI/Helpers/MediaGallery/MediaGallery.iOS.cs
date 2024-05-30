@@ -58,7 +58,7 @@ public partial class MediaGallery
 		}
 		finally
 		{
-			// Attempt to delete the file
+			// Attempt to delete the temp file
 			File.Delete(tempFile);
 		}
 	}

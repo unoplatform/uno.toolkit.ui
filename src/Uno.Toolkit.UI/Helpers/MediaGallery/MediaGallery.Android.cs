@@ -9,12 +9,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Extensions;
-using static Android.Provider.MediaStore;
-using Environment = Android.OS.Environment;
-using File = Java.IO.File;
 using Path = System.IO.Path;
 using Stream = System.IO.Stream;
-using Uri = Android.Net.Uri;
+using Environment = Android.OS.Environment;
+using NativeFile = Java.IO.File;
+using NativeUri = Android.Net.Uri;
+using static Android.Provider.MediaStore;
 
 namespace Uno.Toolkit.UI;
 
@@ -83,19 +83,11 @@ partial class MediaGallery
 			values.Put(IMediaColumns.RelativePath, Path.Combine(relativePath, appFolderName));
 			values.Put(IMediaColumns.IsPending, true);
 
-			using var uri = contentResolver.Insert(externalContentUri, values);
-
-			if (uri is null)
-			{
+			using var uri = contentResolver.Insert(externalContentUri, values) ??
 				throw new InvalidOperationException("Could not generate new content URI");
-			}
 
-			using var stream = contentResolver.OpenOutputStream(uri);
-
-			if (stream is null)
-			{
+			using var stream = contentResolver.OpenOutputStream(uri) ??
 				throw new InvalidOperationException("Could not open output stream");
-			}
 
 			await sourceStream.CopyToAsync(stream);
 			stream.Close();
@@ -127,9 +119,9 @@ partial class MediaGallery
 		}
 	}
 
-	private static long TimeMillis(DateTime current) => (long)GetTimeDifference(current).TotalMilliseconds;
+	private static long GetUnixTimestampInMS(DateTime current) => (long)GetTimeDifference(current).TotalMilliseconds;
 
-	private static long TimeSeconds(DateTime current) => (long)GetTimeDifference(current).TotalSeconds;
+	private static long GetUnixTimestampInSeconds(DateTime current) => (long)GetTimeDifference(current).TotalSeconds;
 
 	private static TimeSpan GetTimeDifference(DateTime current) => current.ToUniversalTime() - _unixStartDate;
 }

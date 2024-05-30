@@ -14,7 +14,7 @@ namespace Uno.Toolkit.UI;
 public static partial class MediaGallery
 {
 	/// <summary>
-	/// Checks the user permission to access the device's gallery.
+	/// Checks the user's permission to access the device's gallery.
 	/// Will trigger the permission request if not already granted.
 	/// </summary>
 	/// <returns>A value indicating whether the user has access.</returns>
