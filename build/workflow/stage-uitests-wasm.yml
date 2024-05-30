@@ -45,7 +45,7 @@
     displayName: 'Use .NET'
     inputs:
       packageType: 'sdk'
-      version: '7.0.400'
+      version: '8.0.300'
 
   - template: templates/canary-updater.yml
 

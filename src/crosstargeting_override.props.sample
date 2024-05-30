@@ -13,20 +13,16 @@
 		<!-- Description of the properties can be found below -->
 
 		<!-- <NugetOverrideVersion>2.6.0-dev.34</NugetOverrideVersion> -->
-		<!--<DisableNet7MobileTargets>true</DisableNet7MobileTargets>-->
 
 		<!-- Uncomment each line for each platform that you want to build: -->
 		
 		<!-- <TargetFrameworkOverride Condition="''!='hint: UWP'">uap10.0.19041;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">net7.0-windows10.0.19041;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">net7.0;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 iOS'">net7.0-ios;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 Android'">net7.0-android;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 macOS Catalyst'">net7.0-maccatalyst;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 macOS AppKit'">net7.0-macos;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-
-		<!-- DO NOT COMMENT OUT: net7.0 is a required tfm in all cases -->
-		<TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('net7.0;'))">net7.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
+		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">net8.0-windows10.0.19041;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">net8.0;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 8.0 iOS'">net8.0-ios;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 8.0 Android'">net8.0-android;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 8.0 macOS Catalyst'">net8.0-maccatalyst;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 8.0 macOS AppKit'">net8.0-macos;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
 
 
 		<!--
@@ -37,10 +33,6 @@
 				Set it to the version you want to override, used in another app.
 				You will see the override path in the build output.
 				The packages are located under this directory: "%USERPROFILE%\.nuget\packages".
-
-			### DisableNet7MobileTargets ###
-
-				Disables bulding the net7.0 mobile SDK TargetFrameworks
 
 			### TargetFrameworkOverride ###
 

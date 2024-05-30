@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework Condition="$(IsIOS)">net7.0</TargetFramework>
+		<TargetFramework  Condition="'$(IsIOS)' != 'true'">net8.0</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<FrameworkLineage Condition="'$(FrameworkLineage)'==''">WinUI</FrameworkLineage>
 	</PropertyGroup>
