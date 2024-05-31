@@ -18,7 +18,7 @@ public static partial class MediaGallery
 	/// Will trigger the permission request if not already granted.
 	/// </summary>
 	/// <returns>A value indicating whether the user has access.</returns>
-	public static async Task<bool> CheckAccessAsync() => await CheckAccessPlatformAsync();
+	public static async Task<bool> CheckAccessAsync() => await CheckAccessAsyncImpl();
 
 	/// <summary>
 	/// Saves a media file to the device's gallery.
@@ -41,6 +41,6 @@ public static partial class MediaGallery
 	/// <param name="targetFileName">Target file name.</param>
 	/// <returns>Task representing the progress of the operation.</returns>
 	public static async Task SaveAsync(MediaFileType type, Stream stream, string targetFileName) =>
-		await SavePlatformAsync(type, stream, targetFileName);
+		await SavePlatformAsyncImpl(type, stream, targetFileName);
 }
 #endif

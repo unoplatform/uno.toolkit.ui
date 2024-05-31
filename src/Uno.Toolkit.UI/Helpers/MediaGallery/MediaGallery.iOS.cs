@@ -12,7 +12,7 @@ public partial class MediaGallery
 {
 	private static readonly string _requiredInfoPlistKey = HasOSVersion(14) ? "NSPhotoLibraryAddUsageDescription" : "NSPhotoLibraryUsageDescription";
 
-	private static async Task<bool> CheckAccessPlatformAsync()
+	private static async Task<bool> CheckAccessAsyncImpl()
 	{
 		if (!NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString(_requiredInfoPlistKey)))
 		{
@@ -37,7 +37,7 @@ public partial class MediaGallery
 		return IsAuthorized(authorizationStatus);
 	}
 
-	private static async Task SavePlatformAsync(MediaFileType type, Stream sourceStream, string targetFileName)
+	private static async Task SavePlatformAsyncImpl(MediaFileType type, Stream sourceStream, string targetFileName)
 	{
 		var tempFile = Path.Combine(Path.GetTempPath(), targetFileName);
 		try
@@ -89,7 +89,7 @@ public partial class MediaGallery
 		}
 	}
 
-	private static bool HasOSVersion(int major) => UIDevice.CurrentDevice.CheckSystemVersion(major, 0);
+	private static bool CheckSystemVersion(int major) => UIDevice.CurrentDevice.CheckSystemVersion(major, 0);
 
 	private static bool IsAuthorized(PHAuthorizationStatus status) => status is PHAuthorizationStatus.Authorized or PHAuthorizationStatus.Limited;
 }

@@ -14,8 +14,6 @@ using System.Windows.Input;
 using System.Net.WebSockets;
 using Windows.Storage;
 
-
-
 #if IS_WINUI
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -38,7 +36,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.Samples.Content.Helpers;
 
+#if __ANDROID__ || __IOS__
 [SamplePage(SampleCategory.Helpers, "MediaGalleryHelper", SourceSdk.Uno, IconSymbol = Symbol.BrowsePhotos, DataType = typeof(MediaGalleryHelperSampleVM))]
+#endif
 public sealed partial class MediaGalleryHelperSamplePage : Page
 {
 	public MediaGalleryHelperSamplePage()

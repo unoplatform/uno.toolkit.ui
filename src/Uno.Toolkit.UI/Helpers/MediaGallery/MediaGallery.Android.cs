@@ -20,9 +20,7 @@ namespace Uno.Toolkit.UI;
 
 partial class MediaGallery
 {
-	private static readonly DateTime _unixStartDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-	private static async Task<bool> CheckAccessPlatformAsync()
+	private static async Task<bool> CheckAccessAsyncImpl()
 	{
 		if ((int)Build.VERSION.SdkInt < 29)
 		{
@@ -34,7 +32,7 @@ partial class MediaGallery
 		}
 	}
 
-	private static async Task SavePlatformAsync(MediaFileType type, Stream sourceStream, string targetFileName)
+	private static async Task SavePlatformAsyncImpl(MediaFileType type, Stream sourceStream, string targetFileName)
 	{
 		var context = Application.Context;
 		var contentResolver = context.ContentResolver ?? throw new InvalidOperationException("ContentResolver is not set.");
@@ -50,7 +48,7 @@ partial class MediaGallery
 
 		using var values = new ContentValues();
 
-		values.Put(IMediaColumns.DateAdded, TimeSeconds(dateTimeNow));
+		values.Put(IMediaColumns.DateAdded, GetUnixTimestampInSeconds(dateTimeNow));
 		values.Put(IMediaColumns.Title, fileNameWithoutExtension);
 		values.Put(IMediaColumns.DisplayName, targetFileName);
 
@@ -98,10 +96,10 @@ partial class MediaGallery
 		else
 		{
 #pragma warning disable CS0618 // Type or member is obsolete
-			using var directory = new File(Environment.GetExternalStoragePublicDirectory(relativePath), appFolderName);
+			using var directory = new NativeFile(Environment.GetExternalStoragePublicDirectory(relativePath), appFolderName);
 			directory.Mkdirs();
 
-			using var file = new File(directory, targetFileName);
+			using var file = new NativeFile(directory, targetFileName);
 
 			using var fileOutputStream = System.IO.File.Create(file.AbsolutePath);
 			await sourceStream.CopyToAsync(fileOutputStream);
@@ -113,16 +111,14 @@ partial class MediaGallery
 #pragma warning disable CA1422 // Validate platform compatibility
 			using var mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
 #pragma warning restore CA1422 // Validate platform compatibility
-			mediaScanIntent.SetData(Uri.FromFile(file));
+			mediaScanIntent.SetData(NativeUri.FromFile(file));
 			context.SendBroadcast(mediaScanIntent);
 #pragma warning restore CS0618 // Type or member is obsolete
 		}
 	}
 
-	private static long GetUnixTimestampInMS(DateTime current) => (long)GetTimeDifference(current).TotalMilliseconds;
-
 	private static long GetUnixTimestampInSeconds(DateTime current) => (long)GetTimeDifference(current).TotalSeconds;
 
-	private static TimeSpan GetTimeDifference(DateTime current) => current.ToUniversalTime() - _unixStartDate;
+	private static TimeSpan GetTimeDifference(DateTime current) => current.ToUniversalTime() - DateTime.UnixEpoch;
 }
 #endif
