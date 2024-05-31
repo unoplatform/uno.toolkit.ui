@@ -9,7 +9,7 @@ uid: Toolkit.Helpers.MediaGallery
 
 ## Remarks
 
-This class is designed to work on iOS and Android platforms, utilizing platform-specific implementations for its methods.
+This class is designed to work on iOS, Mac Catalyst and Android platforms, utilizing platform-specific implementations for its methods.
 
 ## Methods
 
@@ -66,6 +66,32 @@ Saves a media file to the device's gallery using a byte array.
 #### Returns
 
 A `Task` that completes when the save operation is finished.
+
+## Permissions
+
+### Android
+
+If your app supports only Android 10 and newer, no manifest changes are required. If you support earlier versions of Android, add the following into your manifest:
+
+```xml
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+
+### iOS & Mac Catalyst
+
+If your app only supports iOS 14 and newer, update your `Info.plist` as follows:
+
+```xml
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>This app needs access to the photo gallery for saving photos and videos</string>
+```
+
+If you want to support earlier versions iOS, add the following as well:
+
+```xml
+<key>NSPhotoLibraryUsageDescription</key>
+<string>This app needs access to the photo gallery for saving photos and videos</string>
+```
 
 ## Usage
 
