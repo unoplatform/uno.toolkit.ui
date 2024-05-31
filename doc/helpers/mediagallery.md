@@ -11,6 +11,8 @@ uid: Toolkit.Helpers.MediaGallery
 
 This class is designed to work on iOS, Mac Catalyst and Android platforms, utilizing platform-specific implementations for its methods.
 
+The API allows setting the `targetFileName`, which **should ideally be unique** - otherwise the OS will either overwrite an existing file with the same name (Android behavior), or generate a new name instead (iOS behavior).
+
 ## Methods
 
 ### CheckAccessAsync
