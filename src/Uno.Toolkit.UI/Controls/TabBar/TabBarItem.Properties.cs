@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using MUXC = Microsoft.UI.Xaml.Controls;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -29,26 +27,50 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register(nameof(Icon), typeof(IconElement), typeof(TabBarItem), new PropertyMetadata(null, OnPropertyChanged));
 		#endregion
 
+		// UNO TODO: Deprecate and remove BadgeVisibility and BadgeValue properties and use InfoBadge instead
 		#region BadgeVisibility
 		public Visibility BadgeVisibility
 		{
-			get { return (Visibility)GetValue(BadgeVisibilityProperty); }
-			set { SetValue(BadgeVisibilityProperty, value); }
+			get => InfoBadge?.Visibility ?? (Visibility)GetValue(BadgeVisibilityProperty);
+			set
+			{
+				SetValue(BadgeVisibilityProperty, value);
+
+				InfoBadge ??= new MUXC.InfoBadge();
+				InfoBadge.Visibility = value;
+			}
 		}
 
 		public static readonly DependencyProperty BadgeVisibilityProperty =
-			DependencyProperty.Register("BadgeVisibility", typeof(Visibility), typeof(TabBarItem), new PropertyMetadata(Visibility.Collapsed, OnPropertyChanged));
+			DependencyProperty.Register(nameof(BadgeVisibility), typeof(Visibility), typeof(TabBarItem), new PropertyMetadata(Visibility.Collapsed, OnPropertyChanged));
 		#endregion
 
 		#region BadgeValue
 		public string? BadgeValue
 		{
-			get { return (string)GetValue(BadgeValueProperty); }
-			set { SetValue(BadgeValueProperty, value); }
+			get => (InfoBadge as MUXC.InfoBadge)?.Value.ToString() ?? (string)GetValue(BadgeValueProperty);
+			set
+			{
+				SetValue(BadgeValueProperty, value);
+
+				InfoBadge ??= new MUXC.InfoBadge();
+
+				if (InfoBadge is MUXC.InfoBadge infoBadge)
+				{
+					if (int.TryParse(value, out int intValue))
+					{
+						infoBadge.Value = intValue;
+					}
+					else
+					{
+						infoBadge.IconSource = new MUXC.FontIconSource { Glyph = value };
+					}
+				}
+			}
 		}
 
 		public static readonly DependencyProperty BadgeValueProperty =
-			DependencyProperty.Register("BadgeValue", typeof(string), typeof(TabBarItem), new PropertyMetadata(default(string?), OnPropertyChanged));
+			DependencyProperty.Register(nameof(BadgeValue), typeof(string), typeof(TabBarItem), new PropertyMetadata(default(string?), OnPropertyChanged));
 		#endregion
 
 		#region InfoBadge
