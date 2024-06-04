@@ -6,16 +6,7 @@ uid: Toolkit.Controls.LoadingView
 
 Represents a control that indicates that the UI is waiting on a task to complete.
 
-<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/3cpjJ3keBvM"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-    </iframe>
-</div>
+> [!Video https://www.youtube-nocookie.com/embed/3cpjJ3keBvM]
 
 ## Properties
 
