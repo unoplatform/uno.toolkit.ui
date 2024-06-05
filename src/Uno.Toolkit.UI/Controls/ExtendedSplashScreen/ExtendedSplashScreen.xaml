@@ -3,8 +3,8 @@
 					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:utu="using:Uno.Toolkit.UI"
-					mc:Ignorable="d">
-
+					xmlns:void="used for quickly commenting out node or attribute"
+					mc:Ignorable="d void">
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Dark">
@@ -14,8 +14,6 @@
 			<x:String x:Key="DefaultExtendedSplashScreenAnimationDuration">00:00:00.083</x:String>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
-
-
 
 	<Style x:Key="DefaultExtendedSplashScreen"
 		   TargetType="utu:ExtendedSplashScreen">
@@ -36,8 +34,8 @@
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="LoadingStates">
 								<VisualStateGroup.Transitions>
-									<VisualTransition From="Loading"
-													  To="Loaded">
+									<void:VisualTransition From="Loading" To="Loaded">
+										<!-- uno#16725 woarkaround: disabled due partial opacity not working well with multiple opaque colored layers -->
 										<Storyboard>
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
 																		   Storyboard.TargetProperty="Opacity">
@@ -55,7 +53,7 @@
 																	  Value="0" />
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
-									</VisualTransition>
+									</void:VisualTransition>
 								</VisualStateGroup.Transitions>
 								<VisualState x:Name="Loading">
 									<VisualState.Setters>
@@ -67,6 +65,10 @@
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Opacity"
 												Value="1" />
+										<Setter Target="SplashScreenPresenter.Opacity"
+												Value="0" />
+										<Setter Target="LoadingContentPresenter.Opacity"
+												Value="0" />
 										<Setter Target="SplashScreenPresenter.Content"
 												Value="{x:Null}" />
 										<Setter Target="LoadingContentPresenter.Content"
