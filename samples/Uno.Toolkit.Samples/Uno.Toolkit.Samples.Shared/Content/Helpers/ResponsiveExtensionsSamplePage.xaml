@@ -89,6 +89,14 @@
 							</Span>
 						</TextBlock>
 
+						<TextBlock Text="ItemsRepeater.Layout test" />
+						<!-- somewhat related: ItemsControl.ItemPanel is implicitly supported, since the template's panel is a FE -->
+						<ItemsRepeater ItemsSource="{Binding Data.ItemsSource}" utu:ResponsiveBehavior.IsEnabled="True">
+							<ItemsRepeater.Layout>
+								<StackLayout Orientation="{utu:Responsive Narrowest=Vertical, Narrow=Horizontal, Normal=Vertical, Wide=Horizontal,Widest=Vertical}" />
+							</ItemsRepeater.Layout>
+						</ItemsRepeater>
+
 						<!-- layout overriding -->
 						<TextBlock Text="Custom values override" FontWeight="Bold" />
 						<StackPanel>

@@ -32,24 +32,19 @@ public static class ResponsiveBehavior
 
 	#endregion
 
-	internal static bool IsChildSupported(DependencyObject? child) => child switch
-	{
-		ColumnDefinition or RowDefinition => true,
-		Inline => true,
-
-		_ => false,
-	};
+	internal static bool IsChildSupported(DependencyObject? child) => child is
+	(
+		ColumnDefinition or RowDefinition or
+		Inline or
+		Microsoft.UI.Xaml.Controls.Layout
+	);
 
 	private static void OnIsEnabledChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 	{
-		if (sender is Grid g)
-		{
-			g.Loaded += OnGridLoaded;
-		}
-		else if (sender is TextBlock tb)
-		{
-			tb.Loaded += OnTextBlockLoaded;
-		}
+		if (false) { }
+		else if (sender is Grid g) g.Loaded += OnGridLoaded;
+		else if (sender is TextBlock tb) tb.Loaded += OnTextBlockLoaded;
+		else if (sender is ItemsRepeater ir) ir.Loaded += OnItemsRepeaterLoaded;
 		else
 		{
 			throw new NotSupportedException($"ResponsiveBehavior is not supported on '{sender.GetType()}'.");
@@ -82,6 +77,19 @@ public static class ResponsiveBehavior
 			markup.InitializeByProxy(host);
 		}
 	}
+
+	private static void OnItemsRepeaterLoaded(object sender, RoutedEventArgs e)
+	{
+		if (sender is not ItemsRepeater host) return;
+		if (host.Layout is null) return;
+
+		var markups = ResponsiveExtension.GetAllInstancesFor(host.Layout);
+		foreach (var markup in markups)
+		{
+			markup.InitializeByProxy(host);
+		}
+	}
+
 
 	private static IEnumerable<Inline> FlattenInlines(TextBlock tb) => FlattenInlines(tb.Inlines);
 	private static IEnumerable<Inline> FlattenInlines(InlineCollection inlines)

@@ -118,11 +118,14 @@ xmlns:utu="using:Uno.Toolkit.UI"
     <GridLength x:Key="GL150">150</GridLength>
     <SolidColorBrush x:Key="Red">Red</SolidColorBrush>
     <SolidColorBrush x:Key="Green">Green</SolidColorBrush>
-    <SolidColorBrush x:Key="Blue">Blue</SolidColorBrush>
 
 <Grid utu:ResponsiveBehavior.IsEnabled="True">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL50}, Wide={StaticResource GL150}}" />
+
+<ItemsRepeater utu:ResponsiveBehavior.IsEnabled="True">
+    <ItemsRepeater.Layout>
+        <StackLayout Orientation="{utu:Responsive Narrow=Horizontal, Wide=Horizontal}" />
 
 <TextBlock utu:ResponsiveBehavior.IsEnabled="True">
     <Run Text="asd" Foreground="{utu:Responsive Narrow={StaticResource Red}, Wide={StaticResource Green}}" />
