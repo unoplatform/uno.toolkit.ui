@@ -14,6 +14,8 @@
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<DefineConstants>WINUI</DefineConstants>
 		<UseWinUI>true</UseWinUI>
+
+		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All"/>

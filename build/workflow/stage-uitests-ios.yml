@@ -1,4 +1,4 @@
-jobs:
+﻿jobs:
 - job: iOS_UITests
   displayName: 'Run iOS UI Tests'
   timeoutInMinutes: 120

@@ -1,4 +1,4 @@
-jobs:
+﻿jobs:
 - job: Android_UITests
   displayName: 'Run Android UI Tests'
   timeoutInMinutes: 90
