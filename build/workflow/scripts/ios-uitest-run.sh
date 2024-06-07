@@ -14,7 +14,7 @@ fi
 export UNO_UITEST_PLATFORM=iOS
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/ios/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_IOS_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.Mobile
-export UNO_UITEST_IOSBUNDLE_PATH=$UNO_UITEST_IOS_PROJECT_PATH/bin/Release/net7.0-ios/iossimulator-x64/$SAMPLE_PROJECT_NAME.Mobile.app
+export UNO_UITEST_IOSBUNDLE_PATH=$UNO_UITEST_IOS_PROJECT_PATH/bin/Release/net8.0-ios/iossimulator-x64/$SAMPLE_PROJECT_NAME.Mobile.app
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
 export UNO_UITEST_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
 export UNO_UITEST_PROJECT=$UNO_UITEST_PROJECT_PATH/Uno.Toolkit.UITest.csproj
@@ -34,8 +34,8 @@ export UITEST_TEST_TIMEOUT=120m
 echo "Listing iOS simulators"
 xcrun simctl list devices --json
 
-cd $UNO_UITEST_IOS_PROJECT_PATH 
-dotnet build -f net7.0-ios -c Release /p:RuntimeIdentifier=iossimulator-x64 /p:IsUiAutomationMappingEnabled=True /bl:$BASE_ARTIFACTS_PATH/ios-$XAML_FLAVOR_BUILD-uitest.binlog
+cd $UNO_UITEST_IOS_PROJECT_PATH
+dotnet build -f net8.0-ios -c Release /p:RuntimeIdentifier=iossimulator-x64 /p:IsUiAutomationMappingEnabled=True /bl:$BASE_ARTIFACTS_PATH/ios-$XAML_FLAVOR_BUILD-uitest.binlog
 
 ##
 ## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
