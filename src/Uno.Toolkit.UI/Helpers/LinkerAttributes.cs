@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-#if !NET8_0_OR_GREATER
+#if !NET8_0
 namespace System.Diagnostics.CodeAnalysis
 {
 	/// <summary>
