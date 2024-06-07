@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-#if !NET8_0
+#if !NETCOREAPP
 namespace System.Diagnostics.CodeAnalysis
 {
 	/// <summary>
