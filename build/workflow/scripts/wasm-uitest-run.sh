@@ -32,7 +32,7 @@ export UITEST_TEST_TIMEOUT=60m
 
 cd $BUILD_SOURCESDIRECTORY
 
-dotnet build /r /p:Configuration=Release $UNO_UITEST_WASM_PROJECT /p:IsUiAutomationMappingEnabled=True /p:DisableNet7MobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-$XAML_FLAVOR_BUILD-uitest.binlog
+dotnet build /r /p:Configuration=Release $UNO_UITEST_WASM_PROJECT /p:IsUiAutomationMappingEnabled=True /p:DisableMobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-$XAML_FLAVOR_BUILD-uitest.binlog
 
 cd $BUILD_SOURCESDIRECTORY/build
 mkdir -p tools
