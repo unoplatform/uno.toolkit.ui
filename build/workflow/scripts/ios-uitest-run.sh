@@ -31,11 +31,10 @@ export UNO_UITEST_SIMULATOR_NAME="iPad Pro (12.9-inch) (6th generation)"
 
 export UITEST_TEST_TIMEOUT=120m
 
-export UNO_UITEST_SIMULATOR_VERSION="com.apple.CoreSimulator.SimRuntime.iOS-16-1"
-export UNO_UITEST_SIMULATOR_NAME="iPad Pro (12.9-inch) (6th generation)"
-
 echo "Listing iOS simulators"
 xcrun simctl list devices --json
+
+/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator &
 
 # Prime the output directory
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH/_logs
@@ -45,32 +44,6 @@ ln -s ~/Library ~/Documents/Library
 
 cd $UNO_UITEST_IOS_PROJECT_PATH
 dotnet build -f net8.0-ios -c Release /p:RuntimeIdentifier=iossimulator-x64 /p:IsUiAutomationMappingEnabled=True /bl:$BASE_ARTIFACTS_PATH/ios-$XAML_FLAVOR_BUILD-uitest.binlog
-
-##
-## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
-##
-export UITEST_IOSDEVICE_ID=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .udid'`
-
-echo "Starting simulator: $UITEST_IOSDEVICE_ID ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
-xcrun simctl boot "$UITEST_IOSDEVICE_ID" || true
-
-echo "Install app on simulator: $UITEST_IOSDEVICE_ID"
-xcrun simctl install "$UITEST_IOSDEVICE_ID" "$UNO_UITEST_IOSBUNDLE_PATH" || true
-
-echo "Shutdown simulator: $UITEST_IOSDEVICE_ID ($UNO_UITEST_SIMULATOR_VERSION / $UNO_UITEST_SIMULATOR_NAME)"
-xcrun simctl shutdown "$UITEST_IOSDEVICE_ID" || true
-
-echo "Installing idb"
-# https://github.com/microsoft/appcenter/issues/2605#issuecomment-1854414963
-brew tap facebook/fb
-brew install idb-companion
-pip3 install fb-idb
-
-cd $BUILD_SOURCESDIRECTORY/build
-
-cd $UNO_UITEST_PROJECT_PATH
-
-dotnet build -f net8.0-ios -r iossimulator-x64 -c Release -p:IsUiAutomationMappingEnabled=True -p:FrameworkLineage=$XAML_FLAVOR_BUILD
 
 ##
 ## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
@@ -116,6 +89,8 @@ fi
 xcrun simctl boot "$UITEST_IOSDEVICE_ID" || true
 
 idb install --udid "$UITEST_IOSDEVICE_ID" "$UNO_UITEST_IOSBUNDLE_PATH"
+
+cd $UNO_UITEST_PROJECT_PATH
 
 ## Run tests
 dotnet test \
