@@ -20,12 +20,12 @@ jobs:
         CI_Build: true
 
   pool:
-    vmImage: 'macOS-13'
+    vmImage: 'macOS-14'
 
   variables:
   - group: unoplatform.apple.ios.appstore.distribution
   - name: XCODE_ROOT
-    value: '/Applications/Xcode_14.3.app'
+    value: '/Applications/Xcode_15.2.app'
 
   steps:
   - task: InstallAppleCertificate@2

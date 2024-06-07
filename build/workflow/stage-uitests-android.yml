@@ -1,4 +1,4 @@
-﻿jobs:
+jobs:
 - job: Android_UITests
   displayName: 'Run Android UI Tests'
   timeoutInMinutes: 90
@@ -43,7 +43,7 @@
         SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
 
   pool:
-    vmImage: 'macOS-13'
+    vmImage: 'macOS-14'
 
   steps:
   - checkout: self
