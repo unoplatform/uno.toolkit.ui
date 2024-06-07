@@ -20,10 +20,10 @@
 		<!-- <TargetFrameworkOverride Condition="''!='hint: UWP'">uap10.0.19041;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
 		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">net8.0-windows10.0.19041;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
 		<!-- <TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">net8.0;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 iOS'">net8.0-ios;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 Android'">net8.0-android;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 macOS Catalyst'">net8.0-maccatalyst;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 7.0 macOS AppKit'">net8.0-macos;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 8.0 iOS'">net8.0-ios;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 8.0 Android'">net8.0-android;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 8.0 macOS Catalyst'">net8.0-maccatalyst;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 8.0 macOS AppKit'">net8.0-macos;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
 
 		<!-- DO NOT COMMENT OUT: net8.0 is a required tfm in all cases -->
 		<TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('net8.0;'))">net8.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
