@@ -26,7 +26,7 @@ export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nu
 export UNO_ORIGINAL_TEST_RESULTS=$BUILD_SOURCESDIRECTORY/build/$UNO_TEST_RESULTS_FILE_NAME
 export UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH=$UNO_ORIGINAL_TEST_RESULTS
 export UNO_TESTS_RESPONSE_FILE=$BUILD_SOURCESDIRECTORY/build/nunit.response
-export UNO_UITEST_SIMULATOR_VERSION="com.apple.CoreSimulator.SimRuntime.iOS-16-4"
+export UNO_UITEST_SIMULATOR_VERSION="com.apple.CoreSimulator.SimRuntime.iOS-17-0"
 export UNO_UITEST_SIMULATOR_NAME="iPad Pro (12.9-inch) (6th generation)"
 
 export UITEST_TEST_TIMEOUT=120m
@@ -46,10 +46,10 @@ dotnet build -f net8.0-ios -c Release /p:RuntimeIdentifier=iossimulator-x64 /p:I
 ## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
 ##
 
-## Install iOS 16.4 simulators
-xcodes runtimes install --keep-archive 'iOS 16.4' || true
+## Install iOS 17.0 simulators
+xcodes runtimes install --keep-archive 'iOS 17.0' || true
 
-# Wait while ios runtime 16.4 is not having simulators. The install process may
+# Wait while ios runtime 17.0 is not having simulators. The install process may
 # take a few seconds and "simctl list devices" may not return devices.
 while true; do
 	export UITEST_IOSDEVICE_ID=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .udid'`
