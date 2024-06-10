@@ -40,12 +40,12 @@
   steps:
   - checkout: self
     clean: true
-    
+
   - task: UseDotNet@2
     displayName: 'Use .NET'
     inputs:
       packageType: 'sdk'
-      version: '7.0.400'
+      version: '8.0.301'
 
   - template: templates/canary-updater.yml
 

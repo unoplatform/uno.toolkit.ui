@@ -6,9 +6,9 @@
 	-->
 	<PropertyGroup>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">net7.0</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableNet7MobileTargets)'==''">$(TargetFrameworks);net7.0-ios;net7.0-macos;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">net8.0</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'==''">$(TargetFrameworks);net8.0-ios;net8.0-macos;net8.0-android;net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
@@ -17,6 +17,8 @@
 		<PackageId>Uno.Toolkit.WinUI.Material</PackageId>
 		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
+
+		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -33,11 +35,11 @@
 	<ItemGroup Condition="$(_IsWindowsWinUI)">
 		<PackageReference Include="Microsoft.WindowsAppSDK" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
-		
+
 		<Page Remove="Generated\*.xaml" />
 
 	</ItemGroup>
-		
+
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 		<Content Include="Assets\**\*.png" />
