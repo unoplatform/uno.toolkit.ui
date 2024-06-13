@@ -105,13 +105,6 @@ namespace Uno.Toolkit.Samples
 				var splash = new ExtendedSplashScreen
 				{
 					Window = _window,
-#if !HAS_UNO
-#if IS_WINUI
-					SplashScreen = e.UWPLaunchActivatedEventArgs.SplashScreen,
-#else
-					SplashScreen = e.SplashScreen,
-#endif
-#endif
 					Source = loadable
 				};
 				_window.Content = splash;
