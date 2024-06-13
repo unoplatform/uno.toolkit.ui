@@ -20,7 +20,7 @@ export UNO_UITEST_PLATFORM=Android
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/android/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
 export UNO_UITEST_MOBILE_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.Mobile
-export UNO_UITEST_ANDROIDAPK_PATH=$UNO_UITEST_MOBILE_PROJECT_PATH/bin/Release/net7.0-android/android-x64/$SAMPLEAPP_PACKAGE_NAME-Signed.apk
+export UNO_UITEST_ANDROIDAPK_PATH=$UNO_UITEST_MOBILE_PROJECT_PATH/bin/Release/net8.0-android/android-x64/$SAMPLEAPP_PACKAGE_NAME-Signed.apk
 export UNO_UITEST_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
 export UNO_UITEST_PROJECT=$UNO_UITEST_PROJECT_PATH/Uno.Toolkit.UITest.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
@@ -66,11 +66,11 @@ then
 	# Install AVD files
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'tools'| tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platform-tools'  | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'build-tools;33.0.0' | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platforms;android-33' | tr '\r' '\n' | uniq
+	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'build-tools;34.0.0' | tr '\r' '\n' | uniq
+	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platforms;android-34' | tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install "platforms;android-$ANDROID_SIMULATOR_APILEVEL" | tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'extras;android;m2repository' | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'system-images;android-33;google_apis_playstore;x86_64' | tr '\r' '\n' | uniq
+	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'system-images;android-34;google_apis_playstore;x86_64' | tr '\r' '\n' | uniq
 	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install "system-images;android-$ANDROID_SIMULATOR_APILEVEL;google_apis_playstore;x86_64" | tr '\r' '\n' | uniq
 
 	if [[ -f $ANDROID_HOME/platform-tools/platform-tools/adb ]]
@@ -85,7 +85,7 @@ then
 	# based on https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#hardware
 	# >> Agents that run macOS images are provisioned on Mac pros with a 3 core CPU, 14 GB of RAM, and 14 GB of SSD disk space.
 	echo "hw.cpu.ncore=3" >> $AVD_CONFIG_FILE
-	
+
 	# Bump the heap size as the tests are stressing the application
 	echo "vm.heapSize=256M" >> $AVD_CONFIG_FILE
 
@@ -115,7 +115,7 @@ fi
 
 # Build the sample, while the emulator is starting
 cd $UNO_UITEST_MOBILE_PROJECT_PATH
-dotnet publish -f net7.0-android -c Release /p:RuntimeIdentifier=android-x64 /p:IsUiAutomationMappingEnabled=True /p:AndroidUseSharedRuntime=False /p:RunAOTCompilation=False /bl:$BASE_ARTIFACTS_PATH/android-$XAML_FLAVOR_BUILD-uitest.binlog
+dotnet publish -f net8.0-android -c Release /p:RuntimeIdentifier=android-x64 /p:IsUiAutomationMappingEnabled=True /p:AndroidUseSharedRuntime=False /p:RunAOTCompilation=False /bl:$BASE_ARTIFACTS_PATH/android-$XAML_FLAVOR_BUILD-uitest.binlog
 
 # list active devices
 $ANDROID_HOME/platform-tools/adb devices

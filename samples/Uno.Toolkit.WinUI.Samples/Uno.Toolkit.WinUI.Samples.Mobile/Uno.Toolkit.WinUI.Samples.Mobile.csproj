@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks>net8.0-ios;net8.0-android;net8.0-maccatalyst</TargetFrameworks>
     <!-- Disabled because of https://github.com/xamarin/xamarin-macios/issues/16401-->
-    <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-macos</TargetFrameworks> -->
+    <!-- <TargetFrameworks>$(TargetFrameworks);net8.0-macos</TargetFrameworks> -->
     <SingleProject>true</SingleProject>
     <OutputType>Exe</OutputType>
     <!-- Display name -->
@@ -28,9 +28,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <RuntimeIdentifier Condition="'$(TargetFramework)' == 'net7.0-ios'">iossimulator-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="'$(TargetFramework)' == 'net7.0-maccatalyst'">maccatalyst-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="'$(TargetFramework)' == 'net7.0-macos'">osx-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(TargetFramework)' == 'net8.0-ios'">iossimulator-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(TargetFramework)' == 'net8.0-maccatalyst'">maccatalyst-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(TargetFramework)' == 'net8.0-macos'">osx-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,7 +46,7 @@
     <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
   </ItemGroup>
   <Choose>
-    <When Condition="'$(TargetFramework)'=='net7.0-android'">
+    <When Condition="'$(TargetFramework)'=='net8.0-android'">
       <PropertyGroup>
         <AndroidManifest>Android\AndroidManifest.xml</AndroidManifest>
         <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
@@ -61,7 +61,7 @@
         <AndroidEnvironment Include="Android/environment.conf" />
       </ItemGroup>
     </When>
-    <When Condition="'$(TargetFramework)'=='net7.0-ios'">
+    <When Condition="'$(TargetFramework)'=='net8.0-ios'">
       <PropertyGroup>
         <MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
         <!-- See https://github.com/unoplatform/uno/issues/9430 for more details. -->
@@ -83,7 +83,7 @@
         <PackageReference Include="Xamarin.TestCloud.Agent" />
       </ItemGroup>
     </When>
-    <When Condition="'$(TargetFramework)'=='net7.0-maccatalyst'">
+    <When Condition="'$(TargetFramework)'=='net8.0-maccatalyst'">
       <PropertyGroup>
         <!-- Configure the GC -->
         <MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>

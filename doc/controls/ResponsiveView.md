@@ -84,31 +84,13 @@ If you prefer instructional videos, you can follow our tutorials on how to work 
 
 ### [**XAML**](#tab/techbite-xaml) <!-- markdownlint-disable-line MD051 -->
 
-<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/VgpC79ErNRI"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-    </iframe>
-</div>
+> [!Video https://www.youtube-nocookie.com/embed/VgpC79ErNRI]
 
 ### [**C# Markup**](#tab/techbite-csmarkup) <!-- markdownlint-disable-line MD051 -->
 
-<div style="position: relative; width: 100%; padding-bottom: 56.25%;">
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/lQueBn6LEyU"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-    </iframe>
-</div>
+> [!Video https://www.youtube-nocookie.com/embed/lQueBn6LEyU]
 
-***
+---
 
 > [!TIP]
 > It is not necessary to define every template or layout breakpoint: Narrowest, Narrow, Normal, Wide, Widest. You can just define the bare minimum needed.

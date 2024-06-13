@@ -16,7 +16,23 @@ namespace Uno.Toolkit.UI;
 
 partial class AutoLayout
 {
+	private bool _isArranging;
+
 	protected override Size ArrangeOverride(Size finalSize)
+	{
+		_isArranging = true;
+
+		try
+		{
+			return InnerArrange(finalSize);
+		}
+		finally
+		{
+			_isArranging = false;
+		}
+	}
+
+	private Size InnerArrange(in Size finalSize)
 	{
 		// Local cache of DependencyProperties
 		var children = Children;
@@ -40,20 +56,17 @@ partial class AutoLayout
 		var startPadding = isHorizontal ? padding.Left : padding.Top;
 		var endPadding = isHorizontal ? padding.Right : padding.Bottom;
 
-		if (_calculatedChildren is null)
+		if (_calculatedChildren is null || children.Count != _calculatedChildren.Length)
 		{
 			// If the panel has not been measured yet, we need to measure it now.
 			InvalidateMeasure();
 			return finalSize;
 		}
 
-		if (children.Count != _calculatedChildren.Length
-			|| finalSize != DesiredSize)
+		if (finalSize != DesiredSize)
 		{
-			// If the number of children has changed, or the final size if different than
-			// what was measured, we need to re-measure the children using the new final size.
-			// This usually happens when the panel is used in a ScrollViewer, and the ScrollViewer
-			// is measuring the panel with an infinite size, and then arranging it with a finite size.
+			// The _calculatedChildren is calculated for the available size, so we need to re-measure it
+			// using the new final size.
 			MeasureOverride(finalSize);
 		}
 
@@ -144,7 +157,7 @@ partial class AutoLayout
 			? filledChildrenSize + (filledMaxSurplus / (numberOfFilledChildren - numberOfFilledChildrenWithMax))
 			: filledChildrenSize + GetChildrenLowerThanAllocateSurplus(_calculatedChildren, filledChildrenSize);
 
-		 EnsureZeroFloor(ref filledChildrenSizeAfterMaxSize);
+		EnsureZeroFloor(ref filledChildrenSizeAfterMaxSize);
 
 		// Establish actual inter-element spacing.
 		var spacingOffset = justify == AutoLayoutJustify.SpaceBetween && !atLeastOneFilledChild
@@ -260,7 +273,7 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static void ApplyMinMaxValues(UIElement element, Orientation orientation, ref Size desiredSize)
+	private static void ApplyMinMaxValues(in UIElement element, in Orientation orientation, ref Size desiredSize)
 	{
 		if (element is not FrameworkElement frameworkElement)
 		{
@@ -305,11 +318,11 @@ partial class AutoLayout
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static double ComputeCounterAlignmentOffset(
-		AutoLayoutAlignment? counterAlignment,
-		double childCounterLength,
-		double availableCounterLength,
-		Thickness padding,
-		bool isHorizontal)
+		in AutoLayoutAlignment? counterAlignment,
+		in double childCounterLength,
+		in double availableCounterLength,
+		in Thickness padding,
+		in bool isHorizontal)
 	{
 		switch (counterAlignment)
 		{
@@ -332,9 +345,9 @@ partial class AutoLayout
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static double ComputeSpaceBetween(
-		double availableSizeForStackedChildren,
-		double totalNonFilledStackedSize,
-		int numberOfStackedChildren)
+		in double availableSizeForStackedChildren,
+		in double totalNonFilledStackedSize,
+		in int numberOfStackedChildren)
 	{
 		var availableSizeForStackedSpaceBetween = availableSizeForStackedChildren - totalNonFilledStackedSize;
 
@@ -345,16 +358,16 @@ partial class AutoLayout
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static double PrimaryAxisAlignmentOffsetSize(
-		double totalOfFillMaxSize,
-		AutoLayoutAlignment autoLayoutAlignment,
-		double availableSizeForStackedChildren,
-		double totalNonFilledStackedSize,
-		bool haveMoreFilled,
-		double spacing,
-		int numberOfStackedChildren,
-		double filledChildrenSizeAfterMaxSize,
-		double startPadding,
-		double endPadding)
+		in double totalOfFillMaxSize,
+		in AutoLayoutAlignment autoLayoutAlignment,
+		in double availableSizeForStackedChildren,
+		in double totalNonFilledStackedSize,
+		in bool haveMoreFilled,
+		in double spacing,
+		in int numberOfStackedChildren,
+		in double filledChildrenSizeAfterMaxSize,
+		in double startPadding,
+		in double endPadding)
 	{
 		if (haveMoreFilled || autoLayoutAlignment is AutoLayoutAlignment.Start)
 		{
@@ -384,7 +397,9 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static double GetChildrenLowerThanAllocateSurplus(CalculatedChildren[] calculatedChildren, double filledChildrenSizeBeforeMaxSize)
+	private static double GetChildrenLowerThanAllocateSurplus(
+		in Span<CalculatedChildren> calculatedChildren,
+		in double filledChildrenSizeBeforeMaxSize)
 	{
 		int countFilledChildrenGreaterThanAllocated = 0;
 		double sumSurplusFromLower = 0d;

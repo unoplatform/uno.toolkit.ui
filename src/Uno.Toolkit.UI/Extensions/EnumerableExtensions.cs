@@ -71,4 +71,25 @@ internal static class EnumerableExtensions
 		return result;
 	}
 
+	/// <summary>
+	/// ToDictionary that allows for duplicated keys where later ones override previous.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
+	/// <typeparam name="TValue"></typeparam>
+	/// <param name="source"></param>
+	/// <param name="keySelector"></param>
+	/// <param name="valueSelector"></param>
+	/// <returns></returns>
+	public static Dictionary<TKey, TValue> ToDictionarySafe<T, TKey, TValue>(this IEnumerable<T> source, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
+		where TKey : notnull
+	{
+		var dict = new Dictionary<TKey, TValue>();
+		foreach (var element in source)
+		{
+			dict[keySelector(element)] = valueSelector(element);
+		}
+
+		return dict;
+	}
 }

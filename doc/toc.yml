@@ -65,7 +65,6 @@
       href: helpers/progress-extensions.md
     - name: Responsive markup extension
       href: helpers/responsive-extension.md
-    - name: StatusBar attached properties
     - name: Resource Extensions
       href: helpers/resource-extensions.md
     - name: Selector Extensions
