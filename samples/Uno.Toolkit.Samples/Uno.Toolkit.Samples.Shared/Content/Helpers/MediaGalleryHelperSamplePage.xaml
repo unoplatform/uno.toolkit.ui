@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="Uno.Toolkit.Samples.Content.Helpers.MediaGalleryHelperSamplePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Uno.Toolkit.Samples.Content.Helpers"
+    xmlns:local="using:Uno.Toolkit.Samples.Content.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sample="using:Uno.Toolkit.Samples"
+    xmlns:utu="using:Uno.Toolkit.UI"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <sample:SamplePageLayout IsDesignAgnostic="True">
+            <sample:SamplePageLayout.DesignAgnosticTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Button Command="{Binding Data.CheckAccessCommand}">Check access</Button>
+                        <Button Command="{Binding Data.SaveCommand}">Save UnoLogo.png to gallery</Button>
+                        <Button Command="{Binding Data.SaveRandomNameCommand}">Save with random name to gallery</Button>
+                    </StackPanel>
+                </DataTemplate>
+            </sample:SamplePageLayout.DesignAgnosticTemplate>
+        </sample:SamplePageLayout>
+    </Grid>
+</Page>
