@@ -30,7 +30,8 @@ namespace Uno.Toolkit.UI
 
 		// UNO TODO: Deprecate and remove BadgeVisibility and BadgeValue properties and use InfoBadge instead
 		#region BadgeVisibility
-		[Obsolete("This property is deprecated. Use InfoBadge instead.", false)]
+		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
+		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public Visibility BadgeVisibility
 		{
 			get => InfoBadge?.Visibility ?? (Visibility)GetValue(BadgeVisibilityProperty);
@@ -43,13 +44,15 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		[Obsolete("This property is deprecated. Use InfoBadge instead.", false)]
+		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
+		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public static readonly DependencyProperty BadgeVisibilityProperty =
 			DependencyProperty.Register(nameof(BadgeVisibility), typeof(Visibility), typeof(TabBarItem), new PropertyMetadata(Visibility.Collapsed, OnPropertyChanged));
 		#endregion
 
 		#region BadgeValue
-		[Obsolete("This property is deprecated. Use InfoBadge instead.", false)]
+		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
+		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public string? BadgeValue
 		{
 			get => (InfoBadge as MUXC.InfoBadge)?.Value.ToString() ?? (string)GetValue(BadgeValueProperty);
@@ -72,7 +75,8 @@ namespace Uno.Toolkit.UI
 				}
 			}
 		}
-		[Obsolete("This property is deprecated. Use InfoBadge instead.", false)]
+		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
+		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public static readonly DependencyProperty BadgeValueProperty =
 			DependencyProperty.Register(nameof(BadgeValue), typeof(string), typeof(TabBarItem), new PropertyMetadata(default(string?), OnPropertyChanged));
 		#endregion
