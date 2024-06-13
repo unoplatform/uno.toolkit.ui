@@ -70,4 +70,3 @@ stages:
   - template: stage-uitests-ios.yml
   - template: stage-build-android.yml
   - template: stage-uitests-android.yml
-  - template: stage-build-windows.yml
