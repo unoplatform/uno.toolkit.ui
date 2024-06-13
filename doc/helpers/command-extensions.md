@@ -34,7 +34,7 @@ Provides Command/CommandParameter attached properties for common scenarios.
 ## Usage
 
 For more details on using the Command Extensions in your project, check out our Tech Bite video:
-[!Video https://www.youtube-nocookie.com/embed/CIqRU_lPjFM]
+> [!Video https://www.youtube-nocookie.com/embed/CIqRU_lPjFM]
 
 ```xml
 <!-- Include the following XAML namespace to use the samples below -->

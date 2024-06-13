@@ -26,7 +26,7 @@ Provides various attached properties for _input controls_, such as `TextBox` and
 ## Usage
 
 For more details on using the Input Extensions in your project, check out our Tech Bite video:
-[!Video https://www.youtube-nocookie.com/embed/RwceaVsZaJQ]
+> [!Video https://www.youtube-nocookie.com/embed/RwceaVsZaJQ]
 
 ```xml
 <!-- Include the following XAML namespace to use the samples below -->
