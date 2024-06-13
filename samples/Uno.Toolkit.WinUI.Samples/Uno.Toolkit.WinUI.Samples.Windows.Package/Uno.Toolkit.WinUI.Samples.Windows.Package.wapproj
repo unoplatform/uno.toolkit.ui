@@ -72,7 +72,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Uno.Toolkit.WinUI.Samples.Windows.Desktop\Uno.Toolkit.WinUI.Samples.Windows.Desktop.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
-      <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
+      <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -10,14 +10,14 @@ jobs:
         GeneratePackageOnBuild: false
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 1
-        DisableNet7MobileTargets: true
+        DisableMobileTargets: true
       UWP:
         ArtifactName: android-uwp
         ProjectName: Uno.Toolkit.Samples
         GeneratePackageOnBuild: false
         ApplicationBuildNumberOffset: 50
         VersionCodeOffset: 1
-        DisableNet7MobileTargets: true
+        DisableMobileTargets: true
 
   pool:
     vmImage: windows-2022
@@ -40,15 +40,15 @@ jobs:
   - script: |
       cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet publish -f net7.0-android -c Release /t:SignAndroidPackage "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /p:AndroidSigningKeyStore=$(keyStore.secureFilePath) /p:AndroidSigningStorePass=$(AndroidSigningStorePass) /p:AndroidSigningKeyPass=$(AndroidSigningKeyPass) /p:AndroidSigningKeyAlias=$(AndroidSigningKeyAlias) /p:AndroidKeyStore=true  /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
-    displayName: Build project for Release - (net7.0-android)
+      dotnet publish -f net8.0-android -c Release /t:SignAndroidPackage "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /p:AndroidSigningKeyStore=$(keyStore.secureFilePath) /p:AndroidSigningStorePass=$(AndroidSigningStorePass) /p:AndroidSigningKeyPass=$(AndroidSigningKeyPass) /p:AndroidSigningKeyAlias=$(AndroidSigningKeyAlias) /p:AndroidKeyStore=true  /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
+    displayName: Build project for Release - (net8.0-android)
     condition: eq(variables['System.PullRequest.IsFork'],'False')
 
   - script: |
       cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -f net7.0-android -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /p:AndroidKeyStore=false /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
-    displayName: Build project for Release - (net7.0-android)
+      dotnet build -f net8.0-android -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /p:AndroidKeyStore=false /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
+    displayName: Build project for Release - (net8.0-android)
     condition: eq(variables['System.PullRequest.IsFork'],'True')
 
   - task: CopyFiles@2

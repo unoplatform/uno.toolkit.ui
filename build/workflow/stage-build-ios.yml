@@ -20,12 +20,12 @@ jobs:
         CI_Build: true
 
   pool:
-    vmImage: 'macOS-13'
+    vmImage: 'macOS-14'
 
   variables:
   - group: unoplatform.apple.ios.appstore.distribution
   - name: XCODE_ROOT
-    value: '/Applications/Xcode_14.3.app'
+    value: '/Applications/Xcode_15.2.app'
 
   steps:
   - task: InstallAppleCertificate@2
@@ -78,15 +78,15 @@ jobs:
   - bash: |
       cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet publish -f net7.0-ios -c Release /p:ArchiveOnBuild=true "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
-    displayName: Build project for Release - (net7.0-ios)
+      dotnet publish -f net8.0-ios -c Release /p:ArchiveOnBuild=true "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+    displayName: Build project for Release - (net8.0-ios)
     condition: eq(variables['System.PullRequest.IsFork'],'False')
 
   - bash: |
       cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -f net7.0-ios -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
-    displayName: Build project for Release - (net7.0-ios)
+      dotnet build -f net8.0-ios -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+    displayName: Build project for Release - (net8.0-ios)
     condition: eq(variables['System.PullRequest.IsFork'],'True')
 
   - task: CopyFiles@2

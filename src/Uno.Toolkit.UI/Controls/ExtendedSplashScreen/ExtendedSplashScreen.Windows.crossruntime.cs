@@ -1,16 +1,17 @@
 ﻿#if WINDOWS || WINDOWS_UWP || __SKIA_OR_WASM__
 using System;
+using System.IO;
 using System.Linq;
-using System.Threading;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
-using Windows.Graphics.Display;
-using System.Reflection;
-using System.IO;
 using Windows.Storage;
-using System.Runtime.InteropServices;
+
 #if IS_WINUI
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -38,161 +39,142 @@ namespace Uno.Toolkit.UI
 
 		public bool SplashIsEnabled =>
 #if WINDOWS_UWP || WINDOWS
-				(Platforms & SplashScreenPlatform.Windows) != 0;
+			Platforms.HasFlag(SplashScreenPlatform.Windows);
 #else
-				(Platforms &
-						(IsBrowser ? SplashScreenPlatform.WebAssembly : SplashScreenPlatform.Skia))
-						!= 0;
+			Platforms.HasFlag(IsBrowser ? SplashScreenPlatform.WebAssembly : SplashScreenPlatform.Skia);
 #endif
 
 		private static bool IsBrowser { get; } =
-					// Origin of the value : https://github.com/mono/mono/blob/a65055dbdf280004c56036a5d6dde6bec9e42436/mcs/class/corlib/System.Runtime.InteropServices.RuntimeInformation/RuntimeInformation.cs#L115
-					RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY")) // Legacy Value (Bootstrapper 1.2.0-dev.29 or earlier).
-					|| RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
+			// Origin of the value : https://github.com/mono/mono/blob/a65055dbdf280004c56036a5d6dde6bec9e42436/mcs/class/corlib/System.Runtime.InteropServices.RuntimeInformation/RuntimeInformation.cs#L115
+			RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY")) || // Legacy Value (Bootstrapper 1.2.0-dev.29 or earlier).
+			RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 
 		private static async Task<FrameworkElement?> GetNativeSplashScreen()
 		{
+			var (source, background) = IsBrowser
+				? await LoadSplashScreenFromWasmManifest()
+				: await LoadSplashScreenFromPackageManifest();
+
 			// Position of image aligns with WASM Bootstrapper style for splash image
 			// see https://github.com/unoplatform/Uno.Wasm.Bootstrap/blob/7d82af66c7dc587f6d1f6b6382860051fc2d92a0/src/Uno.Wasm.Bootstrap/WasmCSS/uno-bootstrap.css#L21
-			var splashScreenImage = new Image
+			var image = new Image
 			{
+				Source = source,
 				MaxHeight = 300,
 				MaxWidth = 620,
 				Stretch = Stretch.Uniform,
 				HorizontalAlignment = HorizontalAlignment.Center,
 				VerticalAlignment = VerticalAlignment.Center
 			};
-			var splashScreenBackground = new SolidColorBrush();
-
-			Grid.SetColumn(splashScreenImage, 1);
-			var splashScreenElement = new Grid
+			Grid.SetColumn(image, 1);
+			var wrapper = new Grid
 			{
-				Background = splashScreenBackground,
+				Background = new SolidColorBrush { Color = background },
 				ColumnDefinitions = {
 					new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
 					new ColumnDefinition { Width = new GridLength(18, GridUnitType.Star)},
 					new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)}
 				},
-				Children = { splashScreenImage },
+				Children = { image },
 			};
 
-			BitmapImage? bmp;
-			if (!IsBrowser)
-			{
-				bmp = await LoadSplashScreenFromPackageManifest(splashScreenImage, splashScreenBackground);
-			}
-			else
-			{
-				bmp = await LoadSplashScreenFromWasmManifest(splashScreenImage, splashScreenBackground);
-			}
-
-			if (bmp is null)
-			{
-				return splashScreenElement;
-			}
-
-			return splashScreenElement;
+			return wrapper;
 		}
 
-		private static async Task<BitmapImage?> LoadSplashScreenFromWasmManifest(Image splashScreenImage, SolidColorBrush splashScreenBackground)
+		private static async Task<(ImageSource? Source, Color Background)> LoadSplashScreenFromWasmManifest()
 		{
+			var result = (Source: default(ImageSource), Background: Colors.Transparent);
+
 			try
 			{
-				string? manifestString = default;
-				try
+				var js = await LoadWasmManifestFile(Assembly.GetEntryAssembly(), WasmAppManifestFilename);
+				if (string.IsNullOrWhiteSpace(js))
 				{
-					var storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{WasmAppManifestFilename}"));
-					manifestString = await FileIO.ReadTextAsync(storageFile);
-				}
-				catch
-				{
-					var entry = Assembly.GetEntryAssembly();
-					var res = entry?.GetManifestResourceNames()?.FirstOrDefault(x => x.ToLower().Contains(WasmAppManifestFilename, StringComparison.InvariantCultureIgnoreCase));
-					if (string.IsNullOrWhiteSpace(res))
-					{
-						return null;
-					}
-					var packageStream = entry?.GetManifestResourceStream(res);
-					if (packageStream is not null)
-					{
-						using var streamReader = new StreamReader(packageStream);
-						manifestString = await streamReader.ReadToEndAsync();
-					}
-				}
-				if (manifestString is null ||
-					string.IsNullOrWhiteSpace(manifestString))
-				{
-					return null;
-				}
-				var startIdx = manifestString.IndexOf('{') + 1;
-				var endIdx = manifestString.LastIndexOf('}') - 1;
-				manifestString = manifestString.Substring(startIdx, endIdx - startIdx); // Trim "var UnoAppManifest = " from the start of the file so we're left with just the JSON
-				var pairs = (from pair in manifestString.Trim().Split(',')
-							 let bits = pair.Split(':')
-							 where bits.Length == 2
-							 select (Key: bits[0].Trim(), Value: bits[1].Trim().Trim('\"'))).ToArray();
-				var splashScreenImagePath = pairs.FirstOrDefault(x => x.Key == "splashScreenImage").Value;
-				var splashScreenBackgroundColor = pairs.FirstOrDefault(x => x.Key == "splashScreenColor").Value;
-
-				var bmp = new BitmapImage(new Uri("ms-appx:///" + splashScreenImagePath));
-				splashScreenImage.Source = bmp;
-				try
-				{
-					splashScreenBackground.Color = splashScreenBackgroundColor != null
-						? (Color)XamlBindingHelper.ConvertValue(typeof(Color), splashScreenBackgroundColor)
-						: Colors.White;
-				}
-				catch (Exception colorError)
-				{
-					typeof(ExtendedSplashScreen).Log().LogError(0, colorError, $"Error while converting background color {splashScreenBackgroundColor}.");
+					return result;
 				}
 
-				return bmp;
+				var startIdx = js!.IndexOf('{') + 1;
+				var endIdx = js.LastIndexOf('}') - 1;
+				var manifestProps = js.Substring(startIdx, endIdx - startIdx); // Trim "var UnoAppManifest = " from the start of the file so we're left with just the JSON
+				var manifest = manifestProps.Split(',')
+					.Select(x => x.Split(':', 2))
+					.ToDictionarySafe(x => x[0], x => x[1].Trim().Trim('\"'));
+
+				if (manifest.TryGetValue("splashScreenImage", out var image))
+				{
+					result.Source = new BitmapImage(new Uri("ms-appx:///" + image));
+				}
+				result.Background = manifest.TryGetValue("splashScreenColor", out var color)
+					? TryParseColor(color) ?? Colors.Transparent
+					: Colors.White;
+
+				return result;
 			}
 
 			catch (Exception e)
 			{
 				typeof(ExtendedSplashScreen).Log().LogError(0, e, "Error while getting native splash screen.");
-				return null;
 			}
 
+			return result;
 		}
 
-		private static async Task<BitmapImage?> LoadSplashScreenFromPackageManifest(Image splashScreenImage, SolidColorBrush splashScreenBackground)
+		private static async Task<(ImageSource? Source, Color Background)> LoadSplashScreenFromPackageManifest()
 		{
+			var result = (Source: default(ImageSource), Background: Colors.Transparent);
+
 			try
 			{
-				var entry = Assembly.GetEntryAssembly();
-				var doc = await LoadAppManifest(entry, AppxManifestFilename, PackageAppxManifestFileName);
-
-				if (doc is null)
+				var manifest = await LoadAppManifest(Assembly.GetEntryAssembly(), AppxManifestFilename, PackageAppxManifestFileName);
+				if (manifest is null)
 				{
-					return null;
+					return result;
 				}
-				var xnamespace = XNamespace.Get("http://schemas.microsoft.com/appx/manifest/uap/windows10");
 
-				var visualElementsNode = doc.Descendants(xnamespace + "VisualElements").First();
-				var splashScreenNode = visualElementsNode.Descendants(xnamespace + "SplashScreen").First();
-				var splashScreenImagePath = splashScreenNode.Attribute("Image")!.Value;
-				var splashScreenBackgroundColor = splashScreenNode.Attribute("BackgroundColor")?.Value;
-
-				var bmp = new BitmapImage(new Uri("ms-appx:///" + splashScreenImagePath));
-				splashScreenImage.Source = bmp;
-				try
+				// https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-uap-visualelements
+				var resolver = new XmlNamespaceManager(new NameTable());
+				resolver.AddNamespace("win", "http://schemas.microsoft.com/appx/manifest/foundation/windows10"); // cant use "" as default in xpath-select
+				resolver.AddNamespace("uap", "http://schemas.microsoft.com/appx/manifest/uap/windows10");
+				if (manifest.XPathSelectElement(@"//uap:VisualElements/uap:SplashScreen", resolver) is { } splash)
 				{
-					splashScreenBackground.Color = splashScreenBackgroundColor != null
-						? (Color)XamlBindingHelper.ConvertValue(typeof(Color), splashScreenBackgroundColor)
+					if (splash.Attribute("Image") is { } image)
+					{
+						result.Source = new BitmapImage(new Uri("ms-appx:///" + image.Value));
+					}
+					result.Background = splash.Attribute("BackgroundColor") is { } color
+						? TryParseColor(color.Value) ?? Colors.Transparent
 						: Colors.White;
 				}
-				catch (Exception colorError)
-				{
-					typeof(ExtendedSplashScreen).Log().LogError(0, colorError, $"Error while converting background color {splashScreenBackgroundColor}.");
-				}
-				return bmp;
 			}
 			catch (Exception e)
 			{
 				typeof(ExtendedSplashScreen).Log().LogError(0, e, "Error while getting native splash screen.");
+			}
+
+			return result;
+		}
+
+		private static async Task<string?> LoadWasmManifestFile(Assembly? entry, string manifestFile)
+		{
+			try
+			{
+				var storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{manifestFile}"));
+				return await FileIO.ReadTextAsync(storageFile);
+			}
+			catch
+			{
+				var res = entry?.GetManifestResourceNames()?.FirstOrDefault(x => x.ToLower().Contains(manifestFile, StringComparison.InvariantCultureIgnoreCase));
+				if (string.IsNullOrWhiteSpace(res))
+				{
+					return null;
+				}
+
+				var packageStream = entry?.GetManifestResourceStream(res);
+				if (packageStream is not null)
+				{
+					using var streamReader = new StreamReader(packageStream);
+					return await streamReader.ReadToEndAsync();
+				}
 			}
 
 			return null;
@@ -202,13 +184,7 @@ namespace Uno.Toolkit.UI
 		{
 			foreach (var file in manifestFiles)
 			{
-				var doc = await LoadManifestFromPackageFile(entry, file);
-				if (doc is not null)
-				{
-					return doc;
-				}
-				doc = LoadManifestFromEmbeddedFile(entry, file);
-				if (doc is not null)
+				if ((await LoadManifestFromPackageFile(entry, file) ?? LoadManifestFromEmbeddedFile(entry, file)) is { } doc)
 				{
 					return doc;
 				}
@@ -292,6 +268,19 @@ namespace Uno.Toolkit.UI
 			}
 
 			return filePath;
+		}
+
+		private static Color? TryParseColor(string value)
+		{
+			try
+			{
+				return (Color)XamlBindingHelper.ConvertValue(typeof(Color), value);
+			}
+			catch (Exception colorError)
+			{
+				typeof(ExtendedSplashScreen).Log().LogError(0, colorError, $"Error while converting color: {value}.");
+				return null;
+			}
 		}
 	}
 }

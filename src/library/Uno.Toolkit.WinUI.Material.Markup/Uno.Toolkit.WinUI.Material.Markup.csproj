@@ -6,14 +6,16 @@
 	-->
 	<PropertyGroup>
 		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">net7.0</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableNet7MobileTargets)'==''">$(TargetFrameworks);net7.0-ios;net7.0-macos;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">net8.0</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'==''">$(TargetFrameworks);net8.0-ios;net8.0-macos;net8.0-android;net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks>
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<DefineConstants>WINUI</DefineConstants>
 		<UseWinUI>true</UseWinUI>
+
+		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All"/>
@@ -22,7 +24,7 @@
 	  <ProjectReference Include="..\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
 	  <ProjectReference Include="..\Uno.Toolkit.WinUI.Markup\Uno.Toolkit.WinUI.Markup.csproj" />
 	</ItemGroup>
-	
+
 	<PropertyGroup>
 		<PackageDescription>A set of C# for Markup helpers for Uno.Toolkit.WinUI.Material</PackageDescription>
 	</PropertyGroup>
