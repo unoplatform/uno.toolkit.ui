@@ -471,19 +471,22 @@
 										<FontIcon Glyph="&#xE113;" />
 									</utu:TabBarItem.Icon>
 								</utu:TabBarItem>
-								<utu:TabBarItem Content="Mail"
-												BadgeValue="8"
-												BadgeVisibility="Visible">
+								<utu:TabBarItem Content="Mail">
 									<utu:TabBarItem.Icon>
 										<FontIcon Glyph="&#xE119;" />
 									</utu:TabBarItem.Icon>
+									<utu:TabBarItem.InfoBadge>
+										<muxc:InfoBadge Value="8" />
+									</utu:TabBarItem.InfoBadge>
 								</utu:TabBarItem>
-								<utu:TabBarItem Content="About"
-												BadgeValue="42"
-												BadgeVisibility="Visible">
+								<utu:TabBarItem Content="About">
 									<utu:TabBarItem.Icon>
 										<FontIcon Glyph="&#xE946;" />
 									</utu:TabBarItem.Icon>
+									<utu:TabBarItem.InfoBadge>
+										<muxc:InfoBadge Value="42"
+														Style="{StaticResource CriticalIconInfoBadgeStyle}" />
+									</utu:TabBarItem.InfoBadge>
 								</utu:TabBarItem>
 
 							</utu:TabBar.Items>
@@ -625,19 +628,22 @@
 										<FontIcon Glyph="&#xE113;" />
 									</utu:TabBarItem.Icon>
 								</utu:TabBarItem>
-								<utu:TabBarItem Content="Mail"
-												BadgeValue="8"
-												BadgeVisibility="Visible">
+								<utu:TabBarItem Content="Mail">
 									<utu:TabBarItem.Icon>
 										<FontIcon Glyph="&#xE119;" />
 									</utu:TabBarItem.Icon>
+									<utu:TabBarItem.InfoBadge>
+										<muxc:InfoBadge Value="8" />
+									</utu:TabBarItem.InfoBadge>
 								</utu:TabBarItem>
-								<utu:TabBarItem Content="About"
-												BadgeValue="42"
-												BadgeVisibility="Visible">
+								<utu:TabBarItem Content="About">
 									<utu:TabBarItem.Icon>
 										<FontIcon Glyph="&#xE946;" />
 									</utu:TabBarItem.Icon>
+									<utu:TabBarItem.InfoBadge>
+										<muxc:InfoBadge Value="42"
+														Style="{StaticResource CriticalIconInfoBadgeStyle}"/>
+									</utu:TabBarItem.InfoBadge>
 								</utu:TabBarItem>
 
 							</utu:TabBar.Items>

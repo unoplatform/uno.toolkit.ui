@@ -44,7 +44,7 @@
 			<!--  Large Badge  -->
 			<x:Double x:Key="NavigationTabBarItemLargeBadgeHeight">16</x:Double>
 			<x:Double x:Key="NavigationTabBarItemLargeBadgeMinWidth">16</x:Double>
-			<Thickness x:Key="NavigationTabBarItemLargeBadgeMargin">32,2,0,0</Thickness>
+			<Thickness x:Key="NavigationTabBarItemLargeBadgeMargin">0,3,13,0</Thickness>
 			<Thickness x:Key="NavigationTabBarItemLargeBadgePadding">4,0</Thickness>
 			<CornerRadius x:Key="NavigationTabBarItemLargeBadgeCornerRadius">8</CornerRadius>
 
@@ -240,7 +240,7 @@
 			<!--  Large Badge  -->
 			<x:Double x:Key="NavigationTabBarItemLargeBadgeHeight">16</x:Double>
 			<x:Double x:Key="NavigationTabBarItemLargeBadgeMinWidth">16</x:Double>
-			<Thickness x:Key="NavigationTabBarItemLargeBadgeMargin">32,2,0,0</Thickness>
+			<Thickness x:Key="NavigationTabBarItemLargeBadgeMargin">0,3,13,0</Thickness>
 			<Thickness x:Key="NavigationTabBarItemLargeBadgePadding">4,0</Thickness>
 			<CornerRadius x:Key="NavigationTabBarItemLargeBadgeCornerRadius">8</CornerRadius>
 
@@ -699,13 +699,13 @@
 
                                             <!--  BADGE  -->
 											<!--  InfoBadge Presenter  -->
-											<ContentPresenter x:Name="InfoBadgePresenter"
-															  Content="{TemplateBinding InfoBadge}"															  
-															  Margin="{ThemeResource NavigationTabBarItemLargeBadgeMargin}"
-															  Padding="{ThemeResource NavigationTabBarItemLargeBadgePadding}"
-															  HorizontalAlignment="Left"
-															  VerticalAlignment="Top"
-															  Visibility="{Binding InfoBadge, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource MaterialEmptyOrNullToCollapsed}}" />
+											<ContentPresenter
+												x:Name="InfoBadgePresenter"
+												Content="{TemplateBinding InfoBadge}"
+												Margin="{ThemeResource NavigationTabBarItemLargeBadgeMargin}"
+												HorizontalAlignment="Right"
+												VerticalAlignment="Top"
+												Visibility="{Binding InfoBadge, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyOrNullToCollapsedConverter}}" />
 
 										</Grid>
 
