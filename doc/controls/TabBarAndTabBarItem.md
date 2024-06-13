@@ -48,17 +48,19 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Properties
 
-| Property           | Type          | Description                                                                                                                                                                                                                                                                                    |
-|--------------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Command`          | `ICommand`    | Gets or sets the command to invoke when the `TabBarItem` is pressed.                                                                                                                                                                                                                           |
-| `CommandParameter` | `object`      | Gets or sets the parameter to pass to the `Command` property.                                                                                                                                                                                                                                  |
-| `Flyout`           | `double`      | Gets or sets the flyout associated with this `TabBarItem`.                                                                                                                                                                                                                                     |
-| `Icon`             | `IconElement` | Gets or sets the icon of the `TabBarItem`.                                                                                                                                                                                                                                                     |
-| `InfoBadge`        | `Control`    | Gets or sets the `InfoBadge` control placed on the top right corner of the `TabBarItem`.                                                                                                                                                                                                                          |
-| `IsSelectable`     | `bool`        | Gets or sets whether the `TabBarItem` can be selected.                                                                                                                                                                                                                                         |
+| Property                        | Type          | Description                                                                                                                                                                                                                                                                                    |
+|---------------------------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `BadgeValue` (deprecated)*      | `string`      | Gets or sets the value to be displayed in the badge of the `TabBarItem`. If a value is set the large badge will be displayed otherwise it will be the small badge. (Currently only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`) |
+| `BadgeVisibility` (deprecated)* | `Visibility`  | Gets or sets the badge visibility of the `TabBarItem`. (Currently only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`)                                                                                                             |
+| `Command`                       | `ICommand`    | Gets or sets the command to invoke when the `TabBarItem` is pressed.                                                                                                                                                                                                                           |
+| `CommandParameter`              | `object`      | Gets or sets the parameter to pass to the `Command` property.                                                                                                                                                                                                                                  |
+| `Flyout`                        | `double`      | Gets or sets the flyout associated with this `TabBarItem`.                                                                                                                                                                                                                                     |
+| `Icon`                          | `IconElement` | Gets or sets the icon of the `TabBarItem`.                                                                                                                                                                                                                                                     |
+| `InfoBadge`                     | `Control`     | Gets or sets the `InfoBadge` control placed on the top right corner of the `TabBarItem`. (Currently only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`)                                                                           |
+| `IsSelectable`                  | `bool`        | Gets or sets whether the `TabBarItem` can be selected.                                                                                                                                                                                                                                         |
 
 > [!NOTE]
-> The properties `BadgeVisibility` and `BadgeValue` have been deprecated. They were previously used to control the badge visibility and value on the `TabBarItem`. If you need similar functionality, consider using the `InfoBadge` property. The deprecated properties were only supported by the Material Theme Toolkit Library with `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`.
+> *The properties `BadgeVisibility` and `BadgeValue` have been deprecated. They were previously used to control the badge visibility and value on the `TabBarItem`. If you need similar functionality, consider using the `InfoBadge` property.
 
 ### Events
 
@@ -460,19 +462,19 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ![TabBar on Android using the BottomFabTabBarItemStyle](../assets/tabbar-android-material-bottom-fab.png)
 ![TabBar on Android using the BottomFabTabBarItemStyle with flyout opened](../assets/tabbar-android-material-bottom-fab-flyout.png)
 
-#### Badge usage for the Material `TabBar` styles
+#### `InfoBadge` usage for the Material `TabBar` styles
 
-Icons in `TabBar` items can display badges in their upper right corners.
+Icons in `TabBar` items can display `InfoBadge`s in their upper right corners.
 
-Badges can contain dynamic information, such as the number of new messages.
+`InfoBadge` can contain dynamic information, such as the number of new messages. You can find more information about the implementation [here](https://platform.uno/docs/articles/implemented/microsoft-ui-xaml-controls-infobadge.html).
 
-Currently, only the Material Theme Toolkit Library contains a `BottomTabBarItemStyle` or `VerticalTabBarItemStyle` that you can use to display a badge (which is optional).
+Currently, only the Material Theme Toolkit Library contains a `BottomTabBarItemStyle` or `VerticalTabBarItemStyle` that you can use to display the `InfoBadge` (which is optional).
 
-![TabBar with Badge usage](../assets/tabbaritem-winui-material-badges.png)
+![TabBar with `InfoBadge` usage](../assets/tabbaritem-winui-material-badges.png)
 
-##### Small Badge
+##### Small `InfoBadge`
 
-A small badge uses only shape to indicate a status change or new notification.
+A small `InfoBadge` uses only shape to indicate a status change or new notification.
 
 ![TabBar with small Badge](../assets/tabbaritem-winui-material-smallbadge.png)
 
@@ -481,31 +483,56 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <utu:TabBarItem Content="Favorites"
-                BadgeVisibility="Visible"
                 Style="{StaticResource BottomTabBarItemStyle}">
     <utu:TabBarItem.Icon>
         <FontIcon Glyph="&#xE113;" />
     </utu:TabBarItem.Icon>
+    <utu:TabBarItem.InfoBadge>
+        <muxc:InfoBadge />
+    </utu:TabBarItem.InfoBadge>
 </utu:TabBarItem>
 ```
 
-##### Large Badge
+##### Large `InfoBadge`
 
-A large badge displays a number within a container to indicate a quantifiable status change related to a destination.
+A large `InfoBadge` displays a number within a container to indicate a quantifiable status change related to a destination.
 
-![TabBar with large Badge](../assets/tabbaritem-winui-material-largebadge.png)
+![TabBar with large `InfoBadge`](../assets/tabbaritem-winui-material-largebadge.png)
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
 <utu:TabBarItem Content="Mail"
-                BadgeValue="8"
-                BadgeVisibility="Visible"
                 Style="{StaticResource BottomTabBarItemStyle}">
     <utu:TabBarItem.Icon>
         <FontIcon Glyph="&#xE119;" />
     </utu:TabBarItem.Icon>
+    <utu:TabBarItem.InfoBadge>
+        <muxc:InfoBadge Value="8" />
+    </utu:TabBarItem.InfoBadge>
+</utu:TabBarItem>
+```
+
+##### Stylized `InfoBadge`
+
+The `InfoBadge` can utilize a wide variety of styles to effectively convey the desired message to the user.
+
+![TabBar with large `InfoBadge`](../assets/tabbaritem-winui-material-stylizedbadge.png)
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:TabBarItem Content="About"
+                Style="{StaticResource BottomTabBarItemStyle}">
+    <utu:TabBarItem.Icon>
+        <FontIcon Glyph="&#xE946;" />
+    </utu:TabBarItem.Icon>
+    <utu:TabBarItem.InfoBadge>
+        <muxc:InfoBadge Value="42"
+                        Style="{StaticResource CriticalIconInfoBadgeStyle}" />
+    </utu:TabBarItem.InfoBadge>
 </utu:TabBarItem>
 ```
 
@@ -528,14 +555,14 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `FabTabBarItemIconTextPadding`                                     | `Double`          | 12                                           |
 | `FabTabBarItemCornerRadius`                                        | `CornerRadius`    | 16                                           |
 | `FabTabBarItemPadding`                                             | `Thickness`       | 20                                           |
-| `NavigationTabBarItemSmallBadgeHeight`                             | `Double`          | 6                                            |
-| `NavigationTabBarItemSmallBadgeWidth`                              | `Double`          | 6                                            |
-| `NavigationTabBarItemSmallBadgeMargin`                             | `Thickness`       | 0,4,20,0                                     |
-| `NavigationTabBarItemLargeBadgeHeight`                             | `Double`          | 16                                           |
-| `NavigationTabBarItemLargeBadgeMinWidth`                           | `Double`          | 16                                           |
-| `NavigationTabBarItemLargeBadgeMargin`                             | `Thickness`       | 32,2,0,0                                     |
-| `NavigationTabBarItemLargeBadgePadding`                            | `Thickness`       | 4,0                                          |
-| `NavigationTabBarItemLargeBadgeCornerRadius`                       | `CornerRadius`    | 8                                            |
+| `NavigationTabBarItemSmallBadgeHeight` (deprecated)                | `Double`          | 6                                            |
+| `NavigationTabBarItemSmallBadgeWidth` (deprecated)                 | `Double`          | 6                                            |
+| `NavigationTabBarItemSmallBadgeMargin` (deprecated)                | `Thickness`       | 0,4,20,0                                     |
+| `NavigationTabBarItemLargeBadgeHeight` (deprecated)                | `Double`          | 16                                           |
+| `NavigationTabBarItemLargeBadgeMinWidth` (deprecated)              | `Double`          | 16                                           |
+| `NavigationTabBarItemLargeBadgeMargin`                             | `Thickness`       | 0,3,13,0                                     |
+| `NavigationTabBarItemLargeBadgePadding` (deprecated)               | `Thickness`       | 4,0                                          |
+| `NavigationTabBarItemLargeBadgeCornerRadius` (deprecated)          | `CornerRadius`    | 8                                            |
 | `VerticalTabBarBackground`                                         | `SolidColorBrush` | SurfaceBrush                                 |
 | `BottomTabBarBackground`                                           | `SolidColorBrush` | SurfaceBrush                                 |
 | `TopTabBarBackground`                                              | `SolidColorBrush` | BackgroundBrush                              |
