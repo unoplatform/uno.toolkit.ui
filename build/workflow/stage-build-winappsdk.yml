@@ -10,11 +10,17 @@ jobs:
   - template: templates/gitversion.yml
   - template: templates/set-app-versions.yml
 
-  - script: |
-      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Windows.Desktop/
-      echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -c Release "/p:InformationalVersion=%GITVERSION_InformationalVersion%" /bl:$(build.artifactstagingdirectory)/build-winappsdk.binlog
-    displayName: Build project for Release - (WinAppSDK)
+  - task: MSBuild@1
+    inputs:
+      solution: $(build.sourcesdirectory)/samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Windows.Desktop/Uno.Toolkit.WinUI.Samples.Windows.Desktop.csproj
+      msbuildLocationMethod: version
+      msbuildVersion: latest
+      msbuildArchitecture: x86
+      msbuildArguments: /r /t:Publish /m /v:m /p:Configuration=Release /p:GenerateAppxPackageOnBuild=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk.binlog
+      clean: false
+      restoreNugetPackages: false
+      logProjectEvents: false
+      createLogFile: false
 
   - task: PublishBuildArtifacts@1
     condition: always()
