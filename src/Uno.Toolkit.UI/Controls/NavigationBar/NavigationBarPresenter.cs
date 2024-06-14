@@ -230,8 +230,7 @@ namespace Uno.Toolkit.UI
 			if (_commandBar == null) return;
 			var change = args.CollectionChange;
 			var changeIndex = args.Index;
-			var commands = _commandBar.GetValue(prop) as IObservableVector<ICommandBarElement>;
-			if (commands == null) return;
+			if (_commandBar.GetValue(prop) is not IObservableVector<ICommandBarElement> commands) return;
 			if (change == CollectionChange.Reset)
 			{
 				commands.Clear();
