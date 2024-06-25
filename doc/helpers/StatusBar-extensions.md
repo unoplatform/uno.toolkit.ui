@@ -6,6 +6,8 @@ uid: Toolkit.Helpers.StatusBarExtensions
 
 Provides two attached properties on `Page` to control the visuals of the status bar on mobile platforms.
 
+> [!Video https://www.youtube-nocookie.com/embed/Mef71b6978s]
+
 ## Remarks
 
 The attached properties do nothing on platforms other than iOS and Android.

@@ -6,6 +6,8 @@ uid: Toolkit.Controls.LoadingView
 
 Represents a control that indicates that the UI is waiting on a task to complete.
 
+> [!Video https://www.youtube-nocookie.com/embed/3cpjJ3keBvM]
+
 ## Properties
 
 | Property                         | Type                   | Description                                                                                         |

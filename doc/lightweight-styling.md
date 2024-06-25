@@ -5,6 +5,8 @@ uid: Toolkit.LightweightStyling
 
 For general information about [lightweight styling](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling), check out [Lightweight Styling in Uno.Themes](xref:uno.themes.lightweightstyling).
 
+> [!Video https://www.youtube-nocookie.com/embed/5CsJHMTlNAw]
+
 ## Example
 
 ```xml

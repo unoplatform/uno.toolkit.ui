@@ -92,6 +92,8 @@ notes:
 
 ### Usage
 
+> [!Video https://www.youtube-nocookie.com/embed/JWTZxnVsd_A]
+
 To use this, simply use a `Flyout` with `Placement="Full"` and one of the followings as the `FlyoutPresenterStyle`.
 
 > [!NOTE]
@@ -140,7 +142,8 @@ Example:
     </Flyout>
     ```
 
-    > remarks: `Padding` is used on the flyout content to avoid content being clipped.
+    > [!NOTE]
+    > `Padding` is used on the flyout content to avoid content being clipped.
 - Custom background
 
     ```xml
@@ -156,7 +159,8 @@ Example:
     </Flyout>
     ```
 
-    > remarks: Avoid setting `Background` directly on the flyout content:
+    > [!WARNING]
+    > Avoid setting `Background` directly on the flyout content:
     >
     > ```xml
     > <Border toolkit:VisibleBoundsPadding.PaddingMask="All" Background="SkyBlue">

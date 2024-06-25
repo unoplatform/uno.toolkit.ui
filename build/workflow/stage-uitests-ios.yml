@@ -5,7 +5,7 @@
   variables:
     CI_Build: true
     SourceLinkEnabled: false
-    XCODE_ROOT: '/Applications/Xcode_14.3.app'
+    XCODE_ROOT: '/Applications/Xcode_15.2.app'
 
   strategy:
     maxParallel: 4
@@ -36,7 +36,7 @@
         SAMPLEAPP_ARTIFACT_NAME: ios-winui-uitest
 
   pool:
-    vmImage: 'macOS-13'
+    vmImage: 'macOS-14'
 
   steps:
   - checkout: self

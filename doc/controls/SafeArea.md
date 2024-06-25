@@ -12,6 +12,8 @@ The `ApplicationView.VisibleBounds` is the rectangular area of the screen which 
 
 In some cases, it is acceptable for visible content to be partially obscured (a page background for example) and it should extend to fill the entire window. Other types of content should be restricted to the visible bounds (for instance: readable text, or interactive controls). `SafeArea` enables this kind of fine-grained control over responsiveness to the safe and "unsafe" areas of the screen.
 
+> [!Video https://www.youtube-nocookie.com/embed/H-HkMzYCiOM]
+
 ## Properties
 
 ### Remarks
@@ -175,7 +177,7 @@ Bottom TabBar:
 
 ![safearea_with_margin_alpha](../assets/safearea_with_margin.png)
 
-***
+---
 
 ### Using `InsetMask.SoftInput` for on-screen keyboards
 

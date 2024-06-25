@@ -58,7 +58,7 @@ internal class ItemsRepeaterChipTests
 
 		foreach (var i in selectionSequence)
 		{
-			FakeTapItemAt(SUT, i);
+			SUT.FakeTapItemAt(i);
 		}
 		expected = (expectation switch
 		{
@@ -83,7 +83,7 @@ internal class ItemsRepeaterChipTests
 		actual = GetChipsSelectionState(SUT);
 		Assert.IsTrue(actual.All(x => x == false));
 
-		FakeTapItemAt(SUT, 1);
+		SUT.FakeTapItemAt(1);
 		actual = GetChipsSelectionState(SUT);
 		CollectionAssert.AreEqual(expected, actual);
 	}
@@ -116,7 +116,7 @@ internal class ItemsRepeaterChipTests
 		bool?[] expected = new bool?[] { false, false, true }, actual;
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
-		FakeTapItemAt(SUT, 2);
+		SUT.FakeTapItemAt(2);
 		actual = GetChipsSelectionState(SUT);
 		CollectionAssert.AreEqual(expected, actual);
 
@@ -133,8 +133,8 @@ internal class ItemsRepeaterChipTests
 		bool?[] expected = new bool?[] { false, true, true }, actual;
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
-		FakeTapItemAt(SUT, 1);
-		FakeTapItemAt(SUT, 2);
+		SUT.FakeTapItemAt(1);
+		SUT.FakeTapItemAt(2);
 		actual = GetChipsSelectionState(SUT);
 		CollectionAssert.AreEqual(expected, actual);
 
@@ -175,23 +175,5 @@ internal class ItemsRepeaterChipTests
 		return (ir.ItemsSource as IEnumerable)?.Cast<object>()
 			.Select((_, i) => (ir.TryGetElement(i) as ChipControl)?.IsChecked)
 			.ToArray() ?? new bool?[0];
-	}
-
-	internal static void FakeTapItemAt(ItemsRepeater ir, int index)
-	{
-		if (ir.TryGetElement(index) is { } element)
-		{
-			// Fake local tap handler on ToggleButton level.
-			// For SelectorItem, nothing will happen on tap unless nested under a Selector, which isnt the case here.
-			(element as ToggleButton)?.Toggle();
-
-			// This is whats called in ItemsRepeater::Tapped handler.
-			// Note that the handler will not trigger from a "fake tap" like the line above, so we have to manually invoke here.
-			ItemsRepeaterExtensions.ToggleItemSelectionAtCoerced(ir, index);
-		}
-		else
-		{
-			throw new InvalidOperationException($"Element at index={index} is not yet materialized or out of range.");
-		}
 	}
 }

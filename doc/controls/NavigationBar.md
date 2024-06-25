@@ -5,11 +5,15 @@ uid: Toolkit.Controls.NavigationBar
 # NavigationBar
 
 > [!TIP]
-> This guide covers details for `NavigationBar` specifically. If you are just getting started with the Uno Toolkit Material Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
+> This guide covers details for `NavigationBar` specifically. If you are just getting started with the Uno Material Toolkit Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 
 ## Summary
 
 The `NavigationBar` represents a specialized app bar that provides the layout for `AppBarButton` and navigation logic.
+
+For a quick introduction to `NavigationBar`, you can check out our introductory video below:
+
+> [!Video https://www.youtube-nocookie.com/embed/4-Q0hy2BnMI]
 
 This document highlights some of the differences you might encounter when working with the native mode of `NavigationBar` on either **iOS** or **Android**.
 
@@ -150,8 +154,7 @@ When `Content` is a `string`, it's displayed using the platform's default font f
   <utu:NavigationBar.PrimaryCommands>
     <AppBarButton Label="Share">
       <AppBarButton.Icon>
-        <BitmapIcon ShowAsMonochrome="False"
-                    UriSource="ms-appx:///Assets/Share.png" />
+        <BitmapIcon UriSource="ms-appx:///Assets/Share.png" />
       </AppBarButton.Icon>
     </AppBarButton>
   </utu:NavigationBar.PrimaryCommands>
@@ -182,8 +185,7 @@ When `Content` is a `FrameworkElement`, it's displayed within the available area
   <utu:NavigationBar.PrimaryCommands>
     <AppBarButton Label="Share">
       <AppBarButton.Icon>
-        <BitmapIcon ShowAsMonochrome="False"
-                    UriSource="ms-appx:///Assets/Share.png" />
+        <BitmapIcon UriSource="ms-appx:///Assets/Share.png" />
       </AppBarButton.Icon>
     </AppBarButton>
   </utu:NavigationBar.PrimaryCommands>
@@ -214,7 +216,7 @@ Remarks:
 
 * This is typically used to change the text color of the `Content`.
 * Only supports `SolidColorBrush`.
-* Setting this property will not affect the tint color of the `PrimaryCommands` or `SecondaryCommands`. If you need to change the `AppBarButton` tint, this is possible by setting the `ShowAsMonochrome` property to true as well as setting the `Foreground` on the `BitmapIcon`.
+* Setting this property will not affect the tint color of the `PrimaryCommands` or `SecondaryCommands`. If you need to change the `AppBarButton` color, you should set the `Foreground` property on each `AppBarButton`s individually.
 
 ### PrimaryCommands
 
@@ -229,8 +231,7 @@ Gets the collection of primary command elements for the `NavigationBar`.
   <utu:NavigationBar.PrimaryCommands>
     <AppBarButton Label="Search">
       <AppBarButton.Icon>
-        <BitmapIcon ShowAsMonochrome="False"
-                    UriSource="ms-appx:///Assets/Search.png" />
+        <BitmapIcon UriSource="ms-appx:///Assets/Search.png" />
      </AppBarButton.Icon>
    </AppBarButton>
   </utu:NavigationBar.PrimaryCommands>
@@ -410,7 +411,7 @@ Only supports `BitmapImage` on iOS/Android
 | `NavigationBarForeground`                                              | `SolidColorBrush` | OnSurfaceBrush                          |
 | `NavigationBarBackground`                                              | `SolidColorBrush` | SurfaceBrush                            |
 | `NavigationBarPadding`                                                 | `Thickness`       | 4,0,0,0                                 |
-| `NavigationBarFontFamily`                                              | `FontFamily`      | MaterialRegularFontFamily               |
+| `NavigationBarFontFamily`                                              | `FontFamily`      | TitleLargeFontFamily                    |
 | `NavigationBarFontWeight`                                              | `String`          | TitleLargeFontWeight                    |
 | `NavigationBarFontSize`                                                | `Double`          | TitleLargeFontSize                      |
 | `MaterialModalNavigationBarMainCommandForeground`                      | `SolidColorBrush` | OnSurfaceBrush                          |
@@ -493,7 +494,7 @@ When `AppBarButton` is used within a native `NavigationBar`, its control templat
 | `Command`      | x       | x   | x       |                                           |
 | `Content`      | x       | x*  | x*      | Supports `string` and `FrameworkElement`  |
 | `Foreground`   | x       | x   | x*      | **Android**: See details below            |
-| `Icon`         | x       | x*  | x*      | Only supports `BitmapIcon`                |
+| `Icon`         | x       | x*  | x*      | See details below                         |
 | `IsEnabled`    | x       | x   | x*      | **Android**: Not supported with `Content` |
 | `Label`        | x       | x*  | x*      | See details below                         |
 | `Opacity`      | x       | x   | x       |                                           |
@@ -543,7 +544,7 @@ Gets or sets the graphic content of the `AppBarButton`
 
 Remarks:
 
-* Only supports `BitmapIcon` (with PNG).
+* On **Android** and **iOS**, the `MainCommand` Icon only supports `BitmapIcon`s. `PrimaryCommands` and `SecondaryCommands` support any `IconElement` type.
 
 ### Recommended icon sizes (by scale)
 
@@ -706,10 +707,6 @@ You can't place your `NavigationBar` anywhere other than at the top of the `Page
 ### How can I change the height of my NavigationBar?
 
 You can't currently change the height of the `NavigationBar`. It is dictated by the platform and the device.
-
-### How can I use a Path for the AppBarButton Icon?
-
-`AppBarButton` doesn't currently support `PathIcon`. Only `BitmapIcon` with PNGs is supported. Please refer to the **Icon** section.
 
 ### How can I customize the pressed/disabled visual states of my AppBarButton?
 

@@ -6,6 +6,8 @@ uid: Toolkit.Helpers.ResourceExtensions
 
 This extension facilitates assigning a specific `ResourceDictionary` directly to a control's style. It simplifies [lightweight styling](../lightweight-styling.md) by eliminating the necessity to declare each resource on the page explicitly, enabling the easy creation of diverse visual elements with shared styles but varied attributes. The extension also supports the reuse of resource dictionaries across different control styles, enhancing consistency and efficiency in the UI design process.
 
+> [!Video https://www.youtube-nocookie.com/embed/OwQkYSlowfU]
+
 ## Attached Properties
 
 | Property    | Type                 | Description                                                                |

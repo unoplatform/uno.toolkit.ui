@@ -90,6 +90,22 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
+		public async Task SetSelectedItem_SimpleSource()
+		{
+			var source = Enumerable.Range(0, 3).ToArray();
+			var SUT = new TabBar
+			{
+				ItemsSource = source,
+				SelectedItem = 1,
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			Assert.AreEqual(source[1], SUT.SelectedItem);
+			Assert.AreEqual(1, SUT.SelectedIndex);
+		}
+
+		[TestMethod]
 		public async Task SetSelectedIndex()
 		{
 			var source = Enumerable.Range(0, 3).Select(x => new TabBarItem { Content = x }).ToArray();

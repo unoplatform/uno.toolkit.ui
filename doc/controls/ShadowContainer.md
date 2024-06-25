@@ -8,6 +8,8 @@ uid: Toolkit.Controls.ShadowContainer
 
 The `ShadowContainer` provides the ability to layer multiple shadows to its content.
 
+> [!Video https://www.youtube-nocookie.com/embed/mohQvifKF0Y]
+
 ## Package Reference
 
 A reference to [Uno.Toolkit.Skia.WinUI](https://www.nuget.org/packages/Uno.Toolkit.Skia.WinUI) package must be added to your Uno app so you can access `ShadowContainer` class and its features.

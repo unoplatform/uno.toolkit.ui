@@ -503,7 +503,7 @@ internal class AutoLayoutTest
 
 		var border2 = new Border()
 		{
-			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Background = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)),
 			MaxHeight = 100,
 			MaxWidth = 100,
 		};
@@ -547,7 +547,7 @@ internal class AutoLayoutTest
 
 		var border2 = new Border()
 		{
-			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)),
+			Background = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)),
 			MinHeight = 25,
 		};
 

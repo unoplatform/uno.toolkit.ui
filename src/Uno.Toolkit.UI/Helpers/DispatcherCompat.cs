@@ -51,6 +51,8 @@ internal class DispatcherCompat
 		_ => throw new ArgumentOutOfRangeException($"Invalid value: ({priority:d}){priority}"),
 	};
 
+	public bool HasThreadAccess => _impl.HasThreadAccess;
+
 	public void Invoke(_Handler handler) => Invoke(default, handler);
 	public void Invoke(Priority priority, _Handler handler)
 	{

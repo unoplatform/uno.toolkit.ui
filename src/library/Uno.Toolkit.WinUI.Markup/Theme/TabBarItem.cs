@@ -5,7 +5,7 @@ using Uno.Extensions.Markup.Internals;
 
 namespace Uno.Toolkit.UI.Markup;
 
-public static partial class Theme
+public static partial class ToolkitTheme
 {
 	public static partial class TabBarItem
 	{
@@ -554,11 +554,17 @@ public static partial class Theme
 			[ResourceKeyDefinition(typeof(Style), "ColoredTopTabBarItemStyle", TargetType = typeof(global::Uno.Toolkit.UI.TabBarItem))]
 			public static StaticResourceKey<Style> ColoredTop => new("ColoredTopTabBarItemStyle");
 
+			[ResourceKeyDefinition(typeof(Style), "FabTabBarItemStyle", TargetType = typeof(global::Uno.Toolkit.UI.TabBarItem))]
+			public static StaticResourceKey<Style> Fab => new("FabTabBarItemStyle");
+
 			[ResourceKeyDefinition(typeof(Style), "VerticalFabTabBarItemStyle", TargetType = typeof(global::Uno.Toolkit.UI.TabBarItem))]
 			public static StaticResourceKey<Style> VerticalFab => new("VerticalFabTabBarItemStyle");
 
 			[ResourceKeyDefinition(typeof(Style), "BottomFabTabBarItemStyle", TargetType = typeof(global::Uno.Toolkit.UI.TabBarItem))]
 			public static StaticResourceKey<Style> BottomFab => new("BottomFabTabBarItemStyle");
+
+			[ResourceKeyDefinition(typeof(Style), "NavigationTabBarItemStyle", TargetType = typeof(global::Uno.Toolkit.UI.TabBarItem))]
+			public static StaticResourceKey<Style> Navigation => new("NavigationTabBarItemStyle");
 		}
 	}
 }

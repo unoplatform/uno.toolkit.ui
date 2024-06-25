@@ -5,6 +5,9 @@ uid: Toolkit.Controls.TabBar
 
 > [!TIP]
 > This guide covers details for `TabBar` and `TabBarItem` specifically. If you are just getting started with the Uno Toolkit Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
+>
+> [!Video https://www.youtube-nocookie.com/embed?listType=playlist&list=PLl_OlDcUya9qONoKVz4uGGsEeDbGuaIo_]
+For more information and detailed walkthroughs on using TabBar and TabBarItem, please refer to the rest of the [video playlist](https://www.youtube.com/playlist?list=PLl_OlDcUya9qONoKVz4uGGsEeDbGuaIo_).
 
 ## Summary
 
@@ -574,7 +577,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `FabTabBarItemBackgroundPointerOver`                               | `SolidColorBrush` | OnPrimaryContainerHoverBrush                 |
 | `FabTabBarItemBackgroundFocused`                                   | `SolidColorBrush` | OnPrimaryContainerFocusedBrush               |
 | `FabTabBarItemBackgroundPressed`                                   | `SolidColorBrush` | OnPrimaryContainerPressedBrush               |
-| `FabTabBarItemBackgroundDisabled`                                  | `SolidColorBrush` | OnSurfaceDisabledLowBrush                    |
+| `FabTabBarItemBackgroundDisabled`                                  | `SolidColorBrush` | OnSurfaceDisabledBrush                    |
 | `FabTabBarItemBackgroundSelected`                                  | `SolidColorBrush` | SystemControlTransparentBrush                |
 | `FabTabBarItemBackgroundSelectedPointerOver`                       | `SolidColorBrush` | SystemControlTransparentBrush                |
 | `FabTabBarItemBackgroundSelectedPressed`                           | `SolidColorBrush` | SystemControlTransparentBrush                |

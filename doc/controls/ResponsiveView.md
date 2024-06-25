@@ -80,6 +80,18 @@ Here are the selected layout at different screen width if only `Narrow` and `Wid
 
 ## Usage
 
+If you prefer instructional videos, you can follow our tutorials on how to work with ResponsiveView using XAML or C# markup:
+
+### [**XAML**](#tab/techbite-xaml) <!-- markdownlint-disable-line MD051 -->
+
+> [!Video https://www.youtube-nocookie.com/embed/VgpC79ErNRI]
+
+### [**C# Markup**](#tab/techbite-csmarkup) <!-- markdownlint-disable-line MD051 -->
+
+> [!Video https://www.youtube-nocookie.com/embed/lQueBn6LEyU]
+
+---
+
 > [!TIP]
 > It is not necessary to define every template or layout breakpoint: Narrowest, Narrow, Normal, Wide, Widest. You can just define the bare minimum needed.
 

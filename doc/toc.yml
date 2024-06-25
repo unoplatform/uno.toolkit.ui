@@ -61,9 +61,10 @@
       href: helpers/input-extensions.md
     - name: ItemsRepeater Extensions
       href: helpers/itemsrepeater-extensions.md
+    - name: Progress Extensions
+      href: helpers/progress-extensions.md
     - name: Responsive markup extension
       href: helpers/responsive-extension.md
-    - name: StatusBar attached properties
     - name: Resource Extensions
       href: helpers/resource-extensions.md
     - name: Selector Extensions
@@ -77,5 +78,5 @@
   # ***************** Reference\Styles **********************
   - name: Styles
     href: controls-styles.md
-  - name: Migrate to Uno Material v2
+  - name: Upgrading Material Toolkit
     href: material-migration.md

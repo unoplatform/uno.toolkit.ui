@@ -48,7 +48,9 @@ namespace Uno.Toolkit.UI
 			}
 
 			_weakNavBar = new WeakReference<NavigationBar?>(owner);
+
 			SetBindings();
+			RegisterEvents();
 		}
 		protected override void OnApplyTemplate()
 		{
@@ -225,30 +227,38 @@ namespace Uno.Toolkit.UI
 
 		private void OnCommandsChanged(IObservableVector<ICommandBarElement> sender, IVectorChangedEventArgs args, DependencyProperty prop)
 		{
-			if (_commandBar != null)
+			if (_commandBar == null) return;
+			var change = args.CollectionChange;
+			var changeIndex = args.Index;
+			if (_commandBar.GetValue(prop) is not IObservableVector<ICommandBarElement> commands) return;
+			if (change == CollectionChange.Reset)
 			{
-				var change = args.CollectionChange;
-				var changeIndex = args.Index;
-				var commands = _commandBar.GetValue(prop) as IObservableVector<ICommandBarElement>;
-				if (commands != null)
+				commands.Clear();
+			}
+			else if (change == CollectionChange.ItemInserted)
+			{
+				var element = sender[(int)changeIndex];
+				if (element != null)
 				{
-					if (change == CollectionChange.Reset)
+					commands.Insert((int)changeIndex, element);
+				}
+			}
+			else if (change == CollectionChange.ItemChanged)
+			{
+				if (changeIndex < commands.Count)
+				{
+					var element = sender[(int)changeIndex];
+					if (element != null)
 					{
-						commands.Clear();
+						commands[(int)changeIndex] = element;
 					}
-					else if (change == CollectionChange.ItemInserted ||
-						change == CollectionChange.ItemChanged)
-					{
-						var element = sender[(int)changeIndex];
-						if (element != null)
-						{
-							commands[(int)changeIndex] = element;
-						}
-					}
-					else if (change == CollectionChange.ItemRemoved)
-					{
-						commands.RemoveAt((int)changeIndex);
-					}
+				}
+			}
+			else if (change == CollectionChange.ItemRemoved)
+			{
+				if (changeIndex < commands.Count)
+				{
+					commands.RemoveAt((int)changeIndex);
 				}
 			}
 		}

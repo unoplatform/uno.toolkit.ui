@@ -37,7 +37,7 @@
 			<StaticResource x:Key="ChipBackgroundPressed"
 							ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="ChipBackgroundDisabled"
-							ResourceKey="OnSurfaceDisabledLowBrush" />
+							ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="ChipBackgroundChecked"
 							ResourceKey="SecondaryContainerBrush" />
 			<StaticResource x:Key="ChipBackgroundCheckedPointerOver"
@@ -105,7 +105,7 @@
 			<StaticResource x:Key="ChipBorderBrushPressed"
 							ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="ChipBorderBrushDisabled"
-							ResourceKey="OnSurfaceVariantDisabledLowBrush" />
+							ResourceKey="OnSurfaceVariantDisabledBrush" />
 			<StaticResource x:Key="ChipBorderBrushChecked"
 							ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="ChipBorderBrushCheckedPointerOver"
@@ -172,7 +172,7 @@
 			<StaticResource x:Key="ChipBackgroundPressed"
 							ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="ChipBackgroundDisabled"
-							ResourceKey="OnSurfaceDisabledLowBrush" />
+							ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="ChipBackgroundChecked"
 							ResourceKey="SecondaryContainerBrush" />
 			<StaticResource x:Key="ChipBackgroundCheckedPointerOver"
@@ -240,7 +240,7 @@
 			<StaticResource x:Key="ChipBorderBrushPressed"
 							ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="ChipBorderBrushDisabled"
-							ResourceKey="OnSurfaceVariantDisabledLowBrush" />
+							ResourceKey="OnSurfaceVariantDisabledBrush" />
 			<StaticResource x:Key="ChipBorderBrushChecked"
 							ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="ChipBorderBrushCheckedPointerOver"
@@ -375,7 +375,7 @@
 														  Content="{TemplateBinding Content}"
 														  ContentTemplate="{TemplateBinding ContentTemplate}"
 														  ContentTransitions="{TemplateBinding ContentTransitions}"
-														  FontFamily="{ThemeResource MaterialMediumFontFamily}"
+														  FontFamily="{ThemeResource LabelLargeFontFamily}"
 														  Foreground="{TemplateBinding Foreground}" />
 
 										<!-- C2: Remove Button -->

@@ -33,7 +33,7 @@
 			<StaticResource x:Key="NavigationBarForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="NavigationBarBackground" ResourceKey="SurfaceBrush" />
 			<Thickness x:Key="NavigationBarPadding">4,0,0,0</Thickness>
-			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="MaterialRegularFontFamily" />
+			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="TitleLargeFontFamily" />
 			<StaticResource x:Key="NavigationBarFontWeight" ResourceKey="TitleLargeFontWeight" />
 			<StaticResource x:Key="NavigationBarFontSize" ResourceKey="TitleLargeFontSize" />
 
@@ -93,7 +93,7 @@
 			<StaticResource x:Key="NavigationBarForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="NavigationBarBackground" ResourceKey="SurfaceBrush" />
 			<Thickness x:Key="NavigationBarPadding">4,0,0,0</Thickness>
-			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="MaterialRegularFontFamily" />
+			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="TitleLargeFontFamily" />
 			<StaticResource x:Key="NavigationBarFontWeight" ResourceKey="TitleLargeFontWeight" />
 			<StaticResource x:Key="NavigationBarFontSize" ResourceKey="TitleLargeFontSize" />
 

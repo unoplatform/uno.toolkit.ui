@@ -15,20 +15,20 @@
     <PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
-    <PackageVersion Include="Uno.Cupertino" Version="4.2.0-dev.11" />
-    <PackageVersion Include="Uno.Cupertino.WinUI" Version="4.2.0-dev.11" />
-    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="5.1.4" />
+    <PackageVersion Include="Uno.Cupertino" Version="4.2.0-dev.17" />
+    <PackageVersion Include="Uno.Cupertino.WinUI" Version="4.2.0-dev.17" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="5.3.0-dev.40" />
     <PackageVersion Include="Uno.SourceGenerationTasks" Version="4.2.0" />
-    <PackageVersion Include="Uno.WinUI.Markup" Version="5.1.4" />
-    <PackageVersion Include="Uno.Material" Version="4.2.0-dev.11" />
-    <PackageVersion Include="Uno.Material.WinUI" Version="4.2.0-dev.11" />
-    <PackageVersion Include="Uno.UI" Version="5.0.19" />
-    <PackageVersion Include="Uno.WinUI" Version="5.0.19" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="5.3.0-dev.40" />
+    <PackageVersion Include="Uno.Material" Version="4.2.0-dev.17" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="4.2.0-dev.17" />
+    <PackageVersion Include="Uno.UI" Version="5.0.154" />
+    <PackageVersion Include="Uno.WinUI" Version="5.0.154" />
     <PackageVersion Include="Uno.XamlMerge.Task" Version="1.32.0-dev.61" />
     <PackageVersion Include="FluentAssertions" Version="5.10.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageVersion Include="NUnit" Version="3.13.3" />
+    <PackageVersion Include="NUnit" Version="3.14.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.3.1" />
     <PackageVersion Include="NunitXml.TestLogger" Version="3.0.131" />
     <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="0.25.0-dev.99" />
@@ -36,7 +36,8 @@
     <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.70" />
     <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.70" />
     <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.70" />
-    <PackageVersion Include="Xamarin.UITest" Version="4.3.3" />
+    <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.6" />
+    <PackageVersion Include="Xamarin.UITest" Version="4.3.5" />
     <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" />
   </ItemGroup>

@@ -169,11 +169,7 @@ namespace Uno.Toolkit.UI
 						backItem.BackButtonTitle = mainCommand.Content as string ?? mainCommand.Label;
 					}
 
-					var mainCommandIcon = mainCommand.Icon is BitmapIcon bitmapIcon
-						? ImageHelper.FromUri(bitmapIcon.UriSource)?.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-						: null;
-
-					if (mainCommandIcon is { } icon && string.IsNullOrEmpty(_backItem?.BackButtonTitle))
+					if (mainCommand.Icon is { } icon && string.IsNullOrEmpty(_backItem?.BackButtonTitle))
 					{
 						native.LeftBarButtonItem = mainCommand.GetOrAddDefaultRenderer().Native;
 					}

@@ -86,7 +86,7 @@ partial class AutoLayout
 			{
 				Orientation.Horizontal => new Size(availableSize.Width, desiredCounterSize + counterPaddingSize),
 				Orientation.Vertical => new Size(desiredCounterSize + counterPaddingSize, availableSize.Height),
-				_ => throw new ArgumentOutOfRangeException(),
+				_ => throw new InvalidOperationException(),
 			};
 		}
 		else
@@ -94,7 +94,7 @@ partial class AutoLayout
 			// 8b. Calculate the desired size of the panel, when there's at least one filled child
 			var stackedChildrenDesiredSize =
 				_calculatedChildren!
-					.Where(child => child.IsVisible)
+					.Where(child => child.IsVisible && child.Role != AutoLayoutRole.Filled)
 					.Select(c => c.MeasuredLength)
 					.Sum()
 				+ totalSpacingSize;
@@ -111,7 +111,7 @@ partial class AutoLayout
 				Orientation.Vertical => new Size(
 					width: desiredCounterSize + counterPaddingSize,
 					height: desiredSizeInPrimaryOrientation + paddingSize),
-				_ => throw new ArgumentOutOfRangeException(),
+				_ => throw new InvalidOperationException(),
 			};
 		}
 
@@ -146,7 +146,7 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private (int, bool) EstablishChildrenRoles(IList<UIElement> children, bool filledAsHug, Orientation orientation)
+	private (int, bool) EstablishChildrenRoles(in IList<UIElement> children, in bool filledAsHug, in Orientation orientation)
 	{
 		if(_calculatedChildren == null || _calculatedChildren.Length != children.Count)
 		{
@@ -208,11 +208,11 @@ partial class AutoLayout
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private void MeasureFixedChildren(
-		Orientation orientation,
-		double availableCounterSize,
+		in Orientation orientation,
+		in double availableCounterSize,
 		ref double remainingSize,
 		ref double desiredCounterSize,
-		double counterPaddingSize)
+		in double counterPaddingSize)
 	{
 		for (var i = 0; i < _calculatedChildren!.Length; i++)
 		{
@@ -240,11 +240,11 @@ partial class AutoLayout
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private void MeasureHugChildren(
-		Orientation orientation,
-		double availableCounterSize,
+		in Orientation orientation,
+		in double availableCounterSize,
 		ref double remainingSize,
 		ref double desiredCounterSize,
-		double counterPaddingSize)
+		in double counterPaddingSize)
 	{
 		for (var i = 0; i < _calculatedChildren!.Length; i++)
 		{
@@ -273,11 +273,11 @@ partial class AutoLayout
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private bool MeasureFilledChildren(
-		Orientation orientation,
-		double availableCounterSize,
+		in Orientation orientation,
+		in double availableCounterSize,
 		ref double remainingSize,
 		ref double desiredCounterSize,
-		double counterPaddingSize)
+		in double counterPaddingSize)
 	{
 		if (double.IsInfinity(remainingSize))
 		{
@@ -314,22 +314,27 @@ partial class AutoLayout
 
 			MeasureChild(child.Element, orientation, filledSize, availableCounterSize, ref desiredCounterSize, counterPaddingSize, CounterAxisAlignment);
 
+			// MeasuredLength meaning for Filled children is the maximum length of the element,
+			// which could be the fixed size or the max size defined on the element.
 			if (child.Element is FrameworkElement fe)
 			{
 				var maxLength = fe.GetMaxLength(orientation);
 				var length = fe.GetPrimaryLength(orientation);
 
-				if (maxLength.IsFinite())
+				if (length.IsFinite())
 				{
-					child.MeasuredLength = length.IsFinite() ? Math.Min(maxLength, length) : maxLength;
-				}
-				else if (length.IsFinite())
-				{
-					child.MeasuredLength = length;
+					if (maxLength.IsFinite())
+					{
+						child.MeasuredLength = length.IsFinite() ? Math.Min(maxLength, length) : maxLength;
+					}
+					else
+					{
+						child.MeasuredLength = length;
+					}
 				}
 				else
 				{
-					child.MeasuredLength = double.MaxValue;
+					child.MeasuredLength = maxLength.IsFinite() ? maxLength : double.MaxValue;
 				}
 			}
 		}
@@ -337,14 +342,14 @@ partial class AutoLayout
 		return true; // at least one filled child
 	}
 
-	private static double MeasureChild(
-		UIElement child,
-		Orientation orientation,
-		double availableSize,
-		double availableCounterSize,
+	private double MeasureChild(
+		in UIElement child,
+		in Orientation orientation,
+		in double availableSize,
+		in double availableCounterSize,
 		ref double desiredCounterSize,
-		double counterPaddingSize,
-		AutoLayoutAlignment counterAxisAlignment)
+		in double counterPaddingSize,
+		in AutoLayoutAlignment counterAxisAlignment)
 	{
 		var isOrientationHorizontal = orientation is Orientation.Horizontal;
 		var isPrimaryAlignmentStretch = GetPrimaryAlignment(child) is AutoLayoutPrimaryAlignment.Stretch;
@@ -371,7 +376,10 @@ partial class AutoLayout
 			? new Size(availableSize, availableCounterSize - (isCounterAlignmentStretch ? counterPaddingSize : 0))
 			: new Size(availableCounterSize - (isCounterAlignmentStretch ? counterPaddingSize : 0), availableSize);
 
-		child.Measure(availableSizeForChild);
+		if (!_isArranging)
+		{
+			child.Measure(availableSizeForChild);
+		}
 
 		double desiredSize;
 		if (isOrientationHorizontal)
@@ -390,7 +398,7 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static void Decrement(ref double value, double decrement)
+	private static void Decrement(ref double value, in double decrement)
 	{
 		if (double.IsInfinity(value))
 		{
@@ -411,16 +419,16 @@ partial class AutoLayout
 	}
 
 	private double MeasureIndependentChildren(
-		Size availableSize,
-		Thickness borderThickness,
-		Orientation orientation,
+		in Size availableSize,
+		in Thickness borderThickness,
+		in Orientation orientation,
 		ref double desiredCounterSize)
 	{
 		var resultSize = new Size();
 		var anyIndependent = false;
 
 		// Actual available size for independent children is the available size minus the border thickness
-		availableSize = new Size(
+		var availableSizeIncludingBorder = new Size(
 			availableSize.Width - (borderThickness.Left + borderThickness.Right),
 			availableSize.Height - (borderThickness.Top + borderThickness.Bottom));
 
@@ -435,7 +443,11 @@ partial class AutoLayout
 
 			anyIndependent = true;
 
-			child.Element.Measure(availableSize);
+			if (!_isArranging)
+			{
+				child.Element.Measure(availableSizeIncludingBorder);
+			}
+
 			var desiredSize = child.Element.DesiredSize;
 
 			// Adjust resulting desired size to the largest of the children
@@ -509,7 +521,7 @@ partial class AutoLayout
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static void UpdateCounterAlignment(ref FrameworkElement frameworkElement, bool isHorizontal, bool isPrimaryAlignmentStretch, AutoLayoutAlignment counterAlignment)
+	private static void UpdateCounterAlignment(ref FrameworkElement frameworkElement, in bool isHorizontal, in bool isPrimaryAlignmentStretch, in AutoLayoutAlignment counterAlignment)
 	{
 		if (isHorizontal)
 		{

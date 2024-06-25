@@ -110,6 +110,26 @@ xmlns:utu="using:Uno.Toolkit.UI"
 <TextBlock Background="{utu:Responsive Narrow=Red, Wide=Blue}" Text="Asd" />
 ```
 
+`ResponsiveExpression` does not normally work directly on non-FrameworkElement. We have added some workaround to cover common usages:
+
+```xml
+<Page.Resources>
+    <GridLength x:Key="GL50">50</GridLength>
+    <GridLength x:Key="GL150">150</GridLength>
+    <SolidColorBrush x:Key="Red">Red</SolidColorBrush>
+    <SolidColorBrush x:Key="Green">Green</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue">Blue</SolidColorBrush>
+
+<Grid utu:ResponsiveBehavior.IsEnabled="True">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL50}, Wide={StaticResource GL150}}" />
+
+<TextBlock utu:ResponsiveBehavior.IsEnabled="True">
+    <Run Text="asd" Foreground="{utu:Responsive Narrow={StaticResource Red}, Wide={StaticResource Green}}" />
+```
+
+If you have a setup that is not covered, feel free to [open an issue in the toolkit repo](https://github.com/unoplatform/uno.toolkit.ui/issues/new/choose).
+
 ### Custom thresholds
 
 ```xml

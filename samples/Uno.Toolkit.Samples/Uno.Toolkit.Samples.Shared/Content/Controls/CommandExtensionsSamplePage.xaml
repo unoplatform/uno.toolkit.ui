@@ -47,7 +47,7 @@
 
 						<!-- NavigationView[Command] example -->
 						<StackPanel>
-							<TextBlock Text="- NavigationView item invoke" />
+							<TextBlock Text="- NavigationView item invoke:" />
 							<TextBlock Text="{Binding NavigationDebugText}" />
 							<NavigationView utu:CommandExtensions.Command="{Binding DebugNavigationCommand}">
 								<NavigationView.MenuItems>
@@ -60,7 +60,7 @@
 
 						<!-- ItemsRepeater[Command] example -->
 						<StackPanel>
-							<TextBlock Text="- ItemsRepeater item tapped" />
+							<TextBlock Text="- ItemsRepeater item tapped:" />
 							<TextBlock Text="{Binding ItemsRepeaterDebugText}" />
 							<muxc:ItemsRepeater ItemsSource="123" utu:CommandExtensions.Command="{Binding DebugItemsRepeaterCommand}">
 								<muxc:ItemsRepeater.ItemTemplate>
@@ -76,6 +76,25 @@
 								</muxc:ItemsRepeater.ItemTemplate>
 							</muxc:ItemsRepeater>
 						</StackPanel>
+
+						<!-- UIElement[Command] example -->
+						<StackPanel>
+							<TextBlock Text="- any UIElement tapped:" />
+							<TextBlock Text="{Binding ElementDebugText}" />
+
+							<StackPanel Spacing="5">
+								<TextBlock Text="TextBlock"
+										   utu:CommandExtensions.Command="{Binding DebugElementTappedCommand}"
+										   utu:CommandExtensions.CommandParameter="TextBlock"
+										   HorizontalAlignment="Center" />
+								<Grid Background="SkyBlue"
+									  Width="50"
+									  Height="50"
+									  utu:CommandExtensions.Command="{Binding DebugElementTappedCommand}"
+									  utu:CommandExtensions.CommandParameter="Grid" />
+							</StackPanel>
+						</StackPanel>
+
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>
