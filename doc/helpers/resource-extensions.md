@@ -20,6 +20,7 @@ Here is an example of how lightweight styling could be applied on a Button's sty
 
  ```xml
 <Style x:Key="OverridenFilledButtonStyle"
+       xmlns:utu="using:Uno.Toolkit.UI"
        TargetType="Button"
        BasedOn="{StaticResource MaterialFilledButtonStyle}">
     <Setter Property="utu:ResourceExtensions.Resources">
