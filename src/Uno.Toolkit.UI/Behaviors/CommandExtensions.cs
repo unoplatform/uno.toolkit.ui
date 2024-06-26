@@ -83,7 +83,7 @@ namespace Uno.Toolkit.UI
 				// for input controls, this will be implemented in InputExtensions.
 				InputExtensions.OnEnterCommandChanged(sender, e);
 			}
-			if (sender is ItemsRepeater ir)
+			else if (sender is ItemsRepeater ir)
 			{
 				ItemsRepeaterExtensions.OnItemCommandChanged(ir, e);
 			}
