@@ -27,10 +27,10 @@
 						<!-- ListView[Command] example -->
 						<StackPanel Spacing="8">
 							<TextBlock Text="- ListView item click:" />
-							<TextBlock Text="{Binding SelectionDebugText}" />
+							<TextBlock Text="{Binding ListViewDebugText}" />
 							<ListView ItemsSource="123"
 									  IsItemClickEnabled="True"
-									  utu:CommandExtensions.Command="{Binding DebugSelectionCommand}">
+									  utu:CommandExtensions.Command="{Binding DebugListViewCommand}">
 								<ListView.ItemTemplate>
 									<DataTemplate>
 										<Border BorderThickness="1"
@@ -43,6 +43,21 @@
 									</DataTemplate>
 								</ListView.ItemTemplate>
 							</ListView>
+						</StackPanel>
+
+						<!-- Selector[Command] example -->
+						<StackPanel Spacing="8">
+							<TextBlock Text="- Selector selection changed: (excluding ListView)" />
+							<TextBlock Text="{Binding SelectorDebugText}" />
+							<ComboBox ItemsSource="{Binding Fruits}" utu:CommandExtensions.Command="{Binding DebugSelectorCommand}">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding}"
+												   Height="30"
+												   utu:CommandExtensions.CommandParameter="asd" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
 						</StackPanel>
 
 						<!-- NavigationView[Command] example -->
