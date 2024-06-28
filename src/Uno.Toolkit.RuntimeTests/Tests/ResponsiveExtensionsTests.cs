@@ -162,3 +162,48 @@ internal class ResponsiveExtensionsTests
 	}
 }
 #endif
+
+[TestClass]
+[RunsOnUIThread]
+internal class DynamicResponsiveExtensionsTests
+{
+	private readonly static ResponsiveLayout DefaultLayout = ResponsiveLayout.Create(150, 300, 600, 800, 1080);
+
+	[TestMethod]
+	public async Task Setup_And_Teardown()
+	{
+		try
+		{
+			var sut = new TextBlock() { Text = "Uninitialized" };
+			await UIHelper.Load(sut);
+
+			var markup = new ResponsiveExtension
+			{
+				Layout = DefaultLayout,
+				Narrow = "Narrow",
+				Wide = "Wide",
+			};
+			ResponsiveExtension.Install(sut, null, nameof(sut.Text), markup);
+			Assert.AreNotEqual("Uninitialized", sut.Text, "Text should be initialized by now.");
+
+			var provider = new ResponsiveSizeProvider();
+			ResponsiveHelper.SetOverrideSizeProvider(provider);
+
+			provider.Size = new Size(300, double.NaN);
+			Assert.AreEqual("Narrow", sut.Text, $"Text should be 'Narrow', but is '{sut.Text}': result={markup.LastResolved?.Result}, width={markup.LastResolved?.Size.Width}");
+
+			provider.Size = new Size(800, double.NaN);
+			Assert.AreEqual("Wide", sut.Text, $"Text should be 'Wide', but is '{sut.Text}': result={markup.LastResolved?.Result}, width={markup.LastResolved?.Size.Width}");
+
+			var snapshot = markup.LastResolved;
+			ResponsiveExtension.Uninstall(markup);
+			provider.Size = new Size(300, double.NaN);
+			Assert.AreEqual("Wide", sut.Text, $"Text should still be 'Wide', but is '{sut.Text}': result={markup.LastResolved?.Result}, width={markup.LastResolved?.Size.Width}");
+			Assert.AreEqual(snapshot, markup.LastResolved, "Markup should no longer update once uninstalled.");
+		}
+		finally
+		{
+			ResponsiveHelper.SetOverrideSizeProvider(null);
+		}
+	}
+}

@@ -65,7 +65,7 @@ public static class ResponsiveBehavior
 			.SelectMany(ResponsiveExtension.GetAllInstancesFor);
 		foreach (var markup in markups)
 		{
-			markup.InitializeByProxy(host);
+			markup.Connect(host);
 		}
 	}
 
@@ -79,7 +79,7 @@ public static class ResponsiveBehavior
 			.SelectMany(ResponsiveExtension.GetAllInstancesFor);
 		foreach (var markup in markups)
 		{
-			markup.InitializeByProxy(host);
+			markup.Connect(host);
 		}
 	}
 
