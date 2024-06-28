@@ -46,7 +46,7 @@ namespace Uno.Toolkit.UI
 		///   <item><see cref="ItemsRepeater"/>'s item root's DataContext</item>
 		///   <item><see cref="UIElement"/> itself</item>
 		/// </list>
-		/// <see cref="CommandParameterProperty"/> can be set, on the item-container or item-template's root for collection-type control, or control itself for other controls, to replace the above.
+		/// <see cref="CommandParameterProperty"/> can be set, on the item-container or item-template's root for collection-type controls, or control itself for other controls, to replace the above.
 		/// </remarks>
 		public static DependencyProperty CommandProperty { [DynamicDependency(nameof(GetCommand))] get; } = DependencyProperty.RegisterAttached(
 			"Command",
