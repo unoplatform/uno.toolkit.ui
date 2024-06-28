@@ -42,24 +42,20 @@
 	<PropertyGroup Condition="$(IsIOSOrCatalyst)">
 		<DefineConstants>$(DefineConstants);XAMARIN;XAMARIN_IOS;XAMARIN_IOS_UNIFIED</DefineConstants>
 		<SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
-		<TargetPlatformVersion>15.4</TargetPlatformVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(IsMacOS)">
 		<DefineConstants>$(DefineConstants);XAMARIN</DefineConstants>
 		<SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
-		<TargetPlatformVersion>12.3</TargetPlatformVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(IsCatalyst)">
 		<SupportedOSPlatformVersion>13.1</SupportedOSPlatformVersion>
-		<TargetPlatformVersion>15.4</TargetPlatformVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(IsAndroid)">
 		<DefineConstants>$(DefineConstants);__ANDROID__;XAMARIN;XAMARIN_ANDROID</DefineConstants>
 		<SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
-		<TargetPlatformVersion>34.0</TargetPlatformVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
