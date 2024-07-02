@@ -22,26 +22,33 @@ public partial class ResponsiveView : ContentControl
 		DefaultStyleKey = typeof(ResponsiveView);
 
 		Loaded += OnLoaded;
+		Unloaded += OnUnloaded;
 	}
+
 
 	private void OnLoaded(object sender, RoutedEventArgs e)
 	{
 		if (XamlRoot is null) return;
 
-		UpdateTemplate(forceApplyValue: true);
+		ResponsiveHelper.InitializeIfNeeded(XamlRoot);
+		ResponsiveHelper.WindowSizeChanged += OnWindowSizeChanged;
 
-		XamlRoot.Changed -= OnXamlRootPropertyChanged;
-		XamlRoot.Changed += OnXamlRootPropertyChanged;
+		UpdateTemplate(forceApplyValue: true);
 	}
 
-	private void OnXamlRootPropertyChanged(XamlRoot sender, XamlRootChangedEventArgs args)
+	private void OnUnloaded(object sender, RoutedEventArgs e)
 	{
-		if (sender.Size == LastResolved?.Size) return;
+		ResponsiveHelper.WindowSizeChanged -= OnWindowSizeChanged;
+	}
+
+	private void OnWindowSizeChanged(object sender, Size size)
+	{
+		if (size == LastResolved?.Size) return;
 
 		UpdateTemplate();
 	}
 
-	internal void ForceResponsiveSize(Size size)
+	internal void ForceResponsiveSize(Size size) // test backdoor
 	{
 		var resolved = ResponsiveHelper.ResolveLayout(size, GetAppliedLayout(), GetAvailableLayoutOptions());
 		UpdateTemplate(resolved, forceApplyValue: true);
@@ -50,9 +57,8 @@ public partial class ResponsiveView : ContentControl
 	private void UpdateTemplate(bool forceApplyValue = false)
 	{
 		if (!IsLoaded) return;
-		if (XamlRoot is null) return;
-		
-		var resolved = ResponsiveHelper.ResolveLayout(XamlRoot.Size, GetAppliedLayout(), GetAvailableLayoutOptions());
+
+		var resolved = ResponsiveHelper.ResolveLayout(ResponsiveHelper.WindowSize, GetAppliedLayout(), GetAvailableLayoutOptions());
 		UpdateTemplate(resolved, forceApplyValue);
 	}
 
