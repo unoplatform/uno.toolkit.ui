@@ -44,7 +44,7 @@
 			<!--  Large Badge  -->
 			<x:Double x:Key="NavigationTabBarItemLargeBadgeHeight">16</x:Double>
 			<x:Double x:Key="NavigationTabBarItemLargeBadgeMinWidth">16</x:Double>
-			<Thickness x:Key="NavigationTabBarItemLargeBadgeMargin">32,2,0,0</Thickness>
+			<Thickness x:Key="NavigationTabBarItemLargeBadgeMargin">0,3,13,0</Thickness>
 			<Thickness x:Key="NavigationTabBarItemLargeBadgePadding">4,0</Thickness>
 			<CornerRadius x:Key="NavigationTabBarItemLargeBadgeCornerRadius">8</CornerRadius>
 
@@ -240,7 +240,7 @@
 			<!--  Large Badge  -->
 			<x:Double x:Key="NavigationTabBarItemLargeBadgeHeight">16</x:Double>
 			<x:Double x:Key="NavigationTabBarItemLargeBadgeMinWidth">16</x:Double>
-			<Thickness x:Key="NavigationTabBarItemLargeBadgeMargin">32,2,0,0</Thickness>
+			<Thickness x:Key="NavigationTabBarItemLargeBadgeMargin">0,3,13,0</Thickness>
 			<Thickness x:Key="NavigationTabBarItemLargeBadgePadding">4,0</Thickness>
 			<CornerRadius x:Key="NavigationTabBarItemLargeBadgeCornerRadius">8</CornerRadius>
 
@@ -698,44 +698,16 @@
                                             </Border>
 
                                             <!--  BADGE  -->
-                                            <!--  This part can be replaced when InfoBadge will be available in WinUI3  -->
-                                            <!--  See this commit for the implementation: c935919b2c390014dd8509cc50e16b1549511ffa  -->
-                                            <!--  (Related Branch: dev/agzi/I274-InfoBadgeImplementationForTBI)  -->
+											<!--  InfoBadge Presenter  -->
+											<ContentPresenter
+												x:Name="InfoBadgePresenter"
+												Content="{TemplateBinding InfoBadge}"
+												Margin="{ThemeResource NavigationTabBarItemLargeBadgeMargin}"
+												HorizontalAlignment="Right"
+												VerticalAlignment="Top"
+												Visibility="{Binding InfoBadge, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyOrNullToCollapsedConverter}}" />
 
-                                            <Grid Visibility="{TemplateBinding BadgeVisibility}">
-                                                <!--  Small Badge  -->
-                                                <Ellipse
-                                                    Width="{ThemeResource NavigationTabBarItemSmallBadgeWidth}"
-                                                    Height="{ThemeResource NavigationTabBarItemSmallBadgeHeight}"
-                                                    Margin="{ThemeResource NavigationTabBarItemSmallBadgeMargin}"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Fill="{ThemeResource NavigationTabBarItemErrorBrush}"
-                                                    Visibility="{Binding BadgeValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyOrNullToVisibleConverter}}" />
-
-                                                <!--  Large Badge  -->
-                                                <Border
-                                                    Height="{ThemeResource NavigationTabBarItemLargeBadgeHeight}"
-                                                    MinWidth="{ThemeResource NavigationTabBarItemLargeBadgeMinWidth}"
-                                                    Margin="{ThemeResource NavigationTabBarItemLargeBadgeMargin}"
-                                                    Padding="{ThemeResource NavigationTabBarItemLargeBadgePadding}"
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Top"
-                                                    Background="{ThemeResource NavigationTabBarItemErrorBrush}"
-                                                    CornerRadius="{ThemeResource NavigationTabBarItemLargeBadgeCornerRadius}"
-                                                    Visibility="{Binding BadgeValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyOrNullToCollapsedConverter}}">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Foreground="{ThemeResource NavigationTabBarItemOnErrorBrush}"
-                                                        MaxLines="1"
-                                                        Style="{StaticResource LabelExtraSmall}"
-                                                        Text="{TemplateBinding BadgeValue}"
-                                                        TextAlignment="Center" />
-                                                </Border>
-                                            </Grid>
-
-                                        </Grid>
+										</Grid>
 
                                         <ContentPresenter
                                             x:Name="ContentPresenter"
