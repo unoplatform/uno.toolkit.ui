@@ -90,7 +90,7 @@ public partial class ShadowContainer : ContentControl
 		// This method should not fire any of InvalidateXyz-methods directly,
 		// in order to avoid duplicated invalidate calls.
 		// Which is why the BindToXyz has been separated from the OnXyzChanged.
-		
+
 		void OnBackgroundChanged(DependencyObject sender, DependencyProperty dp)
 		{
 			BindToBackgroundMemberProperties(Background);
@@ -385,7 +385,7 @@ public partial class ShadowContainer : ContentControl
 			StackPanel => StackPanel.CornerRadiusProperty,
 
 			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
-			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadiusProperty"),
+			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadius"),
 			_ => null,
 		};
 	}
@@ -401,7 +401,7 @@ public partial class ShadowContainer : ContentControl
 			StackPanel stackpanel => stackpanel.CornerRadius,
 
 			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
-			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadiusProperty") is { } dp
+			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadius") is { } dp
 				? (CornerRadius)@do.GetValue(dp)
 				: null,
 			_ => null,

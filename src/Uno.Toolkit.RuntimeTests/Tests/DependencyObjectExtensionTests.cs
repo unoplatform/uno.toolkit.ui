@@ -38,6 +38,14 @@ internal class DependencyObjectExtensionTests
 	}
 
 	[TestMethod]
+	public void When_Type_FindDependencyProperty_Invalid()
+	{
+		var dp = typeof(Grid).FindDependencyProperty<InvalidCastException>(nameof(Grid.PaddingProperty));
+
+		Assert.AreEqual(null, dp);
+	}
+
+	[TestMethod]
 	public void When_DO_FindDependencyProperty()
 	{
 		var dp = new Grid().FindDependencyProperty<Thickness>(nameof(Grid.PaddingProperty));

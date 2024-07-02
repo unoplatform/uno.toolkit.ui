@@ -192,7 +192,7 @@ namespace Uno.Toolkit.UI
 			}
 
 			var layout = ir.Layout;
-			var property = layout.FindDependencyProperty<Orientation>("OrientationProperty");
+			var property = layout.FindDependencyProperty<Orientation>("Orientation");
 			return property != null && layout.GetValue(property) is Orientation orien ? orien : Orientation.Vertical;
 		}
 

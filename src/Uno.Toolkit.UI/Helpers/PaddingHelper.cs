@@ -23,7 +23,7 @@ namespace Uno.Toolkit.UI
 				return padding;
 			}
 
-			var property = uiElement.FindDependencyProperty<Thickness>("PaddingProperty");
+			var property = uiElement.FindDependencyProperty<Thickness>("Padding");
 			return property != null && uiElement.GetValue(property) is Thickness t ? t : default;
 		}
 
@@ -35,7 +35,7 @@ namespace Uno.Toolkit.UI
 				return true;
 			}
 
-			var property = uiElement.FindDependencyProperty<Thickness>("PaddingProperty");
+			var property = uiElement.FindDependencyProperty<Thickness>("Padding");
 			if (property != null)
 			{
 				uiElement.SetValue(property, padding);
@@ -53,7 +53,7 @@ namespace Uno.Toolkit.UI
 				return !padding.Equals(newPadding) && TrySetPadding(frameworkElement, newPadding);
 			}
 
-			var property = frameworkElement.FindDependencyProperty<Thickness>("PaddingProperty");
+			var property = frameworkElement.FindDependencyProperty<Thickness>("Padding");
 			if (property is { } && frameworkElement.GetValue(property) is Thickness currentPadding)
 			{
 				if (!currentPadding.Equals(newPadding))

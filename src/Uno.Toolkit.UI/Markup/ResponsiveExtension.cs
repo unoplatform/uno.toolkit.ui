@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Windows.Foundation;
 using Uno.Extensions;
 using Uno.Logging;
+using Uno.Disposables;
+
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -26,6 +28,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Markup;
 #endif
+
+using DependencyPropertyInfo = Uno.Toolkit.UI.DependencyObjectExtensions.DependencyPropertyInfo;
 
 namespace Uno.Toolkit.UI;
 
@@ -54,9 +58,10 @@ public partial class ResponsiveExtension
 #endif
 
 	private WeakReference? _targetWeakRef;
-	private WeakReference? _proxyHostWeakRef;
+	private WeakReference? _hostWeakRef;
 	private DependencyProperty? _targetProperty;
 	private Type? _propertyType;
+	private SerialDisposable _disposable = new();
 
 	public Layout? CurrentLayout { get; private set; }
 	internal object? CurrentValue { get; private set; }
@@ -64,6 +69,7 @@ public partial class ResponsiveExtension
 
 	// Two notions here:
 	// 1. Target/Owner refers to the DependencyObject whose DP had this ResponsiveExtension assigned. (except for WeakReference::Target ofc)
+	//		Owner should also not be confused with the dp-owner as the latter is not necessarily the same as the Owner (in case of attached dp).
 	// 2. Host/ProxyHost refers to the relevant FrameworkElement that can provide the Loaded event + the XamlRoot. The target is usually the Host.
 	//		However if we have a non-FrameworkElement target, say ColumnDefinition or Run(TextBlock.Inlines),
 	//		then we need a proxy host that can provide Loaded+XamlRoot, like Grid for ColumnDef or TextBlock for Run.
@@ -82,15 +88,13 @@ public partial class ResponsiveExtension
 		if (pvt?.TargetObject is DependencyObject target &&
 			(target is FrameworkElement || ResponsiveBehavior.IsChildSupported(target)) &&
 			pvt?.TargetProperty is ProvideValueTargetProperty pvtp &&
-			pvtp.DeclaringType.FindDependencyProperty($"{pvtp.Name}Property") is DependencyProperty dp)
+			pvtp.DeclaringType.FindDependencyPropertyInfo(pvtp.Name) is { } dp)
 		{
-			_targetWeakRef = new WeakReference(target);
-			_targetProperty = dp;
-			_propertyType = pvtp.Type;
+			Initialize(target, dp);
 
 			if (target is FrameworkElement targetAsFE)
 			{
-				targetAsFE.Loaded += OnTargetLoaded;
+				ConnectWhenLoaded(targetAsFE);
 			}
 			else
 			{
@@ -105,8 +109,6 @@ public partial class ResponsiveExtension
 
 				// nothing to do here. ResponsiveBehavior will take over from here on.
 			}
-
-			TrackedInstances.Add((_targetWeakRef, pvtp.Name, new WeakReference(this, trackResurrection: true)));
 		}
 		else
 		{
@@ -116,47 +118,79 @@ public partial class ResponsiveExtension
 		return GetValueFor(GetAvailableLayoutOptions().FirstOrNull());
 	}
 
+	private void Initialize(DependencyObject target, DependencyPropertyInfo dp)
+	{
+		_targetWeakRef = new WeakReference(target);
+		_targetProperty = dp.Definition;
+		_propertyType = dp.PropertyType;
+
+		TrackedInstances.Add((_targetWeakRef, dp.PropertyName, new WeakReference(this, trackResurrection: true)));
+	}
+
+	/// <summary>
+	/// Connect the markup immediately or when the host is loaded.
+	/// </summary>
+	/// <param name="connectableHost">Target itself as FrameworkElement, or any FE in the visual-tree.</param>
+	private void ConnectWhenLoaded(FrameworkElement connectableHost)
+	{
+		_disposable.Disposable = null;
+		if (connectableHost.IsLoaded)
+		{
+			Connect(connectableHost);
+		}
+		else
+		{
+			connectableHost.Loaded -= OnTargetLoaded;
+			connectableHost.Loaded += OnTargetLoaded;
+			_disposable.Disposable = Disposable.Create(() => connectableHost.Loaded -= OnTargetLoaded);
+		}
+	}
+
 	private void OnTargetLoaded(object sender, RoutedEventArgs e)
 	{
-		if (TargetWeakRef is { Target: FrameworkElement target })
+		_disposable.Disposable = null;
+		if (sender is FrameworkElement senderAsFE)
 		{
-			Initialize(target);
+			Connect(senderAsFE);
 		}
 	}
 
-	internal void InitializeByProxy(FrameworkElement proxyHost)
+	internal void Connect(FrameworkElement selfOrProxyHost)
 	{
-		_proxyHostWeakRef = new WeakReference(proxyHost);
-
-		if (TargetWeakRef is { Target: DependencyObject })
-		{
-			Initialize(proxyHost);
-		}
-	}
-
-	private void Initialize(FrameworkElement selfOrProxyHost)
-	{
+		_disposable.Disposable = null;
 		if (selfOrProxyHost.XamlRoot is null) return;
 
-		selfOrProxyHost.XamlRoot.Changed -= OnTargetXamlRootPropertyChanged;
-		selfOrProxyHost.XamlRoot.Changed += OnTargetXamlRootPropertyChanged;
+		_hostWeakRef = new WeakReference(selfOrProxyHost);
+		ResponsiveHelper.InitializeIfNeeded(selfOrProxyHost.XamlRoot);
+		ResponsiveHelper.WindowSizeChanged -= OnWindowSizeChanged;
+		ResponsiveHelper.WindowSizeChanged += OnWindowSizeChanged;
+		_disposable.Disposable = Disposable.Create(() => ResponsiveHelper.WindowSizeChanged -= OnWindowSizeChanged);
 
 		// Along the visual tree, we may have a DefaultResponsiveLayout defined in the resources which could cause a different value to be resolved.
 		// But because in ProvideValue, the target has not been added to the visual tree yet, we cannot access the "full" .resources yet.
 		// So we need to rectify that here.
-		UpdateBinding(selfOrProxyHost.XamlRoot, forceApplyValue: true);
+		UpdateBinding(forceApplyValue: true);
 	}
 
-	private void OnTargetXamlRootPropertyChanged(XamlRoot sender, XamlRootChangedEventArgs args)
+	internal void Disconnect()
 	{
-		if (sender.Size == LastResolved?.Size) return;
+		_disposable.Disposable = null;
+		if (TrackedInstances.FirstOrNull(x => ReferenceEquals(this, x.Extension.Target)) is { } instance)
+		{
+			TrackedInstances.Remove(instance);
+		}
+	}
+
+	private void OnWindowSizeChanged(object sender, Size size)
+	{
+		if (size == LastResolved?.Size) return;
 		if (CleanupIfHostDisposed())
 		{
-			sender.Changed -= OnTargetXamlRootPropertyChanged;
+			Disconnect();
 			return;
 		}
-		
-		UpdateBinding(sender);
+
+		UpdateBinding();
 	}
 
 	internal void ForceResponsiveSize(Size size) // test backdoor
@@ -165,9 +199,9 @@ public partial class ResponsiveExtension
 		UpdateBinding(resolved, forceApplyValue: true);
 	}
 
-	private void UpdateBinding(XamlRoot root, bool forceApplyValue = false)
+	private void UpdateBinding(bool forceApplyValue = false)
 	{
-		var resolved = ResponsiveHelper.ResolveLayout(root.Size, GetAppliedLayout(), GetAvailableLayoutOptions());
+		var resolved = ResponsiveHelper.ResolveLayout(ResponsiveHelper.WindowSize, GetAppliedLayout(), GetAvailableLayoutOptions());
 		UpdateBinding(resolved, forceApplyValue);
 	}
 
@@ -247,8 +281,7 @@ public partial class ResponsiveExtension
 	private bool CleanupIfHostDisposed()
 	{
 		// if self/proxy host was disposed, remove the circular references to allow self-disposal.
-		if ((_proxyHostWeakRef is { Target: null }) ||
-			(_proxyHostWeakRef is null && _targetWeakRef is { Target: null }))
+		if (_hostWeakRef is { Target: null })
 		{
 #if UNO14502_WORKAROUND
 			HardSelfReferences.Remove(this);
@@ -256,7 +289,6 @@ public partial class ResponsiveExtension
 #if TOOLKIT1082_WORKAROUND
 			_hardTargetReference = null;
 #endif
-			RemoveTracking(this);
 
 			return true;
 		}
@@ -274,28 +306,58 @@ public partial class ResponsiveExtension
 public partial class ResponsiveExtension
 {
 	// Provide lookup from owner to extension(s). Used by TreeGraph and ResponsiveBehavior
-	internal static List<(WeakReference Owner, string Property, WeakReference Extension)> TrackedInstances { get; } = new();
+	public static List<(WeakReference Owner, string Property, WeakReference Extension)> TrackedInstances { get; } = new();
 
 	internal WeakReference? TargetWeakRef => _targetWeakRef;
 
-	internal static ResponsiveExtension[] GetAllInstancesFor(DependencyObject owner) => TrackedInstances
+	public static ResponsiveExtension[] GetAllInstancesFor(DependencyObject owner) => TrackedInstances
 		.Where(x => ReferenceEquals(x.Owner?.Target, owner))
 		.Select(x => x.Extension.Target)
 		.OfType<ResponsiveExtension>()
 		.ToArray();
 
-	internal static ResponsiveExtension? GetInstanceFor(DependencyObject owner, string property) => TrackedInstances
+	public static ResponsiveExtension? GetInstanceFor(DependencyObject owner, string property) => TrackedInstances
 		.Where(x => ReferenceEquals(x.Owner?.Target, owner) && x.Property == property)
 		.Select(x => x.Extension.Target)
 		.OfType<ResponsiveExtension>()
 		.FirstOrDefault();
 
-	private static void RemoveTracking(ResponsiveExtension extension)
+	/// <summary>
+	/// Initialize and connect the <see cref="ResponsiveExtension"/> to be used.
+	/// </summary>
+	/// <param name="target">Object whose property is affected by the <paramref name="extension"/>.</param>
+	/// <param name="attachedPropertyOwnerType">Pass the owner/declaring type for attached dependency property. Otherwise pass null for normal/member dependency property.</param>
+	/// <param name="property">Name of the direct or attached dependency property, without the "Property"-suffix.</param>
+	/// <param name="extension"></param>
+	/// <returns>True if successful; false when the specified dependency property is not found.</returns>
+	public static bool Install(FrameworkElement target, Type? attachedPropertyOwnerType, string property, ResponsiveExtension extension) =>
+		Install(target, target, attachedPropertyOwnerType, property, extension);
+
+	/// <summary>
+	/// Initialize and connect the <see cref="ResponsiveExtension"/> to be used.
+	/// </summary>
+	/// <param name="connectableHost"><paramref name="target"/> itself as <see cref="FrameworkElement"/>, or any FE along the visual-tree.</param>
+	/// <param name="target">Object whose property is affected by the <paramref name="extension"/>.</param>
+	/// <param name="attachedPropertyOwnerType">Pass the owner/declaring type for attached dependency property. Otherwise pass null for normal/member dependency property.</param>
+	/// <param name="property">Name of the direct or attached dependency property, without the "Property"-suffix.</param>
+	/// <param name="extension"></param>
+	/// <returns>True if successful; false when the specified dependency property is not found.</returns>
+	public static bool Install(FrameworkElement connectableHost, DependencyObject target, Type? attachedPropertyOwnerType, string property, ResponsiveExtension extension)
 	{
-		if (TrackedInstances.FirstOrNull(x => x.Extension.Target as ResponsiveExtension == extension) is { } instance)
+		if ((attachedPropertyOwnerType ?? target.GetType()).FindDependencyPropertyInfo(property) is { } dp)
 		{
-			TrackedInstances.Remove(instance);
+			extension.Initialize(target, dp);
+			extension.ConnectWhenLoaded(connectableHost);
+
+			return true;
 		}
+
+		return false;
+	}
+
+	public static void Uninstall(ResponsiveExtension extension)
+	{
+		extension.Disconnect();
 	}
 }
 #endif
