@@ -8,28 +8,31 @@ Provides Command/CommandParameter attached properties for common scenarios.
 
 ## Attached Properties
 
-| Property           | Type       | Description                                                     |
-|--------------------|------------|-----------------------------------------------------------------|
+| Property           | Type       | Description                                                      |
+|--------------------|------------|------------------------------------------------------------------|
 | `Command`          | `ICommand` | Sets the command to execute when interacting with the control.\* |
-| `CommandParameter` | `object`   | Sets the parameter to pass to the Command property.             |
+| `CommandParameter` | `object`   | Sets the parameter to pass to the Command property.              |
 
 ### Remarks
 
 - `Command` is executed on:
   - `ListViewBase.ItemClick`
+  - `Selector.SelectionChanged` (except for `ListView` which uses `ItemClick`)
   - `NavigationView.ItemInvoked`
   - `ItemsRepeater` item tapped
   - `TextBox` and `PasswordBox` when the Enter key is pressed
   - any `UIElement` tapped
-- For Command, the relevant parameter is also provided for the `CanExecute` and `Execute` call:
-  > Unless CommandParameter is set, which replaces the following.
-  - `TextBox.Text`
-  - `PasswordBox.Password`
+- For `Command`, the relevant parameter is also provided for the `CanExecute` and `Execute` call:
+  > `CommandParameter` can be set, on the item-container or item-template's root for collection-type control, or control itself for other controls, to replace the following.
   - `ItemClickEventArgs.ClickedItem` from `ListView.ItemClick`
+  - `Selector.SelectedItem`
   - `NavigationViewItemInvokedEventArgs.InvokedItem` from `NavigationView.ItemInvoked`
   - `ItemsRepeater`'s item root's DataContext
-- Command on `TextBox`/`PasswordBox`\*: Having this set will also cause the keyboard to dismiss on enter.
-- Command on `ListView`\*: [`IsItemClickEnabled`](https://learn.microsoft.com/uwp/api/windows.ui.xaml.controls.listviewbase.isitemclickenabled) must also be set to true for this to work.
+  - `TextBox.Text`
+  - `PasswordBox.Password`
+  - `UIElement` itself
+- `Command` on `TextBox`/`PasswordBox`\*: Having this set will also cause the keyboard to dismiss on enter.
+- `Command` on `ListView`\*: [`IsItemClickEnabled`](https://learn.microsoft.com/uwp/api/windows.ui.xaml.controls.listviewbase.isitemclickenabled) must also be set to true for this to work.
 
 ## Usage
 
