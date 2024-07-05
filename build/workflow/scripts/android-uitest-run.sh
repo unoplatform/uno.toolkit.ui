@@ -111,14 +111,13 @@ then
 	nohup $ANDROID_HOME/emulator/emulator -avd "$AVD_NAME" -skin 1280x800 -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -prop ro.debuggable=1 > $UNO_UITEST_SCREENSHOT_PATH/android-emulator-log.txt 2>&1 &
 
 	# Wait for the emulator to finish booting
-	source $BUILD_SOURCESDIRECTORY/build/workflow/scripts/android-uitest-wait-systemui.sh 500
-
+	$ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
 else
 	# Restart the emulator to avoid running first-time tasks
 	$ANDROID_HOME/platform-tools/adb reboot
 
 	# Wait for the emulator to finish booting
-	source $BUILD_SOURCESDIRECTORY/build/workflow/scripts/android-uitest-wait-systemui.sh 500
+	$ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
 fi
 
 # Build the sample, while the emulator is starting
