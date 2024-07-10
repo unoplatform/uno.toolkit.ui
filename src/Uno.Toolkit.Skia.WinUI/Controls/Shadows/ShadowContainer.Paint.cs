@@ -21,9 +21,11 @@ public partial class ShadowContainer
 	// note: There "may" be a difference between windows vs skia in measurement; This ratio is recorded as the `PixelRatio` where: WindowsValue * PixelRatio = SkiaValue.
 	// To ease comprehension, values in `double` type is in windows unit, and values in `float` is in skia unit or windows unit scaled to skia.
 
-	private ShadowPaintState? _lastPaintState;
+#if DEBUG
 	private bool _isShadowDirty;
+#endif
 	private int _paintCount;
+	private float _lastPixelRatio;
 
 	internal event EventHandler<SurfacePaintCompletedEventArgs>? SurfacePaintCompleted;
 
@@ -35,16 +37,6 @@ public partial class ShadowContainer
 	private void OnSurfacePaintCompleted(bool createdNewCanvas)
 	{
 		SurfacePaintCompleted?.Invoke(this, new SurfacePaintCompletedEventArgs(createdNewCanvas));
-	}
-
-	private bool NeedsPaint(ShadowPaintState state, out bool pixelRatioChanged)
-	{
-		var needsPaint = state != _lastPaintState || _isShadowHostDirty;
-		pixelRatioChanged = _lastPaintState != null && state.PixelRatio != _lastPaintState.PixelRatio;
-
-		_lastPaintState = state;
-		_isShadowHostDirty = false;
-		return needsPaint;
 	}
 
 	private void OnSurfacePainted(object? sender, SKPaintSurfaceEventArgs e)
@@ -66,12 +58,9 @@ public partial class ShadowContainer
 		var shape = GetShadowShapeContext(Content);
 		var pixelRatio = (float)(e.Info.Width / _shadowHost.ActualWidth);
 		var state = new ShadowPaintState(shape, background, pixelRatio, ShadowInfo.Snapshot(Shadows));
+#if DEBUG
 		_isShadowDirty = false;
-
-		if (!NeedsPaint(state, out bool pixelRatioChanged))
-		{
-			return;
-		}
+#endif
 
 		var canvas = e.Surface.Canvas;
 		canvas.Clear(SKColors.Transparent);
@@ -94,10 +83,11 @@ public partial class ShadowContainer
 			string.Join("; ", state.Shadows.Select(x => x.ToKey()));
 		if (Cache.TryGetValue(key, out var snapshot))
 		{
-			if (pixelRatioChanged)
+			if (pixelRatio != _lastPixelRatio)
 			{
 				// Monitor pixel density changed, need to remove cached image
 				Cache.Remove(key);
+				_lastPixelRatio = state.PixelRatio;
 			}
 			else
 			{
@@ -133,12 +123,10 @@ public partial class ShadowContainer
 			shape.DrawInnerShadow(state, canvas, paint, shadow);
 		}
 
-		// If a property has changed dynamically during this paint method,
-		// then we don't want to cache the updated shadows
-		if (!_isShadowDirty)
-		{
-			Cache.AddOrUpdate(key, e.Surface.Snapshot());
-		}
+		// No property should have changed during painting.
+		global::System.Diagnostics.Debug.Assert(!_isShadowDirty);
+
+		Cache.AddOrUpdate(key, e.Surface.Snapshot());
 
 		OnSurfacePaintCompleted(createdNewCanvas: true);
 	}
@@ -287,7 +275,7 @@ public partial class ShadowContainer
 			};
 			var shape = new SKRoundRect();
 			shape.SetRectRadii(rect, radii);
-			
+
 			return shape;
 		}
 	}
@@ -298,7 +286,7 @@ public partial class ShadowContainer
 		{
 			var rect = new SKRect(0, 0, (float)Width * state.PixelRatio, (float)Height * state.PixelRatio);
 			var shape = new SKRoundRect(rect, (float)RadiusX * state.PixelRatio, (float)RadiusY * state.PixelRatio);
-			
+
 			return shape;
 		}
 	}
