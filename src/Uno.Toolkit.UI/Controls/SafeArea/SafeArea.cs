@@ -226,7 +226,7 @@ namespace Uno.Toolkit.UI
 				: safeAreaOverride.GetValueOrDefault();
 #if __ANDROID__
 			var statusBarOffset = 0d;
-			if (!XamlWindow.Current.IsStatusBarTranslucent())
+			if (!XamlWindow.Current!.IsStatusBarTranslucent())
 			{
 				statusBarOffset = Windows.UI.ViewManagement.StatusBar.GetForCurrentView()?.OccludedRect.Height ?? 0d;
 			}
@@ -237,7 +237,7 @@ namespace Uno.Toolkit.UI
 				if (inputRect.Top != 0 && inputRect.Top < visibleBounds.Bottom)
 				{
 
-					var windowBottom = XamlWindow.Current.Bounds.Bottom;
+					var windowBottom = XamlWindow.Current!.Bounds.Bottom;
 #if __ANDROID__
 					var totalOffset = Math.Max(0, inputRect.Bottom - windowBottom);
 
@@ -646,7 +646,7 @@ namespace Uno.Toolkit.UI
 						return;
 					}
 
-					var fullBounds = XamlWindow.Current.Bounds;
+					var fullBounds = XamlWindow.Current!.Bounds;
 					var height = fullBounds.Height - unsafeArea.Top - unsafeArea.Bottom;
 					var width = fullBounds.Width - unsafeArea.Left - unsafeArea.Right;
 
