@@ -124,7 +124,9 @@ public partial class ShadowContainer
 		}
 
 		// No property should have changed during painting.
+#if DEBUG
 		global::System.Diagnostics.Debug.Assert(!_isShadowDirty);
+#endif
 
 		Cache.AddOrUpdate(key, e.Surface.Snapshot());
 
