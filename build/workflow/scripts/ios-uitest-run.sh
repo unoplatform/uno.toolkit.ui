@@ -111,5 +111,5 @@ export LOG_FILEPATH=$UNO_UITEST_SCREENSHOT_PATH/_logs
 export TMP_LOG_FILEPATH=/tmp/DeviceLog-`date +"%Y%m%d%H%M%S"`.logarchive
 export LOG_FILEPATH_FULL=$LOG_FILEPATH/DeviceLog-`date +"%Y%m%d%H%M%S"`.txt
 
-xcrun simctl spawn booted log collect --output $TMP_LOG_FILEPATH
-log show --style syslog $TMP_LOG_FILEPATH > $LOG_FILEPATH_FULL
+# xcrun simctl spawn booted log collect --output $TMP_LOG_FILEPATH
+# log show --style syslog $TMP_LOG_FILEPATH > $LOG_FILEPATH_FULL
