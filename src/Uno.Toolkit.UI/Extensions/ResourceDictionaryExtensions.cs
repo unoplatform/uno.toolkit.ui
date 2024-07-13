@@ -24,7 +24,7 @@ internal static class ResourceDictionaryExtensions
 	/// </summary>
 	/// <param name="rd">The resource dictionary to clone.</param>
 	/// <returns>A deep clone of the resource dictionary.</returns>
-	/// <remarks>Only the resource dictionary, and its nesting theme and merged dictionaries are deep cloned. Not their values.</remarks>
+	/// <remarks>Only the resource dictionary, its nesting theme, and merged dictionaries are deep-cloned. Not their values.</remarks>
 	public static ResourceDictionary DeepClone(this ResourceDictionary rd)
 	{
 		try
