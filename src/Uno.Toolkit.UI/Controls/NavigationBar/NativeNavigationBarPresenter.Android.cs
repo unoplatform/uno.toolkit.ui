@@ -52,6 +52,7 @@ namespace Uno.Toolkit.UI
 			if (navBar is { })
 			{
 				Content = navBar.GetOrAddDefaultRenderer().Native;
+				ContentTemplate = null; // normally, the ContentTemplate is inherited from the NavigationBar, but in this case, we don't want it to. We want to use the renderer directly as the child.
 				navBar.MainCommand.Click += OnMainCommandClicked;
 				_mainCommandClickHandler.Disposable = null;
 				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClicked);
