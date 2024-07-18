@@ -232,7 +232,7 @@ namespace Uno.Toolkit.UI
 					if (dpInfo is { } && GetValue(dpInfo) is DependencyProperty dp)
 					{
 						// DeclaredOnly: Specifies flags that control binding and the way in which the search for members and types is conducted by reflection.
-						// because 'dpInfo.DeclaringType' is the guaranteed type, and we don't want a overridden property from a random base to throw AmbiguousMatchException
+						// because 'dpInfo.DeclaringType' is the guaranteed type, and we don't want an overridden property from a random base to throw AmbiguousMatchException
 						// ex: UIElement::Visibility & [droid]UnoViewGroup::Visibility
 						var holderProperty = dpInfo.DeclaringType?.GetProperty(propertyName, Public | NonPublic | Instance | DeclaredOnly);
 						var propertyType =
