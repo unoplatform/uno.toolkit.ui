@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Windows.Foundation;
 using Uno.Disposables;
-
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -133,29 +133,30 @@ public class ResponsiveSizeProvider
 
 internal record ResolvedLayout(ResponsiveLayout Layout, Size Size, Layout? Result);
 
-internal static class ResponsiveHelper
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static class ResponsiveHelper
 {
 	internal static event TypedEventHandler<object, Size>? WindowSizeChanged;
 
 	public static ResponsiveLayout DefaultLayout { get; } = ResponsiveLayout.Create(150, 300, 600, 800, 1080);
-	public static Size WindowSize { get; private set; }
+	internal static Size WindowSize { get; private set; }
 
 	private static ResponsiveSizeProvider? _defaultSizeProvider;
 	private static ResponsiveSizeProvider? _overrideSizeProvider;
 	private static SerialDisposable _overrideSizeProviderDisposable = new();
 
-	internal static void InitializeIfNeeded(XamlRoot provider)
+	public static void InitializeIfNeeded(XamlRoot provider) // backdoor
 	{
 		if (_defaultSizeProvider is null)
 		{
 			_defaultSizeProvider = new();
 
-			WindowSize = provider.Size;
 			provider.Changed += (s, e) => _defaultSizeProvider.Size = s.Size;
 			_defaultSizeProvider.SizeChanged += RaiseSizeChanged;
+			_defaultSizeProvider.Size = provider.Size;
 		}
 	}
-	internal static void SetOverrideSizeProvider(ResponsiveSizeProvider? provider)
+	public static void SetOverrideSizeProvider(ResponsiveSizeProvider? provider) // backdoor
 	{
 		if (_overrideSizeProvider == provider) return;
 
@@ -163,13 +164,18 @@ internal static class ResponsiveHelper
 		if (provider is { })
 		{
 			_overrideSizeProvider = provider;
-			WindowSize = provider.Size;
 			_overrideSizeProvider.SizeChanged += RaiseSizeChanged;
+			WindowSize = provider.Size;
 
 			_overrideSizeProviderDisposable.Disposable = Disposable.Create(() =>
 			{
 				_overrideSizeProvider.SizeChanged -= RaiseSizeChanged;
-				WindowSize = _defaultSizeProvider!.Size;
+				_overrideSizeProvider = null;
+
+				if (_defaultSizeProvider is { })
+				{
+					WindowSize = _defaultSizeProvider.Size;
+				}
 			});
 		}
 	}
