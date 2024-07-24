@@ -15,6 +15,7 @@ using Windows.Foundation;
 using Uno.Extensions;
 using Uno.Logging;
 using Uno.Disposables;
+using System.ComponentModel;
 
 
 #if IS_WINUI
@@ -62,6 +63,11 @@ public partial class ResponsiveExtension
 	private DependencyProperty? _targetProperty;
 	private Type? _propertyType;
 	private SerialDisposable _disposable = new();
+
+	/// <summary>
+	/// Indicates if this extensions is currently subscribed to the global window size changed event.
+	/// </summary>
+	public bool IsConnected { get; private set; }
 
 	public Layout? CurrentLayout { get; private set; }
 	internal object? CurrentValue { get; private set; }
@@ -164,7 +170,13 @@ public partial class ResponsiveExtension
 		ResponsiveHelper.InitializeIfNeeded(selfOrProxyHost.XamlRoot);
 		ResponsiveHelper.WindowSizeChanged -= OnWindowSizeChanged;
 		ResponsiveHelper.WindowSizeChanged += OnWindowSizeChanged;
-		_disposable.Disposable = Disposable.Create(() => ResponsiveHelper.WindowSizeChanged -= OnWindowSizeChanged);
+		IsConnected = true;
+
+		_disposable.Disposable = Disposable.Create(() =>
+		{
+			ResponsiveHelper.WindowSizeChanged -= OnWindowSizeChanged;
+			IsConnected = false;
+		});
 
 		// Along the visual tree, we may have a DefaultResponsiveLayout defined in the resources which could cause a different value to be resolved.
 		// But because in ProvideValue, the target has not been added to the visual tree yet, we cannot access the "full" .resources yet.
@@ -193,7 +205,8 @@ public partial class ResponsiveExtension
 		UpdateBinding();
 	}
 
-	internal void ForceResponsiveSize(Size size) // test backdoor
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public void ForceResponsiveSize(Size size) // backdoor
 	{
 		var resolved = ResponsiveHelper.ResolveLayout(size, GetAppliedLayout(), GetAvailableLayoutOptions());
 		UpdateBinding(resolved, forceApplyValue: true);
