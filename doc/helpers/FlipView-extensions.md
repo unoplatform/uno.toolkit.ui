@@ -61,7 +61,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Customization
 
-The `FlipView` control for desktop targets will present arrow buttons to allow the user to click on the to navigate between the content inside the `FlipView`, if you don't want these arrows to be shown, you use the `NoArrowsFlipViewStyle` as shown in the example below:
+The FlipView control for desktop targets will present arrow buttons to allow the user to click on them to navigate between the content inside the FlipView. If you don't want these arrows to be shown, you can use the NoArrowsFlipViewStyle as shown in the example below:
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
