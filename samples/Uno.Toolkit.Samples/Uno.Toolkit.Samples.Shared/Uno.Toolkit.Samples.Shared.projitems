@@ -149,7 +149,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\RuntimeTestRunner.xaml.cs">
       <DependentUpon>RuntimeTestRunner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.WinUI.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.WinUI.xaml.cs">
       <DependentUpon>ShadowContainerTestPage.WinUI.xaml</DependentUpon>
     </Compile>
