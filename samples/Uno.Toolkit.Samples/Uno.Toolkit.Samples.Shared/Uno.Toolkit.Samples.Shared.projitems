@@ -150,6 +150,12 @@
       <DependentUpon>RuntimeTestRunner.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.WinUI.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.WinUI.xaml.cs">
+      <DependentUpon>ShadowContainerTestPage.WinUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage2.WinUI.xaml.cs">
+      <DependentUpon>ShadowContainerTestPage2.WinUI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ModalDialog.xaml.cs">
       <DependentUpon>ModalDialog.xaml</DependentUpon>
     </Compile>
@@ -421,6 +427,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage.WinUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\TestPages\ShadowContainerTestPage2.WinUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
