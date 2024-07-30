@@ -15,7 +15,9 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 	public class Given_TabBar : TestBase
 	{
 		protected override string SampleName => "TabBar";
-		private string[] _sections = new[] { "Home", "Search", "Support", "About" };
+
+		private static readonly TimeSpan MaxTabBarSwitchTime = TimeSpan.FromSeconds(10);
+		private static readonly string[] Sections = new[] { "Home", "Search", "Support", "About" };
 
 		[Test]
 		[AutoRetry]
@@ -27,10 +29,10 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 			NavigateToNestedSample("M3MaterialTopBarSampleNestedPage");
 			App.WaitForElementWithMessage("TopTabBar");
 
-			foreach (var section in _sections)
+			foreach (var section in Sections)
 			{
 				App.FastTap($"{TabBarItemPrefix}{section}");
-				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: TimeSpan.FromMinutes(5));
+				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: MaxTabBarSwitchTime);
 			}
 		}
 
@@ -44,10 +46,10 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 			NavigateToNestedSample("M3MaterialBottomBarSampleNestedPage");
 			App.WaitForElementWithMessage("BottomTabBar");
 
-			foreach (var section in _sections)
+			foreach (var section in Sections)
 			{
 				App.FastTap($"{TabBarItemPrefix}{section}");
-				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: TimeSpan.FromMinutes(5));
+				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: MaxTabBarSwitchTime);
 			}
 		}
 
@@ -61,10 +63,10 @@ namespace Uno.Toolkit.UITest.Controls.TabBar
 			NavigateToNestedSample("M3MaterialVerticalBarSampleNestedPage");
 			App.WaitForElementWithMessage("VerticalTabBar");
 
-			foreach (var section in _sections)
+			foreach (var section in Sections)
 			{
 				App.FastTap($"{TabBarItemPrefix}{section}");
-				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: TimeSpan.FromMinutes(5));
+				App.WaitForElementWithMessage($"{FlipViewItemTextPrefix}{section}", timeout: MaxTabBarSwitchTime);
 			}
 		}
 	}
