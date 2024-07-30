@@ -107,6 +107,19 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsTrue(AreEqual(ItemsRepeaterExtensions.GetSelectedIndexes(SUT), new[] { 1, 3 }));
 		}
 
+		[TestMethod]
+		public async Task When_Preselected_SelectedItems_With_ISelectionInfo()
+		{
+			var preselectedSource = SelectionSource.Create(4, isPreselected: x => x == 2);
+
+			var SUT = SetupItemsRepeater(preselectedSource, Multiple);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			var selectedItems = ItemsRepeaterExtensions.GetSelectedItems(SUT).OfType<SelectionData>().Select(x => x.Value);
+
+			Assert.IsTrue(AreEqual(selectedItems, new[] { 2 }));
+		}
 
 		// Checks equality of two lists based on values, ignoring order
 		private static bool AreEqual(IEnumerable<int> expected, IEnumerable<int> actual)

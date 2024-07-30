@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -130,6 +131,20 @@ public static partial class ItemsRepeaterExtensions
 	private static void SetSelectionSubscription(ItemsRepeater obj, IDisposable value) => obj.SetValue(SelectionSubscriptionProperty, value);
 
 	#endregion
+	#region DependencyProperty: SelectionIsvInnerSubscription
+
+	private static DependencyProperty SelectionIsvInnerSubscriptionProperty { [DynamicDependency(nameof(GetSelectionIsvInnerSubscription))] get; } = DependencyProperty.RegisterAttached(
+		"SelectionIsvInnerSubscription",
+		typeof(IDisposable),
+		typeof(ItemsRepeaterExtensions),
+		new PropertyMetadata(default(IDisposable)));
+
+	[DynamicDependency(nameof(SetSelectionIsvInnerSubscription))]
+	private static IDisposable? GetSelectionIsvInnerSubscription(ItemsRepeater obj) => (IDisposable?)obj.GetValue(SelectionIsvInnerSubscriptionProperty);
+	[DynamicDependency(nameof(GetSelectionIsvInnerSubscription))]
+	private static void SetSelectionIsvInnerSubscription(ItemsRepeater obj, IDisposable? value) => obj.SetValue(SelectionIsvInnerSubscriptionProperty, value);
+
+	#endregion
 
 	#region ItemCommand Impl
 	internal static void OnItemCommandChanged(ItemsRepeater sender, DependencyPropertyChangedEventArgs e)
@@ -200,6 +215,8 @@ public static partial class ItemsRepeaterExtensions
 			{
 				ir.Tapped += OnItemsRepeaterTapped;
 				ir.ElementPrepared += OnItemsRepeaterElementPrepared;
+				var itemsSourceSubscription = ir.RegisterDisposablePropertyChangedCallback(ItemsRepeater.ItemsSourceProperty, OnItemsRepeaterItemsSourceChanged);
+				SetSelectionIsvInnerSubscription(ir, new SerialDisposable());
 
 				SetSelectionSubscription(ir, new CompositeDisposable(
 					Disposable.Create(() =>
@@ -207,7 +224,12 @@ public static partial class ItemsRepeaterExtensions
 						ir.Tapped -= OnItemsRepeaterTapped;
 						ir.ElementPrepared -= OnItemsRepeaterElementPrepared;
 					}),
-					ir.RegisterDisposablePropertyChangedCallback(ItemsRepeater.ItemsSourceProperty, OnItemsRepeaterItemsSourceChanged)
+					itemsSourceSubscription,
+					Disposable.Create(() =>
+					{
+						GetSelectionIsvInnerSubscription(ir)?.Dispose();
+						SetSelectionIsvInnerSubscription(ir, null);
+					})
 				));
 			}
 
@@ -324,10 +346,35 @@ public static partial class ItemsRepeaterExtensions
 
 		SetItemSelection(sender, args.Element, selected);
 	}
+
 	private static void OnItemsRepeaterItemsSourceChanged(DependencyObject sender, DependencyProperty dp)
 	{
 		// When we reach here, ItemsSourceView is already updated.
 		if (sender is not ItemsRepeater ir) return;
+
+		SynchronizeDefaultSelection(ir);
+
+#if HAS_UNO_WINUI || __WASM__
+		if (GetSelectionIsvInnerSubscription(ir) is not SerialDisposable isvInnerSubscription) return;
+
+		isvInnerSubscription.Disposable = null;
+		if (ir.ItemsSourceView is { } isv)
+		{
+			isv.CollectionChanged += OnItemsSourceViewCollectionChanged;
+			isvInnerSubscription.Disposable = Disposable.Create(() =>
+				ir.ItemsSourceView.CollectionChanged -= OnItemsSourceViewCollectionChanged
+			);
+		}
+
+		void OnItemsSourceViewCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			SynchronizeDefaultSelection(ir);
+		}
+#endif
+	}
+
+	private static void SynchronizeDefaultSelection(ItemsRepeater ir)
+	{
 		if (ir.ItemsSourceView is { Count: > 0 })
 		{
 			try
@@ -344,6 +391,7 @@ public static partial class ItemsRepeaterExtensions
 			}
 		}
 	}
+
 	private static void OnItemsRepeaterTapped(object sender, TappedRoutedEventArgs e)
 	{
 		// By the time we are here, ToggleButton.IsChecked would have already been toggled.
