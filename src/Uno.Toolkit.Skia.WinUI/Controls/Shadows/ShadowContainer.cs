@@ -38,8 +38,6 @@ public partial class ShadowContainer : ContentControl
 
 	private SKXamlCanvas? _shadowHost;
 
-	private bool _isShadowHostDirty = true;
-
 	public ShadowContainer()
 	{
 		DefaultStyleKey = typeof(ShadowContainer);
@@ -113,8 +111,6 @@ public partial class ShadowContainer : ContentControl
 		// When the skia canvas size changes, the whole canvas is cleared: we'll need to redraw the shadows.
 		void OnShadowHostSizeChanged(object sender, SizeChangedEventArgs args)
 		{
-			_isShadowHostDirty = true;
-
 			// This is not necessary on WinUI, but is necessary on Uno due to behavior mismatch in ActualWidth/ActualHeight.
 			// For the ShadowContainerSamplePage, when we add a new shadow, we are expanding the StackPanel that's wrapped in ShadowContainer.
 			// We get through InvalidateCanvasLayout via OnContentSizeChanged and we update SKXamlCanvas.Height to the new Height
@@ -128,7 +124,9 @@ public partial class ShadowContainer : ContentControl
 
 		void OnShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
+#if DEBUG
 			_isShadowDirty = true;
+#endif
 
 			if (Uno.Toolkit.UI.Shadow.IsShadowSizeProperty(e.PropertyName ?? ""))
 			{
@@ -199,7 +197,9 @@ public partial class ShadowContainer : ContentControl
 					UnbindItems(shadows);
 				});
 
+#if DEBUG
 				_isShadowDirty = true;
+#endif
 
 				void OnShadowCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 				{
@@ -208,7 +208,9 @@ public partial class ShadowContainer : ContentControl
 						UnbindItems(e.OldItems?.Cast<Shadow>());
 						BindItems(e.NewItems?.Cast<Shadow>());
 
+#if DEBUG
 						_isShadowDirty = true;
+#endif
 
 						InvalidateCanvasLayout();
 						InvalidateShadows();
@@ -233,7 +235,9 @@ public partial class ShadowContainer : ContentControl
 			{
 				shadowsNestedDisposable.Disposable = null;
 
+#if DEBUG
 				_isShadowDirty = true;
+#endif
 			}
 		}
 		void BindToContent(object? content)
