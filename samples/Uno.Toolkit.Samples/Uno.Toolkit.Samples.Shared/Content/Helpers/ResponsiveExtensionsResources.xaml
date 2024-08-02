@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:utu="using:Uno.Toolkit.UI">
+
+	<GridLength x:Key="GL50">50</GridLength>
+	<GridLength x:Key="GL150">150</GridLength>
+	<SolidColorBrush x:Key="Red">Red</SolidColorBrush>
+	<SolidColorBrush x:Key="Green">Green</SolidColorBrush>
+	<SolidColorBrush x:Key="Blue">Blue</SolidColorBrush>
+
+	<Style x:Key="TestResponsiveContentControlStyle" TargetType="ContentControl">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ContentControl">
+
+					<!-- Used to test res-binding located within a res-dict. -->
+					<!-- Currently, that is not supported, as there is no FrameElement from the local context we can access to. -->
+					<Grid Height="50" HorizontalAlignment="Left">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL150}, Normal={StaticResource GL50}, Wide={StaticResource GL150}, Widest={StaticResource GL50}}" />
+							<ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL50}, Normal={StaticResource GL150}, Wide={StaticResource GL50}, Widest={StaticResource GL150}}" />
+						</Grid.ColumnDefinitions>
+
+						<Border Grid.Column="0" Background="Pink" />
+						<Border Grid.Column="1" Background="SkyBlue" />
+
+						<ContentPresenter Content="{TemplateBinding Content}"
+										  Foreground="Black"
+										  HorizontalAlignment="Center"
+										  VerticalAlignment="Center" />
+					</Grid>
+
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

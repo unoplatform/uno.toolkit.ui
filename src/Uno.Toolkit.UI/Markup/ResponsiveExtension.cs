@@ -17,7 +17,6 @@ using Uno.Logging;
 using Uno.Disposables;
 using System.ComponentModel;
 
-
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -90,31 +89,33 @@ public partial class ResponsiveExtension
 	/// <inheritdoc/>
 	protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
 	{
-		var pvt = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+		TService? GetService<TService>() where TService: class => serviceProvider.GetService(typeof(TService)) as TService;
+		var pvt = GetService<IProvideValueTarget>();
+		var rop = GetService<IRootObjectProvider>();
+
 		if (pvt?.TargetObject is DependencyObject target &&
-			(target is FrameworkElement || ResponsiveBehavior.IsChildSupported(target)) &&
 			pvt?.TargetProperty is ProvideValueTargetProperty pvtp &&
 			pvtp.DeclaringType.FindDependencyPropertyInfo(pvtp.Name) is { } dp)
 		{
 			Initialize(target, dp);
 
-			if (target is FrameworkElement targetAsFE)
+			if ((target as FrameworkElement ?? rop?.RootObject as FrameworkElement) is { } host)
 			{
-				ConnectWhenLoaded(targetAsFE);
+				ConnectWhenLoaded(host);
 			}
 			else
 			{
-#if TOOLKIT1082_WORKAROUND
-				if (ShouldPreserveTargetInHardRef(target))
-				{
-					// workaround: on windows, the column/row-definition instance can somehow be replaced
-					// causing UpdateBinding to fail. By preserving a hard-ref, we prevent this from happening.
-					_hardTargetReference = target;
-				}
-#endif
-
-				// nothing to do here. ResponsiveBehavior will take over from here on.
+				_logger.Error($"Failed to register {nameof(ResponsiveExtension)}: Neither DP owner '{target.GetType().Name ?? "<null>"}' or the containing xaml root-object '{rop?.RootObject?.GetType().Name ?? "<null>"}' is a FrameworkElement");
 			}
+
+#if TOOLKIT1082_WORKAROUND
+			if (target is not FrameworkElement)
+			{
+				// workaround: on windows, the column/row-definition, text-block inlines instances can somehow
+				// be replaced causing UpdateBinding to fail. By preserving a hard-ref, we prevent this from happening.
+				_hardTargetReference = target;
+			}
+#endif
 		}
 		else
 		{
@@ -308,17 +309,10 @@ public partial class ResponsiveExtension
 
 		return false;
 	}
-
-#if TOOLKIT1082_WORKAROUND
-	private static bool ShouldPreserveTargetInHardRef(DependencyObject target) => target is (
-		ColumnDefinition or RowDefinition or
-		Inline
-	);
-#endif
 }
 public partial class ResponsiveExtension
 {
-	// Provide lookup from owner to extension(s). Used by TreeGraph and ResponsiveBehavior
+	// Provide lookup from owner to extension(s). Used by TreeGraph and HotDesign
 	public static List<(WeakReference Owner, string Property, WeakReference Extension)> TrackedInstances { get; } = new();
 
 	internal WeakReference? TargetWeakRef => _targetWeakRef;
