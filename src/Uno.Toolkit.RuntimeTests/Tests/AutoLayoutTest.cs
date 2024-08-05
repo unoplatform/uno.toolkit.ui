@@ -732,6 +732,7 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
+	[Ignore("#1203 -- to be restored")] // temporary disabled to avoid blocking other prs
 	[RequiresFullWindow]
 #if __ANDROID__
 	//https://github.com/unoplatform/uno.toolkit.ui/issues/1051

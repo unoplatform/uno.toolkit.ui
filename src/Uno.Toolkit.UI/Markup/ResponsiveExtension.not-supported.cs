@@ -35,11 +35,16 @@ public partial class ResponsiveExtension : MarkupExtension
 	protected override object? ProvideValue()
 	{
 		_logger.WarnIfEnabled(() => "This xaml markup extension is not supported on UWP. Consider upgrading to WinUI.");
+
+		// we don't want to throw here, since that will just crash the xaml page/control being parsed.
 		return null;
 	}
 
-	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "blank method needed uwp build")]
-	internal void InitializeByProxy(FrameworkElement proxyHost) { }
+	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "blank method needed for uwp build")]
+	internal void Connect(FrameworkElement proxyHost) => throw new PlatformNotSupportedException();
+
+	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "blank method needed for uwp build")]
+	internal void Disconnect() => throw new PlatformNotSupportedException();
 }
 public partial class ResponsiveExtension
 {

@@ -13,10 +13,12 @@ using System.Diagnostics.CodeAnalysis;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 #endif
@@ -31,7 +33,7 @@ namespace Uno.Toolkit.UI
 
 		/// <summary>
 		/// Backing property for the command to execute when <see cref="TextBox"/>/<see cref="PasswordBox"/> enter key is pressed,
-		/// <see cref="ListViewBase.ItemClick" />, <see cref="NavigationView.ItemInvoked"/>, or <see cref="ItemsRepeater"/> item tapped.
+		/// <see cref="ListViewBase.ItemClick" />, <see cref="Selector.SelectionChanged" />, <see cref="NavigationView.ItemInvoked" />, <see cref="ItemsRepeater" /> item tapped, or <see cref="UIElement.Tapped" />.
 		/// </summary>
 		/// <remarks>
 		/// For Command, the relevant parameter is also provided for the <see cref="ICommand.CanExecute(object)"/> and <see cref="ICommand.Execute(object)"/> call:
@@ -39,10 +41,12 @@ namespace Uno.Toolkit.UI
 		///   <item><see cref="TextBox.Text"/></item>
 		///   <item><see cref="PasswordBox.Password"/></item>
 		///   <item><see cref="ItemClickEventArgs.ClickedItem"/> from <see cref="ListViewBase.ItemClick"/></item>
+		///   <item><see cref="Selector.SelectedItem"/></item>
 		///   <item><see cref="NavigationViewItemInvokedEventArgs.InvokedItem"/> from <see cref="NavigationView.ItemInvoked"/></item>
 		///   <item><see cref="ItemsRepeater"/>'s item root's DataContext</item>
+		///   <item><see cref="UIElement"/> itself</item>
 		/// </list>
-		/// Unless <see cref="CommandParameterProperty"/> is set, which replaces the above.
+		/// <see cref="CommandParameterProperty"/> can be set, on the item-container or item-template's root for collection-type controls, or control itself for other controls, to replace the above.
 		/// </remarks>
 		public static DependencyProperty CommandProperty { [DynamicDependency(nameof(GetCommand))] get; } = DependencyProperty.RegisterAttached(
 			"Command",
@@ -83,7 +87,7 @@ namespace Uno.Toolkit.UI
 				// for input controls, this will be implemented in InputExtensions.
 				InputExtensions.OnEnterCommandChanged(sender, e);
 			}
-			if (sender is ItemsRepeater ir)
+			else if (sender is ItemsRepeater ir)
 			{
 				ItemsRepeaterExtensions.OnItemCommandChanged(ir, e);
 			}
@@ -98,6 +102,14 @@ namespace Uno.Toolkit.UI
 				if (GetCommand(sender) is { } command)
 				{
 					lvb.ItemClick += OnListViewItemClick;
+				}
+			}
+			else if (sender is Selector s)
+			{
+				s.SelectionChanged -= OnSelectorSelectionChanged;
+				if (GetCommand(sender) is { } command)
+				{
+					s.SelectionChanged += OnSelectorSelectionChanged;
 				}
 			}
 			else if (sender is NavigationView nv)
@@ -137,16 +149,54 @@ namespace Uno.Toolkit.UI
 
 			return false;
 		}
+		internal static object? TryGetItemCommandParameter(DependencyObject? container)
+		{
+			if (container is ListViewItem)
+			{
+				// fixme: it doesn't work here, because we came from ListView::ItemClick,
+				// and when that happens the SelectedIndex not yet set.
+				return null;
+			}
+			if (container is { })
+			{
+				// we can have two scenarios here: // where the CommandParameter property can be assigned to
+				// 1. direct (IsItemItsOwnContainerOverride=true) container as items
+				if (GetCommandParameter(container) is { } parameter1)
+				{
+					return parameter1;
+				}
+
+				// 2. root element of item-template
+				if (container is ContentControl && // typically Selector's item-container are all of ContentControl descents: LVI, CBI, LBI...
+					container.GetFirstDescendant<ContentPresenter>(IsTemplateBoundToContent) is { } presenter &&
+					presenter.GetTemplateRoot() is { } root &&
+					GetCommandParameter(root) is { } parameter2)
+				{
+					return parameter2;
+				}
+
+				bool IsTemplateBoundToContent(ContentPresenter presenter) =>
+					presenter.GetBindingExpression(ContentPresenter.ContentProperty) is { ParentBinding.Path.Path: "Content" };
+			}
+
+			return null;
+		}
 
 		private static void OnListViewItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (sender is not ListViewBase host) return;
 
-			TryInvokeCommand(host, GetCommandParameter(host) ?? e.ClickedItem);
+			TryInvokeCommand(host, /*TryGetItemCommandParameter(host.ContainerFromIndex(host.SelectedIndex)) ??*/ e.ClickedItem);
+		}
+		private static void OnSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (sender is not Selector host) return;
+
+			TryInvokeCommand(host, TryGetItemCommandParameter(host.ContainerFromIndex(host.SelectedIndex)) ?? host.SelectedItem);
 		}
 		private static void OnNavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs e)
 		{
-			TryInvokeCommand(sender, GetCommandParameter(sender) ?? e.InvokedItem);
+			TryInvokeCommand(sender, TryGetItemCommandParameter(e.InvokedItemContainer) ?? e.InvokedItem);
 		}
 		private static void OnUIElementTapped(object sender, TappedRoutedEventArgs e)
 		{

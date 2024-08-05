@@ -9,6 +9,10 @@
 	  mc:Ignorable="d void"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+	<Page.Resources>
+		<ResourceDictionary Source="ResponsiveExtensionsResources.xaml" />
+	</Page.Resources>
+
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<sample:SamplePageLayout IsDesignAgnostic="True">
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
@@ -62,9 +66,7 @@
 
 						<!-- non-FE: Grid.Column/RowDefinitions -->
 						<TextBlock Text="Grid.ColumnDefinition test" />
-						<Grid utu:ResponsiveBehavior.IsEnabled="True"
-							  Height="50"
-							  HorizontalAlignment="Left">
+						<Grid Height="50" HorizontalAlignment="Left">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL150}, Normal={StaticResource GL50}, Wide={StaticResource GL150}, Widest={StaticResource GL50}}" />
 								<ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL50}, Normal={StaticResource GL150}, Wide={StaticResource GL50}, Widest={StaticResource GL150}}" />
@@ -76,7 +78,7 @@
 
 						<!-- non-FE: TextBlock.Inlines -->
 						<TextBlock Text="TextBlock.Inlines test" />
-						<TextBlock utu:ResponsiveBehavior.IsEnabled="True">
+						<TextBlock>
 							<Run Text="asd" Foreground="{utu:Responsive Narrow={StaticResource Red}, Normal={StaticResource Blue}, Wide={StaticResource Green}, Widest={StaticResource Red}}" />
 							<Run Text="qwe" Foreground="{utu:Responsive Narrow={StaticResource Green}, Normal={StaticResource Red}, Wide={StaticResource Blue}, Widest={StaticResource Green}}" />
 							<Run Text="zxc" Foreground="{utu:Responsive Narrow={StaticResource Blue}, Normal={StaticResource Green}, Wide={StaticResource Red}, Widest={StaticResource Blue}}" />
@@ -88,6 +90,10 @@
 								</Span>
 							</Span>
 						</TextBlock>
+
+						<!-- NOT_SUPPORTED: non-FE from Res-Dict-->
+						<void:TextBlock Text="Res-Dict nested non-FE" />
+						<void:ContentControl Content="AsdAsd" Style="{StaticResource TestResponsiveContentControlStyle}" />
 
 						<!-- layout overriding -->
 						<TextBlock Text="Custom values override" FontWeight="Bold" />

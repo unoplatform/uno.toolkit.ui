@@ -49,7 +49,7 @@ namespace Uno.Toolkit.UI
 			RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY")) || // Legacy Value (Bootstrapper 1.2.0-dev.29 or earlier).
 			RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 
-		private static async Task<FrameworkElement?> GetNativeSplashScreen()
+		internal static async Task<FrameworkElement?> GetNativeSplashScreen()
 		{
 			var (source, background) = IsBrowser
 				? await LoadSplashScreenFromWasmManifest()
@@ -93,12 +93,20 @@ namespace Uno.Toolkit.UI
 					return result;
 				}
 
+				// note: naive js parsing with string manipulation
+				// this may just fail, if we start to use nested object or escaped string containing '}'...
 				var startIdx = js!.IndexOf('{') + 1;
 				var endIdx = js.LastIndexOf('}') - 1;
-				var manifestProps = js.Substring(startIdx, endIdx - startIdx); // Trim "var UnoAppManifest = " from the start of the file so we're left with just the JSON
-				var manifest = manifestProps.Split(',')
+				var manifestProps = js.Substring(startIdx, endIdx - startIdx); // Trim "var UnoAppManifest = " from the start of the file so we're left with just the inner of JSON
+#if !WINDOWS_UWP
+				var manifest = manifestProps.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+					.Select(x => x.Split(':', 2, StringSplitOptions.TrimEntries))
+					.ToDictionarySafe(x => x[0], x => x[1].Trim('\"'));
+#else
+				var manifest = manifestProps.Trim().Split(',', StringSplitOptions.RemoveEmptyEntries)
 					.Select(x => x.Split(':', 2))
-					.ToDictionarySafe(x => x[0], x => x[1].Trim().Trim('\"'));
+					.ToDictionary(x => x[0].Trim(), x => x[1].Trim().Trim('\"'));
+#endif
 
 				if (manifest.TryGetValue("splashScreenImage", out var image))
 				{

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 using Uno.Disposables;
 using Uno.Extensions;
-using Microsoft.Extensions.Logging;
 using Uno.Logging;
 
 #if IS_WINUI
@@ -25,7 +25,7 @@ namespace Uno.Toolkit.UI
 {
 	internal static class DependencyObjectExtensions
 	{
-		private static Dictionary<(Type Type, string Property), DependencyProperty?> _dependencyPropertyReflectionCache = new Dictionary<(Type, string), DependencyProperty?>(2);
+		private static Dictionary<(Type Type, string Property), DependencyPropertyInfo?> _dependencyPropertyReflectionCache = new(2);
 
 #if HAS_UNO
 		/// <summary>
@@ -182,33 +182,33 @@ namespace Uno.Toolkit.UI
 		}
 #endif
 
-		public static DependencyProperty? FindDependencyProperty<TProperty>(this DependencyObject owner, string propertyName) => owner.GetType().FindDependencyProperty<TProperty>(propertyName);
+		public static DependencyProperty? FindDependencyProperty<TProperty>(this DependencyObject owner, string propertyName) =>
+			owner.GetType().FindDependencyProperty<TProperty>(propertyName);
 
-		public static DependencyProperty? FindDependencyProperty(this DependencyObject owner, string propertyName) => owner.GetType().FindDependencyProperty(propertyName);
+		public static DependencyProperty? FindDependencyProperty(this DependencyObject owner, string propertyName) =>
+			owner.GetType().FindDependencyProperty(propertyName);
 
 		public static DependencyProperty? FindDependencyProperty<TProperty>(this Type ownerOrDescendantType, string propertyName)
 		{
 			var propertyType = typeof(TProperty);
-			var property = FindDependencyProperty(ownerOrDescendantType, propertyName);
+			var property = FindDependencyPropertyInfo(ownerOrDescendantType, propertyName);
 
-#if HAS_UNO
-			// note: for winui, it is no possible to obtain the property type from DependencyProperty by reflection.
-			// we can only check the sibling {propertyName} property or G/Set{propertyName} method (for attached dp) for the property type.
-			if (property != null && (
-				property.GetType().GetProperty("Type", NonPublic | Instance)?.GetValue(property) is not Type type ||
-				type != propertyType
-			))
+			if (property is { } && property.PropertyType != typeof(TProperty))
 			{
-				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{ownerOrDescendantType.GetType().Name}.{propertyName}' dependency property is not of the expected '{propertyType.Name}' type.");
+				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{ownerOrDescendantType.GetType().Name}.{propertyName}' dependency property is not of the expected type '{propertyType.Name}': [{property.PropertyType?.FullName}]{property.OwnerType.FullName}{property.PropertyName}");
 				property = null;
 			}
-#endif
 
-			return property;
+			return property?.Definition;
 		}
 
-		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName)
+		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName) =>
+			FindDependencyPropertyInfo(ownerOrDescendantType, propertyName)?.Definition;
+
+		internal static DependencyPropertyInfo? FindDependencyPropertyInfo(this Type ownerOrDescendantType, string propertyName)
 		{
+			propertyName = propertyName.RemoveTail("Property");
+
 			var type = ownerOrDescendantType;
 			var key = (ownerType: type, propertyName);
 
@@ -216,15 +216,43 @@ namespace Uno.Toolkit.UI
 			// since it is not worth the trouble to handle the type hierarchy...
 			if (!_dependencyPropertyReflectionCache.TryGetValue(key, out var property))
 			{
-				property =
-					type.GetProperty(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty ??
-					type.GetField(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty;
+				property = GetDetails(
+					type.GetProperty($"{propertyName}Property", Public | NonPublic | Static | FlattenHierarchy) as MemberInfo ??
+					type.GetField($"{propertyName}Property", Public | NonPublic | Static | FlattenHierarchy)
+				);
 				_dependencyPropertyReflectionCache[key] = property;
-			}
 
-			if (property == null)
-			{
-				typeof(DependencyObjectExtensions).Log().LogWarning($"The dependency property '{propertyName}' does not exist on '{type}' or its ancestors.");
+				if (property is null)
+				{
+					typeof(DependencyObjectExtensions).Log().LogWarning($"The dependency property '{propertyName}' does not exist on '{type}' or its ancestors.");
+				}
+
+				DependencyPropertyInfo? GetDetails(MemberInfo? dpInfo)
+				{
+					if (dpInfo is { } && GetValue(dpInfo) is DependencyProperty dp)
+					{
+						// DeclaredOnly: Specifies flags that control binding and the way in which the search for members and types is conducted by reflection.
+						// because 'dpInfo.DeclaringType' is the guaranteed type, and we don't want an overridden property from a random base to throw AmbiguousMatchException
+						// ex: UIElement::Visibility & [droid]UnoViewGroup::Visibility
+						var holderProperty = dpInfo.DeclaringType?.GetProperty(propertyName, Public | NonPublic | Instance | DeclaredOnly);
+						var propertyType =
+							holderProperty?.PropertyType ??
+							dpInfo.DeclaringType?.GetMethod($"Get{propertyName}", Public | NonPublic | Static)?.ReturnType ??
+							dpInfo.DeclaringType?.GetMethod($"Set{propertyName}", Public | NonPublic | Static)?.GetParameters().ElementAtOrDefault(1)?.ParameterType ??
+							null;
+
+						return new(dp, propertyName, propertyType, dpInfo.DeclaringType!, holderProperty is null);
+					}
+
+					return null;
+				}
+				static object? GetValue(MemberInfo member) => member switch
+				{
+					PropertyInfo pi => pi.GetValue(null),
+					FieldInfo fi => fi.GetValue(null),
+
+					_ => throw new ArgumentOutOfRangeException(member?.GetType().Name),
+				};
 			}
 
 			return property;
@@ -246,5 +274,7 @@ namespace Uno.Toolkit.UI
 
 			return true;
 		}
+
+		internal record class DependencyPropertyInfo(DependencyProperty Definition, string PropertyName, Type? PropertyType, Type OwnerType, bool IsAttached);
 	}
 }

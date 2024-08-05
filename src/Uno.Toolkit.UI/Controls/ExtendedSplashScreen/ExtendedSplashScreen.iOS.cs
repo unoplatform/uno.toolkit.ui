@@ -30,7 +30,7 @@ namespace Uno.Toolkit.UI
 	{
 		public bool SplashIsEnabled => (Platforms & SplashScreenPlatform.iOS) != 0;
 
-		private static Task<FrameworkElement?> GetNativeSplashScreen()
+		internal static Task<FrameworkElement?> GetNativeSplashScreen()
 		{
 			try
 			{

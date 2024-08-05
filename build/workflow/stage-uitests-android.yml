@@ -73,6 +73,7 @@
       testResultsFormat: 'NUnit'
       testResultsFiles: $(build.sourcesdirectory)/build/$(UNO_TEST_RESULTS_FILE_NAME)
       failTaskOnFailedTests: true
+      failTaskOnMissingResultsFile: true
 
   - task: PublishBuildArtifacts@1
     condition: always()

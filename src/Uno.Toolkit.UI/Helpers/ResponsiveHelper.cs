@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Windows.Foundation;
+using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -108,11 +110,85 @@ public partial class ResponsiveLayout : DependencyObject
 	public override string ToString() => "[" + string.Join(",", Narrowest, Narrow, Normal, Wide, Widest) + "]";
 }
 
+public class ResponsiveSizeProvider
+{
+	#region public Size Size { get; set => SizeChanged; }
+	private Size _size;
+	public Size Size
+	{
+		get => _size;
+		set
+		{
+			if (_size != value)
+			{
+				_size = value;
+				SizeChanged?.Invoke(this, value);
+			}
+		}
+	}
+	#endregion
+
+	internal event TypedEventHandler<object, Size>? SizeChanged;
+}
+
 internal record ResolvedLayout(ResponsiveLayout Layout, Size Size, Layout? Result);
 
-internal static class ResponsiveHelper
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static class ResponsiveHelper
 {
+	internal static event TypedEventHandler<object, Size>? WindowSizeChanged;
+
 	public static ResponsiveLayout DefaultLayout { get; } = ResponsiveLayout.Create(150, 300, 600, 800, 1080);
+	internal static Size WindowSize { get; private set; }
+
+	private static ResponsiveSizeProvider? _defaultSizeProvider;
+	private static ResponsiveSizeProvider? _overrideSizeProvider;
+	private static SerialDisposable _overrideSizeProviderDisposable = new();
+
+	public static void InitializeIfNeeded(XamlRoot provider) // backdoor
+	{
+		if (_defaultSizeProvider is null)
+		{
+			_defaultSizeProvider = new();
+
+			provider.Changed += (s, e) => _defaultSizeProvider.Size = s.Size;
+			_defaultSizeProvider.SizeChanged += RaiseSizeChanged;
+			_defaultSizeProvider.Size = provider.Size;
+		}
+	}
+	public static void SetOverrideSizeProvider(ResponsiveSizeProvider? provider) // backdoor
+	{
+		if (_overrideSizeProvider == provider) return;
+
+		_overrideSizeProviderDisposable.Disposable = null;
+		if (provider is { })
+		{
+			_overrideSizeProvider = provider;
+			_overrideSizeProvider.SizeChanged += RaiseSizeChanged;
+			WindowSize = provider.Size;
+
+			_overrideSizeProviderDisposable.Disposable = Disposable.Create(() =>
+			{
+				_overrideSizeProvider.SizeChanged -= RaiseSizeChanged;
+				_overrideSizeProvider = null;
+
+				if (_defaultSizeProvider is { })
+				{
+					WindowSize = _defaultSizeProvider.Size;
+				}
+			});
+		}
+	}
+
+	private static void RaiseSizeChanged(object sender, Size size)
+	{
+		// only propagate the event from the expected source
+		if (sender == (_overrideSizeProvider ?? _defaultSizeProvider))
+		{
+			WindowSize = size;
+			WindowSizeChanged?.Invoke(sender, size);
+		}
+	}
 
 	internal static ResolvedLayout ResolveLayout(Size size, ResponsiveLayout? layout, IEnumerable<Layout> options)
 	{

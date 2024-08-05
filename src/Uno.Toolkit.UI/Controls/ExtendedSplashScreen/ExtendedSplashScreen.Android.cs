@@ -219,7 +219,7 @@ public partial class ExtendedSplashScreen
 		return returnedBitmap;
 	}
 
-	private static Task<FrameworkElement?> GetNativeSplashScreen()
+	internal static Task<FrameworkElement?> GetNativeSplashScreen()
 	{
 		try
 		{
