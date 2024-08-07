@@ -255,6 +255,12 @@ namespace Uno.Toolkit.UI
 #pragma warning restore SYSLIB0044 // Type or member is obsolete
 			if (codebase is not null)
 			{
+#if WINDOWS
+				// Need to unescape the path to get the actual path
+				// `codebase` returns a string with 'file:\' as a prefix which prevents the file from being found
+				UriBuilder uri = new UriBuilder(codebase);
+				codebase = Uri.UnescapeDataString(uri.Path);
+#endif
 				var manifestPath = Path.Combine(Path.GetDirectoryName(codebase) ?? string.Empty, fileName);
 				if (File.Exists(manifestPath))
 				{
