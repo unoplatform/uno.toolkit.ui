@@ -354,23 +354,24 @@ public static partial class ItemsRepeaterExtensions
 
 		SynchronizeDefaultSelection(ir);
 
-#if HAS_UNO_WINUI || __WASM__
-		if (GetSelectionIsvInnerSubscription(ir) is not SerialDisposable isvInnerSubscription) return;
-
-		isvInnerSubscription.Disposable = null;
-		if (ir.ItemsSourceView is { } isv)
+		if (RuntimeInfoHelper.IsBrowser)
 		{
-			isv.CollectionChanged += OnItemsSourceViewCollectionChanged;
-			isvInnerSubscription.Disposable = Disposable.Create(() =>
-				ir.ItemsSourceView.CollectionChanged -= OnItemsSourceViewCollectionChanged
-			);
-		}
+			if (GetSelectionIsvInnerSubscription(ir) is not SerialDisposable isvInnerSubscription) return;
 
-		void OnItemsSourceViewCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-		{
-			SynchronizeDefaultSelection(ir);
+			isvInnerSubscription.Disposable = null;
+			if (ir.ItemsSourceView is { } isv)
+			{
+				isv.CollectionChanged += OnItemsSourceViewCollectionChanged;
+				isvInnerSubscription.Disposable = Disposable.Create(() =>
+					ir.ItemsSourceView.CollectionChanged -= OnItemsSourceViewCollectionChanged
+				);
+			}
+
+			void OnItemsSourceViewCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+			{
+				SynchronizeDefaultSelection(ir);
+			}
 		}
-#endif
 	}
 
 	private static void SynchronizeDefaultSelection(ItemsRepeater ir)

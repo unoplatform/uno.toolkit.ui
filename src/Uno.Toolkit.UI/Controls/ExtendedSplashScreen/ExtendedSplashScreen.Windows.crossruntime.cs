@@ -41,17 +41,12 @@ namespace Uno.Toolkit.UI
 #if WINDOWS_UWP || WINDOWS
 			Platforms.HasFlag(SplashScreenPlatform.Windows);
 #else
-			Platforms.HasFlag(IsBrowser ? SplashScreenPlatform.WebAssembly : SplashScreenPlatform.Skia);
+			Platforms.HasFlag(RuntimeInfoHelper.IsBrowser ? SplashScreenPlatform.WebAssembly : SplashScreenPlatform.Skia);
 #endif
-
-		private static bool IsBrowser { get; } =
-			// Origin of the value : https://github.com/mono/mono/blob/a65055dbdf280004c56036a5d6dde6bec9e42436/mcs/class/corlib/System.Runtime.InteropServices.RuntimeInformation/RuntimeInformation.cs#L115
-			RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY")) || // Legacy Value (Bootstrapper 1.2.0-dev.29 or earlier).
-			RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 
 		internal static async Task<FrameworkElement?> GetNativeSplashScreen()
 		{
-			var (source, background) = IsBrowser
+			var (source, background) = RuntimeInfoHelper.IsBrowser
 				? await LoadSplashScreenFromWasmManifest()
 				: await LoadSplashScreenFromPackageManifest();
 
