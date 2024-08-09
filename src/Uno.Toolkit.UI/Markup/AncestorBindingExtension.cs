@@ -29,8 +29,6 @@ namespace Uno.Toolkit.UI
 		public static bool ShouldThrow = true;
 #endif
 
-		private static readonly Dictionary<(Type, string), PropertyInfo?> _targetPropertyLookupCache = new();
-
 		/// <summary>
 		/// Binding path from the ancestor.
 		/// </summary>
@@ -55,10 +53,14 @@ namespace Uno.Toolkit.UI
 #else
 		protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
 		{
+			// until we can reach/resolve 'property', we have no option but to return null.
+			// while, this would crash if this is set on a dp that doesn't accept null,
+			// there is really nothing else we can salvage from here.
+			// but usually that is also indicative of another problem: using this on an invalid target/property.
 			if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget pvt) return null;
 			if (pvt.TargetObject is not FrameworkElement owner) return null;
 			if (pvt.TargetProperty is not ProvideValueTargetProperty { DeclaringType: { } ownerType, Name: { } propertyName }) return null;
-			if (FindTargetDependencyProperty(ownerType, propertyName)?.GetValue(pvt.TargetObject) is not DependencyProperty property) return null;
+			if (ownerType.FindDependencyProperty(propertyName) is not { } property) return null;
 
 			owner.Loaded += OnTargetLoaded;
 			void OnTargetLoaded(object s, RoutedEventArgs e)
@@ -80,21 +82,10 @@ namespace Uno.Toolkit.UI
 				}
 			}
 
-			return null;
+			// return current value, until the binding comes online.
+			return owner.GetValue(property);
 		}
 #endif
-
-		private static PropertyInfo? FindTargetDependencyProperty(Type ownerType, string propertyName)
-		{
-			var key = (ownerType, propertyName);
-			if (!_targetPropertyLookupCache.TryGetValue(key, out var value))
-			{
-				value = ownerType.GetProperty(propertyName + "Property", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				_targetPropertyLookupCache[key] = value;
-			}
-
-			return value;
-		}
 
 		private static IEnumerable<DependencyObject> GetAncestors(DependencyObject x)
 		{
