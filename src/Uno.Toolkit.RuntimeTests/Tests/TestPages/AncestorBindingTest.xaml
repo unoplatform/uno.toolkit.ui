@@ -1,0 +1,28 @@
+﻿<Page x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.AncestorBindingTest"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.RuntimeTests.Tests.TestPages"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  Tag="Page Tag">
+
+	<StackPanel>
+		<TextBlock x:Name="TopLevelTextBlock" Text="{utu:AncestorBinding AncestorType=Page, Path=Tag}" />
+
+		<ListView x:Name="TopLevelListView"
+				  ItemsSource="{Binding Items}"
+				  Tag="ListView Tag">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<StackPanel>
+						<TextBlock x:Name="NestedLvTextBlock1" Text="{utu:AncestorBinding AncestorType=Page, Path=Tag}" />
+						<TextBlock x:Name="NestedLvTextBlock2" Text="{utu:ItemsControlBindingExtension Path=Tag}" />
+					</StackPanel>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</StackPanel>
+</Page>
