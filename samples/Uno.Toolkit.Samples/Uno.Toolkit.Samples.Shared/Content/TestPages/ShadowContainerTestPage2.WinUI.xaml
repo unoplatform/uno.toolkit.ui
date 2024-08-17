@@ -9,9 +9,8 @@
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<StackPanel x:Name="sp">
-		<Button x:Name="loadButton" Click="OnLoadButtonClick">Load</Button>
-		<Button x:Name="unloadButton" Click="OnUnloadButtonClick">Unload</Button>
-
+		<Button x:Name="reloadButton" Click="OnReload">Reload</Button>
+		<TextBlock x:Name="testStatus" Text="Not Run" />
 		<utu:ShadowContainer x:Name="shadowContainer">
 			<utu:ShadowContainer.Shadows>
 				<utu:ShadowCollection>
