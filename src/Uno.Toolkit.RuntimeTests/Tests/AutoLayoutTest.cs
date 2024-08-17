@@ -732,10 +732,16 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
-	[Ignore("#1203 -- to be restored")] // temporary disabled to avoid blocking other prs
 	[RequiresFullWindow]
 	public async Task When_Hug_With_CounterAlignment()
 	{
+		/*
+		 * There is an outstanding issue (https://github.com/unoplatform/uno.toolkit.ui/issues/1051) if the AutoLayout is the absolute root element of the application Window. 
+		 * Which is not a common scenario outside of UI Tests that are replacing the window content. 
+		 * For now we can workaround this by wrapping the AutoLayout in a Border.
+		 */
+		var border = new Border();
+
 		var SUT = new AutoLayout()
 		{
 			PrimaryAxisAlignment = AutoLayoutAlignment.Center,
@@ -759,8 +765,9 @@ internal class AutoLayoutTest
 
 		SUT.Children.Add(textBlock);
 		SUT.Children.Add(button);
+		border.Child = SUT;
 
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+		await UnitTestUIContentHelperEx.SetContentAndWait(border);
 
 
 		var textBlockTransform = textBlock.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
