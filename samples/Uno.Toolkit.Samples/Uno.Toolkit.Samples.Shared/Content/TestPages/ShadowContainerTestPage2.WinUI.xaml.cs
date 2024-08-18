@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 namespace Uno.Toolkit.Samples.Content.TestPages
 {
@@ -31,14 +32,21 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 			this.InitializeComponent();
 		}
 
-		private void OnLoadButtonClick(object sender, RoutedEventArgs e)
+		private void OnReload(object sender, RoutedEventArgs e)
 		{
-			sp.Children.Add(shadowContainer);
-		}
+			testStatus.Text = "Running test...";
 
-		private void OnUnloadButtonClick(object sender, RoutedEventArgs e)
-		{
-			sp.Children.Remove(shadowContainer);
+			try
+			{
+				sp.Children.Remove(shadowContainer);
+				sp.Children.Add(shadowContainer);
+				sp.Children.Remove(shadowContainer);
+				sp.Children.Add(shadowContainer);
+			}
+			finally
+			{
+				testStatus.Text = "Completed";
+			}
 		}
 	}
 }

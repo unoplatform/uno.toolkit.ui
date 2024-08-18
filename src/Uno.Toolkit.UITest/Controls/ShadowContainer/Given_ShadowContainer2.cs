@@ -21,17 +21,10 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 		{
 			using var screenshot1 = TakeScreenshot("initial");
 
-			var loadButton = App.MarkedAnywhere("loadButton");
-			var unloadButton = App.MarkedAnywhere("unloadButton");
+			var testStatus = App.MarkedAnywhere("testStatus");
+			var loadButton = App.MarkedAnywhere("reloadButton").FastTap();
 
-			unloadButton.FastTap();
-			App.Wait(TimeSpan.FromSeconds(0.25));
-			loadButton.FastTap();
-			App.Wait(TimeSpan.FromSeconds(0.25));
-			unloadButton.FastTap();
-			App.Wait(TimeSpan.FromSeconds(0.25));
-			loadButton.FastTap();
-			App.Wait(TimeSpan.FromSeconds(0.25));
+			App.WaitForDependencyPropertyValue(testStatus, "Text", "Completed");
 
 			using var screenshot2 = TakeScreenshot("reloaded");
 
