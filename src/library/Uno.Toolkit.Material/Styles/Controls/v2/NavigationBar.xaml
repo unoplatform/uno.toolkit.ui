@@ -1129,7 +1129,7 @@
 		   BasedOn="{StaticResource AppBarButtonOverflowStyle}"
 		   TargetType="AppBarButton">
 		<Setter Property="Background" Value="{ThemeResource NavigationBarOverflowAppBarButtonBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource NavigationBarOverflowAppBarButtonForeGround}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarOverflowAppBarButtonForeground}" />
 	</Style>
 
 	<Style x:Key="MaterialEllipsisButton"
