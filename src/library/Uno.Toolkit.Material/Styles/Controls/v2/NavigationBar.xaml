@@ -178,15 +178,85 @@
 
 	<!--#region Default Material NavigationBar-->
 	<Style x:Key="MaterialMainCommandStyle"
-		   BasedOn="{StaticResource MaterialAppBarButtonStyle}"
-		   TargetType="AppBarButton">
-		<Setter Property="Foreground" Value="{ThemeResource NavigationBarMainCommandForeground}" />
-		<!-- Native back icons are used on mobile platforms -->
-		<not_mobile:Setter Property="Icon" win:Value="{x:Null}">
-			<not_win:Setter.Value>
-				<PathIcon Data="{ThemeResource NavigationBarBackIconData}" />
-			</not_win:Setter.Value>
-		</not_mobile:Setter>
+       TargetType="AppBarButton">
+		<Setter Property="Background" Value="{ThemeResource AppBarButtonBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource AppBarButtonForeground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource AppBarButtonBorderBrush}" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+		<Setter Property="FontWeight" Value="Normal" />
+		<Setter Property="Width" Value="68" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+		<Setter Property="FocusVisualMargin" Value="-3" />
+		<Setter Property="AllowFocusOnInteraction" Value="False" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="AppBarButton">
+					<um:Ripple Feedback="{TemplateBinding Foreground}"
+                           FeedbackOpacity="{StaticResource PressedOpacity}"
+                           MinWidth="{TemplateBinding MinWidth}"
+                           MaxWidth="{TemplateBinding MaxWidth}">
+						<Grid x:Name="Root"
+                          Background="Transparent">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="PointerOver">
+										<VisualState.Setters>
+											<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPointerOver}" />
+											<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushPointerOver}" />
+											<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Pressed">
+										<VisualState.Setters>
+											<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPressed}" />
+											<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushPressed}" />
+											<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<VisualState.Setters>
+											<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundDisabled}" />
+											<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushDisabled}" />
+											<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+
+							<Border x:Name="AppBarButtonInnerBorder"
+                                Margin="{ThemeResource AppBarButtonInnerBorderMargin}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Control.IsTemplateFocusTarget="True" />
+
+							<Grid x:Name="ContentRoot"
+                              MinHeight="{ThemeResource AppBarThemeMinHeight}">
+
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<Grid.RowDefinitions>
+									<RowDefinition Height="*" />
+								</Grid.RowDefinitions>
+
+								<!-- Replace the Viewbox with a PathIcon -->
+								<PathIcon Data="{ThemeResource NavigationBarBackIconData}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+							</Grid>
+						</Grid>
+					</um:Ripple>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 
 	<Style x:Key="MaterialNavigationBarStyle"
