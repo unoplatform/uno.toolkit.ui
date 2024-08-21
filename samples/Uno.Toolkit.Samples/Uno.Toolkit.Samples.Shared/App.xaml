@@ -24,7 +24,7 @@
 				<CupertinoToolkitResources xmlns="using:Uno.Toolkit.UI.Cupertino" />
 
 				<!-- Load application resources -->
-				<ResourceDictionary Source="Converters.xaml" />
+				<ResourceDictionary Source="ms-appx:///Converters.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/Application/Colors.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/Application/Fonts.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Button.xaml" />
