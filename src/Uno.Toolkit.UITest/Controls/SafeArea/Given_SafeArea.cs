@@ -113,7 +113,8 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		[TestCase("Margin", "Control", TestName = "When_Override_Insets_Control_Margin")]
 		[Test]
 		[AutoRetry]
-		[ActivePlatforms(Platform.Browser, Platform.iOS)]
+		[ActivePlatforms(Platform.Browser)]
+		// Excluding iOS due to the test running very slowly and timing out (tracked by https://github.com/unoplatform/uno.toolkit.ui/issues/1232)
 		public void When_Override_Insets(string mode, string safeAreaType)
 		{
 			const int InsetThickness = 20;
