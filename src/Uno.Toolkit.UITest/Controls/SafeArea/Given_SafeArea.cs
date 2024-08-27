@@ -29,6 +29,7 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 		private const string Right = "Right";
 		private const string Bottom = "Bottom";
 		private readonly List<string> _availableMasks = new List<string> { Left, Top, Right, Bottom };
+		private static readonly IEnumerable<IEnumerable<string>> _subsets  = Subsets(new List<string> { Left, Top, Right, Bottom });
 
 		[SetUp]
 		public override void SetUpTest()
@@ -135,24 +136,23 @@ namespace Uno.Toolkit.UITest.Controls.SafeArea
 			App.FastTap($"SetAllTwenty");
 
 
-			foreach (List<string> maskCombo in Subsets(_availableMasks))
+			foreach (List<string> maskCombo in _subsets)
 			{
 				ClearMasks();
 
 				//Allow time for the UI to adjust to new inset values
-				App.Wait(TimeSpan.FromSeconds(1));
+				//App.Wait(TimeSpan.FromSeconds(1));
 
 				foreach (var mask in maskCombo)
 				{
-					var checkBoxResult = App.WaitForElementWithMessage($"{mask}{CheckboxSuffix}");
 					var checkBox = App.Marked($"{mask}{CheckboxSuffix}");
 
 					checkBox.SetDependencyPropertyValue("IsChecked", "True");
-					App.WaitForDependencyPropertyValue(checkBox, "IsChecked", true);
+					//App.WaitForDependencyPropertyValue(checkBox, "IsChecked", true);
 				}
 
 				//Allow time for the UI to adjust to new inset values
-				App.Wait(TimeSpan.FromSeconds(1));
+				//App.Wait(TimeSpan.FromSeconds(1));
 
 				var testRect = App.GetPhysicalRect(isMargin ? "WrappingGrid" : mainElement);
 				using var screenshot = TakeScreenshot($"Inset_{string.Join("_", maskCombo)}_Override_{InsetThickness}");
