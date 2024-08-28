@@ -190,6 +190,7 @@
 		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
 		<Setter Property="FocusVisualMargin" Value="-3" />
 		<Setter Property="AllowFocusOnInteraction" Value="False" />
+		<Setter Property="Content" Value="{ThemeResource NavigationBarBackIconData}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="AppBarButton">
@@ -246,8 +247,7 @@
 									<RowDefinition Height="*" />
 								</Grid.RowDefinitions>
 
-								<!-- Replace the Viewbox with a PathIcon -->
-								<PathIcon Data="{ThemeResource NavigationBarBackIconData}"
+								<PathIcon Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
                                       Foreground="{TemplateBinding Foreground}"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center" />
