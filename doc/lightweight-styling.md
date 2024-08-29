@@ -3,7 +3,7 @@ uid: Toolkit.LightweightStyling
 ---
 # Lightweight Styling
 
-For general information about [lightweight styling](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling), check out [Lightweight Styling in Uno.Themes](xref:uno.themes.lightweightstyling).
+For general information about [lightweight styling](https://learn.microsoft.com/windows/apps/design/style/xaml-styles#lightweight-styling), check out [Lightweight Styling in Uno.Themes](xref:Uno.Themes.LightweightStyling).
 
 > [!Video https://www.youtube-nocookie.com/embed/5CsJHMTlNAw]
 
