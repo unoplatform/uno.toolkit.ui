@@ -178,7 +178,7 @@
 
 	<!--#region Default Material NavigationBar-->
 	<Style x:Key="MaterialMainCommandStyle"
-       TargetType="AppBarButton">
+		   TargetType="AppBarButton">
 		<Setter Property="Background" Value="{ThemeResource AppBarButtonBackground}" />
 		<Setter Property="Foreground" Value="{ThemeResource AppBarButtonForeground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource AppBarButtonBorderBrush}" />
@@ -195,11 +195,11 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="AppBarButton">
 					<um:Ripple Feedback="{TemplateBinding Foreground}"
-                           FeedbackOpacity="{StaticResource PressedOpacity}"
-                           MinWidth="{TemplateBinding MinWidth}"
-                           MaxWidth="{TemplateBinding MaxWidth}">
+							   FeedbackOpacity="{StaticResource PressedOpacity}"
+							   MinWidth="{TemplateBinding MinWidth}"
+							   MaxWidth="{TemplateBinding MaxWidth}">
 						<Grid x:Name="Root"
-                          Background="Transparent">
+							  Background="Transparent">
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
 									<VisualState x:Name="Normal" />
@@ -228,14 +228,14 @@
 							</VisualStateManager.VisualStateGroups>
 
 							<Border x:Name="AppBarButtonInnerBorder"
-                                Margin="{ThemeResource AppBarButtonInnerBorderMargin}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Control.IsTemplateFocusTarget="True" />
+									Margin="{ThemeResource AppBarButtonInnerBorderMargin}"
+									Background="{TemplateBinding Background}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									Control.IsTemplateFocusTarget="True" />
 
 							<Grid x:Name="ContentRoot"
-                              MinHeight="{ThemeResource AppBarThemeMinHeight}">
+								  MinHeight="{ThemeResource AppBarThemeMinHeight}">
 
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
@@ -248,9 +248,9 @@
 								</Grid.RowDefinitions>
 
 								<PathIcon Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
-                                      Foreground="{TemplateBinding Foreground}"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center" />
+										  Foreground="{TemplateBinding Foreground}"
+										  HorizontalAlignment="Center"
+										  VerticalAlignment="Center" />
 							</Grid>
 						</Grid>
 					</um:Ripple>
