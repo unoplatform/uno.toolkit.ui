@@ -314,6 +314,7 @@ On **Android**, only icons are supported (`AppBarButton.Icon`). This is due to a
 
 > [!NOTE]
 > The default back button icon can be customized for non-mobile platforms by overriding the `NavigationBarBackIconData` resource. On `Android` and `iOS`, the native default back button icon is used. On Windows and other non-mobile platforms, you can provide a custom back button icon by defining the `NavigationBarBackIconData` resource in your resource dictionary:
+>
 >```xml
 ><Application.Resources>
 >    <x:String x:Key="NavigationBarBackIconData">YOUR_CUSTOM_PATH_DATA</x:String>
