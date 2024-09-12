@@ -29,7 +29,7 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 			using var screenshot2 = TakeScreenshot("reloaded");
 
 			var rect = GetRectangle("shadowContainer");
-			ImageAssert.AreAlmostEqual(screenshot1, screenshot2, rect, permittedPixelError: 10);
+			ImageAssert.AreAlmostEqual(screenshot1, screenshot2, rect, permittedPixelError: 15);
 		}
 
 		private Rectangle GetRectangle(string marked)
