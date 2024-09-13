@@ -14,7 +14,7 @@
 		<utu:ShadowContainer x:Name="shadowContainer">
 			<utu:ShadowContainer.Shadows>
 				<utu:ShadowCollection>
-					<utu:Shadow BlurRadius="50" Color="#928F99" Opacity="0.5" />
+					<utu:Shadow  OffsetX="20" OffsetY="20" Color="#00FF00" Opacity="1" />
 				</utu:ShadowCollection>
 			</utu:ShadowContainer.Shadows>
 
