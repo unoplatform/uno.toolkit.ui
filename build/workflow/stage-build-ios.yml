@@ -1,5 +1,5 @@
 jobs:
-- job: iOS
+- job: iOS_TestFlight_Build
 
   timeoutInMinutes: 90
 
@@ -90,6 +90,55 @@ jobs:
       Contents: |
         **/*.ipa
       TargetFolder: $(build.artifactstagingdirectory)
+      CleanTargetFolder: false
+      OverWrite: false
+      flattenFolders: false
+
+  - task: PublishBuildArtifacts@1
+    retryCountOnTaskFailure: 3
+    condition: always()
+    inputs:
+      ArtifactName: $(ArtifactName)
+
+- job: iOS_UITest_Build
+
+  timeoutInMinutes: 90
+
+  strategy:
+    maxParallel: 2
+    matrix:
+      WinUI:
+        ArtifactName: ios-winui-uitest-build
+        XAML_FLAVOR_BUILD: WinUI
+        ProjectName: Uno.Toolkit.WinUI.Samples
+        CI_Build: true
+      UWP:
+        ArtifactName: ios-uwp-uitest-build
+        XAML_FLAVOR_BUILD: UWP
+        ProjectName: Uno.Toolkit.Samples
+        CI_Build: true
+
+  pool:
+    vmImage: 'macOS-14'
+
+  steps:
+  - template: templates/dotnet-workload-install-mac.yml
+  - template: templates/canary-updater.yml
+  - template: templates/gitversion.yml
+  - template: templates/set-app-versions.yml
+
+  - bash: |
+      $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-build.sh
+
+    displayName: Build iOS App for UI Tests
+
+  - task: CopyFiles@2
+    displayName: 'Publish Binaries'
+    retryCountOnTaskFailure: 3
+    inputs:
+      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/net8.0-ios/iossimulator-x64/$(ProjectName).app
+      Contents: '**'
+      TargetFolder: $(build.artifactstagingdirectory)/$(ProjectName).app
       CleanTargetFolder: false
       OverWrite: false
       flattenFolders: false

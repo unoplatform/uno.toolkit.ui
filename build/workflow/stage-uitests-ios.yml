@@ -1,5 +1,6 @@
 ﻿jobs:
-- job: iOS_UITests
+- job: iOS_UITests_Run
+  dependsOn: iOS_UITest_Build
   displayName: 'Run iOS UI Tests'
   timeoutInMinutes: 120
   variables:
@@ -14,25 +15,25 @@
         XAML_FLAVOR_BUILD: UWP
         UITEST_TEST_MODE_NAME: Automated
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-UWP-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-uitest
+        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-uitest-build
       WinUI:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: Automated
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-WinUI-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-winui-uitest
+        SAMPLEAPP_ARTIFACT_NAME: ios-winui-uitest-build
       UWP_Runtime:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: UWP
         UITEST_TEST_MODE_NAME: RuntimeTests
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-UWP-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-uitest
+        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-uitest-build
       WinUI_Runtime:
         SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: RuntimeTests
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-WinUI-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-winui-uitest
+        SAMPLEAPP_ARTIFACT_NAME: ios-winui-uitest-build
 
   pool:
     vmImage: 'macOS-14'
@@ -40,6 +41,12 @@
   steps:
   - checkout: self
     clean: true
+
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download iOS Samples App'
+    inputs:
+        artifactName: $(SAMPLEAPP_ARTIFACT_NAME)
+        downloadPath: '$(build.sourcesdirectory)/build'
 
   - template: templates/dotnet-workload-install-mac.yml
   - template: templates/canary-updater.yml

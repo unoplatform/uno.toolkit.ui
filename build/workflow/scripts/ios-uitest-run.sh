@@ -13,13 +13,11 @@ fi
 
 export UNO_UITEST_PLATFORM=iOS
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/ios/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
-export UNO_UITEST_IOS_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.Mobile
-export UNO_UITEST_IOSBUNDLE_PATH=$UNO_UITEST_IOS_PROJECT_PATH/bin/Release/net8.0-ios/iossimulator-x64/$SAMPLE_PROJECT_NAME.Mobile.app
+export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/build/$SAMPLE_PROJECT_NAME.Mobile.app
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
 export UNO_UITEST_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
 export UNO_UITEST_PROJECT=$UNO_UITEST_PROJECT_PATH/Uno.Toolkit.UITest.csproj
 export UNO_UITEST_LOGFILE=$UNO_UITEST_SCREENSHOT_PATH/nunit-log.txt
-export UNO_UITEST_IOS_PROJECT=$UNO_UITEST_IOS_PROJECT_PATH/$SAMPLE_PROJECT_NAME.Mobile.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
 export UNO_UITEST_NUNIT_VERSION=3.12.0
 export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
@@ -38,9 +36,6 @@ xcrun simctl list devices --json
 
 # Prime the output directory
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH/_logs
-
-cd $UNO_UITEST_IOS_PROJECT_PATH
-dotnet build -f net8.0-ios -c Release /p:RuntimeIdentifier=iossimulator-x64 /p:IsUiAutomationMappingEnabled=True /bl:$BASE_ARTIFACTS_PATH/ios-$XAML_FLAVOR_BUILD-uitest.binlog
 
 ##
 ## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
@@ -72,6 +67,11 @@ fi
 xcrun simctl boot "$UITEST_IOSDEVICE_ID" || true
 
 idb install --udid "$UITEST_IOSDEVICE_ID" "$UNO_UITEST_IOSBUNDLE_PATH"
+
+cd $BUILD_SOURCESDIRECTORY/build
+
+# Imported app bundle from artifacts is not executable
+sudo chmod -R +x $UNO_UITEST_IOSBUNDLE_PATH
 
 cd $UNO_UITEST_PROJECT_PATH
 
