@@ -46,22 +46,12 @@ dotnet build -f net8.0-ios -c Release /p:RuntimeIdentifier=iossimulator-x64 /p:I
 ## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
 ##
 
-## Install iOS 17.2 simulators
-xcodes runtimes install --keep-archive 'iOS 17.2' || true
+export UITEST_IOSDEVICE_ID=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .udid'`
+export UITEST_IOSDEVICE_DATA_PATH=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .dataPath'`
 
-# Wait while ios runtime 17.2 is not having simulators. The install process may
-# take a few seconds and "simctl list devices" may not return devices.
-while true; do
-	export UITEST_IOSDEVICE_ID=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .udid'`
-	export UITEST_IOSDEVICE_DATA_PATH=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .dataPath'`
-
-	if [ -n "$UITEST_IOSDEVICE_ID" ]; then
-		break
-	fi
-
-	echo "Waiting for the simulator to be available"
-	sleep 5
-done
+if [ -n "$UITEST_IOSDEVICE_ID" ]; then
+	break
+fi
 
 echo "Simulator Data Path: $UITEST_IOSDEVICE_DATA_PATH"
 cp "$UITEST_IOSDEVICE_DATA_PATH/../device.plist" $UNO_UITEST_SCREENSHOT_PATH/_logs
