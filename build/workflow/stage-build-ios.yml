@@ -136,9 +136,9 @@ jobs:
     displayName: 'Publish Binaries'
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/net8.0-ios/iossimulator-x64/$(ProjectName).app
+      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/net8.0-ios/iossimulator-x64/$(ProjectName).Mobile.app
       Contents: '**'
-      TargetFolder: $(build.artifactstagingdirectory)/$(ProjectName).app
+      TargetFolder: $(build.artifactstagingdirectory)/$(ProjectName).Mobile.app
       CleanTargetFolder: false
       OverWrite: false
       flattenFolders: false
