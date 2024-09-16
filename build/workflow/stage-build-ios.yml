@@ -133,6 +133,11 @@ jobs:
 
     displayName: Build iOS App for UI Tests
 
+    env:
+      BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
+      BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
+      SAMPLE_APP_NAME: "$(ProjectName)"
+
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
     retryCountOnTaskFailure: 3
