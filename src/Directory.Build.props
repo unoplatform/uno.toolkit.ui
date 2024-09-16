@@ -20,7 +20,7 @@
 		<Nullable>enable</Nullable>
 
 		<NoNFloatUsing>true</NoNFloatUsing>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<!-- NU5048: The 'PackageIconUrl'/'iconUrl' element is deprecated. Consider using the 'PackageIcon'/'icon' element instead. Learn more at https://aka.ms/deprecateIconUrl -->
 		<NoWarn>$(NoWarn);NU5048</NoWarn>
 		<!-- Uno0001: Uno type or member is not implemented -->

@@ -227,6 +227,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.svg" />
     <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
   </ItemGroup>
   <ItemGroup>
@@ -543,11 +544,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-100.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-150.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-200.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-300.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\AppleIcon_Small.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Avatar.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Avatar.scale-150.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Avatar.scale-200.png" />

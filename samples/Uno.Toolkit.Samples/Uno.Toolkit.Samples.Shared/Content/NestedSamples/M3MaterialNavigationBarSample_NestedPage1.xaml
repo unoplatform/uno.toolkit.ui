@@ -20,8 +20,7 @@
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Label="Close"
 							  Click="NavigateBack"
-							  AutomationProperties.AutomationId="M3_NavBar_Close_Button"
-							  Style="{StaticResource MaterialAppBarButtonStyle}">
+							  AutomationProperties.AutomationId="M3_NavBar_Close_Button">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
 					</AppBarButton.Icon>
