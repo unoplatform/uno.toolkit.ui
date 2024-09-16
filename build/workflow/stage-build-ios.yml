@@ -128,6 +128,7 @@ jobs:
   - template: templates/set-app-versions.yml
 
   - bash: |
+      chmod +x $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-build.sh
       $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-build.sh
 
     displayName: Build iOS App for UI Tests
