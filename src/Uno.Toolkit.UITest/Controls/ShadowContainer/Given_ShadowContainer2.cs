@@ -19,6 +19,7 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 		[Test]
 		public void When_Unloaded_Then_Loaded()
 		{
+			App.WaitForElement("shadowContainer");
 			using var screenshot1 = TakeScreenshot("initial");
 
 			var testStatus = App.MarkedAnywhere("testStatus");
@@ -29,7 +30,7 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 			using var screenshot2 = TakeScreenshot("reloaded");
 
 			var rect = GetRectangle("shadowContainer");
-			ImageAssert.AreAlmostEqual(screenshot1, screenshot2, rect, permittedPixelError: 10);
+			ImageAssert.AreAlmostEqual(screenshot1, screenshot2, rect);
 		}
 
 		private Rectangle GetRectangle(string marked)
