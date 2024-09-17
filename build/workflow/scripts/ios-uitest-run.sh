@@ -11,6 +11,14 @@ then
 	export TEST_FILTERS="FullyQualifiedName ~ Uno.Toolkit.UITest.RuntimeTests";
 fi
 
+if [ "$XAML_FLAVOR_BUILD" == 'UWP' ];
+then
+	export UNO_UITEST_IOSBUNDLE_PATH="uno.platform.toolkit-uwp";
+elif [ "$XAML_FLAVOR_BUILD" == 'WinUI' ];
+then
+	export UNO_UITEST_IOSBUNDLE_PATH="uno.platform.toolkit";
+fi
+
 export UNO_UITEST_PLATFORM=iOS
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/ios/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/build/$SAMPLEAPP_ARTIFACT_NAME/$SAMPLE_PROJECT_NAME.Mobile.app
@@ -41,8 +49,17 @@ mkdir -p $UNO_UITEST_SCREENSHOT_PATH/_logs
 ## Pre-install the application to avoid https://github.com/microsoft/appcenter/issues/2389
 ##
 
-export UITEST_IOSDEVICE_ID=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .udid'`
-export UITEST_IOSDEVICE_DATA_PATH=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .dataPath'`
+while true; do
+	export UITEST_IOSDEVICE_ID=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .udid'`
+	export UITEST_IOSDEVICE_DATA_PATH=`xcrun simctl list -j | jq -r --arg sim "$UNO_UITEST_SIMULATOR_VERSION" --arg name "$UNO_UITEST_SIMULATOR_NAME" '.devices[$sim] | .[] | select(.name==$name) | .dataPath'`
+
+	if [ -n "$UITEST_IOSDEVICE_ID" ]; then
+		break
+	fi
+
+	echo "Waiting for the simulator to be available"
+	sleep 5
+done
 
 echo "Simulator Data Path: $UITEST_IOSDEVICE_DATA_PATH"
 cp "$UITEST_IOSDEVICE_DATA_PATH/../device.plist" $UNO_UITEST_SCREENSHOT_PATH/_logs
