@@ -16,7 +16,7 @@ steps:
     condition: eq(variables['IsCanaryBranch'], true)
 
   - pwsh: |
-      gci -r -include "info.plist" |
+      gci -r -include "Info.plist" |
       foreach-object {
           $a = $_.fullname; ( get-content $a ) |
           foreach-object { $_ -replace "<string>uno.platform.toolkit-uwp</string>","<string>uno.platform.toolkit-uwp-canary</string>" -replace "<string>uno.platform.toolkit</string>","<string>uno.platform.toolkit-canary</string>" } |
@@ -40,13 +40,4 @@ steps:
           foreach-object { $_ -replace '"uno.platform.toolkit_uwp"','"uno.platform.toolkit_uwp_canary"' -replace '"uno.platform.toolkit"','"uno.platform.toolkit_canary"' } |
           set-content $a }
     displayName: 'Adjust Android UI Tests Scripts SAMPLEAPP_NAME'
-    condition: eq(variables['IsCanaryBranch'], true)
-
-  - pwsh: |
-      gci -r -include ios-uitest-run.sh |
-      foreach-object {
-          $a = $_.fullname; ( get-content $a ) |
-          foreach-object { $_ -replace '"uno.platform.toolkit-uwp"','"uno.platform.toolkit-uwp-canary"' -replace '"uno.platform.toolkit"','"uno.platform.toolkit-canary"' } |
-          set-content $a }
-    displayName: 'Adjust iOS UI Tests Scripts'
     condition: eq(variables['IsCanaryBranch'], true)
