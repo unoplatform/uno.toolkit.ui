@@ -11,14 +11,6 @@ then
 	export TEST_FILTERS="FullyQualifiedName ~ Uno.Toolkit.UITest.RuntimeTests";
 fi
 
-if [ "$XAML_FLAVOR_BUILD" == 'UWP' ];
-then
-	export UNO_UITEST_IOSBUNDLE_PATH="uno.platform.toolkit-uwp";
-elif [ "$XAML_FLAVOR_BUILD" == 'WinUI' ];
-then
-	export UNO_UITEST_IOSBUNDLE_PATH="uno.platform.toolkit";
-fi
-
 export UNO_UITEST_PLATFORM=iOS
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/ios/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/build/$SAMPLEAPP_ARTIFACT_NAME/$SAMPLE_PROJECT_NAME.Mobile.app
