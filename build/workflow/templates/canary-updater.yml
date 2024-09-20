@@ -23,7 +23,7 @@ steps:
           foreach-object { $_ -replace "uno.platform.toolkit-uwp","uno.platform.toolkit-uwp-canary" } |
           set-content $a }
     displayName: 'Adjust info.plist bundle name'
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
+    condition: eq(variables['IsCanaryBranch'], true)
 
   - pwsh: |
       gci -r -include AndroidManifest.xml |
