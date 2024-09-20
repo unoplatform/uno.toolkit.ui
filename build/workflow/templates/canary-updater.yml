@@ -1,13 +1,35 @@
 steps:
+  - task: UseDotNet@2
+    displayName: 'Use .NET runtime 7.0.100'
+    condition: eq(variables['IsCanaryBranch'], true)
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: runtime
+      version: 7.0.0
+
+  - task: UseDotNet@2
+    condition: eq(variables['IsCanaryBranch'], true)
+    retryCountOnTaskFailure: 3
+    inputs:
+      packageType: runtime
+      version: 3.1.3
+
   - task: nventiveCanaryUpdater@5
     condition: eq(variables['IsCanaryBranch'], true)
     inputs:
-      solution: $(build.sourcesdirectory)
+      solution: src/Uno.Toolkit.sln
       useNuGetOrg: true
       usePrivateFeed: false
       mergeBranch: true
+      branchToMerge: main
+      nugetUpdaterVersion: 2.3.0-alpha.42
+      packageAuthor: 'nventive,Uno Platform'
+      summaryFile: '$(build.artifactstagingdirectory)/Canary.md'
+
+  - powershell: |
       dotnet tool uninstall nventive.nuget.updater.tool --tool-path $(Agent.TempDirectory)
     condition: eq(variables['IsCanaryBranch'], true)
+
   - pwsh: |
       gci -r -include "info.plist" |
       foreach-object {
@@ -15,18 +37,13 @@ steps:
           foreach-object { $_ -replace "uno.platform.toolkit-uwp","uno.platform.toolkit-uwp-canary" } |
           set-content $a }
     displayName: 'Adjust info.plist bundle name'
-    condition: eq(variables['IsCanaryBranch'], true)
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
+
   - pwsh: |
       gci -r -include AndroidManifest.xml |
+      foreach-object {
+          $a = $_.fullname; ( get-content $a ) |
           foreach-object { $_ -replace 'package="uno.platform.toolkit-uwp"','package="uno.platform.toolkit-uwp-canary"' -replace 'package="uno.platform.toolkit"','package="uno.platform.toolkit-canary"' } |
           set-content $a }
     displayName: 'Adjust AndroidManifest.xml package name'
-    condition: eq(variables['IsCanaryBranch'], true)
-  - pwsh: |
-      gci -r -include android-uitest-run.sh |
-      foreach-object {
-          $a = $_.fullname; ( get-content $a ) |
-          foreach-object { $_ -replace '"uno.platform.toolkit_uwp"','"uno.platform.toolkit_uwp_canary"' -replace '"uno.platform.toolkit"','"uno.platform.toolkit_canary"' } |
-          set-content $a }
-    displayName: 'Adjust Android UI Tests Scripts SAMPLEAPP_NAME'
-    condition: eq(variables['IsCanaryBranch'], true)
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
