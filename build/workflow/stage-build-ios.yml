@@ -123,7 +123,7 @@ jobs:
 
   steps:
   - template: templates/dotnet-workload-install-mac.yml
-#  - template: templates/canary-updater.yml
+  - template: templates/canary-updater.yml
   - template: templates/gitversion.yml
   - template: templates/set-app-versions.yml
 

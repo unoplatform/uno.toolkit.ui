@@ -49,7 +49,6 @@
         downloadPath: '$(build.sourcesdirectory)/build'
 
   - template: templates/dotnet-workload-install-mac.yml
-  - template: templates/canary-updater.yml
   
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
