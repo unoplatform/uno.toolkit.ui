@@ -312,8 +312,14 @@ If no `MainCommand` is provided in the XAML, the `NavigationBar` will render the
 
 On **Android**, only icons are supported (`AppBarButton.Icon`). This is due to a platform limitation, which can be explained by the fact that `NavigationBar.Content` is left-aligned.
 
-> [!WARNING]
-> Due to [platform limitations](https://github.com/microsoft/microsoft-ui-xaml/issues/1494) on Windows only, a default back button icon is not provided out of the box. You will need to provide your own icon on each instance of the `NavigationBar` where you want to display a back button. On Android and iOS, the native default back button icon is used. On all other platforms, a back button icon is bundled in the default styles for the `NavigationBar`.
+> [!NOTE]
+> The default back button icon can be customized for non-mobile platforms by overriding the `NavigationBarBackIconData` resource. On `Android` and `iOS`, the native default back button icon is used. On Windows and other non-mobile platforms, you can provide a custom back button icon by defining the `NavigationBarBackIconData` resource in your resource dictionary:
+>
+>```xml
+><Application.Resources>
+>    <x:String x:Key="NavigationBarBackIconData">YOUR_CUSTOM_PATH_DATA</x:String>
+></Application.Resources> 
+>```
 
 ### MainCommand Properties
 
@@ -414,6 +420,7 @@ Only supports `BitmapImage` on iOS/Android
 | `NavigationBarFontFamily`                                              | `FontFamily`      | TitleLargeFontFamily                    |
 | `NavigationBarFontWeight`                                              | `String`          | TitleLargeFontWeight                    |
 | `NavigationBarFontSize`                                                | `Double`          | TitleLargeFontSize                      |
+| `NavigationBarBackIconData`                                            | `String`          | NavigationBarBackIconData               |
 | `MaterialModalNavigationBarMainCommandForeground`                      | `SolidColorBrush` | OnSurfaceBrush                          |
 | `MaterialModalNavigationBarForeground`                                 | `SolidColorBrush` | OnSurfaceBrush                          |
 | `MaterialModalNavigationBarBackground`                                 | `SolidColorBrush` | SurfaceBrush                            |
