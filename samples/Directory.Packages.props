@@ -23,6 +23,7 @@
     <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.6" />
     <PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
+<<<<<<< HEAD
     <PackageVersion Include="Uno.Cupertino" Version="5.2.1" />
     <PackageVersion Include="Uno.Cupertino.WinUI" Version="5.2.1" />
     <PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
@@ -35,6 +36,20 @@
     <PackageVersion Include="Uno.UI.Skia.Gtk" Version="5.4.3" />
     <PackageVersion Include="Uno.UI.Skia.Wpf" Version="5.4.3" />
     <PackageVersion Include="Uno.UI.WebAssembly" Version="5.4.3" />
+=======
+    <PackageVersion Include="Uno.Cupertino" Version="5.3.0-dev.4" />
+    <PackageVersion Include="Uno.Cupertino.WinUI" Version="5.3.0-dev.4" />
+    <PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.8.0-dev.1" />
+    <PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.8.0-dev.1" />
+    <PackageVersion Include="Uno.Material" Version="5.3.0-dev.4" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="5.3.0-dev.4" />
+    <PackageVersion Include="Uno.UI" Version="5.4.0-dev.738" />
+    <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.4.0-dev.738" />
+    <PackageVersion Include="Uno.UI.RemoteControl" Version="5.4.0-dev.738" />
+    <PackageVersion Include="Uno.UI.Skia.Gtk" Version="5.4.0-dev.738" />
+    <PackageVersion Include="Uno.UI.Skia.Wpf" Version="5.4.0-dev.738" />
+    <PackageVersion Include="Uno.UI.WebAssembly" Version="5.4.0-dev.738" />
+>>>>>>> 57206f4 (material navigationBar's default back arrow (#1228))
     <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.36" />
     <PackageVersion Include="Uno.Wasm.Bootstrap" Version="8.0.0-dev.306" />
     <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="8.0.0-dev.306" />
