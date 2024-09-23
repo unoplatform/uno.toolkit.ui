@@ -17,6 +17,7 @@
 					xmlns:not_win="http://uno.ui/not_win"
 					xmlns:toolkit="using:Uno.UI.Toolkit"
 					xmlns:um="using:Uno.Material"
+					xmlns:ut="using:Uno.Themes"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					mc:Ignorable="android ios not_win mobile">
@@ -24,7 +25,7 @@
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Default">
 
-			<!-- NavigationBar default resources -->
+			<!--  NavigationBar default resources  -->
 			<StaticResource x:Key="NavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="CommandBarEllipsisIconForegroundDisabled" />
 			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SurfaceBrush" />
@@ -37,12 +38,12 @@
 			<StaticResource x:Key="NavigationBarFontWeight" ResourceKey="TitleLargeFontWeight" />
 			<StaticResource x:Key="NavigationBarFontSize" ResourceKey="TitleLargeFontSize" />
 
-			<!-- MaterialModal Styles Resource -->
+			<!--  MaterialModal Styles Resource  -->
 			<StaticResource x:Key="MaterialModalNavigationBarMainCommandForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="MaterialModalNavigationBarForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="MaterialModalNavigationBarBackground" ResourceKey="SurfaceBrush" />
 
-			<!-- PrimaryMaterial Styles Resource -->
+			<!--  PrimaryMaterial Styles Resource  -->
 			<StaticResource x:Key="MaterialPrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="CommandBarEllipsisIconForegroundDisabled" />
 			<StaticResource x:Key="MaterialPrimaryNavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="PrimaryBrush" />
 			<StaticResource x:Key="MaterialPrimaryNavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="PrimaryBrush" />
@@ -56,15 +57,23 @@
 			<StaticResource x:Key="MaterialPrimaryModalNavigationBarForeground" ResourceKey="OnPrimaryBrush" />
 			<StaticResource x:Key="MaterialPrimaryModalNavigationBarBackground" ResourceKey="PrimaryBrush" />
 
-			<!-- Overflow AppBarButton Resources -->
+			<!--  Overflow AppBarButton Resources  -->
 			<StaticResource x:Key="NavigationBarOverflowAppBarButtonForeground" ResourceKey="OnPrimaryBrush" />
-			<SolidColorBrush x:Key="NavigationBarOverflowAppBarButtonBackground"
-							 Color="Transparent" />
+			<SolidColorBrush x:Key="NavigationBarOverflowAppBarButtonBackground" Color="Transparent" />
 
-			<!-- EllipsisButton Resources -->
+			<!--  EllipsisButton Resources  -->
 			<StaticResource x:Key="NavigationBarEllipsisButtonForeground" ResourceKey="OnSurfaceBrush" />
-			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground"
-							 Color="Transparent" />
+			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground" Color="Transparent" />
+
+			<not_mobile:StaticResource x:Key="AppBarButtonHeight"
+									   ResourceKey="MaterialXamlNavigationBarHeight" />
+			<not_mobile:StaticResource x:Key="AppBarButtonWidth"
+									   ResourceKey="MaterialXamlNavigationBarHeight" />
+
+			<mobile:StaticResource x:Key="AppBarButtonHeight"
+								   ResourceKey="MaterialNavigationBarHeight" />
+			<mobile:StaticResource x:Key="AppBarButtonWidth"
+								   ResourceKey="MaterialNavigationBarHeight" />
 
 			<x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
 			<x:Double x:Key="MaterialXamlNavigationBarHeight">64</x:Double>
@@ -77,7 +86,8 @@
 			<StaticResource x:Key="NavigationBarMaterialEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
 			<StaticResource x:Key="NavigationBarMaterialEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
 
-			<x:Double x:Key="NavBarAppBarButtonContentHeight">24</x:Double>
+			<x:Double x:Key="NavBarAppBarButtonContentHeight">16</x:Double>
+			<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
 			<x:Double x:Key="NavBarMainCommandAppBarButtonContentHeight">24</x:Double>
 			<x:Double x:Key="NavBarAppBarThemeCompactHeight">56</x:Double>
 			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
@@ -116,12 +126,20 @@
 
 
 			<StaticResource x:Key="NavigationBarOverflowAppBarButtonForeground" ResourceKey="OnPrimaryBrush" />
-			<SolidColorBrush x:Key="NavigationBarOverflowAppBarButtonBackground"
-							 Color="Transparent" />
+			<SolidColorBrush x:Key="NavigationBarOverflowAppBarButtonBackground" Color="Transparent" />
 
 			<StaticResource x:Key="NavigationBarEllipsisButtonForeground" ResourceKey="OnSurfaceBrush" />
-			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground"
-							 Color="Transparent" />
+			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground" Color="Transparent" />
+
+			<not_mobile:StaticResource x:Key="AppBarButtonHeight"
+									   ResourceKey="MaterialXamlNavigationBarHeight" />
+			<not_mobile:StaticResource x:Key="AppBarButtonWidth"
+									   ResourceKey="MaterialXamlNavigationBarHeight" />
+
+			<mobile:StaticResource x:Key="AppBarButtonHeight"
+								   ResourceKey="MaterialNavigationBarHeight" />
+			<mobile:StaticResource x:Key="AppBarButtonWidth"
+								   ResourceKey="MaterialNavigationBarHeight" />
 
 			<x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
 			<x:Double x:Key="MaterialXamlNavigationBarHeight">64</x:Double>
@@ -134,7 +152,8 @@
 			<StaticResource x:Key="NavigationBarMaterialEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
 			<StaticResource x:Key="NavigationBarMaterialEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
 
-			<x:Double x:Key="NavBarAppBarButtonContentHeight">24</x:Double>
+			<x:Double x:Key="NavBarAppBarButtonContentHeight">16</x:Double>
+			<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
 			<x:Double x:Key="NavBarMainCommandAppBarButtonContentHeight">24</x:Double>
 			<x:Double x:Key="NavBarAppBarThemeCompactHeight">56</x:Double>
 			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
@@ -145,7 +164,7 @@
 
 	<Style x:Key="BaseMaterialNavigationBarStyle"
 		   TargetType="utu:NavigationBar">
-		<!-- Setting content to empty to avoid getting the datacontext -->
+		<!--  Setting content to empty to avoid getting the datacontext  -->
 		<Setter Property="Content" Value="" />
 		<Setter Property="ContentTemplate">
 			<Setter.Value>
@@ -178,15 +197,80 @@
 
 	<!--#region Default Material NavigationBar-->
 	<Style x:Key="MaterialMainCommandStyle"
-		   BasedOn="{StaticResource MaterialAppBarButtonStyle}"
-		   TargetType="AppBarButton">
-		<Setter Property="Foreground" Value="{ThemeResource NavigationBarMainCommandForeground}" />
-		<!-- Native back icons are used on mobile platforms -->
-		<not_mobile:Setter Property="Icon" win:Value="{x:Null}">
-			<not_win:Setter.Value>
-				<PathIcon Data="{ThemeResource NavigationBarBackIconData}" />
-			</not_win:Setter.Value>
-		</not_mobile:Setter>
+		   TargetType="AppBarButton"
+		   BasedOn="{StaticResource MaterialAppBarButtonStyle}">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="AppBarButton">
+					<um:Ripple Feedback="{TemplateBinding Foreground}"
+							   FeedbackOpacity="{StaticResource PressedOpacity}"
+							   MinWidth="{TemplateBinding MinWidth}"
+							   MaxWidth="{TemplateBinding MaxWidth}">
+						<Grid x:Name="Root"
+							  Background="Transparent">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+
+									<VisualState x:Name="PointerOver">
+										<VisualState.Setters>
+											<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPointerOver}" />
+											<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushPointerOver}" />
+											<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+										</VisualState.Setters>
+									</VisualState>
+
+									<VisualState x:Name="Pressed">
+										<VisualState.Setters>
+											<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPressed}" />
+											<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushPressed}" />
+											<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+										</VisualState.Setters>
+									</VisualState>
+
+									<VisualState x:Name="Disabled">
+										<VisualState.Setters>
+											<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundDisabled}" />
+											<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushDisabled}" />
+											<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+
+							<Border x:Name="AppBarButtonInnerBorder"
+									Margin="{ThemeResource AppBarButtonInnerBorderMargin}"
+									Background="{TemplateBinding Background}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									Control.IsTemplateFocusTarget="True" />
+
+							<Grid x:Name="ContentRoot"
+								  VerticalAlignment="Center"
+								  HorizontalAlignment="Center">
+								<!--  UNO WORKAROUND: The ViewBox center should be horizontal Stretch but the Grid aligns the content left  -->
+								<Viewbox x:Name="ContentViewbox"
+										 MaxHeight="{ThemeResource NavBarMainCommandAppBarButtonContentHeight}"
+										 MaxWidth="{ThemeResource NavBarMainCommandAppBarButtonContentHeight}"
+										 Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}}"
+										 VerticalAlignment="Center"
+										 HorizontalAlignment="Center"
+										 AutomationProperties.AccessibilityView="Raw">
+									<ContentPresenter x:Name="Content"
+													  Content="{TemplateBinding Icon}"
+													  Foreground="{TemplateBinding Foreground}" />
+								</Viewbox>
+								<PathIcon Data="{ThemeResource NavigationBarBackIconData}"
+										  Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToVisibleConverter}}"
+										  Foreground="{TemplateBinding Foreground}"
+										  HorizontalAlignment="Center"
+										  VerticalAlignment="Center" />
+							</Grid>
+						</Grid>
+					</um:Ripple>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 
 	<Style x:Key="MaterialNavigationBarStyle"
@@ -249,7 +333,7 @@
 														  Value="0" />
 								</DoubleAnimationUsingKeyFrames>
 							</Storyboard>
-							<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
+							<!--<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />-->
 							<StaticResource x:Key="AppBarThemeCompactHeight" ResourceKey="NavBarAppBarThemeCompactHeight" />
 							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}"
 								   TargetType="SplitButton" />
@@ -257,7 +341,7 @@
 								   TargetType="ToggleSplitButton" />
 							<Style BasedOn="{StaticResource MaterialAppBarButtonStyle}"
 								   TargetType="AppBarButton">
-								<Setter Property="Padding" Value="{ThemeResource NavBarAppBarButtonPadding}" />
+								<!--<Setter Property="Padding" Value="{ThemeResource NavBarAppBarButtonPadding}" />-->
 							</Style>
 						</Grid.Resources>
 						<Grid x:Name="ContentRoot"
@@ -285,11 +369,7 @@
 								</Grid.ColumnDefinitions>
 								<ContentPresenter x:Name="MainCommandPresenter"
 												  Margin="{TemplateBinding Padding}"
-												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
-									<ContentPresenter.Resources>
-										<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarMainCommandAppBarButtonContentHeight" />
-									</ContentPresenter.Resources>
-								</ContentPresenter>
+												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
 
 								<!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
@@ -327,7 +407,7 @@
 									Grid.Column="2"
 									MinHeight="{ThemeResource AppBarThemeCompactHeight}"
 									Padding="{ThemeResource CommandBarMoreButtonMargin}"
-									VerticalAlignment="Top"
+									VerticalAlignment="Center"
 									Control.IsTemplateKeyTipTarget="True"
 									Foreground="{TemplateBinding Foreground}"
 									IsAccessKeyScope="True"
@@ -344,7 +424,7 @@
 									</FontIcon.RenderTransform>
 								</FontIcon>
 							</Button>
-							<!-- UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events -->
+							<!--  UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events  -->
 							<Rectangle x:Name="HighContrastBorder"
 									   Grid.ColumnSpan="3"
 									   VerticalAlignment="Stretch"
@@ -359,7 +439,7 @@
 									contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
 									Visibility="Collapsed" />
 						</Grid>
-						<!-- UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands -->
+						<!--  UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands  -->
 						<Popup x:Name="OverflowPopup">
 							<Popup.RenderTransform>
 								<TransformGroup>
@@ -376,7 +456,7 @@
 									<RowDefinition />
 									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
-								<!-- For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow. -->
+								<!--  For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow.  -->
 								<Grid x:Name="SecondaryItemsControlShadowWrapper"
 									  contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}"
 									  contract7Present:CornerRadius="{ThemeResource OverlayCornerRadius}">
@@ -429,7 +509,7 @@
 							</VisualStateGroup>
 							<VisualStateGroup x:Name="DisplayModeStates">
 								<contract8Present:VisualStateGroup.Transitions>
-									<!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition GeneratedDuration="00:00:00.250"
 													  From="CompactClosed"
 													  To="CompactOpenDown">
@@ -477,7 +557,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition GeneratedDuration="00:00:00.167"
 													  From="CompactOpenDown"
 													  To="CompactClosed">
@@ -757,11 +837,8 @@
 								</Grid.ColumnDefinitions>
 								<ContentPresenter x:Name="MainCommandPresenter"
 												  Margin="{TemplateBinding Padding}"
-												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}">
-									<ContentPresenter.Resources>
-										<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarMainCommandAppBarButtonContentHeight" />
-									</ContentPresenter.Resources>
-								</ContentPresenter>
+												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
+
 
 								<!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
@@ -816,7 +893,7 @@
 									</FontIcon.RenderTransform>
 								</FontIcon>
 							</Button>
-							<!-- UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events -->
+							<!--  UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events  -->
 							<Rectangle x:Name="HighContrastBorder"
 									   Grid.ColumnSpan="3"
 									   VerticalAlignment="Stretch"
@@ -831,7 +908,7 @@
 									contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
 									Visibility="Collapsed" />
 						</Grid>
-						<!-- UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands -->
+						<!--  UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands  -->
 						<Popup x:Name="OverflowPopup">
 							<Popup.RenderTransform>
 								<TransformGroup>
@@ -848,7 +925,7 @@
 									<RowDefinition />
 									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
-								<!-- For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow. -->
+								<!--  For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow.  -->
 								<Grid x:Name="SecondaryItemsControlShadowWrapper"
 									  contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}"
 									  contract7Present:CornerRadius="{ThemeResource OverlayCornerRadius}">
@@ -901,7 +978,7 @@
 							</VisualStateGroup>
 							<VisualStateGroup x:Name="DisplayModeStates">
 								<contract8Present:VisualStateGroup.Transitions>
-									<!-- UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition GeneratedDuration="00:00:00.250"
 													  From="CompactClosed"
 													  To="CompactOpenDown">
@@ -949,7 +1026,7 @@
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
-									<!-- UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception -->
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
 									<VisualTransition GeneratedDuration="00:00:00.167"
 													  From="CompactOpenDown"
 													  To="CompactClosed">
