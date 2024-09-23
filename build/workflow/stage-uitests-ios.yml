@@ -42,13 +42,14 @@
   - checkout: self
     clean: true
 
+  - template: templates/dotnet-workload-install-mac.yml
+  - template: templates/canary-updater.yml
+
   - task: DownloadBuildArtifacts@0
     displayName: 'Download iOS Samples App'
     inputs:
         artifactName: $(SAMPLEAPP_ARTIFACT_NAME)
         downloadPath: '$(build.sourcesdirectory)/build'
-
-  - template: templates/dotnet-workload-install-mac.yml
   
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
