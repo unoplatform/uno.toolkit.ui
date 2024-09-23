@@ -48,6 +48,8 @@
       href: controls/ShadowContainer.md
     - name: TabBar and TabBarItem
       href: controls/TabBarAndTabBarItem.md
+    - name: ZoomContentControl
+      href: controls/ZoomContentControl.md
   # ***************** Reference\Helpers *******************
   - name: Helpers
     items:
