@@ -34,13 +34,13 @@ using Windows.Devices.Input;
 
 namespace Uno.Toolkit.UI;
 
-[TemplatePart(Name = Parts.RootGrid, Type = typeof(Grid))]
-[TemplatePart(Name = Parts.Presenter, Type = typeof(ContentPresenter))]
-[TemplatePart(Name = Parts.VerticalScrollBar, Type = typeof(ScrollBar))]
-[TemplatePart(Name = Parts.HorizontalScrollBar, Type = typeof(ScrollBar))]
+[TemplatePart(Name = TemplateParts.RootGrid, Type = typeof(Grid))]
+[TemplatePart(Name = TemplateParts.Presenter, Type = typeof(ContentPresenter))]
+[TemplatePart(Name = TemplateParts.VerticalScrollBar, Type = typeof(ScrollBar))]
+[TemplatePart(Name = TemplateParts.HorizontalScrollBar, Type = typeof(ScrollBar))]
 public partial class ZoomContentControl : ContentControl
 {
-	private static class Parts
+	private static class TemplateParts
 	{
 		public const string RootGrid = "PART_RootGrid";
 
@@ -57,7 +57,7 @@ public partial class ZoomContentControl : ContentControl
 
 	private Point _lastPosition = new Point(0, 0);
 
-	private (bool Horizontal, bool Vertical) _movimentDirection = (false, false);
+	private (bool Horizontal, bool Vertical) _movementDirection = (false, false);
 
 	private bool IsAllowedToWork => (IsEnabled && IsActive && _presenter is not null);
 
@@ -92,7 +92,7 @@ public partial class ZoomContentControl : ContentControl
 		DependencyProperty.Register(nameof(IsVerticalScrollBarVisible), typeof(bool), typeof(ZoomContentControl), new PropertyMetadata(defaultValue: true));
 
 	public static readonly DependencyProperty ContentBoundsVisibilityDataProperty =
-		DependencyProperty.Register(nameof(ContentBoundsVisibility), typeof(BoundsVisibilityData), typeof(ZoomContentControl), new PropertyMetadata(defaultValue: new BoundsVisibilityData(leftEdge: false, topEdge: false, rightEdge: false, bottomEdge: false)));
+		DependencyProperty.Register(nameof(ContentBoundsVisibility), typeof(BoundsVisibilityData), typeof(ZoomContentControl), new PropertyMetadata(BoundsVisibilityData.None));
 
 	public static readonly DependencyProperty IsZoomAllowedProperty =
 	DependencyProperty.Register(nameof(IsZoomAllowed), typeof(bool), typeof(ZoomContentControl), new PropertyMetadata(defaultValue: true));
@@ -350,14 +350,12 @@ public partial class ZoomContentControl : ContentControl
 
 	public record BoundsVisibilityData
 	{
+		public static readonly BoundsVisibilityData None = new BoundsVisibilityData(leftEdge: false, topEdge: false, rightEdge: false, bottomEdge: false);
+
 		public bool LeftEdge { get; init; }
-
 		public bool TopEdge { get; init; }
-
 		public bool RightEdge { get; init; }
-
 		public bool BottomEdge { get; init; }
-
 		public bool AllEdgesVisible { get; init; }
 
 		public BoundsVisibilityData(bool leftEdge, bool topEdge, bool rightEdge, bool bottomEdge)
@@ -390,20 +388,20 @@ public partial class ZoomContentControl : ContentControl
 		IsVerticalScrollBarVisible = !(ContentBoundsVisibility.TopEdge && ContentBoundsVisibility.BottomEdge);
 	}
 
-	private bool CanMoveThisWay()
+	private bool CanMoveIn((bool Horizontal, bool Vertical) _movementDirection)
 	{
 		if (ContentBoundsVisibility.AllEdgesVisible)
 		{
 			return false;
 		}
 
-		var rules = false;
-		rules |= !ContentBoundsVisibility.LeftEdge && _movimentDirection.Horizontal is true;
-		rules |= !ContentBoundsVisibility.RightEdge && _movimentDirection.Horizontal is false;
-		rules |= !ContentBoundsVisibility.TopEdge && _movimentDirection.Vertical is true;
-		rules |= !ContentBoundsVisibility.BottomEdge && _movimentDirection.Vertical is false;
+		var canMove = false;
+		canMove |= CanScrollLeft() && _movementDirection.Horizontal is true;
+		canMove |= CanScrollRight() && _movementDirection.Horizontal is false;
+		canMove |= CanScrollUp() && _movementDirection.Vertical is true;
+		canMove |= CanScrollDown() && _movementDirection.Vertical is false;
 
-		return rules;
+		return canMove;
 	}
 
 	private bool CanScrollUp() => !ContentBoundsVisibility.TopEdge;
@@ -488,23 +486,18 @@ public partial class ZoomContentControl : ContentControl
 
 	protected override void OnApplyTemplate()
 	{
-		_grid = GetTemplateChild(Parts.RootGrid) as Grid;
-		_presenter = GetTemplateChild(Parts.Presenter) as ContentPresenter;
-		_scrollV = GetTemplateChild(Parts.VerticalScrollBar) as ScrollBar;
-		_scrollH = GetTemplateChild(Parts.HorizontalScrollBar) as ScrollBar;
-
-		if (_grid is null ||
-			_presenter is null ||
-			_scrollH is null ||
-			_scrollV is null)
-		{
-			throw new InvalidOperationException("ZoomContentControl template is missing required parts.");
-		}
-
-		RegisterToControlEvents();
+		T FindTemplatePart<T>(string name) where T : class =>
+			(GetTemplateChild(name) ?? throw new Exception($"Expected template part not found: {name}"))
+			as T ?? throw new Exception($"Expected template part '{name}' to be of type: {typeof(T)}");
+		_grid = FindTemplatePart<Grid>(TemplateParts.RootGrid);
+		_presenter = FindTemplatePart<ContentPresenter>(TemplateParts.Presenter);
+		_scrollV = FindTemplatePart<ScrollBar>(TemplateParts.VerticalScrollBar);
+		_scrollH = FindTemplatePart<ScrollBar>(TemplateParts.HorizontalScrollBar);
 
 		ResetOffset();
 		ResetZoom();
+
+		RegisterToControlEvents();
 		RegisterPointerHandlers();
 	}
 
@@ -629,10 +622,10 @@ public partial class ZoomContentControl : ContentControl
 		}
 
 		var currentPosition = e.GetCurrentPoint(this).Position;
-		_movimentDirection = (currentPosition.X > _lastPosition.X, currentPosition.Y > _lastPosition.Y);
+		_movementDirection = (currentPosition.X > _lastPosition.X, currentPosition.Y > _lastPosition.Y);
 		_lastPosition = currentPosition;
 
-		if (CanMoveThisWay())
+		if (CanMoveIn(_movementDirection))
 		{
 			// If the pointer is captured, then we want to handle the event.
 			e.Handled = true;
@@ -754,9 +747,7 @@ public partial class ZoomContentControl : ContentControl
 
 	public void Centralize()
 	{
-		if (IsActive &&
-			_presenter is not null &&
-			_presenter.Content is FrameworkElement { } content)
+		if (IsActive && _presenter?.Content is FrameworkElement { } content)
 		{
 			HorizontalOffset = ((AvailableSize.Width - (content.ActualWidth * ZoomLevel)) / 2) + AdditionalMargin.Left;
 			VerticalOffset = ((AvailableSize.Height - (content.ActualHeight * ZoomLevel)) / 2) + AdditionalMargin.Top;
