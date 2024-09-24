@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Uno.Toolkit.Samples.Entities;
+using Uno.Toolkit.UI;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -33,31 +34,45 @@ namespace Uno.Toolkit.Samples.Content.Controls
 	[SamplePage(SampleCategory.Controls, "ZoomContentControl")]
 	public sealed partial class ZoomContentControlSamplePage : Page
 	{
+		private ZoomContentControl zoomControl;
+
 		public ZoomContentControlSamplePage()
 		{
 			this.InitializeComponent();
-			this.Loaded += (_, _) => ZoomContent.Initialize();
+			this.Loaded += (s, e) => SetUpOptions();
+		}
+
+		private void SetUpOptions()
+		{
+			zoomControl = SamplePageLayout.GetSampleChild<ZoomContentControl>(Design.Agnostic, "ZoomContent");
+			var zoomInButton = SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "ZoomInButton");
+			var zoomOutButton = SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "ZoomOutButton");
+			var resetButton = SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "ResetButton");
+
+			zoomInButton.Click += OnZoomInClick;
+			zoomOutButton.Click += OnZoomOutClick;
+			resetButton.Click += OnResetClick;
 		}
 
 		private void OnZoomInClick(object sender, RoutedEventArgs e)
 		{
-			if (ZoomContent.ZoomLevel < ZoomContent.MaxZoomLevel)
+			if (zoomControl.ZoomLevel < zoomControl.MaxZoomLevel)
 			{
-				ZoomContent.ZoomLevel += 0.2;
+				zoomControl.ZoomLevel += 0.2;
 			}
 		}
 
 		private void OnZoomOutClick(object sender, RoutedEventArgs e)
 		{
-			if (ZoomContent.ZoomLevel > ZoomContent.MinZoomLevel)
+			if (zoomControl.ZoomLevel > zoomControl.MinZoomLevel)
 			{
-				ZoomContent.ZoomLevel -= 0.2;
+				zoomControl.ZoomLevel -= 0.2;
 			}
 		}
 
 		private void OnResetClick(object sender, RoutedEventArgs e)
 		{
-			ZoomContent.Initialize();
+			zoomControl.Initialize();
 		}
 	}
 }

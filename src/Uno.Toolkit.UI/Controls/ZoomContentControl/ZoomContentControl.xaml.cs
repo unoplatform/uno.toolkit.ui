@@ -473,12 +473,18 @@ public partial class ZoomContentControl : ContentControl
 
 		RegisterPropertyHandlers();
 
-		this.SizeChanged += ZoomContentControl_SizeChanged;
+		this.Loaded += OnLoaded;
+		this.SizeChanged += OnSizeChanged;
 	}
 
-	private void ZoomContentControl_SizeChanged(object sender, SizeChangedEventArgs args)
+	private void OnLoaded(object sender, RoutedEventArgs e)
 	{
-		if (AutoZoomToCanvasOnSizeChanged)
+		Centralize();
+	}
+
+	private void OnSizeChanged(object sender, SizeChangedEventArgs args)
+	{
+		if (IsLoaded && AutoZoomToCanvasOnSizeChanged)
 		{
 			ZoomToCanvas();
 		}
@@ -649,13 +655,20 @@ public partial class ZoomContentControl : ContentControl
 		if ((deltaX > 0 && CanScrollLeft()) ||
 			(deltaX < 0 && CanScrollRight()))
 		{
-			HorizontalOffset += deltaX;
+			var offset = HorizontalOffset + deltaX;
+			var max = HorizontalMaxScroll * ZoomLevel;
+
+			HorizontalOffset = Math.Clamp(offset, 0, max);
 		}
 
 		if ((deltaY > 0 && CanScrollUp()) ||
 			(deltaY < 0 && CanScrollDown()))
 		{
-			VerticalOffset += deltaY;
+			var offset = VerticalOffset + deltaY;
+
+			var max = VerticalMaxScroll * ZoomLevel;
+
+			VerticalOffset = Math.Clamp(offset, 0, max);
 		}
 	}
 
@@ -760,7 +773,8 @@ public partial class ZoomContentControl : ContentControl
 		{
 			var vZoom = (AvailableSize.Height / ViewPortHeight);
 			var hZoom = (AvailableSize.Width / ViewPortWidth);
-			ZoomLevel = Math.Min(vZoom, hZoom);
+			var zoomLevel = Math.Min(vZoom, hZoom);
+			ZoomLevel = Math.Clamp(zoomLevel, MinZoomLevel, MaxZoomLevel);
 			Centralize();
 		}
 	}
