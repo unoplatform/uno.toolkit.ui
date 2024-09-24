@@ -3,19 +3,17 @@
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
 	  xmlns:utu="using:Uno.Toolkit.UI"
-	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RowDefinitions="Auto, *, Auto">
 
-		<StackPanel Padding="0,20" Spacing="20">
-			<TextBlock Text="ZoomContentControl Sample"
-								   Style="{StaticResource TitleLarge}" />
+			<TextBlock Grid.Row="0" Text="ZoomContentControl Sample"
+						Style="{StaticResource TitleLarge}" />
 
-			<utu:ZoomContentControl x:Name="ZoomContent"
+			<utu:ZoomContentControl Grid.Row="1" x:Name="ZoomContent"
 												Width="400"
 												Height="300"
 												HorizontalAlignment="Center"
@@ -24,21 +22,33 @@
 												MinZoomLevel="0.5"
 												MaxZoomLevel="3.0"
 												IsZoomAllowed="True"
+												BorderBrush="Pink"
+												BorderThickness="2"
 												IsPanAllowed="True">
-							<utu:ZoomContentControl.Content>
-								<Image Source="ms-appx:///Assets/Media/LargeMedia.svg"
-									   Stretch="Uniform" />
-							</utu:ZoomContentControl.Content>
-						</utu:ZoomContentControl>
+				
+				<StackPanel Orientation="Horizontal"
+							Spacing="12"
+							HorizontalAlignment="Center">
+					<Border BorderThickness="2"
+							BorderBrush="White">
+					<Image Source="ms-appx:///Assets/UnoLogo.png"
+						   Height="101"
+						   Width="75"
+						   HorizontalAlignment="Left"
+						   Margin="16,8,0,12" />
+					</Border>
+				</StackPanel>
+				
+			</utu:ZoomContentControl>
 
-			<StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+
+		<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Bottom">
 							<Button Content="Zoom In"
 									Click="OnZoomInClick" />
 							<Button Content="Zoom Out"
 									Click="OnZoomOutClick" />
 							<Button Content="Reset"
 									Click="OnResetClick" />
-						</StackPanel>
 		</StackPanel>
 		
 	</Grid>

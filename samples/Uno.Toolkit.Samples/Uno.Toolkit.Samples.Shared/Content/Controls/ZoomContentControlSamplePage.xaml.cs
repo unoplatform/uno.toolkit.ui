@@ -36,6 +36,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		public ZoomContentControlSamplePage()
 		{
 			this.InitializeComponent();
+			this.Loaded += (_, _) => ZoomContent.Initialize();
 		}
 
 		private void OnZoomInClick(object sender, RoutedEventArgs e)
@@ -56,7 +57,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
 
 		private void OnResetClick(object sender, RoutedEventArgs e)
 		{
-			ZoomContent.ResetZoom();
+			ZoomContent.Initialize();
 		}
 	}
 }
