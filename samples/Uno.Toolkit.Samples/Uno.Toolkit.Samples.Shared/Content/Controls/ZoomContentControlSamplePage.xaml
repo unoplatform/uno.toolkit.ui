@@ -5,15 +5,17 @@
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RowDefinitions="Auto, *, Auto">
-
-			<TextBlock Grid.Row="0" Text="ZoomContentControl Sample"
-						Style="{StaticResource TitleLarge}" />
-
-			<utu:ZoomContentControl Grid.Row="1" x:Name="ZoomContent"
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<StackPanel>
+						<utu:ZoomContentControl Grid.Row="1"
+												x:Name="ZoomContent"
 												Width="400"
 												Height="300"
 												HorizontalAlignment="Center"
@@ -22,34 +24,37 @@
 												MinZoomLevel="0.5"
 												MaxZoomLevel="3.0"
 												IsZoomAllowed="True"
-												BorderBrush="Pink"
-												BorderThickness="2"
 												IsPanAllowed="True">
-				
-				<StackPanel Orientation="Horizontal"
-							Spacing="12"
-							HorizontalAlignment="Center">
-					<Border BorderThickness="2"
-							BorderBrush="White">
-					<Image Source="ms-appx:///Assets/UnoLogo.png"
-						   Height="101"
-						   Width="75"
-						   HorizontalAlignment="Left"
-						   Margin="16,8,0,12" />
-					</Border>
-				</StackPanel>
-				
-			</utu:ZoomContentControl>
+
+							<StackPanel Orientation="Horizontal"
+										Spacing="12"
+										HorizontalAlignment="Center">
+								<Border BorderThickness="2"
+										BorderBrush="White"
+										Padding="10">
+									<Image Source="ms-appx:///Assets/UnoLogo.png"
+										   Height="101"
+										   Width="75"
+										   HorizontalAlignment="Center" />
+								</Border>
+							</StackPanel>
+
+						</utu:ZoomContentControl>
 
 
-		<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-							<Button Content="Zoom In"
-									Click="OnZoomInClick" />
-							<Button Content="Zoom Out"
-									Click="OnZoomOutClick" />
-							<Button Content="Reset"
-									Click="OnResetClick" />
-		</StackPanel>
-		
+						<StackPanel Grid.Row="2"
+									Orientation="Horizontal"
+									Spacing="12"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Bottom">
+							<Button x:Name="ZoomInButton" Content="Zoom In" />
+							<Button x:Name="ZoomOutButton" Content="Zoom Out" />
+							<Button x:Name="ResetButton" Content="Reset" />
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
 	</Grid>
+
 </Page>
