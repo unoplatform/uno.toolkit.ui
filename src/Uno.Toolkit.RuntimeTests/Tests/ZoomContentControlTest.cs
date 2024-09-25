@@ -46,9 +46,16 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
+			// the control will set an appropriate zoom level on load
+			// based on available size & content size
+			// so we need to force that to a known value here.
+			SUT.ZoomLevel = 1.5;
+			SUT.ZoomLevel.Should().Be(1.5);
+
 			SUT.ZoomLevel += 0.5;
 			SUT.ZoomLevel.Should().Be(2.0);
 
+			// should be coerce back to MaxZoomLevel of 5
 			SUT.ZoomLevel = 6.0;
 			SUT.ZoomLevel.Should().Be(5.0);
 		}
@@ -68,9 +75,16 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
+			// the control will set an appropriate zoom level on load
+			// based on available size & content size
+			// so we need to force that to a known value here.
+			SUT.ZoomLevel = 3.0;
+			SUT.ZoomLevel.Should().Be(3.0);
+
 			SUT.ZoomLevel -= 0.5;
 			SUT.ZoomLevel.Should().Be(2.5);
-
+			
+			// should be coerce back to MinZoomLevel of 1
 			SUT.ZoomLevel = 0.5;
 			SUT.ZoomLevel.Should().Be(1.0);
 		}
@@ -105,16 +119,13 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				Height = 300,
 				ZoomLevel = 1.0,
 				IsZoomAllowed = true,
+				Content = new Border
+				{
+					Width = 400 - 20, // the actual height/width is 12
+					Height = 300 - 20,
+					Background = new SolidColorBrush(Colors.Blue),
+				},
 			};
-
-			var content = new Border()
-			{
-				Width = 400,
-				Height = 300,
-				Background = new SolidColorBrush(Colors.Blue),
-			};
-
-			SUT.Content = content;
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
 			SUT.IsHorizontalScrollBarVisible.Should().BeFalse();
@@ -140,11 +151,15 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
+			var presenter = SUT.FindFirstDescendant<ContentPresenter>("PART_Presenter");
+			var translation = (presenter?.RenderTransform as TransformGroup)?.Children[1] as TranslateTransform
+				?? throw new Exception("Failed to find PART_Presenter's TranslateTransform");
+
 			SUT.HorizontalOffset = 50;
 			SUT.VerticalOffset = 50;
 
-			SUT.HorizontalOffset.Should().Be(50);
-			SUT.VerticalOffset.Should().Be(50);
+			translation.X.Should().Be(50);
+			translation.Y.Should().Be(50);
 		}
 	}
 }
