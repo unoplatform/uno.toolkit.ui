@@ -41,32 +41,32 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Constructors
 
-| Constructor    | Description                                           |
+| Constructor| Description|
 |----------------|-------------------------------------------------------|
-| `ZoomContentControl()` | Initializes a new instance of the `ZoomContentControl` class. |
+| `ZoomContentControl()`|Initializes a new instance of the `ZoomContentControl` class.|
 
 ### Properties
 
-| Property               | Type                  | Description                                                                                                                                                                                                                                                                                                                                            |
+| Property| Type| Description|
 |------------------------|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ZoomLevel`          | `double`         | Gets or sets the current zoom level for the content.                                                                                                                                                                                                                                                                                             |
-| `MinZoomLevel`              | `double`              | Gets or sets the minimum zoom level allowed for the content.                                                                                                                                                                                                                   |
-| `MaxZoomLevel`              | `double`   | Gets or sets the maximum zoom level allowed for the content                                                                                                                                     |
-| `isZoomAllowed` | `bool` | Gets or sets the value indicating whether zooming is allowed.                                                                                                                                             |
-| `IsPanAllowed` | `bool` | Gets or sets the value indicating whether panning is allowed.                                                        |
-| `HorizontalOffest`      | `double`                | Gets or sets the horizontal offset for panning.                                                                                                                                                                                                                                                     |
-| `VerticalOffset`              | `double`           | Gets or sets the vertical offset for panning. |
-| `HorizontalZoomCenter`      | `double`                | Gets or sets the horizontal center point of the zooming operation.                                                                                                                                                                                                                                                     |
-| `VerticalZoomCenter`              | `double`           | Gets or sets the vertical center point of the zooming operation. |
-| `ScaleWheelRatio`      | `double`                | Gets or sets the ratio for scaling zoom level when using a mouse wheel.                                                                                                                                                                                                                                                     |
-| `PanWheelRatio`              | `double`           | Gets or sets the ratio for panning when using a mouse wheel. |
-| `ResetWhenNotActive`              | `bool`           | Gets or sets a value indicating whether the zoom and pan should reset when the control is not active. |
+| `ZoomLevel`| `double`| Gets or sets the current zoom level for the content.|
+| `MinZoomLevel`| `double`| Gets or sets the minimum zoom level allowed for the content.|
+| `MaxZoomLevel`| `double`| Gets or sets the maximum zoom level allowed for the content.|
+| `isZoomAllowed`| `bool`| Gets or sets a value indicating whether zooming is allowed.|
+| `IsPanAllowed`| `bool`| Gets or sets a value indicating whether panning is allowed.|
+| `HorizontalOffest`| `double`| Gets or sets the horizontal offset for panning.|
+| `VerticalOffset`| `double`| Gets or sets the vertical offset for panning.|
+| `HorizontalZoomCenter`| `double`| Gets or sets the horizontal center point of the zooming operation.|
+| `VerticalZoomCenter`| `double`| Gets or sets the vertical center point of the zooming operation.|
+| `ScaleWheelRatio`| `double`| Gets or sets the ratio for scaling zoom level when using a mouse wheel.|
+| `PanWheelRatio`| `double`| Gets or sets the ratio for panning when using a mouse wheel.|
+| `ResetWhenNotActive`| `bool`| Gets or sets a value indicating whether the zoom and pan should reset when the control is not active.|
 
 ### Methods
 
-| Method              | Return Type                         | Description                                                                                                                                                                                                                                                                                                                                              |
+| Method| Return Type| Description|
 |-----------------------|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ResetZoom()`    | `void` | Resets the zoom level to it's default value.                                                                                                                    |
-| `ResetOffset()`    | `void`        | Resets the horizontal and vertical offset to it's default value. |
-| `ZoomToCanvas()`       | `void`                     | Adjust the zoom level so that the content fits within the available space.                                                                                                                                                                                                            |
-| `Centralize()`       | `void`                     | Centers the content within the available space.                                                                                                                                                                                                 |
+| `ResetZoom()`| `void`| Resets the zoom level to its default value.|
+| `ResetOffset()`| `void`| Resets the horizontal and vertical offset to its default value. |
+| `ZoomToCanvas()`| `void`| Adjust the zoom level so that the content fits within the available space.|
+| `Centralize()`| `void`| Centers the content within the available space.|
