@@ -50,7 +50,6 @@ public partial class ZoomContentControl : ContentControl
 		public const string VerticalScrollBar = "PART_ScrollV";
 	}
 
-	private Grid? _grid;
 	private ContentPresenter? _presenter;
 	private ScrollBar? _scrollV;
 	private ScrollBar? _scrollH;
@@ -151,7 +150,6 @@ public partial class ZoomContentControl : ContentControl
 	public static readonly DependencyProperty ViewPortHeightProperty =
 		DependencyProperty.Register(nameof(ViewPortHeight), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
-	//Not a real margin, but a spacing to avoid overlapped by ShellControlPanel
 	public Thickness AdditionalMargin
 	{
 		get => (Thickness)GetValue(AdditionalMarginProperty);
@@ -481,7 +479,6 @@ public partial class ZoomContentControl : ContentControl
 		T FindTemplatePart<T>(string name) where T : class =>
 			(GetTemplateChild(name) ?? throw new Exception($"Expected template part not found: {name}"))
 			as T ?? throw new Exception($"Expected template part '{name}' to be of type: {typeof(T)}");
-		_grid = FindTemplatePart<Grid>(TemplateParts.RootGrid);
 		_presenter = FindTemplatePart<ContentPresenter>(TemplateParts.Presenter);
 		_scrollV = FindTemplatePart<ScrollBar>(TemplateParts.VerticalScrollBar);
 		_scrollH = FindTemplatePart<ScrollBar>(TemplateParts.HorizontalScrollBar);
@@ -508,7 +505,6 @@ public partial class ZoomContentControl : ContentControl
 			};
 		}
 
-		//due to templatebinding there's no TwoWay mode. We need to manually update the values
 		if (_scrollV is not null)
 		{
 			_scrollV.Scroll += ScrollV_Scroll;
@@ -757,8 +753,8 @@ public partial class ZoomContentControl : ContentControl
 	{
 		if (IsActive)
 		{
-			var vZoom = (AvailableSize.Height / ViewPortHeight);
-			var hZoom = (AvailableSize.Width / ViewPortWidth);
+			var vZoom = (ActualHeight - AdditionalMargin.Top - AdditionalMargin.Bottom) / ViewPortHeight;
+			var hZoom = (ActualWidth - AdditionalMargin.Left - AdditionalMargin.Right) / ViewPortWidth;
 			var zoomLevel = Math.Min(vZoom, hZoom);
 			ZoomLevel = Math.Clamp(zoomLevel, MinZoomLevel, MaxZoomLevel);
 			CenterContent();
