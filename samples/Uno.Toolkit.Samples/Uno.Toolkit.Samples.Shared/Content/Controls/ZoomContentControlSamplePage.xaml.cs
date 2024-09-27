@@ -29,50 +29,49 @@ using Windows.UI.Xaml.Navigation;
 #endif
 
 
-namespace Uno.Toolkit.Samples.Content.Controls
+namespace Uno.Toolkit.Samples.Content.Controls;
+
+[SamplePage(SampleCategory.Controls, "ZoomContentControl")]
+public sealed partial class ZoomContentControlSamplePage : Page
 {
-	[SamplePage(SampleCategory.Controls, "ZoomContentControl")]
-	public sealed partial class ZoomContentControlSamplePage : Page
+	private ZoomContentControl zoomControl;
+
+	public ZoomContentControlSamplePage()
 	{
-		private ZoomContentControl zoomControl;
+		this.InitializeComponent();
+		this.Loaded += (s, e) => SetUpOptions();
+	}
 
-		public ZoomContentControlSamplePage()
+	private void SetUpOptions()
+	{
+		zoomControl = SamplePageLayout.GetSampleChild<ZoomContentControl>(Design.Agnostic, "ZoomContent");
+		var zoomInButton = SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "ZoomInButton");
+		var zoomOutButton = SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "ZoomOutButton");
+		var resetButton = SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "ResetButton");
+
+		zoomInButton.Click += OnZoomInClick;
+		zoomOutButton.Click += OnZoomOutClick;
+		resetButton.Click += OnResetClick;
+	}
+
+	private void OnZoomInClick(object sender, RoutedEventArgs e)
+	{
+		if (zoomControl.ZoomLevel < zoomControl.MaxZoomLevel)
 		{
-			this.InitializeComponent();
-			this.Loaded += (s, e) => SetUpOptions();
+			zoomControl.ZoomLevel += 0.2;
 		}
+	}
 
-		private void SetUpOptions()
+	private void OnZoomOutClick(object sender, RoutedEventArgs e)
+	{
+		if (zoomControl.ZoomLevel > zoomControl.MinZoomLevel)
 		{
-			zoomControl = SamplePageLayout.GetSampleChild<ZoomContentControl>(Design.Agnostic, "ZoomContent");
-			var zoomInButton = SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "ZoomInButton");
-			var zoomOutButton = SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "ZoomOutButton");
-			var resetButton = SamplePageLayout.GetSampleChild<Button>(Design.Agnostic, "ResetButton");
-
-			zoomInButton.Click += OnZoomInClick;
-			zoomOutButton.Click += OnZoomOutClick;
-			resetButton.Click += OnResetClick;
+			zoomControl.ZoomLevel -= 0.2;
 		}
+	}
 
-		private void OnZoomInClick(object sender, RoutedEventArgs e)
-		{
-			if (zoomControl.ZoomLevel < zoomControl.MaxZoomLevel)
-			{
-				zoomControl.ZoomLevel += 0.2;
-			}
-		}
-
-		private void OnZoomOutClick(object sender, RoutedEventArgs e)
-		{
-			if (zoomControl.ZoomLevel > zoomControl.MinZoomLevel)
-			{
-				zoomControl.ZoomLevel -= 0.2;
-			}
-		}
-
-		private void OnResetClick(object sender, RoutedEventArgs e)
-		{
-			zoomControl.Initialize();
-		}
+	private void OnResetClick(object sender, RoutedEventArgs e)
+	{
+		zoomControl.Initialize();
 	}
 }
