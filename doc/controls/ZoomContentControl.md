@@ -52,7 +52,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `ZoomLevel`| `double`| Gets or sets the current zoom level for the content.|
 | `MinZoomLevel`| `double`| Gets or sets the minimum zoom level allowed for the content.|
 | `MaxZoomLevel`| `double`| Gets or sets the maximum zoom level allowed for the content.|
-| `isZoomAllowed`| `bool`| Gets or sets a value indicating whether zooming is allowed.|
+| `IsZoomAllowed`| `bool`| Gets or sets a value indicating whether zooming is allowed.|
 | `IsPanAllowed`| `bool`| Gets or sets a value indicating whether panning is allowed.|
 | `HorizontalOffest`| `double`| Gets or sets the horizontal offset for panning.|
 | `VerticalOffset`| `double`| Gets or sets the vertical offset for panning.|
@@ -68,5 +68,5 @@ xmlns:utu="using:Uno.Toolkit.UI"
 |-----------------------|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `ResetZoom()`| `void`| Resets the zoom level to its default value.|
 | `ResetOffset()`| `void`| Resets the horizontal and vertical offset to its default value. |
-| `ZoomToCanvas()`| `void`| Adjust the zoom level so that the content fits within the available space.|
-| `Centralize()`| `void`| Centers the content within the available space.|
+| `FitToCanvas()`| `void`| Adjust the zoom level so that the content fits within the available space.|
+| `CenterContent()`| `void`| Centers the content within the available space.|

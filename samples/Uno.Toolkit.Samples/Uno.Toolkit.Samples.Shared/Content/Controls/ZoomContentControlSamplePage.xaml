@@ -25,22 +25,16 @@
 												MaxZoomLevel="3.0"
 												IsZoomAllowed="True"
 												IsPanAllowed="True">
-
-							<StackPanel Orientation="Horizontal"
-										Spacing="12"
-										HorizontalAlignment="Center">
 								<Border BorderThickness="2"
 										BorderBrush="White"
+										HorizontalAlignment="Center"
 										Padding="10">
 									<Image Source="ms-appx:///Assets/UnoLogo.png"
 										   Height="101"
 										   Width="75"
 										   HorizontalAlignment="Center" />
 								</Border>
-							</StackPanel>
-
 						</utu:ZoomContentControl>
-
 
 						<StackPanel Grid.Row="2"
 									Orientation="Horizontal"

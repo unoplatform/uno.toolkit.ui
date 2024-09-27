@@ -95,61 +95,61 @@ public partial class ZoomContentControl : ContentControl
 		DependencyProperty.Register(nameof(ContentBoundsVisibility), typeof(BoundsVisibilityData), typeof(ZoomContentControl), new PropertyMetadata(BoundsVisibilityData.None));
 
 	public static readonly DependencyProperty IsZoomAllowedProperty =
-	DependencyProperty.Register(nameof(IsZoomAllowed), typeof(bool), typeof(ZoomContentControl), new PropertyMetadata(defaultValue: true));
+		DependencyProperty.Register(nameof(IsZoomAllowed), typeof(bool), typeof(ZoomContentControl), new PropertyMetadata(defaultValue: true));
 
 	public static readonly DependencyProperty ZoomLevelProperty =
-	DependencyProperty.Register(nameof(ZoomLevel), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(1d));
+		DependencyProperty.Register(nameof(ZoomLevel), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(1d));
 
 	public static readonly DependencyProperty MinZoomLevelProperty =
-	DependencyProperty.Register(nameof(MinZoomLevel), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(MinZoomLevel), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty MaxZoomLevelProperty =
-	DependencyProperty.Register(nameof(MaxZoomLevel), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(500d));
+		DependencyProperty.Register(nameof(MaxZoomLevel), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(500d));
 
 	public static readonly DependencyProperty HorizontalZoomCenterProperty =
-	DependencyProperty.Register(nameof(HorizontalZoomCenter), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(HorizontalZoomCenter), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty VerticalZoomCenterProperty =
-	DependencyProperty.Register(nameof(VerticalZoomCenter), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(VerticalZoomCenter), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty ScaleWheelRatioProperty =
-	DependencyProperty.Register(nameof(ScaleWheelRatio), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0006d));
+		DependencyProperty.Register(nameof(ScaleWheelRatio), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0006d));
 
 	public static readonly DependencyProperty PanWheelRatioProperty =
-	DependencyProperty.Register(nameof(PanWheelRatio), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.25d));
+		DependencyProperty.Register(nameof(PanWheelRatio), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.25d));
 
 	public static readonly DependencyProperty IsPanAllowedProperty =
-	DependencyProperty.Register(nameof(IsPanAllowed), typeof(bool), typeof(ZoomContentControl), new PropertyMetadata(defaultValue: true));
+		DependencyProperty.Register(nameof(IsPanAllowed), typeof(bool), typeof(ZoomContentControl), new PropertyMetadata(defaultValue: true));
 
 	public static readonly DependencyProperty HorizontalOffsetProperty =
-	DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty VerticalOffsetProperty =
-	DependencyProperty.Register(nameof(VerticalOffset), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(VerticalOffset), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty VerticalMaxScrollProperty =
-	DependencyProperty.Register(nameof(VerticalMaxScroll), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(VerticalMaxScroll), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty VerticalMinScrollProperty =
-	DependencyProperty.Register(nameof(VerticalMinScroll), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(VerticalMinScroll), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty HorizontalMaxScrollProperty =
-	DependencyProperty.Register(nameof(HorizontalMaxScroll), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(HorizontalMaxScroll), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty HorizontalMinScrollProperty =
-	DependencyProperty.Register(nameof(HorizontalMinScroll), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(HorizontalMinScroll), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty HorizontalScrollValueProperty =
-	DependencyProperty.Register(nameof(HorizontalScrollValue), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(HorizontalScrollValue), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty VerticalScrollValueProperty =
-	DependencyProperty.Register(nameof(VerticalScrollValue), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(VerticalScrollValue), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty ViewPortWidthProperty =
-	DependencyProperty.Register(nameof(ViewPortWidth), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(ViewPortWidth), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	public static readonly DependencyProperty ViewPortHeightProperty =
-	DependencyProperty.Register(nameof(ViewPortHeight), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
+		DependencyProperty.Register(nameof(ViewPortHeight), typeof(double), typeof(ZoomContentControl), new PropertyMetadata(0.0d));
 
 	//Not a real margin, but a spacing to avoid overlapped by ShellControlPanel
 	public Thickness AdditionalMargin
@@ -191,7 +191,7 @@ public partial class ZoomContentControl : ContentControl
 	public BoundsVisibilityData ContentBoundsVisibility
 	{
 		get => (BoundsVisibilityData)GetValue(ContentBoundsVisibilityDataProperty);
-		set => SetValue(ContentBoundsVisibilityDataProperty, value);
+		private set => SetValue(ContentBoundsVisibilityDataProperty, value);
 	}
 
 	public double ZoomLevel
@@ -348,24 +348,10 @@ public partial class ZoomContentControl : ContentControl
 		await RaiseRenderedContentUpdated();
 	}
 
-	public record BoundsVisibilityData
+	public record BoundsVisibilityData(bool LeftEdge, bool TopEdge, bool RightEdge, bool BottomEdge)
 	{
-		public static readonly BoundsVisibilityData None = new BoundsVisibilityData(leftEdge: false, topEdge: false, rightEdge: false, bottomEdge: false);
-
-		public bool LeftEdge { get; init; }
-		public bool TopEdge { get; init; }
-		public bool RightEdge { get; init; }
-		public bool BottomEdge { get; init; }
-		public bool AllEdgesVisible { get; init; }
-
-		public BoundsVisibilityData(bool leftEdge, bool topEdge, bool rightEdge, bool bottomEdge)
-		{
-			LeftEdge = leftEdge;
-			TopEdge = topEdge;
-			RightEdge = rightEdge;
-			BottomEdge = bottomEdge;
-			AllEdgesVisible = LeftEdge && TopEdge && RightEdge && BottomEdge;
-		}
+		public static BoundsVisibilityData None => new BoundsVisibilityData(false, false, false, false);
+		public bool AllEdgesVisible => LeftEdge && TopEdge && RightEdge && BottomEdge;
 	}
 
 	private void UpdateContentBoundsVisibility()
@@ -479,14 +465,14 @@ public partial class ZoomContentControl : ContentControl
 
 	private void OnLoaded(object sender, RoutedEventArgs e)
 	{
-		Centralize();
+		CenterContent();
 	}
 
 	private void OnSizeChanged(object sender, SizeChangedEventArgs args)
 	{
 		if (IsLoaded && AutoZoomToCanvasOnSizeChanged)
 		{
-			ZoomToCanvas();
+			FitToCanvas();
 		}
 	}
 
@@ -741,7 +727,7 @@ public partial class ZoomContentControl : ContentControl
 
 		ResetZoom();
 		ResetOffset();
-		Centralize();
+		CenterContent();
 	}
 
 	public void ResetZoom() => ZoomLevel = 1;
@@ -758,7 +744,7 @@ public partial class ZoomContentControl : ContentControl
 		VerticalOffset = 0;
 	}
 
-	public void Centralize()
+	public void CenterContent()
 	{
 		if (IsActive && _presenter?.Content is FrameworkElement { } content)
 		{
@@ -767,7 +753,7 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	public void ZoomToCanvas()
+	public void FitToCanvas()
 	{
 		if (IsActive)
 		{
@@ -775,7 +761,7 @@ public partial class ZoomContentControl : ContentControl
 			var hZoom = (AvailableSize.Width / ViewPortWidth);
 			var zoomLevel = Math.Min(vZoom, hZoom);
 			ZoomLevel = Math.Clamp(zoomLevel, MinZoomLevel, MaxZoomLevel);
-			Centralize();
+			CenterContent();
 		}
 	}
 	private static Matrix GetPositionMatrix(FrameworkElement element, FrameworkElement rootElement) => ((MatrixTransform)element.TransformToVisual(rootElement)).Matrix;
