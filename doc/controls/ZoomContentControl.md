@@ -47,20 +47,22 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Properties
 
-| Property| Type| Description|
-|------------------------|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ZoomLevel`| `double`| Gets or sets the current zoom level for the content.|
-| `MinZoomLevel`| `double`| Gets or sets the minimum zoom level allowed for the content.|
-| `MaxZoomLevel`| `double`| Gets or sets the maximum zoom level allowed for the content.|
-| `IsZoomAllowed`| `bool`| Gets or sets a value indicating whether zooming is allowed.|
-| `IsPanAllowed`| `bool`| Gets or sets a value indicating whether panning is allowed.|
-| `HorizontalOffest`| `double`| Gets or sets the horizontal offset for panning.|
-| `VerticalOffset`| `double`| Gets or sets the vertical offset for panning.|
-| `HorizontalZoomCenter`| `double`| Gets or sets the horizontal center point of the zooming operation.|
-| `VerticalZoomCenter`| `double`| Gets or sets the vertical center point of the zooming operation.|
-| `ScaleWheelRatio`| `double`| Gets or sets the ratio for scaling zoom level when using a mouse wheel.|
-| `PanWheelRatio`| `double`| Gets or sets the ratio for panning when using a mouse wheel.|
-| `ResetWhenNotActive`| `bool`| Gets or sets a value indicating whether the zoom and pan should reset when the control is not active.|
+| Property| Type | Description |
+|-|-|-|
+| `ZoomLevel` | `double` | Gets or sets the current zoom level for the content. |
+| `MinZoomLevel` | `double` | Gets or sets the minimum zoom level allowed for the content. |
+| `MaxZoomLevel` | `double` | Gets or sets the maximum zoom level allowed for the content. |
+| `IsZoomAllowed` | `bool` | Gets or sets a value indicating whether zooming is allowed. |
+| `IsPanAllowed` | `bool` | Gets or sets a value indicating whether panning is allowed. |
+| `HorizontalOffest` | `double` | Gets or sets the horizontal offset for panning. |
+| `VerticalOffset` | `double` | Gets or sets the vertical offset for panning. |
+| `HorizontalZoomCenter` | `double` | Gets or sets the horizontal center point of the zooming operation. |
+| `VerticalZoomCenter` | `double` | Gets or sets the vertical center point of the zooming operation. |
+| `ScaleWheelRatio` | `double` | Gets or sets the ratio for scaling zoom level when using a mouse wheel. |
+| `PanWheelRatio` | `double` | Gets or sets the ratio for panning when using a mouse wheel. |
+| `ResetWhenNotActive` | `bool` | Gets or sets a value indicating whether the zoom and pan should reset when the control is not active. |
+| `AutoZoomToCanvasOnSizeChanged` | `bool` | Gets or sets a value indicating whether the control should automatically adjust zoom when resized. |
+| `IsActive` | `bool` | Gets or sets a value indicating whether the control is active. |
 
 ### Methods
 
