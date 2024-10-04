@@ -31,7 +31,6 @@ using Windows.UI.Input;
 using Windows.Devices.Input;
 #endif
 
-
 namespace Uno.Toolkit.UI;
 
 [TemplatePart(Name = TemplateParts.RootGrid, Type = typeof(Grid))]
@@ -43,23 +42,35 @@ public partial class ZoomContentControl : ContentControl
 	private static class TemplateParts
 	{
 		public const string RootGrid = "PART_RootGrid";
-
 		public const string Presenter = "PART_Presenter";
-
 		public const string HorizontalScrollBar = "PART_ScrollH";
 		public const string VerticalScrollBar = "PART_ScrollV";
 	}
 
+	// Fields
 	private ContentPresenter? _presenter;
 	private ScrollBar? _scrollV;
 	private ScrollBar? _scrollH;
-
 	private Point _lastPosition = new Point(0, 0);
-
 	private (bool Horizontal, bool Vertical) _movementDirection = (false, false);
-
 	private bool IsAllowedToWork => (IsEnabled && IsActive && _presenter is not null);
+	private double _previousVerticalScrollValue = double.MinValue;
+	private double _previousHorizontalScrollValue = double.MinValue;
+	private uint _capturedPointerId;
+	private Point _referencePosition;
 
+	// Constructor
+	public ZoomContentControl()
+	{
+		DefaultStyleKey = typeof(ZoomContentControl);
+		Loaded += OnLoaded;
+		SizeChanged += OnSizeChanged;
+	}
+
+	// Events
+	public event EventHandler<EventArgs>? RenderedContentUpdated;
+
+	// Dependency Properties
 	public bool ResetWhenNotActive { get; set; } = true;
 
 	public Size AvailableSize
@@ -72,8 +83,7 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	public event EventHandler<EventArgs>? RenderedContentUpdated;
-
+	// Methods
 	private async Task RaiseRenderedContentUpdated()
 	{
 		await Task.Yield();
@@ -103,12 +113,6 @@ public partial class ZoomContentControl : ContentControl
 		await RaiseRenderedContentUpdated();
 	}
 
-	public record BoundsVisibilityData(bool LeftEdge, bool TopEdge, bool RightEdge, bool BottomEdge)
-	{
-		public static BoundsVisibilityData None => new BoundsVisibilityData(false, false, false, false);
-		public bool AllEdgesVisible => LeftEdge && TopEdge && RightEdge && BottomEdge;
-	}
-
 	private void UpdateContentBoundsVisibility()
 	{
 		if (_presenter?.Content is FrameworkElement fe)
@@ -118,8 +122,8 @@ public partial class ZoomContentControl : ContentControl
 			ContentBoundsVisibility = new BoundsVisibilityData(
 				m.OffsetX >= 0,
 				m.OffsetY >= 0,
-				this.ActualWidth >= (fe.ActualWidth * ZoomLevel) + m.OffsetX,
-				this.ActualHeight >= (fe.ActualHeight * ZoomLevel) + m.OffsetY);
+				ActualWidth >= (fe.ActualWidth * ZoomLevel) + m.OffsetX,
+				ActualHeight >= (fe.ActualHeight * ZoomLevel) + m.OffsetY);
 		}
 	}
 
@@ -146,21 +150,16 @@ public partial class ZoomContentControl : ContentControl
 	}
 
 	private bool CanScrollUp() => !ContentBoundsVisibility.TopEdge;
-
 	private bool CanScrollDown() => !ContentBoundsVisibility.BottomEdge;
-
 	private bool CanScrollLeft() => !ContentBoundsVisibility.LeftEdge;
-
 	private bool CanScrollRight() => !ContentBoundsVisibility.RightEdge;
 
-	//Slide move is always on the opposite direction of the drag
 	private async void UpdateVerticalScrollBarValue()
 	{
 		VerticalScrollValue = VerticalOffset;
 		await RaiseRenderedContentUpdated();
 	}
 
-	//Slide move is always on the opposite direction of the drag
 	private async void UpdateHorizontalScrollBarValue()
 	{
 		HorizontalScrollValue = -1 * HorizontalOffset;
@@ -188,9 +187,6 @@ public partial class ZoomContentControl : ContentControl
 	{
 		if (_presenter?.Content is FrameworkElement fe)
 		{
-			// If Actual Width/Height * Zoom < ViewPort Width/Height there should be no scroll
-			// If Actual Width/Height * Zoom > ViewPort Width/Height the amount of scroll should
-			// be based on the difference between the two values
 			var verticalScroll = Math.Max(0, (fe.ActualHeight * ZoomLevel) - ViewPortHeight);
 			var horizontalScroll = Math.Max(0, (fe.ActualWidth * ZoomLevel) - ViewPortWidth);
 
@@ -207,14 +203,25 @@ public partial class ZoomContentControl : ContentControl
 		ZoomLevel = Math.Clamp(ZoomLevel, MinZoomLevel, MaxZoomLevel);
 	}
 
-	public ZoomContentControl()
+	// Template handling
+	protected override void OnApplyTemplate()
 	{
-		DefaultStyleKey = typeof(ZoomContentControl);
+		T FindTemplatePart<T>(string name) where T : class =>
+			(GetTemplateChild(name) ?? throw new Exception($"Expected template part not found: {name}"))
+			as T ?? throw new Exception($"Expected template part '{name}' to be of type: {typeof(T)}");
 
-		this.Loaded += OnLoaded;
-		this.SizeChanged += OnSizeChanged;
+		_presenter = FindTemplatePart<ContentPresenter>(TemplateParts.Presenter);
+		_scrollV = FindTemplatePart<ScrollBar>(TemplateParts.VerticalScrollBar);
+		_scrollH = FindTemplatePart<ScrollBar>(TemplateParts.HorizontalScrollBar);
+
+		ResetOffset();
+		ResetZoom();
+
+		RegisterToControlEvents();
+		RegisterPointerHandlers();
 	}
 
+	// Event handlers
 	private void OnLoaded(object sender, RoutedEventArgs e)
 	{
 		CenterContent();
@@ -228,24 +235,6 @@ public partial class ZoomContentControl : ContentControl
 			FitToCanvas();
 		}
 	}
-
-	protected override void OnApplyTemplate()
-	{
-		T FindTemplatePart<T>(string name) where T : class =>
-			(GetTemplateChild(name) ?? throw new Exception($"Expected template part not found: {name}"))
-			as T ?? throw new Exception($"Expected template part '{name}' to be of type: {typeof(T)}");
-		_presenter = FindTemplatePart<ContentPresenter>(TemplateParts.Presenter);
-		_scrollV = FindTemplatePart<ScrollBar>(TemplateParts.VerticalScrollBar);
-		_scrollH = FindTemplatePart<ScrollBar>(TemplateParts.HorizontalScrollBar);
-
-		ResetOffset();
-		ResetZoom();
-
-		RegisterToControlEvents();
-		RegisterPointerHandlers();
-	}
-
-	#region ScrollBars Events
 
 	private void RegisterToControlEvents()
 	{
@@ -271,11 +260,19 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	private double _previousVerticalScrollValue = double.MinValue;
+	private void RegisterPointerHandlers()
+	{
+		PointerPressed -= OnPointerPressed;
+		PointerReleased -= OnPointerReleased;
+		PointerMoved -= OnPointerMoved;
+		PointerWheelChanged -= OnPointerWheelChanged;
 
-	private double _previousHorizontalScrollValue = double.MinValue;
+		PointerPressed += OnPointerPressed;
+		PointerReleased += OnPointerReleased;
+		PointerMoved += OnPointerMoved;
+		PointerWheelChanged += OnPointerWheelChanged;
+	}
 
-	//TemplateBinding doesn't support TwoWay mode. We need to manually update the values
 	private void ScrollV_Scroll(object sender, ScrollEventArgs e)
 	{
 		if ((_previousVerticalScrollValue > e.NewValue && !CanScrollUp()) ||
@@ -300,51 +297,22 @@ public partial class ZoomContentControl : ContentControl
 		_previousHorizontalScrollValue = e.NewValue;
 	}
 
-	#endregion
-
-	private uint _capturedPointerId;
-	private Point _referencePosition;
-
-	private void RegisterPointerHandlers()
-	{
-		// Register for pointer events.
-		PointerPressed -= OnPointerPressed;
-		PointerReleased -= OnPointerReleased;
-		PointerMoved -= OnPointerMoved;
-		PointerWheelChanged -= OnPointerWheelChanged;
-
-		PointerPressed += OnPointerPressed;
-		PointerReleased += OnPointerReleased;
-		PointerMoved += OnPointerMoved;
-		PointerWheelChanged += OnPointerWheelChanged;
-	}
-
+	// Additional private methods for pointer handling
 	private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
 	{
-		if (!IsAllowedToWork)
-		{
-			return; // Don't handle the event when the control is disabled.
-		}
-
+		if (!IsAllowedToWork) return;
 		var pointerPoint = e.GetCurrentPoint(this);
 		var pointerProperties = pointerPoint.Properties;
 
-		// If the middle button of a mouse is pressed, then we want to handle the event.
-		if (pointerProperties.IsMiddleButtonPressed
-#if IS_WINUI
-			&& pointerPoint.PointerDeviceType == PointerDeviceType.Mouse)
-#else
-			&& pointerPoint.PointerDevice.PointerDeviceType == PointerDeviceType.Mouse)
-#endif
+		if (pointerProperties.IsMiddleButtonPressed &&
+			pointerPoint.PointerDeviceType == PointerDeviceType.Mouse)
 		{
 			e.Handled = true;
 
-			// Capture the pointer so that we can track its movement even if it leaves the bounds of the control.
-			var pointer = e.Pointer;
-			var captured = CapturePointer(pointer);
+			var captured = CapturePointer(e.Pointer);
 			if (captured)
 			{
-				_capturedPointerId = pointer.PointerId;
+				_capturedPointerId = e.Pointer.PointerId;
 				_referencePosition = pointerPoint.Position;
 				_lastPosition = _referencePosition;
 			}
@@ -359,10 +327,7 @@ public partial class ZoomContentControl : ContentControl
 
 	private void OnPointerMoved(object sender, PointerRoutedEventArgs e)
 	{
-		if (!(IsAllowedToWork && _capturedPointerId > 0 && IsPanAllowed))
-		{
-			return;
-		}
+		if (!(IsAllowedToWork && _capturedPointerId > 0 && IsPanAllowed)) return;
 
 		var currentPosition = e.GetCurrentPoint(this).Position;
 		_movementDirection = (currentPosition.X > _lastPosition.X, currentPosition.Y > _lastPosition.Y);
@@ -370,70 +335,31 @@ public partial class ZoomContentControl : ContentControl
 
 		if (CanMoveIn(_movementDirection))
 		{
-			// If the pointer is captured, then we want to handle the event.
 			e.Handled = true;
-
 			var pointerPoint = e.GetCurrentPoint(this);
-
-			// Adjust the offsets based on the pointer's movement.
 			var position = pointerPoint.Position;
 			var deltaX = position.X - _referencePosition.X;
 			var deltaY = position.Y - _referencePosition.Y;
-
 			TryUpdateOffsets(deltaX, deltaY);
-
-			// Update the starting position for next time.
 			_referencePosition = position;
-		}
-	}
-
-	private void TryUpdateOffsets(double deltaX, double deltaY)
-	{
-		if ((deltaX > 0 && CanScrollLeft()) ||
-			(deltaX < 0 && CanScrollRight()))
-		{
-			var offset = HorizontalOffset + deltaX;
-			var max = HorizontalMaxScroll * ZoomLevel;
-
-			HorizontalOffset = Math.Clamp(offset, 0, max);
-		}
-
-		if ((deltaY > 0 && CanScrollUp()) ||
-			(deltaY < 0 && CanScrollDown()))
-		{
-			var offset = VerticalOffset + deltaY;
-
-			var max = VerticalMaxScroll * ZoomLevel;
-
-			VerticalOffset = Math.Clamp(offset, 0, max);
 		}
 	}
 
 	private void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
 	{
-		if (!IsAllowedToWork)
-		{
-			return; // Don't handle the event when the control is disabled.
-		}
+		if (!IsAllowedToWork) return;
 
 		var pointerPoint = e.GetCurrentPoint(this);
 		var pointerProperties = pointerPoint.Properties;
 
 		var changeRatio = GetZoomDelta(pointerProperties);
 
-		//Zoom In/Out
-		if (
-#if IS_WINUI
-			pointerPoint.PointerDeviceType == PointerDeviceType.Mouse &&
-#else
-			pointerPoint.PointerDevice.PointerDeviceType == PointerDeviceType.Mouse &&
-#endif
+		if (pointerPoint.PointerDeviceType == PointerDeviceType.Mouse &&
 			e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Control) &&
 			IsZoomAllowed)
 		{
 			e.Handled = true;
 
-			// Pointer relative to the content
 			var relativeX = (pointerPoint.Position.X - HorizontalOffset) / ZoomLevel;
 			var relativeY = (pointerPoint.Position.Y - VerticalOffset) / ZoomLevel;
 
@@ -444,7 +370,6 @@ public partial class ZoomContentControl : ContentControl
 			return;
 		}
 
-		//Horizontal Scroll
 		if (e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Shift))
 		{
 			var deltaX = GetPanDelta(pointerProperties);
@@ -452,7 +377,6 @@ public partial class ZoomContentControl : ContentControl
 			return;
 		}
 
-		//Vertical Scroll
 		var deltaY = GetPanDelta(pointerProperties);
 		TryUpdateOffsets(0, deltaY);
 	}
@@ -469,6 +393,26 @@ public partial class ZoomContentControl : ContentControl
 		return delta;
 	}
 
+	private void TryUpdateOffsets(double deltaX, double deltaY)
+	{
+		if ((deltaX > 0 && CanScrollLeft()) ||
+			(deltaX < 0 && CanScrollRight()))
+		{
+			var offset = HorizontalOffset + deltaX;
+			var max = HorizontalMaxScroll * ZoomLevel;
+			HorizontalOffset = Math.Clamp(offset, 0, max);
+		}
+
+		if ((deltaY > 0 && CanScrollUp()) ||
+			(deltaY < 0 && CanScrollDown()))
+		{
+			var offset = VerticalOffset + deltaY;
+			var max = VerticalMaxScroll * ZoomLevel;
+			VerticalOffset = Math.Clamp(offset, 0, max);
+		}
+	}
+
+	// Public methods
 	public void Initialize()
 	{
 		if (_presenter?.Content is FrameworkElement { } fe)
@@ -515,5 +459,15 @@ public partial class ZoomContentControl : ContentControl
 			CenterContent();
 		}
 	}
-	private static Matrix GetPositionMatrix(FrameworkElement element, FrameworkElement rootElement) => ((MatrixTransform)element.TransformToVisual(rootElement)).Matrix;
+
+	// Record for BoundsVisibilityData
+	public record BoundsVisibilityData(bool LeftEdge, bool TopEdge, bool RightEdge, bool BottomEdge)
+	{
+		public static BoundsVisibilityData None => new BoundsVisibilityData(false, false, false, false);
+		public bool AllEdgesVisible => LeftEdge && TopEdge && RightEdge && BottomEdge;
+	}
+
+	// Static helper
+	private static Matrix GetPositionMatrix(FrameworkElement element, FrameworkElement rootElement)
+		=> ((MatrixTransform)element.TransformToVisual(rootElement)).Matrix;
 }
