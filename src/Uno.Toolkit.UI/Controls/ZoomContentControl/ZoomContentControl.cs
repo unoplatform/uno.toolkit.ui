@@ -304,8 +304,12 @@ public partial class ZoomContentControl : ContentControl
 		var pointerPoint = e.GetCurrentPoint(this);
 		var pointerProperties = pointerPoint.Properties;
 
-		if (pointerProperties.IsMiddleButtonPressed &&
-			pointerPoint.PointerDeviceType == PointerDeviceType.Mouse)
+		if (pointerProperties.IsMiddleButtonPressed
+#if IS_WINUI
+			&& pointerPoint.PointerDeviceType == PointerDeviceType.Mouse)
+#else
+			&& pointerPoint.PointerDevice.PointerDeviceType == PointerDeviceType.Mouse)
+#endif
 		{
 			e.Handled = true;
 
@@ -354,7 +358,12 @@ public partial class ZoomContentControl : ContentControl
 
 		var changeRatio = GetZoomDelta(pointerProperties);
 
-		if (pointerPoint.PointerDeviceType == PointerDeviceType.Mouse &&
+		if (
+#if IS_WINUI
+			pointerPoint.PointerDeviceType == PointerDeviceType.Mouse &&
+#else
+			pointerPoint.PointerDevice.PointerDeviceType == PointerDeviceType.Mouse &&
+#endif
 			e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Control) &&
 			IsZoomAllowed)
 		{
