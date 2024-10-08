@@ -224,23 +224,24 @@ namespace Uno.Toolkit.UI
 			if (Owner is { } tabBar
 				&& GetSelectionIndicator() is { } indicator)
 			{
-				var tabBarItems = tabBar.GetItemContainers<TabBarItem>().Where(tbi => tbi.Visibility == Visibility.Visible);
-				if (tabBarItems.None())
+				var tabBarItems =tabBar.GetItemContainers<UIElement>()
+					.Select(tabBar.GetInnerContainer)
+					.OfType<TabBarItem>();
+				var visibleItems = tabBarItems.Count(x => x.Visibility == Visibility.Visible);
+				if (visibleItems is 0)
 				{
 					return;
 				}
 
 				var maxSize = new Size();
-				var numItems = tabBarItems.Count();
-
 				if (tabBar.Orientation == Orientation.Vertical)
 				{
-					maxSize.Height = tabBar.ActualHeight / numItems;
+					maxSize.Height = tabBar.ActualHeight / visibleItems;
 					maxSize.Width = tabBar.ActualWidth;
 				}
 				else
 				{
-					maxSize.Width = tabBar.ActualWidth / numItems;
+					maxSize.Width = tabBar.ActualWidth / visibleItems;
 					maxSize.Height = tabBar.ActualHeight;
 				}
 
@@ -297,7 +298,7 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			if (tabBar.ContainerFromIndex(tabBar.SelectedIndex) is TabBarItem newSelectedItem)
+			if (tabBar.InnerContainerFromIndex(tabBar.SelectedIndex) is TabBarItem newSelectedItem)
 			{
 				newSelectedItem.SizeChanged += OnSelectedTabBarItemSizeChanged;
 				_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => newSelectedItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
@@ -331,7 +332,7 @@ namespace Uno.Toolkit.UI
 
 			if (destination == null && tabBar.SelectedIndex != -1)
 			{
-				destination = GetRelativePosition(tabBar.ContainerFromIndex(tabBar.SelectedIndex) as TabBarItem);
+				destination = GetRelativePosition(tabBar.InnerContainerFromIndex(tabBar.SelectedIndex) as TabBarItem);
 			}
 
 			if (destination == null ||

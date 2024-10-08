@@ -259,7 +259,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(rootGrid);
 
-		
+
 			var c = GetMinCalculatedDimen();
 			var expectedDimen = Math.Max(c, minDimen);
 			double actualDimen = orientation switch
@@ -311,19 +311,20 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-		
+
 
 			for (int i = 0; i < NumItems; i++)
 			{
 				SUT.SelectedIndex = i;
 				await UnitTestsUIContentHelper.WaitForIdle();
 
-				var selectedItem = SUT.ContainerFromItem(SUT.SelectedItem) as TabBarItem;
+				var container = SUT.ContainerFromItem(SUT.SelectedItem);
+				var selectedItem = SUT.GetInnerContainer(container);
 				Assert.IsNotNull(selectedItem);
 
 				var renderer = await SUT.TakeScreenshot();
 				var centerPoint = selectedItem!.TransformToVisual(SUT).TransformPoint(new Point(selectedItem.ActualWidth / 2, selectedItem.ActualHeight / 2));
-				
+
 				await renderer.AssertColorAt(Colors.Red, (int)centerPoint.X, (int)centerPoint.Y);
 
 				foreach (var nonSelected in SUT.Items.Cast<TabBarItem>().Where(x => !x.IsSelected))
@@ -380,10 +381,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var abovePresenter = VisualTreeHelperEx
 				.GetFirstDescendant<TabBarSelectionIndicatorPresenter>(SUT, x => x.Name == "AboveSelectionIndicatorPresenter");
 
-			
+
 			var renderer = await SUT.TakeScreenshot();
 			var centerPoint = item.TransformToVisual(SUT).TransformPoint(new Point(item.ActualWidth / 2, item.ActualHeight / 2));
-			
+
 
 			if (placement == IndicatorPlacement.Above)
 			{
