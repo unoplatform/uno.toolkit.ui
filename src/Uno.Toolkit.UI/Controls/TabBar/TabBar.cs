@@ -41,6 +41,7 @@ namespace Uno.Toolkit.UI
 		private object? _previouslySelectedItem;
 		private bool _isLoaded;
 		private bool _isUpdatingSelectedItem;
+		private bool _isUsingOwnContainerAsTemplateRoot;
 
 		public TabBar()
 		{
@@ -57,18 +58,13 @@ namespace Uno.Toolkit.UI
 			UpdateIndicatorPlacement();
 		}
 
-		protected override bool IsItemItsOwnContainerOverride(object item) => item is TabBarItem;
+		protected override bool IsItemItsOwnContainerOverride(object? item) => item is TabBarItem;
 
 		protected override DependencyObject GetContainerForItemOverride()
 		{
-			if (ItemTemplate != null)
+			if (_isUsingOwnContainerAsTemplateRoot)
 			{
-				var templateContent = ItemTemplate.LoadContent();
-
-				if (templateContent is TabBarItem)
-				{
-					return new ContentPresenter();
-				}
+				return new ContentPresenter();
 			}
 
 			return new TabBarItem();
@@ -259,6 +255,13 @@ namespace Uno.Toolkit.UI
 			SynchronizeInitialSelection();
 		}
 
+		protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
+		{
+			base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
+
+			_isUsingOwnContainerAsTemplateRoot = IsItemItsOwnContainerOverride(newItemTemplate?.LoadContent());
+		}
+
 		private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs? args)
 		{
 			if (_isSynchronizingSelection)
@@ -333,7 +336,10 @@ namespace Uno.Toolkit.UI
 			{
 				_isSynchronizingSelection = true;
 
-				foreach (var container in this.GetItemContainers<TabBarItem>())
+				var containers = !_isUsingOwnContainerAsTemplateRoot
+					? this.GetItemContainers<TabBarItem>()
+					: this.GetItemContainers<ContentPresenter>().Select(x => x.Content).OfType<TabBarItem>();
+				foreach (var container in containers)
 				{
 					if (!container.IsSelected)
 					{
