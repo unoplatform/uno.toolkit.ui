@@ -53,7 +53,7 @@ namespace Uno.Toolkit.UI
 		partial void ConnectPartial();
 
 		public void Disconnect()
-		{ 
+		{
 			if (Selector != null)
 			{
 				Selector.SelectionChanged -= OnSelectorSelectionChanged;
@@ -74,7 +74,7 @@ namespace Uno.Toolkit.UI
 			int unselectableCount = 0;
 			for (int i = 0; i < index; i++)
 			{
-				if (TabBar.ContainerFromIndex(i) is TabBarItem { IsSelectable: false })
+				if (TabBar.InnerContainerFromIndex(i) is TabBarItem { IsSelectable: false })
 				{
 					unselectableCount++;
 				}
@@ -88,7 +88,7 @@ namespace Uno.Toolkit.UI
 			int skipped = 0;
 			for (int i = 0; i < TabBar.Items.Count; i++)
 			{
-				if (TabBar.ContainerFromIndex(i) is TabBarItem { IsSelectable: true })
+				if (TabBar.InnerContainerFromIndex(i) is TabBarItem { IsSelectable: true })
 				{
 					if (skipped == index)
 					{
@@ -151,8 +151,8 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			var selectedTabBarItem = TabBar.ContainerFromIndex(previousIndex.Value) as TabBarItem;
-			var nextTabBarItem = TabBar.ContainerFromIndex(nextTabIndex.Value) as TabBarItem;
+			var selectedTabBarItem = TabBar.InnerContainerFromIndex(previousIndex.Value) as TabBarItem;
+			var nextTabBarItem = TabBar.InnerContainerFromIndex(nextTabIndex.Value) as TabBarItem;
 
 			var currentX = GetRelativeX(selectedTabBarItem);
 			var nextX = GetRelativeX(nextTabBarItem);
@@ -162,7 +162,7 @@ namespace Uno.Toolkit.UI
 			var indicatorPosition = currentX + ((selectedTabBarItem?.ActualWidth ?? 0) / 2) - (selectionIndicator.ActualSize.X / 2);
 
 			SelectorExtensions.SetSelectionOffset(
-				TabBar, 
+				TabBar,
 				toRight
 				? indicatorPosition + (progress * distance)
 				: indicatorPosition - ((1 - progress) * distance)
@@ -173,7 +173,7 @@ namespace Uno.Toolkit.UI
 		{
 			if (MapIndexToTabBar(position) is { } index && index >= 0 && index < TabBar.Items.Count)
 			{
-				var tabItem = TabBar.ContainerFromIndex(index) as TabBarItem;
+				var tabItem = TabBar.InnerContainerFromIndex(index) as TabBarItem;
 				SelectorExtensions.SetSelectionOffset(TabBar, GetRelativeX(tabItem) + ((tabItem?.ActualWidth ?? 0) / 2) - (selectionIndicator.ActualSize.X / 2));
 			}
 		}
