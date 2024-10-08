@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Uno.Toolkit.Samples.Content.NestedSamples;
 using Uno.Toolkit.Samples.Entities;
 using Uno.Toolkit.Samples.ViewModels;
+using Uno.Toolkit.UI;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -91,6 +92,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
         public int CupertinoBottomTab3Count { get => GetProperty<int>(); set => SetProperty(value); }
 
         public List<string> Items { get => GetProperty<List<string>>(); set => SetProperty(value); }
+        public List<TabBarItem> ItemsTb { get => GetProperty<List<TabBarItem>>(); set => SetProperty(value); }
 
         public ICommand Tab1CountCommand => new Command(_ => Tab1Count++);
         public ICommand Tab2CountCommand => new Command(_ => Tab2Count++);
@@ -110,7 +112,8 @@ namespace Uno.Toolkit.Samples.Content.Controls
 
         public TabBarViewModel()
 		{
-            Items = new List<string> { "Tab 1", "Tab 2", "Tab 3" };
+			Items = new List<string> { "Tab 1", "Tab 2", "Tab 3" };
+			ItemsTb = new List<TabBarItem> { new TabBarItem() { Content = "Tab 1" }, new TabBarItem() { Content = "Tab 2" }, new TabBarItem() { Content = "Tab 3" } };
 		}
 	}
 }

@@ -265,8 +265,20 @@
 			<DataTemplate>
 				<StackPanel Padding="0,20"
 							Spacing="20">
+					<utu:TabBar SelectedIndex="0"
+								ItemsSource="{Binding Data.Items}"
+								Style="{StaticResource TopTabBarStyle}">
+						<utu:TabBar.ItemTemplate>
+							<DataTemplate>
+								<!-- Style="{StaticResource MaterialTopTabBarItemStyle}" -->
+								<utu:TabBarItem Background="Red"
+												Content="{Binding}" />
+								<!--<TextBlock Text="{Binding}" />-->
+							</DataTemplate>
+						</utu:TabBar.ItemTemplate>
+					</utu:TabBar>
 					<!--#region TopTabBarStyle-->
-					<TextBlock Text="Standard TabBar Style"
+					<!--<TextBlock Text="Standard TabBar Style"
 							   Style="{StaticResource HeadlineSmall}" />
 
 					<Button Content="Show Top TabBar Sample"
@@ -352,9 +364,9 @@
 							 AutomationProperties.AutomationId="M3_Tab3_Count"
 							 Text="{Binding Data.Tab3Count}" />
 					</TextBlock>
-					<!--#endregion-->
+					--><!--#endregion-->
 
-					<!--#region ColoredTopTabBarStyle-->
+					<!--#region ColoredTopTabBarStyle--><!--
 					<TextBlock Text="Top TabBar Colored Style"
 							   Style="{StaticResource HeadlineSmall}" />
 
@@ -438,9 +450,9 @@
 							 AutomationProperties.AutomationId="M3_Colored_Tab3_Count"
 							 Text="{Binding Data.Tab3Count}" />
 					</TextBlock>
-					<!--#endregion-->
+					--><!--#endregion-->
 
-					<!--#region BottomTabBarStyle-->
+					<!--#region BottomTabBarStyle--><!--
 					<TextBlock Text="Bottom TabBar Style"
 							   Style="{StaticResource HeadlineSmall}" />
 
@@ -591,9 +603,9 @@
 							</utu:TabBar.Items>
 						</utu:TabBar>
 					</ContentControl>
-					<!--#endregion-->
+					--><!--#endregion-->
 
-					<!--#region VerticalTabBarStyle-->
+					<!--#region VerticalTabBarStyle--><!--
 					<TextBlock Text="Vertical TabBar Style"
 							   Style="{StaticResource HeadlineSmall}" />
 
@@ -746,7 +758,7 @@
 								</utu:TabBarItem>
 							</utu:TabBar.Items>
 						</utu:TabBar>
-					</ContentControl>
+					</ContentControl>-->
 					<!--#endregion-->
 
 				</StackPanel>
