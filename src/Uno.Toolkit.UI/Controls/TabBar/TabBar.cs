@@ -59,17 +59,49 @@ namespace Uno.Toolkit.UI
 
 		protected override bool IsItemItsOwnContainerOverride(object item) => item is TabBarItem;
 
-		protected override DependencyObject GetContainerForItemOverride() => new TabBarItem();
+		protected override DependencyObject GetContainerForItemOverride()
+		{
+			if (ItemTemplate != null)
+			{
+				var templateContent = ItemTemplate.LoadContent();
+
+				if (templateContent is TabBarItem)
+				{
+					return new ContentPresenter();
+				}
+			}
+
+			return new TabBarItem();
+		}
 
 		protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
 		{
 			base.PrepareContainerForItemOverride(element, item);
 
+			void SetupTabBarItem(TabBarItem item)
+			{
+				item.IsSelected = IsSelected(IndexFromContainer(element));
+				item.Click += OnTabBarItemClick;
+				item.IsSelectedChanged += OnTabBarIsSelectedChanged;
+			}
+
 			if (element is TabBarItem container)
-			{	
-				container.IsSelected = IsSelected(IndexFromContainer(element));
-				container.Click += OnTabBarItemClick;
-				container.IsSelectedChanged += OnTabBarIsSelectedChanged;
+			{
+				SetupTabBarItem(container);
+			}
+			else if (element is ContentPresenter contentPresenter)
+			{
+				var contentTemplate = contentPresenter.ContentTemplate.LoadContent();
+				if (contentTemplate is TabBarItem tabBarItem)
+				{
+					contentPresenter.ContentTemplate = null;
+
+					SetupTabBarItem(tabBarItem);
+
+					tabBarItem.DataContext = item;
+					
+					contentPresenter.Content = tabBarItem;
+				}
 			}
 		}
 
