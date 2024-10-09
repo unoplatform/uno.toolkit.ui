@@ -310,10 +310,10 @@ namespace Uno.Toolkit.UI
 			TabBarItem? oldItem = null;
 			if (args?.OldValue is int oldIndex && oldIndex != -1)
 			{
-				oldItem = this.ContainerFromIndexSafe<TabBarItem>(oldIndex);
+				oldItem = this.InnerContainerFromIndexSafe(oldIndex);
 			}
 
-			var newItem = this.ContainerFromIndexSafe<TabBarItem>(SelectedIndex);
+			var newItem = this.InnerContainerFromIndexSafe(SelectedIndex);
 
 			if (TryUpdateTabBarItemSelectedState(oldItem, newItem))
 			{
@@ -429,6 +429,16 @@ namespace Uno.Toolkit.UI
 			}
 
 			return container;
+		}
+
+		private TabBarItem? InnerContainerFromIndexSafe(int index)
+		{
+			if (index >= 0 && index < Items.Count)
+			{
+				return InnerContainerFromIndex(index) as TabBarItem;
+			}
+
+			return null;
 		}
 
 		private bool IsReady => _isLoaded && HasItems;
