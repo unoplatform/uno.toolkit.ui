@@ -93,11 +93,9 @@ namespace Uno.Toolkit.UI
 				if (templateRoot is TabBarItem tabBarItem)
 				{
 					outerContainer.ContentTemplate = null;
-
 					SetupTabBarItem(tabBarItem);
-
 					tabBarItem.DataContext = item;
-
+					tabBarItem.Style ??= ItemContainerStyle;
 					outerContainer.Content = tabBarItem;
 				}
 			}
