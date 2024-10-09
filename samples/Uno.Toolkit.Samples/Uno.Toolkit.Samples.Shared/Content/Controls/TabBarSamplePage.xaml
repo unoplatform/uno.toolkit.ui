@@ -382,6 +382,19 @@
 							</utu:TabBar.ItemTemplate>
 						</utu:TabBar>
 					</ContentControl>
+
+					<TextBlock Text="ItemTemplate with Disabled item" />
+					<ContentControl Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar Style="{StaticResource TopTabBarStyle}"
+									ItemsSource="{Binding Data.MenuItems}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<utu:TabBarItem Content="{Binding Name}"
+													IsEnabled="{Binding IsSelectable}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
 					<!--#endregion-->
 
 					<!--#region ColoredTopTabBarStyle-->
@@ -650,6 +663,18 @@
 						</utu:TabBar>
 					</ContentControl>
 
+					<TextBlock Text="ItemTemplate with Disabled item" />
+					<ContentControl Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar Style="{StaticResource BottomTabBarStyle}"
+									ItemsSource="{Binding Data.MenuItems}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<utu:TabBarItem Content="{Binding Name}"
+													IsEnabled="{Binding IsSelectable}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
 					<!--#endregion-->
 
 					<!--#region VerticalTabBarStyle-->
@@ -831,6 +856,20 @@
 							<utu:TabBar.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
+
+					<TextBlock Text="ItemTemplate with Disabled item" />
+					<ContentControl Height="500"
+									Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar Style="{StaticResource VerticalTabBarStyle}"
+									ItemsSource="{Binding Data.MenuItems}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<utu:TabBarItem Content="{Binding Name}"
+													IsEnabled="{Binding IsSelectable}" />
 								</DataTemplate>
 							</utu:TabBar.ItemTemplate>
 						</utu:TabBar>
