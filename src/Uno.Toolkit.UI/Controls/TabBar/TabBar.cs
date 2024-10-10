@@ -410,9 +410,9 @@ namespace Uno.Toolkit.UI
 
 		internal TabBarItem? GetInnerContainer(DependencyObject? container)
 		{
-			if (IsUsingOwnContainerAsTemplateRoot)
+			if (IsUsingOwnContainerAsTemplateRoot && container is ContentPresenter cp)
 			{
-				return (container as ContentPresenter)?.Content as TabBarItem;
+				return cp.Content as TabBarItem;
 			}
 
 			return container as TabBarItem;
@@ -421,9 +421,9 @@ namespace Uno.Toolkit.UI
 		internal DependencyObject? InnerContainerFromIndex(int index)
 		{
 			var container = ContainerFromIndex(index);
-			if (IsUsingOwnContainerAsTemplateRoot)
+			if (IsUsingOwnContainerAsTemplateRoot && container is ContentPresenter cp)
 			{
-				container = (container as ContentPresenter)?.Content as DependencyObject;
+				container = cp.Content as DependencyObject;
 			}
 
 			return container;

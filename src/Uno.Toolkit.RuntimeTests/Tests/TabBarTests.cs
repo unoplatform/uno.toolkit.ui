@@ -436,15 +436,20 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				new TestRecord("False", false),
 				new TestRecord("True", true)
 			};
-			var SUT = new TabBar
-			{
-				Style = (Style)Application.Current.Resources["TopTabBarStyle"],
-				ItemsSource = source,
-				ItemTemplate = XamlHelper.LoadXaml<DataTemplate>(@"
+
+			var dt = XamlHelper.LoadXaml<DataTemplate>(@"
 					<DataTemplate>
 						<utu:TabBarItem Content=""{Binding Name}"" IsSelectable=""{Binding IsSelectable}"" />
 					</DataTemplate>
-				")
+				");
+
+			var SUT = new TabBar
+			{
+				// If `ItemTemplate` is not set first then the order of
+				// `OnItemTemplateChanged` and `GetContainerForItemOverride` are not correct and test fail on android
+				ItemTemplate = dt,
+				Style = (Style)Application.Current.Resources["TopTabBarStyle"],
+				ItemsSource = source
 			};
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
