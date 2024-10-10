@@ -72,8 +72,8 @@ public partial class ZoomContentControl : ContentControl
 	// Events
 	public event EventHandler<EventArgs>? RenderedContentUpdated;
 
-	// Dependency Properties
-	public bool ResetWhenNotActive { get; set; } = true;
+	// Properties
+	private bool ResetZoomAndOffsetWhenInactive { get; set; } = true;
 
 	public Size AvailableSize
 	{
@@ -122,10 +122,10 @@ public partial class ZoomContentControl : ContentControl
 			var m = GetPositionMatrix(fe, this);
 
 			var flags = None;
-			if (m.OffsetX >= 0) flags |= Left;
-			if (m.OffsetY >= 0) flags |= Top;
-			if (ActualWidth >= (fe.ActualWidth * ZoomLevel) + m.OffsetX) flags |= Right;
-			if (ActualHeight >= (fe.ActualHeight * ZoomLevel) + m.OffsetY) flags |= Bottom;
+			if (m.OffsetX >= 0) flags |= BoundsVisibilityFlag.Left;
+			if (m.OffsetY >= 0) flags |= BoundsVisibilityFlag.Top;
+			if (ActualWidth >= (fe.ActualWidth * ZoomLevel) + m.OffsetX) flags |= BoundsVisibilityFlag.Right;
+			if (ActualHeight >= (fe.ActualHeight * ZoomLevel) + m.OffsetY) flags |= BoundsVisibilityFlag.Bottom;
 
 			ContentBoundsVisibility = flags;
 		}
@@ -133,8 +133,8 @@ public partial class ZoomContentControl : ContentControl
 
 	private void UpdateScrollVisibility()
 	{
-		IsHorizontalScrollBarVisible = !ContentBoundsVisibility.HasFlag(Left | Right);
-		IsVerticalScrollBarVisible = !ContentBoundsVisibility.HasFlag(Top | Bottom);
+		IsHorizontalScrollBarVisible = !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Left | BoundsVisibilityFlag.Right);
+		IsVerticalScrollBarVisible = !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Top | BoundsVisibilityFlag.Bottom);
 	}
 
 	private bool CanMoveIn((bool Horizontal, bool Vertical) _movementDirection)
@@ -153,10 +153,10 @@ public partial class ZoomContentControl : ContentControl
 		return canMove;
 	}
 
-	private bool CanScrollUp() => !ContentBoundsVisibility.HasFlag(Top);
-	private bool CanScrollDown() => !ContentBoundsVisibility.HasFlag(Bottom);
-	private bool CanScrollLeft() => !ContentBoundsVisibility.HasFlag(Left);
-	private bool CanScrollRight() => !ContentBoundsVisibility.HasFlag(Right);
+	private bool CanScrollUp() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Top);
+	private bool CanScrollDown() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Bottom);
+	private bool CanScrollLeft() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Left);
+	private bool CanScrollRight() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Right);
 
 	private async void UpdateVerticalScrollBarValue()
 	{
@@ -172,7 +172,7 @@ public partial class ZoomContentControl : ContentControl
 
 	private void IsActiveChanged()
 	{
-		if (ResetWhenNotActive && !IsActive)
+		if (ResetZoomAndOffsetWhenInactive && !IsActive)
 		{
 			RemoveOffset();
 			ResetZoom();
@@ -191,8 +191,8 @@ public partial class ZoomContentControl : ContentControl
 	{
 		if (_presenter?.Content is FrameworkElement fe)
 		{
-			var verticalScroll = Math.Max(0, (fe.ActualHeight * ZoomLevel) - ViewPortHeight);
-			var horizontalScroll = Math.Max(0, (fe.ActualWidth * ZoomLevel) - ViewPortWidth);
+			var verticalScroll = Math.Max(0, (fe.ActualHeight * ZoomLevel) - ViewportHeight);
+			var horizontalScroll = Math.Max(0, (fe.ActualWidth * ZoomLevel) - ViewportWidth);
 
 			HorizontalMaxScroll = horizontalScroll / 2;
 			VerticalMaxScroll = verticalScroll / 2;
@@ -246,8 +246,8 @@ public partial class ZoomContentControl : ContentControl
 		{
 			fe.LayoutUpdated += (s, e) =>
 			{
-				ViewPortWidth = fe.ActualWidth;
-				ViewPortHeight = fe.ActualHeight;
+				ViewportWidth = fe.ActualWidth;
+				ViewportHeight = fe.ActualHeight;
 
 				UpdateScrollLimits();
 			};
@@ -428,25 +428,19 @@ public partial class ZoomContentControl : ContentControl
 	// Public methods
 	public void Initialize()
 	{
-		if (_presenter?.Content is FrameworkElement { } fe)
-		{
-			fe.UpdateLayout();
-		}
-
 		ResetZoom();
 		ResetOffset();
 		CenterContent();
 	}
 
-	public void ResetZoom() => ZoomLevel = 1;
-
-	public void ResetOffset()
+	internal void ResetZoom() => ZoomLevel = 1;
+	private void ResetOffset()
 	{
 		HorizontalOffset = AdditionalMargin.Left;
 		VerticalOffset = AdditionalMargin.Top;
 	}
 
-	public void RemoveOffset()
+	private void RemoveOffset()
 	{
 		HorizontalOffset = 0;
 		VerticalOffset = 0;
@@ -465,8 +459,8 @@ public partial class ZoomContentControl : ContentControl
 	{
 		if (IsActive)
 		{
-			var vZoom = (ActualHeight - AdditionalMargin.Top - AdditionalMargin.Bottom) / ViewPortHeight;
-			var hZoom = (ActualWidth - AdditionalMargin.Left - AdditionalMargin.Right) / ViewPortWidth;
+			var vZoom = (ActualHeight - AdditionalMargin.Top - AdditionalMargin.Bottom) / ViewportHeight;
+			var hZoom = (ActualWidth - AdditionalMargin.Left - AdditionalMargin.Right) / ViewportWidth;
 			var zoomLevel = Math.Min(vZoom, hZoom);
 			ZoomLevel = Math.Clamp(zoomLevel, MinZoomLevel, MaxZoomLevel);
 			CenterContent();

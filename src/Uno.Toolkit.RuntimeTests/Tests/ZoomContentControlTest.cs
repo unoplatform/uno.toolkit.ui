@@ -139,6 +139,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			SUT.IsVerticalScrollBarVisible.Should().BeTrue();
 		}
 
+		// FindFirstDescendent is not available in UWP
+#if !IS_UWP
 		[TestMethod]
 		public async Task When_Pan_ShouldUpdateOffsets()
 		{
@@ -151,20 +153,21 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				HorizontalOffset = 0,
 				VerticalOffset = 0,
 			};
-
+ 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
-
+ 
 			var presenter = SUT.FindFirstDescendant<ContentPresenter>("PART_Presenter");
 			var translation = (presenter?.RenderTransform as TransformGroup)?.Children[1] as TranslateTransform
 				?? throw new Exception("Failed to find PART_Presenter's TranslateTransform");
-
+ 
 			// Simulate panning
 			SUT.HorizontalOffset = 50;
 			SUT.VerticalOffset = 50;
-
+ 
 			// Verify that the content's translate transform has been updated to reflect the new offsets
 			translation.X.Should().Be(50);
 			translation.Y.Should().Be(50);
 		}
+#endif
 	}
 }
