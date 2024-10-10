@@ -38,7 +38,7 @@ internal class ResponsiveExtensionsTests
 	public async Task ProvideValue_String_Value()
 	{
 		var sut = XamlHelper.LoadXaml<TextBlock>("""
-			<TextBlock Text="{utu:Responsive Narrow=asd, Wide=qwe}" />
+<TextBlock Text="{utu:Responsive Narrow=asd, Wide=qwe}" />
 		""");
 		var ext = ResponsiveExtension.GetInstanceFor(sut, nameof(sut.Text)) ?? throw new InvalidOperationException("Failed to resolve the markup extension.");
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
@@ -51,7 +51,7 @@ internal class ResponsiveExtensionsTests
 	public async Task ProvideValue_String_SizeChange()
 	{
 		var sut = XamlHelper.LoadXaml<TextBlock>("""
-			<TextBlock Text="{utu:Responsive Narrow=asd, Wide=qwe}" />
+<TextBlock Text="{utu:Responsive Narrow=asd, Wide=qwe}" />
 		""");
 		var ext = ResponsiveExtension.GetInstanceFor(sut, nameof(sut.Text)) ?? throw new InvalidOperationException("Failed to resolve the markup extension.");
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
@@ -67,16 +67,16 @@ internal class ResponsiveExtensionsTests
 	public async Task ProvideValue_Color_Value()
 	{
 		var sut = XamlHelper.LoadXaml<Border>("""
-			<Border Width="30"
+<Border Width="30"
 					Height="30">
-				<Border.Resources>
-					<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
-					<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
-				</Border.Resources>
-				<Border.Background>
-					<utu:Responsive Narrow="{StaticResource BorderRed}" Wide="{StaticResource BorderBlue}" />
-				</Border.Background>
-			</Border>
+<Border.Resources>
+<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
+<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
+</Border.Resources>
+<Border.Background>
+<utu:Responsive Narrow="{StaticResource BorderRed}" Wide="{StaticResource BorderBlue}" />
+</Border.Background>
+</Border>
 		""");
 		var ext = ResponsiveExtension.GetInstanceFor(sut, nameof(sut.Background)) ?? throw new InvalidOperationException("Failed to resolve the markup extension.");
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
@@ -89,16 +89,16 @@ internal class ResponsiveExtensionsTests
 	public async Task ProvideValue_Color_SizeChange()
 	{
 		var sut = XamlHelper.LoadXaml<Border>("""
-			<Border Width="30"
+<Border Width="30"
 					Height="30">
-				<Border.Resources>
-					<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
-					<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
-				</Border.Resources>
-				<Border.Background>
-					<utu:Responsive Narrow="{StaticResource BorderRed}" Wide="{StaticResource BorderBlue}" />
-				</Border.Background>
-			</Border>
+<Border.Resources>
+<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
+<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
+</Border.Resources>
+<Border.Background>
+<utu:Responsive Narrow="{StaticResource BorderRed}" Wide="{StaticResource BorderBlue}" />
+</Border.Background>
+</Border>
 		""");
 		var ext = ResponsiveExtension.GetInstanceFor(sut, nameof(sut.Background)) ?? throw new InvalidOperationException("Failed to resolve the markup extension.");
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
@@ -114,17 +114,17 @@ internal class ResponsiveExtensionsTests
 	public async Task ProvideValue_Orientation_Value()
 	{
 		var container = XamlHelper.LoadXaml<Border>("""
-			<Border>
-				<Border.Resources>
-					<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
-					<Orientation x:Key="WideOrientation">Horizontal</Orientation>
-				</Border.Resources>
-				<StackPanel Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
-					<TextBlock Text="A" />
-					<TextBlock Text="B" />
-					<TextBlock Text="C" />
-				</StackPanel>
-			</Border>
+<Border>
+<Border.Resources>
+<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
+<Orientation x:Key="WideOrientation">Horizontal</Orientation>
+</Border.Resources>
+<StackPanel Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
+<TextBlock Text="A" />
+<TextBlock Text="B" />
+<TextBlock Text="C" />
+</StackPanel>
+</Border>
 		""");
 		var sut = container.Child as StackPanel ?? throw new InvalidOperationException("Failed to resolve the SUT");
 		var ext = ResponsiveExtension.GetInstanceFor(sut, nameof(sut.Orientation)) ?? throw new InvalidOperationException("Failed to resolve the markup extension.");
@@ -138,17 +138,17 @@ internal class ResponsiveExtensionsTests
 	public async Task ProvideValue_Orientation_SizeChange()
 	{
 		var container = XamlHelper.LoadXaml<Border>("""
-			<Border>
-				<Border.Resources>
-					<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
-					<Orientation x:Key="WideOrientation">Horizontal</Orientation>
-				</Border.Resources>
-				<StackPanel Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
-					<TextBlock Text="A" />
-					<TextBlock Text="B" />
-					<TextBlock Text="C" />
-				</StackPanel>
-			</Border>
+<Border>
+<Border.Resources>
+<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
+<Orientation x:Key="WideOrientation">Horizontal</Orientation>
+</Border.Resources>
+<StackPanel Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
+<TextBlock Text="A" />
+<TextBlock Text="B" />
+<TextBlock Text="C" />
+</StackPanel>
+</Border>
 		""");
 		var sut = container.Child as StackPanel ?? throw new InvalidOperationException("Failed to resolve the SUT");
 		var ext = ResponsiveExtension.GetInstanceFor(sut, nameof(sut.Orientation)) ?? throw new InvalidOperationException("Failed to resolve the markup extension.");
@@ -161,7 +161,6 @@ internal class ResponsiveExtensionsTests
 		Assert.AreEqual(Orientation.Horizontal, sut.Orientation);
 	}
 }
-#endif
 
 [TestClass]
 [RunsOnUIThread]
@@ -207,3 +206,4 @@ internal class DynamicResponsiveExtensionsTests
 		}
 	}
 }
+#endif
