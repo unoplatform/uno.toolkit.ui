@@ -259,7 +259,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(rootGrid);
 
-		
+
 			var c = GetMinCalculatedDimen();
 			var expectedDimen = Math.Max(c, minDimen);
 			double actualDimen = orientation switch
@@ -311,19 +311,20 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-		
+
 
 			for (int i = 0; i < NumItems; i++)
 			{
 				SUT.SelectedIndex = i;
 				await UnitTestsUIContentHelper.WaitForIdle();
 
-				var selectedItem = SUT.ContainerFromItem(SUT.SelectedItem) as TabBarItem;
+				var container = SUT.ContainerFromItem(SUT.SelectedItem);
+				var selectedItem = SUT.GetInnerContainer(container);
 				Assert.IsNotNull(selectedItem);
 
 				var renderer = await SUT.TakeScreenshot();
 				var centerPoint = selectedItem!.TransformToVisual(SUT).TransformPoint(new Point(selectedItem.ActualWidth / 2, selectedItem.ActualHeight / 2));
-				
+
 				await renderer.AssertColorAt(Colors.Red, (int)centerPoint.X, (int)centerPoint.Y);
 
 				foreach (var nonSelected in SUT.Items.Cast<TabBarItem>().Where(x => !x.IsSelected))
@@ -380,10 +381,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var abovePresenter = VisualTreeHelperEx
 				.GetFirstDescendant<TabBarSelectionIndicatorPresenter>(SUT, x => x.Name == "AboveSelectionIndicatorPresenter");
 
-			
+
 			var renderer = await SUT.TakeScreenshot();
 			var centerPoint = item.TransformToVisual(SUT).TransformPoint(new Point(item.ActualWidth / 2, item.ActualHeight / 2));
-			
+
 
 			if (placement == IndicatorPlacement.Above)
 			{
@@ -426,6 +427,46 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			//Assert.IsNull(SUT.GetBindingExpression(TabBar.SelectedIndexProperty));
 		}
 
+		[TestMethod]
+		public async Task Verify_ItemTemplated_Disabled_Not_Selectable()
+		{
+			var source = new[]
+			{
+				new TestRecord("True", true),
+				new TestRecord("False", false),
+				new TestRecord("True", true)
+			};
+
+			var dt = XamlHelper.LoadXaml<DataTemplate>(@"
+					<DataTemplate>
+						<utu:TabBarItem Content=""{Binding Name}"" IsSelectable=""{Binding IsSelectable}"" />
+					</DataTemplate>
+				");
+
+			var SUT = new TabBar
+			{
+				// If `ItemTemplate` is not set first then the order of
+				// `OnItemTemplateChanged` and `GetContainerForItemOverride` are not correct and test fail on android
+				ItemTemplate = dt,
+				Style = (Style)Application.Current.Resources["TopTabBarStyle"],
+				ItemsSource = source
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			Assert.IsNull(SUT.SelectedItem);
+
+			// Make sure the first item is selectable
+			SUT.SelectedIndex = 0;
+			await UnitTestsUIContentHelper.WaitForIdle();
+			Assert.AreSame(SUT.SelectedItem, source[0]);
+
+			SUT.SelectedIndex = 1;
+			await UnitTestsUIContentHelper.WaitForIdle();
+			// Assert the second item is not selected
+			Assert.AreNotSame(SUT.SelectedItem, source[1]);
+		}
+
 		private class SelectedIndexTestViewModel : INotifyPropertyChanged
 		{
 			private int _p;
@@ -441,5 +482,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			public event PropertyChangedEventHandler? PropertyChanged;
 		}
+
+		public record TestRecord(string Name, bool IsSelectable);
+
 	}
 }
