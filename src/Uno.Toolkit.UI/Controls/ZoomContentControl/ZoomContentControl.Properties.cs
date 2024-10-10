@@ -37,12 +37,14 @@ public partial class ZoomContentControl
 {
 	#region DependencyProperty: HorizontalOffset
 
+	/// Identifies the HorizontalOffset dependency property.
 	public static DependencyProperty HorizontalOffsetProperty { get; } = DependencyProperty.Register(
 		nameof(HorizontalOffset),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double), OnHorizontalOffsetChanged));
 
+	/// Gets or sets the horizontal offset for panning the content.
 	public double HorizontalOffset
 	{
 		get => (double)GetValue(HorizontalOffsetProperty);
@@ -50,14 +52,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: HorizontalScrollValue
 
+	/// Identifies the HorizontalScrollValue dependency property.
 	public static DependencyProperty HorizontalScrollValueProperty { get; } = DependencyProperty.Register(
 		nameof(HorizontalScrollValue),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
+	/// Gets or sets the value of the horizontal scrollbar.
 	public double HorizontalScrollValue
 	{
 		get => (double)GetValue(HorizontalScrollValueProperty);
@@ -65,14 +70,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: HorizontalMinScroll
 
+	/// Identifies the HorizontalMinScroll dependency property.
 	public static DependencyProperty HorizontalMinScrollProperty { get; } = DependencyProperty.Register(
 		nameof(HorizontalMinScroll),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
+	/// Gets or sets the minimum horizontal scroll limit.
 	public double HorizontalMinScroll
 	{
 		get => (double)GetValue(HorizontalMinScrollProperty);
@@ -80,14 +88,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: HorizontalMaxScroll
 
+	/// Identifies the HorizontalMaxScroll dependency property.
 	public static DependencyProperty HorizontalMaxScrollProperty { get; } = DependencyProperty.Register(
 		nameof(HorizontalMaxScroll),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
+	/// Gets or sets the maximum horizontal scroll limit.
 	public double HorizontalMaxScroll
 	{
 		get => (double)GetValue(HorizontalMaxScrollProperty);
@@ -95,14 +106,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: HorizontalZoomCenter
 
+	/// Identifies the HorizontalZoomCenter dependency property.
 	public static DependencyProperty HorizontalZoomCenterProperty { get; } = DependencyProperty.Register(
 		nameof(HorizontalZoomCenter),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
+	/// Gets or sets the horizontal center point for zooming.
 	public double HorizontalZoomCenter
 	{
 		get => (double)GetValue(HorizontalZoomCenterProperty);
@@ -110,14 +124,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: VerticalOffset
 
+	/// Identifies the VerticalOffset dependency property.
 	public static DependencyProperty VerticalOffsetProperty { get; } = DependencyProperty.Register(
 		nameof(VerticalOffset),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double), OnVerticalOffsetChanged));
 
+	/// Gets or sets the vertical offset for panning the content.
 	public double VerticalOffset
 	{
 		get => (double)GetValue(VerticalOffsetProperty);
@@ -125,14 +142,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: VerticalScrollValue
 
+	/// Identifies the VerticalScrollValue dependency property.
 	public static DependencyProperty VerticalScrollValueProperty { get; } = DependencyProperty.Register(
 		nameof(VerticalScrollValue),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
+	/// Gets or sets the value of the vertical scrollbar.
 	public double VerticalScrollValue
 	{
 		get => (double)GetValue(VerticalScrollValueProperty);
@@ -140,14 +160,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: VerticalMaxScroll
 
+	/// Identifies the VerticalMaxScroll dependency property.
 	public static DependencyProperty VerticalMaxScrollProperty { get; } = DependencyProperty.Register(
 		nameof(VerticalMaxScroll),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
+	/// Gets or sets the maximum vertical scroll limit.
 	public double VerticalMaxScroll
 	{
 		get => (double)GetValue(VerticalMaxScrollProperty);
@@ -155,14 +178,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: VerticalMinScroll
 
+	/// Identifies the VerticalMinScroll dependency property.
 	public static DependencyProperty VerticalMinScrollProperty { get; } = DependencyProperty.Register(
 		nameof(VerticalMinScroll),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
+	/// Gets or sets the minimum vertical scroll limit.
 	public double VerticalMinScroll
 	{
 		get => (double)GetValue(VerticalMinScrollProperty);
@@ -170,14 +196,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: VerticalZoomCenter
 
+	/// Identifies the VerticalZoomCenter dependency property.
 	public static DependencyProperty VerticalZoomCenterProperty { get; } = DependencyProperty.Register(
 		nameof(VerticalZoomCenter),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
+	/// Gets or sets the vertical center point for zooming.
 	public double VerticalZoomCenter
 	{
 		get => (double)GetValue(VerticalZoomCenterProperty);
@@ -185,44 +214,53 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-	#region DependencyProperty: ViewPortWidth
 
-	public static DependencyProperty ViewPortWidthProperty { get; } = DependencyProperty.Register(
-		nameof(ViewPortWidth),
+	#region DependencyProperty: ViewportWidth
+
+	/// Identifies the ViewportWidth dependency property.
+	public static DependencyProperty ViewportWidthProperty { get; } = DependencyProperty.Register(
+		nameof(ViewportWidth),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
-	public double ViewPortWidth
+	/// Gets or sets the width of the viewport.
+	public double ViewportWidth
 	{
-		get => (double)GetValue(ViewPortWidthProperty);
-		set => SetValue(ViewPortWidthProperty, value);
+		get => (double)GetValue(ViewportWidthProperty);
+		set => SetValue(ViewportWidthProperty, value);
 	}
 
 	#endregion
-	#region DependencyProperty: ViewPortHeight
 
-	public static DependencyProperty ViewPortHeightProperty { get; } = DependencyProperty.Register(
-		nameof(ViewPortHeight),
+	#region DependencyProperty: ViewportHeight
+
+	/// Identifies the ViewportHeight dependency property.
+	public static DependencyProperty ViewportHeightProperty { get; } = DependencyProperty.Register(
+		nameof(ViewportHeight),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double)));
 
-	public double ViewPortHeight
+	/// Gets or sets the height of the viewport.
+	public double ViewportHeight
 	{
-		get => (double)GetValue(ViewPortHeightProperty);
-		set => SetValue(ViewPortHeightProperty, value);
+		get => (double)GetValue(ViewportHeightProperty);
+		set => SetValue(ViewportHeightProperty, value);
 	}
 
 	#endregion
+
 	#region DependencyProperty: ZoomLevel
 
+	/// Identifies the ZoomLevel dependency property.
 	public static DependencyProperty ZoomLevelProperty { get; } = DependencyProperty.Register(
 		nameof(ZoomLevel),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(1d, OnZoomLevelChanged));
 
+	/// Gets or sets the current zoom level.
 	public double ZoomLevel
 	{
 		get => (double)GetValue(ZoomLevelProperty);
@@ -230,14 +268,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: MinZoomLevel
 
+	/// Identifies the MinZoomLevel dependency property.
 	public static DependencyProperty MinZoomLevelProperty { get; } = DependencyProperty.Register(
 		nameof(MinZoomLevel),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double), OnMinZoomLevelChanged));
 
+	/// Gets or sets the minimum zoom level allowed.
 	public double MinZoomLevel
 	{
 		get => (double)GetValue(MinZoomLevelProperty);
@@ -245,14 +286,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: MaxZoomLevel
 
+	/// Identifies the MaxZoomLevel dependency property.
 	public static DependencyProperty MaxZoomLevelProperty { get; } = DependencyProperty.Register(
 		nameof(MaxZoomLevel),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(500d, OnMaxZoomLevelChanged));
 
+	/// Gets or sets the maximum zoom level allowed.
 	public double MaxZoomLevel
 	{
 		get => (double)GetValue(MaxZoomLevelProperty);
@@ -260,14 +304,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: PanWheelRatio
 
+	/// Identifies the PanWheelRatio dependency property.
 	public static DependencyProperty PanWheelRatioProperty { get; } = DependencyProperty.Register(
 		nameof(PanWheelRatio),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(0.25d));
 
+	/// Gets or sets the ratio used for panning with the mouse wheel.
 	public double PanWheelRatio
 	{
 		get => (double)GetValue(PanWheelRatioProperty);
@@ -275,14 +322,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: ScaleWheelRatio
 
+	/// Identifies the ScaleWheelRatio dependency property.
 	public static DependencyProperty ScaleWheelRatioProperty { get; } = DependencyProperty.Register(
 		nameof(ScaleWheelRatio),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(0.0006d));
 
+	/// Gets or sets the ratio used for scaling the zoom level with the mouse wheel.
 	public double ScaleWheelRatio
 	{
 		get => (double)GetValue(ScaleWheelRatioProperty);
@@ -290,14 +340,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: IsActive
 
+	/// Identifies the IsActive dependency property.
 	public static DependencyProperty IsActiveProperty { get; } = DependencyProperty.Register(
 		nameof(IsActive),
 		typeof(bool),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(true, OnIsActiveChanged));
 
+	/// Gets or sets a value indicating whether the control is active.
 	public bool IsActive
 	{
 		get => (bool)GetValue(IsActiveProperty);
@@ -305,14 +358,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: IsZoomAllowed
 
+	/// Identifies the IsZoomAllowed dependency property.
 	public static DependencyProperty IsZoomAllowedProperty { get; } = DependencyProperty.Register(
 		nameof(IsZoomAllowed),
 		typeof(bool),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(true));
 
+	/// Gets or sets a value indicating whether zooming is allowed.
 	public bool IsZoomAllowed
 	{
 		get => (bool)GetValue(IsZoomAllowedProperty);
@@ -320,14 +376,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: IsHorizontalScrollBarVisible
 
+	/// Identifies the IsHorizontalScrollBarVisible dependency property.
 	public static DependencyProperty IsHorizontalScrollBarVisibleProperty { get; } = DependencyProperty.Register(
 		nameof(IsHorizontalScrollBarVisible),
 		typeof(bool),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(true));
 
+	/// Gets or sets a value indicating whether the horizontal scrollbar is visible.
 	public bool IsHorizontalScrollBarVisible
 	{
 		get => (bool)GetValue(IsHorizontalScrollBarVisibleProperty);
@@ -335,14 +394,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: IsPanAllowed
 
+	/// Identifies the IsPanAllowed dependency property.
 	public static DependencyProperty IsPanAllowedProperty { get; } = DependencyProperty.Register(
 		nameof(IsPanAllowed),
 		typeof(bool),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(true));
 
+	/// Gets or sets a value indicating whether panning is allowed.
 	public bool IsPanAllowed
 	{
 		get => (bool)GetValue(IsPanAllowedProperty);
@@ -350,14 +412,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: IsVerticalScrollBarVisible
 
+	/// Identifies the IsVerticalScrollBarVisible dependency property.
 	public static DependencyProperty IsVerticalScrollBarVisibleProperty { get; } = DependencyProperty.Register(
 		nameof(IsVerticalScrollBarVisible),
 		typeof(bool),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(true));
 
+	/// Gets or sets a value indicating whether the vertical scrollbar is visible.
 	public bool IsVerticalScrollBarVisible
 	{
 		get => (bool)GetValue(IsVerticalScrollBarVisibleProperty);
@@ -365,14 +430,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: AutoZoomToCanvasOnSizeChanged
 
+	/// Identifies the AutoZoomToCanvasOnSizeChanged dependency property.
 	public static DependencyProperty AutoZoomToCanvasOnSizeChangedProperty { get; } = DependencyProperty.Register(
 		nameof(AutoZoomToCanvasOnSizeChanged),
 		typeof(bool),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(true));
 
+	/// Gets or sets a value indicating whether the control should automatically zoom to fit the canvas when its size changes.
 	public bool AutoZoomToCanvasOnSizeChanged
 	{
 		get => (bool)GetValue(AutoZoomToCanvasOnSizeChangedProperty);
@@ -380,14 +448,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: AdditionalMargin
 
+	/// Identifies the AdditionalMargin dependency property.
 	public static DependencyProperty AdditionalMarginProperty { get; } = DependencyProperty.Register(
 		nameof(AdditionalMargin),
 		typeof(Thickness),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(new Thickness(0)));
 
+	/// Gets or sets additional margins around the content.
 	public Thickness AdditionalMargin
 	{
 		get => (Thickness)GetValue(AdditionalMarginProperty);
@@ -395,14 +466,17 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
+
 	#region DependencyProperty: ContentBoundsVisibility
 
+	/// Identifies the ContentBoundsVisibility dependency property.
 	public static DependencyProperty ContentBoundsVisibilityProperty { get; } = DependencyProperty.Register(
 		nameof(ContentBoundsVisibility),
 		typeof(BoundsVisibilityFlag),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(BoundsVisibilityFlag.None));
 
+	/// Gets or sets the visibility data for the content bounds.
 	public BoundsVisibilityFlag ContentBoundsVisibility
 	{
 		get => (BoundsVisibilityFlag)GetValue(ContentBoundsVisibilityProperty);

@@ -57,7 +57,7 @@
 								   Orientation="Vertical"
 								   SmallChange="1"
 								   Visibility="{TemplateBinding IsVerticalScrollBarVisible}"
-								   ViewportSize="{TemplateBinding ViewPortHeight}"
+								   ViewportSize="{TemplateBinding ViewportHeight}"
 								   Value="{TemplateBinding VerticalScrollValue}" />
 						<!-- Horizontal ScrollBar -->
 						<ScrollBar x:Name="PART_ScrollH"
@@ -72,7 +72,7 @@
 								   Orientation="Horizontal"
 								   SmallChange="1"
 								   Visibility="{TemplateBinding IsHorizontalScrollBarVisible}"
-								   ViewportSize="{TemplateBinding ViewPortWidth}"
+								   ViewportSize="{TemplateBinding ViewportWidth}"
 								   Value="{TemplateBinding HorizontalScrollValue}" />
 					</Grid>
 				</ControlTemplate>
