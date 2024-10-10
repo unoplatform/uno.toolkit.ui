@@ -427,6 +427,41 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			//Assert.IsNull(SUT.GetBindingExpression(TabBar.SelectedIndexProperty));
 		}
 
+		[TestMethod]
+		public async Task Verify_ItemTemplated_Disabled_Not_Selectable()
+		{
+			var source = new[]
+			{
+				new TestRecord("True", true),
+				new TestRecord("False", false),
+				new TestRecord("True", true)
+			};
+			var SUT = new TabBar
+			{
+				Style = (Style)Application.Current.Resources["TopTabBarStyle"],
+				ItemsSource = source,
+				ItemTemplate = XamlHelper.LoadXaml<DataTemplate>(@"
+					<DataTemplate>
+						<utu:TabBarItem Content=""{Binding Name}"" IsSelectable=""{Binding IsSelectable}"" />
+					</DataTemplate>
+				")
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			Assert.IsNull(SUT.SelectedItem);
+
+			// Make sure the first item is selectable
+			SUT.SelectedIndex = 0;
+			await UnitTestsUIContentHelper.WaitForIdle();
+			Assert.AreSame(SUT.SelectedItem, source[0]);
+
+			SUT.SelectedIndex = 1;
+			await UnitTestsUIContentHelper.WaitForIdle();
+			// Assert the second item is not selected
+			Assert.AreNotSame(SUT.SelectedItem, source[1]);
+		}
+
 		private class SelectedIndexTestViewModel : INotifyPropertyChanged
 		{
 			private int _p;
@@ -442,5 +477,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			public event PropertyChangedEventHandler? PropertyChanged;
 		}
+
+		public record TestRecord(string Name, bool IsSelectable);
+
 	}
 }
