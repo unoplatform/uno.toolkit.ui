@@ -63,6 +63,7 @@ public partial class ZoomContentControl
 		new PropertyMetadata(default(double)));
 
 	/// Gets or sets the value of the horizontal scrollbar.
+	/// It's used to represent the scroll position within the scroll bar UI
 	public double HorizontalScrollValue
 	{
 		get => (double)GetValue(HorizontalScrollValueProperty);
