@@ -31,6 +31,8 @@ using Windows.UI.Input;
 using Windows.Devices.Input;
 #endif
 
+using static Uno.Toolkit.UI.BoundsVisibilityFlag;
+
 namespace Uno.Toolkit.UI;
 
 [TemplatePart(Name = TemplateParts.RootGrid, Type = typeof(Grid))]
@@ -119,23 +121,25 @@ public partial class ZoomContentControl : ContentControl
 		{
 			var m = GetPositionMatrix(fe, this);
 
-			ContentBoundsVisibility = new BoundsVisibilityData(
-				m.OffsetX >= 0,
-				m.OffsetY >= 0,
-				ActualWidth >= (fe.ActualWidth * ZoomLevel) + m.OffsetX,
-				ActualHeight >= (fe.ActualHeight * ZoomLevel) + m.OffsetY);
+			var flags = None;
+			if (m.OffsetX >= 0) flags |= Left;
+			if (m.OffsetY >= 0) flags |= Top;
+			if (ActualWidth >= (fe.ActualWidth * ZoomLevel) + m.OffsetX) flags |= Right;
+			if (ActualHeight >= (fe.ActualHeight * ZoomLevel) + m.OffsetY) flags |= Bottom;
+
+			ContentBoundsVisibility = flags;
 		}
 	}
 
 	private void UpdateScrollVisibility()
 	{
-		IsHorizontalScrollBarVisible = !(ContentBoundsVisibility.RightEdge && ContentBoundsVisibility.LeftEdge);
-		IsVerticalScrollBarVisible = !(ContentBoundsVisibility.TopEdge && ContentBoundsVisibility.BottomEdge);
+		IsHorizontalScrollBarVisible = !ContentBoundsVisibility.HasFlag(Left | Right);
+		IsVerticalScrollBarVisible = !ContentBoundsVisibility.HasFlag(Top | Bottom);
 	}
 
 	private bool CanMoveIn((bool Horizontal, bool Vertical) _movementDirection)
 	{
-		if (ContentBoundsVisibility.AllEdgesVisible)
+		if (ContentBoundsVisibility.HasFlag(All))
 		{
 			return false;
 		}
@@ -149,10 +153,10 @@ public partial class ZoomContentControl : ContentControl
 		return canMove;
 	}
 
-	private bool CanScrollUp() => !ContentBoundsVisibility.TopEdge;
-	private bool CanScrollDown() => !ContentBoundsVisibility.BottomEdge;
-	private bool CanScrollLeft() => !ContentBoundsVisibility.LeftEdge;
-	private bool CanScrollRight() => !ContentBoundsVisibility.RightEdge;
+	private bool CanScrollUp() => !ContentBoundsVisibility.HasFlag(Top);
+	private bool CanScrollDown() => !ContentBoundsVisibility.HasFlag(Bottom);
+	private bool CanScrollLeft() => !ContentBoundsVisibility.HasFlag(Left);
+	private bool CanScrollRight() => !ContentBoundsVisibility.HasFlag(Right);
 
 	private async void UpdateVerticalScrollBarValue()
 	{
@@ -467,13 +471,6 @@ public partial class ZoomContentControl : ContentControl
 			ZoomLevel = Math.Clamp(zoomLevel, MinZoomLevel, MaxZoomLevel);
 			CenterContent();
 		}
-	}
-
-	// Record for BoundsVisibilityData
-	public record BoundsVisibilityData(bool LeftEdge, bool TopEdge, bool RightEdge, bool BottomEdge)
-	{
-		public static BoundsVisibilityData None => new BoundsVisibilityData(false, false, false, false);
-		public bool AllEdgesVisible => LeftEdge && TopEdge && RightEdge && BottomEdge;
 	}
 
 	// Static helper
