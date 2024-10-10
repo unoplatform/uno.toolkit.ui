@@ -1,4 +1,7 @@
-﻿using System;
+﻿// FindFirstDescendent is not available in UWP
+
+#if !IS_UWP
+using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.Toolkit.RuntimeTests.Helpers;
@@ -29,7 +32,7 @@ public class ExtendedSplashScreenTests
 #if !__MOBILE__ // ignore native platforms impl: ios,droid,macos
 		var sut = host.FindFirstDescendant<Image>() ?? throw new Exception("Failed to find splash image control");
 		var tcs = new TaskCompletionSource<(bool Success, string? Message)>();
-
+ 
 		sut.ImageOpened += (s, e) => tcs.SetResult((Success: true, null));
 		sut.ImageFailed += (s, e) => tcs.SetResult((Success: false, e.ErrorMessage));
 #endif
@@ -45,3 +48,4 @@ public class ExtendedSplashScreenTests
 #endif
 	}
 }
+#endif

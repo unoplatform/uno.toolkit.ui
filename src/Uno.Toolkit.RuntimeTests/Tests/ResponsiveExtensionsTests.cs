@@ -69,13 +69,13 @@ internal class ResponsiveExtensionsTests
 		var sut = XamlHelper.LoadXaml<Border>("""
 			<Border Width="30"
 					Height="30">
-				<Border.Resources>
-					<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
-					<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
-				</Border.Resources>
-				<Border.Background>
-					<utu:Responsive Narrow="{StaticResource BorderRed}" Wide="{StaticResource BorderBlue}" />
-				</Border.Background>
+					<Border.Resources>
+						<SolidColorBrush x:Key="BorderRed">Red</SolidColorBrush>
+						<SolidColorBrush x:Key="BorderBlue">Blue</SolidColorBrush>
+					</Border.Resources>
+					<Border.Background>
+						<utu:Responsive Narrow="{StaticResource BorderRed}" Wide="{StaticResource BorderBlue}" />
+					</Border.Background>
 			</Border>
 		""");
 		var ext = ResponsiveExtension.GetInstanceFor(sut, nameof(sut.Background)) ?? throw new InvalidOperationException("Failed to resolve the markup extension.");
@@ -114,17 +114,17 @@ internal class ResponsiveExtensionsTests
 	public async Task ProvideValue_Orientation_Value()
 	{
 		var container = XamlHelper.LoadXaml<Border>("""
-			<Border>
-				<Border.Resources>
-					<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
-					<Orientation x:Key="WideOrientation">Horizontal</Orientation>
-				</Border.Resources>
-				<StackPanel Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
-					<TextBlock Text="A" />
-					<TextBlock Text="B" />
-					<TextBlock Text="C" />
-				</StackPanel>
-			</Border>
+		<Border>
+			<Border.Resources>
+				<Orientation x:Key="NarrowOrientation">Vertical</Orientation>
+				<Orientation x:Key="WideOrientation">Horizontal</Orientation>
+			</Border.Resources>
+			<StackPanel Orientation="{utu:Responsive Narrow={StaticResource NarrowOrientation}, Wide={StaticResource WideOrientation}}">
+				<TextBlock Text="A" />
+				<TextBlock Text="B" />
+				<TextBlock Text="C" />
+			</StackPanel>
+		</Border>
 		""");
 		var sut = container.Child as StackPanel ?? throw new InvalidOperationException("Failed to resolve the SUT");
 		var ext = ResponsiveExtension.GetInstanceFor(sut, nameof(sut.Orientation)) ?? throw new InvalidOperationException("Failed to resolve the markup extension.");
@@ -161,7 +161,6 @@ internal class ResponsiveExtensionsTests
 		Assert.AreEqual(Orientation.Horizontal, sut.Orientation);
 	}
 }
-#endif
 
 [TestClass]
 [RunsOnUIThread]
@@ -207,3 +206,4 @@ internal class DynamicResponsiveExtensionsTests
 		}
 	}
 }
+#endif

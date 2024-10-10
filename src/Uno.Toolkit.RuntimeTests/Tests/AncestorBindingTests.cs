@@ -1,4 +1,7 @@
-﻿using System;
+﻿// FindFirstDescendent is not available in UWP
+
+#if !IS_UWP
+using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.UI.RuntimeTests;
@@ -52,10 +55,11 @@ internal class AncestorBindingTests
 	{
 		var setup = new AncestorBindingTest();
 		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
-
+ 
 		var lv = setup.FindFirstDescendant<ListView>("TopLevelListView") ?? throw new Exception("Failed to find TopLevelListView");
 		var container = lv.ContainerFromIndex(0);
 		var sut = (container as FrameworkElement)?.FindFirstDescendant<TextBlock>("NestedLvTextBlock2") ?? throw new Exception("Failed to find NestedLvTextBlock2");
 		Assert.AreEqual(sut.Text, lv.Tag);
 	}
 }
+#endif

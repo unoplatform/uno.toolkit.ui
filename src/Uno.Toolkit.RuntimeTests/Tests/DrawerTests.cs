@@ -1,4 +1,7 @@
-﻿using System;
+﻿// FindFirstDescendent is not available in UWP
+
+#if !IS_UWP
+using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.UI.RuntimeTests;
@@ -56,3 +59,4 @@ internal class DrawerTests
 			message: $"Expected lightDismissOverlay.Opacity to be 0, got {lightDismissOverlay.Opacity}");
 	}
 }
+#endif
