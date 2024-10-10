@@ -399,13 +399,13 @@ public partial class ZoomContentControl
 
 	public static DependencyProperty ContentBoundsVisibilityProperty { get; } = DependencyProperty.Register(
 		nameof(ContentBoundsVisibility),
-		typeof(BoundsVisibilityData),
+		typeof(BoundsVisibilityFlag),
 		typeof(ZoomContentControl),
-		new PropertyMetadata(BoundsVisibilityData.None));
+		new PropertyMetadata(BoundsVisibilityFlag.None));
 
-	public BoundsVisibilityData ContentBoundsVisibility
+	public BoundsVisibilityFlag ContentBoundsVisibility
 	{
-		get => (BoundsVisibilityData)GetValue(ContentBoundsVisibilityProperty);
+		get => (BoundsVisibilityFlag)GetValue(ContentBoundsVisibilityProperty);
 		set => SetValue(ContentBoundsVisibilityProperty, value);
 	}
 
