@@ -445,11 +445,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			var SUT = new TabBar
 			{
-				// If `ItemTemplate` is not set first then the order of
-				// `OnItemTemplateChanged` and `GetContainerForItemOverride` are not correct and test fail on android
-				ItemTemplate = dt,
 				Style = (Style)Application.Current.Resources["TopTabBarStyle"],
-				ItemsSource = source
+				ItemsSource = source,
+				ItemTemplate = dt,
 			};
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
