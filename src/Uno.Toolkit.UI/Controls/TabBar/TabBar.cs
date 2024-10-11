@@ -274,9 +274,8 @@ namespace Uno.Toolkit.UI
 
 		protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
 		{
-			base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
-
 			IsUsingOwnContainerAsTemplateRoot = IsItemItsOwnContainerOverride(newItemTemplate?.LoadContent());
+			base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
 		}
 
 		private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs? args)
