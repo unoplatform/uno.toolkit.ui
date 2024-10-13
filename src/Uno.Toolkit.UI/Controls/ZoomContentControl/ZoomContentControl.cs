@@ -92,11 +92,11 @@ public partial class ZoomContentControl : ContentControl
 		RenderedContentUpdated?.Invoke(this, EventArgs.Empty);
 	}
 
-	private void OnVerticalOffsetChanged()
+	private async void OnVerticalOffsetChanged()
 	{
 		UpdateContentBoundsVisibility();
 		UpdateScrollVisibility();
-		UpdateVerticalScrollBarValue();
+		await RaiseRenderedContentUpdated();
 	}
 
 	private void OnHorizontalOffsetChanged()
@@ -157,12 +157,6 @@ public partial class ZoomContentControl : ContentControl
 	private bool CanScrollDown() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Bottom);
 	private bool CanScrollLeft() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Left);
 	private bool CanScrollRight() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Right);
-
-	private async void UpdateVerticalScrollBarValue()
-	{
-		VerticalScrollValue = VerticalOffset;
-		await RaiseRenderedContentUpdated();
-	}
 
 	private async void UpdateHorizontalScrollBarValue()
 	{

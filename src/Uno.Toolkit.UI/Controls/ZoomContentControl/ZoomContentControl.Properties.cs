@@ -144,24 +144,6 @@ public partial class ZoomContentControl
 
 	#endregion
 
-	#region DependencyProperty: VerticalScrollValue
-
-	/// Identifies the VerticalScrollValue dependency property.
-	public static DependencyProperty VerticalScrollValueProperty { get; } = DependencyProperty.Register(
-		nameof(VerticalScrollValue),
-		typeof(double),
-		typeof(ZoomContentControl),
-		new PropertyMetadata(default(double)));
-
-	/// Gets or sets the value of the vertical scrollbar.
-	public double VerticalScrollValue
-	{
-		get => (double)GetValue(VerticalScrollValueProperty);
-		set => SetValue(VerticalScrollValueProperty, value);
-	}
-
-	#endregion
-
 	#region DependencyProperty: VerticalMaxScroll
 
 	/// Identifies the VerticalMaxScroll dependency property.
