@@ -67,6 +67,10 @@ public partial class ZoomContentControl : ContentControl
 		DefaultStyleKey = typeof(ZoomContentControl);
 		Loaded += OnLoaded;
 		SizeChanged += OnSizeChanged;
+		PointerPressed += OnPointerPressed;
+		PointerReleased += OnPointerReleased;
+		PointerMoved += OnPointerMoved;
+		PointerWheelChanged += OnPointerWheelChanged;
 	}
 
 	// Events
@@ -216,7 +220,6 @@ public partial class ZoomContentControl : ContentControl
 		ResetZoom();
 
 		RegisterToControlEvents();
-		RegisterPointerHandlers();
 	}
 
 	// Event handlers
@@ -256,19 +259,6 @@ public partial class ZoomContentControl : ContentControl
 		{
 			_scrollH.Scroll += ScrollH_Scroll;
 		}
-	}
-
-	private void RegisterPointerHandlers()
-	{
-		PointerPressed -= OnPointerPressed;
-		PointerReleased -= OnPointerReleased;
-		PointerMoved -= OnPointerMoved;
-		PointerWheelChanged -= OnPointerWheelChanged;
-
-		PointerPressed += OnPointerPressed;
-		PointerReleased += OnPointerReleased;
-		PointerMoved += OnPointerMoved;
-		PointerWheelChanged += OnPointerWheelChanged;
 	}
 
 	private void ScrollV_Scroll(object sender, ScrollEventArgs e)
