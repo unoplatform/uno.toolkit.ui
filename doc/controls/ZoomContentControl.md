@@ -68,7 +68,5 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 | Method| Return Type| Description|
 |-----------------------|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ResetZoom()`| `void`| Resets the zoom level to its default value.|
-| `ResetOffset()`| `void`| Resets the horizontal and vertical offset to its default value. |
 | `FitToCanvas()`| `void`| Adjust the zoom level so that the content fits within the available space.|
 | `CenterContent()`| `void`| Centers the content within the available space.|
