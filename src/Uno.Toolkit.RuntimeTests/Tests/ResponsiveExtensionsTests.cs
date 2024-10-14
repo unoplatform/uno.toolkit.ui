@@ -161,7 +161,6 @@ internal class ResponsiveExtensionsTests
 		Assert.AreEqual(Orientation.Horizontal, sut.Orientation);
 	}
 }
-#endif
 
 [TestClass]
 [RunsOnUIThread]
@@ -207,3 +206,4 @@ internal class DynamicResponsiveExtensionsTests
 		}
 	}
 }
+#endif

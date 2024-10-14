@@ -30,7 +30,7 @@ internal class AncestorBindingTests
 		var setup = new AncestorBindingTest();
 		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
 
-		var sut = setup.FindFirstDescendant<TextBlock>("TopLevelTextBlock") ?? throw new Exception("Failed to find TopLevelTextBlock");
+		var sut = setup.GetFirstDescendant<TextBlock>() ?? throw new Exception("Failed to find TopLevelTextBlock");
 		Assert.AreEqual(sut.Text, setup.Tag);
 	}
 
@@ -40,9 +40,9 @@ internal class AncestorBindingTests
 		var setup = new AncestorBindingTest();
 		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
 
-		var lv = setup.FindFirstDescendant<ListView>("TopLevelListView") ?? throw new Exception("Failed to find TopLevelListView");
+		var lv = setup.GetFirstDescendant<ListView>() ?? throw new Exception("Failed to find TopLevelListView");
 		var container = lv.ContainerFromIndex(0);
-		var sut = (container as FrameworkElement)?.FindFirstDescendant<TextBlock>("NestedLvTextBlock1") ?? throw new Exception("Failed to find NestedLvTextBlock1");
+		var sut = (container as FrameworkElement)?.GetFirstDescendant<TextBlock>() ?? throw new Exception("Failed to find NestedLvTextBlock1");
 
 		Assert.AreEqual(sut.Text, setup.Tag);
 	}
@@ -53,9 +53,9 @@ internal class AncestorBindingTests
 		var setup = new AncestorBindingTest();
 		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
 
-		var lv = setup.FindFirstDescendant<ListView>("TopLevelListView") ?? throw new Exception("Failed to find TopLevelListView");
+		var lv = setup.GetFirstDescendant<ListView>() ?? throw new Exception("Failed to find TopLevelListView");
 		var container = lv.ContainerFromIndex(0);
-		var sut = (container as FrameworkElement)?.FindFirstDescendant<TextBlock>("NestedLvTextBlock2") ?? throw new Exception("Failed to find NestedLvTextBlock2");
+		var sut = (container as FrameworkElement)?.GetFirstDescendant<TextBlock>() ?? throw new Exception("Failed to find NestedLvTextBlock2");
 		Assert.AreEqual(sut.Text, lv.Tag);
 	}
 }

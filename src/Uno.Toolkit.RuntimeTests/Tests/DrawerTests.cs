@@ -48,7 +48,7 @@ internal class DrawerTests
 		await UIHelper.WaitForIdle();
 		await UnitTestUIContentHelperEx.WaitFor(() => drawer.AnimationStoryboard?.GetCurrentState() == ClockState.Stopped);
 
-		var lightDismissOverlay = drawer.FindFirstDescendant<Border>(x => x.Name == DrawerControl.TemplateParts.LightDismissOverlayName) ??
+		var lightDismissOverlay = drawer.GetFirstDescendant<Border>() ??
 			throw new Exception($"Failed to find {DrawerControl.TemplateParts.LightDismissOverlayName}");
 
 		await UnitTestUIContentHelperEx.WaitFor(
