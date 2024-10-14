@@ -83,7 +83,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			SUT.ZoomLevel -= 0.5;
 			SUT.ZoomLevel.Should().Be(2.5);
-			
+
 			// should be coerce back to MinZoomLevel of 1
 			SUT.ZoomLevel = 0.5;
 			SUT.ZoomLevel.Should().Be(1.0);
@@ -139,8 +139,59 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			SUT.IsVerticalScrollBarVisible.Should().BeTrue();
 		}
 
-		// FindFirstDescendent is not available in UWP
-#if !IS_UWP
+		[TestMethod]
+		public async Task When_VerticalOffset_ShouldUpdateCorrectly()
+		{
+			var SUT = new ZoomContentControl()
+			{
+				Width = 400,
+				Height = 300,
+				VerticalOffset = 50,
+				IsPanAllowed = true,
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			// Set vertical offset
+			SUT.VerticalOffset = 100;
+			SUT.VerticalOffset.Should().Be(100);
+
+			// Verify the content is scrolled correctly
+			var presenter = SUT.FindFirstDescendant<ContentPresenter>("PART_Presenter");
+			var translation = (presenter?.RenderTransform as TransformGroup)?.Children[1] as TranslateTransform
+				?? throw new Exception("Failed to find PART_Presenter's TranslateTransform");
+
+			translation.Y.Should().Be(100); // Verify that the content's Y translation is in sync with the vertical offset
+		}
+
+		[TestMethod]
+		public async Task When_VerticalOffset_ExceedsLimits_ShouldShowScrollBars()
+		{
+			var SUT = new ZoomContentControl()
+			{
+				Width = 400,
+				Height = 300,
+				VerticalOffset = 0,
+				IsPanAllowed = true,
+				IsVerticalScrollBarVisible = true,
+				Content = new Border
+				{
+					Width = 400 - 20, // Smaller content width
+					Height = 500, // Larger content height
+					Background = new SolidColorBrush(Colors.Blue),
+				}
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			// Simulate setting a large VerticalOffset
+			SUT.VerticalOffset = 200;
+			SUT.VerticalOffset.Should().Be(200);
+
+			// Ensure scrollbar is shown when the content exceeds the bounds
+			SUT.IsVerticalScrollBarVisible.Should().BeTrue();
+		}
+
 		[TestMethod]
 		public async Task When_Pan_ShouldUpdateOffsets()
 		{
@@ -156,7 +207,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
  
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
  
-			var presenter = SUT.FindFirstDescendant<ContentPresenter>("PART_Presenter");
+			var presenter = SUT.GetFirstDescendant<ContentPresenter>(x => x.Name == "PART_Presenter");
 			var translation = (presenter?.RenderTransform as TransformGroup)?.Children[1] as TranslateTransform
 				?? throw new Exception("Failed to find PART_Presenter's TranslateTransform");
  
@@ -168,6 +219,5 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			translation.X.Should().Be(50);
 			translation.Y.Should().Be(50);
 		}
-#endif
 	}
 }
