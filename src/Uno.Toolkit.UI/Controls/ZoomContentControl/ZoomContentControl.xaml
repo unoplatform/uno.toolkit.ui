@@ -58,7 +58,7 @@
 								   SmallChange="1"
 								   Visibility="{TemplateBinding IsVerticalScrollBarVisible}"
 								   ViewportSize="{TemplateBinding ViewportHeight}"
-								   Value="{TemplateBinding VerticalScrollValue}" />
+								   Value="{TemplateBinding VerticalOffset}" />
 						<!-- Horizontal ScrollBar -->
 						<ScrollBar x:Name="PART_ScrollH"
 								   Grid.Row="1"
