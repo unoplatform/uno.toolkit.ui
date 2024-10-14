@@ -428,6 +428,41 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
+		public async Task Verify_ItemTemplated_Has_No_Nested_TabBarItem()
+		{
+			var source = new[]
+			{
+				new TestRecord("True", true),
+				new TestRecord("False", false),
+				new TestRecord("True", true)
+			};
+
+			var dt = XamlHelper.LoadXaml<DataTemplate>(@"
+					<DataTemplate>
+						<utu:TabBarItem Content=""{Binding Name}"" IsSelectable=""{Binding IsSelectable}"" />
+					</DataTemplate>
+				");
+
+			var SUT = new TabBar
+			{
+				Style = (Style)Application.Current.Resources["TopTabBarStyle"],
+				ItemsSource = source,
+				ItemTemplate = dt,
+				SelectedIndex = 0
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			// Ensure the container is a `ContentPresenter` and not a `TabBarItem`
+			var container = SUT.ContainerFromItem(SUT.SelectedItem);
+			Assert.IsInstanceOfType(container, typeof(ContentPresenter));
+
+			// Ensure the inner container is a `TabBarItem`
+			var selectedItem = SUT.GetInnerContainer(container);
+			Assert.IsInstanceOfType(selectedItem, typeof(TabBarItem));
+		}
+
+		[TestMethod]
 		public async Task Verify_ItemTemplated_Disabled_Not_Selectable()
 		{
 			var source = new[]
