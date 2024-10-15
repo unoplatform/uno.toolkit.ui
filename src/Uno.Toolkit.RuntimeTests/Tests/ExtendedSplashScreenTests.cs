@@ -27,7 +27,7 @@ public class ExtendedSplashScreenTests
 		var host = await ExtendedSplashScreen.GetNativeSplashScreen().ConfigureAwait(false) ?? throw new Exception("Failed to load native splash screen");
 
 #if !__MOBILE__ // ignore native platforms impl: ios,droid,macos
-		var sut = host.FindFirstDescendant<Image>() ?? throw new Exception("Failed to find splash image control");
+		var sut = host.GetFirstDescendant<Image>() ?? throw new Exception("Failed to find splash image control");
 		var tcs = new TaskCompletionSource<(bool Success, string? Message)>();
 
 		sut.ImageOpened += (s, e) => tcs.SetResult((Success: true, null));
