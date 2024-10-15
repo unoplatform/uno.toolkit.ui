@@ -77,8 +77,6 @@ public partial class ZoomContentControl : ContentControl
 	public event EventHandler<EventArgs>? RenderedContentUpdated;
 
 	// Properties
-	private bool ResetZoomAndOffsetWhenInactive { get; set; } = true;
-
 	public Size AvailableSize
 	{
 		get
@@ -170,7 +168,7 @@ public partial class ZoomContentControl : ContentControl
 
 	private void IsActiveChanged()
 	{
-		if (ResetZoomAndOffsetWhenInactive && !IsActive)
+		if (!IsActive)
 		{
 			RemoveOffset();
 			ResetZoom();
@@ -208,6 +206,8 @@ public partial class ZoomContentControl : ContentControl
 	// Template handling
 	protected override void OnApplyTemplate()
 	{
+		base.OnApplyTemplate();
+
 		T FindTemplatePart<T>(string name) where T : class =>
 			(GetTemplateChild(name) ?? throw new Exception($"Expected template part not found: {name}"))
 			as T ?? throw new Exception($"Expected template part '{name}' to be of type: {typeof(T)}");
