@@ -462,7 +462,7 @@ public partial class ZoomContentControl
 	public BoundsVisibilityFlag ContentBoundsVisibility
 	{
 		get => (BoundsVisibilityFlag)GetValue(ContentBoundsVisibilityProperty);
-		set => SetValue(ContentBoundsVisibilityProperty, value);
+		private set => SetValue(ContentBoundsVisibilityProperty, value);
 	}
 
 	#endregion
