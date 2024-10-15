@@ -45,12 +45,13 @@ namespace Uno.Toolkit.UI
 		public NativeFramePresenter()
 		{
 			_pageStack = this;
+
+			this.Loaded += OnLoaded;
 		}
 
-		protected override void OnTemplatedParentChanged(DependencyPropertyChangedEventArgs e)
+		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			base.OnTemplatedParentChanged(e);
-			Initialize(TemplatedParent as Frame);
+			Initialize(this.FindFirstParent<Frame>());
 		}
 
 		private void Initialize(Frame? frame)

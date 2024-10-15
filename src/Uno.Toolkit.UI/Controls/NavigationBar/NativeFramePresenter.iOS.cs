@@ -107,12 +107,12 @@ namespace Uno.Toolkit.UI
 			SizeChanged += NativeFramePresenter_SizeChanged;
 			// Hide the NavigationBar by default. Only show if navigating to a Page that contains a NavigationBar.
 			NavigationController.NavigationBarHidden = true;
+			this.Loaded += OnLoaded;
 		}
 
-		protected override void OnTemplatedParentChanged(DependencyPropertyChangedEventArgs e)
+		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			base.OnTemplatedParentChanged(e);
-			InitializeController(TemplatedParent as Frame);
+			InitializeController(this.FindFirstParent<Frame>());
 		}
 
 		/// <summary>
