@@ -319,7 +319,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				await UnitTestsUIContentHelper.WaitForIdle();
 
 				var container = SUT.ContainerFromItem(SUT.SelectedItem);
-				var selectedItem = SUT.GetInnerContainer(container);
+				var selectedItem = SUT.GetInnerContainer(container); // see comment on GetInnerContainer
+
 				Assert.IsNotNull(selectedItem);
 
 				var renderer = await SUT.TakeScreenshot();
@@ -428,7 +429,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
-		public async Task Verify_ItemTemplated_Has_No_Nested_TabBarItem()
+		public async Task Verify_ItemTemplate_Has_No_Nested_TabBarItem()
 		{
 			var source = new[]
 			{
@@ -437,11 +438,11 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				new TestRecord("True", true)
 			};
 
-			var dt = XamlHelper.LoadXaml<DataTemplate>(@"
-					<DataTemplate>
-						<utu:TabBarItem Content=""{Binding Name}"" IsSelectable=""{Binding IsSelectable}"" />
-					</DataTemplate>
-				");
+			var dt = XamlHelper.LoadXaml<DataTemplate>("""
+				<DataTemplate>
+					<utu:TabBarItem Content="{Binding Name}" IsSelectable="{Binding IsSelectable}" />
+				</DataTemplate>
+			""");
 
 			var SUT = new TabBar
 			{
@@ -458,12 +459,12 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsInstanceOfType(container, typeof(ContentPresenter));
 
 			// Ensure the inner container is a `TabBarItem`
-			var selectedItem = SUT.GetInnerContainer(container);
+			var selectedItem = SUT.GetInnerContainer(container); // see comment on GetInnerContainer
 			Assert.IsInstanceOfType(selectedItem, typeof(TabBarItem));
 		}
 
 		[TestMethod]
-		public async Task Verify_ItemTemplated_Disabled_Not_Selectable()
+		public async Task Verify_ItemTemplate_Disabled_Not_Selectable()
 		{
 			var source = new[]
 			{
@@ -472,11 +473,11 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				new TestRecord("True", true)
 			};
 
-			var dt = XamlHelper.LoadXaml<DataTemplate>(@"
-					<DataTemplate>
-						<utu:TabBarItem Content=""{Binding Name}"" IsSelectable=""{Binding IsSelectable}"" />
-					</DataTemplate>
-				");
+			var dt = XamlHelper.LoadXaml<DataTemplate>("""
+				<DataTemplate>
+					<utu:TabBarItem Content="{Binding Name}" IsSelectable="{Binding IsSelectable}" />
+				</DataTemplate>
+			""");
 
 			var SUT = new TabBar
 			{

@@ -224,8 +224,8 @@ namespace Uno.Toolkit.UI
 			if (Owner is { } tabBar
 				&& GetSelectionIndicator() is { } indicator)
 			{
-				var tabBarItems =tabBar.GetItemContainers<UIElement>()
-					.Select(tabBar.GetInnerContainer)
+				var tabBarItems = tabBar.GetItemContainers<UIElement>()
+					.Select(tabBar.GetInnerContainer) // see comment on GetInnerContainer
 					.OfType<TabBarItem>();
 				var visibleItems = tabBarItems.Count(x => x.Visibility == Visibility.Visible);
 				if (visibleItems is 0)
