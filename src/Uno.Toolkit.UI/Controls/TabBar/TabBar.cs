@@ -148,7 +148,7 @@ namespace Uno.Toolkit.UI
 				{
 					var item = Items[(int)iVCE.Index];
 
-					if (GetInnerContainer(item as DependencyObject) is { IsSelected: true } selected)
+					if (GetInnerContainer(item as DependencyObject) is { IsSelected: true } selected) // see comment on GetInnerContainer
 					{
 						SelectedItem = selected;
 					}
@@ -355,7 +355,7 @@ namespace Uno.Toolkit.UI
 				var containers = this.GetItemContainers<UIElement>();
 				foreach (var container in containers)
 				{
-					var tbi = GetInnerContainer(container);
+					var tbi = GetInnerContainer(container); // see comment on GetInnerContainer
 					if (tbi is not { }) continue;
 
 					if (!tbi.IsSelected)
@@ -407,6 +407,9 @@ namespace Uno.Toolkit.UI
 			SelectionChanged?.Invoke(this, eventArgs);
 		}
 
+		// When using an `ItemTemplate` with a `TabBarItem`, the container will be a `ContentPresenter` that wraps the `TabBarItem`.
+		// In that case, to access the `ContentPresenter` from a `TabBarItem`, you must first call `ContainerFromItem`.
+		// Afterward, pass the resulting `ContentPresenter` as a parameter to this method.
 		internal TabBarItem? GetInnerContainer(DependencyObject? container)
 		{
 			if (IsUsingOwnContainerAsTemplateRoot && container is ContentPresenter cp)
