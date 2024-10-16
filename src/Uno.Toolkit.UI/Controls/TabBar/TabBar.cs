@@ -37,6 +37,8 @@ namespace Uno.Toolkit.UI
 	{
 		private const string TabBarGridName = "TabBarGrid";
 
+		internal bool IsUsingOwnContainerAsTemplateRoot { get; private set; }
+
 		private bool _isSynchronizingSelection;
 		private object? _previouslySelectedItem;
 		private bool _isLoaded;
@@ -57,19 +59,45 @@ namespace Uno.Toolkit.UI
 			UpdateIndicatorPlacement();
 		}
 
-		protected override bool IsItemItsOwnContainerOverride(object item) => item is TabBarItem;
+		protected override bool IsItemItsOwnContainerOverride(object? item) => item is TabBarItem;
 
-		protected override DependencyObject GetContainerForItemOverride() => new TabBarItem();
+		protected override DependencyObject GetContainerForItemOverride()
+		{
+			if (IsUsingOwnContainerAsTemplateRoot)
+			{
+				return new ContentPresenter();
+			}
+
+			return new TabBarItem();
+		}
 
 		protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
 		{
 			base.PrepareContainerForItemOverride(element, item);
 
+			void SetupTabBarItem(TabBarItem item)
+			{
+				item.IsSelected = IsSelected(IndexFromContainer(element));
+				item.Click += OnTabBarItemClick;
+				item.IsSelectedChanged += OnTabBarIsSelectedChanged;
+			}
+
 			if (element is TabBarItem container)
-			{	
-				container.IsSelected = IsSelected(IndexFromContainer(element));
-				container.Click += OnTabBarItemClick;
-				container.IsSelectedChanged += OnTabBarIsSelectedChanged;
+			{
+				SetupTabBarItem(container);
+			}
+			else if (IsUsingOwnContainerAsTemplateRoot &&
+				element is ContentPresenter outerContainer)
+			{
+				var templateRoot = outerContainer.ContentTemplate.LoadContent();
+				if (templateRoot is TabBarItem tabBarItem)
+				{
+					outerContainer.ContentTemplate = null;
+					SetupTabBarItem(tabBarItem);
+					tabBarItem.DataContext = item;
+					tabBarItem.Style ??= ItemContainerStyle;
+					outerContainer.Content = tabBarItem;
+				}
 			}
 		}
 
@@ -82,11 +110,28 @@ namespace Uno.Toolkit.UI
 		{
 			base.ClearContainerForItemOverride(element, item);
 
+			void TearDownTabBarItem(TabBarItem item)
+			{
+				item.Click -= OnTabBarItemClick;
+				item.IsSelectedChanged -= OnTabBarIsSelectedChanged;
+				if (!IsUsingOwnContainerAsTemplateRoot)
+				{
+					item.Style = null;
+				}
+			}
 			if (element is TabBarItem container)
 			{
-				container.Click -= OnTabBarItemClick;
-				container.IsSelectedChanged -= OnTabBarIsSelectedChanged;
-				container.Style = null;
+				TearDownTabBarItem(container);
+			}
+			else if (IsUsingOwnContainerAsTemplateRoot &&
+				element is ContentPresenter outerContainer)
+			{
+				if (outerContainer.Content is TabBarItem innerContainer)
+				{
+					TearDownTabBarItem(innerContainer);
+					innerContainer.DataContext = null;
+				}
+				outerContainer.Content = null;
 			}
 		}
 
@@ -103,9 +148,9 @@ namespace Uno.Toolkit.UI
 				{
 					var item = Items[(int)iVCE.Index];
 
-					if (item is TabBarItem tabBarItem && tabBarItem.IsSelected)
+					if (GetInnerContainer(item as DependencyObject) is { IsSelected: true } selected) // see comment on GetInnerContainer
 					{
-						SelectedItem = tabBarItem;
+						SelectedItem = selected;
 					}
 				}
 				else if (iVCE.CollectionChange == CollectionChange.ItemRemoved)
@@ -136,7 +181,7 @@ namespace Uno.Toolkit.UI
 			if (SelectedItem != null)
 			{
 				OnSelectedItemChanged(null);
-			} 
+			}
 			else if (SelectedIndex >= 0)
 			{
 				OnSelectedIndexChanged(null);
@@ -227,6 +272,12 @@ namespace Uno.Toolkit.UI
 			SynchronizeInitialSelection();
 		}
 
+		protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
+		{
+			IsUsingOwnContainerAsTemplateRoot = IsItemItsOwnContainerOverride(newItemTemplate?.LoadContent());
+			base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
+		}
+
 		private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs? args)
 		{
 			if (_isSynchronizingSelection)
@@ -256,10 +307,10 @@ namespace Uno.Toolkit.UI
 			TabBarItem? oldItem = null;
 			if (args?.OldValue is int oldIndex && oldIndex != -1)
 			{
-				oldItem = this.ContainerFromIndexSafe<TabBarItem>(oldIndex);
+				oldItem = this.InnerContainerFromIndexSafe(oldIndex);
 			}
 
-			var newItem = this.ContainerFromIndexSafe<TabBarItem>(SelectedIndex);
+			var newItem = this.InnerContainerFromIndexSafe(SelectedIndex);
 
 			if (TryUpdateTabBarItemSelectedState(oldItem, newItem))
 			{
@@ -301,16 +352,20 @@ namespace Uno.Toolkit.UI
 			{
 				_isSynchronizingSelection = true;
 
-				foreach (var container in this.GetItemContainers<TabBarItem>())
+				var containers = this.GetItemContainers<UIElement>();
+				foreach (var container in containers)
 				{
-					if (!container.IsSelected)
+					var tbi = GetInnerContainer(container); // see comment on GetInnerContainer
+					if (tbi is not { }) continue;
+
+					if (!tbi.IsSelected)
 					{
 						continue;
 					}
 
-					if (container != item)
+					if (tbi != item)
 					{
-						container.IsSelected = false;
+						tbi.IsSelected = false;
 					}
 					else
 					{
@@ -350,6 +405,40 @@ namespace Uno.Toolkit.UI
 			};
 
 			SelectionChanged?.Invoke(this, eventArgs);
+		}
+
+		// When using an `ItemTemplate` with a `TabBarItem`, the container will be a `ContentPresenter` that wraps the `TabBarItem`.
+		// In that case, to access the `ContentPresenter` from a `TabBarItem`, you must first call `ContainerFromItem`.
+		// Afterward, pass the resulting `ContentPresenter` as a parameter to this method.
+		internal TabBarItem? GetInnerContainer(DependencyObject? container)
+		{
+			if (IsUsingOwnContainerAsTemplateRoot && container is ContentPresenter cp)
+			{
+				return cp.Content as TabBarItem;
+			}
+
+			return container as TabBarItem;
+		}
+
+		internal DependencyObject? InnerContainerFromIndex(int index)
+		{
+			var container = ContainerFromIndex(index);
+			if (IsUsingOwnContainerAsTemplateRoot && container is ContentPresenter cp)
+			{
+				container = cp.Content as DependencyObject;
+			}
+
+			return container;
+		}
+
+		private TabBarItem? InnerContainerFromIndexSafe(int index)
+		{
+			if (index >= 0 && index < Items.Count)
+			{
+				return InnerContainerFromIndex(index) as TabBarItem;
+			}
+
+			return null;
 		}
 
 		private bool IsReady => _isLoaded && HasItems;

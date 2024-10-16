@@ -27,7 +27,7 @@
 			<DataTemplate>
 				<StackPanel Padding="0,20"
 							Spacing="20">
-					<!--  Standard TabBar Style  -->
+					<!-- Standard TabBar Style -->
 					<TextBlock Text="Top TabBar Style"
 							   Style="{StaticResource MaterialHeadline6}" />
 
@@ -106,7 +106,7 @@
 							 Text="{Binding Data.Tab3Count}" />
 					</TextBlock>
 
-					<!--  Colored TabBar Style  -->
+					<!-- Colored TabBar Style -->
 					<TextBlock Text="Top TabBar Colored Style"
 							   Style="{StaticResource MaterialHeadline6}" />
 
@@ -182,7 +182,7 @@
 					</TextBlock>
 
 
-					<!--  Bottom TabBar Style  -->
+					<!-- Bottom TabBar Style -->
 					<TextBlock Text="Bottom TabBar Style"
 							   Style="{StaticResource MaterialHeadline6}" />
 
@@ -265,6 +265,7 @@
 			<DataTemplate>
 				<StackPanel Padding="0,20"
 							Spacing="20">
+
 					<!--#region TopTabBarStyle-->
 					<TextBlock Text="Standard TabBar Style"
 							   Style="{StaticResource HeadlineSmall}" />
@@ -337,6 +338,7 @@
 							</utu:TabBar.Items>
 						</utu:TabBar>
 					</ContentControl>
+
 					<TextBlock HorizontalAlignment="Center"
 							   Style="{StaticResource LabelSmall}">
 						<Run Text="Tab 1 clicked count:" />
@@ -352,6 +354,47 @@
 							 AutomationProperties.AutomationId="M3_Tab3_Count"
 							 Text="{Binding Data.Tab3Count}" />
 					</TextBlock>
+
+					<TextBlock Text="ItemTemplate with TabBarItem" />
+					<ContentControl Height="130"
+									Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar SelectedIndex="0"
+									ItemsSource="{Binding Data.Items}"
+									Style="{StaticResource TopTabBarStyle}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<utu:TabBarItem Content="{Binding}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
+
+					<TextBlock Text="ItemTemplate with TextBlock" />
+					<ContentControl Height="130"
+									Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar SelectedIndex="0"
+									ItemsSource="{Binding Data.Items}"
+									Style="{StaticResource TopTabBarStyle}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
+
+					<TextBlock Text="ItemTemplate with Disabled item" />
+					<ContentControl Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar Style="{StaticResource TopTabBarStyle}"
+									ItemsSource="{Binding Data.MenuItems}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<utu:TabBarItem Content="{Binding Name}"
+													IsEnabled="{Binding IsSelectable}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
 					<!--#endregion-->
 
 					<!--#region ColoredTopTabBarStyle-->
@@ -591,6 +634,47 @@
 							</utu:TabBar.Items>
 						</utu:TabBar>
 					</ContentControl>
+
+					<TextBlock Text="ItemTemplate with TabBarItem" />
+					<ContentControl Height="130"
+									Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar SelectedIndex="0"
+									ItemsSource="{Binding Data.Items}"
+									Style="{StaticResource BottomTabBarStyle}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<utu:TabBarItem Content="{Binding}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
+
+					<TextBlock Text="ItemTemplate with TextBlock" />
+					<ContentControl Height="130"
+									Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar SelectedIndex="0"
+									ItemsSource="{Binding Data.Items}"
+									Style="{StaticResource BottomTabBarStyle}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
+
+					<TextBlock Text="ItemTemplate with Disabled item" />
+					<ContentControl Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar Style="{StaticResource BottomTabBarStyle}"
+									ItemsSource="{Binding Data.MenuItems}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<utu:TabBarItem Content="{Binding Name}"
+													IsEnabled="{Binding IsSelectable}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
 					<!--#endregion-->
 
 					<!--#region VerticalTabBarStyle-->
@@ -677,6 +761,7 @@
 							</utu:TabBar.Items>
 						</utu:TabBar>
 					</ContentControl>
+
 					<TextBlock HorizontalAlignment="Center"
 							   Style="{StaticResource LabelSmall}">
 						<Run Text="Tab 1 clicked count:" />
@@ -747,8 +832,49 @@
 							</utu:TabBar.Items>
 						</utu:TabBar>
 					</ContentControl>
-					<!--#endregion-->
 
+					<TextBlock Text="ItemTemplate with TabBarItem" />
+					<ContentControl Height="500"
+									Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar SelectedIndex="0"
+									ItemsSource="{Binding Data.Items}"
+									Style="{StaticResource VerticalTabBarStyle}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<utu:TabBarItem Content="{Binding}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
+
+					<TextBlock Text="ItemTemplate with TextBlock" />
+					<ContentControl Height="500"
+									Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar SelectedIndex="0"
+									ItemsSource="{Binding Data.Items}"
+									Style="{StaticResource VerticalTabBarStyle}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
+
+					<TextBlock Text="ItemTemplate with Disabled item" />
+					<ContentControl Height="500"
+									Template="{StaticResource TabBarSampleTemplate}">
+						<utu:TabBar Style="{StaticResource VerticalTabBarStyle}"
+									ItemsSource="{Binding Data.MenuItems}">
+							<utu:TabBar.ItemTemplate>
+								<DataTemplate>
+									<utu:TabBarItem Content="{Binding Name}"
+													IsEnabled="{Binding IsSelectable}" />
+								</DataTemplate>
+							</utu:TabBar.ItemTemplate>
+						</utu:TabBar>
+					</ContentControl>
+					<!--#endregion-->
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.M3MaterialTemplate>
@@ -757,7 +883,7 @@
 			<DataTemplate>
 				<StackPanel Padding="0,20"
 							Spacing="20">
-					<!--  Bottom TabBar Style  -->
+					<!-- Bottom TabBar Style -->
 					<TextBlock Text="Bottom TabBar Style"
 							   Style="{StaticResource CupertinoHeadline}" />
 
