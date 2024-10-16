@@ -805,7 +805,6 @@
                                 <VisualState x:Name="Enabled" />
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
-                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource NavigationTabBarBackgroundDisabled}" />
                                         <Setter Target="ActiveIndicator.Background" Value="{ThemeResource NavigationTabBarItemActiveIndicatorBackgroundDisabled}" />
                                         <Setter Target="Icon.Foreground" Value="{ThemeResource NavigationTabBarItemIconForegroundDisabled}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource NavigationTabBarForegroundDisabled}" />
