@@ -276,7 +276,7 @@ public partial class ZoomContentControl
 		nameof(MaxZoomLevel),
 		typeof(double),
 		typeof(ZoomContentControl),
-		new PropertyMetadata(500d, OnMaxZoomLevelChanged));
+		new PropertyMetadata(10d, OnMaxZoomLevelChanged));
 
 	/// <summary>Gets or sets the maximum zoom level allowed.</summary>
 	public double MaxZoomLevel
