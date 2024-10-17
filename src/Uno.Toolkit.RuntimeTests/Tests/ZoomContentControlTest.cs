@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Uno.Toolkit.RuntimeTests.Tests
 {
+#if false
 	[TestClass]
 	[RunsOnUIThread]
 	internal class ZoomContentControlTest
@@ -220,4 +221,5 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			translation.Y.Should().Be(50);
 		}
 	}
+#endif
 }

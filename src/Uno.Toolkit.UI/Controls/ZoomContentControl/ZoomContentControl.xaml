@@ -2,10 +2,8 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:utu="using:Uno.Toolkit.UI">
 
-	<Style x:Key="DefaultZoomContentControlStyle"
-		   TargetType="utu:ZoomContentControl">
-		<Setter Property="Background"
-				Value="Transparent" />
+	<Style x:Key="DefaultZoomContentControlStyle" TargetType="utu:ZoomContentControl">
+		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:ZoomContentControl">
@@ -21,10 +19,11 @@
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
-						<Canvas x:Name="PART_Canvas">
+						
+						<Canvas x:Name="PART_Canvas"
+								Grid.Row="0"
+								Grid.Column="0">
 							<ContentPresenter x:Name="PART_Presenter"
-											  Grid.Row="0"
-											  Grid.Column="0"
 											  Margin="0"
 											  Padding="0"
 											  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -34,17 +33,13 @@
 											  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}">
 								<ContentPresenter.RenderTransform>
 									<TransformGroup>
-										<ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}"
-														CenterY="{TemplateBinding VerticalZoomCenter}"
-														ScaleX="{TemplateBinding ZoomLevel}"
-														ScaleY="{TemplateBinding ZoomLevel}" />
-										<TranslateTransform X="{TemplateBinding HorizontalOffset}"
-															Y="{TemplateBinding VerticalOffset}" />
+										<ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}" CenterY="{TemplateBinding VerticalZoomCenter}" ScaleX="{TemplateBinding ZoomLevel}" ScaleY="{TemplateBinding ZoomLevel}" />
+										<TranslateTransform x:Name="PART_TranslateTransform" X="{TemplateBinding HorizontalOffset}" Y="{TemplateBinding VerticalOffset}" />
 									</TransformGroup>
 								</ContentPresenter.RenderTransform>
 							</ContentPresenter>
 						</Canvas>
-						<!-- Vertical ScrollBar -->
+
 						<ScrollBar x:Name="PART_ScrollV"
 								   Grid.Row="0"
 								   Grid.Column="1"
@@ -58,8 +53,7 @@
 								   SmallChange="1"
 								   Visibility="{TemplateBinding IsVerticalScrollBarVisible}"
 								   ViewportSize="{TemplateBinding ViewportHeight}"
-								   Value="{TemplateBinding VerticalOffset}" />
-						<!-- Horizontal ScrollBar -->
+								   Value="{Binding VerticalScrollValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
 						<ScrollBar x:Name="PART_ScrollH"
 								   Grid.Row="1"
 								   Grid.Column="0"
@@ -73,14 +67,13 @@
 								   SmallChange="1"
 								   Visibility="{TemplateBinding IsHorizontalScrollBarVisible}"
 								   ViewportSize="{TemplateBinding ViewportWidth}"
-								   Value="{TemplateBinding HorizontalScrollValue}" />
+								   Value="{Binding HorizontalScrollValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
 
-	<Style BasedOn="{StaticResource DefaultZoomContentControlStyle}"
-		   TargetType="utu:ZoomContentControl" />
+	<Style BasedOn="{StaticResource DefaultZoomContentControlStyle}" TargetType="utu:ZoomContentControl" />
 
 </ResourceDictionary>
