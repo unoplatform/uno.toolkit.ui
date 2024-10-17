@@ -49,6 +49,9 @@ public partial class ZoomContentControl : ContentControl
 		public const string VerticalScrollBar = "PART_ScrollV";
 	}
 
+	// Events
+	public event EventHandler<EventArgs>? RenderedContentUpdated;
+
 	// Fields
 	private ContentPresenter? _presenter;
 	private ScrollBar? _scrollV;
@@ -61,21 +64,6 @@ public partial class ZoomContentControl : ContentControl
 	private uint _capturedPointerId;
 	private Point _referencePosition;
 
-	// Constructor
-	public ZoomContentControl()
-	{
-		DefaultStyleKey = typeof(ZoomContentControl);
-		Loaded += OnLoaded;
-		SizeChanged += OnSizeChanged;
-		PointerPressed += OnPointerPressed;
-		PointerReleased += OnPointerReleased;
-		PointerMoved += OnPointerMoved;
-		PointerWheelChanged += OnPointerWheelChanged;
-	}
-
-	// Events
-	public event EventHandler<EventArgs>? RenderedContentUpdated;
-
 	// Properties
 	public Size AvailableSize
 	{
@@ -87,7 +75,54 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	// Methods
+	public ZoomContentControl()
+	{
+		DefaultStyleKey = typeof(ZoomContentControl);
+		Loaded += OnLoaded;
+		SizeChanged += OnSizeChanged;
+		PointerPressed += OnPointerPressed;
+		PointerReleased += OnPointerReleased;
+		PointerMoved += OnPointerMoved;
+		PointerWheelChanged += OnPointerWheelChanged;
+	}
+
+	protected override void OnApplyTemplate()
+	{
+		base.OnApplyTemplate();
+
+		T FindTemplatePart<T>(string name) where T : class =>
+			(GetTemplateChild(name) ?? throw new Exception($"Expected template part not found: {name}"))
+			as T ?? throw new Exception($"Expected template part '{name}' to be of type: {typeof(T)}");
+
+		_presenter = FindTemplatePart<ContentPresenter>(TemplateParts.Presenter);
+		_scrollV = FindTemplatePart<ScrollBar>(TemplateParts.VerticalScrollBar);
+		_scrollH = FindTemplatePart<ScrollBar>(TemplateParts.HorizontalScrollBar);
+
+		ResetOffset();
+		ResetZoom();
+
+		if (_presenter?.Content is FrameworkElement { } fe)
+		{
+			fe.LayoutUpdated += (s, e) =>
+			{
+				ViewportWidth = fe.ActualWidth;
+				ViewportHeight = fe.ActualHeight;
+
+				UpdateScrollLimits();
+			};
+		}
+
+		if (_scrollV is not null)
+		{
+			_scrollV.Scroll += ScrollV_Scroll;
+		}
+
+		if (_scrollH is not null)
+		{
+			_scrollH.Scroll += ScrollH_Scroll;
+		}
+	}
+
 	private async Task RaiseRenderedContentUpdated()
 	{
 		await Task.Yield();
@@ -155,11 +190,6 @@ public partial class ZoomContentControl : ContentControl
 		return canMove;
 	}
 
-	private bool CanScrollUp() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Top);
-	private bool CanScrollDown() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Bottom);
-	private bool CanScrollLeft() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Left);
-	private bool CanScrollRight() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Right);
-
 	private async void UpdateHorizontalScrollBarValue()
 	{
 		HorizontalScrollValue = -1 * HorizontalOffset;
@@ -203,26 +233,6 @@ public partial class ZoomContentControl : ContentControl
 		ZoomLevel = Math.Clamp(ZoomLevel, MinZoomLevel, MaxZoomLevel);
 	}
 
-	// Template handling
-	protected override void OnApplyTemplate()
-	{
-		base.OnApplyTemplate();
-
-		T FindTemplatePart<T>(string name) where T : class =>
-			(GetTemplateChild(name) ?? throw new Exception($"Expected template part not found: {name}"))
-			as T ?? throw new Exception($"Expected template part '{name}' to be of type: {typeof(T)}");
-
-		_presenter = FindTemplatePart<ContentPresenter>(TemplateParts.Presenter);
-		_scrollV = FindTemplatePart<ScrollBar>(TemplateParts.VerticalScrollBar);
-		_scrollH = FindTemplatePart<ScrollBar>(TemplateParts.HorizontalScrollBar);
-
-		ResetOffset();
-		ResetZoom();
-
-		RegisterToControlEvents();
-	}
-
-	// Event handlers
 	private void OnLoaded(object sender, RoutedEventArgs e)
 	{
 		CenterContent();
@@ -234,30 +244,6 @@ public partial class ZoomContentControl : ContentControl
 		if (IsLoaded && AutoZoomToCanvasOnSizeChanged)
 		{
 			FitToCanvas();
-		}
-	}
-
-	private void RegisterToControlEvents()
-	{
-		if (_presenter?.Content is FrameworkElement { } fe)
-		{
-			fe.LayoutUpdated += (s, e) =>
-			{
-				ViewportWidth = fe.ActualWidth;
-				ViewportHeight = fe.ActualHeight;
-
-				UpdateScrollLimits();
-			};
-		}
-
-		if (_scrollV is not null)
-		{
-			_scrollV.Scroll += ScrollV_Scroll;
-		}
-
-		if (_scrollH is not null)
-		{
-			_scrollH.Scroll += ScrollH_Scroll;
 		}
 	}
 
@@ -285,7 +271,6 @@ public partial class ZoomContentControl : ContentControl
 		_previousHorizontalScrollValue = e.NewValue;
 	}
 
-	// Additional private methods for pointer handling
 	private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
 	{
 		if (!IsAllowedToWork) return;
@@ -409,8 +394,7 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	// Public methods
-	public void Initialize()
+	public void ResetViewport()
 	{
 		ResetZoom();
 		ResetOffset();
@@ -418,6 +402,7 @@ public partial class ZoomContentControl : ContentControl
 	}
 
 	internal void ResetZoom() => ZoomLevel = 1;
+
 	private void ResetOffset()
 	{
 		HorizontalOffset = AdditionalMargin.Left;
@@ -451,7 +436,12 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	// Static helper
+	// Helper
+	private bool CanScrollUp() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Top);
+	private bool CanScrollDown() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Bottom);
+	private bool CanScrollLeft() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Left);
+	private bool CanScrollRight() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Right);
+
 	private static Matrix GetPositionMatrix(FrameworkElement element, FrameworkElement rootElement)
 		=> ((MatrixTransform)element.TransformToVisual(rootElement)).Matrix;
 }

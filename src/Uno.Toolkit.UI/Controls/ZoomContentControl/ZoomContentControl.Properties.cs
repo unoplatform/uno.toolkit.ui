@@ -52,7 +52,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: HorizontalScrollValue
 
 	/// <summary>Identifies the HorizontalScrollValue dependency property.</summary>
@@ -70,7 +69,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: HorizontalMinScroll
 
 	/// <summary>Identifies the HorizontalMinScroll dependency property.</summary>
@@ -88,7 +86,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: HorizontalMaxScroll
 
 	/// <summary>Identifies the HorizontalMaxScroll dependency property.</summary>
@@ -106,7 +103,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: HorizontalZoomCenter
 
 	/// <summary>Identifies the HorizontalZoomCenter dependency property.</summary>
@@ -142,7 +138,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: VerticalMaxScroll
 
 	/// <summary>Identifies the VerticalMaxScroll dependency property.</summary>
@@ -160,7 +155,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: VerticalMinScroll
 
 	/// <summary>Identifies the VerticalMinScroll dependency property.</summary>
@@ -178,7 +172,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: VerticalZoomCenter
 
 	/// <summary>Identifies the VerticalZoomCenter dependency property.</summary>
@@ -193,42 +186,6 @@ public partial class ZoomContentControl
 	{
 		get => (double)GetValue(VerticalZoomCenterProperty);
 		set => SetValue(VerticalZoomCenterProperty, value);
-	}
-
-	#endregion
-
-	#region DependencyProperty: ViewportWidth
-
-	/// <summary>Identifies the ViewportWidth dependency property.</summary>
-	public static DependencyProperty ViewportWidthProperty { get; } = DependencyProperty.Register(
-		nameof(ViewportWidth),
-		typeof(double),
-		typeof(ZoomContentControl),
-		new PropertyMetadata(default(double)));
-
-	/// <summary>Gets or sets the width of the viewport.</summary>
-	public double ViewportWidth
-	{
-		get => (double)GetValue(ViewportWidthProperty);
-		set => SetValue(ViewportWidthProperty, value);
-	}
-
-	#endregion
-
-	#region DependencyProperty: ViewportHeight
-
-	/// <summary>Identifies the ViewportHeight dependency property.</summary>
-	public static DependencyProperty ViewportHeightProperty { get; } = DependencyProperty.Register(
-		nameof(ViewportHeight),
-		typeof(double),
-		typeof(ZoomContentControl),
-		new PropertyMetadata(default(double)));
-
-	/// <summary>Gets or sets the height of the viewport.</summary>
-	public double ViewportHeight
-	{
-		get => (double)GetValue(ViewportHeightProperty);
-		set => SetValue(ViewportHeightProperty, value);
 	}
 
 	#endregion
@@ -250,7 +207,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: MinZoomLevel
 
 	/// <summary>Identifies the MinZoomLevel dependency property.</summary>
@@ -268,7 +224,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: MaxZoomLevel
 
 	/// <summary>Identifies the MaxZoomLevel dependency property.</summary>
@@ -304,7 +259,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: ScaleWheelRatio
 
 	/// <summary>Identifies the ScaleWheelRatio dependency property.</summary>
@@ -319,6 +273,41 @@ public partial class ZoomContentControl
 	{
 		get => (double)GetValue(ScaleWheelRatioProperty);
 		set => SetValue(ScaleWheelRatioProperty, value);
+	}
+
+	#endregion
+
+	#region DependencyProperty: ViewportWidth
+
+	/// <summary>Identifies the ViewportWidth dependency property.</summary>
+	public static DependencyProperty ViewportWidthProperty { get; } = DependencyProperty.Register(
+		nameof(ViewportWidth),
+		typeof(double),
+		typeof(ZoomContentControl),
+		new PropertyMetadata(default(double)));
+
+	/// <summary>Gets or sets the width of the viewport.</summary>
+	public double ViewportWidth
+	{
+		get => (double)GetValue(ViewportWidthProperty);
+		set => SetValue(ViewportWidthProperty, value);
+	}
+
+	#endregion
+	#region DependencyProperty: ViewportHeight
+
+	/// <summary>Identifies the ViewportHeight dependency property.</summary>
+	public static DependencyProperty ViewportHeightProperty { get; } = DependencyProperty.Register(
+		nameof(ViewportHeight),
+		typeof(double),
+		typeof(ZoomContentControl),
+		new PropertyMetadata(default(double)));
+
+	/// <summary>Gets or sets the height of the viewport.</summary>
+	public double ViewportHeight
+	{
+		get => (double)GetValue(ViewportHeightProperty);
+		set => SetValue(ViewportHeightProperty, value);
 	}
 
 	#endregion
@@ -340,7 +329,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: IsZoomAllowed
 
 	/// <summary>Identifies the IsZoomAllowed dependency property.</summary>
@@ -358,7 +346,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: IsHorizontalScrollBarVisible
 
 	/// <summary>Identifies the IsHorizontalScrollBarVisible dependency property.</summary>
@@ -376,7 +363,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: IsPanAllowed
 
 	/// <summary>Identifies the IsPanAllowed dependency property.</summary>
@@ -394,7 +380,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: IsVerticalScrollBarVisible
 
 	/// <summary>Identifies the IsVerticalScrollBarVisible dependency property.</summary>
@@ -412,7 +397,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: AutoZoomToCanvasOnSizeChanged
 
 	/// <summary>Identifies the AutoZoomToCanvasOnSizeChanged dependency property.</summary>
@@ -430,7 +414,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: AdditionalMargin
 
 	/// <summary>Identifies the AdditionalMargin dependency property.</summary>
@@ -448,7 +431,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-
 	#region DependencyProperty: ContentBoundsVisibility
 
 	/// <summary>Identifies the ContentBoundsVisibility dependency property.</summary>
