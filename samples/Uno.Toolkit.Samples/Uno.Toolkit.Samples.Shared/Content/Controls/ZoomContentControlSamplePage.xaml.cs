@@ -72,6 +72,6 @@ public sealed partial class ZoomContentControlSamplePage : Page
 
 	private void OnResetClick(object sender, RoutedEventArgs e)
 	{
-		zoomControl.Initialize();
+		zoomControl.ResetViewport();
 	}
 }
