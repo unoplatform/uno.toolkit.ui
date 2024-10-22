@@ -49,24 +49,19 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 | Property| Type | Description |
 |-|-|-|
-| `ZoomLevel` | `double` | Gets or sets the current zoom level for the content. |
-| `MinZoomLevel` | `double` | Gets or sets the minimum zoom level allowed for the content. |
-| `MaxZoomLevel` | `double` | Gets or sets the maximum zoom level allowed for the content. |
 | `IsZoomAllowed` | `bool` | Gets or sets a value indicating whether zooming is allowed. |
-| `IsPanAllowed` | `bool` | Gets or sets a value indicating whether panning is allowed. |
-| `HorizontalOffest` | `double` | Gets or sets the horizontal offset for panning. |
-| `VerticalOffset` | `double` | Gets or sets the vertical offset for panning. |
-| `HorizontalZoomCenter` | `double` | Gets or sets the horizontal center point of the zooming operation. |
-| `VerticalZoomCenter` | `double` | Gets or sets the vertical center point of the zooming operation. |
 | `ScaleWheelRatio` | `double` | Gets or sets the ratio for scaling zoom level when using a mouse wheel. |
 | `PanWheelRatio` | `double` | Gets or sets the ratio for panning when using a mouse wheel. |
-| `ResetWhenNotActive` | `bool` | Gets or sets a value indicating whether the zoom and pan should reset when the control is not active. |
-| `AutoZoomToCanvasOnSizeChanged` | `bool` | Gets or sets a value indicating whether the control should automatically adjust zoom when resized. |
+| `IsPanAllowed` | `bool` | Gets or sets a value indicating whether panning is allowed. |
+| `ViewportWidth` | `bool` | Gets or sets the width of the content's viewport. |
+| `ViewportHeight` | `bool` | Gets or sets the height of the content's viewport. |
 | `IsActive` | `bool` | Gets or sets a value indicating whether the control is active. |
+| `AutoFitToCanvas` | `bool` | Determines if the content should automatically fit into the available canvas when the control resizes. |
+| `AdditionalMargin` | `Thickness` | Gets or sets additional margins around the content. |
 
 ### Methods
 
 | Method| Return Type| Description|
 |-----------------------|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `FitToCanvas()`| `void`| Adjust the zoom level so that the content fits within the available space.|
-| `CenterContent()`| `void`| Centers the content within the available space.|
+| `ResetViewport()`| `void`| Resets the zoom level and panning offset to their default values and centers the content.|
