@@ -145,7 +145,11 @@ public partial class ZoomContentControl : ContentControl
 
 	private async void OnZoomLevelChanged()
 	{
-		CoerceZoomLevel();
+		if (CoerceZoomLevel())
+		{
+			return;
+		}
+
 		UpdateScrollBars();
 		UpdateScrollVisibility();
 		await RaiseRenderedContentUpdated();
@@ -199,9 +203,17 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	private void CoerceZoomLevel()
+	private bool CoerceZoomLevel()
 	{
-		ZoomLevel = Math.Clamp(ZoomLevel, MinZoomLevel, MaxZoomLevel);
+		var zoomLevel = ZoomLevel;
+		var coercedZoomLevel = Math.Clamp(zoomLevel, MinZoomLevel, MaxZoomLevel);
+		if (coercedZoomLevel != zoomLevel)
+		{
+			ZoomLevel = coercedZoomLevel;
+			return true;
+		}
+
+		return false;
 	}
 
 	private void OnSizeChanged(object sender, SizeChangedEventArgs args)
