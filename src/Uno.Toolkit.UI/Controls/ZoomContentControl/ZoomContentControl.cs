@@ -31,54 +31,41 @@ using Windows.UI.Input;
 using Windows.Devices.Input;
 #endif
 
-using static Uno.Toolkit.UI.BoundsVisibilityFlag;
-
 namespace Uno.Toolkit.UI;
 
 [TemplatePart(Name = TemplateParts.RootGrid, Type = typeof(Grid))]
-[TemplatePart(Name = TemplateParts.Presenter, Type = typeof(ContentPresenter))]
+[TemplatePart(Name = TemplateParts.ContentGrid, Type = typeof(Grid))]
+[TemplatePart(Name = TemplateParts.ContentPresenter, Type = typeof(ContentPresenter))]
 [TemplatePart(Name = TemplateParts.VerticalScrollBar, Type = typeof(ScrollBar))]
 [TemplatePart(Name = TemplateParts.HorizontalScrollBar, Type = typeof(ScrollBar))]
+[TemplatePart(Name = TemplateParts.TranslateTransform, Type = typeof(TranslateTransform))]
 public partial class ZoomContentControl : ContentControl
 {
 	private static class TemplateParts
 	{
 		public const string RootGrid = "PART_RootGrid";
-		public const string Presenter = "PART_Presenter";
+		public const string ContentGrid = "PART_ContentGrid";
+		public const string ContentPresenter = "PART_ContentPresenter";
 		public const string HorizontalScrollBar = "PART_ScrollH";
 		public const string VerticalScrollBar = "PART_ScrollV";
+		public const string TranslateTransform = "PART_TranslateTransform";
 	}
 
-	// Events
 	public event EventHandler<EventArgs>? RenderedContentUpdated;
 
-	// Fields
-	private ContentPresenter? _presenter;
+	private Grid? _contentGrid;
+	private ContentPresenter? _contentPresenter;
 	private ScrollBar? _scrollV;
 	private ScrollBar? _scrollH;
-	private Point _lastPosition = new Point(0, 0);
-	private (bool Horizontal, bool Vertical) _movementDirection = (false, false);
-	private bool IsAllowedToWork => (IsEnabled && IsActive && _presenter is not null);
-	private double _previousVerticalScrollValue = double.MinValue;
-	private double _previousHorizontalScrollValue = double.MinValue;
-	private uint _capturedPointerId;
-	private Point _referencePosition;
+	private TranslateTransform? _translation;
 
-	// Properties
-	public Size AvailableSize
-	{
-		get
-		{
-			var vOffset = (AdditionalMargin.Top + AdditionalMargin.Bottom);
-			var hOffset = (AdditionalMargin.Left + AdditionalMargin.Right);
-			return new Size(ActualWidth - hOffset, ActualHeight - vOffset);
-		}
-	}
+	private (uint Id, Point Position, Point ScrollOffset)? _capturedPointerContext;
+	private SerialDisposable _contentSubscriptions = new();
 
 	public ZoomContentControl()
 	{
 		DefaultStyleKey = typeof(ZoomContentControl);
-		Loaded += OnLoaded;
+
 		SizeChanged += OnSizeChanged;
 		PointerPressed += OnPointerPressed;
 		PointerReleased += OnPointerReleased;
@@ -94,32 +81,44 @@ public partial class ZoomContentControl : ContentControl
 			(GetTemplateChild(name) ?? throw new Exception($"Expected template part not found: {name}"))
 			as T ?? throw new Exception($"Expected template part '{name}' to be of type: {typeof(T)}");
 
-		_presenter = FindTemplatePart<ContentPresenter>(TemplateParts.Presenter);
+		_contentGrid = FindTemplatePart<Grid>(TemplateParts.ContentGrid);
+		_contentPresenter = FindTemplatePart<ContentPresenter>(TemplateParts.ContentPresenter);
 		_scrollV = FindTemplatePart<ScrollBar>(TemplateParts.VerticalScrollBar);
 		_scrollH = FindTemplatePart<ScrollBar>(TemplateParts.HorizontalScrollBar);
+		_translation = FindTemplatePart<TranslateTransform>(TemplateParts.TranslateTransform);
 
-		ResetOffset();
-		ResetZoom();
+		ResetViewport();
+	}
 
-		if (_presenter?.Content is FrameworkElement { } fe)
+	protected override void OnContentChanged(object oldContent, object newContent)
+	{
+		_contentSubscriptions.Disposable = null;
+		if (newContent is FrameworkElement { } fe)
 		{
-			fe.LayoutUpdated += (s, e) =>
+			fe.Loaded += OnContentLoaded;
+			fe.SizeChanged += OnContentSizeChanged;
+			_contentSubscriptions.Disposable = Disposable.Create(() =>
 			{
-				ViewportWidth = fe.ActualWidth;
-				ViewportHeight = fe.ActualHeight;
-
-				UpdateScrollLimits();
-			};
+				fe.Loaded -= OnContentLoaded;
+				fe.SizeChanged -= OnContentSizeChanged;
+			});
 		}
 
-		if (_scrollV is not null)
+		void OnContentLoaded(object sender, RoutedEventArgs e)
 		{
-			_scrollV.Scroll += ScrollV_Scroll;
+			if (AutoFitToCanvas)
+			{
+				FitToCanvas();
+			}
 		}
-
-		if (_scrollH is not null)
+		void OnContentSizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			_scrollH.Scroll += ScrollH_Scroll;
+			ContentWidth = fe.ActualWidth;
+			ContentHeight = fe.ActualHeight;
+			HorizontalZoomCenter = ContentWidth / 2;
+			VerticalZoomCenter = ContentHeight / 2;
+
+			UpdateScrollBars();
 		}
 	}
 
@@ -129,78 +128,43 @@ public partial class ZoomContentControl : ContentControl
 		RenderedContentUpdated?.Invoke(this, EventArgs.Empty);
 	}
 
-	private async void OnVerticalOffsetChanged()
+	private void OnHorizontalScrollValueChanged()
 	{
-		UpdateContentBoundsVisibility();
-		UpdateScrollVisibility();
-		await RaiseRenderedContentUpdated();
+		UpdateTranslation();
 	}
 
-	private void OnHorizontalOffsetChanged()
+	private void OnVerticalScrollValueChanged()
 	{
-		UpdateContentBoundsVisibility();
-		UpdateScrollVisibility();
-		UpdateHorizontalScrollBarValue();
+		UpdateTranslation();
+	}
+
+	private void OnAdditionalMarginChanged()
+	{
+		_contentPresenter?.ToString();
 	}
 
 	private async void OnZoomLevelChanged()
 	{
 		CoerceZoomLevel();
-		UpdateScrollLimits();
-		UpdateContentBoundsVisibility();
+		UpdateScrollBars();
 		UpdateScrollVisibility();
 		await RaiseRenderedContentUpdated();
 	}
 
-	private void UpdateContentBoundsVisibility()
-	{
-		if (_presenter?.Content is FrameworkElement fe)
-		{
-			var m = GetPositionMatrix(fe, this);
-
-			var flags = None;
-			if (m.OffsetX >= 0) flags |= BoundsVisibilityFlag.Left;
-			if (m.OffsetY >= 0) flags |= BoundsVisibilityFlag.Top;
-			if (ActualWidth >= (fe.ActualWidth * ZoomLevel) + m.OffsetX) flags |= BoundsVisibilityFlag.Right;
-			if (ActualHeight >= (fe.ActualHeight * ZoomLevel) + m.OffsetY) flags |= BoundsVisibilityFlag.Bottom;
-
-			ContentBoundsVisibility = flags;
-		}
-	}
-
 	private void UpdateScrollVisibility()
 	{
-		IsHorizontalScrollBarVisible = !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Left | BoundsVisibilityFlag.Right);
-		IsVerticalScrollBarVisible = !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Top | BoundsVisibilityFlag.Bottom);
-	}
-
-	private bool CanMoveIn((bool Horizontal, bool Vertical) _movementDirection)
-	{
-		if (ContentBoundsVisibility.HasFlag(All))
+		if (Viewport is { } vp)
 		{
-			return false;
+			IsHorizontalScrollBarVisible = vp.ActualWidth < ScrollExtentWidth;
+			IsVerticalScrollBarVisible = vp.ActualHeight < ScrollExtentHeight;
 		}
-
-		var canMove = false;
-		canMove |= CanScrollLeft() && _movementDirection.Horizontal is true;
-		canMove |= CanScrollRight() && _movementDirection.Horizontal is false;
-		canMove |= CanScrollUp() && _movementDirection.Vertical is true;
-		canMove |= CanScrollDown() && _movementDirection.Vertical is false;
-
-		return canMove;
-	}
-
-	private async void UpdateHorizontalScrollBarValue()
-	{
-		HorizontalScrollValue = -1 * HorizontalOffset;
-		await RaiseRenderedContentUpdated();
 	}
 
 	private void IsActiveChanged()
 	{
 		if (!IsActive)
 		{
-			RemoveOffset();
+			ResetOffset();
 			ResetZoom();
 		}
 		if (_scrollH is not null)
@@ -213,18 +177,25 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	private void UpdateScrollLimits()
+	private void UpdateTranslation()
 	{
-		if (_presenter?.Content is FrameworkElement fe)
+		if (_translation is { })
 		{
-			var verticalScroll = Math.Max(0, (fe.ActualHeight * ZoomLevel) - ViewportHeight);
-			var horizontalScroll = Math.Max(0, (fe.ActualWidth * ZoomLevel) - ViewportWidth);
+			_translation.X = HorizontalScrollValue;
+			_translation.Y = VerticalScrollValue * -1; // Having a -1 here aligned the scroll direction with content translation
+		}
+	}
 
-			HorizontalMaxScroll = horizontalScroll / 2;
-			VerticalMaxScroll = verticalScroll / 2;
+	private void UpdateScrollBars()
+	{
+		if (Viewport is { } vp)
+		{
+			HorizontalMinScroll = VerticalMinScroll = 0;
 
-			HorizontalMinScroll = -1 * HorizontalMaxScroll;
-			VerticalMinScroll = -1 * VerticalMaxScroll;
+			HorizontalMaxScroll = Math.Max(0, ScrollExtentWidth - vp.ActualWidth);
+			VerticalMaxScroll = Math.Max(0, ScrollExtentHeight - vp.ActualHeight);
+			if (_scrollH is { }) _scrollH.ViewportSize = vp.ActualWidth;
+			if (_scrollV is { }) _scrollV.ViewportSize = vp.ActualHeight;
 		}
 	}
 
@@ -233,47 +204,17 @@ public partial class ZoomContentControl : ContentControl
 		ZoomLevel = Math.Clamp(ZoomLevel, MinZoomLevel, MaxZoomLevel);
 	}
 
-	private void OnLoaded(object sender, RoutedEventArgs e)
-	{
-		CenterContent();
-	}
-
 	private void OnSizeChanged(object sender, SizeChangedEventArgs args)
 	{
-		UpdateContentBoundsVisibility();
-		if (IsLoaded && AutoZoomToCanvasOnSizeChanged)
+		if (IsLoaded && AutoFitToCanvas)
 		{
 			FitToCanvas();
 		}
 	}
 
-	private void ScrollV_Scroll(object sender, ScrollEventArgs e)
-	{
-		if ((_previousVerticalScrollValue > e.NewValue && !CanScrollUp()) ||
-			(_previousVerticalScrollValue < e.NewValue && !CanScrollDown()))
-		{
-			return;
-		}
-
-		VerticalOffset = -1 * e.NewValue;
-		_previousVerticalScrollValue = e.NewValue;
-	}
-
-	private void ScrollH_Scroll(object sender, ScrollEventArgs e)
-	{
-		if ((_previousHorizontalScrollValue < e.NewValue && !CanScrollRight()) ||
-			(_previousHorizontalScrollValue > e.NewValue && !CanScrollLeft()))
-		{
-			return;
-		}
-
-		HorizontalOffset = -1 * e.NewValue;
-		_previousHorizontalScrollValue = e.NewValue;
-	}
-
 	private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
 	{
-		if (!IsAllowedToWork) return;
+		if (!IsAllowedToWork || _translation is null) return;
 		var pointerPoint = e.GetCurrentPoint(this);
 		var pointerProperties = pointerPoint.Properties;
 
@@ -289,9 +230,15 @@ public partial class ZoomContentControl : ContentControl
 			var captured = CapturePointer(e.Pointer);
 			if (captured)
 			{
-				_capturedPointerId = e.Pointer.PointerId;
-				_referencePosition = pointerPoint.Position;
-				_lastPosition = _referencePosition;
+				_capturedPointerContext = (
+					e.Pointer.PointerId,
+					pointerPoint.Position,
+					ScrollValue
+				);
+			}
+			else
+			{
+				_capturedPointerContext = default;
 			}
 		}
 	}
@@ -299,98 +246,55 @@ public partial class ZoomContentControl : ContentControl
 	private void OnPointerReleased(object sender, PointerRoutedEventArgs e)
 	{
 		ReleasePointerCaptures();
-		_capturedPointerId = default;
+		_capturedPointerContext = default;
 	}
 
 	private void OnPointerMoved(object sender, PointerRoutedEventArgs e)
 	{
-		if (!(IsAllowedToWork && _capturedPointerId > 0 && IsPanAllowed)) return;
+		if (!IsAllowedToWork ||!IsPanAllowed) return;
 
-		var currentPosition = e.GetCurrentPoint(this).Position;
-		_movementDirection = (currentPosition.X > _lastPosition.X, currentPosition.Y > _lastPosition.Y);
-		_lastPosition = currentPosition;
-
-		if (CanMoveIn(_movementDirection))
+		if (_capturedPointerContext is { } context)
 		{
-			e.Handled = true;
-			var pointerPoint = e.GetCurrentPoint(this);
-			var position = pointerPoint.Position;
-			var deltaX = position.X - _referencePosition.X;
-			var deltaY = position.Y - _referencePosition.Y;
-			TryUpdateOffsets(deltaX, deltaY);
-			_referencePosition = position;
+			var position = e.GetCurrentPoint(this).Position;
+			var delta = context.Position - position;
+			delta.X *= -1;
+
+			ScrollValue = context.ScrollOffset + delta;
 		}
 	}
 
 	private void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
 	{
 		if (!IsAllowedToWork) return;
+		if (Viewport is not { } vp) return;
 
-		var pointerPoint = e.GetCurrentPoint(this);
-		var pointerProperties = pointerPoint.Properties;
-
-		var changeRatio = GetZoomDelta(pointerProperties);
-
+		var p = e.GetCurrentPoint(vp);
 		if (
 #if IS_WINUI
-			pointerPoint.PointerDeviceType == PointerDeviceType.Mouse &&
+			p.PointerDeviceType != PointerDeviceType.Mouse
 #else
-			pointerPoint.PointerDevice.PointerDeviceType == PointerDeviceType.Mouse &&
+			p.PointerDevice.PointerDeviceType != PointerDeviceType.Mouse
 #endif
-			e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Control) &&
-			IsZoomAllowed)
+		) return;
+
+
+		// MouseWheel + Ctrl: Zoom
+		if (e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Control))
 		{
+			if (!IsZoomAllowed) return;
+
+			return; // todo
+		}
+		// MouseWheel + Shift: Scroll Horizontally
+		// MouseWheel: Scroll Vertically
+		else
+		{
+			var delta = p.Properties.MouseWheelDelta * PanWheelRatio;
+			ScrollValue += e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Shift)
+				? new (delta, 0)
+				: new (0, -delta);
+
 			e.Handled = true;
-
-			var relativeX = (pointerPoint.Position.X - HorizontalOffset) / ZoomLevel;
-			var relativeY = (pointerPoint.Position.Y - VerticalOffset) / ZoomLevel;
-
-			ZoomLevel *= changeRatio;
-
-			HorizontalOffset = pointerPoint.Position.X - (relativeX * ZoomLevel);
-			VerticalOffset = pointerPoint.Position.Y - (relativeY * ZoomLevel);
-			return;
-		}
-
-		if (e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Shift))
-		{
-			var deltaX = GetPanDelta(pointerProperties);
-			TryUpdateOffsets(deltaX, 0);
-			return;
-		}
-
-		var deltaY = GetPanDelta(pointerProperties);
-		TryUpdateOffsets(0, deltaY);
-	}
-
-	private double GetZoomDelta(PointerPointProperties pointerProperties)
-	{
-		var delta = pointerProperties.MouseWheelDelta * ScaleWheelRatio;
-		return 1 + delta;
-	}
-
-	private double GetPanDelta(PointerPointProperties pointerProperties)
-	{
-		var delta = pointerProperties.MouseWheelDelta * PanWheelRatio;
-		return delta;
-	}
-
-	private void TryUpdateOffsets(double deltaX, double deltaY)
-	{
-		if ((deltaX > 0 && CanScrollLeft()) ||
-			(deltaX < 0 && CanScrollRight()))
-		{
-			var offset = HorizontalOffset + deltaX;
-			var max = HorizontalMaxScroll * ZoomLevel;
-			HorizontalOffset = Math.Clamp(offset, 0, max);
-		}
-
-		if ((deltaY > 0 && CanScrollUp()) ||
-			(deltaY < 0 && CanScrollDown()))
-		{
-			var offset = VerticalOffset + deltaY;
-			var max = VerticalMaxScroll * ZoomLevel;
-			VerticalOffset = Math.Clamp(offset, 0, max);
 		}
 	}
 
@@ -398,50 +302,47 @@ public partial class ZoomContentControl : ContentControl
 	{
 		ResetZoom();
 		ResetOffset();
-		CenterContent();
 	}
 
 	internal void ResetZoom() => ZoomLevel = 1;
 
 	private void ResetOffset()
 	{
-		HorizontalOffset = AdditionalMargin.Left;
-		VerticalOffset = AdditionalMargin.Top;
-	}
-
-	private void RemoveOffset()
-	{
-		HorizontalOffset = 0;
-		VerticalOffset = 0;
-	}
-
-	public void CenterContent()
-	{
-		if (IsActive && _presenter?.Content is FrameworkElement { } content)
-		{
-			HorizontalOffset = ((AvailableSize.Width - (content.ActualWidth * ZoomLevel)) / 2) + AdditionalMargin.Left;
-			VerticalOffset = ((AvailableSize.Height - (content.ActualHeight * ZoomLevel)) / 2) + AdditionalMargin.Top;
-		}
+		HorizontalScrollValue = 0;
+		VerticalScrollValue = 0;
 	}
 
 	public void FitToCanvas()
 	{
-		if (IsActive)
+		if (IsActive && Viewport is { } vp)
 		{
-			var vZoom = (ActualHeight - AdditionalMargin.Top - AdditionalMargin.Bottom) / ViewportHeight;
-			var hZoom = (ActualWidth - AdditionalMargin.Left - AdditionalMargin.Right) / ViewportWidth;
+			var hZoom = (vp.ActualWidth) / ScrollExtentWidth;
+			var vZoom = (vp.ActualHeight) / ScrollExtentHeight;
 			var zoomLevel = Math.Min(vZoom, hZoom);
+
 			ZoomLevel = Math.Clamp(zoomLevel, MinZoomLevel, MaxZoomLevel);
-			CenterContent();
+			ResetOffset();
 		}
 	}
 
 	// Helper
-	private bool CanScrollUp() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Top);
-	private bool CanScrollDown() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Bottom);
-	private bool CanScrollLeft() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Left);
-	private bool CanScrollRight() => !ContentBoundsVisibility.HasFlag(BoundsVisibilityFlag.Right);
 
-	private static Matrix GetPositionMatrix(FrameworkElement element, FrameworkElement rootElement)
-		=> ((MatrixTransform)element.TransformToVisual(rootElement)).Matrix;
+	private bool IsAllowedToWork => (IsLoaded && IsActive && _contentPresenter is not null);
+
+	private FrameworkElement? PresenterContent => _contentPresenter?.Content as FrameworkElement;
+
+	private FrameworkElement? Viewport => _contentGrid;
+
+	private Point ScrollValue
+	{
+		get => new Point(HorizontalScrollValue, VerticalScrollValue);
+		set
+		{
+			HorizontalScrollValue = Math.Clamp(value.X, HorizontalMinScroll, HorizontalMaxScroll);
+			VerticalScrollValue = Math.Clamp(value.Y, VerticalMinScroll, VerticalMaxScroll);
+		}
+	}
+
+	private double ScrollExtentWidth => (ContentWidth + AdditionalMargin.Left + AdditionalMargin.Right) * ZoomLevel;
+	private double ScrollExtentHeight => (ContentHeight + AdditionalMargin.Top + AdditionalMargin.Bottom) * ZoomLevel;
 }
