@@ -289,10 +289,10 @@ public partial class ZoomContentControl : ContentControl
 		if (_capturedPointerContext is { } context)
 		{
 			var position = e.GetCurrentPoint(this).Position;
-			var delta = context.Position - position;
+			var delta = context.Position.Subtract(position);
 			delta.X *= -1;
 
-			SetScrollValue(context.ScrollOffset + delta);
+			SetScrollValue(context.ScrollOffset.Add(delta));
 		}
 	}
 
@@ -315,7 +315,9 @@ public partial class ZoomContentControl : ContentControl
 		{
 			if (!IsZoomAllowed) return;
 
-			var oldPosition = (p.Position - vp.ActualSize.ToPoint().DivideBy(2)) - ScrollValue.MultiplyBy(1, -1);
+			var oldPosition = p.Position
+				.Subtract(vp.ActualSize.ToPoint().DivideBy(2))
+				.Subtract(ScrollValue.MultiplyBy(1, -1));
 			var basePosition = oldPosition.DivideBy(ZoomLevel);
 
 			var newZoom = ZoomLevel * (1 + p.Properties.MouseWheelDelta * ScaleWheelRatio);
@@ -323,8 +325,8 @@ public partial class ZoomContentControl : ContentControl
 			newZoom = Math.Clamp(newZoom, MinZoomLevel, MaxZoomLevel);
 
 			var newPosition = basePosition.MultiplyBy(newZoom);
-			var delta = (newPosition - oldPosition).MultiplyBy(-1, 1);
-			var offset = ScrollValue + delta;
+			var delta = (newPosition.Subtract(oldPosition)).MultiplyBy(-1, 1);
+			var offset = ScrollValue.Add(delta);
 
 			// note: updating ZoomLevel can have side effects on ScrollValue:
 			// ZoomLevel --UpdateScrollBars-> ScrollBar.Maximum --clamp-> ScrollBar.Value --bound-> H/VScrollValue
@@ -342,7 +344,7 @@ public partial class ZoomContentControl : ContentControl
 			var delta = e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Shift)
 				? new Point(magnitude, 0)
 				: new Point(0, -magnitude);
-			var offset = ScrollValue + delta;
+			var offset = ScrollValue.Add(delta);
 
 			SetScrollValue(offset);
 			e.Handled = true;
