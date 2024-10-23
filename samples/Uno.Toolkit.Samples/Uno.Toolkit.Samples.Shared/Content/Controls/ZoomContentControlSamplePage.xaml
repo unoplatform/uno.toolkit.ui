@@ -20,9 +20,9 @@
 												Height="300"
 												HorizontalAlignment="Center"
 												VerticalAlignment="Center"
-												ZoomLevel="1.5"
+												ZoomLevel="1"
 												MinZoomLevel="0.5"
-												MaxZoomLevel="3.0"
+												MaxZoomLevel="10"
 												IsZoomAllowed="True"
 												IsPanAllowed="True">
 								<Border BorderThickness="2"
