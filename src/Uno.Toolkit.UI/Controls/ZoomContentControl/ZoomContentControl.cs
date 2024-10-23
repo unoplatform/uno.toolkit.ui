@@ -159,8 +159,20 @@ public partial class ZoomContentControl : ContentControl
 	{
 		if (Viewport is { } vp)
 		{
-			IsHorizontalScrollBarVisible = vp.ActualWidth < ScrollExtentWidth;
-			IsVerticalScrollBarVisible = vp.ActualHeight < ScrollExtentHeight;
+			ToggleScrollBarVisibility(_scrollH, vp.ActualWidth < ScrollExtentWidth);
+			ToggleScrollBarVisibility(_scrollV, vp.ActualWidth < ScrollExtentWidth);
+		}
+
+		void ToggleScrollBarVisibility(ScrollBar? sb, bool value)
+		{
+			if (sb is null) return;
+
+			// Showing/hiding the ScrollBar(s)could cause the ContentPresenter to move as it re-centers.
+			// This adds unnecessary complexity for the zooming logics as we need to preserve the focal point
+			// under the cursor position or the pinch center point after zooming.
+			// To avoid all that, we just make them permanently there for layout calculation.
+			sb.IsEnabled = value;
+			sb.Opacity = value ? 1 : 0;
 		}
 	}
 
@@ -271,7 +283,7 @@ public partial class ZoomContentControl : ContentControl
 			var delta = context.Position - position;
 			delta.X *= -1;
 
-			ScrollValue = context.ScrollOffset + delta;
+			SetScrollValue(context.ScrollOffset + delta);
 		}
 	}
 
@@ -289,23 +301,41 @@ public partial class ZoomContentControl : ContentControl
 #endif
 		) return;
 
-
 		// MouseWheel + Ctrl: Zoom
 		if (e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Control))
 		{
 			if (!IsZoomAllowed) return;
 
-			return; // todo
+			var oldPosition = (p.Position - vp.ActualSize.ToPoint().DivideBy(2)) - ScrollValue.MultiplyBy(1, -1);
+			var basePosition = oldPosition.DivideBy(ZoomLevel);
+
+			var newZoom = ZoomLevel * (1 + p.Properties.MouseWheelDelta * ScaleWheelRatio);
+			//var newZoom = ZoomLevel + Math.Sign(p.Properties.MouseWheelDelta);
+			newZoom = Math.Clamp(newZoom, MinZoomLevel, MaxZoomLevel);
+
+			var newPosition = basePosition.MultiplyBy(newZoom);
+			var delta = (newPosition - oldPosition).MultiplyBy(-1, 1);
+			var offset = ScrollValue + delta;
+
+			// note: updating ZoomLevel can have side effects on ScrollValue:
+			// ZoomLevel --UpdateScrollBars-> ScrollBar.Maximum --clamp-> ScrollBar.Value --bound-> H/VScrollValue
+			// before we set the ZoomLevel, make sure to snapshot ScrollValue or finish the calculation using ScrollValue
+			ZoomLevel = newZoom;
+			SetScrollValue(offset, shouldClamp: false);
+
+			e.Handled = true;
 		}
 		// MouseWheel + Shift: Scroll Horizontally
 		// MouseWheel: Scroll Vertically
 		else
 		{
-			var delta = p.Properties.MouseWheelDelta * PanWheelRatio;
-			ScrollValue += e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Shift)
-				? new (delta, 0)
-				: new (0, -delta);
+			var magnitude = p.Properties.MouseWheelDelta * PanWheelRatio;
+			var delta = e.KeyModifiers.HasFlag(Windows.System.VirtualKeyModifiers.Shift)
+				? new Point(magnitude, 0)
+				: new Point(0, -magnitude);
+			var offset = ScrollValue + delta;
 
+			SetScrollValue(offset);
 			e.Handled = true;
 		}
 	}
@@ -337,6 +367,20 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
+	private void SetScrollValue(Point value, bool shouldClamp = true)
+	{
+		// we allow unconstrained panning for MouseWheelZoom(desktop) and PinchToZoom(mobile)
+		// where the focal point should remain stationary after zooming.
+		if (shouldClamp)
+		{
+			value.X = Math.Clamp(value.X, HorizontalMinScroll, HorizontalMaxScroll);
+			value.Y = Math.Clamp(value.Y, VerticalMinScroll, VerticalMaxScroll);
+		}
+
+		HorizontalScrollValue = value.X;
+		VerticalScrollValue = value.Y;
+	}
+
 	// Helper
 
 	private bool IsAllowedToWork => (IsLoaded && IsActive && _contentPresenter is not null);
@@ -345,15 +389,7 @@ public partial class ZoomContentControl : ContentControl
 
 	private FrameworkElement? Viewport => _contentGrid;
 
-	private Point ScrollValue
-	{
-		get => new Point(HorizontalScrollValue, VerticalScrollValue);
-		set
-		{
-			HorizontalScrollValue = Math.Clamp(value.X, HorizontalMinScroll, HorizontalMaxScroll);
-			VerticalScrollValue = Math.Clamp(value.Y, VerticalMinScroll, VerticalMaxScroll);
-		}
-	}
+	private Point ScrollValue => new Point(HorizontalScrollValue, VerticalScrollValue);
 
 	private double ScrollExtentWidth => (ContentWidth + AdditionalMargin.Left + AdditionalMargin.Right) * ZoomLevel;
 	private double ScrollExtentHeight => (ContentHeight + AdditionalMargin.Top + AdditionalMargin.Bottom) * ZoomLevel;

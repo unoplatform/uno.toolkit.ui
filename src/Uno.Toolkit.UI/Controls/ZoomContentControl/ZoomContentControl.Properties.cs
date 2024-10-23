@@ -101,23 +101,6 @@ public partial class ZoomContentControl
 	}
 
 	#endregion
-	#region DependencyProperty: [Private] IsHorizontalScrollBarVisible
-
-	/// <summary>Identifies the IsHorizontalScrollBarVisible dependency property.</summary>
-	private static DependencyProperty IsHorizontalScrollBarVisibleProperty { get; } = DependencyProperty.Register(
-		nameof(IsHorizontalScrollBarVisible),
-		typeof(bool),
-		typeof(ZoomContentControl),
-		new PropertyMetadata(true));
-
-	/// <summary>Gets or sets a value indicating whether the horizontal scrollbar is visible.</summary>
-	private bool IsHorizontalScrollBarVisible
-	{
-		get => (bool)GetValue(IsHorizontalScrollBarVisibleProperty);
-		set => SetValue(IsHorizontalScrollBarVisibleProperty, value);
-	}
-
-	#endregion
 
 	#region DependencyProperty: [Private] VerticalScrollValue
 
@@ -182,23 +165,6 @@ public partial class ZoomContentControl
 	{
 		get => (double)GetValue(VerticalZoomCenterProperty);
 		set => SetValue(VerticalZoomCenterProperty, value);
-	}
-
-	#endregion
-	#region DependencyProperty: [Private] IsVerticalScrollBarVisible
-
-	/// <summary>Identifies the IsVerticalScrollBarVisible dependency property.</summary>
-	private static DependencyProperty IsVerticalScrollBarVisibleProperty { get; } = DependencyProperty.Register(
-		nameof(IsVerticalScrollBarVisible),
-		typeof(bool),
-		typeof(ZoomContentControl),
-		new PropertyMetadata(true));
-
-	/// <summary>Gets or sets a value indicating whether the vertical scrollbar is visible.</summary>
-	private bool IsVerticalScrollBarVisible
-	{
-		get => (bool)GetValue(IsVerticalScrollBarVisibleProperty);
-		set => SetValue(IsVerticalScrollBarVisibleProperty, value);
 	}
 
 	#endregion
