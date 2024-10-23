@@ -51,7 +51,6 @@
 								   Minimum="{TemplateBinding VerticalMinScroll}"
 								   Orientation="Vertical"
 								   SmallChange="1"
-								   ViewportSize="{TemplateBinding ViewportHeight}"
 								   Value="{Binding VerticalScrollValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
 						<ScrollBar x:Name="PART_ScrollH"
 								   Grid.Row="1"
@@ -64,7 +63,6 @@
 								   Minimum="{TemplateBinding HorizontalMinScroll}"
 								   Orientation="Horizontal"
 								   SmallChange="1"
-								   ViewportSize="{TemplateBinding ViewportWidth}"
 								   Value="{Binding HorizontalScrollValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
 					</Grid>
 				</ControlTemplate>

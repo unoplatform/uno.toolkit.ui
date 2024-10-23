@@ -61,6 +61,7 @@ public partial class ZoomContentControl : ContentControl
 
 	private (uint Id, Point Position, Point ScrollOffset)? _capturedPointerContext;
 	private SerialDisposable _contentSubscriptions = new();
+	private Size _contentSize;
 
 	public ZoomContentControl()
 	{
@@ -113,12 +114,12 @@ public partial class ZoomContentControl : ContentControl
 		}
 		void OnContentSizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			ContentWidth = fe.ActualWidth;
-			ContentHeight = fe.ActualHeight;
-			HorizontalZoomCenter = ContentWidth / 2;
-			VerticalZoomCenter = ContentHeight / 2;
+			_contentSize = new Size(fe.ActualWidth, fe.ActualHeight);
+			HorizontalZoomCenter = _contentSize.Width / 2;
+			VerticalZoomCenter = _contentSize.Height / 2;
 
 			UpdateScrollBars();
+			UpdateScrollVisibility();
 		}
 	}
 
@@ -160,7 +161,7 @@ public partial class ZoomContentControl : ContentControl
 		if (Viewport is { } vp)
 		{
 			ToggleScrollBarVisibility(_scrollH, vp.ActualWidth < ScrollExtentWidth);
-			ToggleScrollBarVisibility(_scrollV, vp.ActualWidth < ScrollExtentWidth);
+			ToggleScrollBarVisibility(_scrollV, vp.ActualHeight < ScrollExtentHeight);
 		}
 
 		void ToggleScrollBarVisibility(ScrollBar? sb, bool value)
@@ -206,10 +207,18 @@ public partial class ZoomContentControl : ContentControl
 	{
 		if (Viewport is { } vp)
 		{
-			HorizontalMinScroll = VerticalMinScroll = 0;
+			var scrollableWidth = Math.Max(0, ScrollExtentWidth - vp.ActualWidth);
+			var scrollableHeight = Math.Max(0, ScrollExtentHeight - vp.ActualHeight);
 
-			HorizontalMaxScroll = Math.Max(0, ScrollExtentWidth - vp.ActualWidth);
-			VerticalMaxScroll = Math.Max(0, ScrollExtentHeight - vp.ActualHeight);
+			// since the content is always centered, we need to able to scroll both way equally:
+			// [Content-Content-Content]
+			// [=======[Viewport]======]
+			HorizontalMaxScroll = scrollableWidth / 2;
+			HorizontalMinScroll = -HorizontalMaxScroll;
+			VerticalMaxScroll = scrollableHeight / 2;
+			VerticalMinScroll = -VerticalMaxScroll;
+
+			// update size of thumb
 			if (_scrollH is { }) _scrollH.ViewportSize = vp.ActualWidth;
 			if (_scrollV is { }) _scrollV.ViewportSize = vp.ActualHeight;
 		}
@@ -391,6 +400,6 @@ public partial class ZoomContentControl : ContentControl
 
 	private Point ScrollValue => new Point(HorizontalScrollValue, VerticalScrollValue);
 
-	private double ScrollExtentWidth => (ContentWidth + AdditionalMargin.Left + AdditionalMargin.Right) * ZoomLevel;
-	private double ScrollExtentHeight => (ContentHeight + AdditionalMargin.Top + AdditionalMargin.Bottom) * ZoomLevel;
+	private double ScrollExtentWidth => (_contentSize.Width + AdditionalMargin.Left + AdditionalMargin.Right) * ZoomLevel;
+	private double ScrollExtentHeight => (_contentSize.Height + AdditionalMargin.Top + AdditionalMargin.Bottom) * ZoomLevel;
 }

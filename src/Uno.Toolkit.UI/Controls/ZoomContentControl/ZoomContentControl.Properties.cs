@@ -169,51 +169,51 @@ public partial class ZoomContentControl
 
 	#endregion
 
-	#region DependencyProperty: [Private] ZoomLevel
+	#region DependencyProperty: ZoomLevel
 
 	/// <summary>Identifies the ZoomLevel dependency property.</summary>
-	private static DependencyProperty ZoomLevelProperty { get; } = DependencyProperty.Register(
+	public static DependencyProperty ZoomLevelProperty { get; } = DependencyProperty.Register(
 		nameof(ZoomLevel),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(1d, OnZoomLevelChanged));
 
 	/// <summary>Gets or sets the current zoom level.</summary>
-	private double ZoomLevel
+	public double ZoomLevel
 	{
 		get => (double)GetValue(ZoomLevelProperty);
 		set => SetValue(ZoomLevelProperty, value);
 	}
 
 	#endregion
-	#region DependencyProperty: [Private] MinZoomLevel
+	#region DependencyProperty: MinZoomLevel
 
 	/// <summary>Identifies the MinZoomLevel dependency property.</summary>
-	private static DependencyProperty MinZoomLevelProperty { get; } = DependencyProperty.Register(
+	public static DependencyProperty MinZoomLevelProperty { get; } = DependencyProperty.Register(
 		nameof(MinZoomLevel),
 		typeof(double),
 		typeof(ZoomContentControl),
-		new PropertyMetadata(default(double), OnMinZoomLevelChanged));
+		new PropertyMetadata(1d, OnMinZoomLevelChanged));
 
 	/// <summary>Gets or sets the minimum zoom level allowed.</summary>
-	private double MinZoomLevel
+	public double MinZoomLevel
 	{
 		get => (double)GetValue(MinZoomLevelProperty);
 		set => SetValue(MinZoomLevelProperty, value);
 	}
 
 	#endregion
-	#region DependencyProperty: [Private] MaxZoomLevel
+	#region DependencyProperty: MaxZoomLevel
 
 	/// <summary>Identifies the MaxZoomLevel dependency property.</summary>
-	private static DependencyProperty MaxZoomLevelProperty { get; } = DependencyProperty.Register(
+	public static DependencyProperty MaxZoomLevelProperty { get; } = DependencyProperty.Register(
 		nameof(MaxZoomLevel),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(10d, OnMaxZoomLevelChanged));
 
 	/// <summary>Gets or sets the maximum zoom level allowed.</summary>
-	private double MaxZoomLevel
+	public double MaxZoomLevel
 	{
 		get => (double)GetValue(MaxZoomLevelProperty);
 		set => SetValue(MaxZoomLevelProperty, value);
@@ -286,41 +286,6 @@ public partial class ZoomContentControl
 	{
 		get => (bool)GetValue(IsPanAllowedProperty);
 		set => SetValue(IsPanAllowedProperty, value);
-	}
-
-	#endregion
-
-	#region DependencyProperty: ViewportWidth
-
-	/// <summary>Identifies the ViewportWidth dependency property.</summary>
-	public static DependencyProperty ViewportWidthProperty { get; } = DependencyProperty.Register(
-		nameof(ContentWidth),
-		typeof(double),
-		typeof(ZoomContentControl),
-		new PropertyMetadata(default(double)));
-
-	/// <summary>Gets or sets the width of the viewport.</summary>
-	public double ContentWidth
-	{
-		get => (double)GetValue(ViewportWidthProperty);
-		set => SetValue(ViewportWidthProperty, value);
-	}
-
-	#endregion
-	#region DependencyProperty: ViewportHeight
-
-	/// <summary>Identifies the ViewportHeight dependency property.</summary>
-	public static DependencyProperty ViewportHeightProperty { get; } = DependencyProperty.Register(
-		nameof(ContentHeight),
-		typeof(double),
-		typeof(ZoomContentControl),
-		new PropertyMetadata(default(double)));
-
-	/// <summary>Gets or sets the height of the viewport.</summary>
-	public double ContentHeight
-	{
-		get => (double)GetValue(ViewportHeightProperty);
-		set => SetValue(ViewportHeightProperty, value);
 	}
 
 	#endregion
