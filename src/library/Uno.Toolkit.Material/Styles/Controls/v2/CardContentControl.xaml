@@ -60,7 +60,7 @@
 	<Style x:Key="MaterialFilledCardContentControlStyle"
 		   BasedOn="{StaticResource MaterialBaseCardContentControlStyle}"
 		   TargetType="utu:CardContentControl">
-		<Setter Property="Background" Value="{StaticResource FilledCardContentBackground}" />
+		<Setter Property="Background" Value="{ThemeResource FilledCardContentBackground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource FilledCardContentBorderBrush}" />
 		<Setter Property="Template">
 			<Setter.Value>
