@@ -48,7 +48,7 @@ namespace Uno.Toolkit.UI
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			var navBar = TemplatedParent as NavigationBar;
+			var navBar = this.FindFirstParent<NavigationBar>();
 			if (navBar is { })
 			{
 				Content = navBar.GetOrAddDefaultRenderer().Native;

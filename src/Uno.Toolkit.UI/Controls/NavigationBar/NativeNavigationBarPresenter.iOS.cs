@@ -68,7 +68,7 @@ namespace Uno.Toolkit.UI
 
 			if (navBar == null)
 			{
-				navBar = TemplatedParent as NavigationBar;
+				navBar = this.FindFirstParent<NavigationBar>();
 				_navBarRef = new WeakReference<NavigationBar?>(navBar);
 			}
 
