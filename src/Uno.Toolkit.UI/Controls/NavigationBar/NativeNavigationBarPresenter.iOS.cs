@@ -31,7 +31,7 @@ using XamlStatusBar = Windows.UI.ViewManagement.StatusBar;
 
 namespace Uno.Toolkit.UI
 {
-	public partial class NativeNavigationBarPresenter : ContentPresenter, INavigationBarPresenter
+	public partial class NativeNavigationBarPresenter
 	{
 		private readonly SerialDisposable _statusBarSubscription = new SerialDisposable();
 		private readonly SerialDisposable _orientationSubscription = new SerialDisposable();
@@ -44,11 +44,6 @@ namespace Uno.Toolkit.UI
 		{
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
-		}
-
-		public void SetOwner(NavigationBar navigationBar)
-		{
-			//Owner is accessed through TemplatedParent on Uno platforms
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
