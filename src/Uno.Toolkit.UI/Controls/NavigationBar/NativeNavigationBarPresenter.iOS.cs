@@ -36,13 +36,11 @@ namespace Uno.Toolkit.UI
 		private readonly SerialDisposable _statusBarSubscription = new SerialDisposable();
 		private readonly SerialDisposable _orientationSubscription = new SerialDisposable();
 		private SerialDisposable _mainCommandClickHandler = new SerialDisposable();
-		private WeakReference<NavigationBar?>? _navBarRef;
 
 		private readonly bool _isPhone = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone;
 
 		public NativeNavigationBarPresenter()
 		{
-			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
 		}
 
@@ -53,24 +51,16 @@ namespace Uno.Toolkit.UI
 			_mainCommandClickHandler.Disposable = null;
 		}
 
-		private void OnLoaded(object sender, RoutedEventArgs e)
+		partial void OnOwnerChanged()
 		{
 			// TODO: Find a proper way to decide whether a NavigationBar exists on canvas (within Page), or is mapped to the UINavigationController's NavigationBar.
 
-			NavigationBar? navBar = null;
+			_mainCommandClickHandler.Disposable = null;
 
-			_navBarRef?.TryGetTarget(out navBar);
-
-			if (navBar == null)
-			{
-				navBar = this.FindFirstParent<NavigationBar>();
-				_navBarRef = new WeakReference<NavigationBar?>(navBar);
-			}
-
-			if (navBar is { })
+			if (GetNavBar() is { } navBar)
 			{
 				navBar.MainCommand.Click += OnMainCommandClick;
-				_mainCommandClickHandler.Disposable = null;
+				
 				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClick);
 
 				LayoutNativeNavBar(navBar);
@@ -117,11 +107,8 @@ namespace Uno.Toolkit.UI
 		
 		private void OnMainCommandClick(object sender, RoutedEventArgs e)
 		{
-			NavigationBar? navBar = null;
-			if (_navBarRef?.TryGetTarget(out navBar) ?? false)
-			{
-				navBar?.TryPerformMainCommand();
-			}
+			var navBar = GetNavBar();
+			navBar?.TryPerformMainCommand();
 		}
 
 		protected override Size MeasureOverride(Size size)
