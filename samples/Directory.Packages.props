@@ -15,7 +15,7 @@
     <PackageVersion Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.12" />
     <PackageVersion Include="Microsoft.UI.Xaml" Version="2.8.5" />
     <PackageVersion Include="Microsoft.Windows.Compatibility" Version="5.0.1" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
     <PackageVersion Include="SkiaSharp.Skottie" Version="2.88.6" />
     <PackageVersion Include="SkiaSharp.Views" Version="2.88.6" />
