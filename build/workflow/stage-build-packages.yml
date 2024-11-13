@@ -5,9 +5,9 @@ jobs:
     vmImage: windows-2022
 
   steps:
+    - template: templates/dotnet-workload-install-windows.yml
     - template: templates/canary-updater.yml
     - template: templates/gitversion.yml
-    - template: templates/dotnet-workload-install-windows.yml
 
     - task: MSBuild@1
       displayName: 'Build Packages'
