@@ -13,12 +13,9 @@ using Windows.UI;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Colors = Microsoft.UI.Colors;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Colors = Windows.UI.Colors;
-
 #endif
 
 namespace Uno.Toolkit.UI;

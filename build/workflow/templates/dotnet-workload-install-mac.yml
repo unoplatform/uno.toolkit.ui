@@ -1,6 +1,6 @@
 parameters:
-  DotNetVersion: '9.0.100'
-  UnoCheck_Version: '1.27.0'
+  DotNetVersion: '8.0.301'
+  UnoCheck_Version: '1.23.0'
   Dotnet_Root: '/usr/local/share/dotnet/'
   Dotnet_Tools: '~/.dotnet/tools'
 
