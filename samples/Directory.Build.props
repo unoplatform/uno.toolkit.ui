@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<LangVersion>latest</LangVersion>
 		<IsPackable>false</IsPackable>
-		<NoWarn>$(NoWarn);NU1903;NU1902</NoWarn>
+		<NoWarn>$(NoWarn);NU1904;NU1903;NU1902</NoWarn>
 	</PropertyGroup>
 
 	<Import Project="..\src\xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
