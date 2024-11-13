@@ -29,6 +29,7 @@
 		<NoWarn>$(NoWarn);CS8305</NoWarn>
 		<!-- TODO: Enable once https://github.com/xamarin/xamarin-macios/pull/16513 is merged and we have it -->
 		<NoWarn>$(NoWarn);CA1416</NoWarn>
+		<NoWarn>$(NoWarn);NU1903;NU1902</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup>
