@@ -1,5 +1,5 @@
 steps:
-  - task: nventiveCanaryUpdater@5
+  - task: unoplatformCanaryUpdater@1
     condition: eq(variables['IsCanaryBranch'], true)
     inputs:
       solution: $(build.sourcesdirectory)
@@ -7,13 +7,11 @@ steps:
       usePrivateFeed: false
       mergeBranch: true
       branchToMerge: main
-      nugetUpdaterVersion: 2.3.0-alpha.42
-      packageAuthor: 'nventive,Uno Platform'
+      nugetUpdaterVersion: 1.2.0-dev.20
+      packageAuthor: 'unoplatform,uno platform'
       summaryFile: '$(build.artifactstagingdirectory)/Canary.md'
-
-  - powershell: |
-      dotnet tool uninstall nventive.nuget.updater.tool --tool-path $(Agent.TempDirectory)
-    condition: eq(variables['IsCanaryBranch'], true)
+      useVersionOverrides: true
+      versionOverridesFile: '$(Build.SourcesDirectory)\build\updaterconfig.json'
 
   - pwsh: |
       gci -r -include "info.plist" |
