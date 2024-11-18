@@ -40,6 +40,21 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		public Type AncestorType { get; set; } = typeof(object);
 
+		/// <summary>
+		/// Gets or sets the converter object that is called by the binding engine to modify the data as it is passed between the source and target, or vice versa.
+		/// </summary>
+		public IValueConverter? Converter { get; set; }
+
+		/// <summary>
+		/// Gets or sets a parameter that can be used in the Converter logic.
+		/// </summary>
+		public object? ConverterParameter { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value that names the language to pass to any converter specified by the Converter property.
+		/// </summary>
+		public string? ConverterLanguage { get; set; }
+
 		public AncestorBindingExtension()
 		{
 		}
@@ -76,6 +91,9 @@ namespace Uno.Toolkit.UI
 							Path = new PropertyPath(Path),
 							Source = source,
 							Mode = BindingMode.OneWay,
+							Converter = Converter,
+							ConverterLanguage = ConverterLanguage,
+							ConverterParameter = ConverterParameter,
 						};
 						fe.SetBinding(property, binding);
 					}
