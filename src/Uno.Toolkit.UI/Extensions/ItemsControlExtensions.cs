@@ -53,10 +53,17 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Get the item containers.
 		/// </summary>
-		/// <remarks>An empty enumerable will returned if the <see cref="ItemsControl.ItemsPanelRoot"/> and the containers have not been materialized.</remarks>
-		public static IEnumerable<T> GetItemContainers<T>(this ItemsControl itemsControl) =>
-			itemsControl.ItemsPanelRoot?.Children.OfType<T>() ??
-			Enumerable.Empty<T>();
+		public static IEnumerable<T> GetItemContainers<T>(this ItemsControl itemsControl)
+			where T : class
+		{
+			// TOOD: Change this to a more efficient method.
+			// WORKAROUND: For issue https://github.com/unoplatform/uno.toolkit.ui/issues/1281
+			return itemsControl.GetItems()
+				.OfType<object>()
+				.Select(i => itemsControl.FindContainer<T>(i))
+				.Where(i => i != null)
+				.Cast<T>();
+		}
 
 		/// <summary>
 		/// Gets the container for the given index.

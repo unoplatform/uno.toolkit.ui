@@ -45,7 +45,7 @@
 			<ListView x:Name="LV_SUT"
 					  Grid.Row="1"
 					  Grid.ColumnSpan="2"
-					  ItemsSource="ABCDEFGHIJKLMNOPQRST">
+					  ItemsSource="{Binding Data.Source}">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<Border MinHeight="200"
@@ -135,20 +135,20 @@
 
 		<utu:TabBar x:Name="BottomTabBar"
 					Grid.Row="2"
-					Style="{StaticResource BottomTabBarStyle}">
+					Style="{StaticResource TopTabBarStyle}">
 			<utu:TabBarItem x:Name="TabBarItem_Frame"
 							utu:TabBarItemExtensions.OnClickBehaviors="Auto"
 							Content="Frame"
 							IsSelected="True"
-							Style="{StaticResource BottomTabBarItemStyle}" />
+							Style="{StaticResource TopTabBarItemStyle}" />
 			<utu:TabBarItem x:Name="TabBarItem_ListView"
 							utu:TabBarItemExtensions.OnClickBehaviors="Auto"
 							Content="ListView"
-							Style="{StaticResource BottomTabBarItemStyle}" />
+							Style="{StaticResource TopTabBarItemStyle}" />
 			<utu:TabBarItem x:Name="TabBarItem_ScrollViewer"
 							utu:TabBarItemExtensions.OnClickBehaviors="Auto"
 							Content="ScrollViewer"
-							Style="{StaticResource BottomTabBarItemStyle}" />
+							Style="{StaticResource TopTabBarItemStyle}" />
 		</utu:TabBar>
 	</Grid>
 </Page>
