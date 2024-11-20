@@ -58,4 +58,36 @@ internal class AncestorBindingTests
 		var sut = (container as FrameworkElement)?.GetFirstDescendant<TextBlock>(x => x.Name == "NestedLvTextBlock2") ?? throw new Exception("Failed to find NestedLvTextBlock2");
 		Assert.AreEqual(sut.Text, lv.Tag);
 	}
+
+	[TestMethod]
+	public async Task Ancestor_Converter_InitialValue()
+	{
+		var setup = new AncestorBindingTest();
+		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
+
+		var host = setup.GetFirstDescendantOrThrow<CheckBox>("ConverterTestHost");
+		var sut = setup.GetFirstDescendantOrThrow<Border>("ConverterTestInnerBorder");
+
+		Assert.AreEqual(false, host.IsChecked);
+		Assert.AreEqual(Visibility.Collapsed, sut.Visibility);
+	}
+
+	[TestMethod]
+	public async Task Ancestor_Converter_UpdatedValue()
+	{
+		var setup = new AncestorBindingTest();
+		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
+
+		var host = setup.GetFirstDescendantOrThrow<CheckBox>("ConverterTestHost");
+		var sut = setup.GetFirstDescendantOrThrow<Border>("ConverterTestInnerBorder");
+
+		Assert.AreEqual(false, host.IsChecked);
+		Assert.AreEqual(Visibility.Collapsed, sut.Visibility);
+
+		host.IsChecked = true;
+		await UnitTestsUIContentHelper.WaitForIdle();
+
+		Assert.AreEqual(true, host.IsChecked);
+		Assert.AreEqual(Visibility.Visible, sut.Visibility);
+	}
 }

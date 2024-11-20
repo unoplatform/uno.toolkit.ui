@@ -20,9 +20,7 @@ This markup extension provides a binding to the closest parent ItemsControl. Thi
 
 ### Properties
 
-| Property   | Type     | Description                     |
-|------------|----------|---------------------------------|
-| `Path`     | `string` | Binding path from the ancestor. |
+> see the Properties section in AncestorBinding.
 
 ### Usage
 
@@ -60,10 +58,13 @@ This markup extension provides a means to bind to an ancestor of a specific type
 
 ### Properties
 
-| Property       | Type     | Description                     |
-|----------------|----------|---------------------------------|
-| `AncestorType` | `Type`   | Type of ancestor to bind from.  |
-| `Path`         | `string` | Binding path from the ancestor. |
+| Property           | Type            | Description                                                                                                                            |
+| ------------------ | --------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `AncestorType`     | `Type`          | Type of ancestor to bind from.                                                                                                         |
+| `Path`             | `string`        | Binding path from the ancestor.                                                                                                        |
+| Converter          | IValueConverter | Converter object that is called by the binding engine to modify the data as it is passed between the source and target, or vice versa. |
+| ConverterParameter | object          | Parameter that can be used in the Converter logic.                                                                                     |
+| ConverterLanguage  | string          | value that names the language to pass to any converter specified by the Converter property.                                            |
 
 ### Usage
 

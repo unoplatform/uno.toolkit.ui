@@ -8,9 +8,29 @@
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	  Tag="Page Tag">
+	<Page.Resources>
+		<local:AncestorBoolToVisibilityConverter x:Key="AncestorBool2VisConverter" />
+	</Page.Resources>
 
 	<StackPanel>
 		<TextBlock x:Name="TopLevelTextBlock" Text="{utu:AncestorBinding AncestorType=Page, Path=Tag}" />
+		<CheckBox x:Name="ConverterTestHost" IsChecked="False">
+			<StackPanel Orientation="Horizontal"
+						Padding="10"
+						Spacing="10">
+				<Border Background="SkyBlue"
+						Width="40"
+						Height="20" />
+				<Border x:Name="ConverterTestInnerBorder"
+						Background="Pink"
+						Width="40"
+						Height="20"
+						Visibility="{utu:AncestorBinding AncestorType=CheckBox,
+														 Path=IsChecked,
+														 Converter={StaticResource AncestorBool2VisConverter},
+														 ConverterParameter='arg1'}" />
+			</StackPanel>
+		</CheckBox>
 
 		<ListView x:Name="TopLevelListView"
 				  ItemsSource="{Binding Items}"
