@@ -58,6 +58,12 @@ namespace Uno.Toolkit.UI
 		{
 			// TOOD: Change this to a more efficient method.
 			// WORKAROUND: For issue https://github.com/unoplatform/uno.toolkit.ui/issues/1281
+
+			if (itemsControl.ItemsPanelRoot is { } panelRoot)
+			{
+				return panelRoot.Children.OfType<T>();
+			}
+			
 			return itemsControl.GetItems()
 				.OfType<object>()
 				.Select(i => itemsControl.FindContainer<T>(i))
