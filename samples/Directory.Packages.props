@@ -29,19 +29,19 @@
     <PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.8.0-dev.1" />
     <PackageVersion Include="Uno.Material" Version="5.3.0-dev.4" />
     <PackageVersion Include="Uno.Material.WinUI" Version="5.3.0-dev.4" />
-    <PackageVersion Include="Uno.UI" Version="5.4.0-dev.738" />
-    <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.4.0-dev.738" />
-    <PackageVersion Include="Uno.UI.RemoteControl" Version="5.4.0-dev.738" />
-    <PackageVersion Include="Uno.UI.Skia.Gtk" Version="5.4.0-dev.738" />
-    <PackageVersion Include="Uno.UI.Skia.Wpf" Version="5.4.0-dev.738" />
-    <PackageVersion Include="Uno.UI.WebAssembly" Version="5.4.0-dev.738" />
+    <PackageVersion Include="Uno.UI" Version="5.5.66" />
+    <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.5.66" />
+    <PackageVersion Include="Uno.UI.RemoteControl" Version="5.5.66" />
+    <PackageVersion Include="Uno.UI.Skia.Gtk" Version="5.5.66" />
+    <PackageVersion Include="Uno.UI.Skia.Wpf" Version="5.5.66" />
+    <PackageVersion Include="Uno.UI.WebAssembly" Version="5.5.66" />
     <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.36" />
     <PackageVersion Include="Uno.Wasm.Bootstrap" Version="8.0.0-dev.306" />
     <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="8.0.0-dev.306" />
-    <PackageVersion Include="Uno.WinUI" Version="5.4.0-dev.738" />
-    <PackageVersion Include="Uno.WinUI.RemoteControl" Version="5.4.0-dev.738" />
-    <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="5.4.0-dev.738" />
-    <PackageVersion Include="Uno.WinUI.WebAssembly" Version="5.4.0-dev.738" />
+    <PackageVersion Include="Uno.WinUI" Version="5.5.66" />
+    <PackageVersion Include="Uno.WinUI.RemoteControl" Version="5.5.66" />
+    <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="5.5.66" />
+    <PackageVersion Include="Uno.WinUI.WebAssembly" Version="5.5.66" />
     <PackageVersion Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
     <!-- Required to avoid warnings in 1.9.0.1 of Android.Material - https://github.com/xamarin/AndroidX/issues/727 -->
     <PackageVersion Include="Xamarin.AndroidX.Annotation" Version="1.7.1.1" />
