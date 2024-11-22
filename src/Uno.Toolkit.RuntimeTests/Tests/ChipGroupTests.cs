@@ -266,4 +266,26 @@ internal class ChipGroupTests
 	}
 
 	#endregion
+
+	#region Misc
+
+	[TestMethod]
+	public async Task Initial_Selection()
+	{
+		var setup = XamlHelper.LoadXaml<ChipGroup>("""
+			<utu:ChipGroup>
+				<utu:Chip Content="Uno" IsChecked="True"/>
+				<utu:Chip Content="Deux" />
+				<utu:Chip Content="Three" />
+			</utu:ChipGroup>
+		""");
+		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
+
+		var selected = setup.ContainerFromIndex(0) as Chip ?? throw new Exception("Container#0 not found");
+
+		Assert.AreEqual(selected, setup.SelectedItem, "SelectedItem is expected to be container#0");
+		Assert.AreEqual(true, selected.IsChecked, "Container#0 should be selected");
+	}
+
+	#endregion
 }

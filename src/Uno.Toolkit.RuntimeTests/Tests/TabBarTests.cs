@@ -34,7 +34,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal class TabBarTests
+	internal partial class TabBarTests // test cases
 	{
 		[TestMethod]
 		[DataRow(new int[0], null)]
@@ -278,7 +278,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				return orientation switch
 				{
 					Orientation.Horizontal => padding[1] + padding[3] + tabBarItem.ActualHeight,
-					Orientation.Vertical =>  padding[0] + padding[2] + tabBarItem.ActualWidth,
+					Orientation.Vertical => padding[0] + padding[2] + tabBarItem.ActualWidth,
 					_ => throw new ArgumentOutOfRangeException(nameof(orientation))
 				};
 			}
@@ -500,7 +500,31 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			// Assert the second item is not selected
 			Assert.AreNotSame(SUT.SelectedItem, source[1]);
 		}
+		
+		[TestMethod]
+		public async Task Initial_Selection()
+		{
+			var setup = XamlHelper.LoadXaml<TabBar>("""
+				<utu:TabBar>
+					<utu:TabBar.Items>
+						<utu:TabBarItem Content="Tab Uno" IsSelected="True"/>
+						<utu:TabBarItem Content="Tab Deux" />
+						<utu:TabBarItem Content="Tab Three" />
+					</utu:TabBar.Items>
+				</utu:TabBar>
+			""");
+			await UnitTestUIContentHelperEx.SetContentAndWait(setup);
 
+			var selected = setup.ContainerFromIndex(0) as TabBarItem ?? throw new Exception("Container#0 not found");
+
+			Assert.AreEqual(0, setup.SelectedIndex, "SelectedIndex is expected to be 0");
+			Assert.AreEqual(selected, setup.SelectedItem, "SelectedItem is expected to be container#0");
+			Assert.AreEqual(true, selected.IsSelected, "Container#0 should be selected");
+		}
+	}
+	
+	internal partial class TabBarTests // supporting classes/methods
+	{
 		private class SelectedIndexTestViewModel : INotifyPropertyChanged
 		{
 			private int _p;
