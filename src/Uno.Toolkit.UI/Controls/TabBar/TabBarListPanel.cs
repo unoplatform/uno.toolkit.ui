@@ -17,18 +17,20 @@ namespace Uno.Toolkit.UI
 {
 	public partial class TabBarListPanel : Panel
 	{
-		#region Orientation
-		public Orientation Orientation
-		{
-			get { return (Orientation)GetValue(OrientationProperty); }
-			set { SetValue(OrientationProperty, value); }
-		}
+		#region DependencyProperty: Orientation
 
 		public static DependencyProperty OrientationProperty { get; } = DependencyProperty.Register(
 			nameof(Orientation),
 			typeof(Orientation),
 			typeof(TabBarListPanel),
-			new PropertyMetadata(Orientation.Horizontal, (s, e) => ((TabBarListPanel)s).OnPropertyChanged(e)));
+			new PropertyMetadata(default(Orientation), OnOrientationChanged));
+
+		public Orientation Orientation
+		{
+			get => (Orientation)GetValue(OrientationProperty);
+			set => SetValue(OrientationProperty, value);
+		}
+
 		#endregion
 
 		public TabBarListPanel()
@@ -44,11 +46,11 @@ namespace Uno.Toolkit.UI
 			owner?.OnItemsPanelConnected(this);
 		}
 
-		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
+		private static void OnOrientationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (args.Property == OrientationProperty)
+			if (sender is TabBar owner)
 			{
-				InvalidateMeasure();
+				owner.InvalidateMeasure();
 			}
 		}
 
@@ -147,6 +149,6 @@ namespace Uno.Toolkit.UI
 			return finalSize;
 		}
 
-		private bool IsVisible(UIElement x) => x.Visibility == Visibility.Visible;
+		private static bool IsVisible(UIElement x) => x.Visibility == Visibility.Visible;
 	}
 }
