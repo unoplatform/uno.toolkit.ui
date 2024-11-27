@@ -17,6 +17,7 @@ namespace Uno.Toolkit.UI
 {
 	public partial class TabBarListPanel : Panel
 	{
+		#region Orientation
 		public Orientation Orientation
 		{
 			get { return (Orientation)GetValue(OrientationProperty); }
@@ -28,6 +29,20 @@ namespace Uno.Toolkit.UI
 			typeof(Orientation),
 			typeof(TabBarListPanel),
 			new PropertyMetadata(Orientation.Horizontal, (s, e) => ((TabBarListPanel)s).OnPropertyChanged(e)));
+		#endregion
+
+		public TabBarListPanel()
+		{
+			this.Loaded += OnLoaded;
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			var owner = this.FindFirstParent<TabBar>();
+
+			// workaround for #1287 ItemsPanelRoot resolution timing related issue
+			owner?.OnItemsPanelConnected(this);
+		}
 
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
 		{
