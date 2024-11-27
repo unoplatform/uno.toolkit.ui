@@ -26,6 +26,7 @@
 							VerticalAlignment="{TemplateBinding VerticalAlignment}">
 
 						<Canvas x:Name="PART_Canvas"
+								IsHitTestVisible="False"
 								HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
 								VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
 
