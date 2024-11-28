@@ -195,6 +195,14 @@ namespace Uno.Toolkit.UI
 			UpdateOrientation();
 		}
 
+		internal void OnItemsPanelConnected(TabBarListPanel panel)
+		{
+			System.Diagnostics.Debug.Assert(ItemsPanelRoot != null, "ItemsPanelRoot is expected to be already set in here.");
+
+			SynchronizeInitialSelection();
+			UpdateOrientation();
+		}
+
 		private void OnTabBarItemClick(object sender, RoutedEventArgs e)
 		{
 			if (_isSynchronizingSelection)
@@ -441,7 +449,7 @@ namespace Uno.Toolkit.UI
 			return null;
 		}
 
-		private bool IsReady => _isLoaded && HasItems;
+		private bool IsReady => _isLoaded && HasItems && ItemsPanelRoot is { };
 
 		private bool HasItems => this.GetItems().Any();
 	}

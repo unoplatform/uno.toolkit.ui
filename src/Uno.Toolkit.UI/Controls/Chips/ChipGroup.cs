@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Uno.UI.Extensions;
+
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -18,7 +20,6 @@ namespace Uno.Toolkit.UI
 {
 	public partial class ChipGroup : ItemsControl
 	{
-		private bool _isLoaded;
 		private bool _isSynchronizingSelection;
 
 		public ChipGroup()
@@ -31,11 +32,26 @@ namespace Uno.Toolkit.UI
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+
+			// workaround for #1287 ItemsPanelRoot resolution timing related issue
+			var presenter =
+				this.GetTemplateRoot() as ItemsPresenter ??
+				this.GetFirstDescendant<ItemsPresenter>();
+			if (presenter is { })
+			{
+				presenter.Loaded += OnItemsPresenterLoaded;
+			}
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			_isLoaded = true;
+			SynchronizeInitialSelection();
+			EnforceSelectionMode();
+			ApplyIconTemplate(null, IconTemplate);
+		}
+
+		private void OnItemsPresenterLoaded(object sender, RoutedEventArgs e)
+		{
 			SynchronizeInitialSelection();
 			EnforceSelectionMode();
 			ApplyIconTemplate(null, IconTemplate);
@@ -58,6 +74,7 @@ namespace Uno.Toolkit.UI
 
 		private void ApplyIconTemplate(DataTemplate? oldTemplate, DataTemplate? newTemplate)
 		{
+			if (!IsReady) return;
 			if (oldTemplate == newTemplate) return;
 
 			foreach (var container in this.GetItemContainers<Chip>())
@@ -403,7 +420,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private bool IsReady => _isLoaded && HasItems && HasContainers;
+		private bool IsReady => IsLoaded && HasItems && HasContainers;
 
 		private bool HasItems => this.GetItems().OfType<object>().Any();
 

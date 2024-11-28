@@ -56,14 +56,6 @@ namespace Uno.Toolkit.UI
 		/// <remarks>An empty enumerable will returned if the <see cref="ItemsControl.ItemsPanelRoot"/> and the containers have not been materialized.</remarks>
 		public static IEnumerable<T> GetItemContainers<T>(this ItemsControl itemsControl) =>
 			itemsControl.ItemsPanelRoot?.Children.OfType<T>() ??
-			// #1281 workaround: ItemsPanelRoot would not be resolved until ItemsPanel is loaded,
-			// which will be the case between the ItemsControl::Loaded and ItemsPanel::Loaded.
-			// This is normally not a problem, as the container is typically created after that with ItemsSource.
-			// However, for xaml-defined items, this could cause a problem with initial selection synchronization,
-			// which happens on ItemsControl::Loaded. For this case, we will resort to using ItemsControl::Items.
-			(itemsControl.ItemsSource is null && itemsControl.Items is { }
-				? itemsControl.Items.OfType<T>()
-				: null) ??
 			Enumerable.Empty<T>();
 
 		/// <summary>
