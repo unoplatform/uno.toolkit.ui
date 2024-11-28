@@ -33,7 +33,10 @@
 											  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}">
 								<ContentPresenter.RenderTransform>
 									<TransformGroup>
-										<ScaleTransform CenterX="{TemplateBinding HorizontalZoomCenter}" CenterY="{TemplateBinding VerticalZoomCenter}" ScaleX="{TemplateBinding ZoomLevel}" ScaleY="{TemplateBinding ZoomLevel}" />
+										<ScaleTransform CenterX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path = HorizontalZoomCenter}"
+														CenterY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path = VerticalZoomCenter}"
+														ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path = ZoomLevel}"
+														ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path = ZoomLevel}" />
 										<TranslateTransform x:Name="PART_TranslateTransform" />
 									</TransformGroup>
 								</ContentPresenter.RenderTransform>
