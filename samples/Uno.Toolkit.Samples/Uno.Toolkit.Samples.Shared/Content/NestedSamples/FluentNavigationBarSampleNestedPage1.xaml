@@ -17,6 +17,7 @@
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Content="First Page"
 						   MainCommandMode="Action"
+						   AutomationProperties.AutomationId="FluentPage1NavBar"
 						   Style="{StaticResource DefaultNavigationBar}">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Click="NavigateBack"
@@ -40,6 +41,14 @@
 							  Style="{StaticResource DefaultAppBarButtonStyle}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/AppleIcon_Small.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+				<AppBarButton Click="NavigateToNextPage"
+							  Label="Page2"
+							  AutomationProperties.AutomationId="FluentPage1NavBarPrimaryCommand3"
+							  Style="{StaticResource DefaultAppBarButtonStyle}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/MaterialIcon_Small.png" />
 					</AppBarButton.Icon>
 				</AppBarButton>
 			</utu:NavigationBar.PrimaryCommands>
