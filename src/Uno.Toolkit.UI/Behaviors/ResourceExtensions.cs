@@ -34,14 +34,14 @@ namespace Uno.Toolkit.UI
 
 		private static void OnResourcesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			if (d is Control control && e.NewValue is ResourceDictionary newResources)
-			{
-#if !HAS_UNO
-				control.Resources = newResources.DeepClone();
-#else
-				control.Resources = newResources;
-#endif
-			}
+// 			if (d is Control control && e.NewValue is ResourceDictionary newResources)
+// 			{
+// #if !HAS_UNO
+// 				control.Resources = newResources.DeepClone();
+// #else
+// 				control.Resources = newResources;
+// #endif
+// 			}
 		}
 	}
 }

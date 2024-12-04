@@ -81,6 +81,27 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<Style x:Key="ActionButtonStyleWithResourceExtensions"
+			   TargetType="Button">
+			<Setter Property="utu:ResourceExtensions.Resources">
+				<Setter.Value>
+					<ResourceDictionary>
+						<SolidColorBrush x:Key="ButtonBackground"
+										 Color="Red" />
+						<SolidColorBrush x:Key="ButtonForeground"
+										 Color="White" />
+					</ResourceDictionary>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="CornerRadius" Value="12" />
+		</Style>
+
+		<Style x:Key="ActionButtonStyle"
+			   TargetType="Button">
+			<Setter Property="Background" Value="Red" />
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="CornerRadius" Value="12" />
+		</Style>
 	</Page.Resources>
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -100,6 +121,10 @@
 
 						<Button Style="{StaticResource OverridenButtonStyle}"
 								Content="Overriden Button" />
+						<Button Content="Button (ResourceExtensions, No BasedOn)"
+								Style="{StaticResource ActionButtonStyleWithResourceExtensions}" />
+						<Button Content="Button (No BasedOn)"
+								Style="{StaticResource ActionButtonStyle}" />
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.DesignAgnosticTemplate>
