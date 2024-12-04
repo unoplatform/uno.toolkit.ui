@@ -95,6 +95,8 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(TabBarItem), new PropertyMetadata(null, OnPropertyChanged));
 		#endregion
 
+		internal bool IsStyleSetFromTabBar { get; set; }
+
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
 		{
 			var owner = (TabBarItem)sender;
