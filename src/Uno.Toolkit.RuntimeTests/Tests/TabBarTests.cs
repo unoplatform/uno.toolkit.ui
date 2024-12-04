@@ -37,6 +37,26 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	internal partial class TabBarTests // test cases
 	{
 		[TestMethod]
+		public async Task TabBar1285_ICS_With_TBI_ItemTemplate()
+		{
+			// note: this bug doesnt happen with ItemsSource = [TBI,...]
+			// because IsItemItsOwnContainerOverride=true. It only occurs
+			// with the ItemTemplate>DataTemplate>TBI setup (IsUsingOwnContainerAsTemplateRoot),
+			// which cause a ContentPresnter to be created as the item container.
+			var source = Enumerable.Range(0, 1).ToArray();
+			var SUT = new TabBar
+			{
+				ItemsSource = source,
+				ItemTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+					<DataTemplate>
+						<utu:TabBarItem Content="{Binding}" />
+					</DataTemplate>
+				"""),
+			};
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+		}
+
+		[TestMethod]
 		[DataRow(new int[0], null)]
 		[DataRow(new[] { 1 }, 1)]
 		[DataRow(new[] { 1, 1 }, 1)]

@@ -195,6 +195,13 @@ namespace Uno.Toolkit.UI
 				.Select(x => VisualTreeHelper.GetChild(reference, x));
 		}
 
+		public static DependencyObject? GetFirstChild(this DependencyObject reference)
+		{
+			return VisualTreeHelper.GetChildrenCount(reference) > 0
+				? VisualTreeHelper.GetChild(reference, 0)
+				: null;
+		}
+
 		public static DependencyObject? GetTemplateRoot(this DependencyObject o) => o?.GetChildren().FirstOrDefault();
 	}
 	internal static partial class VisualTreeHelperEx // TreeGraph helper methods
