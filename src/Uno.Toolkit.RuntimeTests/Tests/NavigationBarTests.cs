@@ -253,6 +253,31 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			}
 		}
 
+		[TestMethod]
+		public async Task PrimaryCommand_AppBarButton_With_Icon()
+		{
+			bool success = false;
+
+			var frame = new Frame() { Width = 400, Height = 400 };
+			frame.Navigated += (s, e) =>
+			{
+				success = true;
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
+
+			frame.Navigate(typeof(FirstPage));
+			frame.Navigate(typeof(MainCommand_SymbolIconPage));
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var page = frame.Content as MainCommand_SymbolIconPage;
+#if HAS_UNO
+			page?.FindChild<NavigationBar>()?.MainCommand.RaiseClick();
+#endif
+			Assert.IsTrue(success);
+		}
+
 #if __ANDROID__ || __IOS__
 		[TestMethod]
 		public async Task NavigationBar_Dynamic_Background()
@@ -576,6 +601,23 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				);
 
 				Content = navBar;
+			}
+		}
+
+		private sealed partial class MainCommand_SymbolIconPage : Page
+		{
+			public MainCommand_SymbolIconPage()
+			{
+				Content = new NavigationBar
+				{
+					MainCommand = new AppBarButton
+					{
+						Icon = new SymbolIcon
+						{
+							Symbol = Symbol.Home,
+						}
+					}
+				};
 			}
 		}
 
