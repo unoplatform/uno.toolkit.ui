@@ -31,6 +31,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Controls;
 #endif
 
 
@@ -256,26 +257,26 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task PrimaryCommand_AppBarButton_With_Icon()
 		{
-			bool success = false;
-
+			var appBarButtonClicked = new TaskCompletionSource<bool>();
+			var navBar = new NavigationBar();
 			var frame = new Frame() { Width = 400, Height = 400 };
-			frame.Navigated += (s, e) =>
+			var appBarButton = new AppBarButton()
 			{
-				success = true;
+				Icon = new SymbolIcon(Symbol.Home)
 			};
 
+			appBarButton.Click += (s, e) => appBarButtonClicked.TrySetResult(true);
+
+			navBar.PrimaryCommands.Add(appBarButton);
+			frame.Content = navBar;
+			
 			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
 
-			frame.Navigate(typeof(FirstPage));
-			frame.Navigate(typeof(MainCommand_SymbolIconPage));
-
-			await UnitTestsUIContentHelper.WaitForIdle();
-
-			var page = frame.Content as MainCommand_SymbolIconPage;
+			frame.Resources.MergedDictionaries.Insert(0, new XamlControlsResources());
 #if HAS_UNO
-			page?.FindChild<NavigationBar>()?.MainCommand.RaiseClick();
+			appBarButton.RaiseClick();
 #endif
-			Assert.IsTrue(success);
+			Assert.IsTrue(await appBarButtonClicked.Task);
 		}
 
 #if __ANDROID__ || __IOS__
