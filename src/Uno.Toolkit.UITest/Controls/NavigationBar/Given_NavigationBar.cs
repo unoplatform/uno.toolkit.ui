@@ -107,5 +107,19 @@ namespace Uno.Toolkit.UITest.Controls.NavigationBar
 
 			App.WaitForNoElement("M3Page2NavBar", "Timed out waiting for no Page 2 Nav Bar");
 		}
+
+		[Test]
+		[AutoRetry]
+		public void NavBar_AppBarButton_With_Icon_Click()
+		{
+			NavigateToNestedSample("FluentNavigationBarSampleNestedPage");
+
+			PlatformHelpers.On(
+				iOS: () => App.Tap("FluentPage1NavBarPrimaryCommand3"),
+				Android: () => App.Tap("FluentPage1NavBarPrimaryCommand3")
+			);
+
+			App.WaitForElement("FluentPage2NavBar", "Timed out waiting for Page 2 Nav Bar");
+		}
 	}
 }

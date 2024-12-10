@@ -96,8 +96,6 @@ namespace Uno.Toolkit.UI
 					new[] { AppBarButton.LabelProperty },
 					new[] { AppBarButton.IconProperty },
 					new[] { AppBarButton.IconProperty, BitmapIcon.UriSourceProperty },
-					new[] { AppBarButton.IconProperty, IconElement.ForegroundProperty },
-					new[] { AppBarButton.IconProperty, IconElement.ForegroundProperty, SolidColorBrush.ColorProperty },
 					new[] { AppBarButton.ContentProperty },
 					new[] { AppBarButton.ContentProperty, FrameworkElement.VisibilityProperty },
 					new[] { AppBarButton.OpacityProperty },
