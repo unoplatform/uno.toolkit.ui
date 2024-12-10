@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
+using MUXC = Microsoft.UI.Xaml.Controls;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -29,26 +28,68 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register(nameof(Icon), typeof(IconElement), typeof(TabBarItem), new PropertyMetadata(null, OnPropertyChanged));
 		#endregion
 
+		// UNO TODO: Deprecate and remove BadgeVisibility and BadgeValue properties and use InfoBadge instead
 		#region BadgeVisibility
+		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
+		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public Visibility BadgeVisibility
 		{
-			get { return (Visibility)GetValue(BadgeVisibilityProperty); }
-			set { SetValue(BadgeVisibilityProperty, value); }
+			get => InfoBadge?.Visibility ?? (Visibility)GetValue(BadgeVisibilityProperty);
+			set
+			{
+				SetValue(BadgeVisibilityProperty, value);
+
+				InfoBadge ??= new MUXC.InfoBadge();
+				InfoBadge.Visibility = value;
+			}
 		}
 
+		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
+		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public static readonly DependencyProperty BadgeVisibilityProperty =
-			DependencyProperty.Register("BadgeVisibility", typeof(Visibility), typeof(TabBarItem), new PropertyMetadata(Visibility.Collapsed, OnPropertyChanged));
+			DependencyProperty.Register(nameof(BadgeVisibility), typeof(Visibility), typeof(TabBarItem), new PropertyMetadata(Visibility.Collapsed, OnPropertyChanged));
 		#endregion
 
 		#region BadgeValue
+		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
+		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public string? BadgeValue
 		{
-			get { return (string)GetValue(BadgeValueProperty); }
-			set { SetValue(BadgeValueProperty, value); }
+			get => (InfoBadge as MUXC.InfoBadge)?.Value.ToString() ?? (string)GetValue(BadgeValueProperty);
+			set
+			{
+				SetValue(BadgeValueProperty, value);
+
+				InfoBadge ??= new MUXC.InfoBadge();
+
+				if (InfoBadge is MUXC.InfoBadge infoBadge)
+				{
+					if (int.TryParse(value, out int intValue))
+					{
+						infoBadge.Value = intValue;
+					}
+					else
+					{
+						infoBadge.IconSource = new MUXC.FontIconSource { Glyph = value };
+					}
+				}
+			}
+		}
+		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
+		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
+		public static readonly DependencyProperty BadgeValueProperty =
+			DependencyProperty.Register(nameof(BadgeValue), typeof(string), typeof(TabBarItem), new PropertyMetadata(default(string?), OnPropertyChanged));
+		#endregion
+
+		#region InfoBadge
+		public Control InfoBadge
+		{
+			get => (Control)GetValue(InfoBadgeProperty);
+			set => SetValue(InfoBadgeProperty, value);
 		}
 
-		public static readonly DependencyProperty BadgeValueProperty =
-			DependencyProperty.Register("BadgeValue", typeof(string), typeof(TabBarItem), new PropertyMetadata(default(string?), OnPropertyChanged));
+		public static readonly DependencyProperty InfoBadgeProperty =
+			DependencyProperty.Register(nameof(InfoBadge), typeof(Control), typeof(TabBarItem), new PropertyMetadata(null, OnPropertyChanged));
 		#endregion
 
 		#region IsSelectable
