@@ -135,6 +135,10 @@ namespace Uno.Toolkit.UI
 			.OfType<T>()
 			.FirstOrDefault();
 
+		public static T? GetFirstDescendant<T>(this DependencyObject reference, string name) where T : FrameworkElement => GetDescendants(reference)
+			.OfType<T>()
+			.FirstOrDefault(x => x.Name == name);
+
 		/// <summary>
 		/// Returns the first descendant of a specified type that satisfies the <paramref name="predicate"/>.
 		/// </summary>
@@ -146,9 +150,8 @@ namespace Uno.Toolkit.UI
 			.OfType<T>()
 			.FirstOrDefault(predicate);
 
-		public static T GetFirstDescendantOrThrow<T>(this DependencyObject reference, string name) where T : FrameworkElement => GetDescendants(reference)
-			.OfType<T>()
-			.FirstOrDefault(x => x.Name == name) ??
+		public static T GetFirstDescendantOrThrow<T>(this DependencyObject reference, string name) where T : FrameworkElement =>
+			GetFirstDescendant<T>(reference, name) ??
 			throw new Exception($"Unable to find element: {typeof(T).Name}#{name}");
 
 		/// <summary>
