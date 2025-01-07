@@ -73,31 +73,78 @@ namespace Uno.Toolkit.UI
 
 		protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
 		{
-			base.PrepareContainerForItemOverride(element, item);
+			if (IsUsingOwnContainerAsTemplateRoot && element is ContentPresenter cp)
+			{
+				// ItemsControl::PrepareContainerForItemOverride will apply the ItemContainerStyle to the element which is not something we want here,
+				// since it can throw: The DP [WrongDP] is owned by [Control] and cannot be used on [ContentPresenter].
+				// While this doesnt break the control or the visual, it can cause a scaling performance degradation.
 
-			void SetupTabBarItem(TabBarItem item)
-			{
-				item.IsSelected = IsSelected(IndexFromContainer(element));
-				item.Click += OnTabBarItemClick;
-				item.IsSelectedChanged += OnTabBarIsSelectedChanged;
-			}
+				cp.ContentTemplate = ItemTemplate;
+				cp.ContentTemplateSelector = ItemTemplateSelector;
 
-			if (element is TabBarItem container)
-			{
-				SetupTabBarItem(container);
-			}
-			else if (IsUsingOwnContainerAsTemplateRoot &&
-				element is ContentPresenter outerContainer)
-			{
-				var templateRoot = outerContainer.ContentTemplate.LoadContent();
-				if (templateRoot is TabBarItem tabBarItem)
+				cp.DataContext = item;
+				SetContent(cp, item);
+
+#if !HAS_UNO
+				// force template materialization
+				cp.Measure(Size.Empty);
+#endif
+
+				if (cp.GetFirstChild() is TabBarItem tbi)
 				{
-					outerContainer.ContentTemplate = null;
-					SetupTabBarItem(tabBarItem);
-					tabBarItem.DataContext = item;
-					tabBarItem.Style ??= ItemContainerStyle;
-					outerContainer.Content = tabBarItem;
+					ApplyContainerStyle(tbi);
+					SetupTabBarItem(tbi);
 				}
+			}
+			else
+			{
+				base.PrepareContainerForItemOverride(element, item);
+				if (element is TabBarItem tbi)
+				{
+					SetupTabBarItem(tbi);
+				}
+			}
+
+			void SetContent(ContentPresenter cp, object item)
+			{
+				if (string.IsNullOrEmpty(DisplayMemberPath))
+				{
+					cp.Content = item;
+				}
+				else
+				{
+					cp.SetBinding(ContentPresenter.ContentProperty, new Binding
+					{
+						Source = item,
+						Path = new(DisplayMemberPath),
+					});
+				}
+			}
+			void ApplyContainerStyle(TabBarItem tbi)
+			{
+				var localStyleValue = tbi.ReadLocalValue(FrameworkElement.StyleProperty);
+				var isStyleSetFromTabBar = tbi.IsStyleSetFromTabBar;
+
+				if (localStyleValue == DependencyProperty.UnsetValue || isStyleSetFromTabBar)
+				{
+					var style = ItemContainerStyle ?? ItemContainerStyleSelector?.SelectStyle(item, tbi);
+					if (style is { })
+					{
+						tbi.Style = style;
+						tbi.IsStyleSetFromTabBar = true;
+					}
+					else
+					{
+						tbi.ClearValue(FrameworkElement.StyleProperty);
+						tbi.IsStyleSetFromTabBar = false;
+					}
+				}
+			}
+			void SetupTabBarItem(TabBarItem tbi)
+			{
+				tbi.IsSelected = IsSelected(IndexFromContainer(element));
+				tbi.Click += OnTabBarItemClick;
+				tbi.IsSelectedChanged += OnTabBarIsSelectedChanged;
 			}
 		}
 
@@ -108,30 +155,26 @@ namespace Uno.Toolkit.UI
 
 		protected override void ClearContainerForItemOverride(DependencyObject element, object item)
 		{
-			base.ClearContainerForItemOverride(element, item);
+			if (IsUsingOwnContainerAsTemplateRoot && element is ContentPresenter cp)
+			{
+				if (cp.GetFirstChild() is TabBarItem tbi)
+				{
+					TearDownTabBarItem(tbi);
+				}
+			}
+			else
+			{
+				base.ClearContainerForItemOverride(element, item);
+				if (element is TabBarItem tbi)
+				{
+					TearDownTabBarItem(tbi);
+				}
+			}
 
 			void TearDownTabBarItem(TabBarItem item)
 			{
 				item.Click -= OnTabBarItemClick;
 				item.IsSelectedChanged -= OnTabBarIsSelectedChanged;
-				if (!IsUsingOwnContainerAsTemplateRoot)
-				{
-					item.Style = null;
-				}
-			}
-			if (element is TabBarItem container)
-			{
-				TearDownTabBarItem(container);
-			}
-			else if (IsUsingOwnContainerAsTemplateRoot &&
-				element is ContentPresenter outerContainer)
-			{
-				if (outerContainer.Content is TabBarItem innerContainer)
-				{
-					TearDownTabBarItem(innerContainer);
-					innerContainer.DataContext = null;
-				}
-				outerContainer.Content = null;
 			}
 		}
 
@@ -420,9 +463,9 @@ namespace Uno.Toolkit.UI
 		// Afterward, pass the resulting `ContentPresenter` as a parameter to this method.
 		internal TabBarItem? GetInnerContainer(DependencyObject? container)
 		{
-			if (IsUsingOwnContainerAsTemplateRoot && container is ContentPresenter cp)
+			if (IsUsingOwnContainerAsTemplateRoot)
 			{
-				return cp.Content as TabBarItem;
+				return (container as ContentPresenter)?.GetFirstChild() as TabBarItem;
 			}
 
 			return container as TabBarItem;
@@ -431,12 +474,9 @@ namespace Uno.Toolkit.UI
 		internal DependencyObject? InnerContainerFromIndex(int index)
 		{
 			var container = ContainerFromIndex(index);
-			if (IsUsingOwnContainerAsTemplateRoot && container is ContentPresenter cp)
-			{
-				container = cp.Content as DependencyObject;
-			}
+			var inner = GetInnerContainer(container);
 
-			return container;
+			return inner;
 		}
 
 		private TabBarItem? InnerContainerFromIndexSafe(int index)

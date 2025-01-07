@@ -37,6 +37,26 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	internal partial class TabBarTests // test cases
 	{
 		[TestMethod]
+		public async Task TabBar1285_ICS_With_TBI_ItemTemplate()
+		{
+			// note: this bug doesnt happen with ItemsSource = [TBI,...]
+			// because IsItemItsOwnContainerOverride=true. It only occurs
+			// with the ItemTemplate>DataTemplate>TBI setup (IsUsingOwnContainerAsTemplateRoot),
+			// which cause a ContentPresnter to be created as the item container.
+			var source = Enumerable.Range(0, 1).ToArray();
+			var SUT = new TabBar
+			{
+				ItemsSource = source,
+				ItemTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+					<DataTemplate>
+						<utu:TabBarItem Content="{Binding}" />
+					</DataTemplate>
+				"""),
+			};
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+		}
+
+		[TestMethod]
 		[DataRow(new int[0], null)]
 		[DataRow(new[] { 1 }, 1)]
 		[DataRow(new[] { 1, 1 }, 1)]
@@ -137,14 +157,22 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		public async Task Verify_Indicator_Max_Size()
 		{
 			var source = Enumerable.Range(0, 3).Select(x => new TabBarItem { Content = x }).ToArray();
-			var indicator = new Border() { Height = 5, Background = new SolidColorBrush(Colors.Red) };
 			var SUT = new TabBar
 			{
 				ItemsSource = source,
-				SelectionIndicatorContent = indicator,
+				SelectionIndicatorContent = "asd",
+				SelectionIndicatorContentTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+					<DataTemplate>
+						<Border x:Name="SutIndicator" Height="5" Background="Red" />
+					</DataTemplate>
+				"""),
 			};
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			var presenter = SUT.GetFirstDescendant<TabBarSelectionIndicatorPresenter>(x => x.Visibility == Visibility.Visible);
+			var indicator = presenter?.GetFirstDescendant<Border>("SutIndicator")!;
+			Assert.IsNotNull(indicator, "Failed to find Border#SutIndicator");
 
 			source[0].IsSelected = true;
 			await UnitTestsUIContentHelper.WaitForIdle();
@@ -163,36 +191,38 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
-		[DataRow(Orientation.Horizontal, IndicatorTransitionMode.Snap, DisplayName = "Horizontal Snap")]
-		[DataRow(Orientation.Horizontal, IndicatorTransitionMode.Slide, DisplayName = "Horizontal Slide")]
-		[DataRow(Orientation.Vertical, IndicatorTransitionMode.Snap, DisplayName = "Vertical Snap")]
-		[DataRow(Orientation.Vertical, IndicatorTransitionMode.Slide, DisplayName = "Vertical Slide")]
+		[DataRow(Orientation.Horizontal, IndicatorTransitionMode.Snap)]
+		[DataRow(Orientation.Horizontal, IndicatorTransitionMode.Slide)]
+		[DataRow(Orientation.Vertical, IndicatorTransitionMode.Snap)]
+		[DataRow(Orientation.Vertical, IndicatorTransitionMode.Slide)]
 		public async Task Verify_Indicator_Transitions(Orientation orientation, IndicatorTransitionMode transitionMode)
 		{
 			const int NumItems = 3;
 			const double ItemSize = 100d;
+
 			var source = Enumerable.Range(0, NumItems).ToArray();
-			var indicator = new Border() { Background = new SolidColorBrush(Colors.Red) };
 			var SUT = new TabBar
 			{
 				Orientation = orientation,
 				ItemsSource = source,
-				SelectionIndicatorContent = indicator,
+				Width = orientation == Orientation.Horizontal ? ItemSize * NumItems : double.NaN,
+				Height = orientation == Orientation.Vertical ? ItemSize * NumItems : double.NaN,
+				SelectionIndicatorContent = "asd",
+				SelectionIndicatorContentTemplate = XamlHelper.LoadXaml<DataTemplate>($"""
+					<DataTemplate>
+						<Border x:Name="SutIndicator"
+								{(orientation == Orientation.Horizontal ? "Height" : "Width")}="5"
+								Background="Red" />
+					</DataTemplate>
+				"""),
 				SelectionIndicatorTransitionMode = transitionMode,
 			};
 
-			if (orientation == Orientation.Horizontal)
-			{
-				SUT.Width = ItemSize * NumItems;
-				indicator.Height = 5;
-			}
-			else
-			{
-				SUT.Height = ItemSize * NumItems;
-				indicator.Width = 5;
-			}
-
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			var presenter = SUT.GetFirstDescendant<TabBarSelectionIndicatorPresenter>(x => x.Visibility == Visibility.Visible);
+			var indicator = presenter?.GetFirstDescendant<Border>("SutIndicator")!;
+			Assert.IsNotNull(indicator, "Failed to find Border#SutIndicator");
 
 			for (int i = 0; i < NumItems; i++)
 			{
