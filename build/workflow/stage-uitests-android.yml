@@ -43,7 +43,7 @@
         SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
 
   pool:
-    vmImage: 'macOS-15'
+    vmImage: 'macOS-14'
 
   steps:
   - checkout: self
