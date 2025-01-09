@@ -20,7 +20,7 @@ jobs:
         CI_Build: true
 
   pool:
-    vmImage: 'macOS-14'
+    vmImage: 'macOS-15'
 
   variables:
   - group: unoplatform.apple.ios.appstore.distribution
@@ -119,7 +119,7 @@ jobs:
         CI_Build: true
 
   pool:
-    vmImage: 'macOS-14'
+    vmImage: 'macOS-15'
 
   steps:
   - template: templates/dotnet-workload-install-mac.yml
