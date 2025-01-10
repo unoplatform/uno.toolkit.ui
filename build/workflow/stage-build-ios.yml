@@ -119,13 +119,11 @@ jobs:
         CI_Build: true
 
   pool:
-    vmImage: 'macOS-14'
+    vmImage: 'macOS-15'
 
   steps:
   - template: templates/dotnet-workload-install-mac.yml
   - template: templates/canary-updater.yml
-  - template: templates/gitversion.yml
-  - template: templates/set-app-versions.yml
 
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-build.sh
