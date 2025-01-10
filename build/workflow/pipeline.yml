@@ -36,6 +36,7 @@ variables:
 
   IsCanaryBranch: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries/')]
   IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
+  XCODE_ROOT: '/Applications/Xcode_15.4.app'
 
 stages:
 - stage: Determine_Changes
