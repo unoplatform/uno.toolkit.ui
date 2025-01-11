@@ -89,6 +89,7 @@ public partial class ZoomContentControl : ContentControl
 		_translation = FindTemplatePart<TranslateTransform>(TemplateParts.TranslateTransform);
 
 		ResetViewport();
+		UpdateScrollDetails();
 	}
 
 	protected override void OnContentChanged(object oldContent, object newContent)
@@ -98,6 +99,8 @@ public partial class ZoomContentControl : ContentControl
 		{
 			fe.Loaded += OnContentLoaded;
 			fe.SizeChanged += OnContentSizeChanged;
+			UpdateScrollDetails();
+
 			_contentSubscriptions.Disposable = Disposable.Create(() =>
 			{
 				fe.Loaded -= OnContentLoaded;
@@ -107,6 +110,10 @@ public partial class ZoomContentControl : ContentControl
 
 		void OnContentLoaded(object sender, RoutedEventArgs e)
 		{
+			if (Content is Canvas)
+			{
+				UpdateScrollDetails();
+			}
 			if (AutoFitToCanvas)
 			{
 				FitToCanvas();
@@ -114,12 +121,7 @@ public partial class ZoomContentControl : ContentControl
 		}
 		void OnContentSizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			_contentSize = new Size(fe.ActualWidth, fe.ActualHeight);
-			HorizontalZoomCenter = _contentSize.Width / 2;
-			VerticalZoomCenter = _contentSize.Height / 2;
-
-			UpdateScrollBars();
-			UpdateScrollVisibility();
+			UpdateScrollDetails();
 		}
 	}
 
@@ -152,28 +154,19 @@ public partial class ZoomContentControl : ContentControl
 		}
 
 		UpdateScrollBars();
-		UpdateScrollVisibility();
 		await RaiseRenderedContentUpdated();
 	}
 
-	private void UpdateScrollVisibility()
+	private async void UpdateScrollDetails()
 	{
-		if (Viewport is { } vp)
+		if (Content is FrameworkElement fe)
 		{
-			ToggleScrollBarVisibility(_scrollH, vp.ActualWidth < ScrollExtentWidth);
-			ToggleScrollBarVisibility(_scrollV, vp.ActualHeight < ScrollExtentHeight);
-		}
-
-		void ToggleScrollBarVisibility(ScrollBar? sb, bool value)
-		{
-			if (sb is null) return;
-
-			// Showing/hiding the ScrollBar(s)could cause the ContentPresenter to move as it re-centers.
-			// This adds unnecessary complexity for the zooming logics as we need to preserve the focal point
-			// under the cursor position or the pinch center point after zooming.
-			// To avoid all that, we just make them permanently there for layout calculation.
-			sb.IsEnabled = value;
-			sb.Opacity = value ? 1 : 0;
+			_contentSize = new Size(fe.ActualWidth, fe.ActualHeight);
+			HorizontalZoomCenter = _contentSize.Width / 2;
+			VerticalZoomCenter = _contentSize.Height / 2;
+			
+			UpdateScrollBars();
+			await RaiseRenderedContentUpdated();
 		}
 	}
 
@@ -207,20 +200,57 @@ public partial class ZoomContentControl : ContentControl
 	{
 		if (Viewport is { } vp)
 		{
-			var scrollableWidth = Math.Max(0, ScrollExtentWidth - vp.ActualWidth);
-			var scrollableHeight = Math.Max(0, ScrollExtentHeight - vp.ActualHeight);
+			if (Content is Canvas { Children: { Count: > 0 } } canvas)
+			{
+				var realm = canvas.Children
+					.Select(x => new Rect(x.ActualOffset.X, x.ActualOffset.Y, x.ActualSize.X, x.ActualSize.Y))
+					.Aggregate(RectHelper.Union);
+				if (realm != default)
+				{
+					realm = realm.Multiply(ZoomLevel).Inflate(AdditionalMargin);
 
-			// since the content is always centered, we need to able to scroll both way equally:
-			// [Content-Content-Content]
-			// [=======[Viewport]======]
-			HorizontalMaxScroll = scrollableWidth / 2;
-			HorizontalMinScroll = -HorizontalMaxScroll;
-			VerticalMaxScroll = scrollableHeight / 2;
-			VerticalMinScroll = -VerticalMaxScroll;
+					HorizontalMinScroll = -realm.Right + (vp.ActualWidth / 2);
+					HorizontalMaxScroll = -realm.Left - (vp.ActualWidth / 2);
+					
+					VerticalMinScroll = realm.Top + (vp.ActualHeight / 2);
+					VerticalMaxScroll = realm.Bottom - (vp.ActualHeight / 2);
+				}
+				else
+				{
+					HorizontalMaxScroll = HorizontalMinScroll = 0;
+					VerticalMaxScroll = VerticalMinScroll = 0;
+				}
+			}
+			else
+			{
+				var scrollableWidth = Math.Max(0, ScrollExtentWidth - vp.ActualWidth);
+				var scrollableHeight = Math.Max(0, ScrollExtentHeight - vp.ActualHeight);
 
-			// update size of thumb
-			if (_scrollH is { }) _scrollH.ViewportSize = vp.ActualWidth;
-			if (_scrollV is { }) _scrollV.ViewportSize = vp.ActualHeight;
+				// since the content is always centered, we need to able to scroll both way equally:
+				// [Content-Content-Content]
+				// [=======[Viewport]======]
+				HorizontalMaxScroll = scrollableWidth / 2;
+				HorizontalMinScroll = -HorizontalMaxScroll;
+				VerticalMaxScroll = scrollableHeight / 2;
+				VerticalMinScroll = -VerticalMaxScroll;
+			}
+
+			Update(_scrollH, HorizontalMinScroll < HorizontalMaxScroll, vp.ActualWidth);
+			Update(_scrollV, VerticalMinScroll < VerticalMaxScroll, vp.ActualHeight);
+			void Update(ScrollBar? sb, bool shown, double thumbSize)
+			{
+				if (sb is null) return;
+
+				// update size of thumb
+				sb.ViewportSize = thumbSize;
+
+				// Showing/hiding the ScrollBar(s)could cause the ContentPresenter to move as it re-centers.
+				// This adds unnecessary complexity for the zooming logics as we need to preserve the focal point
+				// under the cursor position or the pinch center point after zooming.
+				// To avoid all that, we just make them permanently there for layout calculation.
+				sb.IsEnabled = shown;
+				sb.Opacity = shown ? 1 : 0;
+			}
 		}
 	}
 
