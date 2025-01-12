@@ -51,6 +51,10 @@
         artifactName: $(SAMPLEAPP_ARTIFACT_NAME)
         downloadPath: '$(build.sourcesdirectory)/build'
   
+  - template: templates/xcode-select.yml
+    parameters:
+      xCodeRoot: $(XCODE_ROOT)
+
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
       $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
