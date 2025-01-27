@@ -52,14 +52,14 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Get if the application is currently in dark mode.
 		/// </summary>
-		[EditorBrowsable(EditorBrowsableState.Never)]
+		[Obsolete("IsAppInDarkMode is obsolete. Use IsRootInDarkMode(XamlRoot root) instead.")]
 		public static bool IsAppInDarkMode()
 			=> GetRootTheme(GetWindowRoot().XamlRoot) == ApplicationTheme.Dark;
 
 		public static bool IsRootInDarkMode(XamlRoot root)
 			=> GetRootTheme(root) == ApplicationTheme.Dark;
 
-		[EditorBrowsable(EditorBrowsableState.Never)]
+		[Obsolete("SetApplicationTheme(bool darkMode) is obsolete. Use SetApplicationTheme(XamlRoot? root, ElementTheme theme) instead.")]
 		public static void SetApplicationTheme(bool darkMode)
 			=> SetRootTheme(GetWindowRoot().XamlRoot, darkMode);
 
@@ -79,6 +79,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		[Obsolete("ToggleApplicationTheme() is obsolete. Use SetApplicationTheme(XamlRoot? root, ElementTheme theme) instead.")]
 		public static void ToggleApplicationTheme()
 			=> SetApplicationTheme(darkMode: !IsAppInDarkMode());
 
