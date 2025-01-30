@@ -31,7 +31,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Get the current theme of the application.
 		/// </summary>
-		[EditorBrowsable(EditorBrowsableState.Never)]
+		[Obsolete("GetApplicationTheme is obsolete. Use GetRootTheme(XamlRoot root) instead.")]
 		public static ApplicationTheme GetApplicationTheme()
 			=> GetRootTheme(GetWindowRoot()?.XamlRoot);
 
