@@ -12,7 +12,7 @@ Provides utilities for managing and retrieving the current theme of the operatin
 
 | Method                       | Return Type             | Description                                                                                                   |
 |------------------------------|-------------------------|---------------------------------------------------------------------------------------------------------------|
-| `GetCurrentOsTheme()`        | `ApplicationTheme`      | Retrieves the current theme of the operating system, based on the background color.                          |
+| `GetCurrentOsTheme()`        | `ApplicationTheme`      | Retrieves the current theme of the operating system.                          |
 | `GetApplicationTheme()`      | `ApplicationTheme`      | **[Obsolete]** Retrieves the current theme of the application. Will be removed in future versions.           |
 | `GetRootTheme(XamlRoot?)`    | `ApplicationTheme`      | Gets the `ApplicationTheme` of the provided `XamlRoot`, or falls back to the operating system theme.          |
 | `IsAppInDarkMode()`          | `bool`                 | **[Obsolete]** Returns `true` if the application is currently in dark mode, otherwise `false`.               |
