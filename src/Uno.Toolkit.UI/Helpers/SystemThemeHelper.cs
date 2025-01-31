@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using System.ComponentModel;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -34,6 +31,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Get the current theme of the application.
 		/// </summary>
+		[Obsolete("GetApplicationTheme is obsolete. Use GetRootTheme(XamlRoot root) instead.")]
 		public static ApplicationTheme GetApplicationTheme()
 			=> GetRootTheme(GetWindowRoot()?.XamlRoot);
 
@@ -54,12 +52,14 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Get if the application is currently in dark mode.
 		/// </summary>
+		[Obsolete("IsAppInDarkMode is obsolete. Use IsRootInDarkMode(XamlRoot root) instead.")]
 		public static bool IsAppInDarkMode()
 			=> GetRootTheme(GetWindowRoot().XamlRoot) == ApplicationTheme.Dark;
 
 		public static bool IsRootInDarkMode(XamlRoot root)
 			=> GetRootTheme(root) == ApplicationTheme.Dark;
 
+		[Obsolete("SetApplicationTheme(bool darkMode) is obsolete. Use SetApplicationTheme(XamlRoot? root, ElementTheme theme) instead.")]
 		public static void SetApplicationTheme(bool darkMode)
 			=> SetRootTheme(GetWindowRoot().XamlRoot, darkMode);
 
@@ -79,6 +79,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		[Obsolete("ToggleApplicationTheme() is obsolete. Use SetApplicationTheme(XamlRoot? root, ElementTheme theme) instead.")]
 		public static void ToggleApplicationTheme()
 			=> SetApplicationTheme(darkMode: !IsAppInDarkMode());
 
