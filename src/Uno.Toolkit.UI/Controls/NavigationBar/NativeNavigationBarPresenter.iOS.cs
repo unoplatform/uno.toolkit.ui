@@ -41,7 +41,13 @@ namespace Uno.Toolkit.UI
 
 		public NativeNavigationBarPresenter()
 		{
+			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			OnOwnerChanged();
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -141,8 +147,6 @@ namespace Uno.Toolkit.UI
 
 			return measuredSize;
 		}
-
-		
 	}
 }
 #endif
