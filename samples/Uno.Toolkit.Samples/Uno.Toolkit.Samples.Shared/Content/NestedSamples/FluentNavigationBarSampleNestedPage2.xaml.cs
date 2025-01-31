@@ -24,4 +24,6 @@ public sealed partial class FluentNavigationBarSampleNestedPage2 : Page
     }
 
 	private void NavigateBack(object sender, RoutedEventArgs e) => Frame.GoBack();
+
+	private void NavigateToThird(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(FluentNavigationBarSampleNestedPage3));
 }

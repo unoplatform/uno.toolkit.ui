@@ -14,6 +14,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Content="First Page"
 						   MainCommandMode="Action"
@@ -22,6 +23,7 @@
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Click="NavigateBack"
 							  Label="Close"
+							  AutomationProperties.AutomationId="FluentPage1NavBarMainCommand"
 							  Style="{StaticResource DefaultAppBarButtonStyle}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
@@ -72,5 +74,24 @@
 			<Button Click="NavigateToNextPage"
 					Content="Navigate To Second Page" />
 		</StackPanel>
+		
+		<Button AutomationProperties.AutomationId="OpenFlyoutButton"
+				Content="Open flyout"
+				Click="OpenFlyout"
+				Grid.Row="2">
+			<Button.Flyout>
+				<Flyout>
+					<Flyout.FlyoutPresenterStyle>
+						<Style TargetType="FlyoutPresenter">
+							<Setter Property="MinHeight" Value="300" />
+							<Setter Property="MinWidth" Value="300" />
+						</Style>
+					</Flyout.FlyoutPresenterStyle>
+					<Grid>
+						<Frame x:Name="FlyoutFrame" />
+					</Grid>
+				</Flyout>
+			</Button.Flyout>
+		</Button>
 	</Grid>
 </Page>
