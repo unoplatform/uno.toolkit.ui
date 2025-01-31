@@ -121,5 +121,30 @@ namespace Uno.Toolkit.UITest.Controls.NavigationBar
 
 			App.WaitForElement("FluentPage2NavBar", "Timed out waiting for Page 2 Nav Bar");
 		}
+
+		[Test]
+		[AutoRetry]
+		public void NavBar_Can_Close_Flyout_With_MainCommand()
+		{
+			NavigateToNestedSample("FluentNavigationBarSampleNestedPage");
+			App.Tap("OpenPage2FlyoutButton");
+			App.WaitForElement("FluentPage2NavBar", "Timed out waiting for Page 2 Nav Bar");
+			App.Tap("NavigateToThirdButton");
+			App.WaitForElement("FluentPage3NavBar", "Timed out waiting for Page 3 Nav Bar");
+
+			PlatformHelpers.On(
+				iOS: () => App.Tap("FluentPage3NavBarMainCommand"),
+				Android: () => App.Tap(q => q.Marked("FluentPage3NavBar").Descendant("AppCompatImageButton"))
+			);
+
+			App.WaitForElement("FluentPage2NavBar", "Timed out waiting for Page 2 Nav Bar");
+
+			PlatformHelpers.On(
+				iOS: () => App.Tap("FluentPage2NavBarMainCommand"),
+				Android: () => App.Tap(q => q.Marked("FluentPage2NavBar").Descendant("AppCompatImageButton"))
+			);
+
+			App.WaitForElement("FluentPage1NavBar", "Timed out waiting for Page 1 Nav Bar");
+		}
 	}
 }

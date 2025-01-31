@@ -16,6 +16,16 @@
 		<utu:NavigationBar Content="Second Page"
 						   AutomationProperties.AutomationId="FluentPage2NavBar"
 						   Style="{StaticResource DefaultNavigationBar}">
+			<utu:NavigationBar.MainCommand>
+				<AppBarButton Click="NavigateBack"
+							  Label="Close"
+							  AutomationProperties.AutomationId="FluentPage2NavBarMainCommand"
+							  Style="{StaticResource DefaultAppBarButtonStyle}">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.MainCommand>
 			<utu:NavigationBar.PrimaryCommands>
 				<AppBarButton Label="More"
 							  Style="{StaticResource DefaultAppBarButtonStyle}" />
@@ -39,6 +49,10 @@
 				You can use the back button located on the left side of the CommandBar
 				to navigate back.
 			</TextBlock>
+
+			<Button AutomationProperties.AutomationId="NavigateToThirdButton"
+					Click="NavigateToThird"
+					Content="Navigate to Third" />
 
 			<Button Click="NavigateBack"
 					Content="Navigate Back" />
