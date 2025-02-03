@@ -185,7 +185,7 @@ namespace Uno.Toolkit.UI
 						? new UIImage() // Clears the background
 						: ((UIColor)backgroundColor).ToUIImage(); // Applies the solid color;
 
-					// We're using SetBackgroundImage instead of SetBackgroundColor 
+					// We're using SetBackgroundImage instead of SetBackgroundColor
 					// because it extends all the way up under the status bar.
 					native.SetBackgroundImage(backgroundImage, UIControlState.Normal, UIBarMetrics.Default);
 				}
