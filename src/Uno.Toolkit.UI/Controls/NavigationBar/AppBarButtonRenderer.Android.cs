@@ -94,6 +94,7 @@ namespace Uno.Toolkit.UI
 				yield return element.RegisterDisposableNestedPropertyChangedCallback(
 					(s, e) => Invalidate(),
 					new[] { AppBarButton.LabelProperty },
+					new[] { AppBarButton.IconProperty },
 					new[] { AppBarButton.ContentProperty },
 					new[] { AppBarButton.ContentProperty, FrameworkElement.VisibilityProperty },
 					new[] { AppBarButton.OpacityProperty },
@@ -103,34 +104,6 @@ namespace Uno.Toolkit.UI
 					new[] { AppBarButton.VisibilityProperty },
 					new[] { AppBarButton.IsEnabledProperty },
 					new[] { AppBarButton.IsInOverflowProperty }
-				);
-
-				SerialDisposable uriSourceDisposable = new SerialDisposable();
-				yield return uriSourceDisposable;
-
-				UpdateUriSourceDisposable(element, uriSourceDisposable, Invalidate);
-				static void UpdateUriSourceDisposable(AppBarButton element, SerialDisposable serialDisposable, Action callback)
-				{
-					if (element.Icon is BitmapIcon bitmapIcon)
-					{
-						serialDisposable.Disposable = bitmapIcon.RegisterDisposablePropertyChangedCallback(BitmapIcon.UriSourceProperty, (_, _) =>
-						{
-							callback();
-						});
-					}
-					else
-					{
-						serialDisposable.Disposable = null;
-					}
-				}
-
-				yield return element.RegisterDisposableNestedPropertyChangedCallback(
-					(s, e) =>
-					{
-						Invalidate();
-						UpdateUriSourceDisposable(element, uriSourceDisposable, Invalidate);
-					},
-					new[] { AppBarButton.IconProperty }
 				);
 
 				yield return Disposable.Create(() =>
