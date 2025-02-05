@@ -109,8 +109,17 @@ namespace Uno.Toolkit.Samples
 #if USE_UITESTS
 		private void ForceSampleNavigation(string sampleName)
 		{
+			var backdoorParts = sampleName.Split("-");
+			var title = backdoorParts.FirstOrDefault();
+			var designName = backdoorParts.Length > 1 ? backdoorParts[1] : string.Empty;
+
 			var sample = GetSamples()
 				.FirstOrDefault(x => string.Equals(x.Title, sampleName, StringComparison.OrdinalIgnoreCase));
+
+			if (Enum.TryParse<Design>(designName, out var design))
+			{
+				SamplePageLayout.SetPreferredDesign(design);
+			}
 
 			if (sample == null)
 			{
@@ -207,7 +216,7 @@ namespace Uno.Toolkit.Samples
 					case SampleCategory.Controls: return Icons.Controls.Control;
 					case SampleCategory.Tests: return Icons.Tests.Test;
 
-					case SampleCategory.Helpers: 
+					case SampleCategory.Helpers:
 					default: return Icons.Placeholder;
 				}
 			}
