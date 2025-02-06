@@ -114,7 +114,7 @@ namespace Uno.Toolkit.Samples
 			var designName = backdoorParts.Length > 1 ? backdoorParts[1] : string.Empty;
 
 			var sample = GetSamples()
-				.FirstOrDefault(x => string.Equals(x.Title, sampleName, StringComparison.OrdinalIgnoreCase));
+				.FirstOrDefault(x => string.Equals(x.Title, title, StringComparison.OrdinalIgnoreCase));
 
 			if (Enum.TryParse<Design>(designName, out var design))
 			{
