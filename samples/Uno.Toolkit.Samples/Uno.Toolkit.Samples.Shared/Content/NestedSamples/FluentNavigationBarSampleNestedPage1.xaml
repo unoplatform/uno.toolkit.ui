@@ -31,7 +31,7 @@
 				<AppBarButton Click="NavigateBack"
 							  Label="Close"
 							  AutomationProperties.AutomationId="FluentPage1NavBarMainCommand"
-							  Style="{StaticResource DefaultAppBarButtonStyle}">
+							  Style="{StaticResource DefaultMainCommandStyle}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
 					</AppBarButton.Icon>
