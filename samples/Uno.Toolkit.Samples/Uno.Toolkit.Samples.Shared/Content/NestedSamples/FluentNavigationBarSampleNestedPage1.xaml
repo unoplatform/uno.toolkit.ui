@@ -8,11 +8,19 @@
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	  mc:Ignorable="d ios">
+	<Page.Resources>
+		<Style x:Key="SmallFlyoutPresenterStyle"
+			   TargetType="FlyoutPresenter">
+			<Setter Property="MinHeight" Value="300" />
+			<Setter Property="MinWidth" Value="300" />
+		</Style>
+	</Page.Resources>
 
 	<Grid>
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Content="First Page"
@@ -22,7 +30,8 @@
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Click="NavigateBack"
 							  Label="Close"
-							  Style="{StaticResource DefaultAppBarButtonStyle}">
+							  AutomationProperties.AutomationId="FluentPage1NavBarMainCommand"
+							  Style="{StaticResource DefaultMainCommandStyle}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
 					</AppBarButton.Icon>
@@ -71,6 +80,35 @@
 					Content="Exit sample" />
 			<Button Click="NavigateToNextPage"
 					Content="Navigate To Second Page" />
+		</StackPanel>
+
+		<StackPanel Grid.Row="2"
+					VerticalAlignment="Stretch">
+			<Button AutomationProperties.AutomationId="OpenPage2FlyoutButton"
+					Content="Open Page2 in flyout"
+					Click="OpenPage2Flyout"
+					Grid.Row="2">
+				<Button.Flyout>
+					<Flyout FlyoutPresenterStyle="{StaticResource SmallFlyoutPresenterStyle}">
+						<Grid>
+							<Frame x:Name="Page2FlyoutFrame" />
+						</Grid>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+
+			<Button AutomationProperties.AutomationId="OpenPage3FlyoutButton"
+					Content="Open Page3 in flyout"
+					Click="OpenPage3Flyout"
+					Grid.Row="2">
+				<Button.Flyout>
+					<Flyout FlyoutPresenterStyle="{StaticResource SmallFlyoutPresenterStyle}">
+						<Grid>
+							<Frame x:Name="Page3FlyoutFrame" />
+						</Grid>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
 		</StackPanel>
 	</Grid>
 </Page>

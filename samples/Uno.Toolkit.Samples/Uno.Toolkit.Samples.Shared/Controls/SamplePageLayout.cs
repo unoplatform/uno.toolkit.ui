@@ -145,6 +145,17 @@ namespace Uno.Toolkit.Samples
 			}
 		}
 
+		/// <summary>
+		/// Changes the preferred design.
+		/// This doesn't change the current UI. It only affects the next created sample.
+		/// </summary>
+		/// <param name="design">The desired design.</param>
+		public static void SetPreferredDesign(Design design)
+		{
+			_design = design;
+		}
+
+
 		private void UpdateSampleDataContext()
 		{
 			if (_sampleContainer is null) return;
@@ -219,7 +230,7 @@ namespace Uno.Toolkit.Samples
 		private double GetRelativeOffset()
 		{
 #if NETFX_CORE
-			// On UWP we can count on finding a ScrollContentPresenter. 
+			// On UWP we can count on finding a ScrollContentPresenter.
 			var scp = VisualTreeHelperEx.GetFirstDescendant<ScrollContentPresenter>(_scrollViewer);
 			var content = scp?.Content as FrameworkElement;
 			var transform = _scrollingTabs.TransformToVisual(content);
