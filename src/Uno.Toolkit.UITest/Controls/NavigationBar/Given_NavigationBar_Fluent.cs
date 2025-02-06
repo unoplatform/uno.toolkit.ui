@@ -44,7 +44,7 @@ namespace Uno.Toolkit.UITest.Controls.NavigationBar
 			App.WaitForElement("FluentPage3NavBar", "Timed out waiting for Page 3 Nav Bar");
 
 			PlatformHelpers.On(
-				iOS: () => App.FastTap("FluentPage3NavBarMainCommand"),
+				iOS: () => App.FastTap("BackButton"),
 				Android: () => App.FastTap(q => q.Marked("FluentPage3NavBar").Descendant("AppCompatImageButton"))
 			);
 
