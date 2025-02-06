@@ -31,4 +31,8 @@ public sealed partial class FluentNavigationBarSampleNestedPage : Page
 	private void NavigateToNextPage(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(FluentNavigationBarSampleNestedPage2));
 
 	private void NavigateBack(object sender, RoutedEventArgs e) => Shell.GetForCurrentView().BackNavigateFromNestedSample();
+
+	private void OpenPage2Flyout(object sender, RoutedEventArgs e) => Page2FlyoutFrame.Navigate(typeof(FluentNavigationBarSampleNestedPage2));
+	
+	private void OpenPage3Flyout(object sender, RoutedEventArgs e) => Page3FlyoutFrame.Navigate(typeof(FluentNavigationBarSampleNestedPage3));
 }
