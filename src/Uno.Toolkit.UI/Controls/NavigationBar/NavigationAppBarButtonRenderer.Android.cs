@@ -84,7 +84,7 @@ namespace Uno.Toolkit.UI
 
 			// Foreground
 			var hasIconColor = element.TryGetIconColor(out var foregroundColor);
-			var foregroundOpacity = hasIconColor ? foregroundColor.A / 255d : 0d;
+			var foregroundOpacity = hasIconColor ? foregroundColor.A / 255d : 1.0;
 
 			// Visibility
 			if (element.Visibility == Visibility.Visible)
@@ -135,7 +135,7 @@ namespace Uno.Toolkit.UI
 					if (bitmap.UriSource is { } uriSource)
 					{
 						native.NavigationIcon = DrawableHelper.FromUri(uriSource);
-						if (bitmap.ShowAsMonochrome && hasIconColor && native.NavigationIcon is { })
+						if (hasIconColor && native.NavigationIcon is { })
 						{
 							DrawableCompat.SetTint(native.NavigationIcon, (Android.Graphics.Color)foregroundColor);
 						}
