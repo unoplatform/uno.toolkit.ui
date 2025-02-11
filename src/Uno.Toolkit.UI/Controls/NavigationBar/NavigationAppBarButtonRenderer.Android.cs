@@ -135,7 +135,7 @@ namespace Uno.Toolkit.UI
 					if (bitmap.UriSource is { } uriSource)
 					{
 						native.NavigationIcon = DrawableHelper.FromUri(uriSource);
-						if (hasIconColor && native.NavigationIcon is { })
+						if (bitmap.ShowAsMonochrome && hasIconColor && native.NavigationIcon is { })
 						{
 							DrawableCompat.SetTint(native.NavigationIcon, (Android.Graphics.Color)foregroundColor);
 						}
