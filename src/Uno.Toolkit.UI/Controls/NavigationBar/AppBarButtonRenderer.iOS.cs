@@ -117,16 +117,12 @@ namespace Uno.Toolkit.UI
 			var native = Native;
 			var element = Element ?? throw new InvalidOperationException("Element is null.");
 
-			var iconOrContent = element.Icon ?? element.Content;
-			switch (iconOrContent)
-			{
-				case string text:
-					native.Image = null;
-					native.ClearCustomView();
-					native.Title = text;
-					break;
+			var iconOrContent = element.Icon ?? element.Content ?? element.Label;
 
-				case FrameworkElement fe:
+			if (iconOrContent is string || (iconOrContent is FrameworkElement fe && fe.Visibility == Visibility.Visible))
+			{
+				if (_appBarButtonWrapper is { } wrapper)
+				{
 					var currentParent = element.Parent;
 					_appBarButtonWrapper.Child = element;
 
@@ -136,19 +132,19 @@ namespace Uno.Toolkit.UI
 					element.SetParent(currentParent);
 
 					native.Image = null;
-					native.CustomView = fe.Visibility == Visibility.Visible ? _appBarButtonWrapper : null;
+					native.CustomView = _appBarButtonWrapper;
 					// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set.
 					// We default to an empty string to ensure it is added, in order to support late-bound Content.
-					native.Title = string.Empty;
-					break;
-
-				default:
-					native.Image = null;
-					native.ClearCustomView();
-					// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set.
-					// We default to an empty string to ensure it is added.
-					native.Title = string.Empty;
-					break;
+					native.Title = iconOrContent is string text ? text : string.Empty;
+				}
+			}
+			else
+			{
+				native.Image = null;
+				native.ClearCustomView();
+				// iOS doesn't add the UIBarButtonItem to the native logical tree unless it has an Image or Title set.
+				// We default to an empty string to ensure it is added.
+				native.Title = string.Empty;
 			}
 
 			// Label
