@@ -226,7 +226,7 @@ namespace Uno.Toolkit.UI
 				: safeAreaOverride.GetValueOrDefault();
 #if __ANDROID__
 			var statusBarOffset = 0d;
-			if (!XamlWindow.Current!.IsStatusBarTranslucent())
+			if ((int)Android.OS.Build.VERSION.SdkInt < 35 && !XamlWindow.Current!.IsStatusBarTranslucent())
 			{
 				statusBarOffset = Windows.UI.ViewManagement.StatusBar.GetForCurrentView()?.OccludedRect.Height ?? 0d;
 			}

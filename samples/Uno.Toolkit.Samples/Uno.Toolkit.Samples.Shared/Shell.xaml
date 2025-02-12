@@ -11,13 +11,14 @@
 			 xmlns:utu="using:Uno.Toolkit.UI"
 			 mc:Ignorable="wasm xamarin">
 
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+	<utu:SafeArea>
+		<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
 
-		<muxc:NavigationView Grid.Row="1"
+			<muxc:NavigationView Grid.Row="1"
 							 utu:SafeArea.Insets="VisibleBounds"
 							 x:Name="NavigationViewControl"
 							 OpenPaneLength="260"
@@ -29,48 +30,49 @@
 							 IsSettingsVisible="True"
 							 IsTabStop="False"
 							 Style="{StaticResource MaterialNavigationViewStyle}">
-			<muxc:NavigationView.PaneHeader>
-				<!-- Left padding for overlay toggle button -->
-				<Grid Padding="24,8,0,0">
-					<!-- Image -->
-					<Image Source="ms-appx:///Assets/UnoLogo.png"
+				<muxc:NavigationView.PaneHeader>
+					<!-- Left padding for overlay toggle button -->
+					<Grid Padding="24,8,0,0">
+						<!-- Image -->
+						<Image Source="ms-appx:///Assets/UnoLogo.png"
 						   Height="101"
 						   Width="75"
 						   HorizontalAlignment="Left"
 						   Margin="16,8,0,12" />
 
-					<ToggleButton x:Name="DarkModeToggle"
+						<ToggleButton x:Name="DarkModeToggle"
 								  Content="Light and Dark"
 								  Style="{StaticResource DarkLightToggleTheme}"
 								  Click="ToggleButton_Click"
 								  Margin="0,0,20,16"
 								  HorizontalAlignment="Right"
 								  VerticalAlignment="Bottom" />
-				</Grid>
-			</muxc:NavigationView.PaneHeader>
-		</muxc:NavigationView>
+					</Grid>
+				</muxc:NavigationView.PaneHeader>
+			</muxc:NavigationView>
 
-		<!-- Nested frame for samples that needs to be fullscreen -->
-		<Frame x:Name="NestedSampleFrame"
+			<!-- Nested frame for samples that needs to be fullscreen -->
+			<Frame x:Name="NestedSampleFrame"
 			   AutomationProperties.AutomationId="NestedSampleFrame"
 			   Grid.RowSpan="2"
 			   Visibility="Collapsed" />
 
-		<local:ModalDialog x:Name="ModalDialog" />
+			<local:ModalDialog x:Name="ModalDialog" />
 
-		<StackPanel x:Name="DebugPanel"
+			<StackPanel x:Name="DebugPanel"
 					x:Load="False"
 					Grid.RowSpan="2"
 					Background="Pink"
 					Padding="5"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Bottom">
-			<StackPanel Orientation="Horizontal">
-				<Button Content="DebugVT"
+				<StackPanel Orientation="Horizontal">
+					<Button Content="DebugVT"
 						Click="DebugVT" />
-				<Button Content="T"
+					<Button Content="T"
 						Click="DebugVTAsync" />
+				</StackPanel>
 			</StackPanel>
-		</StackPanel>
-	</Grid>
+		</Grid>
+	</utu:SafeArea>
 </UserControl>
