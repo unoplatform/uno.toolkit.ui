@@ -141,36 +141,29 @@ namespace Uno.Toolkit.UI
 			}
 			else
 			{
-				var iconOrContent = element.Icon ?? element.Content;
-				switch (iconOrContent)
+				var iconOrContent = element.Icon ?? element.Content ?? element.Label;
+
+				if (iconOrContent is string || (iconOrContent is FrameworkElement fe && fe.Visibility == Visibility.Visible))
 				{
-					case string text:
+					if (_appBarButtonWrapper is { } wrapper)
+					{
+						wrapper.Child = element;
+
+						// Restore the original parent if any, as we
+						// want the DataContext to flow properly from the
+						// CommandBar.
+						element.SetParent(_elementParent);
+
 						native.SetIcon(null);
-						native.SetActionView(null);
-						native.SetTitle(text);
-						break;
-
-					case FrameworkElement fe:
-						if (fe.Visibility == Visibility.Visible && _appBarButtonWrapper is { } wrapper)
-						{
-							wrapper.Child = element;
-
-							//Restore the original parent if any, as we
-							// want the DataContext to flow properly from the
-							// CommandBar.
-							element.SetParent(_elementParent);
-
-							native.SetIcon(null);
-							native.SetActionView(wrapper);
-							native.SetTitle(null);
-						}
-						break;
-
-					default:
-						native.SetIcon(null);
-						native.SetActionView(null);
+						native.SetActionView(wrapper);
 						native.SetTitle(null);
-						break;
+					}
+				}
+				else
+				{
+					native.SetIcon(null);
+					native.SetActionView(null);
+					native.SetTitle(null);
 				}
 			}
 
