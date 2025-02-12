@@ -11,6 +11,7 @@ using SkiaSharp.Views.Windows;
 using Uno.Extensions;
 using Uno.Logging;
 using Windows.UI;
+using Uno.Toolkit.Skia.WinUI;
 
 namespace Uno.Toolkit.UI;
 
@@ -207,7 +208,7 @@ public partial class ShadowContainer
 
 			paint.Style = SKPaintStyle.Fill;
 			paint.Color = shadow.GetSKColor();
-			paint.ImageFilter = SKImageFilter.CreateBlur(blurSigma, blurSigma);
+			paint.ImageFilter = SkiaCompat.SKImageFilter_CreateBlur(blurSigma, blurSigma);
 			paint.MaskFilter = null;
 			paint.StrokeWidth = 0;
 
