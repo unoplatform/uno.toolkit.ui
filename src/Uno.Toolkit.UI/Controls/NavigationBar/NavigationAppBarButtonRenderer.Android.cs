@@ -84,7 +84,7 @@ namespace Uno.Toolkit.UI
 
 			// Foreground
 			var hasIconColor = element.TryGetIconColor(out var foregroundColor);
-			var foregroundOpacity = hasIconColor ? foregroundColor.A / 255d : 0d;
+			var foregroundOpacity = hasIconColor ? foregroundColor.A / 255d : 1.0;
 
 			// Visibility
 			if (element.Visibility == Visibility.Visible)
