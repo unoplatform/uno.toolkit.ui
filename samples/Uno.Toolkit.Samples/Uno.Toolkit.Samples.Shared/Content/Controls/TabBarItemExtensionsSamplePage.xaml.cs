@@ -21,6 +21,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
 			this.InitializeComponent();
 
 			NestedNestedFrame.Navigate(typeof(TabBarItemExtensions_NestedPage1));
+			NestedNestedFrameRoot.Navigate(typeof(TabBarItemExtensions_Nested_ToRoot1));
 		}
 
 		private void ScrollTop(object sender, RoutedEventArgs e)

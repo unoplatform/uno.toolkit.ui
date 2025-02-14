@@ -41,6 +41,11 @@ namespace Uno.Toolkit.UI
 			ScrollToTop = 1 << 1,
 
 			/// <summary>
+			/// Navigate all the way back to the root page.
+			/// </summary>
+			BackNavigationToRoot = 1 << 2,
+
+			/// <summary>
 			/// All of above.
 			/// </summary>
 			Auto = BackNavigation | ScrollToTop,
@@ -166,11 +171,25 @@ namespace Uno.Toolkit.UI
 					predicate: IsValidContentHost
 				);
 
+			var onclickBehavior = GetOnClickBehaviors(tbi);
+
 			switch (contentHost)
 			{
 				case ListView lv: ScrollableHelper.SmoothScrollTop(lv); break;
 				case ScrollViewer sv: sv.ChangeView(0, 0, zoomFactor: default, disableAnimation: false); break;
-				case Frame f: if (f.CanGoBack) f.GoBack(); break;
+				case Frame f:
+					if ((onclickBehavior & TBIOnClickBehaviors.BackNavigationToRoot) != 0)
+					{
+						while (f.CanGoBack)
+						{
+							f.GoBack();
+						}
+					}
+					else if (f.CanGoBack)
+					{
+						f.GoBack();
+					}
+					break;
 
 				default:
 					Logger.WarnIfEnabled(() => "No suitable content host found in the visual tree.");

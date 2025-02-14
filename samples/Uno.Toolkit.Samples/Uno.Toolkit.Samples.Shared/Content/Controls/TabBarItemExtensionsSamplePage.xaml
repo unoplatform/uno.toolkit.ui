@@ -39,6 +39,9 @@
 		<Frame x:Name="NestedNestedFrame"
 			   Grid.Row="1"
 			   Visibility="{Binding ElementName=TabBarItem_Frame, Path=IsSelected}" />
+		<Frame x:Name="NestedNestedFrameRoot"
+			   Grid.Row="1"
+			   Visibility="{Binding ElementName=TabBarItem_Frame_ToRoot, Path=IsSelected}" />
 		<Grid Grid.Row="1"
 			  Visibility="{Binding ElementName=TabBarItem_ListView, Path=IsSelected}">
 			<!-- 20items * 200min-height ~= 4000 -->
@@ -64,10 +67,8 @@
 				</ListView.ItemTemplate>
 				<ListView.ItemContainerStyle>
 					<Style TargetType="ListViewItem">
-						<Setter Property="HorizontalAlignment"
-								Value="Stretch" />
-						<Setter Property="HorizontalContentAlignment"
-								Value="Stretch" />
+						<Setter Property="HorizontalAlignment" Value="Stretch" />
+						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 					</Style>
 				</ListView.ItemContainerStyle>
 			</ListView>
@@ -140,6 +141,10 @@
 							utu:TabBarItemExtensions.OnClickBehaviors="Auto"
 							Content="Frame"
 							IsSelected="True"
+							Style="{StaticResource BottomTabBarItemStyle}" />
+			<utu:TabBarItem x:Name="TabBarItem_Frame_ToRoot"
+							utu:TabBarItemExtensions.OnClickBehaviors="BackNavigationToRoot"
+							Content="Frame to Root"
 							Style="{StaticResource BottomTabBarItemStyle}" />
 			<utu:TabBarItem x:Name="TabBarItem_ListView"
 							utu:TabBarItemExtensions.OnClickBehaviors="Auto"
