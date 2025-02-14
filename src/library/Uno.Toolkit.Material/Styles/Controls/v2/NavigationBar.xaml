@@ -250,8 +250,7 @@
 								  HorizontalAlignment="Center">
 								<!--  UNO WORKAROUND: The ViewBox center should be horizontal Stretch but the Grid aligns the content left  -->
 								<Viewbox x:Name="ContentViewbox"
-										 MaxHeight="{ThemeResource NavBarMainCommandAppBarButtonContentHeight}"
-										 MaxWidth="{ThemeResource NavBarMainCommandAppBarButtonContentHeight}"
+										 Height="{ThemeResource NavBarAppBarButtonContentHeight}"
 										 Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}}"
 										 VerticalAlignment="Center"
 										 HorizontalAlignment="Center"
