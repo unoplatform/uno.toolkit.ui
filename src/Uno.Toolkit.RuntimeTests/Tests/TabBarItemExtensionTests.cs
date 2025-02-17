@@ -144,7 +144,6 @@ internal partial class TabBarItemExtensionTests
 		var listView = new ListView();
 		listView.ItemsSource = Enumerable.Range(1, 50).Select(i => $"Item {i}");
 
-		// Optional: Add some styling to make the list more scrollable
 		listView.Height = 300;  // Set a fixed height for scrolling
 
 		var tabBarItem = CreateTabBarItem(TBIOnClickBehaviors.ScrollToTop);
@@ -160,31 +159,36 @@ internal partial class TabBarItemExtensionTests
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(root);
 
+		// Get the Y coordinate of the first item before scrolling
+		var yCoorBeforeScroll = GetItemYCoordinate(listView, 0);
+
 		var item50 = listView.Items[49];
 		listView.ScrollIntoView(item50);
 
 		await Task.Delay(_defaultDelayValue);
 
-		// Ensure the item is visible
-		var isItemVisible = IsItemVisible(listView, item50);
-		Assert.IsTrue(isItemVisible);
+		// Get the Y coordinate of the first item after scrolling
+		var yCoorAfterScroll = GetItemYCoordinate(listView, 0);
+
+		// Ensure it scrolled down
+		Assert.AreNotEqual(yCoorBeforeScroll, yCoorAfterScroll);
 
 		tabBarItem.ExecuteTap();
 
 		await Task.Delay(_defaultDelayValue);
 
-		isItemVisible = IsItemVisible(listView, item50);
+		// Get the Y coordinate of the first item after tapping the TabBarItem
+		var yCoorAfterTap = GetItemYCoordinate(listView, 0);
 
-		Assert.IsFalse(isItemVisible);
+		Assert.AreEqual(yCoorBeforeScroll, yCoorAfterTap);
 	}
 #endif
 
 	#region Helper methods
-	private static bool IsItemVisible(ListView list, object item)
-	{
-		var listViewItem = (ListViewItem)list.ContainerFromItem(item);
-		return listViewItem != null;
-	}
+	private static double? GetItemYCoordinate(ListView listView, int itemIndex) =>
+		listView.ContainerFromItem(listView.Items[itemIndex]) is ListViewItem item
+			? item.TransformToVisual(listView).TransformPoint(default).Y
+			: null;
 
 	private Grid CreateGrid()
 	{
