@@ -10,17 +10,20 @@ using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using Uno.Extensions;
 using Uno.Toolkit.RuntimeTests.Extensions;
-using Microsoft.UI.Xaml.Controls;
+
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
-using Microsoft.UI.Xaml;
+
 using static Uno.Toolkit.UI.TabBarItemExtensions;
-using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 
 #if IS_WINUI
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Controls;
 #else
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Controls;
 #endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests;

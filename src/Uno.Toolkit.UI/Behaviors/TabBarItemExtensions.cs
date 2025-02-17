@@ -178,16 +178,12 @@ namespace Uno.Toolkit.UI
 				case ListView lv: ScrollableHelper.SmoothScrollTop(lv); break;
 				case ScrollViewer sv: sv.ChangeView(0, 0, zoomFactor: default, disableAnimation: false); break;
 				case Frame f:
-					if ((onclickBehavior & TBIOnClickBehaviors.BackNavigationToRoot) != 0)
+					if (f.CanGoBack)
 					{
-						while (f.CanGoBack)
+						do
 						{
 							f.GoBack();
-						}
-					}
-					else if (f.CanGoBack)
-					{
-						f.GoBack();
+						} while (f.CanGoBack && onclickBehavior.HasFlag(TBIOnClickBehaviors.BackNavigationToRoot));
 					}
 					break;
 
