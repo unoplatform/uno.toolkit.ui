@@ -15,9 +15,11 @@ Property|Type|Description
 
 `TBIOnClickBehaviors`\*: Specifies the on-click behaviors of `TabBarItem`:
 
-- `BackNavigation`: Find the first `NavigationView` with back stack to back navigate.
-- `ScrollToTop`: Find the first `ListView` or `ScrollViewer` to reset scroll position.
-- `Auto`: All of above.
+- `BackNavigation`: Find the first `NavigationView` with a back stack to navigate back.  
+- `BackNavigationToRoot`: Find the first `NavigationView` and navigate back to the root.  
+- `ScrollToTop`: Find the first `ListView` or `ScrollViewer` to reset the scroll position.  
+- `Auto`: Includes `BackNavigation` and `ScrollToTop`.  
+
 
 `OnClickBehaviorsTarget`\*: The content host which the on-click behavior is applied is either the target itself or one of its descendent (via deep first search) suitable for the behavior. When omitted, the parent of `TabBar` will serve as the target.
 
