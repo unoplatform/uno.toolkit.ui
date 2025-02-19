@@ -160,7 +160,7 @@ public partial class ZoomContentControl : ContentControl
 			_contentSize = new Size(fe.ActualWidth, fe.ActualHeight);
 			HorizontalZoomCenter = _contentSize.Width / 2;
 			VerticalZoomCenter = _contentSize.Height / 2;
-
+			
 			UpdateScrollBars();
 			await RaiseRenderedContentUpdated();
 		}
@@ -207,7 +207,7 @@ public partial class ZoomContentControl : ContentControl
 
 					HorizontalMinScroll = -realm.Right + (vp.ActualWidth / 2);
 					HorizontalMaxScroll = -realm.Left - (vp.ActualWidth / 2);
-
+					
 					VerticalMinScroll = realm.Top + (vp.ActualHeight / 2);
 					VerticalMaxScroll = realm.Bottom - (vp.ActualHeight / 2);
 				}
