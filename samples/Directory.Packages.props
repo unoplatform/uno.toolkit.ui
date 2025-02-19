@@ -19,7 +19,7 @@
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
     <PackageVersion Include="SkiaSharp.Skottie" Version="3.116.1" />
     <PackageVersion Include="SkiaSharp.Views" Version="3.116.1" />
-    <PackageVersion Include="SkiaSharp.Views.Uno" Version="3.116.1" />
+    <PackageVersion Include="SkiaSharp.Views.Uno" Version="2.88.9" />
     <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="3.116.1" />
     <PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
