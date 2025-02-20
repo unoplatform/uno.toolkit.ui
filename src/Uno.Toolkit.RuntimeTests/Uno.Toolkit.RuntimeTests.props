@@ -8,14 +8,14 @@
 	<PropertyGroup>
 		<!-- We are not building any target in TargetFrameworkOverride, but only those that are supported and in the appropriate linage -->
 		<!-- condition: add target if no override or the target is defined in override -->
-		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('net8.0'))">$(TargetFrameworks);net8.0</TargetFrameworks>
-		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net8.0-ios'))">$(TargetFrameworks);net8.0-ios</TargetFrameworks>
-		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net8.0-macos'))">$(TargetFrameworks);net8.0-macos</TargetFrameworks>
-		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net8.0-android'))">$(TargetFrameworks);net8.0-android</TargetFrameworks>
-		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net8.0-maccatalyst'))">$(TargetFrameworks);net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('net9.0'))">$(TargetFrameworks);net9.0</TargetFrameworks>
+		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net9.0-ios'))">$(TargetFrameworks);net9.0-ios</TargetFrameworks>
+		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net9.0-macos'))">$(TargetFrameworks);net9.0-macos</TargetFrameworks>
+		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net9.0-android'))">$(TargetFrameworks);net9.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="('$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'=='') OR $(TargetFrameworkOverride.Contains('net9.0-maccatalyst'))">$(TargetFrameworks);net9.0-maccatalyst</TargetFrameworks>
 		<!-- condition: in addition to the above condition, we ALSO check if the right FrameworkLineage is given and that we are building on window machine -->
 		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'UWP' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('uap10.0.19041')))">$(TargetFrameworks);uap10.0.19041</TargetFrameworks>
-		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('net8.0-windows10.0.19041')))">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks>
+		<TargetFrameworks Condition="'$(FrameworkLineage)' == 'WINUI' AND $([MSBuild]::IsOSPlatform('windows')) AND ('$(TargetFrameworkOverride)'=='' OR $(TargetFrameworkOverride.Contains('net9.0-windows10.0.19041')))">$(TargetFrameworks);net9.0-windows10.0.19041</TargetFrameworks>
 
 		<AssemblyName>Uno.Toolkit.RuntimeTests</AssemblyName>
 		<RootNamespace>Uno.Toolkit.RuntimeTests</RootNamespace>
