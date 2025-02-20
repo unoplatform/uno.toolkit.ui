@@ -47,21 +47,21 @@ namespace Uno.Toolkit.UI
 		 *
 		 * This class deals with the navigations events from its Frame and UINavigationController.
 		 * There are 2 main event routes: events from the Frame, and events from the UINavigationController.
-		 * 
+		 *
 		 * 1. From the Frame
-		 * 
+		 *
 		 *    - Frame.Navigating --> Frame.Navigated
 		 *                       --> Frame.NavigationStopped
-		 *                     
+		 *
 		 *    - Frame.BackStack.CollectionChanged
 		 *
 		 * 2. From the UINavigationController
-		 * 
+		 *
 		 *    - UINavigationControllerDelegate.WillShowViewController --> UINavigationControllerDelegate.DidShowViewController
 		 *
-		 * 
+		 *
 		 * Scenarios:
-		 * 
+		 *
 		 * 1. Someone uses Frame.Navigate() or Frame.GoBack().
 		 *    1.1 Frame.Navigating is raised and a NavigationRequest is added in _frameToControllerRequests.
 		 *    1.2 Frame.Navigated is raised and NavigationController.PushViewController() (or PopViewController) is called to replicate the Frame operation in the native view.
@@ -122,6 +122,7 @@ namespace Uno.Toolkit.UI
 
 		private void InitializeController(Frame? frame)
 		{
+			Console.WriteLine($"STEVE: InitializeController. Frame = {frame}");
 			if (frame == null || _frame == frame)
 			{
 				return;
@@ -149,7 +150,7 @@ namespace Uno.Toolkit.UI
 			{
 				// When the frame already has content, we add a NavigationRequest in the PageViewController's AssociatedRequests.
 				// Not doing this results in log errors from WillShowViewController and DidShowViewController (the ones about AssociatedRequests being empty).
-				// Then, we push the PageViewController without animations (because the page is already present in the Frame). 
+				// Then, we push the PageViewController without animations (because the page is already present in the Frame).
 
 				var pageViewController = new PageViewController(startPage);
 				var currentEntry = FrameNavigationHelper.GetCurrentEntry(_frame);
@@ -501,7 +502,7 @@ namespace Uno.Toolkit.UI
 						var coordinator = navigationController.TopViewController?.GetTransitionCoordinator();
 						var isBackSwipe = coordinator != null && coordinator.InitiallyInteractive;
 
-						// Assigning this field will prevent new navigations request (except this one) from processing in Frame.Navigating 
+						// Assigning this field will prevent new navigations request (except this one) from processing in Frame.Navigating
 						_controllerToFrameRequest = new NavigationRequest(_frame, pageViewController);
 
 						if (isBackSwipe)
@@ -863,7 +864,7 @@ namespace Uno.Toolkit.UI
 				var lowerNavigationBar = LowerController?.GetNavigationBar();
 				if (lowerNavigationBar?.TryGetRenderer<NavigationBar, NavigationBarRenderer>() is { } renderer)
 				{
-					// Set navigation bar properties for page about to become visible. This gives a nice animation and works around bug on 
+					// Set navigation bar properties for page about to become visible. This gives a nice animation and works around bug on
 					// iOS 11.2 where TitleTextAttributes aren't updated properly (https://openradar.appspot.com/37567828)
 					renderer.Native = NavigationBar;
 				}

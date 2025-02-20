@@ -37,12 +37,7 @@
     </UnoFeatures>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="SecondPage.xaml.cs">
-      <DependentUpon>SecondPage.xaml</DependentUpon>
-      <IsDefaultItem>true</IsDefaultItem>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+  <ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
     <ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
   </ItemGroup>
 
