@@ -76,20 +76,24 @@ Below are the built-in interactions for ZoomContentControl usage. For these inte
 3. Zooming and/or panning is allowed (`IsZoomAllowed`/`IsPanAllowed` = true).
 
 #### Zooming (Ctrl + Mouse Wheel)
+
 Ctrl + Mouse Wheel: Zoom in/out around the current cursor position.  
 The `ScaleWheelRatio` property controls how quickly the zoom factor changes per mouse wheel tick.
 
 #### Scrolling (Mouse Wheel)
+
 Mouse Wheel by itself scrolls vertically.  
 Shift + Mouse Wheel scrolls horizontally.  
 The `PanWheelRatio` property determines how many pixels to move per mouse wheel tick.
 
 #### Panning (Middle-Click + Drag)
+
 Press and hold the middle button.  
 Drag to move the content.  
 Release the mouse button to stop panning.
 
 #### Programmatic Control
+
 Beyond user interactions, you can control zoom and pan directly:
 
 `FitToCanvas()`: Automatically sizes the content so it fits the entire available space.  
