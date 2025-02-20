@@ -75,7 +75,7 @@ Below are the built-in interactions for ZoomContentControl usage. For these inte
 2. Active (`IsActive` = true).
 3. Zooming and/or panning is allowed (`IsZoomAllowed`/`IsPanAllowed` = true).
 
-#### Zooming (Mouse Wheel + Ctrl)
+#### Zooming (Ctrl + Mouse Wheel)
 Ctrl + Mouse Wheel: Zoom in/out around the current cursor position.  
 The `ScaleWheelRatio` property controls how quickly the zoom factor changes per mouse wheel tick.
 
