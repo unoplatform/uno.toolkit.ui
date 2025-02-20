@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Uno.UI.Extensions;
+
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -24,6 +27,25 @@ namespace Uno.Toolkit.UI
 				Path = new PropertyPath(nameof(parent.DataContext)),
 				Mode = BindingMode.OneWay,
 			});
+		}
+
+		public static Size GetActualSize(this FrameworkElement fe) => new Size(fe.ActualWidth, fe.ActualHeight);
+
+		public static void WhenLoaded(this FrameworkElement fe, Action action)
+		{
+			if (fe.IsLoaded)
+			{
+				action();
+			}
+			else
+			{
+				fe.Loaded += OnLoaded;
+				void OnLoaded(object sender, RoutedEventArgs e)
+				{
+					action();
+					fe.Loaded -= OnLoaded;
+				}
+			}
 		}
 	}
 }

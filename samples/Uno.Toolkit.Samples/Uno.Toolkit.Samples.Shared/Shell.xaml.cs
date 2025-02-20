@@ -15,11 +15,12 @@ using Uno.Toolkit.Samples.Content.Controls;
 using Uno.Toolkit.Samples.Content.NestedSamples;
 using Uno.Toolkit.Samples.Helpers;
 using Uno.Toolkit.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 #if __IOS__
 using Foundation;
 #endif
-
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -247,11 +248,29 @@ namespace Uno.Toolkit.Samples
 			var target = FindViewOfInterest();
 			var targetTree = (target as DependencyObject)?.TreeGraph();
 
+			var dockLogicalTee = Uno.UI.Extensions.ViewExtensions.TreeGraph((target as DependencyObject).GetFirstDescendant<DockControl>(), Describe, GetMembers);
+			IEnumerable<string> Describe(object x)
+			{
+				if (x is DockControl dc) return dc.GetDebugDescriptions();
+				if (x is DockPane pane) return pane.GetDebugDescriptions();
+				if (x is DockItem item) return [$"Header={item.Header}"];
+
+				return [];
+			}
+			IEnumerable<object> GetMembers(object x, IEnumerable<object> members)
+			{
+				if (x is DockControl dc) return dc.GetLogicalMembers();
+				if (x is DockPane pane) return pane.GetLogicalMembers();
+
+				return [];
+			}
+
+
 			// note: you can also tag element with unique x:Name to inspect here
 			//var sut = this.GetFirstDescendant<Chip>(x => x.Name == "SUT");
 			//var tree = sut?.TreeGraph();
 
-#if WINDOWS || WINDOWS_UWP
+#if WINDOWS || WINDOWS_UWP || HAS_UNO_SKIA
 			var data = new DataPackage();
 			data.SetText(targetTree ?? tree);
 

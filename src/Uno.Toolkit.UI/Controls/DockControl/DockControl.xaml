@@ -1,0 +1,342 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:utu="using:Uno.Toolkit.UI"
+					xmlns:void="There is no mistake so great that it cannot be undone."
+					mc:Ignorable="void">
+
+	<void:String x:Key="DockLeftPathData">M20 4H4A2 2 0 0 0 2 6V18A2 2 0 0 0 4 20H20A2 2 0 0 0 22 18V6A2 2 0 0 0 20 4M20 18H9V6H20Z</void:String>
+	<void:String x:Key="DockTopPathData">M4 20H20C21 20 22 19 22 18V6C22 5 21 4 20 4H4C3 4 2 5 2 6V18C2 19 3 20 4 20M4 11H20V18H4V11Z</void:String>
+	<void:String x:Key="DockRightPathData">M20 4H4A2 2 0 0 0 2 6V18A2 2 0 0 0 4 20H20A2 2 0 0 0 22 18V6A2 2 0 0 0 20 4M15 18H4V6H15Z</void:String>
+	<void:String x:Key="DockBottomPathData">M20 4H4A2 2 0 0 0 2 6V18A2 2 0 0 0 4 20H20A2 2 0 0 0 22 18V6A2 2 0 0 0 20 4M20 13H4V6H20Z</void:String>
+	<void:String x:Key="DockPathData">M20 4H4A2 2 0 002 6V18A2 2 0 004 20H20A2 2 0 0022 18V6A2 2 0 0020 4Z</void:String>
+
+	<x:String x:Key="DockCenterPathData">M2 2H22V22H2V2M3 4V21H21V4Z</x:String>
+	<x:String x:Key="DockVSplitPathData">M2 2H22V22H2V2M3 4V21H21V4ZM11.5 5h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1z</x:String>
+	<x:String x:Key="DockHSplitPathData">M2 2H22V22H2V2M3 4V21H21V4ZM4.5 12h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1z</x:String>
+
+	<Style TargetType="utu:DockControl">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:DockControl">
+					<Grid>
+						<utu:RootPane x:Name="RootPane" />
+						<utu:DockingDiamond x:Name="DockingDiamond" Visibility="Collapsed" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style TargetType="utu:RootPane">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:RootPane">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<void:DockGridPanel x:Name="NestedPanesHost"
+											Orientation="{TemplateBinding Orientation}"
+											Grid.RowSpan="3"
+											Grid.ColumnSpan="3" />
+						<ItemsControl x:Name="NestedPanesHost"
+									  ItemsSource="{TemplateBinding NestedPanes}"
+									  Grid.RowSpan="3"
+									  Grid.ColumnSpan="3">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<utu:DockPaneItemsGrid x:Name="ItemsGrid" />
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+						</ItemsControl>
+
+						<utu:AnchoredPane x:Name="LeftAnchoredPane"
+										  Grid.Row="0"
+										  Grid.RowSpan="3"
+										  Grid.Column="0"
+										  Direction="Left" />
+						<utu:AnchoredPane x:Name="TopAnchoredPane"
+										  Grid.Row="0"
+										  Grid.Column="0"
+										  Grid.ColumnSpan="3"
+										  Direction="Top" />
+						<utu:AnchoredPane x:Name="RightAnchoredPane"
+										  Grid.Row="0"
+										  Grid.RowSpan="3"
+										  Grid.Column="2"
+										  Direction="Right" />
+						<utu:AnchoredPane x:Name="BottomAnchoredPane"
+										  Grid.Row="2"
+										  Grid.Column="0"
+										  Grid.ColumnSpan="3"
+										  Direction="Bottom" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+
+	</Style>
+	<Style TargetType="utu:AnchoredPane">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:AnchoredPane">
+					<Grid>
+						<!--<utu:DockTabListView />-->
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style TargetType="utu:LayoutPane">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:LayoutPane">
+					<Grid>
+						<void:DockGridPanel x:Name="NestedPanesHost" Orientation="{TemplateBinding Orientation}" />
+						<ItemsControl x:Name="NestedPanesHost" ItemsSource="{TemplateBinding NestedPanes}">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<utu:DockPaneItemsGrid x:Name="ItemsGrid" />
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+						</ItemsControl>
+						<TextBlock Text="LayoutPane"
+								   FontSize="35"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"
+								   IsHitTestVisible="False"
+								   Opacity="0.35"
+								   RenderTransformOrigin="0.5,0.5">
+							<TextBlock.RenderTransform>
+								<RotateTransform Angle="-45" CenterX="0.5" CenterY="0.5" />
+							</TextBlock.RenderTransform>
+						</TextBlock>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style TargetType="utu:DocumentPane">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:DocumentPane">
+					<void:Grid Background="LimeGreen">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<utu:DockTabListView x:Name="ElementsTabStrip"
+											 Grid.Row="0"
+											 SelectionMode="Single"
+											 Background="SkyBlue">
+							<utu:DockTabListView.ItemsPanel>
+								<ItemsPanelTemplate>
+									<ItemsStackPanel Orientation="Horizontal" />
+								</ItemsPanelTemplate>
+							</utu:DockTabListView.ItemsPanel>
+						</utu:DockTabListView>
+
+						<Border Grid.Row="1" Background="Orange">
+							<ContentControl x:Name="ActiveElementHost" />
+						</Border>
+
+					</void:Grid>
+					<Grid Background="Transparent">
+						<TabView x:Name="TabView"
+								 IsAddTabButtonVisible="False"
+								 CanReorderTabs="True"
+								 HorizontalAlignment="Stretch"
+								 VerticalAlignment="Stretch">
+							<TabView.Resources>
+								<Style TargetType="TabViewItem">
+									<Setter Property="HeaderTemplate">
+										<Setter.Value>
+											<DataTemplate>
+												<TextBlock Text="{Binding Header}" />
+											</DataTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</TabView.Resources>
+							<TabView.TabItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Content}" />
+								</DataTemplate>
+							</TabView.TabItemTemplate>
+						</TabView>
+						<TextBlock Text="DocumentPane"
+								   FontSize="35"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"
+								   IsHitTestVisible="False"
+								   Opacity="0.35"
+								   RenderTransformOrigin="0.5,0.5">
+							<TextBlock.RenderTransform>
+								<RotateTransform Angle="-45" CenterX="0.5" CenterY="0.5" />
+							</TextBlock.RenderTransform>
+						</TextBlock>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style TargetType="utu:ToolPane">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:ToolPane">
+					<Grid Background="Transparent">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<Grid Grid.Row="0">
+							<ContentControl Content="{Binding ElementName=TabView, Path=SelectedItem}" />
+						</Grid>
+						<void:ContentControl Grid.Row="1" />
+						<void:ListView Grid.Row="2" />
+
+						<TabView x:Name="TabView"
+								 Grid.Row="1"
+								 IsAddTabButtonVisible="False"
+								 CanReorderTabs="True"
+								 HorizontalAlignment="Stretch"
+								 VerticalAlignment="Stretch">
+							<TabView.Resources>
+								<Style TargetType="TabViewItem">
+									<Setter Property="HeaderTemplate">
+										<Setter.Value>
+											<DataTemplate>
+												<TextBlock Text="{Binding Header}" />
+											</DataTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</TabView.Resources>
+							<TabView.TabItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Content}" />
+								</DataTemplate>
+							</TabView.TabItemTemplate>
+						</TabView>
+
+						<TextBlock Grid.RowSpan="3"
+								   Text="ToolPane"
+								   FontSize="35"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"
+								   IsHitTestVisible="False"
+								   Opacity="0.35"
+								   RenderTransformOrigin="0.5,0.5">
+							<TextBlock.RenderTransform>
+								<RotateTransform Angle="-45" CenterX="0.5" CenterY="0.5" />
+							</TextBlock.RenderTransform>
+						</TextBlock>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="DockDiamondIndicatorPathStyle" TargetType="Path">
+		<Setter Property="Fill" Value="Gray" />
+		<Setter Property="Width" Value="33" />
+		<Setter Property="Height" Value="33" />
+		<Setter Property="Stretch" Value="Fill" />
+	</Style>
+	<Style TargetType="utu:DockDiamondIndicator">
+		<Setter Property="Foreground" Value="LightGray" />
+		<Setter Property="BorderBrush" Value="Gray" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:DockDiamondIndicator">
+					<Grid BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="1"
+						  CornerRadius="2"
+						  Padding="3"
+						  Background="Transparent">
+						<Path Data="{TemplateBinding Data}"
+							  Fill="{TemplateBinding Foreground}"
+							  Width="33"
+							  Height="33"
+							  Stretch="Fill"
+							  IsHitTestVisible="False" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style TargetType="utu:DockingDiamond">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:DockingDiamond">
+					<Grid x:Name="RootGrid">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<Border x:Name="OverlayBorder"
+								Grid.Row="1"
+								Grid.Column="1"
+								Background="SkyBlue"
+								Opacity="0.4" />
+						<Grid Grid.Row="1"
+							  Grid.Column="1"
+							  RowSpacing="5"
+							  ColumnSpacing="5"
+							  HorizontalAlignment="Center"
+							  VerticalAlignment="Center">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+
+							<utu:DockDiamondIndicator x:Name="DockLeftIndicator"
+													  Grid.Row="1"
+													  Grid.Column="0"
+													  Data="{StaticResource DockVSplitPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockTopIndicator"
+													  Grid.Row="0"
+													  Grid.Column="1"
+													  Data="{StaticResource DockHSplitPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockRightIndicator"
+													  Grid.Row="1"
+													  Grid.Column="2"
+													  Data="{StaticResource DockVSplitPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockBottomIndicator"
+													  Grid.Row="2"
+													  Grid.Column="1"
+													  Data="{StaticResource DockHSplitPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockCenterIndicator"
+													  Grid.Row="1"
+													  Grid.Column="1"
+													  Data="{StaticResource DockCenterPathData}" />
+						</Grid>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
