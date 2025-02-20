@@ -68,10 +68,6 @@ public partial class ZoomContentControl : ContentControl
 		DefaultStyleKey = typeof(ZoomContentControl);
 
 		SizeChanged += OnSizeChanged;
-		PointerPressed += OnPointerPressed;
-		PointerReleased += OnPointerReleased;
-		PointerMoved += OnPointerMoved;
-		PointerWheelChanged += OnPointerWheelChanged;
 	}
 
 	protected override void OnApplyTemplate()
@@ -275,8 +271,10 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
+	protected override void OnPointerPressed(PointerRoutedEventArgs e)
 	{
+		base.OnPointerPressed(e);
+
 		if (!IsAllowedToWork || _translation is null) return;
 		var pointerPoint = e.GetCurrentPoint(this);
 		var pointerProperties = pointerPoint.Properties;
@@ -306,15 +304,19 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	private void OnPointerReleased(object sender, PointerRoutedEventArgs e)
+	protected override void OnPointerReleased(PointerRoutedEventArgs e)
 	{
+		base.OnPointerReleased(e);
+
 		ReleasePointerCaptures();
 		_capturedPointerContext = default;
 	}
 
-	private void OnPointerMoved(object sender, PointerRoutedEventArgs e)
+	protected override void OnPointerMoved(PointerRoutedEventArgs e)
 	{
-		if (!IsAllowedToWork ||!IsPanAllowed) return;
+		base.OnPointerMoved(e);
+
+		if (!IsAllowedToWork || !IsPanAllowed) return;
 
 		if (_capturedPointerContext is { } context)
 		{
@@ -326,8 +328,10 @@ public partial class ZoomContentControl : ContentControl
 		}
 	}
 
-	private void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
+	protected override void OnPointerWheelChanged(PointerRoutedEventArgs e)
 	{
+		base.OnPointerWheelChanged(e);
+
 		if (!IsAllowedToWork) return;
 		if (Viewport is not { } vp) return;
 
