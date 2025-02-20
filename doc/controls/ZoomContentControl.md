@@ -94,3 +94,22 @@ Beyond user interactions, you can control zoom and pan directly:
 
 `FitToCanvas()`: Automatically sizes the content so it fits the entire available space.  
 `ResetViewport()`: Resets both zoom level and offset to their defaults (zoom = 1, scroll offsets = 0).
+
+### Advanced Usage: Overriding Pointer Methods
+
+ZoomContentControl does not subscribe to pointer events directly. Instead, it overrides the base OnPointer methods. This lets you derive from ZoomContentControl and fully customize pointer handling in your subclass. For example:
+
+```csharp
+public class MyCustomZoomControl : ZoomContentControl
+{
+    protected override void OnPointerPressed(PointerRoutedEventArgs e)
+    {
+        // Skip or extend default behavior:
+        // base.OnPointerPressed(e);
+
+        // Implement your own pointer logic here...
+    }
+}
+```
+
+If you do not call `base.OnPointerPressed(e)`, you bypass the built-in pan/zoom logic entirely. This approach lets you disable or alter parts of the default pointer behavior without modifying the original code.
