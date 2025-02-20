@@ -66,3 +66,31 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | ----------------- | ----------- | ----------------------------------------------------------------------------------------- |
 | `FitToCanvas()`   | `void`      | Adjust the zoom level so that the content fits within the available space.                |
 | `ResetViewport()` | `void`      | Resets the zoom level and panning offset to their default values and centers the content. |
+
+### Usage
+
+Below are the built-in interactions for ZoomContentControl usage. For these interactions to work, ensure the control is:
+
+1. Visible and loaded (`IsLoaded` is true).
+2. Active (`IsActive` = true).
+3. Zooming and/or panning is allowed (`IsZoomAllowed`/`IsPanAllowed` = true).
+
+#### Zooming (Mouse Wheel + Ctrl)
+Ctrl + Mouse Wheel: Zoom in/out around the current cursor position.  
+The `ScaleWheelRatio` property controls how quickly the zoom factor changes per mouse wheel tick.
+
+#### Scrolling (Mouse Wheel)
+Mouse Wheel by itself scrolls vertically.  
+Shift + Mouse Wheel scrolls horizontally.  
+The `PanWheelRatio` property determines how many pixels to move per mouse wheel tick.
+
+#### Panning (Middle-Click + Drag)
+Press and hold the middle button.  
+Drag to move the content.  
+Release the mouse button to stop panning.
+
+#### Programmatic Control
+Beyond user interactions, you can control zoom and pan directly:
+
+`FitToCanvas()`: Automatically sizes the content so it fits the entire available space.  
+`ResetViewport()`: Resets both zoom level and offset to their defaults (zoom = 1, scroll offsets = 0).
