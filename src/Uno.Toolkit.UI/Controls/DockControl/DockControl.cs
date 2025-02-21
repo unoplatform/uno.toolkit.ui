@@ -11,7 +11,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #endif
 
-
 namespace Uno.Toolkit.UI;
 
 public partial class DockControl : Control
@@ -22,7 +21,6 @@ public partial class DockControl : Control
 		public const string Container = nameof(Container);
 	}
 
-	//private ItemsControl? _nestedPanesHost;
 	private RootPane? _rootPane;
 	private DockingDiamond? _dockingDiamond;
 
@@ -48,14 +46,8 @@ public partial class DockControl : Control
 			_rootPane?.DocumentPane?.Add(item);
 		}
 	}
-
-#if DEBUG
-	internal object?[] GetLogicalMembers() => [_rootPane, _dockingDiamond];
-
-	internal IEnumerable<string> GetDebugDescriptions() => [];
-#endif
 }
-public partial class DockControl : Control // forwarded handlers
+public partial class DockControl // forwarded handlers
 {
 	internal void OnPaneDropEnter(ElementPane pane, DragEventArgs e)
 	{
@@ -193,7 +185,7 @@ public partial class DockControl : Control // forwarded handlers
 		Debug.WriteLine($"@xy DockControl::OnItemDroppedOutside");
 	}
 }
-public partial class DockControl : Control
+public partial class DockControl // helpers
 {
 	private void TryCloseEmptyPane(ElementPane pane)
 	{
@@ -215,4 +207,35 @@ public partial class DockControl : Control
 			ReduceEmptyPaneRecursively(pane);
 		}
 	}
+}
+public partial class DockControl // debug
+{
+#if DEBUG
+	internal string? LogicalTreeGraph() => LogicalTreeGraph(this);
+
+	internal static string? LogicalTreeGraph(object? x)
+	{
+		return (x as DependencyObject)?.TreeGraph(Describe, GetMembers);
+
+		IEnumerable<string> Describe(object x)
+		{
+			if (x is DockControl dc) return dc.GetDebugDescriptions();
+			if (x is DockPane pane) return pane.GetDebugDescriptions();
+			if (x is DockItem item) return [$"Header={item.Header}"];
+
+			return [];
+		}
+		IEnumerable<object> GetMembers(object x, IEnumerable<object> members)
+		{
+			if (x is DockControl dc) return dc.GetLogicalMembers().TrimNull();
+			if (x is DockPane pane) return pane.GetLogicalMembers().TrimNull();
+
+			return [];
+		}
+	}
+
+	internal object?[] GetLogicalMembers() => [_rootPane, _dockingDiamond];
+
+	internal IEnumerable<string> GetDebugDescriptions() => [];
+#endif
 }

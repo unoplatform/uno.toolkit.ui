@@ -92,4 +92,9 @@ internal static class EnumerableExtensions
 
 		return dict;
 	}
+
+	public static IEnumerable<T> TrimNull<T>(this IEnumerable<T?> source) where T : notnull
+	{
+		return source.OfType<T>();
+	}
 }

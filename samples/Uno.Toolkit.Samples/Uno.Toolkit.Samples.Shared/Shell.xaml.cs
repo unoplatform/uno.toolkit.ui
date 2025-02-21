@@ -248,23 +248,7 @@ namespace Uno.Toolkit.Samples
 			var target = FindViewOfInterest();
 			var targetTree = (target as DependencyObject)?.TreeGraph();
 
-			var dockLogicalTee = Uno.UI.Extensions.ViewExtensions.TreeGraph((target as DependencyObject).GetFirstDescendant<DockControl>(), Describe, GetMembers);
-			IEnumerable<string> Describe(object x)
-			{
-				if (x is DockControl dc) return dc.GetDebugDescriptions();
-				if (x is DockPane pane) return pane.GetDebugDescriptions();
-				if (x is DockItem item) return [$"Header={item.Header}"];
-
-				return [];
-			}
-			IEnumerable<object> GetMembers(object x, IEnumerable<object> members)
-			{
-				if (x is DockControl dc) return dc.GetLogicalMembers();
-				if (x is DockPane pane) return pane.GetLogicalMembers();
-
-				return [];
-			}
-
+			var dcLogicalTree = (target as DependencyObject)?.GetFirstDescendant<DockControl>()?.LogicalTreeGraph();
 
 			// note: you can also tag element with unique x:Name to inspect here
 			//var sut = this.GetFirstDescendant<Chip>(x => x.Name == "SUT");
