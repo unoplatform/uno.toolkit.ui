@@ -38,7 +38,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal partial class NavigationBarTests
+	public partial class NavigationBarTests
 	{
 #if !(__ANDROID__ || __IOS__)
 		[TestMethod]

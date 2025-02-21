@@ -29,7 +29,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class AutoLayoutTest
+public class AutoLayoutTest
 {
 	[TestMethod]
 	public async Task When_Collapsed()
