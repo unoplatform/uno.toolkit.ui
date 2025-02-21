@@ -4,8 +4,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
-
-using Windows.ApplicationModel.DataTransfer;
 using Uno.UI.Extensions;
 
 #if IS_WINUI
@@ -22,12 +20,13 @@ public partial class DockPane : Control
 {
 	protected DockControl? DockControl => this.FindFirstAncestor<DockControl>();
 
+	internal LayoutPane? ParentPane { get; set; }
 
 #if DEBUG
 	internal virtual object?[] GetLogicalMembers() => [];
 	internal virtual IEnumerable<string> GetDebugDescriptions()
 	{
-		if (Parent is Grid)
+		if (this is not RootPane && Parent is Grid)
 		{
 			int c = Grid.GetColumn(this), cspan = Grid.GetColumnSpan(this),
 				r = Grid.GetRow(this), rspan = Grid.GetRowSpan(this);
@@ -35,6 +34,8 @@ public partial class DockPane : Control
 			yield return $"R{FormatRange(r, rspan)}C{FormatRange(c, cspan)}";
 			string FormatRange(int x, int span) => span > 1 ? $"{x}-{x + span - 1}" : $"{x}";
 		}
+
+		yield return $"ParentPane={ParentPane?.GetType().Name}";
 	}
 #endif
 }
@@ -118,6 +119,35 @@ public partial class LayoutPane : DockPane
 	{
 		Debug.WriteLine($"OnNestedPanesCollectionChanged: {e.Action}");
 
+		if (e.NewItems is { })
+		{
+			foreach (var item in e.NewItems)
+			{
+				if (item is DockPane pane)
+				{
+					if (pane.ParentPane is not null)
+					{
+#if DEBUG
+						throw new InvalidOperationException("DockPane is added under another LayoutPane, before being removed from previous parent.");
+#else
+						// todo@xy: add warning here
+#endif
+					}
+					pane.ParentPane = this;
+				}
+			}
+		}
+		if (e.OldItems is { })
+		{
+			foreach (var item in e.OldItems)
+			{
+				if (item is DockPane pane)
+				{
+					pane.ParentPane = null;
+				}
+			}
+		}
+
 		if (_itemsGrid is null) return;
 
 		void FixTailIndex(int start)
@@ -134,7 +164,7 @@ public partial class LayoutPane : DockPane
 				}
 			}
 		}
-		
+
 		var oneStar = new GridLength(1, GridUnitType.Star);
 		if (e.Action is NotifyCollectionChangedAction.Add)
 		{
@@ -204,17 +234,16 @@ public partial class LayoutPane : DockPane
 	internal override object?[] GetLogicalMembers() => NestedPanes.ToArray();
 #endif
 }
-
-public partial class RootPane : LayoutPane // should we merge this into DockControl?
+public partial class RootPane : LayoutPane // todo@xy: should we merge this into DockControl?
 {
+	public DocumentPane? DocumentPane => _documentPane;
+
 	private AnchoredPane? _leftAnchoredPane;
 	private AnchoredPane? _topAnchoredPane;
 	private AnchoredPane? _rightAnchoredPane;
 	private AnchoredPane? _bottomAnchoredPane;
 
 	private DocumentPane? _documentPane;
-
-	public DocumentPane? DocumentPane => _documentPane;
 
 	public RootPane()
 	{
@@ -257,6 +286,9 @@ public partial class RootPane : LayoutPane // should we merge this into DockCont
 #if DEBUG
 	internal override object?[] GetLogicalMembers() => NestedPanes.Concat([_leftAnchoredPane, _topAnchoredPane, _rightAnchoredPane, _bottomAnchoredPane]).ToArray();
 #endif
+}
+public partial class EditorPane : LayoutPane // todo@xy: used to house DocumentPane(s) only
+{
 }
 
 public partial class AnchoredPane : DockPane // non-pinned pane, once pinned it should convert to tool pane
@@ -303,6 +335,8 @@ public partial class AnchoredPane : DockPane // non-pinned pane, once pinned it 
 public partial class PreviewPane : DockPane { }
 public abstract partial class ElementPane : DockPane
 {
+	public int ElementCount => _items.Count;
+
 	private TabView? _tabView;
 
 	private ObservableCollection<DockItem> _items;
@@ -310,39 +344,25 @@ public abstract partial class ElementPane : DockPane
 	public ElementPane()
 	{
 		_items = new ObservableCollection<DockItem>();
+
+		AllowDrop = true;
 	}
 	protected override void OnApplyTemplate()
 	{
 		base.OnApplyTemplate();
 
 		_tabView = GetTemplateChild("TabView") as TabView;
-
-		AllowDrop = true;
-
 		if (_tabView is { })
 		{
-			_tabView.TabCloseRequested += (s, e) =>
+			_tabView.TabCloseRequested += (s, e) => DockControl?.OnItemCloseRequested(this, e);
+			_tabView.TabDragStarting += (s, e) => DockControl?.OnItemDragStarting(this, e);
+			_tabView.TabDragCompleted += (s, e) => DockControl?.OnItemDropCompleted(this, e);
+			_tabView.TabDroppedOutside += (s, e) => DockControl?.OnItemDroppedOutside(this, e);
+#if DEBUG
+			_tabView.SelectionChanged += (s, e) =>
 			{
-				if (e.Item is DockItem item)
-				{
-					_items.Remove(item);
-				}
 			};
-			_tabView.TabDragStarting += (s, e) =>
-			{
-				e.Data.Properties[DockControl.PropertyKeys.Container] = this;
-				e.Data.Properties[DockControl.PropertyKeys.Item] = e.Item;
-			};
-			_tabView.TabDragCompleted += (s, e) =>
-			{
-				Debug.WriteLine("TabDragCompleted");
-
-				DockControl?.OnItemDropCompleted(this, e);
-			};
-			_tabView.TabDroppedOutside += (s, e) =>
-			{
-				Debug.WriteLine("TabDroppedOutside");
-			};
+#endif
 
 			_tabView.CanReorderTabs = true;
 			_tabView.CanDragTabs = true;
@@ -353,32 +373,17 @@ public abstract partial class ElementPane : DockPane
 	protected override void OnDragEnter(DragEventArgs e)
 	{
 		base.OnDragEnter(e);
-
-		var item = e.DataView.Properties[DockControl.PropertyKeys.Item];
-		if (CanAcceptDrop(item))
-		{
-			e.AcceptedOperation = DataPackageOperation.Move;
-		}
-		else
-		{
-			e.AcceptedOperation = DataPackageOperation.None;
-		}
-
 		DockControl?.OnPaneDropEnter(this, e);
 	}
-
 	//protected override void OnDragOver(DragEventArgs e)
 	//{
 	//	base.OnDragOver(e);
 	//	DockControl?.OnPaneDropOver(this, e);
 	//}
-
 	protected override void OnDragLeave(DragEventArgs e)
 	{
 		base.OnDragLeave(e);
 		DockControl?.OnPaneDropLeave(this, e);
-
-		e.AcceptedOperation = DataPackageOperation.None;
 	}
 	protected override void OnDrop(DragEventArgs e)
 	{
@@ -401,22 +406,34 @@ public abstract partial class ElementPane : DockPane
 
 	protected internal abstract bool CanAcceptDrop(object data);
 
+	internal void RepairTabView()
+	{
+		if (_tabView is null) return;
+
+		var index = _tabView.SelectedIndex;
+
+		_tabView.TabItemsSource = null;
+		_tabView.TabItemsSource = _items;
+
+		_tabView.SelectedIndex = index;
+	}
+
 #if DEBUG
 	internal override object?[] GetLogicalMembers() => _items.ToArray();
 #endif
 }
 
-public partial class ToolPane : ElementPane
-{
-	protected internal override bool CanAcceptDrop(object data)
-	{
-		return data is ToolItem;
-	}
-}
 public partial class DocumentPane : ElementPane
 {
 	protected internal override bool CanAcceptDrop(object data)
 	{
 		return data is DocumentItem or ToolItem;
+	}
+}
+public partial class ToolPane : ElementPane
+{
+	protected internal override bool CanAcceptDrop(object data)
+	{
+		return data is ToolItem;
 	}
 }

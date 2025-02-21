@@ -128,32 +128,11 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:DocumentPane">
-					<void:Grid Background="LimeGreen">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-						</Grid.RowDefinitions>
-
-						<utu:DockTabListView x:Name="ElementsTabStrip"
-											 Grid.Row="0"
-											 SelectionMode="Single"
-											 Background="SkyBlue">
-							<utu:DockTabListView.ItemsPanel>
-								<ItemsPanelTemplate>
-									<ItemsStackPanel Orientation="Horizontal" />
-								</ItemsPanelTemplate>
-							</utu:DockTabListView.ItemsPanel>
-						</utu:DockTabListView>
-
-						<Border Grid.Row="1" Background="Orange">
-							<ContentControl x:Name="ActiveElementHost" />
-						</Border>
-
-					</void:Grid>
 					<Grid Background="Transparent">
 						<TabView x:Name="TabView"
 								 IsAddTabButtonVisible="False"
 								 CanReorderTabs="True"
+								 void:TabWidthMode="SizeToContent"
 								 HorizontalAlignment="Stretch"
 								 VerticalAlignment="Stretch">
 							<TabView.Resources>
@@ -201,15 +180,19 @@
 						</Grid.RowDefinitions>
 
 						<Grid Grid.Row="0">
-							<ContentControl Content="{Binding ElementName=TabView, Path=SelectedItem}" />
+							<ContentControl Content="{Binding ElementName=TabView, Path=SelectedItem}">
+								<ContentControl.ContentTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Title}" />
+									</DataTemplate>
+								</ContentControl.ContentTemplate>
+							</ContentControl>
 						</Grid>
-						<void:ContentControl Grid.Row="1" />
-						<void:ListView Grid.Row="2" />
-
 						<TabView x:Name="TabView"
 								 Grid.Row="1"
 								 IsAddTabButtonVisible="False"
 								 CanReorderTabs="True"
+								 void:TabWidthMode="SizeToContent"
 								 HorizontalAlignment="Stretch"
 								 VerticalAlignment="Stretch">
 							<TabView.Resources>

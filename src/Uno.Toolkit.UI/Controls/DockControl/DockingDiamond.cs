@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Uno.UI.Extensions;
 
@@ -62,7 +57,7 @@ public partial class DockingDiamond : Control
 			indicator.PointerExited += OnIndicatorPointerExited;
 		}
 	}
-	
+
 	private void OnIndicatorPointerEntered(object sender, PointerRoutedEventArgs e)
 	{
 		if (_lastPlacementRect is { } rect)
@@ -84,7 +79,7 @@ public partial class DockingDiamond : Control
 	public void ShowAt(ElementPane pane)
 	{
 		Visibility = Visibility.Visible;
-		
+
 		var offset = pane.TransformToVisual(this).TransformPoint(default);
 		var size = pane.GetActualSize();
 		_lastPlacementRect = new Rect(offset, size);
