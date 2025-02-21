@@ -14,7 +14,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class ChipGroupTests
+public class ChipGroupTests
 {
 	/*	Test Plan
 	 *		- tap triggered selection in various SelectionMode

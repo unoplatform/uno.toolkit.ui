@@ -26,7 +26,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class DrawerFlyoutTests
+public class DrawerFlyoutTests
 {
 	[TestMethod]
 	public async Task Can_Open()

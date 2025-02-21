@@ -18,7 +18,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class DrawerTests
+public class DrawerTests
 {
 	[TestMethod]
 #if __IOS__

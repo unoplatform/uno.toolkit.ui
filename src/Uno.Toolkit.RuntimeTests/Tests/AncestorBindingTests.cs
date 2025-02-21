@@ -22,7 +22,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class AncestorBindingTests
+public class AncestorBindingTests
 {
 	[TestMethod]
 	public async Task Ancestor_TopLevel_PageBinding()

@@ -29,7 +29,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 // just to be clear, the tests is currently only running on WINUI_DESKTOP
 #endif
 [RunsOnUIThread]
-internal class ResponsiveExtensionsTests
+public class ResponsiveExtensionsTests
 {
 	private static readonly Size NarrowSize = new Size(300, 400);
 	private static readonly Size WideSize = new Size(800, 400);
@@ -164,7 +164,7 @@ internal class ResponsiveExtensionsTests
 
 [TestClass]
 [RunsOnUIThread]
-internal class DynamicResponsiveExtensionsTests
+public class DynamicResponsiveExtensionsTests
 {
 	private readonly static ResponsiveLayout DefaultLayout = ResponsiveLayout.Create(150, 300, 600, 800, 1080);
 
