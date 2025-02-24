@@ -52,12 +52,6 @@ namespace Uno.Toolkit.UI
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
-			if (GetNavBar() is { } navBar)
-			{
-				NavigationBarHelper.SetNavigationBar(navBar, null);
-				NavigationBarHelper.SetNavigationItem(navBar, null);
-			}
-
 			_statusBarSubscription.Disposable = null;
 			_orientationSubscription.Disposable = null;
 			_mainCommandClickHandler.Disposable = null;
