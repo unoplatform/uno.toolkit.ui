@@ -250,8 +250,7 @@
 								  HorizontalAlignment="Center">
 								<!--  UNO WORKAROUND: The ViewBox center should be horizontal Stretch but the Grid aligns the content left  -->
 								<Viewbox x:Name="ContentViewbox"
-										 MaxHeight="{ThemeResource NavBarMainCommandAppBarButtonContentHeight}"
-										 MaxWidth="{ThemeResource NavBarMainCommandAppBarButtonContentHeight}"
+										 Height="{ThemeResource NavBarAppBarButtonContentHeight}"
 										 Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}}"
 										 VerticalAlignment="Center"
 										 HorizontalAlignment="Center"
@@ -1275,7 +1274,9 @@
 						 TargetType="utu:NavigationBar">
 		<Border BorderThickness="{TemplateBinding Padding}"
 				Background="{TemplateBinding Background}">
+			<!-- Setting Content to null to avoid the implicit binding to Content on the NativeNavigationBarPresenter -->
 			<utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter"
+											  Content="{x:Null}"
 											  Height="44" />
 		</Border>
 	</ios:ControlTemplate>

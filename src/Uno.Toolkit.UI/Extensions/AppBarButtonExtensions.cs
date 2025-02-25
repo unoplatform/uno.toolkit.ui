@@ -48,12 +48,6 @@ namespace Uno.Toolkit.UI
 				return true;
 			}
 
-			if (ColorHelper.TryGetColorWithOpacity(appBarButton.Foreground, out var buttonForeground))
-			{
-				iconColor = buttonForeground;
-				return true;
-			}
-
 			return false;
 		}
 	}
