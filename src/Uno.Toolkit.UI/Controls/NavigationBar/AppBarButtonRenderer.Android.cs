@@ -135,9 +135,8 @@ namespace Uno.Toolkit.UI
 
 			if (_isInOverflow)
 			{
-				native.SetTitle(null);
 				native.SetActionView(null);
-				native.SetIcon(null);
+				native.SetTitle(null);
 			}
 			else
 			{
@@ -154,18 +153,26 @@ namespace Uno.Toolkit.UI
 						// CommandBar.
 						element.SetParent(_elementParent);
 
-						native.SetIcon(null);
+						if (iconOrContent is string text)
+						{
+							wrapper.Child = (UIElement)native.SetTitle(text);
+						}
+						else
+						{
+							native.SetTitle(null);
+						}
+
 						native.SetActionView(wrapper);
-						native.SetTitle(null);
 					}
 				}
 				else
 				{
-					native.SetIcon(null);
 					native.SetActionView(null);
 					native.SetTitle(null);
 				}
 			}
+
+			native.SetIcon(null);
 
 			// IsEnabled
 			native.SetEnabled(element.IsEnabled);
