@@ -56,12 +56,10 @@ public partial class DockControl // handlers, forwarded handlers
 		var item = e.DataView.Properties[PropertyKeys.Item];
 		if (pane.CanAcceptDrop(item))
 		{
-			e.AcceptedOperation = DataPackageOperation.Move;
 			_dockingDiamond?.ShowAt(pane);
 		}
 		else
 		{
-			e.AcceptedOperation = DataPackageOperation.None;
 			_dockingDiamond?.Hide();
 		}
 	}
@@ -73,16 +71,14 @@ public partial class DockControl // handlers, forwarded handlers
 	{
 		Debug.WriteLine($"@xy DockControl::OnPaneDropLeave");
 
-		e.AcceptedOperation = DataPackageOperation.None;
 		_dockingDiamond?.Hide();
 	}
 	internal void OnPaneDrop(ElementPane pane, DragEventArgs e)
 	{
-		Debug.WriteLine($"@xy DockControl::OnPaneDrop: {pane.GetType().Name}, {_dockingDiamond?.Direction}, {e.AcceptedOperation}");
+		Debug.WriteLine($"@xy DockControl::OnPaneDrop: {pane.GetType().Name}, {_dockingDiamond?.Direction}");
 
 		_dockingDiamond?.Hide();
 
-		if (e.AcceptedOperation is DataPackageOperation.None) return;
 		if (e.DataView.Properties[PropertyKeys.Container] is not ElementPane originPane) return;
 		if (e.DataView.Properties[PropertyKeys.Item] is not DockItem item) return;
 		if (!pane.CanAcceptDrop(item)) return;
@@ -127,7 +123,7 @@ public partial class DockControl // handlers, forwarded handlers
 				{
 					var newLayoutPane = new LayoutPane { Orientation = pane.ParentPane.Orientation.Opposite() };
 					var newPane = new ToolPane();
-					
+
 					parentPane.NestedPanes.Remove(pane);
 					if (direction is DockDirection.Left or DockDirection.Top)
 					{
@@ -164,7 +160,11 @@ public partial class DockControl // handlers, forwarded handlers
 		if (e.Item is DockItem item)
 		{
 			pane.Remove(item);
-			TryCloseEmptyPane(pane);
+
+			if (pane is ToolPane)
+			{
+				TryCloseEmptyPane(pane);
+			}
 		}
 	}
 	internal void OnItemDragStarting(ElementPane pane, TabViewTabDragStartingEventArgs e)
