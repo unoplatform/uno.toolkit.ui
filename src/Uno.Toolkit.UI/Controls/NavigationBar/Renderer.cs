@@ -48,6 +48,13 @@ namespace Uno.Toolkit.UI
 				throw new ArgumentNullException(nameof(element));
 			}
 
+#if __IOS__
+			if (element is FrameworkElement uiElement)
+			{
+				uiElement.Unloaded += (s, e) => Dispose();
+			}
+#endif
+
 			_element = new WeakReference<TElement>(element);
 		}
 
