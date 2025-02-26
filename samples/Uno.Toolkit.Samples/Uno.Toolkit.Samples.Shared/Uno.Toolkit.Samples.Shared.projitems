@@ -19,6 +19,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\DockControlSamplePage.xaml.cs">
+      <DependentUpon>DockControlSamplePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controls\ItemsRepeaterExtensionsIncrementalLoadingSamplePage.xaml.cs">
       <DependentUpon>ItemsRepeaterExtensionsIncrementalLoadingSamplePage.xaml</DependentUpon>
     </Compile>
@@ -82,6 +85,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Helpers\ResponsiveExtensionsSamplePage.xaml.cs">
       <DependentUpon>ResponsiveExtensionsSamplePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\DockControl_NestedPage.xaml.cs">
+      <DependentUpon>DockControl_NestedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\FluentNavigationBarSampleNestedPage1.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\FluentNavigationBarSampleNestedPage2.xaml.cs" />
@@ -239,6 +245,10 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Content\Controls\DockControlSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Controls\ItemsRepeaterExtensionsIncrementalLoadingSamplePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -336,6 +346,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\Helpers\ResponsiveExtensionsSamplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\DockControl_NestedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

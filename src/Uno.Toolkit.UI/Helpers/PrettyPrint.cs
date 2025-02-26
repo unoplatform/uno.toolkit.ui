@@ -13,6 +13,10 @@ using Windows.UI;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+
+
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -53,6 +57,7 @@ internal static class PrettyPrint
 	}
 #endif
 	internal static string FormatSize(Size size) => $"{size.Width:0.#}x{size.Height:0.#}";
+	internal static string FormatSize(double width, double height) => $"{width:0.#}x{height:0.#}";
 	internal static string FormatBrush(Brush b)
 	{
 		if (b is SolidColorBrush scb) return
@@ -61,6 +66,39 @@ internal static class PrettyPrint
 			(scb.Opacity != 1 ? $"*{scb.Opacity:#.###}" : "");
 
 		return b.GetType().Name;
+	}
+	public static string FormatGridDefinition(ColumnDefinition def) => FormatGridDefinition(def.MinWidth, def.Width, def.MaxWidth);
+	public static string FormatGridDefinition(RowDefinition def) => FormatGridDefinition(def.MinHeight, def.Height, def.MaxHeight);
+	private static string FormatGridDefinition(double min, GridLength value, double max)
+	{
+		return min != 0d || max != double.PositiveInfinity
+			? $"[{min:#.##}~{FormatGridLength(value)}~{max:#.##}]" // [min~value~max]
+			: FormatGridLength(value); // value
+	}
+	public static string FormatGridLength(GridLength x) => FormatGridLength(x.Value, x.GridUnitType);
+	public static string FormatGridLength(double value, GridUnitType type) => type switch
+	{
+		GridUnitType.Auto => "A",
+		GridUnitType.Pixel => $"{value:#.##}",
+		GridUnitType.Star => value switch
+		{
+			0d => "0*",
+			1d => "*",
+
+			_ => $"{value:#.##}*"
+		},
+		_ => /* CS8524: (GridUnitType)123 */ $"{value:#.##}{type}"
+	};
+	public static string FormatBinding(BindingExpression be)
+	{
+		if (be == null) return "null";
+
+		var descriptions = new List<string>();
+		descriptions.Add($"Path={be.ParentBinding.Path?.Path}");
+		if (be.ParentBinding.Mode != BindingMode.OneWay) descriptions.Add(be.ParentBinding.Mode.ToString());
+		if (be.ParentBinding.RelativeSource is { Mode: not RelativeSourceMode.None } rs) descriptions.Add(rs.Mode.ToString());
+
+		return $"[{string.Join(", ", descriptions)}]";
 	}
 
 	internal static string EscapeMultiline(string s, bool escapeTabs = false)
