@@ -93,10 +93,10 @@ public partial class DockingDiamond : Control
 		if (_rootGrid is null) return;
 		if (_overlayBorder is null) return;
 
-		_rootGrid.ColumnDefinitions[0].Width = rect.X;
-		_rootGrid.ColumnDefinitions[1].Width = rect.Width;
-		_rootGrid.RowDefinitions[0].Height = rect.Y;
-		_rootGrid.RowDefinitions[1].Height = rect.Height;
+		_rootGrid.ColumnDefinitions[0].Width = new(rect.X);
+		_rootGrid.ColumnDefinitions[1].Width = new(rect.Width);
+		_rootGrid.RowDefinitions[0].Height = new(rect.Y);
+		_rootGrid.RowDefinitions[1].Height = new(rect.Height);
 
 		var overlayRect = ((HorizontalAlignment HAlign, VerticalAlignment VAlign, double Width, double Height))(direction switch
 		{

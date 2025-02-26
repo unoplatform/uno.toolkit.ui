@@ -31,7 +31,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:RootPane">
-					<Grid>
+					<Grid Background="Red">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
@@ -43,10 +43,6 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
-						<void:DockGridPanel x:Name="NestedPanesHost"
-											Orientation="{TemplateBinding Orientation}"
-											Grid.RowSpan="3"
-											Grid.ColumnSpan="3" />
 						<ItemsControl x:Name="NestedPanesHost"
 									  ItemsSource="{TemplateBinding NestedPanes}"
 									  Grid.RowSpan="3"
@@ -78,6 +74,13 @@
 										  Grid.Column="0"
 										  Grid.ColumnSpan="3"
 										  Direction="Bottom" />
+
+						<Border x:Name="ResizePreview"
+								Background="Black"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Top"
+								Opacity="0.5"
+								Visibility="Collapsed" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -99,15 +102,21 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:LayoutPane">
-					<Grid>
-						<void:DockGridPanel x:Name="NestedPanesHost" Orientation="{TemplateBinding Orientation}" />
+					<Grid Background="SkyBlue">
 						<ItemsControl x:Name="NestedPanesHost" ItemsSource="{TemplateBinding NestedPanes}">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
-									<utu:DockPaneItemsGrid x:Name="ItemsGrid" />
+									<utu:DockPaneItemsGrid x:Name="ItemsGrid" Background="Transparent" />
 								</ItemsPanelTemplate>
 							</ItemsControl.ItemsPanel>
 						</ItemsControl>
+						<Border x:Name="ResizePreview"
+								Background="Black"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Top"
+								Opacity="0.5"
+								Visibility="Collapsed" />
+
 						<TextBlock Text="LayoutPane"
 								   FontSize="35"
 								   HorizontalAlignment="Center"
@@ -128,7 +137,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:DocumentPane">
-					<Grid Background="Transparent">
+					<Grid void:Background="Transparent" Background="Pink">
 						<TabView x:Name="TabView"
 								 IsAddTabButtonVisible="False"
 								 CanReorderTabs="True"
@@ -152,6 +161,7 @@
 								</DataTemplate>
 							</TabView.TabItemTemplate>
 						</TabView>
+
 						<TextBlock Text="DocumentPane"
 								   FontSize="35"
 								   HorizontalAlignment="Center"
@@ -172,7 +182,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:ToolPane">
-					<Grid Background="Transparent">
+					<Grid void:Background="Transparent" Background="Pink">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="*" />

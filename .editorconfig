@@ -44,6 +44,9 @@ csharp_preserve_single_line_blocks=true
 csharp_preserve_single_line_statements=true
 
 dotnet_diagnostic.CS0162.severity = none; CS0162: Unreachable code detected
+dotnet_diagnostic.CS0169.severity = none; CS0169: The field '{0}' is never used
+dotnet_diagnostic.CS0414.severity = none; CS0414: The field '{0}' is assigned but its value is never used
 dotnet_diagnostic.CS8321.severity = none; CS8321: The local function '{0}' is declared but never used
 dotnet_diagnostic.CA1822.severity = none; CA1822: Mark members as static
+dotnet_diagnostic.CA1823.severity = none; CA1823: Unused field '{0}'
 dotnet_diagnostic.CA1848.severity = none; CA1848: Use the LoggerMessage delegates

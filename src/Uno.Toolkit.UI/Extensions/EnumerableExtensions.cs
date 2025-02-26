@@ -22,6 +22,18 @@ internal static class EnumerableExtensions
 			previous = etor.Current;
 		}
 	}
+	public static IEnumerable<TResult> ZipSkipOne<T, TResult>(this IEnumerable<T> source, Func<T, T, TResult> resultSelector)
+	{
+		var etor = source.GetEnumerator();
+		etor.MoveNext();
+
+		var previous = etor.Current;
+		while (etor.MoveNext())
+		{
+			yield return resultSelector(previous, etor.Current);
+			previous = etor.Current;
+		}
+	}
 
 	/// <summary>
 	/// Functionally the same as <seealso cref="Enumerable.FirstOrDefault{TSource}(IEnumerable{TSource})"/>,

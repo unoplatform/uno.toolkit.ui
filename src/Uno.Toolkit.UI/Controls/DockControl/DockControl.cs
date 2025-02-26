@@ -47,7 +47,7 @@ public partial class DockControl : Control
 		}
 	}
 }
-public partial class DockControl // forwarded handlers
+public partial class DockControl // handlers, forwarded handlers
 {
 	internal void OnPaneDropEnter(ElementPane pane, DragEventArgs e)
 	{
