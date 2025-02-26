@@ -114,9 +114,6 @@ namespace Uno.Toolkit.UI
 			var native = Native ?? throw new ArgumentNullException(nameof(Native));
 			var element = Element ?? throw new ArgumentNullException(nameof(Element));
 
-			if (!element.IsLoaded)
-				return;
-
 			// Content
 			var content = element.Content;
 

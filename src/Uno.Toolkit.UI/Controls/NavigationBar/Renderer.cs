@@ -49,9 +49,9 @@ namespace Uno.Toolkit.UI
 			}
 
 #if __IOS__
-			if (element is FrameworkElement uiElement)
+			if (element is FrameworkElement fe)
 			{
-				uiElement.Unloaded += (s, e) => Dispose();
+				fe.Unloaded += (s, e) => Dispose();
 			}
 #endif
 
