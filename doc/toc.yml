@@ -76,6 +76,8 @@
       href: helpers/Selector-extensions.md
     - name: StatusBar Extensions
       href: helpers/StatusBar-extensions.md
+    - name: SystemThemeHelper
+      href: helpers/SystemThemeHelper.md
     - name: TabBarItem Extensions
       href: helpers/TabBarItem-extensions.md
     - name: VisualStateManager Extensions
