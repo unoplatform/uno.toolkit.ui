@@ -310,8 +310,6 @@ If no `MainCommand` is provided in the XAML, the `NavigationBar` will render the
 
 `MainCommand` is typically used for customizing the back button, displaying a different icon, and/or invoking some type of custom action other than back navigation when clicked.
 
-On **Android**, only icons are supported (`AppBarButton.Icon`). This is due to a platform limitation, which can be explained by the fact that `NavigationBar.Content` is left-aligned.
-
 > [!NOTE]
 > The default back button icon can be customized for non-mobile platforms by overriding the `NavigationBarBackIconData` resource. On `Android` and `iOS`, the native default back button icon is used. On Windows and other non-mobile platforms, you can provide a custom back button icon by defining the `NavigationBarBackIconData` resource in your resource dictionary:
 >
@@ -551,7 +549,7 @@ Gets or sets the graphic content of the `AppBarButton`
 
 Remarks:
 
-* On **Android** and **iOS**, the `MainCommand` Icon only supports `BitmapIcon`s. `PrimaryCommands` and `SecondaryCommands` support any `IconElement` type.
+* On **Android**, the `MainCommand` Icon only supports `BitmapIcon`s. `PrimaryCommands` and `SecondaryCommands` support any `IconElement` type.
 
 ### Recommended icon sizes (by scale)
 
