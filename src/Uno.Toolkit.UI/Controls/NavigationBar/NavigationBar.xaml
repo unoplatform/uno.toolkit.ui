@@ -1478,7 +1478,9 @@
 						 TargetType="utu:NavigationBar">
 		<Border BorderThickness="{TemplateBinding Padding}"
 				Background="{TemplateBinding Background}">
+			<!-- Setting Content to null to avoid the implicit binding to Content on the NativeNavigationBarPresenter -->
 			<utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter"
+											  Content="{x:Null}"
 											  Height="44" />
 			<!-- TODO: 1px line -->
 		</Border>
