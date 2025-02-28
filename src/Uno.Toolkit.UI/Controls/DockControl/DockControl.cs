@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 
 #if IS_WINUI
@@ -43,8 +44,28 @@ public partial class DockControl : Control
 		}
 		else
 		{
-			_rootPane?.DocumentPane?.Add(item);
+			FindPane<DocumentPane>()?.Add(item);
 		}
+	}
+
+	public TPane? FindPane<TPane>() where TPane : DockPane => FindPane<TPane>(x => true);
+	public TPane? FindPane<TPane>(Func<TPane, bool> predicate) where TPane : DockPane
+	{
+		if (_rootPane is null) return null;
+
+		TPane? Walk(DockPane pane)
+		{
+			if (pane is TPane tpane && predicate(tpane)) return tpane;
+
+			foreach (var nested in (pane as LayoutPane)?.NestedPanes ?? Enumerable.Empty<DockPane>())
+			{
+				if (Walk(nested) is { } result) return result;
+			}
+
+			return null;
+		}
+
+		return Walk(_rootPane);
 	}
 }
 public partial class DockControl // handlers, forwarded handlers
@@ -56,10 +77,12 @@ public partial class DockControl // handlers, forwarded handlers
 		var item = e.DataView.Properties[PropertyKeys.Item];
 		if (pane.CanAcceptDrop(item))
 		{
+			e.AcceptedOperation = DataPackageOperation.Move;
 			_dockingDiamond?.ShowAt(pane);
 		}
 		else
 		{
+			e.AcceptedOperation = DataPackageOperation.None;
 			_dockingDiamond?.Hide();
 		}
 	}
@@ -71,6 +94,7 @@ public partial class DockControl // handlers, forwarded handlers
 	{
 		Debug.WriteLine($"@xy DockControl::OnPaneDropLeave");
 
+		e.AcceptedOperation = DataPackageOperation.None;
 		_dockingDiamond?.Hide();
 	}
 	internal void OnPaneDrop(ElementPane pane, DragEventArgs e)
@@ -94,11 +118,34 @@ public partial class DockControl // handlers, forwarded handlers
 				TryCloseEmptyPane(originPane);
 			}
 		}
-		else if (item is DocumentItem & pane is DocumentPane)
+		else if (pane is DocumentPane { ParentPane: EditorPane editorPane })
 		{
+			if (pane.ParentPane is not { } parentPane) return;
+			if (!(parentPane.NestedPanes.IndexOf(pane) is var index && index != -1)) return;
+
 			// For document pane, if we previously had splited, then only allow split in the same orientation (horizontally/vertically).
-			// If not, any direction is okay. If the document panes were to be reduced to a single pane again, remove the orientation restriction.
-			throw new NotImplementedException();
+			// If not, any direction is okay. If the document panes were to be reduced back to a single one again, remove the orientation restriction.
+			if (!editorPane.IsOrientationLocked && direction.ToOrientation() is { } orientation)
+			{
+				editorPane.Orientation = orientation;
+			}
+
+			if (editorPane.Orientation == direction.ToOrientation() &&
+				originPane.Remove(item))
+			{
+				var newPane = new DocumentPane();
+
+				parentPane.NestedPanes.Insert(index + direction is DockDirection.Left or DockDirection.Top ? 0 : 1, newPane);
+
+				newPane.Add(item);
+
+				TryCloseEmptyPane(originPane);
+			}
+			else
+			{
+				// This case should be prevented by the DockingDiamond logics.
+				throw new InvalidOperationException();
+			}
 		}
 		else if (item is ToolItem)
 		{
@@ -112,7 +159,7 @@ public partial class DockControl // handlers, forwarded handlers
 				{
 					var newPane = new ToolPane();
 
-					parentPane.NestedPanes.Insert(index + direction is DockDirection.Right or DockDirection.Bottom ? 1 : 0, newPane);
+					parentPane.NestedPanes.Insert(index + direction is DockDirection.Left or DockDirection.Top ? 0 : 1, newPane);
 
 					newPane.Add(item);
 				}
@@ -151,8 +198,6 @@ public partial class DockControl // handlers, forwarded handlers
 		}
 	}
 
-	//internal void OnItemAdded(ElementPane pane, DockItem item) { }
-	//internal void OnItemRemoved(ElementPane pane, DockItem item) { }
 	internal void OnItemCloseRequested(ElementPane pane, TabViewTabCloseRequestedEventArgs e)
 	{
 		Debug.WriteLine($"@xy DockControl::OnItemCloseRequested");
@@ -165,6 +210,11 @@ public partial class DockControl // handlers, forwarded handlers
 			{
 				TryCloseEmptyPane(pane);
 			}
+			else if (pane is DocumentPane { ParentPane: EditorPane { NestedPanes.Count: > 1 } })
+			{
+				// we shouldn't close down the EditorPane's last nested pane
+				TryCloseEmptyPane(pane);
+			}
 		}
 	}
 	internal void OnItemDragStarting(ElementPane pane, TabViewTabDragStartingEventArgs e)
@@ -173,6 +223,8 @@ public partial class DockControl // handlers, forwarded handlers
 
 		e.Data.Properties[PropertyKeys.Container] = pane;
 		e.Data.Properties[PropertyKeys.Item] = e.Item;
+
+		e.Data.RequestedOperation = DataPackageOperation.Move;
 	}
 	internal void OnItemDropCompleted(ElementPane pane, TabViewTabDragCompletedEventArgs e)
 	{
@@ -182,7 +234,7 @@ public partial class DockControl // handlers, forwarded handlers
 	}
 	internal void OnItemDroppedOutside(ElementPane pane, TabViewTabDroppedOutsideEventArgs e)
 	{
-		Debug.WriteLine($"@xy DockControl::OnItemDroppedOutside");
+		//Debug.WriteLine($"@xy DockControl::OnItemDroppedOutside");
 	}
 }
 public partial class DockControl // helpers

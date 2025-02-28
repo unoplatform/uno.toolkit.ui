@@ -53,10 +53,6 @@ public partial class DockItem : DependencyObject
 	}
 
 	#endregion
-
-	public DockItem()
-	{
-	}
 }
 
 public partial class DocumentItem : DockItem{ }

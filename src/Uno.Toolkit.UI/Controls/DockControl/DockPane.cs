@@ -496,14 +496,10 @@ public partial class LayoutPane : DockPane, IEnumerable
 }
 public partial class RootPane : LayoutPane // todo@xy: should we merge this into DockControl?
 {
-	public DocumentPane? DocumentPane => _documentPane;
-
 	private AnchoredPane? _leftAnchoredPane;
 	private AnchoredPane? _topAnchoredPane;
 	private AnchoredPane? _rightAnchoredPane;
 	private AnchoredPane? _bottomAnchoredPane;
-
-	private DocumentPane? _documentPane;
 
 	public RootPane()
 	{
@@ -523,16 +519,19 @@ public partial class RootPane : LayoutPane // todo@xy: should we merge this into
 	}
 	private void PopulateNestedPanes()
 	{
-		NestedPanes.Add(_documentPane = new DocumentPane()
+		NestedPanes.Add(new EditorPane()
 		{
+			new DocumentPane()
+			{
 #if DEBUG
-			new DocumentItem { Header = "asd-1.cs", Content = "content: asdasd-1" },
-			new DocumentItem { Header = "asd-2.cs", Content = "content: asdasd-2" },
-			new DocumentItem { Header = "asd-3.cs", Content = "content: asdasd-3" },
-			new ToolItem { Header = "tool-4", Title = "Tool-4 Window", Content = "content: tool-4" },
+				new DocumentItem { Header = "asd-1.cs", Content = "content: asdasd-1" },
+				new DocumentItem { Header = "asd-2.cs", Content = "content: asdasd-2" },
+				new DocumentItem { Header = "asd-3.cs", Content = "content: asdasd-3" },
+				new ToolItem { Header = "tool-4", Title = "Tool-4 Window", Content = "content: tool-4" },
 #endif
+			}
 		});
-#if DEBUG && true
+#if DEBUG
 		NestedPanes.Add(new LayoutPane(Orientation.Opposite())
 		{
 			new ToolPane()
@@ -545,22 +544,15 @@ public partial class RootPane : LayoutPane // todo@xy: should we merge this into
 			}
 		});
 #endif
-
-#if DEBUG && false
-		NestedPanes.Add(new ToolPane()
-		{
-			new ToolItem { Header = "tool-5", Title = "Tool-5 Window", Content = "content: tool-5" },
-			new ToolItem { Header = "tool-6", Title = "Tool-6 Window", Content = "content: tool-6" },
-		});
-#endif
 	}
 
 #if DEBUG
 	internal override object?[] GetLogicalMembers() => NestedPanes.Concat([_leftAnchoredPane, _topAnchoredPane, _rightAnchoredPane, _bottomAnchoredPane]).ToArray();
 #endif
 }
-public partial class EditorPane : LayoutPane // todo@xy: used to house DocumentPane(s) only
+public partial class EditorPane : LayoutPane
 {
+	public bool IsOrientationLocked => NestedPanes.Count > 1;
 }
 
 public partial class AnchoredPane : DockPane // non-pinned pane, once pinned it should convert to tool pane
@@ -630,11 +622,6 @@ public abstract partial class ElementPane : DockPane, IEnumerable
 			_tabView.TabDragStarting += (s, e) => DockControl?.OnItemDragStarting(this, e);
 			_tabView.TabDragCompleted += (s, e) => DockControl?.OnItemDropCompleted(this, e);
 			_tabView.TabDroppedOutside += (s, e) => DockControl?.OnItemDroppedOutside(this, e);
-#if DEBUG
-			_tabView.SelectionChanged += (s, e) =>
-			{
-			};
-#endif
 
 			_tabView.CanReorderTabs = true;
 			_tabView.CanDragTabs = true;

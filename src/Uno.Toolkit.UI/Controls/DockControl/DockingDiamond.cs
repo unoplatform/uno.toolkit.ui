@@ -18,6 +18,13 @@ namespace Uno.Toolkit.UI;
 
 public partial class DockingDiamond : Control
 {
+	private static class DirectionalStates
+	{
+		public const string Omnidirectional = nameof(Omnidirectional);
+		public const string HBidirectional = nameof(HBidirectional);
+		public const string VBidirectional = nameof(VBidirectional);
+	}
+
 	protected DockControl? DockControl => this.FindFirstAncestor<DockControl>();
 
 	private Grid? _rootGrid;
@@ -83,6 +90,15 @@ public partial class DockingDiamond : Control
 		var offset = pane.TransformToVisual(this).TransformPoint(default);
 		var size = pane.GetActualSize();
 		_lastPlacementRect = new Rect(offset, size);
+
+		var directionalState = pane.ParentPane switch
+		{
+			EditorPane { IsOrientationLocked: true, Orientation: Orientation.Horizontal } => DirectionalStates.HBidirectional,
+			EditorPane { IsOrientationLocked: true, Orientation: Orientation.Vertical } => DirectionalStates.VBidirectional,
+
+			_ => DirectionalStates.Omnidirectional,
+		};
+		VisualStateManager.GoToState(this, directionalState, useTransitions: true);
 
 		ShowAt(_lastPlacementRect.Value, DockDirection.None);
 	}

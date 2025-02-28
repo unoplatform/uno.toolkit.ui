@@ -30,17 +30,4 @@ public partial class DockPaneItemsGrid : Grid
 		//todo@xy: extract to template and dp (from DockControl to here)
 		RowSpacing = ColumnSpacing = 10;
 	}
-
-#if DEBUG
-	protected override Size MeasureOverride(Size availableSize)
-	{
-		var result = base.MeasureOverride(availableSize);
-		return result;
-	}
-	protected override Size ArrangeOverride(Size finalSize)
-	{
-		var result =  base.ArrangeOverride(finalSize);
-		return result;
-	}
-#endif
 }

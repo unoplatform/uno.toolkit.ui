@@ -31,7 +31,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:RootPane">
-					<Grid Background="Red">
+					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
@@ -102,7 +102,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:LayoutPane">
-					<Grid Background="SkyBlue">
+					<Grid>
 						<ItemsControl x:Name="NestedPanesHost" ItemsSource="{TemplateBinding NestedPanes}">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
@@ -133,11 +133,46 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+	<Style TargetType="utu:EditorPane">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:EditorPane">
+					<Grid>
+						<ItemsControl x:Name="NestedPanesHost" ItemsSource="{TemplateBinding NestedPanes}">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<utu:DockPaneItemsGrid x:Name="ItemsGrid" Background="Transparent" />
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+						</ItemsControl>
+						<Border x:Name="ResizePreview"
+								Background="Black"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Top"
+								Opacity="0.5"
+								Visibility="Collapsed" />
+
+						<TextBlock Text="EditorPane"
+								   FontSize="35"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"
+								   IsHitTestVisible="False"
+								   Opacity="0.35"
+								   RenderTransformOrigin="0.5,0.5">
+							<TextBlock.RenderTransform>
+								<RotateTransform Angle="-45" CenterX="0.5" CenterY="0.5" />
+							</TextBlock.RenderTransform>
+						</TextBlock>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 	<Style TargetType="utu:DocumentPane">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:DocumentPane">
-					<Grid void:Background="Transparent" Background="Pink">
+					<Grid void:Background="Transparent">
 						<TabView x:Name="TabView"
 								 IsAddTabButtonVisible="False"
 								 CanReorderTabs="True"
@@ -182,7 +217,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:ToolPane">
-					<Grid void:Background="Transparent" Background="Pink">
+					<Grid void:Background="Transparent">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="*" />
@@ -274,6 +309,24 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:DockingDiamond">
 					<Grid x:Name="RootGrid">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="DirectionalStates">
+								<VisualState x:Name="Omnidirectional" />
+								<VisualState x:Name="HBidirectional">
+									<VisualState.Setters>
+										<Setter Target="DockTopIndicator.Visibility" Value="Collapsed" />
+										<Setter Target="DockBottomIndicator.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="VBidirectional">
+									<VisualState.Setters>
+										<Setter Target="DockLeftIndicator.Visibility" Value="Collapsed" />
+										<Setter Target="DockRightIndicator.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto" />
