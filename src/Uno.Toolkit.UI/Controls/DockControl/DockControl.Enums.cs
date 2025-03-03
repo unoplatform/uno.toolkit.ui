@@ -6,3 +6,9 @@ public enum DockDirection
 	Left, Top, Right, Bottom,
 	//LeftMost, TopMost, RightMost, BottomMost,  // maybe use the pane argument to specify "-most" or not
 }
+
+public enum DockPaneClosingBehavior
+{
+	CloseItem,
+	ClosePane,
+}

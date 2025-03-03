@@ -18,9 +18,25 @@ public partial class DockControl : Control
 {
 	internal class PropertyKeys
 	{
-		public const string Item = nameof(Item);
 		public const string Container = nameof(Container);
+		public const string Item = nameof(Item);
 	}
+
+	#region DependencyProperty: PaneClosingBehavior = CloseItem
+
+	public static DependencyProperty PaneClosingBehaviorProperty { get; } = DependencyProperty.Register(
+		nameof(PaneClosingBehavior),
+		typeof(DockPaneClosingBehavior),
+		typeof(DockControl),
+		new PropertyMetadata(DockPaneClosingBehavior.CloseItem));
+
+	public DockPaneClosingBehavior PaneClosingBehavior
+	{
+		get => (DockPaneClosingBehavior)GetValue(PaneClosingBehaviorProperty);
+		set => SetValue(PaneClosingBehaviorProperty, value);
+	}
+
+	#endregion
 
 	private RootPane? _rootPane;
 	private DockingDiamond? _dockingDiamond;
@@ -70,20 +86,60 @@ public partial class DockControl : Control
 }
 public partial class DockControl // handlers, forwarded handlers
 {
+	internal void OnPaneCloseRequested(ElementPane pane, RoutedEventArgs e)
+	{
+		Debug.WriteLine($"@xy DockControl::OnPaneCloseRequested");
+
+		if (pane is DocumentPane) return; // n/a
+
+		if (pane is ToolPane)
+		{
+			if (PaneClosingBehavior is DockPaneClosingBehavior.CloseItem)
+			{
+				if ((pane.SelectedItem ?? pane.Items.LastOrDefault()) is { } item)
+				{
+					pane.Remove(item);
+				}
+			}
+			else
+			{
+				pane.ClearItems();
+			}
+			TryCloseEmptyPane(pane);
+		}
+	}
 	internal void OnPaneDropEnter(ElementPane pane, DragEventArgs e)
 	{
 		Debug.WriteLine($"@xy DockControl::OnPaneDropEnter");
 
-		var item = e.DataView.Properties[PropertyKeys.Item];
-		if (pane.CanAcceptDrop(item))
+		var (container, item) = ExtractDragInfo(e.DataView);
+		if (container is null) return;
+
+		if (item is { })
 		{
-			e.AcceptedOperation = DataPackageOperation.Move;
-			_dockingDiamond?.ShowAt(pane);
+			if (pane.CanAcceptDrop(item))
+			{
+				e.AcceptedOperation = DataPackageOperation.Move;
+				_dockingDiamond?.ShowAt(pane);
+			}
+			else
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				_dockingDiamond?.Hide();
+			}
 		}
 		else
 		{
-			e.AcceptedOperation = DataPackageOperation.None;
-			_dockingDiamond?.Hide();
+			if (container != pane)
+			{
+				e.AcceptedOperation = DataPackageOperation.Move;
+				_dockingDiamond?.ShowAt(pane);
+			}
+			else
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				_dockingDiamond?.Hide();
+			}
 		}
 	}
 	//internal void OnPaneDropOver(ElementPane pane, DragEventArgs e)
@@ -103,57 +159,166 @@ public partial class DockControl // handlers, forwarded handlers
 
 		_dockingDiamond?.Hide();
 
-		if (e.DataView.Properties[PropertyKeys.Container] is not ElementPane originPane) return;
-		if (e.DataView.Properties[PropertyKeys.Item] is not DockItem item) return;
-		if (!pane.CanAcceptDrop(item)) return;
+		var (container, item) = ExtractDragInfo(e.DataView);
+		if (container is null) return;
 
-		var direction = _dockingDiamond?.Direction ?? DockDirection.None;
-		if (direction is DockDirection.None)
+		// fixme@xy: sometimes we fail to reduce all unnecessary LayoutPane, repro?
+		// todo@xy: merge both branches below
+
+		if (item is { }) // dragging single DockItem
 		{
-			if (originPane == pane) return;
+			if (!pane.CanAcceptDrop(item)) return;
 
-			if (originPane.Remove(item))
+			var direction = _dockingDiamond?.Direction ?? DockDirection.None;
+			if (direction is DockDirection.None)
 			{
-				pane.Add(item);
-				TryCloseEmptyPane(originPane);
+				if (container == pane) return;
+
+				if (container.Remove(item))
+				{
+					pane.Add(item);
+					TryCloseEmptyPane(container);
+				}
 			}
-		}
-		else if (pane is DocumentPane { ParentPane: EditorPane editorPane })
-		{
-			if (pane.ParentPane is not { } parentPane) return;
-			if (!(parentPane.NestedPanes.IndexOf(pane) is var index && index != -1)) return;
-
-			// For document pane, if we previously had splited, then only allow split in the same orientation (horizontally/vertically).
-			// If not, any direction is okay. If the document panes were to be reduced back to a single one again, remove the orientation restriction.
-			if (!editorPane.IsOrientationLocked && direction.ToOrientation() is { } orientation)
+			else if (pane is DocumentPane { ParentPane: EditorPane editorPane })
 			{
-				editorPane.Orientation = orientation;
+				if (pane.ParentPane is not { } parentPane) return;
+				if (!(parentPane.NestedPanes.IndexOf(pane) is var index && index != -1)) return;
+
+				// For document pane, if we previously had splited, then only allow split in the same orientation (horizontally/vertically).
+				// If not, any direction is okay. If the document panes were to be reduced back to a single one again, remove the orientation restriction.
+				if (!editorPane.IsOrientationLocked && direction.ToOrientation() is { } orientation)
+				{
+					editorPane.Orientation = orientation;
+				}
+
+				if (editorPane.Orientation == direction.ToOrientation() &&
+					container.Remove(item))
+				{
+					var newPane = new DocumentPane();
+
+					parentPane.NestedPanes.Insert(index + direction is DockDirection.Left or DockDirection.Top ? 0 : 1, newPane);
+
+					newPane.Add(item);
+
+					TryCloseEmptyPane(container);
+				}
+				else
+				{
+					// This case should be prevented by the DockingDiamond logics.
+					throw new InvalidOperationException();
+				}
 			}
-
-			if (editorPane.Orientation == direction.ToOrientation() &&
-				originPane.Remove(item))
+			else if (item is ToolItem)
 			{
-				var newPane = new DocumentPane();
+				if (pane.ParentPane is not { } parentPane) return;
+				if (!(parentPane.NestedPanes.IndexOf(pane) is var index && index != -1)) return;
 
-				parentPane.NestedPanes.Insert(index + direction is DockDirection.Left or DockDirection.Top ? 0 : 1, newPane);
+				if (container.Remove(item))
+				{
+					// if the direction is parallel to the parent layout, just insert the new pane before/after the target pane
+					if (parentPane.Orientation == direction.ToOrientation())
+					{
+						var newPane = new ToolPane();
 
-				newPane.Add(item);
+						parentPane.NestedPanes.Insert(index + direction is DockDirection.Left or DockDirection.Top ? 0 : 1, newPane);
 
-				TryCloseEmptyPane(originPane);
+						newPane.Add(item);
+					}
+					// if the direction is perpendicular to the parent layout,
+					// remove the target pane from its parent, insert a new layout pane at its place,
+					// add the target pane and the new pane.
+					else
+					{
+						var newLayoutPane = new LayoutPane { Orientation = pane.ParentPane.Orientation.Opposite() };
+						var newPane = new ToolPane();
+
+						parentPane.NestedPanes.Remove(pane);
+						if (direction is DockDirection.Left or DockDirection.Top)
+						{
+							newLayoutPane.NestedPanes.Add(newPane);
+							newLayoutPane.NestedPanes.Add(pane);
+						}
+						else
+						{
+							newLayoutPane.NestedPanes.Add(pane);
+							newLayoutPane.NestedPanes.Add(newPane);
+						}
+						parentPane.NestedPanes.Insert(index, newLayoutPane);
+
+						pane.RepairTabView();
+
+						newPane.Add(item);
+					}
+
+					TryCloseEmptyPane(container);
+				}
 			}
 			else
 			{
-				// This case should be prevented by the DockingDiamond logics.
-				throw new InvalidOperationException();
+				throw new NotImplementedException($"DockControl::OnItemDropCompleted: {direction}");
 			}
 		}
-		else if (item is ToolItem)
+		else // dragging entire DockPane
 		{
-			if (pane.ParentPane is not { } parentPane) return;
-			if (!(parentPane.NestedPanes.IndexOf(pane) is var index && index != -1)) return;
+			if (container is not ToolPane) return;
 
-			if (originPane.Remove(item))
+			var direction = _dockingDiamond?.Direction ?? DockDirection.None;
+			if (direction is DockDirection.None)
 			{
+				if (container == pane) return;
+
+				var items = container.Items.ToArray();
+
+				container.ClearItems();
+				foreach (var item2 in items)
+				{
+					pane.Add(item2);
+				}
+				TryCloseEmptyPane(container);
+			}
+			else if (pane is DocumentPane { ParentPane: EditorPane editorPane })
+			{
+				if (pane.ParentPane is not { } parentPane) return;
+				if (!(parentPane.NestedPanes.IndexOf(pane) is var index && index != -1)) return;
+
+				// For document pane, if we previously had splited, then only allow split in the same orientation (horizontally/vertically).
+				// If not, any direction is okay. If the document panes were to be reduced back to a single one again, remove the orientation restriction.
+				if (!editorPane.IsOrientationLocked && direction.ToOrientation() is { } orientation)
+				{
+					editorPane.Orientation = orientation;
+				}
+
+				if (editorPane.Orientation == direction.ToOrientation())
+				{
+					var newPane = new DocumentPane();
+
+					parentPane.NestedPanes.Insert(index + direction is DockDirection.Left or DockDirection.Top ? 0 : 1, newPane);
+
+					var items = container.Items.ToArray();
+					container.ClearItems();
+					foreach (var item2 in items)
+					{
+						newPane.Add(item2);
+					}
+
+					TryCloseEmptyPane(container);
+				}
+				else
+				{
+					// This case should be prevented by the DockingDiamond logics.
+					throw new InvalidOperationException();
+				}
+			}
+			else if (container is ToolPane)
+			{
+				if (container == pane) return; // can't move relative to itself
+				if (pane.ParentPane is not { } parentPane) return;
+				if (!(parentPane.NestedPanes.IndexOf(pane) is var index && index != -1)) return;
+
+				var items = container.Items.ToArray();
+				container.ClearItems();
+
 				// if the direction is parallel to the parent layout, just insert the new pane before/after the target pane
 				if (parentPane.Orientation == direction.ToOrientation())
 				{
@@ -161,7 +326,7 @@ public partial class DockControl // handlers, forwarded handlers
 
 					parentPane.NestedPanes.Insert(index + direction is DockDirection.Left or DockDirection.Top ? 0 : 1, newPane);
 
-					newPane.Add(item);
+					newPane.AddRange(items);
 				}
 				// if the direction is perpendicular to the parent layout,
 				// remove the target pane from its parent, insert a new layout pane at its place,
@@ -185,17 +350,28 @@ public partial class DockControl // handlers, forwarded handlers
 					parentPane.NestedPanes.Insert(index, newLayoutPane);
 
 					pane.RepairTabView();
-
-					newPane.Add(item);
+					
+					newPane.AddRange(items);
 				}
 
-				TryCloseEmptyPane(originPane);
+				TryCloseEmptyPane(container);
+			}
+			else
+			{
+				throw new NotImplementedException($"DockControl::OnItemDropCompleted: {direction}");
 			}
 		}
-		else
-		{
-			throw new NotImplementedException($"DockControl::OnItemDropCompleted: {direction}");
-		}
+	}
+
+	internal void OnPaneDragStarting(ElementPane pane, DragStartingEventArgs e)
+	{
+		Debug.WriteLine($"@xy DockPanel::OnPaneDragStarting");
+
+		e.Data.Properties[PropertyKeys.Container] = pane;
+	}
+	internal void OnPaneDropCompleted(ElementPane pane, DropCompletedEventArgs e)
+	{
+		Debug.WriteLine($"@xy DockPanel::OnPaneDragStarting");
 	}
 
 	internal void OnItemCloseRequested(ElementPane pane, TabViewTabCloseRequestedEventArgs e)
@@ -257,6 +433,26 @@ public partial class DockControl // helpers
 			parentNestedPanes.Count == 0)
 		{
 			ReduceEmptyPaneRecursively(pane);
+		}
+	}
+	private (ElementPane? Container, DockItem? Item) ExtractDragInfo(DataPackageView view)
+	{
+		if (ExtractValue<ElementPane>(view.Properties, PropertyKeys.Container, out var container))
+		{
+			if (ExtractValue<DockItem>(view.Properties, PropertyKeys.Item, out var item))
+			{
+				return (container, item);
+			}
+			return (container, null);
+		}
+		return (null, null);
+
+		static bool ExtractValue<T>(IReadOnlyDictionary<string, object> dict, string key, out T? value) where T : class
+		{
+			value = dict.TryGetValue(key, out var result)
+				? result as T
+				: null;
+			return value is { };
 		}
 	}
 }

@@ -599,6 +599,9 @@ public partial class AnchoredPane : DockPane // non-pinned pane, once pinned it 
 public partial class PreviewPane : DockPane { }
 public abstract partial class ElementPane : DockPane, IEnumerable
 {
+	public DockItem? SelectedItem  => _tabView?.SelectedItem as DockItem;
+	public IEnumerable<DockItem> Items => _items;
+
 	public int ElementCount => _items.Count;
 
 	private TabView? _tabView;
@@ -658,9 +661,31 @@ public abstract partial class ElementPane : DockPane, IEnumerable
 			_tabView.SelectedItem = item;
 		}
 	}
+	public void AddRange(IEnumerable<DockItem> items)
+	{
+		foreach (var item in items)
+		{
+			_items.Add(item);
+		}
+		if (_tabView is { })
+		{
+			_tabView.SelectedItem = _items[^1];
+		}
+	}
 	public bool Remove(DockItem item)
 	{
-		return _items.Remove(item);
+		if (!_items.Remove(item)) return false;
+
+		if (_tabView is { } && _items.LastOrDefault() is { } last)
+		{
+			_tabView.SelectedItem = last;
+		}
+
+		return true;
+	}
+	public void ClearItems()
+	{
+		_items.Clear();
 	}
 
 	protected internal abstract bool CanAcceptDrop(object data);
@@ -693,6 +718,28 @@ public partial class DocumentPane : ElementPane
 }
 public partial class ToolPane : ElementPane
 {
+	private Grid? _titleBarContainer;
+	private Button? _closePaneButton;
+
+	protected override void OnApplyTemplate()
+	{
+		base.OnApplyTemplate();
+
+		_titleBarContainer = GetTemplateChild("TitleBarContainer") as Grid;
+		_closePaneButton = GetTemplateChild("ClosePaneButton") as Button;
+
+		if (_titleBarContainer is { })
+		{
+			_titleBarContainer.CanDrag = true;
+			_titleBarContainer.DragStarting += (s, e) => DockControl?.OnPaneDragStarting(this, e);
+			_titleBarContainer.DropCompleted += (s, e) => DockControl?.OnPaneDropCompleted(this, e);
+		}
+		if (_closePaneButton is { })
+		{
+			_closePaneButton.Click += (s, e) => DockControl?.OnPaneCloseRequested(this, e);
+		}
+	}
+
 	protected internal override bool CanAcceptDrop(object data)
 	{
 		return data is ToolItem;

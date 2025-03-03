@@ -15,6 +15,30 @@
 	<x:String x:Key="DockVSplitPathData">M2 2H22V22H2V2M3 4V21H21V4ZM11.5 5h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1z</x:String>
 	<x:String x:Key="DockHSplitPathData">M2 2H22V22H2V2M3 4V21H21V4ZM4.5 12h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1z</x:String>
 
+	<x:String x:Key="ClosePathData">M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z</x:String>
+
+	<Style x:Key="IconButtonStyle" TargetType="Button">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Foreground" Value="LightGray" />
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Padding" Value="2" />
+		<Setter Property="Width" Value="16" />
+		<Setter Property="Height" Value="16" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+						<Path Data="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}"
+							  Fill="{TemplateBinding Foreground}"
+							  Stretch="Fill"
+							  IsHitTestVisible="False" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
 	<Style TargetType="utu:DockControl">
 		<Setter Property="Template">
 			<Setter.Value>
@@ -99,10 +123,14 @@
 		</Setter>
 	</Style>
 	<Style TargetType="utu:LayoutPane">
+		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:LayoutPane">
-					<Grid>
+					<Grid BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  CornerRadius="{TemplateBinding CornerRadius}"
+						  Background="{TemplateBinding Background}">
 						<ItemsControl x:Name="NestedPanesHost" ItemsSource="{TemplateBinding NestedPanes}">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
@@ -133,11 +161,16 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+
 	<Style TargetType="utu:EditorPane">
+		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:EditorPane">
-					<Grid>
+					<Grid BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  CornerRadius="{TemplateBinding CornerRadius}"
+						  Background="{TemplateBinding Background}">
 						<ItemsControl x:Name="NestedPanesHost" ItemsSource="{TemplateBinding NestedPanes}">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
@@ -169,10 +202,16 @@
 		</Setter>
 	</Style>
 	<Style TargetType="utu:DocumentPane">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="BorderBrush" Value="Gray" />
+		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:DocumentPane">
-					<Grid void:Background="Transparent">
+					<Grid BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  CornerRadius="{TemplateBinding CornerRadius}"
+						  Background="{TemplateBinding Background}">
 						<TabView x:Name="TabView"
 								 IsAddTabButtonVisible="False"
 								 CanReorderTabs="True"
@@ -214,24 +253,51 @@
 		</Setter>
 	</Style>
 	<Style TargetType="utu:ToolPane">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="BorderBrush" Value="Gray" />
+		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:ToolPane">
-					<Grid void:Background="Transparent">
+					<Grid BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  CornerRadius="{TemplateBinding CornerRadius}"
+						  Background="{TemplateBinding Background}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
-						<Grid Grid.Row="0">
-							<ContentControl Content="{Binding ElementName=TabView, Path=SelectedItem}">
+						<Grid x:Name="TitleBarContainer"
+							  Grid.Row="0"
+							  Background="Transparent">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<ContentControl Grid.Column="0"
+											Content="{Binding ElementName=TabView, Path=SelectedItem}"
+											VerticalAlignment="Center">
 								<ContentControl.ContentTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding Title}" />
 									</DataTemplate>
 								</ContentControl.ContentTemplate>
 							</ContentControl>
+							<Border Grid.Column="1"
+									Background="Gray"
+									Margin="8,6"
+									VerticalAlignment="Stretch" />
+							<StackPanel Grid.Column="2"
+										Orientation="Horizontal"
+										VerticalAlignment="Center">
+								<Button x:Name="ClosePaneButton"
+										Content="{StaticResource ClosePathData}"
+										Style="{StaticResource IconButtonStyle}" />
+							</StackPanel>
 						</Grid>
 						<TabView x:Name="TabView"
 								 Grid.Row="1"
@@ -276,12 +342,6 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="DockDiamondIndicatorPathStyle" TargetType="Path">
-		<Setter Property="Fill" Value="Gray" />
-		<Setter Property="Width" Value="33" />
-		<Setter Property="Height" Value="33" />
-		<Setter Property="Stretch" Value="Fill" />
-	</Style>
 	<Style TargetType="utu:DockDiamondIndicator">
 		<Setter Property="Foreground" Value="LightGray" />
 		<Setter Property="BorderBrush" Value="Gray" />
