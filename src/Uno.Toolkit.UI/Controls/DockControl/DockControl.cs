@@ -177,6 +177,8 @@ public partial class DockControl // handlers, forwarded handlers
 				if (container.Remove(item))
 				{
 					pane.Add(item);
+					pane.RepairTabView();
+
 					TryCloseEmptyPane(container);
 				}
 			}
