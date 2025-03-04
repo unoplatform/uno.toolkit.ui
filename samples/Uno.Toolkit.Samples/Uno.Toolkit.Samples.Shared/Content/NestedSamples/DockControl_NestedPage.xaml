@@ -13,8 +13,10 @@
 		<utu:DockControl x:Name="SUT" />
 
 		<StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50" Background="Pink">
-			<Button Content="AddDocument" Click="AddDocument" />
-			<Button Content="AddTool" Click="AddTool" />
+			<Button Content="AddDocument" Click="AddDocument" Foreground="White" />
+			<Button Content="AddTool" Click="AddTool" Foreground="White" />
+			<Button Content="RefreshTV" Click="RefreshTV" Background="Green" Foreground="White" />
+			<Button Content="ResetPanes" Click="ResetPanes" Background="Red" Foreground="White" />
 		</StackPanel>
 	</Grid>
 </Page>

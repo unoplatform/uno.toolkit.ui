@@ -1,6 +1,8 @@
 ﻿using System;
 using Windows.Foundation;
 using Uno.UI.Extensions;
+using System.Diagnostics;
+
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -18,6 +20,11 @@ namespace Uno.Toolkit.UI;
 
 public partial class DockingDiamond : Control
 {
+	private static class OuterStates
+	{
+		public const string OuterNonAvailableState = nameof(OuterNonAvailableState);
+		public const string OuterAvailableState = nameof(OuterAvailableState);
+	}
 	private static class DirectionalStates
 	{
 		public const string Omnidirectional = nameof(Omnidirectional);
@@ -29,7 +36,11 @@ public partial class DockingDiamond : Control
 
 	private Grid? _rootGrid;
 	private Border? _overlayBorder;
-	private DockDiamondIndicator? _leftIndicator, _topIndicator, _rightIndicator, _bottomIndicator, _centerIndicator;
+
+	private DockDiamondIndicator? _centerIndicator;
+	private DockDiamondIndicator? _leftIndicator, _topIndicator, _rightIndicator, _bottomIndicator;
+	private DockDiamondIndicator? _outerLeftIndicator, _outerTopIndicator, _outerRightIndicator, _outerBottomIndicator;
+	//private DockDiamondIndicator? _edgeLeftIndicator, _edgeTopIndicator, _edgeRightIndicator, _edgeBottomIndicator;
 
 	private Rect? _lastPlacementRect;
 	internal DockDirection Direction { get; private set; }
@@ -41,27 +52,35 @@ public partial class DockingDiamond : Control
 		_rootGrid = GetTemplateChild("RootGrid") as Grid;
 		_overlayBorder = GetTemplateChild("OverlayBorder") as Border;
 
-		_leftIndicator = GetTemplateChild("DockLeftIndicator") as DockDiamondIndicator;
-		_topIndicator = GetTemplateChild("DockTopIndicator") as DockDiamondIndicator;
-		_rightIndicator = GetTemplateChild("DockRightIndicator") as DockDiamondIndicator;
-		_bottomIndicator = GetTemplateChild("DockBottomIndicator") as DockDiamondIndicator;
-		_centerIndicator = GetTemplateChild("DockCenterIndicator") as DockDiamondIndicator;
+		ResolveAndRegisterIndicator(ref _centerIndicator, "DockCenterIndicator", DockDirection.None);
 
-		RegisterIndicatorEvents(_leftIndicator, DockDirection.Left);
-		RegisterIndicatorEvents(_topIndicator, DockDirection.Top);
-		RegisterIndicatorEvents(_rightIndicator, DockDirection.Right);
-		RegisterIndicatorEvents(_bottomIndicator, DockDirection.Bottom);
-		RegisterIndicatorEvents(_centerIndicator, DockDirection.None);
+		ResolveAndRegisterIndicator(ref _leftIndicator, "DockLeftIndicator", DockDirection.Left);
+		ResolveAndRegisterIndicator(ref _topIndicator, "DockTopIndicator", DockDirection.Top);
+		ResolveAndRegisterIndicator(ref _rightIndicator, "DockRightIndicator", DockDirection.Right);
+		ResolveAndRegisterIndicator(ref _bottomIndicator, "DockBottomIndicator", DockDirection.Bottom);
 
-		void RegisterIndicatorEvents(DockDiamondIndicator? indicator, DockDirection direction)
+		ResolveAndRegisterIndicator(ref _outerLeftIndicator, "DockOuterLeftIndicator", DockDirection.OuterLeft);
+		ResolveAndRegisterIndicator(ref _outerTopIndicator, "DockOuterTopIndicator", DockDirection.OuterTop);
+		ResolveAndRegisterIndicator(ref _outerRightIndicator, "DockOuterRightIndicator", DockDirection.OuterRight);
+		ResolveAndRegisterIndicator(ref _outerBottomIndicator, "DockOuterBottomIndicator", DockDirection.OuterBottom);
+
+		//ResolveAndRegisterIndicator(ref _edgeLeftIndicator, "DockEdgeLeftIndicator", DockDirection.EdgeLeft);
+		//ResolveAndRegisterIndicator(ref _edgeTopIndicator, "DockEdgeTopIndicator", DockDirection.EdgeTop);
+		//ResolveAndRegisterIndicator(ref _edgeRightIndicator, "DockEdgeRightIndicator", DockDirection.EdgeRight);
+		//ResolveAndRegisterIndicator(ref _edgeBottomIndicator, "DockEdgeBottomIndicator", DockDirection.EdgeBottom);
+
+		void ResolveAndRegisterIndicator(ref DockDiamondIndicator? indicator, string partName, DockDirection direction)
 		{
-			if (indicator is null) return;
-			indicator.Tag = direction;
+			indicator = GetTemplateChild(partName) as DockDiamondIndicator;
+			if (indicator is { })
+			{
+				indicator.Tag = direction;
 
-			// note: avoid using drag events here, since that would cause DragLeave on the DockPane.
-			// We can get by with just pointer events here.
-			indicator.PointerEntered += OnIndicatorPointerEntered;
-			indicator.PointerExited += OnIndicatorPointerExited;
+				// note: avoid using drag events here, since that would cause DragLeave on the DockPane.
+				// We can get by with just pointer events here.
+				indicator.PointerEntered += OnIndicatorPointerEntered;
+				indicator.PointerExited += OnIndicatorPointerExited;
+			}
 		}
 	}
 
@@ -83,7 +102,7 @@ public partial class DockingDiamond : Control
 		}
 	}
 
-	public void ShowAt(ElementPane pane)
+	public void ShowAt(ElementPane pane, DockItem? item)
 	{
 		Visibility = Visibility.Visible;
 
@@ -98,13 +117,19 @@ public partial class DockingDiamond : Control
 
 			_ => DirectionalStates.Omnidirectional,
 		};
-		VisualStateManager.GoToState(this, directionalState, useTransitions: true);
+		var outerState = pane is DocumentPane && item is ToolItem
+			? OuterStates.OuterAvailableState
+			: OuterStates.OuterNonAvailableState;
+
+		VisualStateManager.GoToState(this, directionalState, useTransitions: IsLoaded);
+		VisualStateManager.GoToState(this, outerState, useTransitions: IsLoaded);
 
 		ShowAt(_lastPlacementRect.Value, DockDirection.None);
 	}
 	private void ShowAt(Rect rect, DockDirection direction)
 	{
 		Direction = direction;
+		Debug.WriteLine($"{direction}");
 
 		if (_rootGrid is null) return;
 		if (_overlayBorder is null) return;
@@ -116,11 +141,18 @@ public partial class DockingDiamond : Control
 
 		var overlayRect = ((HorizontalAlignment HAlign, VerticalAlignment VAlign, double Width, double Height))(direction switch
 		{
+			DockDirection.None => (HorizontalAlignment.Stretch, VerticalAlignment.Stretch, double.NaN, double.NaN),
+
 			DockDirection.Left => (HorizontalAlignment.Left, VerticalAlignment.Stretch, rect.Width / 2, double.NaN),
 			DockDirection.Right => (HorizontalAlignment.Right, VerticalAlignment.Stretch, rect.Width / 2, double.NaN),
 			DockDirection.Top => (HorizontalAlignment.Stretch, VerticalAlignment.Top, double.NaN, rect.Height / 2),
 			DockDirection.Bottom => (HorizontalAlignment.Stretch, VerticalAlignment.Bottom, double.NaN, rect.Height / 2),
-			DockDirection.None => (HorizontalAlignment.Stretch, VerticalAlignment.Stretch, double.NaN, double.NaN),
+
+			DockDirection.OuterLeft => (HorizontalAlignment.Left, VerticalAlignment.Stretch, rect.Width / 2, double.NaN),
+			DockDirection.OuterRight => (HorizontalAlignment.Right, VerticalAlignment.Stretch, rect.Width / 2, double.NaN),
+			DockDirection.OuterTop => (HorizontalAlignment.Stretch, VerticalAlignment.Top, double.NaN, rect.Height / 2),
+			DockDirection.OuterBottom => (HorizontalAlignment.Stretch, VerticalAlignment.Bottom, double.NaN, rect.Height / 2),
+
 #if DEBUG
 			_ => throw new ArgumentOutOfRangeException($"DockDirection: {direction}"),
 #else

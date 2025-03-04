@@ -14,6 +14,10 @@
 	<x:String x:Key="DockCenterPathData">M2 2H22V22H2V2M3 4V21H21V4Z</x:String>
 	<x:String x:Key="DockVSplitPathData">M2 2H22V22H2V2M3 4V21H21V4ZM11.5 5h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1zm0 2h1v1h-1z</x:String>
 	<x:String x:Key="DockHSplitPathData">M2 2H22V22H2V2M3 4V21H21V4ZM4.5 12h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1z</x:String>
+	<x:String x:Key="DockSplitLeftPathData">M2 2H12V22H2ZM3 4V21h8V4Zm19 4-4 4 4 4Z</x:String>
+	<x:String x:Key="DockSplitTopPathData">M2 2H22V12H2ZM3 4v7H21V4ZM8 22l4-4 4 4Z</x:String>
+	<x:String x:Key="DockSplitRightPathData">M12 2H22V22H12Zm1 2V21h8V4ZM2 8l4 4-4 4Z</x:String>
+	<x:String x:Key="DockSplitBottomPathData">M2 12H22V22H2Zm1 2v7H21V14ZM8 2l4 4 4-4Z</x:String>
 
 	<x:String x:Key="ClosePathData">M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z</x:String>
 
@@ -370,6 +374,17 @@
 				<ControlTemplate TargetType="utu:DockingDiamond">
 					<Grid x:Name="RootGrid">
 						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="OuterStates">
+								<VisualState x:Name="OuterNonAvailableState" />
+								<VisualState x:Name="OuterAvailableState">
+									<VisualState.Setters>
+										<Setter Target="DockOuterLeftIndicator.Visibility" Value="Visible" />
+										<Setter Target="DockOuterTopIndicator.Visibility" Value="Visible" />
+										<Setter Target="DockOuterRightIndicator.Visibility" Value="Visible" />
+										<Setter Target="DockOuterBottomIndicator.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
 							<VisualStateGroup x:Name="DirectionalStates">
 								<VisualState x:Name="Omnidirectional" />
 								<VisualState x:Name="HBidirectional">
@@ -390,10 +405,12 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 
 						<Border x:Name="OverlayBorder"
@@ -411,35 +428,89 @@
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
-							<utu:DockDiamondIndicator x:Name="DockLeftIndicator"
-													  Grid.Row="1"
-													  Grid.Column="0"
-													  Data="{StaticResource DockVSplitPathData}" />
-							<utu:DockDiamondIndicator x:Name="DockTopIndicator"
-													  Grid.Row="0"
-													  Grid.Column="1"
-													  Data="{StaticResource DockHSplitPathData}" />
-							<utu:DockDiamondIndicator x:Name="DockRightIndicator"
-													  Grid.Row="1"
+							<utu:DockDiamondIndicator x:Name="DockCenterIndicator"
+													  Grid.Row="2"
 													  Grid.Column="2"
-													  Data="{StaticResource DockVSplitPathData}" />
-							<utu:DockDiamondIndicator x:Name="DockBottomIndicator"
+													  Data="{StaticResource DockCenterPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockLeftIndicator"
 													  Grid.Row="2"
 													  Grid.Column="1"
-													  Data="{StaticResource DockHSplitPathData}" />
-							<utu:DockDiamondIndicator x:Name="DockCenterIndicator"
+													  Data="{StaticResource DockVSplitPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockTopIndicator"
 													  Grid.Row="1"
-													  Grid.Column="1"
-													  Data="{StaticResource DockCenterPathData}" />
+													  Grid.Column="2"
+													  Data="{StaticResource DockHSplitPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockRightIndicator"
+													  Grid.Row="2"
+													  Grid.Column="3"
+													  Data="{StaticResource DockVSplitPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockBottomIndicator"
+													  Grid.Row="3"
+													  Grid.Column="2"
+													  Data="{StaticResource DockHSplitPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockOuterLeftIndicator"
+													  Grid.Row="2"
+													  Grid.Column="0"
+													  Data="{StaticResource DockSplitLeftPathData}"
+													  Visibility="Collapsed" />
+							<utu:DockDiamondIndicator x:Name="DockOuterTopIndicator"
+													  Grid.Row="0"
+													  Grid.Column="2"
+													  Data="{StaticResource DockSplitTopPathData}"
+													  Visibility="Collapsed" />
+							<utu:DockDiamondIndicator x:Name="DockOuterRightIndicator"
+													  Grid.Row="2"
+													  Grid.Column="4"
+													  Data="{StaticResource DockSplitRightPathData}"
+													  Visibility="Collapsed" />
+							<utu:DockDiamondIndicator x:Name="DockOuterBottomIndicator"
+													  Grid.Row="4"
+													  Grid.Column="2"
+													  Data="{StaticResource DockSplitBottomPathData}"
+													  Visibility="Collapsed" />
 						</Grid>
+						<void:Grid Grid.RowSpan="3"
+								   Grid.ColumnSpan="3"
+								   Padding="5">
+							<utu:DockDiamondIndicator x:Name="DockEdgeLeftIndicator"
+													  HorizontalAlignment="Left"
+													  VerticalAlignment="Center"
+													  Data="{StaticResource DockSplitLeftPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockEdgeTopIndicator"
+													  HorizontalAlignment="Center"
+													  VerticalAlignment="Top"
+													  Data="{StaticResource DockSplitTopPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockEdgeRightIndicator"
+													  HorizontalAlignment="Right"
+													  VerticalAlignment="Center"
+													  Data="{StaticResource DockSplitRightPathData}" />
+							<utu:DockDiamondIndicator x:Name="DockEdgeBottomIndicator"
+													  HorizontalAlignment="Center"
+													  VerticalAlignment="Bottom"
+													  Data="{StaticResource DockSplitBottomPathData}" />
+						</void:Grid>
 					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style TargetType="utu:DockTabView">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:DockTabView">
+					<Grid />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

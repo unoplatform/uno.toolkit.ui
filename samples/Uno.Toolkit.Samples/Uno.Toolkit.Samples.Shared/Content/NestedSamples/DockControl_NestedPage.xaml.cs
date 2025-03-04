@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using Uno.Toolkit.Samples.Entities;
 using Uno.Toolkit.UI;
+using Uno.Extensions;
+
 
 #if IS_WINUI
 using Microsoft.UI;
@@ -57,5 +59,13 @@ public sealed partial class DockControl_NestedPage : Page
 			Title = $"title: Tool Window {_itemCounter}",
 			Content = $"content: Tool {_itemCounter}",
 		});
+	}
+	private void RefreshTV(object sender, RoutedEventArgs e)
+	{
+		SUT.RefreshTabViews();
+	}
+	private void ResetPanes(object sender, RoutedEventArgs e)
+	{
+		SUT.ResetPanes();
 	}
 }

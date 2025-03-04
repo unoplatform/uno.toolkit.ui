@@ -3,8 +3,9 @@
 public enum DockDirection
 {
 	None,
-	Left, Top, Right, Bottom,
-	//LeftMost, TopMost, RightMost, BottomMost,  // maybe use the pane argument to specify "-most" or not
+	Left, Top, Right, Bottom, // to split relative to the target pane
+	OuterLeft, OuterTop, OuterRight, OuterBottom, // to split relative to a Editor/DocumentPane, as a ToolPane instead of a split DocumentPane
+	EdgeLeft, EdgeTop, EdgeRight, EdgeBottom,
 }
 
 public enum DockPaneClosingBehavior

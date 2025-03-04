@@ -38,6 +38,11 @@ public partial class DockPane : Control
 
 	internal LayoutPane? ParentPane { get; set; }
 
+	internal LayoutPane? FindAncestor(Func<LayoutPane, bool> predicate)
+	{
+		return Hierarchy.Find(ParentPane, x => x.ParentPane, predicate);
+	}
+
 #if DEBUG
 	internal virtual object?[] GetLogicalMembers() => [];
 	internal virtual IEnumerable<string> GetDebugDescriptions()
@@ -236,6 +241,10 @@ public partial class LayoutPane : DockPane, IEnumerable
 				}
 				RepairTailIndex(e.OldStartingIndex); // dont add Count here
 			}
+			else if (e.Action is NotifyCollectionChangedAction.Reset)
+			{
+				UpdateChildrenLayout();
+			}
 			else
 			{
 				throw new NotImplementedException($"OnNestedPanesCollectionChanged: {e.Action}");
@@ -298,7 +307,7 @@ public partial class LayoutPane : DockPane, IEnumerable
 
 		var position = _lastPointerPosition ?? e.Position;
 		var capture = CaptureManipulation(position);
-		Debug.WriteLine($"OnManipulationStarted: position={position}, capture={capture} // {GetType().Name}");
+		//Debug.WriteLine($"OnManipulationStarted: position={position}, capture={capture} // {GetType().Name}");
 		if (capture is { })
 		{
 			_capturedManipulation = capture;
@@ -504,6 +513,8 @@ public partial class RootPane : LayoutPane // todo@xy: should we merge this into
 	public RootPane()
 	{
 		Orientation = Orientation.Vertical;
+
+		PopulateNestedPanes();
 	}
 
 	protected override void OnApplyTemplate()
@@ -515,35 +526,36 @@ public partial class RootPane : LayoutPane // todo@xy: should we merge this into
 		_rightAnchoredPane = GetTemplateChild("RightAnchoredPane") as AnchoredPane;
 		_bottomAnchoredPane = GetTemplateChild("BottomAnchoredPane") as AnchoredPane;
 
-		PopulateNestedPanes();
+		//PopulateNestedPanes();
 	}
-	private void PopulateNestedPanes()
+	internal /*private*/ void PopulateNestedPanes()
 	{
+
+		NestedPanes.Clear();
 		NestedPanes.Add(new EditorPane()
 		{
 			new DocumentPane()
 			{
-#if DEBUG
-				new DocumentItem { Header = "asd-1.cs", Content = "content: asdasd-1" },
-				new DocumentItem { Header = "asd-2.cs", Content = "content: asdasd-2" },
-				new DocumentItem { Header = "asd-3.cs", Content = "content: asdasd-3" },
-				new ToolItem { Header = "tool-4", Title = "Tool-4 Window", Content = "content: tool-4" },
-#endif
+				CreateDocumentItem(1),
+				CreateDocumentItem(2),
+				CreateDocumentItem(3),
+				CreateToolItem(4),
 			}
 		});
-#if DEBUG
-		NestedPanes.Add(new LayoutPane(Orientation.Opposite())
+		NestedPanes.Add(new LayoutPane(Orientation.Horizontal)
 		{
 			new ToolPane()
 			{
-				new ToolItem { Header = "tool-5", Title = "Tool-5 Window", Content = "content: tool-5" },
+				CreateToolItem(5),
 			},
 			new ToolPane()
 			{
-				new ToolItem { Header = "tool-6", Title = "Tool-6 Window", Content = "content: tool-6" },
-			}
+				CreateToolItem(6),
+			},
 		});
-#endif
+
+		DocumentItem CreateDocumentItem(int i) => new DocumentItem { Header = $"asd-{i}.cs", Content = $"content: asdasd-{i}" };
+		ToolItem CreateToolItem(int i) => new ToolItem { Header = $"tool-{i}", Title = $"Tool-{i} Window", Content = $"content: tool-{i}" };
 	}
 
 #if DEBUG
@@ -637,11 +649,6 @@ public abstract partial class ElementPane : DockPane, IEnumerable
 		base.OnDragEnter(e);
 		DockControl?.OnPaneDropEnter(this, e);
 	}
-	//protected override void OnDragOver(DragEventArgs e)
-	//{
-	//	base.OnDragOver(e);
-	//	DockControl?.OnPaneDropOver(this, e);
-	//}
 	protected override void OnDragLeave(DragEventArgs e)
 	{
 		base.OnDragLeave(e);
