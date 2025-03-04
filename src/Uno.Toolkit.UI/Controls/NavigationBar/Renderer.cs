@@ -51,12 +51,22 @@ namespace Uno.Toolkit.UI
 #if __IOS__
 			if (element is FrameworkElement fe)
 			{
-				fe.Unloaded += (s, e) => Dispose();
+				fe.Unloaded += OnElementUnloaded;
+				_subscriptions.Add(() => fe.Unloaded -= OnElementUnloaded);
+
 			}
 #endif
 
 			_element = new WeakReference<TElement>(element);
 		}
+
+#if __IOS__
+
+		private void OnElementUnloaded(object sender, RoutedEventArgs e)
+		{
+			Dispose();
+		}
+#endif
 
 		public TElement? Element
 		{
