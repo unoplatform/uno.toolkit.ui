@@ -37,6 +37,9 @@ namespace Uno.Toolkit.UI
 			where TNative : class
 	{
 		private CompositeDisposable _subscriptions = new CompositeDisposable();
+#if __IOS__
+		private SerialDisposable _unloadedSubscription = new SerialDisposable();
+#endif
 		private readonly WeakReference<TElement> _element;
 		private TNative? _native;
 		private bool _isRendering;
@@ -52,8 +55,10 @@ namespace Uno.Toolkit.UI
 			if (element is FrameworkElement fe)
 			{
 				fe.Unloaded += OnElementUnloaded;
-				_subscriptions.Add(() => fe.Unloaded -= OnElementUnloaded);
-
+				_unloadedSubscription.Disposable = Disposable.Create(() =>
+				{
+					fe.Unloaded -= OnElementUnloaded;
+				});
 			}
 #endif
 
@@ -61,9 +66,9 @@ namespace Uno.Toolkit.UI
 		}
 
 #if __IOS__
-
-		private void OnElementUnloaded(object sender, RoutedEventArgs e)
+		private void OnElementUnloaded(object sender, RoutedEventArgs? e)
 		{
+			_unloadedSubscription.Dispose();
 			Dispose();
 		}
 #endif
