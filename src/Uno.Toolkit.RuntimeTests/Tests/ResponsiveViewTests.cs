@@ -17,7 +17,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class ResponsiveViewTests
+public class ResponsiveViewTests
 {
 	[TestMethod]
 	public async Task ResponsiveView_NarrowContent_TextBlock()
