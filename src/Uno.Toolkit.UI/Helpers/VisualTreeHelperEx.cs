@@ -52,7 +52,7 @@ namespace Uno.Toolkit.UI
 		/// Produces a text representation of the visual tree.
 		/// </summary>
 		/// <param name="reference">Any node of the visual tree</param>
-		public static string TreeGraph(this DependencyObject reference) => TreeGraph(reference, DebugVTNode);
+		public static string TreeGraph(this DependencyObject reference) => TreeGraph(reference, DescribeVTNode);
 
 		/// <summary>
 		/// Produces a text representation of the visual tree, using the provided method of description.
@@ -61,7 +61,13 @@ namespace Uno.Toolkit.UI
 		/// <param name="describeProperties">A function to describe the properties of interest of a visual tree node.</param>
 		/// <returns></returns>
 		public static string TreeGraph(this DependencyObject reference, Func<object, IEnumerable<string>> describeProperties) =>
-			TreeGraph(reference, x => DebugVTNode(x, describeProperties));
+			TreeGraph(reference, x => DescribeVTNode(x, describeProperties));
+
+		public static string TreeGraph(
+			this object reference,
+			Func<object, IEnumerable<string>> describeProperties,
+			Func<object, IEnumerable<object>, IEnumerable<object>>? getMembers = null
+		) => TreeGraph(reference, x => DescribeVTNode(x, describeProperties), getMembers);
 
 		/// <summary>
 		/// Produces a text representation of the visual tree, using the provided method of description.
@@ -69,16 +75,23 @@ namespace Uno.Toolkit.UI
 		/// <param name="reference">Any node of the visual tree</param>
 		/// <param name="describe">A function to describe a visual tree node in a single line.</param>
 		/// <returns></returns>
-		public static string TreeGraph(this DependencyObject reference, Func<object, string> describe)
+		public static string TreeGraph(
+			this object reference,
+			Func<object, string> describe,
+			Func<object, IEnumerable<object>, IEnumerable<object>>? getMembers = null
+		)
 		{
 			var buffer = new StringBuilder();
 			Walk(reference);
 			return buffer.ToString();
 
-			void Walk(DependencyObject o, int depth = 0)
+			void Walk(object o, int depth = 0)
 			{
 				Print(o, depth);
-				foreach (var child in o.GetChildren())
+
+				var children = (o as _View)?.GetChildren().Cast<object>() ?? Array.Empty<object>();
+				children = getMembers?.Invoke(o, children) ?? children;
+				foreach (var child in children)
 				{
 					Walk(child, depth + 1);
 				}
@@ -209,13 +222,34 @@ namespace Uno.Toolkit.UI
 	}
 	internal static partial class VisualTreeHelperEx // TreeGraph helper methods
 	{
-		private static string DebugVTNode(object x)
+		private static string DescribeVTNode(object x)
 		{
-			return DebugVTNode(x, GetDetails);
+			return DescribeVTNode(x, GetDetails);
 
 			static IEnumerable<string> GetDetails(object x)
 			{
 				#region Common Details: Layout (high priority)
+#if true // positioning properties/hints
+				if (x is FrameworkElement { Parent: Grid } fe3)
+				{
+					int c = Grid.GetColumn(fe3), cspan = Grid.GetColumnSpan(fe3),
+						r = Grid.GetRow(fe3), rspan = Grid.GetRowSpan(fe3);
+
+					yield return $"R{FormatRange(r, rspan)}C{FormatRange(c, cspan)}";
+					string FormatRange(int x, int span) => span > 1 ? $"{x}-{x + span - 1}" : $"{x}";
+				}
+				if (x is Grid g)
+				{
+					if (g.ColumnDefinitions is { Count: > 0 } columns)
+					{
+						yield return $"Columns={string.Join(',', columns.Select(FormatGridDefinition))}";
+					}
+					if (g.RowDefinitions is { Count: > 0 } rows)
+					{
+						yield return $"Rows={string.Join(',', rows.Select(FormatGridDefinition))}";
+					}
+				}
+#endif
 #if TREEGRAPH_VERBOSE_LAYOUT
 #if __IOS__
 				if (x is _View view && view.Superview is { })
@@ -232,16 +266,9 @@ namespace Uno.Toolkit.UI
 #endif
 				if (x is FrameworkElement fe)
 				{
-					yield return $"Actual={fe.ActualWidth}x{fe.ActualHeight}";
-#if TREEGRAPH_VERBOSE_LAYOUT
-					yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
-#endif
+					yield return $"Actual={FormatSize(fe.ActualWidth, fe.ActualHeight)}";
+					yield return $"Constraints=[{fe.MinWidth:0.#},{fe.Width:0.#},{fe.MaxWidth:0.#}]x[{fe.MinHeight:0.#},{fe.Height:0.#},{fe.MaxHeight:0.#}]";
 					yield return $"HV={fe.HorizontalAlignment}/{fe.VerticalAlignment}";
-				}
-				if (x is UIElement uie)
-				{
-					//yield return $"Desired={FormatSize(uie.DesiredSize)}";
-					//yield return $"LAS={FormatSize(uie.LastAvailableSize)}";
 				}
 #if TREEGRAPH_VERBOSE_LAYOUT
 				if (TryGetDpValue<HorizontalAlignment>(x, "HorizontalContentAlignment", out var hca) |
@@ -304,7 +331,7 @@ namespace Uno.Toolkit.UI
 				#endregion
 			}
 		}
-		private static string DebugVTNode(object x, Func<object, IEnumerable<string>> describeProperties)
+		private static string DescribeVTNode(object x, Func<object, IEnumerable<string>> describeProperties)
 		{
 			if (x is null) return "<null>";
 

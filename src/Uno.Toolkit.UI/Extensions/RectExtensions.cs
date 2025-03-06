@@ -25,5 +25,11 @@ namespace Uno.Toolkit.UI
 			x.Width + (value.Left + value.Right),
 			x.Height + (value.Top + value.Bottom)
 		);
+
+		public static Rect FromLTRB(double left, double top, double right, double bottom) => new Rect(left, top, right - left, bottom - top);
+
+		public static bool Contains(this Rect rect, Point p) =>
+			rect.Left <= p.X && p.X <= rect.Right &&
+			rect.Top <= p.Y && p.Y <= rect.Bottom;
 	}
 }

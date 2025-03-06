@@ -90,15 +90,16 @@ namespace Uno.Toolkit.Samples
 			AddNavigationItems(nv);
 
 			// landing navigation
-			ShellNavigateTo<NavigationBarSamplePage>(
-#if WINDOWS_UWP
-				// note: on uwp, NavigationView.SelectedItem MUST be set on launch to avoid entering compact-mode
-				trySynchronizeCurrentItem: true
-#else
-				// workaround for uno#5069: setting NavView.SelectedItem at launch bricks it
-				trySynchronizeCurrentItem: false
-#endif
-			);
+//			ShellNavigateTo<NavigationBarSamplePage>(
+//#if WINDOWS_UWP
+//				// note: on uwp, NavigationView.SelectedItem MUST be set on launch to avoid entering compact-mode
+//				trySynchronizeCurrentItem: true
+//#else
+//				// workaround for uno#5069: setting NavView.SelectedItem at launch bricks it
+//				trySynchronizeCurrentItem: false
+//#endif
+//			);
+			_shell.NavigationView.Content = new DockControl_NestedPage();
 
 			// navigation + setting handler
 			nv.ItemInvoked += OnNavigationItemInvoked;
