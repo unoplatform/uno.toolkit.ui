@@ -60,13 +60,12 @@ namespace Uno.Toolkit.UI
 		partial void OnOwnerChanged()
 		{
 			// TODO: Find a proper way to decide whether a NavigationBar exists on canvas (within Page), or is mapped to the UINavigationController's NavigationBar.
-
 			_mainCommandClickHandler.Disposable = null;
 
 			if (GetNavBar() is { } navBar)
 			{
 				navBar.MainCommand.Click += OnMainCommandClick;
-				
+
 				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClick);
 
 				LayoutNativeNavBar(navBar);
@@ -75,6 +74,21 @@ namespace Uno.Toolkit.UI
 
 		private void LayoutNativeNavBar(NavigationBar navBar)
 		{
+			var page = navBar.FindFirstParent<Page>();
+			var parent = page?.Parent as Page;
+			if (page is not null
+				&& parent?.GetType() == page.GetType())
+			{
+				// Support for Hot Reload
+				// On iOS, the current Page instance is retained and its Content is replaced with a new instance of the Page
+				// If we detect that we have fallen into this scenario, hook up the new NavigationBar from within the new Page instance
+				// to the native UINavigationBar and UINavigationItem instances.
+				var vc = parent.FindViewController();
+
+				NavigationBarHelper.SetNavigationItem(navBar, vc.NavigationItem);
+				NavigationBarHelper.SetNavigationBar(navBar, vc.NavigationController?.NavigationBar);
+			}
+
 			if (navBar.TryGetNative<NavigationBar, NavigationBarRenderer, UINavigationBar>(out var nativeBar)
 				&& nativeBar is { })
 			{
