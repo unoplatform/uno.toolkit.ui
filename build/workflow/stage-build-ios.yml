@@ -110,6 +110,10 @@ jobs:
 
   - template: templates/canary-updater.yml
 
+  - template: templates/xcode-select.yml
+    parameters:
+      xCodeRoot: $(XCODE_ROOT)
+
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-build.sh
       $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-build.sh
