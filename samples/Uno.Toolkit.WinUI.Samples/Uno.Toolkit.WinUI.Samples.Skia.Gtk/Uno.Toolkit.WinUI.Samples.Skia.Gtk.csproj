@@ -4,7 +4,6 @@
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-
   </PropertyGroup>
     <PropertyGroup>
     <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
@@ -14,6 +13,9 @@
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="..\Uno.Toolkit.WinUI.Samples.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="SkiaSharp.Skottie" Version="3.116.1" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Fonts\Cupertino\SF-Pro.ttf" />
