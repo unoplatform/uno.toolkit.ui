@@ -7,7 +7,7 @@ steps:
       usePrivateFeed: false
       mergeBranch: true
       branchToMerge: main
-      nugetUpdaterVersion: 1.2.0-dev.20
+      nugetUpdaterVersion: '1.2.10'
       packageAuthor: 'unoplatform,uno platform'
       summaryFile: '$(build.artifactstagingdirectory)/Canary.md'
       useVersionOverrides: true
