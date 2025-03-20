@@ -53,7 +53,7 @@
   
   - template: templates/xcode-select.yml
     parameters:
-      xCodeRoot: $(XCODE_ROOT)
+      xCodeRoot: $(XCODE_ROOT_UITESTS)
 
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
