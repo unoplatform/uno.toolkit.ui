@@ -1,0 +1,24 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.TestPages.ShadowContainerTestPage2"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.TestPages"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<StackPanel x:Name="sp">
+		<Button x:Name="reloadButton" Click="OnReload">Reload</Button>
+		<TextBlock x:Name="testStatus" Text="Not Run" />
+		<utu:ShadowContainer x:Name="shadowContainer">
+			<utu:ShadowContainer.Shadows>
+				<utu:ShadowCollection>
+					<utu:Shadow  OffsetX="20" OffsetY="20" Color="#00FF00" Opacity="1" />
+				</utu:ShadowCollection>
+			</utu:ShadowContainer.Shadows>
+
+			<Rectangle Width="100" Height="100" Fill="Red" />
+		</utu:ShadowContainer>
+	</StackPanel>
+</Page>

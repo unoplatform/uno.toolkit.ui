@@ -1,0 +1,295 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.CardContentControlSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<sample:SamplePageLayout>
+		<sample:SamplePageLayout.MaterialTemplate>
+			<DataTemplate>
+				<StackPanel Padding="0,20"
+							Spacing="20">
+					<!-- Material Outlined CardContentControl Style -->
+					<TextBlock Text="Outlined CardContentControl Style"
+							   Style="{StaticResource MaterialHeadline6}" />
+
+					<utu:CardContentControl Style="{StaticResource MaterialOutlinedCardContentControlStyle}">
+						<utu:CardContentControl.ContentTemplate>
+							<DataTemplate>
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+
+									<!-- Media part -->
+									<Image Source="ms-appx:///Assets/Media/LargeMedia.png"
+										   Stretch="Uniform"
+										   MaxHeight="194" />
+
+									<StackPanel Grid.Row="1"
+												Margin="16,14">
+
+										<!-- Header part -->
+										<TextBlock Text="Elevated card"
+												   MaxLines="1"
+												   Style="{StaticResource MaterialHeadline6}" />
+
+										<!-- SubHeader part -->
+										<TextBlock Text="With media, supporting text and action buttons"
+												   Margin="0,4,0,12"
+												   MaxLines="2"
+												   Style="{StaticResource MaterialSubtitle1}" />
+
+										<!-- Supporting content part -->
+										<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+												   Style="{StaticResource MaterialBody2}" />
+
+										<!-- Action buttons part -->
+										<StackPanel Margin="0,12,0,0"
+													Spacing="6"
+													Orientation="Horizontal">
+											<Button Content="ACTION 1"
+													Padding="10,2"
+													Style="{StaticResource MaterialTextButtonStyle}" />
+											<Button Content="ACTION 2"
+													Padding="10,2"
+													Style="{StaticResource MaterialTextButtonStyle}" />
+										</StackPanel>
+
+									</StackPanel>
+								</Grid>
+							</DataTemplate>
+						</utu:CardContentControl.ContentTemplate>
+					</utu:CardContentControl>
+
+					<!-- Material Elevated CardContentControl Style -->
+					<TextBlock Text="Elevated CardContentControl Style"
+							   Style="{StaticResource MaterialHeadline6}" />
+
+					<utu:CardContentControl Style="{StaticResource MaterialElevatedCardContentControlStyle}">
+						<utu:CardContentControl.ContentTemplate>
+							<DataTemplate>
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+
+									<!-- Media part -->
+									<Image Source="ms-appx:///Assets/Media/LargeMedia.png"
+										   Stretch="Uniform"
+										   MaxHeight="194" />
+
+									<StackPanel Grid.Row="1"
+												Margin="16,14">
+
+										<!-- Header part -->
+										<TextBlock Text="Elevated card"
+												   MaxLines="1"
+												   Style="{StaticResource MaterialHeadline6}" />
+
+										<!-- SubHeader part -->
+										<TextBlock Text="With media, supporting text and action buttons"
+												   Margin="0,4,0,12"
+												   MaxLines="2"
+												   Style="{StaticResource MaterialSubtitle1}" />
+
+										<!-- Supporting content part -->
+										<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+												   Style="{StaticResource MaterialBody2}" />
+
+										<!-- Action buttons part -->
+										<StackPanel Margin="0,12,0,0"
+													Spacing="6"
+													Orientation="Horizontal">
+											<Button Content="ACTION 1"
+													Padding="10,2"
+													Style="{StaticResource MaterialTextButtonStyle}" />
+											<Button Content="ACTION 2"
+													Padding="10,2"
+													Style="{StaticResource MaterialTextButtonStyle}" />
+										</StackPanel>
+
+									</StackPanel>
+								</Grid>
+							</DataTemplate>
+						</utu:CardContentControl.ContentTemplate>
+					</utu:CardContentControl>
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.MaterialTemplate>
+		<sample:SamplePageLayout.M3MaterialTemplate>
+			<DataTemplate>
+				<StackPanel Padding="0,20"
+							Spacing="20">
+					<!-- Material M3 Outlined CardContentControl Style -->
+					<TextBlock Text="Outlined CardContentControl Style"
+							   Style="{StaticResource TitleLarge}" />
+
+					<utu:CardContentControl MaxWidth="400"
+											Style="{StaticResource OutlinedCardContentControlStyle}">
+						<utu:CardContentControl.ContentTemplate>
+							<DataTemplate>
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+
+									<!-- Media part -->
+									<Image Source="ms-appx:///Assets/Media/LargeMedia.png"
+										   Stretch="Uniform" />
+
+									<StackPanel Grid.Row="1"
+												Margin="16">
+
+										<!-- Header part -->
+										<TextBlock Text="Outlined card"
+												   MaxLines="1"
+												   Style="{StaticResource TitleMedium}" />
+
+										<!-- SubHeader part -->
+										<TextBlock Text="With media, supporting text and action buttons"
+												   MaxLines="2"
+												   Foreground="{ThemeResource OnSurfaceMediumBrush}"
+												   Style="{StaticResource LabelSmall}" />
+
+										<!-- Supporting content part -->
+										<TextBlock Margin="0,16"
+												   Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+												   Foreground="{ThemeResource OnSurfaceMediumBrush}"
+												   Style="{ThemeResource BodyMedium}" />
+
+										<!-- Action buttons part -->
+										<StackPanel Spacing="8"
+													Orientation="Horizontal">
+											<Button Content="ACTION 1"
+													Style="{StaticResource FilledButtonStyle}" />
+											<Button Content="ACTION 2"
+													Style="{StaticResource OutlinedButtonStyle}" />
+										</StackPanel>
+
+									</StackPanel>
+								</Grid>
+							</DataTemplate>
+						</utu:CardContentControl.ContentTemplate>
+					</utu:CardContentControl>
+
+					<!-- Material M3 Filled CardContentControl Style -->
+					<TextBlock Text="Filled CardContentControl Style"
+							   Style="{StaticResource TitleLarge}" />
+
+
+					<utu:CardContentControl MaxWidth="400"
+											Style="{StaticResource FilledCardContentControlStyle}">
+						<utu:CardContentControl.ContentTemplate>
+							<DataTemplate>
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+
+									<!-- Media part -->
+									<Image Source="ms-appx:///Assets/Media/LargeMedia.png"
+										   Stretch="Uniform" />
+
+									<StackPanel Grid.Row="1"
+												Margin="16">
+
+										<!-- Header part -->
+										<TextBlock Text="Filled card"
+												   MaxLines="1"
+												   Style="{StaticResource TitleMedium}" />
+
+										<!-- SubHeader part -->
+										<TextBlock Text="With media, supporting text and action buttons"
+												   MaxLines="2"
+												   Foreground="{ThemeResource OnSurfaceMediumBrush}"
+												   Style="{StaticResource LabelSmall}" />
+
+										<!-- Supporting content part -->
+										<TextBlock Margin="0,16"
+												   TextWrapping="WrapWholeWords"
+												   Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+												   Foreground="{ThemeResource OnSurfaceMediumBrush}"
+												   Style="{ThemeResource BodyMedium}" />
+
+										<!-- Action buttons part -->
+										<StackPanel Spacing="8"
+													Orientation="Horizontal">
+											<Button Content="ACTION 1"
+													Style="{StaticResource FilledButtonStyle}" />
+											<Button Content="ACTION 2"
+													Style="{StaticResource OutlinedButtonStyle}" />
+										</StackPanel>
+
+									</StackPanel>
+								</Grid>
+							</DataTemplate>
+						</utu:CardContentControl.ContentTemplate>
+					</utu:CardContentControl>
+
+					<!-- Material M3 Elevated CardContentControl Style -->
+					<TextBlock Text="Elevated CardContentControl Style"
+							   Style="{StaticResource TitleLarge}" />
+
+					<utu:CardContentControl MaxWidth="400"
+											Style="{StaticResource ElevatedCardContentControlStyle}">
+						<utu:CardContentControl.ContentTemplate>
+							<DataTemplate>
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+
+									<!-- Media part -->
+									<Image Source="ms-appx:///Assets/Media/LargeMedia.png"
+										   Stretch="Uniform" />
+
+									<StackPanel Grid.Row="1"
+												Margin="16">
+
+										<!-- Header part -->
+										<TextBlock Text="Elevated card"
+												   MaxLines="1"
+												   Style="{StaticResource TitleMedium}" />
+
+										<!-- SubHeader part -->
+										<TextBlock Text="With media, supporting text and action buttons"
+												   MaxLines="2"
+												   Foreground="{ThemeResource OnSurfaceMediumBrush}"
+												   Style="{StaticResource LabelSmall}" />
+
+										<!-- Supporting content part -->
+										<TextBlock Margin="0,16"
+												   Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+												   Foreground="{ThemeResource OnSurfaceMediumBrush}"
+												   Style="{ThemeResource BodyMedium}" />
+
+										<!-- Action buttons part -->
+										<StackPanel Spacing="8"
+													Orientation="Horizontal">
+											<Button Content="ACTION 1"
+													Style="{StaticResource FilledButtonStyle}" />
+											<Button Content="ACTION 2"
+													Style="{StaticResource OutlinedButtonStyle}" />
+										</StackPanel>
+
+									</StackPanel>
+								</Grid>
+							</DataTemplate>
+						</utu:CardContentControl.ContentTemplate>
+					</utu:CardContentControl>
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.M3MaterialTemplate>
+	</sample:SamplePageLayout>
+</Page>

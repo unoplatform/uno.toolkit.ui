@@ -1,0 +1,132 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.TabBarBehaviorSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d">
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<sample:SamplePageLayout IsDesignAgnostic="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<ScrollViewer>
+						<StackPanel Spacing="20">
+							<Border Padding="20"
+									BorderThickness="2"
+									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+								<StackPanel>
+									<TextBlock Text="TabBar + FlipView with Slide Indicator"
+											   Style="{StaticResource BodyTextBlockStyle}" />
+									<utu:TabBar x:Name="SlideTabBar"
+												AutomationProperties.AutomationId="SlideTabBar"
+												Height="100"
+												Background="LightBlue"
+												utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SlideFlipView}"
+												SelectionIndicatorTransitionMode="Slide">
+										<utu:TabBar.SelectionIndicatorContent>
+											<Rectangle Fill="Purple"
+													   VerticalAlignment="Bottom"
+													   Height="5"
+													   x:Name="SlideTestingRect"
+													   AutomationProperties.AutomationId="SlideTestingRect" />
+										</utu:TabBar.SelectionIndicatorContent>
+										<utu:TabBar.Items>
+											<utu:TabBarItem Content="Tab 1"
+															AutomationProperties.AutomationId="SlideTab1" />
+											<utu:TabBarItem Content="Tab 2"
+															AutomationProperties.AutomationId="SlideTab2" />
+											<utu:TabBarItem Content="Tab 3"
+															AutomationProperties.AutomationId="SlideTab3" />
+										</utu:TabBar.Items>
+									</utu:TabBar>
+									<FlipView x:Name="SlideFlipView"
+											  AutomationProperties.AutomationId="SlideFlipView"
+											  Height="100">
+										<FlipView.Items>
+											<FlipViewItem AutomationProperties.AutomationId="SlidePage1">
+												<Grid AutomationProperties.AutomationId="SlidePage1Content"
+													  Background="Blue"
+													  Width="100"
+													  Height="100" />
+											</FlipViewItem>
+											<FlipViewItem AutomationProperties.AutomationId="SlidePage2">
+												<Grid AutomationProperties.AutomationId="SlidePage2Content"
+													  Background="Red"
+													  Width="100"
+													  Height="100" />
+											</FlipViewItem>
+											<FlipViewItem AutomationProperties.AutomationId="SlidePage3">
+												<Grid AutomationProperties.AutomationId="SlidePage3Content"
+													  Background="Green"
+													  Width="100"
+													  Height="100" />
+											</FlipViewItem>
+										</FlipView.Items>
+									</FlipView>
+								</StackPanel>
+							</Border>
+
+							<Border Padding="20"
+									BorderThickness="2"
+									BorderBrush="{ThemeResource SystemControlHighlightBaseMediumRevealBorderBrush}">
+								<StackPanel>
+									<TextBlock Text="TabBar + FlipView with Snap Indicator"
+											   Style="{StaticResource BodyTextBlockStyle}" />
+									<utu:TabBar x:Name="SnapTabBar"
+												AutomationProperties.AutomationId="SnapTabBar"
+												Height="100"
+												Background="LightBlue"
+												utu:TabBarSelectorBehavior.Selector="{Binding ElementName=SnapFlipView}"
+												SelectionIndicatorTransitionMode="Snap">
+										<utu:TabBar.SelectionIndicatorContent>
+											<Rectangle Fill="Purple"
+													   x:Name="SnapTestingRect"
+													   AutomationProperties.AutomationId="SnapTestingRect"
+													   VerticalAlignment="Bottom"
+													   Height="5"/>
+										</utu:TabBar.SelectionIndicatorContent>
+										<utu:TabBar.Items>
+											<utu:TabBarItem Content="Tab 1"
+															AutomationProperties.AutomationId="SnapTab1" />
+											<utu:TabBarItem Content="Tab 2"
+															AutomationProperties.AutomationId="SnapTab2" />
+											<utu:TabBarItem Content="Tab 3"
+															AutomationProperties.AutomationId="SnapTab3" />
+										</utu:TabBar.Items>
+									</utu:TabBar>
+									<FlipView x:Name="SnapFlipView"
+											  AutomationProperties.AutomationId="SnapFlipView"
+											  Height="100">
+										<FlipView.Items>
+											<FlipViewItem AutomationProperties.AutomationId="SnapPage1">
+												<Grid AutomationProperties.AutomationId="SnapPage1Content"
+													  Background="Blue"
+													  Width="100"
+													  Height="100" />
+											</FlipViewItem>
+											<FlipViewItem AutomationProperties.AutomationId="SnapPage2">
+												<Grid AutomationProperties.AutomationId="SnapPage2Content"
+													  Background="Red"
+													  Width="100"
+													  Height="100" />
+											</FlipViewItem>
+											<FlipViewItem AutomationProperties.AutomationId="SnapPage3">
+												<Grid AutomationProperties.AutomationId="SnapPage3Content"
+													  Background="Green"
+													  Width="100"
+													  Height="100" />
+											</FlipViewItem>
+										</FlipView.Items>
+									</FlipView>
+								</StackPanel>
+							</Border>
+						</StackPanel>
+					</ScrollViewer>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>

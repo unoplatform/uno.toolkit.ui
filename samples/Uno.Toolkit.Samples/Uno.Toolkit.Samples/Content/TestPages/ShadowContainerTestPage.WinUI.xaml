@@ -1,0 +1,125 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.TestPages.ShadowContainerTestPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.TestPages"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid RowSpacing="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<StackPanel HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					x:Name="containerBorder">
+			<Border x:Name="outerBorder"
+					Background="Blue"
+					Padding="10"
+					Height="220"
+					Width="220">
+				<utu:ShadowContainer x:Name="shadowContainer"
+							Background="Green">
+						<Border Width="200"
+							Height="200"
+							x:Name="border"/>
+				</utu:ShadowContainer>
+			</Border>
+		
+		</StackPanel>
+
+		<StackPanel HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					x:Name="containerRectangle"
+					Visibility="Collapsed">
+			<Border x:Name="outerBorderRetangle"
+					Background="Blue"
+					Padding="10"
+					Height="220"
+					Width="220">
+				<utu:ShadowContainer x:Name="shadowContainerRectangle" 
+							Background="Green">
+
+					<Rectangle Width="200"
+							Height="200"
+							x:Name="rectangle"/>
+
+				</utu:ShadowContainer>
+			</Border>
+		</StackPanel>
+
+		<StackPanel HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					x:Name="containerIrregularCorner"
+					Visibility="Collapsed">
+			<Border x:Name="outerBorderIrregularCorner"
+					Background="Blue"
+					Padding="10"
+					Height="220"
+					Width="220">
+				<utu:ShadowContainer x:Name="shadowContainerIrregularCorner" 
+							Background="Green">
+
+					<Border Width="200"
+							Height="200"
+							CornerRadius="0,200,0,200"
+							x:Name="borderIrregularCorner"/>
+				</utu:ShadowContainer>
+			</Border>
+		</StackPanel>
+		<StackPanel Spacing="10"
+					Grid.Row="1"
+					Orientation="Horizontal"
+					VerticalAlignment="Center"
+					HorizontalAlignment="Center">
+
+			<StackPanel HorizontalAlignment="Center"
+						VerticalAlignment="Center">
+				<TextBlock Text="Current Case"
+						   FontWeight="Bold"
+						   FontSize="20" />
+				<StackPanel Orientation="Horizontal"
+							VerticalAlignment="Center">
+					<TextBlock Text="X Offset:" />
+					<TextBox x:Name="xOffsetText" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal"
+							VerticalAlignment="Center">
+					<TextBlock Text="Y Offset:" />
+					<TextBox x:Name="yOffsetText" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<CheckBox Content="Inner"
+							  x:Name="inner" />
+				</StackPanel>
+				<StackPanel Orientation="Vertical">
+
+					<TextBlock Text="Border"/>
+					<RadioButton GroupName="RadioGroup" Content="Border" x:Name="check_Border" Click="Border_ClickElement" />
+
+					<TextBlock Text="Rectangle"/>
+					<RadioButton GroupName="RadioGroup" Content="Rectangle" x:Name="check_Rectangle" Click="Rectangle_ClickElement" />
+
+					<TextBlock Text="Irrelugar Corner Radius"/>
+					<RadioButton GroupName="RadioGroup" Content="Irrelugar Corner Radius" x:Name="check_IrregularCorner" Click="IrregularCorner_ClickElement" />
+
+				</StackPanel>
+			</StackPanel>
+
+			<Button Content="Run Test Case"
+					x:Name="runButton"
+					Click="runButton_Click" />
+			<Button Content="Reset"
+					x:Name="resetButton"
+					Click="reset_Click" />
+			<TextBlock x:Name="statusText"
+					   VerticalAlignment="Center" />
+
+
+		</StackPanel>
+	</Grid>
+</Page>

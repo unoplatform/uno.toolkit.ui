@@ -1,0 +1,51 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.SafeAreaSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d">
+
+	<sample:SamplePageLayout IsDesignAgnostic="True">
+		<sample:SamplePageLayout.DesignAgnosticTemplate>
+			<DataTemplate>
+				<StackPanel Margin="0,20"
+							Spacing="20">
+					<Button HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							AutomationProperties.AutomationId="SafeArea_Launch_AP_Sample_Button"
+							Click="LaunchAPSample"
+							Content="Show Sample using Attached Properties" />
+
+					<Button HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							AutomationProperties.AutomationId="SafeArea_Launch_Control_Sample_Button"
+							Click="LaunchControlSample"
+							Content="Show Sample using SafeArea Control" />
+
+					<Button HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							AutomationProperties.AutomationId="SafeArea_Launch_SoftInput_Sample_Button"
+							Click="LaunchSoftInputSample"
+							Content="Show SoftInput Sample" />
+
+					<Button HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							AutomationProperties.AutomationId="SafeArea_Launch_SoftInput_Scroll_Sample_Button"
+							Click="LaunchSoftInputScrollSample"
+							Content="Show SoftInput Scroll Sample" />
+
+					<Button HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							AutomationProperties.AutomationId="SafeArea_Launch_Modal_Button"
+							Click="LaunchModalSample"
+							Content="Show Modal Sample" />
+
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.DesignAgnosticTemplate>
+	</sample:SamplePageLayout>
+</Page>

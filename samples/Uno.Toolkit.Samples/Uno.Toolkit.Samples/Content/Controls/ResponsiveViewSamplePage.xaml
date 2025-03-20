@@ -1,0 +1,233 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.Controls.ResponsiveViewSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Page.Resources>
+		<Color x:Key="UnoGreen">#67E5AD</Color>
+		<Color x:Key="UnoPurple">#7A67F8</Color>
+		<Color x:Key="UnoRed">#F85977</Color>
+		<Color x:Key="UnoBlue">#159BFF</Color>
+	</Page.Resources>
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<sample:SamplePageLayout x:Name="SamplePageLayout" IsDesignAgnostic="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<StackPanel>
+						<utu:ResponsiveView>
+							<utu:ResponsiveView.NarrowestTemplate>
+								<DataTemplate>
+									<StackPanel Spacing="16">
+										<TextBlock Text="Extra Narrow"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplaySmall}" />
+										<StackPanel Orientation="Vertical"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="100"
+													   Width="100"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="100"
+													 Width="100"
+													 Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="100"
+													   Width="100"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="100"
+													 Width="100"
+													 Fill="{StaticResource UnoBlue}" />
+
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</utu:ResponsiveView.NarrowestTemplate>
+							<utu:ResponsiveView.NarrowTemplate>
+								<DataTemplate>
+									<StackPanel Spacing="16">
+										<TextBlock Text="Narrow"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplaySmall}" />
+										<StackPanel Orientation="Vertical"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="150"
+													   Width="150"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="150"
+													 Width="150"
+													 Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="150"
+													   Width="150"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="150"
+													 Width="150"
+													 Fill="{StaticResource UnoBlue}" />
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</utu:ResponsiveView.NarrowTemplate>
+							<utu:ResponsiveView.NormalTemplate>
+								<DataTemplate>
+									<StackPanel Spacing="16">
+										<TextBlock Text="Default"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplayMedium}" />
+										<StackPanel Orientation="Vertical"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="200"
+													   Width="200"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="200"
+													 Width="200"
+													 Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="200"
+													   Width="200"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="200"
+													 Width="200"
+													 Fill="{StaticResource UnoBlue}" />
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</utu:ResponsiveView.NormalTemplate>
+							<utu:ResponsiveView.WideTemplate>
+								<DataTemplate>
+									<StackPanel Spacing="16">
+										<TextBlock Text="Wide"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplayLarge}" />
+										<StackPanel Orientation="Horizontal"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="250"
+													   Width="250"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="250"
+													 Width="250"
+													 Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="250"
+													   Width="250"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="250"
+													 Width="250"
+													 Fill="{StaticResource UnoBlue}" />
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</utu:ResponsiveView.WideTemplate>
+							<utu:ResponsiveView.WidestTemplate>
+								<DataTemplate>
+									<StackPanel Spacing="16">
+										<TextBlock Text="Extra Wide"
+												   HorizontalAlignment="Center"
+												   Style="{StaticResource DisplayLarge}" />
+										<StackPanel Orientation="Horizontal"
+													HorizontalAlignment="Center"
+													Spacing="20">
+											<Rectangle Height="300"
+													   Width="300"
+													   Fill="{StaticResource UnoGreen}" />
+											<Ellipse Height="300"
+													 Width="300"
+													 Fill="{StaticResource UnoPurple}" />
+											<Rectangle Height="300"
+													   Width="300"
+													   Fill="{StaticResource UnoRed}" />
+											<Ellipse Height="300"
+													 Width="300"
+													 Fill="{StaticResource UnoBlue}" />
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</utu:ResponsiveView.WidestTemplate>
+						</utu:ResponsiveView>
+
+						<StackPanel>
+							<StackPanel.Resources>
+								<!-- inheritable override with +50px all -->
+								<utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
+													  Narrowest="200"
+													  Narrow="350"
+													  Normal="650"
+													  Wide="850"
+													  Widest="1130" />
+							</StackPanel.Resources>
+
+							<utu:ResponsiveView>
+								<utu:ResponsiveView.NarrowestTemplate>
+									<DataTemplate>
+										<TextBlock Text="InheritedOverride: Narrowest" />
+									</DataTemplate>
+								</utu:ResponsiveView.NarrowestTemplate>
+								<utu:ResponsiveView.NarrowTemplate>
+									<DataTemplate>
+										<TextBlock Text="InheritedOverride: Narrow" />
+									</DataTemplate>
+								</utu:ResponsiveView.NarrowTemplate>
+								<utu:ResponsiveView.NormalTemplate>
+									<DataTemplate>
+										<TextBlock Text="InheritedOverride: Normal" />
+									</DataTemplate>
+								</utu:ResponsiveView.NormalTemplate>
+								<utu:ResponsiveView.WideTemplate>
+									<DataTemplate>
+										<TextBlock Text="InheritedOverride: Wide" />
+									</DataTemplate>
+								</utu:ResponsiveView.WideTemplate>
+								<utu:ResponsiveView.WidestTemplate>
+									<DataTemplate>
+										<TextBlock Text="InheritedOverride: Widest" />
+									</DataTemplate>
+								</utu:ResponsiveView.WidestTemplate>
+							</utu:ResponsiveView>
+							<utu:ResponsiveView>
+								<utu:ResponsiveView.ResponsiveLayout>
+									<!-- local override with +100px all -->
+									<utu:ResponsiveLayout Narrowest="250"
+														  Narrow="400"
+														  Normal="700"
+														  Wide="900"
+														  Widest="1180" />
+								</utu:ResponsiveView.ResponsiveLayout>
+								
+								<utu:ResponsiveView.NarrowestTemplate>
+									<DataTemplate>
+										<TextBlock Text="LocalOverride: Narrowest" />
+									</DataTemplate>
+								</utu:ResponsiveView.NarrowestTemplate>
+								<utu:ResponsiveView.NarrowTemplate>
+									<DataTemplate>
+										<TextBlock Text="LocalOverride: Narrow" />
+									</DataTemplate>
+								</utu:ResponsiveView.NarrowTemplate>
+								<utu:ResponsiveView.NormalTemplate>
+									<DataTemplate>
+										<TextBlock Text="LocalOverride: Normal" />
+									</DataTemplate>
+								</utu:ResponsiveView.NormalTemplate>
+								<utu:ResponsiveView.WideTemplate>
+									<DataTemplate>
+										<TextBlock Text="LocalOverride: Wide" />
+									</DataTemplate>
+								</utu:ResponsiveView.WideTemplate>
+								<utu:ResponsiveView.WidestTemplate>
+									<DataTemplate>
+										<TextBlock Text="LocalOverride: Widest" />
+									</DataTemplate>
+								</utu:ResponsiveView.WidestTemplate>
+							</utu:ResponsiveView>
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>

@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:converters="using:Uno.Toolkit.Samples.Converters">
+
+    <converters:FromStringToValueConverter x:Key="IsNullOrEmptyToCollapsed"
+                                           Check="IsNullOrEmpty"
+                                           FalseValue="Visible"
+                                           TrueValue="Collapsed" />
+
+    <converters:FromStringToValueConverter x:Key="SelectedItemToVisible"
+                                           Check="IsEqualToParameterValue"
+                                           FalseValue="Collapsed"
+                                           TrueValue="Visible" />
+
+    <converters:EnumDescriptionConverter x:Name="EnumToDescription" />
+
+    <converters:FromBoolToValueConverter x:Key="NotTrue"
+                                         NullOrFalseValue="True"
+                                         TrueValue="False" />
+
+    <converters:FromBoolToValueConverter x:Key="IsFalse"
+                                         FalseValue="True"
+                                         NullOrTrueValue="False" />
+
+    <converters:FromNullToValueConverter x:Key="NullToCollapsed"
+                                         NotNullValue="Visible"
+                                         NullValue="Collapsed" />
+
+    <converters:FromNullToValueConverter x:Key="NullToVisible"
+                                         NotNullValue="Collapsed"
+                                         NullValue="Visible" />
+
+    <converters:FromBoolToValueConverter x:Key="FalseToCollapsed"
+                                         NullOrFalseValue="Collapsed"
+                                         TrueValue="Visible" />
+
+    <converters:HexToColorConverter x:Key="HexToColor" />
+
+	<converters:EnumerableConverter x:Key="StringJoinConverter" Mode="StringJoin" />
+
+</ResourceDictionary>
