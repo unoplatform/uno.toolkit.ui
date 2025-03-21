@@ -177,15 +177,13 @@
 
 		<android:Setter Property="(toolkit:UIElementExtensions.Elevation)"
 						Value="{ThemeResource MaterialNavigationBarElevation}" />
-		<not_mobile:Setter Property="Height"
-						   Value="{ThemeResource MaterialXamlNavigationBarHeight}" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Top" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="OverflowButtonVisibility" Value="Collapsed" />
 		<Setter Property="IsDynamicOverflowEnabled" Value="False" />
-		<mobile:Setter Property="utu:SafeArea.Insets"
+		<Setter Property="utu:SafeArea.Insets"
 					   Value="Top" />
 		<mobile:Setter Property="Template"
 					   Value="{StaticResource MaterialNativeNavigationBarTemplate}" />
@@ -344,7 +342,7 @@
 							</Style>
 						</Grid.Resources>
 						<Grid x:Name="ContentRoot"
-							  Height="{TemplateBinding Height}"
+							  Padding="{TemplateBinding Padding}"
 							  MinHeight="{ThemeResource AppBarThemeCompactHeight}"
 							  VerticalAlignment="Center"
 							  Background="{TemplateBinding Background}"
@@ -367,7 +365,6 @@
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<ContentPresenter x:Name="MainCommandPresenter"
-												  Margin="{TemplateBinding Padding}"
 												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
 
 								<!--
