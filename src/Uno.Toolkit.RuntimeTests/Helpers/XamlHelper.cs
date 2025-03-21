@@ -4,12 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml.Markup;
-#else
-using Windows.UI.Xaml.Markup;
-#endif
 
 namespace Uno.Toolkit.RuntimeTests.Helpers
 {

@@ -7,34 +7,18 @@
     SourceLinkEnabled: false
 
   strategy:
-    maxParallel: 4
+    maxParallel: 2
     matrix:
-      UWP:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: Automated
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-UWP-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-uwp-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit_uwp
       WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: Automated
         ANDROID_SIMULATOR_APILEVEL: 28
         UNO_TEST_RESULTS_FILE_NAME: TestResult-android-WinUI-Automated.xml
         SAMPLEAPP_ARTIFACT_NAME: android-winui-uitest
         SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
-      UWP_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: RuntimeTests
-        ANDROID_SIMULATOR_APILEVEL: 28
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-android-UWP-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: android-uwp-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit_uwp
       WinUI_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: RuntimeTests
         ANDROID_SIMULATOR_APILEVEL: 28
@@ -50,6 +34,8 @@
     clean: true
 
   - template: templates/dotnet-workload-install-mac.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-android'
   - template: templates/canary-updater.yml
   - template: templates/jdk-setup.yml
 
@@ -63,13 +49,13 @@
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
       $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
-    displayName: Run Android UITests ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))
+    displayName: Run Android UITests ($(UITEST_TEST_MODE_NAME))
 
   - task: PublishTestResults@2
     condition: always()
     retryCountOnTaskFailure: 3
     inputs:
-      testRunTitle: 'Android UITest Run ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))'
+      testRunTitle: 'Android UITest Run ($(UITEST_TEST_MODE_NAME))'
       testResultsFormat: 'NUnit'
       testResultsFiles: $(build.sourcesdirectory)/build/$(UNO_TEST_RESULTS_FILE_NAME)
       failTaskOnFailedTests: true

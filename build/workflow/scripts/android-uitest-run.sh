@@ -17,10 +17,10 @@ then
 fi
 
 export UNO_UITEST_PLATFORM=Android
-export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/android/$XAML_FLAVOR_BUILD/$UITEST_TEST_MODE_NAME
+export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/android/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
-export UNO_UITEST_MOBILE_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME.Mobile
-export UNO_UITEST_ANDROIDAPK_PATH=$UNO_UITEST_MOBILE_PROJECT_PATH/bin/Release/net8.0-android/android-x64/$SAMPLEAPP_PACKAGE_NAME-Signed.apk
+export UNO_UITEST_MOBILE_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME
+export UNO_UITEST_ANDROIDAPK_PATH=$UNO_UITEST_MOBILE_PROJECT_PATH/bin/Release/net9.0-android/android-x64/$SAMPLEAPP_PACKAGE_NAME-Signed.apk
 export UNO_UITEST_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
 export UNO_UITEST_PROJECT=$UNO_UITEST_PROJECT_PATH/Uno.Toolkit.UITest.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
@@ -55,6 +55,24 @@ mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $LATEST_CMDLINE_TOOLS_PATH
 AVD_NAME=xamarin_android_emulator
 AVD_CONFIG_FILE=~/.android/avd/$AVD_NAME.avd/config.ini
 EMU_UPDATE_FILE=~/.android/emu-update-last-check.ini
+SDK_MGR_TOOLS_FLAG=.sdk_toolkit_installed
+
+install_android_sdk() {
+	SIMULATOR_APILEVEL=$1
+
+	if [[ ! -f $SDK_MGR_TOOLS_FLAG ]];
+	then
+		touch $SDK_MGR_TOOLS_FLAG 
+
+		echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'tools'| tr '\r' '\n' | uniq
+		echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platform-tools'  | tr '\r' '\n' | uniq
+		echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'build-tools;35.0.0' | tr '\r' '\n' | uniq
+		echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'extras;android;m2repository' | tr '\r' '\n' | uniq
+	fi
+	
+	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install "platforms;android-$SIMULATOR_APILEVEL" | tr '\r' '\n' | uniq
+	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install "system-images;android-$SIMULATOR_APILEVEL;google_apis_playstore;x86_64" | tr '\r' '\n' | uniq
+}
 
 if [[ ! -f $EMU_UPDATE_FILE ]];
 then
@@ -64,14 +82,9 @@ fi
 if [[ ! -f $AVD_CONFIG_FILE ]];
 then
 	# Install AVD files
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'tools'| tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platform-tools'  | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'build-tools;34.0.0' | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'platforms;android-34' | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install "platforms;android-$ANDROID_SIMULATOR_APILEVEL" | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'extras;android;m2repository' | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install 'system-images;android-34;google_apis_playstore;x86_64' | tr '\r' '\n' | uniq
-	echo "y" | $LATEST_CMDLINE_TOOLS_PATH/bin/sdkmanager --sdk_root=${ANDROID_HOME} --install "system-images;android-$ANDROID_SIMULATOR_APILEVEL;google_apis_playstore;x86_64" | tr '\r' '\n' | uniq
+	install_android_sdk $ANDROID_SIMULATOR_APILEVEL
+	install_android_sdk 34
+	install_android_sdk 35
 
 	if [[ -f $ANDROID_HOME/platform-tools/platform-tools/adb ]]
 	then
@@ -115,7 +128,7 @@ fi
 
 # Build the sample, while the emulator is starting
 cd $UNO_UITEST_MOBILE_PROJECT_PATH
-dotnet publish -f net8.0-android -c Release /p:RuntimeIdentifier=android-x64 /p:IsUiAutomationMappingEnabled=True /p:AndroidUseSharedRuntime=False /p:RunAOTCompilation=False /bl:$BASE_ARTIFACTS_PATH/android-$XAML_FLAVOR_BUILD-uitest.binlog
+dotnet publish -f net9.0-android /p:TargetFrameworkOverride=net8.0-android /p:SamplesTargetFrameworkOverride=net9.0-android -c Release /p:RuntimeIdentifier=android-x64 /p:IsUiAutomationMappingEnabled=True /p:AndroidUseSharedRuntime=False /p:RunAOTCompilation=False /bl:$BASE_ARTIFACTS_PATH/android-uitest.binlog
 
 # list active devices
 $ANDROID_HOME/platform-tools/adb devices
@@ -137,7 +150,6 @@ dotnet test \
 	--filter "$TEST_FILTERS" \
 	--blame-hang-timeout $UITEST_TEST_TIMEOUT \
 	-v m \
-	-property:FrameworkLineage=$XAML_FLAVOR_BUILD \
 	|| true
 
 ## Copy the results file to the results folder

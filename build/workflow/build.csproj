@@ -1,6 +1,6 @@
 <Project DefaultTargets="BuildVersion">
 	<PropertyGroup>
-		<AppName Condition="$(AppName) == ''">Uno.Toolkit.WinUI.Samples</AppName>
+		<AppName Condition="$(AppName) == ''">Uno.Toolkit.Samples</AppName>
 	</PropertyGroup>
 	<Target Name="BuildVersion" Condition="'$(NBGV_InformationalVersion)'!=''">
 		<Message Text="%0A#### Running BuildVersion" Importance="$(_MessageImportance)" />
@@ -39,13 +39,12 @@
 		<Message Text="%0A" Importance="$(_MessageImportance)" />
 
 		<PropertyGroup>
-			<_SourceBasePath>$(MSBuildThisFileDirectory)../../src/$(AppName)/$(AppName)</_SourceBasePath>
-			<_ManifestPath>$(_SourceBasePath).Droid/Properties/AndroidManifest.xml</_ManifestPath>
-			<_PlistFilePath>$(_SourceBasePath).iOS/Info.plist</_PlistFilePath>
-			<_macPlistFilePath>$(_SourceBasePath).macOS/Info.plist</_macPlistFilePath>
-			<_AppxManifestPath>$(_SourceBasePath).UWP/Package.appxmanifest</_AppxManifestPath>
+			<_SourceBasePath>$(MSBuildThisFileDirectory)../../samples/$(AppName)/$(AppName)</_SourceBasePath>
+			<_ManifestPath>$(_SourceBasePath)/Platforms/Android/AndroidManifest.xml</_ManifestPath>
+			<_PlistFilePath>$(_SourceBasePath)/Platforms/iOS/Info.plist</_PlistFilePath>
+			<_macPlistFilePath>$(_SourceBasePath)/Platforms/MacCatalyst/Info.plist</_macPlistFilePath>
 
-			<_mobileSourceBasePath>../../src/$(AppName).Mobile</_mobileSourceBasePath>
+			<_mobileSourceBasePath>$(MSBuildThisFileDirectory)../../samples/$(AppName)/$(AppName)/Platforms</_mobileSourceBasePath>
 			<_MobileAndroidManifestPath>$(_mobileSourceBasePath)/Android/AndroidManifest.xml</_MobileAndroidManifestPath>
 			<_catalystPlistFilePath>$(_mobileSourceBasePath)/MacCatalyst/Info.plist</_catalystPlistFilePath>
 			<_MobileiOSPlistFilePath>$(_mobileSourceBasePath)/iOS/Info.plist</_MobileiOSPlistFilePath>

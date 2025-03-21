@@ -1,4 +1,4 @@
-﻿#if !WINDOWS_UWP && !NET8_0_WINDOWS10_0_19041
+﻿#if !WINDOWS_UWP && !WINDOWS_WINUI
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,16 +26,21 @@ using UIKit;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using System.Diagnostics.CodeAnalysis;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 #endif
 
+
 namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[Ignore("#429: Disabled as the tests are failing even for the basic types. ")]
+	[UnconditionalSuppressMessage("Trimming", "IL2026")]
+	[UnconditionalSuppressMessage("Trimming", "IL2067")]
+	[UnconditionalSuppressMessage("Trimming", "IL2075")]
 	public class LeakTest
 	{
 		private static DependencyProperty VisualStateManagerVisualStateManagerProperty { get; } = (DependencyProperty)(typeof(VisualStateManager)

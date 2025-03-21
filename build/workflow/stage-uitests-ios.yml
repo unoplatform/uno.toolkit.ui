@@ -10,26 +10,14 @@
   strategy:
     maxParallel: 4
     matrix:
-      UWP:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: Automated
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-UWP-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-uitest-build
       WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: Automated
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-WinUI-Automated.xml
         SAMPLEAPP_ARTIFACT_NAME: ios-winui-uitest-build
-      UWP_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: RuntimeTests
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-UWP-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: ios-uwp-uitest-build
       WinUI_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: RuntimeTests
         UNO_TEST_RESULTS_FILE_NAME: TestResult-ios-WinUI-RuntimeTests.xml
@@ -49,22 +37,25 @@
         downloadPath: '$(build.sourcesdirectory)/build'
 
   - template: templates/dotnet-workload-install-mac.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-ios --tfm net9.0-maccatalyst'
+
   - template: templates/canary-updater.yml
   
   - template: templates/xcode-select.yml
     parameters:
-      xCodeRoot: $(XCODE_ROOT)
+      xCodeRoot: $(XCODE_ROOT_UITESTS)
 
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
       $(build.sourcesdirectory)/build/workflow/scripts/ios-uitest-run.sh
-    displayName: Run iOS UITests ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))
+    displayName: Run iOS UITests ($(UITEST_TEST_MODE_NAME))
 
   - task: PublishTestResults@2
     condition: always()
     retryCountOnTaskFailure: 3
     inputs:
-      testRunTitle: 'iOS UITest Run ($(XAML_FLAVOR_BUILD) / $(UITEST_TEST_MODE_NAME))'
+      testRunTitle: 'iOS UITest Run ($(UITEST_TEST_MODE_NAME))'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/$(UNO_TEST_RESULTS_FILE_NAME)'
       failTaskOnFailedTests: true

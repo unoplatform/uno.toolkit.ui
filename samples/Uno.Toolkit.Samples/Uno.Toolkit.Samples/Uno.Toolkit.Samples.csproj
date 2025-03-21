@@ -1,0 +1,73 @@
+﻿<Project Sdk="Uno.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'!=''">$(SamplesTargetFrameworkOverride)</TargetFrameworks>
+		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'==''">net9.0-android;net9.0-ios;net9.0-maccatalyst;net9.0-windows10.0.26100;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<UnoSingleProject>true</UnoSingleProject>
+		<FrameworkLineage>WinUI</FrameworkLineage>
+		<DefineConstants Condition="$(IsWinAppSdk)">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
+		<!-- Display name -->
+		<ApplicationTitle>Uno Toolkit Samples</ApplicationTitle>
+		<!-- App Identifier -->
+		<ApplicationId>uno.platform.toolkit</ApplicationId>
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+		<!-- Package Publisher -->
+		<ApplicationPublisher>Uno Platform</ApplicationPublisher>
+		<!-- Package Description -->
+		<Description>Uno Toolkit Samples powered by Uno Platform.</Description>
+		<!--
+	  If you encounter this error message:
+
+		error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+		Please update to a newer .NET SDK in order to reference this assembly.
+
+	  This means that the two packages below must be aligned with the "build" version number of
+	  the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+	  must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+	-->
+		<!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+
+		<!--
+	  UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+	  https://aka.platform.uno/singleproject-features
+	-->
+		<UnoFeatures>
+		</UnoFeatures>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
+		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+		<ProjectReference Include="..\..\..\src\Uno.Toolkit\Uno.Toolkit.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
+		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
+		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
+	</ItemGroup>
+
+	<ItemGroup Condition="('$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True') and $(IsIOS)">
+		<PackageReference Include="Xamarin.TestCloud.Agent" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="$(IsIOS) and ('$(Configuration)'=='Release' and '$(System_PullRequest_IsFork)'!='True')">
+		<CodesignKey>iPhone Distribution</CodesignKey>
+		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$(IsWinAppSdk) and '$(PublishUnsignedPackage)'=='true'">
+	  <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+	  <AppxBundle>Never</AppxBundle>
+	  <UapAppxPackageBuildMode>Sideloading</UapAppxPackageBuildMode>
+	  <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>  
+	</PropertyGroup>
+
+</Project>

@@ -1,32 +1,24 @@
 jobs:
 - job: Android
 
-  strategy:
-    maxParallel: 2
-    matrix:
-      WinUI:
-        ArtifactName: android-winui
-        ProjectName: Uno.Toolkit.WinUI.Samples
-        GeneratePackageOnBuild: false
-        ApplicationBuildNumberOffset: 50
-        VersionCodeOffset: 1
-        DisableMobileTargets: true
-      UWP:
-        ArtifactName: android-uwp
-        ProjectName: Uno.Toolkit.Samples
-        GeneratePackageOnBuild: false
-        ApplicationBuildNumberOffset: 50
-        VersionCodeOffset: 1
-        DisableMobileTargets: true
+  variables:
+    - name: ArtifactName
+      value: android-winui
+    - name: ApplicationBuildNumberOffset
+      value: 50
+    - name: VersionCodeOffset
+      value: 1
+    - name: GeneratePackageOnBuild
+      value: false  
+    - group: 'UnoPlatform KeyStore'
 
   pool:
     vmImage: windows-2022
 
-  variables:
-  - group: 'UnoPlatform KeyStore'
-
   steps:
   - template: templates/dotnet-workload-install-windows.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-android'
   - template: templates/canary-updater.yml
   - template: templates/gitversion.yml
   - template: templates/set-app-versions.yml
@@ -38,23 +30,23 @@ jobs:
       secureFile: unoplatform.jks
 
   - script: |
-      cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
+      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet publish -f net8.0-android -c Release /t:SignAndroidPackage "/p:InformationalVersion=%NBGV_InformationalVersion%" /p:AndroidSigningKeyStore=$(keyStore.secureFilePath) /p:AndroidSigningStorePass=$(AndroidSigningStorePass) /p:AndroidSigningKeyPass=$(AndroidSigningKeyPass) /p:AndroidSigningKeyAlias=$(AndroidSigningKeyAlias) /p:AndroidKeyStore=true  /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
-    displayName: Build project for Release - (net8.0-android)
+      dotnet publish -f net9.0-android -p:SamplesTargetFrameworkOverride=net9.0-android -p:TargetFrameworkOverride=net8.0-android -c Release /t:SignAndroidPackage "/p:InformationalVersion=%NBGV_InformationalVersion%" /p:AndroidSigningKeyStore=$(keyStore.secureFilePath) /p:AndroidSigningStorePass=$(AndroidSigningStorePass) /p:AndroidSigningKeyPass=$(AndroidSigningKeyPass) /p:AndroidSigningKeyAlias=$(AndroidSigningKeyAlias) /p:AndroidKeyStore=true  /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
+    displayName: Build project for Release - (net9.0-android)
     condition: eq(variables['System.PullRequest.IsFork'],'False')
 
   - script: |
-      cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
+      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -f net8.0-android -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" /p:AndroidKeyStore=false /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
-    displayName: Build project for Release - (net8.0-android)
+      dotnet build -f net9.0-android -p:SamplesTargetFrameworkOverride=net9.0-android -p:TargetFrameworkOverride=net8.0-android -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" /p:AndroidKeyStore=false /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
+    displayName: Build project for Release - (net9.0-android)
     condition: eq(variables['System.PullRequest.IsFork'],'True')
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-android
       Contents:  |
         **/*.apk
         **/*.aab

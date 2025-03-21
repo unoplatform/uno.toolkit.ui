@@ -4,27 +4,52 @@ jobs:
   pool:
     vmImage: windows-2022
 
+  variables:
+    - name: TargetFrameworkOverride
+      value: net8.0-windows10.0.19041
+    - name: SamplesTargetFrameworkOverride
+      value: net9.0-windows10.0.26100
+    - name: PublishReadyToRun 
+      value: true
+
   steps:
-  - template: templates/dotnet-workload-install-windows.yml
   - template: templates/canary-updater.yml
   - template: templates/gitversion.yml
   - template: templates/set-app-versions.yml
 
+  - task: NuGetCommand@2
+    displayName: 'NuGet restore'
+    inputs:
+      command: 'restore'
+      restoreSolution: $(build.sourcesdirectory)/src/Uno.Toolkit.sln
+      feedsToUse: 'config'
+      noCache: true
+
   - task: MSBuild@1
     inputs:
-      solution: $(build.sourcesdirectory)/samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Windows.Desktop/Uno.Toolkit.WinUI.Samples.Windows.Desktop.csproj
+      solution: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj
       msbuildLocationMethod: version
       msbuildVersion: latest
-      msbuildArchitecture: x86
-      msbuildArguments: /r /t:Publish /m /v:m /p:Configuration=Release /p:GenerateAppxPackageOnBuild=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk.binlog
+      msbuildArchitecture: x64
+      msbuildArguments: /t:Publish /m /v:m /p:TargetFramework=net9.0-windows10.0.26100 /p:SamplesTargetFrameworkOverride=net9.0-windows10.0.26100 /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk.binlog
       clean: false
-      restoreNugetPackages: false
+      configuration: Release
       logProjectEvents: false
       createLogFile: false
 
+  - task: CopyFiles@2
+    displayName: 'Publish Binaries'
+    condition: eq(variables['System.PullRequest.IsFork'],'False')
+    retryCountOnTaskFailure: 3
+    inputs:
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-windows10.0.26100
+      TargetFolder: $(build.artifactstagingdirectory)/bin
+      CleanTargetFolder: false
+      OverWrite: false
+      flattenFolders: false
+
   - task: PublishBuildArtifacts@1
+    retryCountOnTaskFailure: 3
     condition: always()
     inputs:
-      PathtoPublish: $(build.sourcesdirectory)/samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Windows.Desktop/bin/Release/
       ArtifactName: WinAppSDK
-      ArtifactType: Container

@@ -3,27 +3,19 @@ jobs:
 
   timeoutInMinutes: 90
 
-  strategy:
-    maxParallel: 2
-    matrix:
-      WinUI:
-        ArtifactName: ios-winui
-        ProjectName: Uno.Toolkit.WinUI.Samples
-        ApplicationBuildNumberOffset: 50
-        VersionCodeOffset: 50
-        CI_Build: true
-      UWP:
-        ArtifactName: ios-uwp
-        ProjectName: Uno.Toolkit.Samples
-        ApplicationBuildNumberOffset: 50
-        VersionCodeOffset: 50
-        CI_Build: true
-
   pool:
     vmImage: 'macOS-14'
 
   variables:
-  - group: unoplatform.apple.ios.appstore.distribution
+    - name: ArtifactName
+      value: ios-winui
+    - name: ApplicationBuildNumberOffset
+      value: 50
+    - name: VersionCodeOffset
+      value: 50
+    - name: CI_Build
+      value: true  
+    - group: unoplatform.apple.ios.appstore.distribution
 
   steps:
   - task: InstallAppleCertificate@2
@@ -33,20 +25,6 @@ jobs:
       certPwd: '$(appleappstorecertificatepassword)'
       keychain: temp
       deleteCert: true
-
-  - task: InstallAppleProvisioningProfile@1
-    displayName: 'Install Apple Provisioning Profile (UWP)'
-    condition: eq(variables['IsCanaryBranch'], false)
-    inputs:
-      provisioningProfileLocation: 'secureFiles'
-      provProfileSecureFile: Uno_Toolkit_UWP_iOS.mobileprovision
-
-  - task: InstallAppleProvisioningProfile@1
-    displayName: 'Install Apple Provisioning Profile (UWP Canary)'
-    condition: eq(variables['IsCanaryBranch'], true)
-    inputs:
-      provisioningProfileLocation: 'secureFiles'
-      provProfileSecureFile: Uno_Toolkit_UWP_Canary_iOS.mobileprovision
 
   - task: InstallAppleProvisioningProfile@1
     displayName: 'Install Apple Provisioning Profile (WinUI)'
@@ -63,22 +41,29 @@ jobs:
       provProfileSecureFile: Uno_Toolkit_Canary_iOS.mobileprovision
 
   - template: templates/dotnet-workload-install-mac.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-ios --tfm net9.0-maccatalyst'
+
+  - template: templates/xcode-select.yml
+    parameters:
+      xCodeRoot: $(XCODE_ROOT)
+
   - template: templates/canary-updater.yml
   - template: templates/gitversion.yml
   - template: templates/set-app-versions.yml
 
   - bash: |
-      cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
+      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet publish -f net8.0-ios -c Release /p:ArchiveOnBuild=true "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
-    displayName: Build project for Release - (net8.0-ios)
+      dotnet publish -f net9.0-ios -p:SamplesTargetFrameworkOverride=net9.0-ios -p:TargetFrameworkOverride=net8.0-ios -c Release /p:ArchiveOnBuild=true "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+    displayName: Build project for Release - (net9.0-ios)
     condition: eq(variables['System.PullRequest.IsFork'],'False')
 
   - bash: |
-      cd $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile
+      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -f net8.0-ios -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
-    displayName: Build project for Release - (net8.0-ios)
+      dotnet build -f net9.0-ios -p:SamplesTargetFrameworkOverride=net9.0-ios -p:TargetFrameworkOverride=net8.0-ios -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+    displayName: Build project for Release - (net9.0-ios)
     condition: eq(variables['System.PullRequest.IsFork'],'True')
 
   - task: CopyFiles@2
@@ -86,7 +71,7 @@ jobs:
     condition: eq(variables['System.PullRequest.IsFork'],'False')
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-ios
       Contents: |
         **/*.ipa
       TargetFolder: $(build.artifactstagingdirectory)
@@ -104,25 +89,22 @@ jobs:
 
   timeoutInMinutes: 90
 
-  strategy:
-    maxParallel: 2
-    matrix:
-      WinUI:
-        ArtifactName: ios-winui-uitest-build
-        XAML_FLAVOR_BUILD: WinUI
-        ProjectName: Uno.Toolkit.WinUI.Samples
-        CI_Build: true
-      UWP:
-        ArtifactName: ios-uwp-uitest-build
-        XAML_FLAVOR_BUILD: UWP
-        ProjectName: Uno.Toolkit.Samples
-        CI_Build: true
+  variables:
+    ArtifactName: ios-winui-uitest-build
+    CI_Build: true
 
   pool:
     vmImage: 'macOS-15'
 
   steps:
   - template: templates/dotnet-workload-install-mac.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-ios'
+
+  - template: templates/xcode-select.yml
+    parameters:
+      xCodeRoot: $(XCODE_ROOT)
+
   - template: templates/canary-updater.yml
 
   - bash: |
@@ -134,15 +116,15 @@ jobs:
     env:
       BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
       BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
-      SAMPLE_APP_NAME: "$(ProjectName)"
+      SAMPLE_APP_NAME: "Uno.Toolkit.Samples"
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/$(ProjectName)/$(ProjectName).Mobile/bin/Release/net8.0-ios/iossimulator-x64/$(ProjectName).Mobile.app
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-ios/iossimulator-x64/Uno.Toolkit.Samples.app
       Contents: '**'
-      TargetFolder: $(build.artifactstagingdirectory)/$(ProjectName).Mobile.app
+      TargetFolder: $(build.artifactstagingdirectory)/Uno.Toolkit.Samples.app
       CleanTargetFolder: false
       OverWrite: false
       flattenFolders: false
