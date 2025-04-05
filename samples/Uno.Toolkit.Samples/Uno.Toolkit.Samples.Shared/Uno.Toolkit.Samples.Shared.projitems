@@ -85,6 +85,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\FluentNavigationBarSampleNestedPage1.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\FluentNavigationBarSampleNestedPage2.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\FluentNavigationBarSampleNestedPage3.xaml.cs">
+      <DependentUpon>FluentNavigationBarSampleNestedPage3.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\M3MaterialBottomBarSampleNestedPage.xaml.cs">
       <DependentUpon>M3MaterialBottomBarSampleNestedPage.xaml</DependentUpon>
     </Compile>
@@ -341,6 +344,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\FluentNavigationBarSampleNestedPage2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Content\NestedSamples\FluentNavigationBarSampleNestedPage3.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

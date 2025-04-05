@@ -130,9 +130,10 @@ namespace Uno.Toolkit.UITest
 			InvokeBackdoor("browser:SampleRunner|NavBackFromNestedPage");
 		}
 
-		protected void NavigateToSample(string sample)
+		protected void NavigateToSample(string sample, string? design = null)
 		{
-			InvokeBackdoor("browser:SampleRunner|ForceNavigation", sample);
+			var navDestination = string.Join("-", sample, design ?? "Material");
+			InvokeBackdoor("browser:SampleRunner|ForceNavigation", navDestination);
 		}
 
 		protected void NavigateToNestedSample(string pageName)
