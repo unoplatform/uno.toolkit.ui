@@ -42,7 +42,8 @@
 	<Style x:Key="DefaultMainCommandStyle"
 		   TargetType="AppBarButton">
 		<!-- Native back icons are used on mobile platforms -->
-		<not_mobile:Setter Property="Icon" win:Value="{x:Null}">
+		<not_mobile:Setter Property="Icon"
+						   win:Value="{x:Null}">
 			<not_win:Setter.Value>
 				<SymbolIcon Symbol="Back" />
 			</not_win:Setter.Value>
@@ -56,6 +57,7 @@
 				<ControlTemplate TargetType="utu:NavigationBarPresenter">
 					<CommandBar x:Name="XamlNavigationBarCommandBar"
 								Content="{TemplateBinding Content}"
+								Padding="{TemplateBinding Padding}"
 								Style="{StaticResource NavigationBarCommandBar}" />
 				</ControlTemplate>
 			</Setter.Value>
@@ -114,7 +116,7 @@
 							</RectangleGeometry>
 						</Grid.Clip>
 						<Grid x:Name="ContentRoot"
-							  Height="{TemplateBinding Height}"
+							  Padding="{TemplateBinding Padding}"
 							  MinHeight="{ThemeResource AppBarThemeCompactHeight}"
 							  VerticalAlignment="Top"
 							  Background="{TemplateBinding Background}"
@@ -137,7 +139,6 @@
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<ContentPresenter x:Name="MainCommandPresenter"
-												  Margin="{TemplateBinding Padding}"
 												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
 
 								<!--
@@ -1443,8 +1444,7 @@
 		<Setter Property="OverflowButtonVisibility" Value="Collapsed" />
 		<Setter Property="IsDynamicOverflowEnabled" Value="False" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource DefaultMainCommandStyle}" />
-		<mobile:Setter Property="utu:SafeArea.Insets"
-					   Value="Top" />
+		<Setter Property="utu:SafeArea.Insets" Value="Top" />
 		<mobile:Setter Property="Template"
 					   Value="{StaticResource NativeNavigationBarTemplate}" />
 		<not_mobile:Setter Property="Template"
@@ -1495,6 +1495,7 @@
 					 TargetType="utu:NavigationBar">
 		<utu:NavigationBarPresenter x:Name="NavigationBarPresenter"
 									Content="{TemplateBinding Content}"
+									Padding="{TemplateBinding Padding}"
 									Style="{StaticResource XamlNavigationBarPresenter}" />
 	</ControlTemplate>
 
