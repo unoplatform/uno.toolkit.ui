@@ -1287,6 +1287,7 @@
 	<ControlTemplate x:Key="XamlMaterialNavigationBarTemplate"
 					 TargetType="utu:NavigationBar">
 		<utu:NavigationBarPresenter x:Name="NavigationBarPresenter"
+									Padding="{TemplateBinding Padding}"
 									Content="{TemplateBinding Content}"
 									Style="{StaticResource MaterialNavigationBarPresenter}" />
 	</ControlTemplate>
@@ -1294,7 +1295,7 @@
 	<ControlTemplate x:Key="XamlMaterialPrimaryNavigationBarTemplate"
 					 TargetType="utu:NavigationBar">
 		<utu:NavigationBarPresenter x:Name="NavigationBarPresenter"
-									Paddding="{TemplateBinding Padding}"
+									Padding="{TemplateBinding Padding}"
 									Content="{TemplateBinding Content}"
 									Style="{StaticResource MaterialPrimaryNavigationBarPresenter}" />
 	</ControlTemplate>
