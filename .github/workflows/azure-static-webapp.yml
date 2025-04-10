@@ -16,7 +16,7 @@ on:
 jobs:
   build_and_deploy_job:
     env:
-      DIST_PATH: samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Wasm/bin/Release/net8.0/dist
+      DIST_PATH: samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-browserwasm/dist/
 
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: '8.0.301'
+          dotnet-version: '9.0.200'
 
       - uses: dotnet/nbgv@f088059084cb5d872e9d1a994433ca6440c2bf72 # v0.4.2
         id: nbgv
@@ -40,8 +40,8 @@ jobs:
           setAllVars: true
 
       - run: |
-          cd samples/Uno.Toolkit.WinUI.Samples/Uno.Toolkit.WinUI.Samples.Wasm
-          dotnet build -c Release "/p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}" /p:DisableMobileTargets=true
+          cd samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
+          dotnet build -c Release /p:SamplesTargetFrameworkOverride=net9.0-browserwasm "/p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}" /p:DisableMobileTargets=true
       - uses: actions/upload-artifact@v4
         with:
           name: wasm-site

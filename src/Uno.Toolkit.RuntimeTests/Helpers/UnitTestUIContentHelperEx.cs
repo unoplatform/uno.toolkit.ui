@@ -6,12 +6,7 @@ using Uno.UI.RuntimeTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml;
-#else
-using Windows.UI.Xaml;
-#endif
 
 using Base = Uno.UI.RuntimeTests.UnitTestsUIContentHelper;
 

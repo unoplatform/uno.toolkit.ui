@@ -1,13 +1,7 @@
 steps:
 
   - task: MSBuild@1
-    displayName: Update WinUI app versions
+    displayName: Update app versions
     inputs:
       solution: '$(build.sourcesdirectory)/build/workflow/build.csproj'
-      msbuildArguments: /r /t:BuildVersion /p:AppName=Uno.Toolkit.WinUI.Samples /bl:$(build.artifactstagingdirectory)/set-version-winui-build.binlog 
-  
-  - task: MSBuild@1
-    displayName: Update UWP app versions
-    inputs:
-      solution: '$(build.sourcesdirectory)/build/workflow/build.csproj'
-      msbuildArguments: /r /t:BuildVersion /p:AppName=Uno.Toolkit.Samples /bl:$(build.artifactstagingdirectory)/set-version-uwp-build.binlog 
+      msbuildArguments: /r /t:BuildVersion /p:AppName=Uno.Toolkit.Samples /bl:$(build.artifactstagingdirectory)/set-version-winui-build.binlog

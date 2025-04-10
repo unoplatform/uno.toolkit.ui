@@ -1,0 +1,52 @@
+﻿<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">net9.0-desktop;net9.0-browserwasm</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'==''">$(TargetFrameworks);net9.0-ios;net9.0-macos;net9.0-android;net9.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net9.0-windows10.0.26100</TargetFrameworks>
+    <UnoSingleProject>true</UnoSingleProject>
+    <OutputType>Library</OutputType>
+    <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
+		<DefineConstants Condition="$(IsWinAppSdk)">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
+    <FrameworkLineage>WinUI</FrameworkLineage>
+
+    <!--
+      UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <!--
+    <UnoFeatures></UnoFeatures>
+    -->
+  </PropertyGroup>
+
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+    <!--
+    If you encounter this error message:
+
+      error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+      Please update to a newer .NET SDK in order to reference this assembly.
+
+    This means that the two packages below must be aligned with the "build" version number of
+    the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+    must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+    -->
+    <!-- <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" /> -->
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
+    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="FluentAssertions" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+    <ProjectReference Include="..\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+    <ProjectReference Include="..\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
+  </ItemGroup>
+  <Import Project="..\winappsdk-workaround.targets" />
+</Project>

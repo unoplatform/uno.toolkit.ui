@@ -1,33 +1,19 @@
 steps:
-  - task: UseDotNet@2
-    displayName: 'Use .NET runtime 7.0.100'
-    condition: eq(variables['IsCanaryBranch'], true)
+  - task: unoplatformCanaryUpdater@1
+    displayName: 'Canary Update'
     retryCountOnTaskFailure: 3
-    inputs:
-      packageType: runtime
-      version: 7.0.0
-
-  - task: UseDotNet@2
-    condition: eq(variables['IsCanaryBranch'], true)
-    retryCountOnTaskFailure: 3
-    inputs:
-      packageType: runtime
-      version: 3.1.3
-
-  - task: nventiveCanaryUpdater@5
     condition: eq(variables['IsCanaryBranch'], true)
     inputs:
-      solution: src/Uno.Toolkit.sln
-      useNuGetOrg: true
-      usePrivateFeed: false
-      mergeBranch: true
+      solution: 'src/Uno.Toolkit.sln'
       branchToMerge: main
-      nugetUpdaterVersion: 2.3.0-alpha.42
-      packageAuthor: 'nventive,Uno Platform'
-      summaryFile: '$(build.artifactstagingdirectory)/Canary.md'
+      summaryFile: '$(Build.ArtifactStagingDirectory)/Canary.md'
+      resultFile: '$(Build.ArtifactStagingDirectory)/result.json'
+      nugetUpdaterVersion: 1.1.1
+      packageAuthor: 'Uno Platform,unoplatform'
+      additionalPublicSources: 'https://pkgs.dev.azure.com/uno-platform/1dd81cbd-cb35-41de-a570-b0df3571a196/_packaging/unoplatformdev/nuget/v3/index.json'
 
   - powershell: |
-      dotnet tool uninstall nventive.nuget.updater.tool --tool-path $(Agent.TempDirectory)
+      dotnet tool uninstall uno.nuget.updater.tool --tool-path $(Agent.TempDirectory)
     condition: eq(variables['IsCanaryBranch'], true)
 
   - pwsh: |
@@ -37,7 +23,7 @@ steps:
           foreach-object { $_ -replace "<string>uno.platform.toolkit-uwp</string>","<string>uno.platform.toolkit-uwp-canary</string>" -replace "<string>uno.platform.toolkit</string>","<string>uno.platform.toolkit-canary</string>" } |
           set-content $a }
     displayName: 'Adjust info.plist bundle name'
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
+    condition: eq(variables['IsCanaryBranch'], true)
 
   - pwsh: |
       gci -r -include AndroidManifest.xml |
@@ -46,4 +32,4 @@ steps:
           foreach-object { $_ -replace 'package="uno.platform.toolkit-uwp"','package="uno.platform.toolkit-uwp-canary"' -replace 'package="uno.platform.toolkit"','package="uno.platform.toolkit-canary"' } |
           set-content $a }
     displayName: 'Adjust AndroidManifest.xml package name'
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries')
+    condition: eq(variables['IsCanaryBranch'], true)

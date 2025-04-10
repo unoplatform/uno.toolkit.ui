@@ -4,28 +4,16 @@
   container: unoplatform/wasm-build:3.0
   timeoutInMinutes: 90
   strategy:
-    maxParallel: 4
+    maxParallel: 2
     matrix:
-      UWP:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: Automated
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-UWP-Automated.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-wasm-build-UWP
       WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: Automated
         UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-WinUI-Automated.xml
         SAMPLEAPP_ARTIFACT_NAME: sampleapp-wasm-build-WinUI
-      UWP_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
-        XAML_FLAVOR_BUILD: UWP
-        UITEST_TEST_MODE_NAME: RuntimeTests
-        UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-UWP-RuntimeTests.xml
-        SAMPLEAPP_ARTIFACT_NAME: sampleapp-wasm-build-UWP
       WinUI_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.WinUI.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: RuntimeTests
         UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-WinUI-RuntimeTests.xml
@@ -41,11 +29,9 @@
   - checkout: self
     clean: true
 
-  - task: UseDotNet@2
-    displayName: 'Use .NET'
-    inputs:
-      packageType: 'sdk'
-      version: '8.0.301'
+  - template: templates/dotnet-workload-install-linux.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-browserwasm'
 
   - template: templates/canary-updater.yml
 

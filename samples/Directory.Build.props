@@ -1,16 +1,16 @@
-<Project ToolsVersion="15.0">
+<Project>
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
-
 	<PropertyGroup>
-		<LangVersion>latest</LangVersion>
-		<IsPackable>false</IsPackable>
-	</PropertyGroup>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 
-	<!-- error NU1903: Warning As Error: Package 'System.Private.Uri' 4.3.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-5f2m-466j-3848 [C:\a\1\s\src\SolutionTemplate\5.1\uno51blank\uno51blank.Mobile\uno51blank.Mobile.csproj] -->
-	<!-- error NU1902: Warning As Error: Package 'System.Private.Uri' 4.3.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-x5qj-9vmx-7g6g [C:\a\1\s\src\SolutionTemplate\5.1\uno51blank\uno51blank.Mobile\uno51blank.Mobile.csproj] -->
-	<PropertyGroup>
-		<NoWarn>$(NoWarn);NU1903;NU1902</NoWarn>
+		<!--
+		  Adding NoWarn to remove build warnings
+		  NU1507: Warning when there are multiple package sources when using CPM with no source mapping
+		  NETSDK1201: Warning that specifying RID won't create self containing app
+		  PRI257: Ignore default language (en) not being one of the included resources (eg en-us, en-uk)
+		-->
+		<NoWarn>$(NoWarn);NU1507;NETSDK1201;PRI257</NoWarn>
 	</PropertyGroup>
-
-	<Import Project="..\src\xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
 </Project>
