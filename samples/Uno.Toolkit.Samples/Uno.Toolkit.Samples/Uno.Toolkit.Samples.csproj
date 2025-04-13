@@ -1,4 +1,4 @@
-﻿<Project Sdk="Uno.Sdk">
+<Project Sdk="Uno.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'!=''">$(SamplesTargetFrameworkOverride)</TargetFrameworks>
 		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'==''">net9.0-android;net9.0-ios;net9.0-maccatalyst;net9.0-windows10.0.26100;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
@@ -35,6 +35,8 @@
 	-->
 		<UnoFeatures>
 		</UnoFeatures>
+
+		<SkiaSharpVersion>3.116.1</SkiaSharpVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
