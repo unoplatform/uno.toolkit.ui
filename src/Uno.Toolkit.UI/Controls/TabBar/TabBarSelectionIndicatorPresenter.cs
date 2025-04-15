@@ -323,6 +323,52 @@ namespace Uno.Toolkit.UI
 			_verticalStoryboard?.Stop();
 		}
 
+		private double TranslateOffset
+		{
+			get
+			{
+				if (GetSelectionIndicator() is not { RenderTransform: CompositeTransform transform }) return 0;
+				{
+					return Owner?.Orientation == Orientation.Horizontal ? transform.TranslateX : transform.TranslateY;
+				}
+			}
+			set
+			{
+				if (GetSelectionIndicator() is not { RenderTransform: CompositeTransform transform }) return;
+				if (Owner?.Orientation == Orientation.Horizontal)
+				{
+					transform.TranslateX = value;
+				}
+				else
+				{
+					transform.TranslateY = value;
+				}
+			}
+		}
+
+		private void StopRunningAnimation()
+		{
+			var storyboard = GetStoryboardForCurrentOrientation();
+			if (storyboard != null && storyboard.GetCurrentState() != ClockState.Stopped)
+			{
+				storyboard.Pause();
+				var currentOffset = TranslateOffset;
+				storyboard.Stop();
+				TranslateOffset = currentOffset;
+
+				if (Owner?.Orientation == Orientation.Horizontal)
+				{
+					var oldTo = TemplateSettings.IndicatorTransitionTo;
+					TemplateSettings.IndicatorTransitionFrom = new Point(currentOffset, oldTo.Y);
+				}
+				else
+				{
+					var oldTo = TemplateSettings.IndicatorTransitionTo;
+					TemplateSettings.IndicatorTransitionFrom = new Point(oldTo.X, currentOffset);
+				}
+			}
+		}
+
 		private void UpdateSelectionIndicatorPosition(Point? destination = null)
 		{
 			if (Owner is not { } tabBar)
@@ -344,7 +390,7 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			StopStoryboards();
+			StopRunningAnimation();
 
 			templateSettings.IndicatorTransitionFrom = templateSettings.IndicatorTransitionTo;
 			templateSettings.IndicatorTransitionTo = destination.Value;
