@@ -14,6 +14,8 @@ namespace Uno.Toolkit.RuntimeTests.Helpers
 {
 	internal static class UnitTestUIContentHelperEx
 	{
+		public static Task WaitForIdle() => Base.WaitForIdle();
+
 		public static async Task SetContentAndWait(FrameworkElement e)
 		{
 			Base.Content = e;

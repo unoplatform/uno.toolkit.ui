@@ -90,4 +90,25 @@ internal class AncestorBindingTests
 		Assert.AreEqual(true, host.IsChecked);
 		Assert.AreEqual(Visibility.Visible, sut.Visibility);
 	}
+
+	[TestMethod]
+	public async Task Ancestor_Swap_Ancestor()
+	{
+		var setup = new AncestorBindingTest();
+		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
+
+		var sut = setup.GetFirstDescendantOrThrow<TextBlock>("SwapTestSubject");
+		var host1 = setup.GetFirstDescendantOrThrow<Border>("SwapHost1");
+		var host2 = setup.GetFirstDescendantOrThrow<Border>("SwapHost2");
+
+		Assert.AreEqual(host1.Tag, sut.Text, "initial state failed");
+
+		host1.Child = null;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		host2.Child = sut;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		Assert.AreEqual(host2.Tag, sut.Text, "expecting text resolving to SwapHost2.Tag after swapping");
+	}
 }

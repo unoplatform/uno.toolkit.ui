@@ -31,6 +31,10 @@
 														 ConverterParameter='arg1'}" />
 			</StackPanel>
 		</CheckBox>
+		<Border x:Name="SwapHost1" Tag="A">
+			<TextBlock x:Name="SwapTestSubject" Text="{utu:AncestorBinding AncestorType=Border, Path=Tag}" />
+		</Border>
+		<Border x:Name="SwapHost2" Tag="B" />
 
 		<ListView x:Name="TopLevelListView"
 				  ItemsSource="{Binding Items}"

@@ -78,12 +78,18 @@ namespace Uno.Toolkit.UI
 			if (ownerType.FindDependencyProperty(propertyName) is not { } property) return null;
 
 			owner.Loaded += OnTargetLoaded;
+			if (owner.IsLoaded)
+			{
+				OnTargetLoaded(owner, default!);
+			}
+
 			void OnTargetLoaded(object s, RoutedEventArgs e)
 			{
 				if (s is FrameworkElement fe)
 				{
-					fe.Loaded -= OnTargetLoaded;
-
+					// normally, this is a one-shot installation, so we should self-unsubscribe. but we don't here, because
+					// it is possible that we are in a data-template that gets recyled from one content-presenter to another.
+					//fe.Loaded -= OnTargetLoaded;
 					if (GetAncestors(fe).FirstOrDefault(x => AncestorType?.IsAssignableFrom(x.GetType()) == true) is { } source)
 					{
 						var binding = new Binding
@@ -96,8 +102,11 @@ namespace Uno.Toolkit.UI
 							ConverterParameter = ConverterParameter,
 						};
 						fe.SetBinding(property, binding);
+						return;
 					}
 				}
+
+				(s as DependencyObject)?.ClearValue(property);
 			}
 
 			// return current value, until the binding comes online.
