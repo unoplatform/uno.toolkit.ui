@@ -55,10 +55,12 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:NavigationBarPresenter">
-					<CommandBar x:Name="XamlNavigationBarCommandBar"
-								Content="{TemplateBinding Content}"
-								Padding="{TemplateBinding Padding}"
-								Style="{StaticResource NavigationBarCommandBar}" />
+					<Grid Background="{TemplateBinding Background}">
+						<CommandBar x:Name="XamlNavigationBarCommandBar"
+									Margin="{TemplateBinding Padding}"
+									Content="{TemplateBinding Content}"
+									Style="{StaticResource NavigationBarCommandBar}" />
+					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -116,7 +118,7 @@
 							</RectangleGeometry>
 						</Grid.Clip>
 						<Grid x:Name="ContentRoot"
-							  Padding="{TemplateBinding Padding}"
+							  Height="{TemplateBinding Height}"
 							  MinHeight="{ThemeResource AppBarThemeCompactHeight}"
 							  VerticalAlignment="Top"
 							  Background="{TemplateBinding Background}"
@@ -1495,6 +1497,7 @@
 					 TargetType="utu:NavigationBar">
 		<utu:NavigationBarPresenter x:Name="NavigationBarPresenter"
 									Content="{TemplateBinding Content}"
+									Background="{TemplateBinding Background}"
 									Padding="{TemplateBinding Padding}"
 									Style="{StaticResource XamlNavigationBarPresenter}" />
 	</ControlTemplate>
