@@ -323,6 +323,53 @@ namespace Uno.Toolkit.UI
 			_verticalStoryboard?.Stop();
 		}
 
+		private double TranslateOffset
+		{
+			get
+			{
+				if (GetSelectionIndicator() is not { RenderTransform: CompositeTransform transform }) return 0;
+				{
+					return Owner?.Orientation == Orientation.Horizontal ? transform.TranslateX : transform.TranslateY;
+				}
+			}
+			set
+			{
+				if (GetSelectionIndicator() is not { RenderTransform: CompositeTransform transform }) return;
+				if (Owner?.Orientation == Orientation.Horizontal)
+				{
+					transform.TranslateX = value;
+				}
+				else
+				{
+					transform.TranslateY = value;
+				}
+			}
+		}
+
+		private bool TryStopRunningAnimation(out Point animatedOffset)
+		{
+			animatedOffset = default;
+
+			var storyboard = GetStoryboardForCurrentOrientation();
+
+			if (storyboard != null && storyboard.GetCurrentState() != ClockState.Stopped)
+			{
+				// Pause and snapshot the current animated offset so subsequent animations start from the visible state.
+				storyboard.Pause();
+				var currentOffset = TranslateOffset;
+				storyboard.Stop();
+				TranslateOffset = currentOffset;
+
+				animatedOffset = Owner?.Orientation == Orientation.Horizontal
+					? TemplateSettings.IndicatorTransitionTo with { X = currentOffset }
+					: TemplateSettings.IndicatorTransitionTo with { Y = currentOffset };
+
+				return true;
+			}
+
+			return false;
+		}
+
 		private void UpdateSelectionIndicatorPosition(Point? destination = null)
 		{
 			if (Owner is not { } tabBar)
@@ -344,9 +391,9 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			StopStoryboards();
-
-			templateSettings.IndicatorTransitionFrom = templateSettings.IndicatorTransitionTo;
+			TemplateSettings.IndicatorTransitionFrom = TryStopRunningAnimation(out var animatedOffset)
+				? animatedOffset
+				: TemplateSettings.IndicatorTransitionTo;
 			templateSettings.IndicatorTransitionTo = destination.Value;
 
 			storyboard.BeginTime = TimeSpan.FromMilliseconds(0);
