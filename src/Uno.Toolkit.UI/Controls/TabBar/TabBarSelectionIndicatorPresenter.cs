@@ -351,21 +351,15 @@ namespace Uno.Toolkit.UI
 			var storyboard = GetStoryboardForCurrentOrientation();
 			if (storyboard != null && storyboard.GetCurrentState() != ClockState.Stopped)
 			{
+				// Pause and snapshot the current offset, then stop the animation so the next one starts from that value.
 				storyboard.Pause();
 				var currentOffset = TranslateOffset;
 				storyboard.Stop();
 				TranslateOffset = currentOffset;
 
-				if (Owner?.Orientation == Orientation.Horizontal)
-				{
-					var oldTo = TemplateSettings.IndicatorTransitionTo;
-					TemplateSettings.IndicatorTransitionFrom = new Point(currentOffset, oldTo.Y);
-				}
-				else
-				{
-					var oldTo = TemplateSettings.IndicatorTransitionTo;
-					TemplateSettings.IndicatorTransitionFrom = new Point(oldTo.X, currentOffset);
-				}
+				TemplateSettings.IndicatorTransitionFrom = Owner?.Orientation == Orientation.Horizontal
+					? TemplateSettings.IndicatorTransitionTo with { X = currentOffset }
+					: TemplateSettings.IndicatorTransitionTo with { Y = currentOffset };
 			}
 		}
 
@@ -392,7 +386,6 @@ namespace Uno.Toolkit.UI
 
 			StopRunningAnimation();
 
-			templateSettings.IndicatorTransitionFrom = templateSettings.IndicatorTransitionTo;
 			templateSettings.IndicatorTransitionTo = destination.Value;
 
 			storyboard.BeginTime = TimeSpan.FromMilliseconds(0);
