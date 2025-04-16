@@ -346,21 +346,28 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void StopRunningAnimation()
+		private bool TryStopRunningAnimation(out Point animatedOffset)
 		{
+			animatedOffset = default;
+
 			var storyboard = GetStoryboardForCurrentOrientation();
+
 			if (storyboard != null && storyboard.GetCurrentState() != ClockState.Stopped)
 			{
-				// Pause and snapshot the current offset, then stop the animation so the next one starts from that value.
+				// Pause and snapshot the current animated offset so subsequent animations start from the visible state.
 				storyboard.Pause();
 				var currentOffset = TranslateOffset;
 				storyboard.Stop();
 				TranslateOffset = currentOffset;
 
-				TemplateSettings.IndicatorTransitionFrom = Owner?.Orientation == Orientation.Horizontal
+				animatedOffset = Owner?.Orientation == Orientation.Horizontal
 					? TemplateSettings.IndicatorTransitionTo with { X = currentOffset }
 					: TemplateSettings.IndicatorTransitionTo with { Y = currentOffset };
+
+				return true;
 			}
+
+			return false;
 		}
 
 		private void UpdateSelectionIndicatorPosition(Point? destination = null)
@@ -384,8 +391,9 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			StopRunningAnimation();
-
+			TemplateSettings.IndicatorTransitionFrom = TryStopRunningAnimation(out var animatedOffset)
+				? animatedOffset
+				: TemplateSettings.IndicatorTransitionTo;
 			templateSettings.IndicatorTransitionTo = destination.Value;
 
 			storyboard.BeginTime = TimeSpan.FromMilliseconds(0);
