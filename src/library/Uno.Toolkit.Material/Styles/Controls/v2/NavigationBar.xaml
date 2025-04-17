@@ -79,7 +79,7 @@
 
 			<x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
 			<x:Double x:Key="MaterialXamlNavigationBarHeight">64</x:Double>
-			<x:Double x:Key="MaterialNavigationBarHeight">48</x:Double>
+			<x:Double x:Key="MaterialNavigationBarHeight">64</x:Double>
 			<Thickness x:Key="MaterialNavigationBarContentMargin">16,0,0,0</Thickness>
 			<Thickness x:Key="MaterialAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
 
@@ -91,7 +91,8 @@
 			<x:Double x:Key="NavBarAppBarButtonContentHeight">16</x:Double>
 			<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
 			<x:Double x:Key="NavBarMainCommandAppBarButtonContentHeight">24</x:Double>
-			<x:Double x:Key="NavBarAppBarThemeCompactHeight">56</x:Double>
+			<x:Double x:Key="NavBarAppBarThemeCompactHeight">64</x:Double>
+			<StaticResource x:Key="AppBarThemeCompactHeight" ResourceKey="NavBarAppBarThemeCompactHeight" />
 			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
 			<Visibility x:Key="NavBarAppBarButtonHasFlyoutChevronVisibility">Collapsed</Visibility>
 			<x:String x:Key="NavigationBarBackIconData">M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z</x:String>
