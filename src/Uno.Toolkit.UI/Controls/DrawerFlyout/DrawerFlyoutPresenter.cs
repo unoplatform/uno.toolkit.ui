@@ -125,7 +125,6 @@ namespace Uno.Toolkit.UI
 					_initOnceOnLoaded = false;
 
 					_popup = FindHostPopup() ?? throw new Exception("Unable to find host popup.");
-					UpdateOpenness(false);
 					_popup.Opened += OnPopupOpened;
 					_storyboard.Completed += (s, e) =>
 					{
@@ -135,6 +134,7 @@ namespace Uno.Toolkit.UI
 						}
 					};
 					_drawerContentPresenter.SizeChanged += DrawerContentPresenterSizeChanged;
+					UpdateOpenness(false);
 				}
 			};
 
