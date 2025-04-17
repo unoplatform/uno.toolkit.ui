@@ -134,6 +134,7 @@ namespace Uno.Toolkit.UI
 						}
 					};
 					_drawerContentPresenter.SizeChanged += DrawerContentPresenterSizeChanged;
+					UpdateOpenness(false);
 				}
 			};
 
