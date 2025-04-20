@@ -1,4 +1,4 @@
-﻿<Project Sdk="Uno.Sdk">
+﻿<Project Sdk="Uno.Sdk.Private">
   <PropertyGroup>
     <TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
     <TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">net9.0-desktop;net9.0-browserwasm</TargetFrameworks>
