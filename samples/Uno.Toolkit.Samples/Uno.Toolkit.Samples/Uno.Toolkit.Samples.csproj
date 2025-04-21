@@ -1,4 +1,4 @@
-<Project Sdk="Uno.Sdk.Private">
+﻿<Project Sdk="Uno.Sdk.Private">
 	<PropertyGroup>
 		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'!=''">$(SamplesTargetFrameworkOverride)</TargetFrameworks>
 		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'==''">net9.0-android;net9.0-ios;net9.0-maccatalyst;net9.0-windows10.0.26100;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
@@ -10,6 +10,7 @@
 		<ApplicationTitle>Uno Toolkit Samples</ApplicationTitle>
 		<!-- App Identifier -->
 		<ApplicationId>uno.platform.toolkit</ApplicationId>
+		<ApplicationId Condition="'$(IsCanaryBranch)'=='true'">$(ApplicationId)-canary</ApplicationId>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
@@ -72,4 +73,18 @@
 	  <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>  
 	</PropertyGroup>
 
+	<ItemGroup Condition="$(IsWinAppSdk)">
+		<!--
+		If you encounter this error message:
+
+			error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll. Please update to a newer .NET SDK in order to reference this assembly.
+
+		This means that the two packages below must be aligned with the "build" version number of
+		the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+		must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+		-->
+
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.57" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.57" />
+	</ItemGroup>
 </Project>

@@ -187,7 +187,7 @@ namespace Uno.Toolkit.UI
 			}
 			var native = Native;
 			var element = Element;
-			if (element == null)
+			if (element == null || native == null)
 			{
 				return;
 			}
