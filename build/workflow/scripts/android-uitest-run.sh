@@ -16,6 +16,14 @@ then
 	export TEST_FILTERS="FullyQualifiedName ~ Uno.Toolkit.UITest.RuntimeTests";
 fi
 
+if [ "$XAML_FLAVOR_BUILD" == 'UWP' ];
+then
+	export SAMPLEAPP_NAME="uno.platform.toolkit_uwp";
+elif [ "$XAML_FLAVOR_BUILD" == 'WinUI' ];
+then
+	export SAMPLEAPP_NAME="uno.platform.toolkit";
+fi
+
 export UNO_UITEST_PLATFORM=Android
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/android/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
@@ -113,7 +121,7 @@ then
 	$ANDROID_HOME/platform-tools/adb devices
 
 	# Start emulator in background
-	nohup $ANDROID_HOME/emulator/emulator -avd "$AVD_NAME" -skin 1280x800 -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim > $UNO_UITEST_SCREENSHOT_PATH/android-emulator-log.txt 2>&1 &
+	nohup $ANDROID_HOME/emulator/emulator -avd "$AVD_NAME" -skin 1280x800 -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -prop ro.debuggable=1 > $UNO_UITEST_SCREENSHOT_PATH/android-emulator-log.txt 2>&1 &
 
 	# Wait for the emulator to finish booting
 	source $BUILD_SOURCESDIRECTORY/build/workflow/scripts/android-uitest-wait-systemui.sh 500
@@ -152,8 +160,11 @@ dotnet test \
 	-v m \
 	|| true
 
-## Copy the results file to the results folder
-cp $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH $BASE_ARTIFACTS_PATH
+
+if [[ -f $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH ]]; then
+	## Copy the results file to the results folder
+	cp $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH $BASE_ARTIFACTS_PATH
+fi
 
 ## Dump the emulator's system log
 $ANDROID_HOME/platform-tools/adb shell logcat -d > $UNO_UITEST_SCREENSHOT_PATH/android-device-log.txt
