@@ -97,8 +97,10 @@ dotnet test \
 echo "Current system date"
 date
 
-## Copy the results file to the results folder
-cp $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH $BASE_ARTIFACTS_PATH
+if [[ -f $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH ]]; then
+	## Copy the results file to the results folder
+	cp $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH $BASE_ARTIFACTS_PATH
+fi
 
 # export the simulator logs
 export LOG_FILEPATH=$UNO_UITEST_SCREENSHOT_PATH/_logs

@@ -104,10 +104,6 @@ jobs:
     parameters:
       UnoCheckParameters: '--tfm net9.0-ios'
 
-  - template: templates/xcode-select.yml
-    parameters:
-      xCodeRoot: $(XCODE_ROOT)
-
   - template: templates/canary-updater.yml
 
   - template: templates/xcode-select.yml

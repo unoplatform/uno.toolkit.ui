@@ -224,6 +224,12 @@ namespace Uno.Toolkit.UI
 			var visibleBounds = safeAreaOverride?.IsEmptyOrZero() ?? true
 				? ApplicationView.GetForCurrentView().VisibleBounds
 				: safeAreaOverride.GetValueOrDefault();
+
+			if (!(XamlWindow.Current is { } xamlWindow))
+			{
+				return new();
+			}
+
 #if __ANDROID__
 			var statusBarOffset = 0d;
 			if (!XamlWindow.Current!.IsStatusBarTranslucent())
@@ -636,7 +642,7 @@ namespace Uno.Toolkit.UI
 
 			internal void UpdateSafeAreaOverride()
 			{
-				if (Owner is { } owner)
+				if (Owner is { } owner && XamlWindow.Current is { } xamlWindow)
 				{
 					var safeAreaOverride = GetSafeAreaOverride(owner);
 
