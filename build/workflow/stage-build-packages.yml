@@ -5,6 +5,7 @@ jobs:
     vmImage: windows-2022
 
   steps:
+    - template: templates/canary-updater.yml
     - template: templates/gitversion.yml
     - template: templates/dotnet-workload-install-windows.yml
 
