@@ -15,3 +15,12 @@ steps:
   - powershell: |
       dotnet tool uninstall uno.nuget.updater.tool --tool-path $(Agent.TempDirectory)
     condition: eq(variables['IsCanaryBranch'], true)
+
+  - pwsh: |
+      gci -r -include android-uitest-run.sh |
+      foreach-object {
+          $a = $_.fullname; ( get-content $a ) |
+          foreach-object { $_ -replace '"uno.platform.toolkit-uwp"','"uno.platform.toolkit-uwp_canary"' -replace '"uno.platform.toolkit"','"uno.platform.toolkit_canary"' } |
+          set-content $a }
+    displayName: 'Adjust Android UI Test Runner for Canary'
+    condition: eq(variables['IsCanaryBranch'], true)
