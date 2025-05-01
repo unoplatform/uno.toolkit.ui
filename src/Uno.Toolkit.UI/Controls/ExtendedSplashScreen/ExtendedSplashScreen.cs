@@ -57,7 +57,12 @@ public partial class ExtendedSplashScreen : LoadingView
 
 	protected static ExtendedSplashScreen? Instance { get; private set; }
 
-	public Window? Window { get; set; }
+	public
+#if __IOS__ || __MACOS__ // hides UIView.Window and NSView.Window
+	new
+#endif
+Window? Window
+	{ get; set; }
 
 	public ExtendedSplashScreen()
 	{
