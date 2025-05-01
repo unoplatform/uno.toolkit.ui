@@ -228,7 +228,7 @@ namespace Uno.Toolkit.UI
 			var target = GetAutoFocusNextElement(host);
 			if (GetAutoFocusNext(host) || target != null) // either property can be used to enable this feature
 			{
-				target ??= FocusManager.FindNextFocusableElement(FocusNavigationDirection.Next) as Control;
+				target ??= FocusManager.FindNextElement(FocusNavigationDirection.Next, new FindNextElementOptions { SearchRoot = host }) as Control;
 
 				target?.Focus(FocusState.Keyboard);
 			}

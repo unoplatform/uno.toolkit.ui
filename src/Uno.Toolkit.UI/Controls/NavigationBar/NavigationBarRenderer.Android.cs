@@ -219,7 +219,7 @@ namespace Uno.Toolkit.UI
 			if (ColorHelper.TryGetColorWithOpacity(element.Foreground, out var foregroundColor))
 			{
 				native.SetTitleTextColor((Android.Graphics.Color)foregroundColor);
-				DrawableCompat.SetTint(native.OverflowIcon, (Android.Graphics.Color)foregroundColor);
+				DrawableCompat.SetTint(native.OverflowIcon!, (Android.Graphics.Color)foregroundColor);
 			}
 			else if (_originalTitleTextColor != null)
 			{
@@ -228,18 +228,18 @@ namespace Uno.Toolkit.UI
 
 			var commands = element.PrimaryCommands.Safe().Concat(element.SecondaryCommands.Safe()).OfType<AppBarButton>();
 			// PrimaryCommands & SecondaryCommands
-			var currentMenuItemIds = GetMenuItems(native.Menu)
+			var currentMenuItemIds = GetMenuItems(native.Menu!)
 				.Select(i => i!.ItemId);
 			var intendedMenuItemIds = commands
 				.Select(i => i.GetHashCode());
 
 			if (!currentMenuItemIds.SequenceEqual(intendedMenuItemIds))
 			{
-				native.Menu.Clear();
+				native.Menu?.Clear();
 				foreach (var primaryCommand in element.PrimaryCommands.Safe().OfType<AppBarButton>())
 				{
 #pragma warning disable 618
-					var menuItem = native.Menu.Add(0, primaryCommand.GetHashCode(), Menu.None, null);
+					var menuItem = native.Menu?.Add(0, primaryCommand.GetHashCode(), Menu.None, null);
 #pragma warning restore 618
 					if (menuItem is { })
 					{
@@ -255,7 +255,7 @@ namespace Uno.Toolkit.UI
 				foreach (var secondaryCommand in element.SecondaryCommands.Safe().OfType<AppBarButton>())
 				{
 #pragma warning disable 618
-					var menuItem = native.Menu.Add(0, secondaryCommand.GetHashCode(), Menu.None, null);
+					var menuItem = native.Menu?.Add(0, secondaryCommand.GetHashCode(), Menu.None, null);
 #pragma warning restore 618
 					if (menuItem is { })
 					{
@@ -310,7 +310,7 @@ namespace Uno.Toolkit.UI
 		{
 			CloseKeyboard();
 
-			var hashCode = e.Item.ItemId;
+			var hashCode = e.Item?.ItemId;
 			var appBarButton = Element?.PrimaryCommands
 				.Concat(Element?.SecondaryCommands!)
 				.OfType<AppBarButton>()
