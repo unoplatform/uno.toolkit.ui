@@ -1,7 +1,8 @@
 <Project>
 	<PropertyGroup>
 		<UnoEnableXamlFuzzyMatching>false</UnoEnableXamlFuzzyMatching>
-		<WindowsSdkPackageVersion>10.0.19041.38</WindowsSdkPackageVersion>
+		<!-- Required by uno 6.0 (WinRT.Runtime.dll >= 2.2.0) -->
+		<WindowsSdkPackageVersion>10.0.19041.57</WindowsSdkPackageVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 </Project>
