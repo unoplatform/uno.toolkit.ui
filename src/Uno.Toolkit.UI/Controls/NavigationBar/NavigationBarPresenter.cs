@@ -112,7 +112,6 @@ namespace Uno.Toolkit.UI
 				setBinding(_commandBar, navigationBar, CommandBar.FontFamilyProperty, nameof(navigationBar.FontFamily));
 				setBinding(_commandBar, navigationBar, CommandBar.FontSizeProperty, nameof(navigationBar.FontSize));
 				setBinding(_commandBar, navigationBar, CommandBar.WidthProperty, nameof(navigationBar.Width));
-				setBinding(_commandBar, navigationBar, CommandBar.HeightProperty, nameof(navigationBar.Height));
 				setBinding(_commandBar, navigationBar, CommandBar.UseSystemFocusVisualsProperty, nameof(navigationBar.UseSystemFocusVisuals));
 				setBinding(_commandBar, navigationBar, CommandBarExtensions.MainCommandProperty, nameof(navigationBar.MainCommand));
 
