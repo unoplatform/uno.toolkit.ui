@@ -5,6 +5,7 @@
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Uno.Disposables;
 using Uno.Extensions;
@@ -441,6 +442,7 @@ namespace Uno.Toolkit.UI
 					// Using relativeTo: null instead of Window.Current.Content since there are cases when the current UIElement
 					// may be outside the bounds of the current Window content, for example, when the element is hosted in a modal window.
 					var controlBounds = GetRelativeBounds(fixedControl, relativeTo: null);
+					controlBounds = CorrectControlBounds(fixedControl, controlBounds);
 
 					visibilityPadding = CalculateVisibilityInsets(OffsetVisibleBounds, controlBounds);
 
@@ -457,6 +459,23 @@ namespace Uno.Toolkit.UI
 				var padding = CalculateAppliedInsets(_insetMask, visibilityPadding);
 
 				ApplyInsets(padding);
+			}
+
+			private Rect CorrectControlBounds(FrameworkElement control, Rect bounds)
+			{
+				if (control.GetAncestors(includeCurrent: true).OfType<DrawerFlyoutPresenter>().FirstOrDefault() is { } dfp)
+				{
+					if ((dfp.Content as FrameworkElement)?.Parent is ContentPresenter { Name: DrawerFlyoutPresenter.TemplateParts.DrawerContentPresenter } dcp &&
+						dcp.RenderTransform is TranslateTransform tt)
+					{
+						// corrects for DrawerFlyout's opening animation, by applying its inverse
+						var corrected = tt.Inverse.TransformBounds(bounds);
+						return corrected;
+					}
+
+				}
+
+				return bounds;
 			}
 
 			/// <summary>
