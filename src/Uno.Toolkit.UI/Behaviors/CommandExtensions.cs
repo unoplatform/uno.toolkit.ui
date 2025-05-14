@@ -33,7 +33,7 @@ namespace Uno.Toolkit.UI
 
 		/// <summary>
 		/// Backing property for the command to execute when <see cref="TextBox"/>/<see cref="PasswordBox"/> enter key is pressed,
-		/// <see cref="ListViewBase.ItemClick" />, <see cref="Selector.SelectionChanged" />, <see cref="NavigationView.ItemInvoked" />, <see cref="ItemsRepeater" /> item tapped, or <see cref="UIElement.Tapped" />.
+		/// <see cref="ListViewBase.ItemClick" />, <see cref="Selector.SelectionChanged" />, <see cref="NavigationView.ItemInvoked" />, <see cref="ItemsRepeater" /> item tapped, <see cref="ToggleSwitch.Toggled"/> or <see cref="UIElement.Tapped" />.
 		/// </summary>
 		/// <remarks>
 		/// For Command, the relevant parameter is also provided for the <see cref="ICommand.CanExecute(object)"/> and <see cref="ICommand.Execute(object)"/> call:
@@ -44,6 +44,7 @@ namespace Uno.Toolkit.UI
 		///   <item><see cref="Selector.SelectedItem"/></item>
 		///   <item><see cref="NavigationViewItemInvokedEventArgs.InvokedItem"/> from <see cref="NavigationView.ItemInvoked"/></item>
 		///   <item><see cref="ItemsRepeater"/>'s item root's DataContext</item>
+		///   <item><see cref="ToggleSwitch.IsOn"/></item>
 		///   <item><see cref="UIElement"/> itself</item>
 		/// </list>
 		/// <see cref="CommandParameterProperty"/> can be set, on the item-container or item-template's root for collection-type controls, or control itself for other controls, to replace the above.
@@ -118,6 +119,14 @@ namespace Uno.Toolkit.UI
 				if (GetCommand(sender) is { } command)
 				{
 					nv.ItemInvoked += OnNavigationViewItemInvoked;
+				}
+			}
+			else if (sender is ToggleSwitch ts)
+			{
+				ts.Toggled -= OnToggleSwitchToggled;
+				if (GetCommand(sender) is { } command)
+				{
+					ts.Toggled += OnToggleSwitchToggled;
 				}
 			}
 			else if (sender is UIElement uie)
@@ -197,6 +206,12 @@ namespace Uno.Toolkit.UI
 		private static void OnNavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs e)
 		{
 			TryInvokeCommand(sender, TryGetItemCommandParameter(e.InvokedItemContainer) ?? e.InvokedItem);
+		}
+		private static void OnToggleSwitchToggled(object sender, RoutedEventArgs e)
+		{
+			if (sender is not ToggleSwitch host) return;
+
+			TryInvokeCommand(host, host.IsOn);
 		}
 		private static void OnUIElementTapped(object sender, TappedRoutedEventArgs e)
 		{
