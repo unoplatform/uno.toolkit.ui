@@ -6,7 +6,7 @@
 					mc:Ignorable="todo">
 
 	<Style x:Key="DefaultDrawerFlyoutPresenterStyle" TargetType="utu:DrawerFlyoutPresenter">
-		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="CornerRadius" Value="0" />
 		<Setter Property="LightDismissOverlayBackground" Value="#80808080" />
 
