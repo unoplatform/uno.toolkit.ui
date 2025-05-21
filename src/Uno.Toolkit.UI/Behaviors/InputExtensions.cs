@@ -11,10 +11,8 @@ using Uno.Logging;
 using Windows.System;
 using Windows.UI.ViewManagement;
 
-#if __ANDROID__
-using Android.Views.InputMethods;
-#elif __IOS__
-using UIKit;
+#if HAS_UNO_WINUI
+using Uno.UI.Xaml.Controls;
 #endif
 
 #if IS_WINUI
@@ -32,31 +30,33 @@ namespace Uno.Toolkit.UI
 	public static class InputExtensions
 	{
 		private static readonly ILogger _logger = typeof(InputExtensions).Log();
-
-		public enum ReturnType {
-			Default,
-			Done,
-			Go,
-			Next,
-			Search,
-			Send
-		}
-
 		#region DependencyProperty: ReturnType
 
+#if HAS_UNO_WINUI
 		/// <summary>
 		/// Backing property for what type of return the soft keyboard will show.
 		/// </summary>
-		public static DependencyProperty ReturnTypeProperty { [DynamicDependency(nameof(GetReturnType))] get; } = DependencyProperty.RegisterAttached(
-			"ReturnType",
-			typeof(ReturnType),
-			typeof(InputExtensions),
-			new PropertyMetadata(ReturnType.Default, OnReturnTypeChanged));
+		public static DependencyProperty ReturnTypeProperty { get; } =
+			DependencyProperty.RegisterAttached(
+				"ReturnType",
+				typeof(InputReturnType),
+				typeof(InputExtensions),
+				new PropertyMetadata(InputReturnType.Default, OnReturnTypeChanged));
 
-		[DynamicDependency(nameof(SetReturnType))]
-		public static ReturnType GetReturnType(DependencyObject obj) => (ReturnType)obj.GetValue(ReturnTypeProperty);
-		[DynamicDependency(nameof(GetReturnType))]
-		public static void SetReturnType(DependencyObject obj, ReturnType value) => obj.SetValue(ReturnTypeProperty, value);
+		public static InputReturnType GetReturnType(DependencyObject obj) =>
+			(InputReturnType)obj.GetValue(ReturnTypeProperty);
+
+		public static void SetReturnType(DependencyObject obj, InputReturnType value) =>
+			obj.SetValue(ReturnTypeProperty, value);
+
+		private static void OnReturnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (sender is TextBox || sender is PasswordBox)
+			{
+				TextBoxExtensions.SetInputReturnType(sender, (InputReturnType)e.NewValue);
+			}
+		}
+#endif
 
 		#endregion
 		#region DependencyProperty: AutoDismiss
@@ -64,7 +64,11 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Backing property for whether the soft keyboard will be dismissed when the enter key is pressed.
 		/// </summary>
-		public static DependencyProperty AutoDismissProperty { [DynamicDependency(nameof(GetAutoDismiss))] get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty AutoDismissProperty
+		{
+			[DynamicDependency(nameof(GetAutoDismiss))]
+			get;
+		} = DependencyProperty.RegisterAttached(
 			"AutoDismiss",
 			typeof(bool),
 			typeof(InputExtensions),
@@ -85,7 +89,11 @@ namespace Uno.Toolkit.UI
 		/// Having either or both of the <see cref="AutoFocusNextProperty"/> and <see cref="AutoFocusNextElementProperty"/> set will enable the focus next behavior.
 		/// AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
 		/// </remarks>
-		public static DependencyProperty AutoFocusNextProperty { [DynamicDependency(nameof(GetAutoFocusNext))] get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty AutoFocusNextProperty
+		{
+			[DynamicDependency(nameof(GetAutoFocusNext))]
+			get;
+		} = DependencyProperty.RegisterAttached(
 			"AutoFocusNext",
 			typeof(bool),
 			typeof(InputExtensions),
@@ -93,8 +101,10 @@ namespace Uno.Toolkit.UI
 
 		[DynamicDependency(nameof(SetAutoFocusNext))]
 		public static bool GetAutoFocusNext(DependencyObject obj) => (bool)obj.GetValue(AutoFocusNextProperty);
+
 		[DynamicDependency(nameof(GetAutoFocusNext))]
-		public static void SetAutoFocusNext(DependencyObject obj, bool value) => obj.SetValue(AutoFocusNextProperty, value);
+		public static void SetAutoFocusNext(DependencyObject obj, bool value) =>
+			obj.SetValue(AutoFocusNextProperty, value);
 
 		#endregion
 		#region DependencyProperty: AutoFocusNextElement
@@ -106,16 +116,23 @@ namespace Uno.Toolkit.UI
 		/// Having either or both of the <see cref="AutoFocusNextProperty"/> and <see cref="AutoFocusNextElementProperty"/> set will enable the focus next behavior.
 		/// AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
 		/// </remarks>
-		public static DependencyProperty AutoFocusNextElementProperty { [DynamicDependency(nameof(GetAutoFocusNextElement))] get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty AutoFocusNextElementProperty
+		{
+			[DynamicDependency(nameof(GetAutoFocusNextElement))]
+			get;
+		} = DependencyProperty.RegisterAttached(
 			"AutoFocusNextElement",
 			typeof(DependencyObject),
 			typeof(InputExtensions),
 			new PropertyMetadata(default(Control), OnAutoFocusNextElementChanged));
 
 		[DynamicDependency(nameof(SetAutoFocusNextElement))]
-		public static Control GetAutoFocusNextElement(DependencyObject obj) => (Control)obj.GetValue(AutoFocusNextElementProperty);
+		public static Control GetAutoFocusNextElement(DependencyObject obj) =>
+			(Control)obj.GetValue(AutoFocusNextElementProperty);
+
 		[DynamicDependency(nameof(GetAutoFocusNextElement))]
-		public static void SetAutoFocusNextElement(DependencyObject obj, Control value) => obj.SetValue(AutoFocusNextElementProperty, value);
+		public static void SetAutoFocusNextElement(DependencyObject obj, Control value) =>
+			obj.SetValue(AutoFocusNextElementProperty, value);
 
 		#endregion
 #if false // The property is now forwarded from CommandExtensions.Command
@@ -141,44 +158,17 @@ namespace Uno.Toolkit.UI
 			return host is TextBox || host is PasswordBox;
 		}
 
-		private static void OnReturnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-		{
-			if (sender is TextBox || sender is PasswordBox)
-			{
-				if (e.NewValue is not ReturnType returnType)
-				{
-					returnType = ReturnType.Default;
-				}
-#if __ANDROID__
-				ImeAction imeAction = GetImeActionFromReturnType(returnType);
+		private static void OnAutoDismissChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+			=> UpdateSubscription(sender);
 
-				if (sender is TextBox textBox)
-				{
-					textBox.ImeOptions = imeAction;
-				}
-				else if (sender is PasswordBox passwordBox)
-				{
-					passwordBox.ImeOptions = imeAction;
-				}
-#elif __IOS__
-				UIReturnKeyType returnKeyType = GetReturnKeyTypeFromReturnType(returnType);
+		private static void OnAutoFocusNextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+			=> UpdateSubscription(sender);
 
-				if (sender is TextBox textBox)
-				{
-					textBox.ReturnKeyType = returnKeyType;
-				}
-				else if (sender is PasswordBox passwordBox)
-				{
-					passwordBox.ReturnKeyType = returnKeyType;
-				}
-#endif
-			}
-		}
+		private static void OnAutoFocusNextElementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+			=> UpdateSubscription(sender);
 
-		private static void OnAutoDismissChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
-		private static void OnAutoFocusNextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
-		private static void OnAutoFocusNextElementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
-		internal static void OnEnterCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => UpdateSubscription(sender);
+		internal static void OnEnterCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+			=> UpdateSubscription(sender);
 
 		private static void UpdateSubscription(DependencyObject sender)
 		{
@@ -243,29 +233,5 @@ namespace Uno.Toolkit.UI
 				_ => default,
 			};
 		}
-
-#if __ANDROID__
-		private static ImeAction GetImeActionFromReturnType(ReturnType returnType) => returnType switch
-		{
-			ReturnType.Next => ImeAction.Next,
-			ReturnType.Go => ImeAction.Go,
-			ReturnType.Search => ImeAction.Search,
-			ReturnType.Send => ImeAction.Send,
-			ReturnType.Done => ImeAction.Done,
-			ReturnType.Default or _ => ImeAction.Unspecified
-		};
-#endif
-
-#if __IOS__
-		private static UIReturnKeyType GetReturnKeyTypeFromReturnType(ReturnType returnType) => returnType switch
-		{
-			ReturnType.Next => UIReturnKeyType.Next,
-			ReturnType.Go => UIReturnKeyType.Go,
-			ReturnType.Search => UIReturnKeyType.Search,
-			ReturnType.Send => UIReturnKeyType.Send,
-			ReturnType.Done => UIReturnKeyType.Done,
-			ReturnType.Default or _ => UIReturnKeyType.Default
-		};
-#endif
 	}
 }
