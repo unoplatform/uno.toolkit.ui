@@ -25,50 +25,63 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 #endif
 
+#if !HAS_UNO_WINUI
+namespace Uno.Toolkit.UI
+{
+
+	// Dummy enum for Uno.UI v5 so ReturnType DP compiles as InputReturnType is available for v6+.
+	public enum InputReturnType
+	{
+		Default,
+		Done,
+		Go,
+		Next,
+		Search,
+		Send
+	}
+}
+#endif
+
 namespace Uno.Toolkit.UI
 {
 	public static class InputExtensions
 	{
 		private static readonly ILogger _logger = typeof(InputExtensions).Log();
+
 		#region DependencyProperty: ReturnType
 
-#if HAS_UNO_WINUI
 		/// <summary>
 		/// Backing property for what type of return the soft keyboard will show.
 		/// </summary>
-		public static DependencyProperty ReturnTypeProperty { get; } =
-			DependencyProperty.RegisterAttached(
+		public static DependencyProperty ReturnTypeProperty { [DynamicDependency(nameof(GetReturnType))] get; } = DependencyProperty.RegisterAttached(
 				"ReturnType",
 				typeof(InputReturnType),
 				typeof(InputExtensions),
 				new PropertyMetadata(InputReturnType.Default, OnReturnTypeChanged));
 
-		public static InputReturnType GetReturnType(DependencyObject obj) =>
-			(InputReturnType)obj.GetValue(ReturnTypeProperty);
+		[DynamicDependency(nameof(SetReturnType))]
+		public static InputReturnType GetReturnType(DependencyObject obj) => (InputReturnType)obj.GetValue(ReturnTypeProperty);
+		[DynamicDependency(nameof(GetReturnType))]
+		public static void SetReturnType(DependencyObject obj, InputReturnType value) => obj.SetValue(ReturnTypeProperty, value);
 
-		public static void SetReturnType(DependencyObject obj, InputReturnType value) =>
-			obj.SetValue(ReturnTypeProperty, value);
+		#endregion
 
 		private static void OnReturnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
+#if HAS_UNO_WINUI
 			if (sender is TextBox || sender is PasswordBox)
 			{
 				TextBoxExtensions.SetInputReturnType(sender, (InputReturnType)e.NewValue);
 			}
-		}
 #endif
+		}
 
-		#endregion
 		#region DependencyProperty: AutoDismiss
 
-		/// <summary>
-		/// Backing property for whether the soft keyboard will be dismissed when the enter key is pressed.
-		/// </summary>
-		public static DependencyProperty AutoDismissProperty
-		{
-			[DynamicDependency(nameof(GetAutoDismiss))]
-			get;
-		} = DependencyProperty.RegisterAttached(
+			/// <summary>
+			/// Backing property for whether the soft keyboard will be dismissed when the enter key is pressed.
+			/// </summary>
+		public static DependencyProperty AutoDismissProperty { [DynamicDependency(nameof(GetAutoDismiss))] get; } = DependencyProperty.RegisterAttached(
 			"AutoDismiss",
 			typeof(bool),
 			typeof(InputExtensions),
@@ -89,11 +102,7 @@ namespace Uno.Toolkit.UI
 		/// Having either or both of the <see cref="AutoFocusNextProperty"/> and <see cref="AutoFocusNextElementProperty"/> set will enable the focus next behavior.
 		/// AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
 		/// </remarks>
-		public static DependencyProperty AutoFocusNextProperty
-		{
-			[DynamicDependency(nameof(GetAutoFocusNext))]
-			get;
-		} = DependencyProperty.RegisterAttached(
+		public static DependencyProperty AutoFocusNextProperty { [DynamicDependency(nameof(GetAutoFocusNext))] get; } = DependencyProperty.RegisterAttached(
 			"AutoFocusNext",
 			typeof(bool),
 			typeof(InputExtensions),
@@ -101,10 +110,8 @@ namespace Uno.Toolkit.UI
 
 		[DynamicDependency(nameof(SetAutoFocusNext))]
 		public static bool GetAutoFocusNext(DependencyObject obj) => (bool)obj.GetValue(AutoFocusNextProperty);
-
 		[DynamicDependency(nameof(GetAutoFocusNext))]
-		public static void SetAutoFocusNext(DependencyObject obj, bool value) =>
-			obj.SetValue(AutoFocusNextProperty, value);
+		public static void SetAutoFocusNext(DependencyObject obj, bool value) => obj.SetValue(AutoFocusNextProperty, value);
 
 		#endregion
 		#region DependencyProperty: AutoFocusNextElement
@@ -116,23 +123,16 @@ namespace Uno.Toolkit.UI
 		/// Having either or both of the <see cref="AutoFocusNextProperty"/> and <see cref="AutoFocusNextElementProperty"/> set will enable the focus next behavior.
 		/// AutoFocusNextElement will take precedences over AutoFocusNext when both are set.
 		/// </remarks>
-		public static DependencyProperty AutoFocusNextElementProperty
-		{
-			[DynamicDependency(nameof(GetAutoFocusNextElement))]
-			get;
-		} = DependencyProperty.RegisterAttached(
+		public static DependencyProperty AutoFocusNextElementProperty { [DynamicDependency(nameof(GetAutoFocusNextElement))] get; } = DependencyProperty.RegisterAttached(
 			"AutoFocusNextElement",
 			typeof(DependencyObject),
 			typeof(InputExtensions),
 			new PropertyMetadata(default(Control), OnAutoFocusNextElementChanged));
 
 		[DynamicDependency(nameof(SetAutoFocusNextElement))]
-		public static Control GetAutoFocusNextElement(DependencyObject obj) =>
-			(Control)obj.GetValue(AutoFocusNextElementProperty);
-
+		public static Control GetAutoFocusNextElement(DependencyObject obj) => (Control)obj.GetValue(AutoFocusNextElementProperty);
 		[DynamicDependency(nameof(GetAutoFocusNextElement))]
-		public static void SetAutoFocusNextElement(DependencyObject obj, Control value) =>
-			obj.SetValue(AutoFocusNextElementProperty, value);
+		public static void SetAutoFocusNextElement(DependencyObject obj, Control value) => obj.SetValue(AutoFocusNextElementProperty, value);
 
 		#endregion
 #if false // The property is now forwarded from CommandExtensions.Command
@@ -160,13 +160,10 @@ namespace Uno.Toolkit.UI
 
 		private static void OnAutoDismissChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 			=> UpdateSubscription(sender);
-
 		private static void OnAutoFocusNextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 			=> UpdateSubscription(sender);
-
 		private static void OnAutoFocusNextElementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 			=> UpdateSubscription(sender);
-
 		internal static void OnEnterCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 			=> UpdateSubscription(sender);
 
