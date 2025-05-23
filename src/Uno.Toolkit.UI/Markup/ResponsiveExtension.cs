@@ -196,7 +196,7 @@ public partial class ResponsiveExtension
 
 	private void OnWindowSizeChanged(object sender, Size size)
 	{
-		if (size == LastResolved?.Size) return;
+		if (size == LastResolved?.Size || size.Width == 0 || size.Height == 0) return;
 		if (CleanupIfHostDisposed())
 		{
 			Disconnect();
