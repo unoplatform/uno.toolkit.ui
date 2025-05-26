@@ -160,6 +160,27 @@ internal class ResponsiveExtensionsTests
 		ext.ForceResponsiveSize(WideSize);
 		Assert.AreEqual(Orientation.Horizontal, sut.Orientation);
 	}
+
+	[TestMethod]
+	public async Task ProvideValue_ZeroSize_NoSizeChange()
+	{
+		var sut = XamlHelper.LoadXaml<TextBlock>("""
+			<TextBlock Text="{utu:Responsive Narrow=asd, Wide=qwe}" />
+		""");
+		var ext = ResponsiveExtension.GetInstanceFor(sut, nameof(sut.Text)) ?? throw new InvalidOperationException("Failed to resolve the markup extension.");
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		ext.ForceResponsiveSize(WideSize);
+		Assert.AreEqual("qwe", sut.Text);
+
+		var previousResult = ext.LastResolved?.Result;
+		var previousSize = ext.LastResolved?.Size;
+
+		ext.ForceResponsiveSize(new Size(0, 0));
+
+		Assert.AreEqual(previousResult, sut.Text);
+		Assert.AreEqual(previousSize, ext.LastResolved?.Size);
+	}
 }
 
 [TestClass]
