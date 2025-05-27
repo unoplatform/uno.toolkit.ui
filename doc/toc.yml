@@ -1,6 +1,8 @@
 # ******************* Overview *******************
 - name: Overview
   href: getting-started.md
+- name: Upgrading Toolkit
+  href: uno-toolkit-migration.md
   items:
   # ***************** Material *******************
   - name: Material

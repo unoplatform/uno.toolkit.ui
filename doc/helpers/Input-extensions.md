@@ -13,7 +13,7 @@ Provides various attached properties for _input controls_, such as `TextBox` and
 | `AutoDismiss`          | `bool`       | Whether the soft keyboard will be dismissed when the enter key is pressed.                                                                        |
 | `AutoFocusNext`        | `bool`       | Whether the focus will move to the next focusable element when the enter key is pressed.\*                                                        |
 | `AutoFocusNextElement` | `Control`    | Sets the next control to focus when the enter key is pressed.\*                                                                                   |
-| `ReturnType`           | `ReturnType` | The type of return button on a soft keyboard for Android/iOS. It can be one of the following options: __Default, Done, Go, Next, Search, Send__.  |
+| `ReturnType`           | `InputReturnType` | The type of return button on a soft keyboard for Android/iOS. It can be one of the following options: __Default, Done, Go, Next, Search, Send__.  |
 
 `AutoFocusNext` and `AutoFocusNextElement`\*: Having either or both of the two properties set will enable the focus next behavior. `AutoFocusNextElement` will take precedence over `AutoFocusNext` when both are set.
 
