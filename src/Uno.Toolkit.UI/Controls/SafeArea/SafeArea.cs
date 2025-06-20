@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Logging;
+using Uno.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 
@@ -95,6 +96,21 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		/// <remarks>This will be 0 if the entire window is 'safe' for content.</remarks>
 		public static Thickness WindowInsets => GetWindowInsets();
+
+		/// <summary>
+		/// Force apply the SafeArea to a FrameworkElement before it is loaded.
+		/// </summary>
+		/// <remarks>
+		/// This workaround is an attempt to prevent flicker when SafeArea is set on Loaded.
+		/// On skia-mobile, we can notice a single/few frames of the control without SafeArea applied.
+		/// </remarks>
+		internal static void PreApplySafeArea(DependencyObject @do)
+		{
+			if (@do is not FrameworkElement fe) return;
+			if (SafeArea.GetInsets(fe) == InsetMask.None) return;
+
+			SafeAreaDetails.GetInstance(fe).PreApplySafeArea();
+		}
 
 		private static void OnInsetsChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 		{
@@ -456,6 +472,30 @@ namespace Uno.Toolkit.UI
 					visibilityPadding = default(Thickness);
 				}
 
+				var padding = CalculateAppliedInsets(_insetMask, visibilityPadding);
+
+				ApplyInsets(padding);
+			}
+
+			internal void PreApplySafeArea()
+			{
+				if (Owner is null) return;
+
+				// note: We don't have layout information available until Loaded,
+				// so we just naively calculate it from the sum of all ancestors' margin + padding, and the control's margin.
+				// This is not perfect, but it should be good enough to prevent the flicker.
+
+				var totalInsets = Owner.GetAncestors(includeCurrent: true)
+					.OfType<FrameworkElement>()
+					.Aggregate(new Thickness(0), (acc, x) =>
+					{
+						var margin = x.Margin;
+						var padding = x != Owner && x.TryGetPadding(out var p) ? p : default;
+
+						return acc.Add(margin).Add(padding);
+					});
+				var approximateBounds = new Rect(totalInsets.Left, totalInsets.Top, 0, 0);
+				var visibilityPadding = CalculateVisibilityInsets(OffsetVisibleBounds, approximateBounds);
 				var padding = CalculateAppliedInsets(_insetMask, visibilityPadding);
 
 				ApplyInsets(padding);
