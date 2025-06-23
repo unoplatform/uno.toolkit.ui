@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using Windows.UI.ViewManagement;
 using Uno.Disposables;
 using System.Diagnostics.CodeAnalysis;
@@ -20,6 +19,13 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #endif
 
+#if HAS_UNO
+using XamlStatusBar = Windows.UI.ViewManagement.StatusBar;
+#else
+using Microsoft.Extensions.Logging;
+using Uno.Extensions;
+#endif
+
 using XamlColor = Windows.UI.Color;
 
 namespace Uno.Toolkit.UI
@@ -32,6 +38,10 @@ namespace Uno.Toolkit.UI
 		private static UISettings _uiSettings = new();
 		private static Page? _lastActivePage;
 		private static ElementTheme? _lastAppliedTheme;
+
+#if !HAS_UNO
+		private static readonly ILogger _logger = typeof(StatusBar).Log();
+#endif
 
 		#region DependencyProperty: Foreground
 
@@ -182,8 +192,23 @@ namespace Uno.Toolkit.UI
 			SetBackgroundCore(value);
 		}
 
-		static partial void SetForegroundCore(XamlColor value);
-		static partial void SetBackgroundCore(XamlColor value);
+		private static void SetForegroundCore(XamlColor value)
+		{
+#if HAS_UNO
+			XamlStatusBar.GetForCurrentView().ForegroundColor = value;
+#else
+			_logger.LogWarning($"SetForeground: {value}; Not supported on this platform");
+#endif
+		}
+
+		private static void SetBackgroundCore(XamlColor value)
+		{
+#if HAS_UNO
+			XamlStatusBar.GetForCurrentView().BackgroundColor = value;
+#else
+			_logger.LogWarning($"SetBackground: {value}; Not supported on this platform");
+#endif
+		}
 
 		private static XamlColor GetForegroundValue(Page page, StatusBarForegroundTheme theme)
 		{
