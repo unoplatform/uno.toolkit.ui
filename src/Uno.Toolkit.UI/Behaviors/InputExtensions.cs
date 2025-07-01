@@ -226,9 +226,12 @@ namespace Uno.Toolkit.UI
 				}
 				else
 				{
-					_logger.Warn(
-						$"AutoFocusNext: cannot move focus because XamlRoot.Content is null for host={host.GetType().Name}"
-					);
+					if (_logger.IsEnabled(LogLevel.Warning))
+					{
+						_logger.Warn(
+							$"AutoFocusNext: cannot move focus because XamlRoot.Content is null for host={host.GetType().Name}"
+						);
+					}
 				}
 
 				target?.Focus(FocusState.Keyboard);
