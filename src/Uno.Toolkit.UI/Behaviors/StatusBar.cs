@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using Windows.Foundation.Metadata;
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
+using Uno.Logging;
 
 #if IS_WINUI
 using Microsoft.UI;
@@ -200,7 +201,7 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			_logger.LogWarning($"SetForeground: {value}; Not supported on this platform");
+			_logger.WarnIfEnabled(() => $"SetForeground: {value}; Not supported on this platform");
 		}
 
 		private static void SetBackgroundCore(XamlColor value)
@@ -214,7 +215,7 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			_logger.LogWarning($"SetBackground: {value}; Not supported on this platform");
+			_logger.WarnIfEnabled(() => $"SetBackground: {value}; Not supported on this platform");
 		}
 
 		private static XamlColor GetForegroundValue(Page page, StatusBarForegroundTheme theme)
