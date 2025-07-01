@@ -215,7 +215,24 @@ namespace Uno.Toolkit.UI
 			var target = GetAutoFocusNextElement(host);
 			if (GetAutoFocusNext(host) || target != null) // either property can be used to enable this feature
 			{
-				target ??= FocusManager.FindNextElement(FocusNavigationDirection.Next, new FindNextElementOptions { SearchRoot = host }) as Control;
+				if ((host as UIElement)?.XamlRoot?.Content is { } rootContent)
+				{
+					target ??= FocusManager.FindNextElement(FocusNavigationDirection.Next,
+						new FindNextElementOptions
+						{
+							SearchRoot = (host as UIElement)?.XamlRoot?.Content as DependencyObject ?? host
+						}
+					) as Control;
+				}
+				else
+				{
+					if (_logger.IsEnabled(LogLevel.Warning))
+					{
+						_logger.Warn(
+							$"AutoFocusNext: cannot move focus because XamlRoot.Content is null for host={host.GetType().Name}"
+						);
+					}
+				}
 
 				target?.Focus(FocusState.Keyboard);
 			}
