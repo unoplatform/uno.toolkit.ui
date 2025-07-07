@@ -46,6 +46,7 @@
 	<Style x:Key="DrawerFlyoutPresenterStyle" TargetType="FlyoutPresenter">
 		<Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="#80808080" />
 
+		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="Margin" Value="0" />
 		<Setter Property="Padding" Value="0" />
 
