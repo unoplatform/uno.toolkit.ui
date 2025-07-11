@@ -10,7 +10,6 @@ using System.Runtime.CompilerServices;
 using Uno.Disposables;
 using Uno.Extensions;
 using Uno.Logging;
-using Uno.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 
@@ -96,21 +95,6 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		/// <remarks>This will be 0 if the entire window is 'safe' for content.</remarks>
 		public static Thickness WindowInsets => GetWindowInsets();
-
-		/// <summary>
-		/// Force apply the SafeArea to a FrameworkElement before it is loaded.
-		/// </summary>
-		/// <remarks>
-		/// This workaround is an attempt to prevent flicker when SafeArea is set on Loaded.
-		/// On skia-mobile, we can notice a single/few frames of the control without SafeArea applied.
-		/// </remarks>
-		internal static void PreApplySafeArea(DependencyObject @do)
-		{
-			if (@do is not FrameworkElement fe) return;
-			if (SafeArea.GetInsets(fe) == InsetMask.None) return;
-
-			SafeAreaDetails.GetInstance(fe).PreApplySafeArea();
-		}
 
 		private static void OnInsetsChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
 		{
@@ -228,7 +212,6 @@ namespace Uno.Toolkit.UI
 #endif
 		}
 
-
 		private static Rect GetVisibleBounds(Rect? safeAreaOverride = null, bool withSoftInput = false)
 		{
 #if VISIBLEBOUNDS_API_NOT_SUPPORTED
@@ -291,12 +274,30 @@ namespace Uno.Toolkit.UI
 			return visibleBounds;
 #endif
 		}
+	}
 
-		internal class SafeAreaDetails
+	public partial class SafeArea
+	{
+		internal partial class SafeAreaDetails
 		{
-			private static readonly ConditionalWeakTable<FrameworkElement, SafeAreaDetails> _instances =
-				new ConditionalWeakTable<FrameworkElement, SafeAreaDetails>();
+			private static readonly ConditionalWeakTable<FrameworkElement, SafeAreaDetails> _instances = new();
+
+			internal static SafeAreaDetails GetInstance(FrameworkElement element) => _instances.GetValue(element, e => new SafeAreaDetails(e));
+
+			internal static SafeAreaDetails? FindInstance(FrameworkElement e) => _instances.TryGetValue(e, out var instance) ? instance : default;
+		}
+
+		internal partial class SafeAreaDetails
+		{
+			// test hooks to validate performance
+			internal event TypedEventHandler<SafeAreaDetails, Thickness>? EffectiveInsetsApplied;
+#if DEBUG
+			internal event TypedEventHandler<SafeAreaDetails, Thickness>? InsetsApplied;
+#endif
+
 			private readonly WeakReference _owner;
+			private FrameworkElement? Owner => _owner.Target as FrameworkElement;
+
 			private Rect? _overriddenVisibleBounds;
 			private InsetMask _insetMask;
 			private InsetMode _insetMode = InsetMode.Padding;
@@ -321,21 +322,25 @@ namespace Uno.Toolkit.UI
 				owner.SizeChanged += OnInsetUpdateRequired;
 				_subscriptions.Add(() => owner.SizeChanged -= OnInsetUpdateRequired);
 #endif
-				owner.LayoutUpdated += OnInsetUpdateRequired;
-				_subscriptions.Add(() => owner.LayoutUpdated -= OnInsetUpdateRequired);
+				owner.LayoutUpdated += OnOwnerLayoutUpdated;
+				_subscriptions.Add(() => owner.LayoutUpdated -= OnOwnerLayoutUpdated);
 
-				if (!owner.IsLoaded)
+				if (owner.IsLoaded)
 				{
-					owner.Loaded += OnOwnerLoaded;
-					_subscriptions.Add(() => owner.Loaded -= OnOwnerLoaded);
+					OnOwnerLoaded(owner, new());
 				}
-				else
-				{
-					RegisterEvents();
-				}
+
+				owner.Loaded += OnOwnerLoaded;
+				_subscriptions.Add(() => owner.Loaded -= OnOwnerLoaded);
 
 				owner.Unloaded += OnOwnerUnloaded;
 				_subscriptions.Add(() => owner.Unloaded -= OnOwnerUnloaded);
+			}
+
+			private void OnOwnerLoaded(object sender, RoutedEventArgs e)
+			{
+				UpdateInsets();
+				RegisterEvents();
 			}
 
 			private void OnOwnerUnloaded(object sender, RoutedEventArgs e)
@@ -343,10 +348,9 @@ namespace Uno.Toolkit.UI
 				Unregister();
 			}
 
-			private void OnOwnerLoaded(object sender, RoutedEventArgs e)
+			private void OnOwnerLayoutUpdated(object? sender, object e)
 			{
-				UpdateInsets();
-				RegisterEvents();
+				UpdateInsets(forceUpdate: false);
 			}
 
 			private void OnInsetUpdateRequired(object? sender, object? args)
@@ -358,7 +362,6 @@ namespace Uno.Toolkit.UI
 			{
 				ApplicationView.GetForCurrentView().VisibleBoundsChanged += OnInsetUpdateRequired;
 				_subscriptions.Add(() => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= OnInsetUpdateRequired);
-
 
 				if (InputPane.GetForCurrentView() is { } inputPane)
 				{
@@ -394,8 +397,6 @@ namespace Uno.Toolkit.UI
 				}
 			}
 
-			private FrameworkElement? Owner => _owner.Target as FrameworkElement;
-
 			/// <summary>
 			/// VisibleBounds offset to the reference frame of the window Bounds.
 			/// </summary>
@@ -427,7 +428,7 @@ namespace Uno.Toolkit.UI
 
 			private bool HasSoftInput() => _insetMask.HasFlag(InsetMask.SoftInput);
 
-			private void UpdateInsets()
+			private void UpdateInsets(bool forceUpdate = false)
 			{
 				if (XamlWindow.Current?.Content == null)
 				{
@@ -444,12 +445,22 @@ namespace Uno.Toolkit.UI
 					return;
 				}
 
-				Thickness visibilityPadding;
-
+				if (!forceUpdate &&
+					Owner
+						.GetAncestors(includeCurrent: false)
+						.OfType<FrameworkElement>()
+						.Any(x => FindInstance(x)?.Owner?.IsLoaded == false))
+				{
+					// If any ancestor has unapplied SafeArea, we should wait until they are applied first.
+					// The LayoutUpdated will guarantee that we will be called again after the ancestor is applied.
+					return;
+				}
+				
 				UpdateSafeAreaOverride();
 
-				var windowPadding = GetWindowInsets(_overriddenVisibleBounds, HasSoftInput());
+				var visibilityPadding = default(Thickness);
 
+				var windowPadding = GetWindowInsets(_overriddenVisibleBounds, HasSoftInput());
 				if (windowPadding != default)
 				{
 					// If the owner view is scrollable, the visibility of interest is that of the scroll viewport.
@@ -467,35 +478,7 @@ namespace Uno.Toolkit.UI
 						visibilityPadding = AdjustScrollableInsets(visibilityPadding, scrollViewer);
 					}
 				}
-				else
-				{
-					visibilityPadding = default(Thickness);
-				}
 
-				var padding = CalculateAppliedInsets(_insetMask, visibilityPadding);
-
-				ApplyInsets(padding);
-			}
-
-			internal void PreApplySafeArea()
-			{
-				if (Owner is null) return;
-
-				// note: We don't have layout information available until Loaded,
-				// so we just naively calculate it from the sum of all ancestors' margin + padding, and the control's margin.
-				// This is not perfect, but it should be good enough to prevent the flicker.
-
-				var totalInsets = Owner.GetAncestors(includeCurrent: true)
-					.OfType<FrameworkElement>()
-					.Aggregate(new Thickness(0), (acc, x) =>
-					{
-						var margin = x.Margin;
-						var padding = x != Owner && x.TryGetPadding(out var p) ? p : default;
-
-						return acc.Add(margin).Add(padding);
-					});
-				var approximateBounds = new Rect(totalInsets.Left, totalInsets.Top, 0, 0);
-				var visibilityPadding = CalculateVisibilityInsets(OffsetVisibleBounds, approximateBounds);
 				var padding = CalculateAppliedInsets(_insetMask, visibilityPadding);
 
 				ApplyInsets(padding);
@@ -632,38 +615,46 @@ namespace Uno.Toolkit.UI
 				{
 					return;
 				}
-				if (_insetMode == InsetMode.Padding &&
-					owner.TryUpdatePadding(insets))
+				else if (_insetMode == InsetMode.Padding)
 				{
-					_appliedPadding = insets;
-					OnInsetsApplied(owner, insets);
+					if (owner.TryUpdatePadding(insets))
+					{
+						_appliedPadding = insets;
+						OnInsetsApplied(owner, insets);
+					}
+#if DEBUG
+					InsetsApplied?.Invoke(this, insets);
+#endif
 				}
 				else if (_insetMode == InsetMode.Margin)
 				{
 					if (!owner.Margin.Equals(insets))
 					{
-						_appliedMargin = insets;
 						owner.Margin = insets;
+						_appliedMargin = insets;
 						OnInsetsApplied(owner, insets);
 					}
+#if DEBUG
+					InsetsApplied?.Invoke(this, insets);
+#endif
 				}
 			}
 
 			private void OnInsetsApplied(FrameworkElement owner, Thickness newInsets)
 			{
+				if (_log.IsEnabled(LogLevel.Debug))
+				{
+					_log.LogDebug($"ApplyInsets={newInsets}, Mode={_insetMode}");
+				}
+
 #if __ANDROID__
 				// Dispatching on Android prevents issues where layout/render changes occurring
 				// during the initial loading of the view are not always properly picked up by the layouting/rendering engine.
 				owner.GetDispatcherCompat().Schedule(()=> owner.InvalidateMeasure());
 #endif
-				if (_log.IsEnabled(LogLevel.Debug))
-				{
-					_log.LogDebug($"ApplyInsets={newInsets}, Mode={_insetMode}");
-				}
-			}
 
-			internal static SafeAreaDetails GetInstance(FrameworkElement element)
-				=> _instances.GetValue(element, (ConditionalWeakTable<FrameworkElement, SafeAreaDetails>.CreateValueCallback)(e => (SafeAreaDetails)new SafeArea.SafeAreaDetails(e)));
+				EffectiveInsetsApplied?.Invoke(this, newInsets);
+			}
 
 			internal void OnInsetsChanged(InsetMask oldValue, InsetMask newValue)
 			{
@@ -725,18 +716,18 @@ namespace Uno.Toolkit.UI
 
 				if (Owner is { } owner)
 				{
-						if (oldValue == InsetMode.Margin)
-						{
-							_appliedMargin = new Thickness(0);
-							owner.Margin = _originalMargin;
-							OnInsetsApplied(owner, _originalMargin);
-						}
-						else if (oldValue == InsetMode.Padding)
-						{
-							_appliedPadding = new Thickness(0);
-							PaddingHelper.SetPadding(owner, _originalPadding);
-							OnInsetsApplied(owner, _originalPadding);
-						}
+					if (oldValue == InsetMode.Margin)
+					{
+						_appliedMargin = new Thickness(0);
+						owner.Margin = _originalMargin;
+						OnInsetsApplied(owner, _originalMargin);
+					}
+					else if (oldValue == InsetMode.Padding)
+					{
+						_appliedPadding = new Thickness(0);
+						PaddingHelper.SetPadding(owner, _originalPadding);
+						OnInsetsApplied(owner, _originalPadding);
+					}
 				}
 				UpdateInsets();
 			}
