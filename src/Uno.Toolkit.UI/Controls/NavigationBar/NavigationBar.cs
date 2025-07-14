@@ -93,8 +93,6 @@ namespace Uno.Toolkit.UI
 #if HAS_NATIVE_NAVBAR
 			_isNativeTemplate = _presenter is NativeNavigationBarPresenter;
 #endif
-
-			SafeArea.PreApplySafeArea(this);
 		}
 
 		internal bool TryPerformMainCommand()
