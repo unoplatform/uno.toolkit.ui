@@ -332,3 +332,5 @@ ASALocalRun/
 mergedpages.*.xaml
 .vscode/
 .DS_Store
+
+!build/ci/publish
