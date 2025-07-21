@@ -333,4 +333,4 @@ mergedpages.*.xaml
 .vscode/
 .DS_Store
 
-!build/ci/publish
+!build/workflow/publish
