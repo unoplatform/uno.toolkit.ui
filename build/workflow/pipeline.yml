@@ -79,7 +79,7 @@ stages:
 ##
 
 - stage: Publish_Dev
-  displayName: 'Publish - Dev NuGet'
+  displayName: 'Publish - Dev NuGet.org'
   condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature')), not(eq(variables['build.reason'], 'PullRequest')))
   dependsOn: Packages
   jobs:
