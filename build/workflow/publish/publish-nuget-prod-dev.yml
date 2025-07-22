@@ -1,6 +1,6 @@
 jobs:
 - deployment: 'Nuget_Prod_Dev'
-  displayName: 'Nuget Publish Prod Dev NuGet.org'
+  displayName: 'Nuget Publish Prod Uno Dev Feed'
   environment: 'Uno Toolkit Production'
 
   pool:
