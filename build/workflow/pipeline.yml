@@ -73,3 +73,34 @@ stages:
   - template: stage-build-android.yml
   - template: stage-uitests-android.yml
   - template: stage-build-winappsdk.yml
+
+##
+## Publishing
+##
+
+- stage: Publish_Dev
+  displayName: 'Publish - Dev NuGet.org'
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature')), not(eq(variables['build.reason'], 'PullRequest')))
+  dependsOn: Packages
+  jobs:
+  - template: publish/publish-nuget-dev.yml
+    parameters:
+      vmImage: 'windows-2022'
+
+- stage: Publish_Prod_Dev
+  displayName: 'Publish - Prod Uno Dev Feed'
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), not(eq(variables['build.reason'], 'PullRequest')))
+  dependsOn: Packages
+  jobs:
+  - template: publish/publish-nuget-prod-dev.yml
+    parameters:
+      vmImage: 'windows-2022'
+  
+- stage: Publish_Prod_Public
+  displayName: 'Publish - Prod NuGet.org'
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), not(eq(variables['build.reason'], 'PullRequest')))
+  dependsOn: Publish_Prod_Dev
+  jobs:
+  - template: publish/publish-nuget-prod.yml
+    parameters:
+      vmImage: 'windows-2022'
