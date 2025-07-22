@@ -34,7 +34,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal partial class TabBarTests // test cases
+	public partial class TabBarTests // test cases
 	{
 		[TestMethod]
 		public async Task TabBar1285_ICS_With_TBI_ItemTemplate()
@@ -553,7 +553,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 	}
 	
-	internal partial class TabBarTests // supporting classes/methods
+	public partial class TabBarTests // supporting classes/methods
 	{
 		private class SelectedIndexTestViewModel : INotifyPropertyChanged
 		{
