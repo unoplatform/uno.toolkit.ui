@@ -135,44 +135,44 @@ namespace Uno.Toolkit.UI
 
 			if (_isInOverflow)
 			{
-				native.SetTitle(null);
 				native.SetActionView(null);
-				native.SetIcon(null);
+				native.SetTitle(null);
 			}
 			else
 			{
-				var iconOrContent = element.Icon ?? element.Content;
-				switch (iconOrContent)
+				var iconOrContent = element.Icon ?? element.Content ?? element.Label;
+
+				if (iconOrContent is string || (iconOrContent is FrameworkElement fe && fe.Visibility == Visibility.Visible))
 				{
-					case string text:
-						native.SetIcon(null);
-						native.SetActionView(null);
-						native.SetTitle(text);
-						break;
+					if (_appBarButtonWrapper is { } wrapper)
+					{
+						wrapper.Child = element;
 
-					case FrameworkElement fe:
-						if (fe.Visibility == Visibility.Visible && _appBarButtonWrapper is { } wrapper)
+						// Restore the original parent if any, as we
+						// want the DataContext to flow properly from the
+						// CommandBar.
+						element.SetParent(_elementParent);
+
+						if (iconOrContent is string text)
 						{
-							wrapper.Child = element;
-
-							//Restore the original parent if any, as we
-							// want the DataContext to flow properly from the
-							// CommandBar.
-							element.SetParent(_elementParent);
-
-							native.SetIcon(null);
-							native.SetActionView(wrapper);
+							wrapper.Child = (UIElement)native.SetTitle(text);
+						}
+						else
+						{
 							native.SetTitle(null);
 						}
-						break;
 
-					default:
-						native.SetIcon(null);
-						native.SetActionView(null);
-						native.SetTitle(null);
-						break;
+						native.SetActionView(wrapper);
+					}
+				}
+				else
+				{
+					native.SetActionView(null);
+					native.SetTitle(null);
 				}
 			}
+
+			native.SetIcon(null);
 
 			// IsEnabled
 			native.SetEnabled(element.IsEnabled);
