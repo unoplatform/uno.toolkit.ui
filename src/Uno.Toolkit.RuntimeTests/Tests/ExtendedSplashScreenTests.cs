@@ -19,29 +19,22 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 public class ExtendedSplashScreenTests
 {
 	[TestMethod]
-#if __ANDROID__ || __IOS__
-	[Ignore]
-#endif
 	public async Task Smoke_Test()
 	{
-		var host = await ExtendedSplashScreen.GetNativeSplashScreen().ConfigureAwait(false) ?? throw new Exception("Failed to load native splash screen");
+		var host = await ExtendedSplashScreen.GetSplashScreen().ConfigureAwait(false) ?? throw new Exception("Failed to load native splash screen");
 
-#if !__MOBILE__ // ignore native platforms impl: ios,droid,macos
 		var sut = host.GetFirstDescendant<Image>() ?? throw new Exception("Failed to find splash image control");
 		var tcs = new TaskCompletionSource<(bool Success, string? Message)>();
 
 		sut.ImageOpened += (s, e) => tcs.SetResult((Success: true, null));
 		sut.ImageFailed += (s, e) => tcs.SetResult((Success: false, e.ErrorMessage));
-#endif
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
-#if !__MOBILE__
 		if (await Task.WhenAny(tcs.Task, Task.Delay(2000)) != tcs.Task)
 			throw new TimeoutException("Timed out waiting on image to load");
 
 		if ((await tcs.Task) is { Success: false, Message: var message })
 			throw new Exception($"Failed to load image: {message}");
-#endif
 	}
 }
