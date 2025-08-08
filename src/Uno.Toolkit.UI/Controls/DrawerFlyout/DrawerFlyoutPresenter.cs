@@ -67,6 +67,7 @@ namespace Uno.Toolkit.UI
 		private bool _initOnceOnLoaded = true;
 		private double _startingTranslateOffset;
 		private bool _suppressIsOpenHandler;
+		private double? _lastSetOpenness;
 
 		private Size? _lastMeasuredFlyoutContentSize;
 
@@ -157,15 +158,29 @@ namespace Uno.Toolkit.UI
 		private void DrawerContentPresenterSizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			_lastMeasuredFlyoutContentSize = e.NewSize;
+
+			// For native renderer specifically, on first opening, there are two size changed on the DrawerContentPresenter.
+			// First one contains the minimal size, and the second one contains the stabilized size. We need to re-adjust the translate offset
+			// with the values from the second one. Otherwise, we may observe a single frame "jump" by UpdateOpenness dispatched from OnPopupOpened.
+			if (_lastSetOpenness is { } value)
+			{
+				UpdateOpenness(value);
+			}
 		}
 
 		private void OnPopupOpened(object sender, object e)
 		{
-			if (!HasConcreteActualSize()) return;
-
-			// reset to close position, and animate to open position
-			UpdateOpenness(false);
-			UpdateIsOpen(true, animate: true);
+			if (!HasConcreteActualSize())
+			{
+				DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, () =>
+				{
+					StartOpenAnimation();
+				});
+			}
+			else
+			{
+				StartOpenAnimation();
+			}
 		}
 
 		private void OnDrawerLengthChanged(DependencyPropertyChangedEventArgs e)
@@ -301,13 +316,21 @@ namespace Uno.Toolkit.UI
 
 		private void UpdateOpenness(double ratio)
 		{
-			TranslateOffset = (1 - ratio) * GetVectoredLength();
+			_lastSetOpenness = ratio;
 
+			TranslateOffset = (1 - ratio) * GetVectoredLength();
 			if (_lightDismissOverlay != null)
 			{
 				_lightDismissOverlay.Opacity = ratio;
 				_lightDismissOverlay.IsHitTestVisible = ratio == 1;
 			}
+		}
+
+		private void StartOpenAnimation()
+		{
+			// reset to close position, and animate to open position
+			UpdateOpenness(false);
+			UpdateIsOpen(true, animate: true);
 		}
 
 		private void PlayAnimation(double fromRatio, bool willBeOpen)
