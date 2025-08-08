@@ -175,15 +175,23 @@ namespace Uno.Toolkit.UI
 			// with the values from the second one. Otherwise, we may observe a single frame "jump" by UpdateOpenness dispatched from OnPopupOpened.
 			if (_lastSetOpenness is { } value)
 			{
+<<<<<<< HEAD
 				// When the control is not loaded, we should only be in the closed(openness=0) position.
 				// So we can, later, start animate from closed to opened.
 				UpdateOpenness(IsLoaded ? value : 0);
+=======
+				UpdateOpenness(value);
+>>>>>>> 1ff6e5c (fix(drawerflyout): missing initial open animation)
 
 				// For the first open animation, we attempt to delay StartOpenAnimation to run after DrawerContentPresenterSizeChanged, by re-dispatching it.
 				// On native, it may still be too early. In that case, we should start the animation again, as we now have the required size to proceed.
 				var previousLength = IsOpenDirectionHorizontal() ? e.PreviousSize.Width : e.PreviousSize.Height;
 				if (previousLength is 0 && HasConcreteDrawerActualSize() &&
+<<<<<<< HEAD
 					IsLoaded && IsOpen && _popup is { IsOpen: true })
+=======
+					IsOpen && _popup is { IsOpen: true })
+>>>>>>> 1ff6e5c (fix(drawerflyout): missing initial open animation)
 				{
 					StartOpenAnimation();
 				}
@@ -350,6 +358,7 @@ namespace Uno.Toolkit.UI
 
 		private void StartOpenAnimation()
 		{
+<<<<<<< HEAD
 #if ITEMSREPEATER_OFFSCREEN_ITEMS_OPTIMIZATION_WORKAROUND
 			// ItemsRepeater when materializing will skip offscreen/clipped items to optimize performance.
 			// This breaks IR inside the drawer, so no items loads, as they all initially start offscreen.
@@ -363,6 +372,8 @@ namespace Uno.Toolkit.UI
 			// because TranslateOffset would reset to last hold-end value (be 0), when any value is assigned...
 			StopRunningAnimation();
 
+=======
+>>>>>>> 1ff6e5c (fix(drawerflyout): missing initial open animation)
 			// reset to close position, and animate to open position
 			UpdateOpenness(false);
 			UpdateIsOpen(true, animate: true);
@@ -377,7 +388,12 @@ namespace Uno.Toolkit.UI
 			{
 				fromRatio = willBeOpen ? 1 : 0;
 			}
+<<<<<<< HEAD
 			var toRatio = (double)(willBeOpen ? 0 : 1);
+=======
+			var toRatio = willBeOpen ? 0 : 1;
+
+>>>>>>> 1ff6e5c (fix(drawerflyout): missing initial open animation)
 
 			if (_translateAnimation != null)
 			{
