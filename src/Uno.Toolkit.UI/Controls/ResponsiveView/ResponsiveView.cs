@@ -12,10 +12,23 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.UI;
 
-public partial class ResponsiveView : ContentControl
+public partial class ResponsiveView : Control;
+
+partial class ResponsiveView
+{
+	private class TemplateParts
+	{
+		public const string ResponsiveRoot = "ResponsiveRoot";
+	}
+}
+
+[TemplatePart(Name = TemplateParts.ResponsiveRoot, Type = typeof(Border))]
+partial class ResponsiveView
 {
 	public Layout? CurrentLayout { get; private set; }
 	internal ResolvedLayout? LastResolved { get; private set; }
+
+	private Border? _responsiveRoot;
 
 	public ResponsiveView()
 	{
@@ -25,6 +38,13 @@ public partial class ResponsiveView : ContentControl
 		Unloaded += OnUnloaded;
 	}
 
+	protected override void OnApplyTemplate()
+	{
+		base.OnApplyTemplate();
+
+		_responsiveRoot = GetTemplateChild(TemplateParts.ResponsiveRoot) as Border
+			?? throw new Exception($"The template part '{TemplateParts.ResponsiveRoot}' is missing or is not of type Border.");
+	}
 
 	private void OnLoaded(object sender, RoutedEventArgs e)
 	{
@@ -66,7 +86,10 @@ public partial class ResponsiveView : ContentControl
 	{
 		if (forceApplyValue || CurrentLayout != resolved.Result)
 		{
-			Content = GetTemplateFor(resolved.Result)?.LoadContent() as UIElement;
+			if (_responsiveRoot is { })
+			{
+				_responsiveRoot.Child = GetTemplateFor(resolved.Result)?.LoadContent() as UIElement;
+			}
 
 			CurrentLayout = resolved.Result;
 			LastResolved = resolved;
@@ -95,6 +118,8 @@ public partial class ResponsiveView : ContentControl
 		if (WideTemplate != null) yield return UI.Layout.Wide;
 		if (WidestTemplate != null) yield return UI.Layout.Widest;
 	}
+
+	internal UIElement? GetResolvedContent() => _responsiveRoot?.Child;
 
 	internal ResponsiveLayout? GetAppliedLayout() =>
 		ResponsiveLayout ??
