@@ -110,8 +110,9 @@
 		<XmlPoke Condition="Exists('$(_AppxManifestPath)')" XmlInputPath="$(_AppxManifestPath)" Query="/x:Package/x:Identity/@Version" Value="$(_UWPVersion)" Namespaces="$(_WindowsNamespace)" />
 	</Target>
 
-	<UsingTask TaskName="_XmlUpdate" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.v12.0.dll">
-		<ParameterGroup>
+	<UsingTask TaskName="_XmlUpdate"
+			   TaskFactory="RoslynCodeTaskFactory"
+			   AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">		<ParameterGroup>
 			<XmlFileName Required="True" />
 			<XPath Required="True" />
 			<Value Required="True" />
