@@ -4,7 +4,7 @@ jobs:
   timeoutInMinutes: 90
 
   pool:
-    vmImage: 'macOS-14'
+    vmImage: 'macOS-15'
 
   variables:
     - name: ArtifactName
