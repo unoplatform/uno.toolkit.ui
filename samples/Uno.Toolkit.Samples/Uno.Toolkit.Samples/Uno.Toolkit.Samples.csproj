@@ -37,7 +37,6 @@
 		<UnoFeatures>
 		</UnoFeatures>
 
-		<SkiaSharpVersion>3.116.1</SkiaSharpVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />

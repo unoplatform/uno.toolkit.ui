@@ -196,6 +196,7 @@ public partial class ResponsiveExtension
 
 	private void OnWindowSizeChanged(object sender, Size size)
 	{
+		if (size == default) return; // when the app is minimized
 		if (size == LastResolved?.Size) return;
 		if (CleanupIfHostDisposed())
 		{

@@ -6,14 +6,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI.WebUI;
+
+#if IS_WINUI
+using Microsoft.UI.Xaml;
+#else
+using Windows.UI.Xaml;
+#endif
 
 namespace Uno.Toolkit.UI;
 
-internal static partial class TwoDExtensions // Point Mathematics
+internal static partial class TwoDExtensions;
+
+partial class TwoDExtensions // Point arithmetics
 {
 	public static Point ToPoint(this Size x) => new Point(x.Width, x.Height);
 	public static Point ToPoint(this Vector2 x) => new Point(x.X, x.Y);
@@ -30,7 +35,7 @@ internal static partial class TwoDExtensions // Point Mathematics
 	public static Point DivideBy(this Point x, double scale) => new Point(x.X / scale, x.Y / scale);
 }
 
-internal static partial class TwoDExtensions // Size Mathematics
+partial class TwoDExtensions // Size arithmetics
 {
 	public static Size ToSize(this Point x) => new Size(x.X, x.Y);
 	public static Size ToSize(this Vector2 x) => new Size(x.X, x.Y);
@@ -39,3 +44,10 @@ internal static partial class TwoDExtensions // Size Mathematics
 	public static Size MultiplyBy(this Size x, double scaleX, double scaleY) => new Size(x.Width * scaleX, x.Width * scaleY);
 	public static Size DivideBy(this Size x, double scale) => new Size(x.Width / scale, x.Height / scale);
 }
+
+partial class TwoDExtensions // Thickness arithmetics
+{
+	public static Thickness Add(this Thickness x, Thickness y) => new Thickness(x.Left + y.Left, x.Top + y.Top, x.Right + y.Right, x.Bottom + y.Bottom);
+	public static Thickness Subtract(this Thickness x, Thickness y) => new Thickness(x.Left - y.Left, x.Top - y.Top, x.Right - y.Right, x.Bottom - y.Bottom);
+}
+

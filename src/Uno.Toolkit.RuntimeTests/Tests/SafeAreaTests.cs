@@ -41,6 +41,49 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	[RunsOnUIThread]
 	internal partial class SafeAreaTests
 	{
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task NestedSafeArea_ApplyCount()
+		{
+			var setup = XamlHelper.LoadXaml<Grid>("""
+				<Grid BorderBrush="Red" BorderThickness="5" utu:SafeArea.Insets="VisibleBounds">
+					<Grid utu:SafeArea.Insets="VisibleBounds">
+						<Border Background="SkyBlue" />
+					</Grid>
+				</Grid>
+			""");
+
+			var grid0 = setup;
+			var grid1 = (Grid)setup.Children[0];
+
+			// internal dp are not settable by XamlReader
+			var customBounds = new Thickness(0, 123, 0, 0);
+			SafeArea.SetSafeAreaOverride(grid0, customBounds);
+			SafeArea.SetSafeAreaOverride(grid1, customBounds);
+
+			var details0 = SafeArea.SafeAreaDetails.FindInstance(grid0) ?? throw new InvalidOperationException("SafeAreaDetails not found for outer grid");
+			var details1 = SafeArea.SafeAreaDetails.FindInstance(grid1) ?? throw new InvalidOperationException("SafeAreaDetails not found for inner grid");
+
+			var effectiveUpdates = new List<(string, Thickness)>();
+			details0.EffectiveInsetsApplied += (s, e) => effectiveUpdates.Add(("grid0", e));
+			details1.EffectiveInsetsApplied += (s, e) => effectiveUpdates.Add(("grid1", e));
+
+#if DEBUG
+			var updates = new List<(string, Thickness)>();
+			details0.InsetsApplied += (s, e) => updates.Add(("grid0", e));
+			details1.InsetsApplied += (s, e) => updates.Add(("grid1", e));
+#endif
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(setup);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+			
+#if DEBUG
+			Assert.AreEqual(3, updates.Count);
+#endif
+			Assert.AreEqual(1, effectiveUpdates.Count);
+			Assert.AreEqual((nameof(grid0), customBounds), effectiveUpdates[0]);
+		}
+
 #if __ANDROID__
 		[TestMethod]
 		public async Task Translucent_SystemBars()

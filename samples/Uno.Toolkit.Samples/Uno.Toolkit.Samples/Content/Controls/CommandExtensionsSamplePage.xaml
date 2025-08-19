@@ -24,6 +24,13 @@
 							<TextBox utu:CommandExtensions.Command="{Binding DebugInputCommand}" />
 						</StackPanel>
 
+						<!-- ToggleSwitch[Command] example -->
+						<StackPanel Spacing="8">
+							<TextBlock Text="- ToggleSwitch toggled:" />
+							<TextBlock Text="{Binding ToggleSwitchText}" />
+							<ToggleSwitch utu:CommandExtensions.Command="{Binding DebugToggleSwitchCommand}" />
+						</StackPanel>
+
 						<!-- ListView[Command] example -->
 						<StackPanel Spacing="8">
 							<TextBlock Text="- ListView item click:" />

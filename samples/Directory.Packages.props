@@ -5,6 +5,5 @@
 	<ItemGroup>
 		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
 		<PackageVersion Include="Xamarin.TestCloud.Agent" Version="0.23.2" />
-		<PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="3.116.1" />
 	</ItemGroup>
 </Project>

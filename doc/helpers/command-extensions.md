@@ -21,6 +21,7 @@ Provides Command/CommandParameter attached properties for common scenarios.
   - `NavigationView.ItemInvoked`
   - `ItemsRepeater` item tapped
   - `TextBox` and `PasswordBox` when the Enter key is pressed
+  - `ToggleSwitch` toggled
   - any `UIElement` tapped
 - For `Command`, the relevant parameter is also provided for the `CanExecute` and `Execute` call:
   > `CommandParameter` can be set, on the item-container or item-template's root for collection-type control, or control itself for other controls, to replace the following.
@@ -29,6 +30,7 @@ Provides Command/CommandParameter attached properties for common scenarios.
   - `NavigationViewItemInvokedEventArgs.InvokedItem` from `NavigationView.ItemInvoked`
   - `ItemsRepeater`'s item root's DataContext
   - `TextBox.Text`
+  - `ToggleSwitch.IsOn`
   - `PasswordBox.Password`
   - `UIElement` itself
 - `Command` on `TextBox`/`PasswordBox`\*: Having this set will also cause the keyboard to dismiss on enter.
@@ -46,6 +48,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 <!-- Execute command on enter -->
 <PasswordBox utu:CommandExtensions.Command="{Binding Login}" />
+
+<!-- Execute command on toggle -->
+<ToggleSwitch utu:CommandExtensions.Command="{Binding SetDarkMode}" />
 
 <!-- ListView item click-->
 <ListView ItemsSource="123"

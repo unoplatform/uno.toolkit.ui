@@ -24,7 +24,7 @@
         SAMPLEAPP_ARTIFACT_NAME: ios-winui-uitest-build
 
   pool:
-    vmImage: 'macOS-14'
+    vmImage: 'macOS-15'
 
   steps:
   - checkout: self

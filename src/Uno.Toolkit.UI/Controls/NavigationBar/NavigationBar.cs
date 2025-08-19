@@ -107,7 +107,7 @@ namespace Uno.Toolkit.UI
 				if (page.Frame is { Visibility: Visibility.Visible } frame
 					&& frame.CurrentSourcePageType == page.GetType())
 				{
-					
+
 					if (frame.CanGoBack == false && _popupHost is { })
 					{
 						// If we are within a Page that is hosted within a Popup and the BackStack is empty:
@@ -134,15 +134,15 @@ namespace Uno.Toolkit.UI
 		}
 
 #region Event Raising
-		internal void RaiseClosingEvent(object e) 
+		internal void RaiseClosingEvent(object e)
 			=> Closing?.Invoke(this, e);
 
-		internal void RaiseClosedEvent(object e) 
+		internal void RaiseClosedEvent(object e)
 			=> Closed?.Invoke(this, e);
-		
+
 		internal void RaiseOpeningEvent(object e)
 			=> Opening?.Invoke(this, e);
-		
+
 		internal void RaiseOpenedEvent(object e)
 			=> Opened?.Invoke(this, e);
 
