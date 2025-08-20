@@ -22,7 +22,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class ResourceExtensionsTest
+public class ResourceExtensionsTest
 {
 	[TestMethod]
 	public async Task ResourcesProperty_StyleSetter()

@@ -31,7 +31,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal class CardContentControlTests
+	public class CardContentControlTests
 	{
 		[TestMethod]
 		[RequiresFullWindow]
