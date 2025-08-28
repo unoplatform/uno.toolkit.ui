@@ -366,6 +366,10 @@ namespace Uno.Toolkit.UI
 			_drawerContentPresenter.Width -= 1;
 #endif
 
+			// normally not needed, but if this was last closed via focus lost, we will need it
+			// because TranslateOffset would reset to last hold-end value (be 0), when any value is assigned...
+			StopRunningAnimation();
+
 			// reset to close position, and animate to open position
 			UpdateOpenness(false);
 			UpdateIsOpen(true, animate: true);
