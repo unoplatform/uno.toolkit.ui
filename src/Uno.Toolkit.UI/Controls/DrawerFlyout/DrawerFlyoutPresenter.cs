@@ -368,12 +368,18 @@ namespace Uno.Toolkit.UI
 #endif
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> eddc8fc (fix(drawerflyout): animation missing on reopening from focus lost)
 			// normally not needed, but if this was last closed via focus lost, we will need it
 			// because TranslateOffset would reset to last hold-end value (be 0), when any value is assigned...
 			StopRunningAnimation();
 
+<<<<<<< HEAD
 =======
 >>>>>>> 03be5df (fix(drawerflyout): not rendering ItemsRepeater items)
+=======
+>>>>>>> eddc8fc (fix(drawerflyout): animation missing on reopening from focus lost)
 			// reset to close position, and animate to open position
 			UpdateOpenness(false);
 			UpdateIsOpen(true, animate: true);
