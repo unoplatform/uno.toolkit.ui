@@ -35,7 +35,7 @@ using _View = Windows.UI.Xaml.DependencyObject;
 #endif
 
 using static System.Reflection.BindingFlags;
-using static Uno.Toolkit.UI.PrettyPrint;
+using static Uno.UI.Extensions.PrettyPrint;
 
 namespace Uno.Toolkit.UI
 {

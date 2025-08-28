@@ -53,6 +53,10 @@ namespace Uno.Toolkit.UI
 	[TemplatePart(Name = TemplateParts.DrawerContentPresenter, Type = typeof(ContentPresenter))]
 	public partial class DrawerFlyoutPresenter : ContentControl
 	{
+#if DEBUG
+		public DebugStates _debugStates;
+#endif
+
 		// template parts
 		private Border _lightDismissOverlay;
 		private ContentPresenter _drawerContentPresenter;
@@ -79,6 +83,10 @@ namespace Uno.Toolkit.UI
 			DefaultStyleKey = typeof(DrawerFlyoutPresenter);
 
 			_dispatcher = this.GetDispatcherCompat();
+
+#if DEBUG
+			_debugStates = new(this);
+#endif
 		}
 
 		protected override void OnApplyTemplate()
@@ -359,10 +367,13 @@ namespace Uno.Toolkit.UI
 			_drawerContentPresenter.Width -= 1;
 #endif
 
+<<<<<<< HEAD
 			// normally not needed, but if this was last closed via focus lost, we will need it
 			// because TranslateOffset would reset to last hold-end value (be 0), when any value is assigned...
 			StopRunningAnimation();
 
+=======
+>>>>>>> 03be5df (fix(drawerflyout): not rendering ItemsRepeater items)
 			// reset to close position, and animate to open position
 			UpdateOpenness(false);
 			UpdateIsOpen(true, animate: true);
@@ -602,6 +613,22 @@ namespace Uno.Toolkit.UI
 		{
 			return Math.Max(Math.Min(value, max), min);
 		}
+
+#if DEBUG
+		/// <summary>
+		/// Used for debugging, to avoid having to scroll through all the class members.
+		/// </summary>
+		public class DebugStates(DrawerFlyoutPresenter owner)
+		{
+			public double? _lastSetOpenness => owner._lastSetOpenness;
+			public Size? _lastMeasuredFlyoutContentSize => owner._lastMeasuredFlyoutContentSize;
+			public double? ActualDrawerLength => owner.GetActualDrawerLength();
+			public double TranslateOffset => owner.TranslateOffset;
+
+			public DrawerOpenDirection OpenDirection => owner.OpenDirection;
+			public ClockState? StoryboardState => owner._storyboard?.GetCurrentState();
+		}
+#endif
 	}
 
 #if DEBUG
