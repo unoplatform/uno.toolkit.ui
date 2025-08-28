@@ -1,6 +1,7 @@
 ﻿#if HAS_UNO
 //#define STORYBOARD_RETARGET_ISSUE // PATCHED https://github.com/unoplatform/uno/issues/6960
 #define MANIPULATION_ABSOLUTE_COORD_ISSUE // https://github.com/unoplatform/uno/issues/6964
+#define ITEMSREPEATER_OFFSCREEN_ITEMS_OPTIMIZATION_WORKAROUND // https://github.com/unoplatform/uno/issues/21377
 #endif
 
 #nullable disable
@@ -51,6 +52,10 @@ namespace Uno.Toolkit.UI
 	[TemplatePart(Name = TemplateParts.DrawerContentPresenter, Type = typeof(ContentPresenter))]
 	public partial class DrawerFlyoutPresenter : ContentControl
 	{
+#if DEBUG
+		public DebugStates _debugStates;
+#endif
+
 		// template parts
 		private Border _lightDismissOverlay;
 		private ContentPresenter _drawerContentPresenter;
@@ -77,6 +82,10 @@ namespace Uno.Toolkit.UI
 			DefaultStyleKey = typeof(DrawerFlyoutPresenter);
 
 			_dispatcher = this.GetDispatcherCompat();
+
+#if DEBUG
+			_debugStates = new(this);
+#endif
 		}
 
 		protected override void OnApplyTemplate()
@@ -136,6 +145,12 @@ namespace Uno.Toolkit.UI
 						{
 							_popup.IsOpen = false;
 						}
+#if ITEMSREPEATER_OFFSCREEN_ITEMS_OPTIMIZATION_WORKAROUND
+						else
+						{
+							UpdateSwipeContentPresenterSize();
+						}
+#endif
 					};
 					_drawerContentPresenter.SizeChanged += DrawerContentPresenterSizeChanged;
 					UpdateOpenness(false);
@@ -167,13 +182,15 @@ namespace Uno.Toolkit.UI
 			// with the values from the second one. Otherwise, we may observe a single frame "jump" by UpdateOpenness dispatched from OnPopupOpened.
 			if (_lastSetOpenness is { } value)
 			{
-				UpdateOpenness(value);
+				// When the control is not loaded, we should only be in the closed(openness=0) position.
+				// So we can, later, start animate from closed to opened.
+				UpdateOpenness(IsLoaded ? value : 0);
 
 				// For the first open animation, we attempt to delay StartOpenAnimation to run after DrawerContentPresenterSizeChanged, by re-dispatching it.
 				// On native, it may still be too early. In that case, we should start the animation again, as we now have the required size to proceed.
 				var previousLength = IsOpenDirectionHorizontal() ? e.PreviousSize.Width : e.PreviousSize.Height;
 				if (previousLength is 0 && HasConcreteDrawerActualSize() &&
-					IsOpen && _popup is { IsOpen: true })
+					IsLoaded && IsOpen && _popup is { IsOpen: true })
 				{
 					StartOpenAnimation();
 				}
@@ -340,6 +357,15 @@ namespace Uno.Toolkit.UI
 
 		private void StartOpenAnimation()
 		{
+#if ITEMSREPEATER_OFFSCREEN_ITEMS_OPTIMIZATION_WORKAROUND
+			// ItemsRepeater when materializing will skip offscreen/clipped items to optimize performance.
+			// This breaks IR inside the drawer, so no items loads, as they all initially start offscreen.
+			// In windows, when animated in, IR would still materialize them, but in uno don't...
+			// As a workaround, we lower the size by 1 here, and restore it back in Storyboard.Completed forcing IR to re-measure.
+			_drawerContentPresenter.Height -= 1;
+			_drawerContentPresenter.Width -= 1;
+#endif
+
 			// reset to close position, and animate to open position
 			UpdateOpenness(false);
 			UpdateIsOpen(true, animate: true);
@@ -354,8 +380,7 @@ namespace Uno.Toolkit.UI
 			{
 				fromRatio = willBeOpen ? 1 : 0;
 			}
-			var toRatio = willBeOpen ? 0 : 1;
-
+			var toRatio = (double)(willBeOpen ? 0 : 1);
 
 			if (_translateAnimation != null)
 			{
@@ -397,6 +422,7 @@ namespace Uno.Toolkit.UI
 				_lightDismissOverlay.IsHitTestVisible = willBeOpen;
 			}
 
+			_lastSetOpenness = willBeOpen ? 1 : 0;
 			_storyboard.Begin();
 		}
 
@@ -499,7 +525,7 @@ namespace Uno.Toolkit.UI
 
 	public partial class DrawerFlyoutPresenter // helpers
 	{
-		private double TranslateOffset
+		internal double TranslateOffset
 		{
 			get => IsOpenDirectionHorizontal() ? _drawerContentPresenterTransform.X : _drawerContentPresenterTransform.Y;
 			set
@@ -579,5 +605,21 @@ namespace Uno.Toolkit.UI
 		{
 			return Math.Max(Math.Min(value, max), min);
 		}
+
+#if DEBUG
+		/// <summary>
+		/// Used for debugging, to avoid having to scroll through all the class members.
+		/// </summary>
+		public class DebugStates(DrawerFlyoutPresenter owner)
+		{
+			public double? _lastSetOpenness => owner._lastSetOpenness;
+			public Size? _lastMeasuredFlyoutContentSize => owner._lastMeasuredFlyoutContentSize;
+			public double? ActualDrawerLength => owner.GetActualDrawerLength();
+			public double TranslateOffset => owner.TranslateOffset;
+
+			public DrawerOpenDirection OpenDirection => owner.OpenDirection;
+			public ClockState? StoryboardState => owner._storyboard?.GetCurrentState();
+		}
+#endif
 	}
 }

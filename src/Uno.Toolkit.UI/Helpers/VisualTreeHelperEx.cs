@@ -35,7 +35,7 @@ using _View = Windows.UI.Xaml.DependencyObject;
 #endif
 
 using static System.Reflection.BindingFlags;
-using static Uno.Toolkit.UI.PrettyPrint;
+using static Uno.UI.Extensions.PrettyPrint;
 
 namespace Uno.Toolkit.UI
 {
@@ -216,7 +216,7 @@ namespace Uno.Toolkit.UI
 			static IEnumerable<string> GetDetails(object x)
 			{
 				#region Common Details: Layout (high priority)
-#if TREEGRAPH_VERBOSE_LAYOUT
+#if TREEGRAPH_VERBOSE_LAYOUT && false
 #if __IOS__
 				if (x is _View view && view.Superview is { })
 				{
@@ -232,10 +232,12 @@ namespace Uno.Toolkit.UI
 #endif
 				if (x is FrameworkElement fe)
 				{
-					yield return $"Actual={fe.ActualWidth}x{fe.ActualHeight}";
-#if TREEGRAPH_VERBOSE_LAYOUT
+					if (fe.Parent is FrameworkElement parent)
+					{
+						yield return $"XY={FormatPoint(fe.TransformToVisual(parent).TransformPoint(default))}";
+					}
+					yield return $"Actual={FormatSize(fe.ActualWidth, fe.ActualHeight)}";
 					yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
-#endif
 					yield return $"HV={fe.HorizontalAlignment}/{fe.VerticalAlignment}";
 				}
 				if (x is UIElement uie)
@@ -261,6 +263,10 @@ namespace Uno.Toolkit.UI
 				if (x is ListViewItem lvi)
 				{
 					yield return $"Index={ItemsControl.ItemsControlFromItemContainer(lvi)?.IndexFromContainer(lvi) ?? -1}";
+				}
+				if (x is ContentPresenter cp && cp.Content is string { Length: >0 } cpText)
+				{
+					yield return $"Content=\"{EscapeMultiline(cpText)}\"";
 				}
 				if (x is TextBlock txt && !string.IsNullOrEmpty(txt.Text))
 				{

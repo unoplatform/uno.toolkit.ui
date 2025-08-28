@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.UI.RuntimeTests;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
+using Windows.Foundation;
 
 #if IS_WINUI
 using Microsoft.UI;
@@ -198,6 +199,57 @@ internal class DrawerFlyoutTests
 			host.Flyout.Hide();
 		}
 	}
+
+	[TestMethod]
+	public async Task Nested_ItemsRepeaterContent()
+	{
+		var host = XamlHelper.LoadXaml<Button>("""
+			<Button Content="Asd">
+				<Button.Flyout>
+					<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource BottomDrawerFlyoutPresenterStyle}">
+						<StackPanel Background="Pink">
+							<Border Height="100" Width="50" Background="SkyBlue" />
+							<ItemsRepeater x:Name="SUT" ItemsSource="{Binding}">
+								<ItemsRepeater.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding}" />
+									</DataTemplate>
+								</ItemsRepeater.ItemTemplate>
+							</ItemsRepeater>
+						</StackPanel>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+		""");
+		host.DataContext = Enumerable.Range(0, 5).ToArray();
+
+		try
+		{
+			await UnitTestUIContentHelperEx.SetContentAndWait(host);
+			host.Flyout.ShowAt(host);
+
+			await UnitTestUIContentHelperEx.WaitFor(() => GetOpenPopupsCompat().Any(), message: "Timeout waiting on flyout open");
+
+			var popup = GetOpenPopup();
+			var popupChild = popup.Child as FlyoutPresenter ?? throw new Exception("FlyoutPresenter not found");
+			await UnitTestsUIContentHelper.WaitForLoaded(popupChild);
+
+			var dfp = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new Exception("DrawerFlyoutPresenter not found");
+
+			await UnitTestUIContentHelperEx.WaitFor(() => dfp.TranslateOffset == 0, message: "Timeout waiting on drawer to be fully opened");
+
+			var ir = popup.Child.GetFirstDescendant<ItemsRepeater>() ?? throw new Exception("ItemsRepeater not found");
+			var child0 = ir.TryGetElement(0) as TextBlock ?? throw new Exception("ItemsRepeater first child not found");
+			var offset0 = child0.TransformToVisual(ir).TransformPoint(default);
+
+			Assert.AreEqual(default(Point), offset0);
+		}
+		finally
+		{
+			host.Flyout.Hide();
+		}
+	}
+
 
 	private static Button BuildButtonFlyout(string flyoutXaml, string? header = null)
 	{
