@@ -53,10 +53,6 @@ namespace Uno.Toolkit.UI
 	[TemplatePart(Name = TemplateParts.DrawerContentPresenter, Type = typeof(ContentPresenter))]
 	public partial class DrawerFlyoutPresenter : ContentControl
 	{
-#if DEBUG
-		public DebugStates _debugStates;
-#endif
-
 		// template parts
 		private Border _lightDismissOverlay;
 		private ContentPresenter _drawerContentPresenter;
@@ -83,10 +79,6 @@ namespace Uno.Toolkit.UI
 			DefaultStyleKey = typeof(DrawerFlyoutPresenter);
 
 			_dispatcher = this.GetDispatcherCompat();
-
-#if DEBUG
-			_debugStates = new(this);
-#endif
 		}
 
 		protected override void OnApplyTemplate()
@@ -619,22 +611,6 @@ namespace Uno.Toolkit.UI
 		{
 			return Math.Max(Math.Min(value, max), min);
 		}
-
-#if DEBUG
-		/// <summary>
-		/// Used for debugging, to avoid having to scroll through all the class members.
-		/// </summary>
-		public class DebugStates(DrawerFlyoutPresenter owner)
-		{
-			public double? _lastSetOpenness => owner._lastSetOpenness;
-			public Size? _lastMeasuredFlyoutContentSize => owner._lastMeasuredFlyoutContentSize;
-			public double? ActualDrawerLength => owner.GetActualDrawerLength();
-			public double TranslateOffset => owner.TranslateOffset;
-
-			public DrawerOpenDirection OpenDirection => owner.OpenDirection;
-			public ClockState? StoryboardState => owner._storyboard?.GetCurrentState();
-		}
-#endif
 	}
 
 #if DEBUG
@@ -652,5 +628,24 @@ namespace Uno.Toolkit.UI
 			public ClockState? StoryboardState => owner._storyboard?.GetCurrentState();
 		}
 	}
+<<<<<<< HEAD
+
+#if DEBUG
+	[DebuggerTypeProxy(typeof(DebugProxy))]
+	public partial class DrawerFlyoutPresenter
+	{
+		public class DebugProxy(DrawerFlyoutPresenter owner)
+		{
+			public double? _lastSetOpenness => owner._lastSetOpenness;
+			public Size? _lastMeasuredFlyoutContentSize => owner._lastMeasuredFlyoutContentSize;
+			public double? ActualDrawerLength => owner.GetActualDrawerLength();
+			public double TranslateOffset => owner.TranslateOffset;
+
+			public DrawerOpenDirection OpenDirection => owner.OpenDirection;
+			public ClockState? StoryboardState => owner._storyboard?.GetCurrentState();
+		}
+	}
+=======
+>>>>>>> 711e003 (chore: minor refactor)
 #endif
 }
