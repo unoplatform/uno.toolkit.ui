@@ -63,6 +63,66 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
+	public async Task When_Initially_Collapsed_With_Spacing()
+	{
+		// load 3 50x50 borders with 15px spacing between, and the middle one collapsed
+		const double ItemLength = 50;
+		var SUT = new AutoLayout()
+		{
+			Spacing = 15,
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0))
+		};
+
+		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Red) });
+		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Green), Visibility = Visibility.Collapsed });
+		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Blue) });
+		
+		await UIHelper.Load(SUT);
+		await UIHelper.WaitForIdle();
+
+		var expected =
+			ItemLength + SUT.Spacing +
+			//ItemLength + SUT.Spacing +
+			ItemLength;
+		Assert.AreEqual(expected, SUT.ActualHeight);
+	}
+
+	[TestMethod]
+	public async Task When_Late_Collapsed_With_Spacing()
+	{
+		// load 3 50x50 borders with 15px spacing between
+		const double ItemLength = 50;
+		var SUT = new AutoLayout()
+		{
+			Spacing = 15,
+			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0))
+		};
+		
+		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Red) });
+		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Green) });
+		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Blue) });
+		
+		await UIHelper.Load(SUT);
+		await UIHelper.WaitForIdle();
+
+		var expected =
+			ItemLength + SUT.Spacing +
+			ItemLength + SUT.Spacing +
+			ItemLength;
+		Assert.AreEqual(expected, SUT.ActualHeight);
+
+		// collapse the middle border
+		SUT.Children[1].Visibility = Visibility.Collapsed;
+		await UIHelper.WaitForIdle();
+		
+		var expected2 =
+			ItemLength + SUT.Spacing +
+			//ItemLength + SUT.Spacing +
+			ItemLength;
+		Assert.AreEqual(expected2, SUT.ActualHeight);
+	}
+
+	[TestMethod]
 	[RequiresFullWindow]
 	[DataRow(Orientation.Vertical, 10, 130, 250)]
 	[DataRow(Orientation.Horizontal, 10, 70, 130)]

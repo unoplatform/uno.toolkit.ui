@@ -168,6 +168,11 @@ partial class AutoLayout
 				role = AutoLayoutRole.Independent;
 				numberOfStackedChildren--;
 			}
+			else if (child is FrameworkElement { Visibility: Visibility.Collapsed })
+			{
+				role = AutoLayoutRole.Collapsed;
+				numberOfStackedChildren--;
+			}
 			else if (child is FrameworkElement frameworkElement)
 			{
 				var size = frameworkElement.GetPrimaryLength(orientation) is var l and >= 0 and < double.PositiveInfinity
@@ -517,7 +522,8 @@ partial class AutoLayout
 		Hug,
 		Fixed,
 		Filled,
-		Independent
+		Independent,
+		Collapsed
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
