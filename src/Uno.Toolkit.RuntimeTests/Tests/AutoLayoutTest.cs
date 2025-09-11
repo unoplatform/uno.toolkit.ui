@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Uno.Extensions;
 using Uno.Toolkit.RuntimeTests.Extensions;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
@@ -12,6 +13,7 @@ using Uno.UI.RuntimeTests;
 using Windows.UI;
 using FluentAssertions;
 using FluentAssertions.Execution;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -76,7 +78,7 @@ internal class AutoLayoutTest
 		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Red) });
 		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Green), Visibility = Visibility.Collapsed });
 		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Blue) });
-		
+
 		await UIHelper.Load(SUT);
 		await UIHelper.WaitForIdle();
 
@@ -97,11 +99,11 @@ internal class AutoLayoutTest
 			Spacing = 15,
 			Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0))
 		};
-		
+
 		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Red) });
 		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Green) });
 		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Blue) });
-		
+
 		await UIHelper.Load(SUT);
 		await UIHelper.WaitForIdle();
 
@@ -114,13 +116,80 @@ internal class AutoLayoutTest
 		// collapse the middle border
 		SUT.Children[1].Visibility = Visibility.Collapsed;
 		await UIHelper.WaitForIdle();
-		
+
 		var expected2 =
 			ItemLength + SUT.Spacing +
 			//ItemLength + SUT.Spacing +
 			ItemLength;
 		Assert.AreEqual(expected2, SUT.ActualHeight);
 	}
+
+	public static IEnumerable<object[]> When_Collapsed_With_Spacing_Margin_Test_Matrix()
+	{
+		return
+			from orientation in new[] { Orientation.Vertical, Orientation.Horizontal }
+			from spacing in new[] { 0d, 15d }
+			//from itemMargin in new[] { 0d, 5d } // AutoLayout just ignores margin on children
+			let itemMargin = 0d
+			let itemLength = 50d
+			from collapseRange in new (int Start, int End)[] { (0,0), (1,1), (2,2), (0,2) }
+			select new object[] { orientation, spacing, itemMargin, itemLength, collapseRange.Start, collapseRange.End };
+	}
+
+	[TestMethod]
+	[DynamicData(nameof(When_Collapsed_With_Spacing_Margin_Test_Matrix), DynamicDataSourceType.Method)]
+	public async Task When_Collapsed_With_Spacing_Margin(Orientation orientation, double spacing, double itemMargin, double itemLength, int collapseStartIndex, int collapseEndIndex)
+	{
+		var SUT = new AutoLayout()
+		{
+			Spacing = spacing,
+			Background = new SolidColorBrush(Colors.Pink),
+			Orientation = orientation,
+		};
+		new[] { Colors.Red, Colors.Green, Colors.Blue }
+			.Select((x, i) => new Border
+			{
+				Width = itemLength,
+				Height = itemLength,
+				Margin = new Thickness(itemMargin),
+				Background = new SolidColorBrush(x),
+			})
+			.ForEach(SUT.Children.Add);
+
+		// all visible
+		await UIHelper.Load(SUT);
+		await UIHelper.WaitForIdle();
+		Validate("all visible");
+
+		// some collapsed
+		for (int i = collapseStartIndex; i <= collapseEndIndex; i++)
+		{
+			SUT.Children[i].Visibility = Visibility.Collapsed;
+		}
+		await UIHelper.WaitForIdle();
+		Validate("single item collapsed");
+
+		// all visible again
+		for (int i = collapseStartIndex; i <= collapseEndIndex; i++)
+		{
+			SUT.Children[i].Visibility = Visibility.Visible;
+		}
+		await UIHelper.WaitForIdle();
+		Validate("all visible again");
+
+		void Validate(string header)
+		{
+			var expected = Join(spacing, SUT.Children.Cast<Border>()
+				.Where(x => x.Visibility == Visibility.Visible)
+				.Select(x => itemMargin + itemLength + itemMargin)
+			);
+			var actual = SUT.Orientation == Orientation.Horizontal ? SUT.ActualWidth : SUT.ActualHeight;
+
+			Assert.AreEqual(expected, actual, header);
+		}
+		double Join(double spacing, IEnumerable<double> values) => values.Sum() + Math.Max(0, values.Count() - 1) * spacing;
+	}
+
 
 	[TestMethod]
 	[RequiresFullWindow]
