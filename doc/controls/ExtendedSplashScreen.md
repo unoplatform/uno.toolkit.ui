@@ -3,7 +3,7 @@ uid: Toolkit.Controls.ExtendedSplashScreen
 ---
 # ExtendedSplashScreen
 
-Represents a control, derived from [`LoadingView`](xref:Toolkit.Controls.LoadingView) that displays a view that replicates the appearance and behavior of the target platform's native application loading screen.
+Represents a control, derived from [`LoadingView`](xref:Toolkit.Controls.LoadingView) that displays a view that simulates the appearance and behavior of the target platform's native application loading screen.
 
 Refer to [`LoadingView`](xref:Toolkit.Controls.LoadingView) for a list of inherited members.
 
@@ -20,29 +20,7 @@ A common use case for this control is to display an application loading element 
 >
 > [!Video https://www.youtube-nocookie.com/embed/jMI4E2e9gYE]
 
-## Properties
-
-| Property | Type | Description | Value |
-|----------|------|-------------|---------------|
-| **Platforms** | `SplashScreenPlatform` | Gets or sets the platform(s) where extended splash screen should be used. This is a flag enumeration, which allows for combining multiple values eg: `"Android,iOS"` | Default value is **All**. Other possible values include **Android**, **iOS**, **Windows**, **WebAssembly**, **Skia**, and **None**. |
-| **SplashIsEnabled** | `bool` | Gets a value representing whether the current environment is to display this splash screen. | **True** if the current platform is included in the **Platforms** property, otherwise **false**. |
-
-## Methods
-
-| Method | Return Type | Description |
-|--------|-------------|-------------|
-| **Init** | `void` | Initializes the splash screen for the provided `Activity` instance. This static method should be invoked from the **OnCreate** override in `MainActivity`.<br/>**Note: This method only needs to be called on Android** |
-
 ## Usage
-
-### Specify platforms to display splash screen
-
-The following code snippet will only display the splash screen on Android and iOS by specifying a `SplashScreenPlatform` value for the `Platforms` property.
-
-```xml
-<utu:ExtendedSplashScreen x:Name="Splash"
-                          Platforms="Android,iOS" />
-```
 
 ### Setup the splash screen
 
@@ -96,7 +74,7 @@ Next, the `Shell` control should be used as the root visual for the `Window` in 
 ```csharp
 protected override async void OnLaunched(LaunchActivatedEventArgs args)
 {
-    // Code ommited for brevity
+    // Boilerplate code omitted for brevity
 
     if (MainWindow.Content is not Shell shell)
     {
@@ -119,17 +97,3 @@ protected override async void OnLaunched(LaunchActivatedEventArgs args)
 With these changes, the splash screen will be displayed when the application first launches and the main application content will be displayed once the loading state is complete.
 
 In order to prolong the splash screen display, you can set the `Source` property of the `ExtendedSplashScreen` control to any custom implementation of the `ILoadable` interface. More information on how to use the `ILoadable` interface can be found in the [`LoadingView`](xref:Toolkit.Controls.LoadingView#iloadable) documentation.
-
-## Setup on Android
-
-To use the `ExtendedSplashScreen` on Android, you need to add the following to your `MainActivity`:
-
-```csharp
- protected override void OnCreate(Bundle bundle)
-{ 
-    // Handle the splash screen transition.
-    Uno.Toolkit.UI.ExtendedSplashScreen.Init(this);
-
-    base.OnCreate(bundle);
-}
-```
