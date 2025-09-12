@@ -1,6 +1,6 @@
 <Project ToolsVersion="15.0">
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
-
+	<Import Project="$(MSBuildThisFileDirectory)tfms.props" />
 	<PropertyGroup>
 		<DebugType>portable</DebugType>
 		<DebugSymbols>True</DebugSymbols>
@@ -90,6 +90,5 @@
 	</PropertyGroup>
 
 	<Import Project="PlatformItemGroups.props" />
-	<Import Project="CrossTargeting.props" />
 	<Import Project="xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
 </Project>

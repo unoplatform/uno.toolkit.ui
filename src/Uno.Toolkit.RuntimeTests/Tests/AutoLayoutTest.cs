@@ -80,7 +80,7 @@ internal class AutoLayoutTest
 		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Blue) });
 
 		await UIHelper.Load(SUT);
-		await UIHelper.WaitForIdle();
+		await UnitTestUIContentHelperEx.WaitFor(() => SUT.ActualHeight == ItemLength + SUT.Spacing + ItemLength);
 
 		var expected =
 			ItemLength + SUT.Spacing +
@@ -104,8 +104,7 @@ internal class AutoLayoutTest
 		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Green) });
 		SUT.Children.Add(new Border { Width = ItemLength, Height = ItemLength, Background = new SolidColorBrush(Colors.Blue) });
 
-		await UIHelper.Load(SUT);
-		await UIHelper.WaitForIdle();
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
 		var expected =
 			ItemLength + SUT.Spacing +
@@ -115,7 +114,7 @@ internal class AutoLayoutTest
 
 		// collapse the middle border
 		SUT.Children[1].Visibility = Visibility.Collapsed;
-		await UIHelper.WaitForIdle();
+		await UnitTestUIContentHelperEx.WaitFor(() => SUT.ActualHeight == ItemLength + SUT.Spacing + ItemLength);
 
 		var expected2 =
 			ItemLength + SUT.Spacing +
@@ -127,7 +126,7 @@ internal class AutoLayoutTest
 	public static IEnumerable<object[]> When_Collapsed_With_Spacing_Margin_Test_Matrix()
 	{
 		return
-			from orientation in new[] { Orientation.Vertical, Orientation.Horizontal }
+			from orientation in new[] { Orientation.Horizontal, Orientation.Vertical }
 			from spacing in new[] { 0d, 15d }
 			//from itemMargin in new[] { 0d, 5d } // AutoLayout just ignores margin on children
 			let itemMargin = 0d
@@ -145,6 +144,7 @@ internal class AutoLayoutTest
 			Spacing = spacing,
 			Background = new SolidColorBrush(Colors.Pink),
 			Orientation = orientation,
+			HorizontalAlignment = HorizontalAlignment.Left,
 		};
 		new[] { Colors.Red, Colors.Green, Colors.Blue }
 			.Select((x, i) => new Border
@@ -159,7 +159,7 @@ internal class AutoLayoutTest
 		// all visible
 		await UIHelper.Load(SUT);
 		await UIHelper.WaitForIdle();
-		Validate("all visible");
+		await UnitTestUIContentHelperEx.WaitFor(() => Validate(), message: "all visible");
 
 		// some collapsed
 		for (int i = collapseStartIndex; i <= collapseEndIndex; i++)
@@ -167,7 +167,7 @@ internal class AutoLayoutTest
 			SUT.Children[i].Visibility = Visibility.Collapsed;
 		}
 		await UIHelper.WaitForIdle();
-		Validate("single item collapsed");
+		await UnitTestUIContentHelperEx.WaitFor(() => Validate(), message: "single item collapsed");
 
 		// all visible again
 		for (int i = collapseStartIndex; i <= collapseEndIndex; i++)
@@ -175,9 +175,9 @@ internal class AutoLayoutTest
 			SUT.Children[i].Visibility = Visibility.Visible;
 		}
 		await UIHelper.WaitForIdle();
-		Validate("all visible again");
+		await UnitTestUIContentHelperEx.WaitFor(() => Validate(), message: "all visible again");
 
-		void Validate(string header)
+		bool Validate()
 		{
 			var expected = Join(spacing, SUT.Children.Cast<Border>()
 				.Where(x => x.Visibility == Visibility.Visible)
@@ -185,7 +185,7 @@ internal class AutoLayoutTest
 			);
 			var actual = SUT.Orientation == Orientation.Horizontal ? SUT.ActualWidth : SUT.ActualHeight;
 
-			Assert.AreEqual(expected, actual, header);
+			return expected == actual;
 		}
 		double Join(double spacing, IEnumerable<double> values) => values.Sum() + Math.Max(0, values.Count() - 1) * spacing;
 	}
