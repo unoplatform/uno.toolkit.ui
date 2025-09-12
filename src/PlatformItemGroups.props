@@ -41,7 +41,7 @@
 
 	<PropertyGroup Condition="$(IsIOSOrCatalyst)">
 		<DefineConstants>$(DefineConstants);XAMARIN;XAMARIN_IOS;XAMARIN_IOS_UNIFIED</DefineConstants>
-		<SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion>12.2</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(IsMacOS)">
