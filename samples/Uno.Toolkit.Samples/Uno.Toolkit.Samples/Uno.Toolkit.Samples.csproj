@@ -39,6 +39,10 @@
 
 	</PropertyGroup>
 	<ItemGroup>
+		<EmbeddedResource Include="Platforms\WebAssembly\WasmScripts\**\*.js" />
+		<UpToDateCheckInput Include="Platforms\WebAssembly\WasmScripts\**\*" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
 		<ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.csproj" />
