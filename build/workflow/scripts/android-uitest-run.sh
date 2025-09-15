@@ -137,7 +137,7 @@ fi
 # Build the sample, while the emulator is starting
 cd $UNO_UITEST_MOBILE_PROJECT_PATH
 
-dotnet publish -f net9.0-android /p:TargetFrameworkOverride=net9.0-android /p:EmbedAssembliesIntoApk=true /p:SamplesTargetFrameworkOverride=net9.0-android -c Release /p:AndroidPackageFormat=apk /p:RuntimeIdentifier=android-x64 /p:IsUiAutomationMappingEnabled=true /p:AndroidUseSharedRuntime=false /p:AndroidUseAssemblyStore=false /p:AndroidFastDeploymentType=None /p:AotAssemblies=false /p:RunAOTCompilation=false /p:PublishTrimmed=false /p:AndroidStripILAfterAOT=false /bl:$BASE_ARTIFACTS_PATH/android-uitest.binlog
+dotnet publish -f net9.0-android /p:TargetFrameworkOverride=net9.0-android /p:SamplesTargetFrameworkOverride=net9.0-android -c Release /p:AndroidPackageFormat=apk /p:RuntimeIdentifier=android-x64 /p:IsUiAutomationMappingEnabled=true /p:AndroidUseSharedRuntime=false /p:AndroidUseAssemblyStore=false /p:AndroidFastDeploymentType=None /p:AotAssemblies=false /p:RunAOTCompilation=false /p:PublishTrimmed=false /p:AndroidStripILAfterAOT=false /bl:$BASE_ARTIFACTS_PATH/android-uitest.binlog
 
 # list active devices
 $ANDROID_HOME/platform-tools/adb devices
