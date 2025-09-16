@@ -1,5 +1,6 @@
 ﻿jobs:
 - job: Android_UITests
+  dependsOn: Android_UITest_Build
   displayName: 'Run Android UI Tests'
   timeoutInMinutes: 90
   variables:
@@ -32,12 +33,7 @@
   steps:
   - checkout: self
     clean: true
-
-  - template: templates/dotnet-workload-install-mac.yml
-    parameters:
-      UnoCheckParameters: '--tfm net9.0-android'
-  - template: templates/canary-updater.yml
-  - template: templates/jdk-setup.yml
+    persistCredentials: true
 
   - task: PowerShell@2
     displayName: 'Install coreutils'
@@ -45,6 +41,18 @@
       targetType: inline
       script: |
         brew install coreutils
+
+  - task: DownloadBuildArtifacts@0
+    displayName: 'Download Android Chefs App'
+    inputs:
+        artifactName: Android_UITest
+        downloadPath: '$(build.sourcesdirectory)/build'
+
+  - template: templates/dotnet-workload-install-mac.yml
+    parameters:
+      UnoCheckParameters: '--tfm net9.0-android'
+  - template: templates/canary-updater.yml
+  - template: templates/jdk-setup.yml
 
   - bash: |
       chmod +x $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-run.sh
