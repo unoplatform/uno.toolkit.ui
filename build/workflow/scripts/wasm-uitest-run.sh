@@ -33,7 +33,7 @@ TEST_FAILED_FLAG=.tests-failed
 
 cd $UNO_UITEST_WASM_PROJECT
 
-dotnet publish /r /p:Configuration=Release /p:SamplesTargetFrameworkOverride=net9.0-browserwasm /p:TargetFramework=net9.0-browserwasm /p:IsUiAutomationMappingEnabled=True /p:DisableMobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-uitest.binlog
+dotnet publish /r /p:Configuration=Release /p:SamplesTargetFrameworkOverride=net9.0-browserwasm /p:IsUiAutomationMappingEnabled=True /p:DisableMobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-uitest.binlog
 cd $BUILD_SOURCESDIRECTORY/build
 mkdir -p tools
 
