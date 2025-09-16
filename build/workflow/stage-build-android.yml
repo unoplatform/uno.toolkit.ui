@@ -2,7 +2,7 @@ jobs:
 - job: Android_UITest_Build
   timeoutInMinutes: 90
   pool:
-    vmImage: macOS-latest
+    vmImage: macOS-15
 
   steps:
   - checkout: self
