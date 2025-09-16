@@ -22,7 +22,7 @@ export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/Uno.Too
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
 export UNO_UITEST_LOGFILE=$BASE_ARTIFACTS_PATH/nunit-log.txt
 export UNO_UITEST_WASM_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME
-export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME/bin/Release/net9.0-browserwasm/dist/
+export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME/bin/Release/net9.0-browserwasm/publish/wwwwroot
 export UNO_UITEST_NUNIT_VERSION=3.11.1
 export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
 export UNO_ORIGINAL_TEST_RESULTS=$BUILD_SOURCESDIRECTORY/build/$UNO_TEST_RESULTS_FILE_NAME
@@ -33,7 +33,7 @@ TEST_FAILED_FLAG=.tests-failed
 
 cd $UNO_UITEST_WASM_PROJECT
 
-dotnet build /r /p:Configuration=Release /p:SamplesTargetFrameworkOverride=net9.0-browserwasm /p:TargetFramework=net9.0-browserwasm /p:IsUiAutomationMappingEnabled=True /p:DisableMobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-uitest.binlog
+dotnet publish /r /p:Configuration=Release /p:SamplesTargetFrameworkOverride=net9.0-browserwasm /p:TargetFramework=net9.0-browserwasm /p:IsUiAutomationMappingEnabled=True /p:DisableMobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-uitest.binlog
 cd $BUILD_SOURCESDIRECTORY/build
 mkdir -p tools
 
