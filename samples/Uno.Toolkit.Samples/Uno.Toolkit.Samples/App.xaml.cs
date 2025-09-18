@@ -156,11 +156,31 @@ public partial class App : Application
 	}
 
 #if USE_UITESTS
+#pragma warning disable CA1416 // Validate platform compatibility
+
+#if __WASM__
+	[System.Runtime.InteropServices.JavaScript.JSExport]
+#endif
 	public static void NavBackFromNestedPage() => Shell.GetForCurrentView()?.BackNavigateFromNestedSample();
+#if __WASM__
+	[System.Runtime.InteropServices.JavaScript.JSExport]
+#endif
 	public static void ForceNavigation(string sampleName) => (Application.Current as App)?.ForceSampleNavigation(sampleName);
+#if __WASM__
+	[System.Runtime.InteropServices.JavaScript.JSExport]
+#endif
 	public static void ExitNestedSample() => Shell.GetForCurrentView()?.ExitNestedSample();
+#if __WASM__
+	[System.Runtime.InteropServices.JavaScript.JSExport]
+#endif
 	public static void NavigateToNestedSample(string pageName) => (Application.Current as App)?.NavigateToNestedSampleCore(pageName);
+#if __WASM__
+
+	[System.Runtime.InteropServices.JavaScript.JSExport]
+#endif
 	public static string GetDisplayScreenScaling(string value) => (DisplayInformation.GetForCurrentView().LogicalDpi * 100f / 96f).ToString(CultureInfo.InvariantCulture);
+#pragma warning restore CA1416 // Validate platform compatibility
+
 
 #if __IOS__
 	[Export("navBackFromNestedPage:")]
@@ -178,5 +198,6 @@ public partial class App : Application
 	[Export("getDisplayScreenScaling:")]
 	public NSString GetDisplayScreenScalingBackdoor(NSString value) => new NSString(GetDisplayScreenScaling(value));
 #endif
+
 #endif
 }

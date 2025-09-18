@@ -29,15 +29,15 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageVersion Include="NUnit" Version="3.14.0" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="4.3.1" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.2.0" />
     <PackageVersion Include="NunitXml.TestLogger" Version="3.0.131" />
     <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="1.33.0-dev.11" />
-    <PackageVersion Include="Uno.UITest" Version="1.1.0-dev.70" />
-    <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.70" />
-    <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.70" />
-    <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.70" />
+    <PackageVersion Include="Uno.UITest" Version="1.1.0-dev.82" />
+    <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.82" />
+    <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.82" />
+    <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.82" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.6" />
-    <PackageVersion Include="Xamarin.UITest" Version="4.3.5" />
+    <PackageVersion Include="Xamarin.UITest" Version="4.4.0" />
     <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" />
   </ItemGroup>
