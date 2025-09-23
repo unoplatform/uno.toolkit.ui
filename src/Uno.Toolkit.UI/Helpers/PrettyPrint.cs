@@ -52,10 +52,7 @@ internal static class PrettyPrint
 		return $"[{x.Width:0.#}x{x.Height:0.#}@{x.Left:0.#},{x.Top:0.#}]";
 	}
 #endif
-	internal static string FormatPoint(Point p) => FormatPoint(p.X, p.Y);
-	internal static string FormatPoint(double x, double y) => $"{x:0.#},{y:0.#}";
 	internal static string FormatSize(Size size) => $"{size.Width:0.#}x{size.Height:0.#}";
-	internal static string FormatSize(double width, double height) => $"{width:0.#}x{height:0.#}";
 	internal static string FormatBrush(Brush b)
 	{
 		if (b is SolidColorBrush scb) return
