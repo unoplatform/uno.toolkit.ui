@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.Disposables;
@@ -38,7 +39,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal partial class NavigationBarTests
+	public partial class NavigationBarTests
 	{
 #if !(__ANDROID__ || __IOS__)
 		[TestMethod]
@@ -93,13 +94,12 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var popup = new Popup { Width = 100, Height = 100, HorizontalOffset = 100, VerticalOffset = 100, Child = new StackPanel { Children = { navigationBar } } };
 			var content = new StackPanel { Children = { popup } };
 
-			EventHandler<object> popupOpened = async (s, e) => 
+			var autoResetEvent = new AutoResetEvent(false);
+
+			EventHandler<object> popupOpened = (s, e) => 
 			{
 				Assert.IsTrue(navigationBar.TryPerformMainCommand() == shouldGoBack, "Unexpected result from TryPerformMainCommand");
-
-				await UnitTestsUIContentHelper.WaitForIdle();
-
-				Assert.IsTrue(popup.IsOpen == !shouldGoBack, "Popup is in an incorrect state");
+				autoResetEvent.Set();
 			};
 
 			try
@@ -108,6 +108,11 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 				popup.Opened += popupOpened;
 				popup.IsOpen = true;
+
+				autoResetEvent.WaitOne();
+				await UnitTestsUIContentHelper.WaitForIdle();
+
+				Assert.IsTrue(popup.IsOpen == !shouldGoBack, "Popup is in an incorrect state");
 			}
 			finally
 			{

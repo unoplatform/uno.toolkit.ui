@@ -39,7 +39,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal partial class ShadowContainerTests
+	public partial class ShadowContainerTests
 	{
 
 #if !(__ANDROID__ || __IOS__)

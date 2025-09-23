@@ -30,7 +30,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 #if false
 	[TestClass]
 	[RunsOnUIThread]
-	internal class ZoomContentControlTest
+	public class ZoomContentControlTest
 	{
 		[TestMethod]
 		public async Task When_ZoomIn_ShouldIncreaseZoomLevel()
