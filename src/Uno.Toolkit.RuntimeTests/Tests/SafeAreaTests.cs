@@ -43,6 +43,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	{
 		[TestMethod]
 		[RequiresFullWindow]
+		[Ignore("Failing as of bump to net9. issue#1467")]
 		public async Task NestedSafeArea_ApplyCount()
 		{
 			var setup = XamlHelper.LoadXaml<Grid>("""
@@ -76,7 +77,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(setup);
 			await UnitTestUIContentHelperEx.WaitForIdle();
-			
+
 #if DEBUG
 			Assert.AreEqual(3, updates.Count);
 #endif

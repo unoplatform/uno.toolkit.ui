@@ -39,6 +39,10 @@
 
 	</PropertyGroup>
 	<ItemGroup>
+		<EmbeddedResource Include="Platforms\WebAssembly\WasmScripts\**\*.js" />
+		<UpToDateCheckInput Include="Platforms\WebAssembly\WasmScripts\**\*" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Cupertino\Uno.Toolkit.WinUI.Cupertino.csproj" />
 		<ProjectReference Include="..\..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
 		<ProjectReference Include="..\..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.csproj" />
@@ -56,7 +60,7 @@
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
 	</ItemGroup>
 
-	<ItemGroup Condition="('$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True') and $(IsIOS)">
+	<ItemGroup Condition="('$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True') and $(IsIOS) and !$(RuntimeIdentifier.Contains('arm64'))">
 		<PackageReference Include="Xamarin.TestCloud.Agent" />
 	</ItemGroup>
 
@@ -86,4 +90,11 @@
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.57" />
 		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.57" />
 	</ItemGroup>
+
+	<Target Name="AdjustCalabash" BeforeTargets="BeforeBuild">
+		<!-- Needs to be run as a target, as RuntimeIdentifier is set after the csproj is parsed -->
+		<PropertyGroup Condition="!$(RuntimeIdentifier.Contains('arm64'))">
+			<DefineConstants>$(DefineConstants);HAS_TESTCLOUD_AGENT</DefineConstants>
+		</PropertyGroup>
+	</Target>
 </Project>

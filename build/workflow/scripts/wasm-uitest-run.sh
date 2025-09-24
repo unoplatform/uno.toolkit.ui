@@ -14,7 +14,7 @@ fi
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/wasm/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_TARGETURI=http://localhost:5000
 export UNO_UITEST_DRIVERPATH_CHROME=$BUILD_SOURCESDIRECTORY/build/node_modules/chromedriver/lib/chromedriver
-export UNO_UITEST_CHROME_BINARY_PATH=$BUILD_SOURCESDIRECTORY/build/node_modules/puppeteer/.local-chromium/linux-991974/chrome-linux/chrome
+export UNO_UITEST_CHROME_BINARY_PATH=~/.cache/puppeteer/chrome/linux-127.0.6533.72/chrome-linux64/chrome
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
 export UNO_UITEST_PLATFORM=Browser
 export UNO_UITEST_CHROME_CONTAINER_MODE=true
@@ -22,22 +22,32 @@ export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/Uno.Too
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
 export UNO_UITEST_LOGFILE=$BASE_ARTIFACTS_PATH/nunit-log.txt
 export UNO_UITEST_WASM_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME
-export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME/bin/Release/net9.0-browserwasm/dist/
+export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME/bin/Release/net9.0-browserwasm/publish/wwwroot
 export UNO_UITEST_NUNIT_VERSION=3.11.1
 export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
 export UNO_ORIGINAL_TEST_RESULTS=$BUILD_SOURCESDIRECTORY/build/$UNO_TEST_RESULTS_FILE_NAME
 export UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH=$UNO_ORIGINAL_TEST_RESULTS
 export UNO_TESTS_RESPONSE_FILE=$BUILD_SOURCESDIRECTORY/build/nunit.response
 export UITEST_TEST_TIMEOUT=60m
+TEST_FAILED_FLAG=.tests-failed
 
 cd $UNO_UITEST_WASM_PROJECT
 
-dotnet build /r /p:Configuration=Release /p:SamplesTargetFrameworkOverride=net9.0-browserwasm /p:IsUiAutomationMappingEnabled=True /p:DisableMobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-uitest.binlog
+dotnet publish -f net9.0-browserwasm /p:SamplesTargetFrameworkOverride=net9.0-browserwasm /p:TargetFrameworkOverride=net9.0 /p:Configuration=Release /p:IsUiAutomationMappingEnabled=True /p:DisableMobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-uitest.binlog
 cd $BUILD_SOURCESDIRECTORY/build
 mkdir -p tools
 
-npm i chromedriver@102.0.0
-npm i puppeteer@14.1.0
+npm i chromedriver@127.0.0
+npm i puppeteer@22.14.0
+
+# Download chromium explicitly
+pushd ./node_modules/puppeteer
+npm install
+popd
+
+sudo apt install tree
+
+tree ~/.cache/puppeteer/chrome/linux-127.0.6533.72
 
 # install dotnet serve / Remove as needed
 dotnet tool uninstall dotnet-serve -g || true
@@ -48,6 +58,7 @@ export PATH="$PATH:$BUILD_SOURCESDIRECTORY/build/tools"
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
 ## The python server serves the current working directory, and may be changed by the nunit runner
+ls -la "$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME/bin/Release/net9.0-browserwasm/publish"
 dotnet-serve -p 5000 -d "$UNO_UITEST_WASM_OUTPUT_PATH" &
 
 echo "Test Parameters:"
@@ -56,14 +67,31 @@ echo "  Test filters: $TEST_FILTERS"
 
 cd $BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
 
-dotnet test \
+if dotnet test \
 	-c Release \
 	-l:"console;verbosity=normal" \
 	--logger "nunit;LogFileName=$UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH" \
 	--filter "$TEST_FILTERS" \
 	--blame-hang-timeout $UITEST_TEST_TIMEOUT \
-	-v m \
-	|| true
+	-v m;
+then
+	echo "Tests passed"
+	rm -f $TEST_FAILED_FLAG
+else
+	echo "Tests failed"
+	if [[ ! -f $TEST_FAILED_FLAG ]];
+	then
+		touch $TEST_FAILED_FLAG
+	fi
+fi
 
 ## Copy the results file to the results folder
 cp --backup=t $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH $UNO_UITEST_SCREENSHOT_PATH
+
+if [[ ! -f $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH ]]; then
+	echo "ERROR: The test results file $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH does not exist (did nunit crash ?)"
+fi
+
+if [[ -f $TEST_FAILED_FLAG ]]; then
+	echo "ERROR: The tests failed"
+fi
