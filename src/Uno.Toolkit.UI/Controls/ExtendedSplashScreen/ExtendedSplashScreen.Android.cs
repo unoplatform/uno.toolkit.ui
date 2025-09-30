@@ -174,8 +174,10 @@ public partial class ExtendedSplashScreen
 				controller.Show(WindowInsetsCompat.Type.SystemBars());
 
 				window.Attributes = systemUi.WindowAttributes;
+#pragma warning disable CA1422 // Validate platform compatibility
 				window.SetNavigationBarColor(systemUi.NavigationBarColor);
 				window.SetStatusBarColor(systemUi.StatusBarColor);
+#pragma warning restore CA1422 // Validate platform compatibility
 			}
 		}
 	}

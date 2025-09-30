@@ -41,8 +41,11 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 
 			var statusText = App.MarkedAnywhere("statusText");
 			var shadowRect = App.GetPhysicalRect("shadowContainer");
-			App.MarkedAnywhere("xOffsetText").ClearText().EnterTextAndDismiss(xOffset.ToString());
-			App.MarkedAnywhere("yOffsetText").ClearText().EnterTextAndDismiss(yOffset.ToString());
+			App.MarkedAnywhere("xOffsetText").ClearText();
+			App.MarkedAnywhere("yOffsetText").ClearText();
+
+			App.MarkedAnywhere("xOffsetText").EnterTextAndDismiss(xOffset.ToString());
+			App.MarkedAnywhere("yOffsetText").EnterTextAndDismiss(yOffset.ToString());
 
 			App.Tap("check_Border");
 			var innerCheck = App.MarkedAnywhere("inner");
@@ -85,8 +88,11 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 
 			var statusText = App.MarkedAnywhere("statusText");
 			var shadowRect = App.GetPhysicalRect("shadowContainerRectangle");
-			App.MarkedAnywhere("xOffsetText").ClearText().EnterTextAndDismiss(xOffset.ToString());
-			App.MarkedAnywhere("yOffsetText").ClearText().EnterTextAndDismiss(yOffset.ToString());
+			App.MarkedAnywhere("xOffsetText").ClearText();
+			App.MarkedAnywhere("yOffsetText").ClearText();
+
+			App.MarkedAnywhere("xOffsetText").EnterTextAndDismiss(xOffset.ToString());
+			App.MarkedAnywhere("yOffsetText").EnterTextAndDismiss(yOffset.ToString());
 
 			var innerCheck = App.MarkedAnywhere("inner");
 			innerCheck.SetDependencyPropertyValue("IsChecked", inner.ToString());
@@ -122,8 +128,11 @@ namespace Uno.Toolkit.UITest.Controls.ShadowContainer
 			var statusText = App.MarkedAnywhere("statusText");
 
 
-			App.MarkedAnywhere("xOffsetText").ClearText().EnterTextAndDismiss(xOffset.ToString());
-			App.MarkedAnywhere("yOffsetText").ClearText().EnterTextAndDismiss(yOffset.ToString());
+			App.MarkedAnywhere("xOffsetText").ClearText();
+			App.MarkedAnywhere("yOffsetText").ClearText();
+
+			App.MarkedAnywhere("xOffsetText").EnterTextAndDismiss(xOffset.ToString());
+			App.MarkedAnywhere("yOffsetText").EnterTextAndDismiss(yOffset.ToString());
 			var innerCheck = App.MarkedAnywhere("inner");
 
 			innerCheck.SetDependencyPropertyValue("IsChecked", inner.ToString());

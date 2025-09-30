@@ -50,15 +50,15 @@
 								</VisualStateGroup.Transitions>
 								<VisualState x:Name="Loading">
 									<VisualState.Setters>
+										<Setter Target="ContentPresenter.IsHitTestVisible" Value="False" />
 										<Setter Target="LoadingContentPresenter.(utu:ProgressExtensions.IsActive)" Value="true"/>
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Loaded">
 									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Opacity"
-												Value="1" />
-										<Setter Target="LoadingContentPresenter.Opacity"
-												Value="0" />
+										<Setter Target="ContentPresenter.Opacity" Value="1" />
+										<Setter Target="LoadingContentPresenter.IsHitTestVisible" Value="False" />
+										<Setter Target="LoadingContentPresenter.Opacity" Value="0" />
 										<Setter Target="LoadingContentPresenter.(utu:ProgressExtensions.IsActive)" Value="false"/>
 									</VisualState.Setters>
 								</VisualState>

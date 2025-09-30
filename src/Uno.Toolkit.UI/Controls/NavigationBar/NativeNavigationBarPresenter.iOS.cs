@@ -120,7 +120,7 @@ namespace Uno.Toolkit.UI
 				void OnStatusBarChanged(XamlStatusBar sender, object args)
 				{
 					nativeBar.SetNeedsLayout();
-					nativeBar.Superview.SetNeedsLayout();
+					nativeBar.Superview?.SetNeedsLayout();
 				}
 			}
 		}

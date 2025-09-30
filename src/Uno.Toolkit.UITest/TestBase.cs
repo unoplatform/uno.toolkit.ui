@@ -246,14 +246,7 @@ namespace Uno.Toolkit.UITest
 
 		private FileInfo GetNativeScreenshot(string title)
 		{
-			if (AppInitializer.GetLocalPlatform() == Platform.Android)
-			{
-				return _app.GetInAppScreenshot();
-			}
-			else
-			{
-				return _app.Screenshot(title);
-			}
+			return _app.Screenshot(title);
 		}
 	}
 }

@@ -29,6 +29,11 @@
   - checkout: self
     clean: true
 
+  - task: NodeTool@0
+    inputs:
+      versionSource: 'spec'
+      versionSpec: '20.x'
+
   - template: templates/dotnet-workload-install-linux.yml
     parameters:
       UnoCheckParameters: '--tfm net9.0-browserwasm'

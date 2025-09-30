@@ -28,7 +28,6 @@ export UNO_UITEST_PLATFORM=Android
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/android/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
 export UNO_UITEST_MOBILE_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME
-export UNO_UITEST_ANDROIDAPK_PATH=$UNO_UITEST_MOBILE_PROJECT_PATH/bin/Release/net9.0-android/android-x64/$SAMPLEAPP_NAME-Signed.apk
 export UNO_UITEST_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
 export UNO_UITEST_PROJECT=$UNO_UITEST_PROJECT_PATH/Uno.Toolkit.UITest.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
@@ -40,10 +39,39 @@ export UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH=$UNO_ORIGINAL_TEST_RESULTS
 export UNO_TESTS_RESPONSE_FILE=$BUILD_SOURCESDIRECTORY/build/nunit.response
 export UITEST_TEST_TIMEOUT=60m
 
+# Prefer the signed APK from build artifacts (Windows job) when available,
+# otherwise fall back to the unsigned APK published locally by the UITest job (macOS agent).
+APK_FROM_ARTIFACT="$(ls "$BUILD_SOURCESDIRECTORY/build/Android_UITest/android-uitest/"*-Signed.apk 2>/dev/null | head -n 1 || true)"
+APK_FROM_LOCAL="$(ls $BUILD_SOURCESDIRECTORY/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-android/android-x64/publish/*.apk 2>/dev/null | head -n 1 || true)"
+
+if [ -f "$APK_FROM_ARTIFACT" ]; then
+  export UNO_UITEST_ANDROIDAPK_PATH="$APK_FROM_ARTIFACT"
+elif [ -f "$APK_FROM_LOCAL" ]; then
+  export UNO_UITEST_ANDROIDAPK_PATH="$APK_FROM_LOCAL"
+else
+  echo "ERROR: APK not found (neither $APK_FROM_ARTIFACT nor a local publish APK)."
+  exit 1
+fi
+
+echo "Using APK: $UNO_UITEST_ANDROIDAPK_PATH"
+
+# .NET 9 UITest workaround (maui#31072): ensure assemblies.blob exists inside the APK
+# UITest sometimes refuses to run if no assemblies store is present.
+# Related issue: https://github.com/dotnet/maui/issues/31072
+command -v zip >/dev/null || { echo "ERROR: 'zip' not found on PATH"; exit 1; }
+(
+  set -e
+  tmpdir="$(mktemp -d)"
+  touch "$tmpdir/assemblies.blob"
+  (cd "$tmpdir" && zip -q "$UNO_UITEST_ANDROIDAPK_PATH" assemblies.blob)
+  rm -rf "$tmpdir"
+)
+
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
 cd $BUILD_SOURCESDIRECTORY/build
 
+TEST_FAILED_FLAG=.tests-failed
 export ANDROID_HOME=$BUILD_SOURCESDIRECTORY/build/android-sdk
 export ANDROID_SDK_ROOT=$BUILD_SOURCESDIRECTORY/build/android-sdk
 export LATEST_CMDLINE_TOOLS_PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest
@@ -134,10 +162,6 @@ else
 	source $BUILD_SOURCESDIRECTORY/build/workflow/scripts/android-uitest-wait-systemui.sh 500
 fi
 
-# Build the sample, while the emulator is starting
-cd $UNO_UITEST_MOBILE_PROJECT_PATH
-dotnet publish -f net9.0-android /p:TargetFrameworkOverride=net8.0-android /p:SamplesTargetFrameworkOverride=net9.0-android -c Release /p:RuntimeIdentifier=android-x64 /p:IsUiAutomationMappingEnabled=True /p:AndroidUseSharedRuntime=False /p:RunAOTCompilation=False /bl:$BASE_ARTIFACTS_PATH/android-uitest.binlog
-
 # list active devices
 $ANDROID_HOME/platform-tools/adb devices
 
@@ -151,15 +175,23 @@ cp $UNO_UITEST_ANDROIDAPK_PATH $BASE_ARTIFACTS_PATH
 cd $UNO_UITEST_PROJECT_PATH
 
 ## Run tests
-dotnet test \
+if dotnet test \
 	-c Release \
 	-l:"console;verbosity=normal" \
 	--logger "nunit;LogFileName=$UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH" \
 	--filter "$TEST_FILTERS" \
 	--blame-hang-timeout $UITEST_TEST_TIMEOUT \
-	-v m \
-	|| true
-
+	-v m;
+then
+	echo "Tests passed"
+	rm -f $TEST_FAILED_FLAG
+else
+	echo "Tests failed"
+	if [[ ! -f $TEST_FAILED_FLAG ]];
+	then
+		touch $TEST_FAILED_FLAG
+	fi
+fi
 
 if [[ -f $UNO_UITEST_RUNTIMETESTS_RESULTS_FILE_PATH ]]; then
 	## Copy the results file to the results folder
@@ -172,4 +204,10 @@ $ANDROID_HOME/platform-tools/adb shell logcat -d > $UNO_UITEST_SCREENSHOT_PATH/a
 if [[ ! -f $UNO_ORIGINAL_TEST_RESULTS ]]; then
 	echo "ERROR: The test results file $UNO_ORIGINAL_TEST_RESULTS does not exist (did nunit crash ?)"
 	return 1
+fi
+
+if [[ -f $TEST_FAILED_FLAG ]]; then
+	echo "ERROR: The tests failed"
+	# Cleanly fails the job
+	exit 1
 fi
