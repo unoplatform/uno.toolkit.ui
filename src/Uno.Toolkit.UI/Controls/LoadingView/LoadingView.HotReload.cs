@@ -1,12 +1,9 @@
-﻿using System;
+﻿#if IS_WINUI
+using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
-#if IS_WINUI
 using Microsoft.UI.Xaml;
-#else
-using Windows.UI.Xaml;
-#endif
 using Uno.Toolkit.UI;
 
 [assembly: ElementMetadataUpdateHandlerAttribute(typeof(LoadingView), typeof(LoadingViewElementMetadataUpdateHandler))]
@@ -44,3 +41,4 @@ internal static class LoadingViewElementMetadataUpdateHandler
 		return Task.CompletedTask;
 	}
 }
+#endif
