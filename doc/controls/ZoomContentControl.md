@@ -11,12 +11,6 @@ uid: Toolkit.Controls.ZoomContentControl
 
 `ZoomContentControl` allows you to display content that can be zoomed in and out, as well as panned. It is especially useful for scenarios such as viewing large images, maps, or documents where users need control over zoom levels and panning.
 
-### C\#
-
-```csharp
-public partial class ZoomContentControl : Control
-```
-
 ### XAML
 
 ```xml
@@ -29,43 +23,39 @@ xmlns:utu="using:Uno.Toolkit.UI"
                         IsZoomAllowed="True"
                         IsPanAllowed="True">
     <utu:ZoomContentControl.Content>
-        <Image Source="ms-appx:///Assets/Media/LargeMedia.svg"
-               Stretch="Uniform" />
+        <Image Source="ms-appx:///Assets/Media/LargeMedia.svg" Stretch="Uniform" />
     </utu:ZoomContentControl.Content>
 </utu:ZoomContentControl>
 ```
 
-### Inheritance
-
-`Object` &#8594; `DependencyObject` &#8594; `UIElement` &#8594; `FrameworkElement` &#8594; `Control` &#8594; `ContentControl` &#8594; `ZoomContentControl`
-
-### Constructors
-
-| Constructor            | Description                                                   |
-| ---------------------- | ------------------------------------------------------------- |
-| `ZoomContentControl()` | Initializes a new instance of the `ZoomContentControl` class. |
-
 ### Properties
 
-| Property           | Type        | Description                                                                                            |
-| ------------------ | ----------- | ------------------------------------------------------------------------------------------------------ |
-| `ZoomLevel`        | `double`    | Gets or sets the current zoom level for the content.                                                   |
-| `MinZoomLevel`     | `double`    | Gets or sets the minimum zoom level allowed for the content.                                           |
-| `MaxZoomLevel`     | `double`    | Gets or sets the maximum zoom level allowed for the content.                                           |
-| `IsZoomAllowed`    | `bool`      | Gets or sets a value indicating whether zooming is allowed.                                            |
-| `ScaleWheelRatio`  | `double`    | Gets or sets the ratio for scaling zoom level when using a mouse wheel.                                |
-| `PanWheelRatio`    | `double`    | Gets or sets the ratio for panning when using a mouse wheel.                                           |
-| `IsPanAllowed`     | `bool`      | Gets or sets a value indicating whether panning is allowed.                                            |
-| `IsActive`         | `bool`      | Gets or sets a value indicating whether the control is active.                                         |
-| `AutoFitToCanvas`  | `bool`      | Determines if the content should automatically fit into the available canvas when the control resizes. |
-| `AdditionalMargin` | `Thickness` | Gets or sets additional margins around the content.                                                    |
+| Property            | Type                                | Description                                                                                                    |
+| ------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `ZoomLevel`         | `double`                            | Gets or sets the current zoom level for the content.                                                           |
+| `MinZoomLevel`      | `double`                            | Gets or sets the minimum zoom level allowed for the content.                                                   |
+| `MaxZoomLevel`      | `double`                            | Gets or sets the maximum zoom level allowed for the content.                                                   |
+| `IsZoomAllowed`     | `bool`                              | Gets or sets a value indicating whether zooming is allowed.                                                    |
+| `ScaleWheelRatio`   | `double`                            | Gets or sets the ratio for scaling zoom level when using a mouse wheel.                                        |
+| `PanWheelRatio`     | `double`                            | Gets or sets the ratio for panning when using a mouse wheel.                                                   |
+| `IsPanAllowed`      | `bool`                              | Gets or sets a value indicating whether panning is allowed.                                                    |
+| `IsActive`          | `bool`                              | Gets or sets a value indicating whether the control is active.                                                 |
+| `AutoFitToCanvas`   | `bool`                              | Gets or sets a value indicating whether the content should be automatically scaled to fit within the viewport. |
+| `AutoCenterContent` | `bool`                              | Gets or sets a value indicating whether the content should be automatically centered within the viewport.      |
+| `AllowFreePanning`  | `bool`                              | Gets or sets a value indicating whether content can be panned outside of the viewport.                         |
+| `AdditionalMargin`  | `Thickness`                         | Gets or sets additional margins around the content.                                                            |
+| `ScrollBarLayout`   | `ZoomContentControlScrollBarLayout` | Gets or sets the layout style of the scroll bars.                                                              |
+| `ElementOnFocus`    | `FrameworkElement`                  | Gets or sets the focused element which auto-zoom and auto-fit will be centered around.                         |
 
 ### Methods
 
-| Method            | Return Type | Description                                                                               |
-| ----------------- | ----------- | ----------------------------------------------------------------------------------------- |
-| `FitToCanvas()`   | `void`      | Adjust the zoom level so that the content fits within the available space.                |
-| `ResetViewport()` | `void`      | Resets the zoom level and panning offset to their default values and centers the content. |
+| Method            | Return Type | Description                                                         |
+| ----------------- | ----------- | ------------------------------------------------------------------- |
+| `CenterContent()` | `void`      | Centers the content within the viewport.                            |
+| `FitToCanvas()`   | `void`      | Adjusts the ZoomLevel so that the content fits within the viewport. |
+| `ResetViewport()` | `void`      | Resets the ZoomLevel to 1, and center the content.                  |
+| `ResetZoom()`     | `void`      | Resets the ZoomLevel to 1.                                          |
+| `ResetScroll()`   | `void`      | Resets the scroll position to (0,0).                                |
 
 ### Usage
 
@@ -77,43 +67,17 @@ Below are the built-in interactions for ZoomContentControl usage. For these inte
 
 #### Zooming (Ctrl + Mouse Wheel)
 
-Ctrl + Mouse Wheel: Zoom in/out around the current cursor position.  
+Ctrl + Mouse Wheel: Zoom in/out around the current cursor position.
 The `ScaleWheelRatio` property controls how quickly the zoom factor changes per mouse wheel tick.
 
 #### Scrolling (Mouse Wheel)
 
-Mouse Wheel by itself scrolls vertically.  
-Shift + Mouse Wheel scrolls horizontally.  
+Mouse Wheel by itself scrolls vertically.
+Shift + Mouse Wheel scrolls horizontally.
 The `PanWheelRatio` property determines how many pixels to move per mouse wheel tick.
 
 #### Panning (Middle-Click + Drag)
 
-Press and hold the middle button.  
-Drag to move the content.  
+Press and hold the middle button.
+Drag to move the content.
 Release the mouse button to stop panning.
-
-#### Programmatic Control
-
-Beyond user interactions, you can control zoom and pan directly:
-
-`FitToCanvas()`: Automatically sizes the content so it fits the entire available space.  
-`ResetViewport()`: Resets both zoom level and offset to their defaults (zoom = 1, scroll offsets = 0).
-
-### Advanced Usage: Overriding Pointer Methods
-
-ZoomContentControl does not subscribe to pointer events directly. Instead, it overrides the base OnPointer methods. This lets you derive from ZoomContentControl and fully customize pointer handling in your subclass. For example:
-
-```csharp
-public class MyCustomZoomControl : ZoomContentControl
-{
-    protected override void OnPointerPressed(PointerRoutedEventArgs e)
-    {
-        // Skip or extend default behavior:
-        // base.OnPointerPressed(e);
-
-        // Implement your own pointer logic here...
-    }
-}
-```
-
-If you do not call `base.OnPointerPressed(e)`, you bypass the built-in pan/zoom logic entirely. This approach lets you disable or alter parts of the default pointer behavior without modifying the original code.

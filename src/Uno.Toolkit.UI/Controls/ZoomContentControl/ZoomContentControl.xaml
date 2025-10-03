@@ -1,75 +1,116 @@
-﻿<ResourceDictionary
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:utu="using:Uno.Toolkit.UI">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:utu="using:Uno.Toolkit.UI">
 
 	<Style x:Key="DefaultZoomContentControlStyle" TargetType="utu:ZoomContentControl">
 		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="VerticalContentAlignment" Value="Top" />
+
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:ZoomContentControl">
-					<Grid
-						x:Name="PART_RootGrid"
-						Background="{TemplateBinding Background}"
-						BorderBrush="{TemplateBinding BorderBrush}"
-						BorderThickness="{TemplateBinding BorderThickness}">
+					<Grid x:Name="PART_RootGrid"
+						  Background="{TemplateBinding Background}"
+						  BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="ScrollBarLayoutStates">
+								<VisualState x:Name="BottomRight">
+									<!-- default xaml state -->
+								</VisualState>
+								<VisualState x:Name="BottomRightWithMirrorSpacing">
+									<VisualState.Setters>
+										<Setter Target="Part_MirrorScrollV.Visibility" Value="Visible" />
+										<Setter Target="Part_MirrorScrollV.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Overlay">
+									<VisualState.Setters>
+										<Setter Target="PART_Viewport.(Grid.RowSpan)" Value="2" />
+										<Setter Target="PART_Viewport.(Grid.ColumnSpan)" Value="2" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
+						<!-- note: the column/row size mirroring is done in code, because FE.ActualHeight/ActualWidth dp don't raise property changed(see msdn remarks) -->
 						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<Grid
-							x:Name="PART_ContentGrid"
-							Grid.Row="0"
-							Grid.Column="0">
-							<ContentPresenter
-								x:Name="PART_ContentPresenter"
-								Margin="0"
-								Padding="{TemplateBinding AdditionalMargin}"
-								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								Content="{TemplateBinding Content}"
-								ContentTemplate="{TemplateBinding ContentTemplate}"
-								ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}">
-								<ContentPresenter.RenderTransform>
-									<TransformGroup>
-										<ScaleTransform CenterX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HorizontalZoomCenter}" CenterY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=VerticalZoomCenter}" ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ZoomLevel}" ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ZoomLevel}" />
-										<TranslateTransform x:Name="PART_TranslateTransform" />
-									</TransformGroup>
-								</ContentPresenter.RenderTransform>
-							</ContentPresenter>
+						<Border x:Name="Part_MirrorScrollV"
+								Grid.Row="1"
+								Grid.Column="0"
+								Visibility="Collapsed" />
+						<Border x:Name="Part_MirrorScrollH"
+								Grid.Row="0"
+								Grid.Column="1"
+								Visibility="Collapsed" />
+
+						<Grid x:Name="PART_Viewport"
+							  Grid.Row="1"
+							  Grid.Column="1">
+							<utu:OverflowContainer x:Name="PART_WrapperContainer"
+												   HorizontalAlignment="Left"
+												   VerticalAlignment="Top">
+								<ContentControl x:Name="PART_InnerContentControl"
+												Content="{TemplateBinding Content}"
+												ContentTemplate="{TemplateBinding ContentTemplate}"
+												ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+									<ContentControl.RenderTransform>
+										<TransformGroup>
+											<ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ZoomLevel}" ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ZoomLevel}" />
+											<TranslateTransform x:Name="PART_TranslateTransform" />
+										</TransformGroup>
+									</ContentControl.RenderTransform>
+
+									<ContentControl.Template>
+										<ControlTemplate TargetType="ContentControl">
+											<ContentPresenter x:Name="PART_InnerContentPresenter">
+												<ContentPresenter.RenderTransform>
+													<TranslateTransform x:Name="PART_LocalFocusTranslation" />
+												</ContentPresenter.RenderTransform>
+											</ContentPresenter>
+										</ControlTemplate>
+									</ContentControl.Template>
+								</ContentControl>
+							</utu:OverflowContainer>
 						</Grid>
 
-						<ScrollBar
-							x:Name="PART_ScrollV"
-							Grid.Row="0"
-							Grid.Column="1"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Stretch"
-							IndicatorMode="MouseIndicator"
-							LargeChange="10"
-							Maximum="{TemplateBinding VerticalMaxScroll}"
-							Minimum="{TemplateBinding VerticalMinScroll}"
-							Orientation="Vertical"
-							SmallChange="1"
-							Value="{Binding VerticalScrollValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
-						<ScrollBar
-							x:Name="PART_ScrollH"
-							Grid.Row="1"
-							Grid.Column="0"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Bottom"
-							IndicatorMode="MouseIndicator"
-							LargeChange="10"
-							Maximum="{TemplateBinding HorizontalMaxScroll}"
-							Minimum="{TemplateBinding HorizontalMinScroll}"
-							Orientation="Horizontal"
-							SmallChange="1"
-							Value="{Binding HorizontalScrollValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+						<ScrollBar x:Name="PART_ScrollV"
+								   Grid.Row="1"
+								   Grid.Column="2"
+								   HorizontalAlignment="Right"
+								   VerticalAlignment="Stretch"
+								   IndicatorMode="MouseIndicator"
+								   LargeChange="10"
+								   Maximum="{TemplateBinding VerticalMaxScroll}"
+								   Minimum="{TemplateBinding VerticalMinScroll}"
+								   Orientation="Vertical"
+								   SmallChange="1"
+								   Value="{Binding VerticalScrollValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+						<ScrollBar x:Name="PART_ScrollH"
+								   Grid.Row="2"
+								   Grid.Column="1"
+								   HorizontalAlignment="Stretch"
+								   VerticalAlignment="Bottom"
+								   IndicatorMode="MouseIndicator"
+								   LargeChange="10"
+								   Maximum="{TemplateBinding HorizontalMaxScroll}"
+								   Minimum="{TemplateBinding HorizontalMinScroll}"
+								   Orientation="Horizontal"
+								   SmallChange="1"
+								   Value="{Binding HorizontalScrollValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
