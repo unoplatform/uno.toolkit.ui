@@ -58,6 +58,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
+		<PackageReference Include="Uno.WinUI.DevServer" />
 	</ItemGroup>
 
 	<ItemGroup Condition="('$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True') and $(IsIOS) and !$(RuntimeIdentifier.Contains('arm64'))">
