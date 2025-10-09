@@ -512,7 +512,11 @@ partial class ZoomContentControl
 
 	public void SetLocalFocus(FrameworkElement? target)
 	{
+#if NETCOREAPP
 		if (!IsLocalFocusSupported()) return;
+#else
+		if (!(_localFocusWrapper is { } && _localFocusTranslation is { })) return;
+#endif
 
 		if (target is not { IsLoaded: true, ActualWidth: > 0, ActualHeight: > 0 })
 		{
@@ -521,7 +525,7 @@ partial class ZoomContentControl
 		}
 
 		// make sure the target is a descendant of the content
-		if (_localFocusPresenter.FindFirstDescendant<FrameworkElement>(x => x == target) is null) return;
+		if (_localFocusPresenter?.GetFirstDescendant<FrameworkElement>(x => x == target) is null) return;
 
 		_localFocusTarget = target;
 
@@ -534,7 +538,11 @@ partial class ZoomContentControl
 
 	public void ClearLocalFocus()
 	{
+#if NETCOREAPP
 		if (!IsLocalFocusSupported()) return;
+#else
+		if (!(_localFocusWrapper is { } && _localFocusTranslation is { })) return;
+#endif
 
 		_localFocusTarget = null;
 		_localFocusTranslation.X = 0;
@@ -695,12 +703,12 @@ partial class ZoomContentControl // helpers
 	private void UpdateScrollBarMirrorSpacing()
 	{
 		if (_rootGrid is null) return;
-		if (_rootGrid.RowDefinitions is not [var row0, _, _]) return;
-		if (_rootGrid.ColumnDefinitions is not [var column0, _, _]) return;
+		if (_rootGrid.RowDefinitions is not { Count: 3 }) return;
+		if (_rootGrid.ColumnDefinitions is not { Count: 3 }) return;
 
 		var mirrorSpacing = ScrollBarLayout is ZoomContentControlScrollBarLayout.BottomRightWithMirrorSpacing;
-		row0.Height = mirrorSpacing && _scrollH?.ActualHeight> 0 ? new GridLength(_scrollH.ActualHeight) : GridLength.Auto;
-		column0.Width = mirrorSpacing && _scrollV?.ActualWidth > 0 ? new GridLength(_scrollV.ActualWidth) : GridLength.Auto;
+		_rootGrid.RowDefinitions[0].Height = mirrorSpacing && _scrollH?.ActualHeight> 0 ? new GridLength(_scrollH.ActualHeight) : GridLength.Auto;
+		_rootGrid.ColumnDefinitions[0].Width = mirrorSpacing && _scrollV?.ActualWidth > 0 ? new GridLength(_scrollV.ActualWidth) : GridLength.Auto;
 	}
 
 	private void UpdateVisualStates()
@@ -710,7 +718,11 @@ partial class ZoomContentControl // helpers
 
 	public void UpdateLocalFocusOffset()
 	{
+#if NETCOREAPP
 		if (!IsLocalFocusSupported()) return;
+#else
+		if (!(_localFocusWrapper is { } && _localFocusTranslation is { })) return;
+#endif
 		if (_localFocusTarget is null) return;
 
 		// note: existing _localFocusTranslation won't accumulate here
@@ -733,11 +745,13 @@ partial class ZoomContentControl // helpers
 	// const/pure
 	private bool IsAllowedToWork => (IsLoaded && IsActive);
 
+#if NETCOREAPP
 	[MemberNotNullWhen(true, nameof(_localFocusWrapper), nameof(_localFocusTranslation))]
 	private bool IsLocalFocusSupported()
 	{
 		return _localFocusWrapper is { } && _localFocusTranslation is { };
 	}
+#endif
 
 	private static bool IsFromMouseDevice(PointerPoint pp)
 	{

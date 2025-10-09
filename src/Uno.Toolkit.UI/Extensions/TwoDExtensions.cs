@@ -12,7 +12,6 @@ using Microsoft.UI.Xaml.Controls;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-
 #endif
 
 namespace Uno.Toolkit.UI;
@@ -39,6 +38,22 @@ partial class TwoDExtensions // Point arithmetics
 
 	public static Point CopySign(this Point magnitude, Point sign) => new Point(Math.CopySign(magnitude.X, sign.X), Math.CopySign(magnitude.Y, sign.Y));
 	public static Point CopySign(this Point magnitude, Size sign) => new Point(Math.CopySign(magnitude.X, sign.Width), Math.CopySign(magnitude.Y, sign.Height));
+
+#if !NETCOREAPP
+	private static class Math
+	{
+		public static double CopySign(double a, double b)
+		{
+			// note: Math.Sign doesn't distinguish between 0 and -0
+			var direction = b != 0
+				? System.Math.Sign(b) > 0 ? 1 : -1
+				: BitConverter.DoubleToInt64Bits(b) == 0L ? 1 : -1;
+			var magnitude = System.Math.Abs(a);
+		
+			return direction * magnitude; 
+		}
+	}
+#endif
 }
 
 partial class TwoDExtensions // Size arithmetics
