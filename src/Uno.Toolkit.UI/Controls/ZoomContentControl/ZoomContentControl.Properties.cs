@@ -297,7 +297,7 @@ partial class ZoomContentControl // dependency properties
 		nameof(IsActive),
 		typeof(bool),
 		typeof(ZoomContentControl),
-		new PropertyMetadata(true, OnIsActiveChanged));
+		new PropertyMetadata(DefaultValues.IsActive, OnIsActiveChanged));
 
 	/// <summary>
 	/// Gets or sets a value indicating whether the control is active.

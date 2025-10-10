@@ -22,7 +22,7 @@
 								<VisualState x:Name="BottomRightWithMirrorSpacing">
 									<VisualState.Setters>
 										<Setter Target="Part_MirrorScrollV.Visibility" Value="Visible" />
-										<Setter Target="Part_MirrorScrollV.Visibility" Value="Visible" />
+										<Setter Target="Part_MirrorScrollH.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Overlay">

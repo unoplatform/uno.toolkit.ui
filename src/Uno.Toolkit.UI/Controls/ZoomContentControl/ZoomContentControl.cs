@@ -622,7 +622,7 @@ partial class ZoomContentControl // helpers
 			//
 			// in the case of B, we have to flip the range, so that Min=0, Max=abs(n).
 			// later when applying the scroll value to the translation, we have to take this flipping into account.
-			// that is done by re-applying K (sign of N = V-C) to the unvectored scroll value.
+			// that is done by re-applying K (sign of N = V-C) to the non-vectored scroll value.
 			//
 			// in the case of A, the range is normally Min=0, Max=n.
 			// but if AllowFreePanning is false, we want to keep the content centered, so Min=Max=n/2.
@@ -707,7 +707,7 @@ partial class ZoomContentControl // helpers
 		if (_rootGrid.ColumnDefinitions is not { Count: 3 }) return;
 
 		var mirrorSpacing = ScrollBarLayout is ZoomContentControlScrollBarLayout.BottomRightWithMirrorSpacing;
-		_rootGrid.RowDefinitions[0].Height = mirrorSpacing && _scrollH?.ActualHeight> 0 ? new GridLength(_scrollH.ActualHeight) : GridLength.Auto;
+		_rootGrid.RowDefinitions[0].Height = mirrorSpacing && _scrollH?.ActualHeight > 0 ? new GridLength(_scrollH.ActualHeight) : GridLength.Auto;
 		_rootGrid.ColumnDefinitions[0].Width = mirrorSpacing && _scrollV?.ActualWidth > 0 ? new GridLength(_scrollV.ActualWidth) : GridLength.Auto;
 	}
 
@@ -736,8 +736,6 @@ partial class ZoomContentControl // helpers
 
 		// AdditionalMargin is used to create a margin(unscaled) around the actual content or local focus content,
 		// which is done by virtually inflating the size of content.
-		// void: at the global level, we are offset'ing the final translation by the AdditionalMargin.Left/Top to keep the content aligned
-		// void: we also need to do the same for the local focus, since the base offset zeroes in on the focus target cancelling the above, so we need to add it back.
 		_localFocusTranslation.X = offset.X;
 		_localFocusTranslation.Y = offset.Y;
 	}
@@ -796,15 +794,15 @@ partial class ZoomContentControl // helpers
 	{
 		if (zoomLevel is 0) return new Point(1, 1);
 
-		var pdcs = contentSize.MultiplyBy(zoomLevel).Add(additionalMargin);
-		var delta = vpSize.Subtract(pdcs);
+		var paddedScaledContentSize = contentSize.MultiplyBy(zoomLevel).Add(additionalMargin);
+		var delta = vpSize.Subtract(paddedScaledContentSize);
 
 		return new Point(1, 1).CopySign(delta);
 	}
 
 	internal static Point CalculateNewOffset(Size vpSize, Size baseContentSize, Point oldVectoredOffset, Point vpAnchor, double oldZoom, double newZoom, Thickness additionalMargin)
 	{
-		// here, the old/base/new- prefix refers to the same values at different zoom levels, with base- refering ZoomLevel=1.
+		// here, the old/base/new- prefix refers to the same values at different zoom levels, with base- referring ZoomLevel=1.
 		// vpAnchor is an reference point in viewport coordinates, which will be kept stationary during zooming.
 		// typically this is the cursor position or the center of the viewport.
 
