@@ -7,8 +7,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using SkiaSharp;
 using SkiaSharp.Views.Windows;
 using Uno.Disposables;
+using Uno.WinUI.Graphics2DSK;
+using Windows.Foundation;
 
 #if __ANDROID__
 using Android.Views;
@@ -36,7 +39,7 @@ public partial class ShadowContainer : ContentControl
 	private Grid? _panel;
 	private Canvas? _canvas;
 
-	private SKXamlCanvas? _shadowHost;
+	private FrameworkElement? _shadowHost; // either an SKXamlCanvas or an SKCanvasElement
 
 	public ShadowContainer()
 	{
@@ -282,9 +285,18 @@ public partial class ShadowContainer : ContentControl
 		_canvas = GetTemplateChild(nameof(PART_Canvas)) as Canvas;
 		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
 
-		var skiaCanvas = new SKXamlCanvas();
+		FrameworkElement skiaCanvas;
+		if (!SKCanvasElement.IsSupportedOnCurrentPlatform())
+		{
+			skiaCanvas = new ShadowContainerSKCanvasElement(this);
+		}
+		else
+		{
+			var skXamlCanvas= new SKXamlCanvas();
+			skXamlCanvas.PaintSurface += OnSurfacePainted;
+			skiaCanvas = skXamlCanvas;
+		}
 
-		skiaCanvas.PaintSurface += OnSurfacePainted;
 
 #if __IOS__ || __MACCATALYST__
 		skiaCanvas.Opaque = false;
@@ -375,7 +387,8 @@ public partial class ShadowContainer : ContentControl
 
 	private void InvalidateShadows(bool force = false)
 	{
-		_shadowHost?.Invalidate();
+		(_shadowHost as SKCanvasElement)?.Invalidate();
+		(_shadowHost as SKXamlCanvas)?.Invalidate();
 	}
 
 	private static DependencyProperty? GetCornerRadiusPropertyFor(object? content)
@@ -410,5 +423,13 @@ public partial class ShadowContainer : ContentControl
 				: null,
 			_ => null,
 		};
+	}
+
+	private partial class ShadowContainerSKCanvasElement(ShadowContainer owner) : SKCanvasElement
+	{
+		protected override void RenderOverride(SKCanvas canvas, Size area)
+		{
+			owner.OnRenderOverride(canvas, area);
+		}
 	}
 }
