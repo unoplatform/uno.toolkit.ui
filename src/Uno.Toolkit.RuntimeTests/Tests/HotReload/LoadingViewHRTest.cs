@@ -13,7 +13,9 @@ using Windows.Foundation;
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload
 {
 	// Keep ignored in CI; run locally in Debug without a debugger attached.
-	// [Ignore]
+	// Temporarily disabled: Sample app auto-exits and test fails.
+	//Tracking with https://github.com/unoplatform/uno.toolkit.ui/issues/1480
+	[Ignore]
 	[TestClass]
 	[RunsInSecondaryApp(ignoreIfNotSupported: true)]
 	public class LoadingViewHrTest
