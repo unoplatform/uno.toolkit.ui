@@ -29,7 +29,7 @@
         "args": ["--no-build","-f","net9.0-browserwasm","--launch-profile", "Chefs (WebAssembly)"],
         "outputCapture": "std",
         "timeout": 30000,
-        "cwd": "${workspaceFolder}/samples/Uno.Toolkit.Samples"
+        "cwd": "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples"
       }
     },
     {
@@ -50,7 +50,7 @@
         "args": ["--no-build","-f","net9.0-browserwasm","--launch-profile", "Chefs (WebAssembly)"],
         "outputCapture": "std",
         "timeout": 30000,
-        "cwd": "${workspaceFolder}/samples/Uno.Toolkit.Samples"
+        "cwd": "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples"
       }
     },
     {
