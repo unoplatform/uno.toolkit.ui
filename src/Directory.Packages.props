@@ -23,7 +23,8 @@
     <PackageVersion Include="Uno.Material" Version="5.0.13" />
     <PackageVersion Include="Uno.Material.WinUI" Version="5.0.13" />
     <PackageVersion Include="Uno.UI" Version="5.4.22" />
-    <PackageVersion Include="Uno.WinUI" Version="6.0.465" />
+	<PackageVersion Include="Uno.WinUI" Version="6.2.58" />
+	<PackageVersion Include="Uno.WinUI.Graphics2DSK" Version="6.2.58" />
     <PackageVersion Include="Uno.XamlMerge.Task" Version="1.32.0-dev.61" />
     <PackageVersion Include="FluentAssertions" Version="5.10.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
