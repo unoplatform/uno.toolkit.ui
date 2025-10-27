@@ -288,7 +288,7 @@ public partial class ShadowContainer : ContentControl
 		FrameworkElement skiaCanvas;
 		if (SKCanvasElement.IsSupportedOnCurrentPlatform())
 		{
-			skiaCanvas = new ShadowContainerSKCanvasElement(this);
+			skiaCanvas = new ShadowContainerSKCanvasElement() { Owner = this };
 		}
 		else
 		{
@@ -425,11 +425,12 @@ public partial class ShadowContainer : ContentControl
 		};
 	}
 
-	private partial class ShadowContainerSKCanvasElement(ShadowContainer owner) : SKCanvasElement
+	private partial class ShadowContainerSKCanvasElement : SKCanvasElement
 	{
+		public ShadowContainer? Owner { get; set; }
 		protected override void RenderOverride(SKCanvas canvas, Size area)
 		{
-			owner.OnRenderOverride(canvas, area);
+			Owner?.OnRenderOverride(canvas, area);
 		}
 	}
 }
