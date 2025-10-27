@@ -2,11 +2,11 @@
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Uno.Disposables;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Uno.Disposables;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -129,8 +129,8 @@ partial class AutoGrid
 			NotifyCollectionChangedAction.Remove => e.OldStartingIndex == -1 ? endIndex : e.OldStartingIndex,
 			_ => 0,
 		};
-		var rowCount = g.RowDefinitions.Count;
-		var columnCount = g.ColumnDefinitions.Count;
+		var rowCount = Math.Max(g.RowDefinitions.Count, 1);
+		var columnCount = Math.Max(g.ColumnDefinitions.Count, 1);
 		var fillByColumnsFirst = GetOrientation(g) is Orientation.Horizontal;
 
 		for(var i = startIndex; i <= endIndex; i++)
