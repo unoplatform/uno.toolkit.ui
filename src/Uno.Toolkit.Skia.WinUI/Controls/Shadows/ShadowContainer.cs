@@ -286,7 +286,7 @@ public partial class ShadowContainer : ContentControl
 		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
 
 		FrameworkElement skiaCanvas;
-		if (!SKCanvasElement.IsSupportedOnCurrentPlatform())
+		if (SKCanvasElement.IsSupportedOnCurrentPlatform())
 		{
 			skiaCanvas = new ShadowContainerSKCanvasElement(this);
 		}
