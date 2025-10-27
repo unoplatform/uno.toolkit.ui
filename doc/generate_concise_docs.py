@@ -137,17 +137,77 @@ class ConciseDocGenerator:
         return properties
     
     def extract_usage_examples(self, content: str) -> str:
-        """Extract usage examples section."""
-        usage = self.extract_section(content, "Usage")
+        """Extract usage examples section with property demonstrations."""
+        # Find all usage sections at different levels
+        all_usage_sections = []
         
-        if usage:
-            # Keep only code blocks, limit to 2-3 examples
-            code_blocks = re.findall(r'```[\s\S]*?```', usage)
-            if code_blocks:
-                # Take first 2 code blocks
-                usage = '\n\n'.join(code_blocks[:2])
+        # Try level 2 first
+        usage_l2 = self.extract_section(content, "Usage", level=2)
+        if usage_l2:
+            all_usage_sections.append(usage_l2)
         
-        return usage
+        # Also try level 3 for nested structures (like ChipAndChipGroup)
+        # Find all level 3 Usage sections
+        lines = content.split('\n')
+        current_section = []
+        in_usage_section = False
+        
+        for i, line in enumerate(lines):
+            if re.match(r'^### Usage\s*$', line, re.IGNORECASE):
+                in_usage_section = True
+                current_section = []
+                continue
+            
+            if in_usage_section:
+                # Stop at next section of same or higher level
+                if line.startswith('### ') or line.startswith('## '):
+                    if current_section:
+                        all_usage_sections.append('\n'.join(current_section).strip())
+                        current_section = []
+                    in_usage_section = False
+                else:
+                    current_section.append(line)
+        
+        # Don't forget the last section
+        if in_usage_section and current_section:
+            all_usage_sections.append('\n'.join(current_section).strip())
+        
+        # Combine all usage sections and extract code blocks
+        combined_usage = '\n\n'.join(all_usage_sections)
+        
+        if combined_usage:
+            # Extract code blocks with context
+            examples = []
+            lines = combined_usage.split('\n')
+            current_example = []
+            in_code_block = False
+            comment_buffer = []
+            
+            for line in lines:
+                # Capture comments before code blocks
+                if not in_code_block and (line.strip().startswith('<!--') or line.strip().startswith('//')):
+                    comment_buffer.append(line)
+                elif line.strip().startswith('```'):
+                    in_code_block = not in_code_block
+                    if in_code_block and comment_buffer:
+                        # Add comments before code block
+                        current_example.extend(comment_buffer)
+                        comment_buffer = []
+                    current_example.append(line)
+                    if not in_code_block and current_example:
+                        # End of code block, save it
+                        examples.append('\n'.join(current_example))
+                        current_example = []
+                elif in_code_block:
+                    current_example.append(line)
+                else:
+                    comment_buffer = []  # Reset comment buffer if not used
+            
+            if examples:
+                # Take up to 3 examples
+                return '\n\n'.join(examples[:3])
+        
+        return ""
     
     def extract_constructors(self, content: str) -> str:
         """Extract constructors section."""
@@ -158,6 +218,52 @@ class ConciseDocGenerator:
         """Extract events section."""
         events = self.extract_section(content, "Events", level=3)
         return events
+    
+    def extract_property_examples(self, content: str) -> str:
+        """Extract code examples from property description sections."""
+        # Look for code blocks within property sections (like NavigationBar)
+        # Start after ## Properties section and extract examples from ### PropertyName sections
+        lines = content.split('\n')
+        examples = []
+        in_properties_section = False
+        in_property_subsection = False
+        current_example = []
+        in_code_block = False
+        
+        for i, line in enumerate(lines):
+            # Start when we hit ## Properties
+            if re.match(r'^## Properties\s*$', line, re.IGNORECASE):
+                in_properties_section = True
+                continue
+            # End of properties section when we hit the next ## section
+            elif line.startswith('## ') and in_properties_section:
+                in_properties_section = False
+                break
+            
+            if in_properties_section:
+                # Check for ### Property subsections
+                if re.match(r'^### [A-Z]', line):
+                    in_property_subsection = True
+                    
+                if in_property_subsection:
+                    if line.strip().startswith('```'):
+                        in_code_block = not in_code_block
+                        current_example.append(line)
+                        if not in_code_block and current_example:
+                            # End of code block
+                            example_text = '\n'.join(current_example)
+                            # Only include XAML examples, exclude C# and diff blocks
+                            if '```xml' in example_text and 'partial class' not in example_text:
+                                examples.append(example_text)
+                            current_example = []
+                    elif in_code_block:
+                        current_example.append(line)
+        
+        # Return up to 3 property examples
+        if examples:
+            return '\n\n'.join(examples[:3])
+        return ""
+    
     
     def clean_markdown(self, text: str) -> str:
         """Clean up markdown text by removing excessive whitespace."""
@@ -180,6 +286,20 @@ class ConciseDocGenerator:
         constructors = self.extract_constructors(content)
         events = self.extract_events(content)
         usage = self.extract_usage_examples(content)
+        
+        # Also try to extract property examples and combine with usage
+        property_examples = self.extract_property_examples(content)
+        
+        # Combine usage and property examples, preferring property examples if usage is just style examples
+        if property_examples:
+            if not usage:
+                usage = property_examples
+            elif usage and 'BasedOn=' in usage and len(usage.split('\n')) < 15:
+                # If usage is just style examples, use property examples instead
+                usage = property_examples
+            elif usage and len(property_examples.split('\n')) > len(usage.split('\n')):
+                # If property examples are more substantial, use them
+                usage = property_examples
         
         # Build concise document
         concise_parts = []

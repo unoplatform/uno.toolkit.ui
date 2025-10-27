@@ -89,6 +89,12 @@ In some cases, it is acceptable for visible content to be partially obscured (a 
 +           utu:SafeArea.Insets="Top">
 ```
 
+```diff
+<utu:TabBar Grid.Row="2"
++           utu:SafeArea.Insets="Bottom"
+            Background="Purple">
+```
+
 ---
 
 **Note**: This is a concise reference. 

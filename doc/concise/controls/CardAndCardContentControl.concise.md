@@ -34,6 +34,66 @@ uid: Toolkit.Controls.Card
 | `ShadowColor`               | `Color`        | Gets or sets the color to use for the shadow of the control.                                  |
 | `IsClickable`               | `bool`         | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
 
+## Usage Examples
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<!-- ElevatedCardStyle -->
+<utu:Card HeaderContent="Elevated card"
+          SubHeaderContent="With title and subtitle"
+          Style="{StaticResource ElevatedCardStyle}" />
+
+<!-- FilledCardStyle -->
+<utu:Card HeaderContent="Filled card"
+          SubHeaderContent="With title and subtitle"
+          Style="{StaticResource FilledCardStyle}" />
+
+<!-- OutlinedCardStyle -->
+<utu:Card HeaderContent="Outlined card"
+          SubHeaderContent="With title and subtitle"
+          Style="{StaticResource OutlinedCardStyle}" />
+```
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<!-- ElevatedCardContentControlStyle -->
+<utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}">
+    <utu:CardContentControl.ContentTemplate>
+        <DataTemplate>
+            <Grid>
+                <TextBlock Text="Elevated card" MaxLines="1" Style="{StaticResource HeadlineMedium}" />
+            </Grid>
+        </DataTemplate>
+    </utu:CardContentControl.ContentTemplate>
+</utu:CardContentControl>
+
+<!-- FilledCardContentControlStyle -->
+<utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}">
+    <utu:CardContentControl.ContentTemplate>
+        <DataTemplate>
+            <Grid>
+                <TextBlock Text="Filled card" MaxLines="1" Style="{StaticResource HeadlineMedium}" />
+            </Grid>
+        </DataTemplate>
+    </utu:CardContentControl.ContentTemplate>
+</utu:CardContentControl>
+
+<!-- OutlinedCardContentControlStyle -->
+<utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}">
+    <utu:CardContentControl.ContentTemplate>
+        <DataTemplate>
+            <Grid>
+                <TextBlock Text="Outlined card" MaxLines="1" Style="{StaticResource HeadlineMedium}" />
+            </Grid>
+        </DataTemplate>
+    </utu:CardContentControl.ContentTemplate>
+</utu:CardContentControl>
+```
+
 ---
 
 **Note**: This is a concise reference. 

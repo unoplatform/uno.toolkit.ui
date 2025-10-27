@@ -14,6 +14,50 @@ uid: Toolkit.Controls.DrawerFlyoutPresenter
 | `IsGestureEnabled`              | `bool`=`true`              | Get or sets a value that indicates whether the user can interact with the control using gesture.                                         |
 | `IsLightDismissEnabled`         | `bool`=`true`              | Gets or sets a value that indicates whether the drawer flyout can be light-dismissed.                                                    |
 
+## Usage Examples
+
+```xml
+<Button Content="Bottom Drawer"
+        xmlns:toolkit="using:Uno.UI.Toolkit">
+    <Button.Flyout>
+        <Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource BottomDrawerFlyoutPresenterStyle}">
+            <StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All"
+                        Background="SkyBlue"
+                        MinHeight="200">
+                <TextBlock Text="text" />
+                <Button Content="button" />
+            </StackPanel>
+        </Flyout>
+    </Button.Flyout>
+</Button>
+```
+
+    ```xml
+    <Flyout Placement="Full">
+        <Flyout.FlyoutPresenterStyle>
+            <Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                <Setter Property="CornerRadius" Value="16,16,0,0" />
+            </Style>
+        </Flyout.FlyoutPresenterStyle>
+        <Border toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
+            <!-- flyout content -->
+        </Border>
+    </Flyout>
+    ```
+
+    ```xml
+    <Flyout Placement="Full">
+        <Flyout.FlyoutPresenterStyle>
+            <Style BasedOn="{StaticResource BottomDrawerFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                <Setter Property="Background" Value="SkyBlue" />
+            </Style>
+        </Flyout.FlyoutPresenterStyle>
+        <Border toolkit:VisibleBoundsPadding.PaddingMask="All" >
+            <!-- flyout content -->
+        </Border>
+    </Flyout>
+    ```
+
 ---
 
 **Note**: This is a concise reference. 

@@ -50,6 +50,42 @@ The `NavigationBar` supports 2 different modes:
 |-----------|:-------:|:---:|:-------:|----------|
 | `Clicked` | x       | x   | x       |          |
 
+## Usage Examples
+
+```xml
+<utu:NavigationBar Content="Title">
+  <utu:NavigationBar.PrimaryCommands>
+    <AppBarButton Label="Share">
+      <AppBarButton.Icon>
+        <BitmapIcon UriSource="ms-appx:///Assets/Share.png" />
+      </AppBarButton.Icon>
+    </AppBarButton>
+  </utu:NavigationBar.PrimaryCommands>
+</utu:NavigationBar>
+```
+
+```xml
+<utu:NavigationBar>
+  <utu:NavigationBar.Content>
+    <TextBox />
+  </utu:NavigationBar.Content>
+  <utu:NavigationBar.PrimaryCommands>
+    <AppBarButton Label="Share">
+      <AppBarButton.Icon>
+        <BitmapIcon UriSource="ms-appx:///Assets/Share.png" />
+      </AppBarButton.Icon>
+    </AppBarButton>
+  </utu:NavigationBar.PrimaryCommands>
+</utu:NavigationBar>
+```
+
+```xml
+<utu:NavigationBar Content="Title"
+                   Foreground="Red">
+                   ...
+</utu:NavigationBar>
+```
+
 ---
 
 **Note**: This is a concise reference. 

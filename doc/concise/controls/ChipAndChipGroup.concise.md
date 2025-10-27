@@ -44,6 +44,57 @@ sealed class ChipRemovingEventArgs : EventArgs
 }
 ```
 
+## Usage Examples
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<utu:Chip Content="Assist Chip" Style="{StaticResource AssistChipStyle}" />
+<utu:Chip Content="Input Chip" IsChecked="True" Style="{StaticResource InputChipStyle}" />
+<utu:Chip Content="Filter Chip" IsChecked="True" Style="{StaticResource FilterChipStyle}" />
+<utu:Chip Content="Suggestion Chip" IsChecked="True" Style="{StaticResource SuggestionChipStyle}" />
+
+<!-- with icon -->
+<utu:Chip Content="Chip" Style="{StaticResource MaterialChipStyle}">
+    <utu:Chip.Icon>
+        <Image Source="ms-appx:///Assets/Avatar.png" />
+    </utu:Chip.Icon>
+</utu:Chip>
+```
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+<!-- example with event -->
+<utu:ChipGroup ItemClick="ChipGroup_ItemClick" Style="{StaticResource InputChipGroupStyle}">
+    <utu:Chip Content="Chip" />
+    <utu:Chip Content="Chip" IsChecked="True" />
+    <utu:Chip Content="Chip" />
+</utu:ChipGroup>
+
+<!-- example with binding -->
+<utu:ChipGroup ItemsSource="{Binding Items}" Style="{StaticResource SuggestionChipGroupStyle}">
+    <utu:ChipGroup.ItemTemplate>
+        <DataTemplate>
+            <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+    </utu:ChipGroup.ItemTemplate>
+</utu:ChipGroup>
+
+<!-- single selection with binding -->
+<utu:ChipGroup ItemsSource="{Binding Items}"
+               SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+               SelectionMode="Single"
+               Style="{StaticResource SuggestionChipGroupStyle}" />
+
+<!-- multi-selection with binding -->
+<utu:ChipGroup ItemsSource="{Binding Items}"
+               SelectedItems="{Binding SelectedItems, Mode=TwoWay}"
+               SelectionMode="Multiple"
+               Style="{StaticResource SuggestionChipGroupStyle}" />
+```
+
 ---
 
 **Note**: This is a concise reference. 

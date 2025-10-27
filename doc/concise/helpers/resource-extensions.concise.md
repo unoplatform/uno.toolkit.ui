@@ -16,7 +16,7 @@ This extension facilitates assigning a specific `ResourceDictionary` directly to
 
 ## Usage Examples
 
-```xml
+ ```xml
 <Style x:Key="OverridenFilledButtonStyle"
        xmlns:utu="using:Uno.Toolkit.UI"
        TargetType="Button"

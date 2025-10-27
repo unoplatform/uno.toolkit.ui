@@ -60,6 +60,29 @@ Refer to [`LoadingView`](xref:Toolkit.Controls.LoadingView) for a list of inheri
 </UserControl>
 ```
 
+```csharp
+protected override async void OnLaunched(LaunchActivatedEventArgs args)
+{
+    // Code ommited for brevity
+
+    if (MainWindow.Content is not Shell shell)
+    {
+        shell = new Shell();
+
+        MainWindow.Content = shell;
+
+        shell.RootFrame.NavigationFailed += OnNavigationFailed;
+    }
+
+    if (shell.RootFrame.Content == null)
+    {
+        shell.RootFrame.Navigate(typeof(MainPage), args.Arguments);
+    }
+
+    MainWindow.Activate();
+}
+```
+
 ---
 
 **Note**: This is a concise reference. 
