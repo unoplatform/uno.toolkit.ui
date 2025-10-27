@@ -1,10 +1,14 @@
-﻿#if IS_WINUI
+﻿using System.ComponentModel;
+
+#if IS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using Windows.UI.Xaml;
 #endif
 
 namespace Uno.Toolkit.UI;
+
+// unoplatform/uno.toolkit.ui#1485: private dp is raising errors in the logs. making them public for now to quiet the logs.
 
 partial class ZoomContentControl // dependency properties
 {
@@ -24,14 +28,15 @@ partial class ZoomContentControl // dependency properties
 	}
 
 	#region DependencyProperty: [Private] HorizontalScrollValue
-
-	private static DependencyProperty HorizontalScrollValueProperty { get; } = DependencyProperty.Register(
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static DependencyProperty HorizontalScrollValueProperty { get; } = DependencyProperty.Register(
 		nameof(HorizontalScrollValue),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double), OnHorizontalScrollValueChanged));
 
-	private double HorizontalScrollValue
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public double HorizontalScrollValue
 	{
 		get => (double)GetValue(HorizontalScrollValueProperty);
 		set => SetValue(HorizontalScrollValueProperty, value);
@@ -43,7 +48,8 @@ partial class ZoomContentControl // dependency properties
 	/// <summary>
 	/// Identifies the HorizontalMinScroll dependency property.
 	/// </summary>
-	private static DependencyProperty HorizontalMinScrollProperty { get; } = DependencyProperty.Register(
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static DependencyProperty HorizontalMinScrollProperty { get; } = DependencyProperty.Register(
 		nameof(HorizontalMinScroll),
 		typeof(double),
 		typeof(ZoomContentControl),
@@ -52,7 +58,8 @@ partial class ZoomContentControl // dependency properties
 	/// <summary>
 	/// Gets or sets the minimum horizontal scroll limit.
 	/// </summary>
-	private double HorizontalMinScroll
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public double HorizontalMinScroll
 	{
 		get => (double)GetValue(HorizontalMinScrollProperty);
 		set => SetValue(HorizontalMinScrollProperty, value);
@@ -64,7 +71,8 @@ partial class ZoomContentControl // dependency properties
 	/// <summary>
 	/// Identifies the HorizontalMaxScroll dependency property.
 	/// </summary>
-	private static DependencyProperty HorizontalMaxScrollProperty { get; } = DependencyProperty.Register(
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static DependencyProperty HorizontalMaxScrollProperty { get; } = DependencyProperty.Register(
 		nameof(HorizontalMaxScroll),
 		typeof(double),
 		typeof(ZoomContentControl),
@@ -73,7 +81,8 @@ partial class ZoomContentControl // dependency properties
 	/// <summary>
 	/// Gets or sets the maximum horizontal scroll limit.
 	/// </summary>
-	private double HorizontalMaxScroll
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public double HorizontalMaxScroll
 	{
 		get => (double)GetValue(HorizontalMaxScrollProperty);
 		set => SetValue(HorizontalMaxScrollProperty, value);
@@ -82,14 +91,16 @@ partial class ZoomContentControl // dependency properties
 	#endregion
 
 	#region DependencyProperty: [Private] VerticalScrollValue
-
-	private static DependencyProperty VerticalScrollValueProperty { get; } = DependencyProperty.Register(
+	
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static DependencyProperty VerticalScrollValueProperty { get; } = DependencyProperty.Register(
 		nameof(VerticalScrollValue),
 		typeof(double),
 		typeof(ZoomContentControl),
 		new PropertyMetadata(default(double), OnVerticalScrollValueChanged));
-
-	private double VerticalScrollValue
+	
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public double VerticalScrollValue
 	{
 		get => (double)GetValue(VerticalScrollValueProperty);
 		set => SetValue(VerticalScrollValueProperty, value);
@@ -101,7 +112,8 @@ partial class ZoomContentControl // dependency properties
 	/// <summary>
 	/// Identifies the VerticalMaxScroll dependency property.
 	/// </summary>
-	private static DependencyProperty VerticalMaxScrollProperty { get; } = DependencyProperty.Register(
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static DependencyProperty VerticalMaxScrollProperty { get; } = DependencyProperty.Register(
 		nameof(VerticalMaxScroll),
 		typeof(double),
 		typeof(ZoomContentControl),
@@ -110,7 +122,8 @@ partial class ZoomContentControl // dependency properties
 	/// <summary>
 	/// Gets or sets the maximum vertical scroll limit.
 	/// </summary>
-	private double VerticalMaxScroll
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public double VerticalMaxScroll
 	{
 		get => (double)GetValue(VerticalMaxScrollProperty);
 		set => SetValue(VerticalMaxScrollProperty, value);
@@ -122,7 +135,8 @@ partial class ZoomContentControl // dependency properties
 	/// <summary>
 	/// Identifies the VerticalMinScroll dependency property.
 	/// </summary>
-	private static DependencyProperty VerticalMinScrollProperty { get; } = DependencyProperty.Register(
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static DependencyProperty VerticalMinScrollProperty { get; } = DependencyProperty.Register(
 		nameof(VerticalMinScroll),
 		typeof(double),
 		typeof(ZoomContentControl),
@@ -131,7 +145,8 @@ partial class ZoomContentControl // dependency properties
 	/// <summary>
 	/// Gets or sets the minimum vertical scroll limit.
 	/// </summary>
-	private double VerticalMinScroll
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public double VerticalMinScroll
 	{
 		get => (double)GetValue(VerticalMinScrollProperty);
 		set => SetValue(VerticalMinScrollProperty, value);
