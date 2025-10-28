@@ -84,6 +84,31 @@
       href: helpers/TabBarItem-extensions.md
     - name: VisualStateManager Extensions
       href: helpers/VisualStateManager-extensions.md
+    # ***************** Reference\Helpers\Walkthroughs *******************
+    - name: Walkthroughs
+      items:
+      - name: AncestorBinding and ItemsControlBinding
+        href: helpers/walkthroughs/ancestor-itemscontrol-binding.howto.md
+      - name: CommandExtensions
+        href: helpers/walkthroughs/command-extensions.howto.md
+      - name: FlipView Extensions
+        href: helpers/walkthroughs/flipview-extensions.howto.md
+      - name: InputExtensions
+        href: helpers/walkthroughs/input-extensions.howto.md
+      - name: ItemsRepeater Extensions
+        href: helpers/walkthroughs/itemsrepeater-extensions.howto.md
+      - name: Responsive Extension
+        href: helpers/walkthroughs/responsive-extension.howto.md
+      - name: Resource Extensions
+        href: helpers/walkthroughs/resource-extensions.howto.md
+      - name: Selector Extensions
+        href: helpers/walkthroughs/selector-extensions.howto.md
+      - name: StatusBar Extensions
+        href: helpers/walkthroughs/statusbar-extensions.howto.md
+      - name: SystemThemeHelper
+        href: helpers/walkthroughs/systemthemehelper.howto.md
+      - name: TabBarItem Extensions
+        href: helpers/walkthroughs/tabbaritem-extensions.howto.md
   # ***************** Reference\Styles **********************
   - name: Styles
     href: controls-styles.md
