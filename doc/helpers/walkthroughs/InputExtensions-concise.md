@@ -1,19 +1,4 @@
-### Customize focus and soft keyboard behavior for input controls with InputExtensions
-
-Summary: InputExtensions provides attached properties to enhance TextBox, PasswordBox, and other input controls with Enter-key behaviors and soft-keyboard return types.
-
----
-
-### Attached properties
-
-| Property | Type | Description |
-|---|---:|---|
-| AutoDismiss | bool | Dismisses the soft keyboard when the Enter key is pressed |
-| AutoFocusNext | bool | Moves focus to the next focusable element when Enter is pressed |
-| AutoFocusNextElement | Control | Explicitly sets the next control to receive focus when Enter is pressed |
-| ReturnType | InputReturnType | Sets the soft-keyboard return button type: Default; Done; Go; Next; Search; Send |
-
-### How to use InputExtensions
+### Managing focus and soft keyboard behavior for input controls
 
 #### Dismiss the soft keyboard when Enter is pressed
 
@@ -41,7 +26,7 @@ AutoFocusNext uses the platform focus manager to find the next element.
 <TextBox x:Name="Input4" utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=Input3}" />
 ```
 
-#### Set the soft-keyboard return button type using InputExtensions.ReturnType
+#### Set the soft-keyboard return button type
 
 ```csharp
 <TextBox utu:InputExtensions.ReturnType="Send" />
