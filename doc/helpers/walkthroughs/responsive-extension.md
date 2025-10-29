@@ -1,4 +1,4 @@
-# Change values by screen size (Responsive markup extension)
+# Change values by screen size
 
 **Goal:** Bind different values at different widths; optionally change breakpoints.
 

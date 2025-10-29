@@ -1,4 +1,4 @@
-# Move focus / dismiss keyboard / set return key text (InputExtensions)
+# Move focus / dismiss keyboard / set return key text
 
 **Goal:** Improve text input flow on mobile/desktop.
 

@@ -1,4 +1,4 @@
-# Toggle app theme at runtime (SystemThemeHelper)
+# Toggle app theme at runtime
 
 **Goal:** Read current theme and switch Light/Dark from code.
 

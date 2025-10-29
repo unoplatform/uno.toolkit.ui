@@ -1,4 +1,4 @@
-# Bind to a parent from inside a DataTemplate (AncestorBinding & ItemsControlBinding)
+# Bind to a parent from inside a DataTemplate
 
 **Goal:** Read data or properties from an ancestor element when you're inside a `DataTemplate`.
 
