@@ -40,7 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
-    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="Uno.WinUI.DevServer" />
+		<PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="FluentAssertions" />
   </ItemGroup>
   <ItemGroup>
