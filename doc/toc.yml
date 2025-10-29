@@ -55,6 +55,33 @@
       href: controls/TabBarAndTabBarItem.md
     - name: ZoomContentControl
       href: controls/ZoomContentControl.md
+    # ***************** Reference\Controls\Walkthroughs *******************
+    - name: Walkthroughs
+      items:
+      - name: AutoLayout
+        href: controls/walkthroughs/AutoLayout.howto.md
+      - name: Card and CardContentControl
+        href: controls/walkthroughs/Card-and-CardContentControl.howto.md
+      - name: Chip and ChipGroup
+        href: controls/walkthroughs/Chip-and-ChipGroup.howto.md
+      - name: DrawerFlyoutPresenter
+        href: controls/walkthroughs/DrawerFlyoutPresenter.howto.md
+      - name: ExtendedSplashScreen
+        href: controls/walkthroughs/ExtendedSplashScreen.howto.md
+      - name: LoadingView
+        href: controls/walkthroughs/LoadingView.howto.md
+      - name: NavigationBar
+        href: controls/walkthroughs/NavigationBar.howto.md
+      - name: ResponsiveView
+        href: controls/walkthroughs/ResponsiveView.howto.md
+      - name: SafeArea
+        href: controls/walkthroughs/SafeArea.howto.md
+      - name: ShadowContainer
+        href: controls/walkthroughs/ShadowContainer.howto.md
+      - name: TabBar and TabBarItem
+        href: controls/walkthroughs/TabBar-and-TabBarItem.howto.md
+      - name: ZoomContentControl
+        href: controls/walkthroughs/ZoomContentControl.howto.md
   # ***************** Reference\Helpers *******************
   - name: Helpers
     items:
