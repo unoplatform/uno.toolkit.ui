@@ -11,7 +11,6 @@ tags: [tabbar, tabs, navigation, bottom-navigation, segmented-control, badge, fa
 > * `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` (prebuilt styles, badges, segmented looks)
 > * `Uno.Extensions.Navigation` + `Uno.Extensions.Navigation.Toolkit.WinUI` (if you want tab selection to navigate views)
 
-
 ## Show a bottom tab bar (icons only)
 
 **When to use:** primary, bottom navigation with icons.

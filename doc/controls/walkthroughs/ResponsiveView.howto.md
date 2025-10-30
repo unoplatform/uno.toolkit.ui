@@ -159,3 +159,7 @@ You don't need to define all five templates. `ResponsiveView` chooses from what 
 ---
 
 *Source page summarized & refactored for outcome-oriented how-tos.* ([Uno Platform][2])
+
+[1]: https://www.nuget.org/packages/Uno.Toolkit.UI
+[2]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/ResponsiveView.html
+[3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/ResponsiveExtension.html

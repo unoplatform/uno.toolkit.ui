@@ -169,3 +169,5 @@ Yes—create a `ShadowCollection` in resources and bind via `Shadows="{StaticRes
 Yes—later entries render over earlier ones; reorder for the look you want. ([Uno Platform][1])
 
 ---
+
+[1]: https://platform.uno/
