@@ -6,5 +6,8 @@
 	"no-inline-html": false,
 	"no-duplicate-heading": false,
 	"no-emphasis-as-heading": false,
-	"MD051": false
+	"MD051": false,
+	"MD025": {
+		"front_matter_title": "title"
+	}
 }
