@@ -1,10 +1,8 @@
 ---
-title: UI Command Actions How-Tos in Uno Platform
+title: UI Command Actions on UI interactions How-Tos in Uno Platform
 description: How-to guides for executing MVVM commands on UI interactions without code-behind, optimized for cross-platform apps.
 keywords: uno platform, mvvm commands, enter submit, toggle change, item click, selection change, navigation invoke, item tap, element tap, parameter override, trigger events, troubleshooting
 ---
-
-# UI Command Actions How-Tos
 
 ## Submit Text on Enter
 
