@@ -4,7 +4,9 @@ description: How-to guides for executing MVVM commands on UI interactions withou
 keywords: uno platform, mvvm commands, enter submit, toggle change, item click, selection change, navigation invoke, item tap, element tap, parameter override, trigger events, troubleshooting
 ---
 
-# Submit Text on Enter
+# UI Command Actions How-Tos
+
+## Submit Text on Enter
 
 Execute command on Enter key press, dismiss keyboard automatically.
 
@@ -19,11 +21,12 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Notes:**
+
 - Triggers on Enter key press.
 - Default parameter: Text value.
 - Keyboard dismisses automatically.
 
-# Submit Password on Enter
+## Submit Password on Enter
 
 Execute command on Enter key press, dismiss keyboard automatically.
 
@@ -38,11 +41,12 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Notes:**
+
 - Triggers on Enter key press.
 - Default parameter: Password value.
 - Keyboard dismisses automatically.
 
-# Toggle Feature on Change
+## Toggle Feature on Change
 
 Execute command on state change.
 
@@ -57,10 +61,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Notes:**
+
 - Triggers on state change.
 - Default parameter: IsOn value (true/false).
 
-# Handle Item Click
+## Handle Item Click
 
 Execute command on item click.
 
@@ -77,10 +82,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Notes:**
+
 - Requires IsItemClickEnabled=True.
 - Default parameter: Clicked item.
 
-# Change Selection
+## Change Selection
 
 Execute command on selection change.
 
@@ -96,10 +102,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Notes:**
+
 - Triggers on SelectionChanged.
 - Default parameter: Selected item.
 
-# Navigate on Item Select
+## Navigate on Item Select
 
 Execute command on item select.
 
@@ -118,10 +125,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Notes:**
+
 - Triggers on ItemInvoked.
 - Default parameter: Invoked item.
 
-# Handle Item Tap
+## Handle Item Tap on ItemsRepeater
 
 Execute command on item tap.
 
@@ -144,10 +152,11 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 ```
 
 **Notes:**
+
 - Triggers on tap.
 - Default parameter: Item DataContext.
 
-# Handle Element Tap
+## Handle Element Tap
 
 Execute command on element tap.
 
@@ -162,10 +171,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Notes:**
+
 - Triggers on tap.
 - Default parameter: Element itself.
 
-# Send Static Value with Command
+## Send Static Value with Command
 
 Override default parameter with static value.
 
@@ -181,10 +191,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Notes:**
+
 - Replaces default parameter.
 - Applies to CanExecute and Execute.
 
-# Send Bound Value with Command
+## Send Bound Value with Command
 
 Override default parameter with bound value.
 
@@ -207,10 +218,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Notes:**
+
 - Replaces default parameter.
 - Applies to CanExecute and Execute.
 
-# Navigate to Page on Tap
+## Navigate to Page on Tap
 
 Navigate directly on item tap.
 
@@ -228,6 +240,7 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 ```
 
 **Notes:**
+
 - Triggers navigation to registered route.
 - Passes data parameter.
 - Register routes in app bootstrap.
