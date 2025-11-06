@@ -4,7 +4,7 @@ description: How-to guides for executing MVVM commands on UI interactions withou
 keywords: uno platform, mvvm commands, enter submit, toggle change, item click, selection change, navigation invoke, item tap, element tap, trigger events
 ---
 
-## Handle Text on Enter
+## Handle Text on Enter key press
 
 Execute command on Enter key press, dismiss keyboard automatically.
 
