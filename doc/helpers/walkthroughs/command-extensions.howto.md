@@ -84,7 +84,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 - Requires IsItemClickEnabled=True.
 - Default parameter: Clicked item.
 
-## Change Selection
+## Handle ComboBox Selection
 
 Execute command on selection change.
 
