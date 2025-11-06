@@ -1,14 +1,14 @@
 ---
 title: UI Command Actions on UI interactions How-Tos in Uno Platform
 description: How-to guides for executing MVVM commands on UI interactions without code-behind, optimized for cross-platform apps.
-keywords: uno platform, mvvm commands, enter submit, toggle change, item click, selection change, navigation invoke, item tap, element tap, parameter override, trigger events, troubleshooting
+keywords: uno platform, mvvm commands, enter submit, toggle change, item click, selection change, navigation invoke, item tap, element tap, trigger events
 ---
 
-## Submit Text on Enter
+## Handle Text on Enter
 
 Execute command on Enter key press, dismiss keyboard automatically.
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
@@ -24,11 +24,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 - Default parameter: Text value.
 - Keyboard dismisses automatically.
 
-## Submit Password on Enter
+## Handle PasswordBox on Enter key press
 
 Execute command on Enter key press, dismiss keyboard automatically.
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
@@ -44,11 +44,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 - Default parameter: Password value.
 - Keyboard dismisses automatically.
 
-## Toggle Feature on Change
+## Handle Feature on Change
 
 Execute command on state change.
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Uno.Toolkit.UI**
 
 **XAML Example:**
 
@@ -63,11 +63,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 - Triggers on state change.
 - Default parameter: IsOn value (true/false).
 
-## Handle Item Click
+## Handle List Item Click
 
-Execute command on item click.
+Execute command on a `ListView` item click
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
@@ -88,7 +88,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Execute command on selection change.
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
@@ -104,11 +104,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 - Triggers on SelectionChanged.
 - Default parameter: Selected item.
 
-## Navigate on Item Select
+## Handle NavigationView Item Selection
 
 Execute command on item select.
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
@@ -127,11 +127,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 - Triggers on ItemInvoked.
 - Default parameter: Invoked item.
 
-## Handle Item Tap on ItemsRepeater
+## Handle ItemsRepeater Item Tap
 
 Execute command on item tap.
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
@@ -158,7 +158,7 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 
 Execute command on element tap.
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
@@ -173,11 +173,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 - Triggers on tap.
 - Default parameter: Element itself.
 
-## Send Static Value with Command
+## Send Static Value as Custom CommandParameter
 
 Override default parameter with static value.
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
@@ -193,11 +193,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 - Replaces default parameter.
 - Applies to CanExecute and Execute.
 
-## Send Bound Value with Command
+## Send Bound Value as Custom CommandParameter
 
 Override default parameter with bound value.
 
-**NuGet:** Uno.Toolkit.UI
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
@@ -224,7 +224,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Navigate directly on item tap.
 
-**NuGet:** Uno.Extensions.Navigation
+UnoFeature: **Toolkit**
 
 **XAML Example:**
 
