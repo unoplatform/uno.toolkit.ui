@@ -1,271 +1,244 @@
-# Command actions on UI interactions
+---
+title: UI Command Actions on UI interactions How-Tos in Uno Platform
+description: How-to guides for executing MVVM commands on UI interactions without code-behind, optimized for cross-platform apps.
+keywords: uno platform, mvvm commands, enter submit, toggle change, item click, selection change, navigation invoke, item tap, element tap, trigger events
+---
 
-These how-tos show how to run a view-model `ICommand` when common controls are used, without writing code-behind. All samples use the attached properties from **`Uno.Toolkit.UI`**:
+## Handle Text on Enter key press
+
+Execute command on Enter key press, dismiss keyboard automatically.
+
+UnoFeature: **Toolkit**
+
+**XAML Example:**
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
+
+<TextBox utu:CommandExtensions.Command="{Binding SubmitText}" />
 ```
 
-NuGet needed for these samples: **`Uno.Toolkit.UI`**.
+**Notes:**
 
----
+- Triggers on Enter key press.
+- Default parameter: Text value.
+- Keyboard dismisses automatically.
 
-## 1. Run a command when user presses Enter in a text box
+## Handle PasswordBox on Enter key press
 
-**Outcome:** submit the text (or password) on Enter, and close the keyboard.
+Execute command on Enter key press, dismiss keyboard automatically.
 
-**XAML**
+UnoFeature: **Toolkit**
+
+**XAML Example:**
 
 ```xml
-<Page
-    ...
-    xmlns:utu="using:Uno.Toolkit.UI">
-    <TextBox
-        PlaceholderText="Email"
-        utu:CommandExtensions.Command="{Binding SubmitEmail}" />
+xmlns:utu="using:Uno.Toolkit.UI"
 
-    <PasswordBox
-        utu:CommandExtensions.Command="{Binding Login}" />
-</Page>
+<PasswordBox utu:CommandExtensions.Command="{Binding SubmitPassword}" />
 ```
 
-**Notes**
+**Notes:**
 
-* Command is executed on **Enter**. ([Uno Platform][1])
-* If you need to send a custom value (not the text), add `utu:CommandExtensions.CommandParameter`.
-* For text boxes, the default parameter is the current **text**. For password boxes, it’s the **password**. ([Uno Platform][1])
-* Keyboard is dismissed automatically when the command runs. ([Uno Platform][1])
+- Triggers on Enter key press.
+- Default parameter: Password value.
+- Keyboard dismisses automatically.
 
----
+## Handle Feature on Change
 
-## 2. Run a command when a toggle switch changes
+Execute command on state change.
 
-**Outcome:** react to On/Off without handling `Toggled`.
+UnoFeature: **Uno.Toolkit.UI**
 
-**XAML**
+**XAML Example:**
 
 ```xml
-<ToggleSwitch
-    Header="Dark mode"
-    utu:CommandExtensions.Command="{Binding SetDarkMode}" />
+xmlns:utu="using:Uno.Toolkit.UI"
+
+<ToggleSwitch utu:CommandExtensions.Command="{Binding ToggleFeature}" />
 ```
 
-**What the command receives**
+**Notes:**
 
-* By default, the command parameter is the toggle state: `true` / `false`. ([Uno Platform][1])
-* To send your own data, add:
+- Triggers on state change.
+- Default parameter: IsOn value (true/false).
 
-  ```xml
-  utu:CommandExtensions.CommandParameter="dark-mode"
-  ```
+## Handle List Item Click
 
----
+Execute command on a `ListView` item click
 
-## 3. Run a command when a list item is clicked
+UnoFeature: **Toolkit**
 
-**Outcome:** get the clicked item in the command.
-
-**XAML**
+**XAML Example:**
 
 ```xml
-<ListView
-    ItemsSource="{Binding Items}"
-    IsItemClickEnabled="True"
-    utu:CommandExtensions.Command="{Binding ItemClicked}" />
+xmlns:utu="using:Uno.Toolkit.UI"
+
+<ListView ItemsSource="{Binding Items}"
+          IsItemClickEnabled="True"
+          utu:CommandExtensions.Command="{Binding HandleItemClick}" />
 ```
 
-**Important**
+**Notes:**
 
-* `IsItemClickEnabled="True"` is **required** for `ListView`. ([Uno Platform][1])
-* By default, the command receives the **clicked item** (`ItemClickEventArgs.ClickedItem`). ([Uno Platform][1])
-* To override the parameter, set `utu:CommandExtensions.CommandParameter` **on the item container or on the root of the item template**. That value replaces the clicked item. ([Uno Platform][1])
+- Requires IsItemClickEnabled=True.
+- Default parameter: Clicked item.
 
-**Item template override example**
+## Handle ComboBox Selection
+
+Execute command on selection change.
+
+UnoFeature: **Toolkit**
+
+**XAML Example:**
 
 ```xml
-<ListView
-    ItemsSource="{Binding Items}"
-    IsItemClickEnabled="True"
-    utu:CommandExtensions.Command="{Binding ItemClicked}">
-    <ListView.ItemTemplate>
-        <DataTemplate>
-            <Grid utu:CommandExtensions.CommandParameter="{Binding Id}">
-                <TextBlock Text="{Binding Name}" />
-            </Grid>
-        </DataTemplate>
-    </ListView.ItemTemplate>
-</ListView>
+xmlns:utu="using:Uno.Toolkit.UI"
+
+<ComboBox ItemsSource="{Binding Categories}"
+          utu:CommandExtensions.Command="{Binding ChangeCategory}" />
 ```
 
----
+**Notes:**
 
-## 4. Run a command when selection changes (Selector controls)
+- Triggers on SelectionChanged.
+- Default parameter: Selected item.
 
-**Outcome:** react to user choosing another item in controls like `ComboBox` / `ListViewBase` / other `Selector`s.
+## Handle NavigationView Item Selection
 
-**XAML (generic)**
+Execute command on item select.
 
-```xml
-<ComboBox
-    ItemsSource="{Binding Categories}"
-    utu:CommandExtensions.Command="{Binding CategoryChanged}" />
-```
+UnoFeature: **Toolkit**
 
-**Behavior**
-
-* Command runs on **SelectionChanged** (for selector-like controls).
-* Parameter is the **selected item** by default. ([Uno Platform][1])
-* `ListView` is the special case: it prefers **ItemClick** over selection (see previous how-to). ([Uno Platform][1])
-
----
-
-## 5. Run a command when a NavigationView item is invoked
-
-**Outcome:** navigate without handling `ItemInvoked` in code-behind.
-
-**XAML**
+**XAML Example:**
 
 ```xml
-<NavigationView
-    utu:CommandExtensions.Command="{Binding Navigate}">
+xmlns:utu="using:Uno.Toolkit.UI"
+
+<NavigationView utu:CommandExtensions.Command="{Binding NavigateToPage}">
     <NavigationView.MenuItems>
-        <NavigationViewItem Content="Home" Tag="home" />
-        <NavigationViewItem Content="Settings" Tag="settings" />
+        <NavigationViewItem Content="Home" />
     </NavigationView.MenuItems>
 </NavigationView>
 ```
 
-**What the command gets**
+**Notes:**
 
-* By default, the parameter is the **invoked item** (`NavigationViewItemInvokedEventArgs.InvokedItem`). ([Uno Platform][1])
-* If you want to pass something cleaner (like `Tag`), set `utu:CommandExtensions.CommandParameter` on the item:
+- Triggers on ItemInvoked.
+- Default parameter: Invoked item.
 
-  ```xml
-  <NavigationViewItem
-      Content="Settings"
-      Tag="settings"
-      utu:CommandExtensions.CommandParameter="settings" />
-  ```
+## Handle ItemsRepeater Item Tap
 
----
+Execute command on item tap.
 
-## 6. Run a command for an ItemsRepeater item
+UnoFeature: **Toolkit**
 
-**Outcome:** handle taps on a repeated item without writing handlers.
-
-**XAML**
+**XAML Example:**
 
 ```xml
-<muxc:ItemsRepeater
-    ItemsSource="{Binding Items}"
-    utu:CommandExtensions.Command="{Binding ItemTapped}">
+xmlns:utu="using:Uno.Toolkit.UI"
+xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+
+<muxc:ItemsRepeater ItemsSource="{Binding Items}"
+                    utu:CommandExtensions.Command="{Binding HandleItemTap}">
     <muxc:ItemsRepeater.ItemTemplate>
         <DataTemplate>
-            <Grid Padding="8">
-                <TextBlock Text="{Binding Name}" />
-            </Grid>
+            <TextBlock Text="{Binding Name}" />
         </DataTemplate>
     </muxc:ItemsRepeater.ItemTemplate>
 </muxc:ItemsRepeater>
 ```
 
-**Behavior**
+**Notes:**
 
-* Command runs when an item is **tapped**.
-* Parameter is the **item’s DataContext** (the bound model). ([Uno Platform][1])
-* Put `utu:CommandExtensions.CommandParameter="..."` on the root of the template to override. ([Uno Platform][1])
+- Triggers on tap.
+- Default parameter: Item DataContext.
 
----
+## Handle Element Tap
 
-## 7. Run a command when any UIElement is tapped
+Execute command on element tap.
 
-**Outcome:** make any visual element “commandable” with no `Click` event.
+UnoFeature: **Toolkit**
 
-**XAML**
+**XAML Example:**
 
 ```xml
-<Grid
-    Background="Transparent"
-    utu:CommandExtensions.Command="{Binding ShowDetails}"
-    utu:CommandExtensions.CommandParameter="{Binding}">
-    <TextBlock Text="Tap for details" />
-</Grid>
+xmlns:utu="using:Uno.Toolkit.UI"
+
+<Grid utu:CommandExtensions.Command="{Binding HandleTap}" />
 ```
 
-**Notes**
+**Notes:**
 
-* Works on **any `UIElement`**. The default parameter is the element itself. ([Uno Platform][1])
-* Use this to turn cards, rows, or icons into tappable command sources.
+- Triggers on tap.
+- Default parameter: Element itself.
 
----
+## Send Static Value as Custom CommandParameter
 
-## 8. Override the command parameter
+Override default parameter with static value.
 
-**Outcome:** always send the value you want, regardless of the control’s default.
+UnoFeature: **Toolkit**
 
-**XAML examples**
+**XAML Example:**
 
-1. **Send static value**
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
 
-   ```xml
-   <ToggleSwitch
-       utu:CommandExtensions.Command="{Binding TrackToggle}"
-       utu:CommandExtensions.CommandParameter="dark-mode" />
-   ```
+<ToggleSwitch utu:CommandExtensions.Command="{Binding ToggleFeature}"
+              utu:CommandExtensions.CommandParameter="custom-value" />
+```
 
-2. **Send bound object from item template**
+**Notes:**
 
-   ```xml
-   <ListView ...>
-       <ListView.ItemTemplate>
-           <DataTemplate>
-               <StackPanel
-                   utu:CommandExtensions.CommandParameter="{Binding Id}">
-                   <TextBlock Text="{Binding Name}" />
-               </StackPanel>
-           </DataTemplate>
-       </ListView.ItemTemplate>
-   </ListView>
-   ```
+- Replaces default parameter.
+- Applies to CanExecute and Execute.
 
-**Why override?**
+## Send Bound Value as Custom CommandParameter
 
-* Some controls send event args (clicked item, selected item, text, etc.).
-* The extension lets you replace that with **your own** value (an Id, a DTO, a route).
-* This value is used for **both** `CanExecute` and `Execute`. ([Uno Platform][1])
+Override default parameter with bound value.
 
----
+UnoFeature: **Toolkit**
 
-## 9. What events trigger the command?
+**XAML Example:**
 
-The extension hooks into these cases:
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
 
-* `ListViewBase.ItemClick`
-* `Selector.SelectionChanged` (except `ListView`, which uses item click)
-* `NavigationView.ItemInvoked`
-* `ItemsRepeater` item tapped
-* `TextBox`/`PasswordBox` on **Enter**
-* `ToggleSwitch` toggled
-* **any** `UIElement` tapped
-  All of this is built-in; you just set the attached property. ([Uno Platform][1])
+<ListView ItemsSource="{Binding Items}"
+          IsItemClickEnabled="True"
+          utu:CommandExtensions.Command="{Binding HandleItemClick}">
+    <ListView.ItemTemplate>
+        <DataTemplate>
+            <Grid utu:CommandExtensions.CommandParameter="{Binding Id}" />
+        </DataTemplate>
+    </ListView.ItemTemplate>
+</ListView>
+```
 
----
+**Notes:**
 
-## 10. Troubleshooting
+- Replaces default parameter.
+- Applies to CanExecute and Execute.
 
-**Command not firing on ListView**
+## Navigate to Page on Tap
 
-* Check `IsItemClickEnabled="True"`. This is required. ([Uno Platform][1])
+Navigate directly on item tap.
 
-**View-model command doesn’t run**
+UnoFeature: **Toolkit**
 
-* Make sure the page’s `DataContext` is set.
-* Make sure the binding mode is correct (`{Binding MyCommand}` exists).
+**XAML Example:**
 
-**`CanExecute` is not using the value I expect**
+```xml
+xmlns:uen="using:Uno.Extensions.Navigation.UI"
+xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 
-* If you didn't set `CommandParameter`, the extension uses the **control's relevant value** (clicked item, selected item, text, etc.) for both `CanExecute` and `Execute`. Set the parameter explicitly to control this. ([Uno Platform][1])
+<muxc:ItemsRepeater ItemsSource="{Binding Items}"
+                    uen:Navigation.Request="DetailsPage"
+                    uen:Navigation.Data="{Binding}" />
+```
 
----
+**Notes:**
 
-[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/command-extensions.html "Command Extensions "
+- Triggers navigation to registered route.
+- Passes data parameter.
+- Register routes in app bootstrap.
