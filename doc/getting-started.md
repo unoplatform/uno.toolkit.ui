@@ -86,16 +86,17 @@ Depending on the type of project template that the Uno Platform application was 
 
 #### [**Shared Project (.shproj) Template (Legacy)**](#tab/shproj)
 
-1. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Choose either:
-     - The [`Uno.Toolkit.UI`](https://www.nuget.org/packages/Uno.Toolkit.UI/) package when targetting Xamarin/UWP
-     - The [`Uno.Toolkit.WinUI`](https://www.nuget.org/packages/Uno.Toolkit.WinUI) package when targetting net6.0+/WinUI
+> [!IMPORTANT]
+> Starting with Uno Toolkit 7.0, UWP support has been discontinued. For UWP projects, please use Uno.Toolkit 6.x or earlier versions.
+
+1. In the Solution Explorer panel, right-click on your solution name and select `Manage NuGet Packages for Solution ...`. Install the [`Uno.Toolkit.WinUI`](https://www.nuget.org/packages/Uno.Toolkit.WinUI) package when targeting net6.0+/WinUI
 
 2. Select the following projects for installation:
     - `PROJECT_NAME.Wasm.csproj`
     - `PROJECT_NAME.Mobile.csproj` (or `PROJECT_NAME.iOS.csproj`, `PROJECT_NAME.Droid.csproj`, and `PROJECT_NAME.macOS.csproj` if you have an existing project)
     - `PROJECT_NAME.Skia.Gtk.csproj`
     - `PROJECT_NAME.Skia.WPF.csproj`
-    - `PROJECT_NAME.Windows.csproj` (or `PROJECT_NAME.UWP.csproj` for existing projects)
+    - `PROJECT_NAME.Windows.csproj`
 3. Add the following resources inside `App.xaml`:
 
     ```xml
