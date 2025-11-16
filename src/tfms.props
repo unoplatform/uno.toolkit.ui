@@ -7,11 +7,10 @@
 		<NetCurrentAndroid Condition="'$(TargetFrameworkOverride)'==''">$(NetCurrent)-android</NetCurrentAndroid>
 		<NetCurrentiOS Condition="'$(TargetFrameworkOverride)'==''">$(NetCurrent)-ios</NetCurrentiOS>
 		<NetCurrentMacCatalyst Condition="'$(TargetFrameworkOverride)'==''">$(NetCurrent)-maccatalyst</NetCurrentMacCatalyst>
-		<NetCurrentMacOS Condition="'$(TargetFrameworkOverride)'==''">$(NetCurrent)-macos</NetCurrentMacOS>
 		<NetCurrentWindows Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(NetCurrent)-windows10.0.19041</NetCurrentWindows>
 		
 
-		<NetCurrentMobile Condition="'$(DisableMobileTargets)'==''">$(NetCurrentAndroid);$(NetCurrentiOS);$(NetCurrentMacCatalyst);$(NetCurrentMacOS)</NetCurrentMobile>
+		<NetCurrentMobile Condition="'$(DisableMobileTargets)'==''">$(NetCurrentAndroid);$(NetCurrentiOS);$(NetCurrentMacCatalyst)</NetCurrentMobile>
 		<NetCurrentAll>$(TargetFrameworkOverride);$(NetCurrent);$(NetCurrentMobile);$(NetCurrentWindows);</NetCurrentAll>
 	</PropertyGroup>
 
