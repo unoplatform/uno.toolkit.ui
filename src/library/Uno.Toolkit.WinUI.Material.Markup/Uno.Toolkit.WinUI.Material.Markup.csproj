@@ -1,18 +1,13 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
-
-	<!--
-	Adding project references to this project requires some manual adjustments.
-	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
-	-->
+﻿<Project Sdk="Uno.Sdk.Private">
 	<PropertyGroup>
 		<TargetFrameworks>$(NetCurrentAll)</TargetFrameworks>
+		<UnoSingleProject>true</UnoSingleProject>
+		<OutputType>Library</OutputType>
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<DefineConstants>WINUI</DefineConstants>
 		<UseWinUI>true</UseWinUI>
-
-		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All"/>
@@ -28,6 +23,21 @@
 
 	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
 		<Using Include="Uno.Toolkit.UI.Material.Markup" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+		<!--
+		If you encounter this error message:
+
+			error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+			Please update to a newer .NET SDK in order to reference this assembly.
+
+		This means that the two packages below must be aligned with the "build" version number of
+		the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+		must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+		-->
+		<!-- <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" /> -->
 	</ItemGroup>
 
 	<Import Project="..\..\winappsdk-workaround.targets" />
