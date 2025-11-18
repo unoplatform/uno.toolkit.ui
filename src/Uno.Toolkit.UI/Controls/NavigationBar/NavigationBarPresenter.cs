@@ -34,6 +34,7 @@ namespace Uno.Toolkit.UI
 		private WeakReference<NavigationBar?>? _weakNavBar;
 		private SerialDisposable _navBarCommandsChangedHandler = new SerialDisposable();
 		private SerialDisposable _MainCommandClickedHandler = new SerialDisposable();
+		private SerialDisposable _MainCommandPropertyChangedHandler = new SerialDisposable();
 
 		public NavigationBarPresenter()
 		{
@@ -129,6 +130,25 @@ namespace Uno.Toolkit.UI
 			GetNavBar()?.TryPerformMainCommand();
 		}
 
+		private void OnCommandBarMainCommandChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			// When the MainCommand changes on the CommandBar, apply the MainCommandStyle from the NavigationBar
+			var navigationBar = GetNavBar();
+			var mainCommand = CommandBarExtensions.GetMainCommand(_commandBar);
+			
+			if (navigationBar != null && mainCommand != null)
+			{
+				if (navigationBar.MainCommandStyle is Style mainCommandStyle)
+				{
+					mainCommand.Style = mainCommandStyle;
+				}
+				
+				// Re-register the click handler for the new MainCommand
+				mainCommand.Click += OnCommandBarMainCommandClicked;
+				_MainCommandClickedHandler.Disposable = Disposable.Create(() => mainCommand.Click -= OnCommandBarMainCommandClicked);
+			}
+		}
+
 		private void RegisterEvents()
 		{
 			var navigationBar = GetNavBar();
@@ -152,6 +172,13 @@ namespace Uno.Toolkit.UI
 			{
 				commandBarMainCommand.Click += OnCommandBarMainCommandClicked;
 				_MainCommandClickedHandler.Disposable = Disposable.Create(() => commandBarMainCommand.Click -= OnCommandBarMainCommandClicked);
+			}
+
+			// Register for MainCommand property changes on the CommandBar
+			if (_commandBar != null)
+			{
+				var token = _commandBar.RegisterPropertyChangedCallback(CommandBarExtensions.MainCommandProperty, OnCommandBarMainCommandChanged);
+				_MainCommandPropertyChangedHandler.Disposable = Disposable.Create(() => _commandBar.UnregisterPropertyChangedCallback(CommandBarExtensions.MainCommandProperty, token));
 			}
 
 			if (_commandBar != null)
@@ -200,6 +227,8 @@ namespace Uno.Toolkit.UI
 			{
 				_MainCommandClickedHandler.Disposable = null;
 			}
+			
+			_MainCommandPropertyChangedHandler.Disposable = null;
 		}
 
 		private NavigationBar? GetNavBar()
