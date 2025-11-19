@@ -480,7 +480,32 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 #endif
 #endif
 
-		private sealed partial class FirstPage : Page
+	[TestMethod]
+	public async Task MainCommandStyle_Applied_From_NavigationBar_Style()
+	{
+		// Create a style for MainCommand with a specific icon
+		var mainCommandStyle = new Style(typeof(AppBarButton));
+		mainCommandStyle.Setters.Add(new Setter(AppBarButton.IconProperty, new SymbolIcon(Symbol.Back)));
+		
+		// Create NavigationBar with MainCommandStyle set
+		var navigationBar = new NavigationBar 
+		{ 
+			Content = "Title", 
+			MainCommandMode = MainCommandMode.Action,
+			MainCommandStyle = mainCommandStyle
+		};
+		
+		var content = new Grid { Children = { navigationBar } };
+		await UnitTestUIContentHelperEx.SetContentAndWait(content);
+		await UnitTestsUIContentHelper.WaitForIdle();
+		
+		// Verify that MainCommand has the style applied
+		Assert.IsNotNull(navigationBar.MainCommand, "MainCommand should not be null");
+		Assert.IsNotNull(navigationBar.MainCommand.Style, "MainCommand.Style should not be null");
+		Assert.AreEqual(mainCommandStyle, navigationBar.MainCommand.Style, "MainCommand should have the MainCommandStyle applied");
+	}
+
+	private sealed partial class FirstPage : Page
 		{
 			public FirstPage()
 			{
