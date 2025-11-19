@@ -234,6 +234,12 @@ namespace Uno.Toolkit.UI
 			if (args.Property == MainCommandProperty)
 			{
 				UpdateMainCommandVisibility();
+				
+				// Apply MainCommandStyle to the new MainCommand instance
+				if (MainCommand is { } mainCommand && MainCommandStyle is { } mainCommandStyle)
+				{
+					mainCommand.Style = mainCommandStyle;
+				}
 			}
 			else if (args.Property == MainCommandModeProperty)
 			{
