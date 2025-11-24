@@ -198,13 +198,24 @@ namespace Uno.Toolkit.UI
 
 		internal void UpdateMainCommandVisibility()
 		{
+			if (MainCommand is not { } mainCommand)
+			{
+				return;
+			}
+
+			if (MainCommandMode == MainCommandMode.Hidden)
+			{
+				mainCommand.Visibility = Visibility.Collapsed;
+				return;
+			}
+
 			if (MainCommandMode != MainCommandMode.Back)
 			{
 				return;
 			}
 
 			var buttonVisibility = Visibility.Collapsed;
-			if (GetPage() is { } page && MainCommand is { } mainCommand)
+			if (GetPage() is { } page)
 			{
 				if (page.Frame?.CanGoBack ?? false)
 				{

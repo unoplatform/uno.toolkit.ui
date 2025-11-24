@@ -10,5 +10,6 @@ namespace Uno.Toolkit.UI
 	{
 		Back,
 		Action,
+		Hidden,
 	}
 }
