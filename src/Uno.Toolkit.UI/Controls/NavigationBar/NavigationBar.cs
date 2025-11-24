@@ -97,6 +97,8 @@ namespace Uno.Toolkit.UI
 
 		internal bool TryPerformMainCommand()
 		{
+			// Only perform back navigation when MainCommandMode is Back
+			// Action and Hidden modes should not perform automatic navigation
 			if (MainCommandMode != MainCommandMode.Back)
 			{
 				return false;
