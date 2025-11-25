@@ -38,11 +38,25 @@ This document provides a comprehensive comparison between the Uno Toolkit's `Aut
 |-------------|------------|-------|
 | `flex-direction: row` | `Orientation="Horizontal"` | Items flow left to right |
 | `flex-direction: column` | `Orientation="Vertical"` | Items flow top to bottom |
-| `flex-direction: row-reverse` | `Orientation="Horizontal"` + `IsReverseZIndex="True"` | Partial support - reverses z-order, not visual order |
-| `flex-direction: column-reverse` | `Orientation="Vertical"` + `IsReverseZIndex="True"` | Partial support - reverses z-order, not visual order |
+| `flex-direction: row-reverse` | Not directly supported | See note below |
+| `flex-direction: column-reverse` | Not directly supported | See note below |
 
 > [!NOTE]
-> AutoLayout's `IsReverseZIndex` reverses the Z-order of children (which element appears on top when overlapping), but does not reverse the visual layout order like CSS `row-reverse` or `column-reverse`.
+> **Understanding `IsReverseZIndex`**: AutoLayout's `IsReverseZIndex` property only affects the stacking order (z-index) of children—determining which element appears on top when elements overlap. It does **not** reverse the visual layout order of items.
+>
+> CSS `row-reverse` and `column-reverse` visually reverse item order (last item appears first). To achieve this in AutoLayout, you would need to either:
+> - Reverse the order of children in XAML/code
+> - Use data binding with a reversed collection
+>
+> **Example of what `IsReverseZIndex` does:**
+> ```xml
+> <!-- Items are still laid out left-to-right, but Item3 has highest z-index (appears on top if overlapping) -->
+> <utu:AutoLayout Orientation="Horizontal" IsReverseZIndex="True">
+>     <Border x:Name="Item1" /> <!-- Z-Index: 2 (lowest, behind others) -->
+>     <Border x:Name="Item2" /> <!-- Z-Index: 1 -->
+>     <Border x:Name="Item3" /> <!-- Z-Index: 0 (highest, in front) -->
+> </utu:AutoLayout>
+> ```
 
 ### Gap / Spacing
 
@@ -332,7 +346,27 @@ This mirrors Figma's "Absolute Position" feature, where an item can be positione
 ```
 
 > [!WARNING]
-> AutoLayout's `Padding` behavior matches Figma's implementation: the padding values that apply depend on the alignment settings. For example, items aligned to `Start` will respect start padding, while items aligned to `End` will respect end padding.
+> AutoLayout's `Padding` behavior matches Figma's implementation: the padding values that apply depend on the alignment settings.
+
+**Example - Padding behavior based on alignment:**
+```xml
+<!-- When PrimaryAxisAlignment="Start" (default), only start padding applies -->
+<utu:AutoLayout Padding="20,10,20,10" PrimaryAxisAlignment="Start">
+    <Border /> <!-- Gets left padding (20px) in horizontal, top padding (10px) in vertical -->
+</utu:AutoLayout>
+
+<!-- When using Stretch or SpaceBetween, both start and end padding apply -->
+<utu:AutoLayout Padding="20,10,20,10" Justify="SpaceBetween">
+    <Border /> <!-- Gets both left (20px) and right (20px) padding in horizontal -->
+</utu:AutoLayout>
+
+<!-- When PrimaryAxisAlignment="End", only end padding applies -->
+<utu:AutoLayout Padding="20,10,20,10" PrimaryAxisAlignment="End">
+    <Border /> <!-- Gets right padding (20px) in horizontal, bottom padding (10px) in vertical -->
+</utu:AutoLayout>
+```
+
+This differs from CSS Flexbox where padding always applies to all sides regardless of content alignment.
 
 ## Common Scenarios
 
