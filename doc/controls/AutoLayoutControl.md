@@ -59,3 +59,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `PrimaryLength`       | `double`                     | Gets or sets the height or width of the child depending on the `Orientation`. If `Height` or `Width` are already set they will have priority.                                                                                                                                                                                                            |
 | `CounterLength`       | `double`                     | Gets or sets the height or width of the child depending on the inverse of `Orientation`. If `Height` or `Width` are already set they will have priority.                                                                                                                                                                                                 |
 | `IsIndependentLayout` | `bool`                       | **WARNING:** Should not be used with other Attached Properties. Gets or sets whether the element is independent of the `AutoLayout` positioning. Reflects the `Absolute Position` option from Figma.                                                                                                                                                     |
+
+## See Also
+
+- [AutoLayout vs CSS Flexbox Comparison](AutoLayout-vs-CSS-Flexbox.md) - Detailed comparison between AutoLayout and CSS Flexbox features
+- [Figma AutoLayout Documentation](https://www.figma.com/widget-docs/api/component-AutoLayout) - Original Figma AutoLayout reference

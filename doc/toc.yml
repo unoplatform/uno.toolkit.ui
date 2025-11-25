@@ -29,6 +29,8 @@
     items:
     - name: AutoLayout
       href: controls/AutoLayoutControl.md
+    - name: AutoLayout vs CSS Flexbox
+      href: controls/AutoLayout-vs-CSS-Flexbox.md
     - name: Cards
       href: controls/CardAndCardContentControl.md
     - name: Chip and ChipGroup
