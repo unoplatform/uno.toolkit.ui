@@ -259,4 +259,4 @@ When writing XAML meant to be indexed:
 
 ---
 
-[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/Input-extensions.html?utm_source=chatgpt.com "Input Extensions"
+[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/Input-extensions.html "Input Extensions"

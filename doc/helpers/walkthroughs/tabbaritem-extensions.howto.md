@@ -97,9 +97,6 @@ This is the `Auto` mode.
 
 Use this if you don’t want to decide which behavior to use.
 
-**Dependencies**
-
-
 ---
 
 ## How to target a specific content area

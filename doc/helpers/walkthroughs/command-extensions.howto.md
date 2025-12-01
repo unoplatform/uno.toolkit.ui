@@ -48,7 +48,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Execute command on state change.
 
-UnoFeatures: **Uno.Toolkit.UI**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 

@@ -202,4 +202,4 @@ A: It behaves like a normal `FlipView`—it won’t loop.
 
 All of them depend on **`xmlns:utu="using:Uno.Toolkit.UI"`** and the `Toolkit` entry in `<UnoFeatures>`.
 
-[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/FlipView-extensions.html?utm_source=chatgpt.com "FlipView Extensions"
+[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/FlipView-extensions.html "FlipView Extensions"

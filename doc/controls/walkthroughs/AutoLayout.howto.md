@@ -248,4 +248,4 @@ tags: [autolayout, figma, layout, flexbox, stack, spacing, alignment, figma-plug
 ---
 
 [1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/AutoLayoutControl.html "AutoLayout "
-[2]: https://github.com/unoplatform/uno.toolkit.ui/issues/1279?utm_source=chatgpt.com "[AutoLayout] Child Controls with Margins Arrange ..."
+[2]: https://github.com/unoplatform/uno.toolkit.ui/issues/1279 "[AutoLayout] Child Controls with Margins Arrange ..."

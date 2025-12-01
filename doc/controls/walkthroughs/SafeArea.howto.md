@@ -128,6 +128,6 @@ tags: [safe-area, visible-bounds-padding, safearea, visible-bounds, safe-area-co
 * **Can it react to the soft keyboard?** Yes—enable `ConsiderSoftInput="True"`. ([Uno Platform][1])
 * **Do I need a design system package (Material/Cupertino)?** SafeArea is in the base Toolkit package; many Toolkit controls are styled via design systems, but SafeArea itself doesn't require them. ([Uno Platform][2])
 
-[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/SafeArea.html?utm_source=chatgpt.com "SafeArea"
-[2]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html?utm_source=chatgpt.com "Getting Started with Uno Toolkit"
-[5]: https://github.com/unoplatform/uno.toolkit.ui/releases?utm_source=chatgpt.com "Releases · unoplatform/uno.toolkit.ui"
+[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/SafeArea.html "SafeArea"
+[2]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html "Getting Started with Uno Toolkit"
+[5]: https://github.com/unoplatform/uno.toolkit.ui/releases "Releases · unoplatform/uno.toolkit.ui"

@@ -173,4 +173,4 @@ Prefer `LoadingContentTemplate` if you need data-binding within the template; us
 *Source: Official Uno Toolkit docs and samples referenced above.*
 
 [1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/LoadingView.html "LoadingView "
-[3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/ExtendedSplashScreen.html?utm_source=chatgpt.com "ExtendedSplashScreen"
+[3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/ExtendedSplashScreen.html "ExtendedSplashScreen"
