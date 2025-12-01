@@ -7,13 +7,13 @@ tags: [autolayout, figma, layout, flexbox, stack, spacing, alignment, figma-plug
 
 ---
 
+**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
+---
+
 ## Add AutoLayout to a page
 
 **Why:** Use a single container to stack and align children like Figma Auto-Layout.
-
-**Dependencies**
-
-* NuGet: `Uno.Toolkit.UI` (XAML prefix `utu`) ([Uno Platform][1])
 
 ```xml
 <Page

@@ -5,9 +5,7 @@ tags: [splash-screen, loading, startup, app-launch, extended-splash, initializat
 
 # Keep the native splash visible while your app finishes loading, and optionally overlay it with your own loading UI
 
-**NuGet**
-
-Add `Uno.Toolkit.WinUI` ([GitHub][1])
+**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ---
 

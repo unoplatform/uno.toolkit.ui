@@ -6,7 +6,7 @@ The following how-tos show how to control the appearance of the platform **statu
 xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
-Add the **Uno.Toolkit.UI** NuGet package to your project.
+**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ---
 

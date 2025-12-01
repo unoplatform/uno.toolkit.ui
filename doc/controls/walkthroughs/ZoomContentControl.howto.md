@@ -5,7 +5,7 @@ tags: [zoom, pan, pinch-zoom, zoom-control, image-zoom, map-zoom]
 
 # Display content in a zoom-able and pannable view
 
-> NuGet: `Uno.Toolkit.WinUI`
+**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ## Pan & zoom large content
 

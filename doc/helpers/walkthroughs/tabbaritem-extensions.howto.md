@@ -1,7 +1,9 @@
 # How to react when a tab is tapped again
 
 This feature lets a **selected** `TabBarItem` do something when the user taps it again.
-It comes from **Uno.Toolkit.UI** (add the `Uno.Toolkit.UI` NuGet to the project that declares the XAML).
+It comes from **Uno.Toolkit.UI**.
+
+**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 XAML namespace used in all samples:
 
@@ -37,10 +39,6 @@ xmlns:utu="using:Uno.Toolkit.UI"
 * Resets its scroll position to top
 * Triggered only when the tab was already selected
 
-**Dependencies**
-
-* NuGet: `Uno.Toolkit.UI`
-
 ---
 
 ## How to go back in navigation when the tab is tapped again
@@ -69,10 +67,6 @@ xmlns:utu="using:Uno.Toolkit.UI"
 * Calls back navigation if it can
 * Triggered only when the tab was already selected
 * If no back stack is found, nothing happens
-
-**Dependencies**
-
-* NuGet: `Uno.Toolkit.UI`
 
 ---
 
@@ -105,7 +99,6 @@ Use this if you don’t want to decide which behavior to use.
 
 **Dependencies**
 
-* NuGet: `Uno.Toolkit.UI`
 
 ---
 
@@ -142,7 +135,6 @@ Sometimes the tab bar is not directly above the content, or there are **multiple
 
 **Dependencies**
 
-* NuGet: `Uno.Toolkit.UI`
 
 ---
 

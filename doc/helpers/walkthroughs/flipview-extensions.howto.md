@@ -2,7 +2,7 @@
 
 This group of how-tos shows how to control a `FlipView` from **other buttons** using the attached properties from **Uno.Toolkit.UI**.
 
-> **NuGet dependency**: `Uno.Toolkit.UI` (needed for the `utu:` namespace)
+**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ---
 
@@ -200,6 +200,6 @@ A: It behaves like a normal `FlipView`—it won’t loop.
 
 ---
 
-All of them depend on **`xmlns:utu="using:Uno.Toolkit.UI"`** and `Uno.Toolkit.WinUI` NuGet.
+All of them depend on **`xmlns:utu="using:Uno.Toolkit.UI"`** and the `Toolkit` entry in `<UnoFeatures>`.
 
 [1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/FlipView-extensions.html?utm_source=chatgpt.com "FlipView Extensions"

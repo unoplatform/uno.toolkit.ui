@@ -2,7 +2,7 @@
 
 These helpers come from **`Uno.Toolkit.UI`** and are applied as **attached properties** on inputs like `TextBox` and `PasswordBox`.
 
-NuGet needed for all snippets: **Uno.Toolkit.UI** (or the Toolkit meta-package your app already uses).
+**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 Each how-to is single-purpose on purpose.
 
