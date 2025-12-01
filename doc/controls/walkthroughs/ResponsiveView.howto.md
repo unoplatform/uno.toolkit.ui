@@ -5,7 +5,7 @@ tags: [responsive, breakpoints, adaptive-layout, responsive-design, window-width
 
 # Create responsive layouts based on Window width breakpoints
 
-**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ---
 

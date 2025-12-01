@@ -2,7 +2,7 @@
 
 This group of how-tos shows how to control a `FlipView` from **other buttons** using the attached properties from **Uno.Toolkit.UI**.
 
-**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ---
 

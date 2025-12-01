@@ -5,7 +5,7 @@ tags: [navigationbar, appbar, toolbar, back-button, navigation, commandbar, nati
 
 # Display a cross-platform navigation bar with back and actions
 
-**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`).
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`).
 Add your design system packages (e.g., `Material` or `Cupertino`) if you use those styles.
 
 Add the namespace once in your XAML:

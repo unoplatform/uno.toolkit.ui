@@ -2,7 +2,7 @@
 
 These helpers come from **`Uno.Toolkit.UI`** and are applied as **attached properties** on inputs like `TextBox` and `PasswordBox`.
 
-**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 Each how-to is single-purpose on purpose.
 

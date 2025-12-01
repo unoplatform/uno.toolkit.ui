@@ -5,7 +5,7 @@ tags: [card, material, elevation, surface, cardcontentcontrol, container]
 
 # Build a fully custom card layout (template-driven)
 
-**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 > Controls covered: `CardContentControl`.
 

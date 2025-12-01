@@ -7,7 +7,7 @@ tags: [autolayout, figma, layout, flexbox, stack, spacing, alignment, figma-plug
 
 ---
 
-**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ---
 

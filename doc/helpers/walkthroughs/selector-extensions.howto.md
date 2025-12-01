@@ -4,7 +4,7 @@ This how-to shows how to make a `Selector` control (for example `FlipView`, `Lis
 
 **Outcome:** when the user changes page with the `PipsPager`, the selector changes its selected item; when the selector changes selection, the `PipsPager` updates too.
 
-**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ## 1. Add namespaces
 

@@ -7,7 +7,7 @@ tags: [safe-area, visible-bounds-padding, safearea, visible-bounds, safe-area-co
 
 > `SafeArea` keeps interactive content inside the unobscured screen area (status bars, notches, rounded corners) and can adapt to the on-screen keyboard. It works by aligning content to `ApplicationView.VisibleBounds`. ([Uno Platform][1])
 
-**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 **Outcome:** your page content never hides under the status bar / rounded corners.
 

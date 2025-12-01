@@ -5,7 +5,7 @@ tags: [shadow, drop-shadow, inner-shadow, elevation, box-shadow, skia]
 
 # Display custom shadows around content
 
-> **UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+> **UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 > What it does: adds one or many shadows around your content; it mimics the content's size/corner radius (not complex alpha shapes yet). ([Uno Platform][1])
 

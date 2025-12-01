@@ -3,7 +3,7 @@
 This feature lets a **selected** `TabBarItem` do something when the user taps it again.
 It comes from **Uno.Toolkit.UI**.
 
-**UnoFeature:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 XAML namespace used in all samples:
 
@@ -132,9 +132,6 @@ Sometimes the tab bar is not directly above the content, or there are **multiple
 * Uses `OnClickBehaviorsTarget` as the starting point
 * Searches **inside** it (deep search) for something that supports the behavior
 * If you don’t set it, the parent of the `TabBar` is used
-
-**Dependencies**
-
 
 ---
 
