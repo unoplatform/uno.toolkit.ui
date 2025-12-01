@@ -3,7 +3,9 @@ uid: Toolkit.GettingStarted.Cupertino
 ---
 # Uno Cupertino Toolkit Library
 
-The Uno Cupertino Toolkit library is available as NuGet packages that can be added to any new or existing Uno solution.
+**UnoFeatures:** `Toolkit;Cupertino;` (add to `<UnoFeatures>` in your `.csproj`)
+
+The Uno Cupertino Toolkit library is available as NuGet packages, but for Single Project apps the recommended way to add them is through the `UnoFeatures` project property.
 
 ## Installation
 

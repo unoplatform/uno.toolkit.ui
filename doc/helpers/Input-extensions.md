@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.InputExtensions
 
 # Input Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
 
 ## Attached Properties
