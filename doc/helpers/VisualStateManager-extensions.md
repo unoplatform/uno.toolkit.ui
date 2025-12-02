@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.VisualStateManagerExtensions
 
 # VisualStateManager Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides a way of manipulating the visual states of `Control` with attached property.
 
 ## Remarks

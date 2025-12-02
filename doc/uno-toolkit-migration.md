@@ -4,6 +4,8 @@ uid: Toolkit.Migration
 
 # Upgrading Uno Toolkit
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 ## Upgrading to Uno Toolkit 7.1
 
 1. Bump to Uno 6.0

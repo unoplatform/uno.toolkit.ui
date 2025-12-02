@@ -5,9 +5,7 @@ tags: [splash-screen, loading, startup, app-launch, extended-splash, initializat
 
 # Keep the native splash visible while your app finishes loading, and optionally overlay it with your own loading UI
 
-**NuGet**
-
-Add `Uno.Toolkit.WinUI` ([GitHub][1])
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ---
 
@@ -108,10 +106,10 @@ Yes—use `LoadingContentTemplate` (e.g., `ProgressRing`, text, brand). ([Uno Pl
 
 **Source doc for reference:** ExtendedSplashScreen control. ([Uno Platform][2])
 
-[1]: https://raw.githubusercontent.com/unoplatform/uno.toolkit.ui/refs/heads/main/doc/getting-started.md?utm_source=chatgpt.com "https://raw.githubusercontent.com/unoplatform/uno...."
-[2]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/ExtendedSplashScreen.html?utm_source=chatgpt.com "ExtendedSplashScreen"
-[3]: https://platform.uno/docs/articles/external/uno.chefs/doc/toolkit/ExtendedSplashScreen.html?utm_source=chatgpt.com "Extending Splash Screen Duration for Custom Loading"
-[4]: https://kazo0.dev/toolkit-tuesday/2024/03/12/toolkit-tuesday-extendedsplashscreen.html?utm_source=chatgpt.com "Toolkit Tuesdays: ExtendedSplashScreen"
-[5]: https://github.com/unoplatform/uno.toolkit.ui/releases?utm_source=chatgpt.com "Releases · unoplatform/uno.toolkit.ui"
-[6]: https://platform.uno/blog/uno-toolkit-ui-tech-bites/?utm_source=chatgpt.com "Uno Toolkit – an Uno Tech Bite series"
-[7]: https://platform.uno/docs/articles/external/uno.wasm.bootstrap/doc/features-splash-screen.html?utm_source=chatgpt.com "Splash screen customization"
+[1]: https://raw.githubusercontent.com/unoplatform/uno.toolkit.ui/refs/heads/main/doc/getting-started.md "https://raw.githubusercontent.com/unoplatform/uno...."
+[2]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/ExtendedSplashScreen.html "ExtendedSplashScreen"
+[3]: https://platform.uno/docs/articles/external/uno.chefs/doc/toolkit/ExtendedSplashScreen.html "Extending Splash Screen Duration for Custom Loading"
+[4]: https://kazo0.dev/toolkit-tuesday/2024/03/12/toolkit-tuesday-extendedsplashscreen.html "Toolkit Tuesdays: ExtendedSplashScreen"
+[5]: https://github.com/unoplatform/uno.toolkit.ui/releases "Releases · unoplatform/uno.toolkit.ui"
+[6]: https://platform.uno/blog/uno-toolkit-ui-tech-bites/ "Uno Toolkit – an Uno Tech Bite series"
+[7]: https://platform.uno/docs/articles/external/uno.wasm.bootstrap/doc/features-splash-screen.html "Splash screen customization"

@@ -3,6 +3,8 @@ uid: Toolkit.ControlsHelpersStyles
 ---
 # Uno Toolkit Controls
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 The `Uno.Toolkit.UI` library adds the following controls:
 
 - `AutoLayout`: A custom panel used by the [Figma plugin](https://platform.uno/unofigma/) to bridge the gap between Figma and UWP/WinUI layout implementation.

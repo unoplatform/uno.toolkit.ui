@@ -227,6 +227,6 @@ All samples assume you have **Uno.Toolkit.UI** in your project.
 
 ---
 
-[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/resource-extensions.html?utm_source=chatgpt.com "Resource Extensions"
+[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/resource-extensions.html "Resource Extensions"
 
-[3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html?utm_source=chatgpt.com "Getting Started with Uno Toolkit"
+[3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html "Getting Started with Uno Toolkit"

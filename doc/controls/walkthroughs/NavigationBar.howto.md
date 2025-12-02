@@ -5,11 +5,8 @@ tags: [navigationbar, appbar, toolbar, back-button, navigation, commandbar, nati
 
 # Display a cross-platform navigation bar with back and actions
 
-> **Packages**
->
-> Install **one** base package (depending on your app type), plus a design system package.
->
-> * WinAppSDK/WinUI 3: `Uno.Toolkit.WinUI` (+ usually `Uno.Toolkit.WinUI.Material`) ([NuGet][1])
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`).
+Add your design system packages (e.g., `Material` or `Cupertino`) if you use those styles.
 
 Add the namespace once in your XAML:
 
@@ -27,8 +24,8 @@ Use the built-in MainCommand in **Back** mode (default). It appears on the left 
 <utu:NavigationBar Content="Details" />
 ```
 
-* The back icon/text is native on iOS/Android; on desktop you can override a resource (`NavigationBarBackIconData`). ([Uno Platform][4])
-* The bar auto-handles system back requests when visible. (WinAppSDK note: `SystemNavigationManager` isn't supported.) ([Uno Platform][4])
+* The back icon/text is native on iOS/Android; on desktop you can override a resource (`NavigationBarBackIconData`). ([Uno Platform][1])
+* The bar auto-handles system back requests when visible. (WinAppSDK note: `SystemNavigationManager` isn't supported.) ([Uno Platform][1])
 
 ---
 
@@ -49,7 +46,7 @@ Set **MainCommandMode** to `Action` and provide a custom `AppBarButton`.
 </utu:NavigationBar>
 ```
 
-* Use `Action` when the left command isn't back (e.g., burger, prompt). ([Uno Platform][4])
+* Use `Action` when the left command isn't back (e.g., burger, prompt). ([Uno Platform][1])
 
 ---
 
@@ -74,7 +71,7 @@ Put **AppBarButton** items in `PrimaryCommands`.
 </utu:NavigationBar>
 ```
 
-* Supports `AppBarButton` only (no `AppBarToggleButton`/`AppBarSeparator`). ([Uno Platform][4])
+* Supports `AppBarButton` only (no `AppBarToggleButton`/`AppBarSeparator`). ([Uno Platform][1])
 
 ---
 
@@ -91,7 +88,7 @@ Use `SecondaryCommands` — it shows as an overflow (ellipsis) on Android; iOS d
 </utu:NavigationBar>
 ```
 
-* Not supported on iOS. ([Uno Platform][4])
+* Not supported on iOS. ([Uno Platform][1])
 
 ---
 
@@ -103,7 +100,7 @@ Use the bar's `Foreground` (solid color only).
 <utu:NavigationBar Content="Inbox" Foreground="White"/>
 ```
 
-* Affects the title; not the buttons — set button `Foreground` individually. SolidColorBrush only. ([Uno Platform][4])
+* Affects the title; not the buttons — set button `Foreground` individually. SolidColorBrush only. ([Uno Platform][1])
 
 ---
 
@@ -122,7 +119,7 @@ Use the bar's `Foreground` (solid color only).
 </utu:NavigationBar>
 ```
 
-* `Horizontal/VerticalContentAlignment` are ignored; on iOS content centers unless `HorizontalAlignment="Stretch"`. ([Uno Platform][4])
+* `Horizontal/VerticalContentAlignment` are ignored; on iOS content centers unless `HorizontalAlignment="Stretch"`. ([Uno Platform][1])
 
 ---
 
@@ -138,28 +135,27 @@ Provide a `Label` in `MainCommand` (iOS only).
 </utu:NavigationBar>
 ```
 
-* iOS uses previous page's title for back text; set `Label=""` in a style to hide it globally. ([Uno Platform][4])
+* iOS uses previous page's title for back text; set `Label=""` in a style to hide it globally. ([Uno Platform][1])
 
 ---
 
 ## Respect safe areas (notches/punch-holes)
 
 Padding is applied automatically on iOS/Android (`SafeArea.Insets=Top`).
-No extra work needed for typical layouts. ([Uno Platform][4])
+No extra work needed for typical layouts. ([Uno Platform][1])
 
 ---
 
 ## Use bitmap icons for buttons (cross-platform)
 
 Use `BitmapIcon`/bitmap sources for bar buttons to avoid known mobile issues.
-(Design guidance also recommends bitmaps for NavigationBar buttons.) ([Uno Platform][5])
+(Design guidance also recommends bitmaps for NavigationBar buttons.) ([Uno Platform][2])
 
 ---
 
 ### Notes for RAG indexers
 
-* Properties frequently asked: `MainCommandMode`, `PrimaryCommands`, `SecondaryCommands`, `Foreground`, `Content`, platform **heights**, **placement** rules. ([Uno Platform][4])
+* Properties frequently asked: `MainCommandMode`, `PrimaryCommands`, `SecondaryCommands`, `Foreground`, `Content`, platform **heights**, **placement** rules. ([Uno Platform][1])
 
-[1]: https://www.nuget.org/packages/Uno.Toolkit.WinUI?utm_source=chatgpt.com "Uno.Toolkit.WinUI 8.2.4"
-[4]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/NavigationBar.html "NavigationBar "
-[5]: https://platform.uno/docs/articles/external/figma-docs/components/navigation-bar.html?utm_source=chatgpt.com "Navigation Bar"
+[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/NavigationBar.html "NavigationBar "
+[2]: https://platform.uno/docs/articles/external/figma-docs/components/navigation-bar.html "Navigation Bar"

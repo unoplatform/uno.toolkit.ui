@@ -244,6 +244,6 @@
 
 ---
 
-[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/itemsrepeater-extensions.html?utm_source=chatgpt.com "ItemsRepeater Extensions"
-[2]: https://platform.uno/blog/uno-platform-4-8-new-startup-experience-design-system-package-importing-resizetizer-and-more/?utm_source=chatgpt.com "App Template Wizard, OpenGL Acceleration, .NET 8, DSP ..."
-[3]: https://github.com/unoplatform/uno.toolkit.ui/issues/1280?utm_source=chatgpt.com "Issue #1280 · unoplatform/uno.toolkit.ui"
+[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/itemsrepeater-extensions.html "ItemsRepeater Extensions"
+[2]: https://platform.uno/blog/uno-platform-4-8-new-startup-experience-design-system-package-importing-resizetizer-and-more/ "App Template Wizard, OpenGL Acceleration, .NET 8, DSP ..."
+[3]: https://github.com/unoplatform/uno.toolkit.ui/issues/1280 "Issue #1280 · unoplatform/uno.toolkit.ui"

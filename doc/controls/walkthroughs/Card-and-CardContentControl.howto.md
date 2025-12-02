@@ -5,6 +5,8 @@ tags: [card, material, elevation, surface, cardcontentcontrol, container]
 
 # Build a fully custom card layout (template-driven)
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 > Controls covered: `CardContentControl`.
 
 **When** you want total control over card content/layout.
@@ -84,7 +86,7 @@ Common resource keys exist per variant (e.g., `FilledCardBackground`, `OutlinedC
 
 **Do I need a design system package?**
 
-For Material styles (`ElevatedCardStyle`, etc.), install `Uno.Toolkit.UI.Material`. Follow Uno Toolkit "Getting Started" to set up base + design system packages. ([Uno Platform][1])
+For Material styles (`ElevatedCardStyle`, etc.), add `Material` to `<UnoFeatures>` (Toolkit is included). Follow Uno Toolkit "Getting Started" to set up base + design system packages. ([Uno Platform][1])
 
 **What styles exist?**
 
@@ -96,22 +98,12 @@ Material offers **Elevated**, **Filled**, **Outlined** for both `Card` and `Card
 
 ---
 
-## NuGet summary (add what you use)
-
-* `Uno.Toolkit.UI` – base controls & helpers. ([Uno Platform][1])
-* `Uno.Toolkit.UI.Material` – Material v2/MD3 styles including Card/CardContentControl styles. ([Uno Platform][3])
-
----
-
 ## References
 
 * Official docs: **Card & CardContentControl** (properties, styles, usage). ([Uno Platform][2])
 * Getting started with Uno Toolkit (packages and design systems). ([Uno Platform][1])
-* Lightweight styling (resource key guide). ([Uno Platform][4])
-* NuGet: `Uno.Toolkit.UI`. ([NuGet][5])
+* Lightweight styling (resource key guide). ([Uno Platform][3])
 
-[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html?utm_source=chatgpt.com "Getting Started with Uno Toolkit"
+[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html "Getting Started with Uno Toolkit"
 [2]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/CardAndCardContentControl.html "Card & CardContentControl "
-[3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/material-migration.html?utm_source=chatgpt.com "Upgrading Material Toolkit Version"
-[4]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/lightweight-styling.html?utm_source=chatgpt.com "Lightweight Styling"
-[5]: https://www.nuget.org/packages/Uno.Toolkit.UI/?utm_source=chatgpt.com "Uno.Toolkit.UI 8.2.4"
+[3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/lightweight-styling.html "Lightweight Styling"

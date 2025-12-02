@@ -5,8 +5,7 @@ tags: [shadow, drop-shadow, inner-shadow, elevation, box-shadow, skia]
 
 # Display custom shadows around content
 
-> NuGet needed for all how-tos: **Uno.Toolkit.Skia.WinUI**. ([Uno Platform][1])
->
+> **UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 > What it does: adds one or many shadows around your content; it mimics the content's size/corner radius (not complex alpha shapes yet). ([Uno Platform][1])
 
 ## Add a soft drop shadow to a button
