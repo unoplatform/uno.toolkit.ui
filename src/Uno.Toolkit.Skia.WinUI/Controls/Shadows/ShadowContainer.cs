@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Shapes;
 using SkiaSharp;
 using SkiaSharp.Views.Windows;
 using Uno.Disposables;
-using Uno.WinUI.Graphics2DSK;
 using Windows.Foundation;
 
 #if __ANDROID__
@@ -286,11 +285,11 @@ public partial class ShadowContainer : ContentControl
 		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
 
 		FrameworkElement skiaCanvas;
-		if (SKCanvasElement.IsSupportedOnCurrentPlatform())
-		{
-			skiaCanvas = new ShadowContainerSKCanvasElement() { Owner = this };
-		}
-		else
+		//if (SKCanvasElement.IsSupportedOnCurrentPlatform())
+		//{
+		//	skiaCanvas = new ShadowContainerSKCanvasElement() { Owner = this };
+		//}
+		//else
 		{
 			var skXamlCanvas= new SKXamlCanvas();
 			skXamlCanvas.PaintSurface += OnSurfacePainted;
@@ -387,7 +386,7 @@ public partial class ShadowContainer : ContentControl
 
 	private void InvalidateShadows(bool force = false)
 	{
-		(_shadowHost as SKCanvasElement)?.Invalidate();
+	//	(_shadowHost as SKCanvasElement)?.Invalidate();
 		(_shadowHost as SKXamlCanvas)?.Invalidate();
 	}
 
@@ -425,12 +424,12 @@ public partial class ShadowContainer : ContentControl
 		};
 	}
 
-	private partial class ShadowContainerSKCanvasElement : SKCanvasElement
-	{
-		public ShadowContainer? Owner { get; set; }
-		protected override void RenderOverride(SKCanvas canvas, Size area)
-		{
-			Owner?.OnRenderOverride(canvas, area);
-		}
-	}
+	//private partial class ShadowContainerSKCanvasElement : SKCanvasElement
+	//{
+	//	public ShadowContainer? Owner { get; set; }
+	//	protected override void RenderOverride(SKCanvas canvas, Size area)
+	//	{
+	//		Owner?.OnRenderOverride(canvas, area);
+	//	}
+	//}
 }

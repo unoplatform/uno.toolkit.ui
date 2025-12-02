@@ -19,7 +19,6 @@
 		<PackageReference Include="Uno.Core.Extensions.Collections" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
-		<PackageReference Include="Uno.WinUI.Graphics2DSK" />
 	</ItemGroup>
 
 	<Choose>
