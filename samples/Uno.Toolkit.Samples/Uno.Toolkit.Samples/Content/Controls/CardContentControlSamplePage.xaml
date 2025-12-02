@@ -18,7 +18,7 @@
 					<TextBlock Text="Default CardContentControl Style"
 							   Style="{ThemeResource TitleTextBlockStyle}" />
 
-					<utu:CardContentControl>
+					<utu:CardContentControl Style="{StaticResource DefaultCardContentControlStyle}">
 						<utu:CardContentControl.ContentTemplate>
 							<DataTemplate>
 								<Grid>
@@ -61,7 +61,7 @@
 										</StackPanel>
 
 									</StackPanel>
-								</Grid>
+								</Grid>resou
 							</DataTemplate>
 						</utu:CardContentControl.ContentTemplate>
 					</utu:CardContentControl>
@@ -70,7 +70,7 @@
 					<TextBlock Text="Disabled Default CardContentControl Style"
 							   Style="{ThemeResource TitleTextBlockStyle}" />
 
-					<utu:CardContentControl IsEnabled="False">
+					<utu:CardContentControl IsEnabled="False"  Style="{StaticResource DefaultCardContentControlStyle}">
 						<utu:CardContentControl.ContentTemplate>
 							<DataTemplate>
 								<StackPanel Margin="16">
