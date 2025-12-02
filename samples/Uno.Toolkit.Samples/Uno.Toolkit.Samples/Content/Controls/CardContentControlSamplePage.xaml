@@ -61,7 +61,7 @@
 										</StackPanel>
 
 									</StackPanel>
-								</Grid>resou
+								</Grid>
 							</DataTemplate>
 						</utu:CardContentControl.ContentTemplate>
 					</utu:CardContentControl>
