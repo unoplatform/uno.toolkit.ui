@@ -16,8 +16,6 @@
 	<StaticResource x:Key="NavigationBarStyle" ResourceKey="MaterialNavigationBarStyle" />
 	<StaticResource x:Key="MainCommandStyle" ResourceKey="MaterialMainCommandStyle" />
 	<StaticResource x:Key="ChipStyle" ResourceKey="MaterialChipStyle" />
-	<StaticResource x:Key="CardStyle" ResourceKey="MaterialFilledCardStyle" />
-	<StaticResource x:Key="CardContentControlStyle" ResourceKey="MaterialFilledCardContentControlStyle" />
 
 
 	<!-- Other resources aliases -->
