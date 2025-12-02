@@ -8,7 +8,7 @@ keywords: uno platform, mvvm commands, enter submit, toggle change, item click, 
 
 Execute command on Enter key press, dismiss keyboard automatically.
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -28,7 +28,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Execute command on Enter key press, dismiss keyboard automatically.
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -48,7 +48,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Execute command on state change.
 
-UnoFeature: **Uno.Toolkit.UI**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -67,7 +67,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Execute command on a `ListView` item click
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -88,7 +88,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Execute command on selection change.
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -108,7 +108,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Execute command on item select.
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -131,7 +131,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Execute command on item tap.
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -158,7 +158,7 @@ xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 
 Execute command on element tap.
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -177,7 +177,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Override default parameter with static value.
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -197,7 +197,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Override default parameter with bound value.
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 
@@ -224,7 +224,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Navigate directly on item tap.
 
-UnoFeature: **Toolkit**
+UnoFeatures: **Toolkit**
 
 **XAML Example:**
 

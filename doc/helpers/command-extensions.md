@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.CommandExtensions
 
 # Command Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides Command/CommandParameter attached properties for common scenarios.
 
 ## Attached Properties

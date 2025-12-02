@@ -5,7 +5,7 @@ tags: [responsive, breakpoints, adaptive-layout, responsive-design, window-width
 
 # Create responsive layouts based on Window width breakpoints
 
-> Dependencies: add **`Uno.Toolkit.UI`**
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 ---
 
@@ -119,7 +119,7 @@ You don't need to define all five templates. `ResponsiveView` chooses from what 
 * **How is the template picked?** Discard undefined layouts, pick the first whose breakpoint is met by current width; if none, return the first of remaining (effectively the largest defined). ([Uno Platform][2])
 * **Do I need all five templates?** No—define the minimum you need. ([Uno Platform][2])
 * **Where should I set app-wide breakpoints?** Add `ResponsiveLayout` as `DefaultResponsiveLayout` in resources (page or app), or set it per control. ([Uno Platform][2])
-* **What packages do I need?** `Uno.Toolkit.UI` + a design system package (Material or Cupertino). ([NuGet][1])
+* **What features do I need?** Add `Toolkit` to `<UnoFeatures>` (and `Material` or `Cupertino` if you use those design system packages). ([Uno Platform][1])
 
 ---
 

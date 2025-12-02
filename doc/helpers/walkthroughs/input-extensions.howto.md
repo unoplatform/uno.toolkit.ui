@@ -2,7 +2,7 @@
 
 These helpers come from **`Uno.Toolkit.UI`** and are applied as **attached properties** on inputs like `TextBox` and `PasswordBox`.
 
-NuGet needed for all snippets: **Uno.Toolkit.UI** (or the Toolkit meta-package your app already uses).
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
 Each how-to is single-purpose on purpose.
 
@@ -259,4 +259,4 @@ When writing XAML meant to be indexed:
 
 ---
 
-[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/Input-extensions.html?utm_source=chatgpt.com "Input Extensions"
+[1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/Input-extensions.html "Input Extensions"
