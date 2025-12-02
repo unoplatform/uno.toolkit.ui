@@ -6,9 +6,8 @@ tags: [chip, chipgroup, material, filter, selection, toggle, removable, badge]
 # Display chips with Material styles
 
 > Dependencies (for Material-styled chips):
->
-> * NuGet: `Uno.Toolkit.WinUI` (controls), `Uno.Toolkit.WinUI.Material` (Material styles)
-> * Add `<MaterialToolkitTheme .../>` to `App.xaml` resources. ([Uno Platform][1])
+> **UnoFeatures:** `Toolkit;Material;` (add to `<UnoFeatures>` in your `.csproj`).
+> Add `<MaterialToolkitTheme .../>` in `App.xaml` to load Material resources.
 
 ---
 

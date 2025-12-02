@@ -3,6 +3,8 @@ uid: Toolkit.GettingStarted.Material
 ---
 # Uno Material Toolkit Library
 
+**UnoFeatures:** `Toolkit;Material` (add to `<UnoFeatures>` in your `.csproj`)
+
 <p align="center">
   <img src="assets/material-toolkit-design-system.png" alt="Material Toolkit Design System">
 </p>

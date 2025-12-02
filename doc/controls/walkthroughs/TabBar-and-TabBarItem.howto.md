@@ -389,6 +389,6 @@ Badges are documented for Material (`BottomTabBarItemStyle`, `VerticalTabBarItem
 ---
 
 [1]: https://aka.platform.uno/toolkit-doc-tabbar-tabbaritem "TabBar & TabBarItem "
-[2]: https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Tutorials/Navigation/Advanced/HowTo-UseTabBar.html?utm_source=chatgpt.com "How-To: Use a TabBar to Switch Views"
-[3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/TabBarItem-extensions.html?utm_source=chatgpt.com "TabBarItem Extensions"
-[4]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/SegmentedControls.html?utm_source=chatgpt.com "Segmented Controls"
+[2]: https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Tutorials/Navigation/Advanced/HowTo-UseTabBar.html "How-To: Use a TabBar to Switch Views"
+[3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/TabBarItem-extensions.html "TabBarItem Extensions"
+[4]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/SegmentedControls.html "Segmented Controls"

@@ -3,6 +3,8 @@ uid: Toolkit.Helpers.FlipViewExtensions
 ---
 # FlipView Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides additional features for `FlipView`.
 
 ## Attached Properties

@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.SelectorExtensions
 
 # Selector Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides an easy integration between `PipsPager` and `Selector` controls.
 
 ## Attached Properties
