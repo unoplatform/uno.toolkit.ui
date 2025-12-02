@@ -1,21 +1,20 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
+﻿<Project Sdk="Uno.Sdk.Private">
 	<PropertyGroup>
 		<TargetFrameworks>$(NetCurrentAll)</TargetFrameworks>
+		<UnoSingleProject>true</UnoSingleProject>
+		<OutputType>Library</OutputType>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<AssemblyName>Uno.Toolkit.Skia.WinUI</AssemblyName>
 		<RootNamespace>Uno.Toolkit.Skia.WinUI</RootNamespace>
 		<PackageId>Uno.Toolkit.Skia.WinUI</PackageId>
-		<DefineConstants Condition="$(_IsWindowsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
+		<DefineConstants Condition="'$(IsWinAppSdk)' == 'true'">$(DefineConstants);WINDOWS</DefineConstants>
 		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
-
-		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" />
 		<PackageReference Include="Uno.Core.Extensions.Collections" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
@@ -23,10 +22,8 @@
 	</ItemGroup>
 
 	<Choose>
-		<When Condition="$(_IsWindowsWinUI)">
+		<When Condition="'$(IsWinAppSdk)' == 'true'">
 			<ItemGroup>
-				<PackageReference Include="Microsoft.WindowsAppSDK" />
-				<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
 				<PackageReference Include="SkiaSharp.Views.WinUI" />
 			</ItemGroup>
 		</When>
@@ -36,6 +33,22 @@
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
+
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+		<!--
+		If you encounter this error message:
+
+			error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+			Please update to a newer .NET SDK in order to reference this assembly.
+
+		This means that the two packages below must be aligned with the "build" version number of
+		the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+		must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+		-->
+		<!-- <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
+		<FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" /> -->
+	</ItemGroup>
+
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
