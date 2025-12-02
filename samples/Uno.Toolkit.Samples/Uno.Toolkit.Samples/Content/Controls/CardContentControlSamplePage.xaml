@@ -10,6 +10,83 @@
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<sample:SamplePageLayout>
+		<sample:SamplePageLayout.FluentTemplate>
+			<DataTemplate>
+				<StackPanel Padding="0,20"
+							Spacing="20">
+					<!-- Default CardContentControl Style -->
+					<TextBlock Text="Default CardContentControl Style"
+							   Style="{ThemeResource TitleTextBlockStyle}" />
+
+					<utu:CardContentControl>
+						<utu:CardContentControl.ContentTemplate>
+							<DataTemplate>
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+
+									<!-- Media part -->
+									<Image Source="ms-appx:///Assets/Media/LargeMedia.png"
+										   Stretch="Uniform"
+										   MaxHeight="194" />
+
+									<StackPanel Grid.Row="1"
+												Margin="16,14">
+
+										<!-- Header part -->
+										<TextBlock Text="Default Card"
+												   MaxLines="1"
+												   Style="{ThemeResource TitleTextBlockStyle}" />
+
+										<!-- SubHeader part -->
+										<TextBlock Text="With media, supporting text and action buttons"
+												   Margin="0,4,0,12"
+												   MaxLines="2"
+												   Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+										<!-- Supporting content part -->
+										<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+												   Style="{ThemeResource BodyTextBlockStyle}" />
+
+										<!-- Action buttons part -->
+										<StackPanel Margin="0,12,0,0"
+													Spacing="6"
+													Orientation="Horizontal">
+											<Button Content="ACTION 1"
+													Padding="10,2" />
+											<Button Content="ACTION 2"
+													Padding="10,2" />
+										</StackPanel>
+
+									</StackPanel>
+								</Grid>
+							</DataTemplate>
+						</utu:CardContentControl.ContentTemplate>
+					</utu:CardContentControl>
+
+					<!-- Disabled Default CardContentControl -->
+					<TextBlock Text="Disabled Default CardContentControl Style"
+							   Style="{ThemeResource TitleTextBlockStyle}" />
+
+					<utu:CardContentControl IsEnabled="False">
+						<utu:CardContentControl.ContentTemplate>
+							<DataTemplate>
+								<StackPanel Margin="16">
+									<TextBlock Text="Disabled Card"
+											   MaxLines="1"
+											   Style="{ThemeResource TitleTextBlockStyle}" />
+									<TextBlock Text="This card is disabled"
+											   Margin="0,4,0,0"
+											   Style="{ThemeResource BodyTextBlockStyle}" />
+								</StackPanel>
+							</DataTemplate>
+						</utu:CardContentControl.ContentTemplate>
+					</utu:CardContentControl>
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.FluentTemplate>
 		<sample:SamplePageLayout.MaterialTemplate>
 			<DataTemplate>
 				<StackPanel Padding="0,20"
