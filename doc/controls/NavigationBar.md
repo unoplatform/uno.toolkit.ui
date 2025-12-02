@@ -285,12 +285,23 @@ The height is fixed and cannot be changed.
 
 ### MainCommandMode
 
-The `NavigationBar` has a property named `MainCommandMode` that can be set to either:
+The `NavigationBar` has a property named `MainCommandMode` that can be set to:
 
 1. `MainCommandMode.Back` (default)
-1. `MainCommandMode.Action`
+2. `MainCommandMode.Action`
+3. `MainCommandMode.Hidden`
 
-`MainCommandMode` should be set to `Action` when the `MainCommand` is being used for anything other than backward navigation, such as displaying a burger menu or displaying a prompt to the user before the navigation occurs.
+#### Back Mode (Default)
+
+When set to `Back`, the `MainCommand` will be used for backward navigation. The button will automatically appear when the Frame has items in its back stack and will trigger navigation back when clicked.
+
+#### Action Mode
+
+`MainCommandMode` should be set to `Action` when the `MainCommand` is being used for anything other than backward navigation, such as displaying a burger menu or displaying a prompt to the user before the navigation occurs. In this mode, the `MainCommand` remains visible and its click behavior must be handled by setting the `Command` property or handling the `Click` event.
+
+#### Hidden Mode
+
+When set to `Hidden`, the `MainCommand` will be completely hidden from view regardless of the Frame's back stack state. This is useful when you want to hide the main command entirely, such as on a home/landing page or when implementing custom navigation logic that doesn't require a visible back button.
 
 ### MainCommand
 
