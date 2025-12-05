@@ -25,6 +25,8 @@ namespace Uno.Toolkit.UI
 		/// Backing property for a value which recursively sets whether the
 		/// nested progress controls are displaying a loading animation.
 		/// </summary>
+		[DynamicDependency(nameof(GetIsActive))]
+		[DynamicDependency(nameof(SetIsActive))]
 		public static readonly DependencyProperty IsActiveProperty = DependencyProperty.RegisterAttached(
 			"IsActive",
 			typeof(bool),

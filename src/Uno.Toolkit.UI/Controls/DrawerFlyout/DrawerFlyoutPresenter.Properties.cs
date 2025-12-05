@@ -154,7 +154,7 @@ namespace Uno.Toolkit.UI
 		#endregion
 		#region DependencyProperty: IsLightDismissEnabled = true
 
-		public static DependencyProperty IsLightDismissEnabledProperty { [DynamicDependency(nameof(GetIsGestureEnabled))] get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty IsLightDismissEnabledProperty { [DynamicDependency(nameof(GetIsLightDismissEnabled))] get; } = DependencyProperty.RegisterAttached(
 			nameof(IsLightDismissEnabled),
 			typeof(bool),
 			typeof(DrawerFlyoutPresenter),
