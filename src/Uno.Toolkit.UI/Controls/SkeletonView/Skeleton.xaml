@@ -1,0 +1,133 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:utu="using:Uno.Toolkit.UI"
+					mc:Ignorable="d">
+
+	<!-- Default Skeleton Style -->
+	<Style x:Key="DefaultSkeleton"
+		   TargetType="utu:Skeleton">
+		<Setter Property="MinHeight" Value="16" />
+		<Setter Property="MinWidth" Value="16" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="SkeletonBackground" Value="{ThemeResource SkeletonViewBackground}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:Skeleton">
+					<Border x:Name="RootBorder"
+							Background="{TemplateBinding SkeletonBackground}"
+							CornerRadius="4"
+							HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalAlignment}"
+							MinHeight="{TemplateBinding MinHeight}"
+							MinWidth="{TemplateBinding MinWidth}"
+							Width="{TemplateBinding Width}"
+							Height="{TemplateBinding Height}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style TargetType="utu:Skeleton"
+		   BasedOn="{StaticResource DefaultSkeleton}" />
+
+	<!-- Circle Skeleton Style -->
+	<Style x:Key="CircleSkeleton"
+		   TargetType="utu:Skeleton"
+		   BasedOn="{StaticResource DefaultSkeleton}">
+		<Setter Property="Width" Value="48" />
+		<Setter Property="Height" Value="48" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:Skeleton">
+					<Border x:Name="RootBorder"
+							Background="{TemplateBinding SkeletonBackground}"
+							CornerRadius="1000"
+							HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalAlignment}"
+							Width="{TemplateBinding Width}"
+							Height="{TemplateBinding Height}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- Text Line Skeleton Style -->
+	<Style x:Key="TextSkeleton"
+		   TargetType="utu:Skeleton"
+		   BasedOn="{StaticResource DefaultSkeleton}">
+		<Setter Property="Height" Value="16" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+	</Style>
+
+	<!-- Title Skeleton Style -->
+	<Style x:Key="TitleSkeleton"
+		   TargetType="utu:Skeleton"
+		   BasedOn="{StaticResource DefaultSkeleton}">
+		<Setter Property="Height" Value="24" />
+		<Setter Property="Width" Value="200" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+	</Style>
+
+	<!-- Subtitle Skeleton Style -->
+	<Style x:Key="SubtitleSkeleton"
+		   TargetType="utu:Skeleton"
+		   BasedOn="{StaticResource DefaultSkeleton}">
+		<Setter Property="Height" Value="20" />
+		<Setter Property="Width" Value="150" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+	</Style>
+
+	<!-- Avatar Skeleton Style (small circle) -->
+	<Style x:Key="AvatarSkeleton"
+		   TargetType="utu:Skeleton"
+		   BasedOn="{StaticResource CircleSkeleton}">
+		<Setter Property="Width" Value="40" />
+		<Setter Property="Height" Value="40" />
+	</Style>
+
+	<!-- Large Avatar Skeleton Style -->
+	<Style x:Key="LargeAvatarSkeleton"
+		   TargetType="utu:Skeleton"
+		   BasedOn="{StaticResource CircleSkeleton}">
+		<Setter Property="Width" Value="64" />
+		<Setter Property="Height" Value="64" />
+	</Style>
+
+	<!-- Image Skeleton Style -->
+	<Style x:Key="ImageSkeleton"
+		   TargetType="utu:Skeleton"
+		   BasedOn="{StaticResource DefaultSkeleton}">
+		<Setter Property="Height" Value="120" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:Skeleton">
+					<Border x:Name="RootBorder"
+							Background="{TemplateBinding SkeletonBackground}"
+							CornerRadius="8"
+							HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalAlignment}"
+							MinHeight="{TemplateBinding MinHeight}"
+							MinWidth="{TemplateBinding MinWidth}"
+							Width="{TemplateBinding Width}"
+							Height="{TemplateBinding Height}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- Button Skeleton Style -->
+	<Style x:Key="ButtonSkeleton"
+		   TargetType="utu:Skeleton"
+		   BasedOn="{StaticResource DefaultSkeleton}">
+		<Setter Property="Width" Value="100" />
+		<Setter Property="Height" Value="36" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+	</Style>
+
+</ResourceDictionary>

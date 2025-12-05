@@ -1,0 +1,183 @@
+<Page x:Class="Uno.Toolkit.Samples.Content.Controls.SkeletonViewSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<sample:SamplePageLayout x:Name="SamplePageLayout"
+							 IsDesignAgnostic="True">
+		<sample:SamplePageLayout.DesignAgnosticTemplate>
+			<DataTemplate>
+				<ScrollViewer>
+					<StackPanel Spacing="24" Padding="16">
+
+						<!-- Section 1: Basic SkeletonView with Shimmer -->
+						<TextBlock Text="Basic SkeletonView with Shimmer"
+								   Style="{StaticResource TitleTextBlockStyle}" />
+
+						<utu:SkeletonView IsActive="{Binding Data.IsLoading}"
+										  EnableShimmer="True">
+							<StackPanel Spacing="12">
+								<!-- Profile header skeleton -->
+								<StackPanel Orientation="Horizontal" Spacing="12">
+									<utu:Skeleton Style="{StaticResource AvatarSkeleton}" />
+									<StackPanel Spacing="8" VerticalAlignment="Center">
+										<utu:Skeleton Style="{StaticResource TitleSkeleton}" />
+										<utu:Skeleton Style="{StaticResource SubtitleSkeleton}" Width="100" />
+									</StackPanel>
+								</StackPanel>
+
+								<!-- Image skeleton -->
+								<utu:Skeleton Style="{StaticResource ImageSkeleton}" Height="150" />
+
+								<!-- Text lines skeleton -->
+								<utu:Skeleton Style="{StaticResource TextSkeleton}" />
+								<utu:Skeleton Style="{StaticResource TextSkeleton}" />
+								<utu:Skeleton Style="{StaticResource TextSkeleton}" Width="200" />
+							</StackPanel>
+						</utu:SkeletonView>
+
+						<!-- Section 2: SkeletonView without Shimmer -->
+						<TextBlock Text="SkeletonView without Shimmer"
+								   Style="{StaticResource TitleTextBlockStyle}"
+								   Margin="0,16,0,0" />
+
+						<utu:SkeletonView IsActive="{Binding Data.IsLoading}"
+										  EnableShimmer="False">
+							<StackPanel Spacing="8">
+								<utu:Skeleton Style="{StaticResource TitleSkeleton}" />
+								<utu:Skeleton Style="{StaticResource TextSkeleton}" />
+								<utu:Skeleton Style="{StaticResource TextSkeleton}" Width="180" />
+							</StackPanel>
+						</utu:SkeletonView>
+
+						<!-- Section 3: List Item Skeletons -->
+						<TextBlock Text="List Item Skeletons"
+								   Style="{StaticResource TitleTextBlockStyle}"
+								   Margin="0,16,0,0" />
+
+						<utu:SkeletonView IsActive="{Binding Data.IsLoading}">
+							<StackPanel Spacing="16">
+								<!-- List item 1 -->
+								<StackPanel Orientation="Horizontal" Spacing="12">
+									<utu:Skeleton Style="{StaticResource CircleSkeleton}" />
+									<StackPanel Spacing="4" VerticalAlignment="Center">
+										<utu:Skeleton Style="{StaticResource TitleSkeleton}" Width="180" />
+										<utu:Skeleton Style="{StaticResource TextSkeleton}" Width="120" />
+									</StackPanel>
+								</StackPanel>
+
+								<!-- List item 2 -->
+								<StackPanel Orientation="Horizontal" Spacing="12">
+									<utu:Skeleton Style="{StaticResource CircleSkeleton}" />
+									<StackPanel Spacing="4" VerticalAlignment="Center">
+										<utu:Skeleton Style="{StaticResource TitleSkeleton}" Width="150" />
+										<utu:Skeleton Style="{StaticResource TextSkeleton}" Width="100" />
+									</StackPanel>
+								</StackPanel>
+
+								<!-- List item 3 -->
+								<StackPanel Orientation="Horizontal" Spacing="12">
+									<utu:Skeleton Style="{StaticResource CircleSkeleton}" />
+									<StackPanel Spacing="4" VerticalAlignment="Center">
+										<utu:Skeleton Style="{StaticResource TitleSkeleton}" Width="200" />
+										<utu:Skeleton Style="{StaticResource TextSkeleton}" Width="140" />
+									</StackPanel>
+								</StackPanel>
+							</StackPanel>
+						</utu:SkeletonView>
+
+						<!-- Section 4: Card Skeleton -->
+						<TextBlock Text="Card Skeleton"
+								   Style="{StaticResource TitleTextBlockStyle}"
+								   Margin="0,16,0,0" />
+
+						<utu:SkeletonView IsActive="{Binding Data.IsLoading}">
+							<Border CornerRadius="12"
+									Padding="16"
+									BorderThickness="1"
+									BorderBrush="{ThemeResource SystemControlForegroundBaseLowBrush}">
+								<StackPanel Spacing="12">
+									<utu:Skeleton Style="{StaticResource ImageSkeleton}" Height="180" />
+									<utu:Skeleton Style="{StaticResource TitleSkeleton}" />
+									<StackPanel Spacing="4">
+										<utu:Skeleton Style="{StaticResource TextSkeleton}" />
+										<utu:Skeleton Style="{StaticResource TextSkeleton}" Width="250" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal" Spacing="8">
+										<utu:Skeleton Style="{StaticResource ButtonSkeleton}" />
+										<utu:Skeleton Style="{StaticResource ButtonSkeleton}" />
+									</StackPanel>
+								</StackPanel>
+							</Border>
+						</utu:SkeletonView>
+
+						<!-- Section 5: With LoadingView Integration -->
+						<TextBlock Text="With LoadingView Integration"
+								   Style="{StaticResource TitleTextBlockStyle}"
+								   Margin="0,16,0,0" />
+
+						<utu:LoadingView x:Name="LoadingViewDemo"
+										 Source="{Binding Data.LoadDataCommand}">
+							<!-- Actual content shown after loading -->
+							<StackPanel Spacing="8">
+								<StackPanel Orientation="Horizontal" Spacing="12">
+									<Ellipse Width="48" Height="48" Fill="{ThemeResource SystemAccentColor}" />
+									<StackPanel VerticalAlignment="Center">
+										<TextBlock Text="John Doe"
+												   Style="{StaticResource SubtitleTextBlockStyle}" />
+										<TextBlock Text="Software Engineer"
+												   Style="{StaticResource CaptionTextBlockStyle}"
+												   Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+									</StackPanel>
+								</StackPanel>
+								<TextBlock Text="This is the actual content that appears after loading is complete. The skeleton placeholder is shown while the data is being fetched."
+										   TextWrapping="Wrap" />
+								<Button Content="Reload"
+										Command="{Binding Data.LoadDataCommand}" />
+							</StackPanel>
+
+							<!-- Skeleton placeholder as LoadingContent -->
+							<utu:LoadingView.LoadingContent>
+								<utu:SkeletonView>
+									<StackPanel Spacing="8">
+										<StackPanel Orientation="Horizontal" Spacing="12">
+											<utu:Skeleton Style="{StaticResource AvatarSkeleton}" />
+											<StackPanel Spacing="4" VerticalAlignment="Center">
+												<utu:Skeleton Style="{StaticResource TitleSkeleton}" Width="120" />
+												<utu:Skeleton Style="{StaticResource TextSkeleton}" Width="100" />
+											</StackPanel>
+										</StackPanel>
+										<utu:Skeleton Style="{StaticResource TextSkeleton}" />
+										<utu:Skeleton Style="{StaticResource TextSkeleton}" />
+										<utu:Skeleton Style="{StaticResource ButtonSkeleton}" />
+									</StackPanel>
+								</utu:SkeletonView>
+							</utu:LoadingView.LoadingContent>
+						</utu:LoadingView>
+
+						<!-- Controls -->
+						<StackPanel Spacing="8" Margin="0,16,0,0">
+							<TextBlock Text="Controls"
+									   Style="{StaticResource TitleTextBlockStyle}" />
+
+							<ToggleSwitch IsOn="{Binding Data.IsLoading, Mode=TwoWay}"
+										  OnContent="Skeleton Active"
+										  OffContent="Skeleton Inactive" />
+
+							<Button Content="Trigger LoadingView Demo"
+									Command="{Binding Data.LoadDataCommand}" />
+						</StackPanel>
+
+					</StackPanel>
+				</ScrollViewer>
+			</DataTemplate>
+		</sample:SamplePageLayout.DesignAgnosticTemplate>
+	</sample:SamplePageLayout>
+
+</Page>
