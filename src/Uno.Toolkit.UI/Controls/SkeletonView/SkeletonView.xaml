@@ -1,0 +1,152 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:utu="using:Uno.Toolkit.UI"
+					mc:Ignorable="d">
+
+	<!-- Theme Resources -->
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<SolidColorBrush x:Key="SkeletonViewBackground" Color="#E0E0E0" />
+			<SolidColorBrush x:Key="SkeletonViewShimmerBrush" Color="#F5F5F5" />
+			<x:String x:Key="SkeletonViewShimmerDuration">00:00:01.500</x:String>
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<SolidColorBrush x:Key="SkeletonViewBackground" Color="#E0E0E0" />
+			<SolidColorBrush x:Key="SkeletonViewShimmerBrush" Color="#F5F5F5" />
+			<x:String x:Key="SkeletonViewShimmerDuration">00:00:01.500</x:String>
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Dark">
+			<SolidColorBrush x:Key="SkeletonViewBackground" Color="#3D3D3D" />
+			<SolidColorBrush x:Key="SkeletonViewShimmerBrush" Color="#4D4D4D" />
+			<x:String x:Key="SkeletonViewShimmerDuration">00:00:01.500</x:String>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<!-- SkeletonView Style -->
+	<Style x:Key="DefaultSkeletonView"
+		   TargetType="utu:SkeletonView">
+
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="SkeletonBackground" Value="{ThemeResource SkeletonViewBackground}" />
+		<Setter Property="ShimmerBrush" Value="{ThemeResource SkeletonViewShimmerBrush}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:SkeletonView">
+					<Grid x:Name="RootGrid"
+						  Background="Transparent">
+						<Grid.Clip>
+							<RectangleGeometry x:Name="ClipGeometry"
+											   Rect="0,0,10000,10000" />
+						</Grid.Clip>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="ShimmerStates">
+								<VisualState x:Name="ShimmerActive">
+									<VisualState.Setters>
+										<Setter Target="ShimmerOverlay.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="ShimmerInactive">
+									<VisualState.Setters>
+										<Setter Target="ShimmerOverlay.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
+						<!-- Skeleton Content -->
+						<ContentPresenter x:Name="ContentPresenter"
+										  Content="{TemplateBinding Content}"
+										  ContentTemplate="{TemplateBinding ContentTemplate}"
+										  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+						<!-- Shimmer Overlay -->
+						<Border x:Name="ShimmerOverlay"
+								IsHitTestVisible="False"
+								Visibility="Collapsed">
+							<Border.RenderTransform>
+								<TranslateTransform x:Name="PART_ShimmerTranslate" X="0" />
+							</Border.RenderTransform>
+							<Border Width="100"
+									HorizontalAlignment="Left">
+								<Border.Background>
+									<LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+										<GradientStop Offset="0" Color="Transparent" />
+										<GradientStop Offset="0.5" Color="{Binding Source={ThemeResource SkeletonViewShimmerBrush}, Path=Color}" />
+										<GradientStop Offset="1" Color="Transparent" />
+									</LinearGradientBrush>
+								</Border.Background>
+							</Border>
+						</Border>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style TargetType="utu:SkeletonView"
+		   BasedOn="{StaticResource DefaultSkeletonView}" />
+
+	<!-- SkeletonShape Base Style -->
+	<Style x:Key="BaseSkeletonShape"
+		   TargetType="Border">
+		<Setter Property="Background" Value="{ThemeResource SkeletonViewBackground}" />
+		<Setter Property="MinHeight" Value="16" />
+		<Setter Property="MinWidth" Value="16" />
+	</Style>
+
+	<!-- SkeletonText Style - Simulates a line of text -->
+	<Style x:Key="SkeletonTextStyle"
+		   TargetType="Border"
+		   BasedOn="{StaticResource BaseSkeletonShape}">
+		<Setter Property="Height" Value="16" />
+		<Setter Property="CornerRadius" Value="4" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+	</Style>
+
+	<!-- SkeletonTitle Style - Simulates a title/header -->
+	<Style x:Key="SkeletonTitleStyle"
+		   TargetType="Border"
+		   BasedOn="{StaticResource BaseSkeletonShape}">
+		<Setter Property="Height" Value="24" />
+		<Setter Property="CornerRadius" Value="4" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="Width" Value="200" />
+	</Style>
+
+	<!-- SkeletonCircle Style - Simulates an avatar/profile picture -->
+	<Style x:Key="SkeletonCircleStyle"
+		   TargetType="Border"
+		   BasedOn="{StaticResource BaseSkeletonShape}">
+		<Setter Property="Width" Value="48" />
+		<Setter Property="Height" Value="48" />
+		<Setter Property="CornerRadius" Value="24" />
+	</Style>
+
+	<!-- SkeletonRectangle Style - Simulates an image/card -->
+	<Style x:Key="SkeletonRectangleStyle"
+		   TargetType="Border"
+		   BasedOn="{StaticResource BaseSkeletonShape}">
+		<Setter Property="Height" Value="120" />
+		<Setter Property="CornerRadius" Value="8" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+	</Style>
+
+	<!-- SkeletonButton Style - Simulates a button -->
+	<Style x:Key="SkeletonButtonStyle"
+		   TargetType="Border"
+		   BasedOn="{StaticResource BaseSkeletonShape}">
+		<Setter Property="Width" Value="100" />
+		<Setter Property="Height" Value="36" />
+		<Setter Property="CornerRadius" Value="4" />
+	</Style>
+
+</ResourceDictionary>

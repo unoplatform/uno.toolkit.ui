@@ -1,0 +1,7 @@
+ {
+ 	"servers": {
+ 		"uno-docs-mcp": {
+ 			"url": "https://docs-mcp-dev.unoplatform.net/v1"
+ 		}
+ 	}
+ }

@@ -33,7 +33,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj",
         "/property:GenerateFullPaths=true",
         "/property:TargetFramework=net9.0-desktop",
         "/consoleloggerparameters:NoSummary"
@@ -46,7 +46,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj",
         "/property:GenerateFullPaths=true",
         "/property:TargetFramework=net9.0-desktop",
         "/consoleloggerparameters:NoSummary"
