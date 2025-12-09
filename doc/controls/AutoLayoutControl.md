@@ -79,6 +79,7 @@ Defines the alignment of items along an axis within the `AutoLayout` container.
 | `Stretch` | Items are stretched to fill the available space along the specified axis. This is the default value for `CounterAxisAlignment`.                    |
 
 > [!TIP]
+>
 > - `PrimaryAxisAlignment` controls alignment along the orientation axis (horizontal for `Orientation="Horizontal"`, vertical for `Orientation="Vertical"`).
 > - `CounterAxisAlignment` controls alignment perpendicular to the orientation axis.
 > - Individual child elements can override `CounterAxisAlignment` by setting the `CounterAlignment` attached property.
