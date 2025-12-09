@@ -411,8 +411,6 @@ The Uno Toolkit provides several styles of `TabBarItem` for both Material and Cu
 > </utu:TabBar>
 > ```
 > 
-> The `BottomTabBarItemStyle` and `VerticalTabBarItemStyle` resources listed in the table above are internal implementation details used by their corresponding TabBar container styles. They should not be referenced directly in your XAML.
-> 
 > **Exception:** The `BottomFabTabBarItemStyle` is designed to be applied directly to specific TabBarItem elements when you want to create a Floating Action Button within a TabBar (see example below).
 
 These pre-built styles can be used for more complex `TabBar` scenarios. For example, using the BottomFabTabBarItemStyle, we can embed Floating Action Buttons into the `TabBar`.
