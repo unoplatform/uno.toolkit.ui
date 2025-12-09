@@ -134,7 +134,7 @@ You can switch transition behavior with `SelectionIndicatorTransitionMode="Slide
 ```
 
 > [!IMPORTANT]
-> Apply the style to the `TabBar` container (`BottomTabBarStyle` or `VerticalTabBarStyle`), not to individual `TabBarItem` elements. The TabBar's style automatically styles its children. Do not use `Style="{StaticResource BottomTabBarItemStyle}"` on TabBarItem—this style does not exist in Material Toolkit v2.
+> Apply the style to the `TabBar` container (`BottomTabBarStyle` or `VerticalTabBarStyle`), not to individual `TabBarItem` elements. The TabBar's style automatically styles its children.
 
 Badges are supported when using Material `BottomTabBarStyle` and `VerticalTabBarStyle`. ([aka.platform.uno][1])
 
