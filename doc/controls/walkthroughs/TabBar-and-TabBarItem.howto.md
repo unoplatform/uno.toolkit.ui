@@ -11,6 +11,11 @@ tags: [tabbar, tabs, navigation, bottom-navigation, segmented-control, badge, fa
 > * `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` (prebuilt styles, badges, segmented looks)
 > * `Uno.Extensions.Navigation` + `Uno.Extensions.Navigation.Toolkit.WinUI` (if you want tab selection to navigate views)
 
+> [!IMPORTANT]
+> **Always specify a Style on TabBar**
+> 
+> TabBar requires an explicit `Style` attribute to achieve proper Material Design or Cupertino appearance.
+
 ## Show a bottom tab bar (icons only)
 
 **When to use:** primary, bottom navigation with icons.
@@ -374,6 +379,19 @@ See key list in the control docs. ([aka.platform.uno][1])
 ---
 
 ### FAQ
+
+**Q: Why does my TabBar look unstyled or basic?**
+
+You likely forgot to set a `Style` attribute on the `TabBar`. TabBar requires an explicit style to get Material Design or Cupertino appearance:
+
+```xml
+<!-- Add Style attribute -->
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+    <!-- items -->
+</utu:TabBar>
+```
+
+Common styles: `BottomTabBarStyle`, `VerticalTabBarStyle`, `TopTabBarStyle`, `ColoredTopTabBarStyle` (Material), or `SegmentedStyle`, `SlidingSegmentedStyle` (Cupertino). ([aka.platform.uno][1])
 
 **Q: Which theme packages do I need for the ready-made looks?**
 
