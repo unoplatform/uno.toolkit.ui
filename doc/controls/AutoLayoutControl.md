@@ -53,6 +53,36 @@ xmlns:utu="using:Uno.Toolkit.UI"
 > [!IMPORTANT]
 > Use `Justify="SpaceBetween"` when you would like space distributed between children. `PrimaryAxisAlignment` only accepts `Start|Center|End|Stretch`; setting `PrimaryAxisAlignment="SpaceBetween"` is invalid and will result in a XAML parse error (`UXAML0001`).
 
+### Enums
+
+#### AutoLayoutJustify
+
+Defines how items are justified within the `AutoLayout` container.
+
+| Value          | Description                                                                                                                                                  |
+|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Stack`        | Items are stacked together with the specified `Spacing` between them. This is the default behavior and mirrors Figma's "Packed" distribution mode.           |
+| `SpaceBetween` | Items are distributed evenly with equal spacing between them. The first item aligns to the start and the last item aligns to the end of the available space. |
+
+> [!NOTE]
+> If a child element has its `PrimaryAlignment` set to `Stretch`, the `Justify` property will default to `Stack` behavior for that element.
+
+#### AutoLayoutAlignment
+
+Defines the alignment of items along an axis within the `AutoLayout` container.
+
+| Value     | Description                                                                                                                                        |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Start`   | Items are aligned to the start of the container along the specified axis. This is the default value for `PrimaryAxisAlignment`.                    |
+| `Center`  | Items are centered within the container along the specified axis.                                                                                  |
+| `End`     | Items are aligned to the end of the container along the specified axis.                                                                            |
+| `Stretch` | Items are stretched to fill the available space along the specified axis. This is the default value for `CounterAxisAlignment`.                    |
+
+> [!TIP]
+> - `PrimaryAxisAlignment` controls alignment along the orientation axis (horizontal for `Orientation="Horizontal"`, vertical for `Orientation="Vertical"`).
+> - `CounterAxisAlignment` controls alignment perpendicular to the orientation axis.
+> - Individual child elements can override `CounterAxisAlignment` by setting the `CounterAlignment` attached property.
+
 ### Attached Properties
 
 | Property              | Type                         | Description                                                                                                                                                                                                                                                                                                                                              |
