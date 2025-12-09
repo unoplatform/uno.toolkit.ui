@@ -62,7 +62,6 @@ tags: [autolayout, figma, layout, flexbox, stack, spacing, alignment, figma-plug
 
 * `Justify`: `Stack` (packed) or `SpaceBetween`. With `SpaceBetween`, items stretch apart along the primary axis.
 * If a child sets `PrimaryAlignment="Stretch"`, it behaves as `Stack`. ([Uno Platform][1])
-* `PrimaryAxisAlignment` does not accept `SpaceBetween`; using it there will fail to parse (`UXAML0001`). Use `Justify` for this spacing pattern.
 
 ---
 
