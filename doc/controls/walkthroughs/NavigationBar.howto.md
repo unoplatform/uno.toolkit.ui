@@ -24,6 +24,9 @@ Use the built-in MainCommand in **Back** mode (default). It appears on the left 
 <utu:NavigationBar Content="Details" />
 ```
 
+> [!IMPORTANT]
+> For a simple text title, set `Content` directly as a string — **do not wrap it inside any `FrameworkElement`**.
+
 * The back icon/text is native on iOS/Android; on desktop you can override a resource (`NavigationBarBackIconData`). ([Uno Platform][1])
 * The bar auto-handles system back requests when visible. (WinAppSDK note: `SystemNavigationManager` isn't supported.) ([Uno Platform][1])
 
@@ -105,6 +108,10 @@ Use the bar's `Foreground` (solid color only).
 ---
 
 ## Put custom content (e.g., a search box) in the title area
+
+> [!NOTE]
+> Only use `FrameworkElement` content when you need **interactive controls** like search boxes or custom layouts.
+> For simple text, always use `Content="Text"` directly.
 
 `Content` can be a `FrameworkElement` and uses the available center region.
 
