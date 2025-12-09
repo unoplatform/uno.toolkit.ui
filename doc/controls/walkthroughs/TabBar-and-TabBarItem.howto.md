@@ -120,14 +120,18 @@ You can switch transition behavior with `SelectionIndicatorTransitionMode="Slide
 **Packages:** `Uno.Toolkit.UI` + `Uno.Toolkit.UI.Material`
 
 ```xml
-<utu:TabBarItem Content="Favorites"
-                Style="{StaticResource BottomTabBarItemStyle}"
-                BadgeVisibility="Visible">
-    <utu:TabBarItem.Icon><FontIcon Glyph="&#xE113;"/></utu:TabBarItem.Icon>
-</utu:TabBarItem>
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+    <utu:TabBarItem Content="Favorites"
+                    BadgeVisibility="Visible">
+        <utu:TabBarItem.Icon><FontIcon Glyph="&#xE113;"/></utu:TabBarItem.Icon>
+    </utu:TabBarItem>
+</utu:TabBar>
 ```
 
-Badges are supported by Material `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`. ([aka.platform.uno][1])
+> [!IMPORTANT]
+> Apply the style to the `TabBar` container (`BottomTabBarStyle` or `VerticalTabBarStyle`), not to individual `TabBarItem` elements. The TabBar's style automatically styles its children. Do not use `Style="{StaticResource BottomTabBarItemStyle}"` on TabBarItem—this style does not exist in Material Toolkit v2.
+
+Badges are supported when using Material `BottomTabBarStyle` and `VerticalTabBarStyle`. ([aka.platform.uno][1])
 
 ---
 
@@ -138,15 +142,16 @@ Badges are supported by Material `BottomTabBarItemStyle` and `VerticalTabBarItem
 **Packages:** `Uno.Toolkit.UI` + `Uno.Toolkit.UI.Material`
 
 ```xml
-<utu:TabBarItem Content="Mail"
-                Style="{StaticResource BottomTabBarItemStyle}"
-                BadgeVisibility="Visible"
-                BadgeValue="8">
-    <utu:TabBarItem.Icon><FontIcon Glyph="&#xE119;"/></utu:TabBarItem.Icon>
-</utu:TabBarItem>
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+    <utu:TabBarItem Content="Mail"
+                    BadgeVisibility="Visible"
+                    BadgeValue="8">
+        <utu:TabBarItem.Icon><FontIcon Glyph="&#xE119;"/></utu:TabBarItem.Icon>
+    </utu:TabBarItem>
+</utu:TabBar>
 ```
 
-Setting `BadgeValue` switches to the large (numbered) badge. ([aka.platform.uno][1])
+Setting `BadgeValue` switches to the large (numbered) badge. The TabBar's `BottomTabBarStyle` automatically applies the correct styling to child items. ([aka.platform.uno][1])
 
 ---
 

@@ -398,6 +398,23 @@ The Uno Toolkit provides several styles of `TabBarItem` for both Material and Cu
 | `TopTabBarItemStyle`        | &check;  |           |
 | `VerticalTabBarItemStyle`   | &check;  |           |
 
+> [!IMPORTANT]
+> **Styling Pattern for TabBar in Material Toolkit v2:**
+> 
+> Apply styles to the **`TabBar` container**, not to individual `TabBarItem` elements. The TabBar's style (e.g., `BottomTabBarStyle`, `VerticalTabBarStyle`, `TopTabBarStyle`) automatically applies the correct item styling to its children.
+> 
+> ```xml
+> <utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+>     <utu:TabBarItem Content="Home" BadgeVisibility="Visible">
+>         <utu:TabBarItem.Icon><SymbolIcon Symbol="Home"/></utu:TabBarItem.Icon>
+>     </utu:TabBarItem>
+> </utu:TabBar>
+> ```
+> 
+> The `BottomTabBarItemStyle` and `VerticalTabBarItemStyle` resources listed in the table above are internal implementation details used by their corresponding TabBar container styles. They should not be referenced directly in your XAML.
+> 
+> **Exception:** The `BottomFabTabBarItemStyle` is designed to be applied directly to specific TabBarItem elements when you want to create a Floating Action Button within a TabBar (see example below).
+
 These pre-built styles can be used for more complex `TabBar` scenarios. For example, using the BottomFabTabBarItemStyle, we can embed Floating Action Buttons into the `TabBar`.
 
 ```xml
@@ -478,13 +495,14 @@ A small badge uses only shape to indicate a status change or new notification.
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
-<utu:TabBarItem Content="Favorites"
-                BadgeVisibility="Visible"
-                Style="{StaticResource BottomTabBarItemStyle}">
-    <utu:TabBarItem.Icon>
-        <FontIcon Glyph="&#xE113;" />
-    </utu:TabBarItem.Icon>
-</utu:TabBarItem>
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+    <utu:TabBarItem Content="Favorites"
+                    BadgeVisibility="Visible">
+        <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE113;" />
+        </utu:TabBarItem.Icon>
+    </utu:TabBarItem>
+</utu:TabBar>
 ```
 
 ##### Large Badge
@@ -497,14 +515,15 @@ A large badge displays a number within a container to indicate a quantifiable st
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
-<utu:TabBarItem Content="Mail"
-                BadgeValue="8"
-                BadgeVisibility="Visible"
-                Style="{StaticResource BottomTabBarItemStyle}">
-    <utu:TabBarItem.Icon>
-        <FontIcon Glyph="&#xE119;" />
-    </utu:TabBarItem.Icon>
-</utu:TabBarItem>
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+    <utu:TabBarItem Content="Mail"
+                    BadgeValue="8"
+                    BadgeVisibility="Visible">
+        <utu:TabBarItem.Icon>
+            <FontIcon Glyph="&#xE119;" />
+        </utu:TabBarItem.Icon>
+    </utu:TabBarItem>
+</utu:TabBar>
 ```
 
 ## Lightweight Styling
