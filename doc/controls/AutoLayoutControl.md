@@ -50,6 +50,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `IsReverseZIndex`      | `bool`                | Gets or sets whether or not the ZIndex of the children should be reversed. The default is `false`.                                                                                                                                                                                                                                                     |
 | `Padding`              | `Thickness`           | **WARNING:** Padding for `AutoLayout` behaves the same as it does within the Figma Plugin: The anchor points determine which sides of the Padding will be taken into consideration. For example, items that are aligned to the Right and Top positions will only take the `Tickness.Right` and `Thickness.Top` values of `Padding` into consideration. |
 
+> [!IMPORTANT]
+> Use `Justify="SpaceBetween"` when you would like space distributed between children. `PrimaryAxisAlignment` only accepts `Start|Center|End|Stretch`; setting `PrimaryAxisAlignment="SpaceBetween"` is invalid and will result in a XAML parse error (`UXAML0001`).
+
 ### Attached Properties
 
 | Property              | Type                         | Description                                                                                                                                                                                                                                                                                                                                              |
