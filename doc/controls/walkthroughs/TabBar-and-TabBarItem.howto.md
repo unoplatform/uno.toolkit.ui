@@ -10,6 +10,11 @@ tags: [tabbar, tabs, navigation, bottom-navigation, segmented-control, badge, fa
 > * `Uno.Toolkit.UI` (controls)
 > * `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` (prebuilt styles, badges, segmented looks)
 > * `Uno.Extensions.Navigation` + `Uno.Extensions.Navigation.Toolkit.WinUI` (if you want tab selection to navigate views)
+>
+> [!IMPORTANT]
+> **Always specify a Style on TabBar**
+>
+> TabBar requires an explicit `Style` attribute to achieve proper Material Design or Cupertino appearance.
 
 ## Show a bottom tab bar (icons only)
 
@@ -120,14 +125,18 @@ You can switch transition behavior with `SelectionIndicatorTransitionMode="Slide
 **Packages:** `Uno.Toolkit.UI` + `Uno.Toolkit.UI.Material`
 
 ```xml
-<utu:TabBarItem Content="Favorites"
-                Style="{StaticResource BottomTabBarItemStyle}"
-                BadgeVisibility="Visible">
-    <utu:TabBarItem.Icon><FontIcon Glyph="&#xE113;"/></utu:TabBarItem.Icon>
-</utu:TabBarItem>
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+    <utu:TabBarItem Content="Favorites"
+                    BadgeVisibility="Visible">
+        <utu:TabBarItem.Icon><FontIcon Glyph="&#xE113;"/></utu:TabBarItem.Icon>
+    </utu:TabBarItem>
+</utu:TabBar>
 ```
 
-Badges are supported by Material `BottomTabBarItemStyle` and `VerticalTabBarItemStyle`. ([aka.platform.uno][1])
+> [!IMPORTANT]
+> Apply the style to the `TabBar` container (`BottomTabBarStyle` or `VerticalTabBarStyle`), not to individual `TabBarItem` elements. The TabBar's style automatically styles its children.
+
+Badges are supported when using Material `BottomTabBarStyle` and `VerticalTabBarStyle`. ([aka.platform.uno][1])
 
 ---
 
@@ -138,15 +147,16 @@ Badges are supported by Material `BottomTabBarItemStyle` and `VerticalTabBarItem
 **Packages:** `Uno.Toolkit.UI` + `Uno.Toolkit.UI.Material`
 
 ```xml
-<utu:TabBarItem Content="Mail"
-                Style="{StaticResource BottomTabBarItemStyle}"
-                BadgeVisibility="Visible"
-                BadgeValue="8">
-    <utu:TabBarItem.Icon><FontIcon Glyph="&#xE119;"/></utu:TabBarItem.Icon>
-</utu:TabBarItem>
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+    <utu:TabBarItem Content="Mail"
+                    BadgeVisibility="Visible"
+                    BadgeValue="8">
+        <utu:TabBarItem.Icon><FontIcon Glyph="&#xE119;"/></utu:TabBarItem.Icon>
+    </utu:TabBarItem>
+</utu:TabBar>
 ```
 
-Setting `BadgeValue` switches to the large (numbered) badge. ([aka.platform.uno][1])
+Setting `BadgeValue` switches to the large (numbered) badge. The TabBar's `BottomTabBarStyle` automatically applies the correct styling to child items. ([aka.platform.uno][1])
 
 ---
 
@@ -369,6 +379,19 @@ See key list in the control docs. ([aka.platform.uno][1])
 ---
 
 ### FAQ
+
+**Q: Why does my TabBar look unstyled or basic?**
+
+You likely forgot to set a `Style` attribute on the `TabBar`. TabBar requires an explicit style to get Material Design or Cupertino appearance:
+
+```xml
+<!-- Add Style attribute -->
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}">
+    <!-- items -->
+</utu:TabBar>
+```
+
+Common styles: `BottomTabBarStyle`, `VerticalTabBarStyle`, `TopTabBarStyle`, `ColoredTopTabBarStyle` (Material), or `SegmentedStyle`, `SlidingSegmentedStyle` (Cupertino). ([aka.platform.uno][1])
 
 **Q: Which theme packages do I need for the ready-made looks?**
 
