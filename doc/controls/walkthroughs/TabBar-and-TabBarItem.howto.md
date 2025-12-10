@@ -88,6 +88,48 @@ This wires TabBar selection to a named region for navigation. ([Uno Platform][2]
 
 ---
 
+## Show different TabBars for mobile and desktop (responsive)
+
+**Goal:** display a bottom TabBar on mobile, vertical TabBar on desktop.
+
+**Packages:** `Uno.Toolkit.UI` + `Uno.Toolkit.UI.Material`
+
+```xml
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:utu="using:Uno.Toolkit.UI">
+    <Grid>
+        <!-- Bottom TabBar for Mobile -->
+        <utu:TabBar Style="{StaticResource BottomTabBarStyle}"
+                    VerticalAlignment="Bottom"
+                    Visibility="{utu:Responsive Normal=Visible, Wide=Collapsed}">
+            <utu:TabBarItem Content="Home">
+                <utu:TabBarItem.Icon><SymbolIcon Symbol="Home"/></utu:TabBarItem.Icon>
+            </utu:TabBarItem>
+            <utu:TabBarItem Content="Search">
+                <utu:TabBarItem.Icon><SymbolIcon Symbol="Find"/></utu:TabBarItem.Icon>
+            </utu:TabBarItem>
+        </utu:TabBar>
+
+        <!-- Vertical TabBar for Desktop -->
+        <utu:TabBar Style="{StaticResource VerticalTabBarStyle}"
+                    HorizontalAlignment="Left"
+                    Visibility="{utu:Responsive Normal=Collapsed, Wide=Visible}">
+            <utu:TabBarItem Content="Home">
+                <utu:TabBarItem.Icon><SymbolIcon Symbol="Home"/></utu:TabBarItem.Icon>
+            </utu:TabBarItem>
+            <utu:TabBarItem Content="Search">
+                <utu:TabBarItem.Icon><SymbolIcon Symbol="Find"/></utu:TabBarItem.Icon>
+            </utu:TabBarItem>
+        </utu:TabBar>
+    </Grid>
+</Page>
+```
+
+`utu:Responsive` handles all screen size breakpoints automatically and is the modern Uno Toolkit approach. ([Uno Platform][5])
+
+---
+
 ## Add a selection indicator (underline / slider)
 
 **Goal:** show an indicator above or below the selected item.
@@ -393,6 +435,22 @@ You likely forgot to set a `Style` attribute on the `TabBar`. TabBar requires an
 
 Common styles: `BottomTabBarStyle`, `VerticalTabBarStyle`, `TopTabBarStyle`, `ColoredTopTabBarStyle` (Material), or `SegmentedStyle`, `SlidingSegmentedStyle` (Cupertino). ([aka.platform.uno][1])
 
+**Q: How do I make TabBar responsive (show different TabBars on mobile vs desktop)?**
+
+Use the `{utu:Responsive}` markup extension on the `Visibility` property. Do NOT use `VisualStateManager` with `AdaptiveTrigger`—that's an outdated pattern:
+
+```xml
+<!-- Bottom TabBar visible on mobile (Normal), hidden on desktop (Wide) -->
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}"
+            Visibility="{utu:Responsive Normal=Visible, Wide=Collapsed}" />
+
+<!-- Vertical TabBar hidden on mobile (Normal), visible on desktop (Wide) -->
+<utu:TabBar Style="{StaticResource VerticalTabBarStyle}"
+            Visibility="{utu:Responsive Normal=Collapsed, Wide=Visible}" />
+```
+
+The `Responsive` extension is the modern Uno Toolkit approach for adaptive layouts. ([Uno Platform][5])
+
 **Q: Which theme packages do I need for the ready-made looks?**
 
 Use `Uno.Toolkit.UI.Material` for Bottom/Top/Vertical/FAB + badges. Use `Uno.Toolkit.UI.Cupertino` for segmented looks. ([aka.platform.uno][1])
@@ -415,3 +473,4 @@ Badges are documented for Material (`BottomTabBarItemStyle`, `VerticalTabBarItem
 [2]: https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Tutorials/Navigation/Advanced/HowTo-UseTabBar.html "How-To: Use a TabBar to Switch Views"
 [3]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/TabBarItem-extensions.html "TabBarItem Extensions"
 [4]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/SegmentedControls.html "Segmented Controls"
+[5]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/responsive-extension.html "ResponsiveExtension"
