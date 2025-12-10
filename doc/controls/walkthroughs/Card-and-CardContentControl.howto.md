@@ -89,10 +89,10 @@ Common resource keys exist per variant (e.g., `FilledCardBackground`, `OutlinedC
 **Should I use `Border` or `CardContentControl` for a card?**
 
 **Always use `CardContentControl`** (or `Card`) for card UI. `Border` with `CornerRadius` and `ThemeShadow` is an anti-pattern that:
-- Breaks with theme changes (light/dark mode)
-- Lacks interaction states (hover, pressed, focused)
-- Requires manual shadow configuration
-- Misses accessibility features
+* Breaks with theme changes (light/dark mode)
+* Lacks interaction states (hover, pressed, focused)
+* Requires manual shadow configuration
+* Misses accessibility features
 
 `CardContentControl` handles all of this automatically. ([Uno Platform][2])
 
