@@ -10,10 +10,10 @@ tags: [tabbar, tabs, navigation, bottom-navigation, segmented-control, badge, fa
 > * `Uno.Toolkit.UI` (controls)
 > * `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` (prebuilt styles, badges, segmented looks)
 > * `Uno.Extensions.Navigation` + `Uno.Extensions.Navigation.Toolkit.WinUI` (if you want tab selection to navigate views)
-
+>
 > [!IMPORTANT]
 > **Always specify a Style on TabBar**
-> 
+>
 > TabBar requires an explicit `Style` attribute to achieve proper Material Design or Cupertino appearance.
 
 ## Show a bottom tab bar (icons only)

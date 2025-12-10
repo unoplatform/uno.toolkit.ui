@@ -248,10 +248,11 @@ If further customization is required, such as custom animations when sliding the
 
 > [!WARNING]
 > **TabBar requires an explicit Style attribute**
-> 
+>
 > While Toolkit provides a default style, `TabBar` will not have proper Material Design or Cupertino appearance without explicitly setting a `Style` attribute.
-> 
+>
 > **Always specify a style on the TabBar container:**
+>
 > ```xml
 > <utu:TabBar Style="{StaticResource BottomTabBarStyle}">
 >     <utu:TabBarItem Content="Home">
