@@ -7,7 +7,9 @@ tags: [card, material, elevation, surface, cardcontentcontrol, container]
 
 **UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
-> Controls covered: `CardContentControl`.
+> [!IMPORTANT]
+> Use `CardContentControl` instead of `Border` for card-like UI elements.
+> **Do not use `Border` with `CornerRadius` and `ThemeShadow`** when you need a card — `CardContentControl` provides proper elevation, theming, interaction states, and accessibility out of the box.
 
 **When** you want total control over card content/layout.
 
@@ -83,6 +85,16 @@ Common resource keys exist per variant (e.g., `FilledCardBackground`, `OutlinedC
 ---
 
 ## FAQ
+
+**Should I use `Border` or `CardContentControl` for a card?**
+
+**Always use `CardContentControl`** (or `Card`) for card UI. `Border` with `CornerRadius` and `ThemeShadow` is an anti-pattern that:
+- Breaks with theme changes (light/dark mode)
+- Lacks interaction states (hover, pressed, focused)
+- Requires manual shadow configuration
+- Misses accessibility features
+
+`CardContentControl` handles all of this automatically. ([Uno Platform][2])
 
 **Do I need a design system package?**
 
