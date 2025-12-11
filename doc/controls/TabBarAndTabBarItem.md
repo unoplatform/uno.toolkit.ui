@@ -244,6 +244,26 @@ The `SelectionIndicatorPlacement` property can be used to render the selection i
 
 If further customization is required, such as custom animations when sliding the indicator, there is a `SelectionIndicatorPresenterStyle` property on `TabBar` that can be set to customize the style of the internal `ContentPresenter` that is used to display the selection indicator.
 
+## Responsive TabBar Layout
+
+For responsive layouts where different `TabBar` instances are shown based on screen size (e.g., bottom TabBar on mobile, vertical TabBar on desktop), use the [`ResponsiveExtension`](xref:Toolkit.Helpers.ResponsiveExtension) markup extension with the `Visibility` property:
+
+```xml
+<!-- Bottom TabBar for mobile -->
+<utu:TabBar Style="{StaticResource BottomTabBarStyle}"
+            VerticalAlignment="Bottom"
+            Visibility="{utu:Responsive Normal=Visible, Wide=Collapsed}">
+    <!-- items -->
+</utu:TabBar>
+
+<!-- Vertical TabBar for desktop -->
+<utu:TabBar Style="{StaticResource VerticalTabBarStyle}"
+            HorizontalAlignment="Left"
+            Visibility="{utu:Responsive Normal=Collapsed, Wide=Visible}">
+    <!-- items -->
+</utu:TabBar>
+```
+
 ## Styling `TabBar` & `TabBarItem`
 
 > [!WARNING]
