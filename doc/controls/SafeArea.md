@@ -48,7 +48,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 >     </StackPanel>
 > </utu:SafeArea>
 > ```
-
+>
 > [!WARNING]
 > In most cases, the attached properties and the `SafeArea` control can be used interchangeably. However, be aware that using `SafeArea` as a control while `Insets` contains `InsetMask.SoftInput` will introduce a `ScrollViewer` into the visual tree as the content root of the `SafeArea`. Please refer to the [SoftInput usage section](#using-insetmasksoftinput-for-on-screen-keyboards).
 
