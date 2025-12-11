@@ -246,7 +246,7 @@ If further customization is required, such as custom animations when sliding the
 
 ## Responsive TabBar Layout
 
-For responsive layouts where different `TabBar` instances are shown based on screen size (e.g., bottom TabBar on mobile, vertical TabBar on desktop), use the [`ResponsiveExtension`](../helpers/responsive-extension.md) markup extension with the `Visibility` property:
+For responsive layouts where different `TabBar` instances are shown based on screen size (e.g., bottom TabBar on mobile, vertical TabBar on desktop), use the [`ResponsiveExtension`](xref:Toolkit.Helpers.ResponsiveExtension) markup extension with the `Visibility` property:
 
 ```xml
 <!-- Bottom TabBar for mobile -->
