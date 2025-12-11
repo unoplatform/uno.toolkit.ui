@@ -41,13 +41,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 >
 > ```xml
 > <utu:SafeArea Insets="SoftInput,Bottom">
->     <ScrollViewer>
->         <StackPanel>
->             <TextBox Header="Email" />
->             <PasswordBox Header="Password" />
->             <Button Content="Login" />
->         </StackPanel>
->     </ScrollViewer>
+>     <StackPanel>
+>         <TextBox Header="Email" />
+>         <PasswordBox Header="Password" />
+>         <Button Content="Login" />
+>     </StackPanel>
 > </utu:SafeArea>
 > ```
 

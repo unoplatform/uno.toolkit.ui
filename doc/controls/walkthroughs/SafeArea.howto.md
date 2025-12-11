@@ -67,13 +67,11 @@ tags: [safe-area, visible-bounds-padding, safearea, visible-bounds, safe-area-co
 
     <!-- Treat the keyboard as an unsafe area and adjust layout -->
     <utu:SafeArea Insets="SoftInput,Bottom">
-        <ScrollViewer>
-            <StackPanel Spacing="12">
-                <TextBox Header="Email" />
-                <PasswordBox Header="Password" />
-                <Button Content="Sign in" />
-            </StackPanel>
-        </ScrollViewer>
+        <StackPanel Spacing="12">
+            <TextBox Header="Email" />
+            <PasswordBox Header="Password" />
+            <Button Content="Sign in" />
+        </StackPanel>
     </utu:SafeArea>
 </Page>
 ```
@@ -94,27 +92,23 @@ tags: [safe-area, visible-bounds-padding, safearea, visible-bounds, safe-area-co
     xmlns:utu="using:Uno.Toolkit.UI">
 
     <utu:SafeArea Insets="SoftInput,Bottom">
-        <ScrollViewer>
-            <utu:AutoLayout Padding="24" Spacing="16">
-                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        CornerRadius="8"
-                        Padding="24">
-                    <utu:AutoLayout Spacing="12">
-                        <TextBox Header="Email or Username"
-                                 PlaceholderText="Enter your email" />
-                        <PasswordBox Header="Password"
-                                     PlaceholderText="Enter your password" />
-                        <Button Content="Login"
-                                HorizontalAlignment="Stretch" />
-                    </utu:AutoLayout>
-                </Border>
-            </utu:AutoLayout>
-        </ScrollViewer>
+        <utu:AutoLayout Padding="24" Spacing="16">
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="8"
+                    Padding="24">
+                <utu:AutoLayout Spacing="12">
+                    <TextBox Header="Email or Username"
+                             PlaceholderText="Enter your email" />
+                    <PasswordBox Header="Password"
+                                 PlaceholderText="Enter your password" />
+                    <Button Content="Login"
+                            HorizontalAlignment="Stretch" />
+                </utu:AutoLayout>
+            </Border>
+        </utu:AutoLayout>
     </utu:SafeArea>
 </Page>
 ```
-
-**Pattern:** `SafeArea` → `ScrollViewer` → form content. This ensures inputs scroll into view when the keyboard appears. ([Uno Platform][1])
 
 ## Pad a scrollable content area safely
 
