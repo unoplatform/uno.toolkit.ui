@@ -35,6 +35,23 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 > [!WARNING]
+> **Always wrap form inputs with SafeArea when using TextBox or PasswordBox**
+>
+> On mobile devices, the on-screen keyboard will obscure input fields unless you wrap them with `SafeArea` using `Insets="SoftInput"` or `Insets="SoftInput,Bottom"`. This is especially critical for login forms and any page with text entry controls.
+>
+> ```xml
+> <utu:SafeArea Insets="SoftInput,Bottom">
+>     <ScrollViewer>
+>         <StackPanel>
+>             <TextBox Header="Email" />
+>             <PasswordBox Header="Password" />
+>             <Button Content="Login" />
+>         </StackPanel>
+>     </ScrollViewer>
+> </utu:SafeArea>
+> ```
+
+> [!WARNING]
 > In most cases, the attached properties and the `SafeArea` control can be used interchangeably. However, be aware that using `SafeArea` as a control while `Insets` contains `InsetMask.SoftInput` will introduce a `ScrollViewer` into the visual tree as the content root of the `SafeArea`. Please refer to the [SoftInput usage section](#using-insetmasksoftinput-for-on-screen-keyboards).
 
 | Property | Type        | Description                                                                                                                                                                 |
