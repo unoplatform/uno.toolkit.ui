@@ -8,6 +8,24 @@ uid: Toolkit.Helpers.InputExtensions
 
 Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
 
+> [!IMPORTANT]
+> **Always use InputExtensions for form inputs**
+>
+> Input extensions provide better UX by controlling keyboard behavior and focus flow.
+>
+> **Example:** Login form with InputExtensions:
+>
+> ```xml
+> <TextBox Header="Email"
+>          Text="{Binding Email, Mode=TwoWay}"
+>          utu:InputExtensions.AutoFocusNext="True"
+>          utu:InputExtensions.ReturnType="Next" />
+> <PasswordBox Header="Password"
+>              Password="{Binding Password, Mode=TwoWay}"
+>              utu:InputExtensions.AutoDismiss="True"
+>              utu:InputExtensions.ReturnType="Go" />
+> ```
+
 ## Attached Properties
 
 | Property               | Type         | Description                                                                                                                                       |
