@@ -2,6 +2,11 @@
 
 This how-to shows how to make a `Selector` control (for example `FlipView`, `ListViewBase`, `ListView`, `GridView`) move together with a `PipsPager`.
 
+> [!IMPORTANT]
+> The `SelectorExtensions.PipsPager` attached property must be set on the **Selector control** (e.g., `FlipView`, `ListView`), NOT on the `PipsPager`.
+>
+> `<FlipView utu:SelectorExtensions.PipsPager="{Binding ElementName=pager}" />`
+
 **Outcome:** when the user changes page with the `PipsPager`, the selector changes its selected item; when the selector changes selection, the `PipsPager` updates too.
 
 **UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
@@ -31,6 +36,9 @@ This how-to shows how to make a `Selector` control (for example `FlipView`, `Lis
 
 ## 3. Bind the selector to the pager
 
+> [!IMPORTANT]
+> Attach the property to the **FlipView**, NOT to the PipsPager.
+
 Example with `FlipView`:
 
 ```xml
@@ -43,6 +51,7 @@ Example with `FlipView`:
 **What happens:**
 
 * `SelectorExtensions.PipsPager` is the only property you need.
+* It attaches **to the selector (`FlipView`)**, not the `PipsPager`.
 * When set, the extension:
 
   * updates the pager `NumberOfPages` based on the selector items
