@@ -51,7 +51,7 @@ Example with `FlipView`:
 **What happens:**
 
 * `SelectorExtensions.PipsPager` is the only property you need.
-* It attaches **to the selector (FlipView)**, not the pager.
+* It attaches **to the selector (`FlipView`)**, not the `PipsPager`.
 * When set, the extension:
 
   * updates the pager `NumberOfPages` based on the selector items
