@@ -8,6 +8,64 @@ Each how-to is single-purpose on purpose.
 
 ---
 
+> [!IMPORTANT]
+> **Always use InputExtensions for form inputs**
+>
+> Login forms, sign-up forms, and any page with TextBox or PasswordBox should use InputExtensions.
+
+---
+
+## Example: Complete login form with InputExtensions
+
+**Goal:** Create a login form with proper mobile keyboard handling and focus flow.
+
+**XAML**
+
+```xml
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+
+    <StackPanel Spacing="16" Padding="24">
+        <TextBox x:Name="EmailBox"
+                 Header="Email"
+                 PlaceholderText="chef@uno.dev"
+                 Text="{Binding Email, Mode=TwoWay}"
+                 InputScope="EmailNameOrAddress"
+                 utu:InputExtensions.AutoFocusNext="True"
+                 utu:InputExtensions.ReturnType="Next" />
+
+        <PasswordBox x:Name="PasswordBox"
+                     Header="Password"
+                     PlaceholderText="Enter password"
+                     Password="{Binding Password, Mode=TwoWay}"
+                     utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=LoginButton}"
+                     utu:InputExtensions.ReturnType="Go" />
+
+        <Button x:Name="LoginButton"
+                Content="Login"
+                Command="{Binding LoginCommand}"
+                HorizontalAlignment="Stretch" />
+    </StackPanel>
+</Page>
+```
+
+**What this does:**
+- Email field uses `ReturnType="Next"` to show "Next" button on mobile keyboard
+- Pressing Enter in Email moves focus to Password (via `AutoFocusNext`)
+- Password field uses `ReturnType="Go"` to show "Go" button
+- Pressing Enter in Password moves focus to Login button (via `AutoFocusNextElement`)
+- Both fields support data binding for MVVM patterns
+
+**Why this is better than basic TextBox:**
+- Mobile users get proper keyboard buttons (Next/Go instead of Return)
+- Natural focus flow without requiring mouse/touch
+- Works seamlessly with validation and MVVM
+- Maintains InputScope for keyboard type while adding navigation
+
+---
+
 ## 1. How to move focus to the next field
 
 **Goal:** when the user presses **Enter / Return** in a `TextBox`, go to the next focusable control.
@@ -256,6 +314,38 @@ When writing XAML meant to be indexed:
 | Change mobile return key   | `utu:InputExtensions.ReturnType`           | `Default                    | Done | Go | Next | Search | Send` |
 
 (Precedence: **AutoFocusNextElement > AutoFocusNext**) ([Uno Platform][1])
+
+---
+
+## FAQ
+
+**Q: Do I need InputExtensions for every TextBox/PasswordBox?**
+
+Yes, for forms. Always add at least `AutoFocusNext="True"` and `ReturnType="Next|Done|Go"` to provide proper mobile keyboard behavior. These work alongside InputScope, not instead of it.
+
+**Q: Can I use InputExtensions with data binding?**
+
+Yes! InputExtensions are attached properties that work perfectly with `Text="{Binding ...}"` and `Password="{Binding ...}"`. They only control keyboard behavior and focus flow, not data binding.
+
+**Q: What's the difference between AutoFocusNext and AutoFocusNextElement?**
+
+- `AutoFocusNext="True"` - automatically finds the next focusable control using FocusManager
+- `AutoFocusNextElement="{Binding ElementName=...}"` - you explicitly specify which control to focus
+- If both are set, AutoFocusNextElement takes precedence
+
+**Q: Should I combine InputExtensions with InputScope?**
+
+Yes! Use both:
+- `InputScope="EmailNameOrAddress"` - determines keyboard type (email, phone, etc.)
+- `utu:InputExtensions.ReturnType="Next"` - determines return key label (Next, Go, Done, etc.)
+- `utu:InputExtensions.AutoFocusNext="True"` - determines what happens when return is pressed
+
+**Q: What ReturnType should I use for login forms?**
+
+- Email/username field: `ReturnType="Next"`
+- Password field (last input): `ReturnType="Go"` or `ReturnType="Done"`
+- Search box: `ReturnType="Search"`
+- Message/chat field: `ReturnType="Send"`
 
 ---
 
