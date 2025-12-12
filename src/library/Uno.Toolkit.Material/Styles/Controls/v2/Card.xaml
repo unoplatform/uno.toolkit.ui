@@ -1417,4 +1417,8 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+
+	<Style x:Key="MaterialDefaultCardStyle"
+		   TargetType="utu:Card"
+		   BasedOn="{StaticResource MaterialFilledCardStyle}" />
 </ResourceDictionary>

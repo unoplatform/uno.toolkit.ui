@@ -1,0 +1,136 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:toolkit="using:Uno.UI.Toolkit"
+					xmlns:utu="using:Uno.Toolkit.UI">
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<StaticResource x:Key="CardContentControlBackground" ResourceKey="CardBackgroundFillColorDefaultBrush" />
+			<StaticResource x:Key="CardContentControlBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
+			<StaticResource x:Key="CardContentControlBorderBrushPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="CardContentControlBorderBrushFocused" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="CardContentControlBorderBrushPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<x:Double x:Key="CardContentControlElevation">6</x:Double>
+			<Thickness x:Key="CardContentControlPadding">16</Thickness>
+			<Thickness x:Key="CardContentControlBorderThickness">1</Thickness>
+			<Thickness x:Key="CardContentControlElevationMargin">6</Thickness>
+			<CornerRadius x:Key="CardContentControlCornerRadius">4</CornerRadius>
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="CardContentControlBackground" ResourceKey="CardBackgroundFillColorDefaultBrush" />
+			<StaticResource x:Key="CardContentControlBorderBrush" ResourceKey="CardStrokeColorDefaultBrush" />
+			<StaticResource x:Key="CardContentControlBorderBrushPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="CardContentControlBorderBrushFocused" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="CardContentControlBorderBrushPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<x:Double x:Key="CardContentControlElevation">6</x:Double>
+			<Thickness x:Key="CardContentControlPadding">16</Thickness>
+			<Thickness x:Key="CardContentControlBorderThickness">1</Thickness>
+			<Thickness x:Key="CardContentControlElevationMargin">6</Thickness>
+			<CornerRadius x:Key="CardContentControlCornerRadius">4</CornerRadius>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<!-- Default CardContentControl Style -->
+	<Style x:Key="DefaultCardContentControlStyle" TargetType="utu:CardContentControl">
+		<Setter Property="Background" Value="{ThemeResource CardContentControlBackground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource CardContentControlBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{ThemeResource CardContentControlBorderThickness}" />
+		<Setter Property="CornerRadius" Value="{ThemeResource CardContentControlCornerRadius}" />
+		<Setter Property="Padding" Value="{ThemeResource CardContentControlPadding}" />
+		<Setter Property="HorizontalAlignment" Value="Center" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:CardContentControl">
+					<Grid x:Name="GridRoot"
+						  MinWidth="{TemplateBinding MinWidth}"
+						  MinHeight="{TemplateBinding MinHeight}"
+						  MaxWidth="{TemplateBinding MaxWidth}"
+						  MaxHeight="{TemplateBinding MaxHeight}"
+						  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						  VerticalAlignment="{TemplateBinding VerticalAlignment}"
+						  Background="{TemplateBinding Background}"
+						  BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  CornerRadius="{TemplateBinding CornerRadius}">
+
+						<!-- Main ContentPresenter -->
+						<ContentPresenter x:Name="ContentPresenter"
+										  Padding="{TemplateBinding Padding}"
+										  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+										  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+										  AutomationProperties.AccessibilityView="Raw"
+										  Content="{TemplateBinding Content}"
+										  ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+						<!-- Border for Pressed State -->
+						<Border x:Name="HoverPressed"
+								Background="{ThemeResource CardContentControlBorderBrushPressed}"
+								IsHitTestVisible="False"
+								Opacity="0" />
+
+						<!-- Border for PointerOver State -->
+						<Border x:Name="HoverOverlay"
+								Background="{ThemeResource CardContentControlBorderBrushPointerOver}"
+								IsHitTestVisible="False"
+								Opacity="0" />
+
+						<!-- Border for Focused State -->
+						<Border x:Name="FocusedOverlay"
+								Background="{ThemeResource CardContentControlBorderBrushFocused}"
+								IsHitTestVisible="False"
+								Opacity="0" />
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal">
+									<VisualState.Setters>
+										<Setter Target="HoverOverlay.Opacity" Value="0" />
+										<Setter Target="FocusedOverlay.Opacity" Value="0" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="HoverOverlay.Opacity" Value="1" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="HoverPressed.Opacity" Value="1" />
+										<Setter Target="HoverOverlay.Opacity" Value="0" />
+										<Setter Target="FocusedOverlay.Opacity" Value="0" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="HoverOverlay.Opacity" Value="0" />
+										<Setter Target="FocusedOverlay.Opacity" Value="0" />
+										<Setter Target="GridRoot.Opacity" Value="0.38" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="FocusedOverlay.Opacity" Value="1" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerFocused" />
+								<VisualState x:Name="Unfocused">
+									<VisualState.Setters>
+										<Setter Target="FocusedOverlay.Opacity" Value="0" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>
