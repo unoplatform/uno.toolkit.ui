@@ -52,6 +52,7 @@ Each how-to is single-purpose on purpose.
 ```
 
 **What this does:**
+
 - Email field uses `ReturnType="Next"` to show "Next" button on mobile keyboard
 - Pressing Enter in Email moves focus to Password (via `AutoFocusNext`)
 - Password field uses `ReturnType="Go"` to show "Go" button
@@ -59,6 +60,7 @@ Each how-to is single-purpose on purpose.
 - Both fields support data binding for MVVM patterns
 
 **Why this is better than basic TextBox:**
+
 - Mobile users get proper keyboard buttons (Next/Go instead of Return)
 - Natural focus flow without requiring mouse/touch
 - Works seamlessly with validation and MVVM
@@ -101,15 +103,15 @@ Each how-to is single-purpose on purpose.
 
 **What it does**
 
-* On Enter, Toolkit asks `FocusManager.FindNextFocusableElement(...)` for the next target.
-* If found, focus moves there.
-* Good when your fields are in a natural tab order.
+- On Enter, Toolkit asks `FocusManager.FindNextFocusableElement(...)` for the next target.
+- If found, focus moves there.
+- Good when your fields are in a natural tab order.
 
 **When to use**
 
-* Simple forms
-* Vertical stacks
-* You don’t care which exact control is next, just “the obvious next one”
+- Simple forms
+- Vertical stacks
+- You don't care which exact control is next, just "the obvious next one"
 
 ---
 
@@ -145,20 +147,20 @@ Each how-to is single-purpose on purpose.
 
 **What it does**
 
-* On Enter in `EmailBox` → focus goes to `PasswordBox`
-* On Enter in `PasswordBox` → focus goes to `LoginButton`
-* This **ignores** normal “next” resolution
+- On Enter in `EmailBox` → focus goes to `PasswordBox`
+- On Enter in `PasswordBox` → focus goes to `LoginButton`
+- This **ignores** normal "next" resolution
 
 **Important rule**
 
-* If **both** `AutoFocusNext="True"` **and** `AutoFocusNextElement="..."` are set,
+- If **both** `AutoFocusNext="True"` **and** `AutoFocusNextElement="..."` are set,
   **`AutoFocusNextElement` wins.** (same as original doc) ([Uno Platform][1])
 
 **When to use**
 
-* Non-linear layouts (grids, responsive panels)
-* You want to jump out of the current column/row
-* You need to end on a `Button`
+- Non-linear layouts (grids, responsive panels)
+- You want to jump out of the current column/row
+- You need to end on a `Button`
 
 ---
 
@@ -204,9 +206,9 @@ Order when pressing Enter: **1 → 2 → 4 → 3 → 1 ...** ([Uno Platform][1])
 
 **Why this is useful**
 
-* Wizard-like flows
-* Validation-first flows (jump to a review control)
-* Auto-looping kiosk-style pages
+- Wizard-like flows
+- Validation-first flows (jump to a review control)
+- Auto-looping kiosk-style pages
 
 ---
 
