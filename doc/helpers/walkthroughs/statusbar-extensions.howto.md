@@ -37,12 +37,14 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 **Why this is essential:**
+
 - Without StatusBar settings, the system status bar may have poor contrast with your page
 - Using `Auto` for Foreground automatically adapts to light/dark themes
 - Matching Background to your page theme creates a seamless, branded appearance
 - This pattern should be applied to every page in your app, not just the main page
 
 **Quick rules:**
+
 - White/light pages → `Foreground="Dark"`
 - Dark pages → `Foreground="Light"`
 - Theme-adaptive pages → `Foreground="Auto"`
@@ -185,9 +187,9 @@ Allows you to react to runtime changes, like user theme switching or media playb
 
 ## Platform notes
 
-* **Supported platforms:** Android, iOS, Windows.
-* **No-op platforms:** WebAssembly, Skia (desktop).
-* These attached properties only affect the visual style, not visibility or animation.
+- **Supported platforms:** Android, iOS, Windows.
+- **No-op platforms:** WebAssembly, Skia (desktop).
+- These attached properties only affect the visual style, not visibility or animation.
 
 ---
 
@@ -216,6 +218,7 @@ If all your pages have the same background color and theme, yes. But it's best p
 **Q: What StatusBar settings should I use for a login page?**
 
 Match your page's theme:
+
 ```xml
 <!-- Light themed login -->
 <Page utu:StatusBar.Foreground="Dark"
