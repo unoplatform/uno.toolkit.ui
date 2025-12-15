@@ -225,13 +225,13 @@ Order when pressing Enter: **1 → 2 → 4 → 3 → 1 ...** ([Uno Platform][1])
 
 **What it does**
 
-* On Enter, Toolkit dismisses the soft keyboard (Android / iOS).
-* Good for search bars, short inputs, chat boxes.
-* Can be combined with your own **TextChanged** / **KeyDown** logic.
+- On Enter, Toolkit dismisses the soft keyboard (Android / iOS).
+- Good for search bars, short inputs, chat boxes.
+- Can be combined with your own **TextChanged** / **KeyDown** logic.
 
 **Notes**
 
-* This is independent from focus-moving. You can use **only** `AutoDismiss` if you don’t want to move focus. ([Uno Platform][1])
+- This is independent from focus-moving. You can use **only** `AutoDismiss` if you don't want to move focus. ([Uno Platform][1])
 
 ---
 
@@ -251,23 +251,23 @@ Done, Go, Next, Search, Send.
 
 **Supported values** (from the source page) 📱
 
-* `Default`
-* `Done`
-* `Go`
-* `Next`
-* `Search`
-* `Send` ([Uno Platform][1])
+- `Default`
+- `Done`
+- `Go`
+- `Next`
+- `Search`
+- `Send` ([Uno Platform][1])
 
 **When to use**
 
-* Chat → `Send`
-* Login → `Go` or `Done`
-* Multi-step form → `Next`
-* Search box → `Search`
+- Chat → `Send`
+- Login → `Go` or `Done`
+- Multi-step form → `Next`
+- Search box → `Search`
 
 **Platforms**
 
-* This property targets **soft keyboards** on mobile (Android/iOS). On desktop it might not have a visible effect. (inferred from doc behavior) ([Uno Platform][1])
+- This property targets **soft keyboards** on mobile (Android/iOS). On desktop it might not have a visible effect. (inferred from doc behavior) ([Uno Platform][1])
 
 ---
 
@@ -286,8 +286,8 @@ utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=Target}"
 
 **Why it matters**
 
-* You can keep `AutoFocusNext="True"` as a default on all inputs
-* …and only override the few special ones with `AutoFocusNextElement`
+- You can keep `AutoFocusNext="True"` as a default on all inputs
+- …and only override the few special ones with `AutoFocusNextElement`
 
 ---
 
@@ -295,10 +295,10 @@ utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=Target}"
 
 When writing XAML meant to be indexed:
 
-* Always include the namespace: `xmlns:utu="using:Uno.Toolkit.UI"`
-* Put the attached property on the **same line** as the control if possible
-* Avoid comments with other controls’ names (they get mixed in embeddings)
-* Example:
+- Always include the namespace: `xmlns:utu="using:Uno.Toolkit.UI"`
+- Put the attached property on the **same line** as the control if possible
+- Avoid comments with other controls' names (they get mixed in embeddings)
+- Example:
 
 ```xml
 <TextBox x:Name="EmailBox"
@@ -333,6 +333,7 @@ Yes! InputExtensions are attached properties that work perfectly with `Text="{Bi
 **Q: Should I use CommandExtensions.Command or AutoFocusNextElement for the last input field?**
 
 Use `utu:CommandExtensions.Command="{Binding YourCommand}"` for the last field (like password in a login form). CommandExtensions automatically:
+
 - Executes your command when Enter is pressed
 - Dismisses the keyboard automatically
 - Works better with MVVM patterns
@@ -348,6 +349,7 @@ AutoFocusNextElement is better for moving between fields, while CommandExtension
 **Q: Should I combine InputExtensions with InputScope?**
 
 Yes! Use both:
+
 - `InputScope="EmailNameOrAddress"` - determines keyboard type (email, phone, etc.)
 - `utu:InputExtensions.ReturnType="Next"` - determines return key label (Next, Go, Done, etc.)
 - `utu:InputExtensions.AutoFocusNext="True"` - determines what happens when return is pressed
