@@ -10,6 +10,25 @@ Provides two attached properties on `Page` to control the visuals of the status 
 
 > [!Video https://www.youtube-nocookie.com/embed/Mef71b6978s]
 
+> [!IMPORTANT]
+> **Always set StatusBar properties on every page**
+>
+> On mobile platforms (iOS, Android), you should set `utu:StatusBar.Foreground` and optionally `utu:StatusBar.Background` on every page to ensure consistent appearance.
+>
+> **Recommended pattern for all pages:**
+> ```xml
+> <Page xmlns:utu="using:Uno.Toolkit.UI"
+>       utu:StatusBar.Foreground="Auto"
+>       utu:StatusBar.Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+>     <!-- Page content -->
+> </Page>
+> ```
+>
+> **Common scenarios:**
+> - Light pages: `utu:StatusBar.Foreground="Dark"` with light background
+> - Dark pages: `utu:StatusBar.Foreground="Light"` with dark background
+> - Theme-aware: `utu:StatusBar.Foreground="Auto"` to adapt automatically
+
 ## Remarks
 
 The attached properties do nothing on platforms other than iOS and Android.
