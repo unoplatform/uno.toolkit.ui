@@ -6,6 +6,9 @@ keywords: uno platform, mvvm commands, enter submit, toggle change, item click, 
 
 ## Handle Text on Enter key press
 
+> [!IMPORTANT]
+> Use `CommandExtensions.Command` to handle key press with automatic keyboard dismissal. No need for `KeyboardAccelerator` or code-behind event handlers.
+
 Execute command on Enter key press, dismiss keyboard automatically.
 
 UnoFeatures: **Toolkit**
