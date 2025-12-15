@@ -40,7 +40,7 @@ Each how-to is single-purpose on purpose.
                      Header="Password"
                      PlaceholderText="Enter password"
                      Password="{Binding Password, Mode=TwoWay}"
-                     utu:InputExtensions.AutoFocusNextElement="{Binding ElementName=LoginButton}"
+                     utu:CommandExtensions.Command="{Binding LoginCommand}"
                      utu:InputExtensions.ReturnType="Go" />
 
         <Button x:Name="LoginButton"
@@ -55,7 +55,7 @@ Each how-to is single-purpose on purpose.
 - Email field uses `ReturnType="Next"` to show "Next" button on mobile keyboard
 - Pressing Enter in Email moves focus to Password (via `AutoFocusNext`)
 - Password field uses `ReturnType="Go"` to show "Go" button
-- Pressing Enter in Password moves focus to Login button (via `AutoFocusNextElement`)
+- Pressing Enter in Password invokes the LoginCommand and automatically dismisses the keyboard (via `CommandExtensions.Command`)
 - Both fields support data binding for MVVM patterns
 
 **Why this is better than basic TextBox:**
@@ -63,6 +63,9 @@ Each how-to is single-purpose on purpose.
 - Natural focus flow without requiring mouse/touch
 - Works seamlessly with validation and MVVM
 - Maintains InputScope for keyboard type while adding navigation
+- CommandExtensions.Command automatically dismisses the keyboard when the command executes
+
+**Note:** CommandExtensions.Command forwards to InputExtensions.EnterCommand internally and handles keyboard dismissal automatically. For the last field in a form, use CommandExtensions.Command to execute your action (like login) instead of AutoFocusNextElement.
 
 ---
 
@@ -326,6 +329,15 @@ Yes, for forms. Always add at least `AutoFocusNext="True"` and `ReturnType="Next
 **Q: Can I use InputExtensions with data binding?**
 
 Yes! InputExtensions are attached properties that work perfectly with `Text="{Binding ...}"` and `Password="{Binding ...}"`. They only control keyboard behavior and focus flow, not data binding.
+
+**Q: Should I use CommandExtensions.Command or AutoFocusNextElement for the last input field?**
+
+Use `utu:CommandExtensions.Command="{Binding YourCommand}"` for the last field (like password in a login form). CommandExtensions automatically:
+- Executes your command when Enter is pressed
+- Dismisses the keyboard automatically
+- Works better with MVVM patterns
+
+AutoFocusNextElement is better for moving between fields, while CommandExtensions.Command is better for executing the final action.
 
 **Q: What's the difference between AutoFocusNext and AutoFocusNextElement?**
 
