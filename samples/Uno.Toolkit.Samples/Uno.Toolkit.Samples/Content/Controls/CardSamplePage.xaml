@@ -130,6 +130,43 @@
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<sample:SamplePageLayout>
+			<sample:SamplePageLayout.FluentTemplate>
+				<DataTemplate>
+					<StackPanel Padding="0,20"
+								Spacing="20">
+
+						<!--  Card with default style  -->
+						<utu:Card HeaderContent="Default Card"
+								  Style="{StaticResource DefaultCardStyle}"
+								  SubHeaderContent="Using DefaultCardStyle" />
+
+						<!--  Card with default style and supporting text  -->
+						<utu:Card HeaderContent="Default Card"
+								  Style="{StaticResource DefaultCardStyle}"
+								  SubHeaderContent="With supporting text"
+								  SupportingContent="{StaticResource SupportingTextSample}" />
+
+						<!--  Card with default style and media  -->
+						<utu:Card HeaderContent="Default Card"
+								  Style="{StaticResource DefaultCardStyle}"
+								  SubHeaderContent="With media"
+								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png" />
+
+						<!--  Card with default style, media and supporting text  -->
+						<utu:Card HeaderContent="Default Card"
+								  Style="{StaticResource DefaultCardStyle}"
+								  SubHeaderContent="With media and supporting text"
+								  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
+								  SupportingContent="{StaticResource SupportingTextSample}" />
+
+						<!--  Disabled Card with default style  -->
+						<utu:Card HeaderContent="Disabled Default Card"
+								  Style="{StaticResource DefaultCardStyle}"
+								  SubHeaderContent="With title and subtitle only"
+								  IsEnabled="False" />
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.FluentTemplate>
 			<sample:SamplePageLayout.MaterialTemplate>
 				<DataTemplate>
 					<StackPanel Padding="0,20"
