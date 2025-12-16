@@ -97,6 +97,8 @@ namespace Uno.Toolkit.UI
 
 		internal bool TryPerformMainCommand()
 		{
+			// Only perform back navigation when MainCommandMode is Back
+			// Action and Hidden modes should not perform automatic navigation
 			if (MainCommandMode != MainCommandMode.Back)
 			{
 				return false;
@@ -198,13 +200,24 @@ namespace Uno.Toolkit.UI
 
 		internal void UpdateMainCommandVisibility()
 		{
+			if (MainCommand is not { } mainCommand)
+			{
+				return;
+			}
+
+			if (MainCommandMode == MainCommandMode.Hidden)
+			{
+				mainCommand.Visibility = Visibility.Collapsed;
+				return;
+			}
+
 			if (MainCommandMode != MainCommandMode.Back)
 			{
 				return;
 			}
 
 			var buttonVisibility = Visibility.Collapsed;
-			if (GetPage() is { } page && MainCommand is { } mainCommand)
+			if (GetPage() is { } page)
 			{
 				if (page.Frame?.CanGoBack ?? false)
 				{

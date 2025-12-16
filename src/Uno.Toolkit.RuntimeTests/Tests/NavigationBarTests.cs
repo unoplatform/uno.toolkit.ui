@@ -253,6 +253,62 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			}
 		}
 
+		[TestMethod]
+		public async Task MainCommand_Hidden_Mode_Hides_Button()
+		{
+			var mainCommand = new AppBarButton();
+			var navigationBar = new NavigationBar 
+			{ 
+				Content = "Title", 
+				MainCommandMode = MainCommandMode.Hidden, 
+				MainCommand = mainCommand 
+			};
+			var content = new Grid { Children = { navigationBar } };
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+			Assert.AreEqual(Visibility.Collapsed, mainCommand.Visibility, "MainCommand should be collapsed when MainCommandMode is Hidden");
+			Assert.IsFalse(navigationBar.TryPerformMainCommand(), "TryPerformMainCommand should return false when MainCommandMode is Hidden");
+		}
+
+		[TestMethod]
+		public async Task MainCommand_Hidden_Mode_In_Frame_Stays_Hidden()
+		{
+			var frame = new Frame() { Width = 400, Height = 400 };
+			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
+
+			frame.Navigate(typeof(NavBarFirstPage));
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var firstPage = frame.Content as NavBarFirstPage;
+			var firstNavBar = firstPage?.FindChild<NavigationBar>();
+			
+			if (firstNavBar != null)
+			{
+				firstNavBar.MainCommandMode = MainCommandMode.Hidden;
+				await UnitTestsUIContentHelper.WaitForIdle();
+				
+				// Navigate to a second page to create backstack
+				frame.Navigate(typeof(NavBarSecondPage));
+				await UnitTestsUIContentHelper.WaitForIdle();
+
+				var secondPage = frame.Content as NavBarSecondPage;
+				var secondNavBar = secondPage?.FindChild<NavigationBar>();
+				
+				if (secondNavBar != null)
+				{
+					secondNavBar.MainCommandMode = MainCommandMode.Hidden;
+					await UnitTestsUIContentHelper.WaitForIdle();
+
+					// Even with backstack, Hidden mode should keep button collapsed
+					Assert.AreEqual(Visibility.Collapsed, secondNavBar.MainCommand?.Visibility, 
+						"MainCommand should remain collapsed in Hidden mode even with backstack");
+					Assert.IsFalse(secondNavBar.TryPerformMainCommand(), 
+						"TryPerformMainCommand should return false in Hidden mode");
+				}
+			}
+		}
+
 #if __ANDROID__ || __IOS__
 		[TestMethod]
 		public async Task NavigationBar_Dynamic_Background()
