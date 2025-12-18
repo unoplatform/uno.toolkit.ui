@@ -14,6 +14,9 @@ Add the namespace once in your XAML:
 xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
+> [!NOTE]
+> NavigationBar automatically shows a back button when the page is pushed onto the navigation stack. You don't need to explicitly add `MainCommand` for standard back navigation.
+
 ---
 
 ## Show a back button that navigates back
@@ -23,6 +26,8 @@ Use the built-in MainCommand in **Back** mode (default). It appears on the left 
 ```xml
 <utu:NavigationBar Content="Details" />
 ```
+
+The NavigationBar detects the Frame's back stack and shows/hides the back button automatically.
 
 > [!IMPORTANT]
 > For a simple text title, set `Content` directly as a string — **do not wrap it inside any `FrameworkElement`**.

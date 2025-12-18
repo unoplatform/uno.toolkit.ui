@@ -16,6 +16,9 @@ tags: [tabbar, tabs, navigation, bottom-navigation, segmented-control, badge, fa
 >
 > TabBar requires an explicit `Style` attribute to achieve proper Material Design or Cupertino appearance.
 
+> [!NOTE]
+> Set `Orientation="Vertical"` when displaying TabBar vertically (e.g., for side navigation on wide screens). Default is `Horizontal`.
+
 ## Show a bottom tab bar (icons only)
 
 **When to use:** primary, bottom navigation with icons.
@@ -92,6 +95,9 @@ This wires TabBar selection to a named region for navigation. ([Uno Platform][2]
 
 **Goal:** display a bottom TabBar on mobile, vertical TabBar on desktop.
 
+> [!NOTE]
+> When using a vertical TabBar for side navigation, always set `Orientation="Vertical"`.
+
 **Packages:** `Uno.Toolkit.UI` + `Uno.Toolkit.UI.Material`
 
 ```xml
@@ -113,6 +119,7 @@ This wires TabBar selection to a named region for navigation. ([Uno Platform][2]
 
         <!-- Vertical TabBar for Desktop -->
         <utu:TabBar Style="{StaticResource VerticalTabBarStyle}"
+                    Orientation="Vertical"
                     HorizontalAlignment="Left"
                     Visibility="{utu:Responsive Normal=Collapsed, Wide=Visible}">
             <utu:TabBarItem Content="Home">
