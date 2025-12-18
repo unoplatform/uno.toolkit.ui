@@ -15,7 +15,7 @@ tags: [tabbar, tabs, navigation, bottom-navigation, segmented-control, badge, fa
 > **Always specify a Style on TabBar**
 >
 > TabBar requires an explicit `Style` attribute to achieve proper Material Design or Cupertino appearance.
-
+>
 > [!NOTE]
 > Set `Orientation="Vertical"` when displaying TabBar vertically (e.g., for side navigation on wide screens). Default is `Horizontal`.
 
