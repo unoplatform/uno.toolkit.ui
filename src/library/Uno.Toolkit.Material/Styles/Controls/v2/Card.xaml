@@ -9,84 +9,84 @@
 		<!--  Card Brushes Theme Resources  -->
 		<ResourceDictionary x:Key="Default">
 			<StaticResource x:Key="ContentTemplateForeground" ResourceKey="OnSurfaceMediumBrush" />
-			<StaticResource x:Key="ContentTemplateBorderBrush" ResourceKey="OnSurfaceMediumBrush" />
+			<ThemeResource x:Key="ContentTemplateBorderBrush" ResourceKey="OnSurfaceMediumBrush" />
 
 			<!--  Filled  -->
 			<StaticResource x:Key="FilledCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="FilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="FilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="FilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="FilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="FilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="FilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 			<StaticResource x:Key="AvatarFilledCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="AvatarFilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="AvatarFilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="AvatarFilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="AvatarFilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="AvatarFilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="AvatarFilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 			<StaticResource x:Key="SmallMediaFilledCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="SmallMediaFilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="SmallMediaFilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="SmallMediaFilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="SmallMediaFilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="SmallMediaFilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="SmallMediaFilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 
 			<!--  Outlined  -->
 			<StaticResource x:Key="OutlinedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="OutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
+			<ThemeResource x:Key="OutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="AvatarOutlinedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="AvatarOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
+			<ThemeResource x:Key="AvatarOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="SmallMediaOutlinedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="SmallMediaOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
+			<ThemeResource x:Key="SmallMediaOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
 
 			<!--  Elevated  -->
 			<StaticResource x:Key="ElevatedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="ElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="ElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="ElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="ElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="ElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 			<StaticResource x:Key="AvatarElevatedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="AvatarElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="AvatarElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="AvatarElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="AvatarElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="AvatarElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="AvatarElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 			<StaticResource x:Key="SmallMediaElevatedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="SmallMediaElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="SmallMediaElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="SmallMediaElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="SmallMediaElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="SmallMediaElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="SmallMediaElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Light">
 			<StaticResource x:Key="ContentTemplateForeground" ResourceKey="OnSurfaceMediumBrush" />
-			<StaticResource x:Key="ContentTemplateBorderBrush" ResourceKey="OnSurfaceMediumBrush" />
+			<ThemeResource x:Key="ContentTemplateBorderBrush" ResourceKey="OnSurfaceMediumBrush" />
 
 			<!--  Filled  -->
 			<StaticResource x:Key="FilledCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="FilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="FilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="FilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="FilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="FilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="FilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 			<StaticResource x:Key="AvatarFilledCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="AvatarFilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="AvatarFilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="AvatarFilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="AvatarFilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="AvatarFilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="AvatarFilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 			<StaticResource x:Key="SmallMediaFilledCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="SmallMediaFilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="SmallMediaFilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="SmallMediaFilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="SmallMediaFilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="SmallMediaFilledCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="SmallMediaFilledCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 
 			<!--  Outlined  -->
 			<StaticResource x:Key="OutlinedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="OutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
+			<ThemeResource x:Key="OutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="AvatarOutlinedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="AvatarOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
+			<ThemeResource x:Key="AvatarOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="SmallMediaOutlinedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="SmallMediaOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
+			<ThemeResource x:Key="SmallMediaOutlinedCardBorderBrush" ResourceKey="OutlineBrush" />
 
 			<!--  Elevated  -->
 			<StaticResource x:Key="ElevatedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="ElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="ElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="ElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="ElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="ElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="ElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 			<StaticResource x:Key="AvatarElevatedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="AvatarElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="AvatarElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="AvatarElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="AvatarElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="AvatarElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="AvatarElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 			<StaticResource x:Key="SmallMediaElevatedCardBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="SmallMediaElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="SmallMediaElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
-			<StaticResource x:Key="SmallMediaElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
+			<ThemeResource x:Key="SmallMediaElevatedCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<ThemeResource x:Key="SmallMediaElevatedCardBorderBrushPointerOver" ResourceKey="OnSurfaceHoverBrush" />
+			<ThemeResource x:Key="SmallMediaElevatedCardBorderBrushFocused" ResourceKey="OnSurfaceFocusedBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 

@@ -35,7 +35,7 @@
 							ResourceKey="MaterialOnPrimaryBrush" />
     <StaticResource x:Key="MaterialBottomTabBarItemForegroundSelectedPressed"
 							ResourceKey="MaterialOnPrimaryBrush" />
-    <StaticResource x:Key="MaterialBottomTabBarItemBorderBrush"
+    <ThemeResource x:Key="MaterialBottomTabBarItemBorderBrush"
 							ResourceKey="SystemControlTransparentBrush" />
     
     <SolidColorBrush x:Key="MaterialBottomTabBarItemForeground"
