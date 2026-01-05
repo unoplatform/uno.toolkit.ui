@@ -140,17 +140,19 @@
 									<ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition"
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
-								
+								<ContentPresenter x:Name="MainCommandPresenter"
+												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
+
 								<!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
 									in the Minimal/HiddenClosed states to remove it from being a tab-stop candidate.
 									
-									ContentControl spans all columns to allow proper centering when HorizontalContentAlignment is Center.
-									MainCommandPresenter and PrimaryItemsControl are layered on top via Grid layout order.
+									ContentControl spans columns 1 and 2 to allow proper centering when HorizontalContentAlignment is Center.
+									This ensures the content centers across the available space without overlapping the MainCommand.
 								-->
 								<ContentControl x:Name="ContentControl"
-												Grid.Column="0"
-												Grid.ColumnSpan="3"
+												Grid.Column="1"
+												Grid.ColumnSpan="2"
 												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 												HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -160,10 +162,6 @@
 												ContentTransitions="{TemplateBinding ContentTransitions}"
 												Foreground="{TemplateBinding Foreground}"
 												IsTabStop="False" />
-								
-								<ContentPresenter x:Name="MainCommandPresenter"
-												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
-
 								<ItemsControl x:Name="PrimaryItemsControl"
 											  Grid.Column="2"
 											  MinHeight="{ThemeResource AppBarThemeCompactHeight}"
