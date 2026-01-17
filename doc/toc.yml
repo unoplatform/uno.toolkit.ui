@@ -89,6 +89,8 @@
       href: helpers/ancestor-itemscontrol-binding.md
     - name: CommandExtensions Extensions
       href: helpers/command-extensions.md
+    - name: EventToCommand Extensions
+      href: helpers/event-to-command-extensions.md
     - name: FlipView Extensions
       href: helpers/FlipView-extensions.md
     - name: InputExtensions Extensions
