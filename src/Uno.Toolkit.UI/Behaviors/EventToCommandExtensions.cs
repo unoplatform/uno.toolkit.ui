@@ -190,11 +190,18 @@ namespace Uno.Toolkit.UI
 			}
 
 			// Determine the command parameter
-			object? parameter = GetCommandParameter(sender);
+			// Priority: CommandParameter > EventArgs (if PassEventArgsToCommand is true)
+			object? parameter;
 
-			// If CommandParameter is not set and PassEventArgsToCommand is true, use event args
-			if (parameter is null && GetPassEventArgsToCommand(sender))
+			var commandParameter = GetCommandParameter(sender);
+			if (commandParameter is not null)
 			{
+				// Explicit CommandParameter takes precedence
+				parameter = commandParameter;
+			}
+			else if (GetPassEventArgsToCommand(sender))
+			{
+				// Use event args as parameter
 				parameter = eventArgs;
 
 				// Apply converter if specified
@@ -203,6 +210,11 @@ namespace Uno.Toolkit.UI
 				{
 					parameter = converter.Convert(eventArgs, typeof(object), null, null);
 				}
+			}
+			else
+			{
+				// No parameter specified
+				parameter = null;
 			}
 
 			// Execute the command if possible
