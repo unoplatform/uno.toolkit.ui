@@ -80,6 +80,44 @@ namespace Uno.Toolkit.UI
 		public static void SetCommandParameter(DependencyObject obj, object? value) => obj.SetValue(CommandParameterProperty, value);
 
 		#endregion
+		#region DependencyProperty: EventCommands
+
+		/// <summary>
+		/// Backing property for a collection of <see cref="EventToCommand"/> that maps events to commands.
+		/// This allows binding multiple events to multiple commands on a single element.
+		/// </summary>
+		/// <remarks>
+		/// Each <see cref="EventToCommand"/> in the collection specifies an event name and a command to execute when that event is raised.
+		/// Optional properties include CommandParameter, EventArgsConverter, and PassEventArgsToCommand.
+		/// </remarks>
+		public static DependencyProperty EventCommandsProperty { [DynamicDependency(nameof(GetEventCommands))] get; } = DependencyProperty.RegisterAttached(
+			"EventCommands",
+			typeof(EventToCommandCollection),
+			typeof(CommandExtensions),
+			new PropertyMetadata(default(EventToCommandCollection), OnEventCommandsChanged));
+
+		[DynamicDependency(nameof(SetEventCommands))]
+		public static EventToCommandCollection? GetEventCommands(DependencyObject obj) => (EventToCommandCollection?)obj.GetValue(EventCommandsProperty);
+
+		[DynamicDependency(nameof(GetEventCommands))]
+		public static void SetEventCommands(DependencyObject obj, EventToCommandCollection? value) => obj.SetValue(EventCommandsProperty, value);
+
+		#endregion
+
+		private static void OnEventCommandsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		{
+			// Detach old collection
+			if (e.OldValue is EventToCommandCollection oldCollection)
+			{
+				oldCollection.Detach();
+			}
+
+			// Attach new collection
+			if (e.NewValue is EventToCommandCollection newCollection)
+			{
+				newCollection.Attach(sender);
+			}
+		}
 
 		private static void OnCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{

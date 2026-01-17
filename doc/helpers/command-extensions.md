@@ -10,10 +10,11 @@ Provides Command/CommandParameter attached properties for common scenarios.
 
 ## Attached Properties
 
-| Property           | Type       | Description                                                      |
-|--------------------|------------|------------------------------------------------------------------|
-| `Command`          | `ICommand` | Sets the command to execute when interacting with the control.\* |
-| `CommandParameter` | `object`   | Sets the parameter to pass to the Command property.              |
+| Property           | Type                        | Description                                                      |
+|--------------------|-----------------------------|------------------------------------------------------------------|
+| `Command`          | `ICommand`                  | Sets the command to execute when interacting with the control.\* |
+| `CommandParameter` | `object`                    | Sets the parameter to pass to the Command property.              |
+| `EventCommands`    | `EventToCommandCollection`  | A collection of event-to-command mappings for binding any event to commands. See [Event to Command](event-to-command-extensions.md). |
 
 > [!IMPORTANT]
 > Use `CommandExtensions.Command` to handle key press with automatic keyboard dismissal. No need for `KeyboardAccelerator` or code-behind event handlers.
