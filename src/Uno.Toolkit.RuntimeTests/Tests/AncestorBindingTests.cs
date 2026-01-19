@@ -48,6 +48,20 @@ internal class AncestorBindingTests
 	}
 
 	[TestMethod]
+	public async Task Ancestor_TwoWay_Nested_PageBinding()
+	{
+		var setup = new AncestorBindingTest();
+		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
+
+		var lv = setup.GetFirstDescendant<ListView>(x => x.Name == "TopLevelListView") ?? throw new Exception("Failed to find TopLevelListView");
+		var container = lv.ContainerFromIndex(0);
+		var sut = (container as FrameworkElement)?.GetFirstDescendant<TextBlock>(x => x.Name == "NestedLvTextBlock1TwoWay") ?? throw new Exception("Failed to find NestedLvTextBlock1TwoWay");
+		sut.Text = "NestedLvTextBlock1TwoWayTag";
+
+		Assert.AreEqual(sut.Text, setup.Tag);
+	}
+
+	[TestMethod]
 	public async Task Ancestor_Nested_LvBinding()
 	{
 		var setup = new AncestorBindingTest();
@@ -56,6 +70,20 @@ internal class AncestorBindingTests
 		var lv = setup.GetFirstDescendant<ListView>(x => x.Name == "TopLevelListView") ?? throw new Exception("Failed to find TopLevelListView");
 		var container = lv.ContainerFromIndex(0);
 		var sut = (container as FrameworkElement)?.GetFirstDescendant<TextBlock>(x => x.Name == "NestedLvTextBlock2") ?? throw new Exception("Failed to find NestedLvTextBlock2");
+		Assert.AreEqual(sut.Text, lv.Tag);
+	}
+
+	[TestMethod]
+	public async Task Ancestor_TwoWay_Nested_LvBinding()
+	{
+		var setup = new AncestorBindingTest();
+		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
+
+		var lv = setup.GetFirstDescendant<ListView>(x => x.Name == "TopLevelListView") ?? throw new Exception("Failed to find TopLevelListView");
+		var container = lv.ContainerFromIndex(0);
+		var sut = (container as FrameworkElement)?.GetFirstDescendant<TextBlock>(x => x.Name == "NestedLvTextBlock2") ?? throw new Exception("Failed to find NestedLvTextBlock2");
+		sut.Text = "NestedLvTextBlock1TwoWayTag";
+
 		Assert.AreEqual(sut.Text, lv.Tag);
 	}
 
