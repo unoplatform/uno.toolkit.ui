@@ -1,8 +1,8 @@
 # Feature Specification: PropertyGrid Control
 
-**Feature ID:** 001  
-**Status:** Draft  
-**Created:** 2026-01-21  
+**Feature ID:** 001
+**Status:** Draft
+**Created:** 2026-01-21
 **Last Updated:** 2026-01-21
 
 ---
@@ -31,8 +31,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 ## User Stories
 
 ### US-001: Basic Property Inspection
-**As a** developer  
-**I want to** bind an object to PropertyGrid and see all its public properties  
+**As a** developer
+**I want to** bind an object to PropertyGrid and see all its public properties
 **So that** I can inspect object state at runtime
 
 **Acceptance Criteria:**
@@ -42,8 +42,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Read-only properties are displayed but not editable
 
 ### US-002: Property Editing
-**As a** developer  
-**I want to** edit property values directly in the PropertyGrid  
+**As a** developer
+**I want to** edit property values directly in the PropertyGrid
 **So that** I can modify object state at runtime
 
 **Acceptance Criteria:**
@@ -56,8 +56,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Invalid values show validation errors
 
 ### US-003: Multi-Object Selection
-**As a** developer  
-**I want to** select multiple objects and edit common properties  
+**As a** developer
+**I want to** select multiple objects and edit common properties
 **So that** I can batch-modify multiple objects efficiently
 
 **Acceptance Criteria:**
@@ -68,8 +68,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Validation considers all selected objects
 
 ### US-004: Property Organization
-**As a** developer  
-**I want to** see properties organized by categories with descriptions  
+**As a** developer
+**I want to** see properties organized by categories with descriptions
 **So that** I can navigate complex objects easily
 
 **Acceptance Criteria:**
@@ -83,8 +83,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Optional description panel shows detailed property information
 
 ### US-005: Property Search and Filtering
-**As a** developer  
-**I want to** search and filter properties by name, category, or description  
+**As a** developer
+**I want to** search and filter properties by name, category, or description
 **So that** I can quickly find specific properties in large object graphs
 
 **Acceptance Criteria:**
@@ -95,8 +95,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Search persists across category expand/collapse
 
 ### US-006: Custom Editors
-**As a** library author  
-**I want to** register custom editors for specific types or properties  
+**As a** library author
+**I want to** register custom editors for specific types or properties
 **So that** I can provide specialized editing experiences
 
 **Acceptance Criteria:**
@@ -107,8 +107,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Built-in editors are extensible/replaceable
 
 ### US-007: Validation
-**As a** developer  
-**I want to** see validation errors inline with property editors  
+**As a** developer
+**I want to** see validation errors inline with property editors
 **So that** I can ensure data integrity during editing
 
 **Acceptance Criteria:**
@@ -120,8 +120,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Prevents navigation to invalid property values (optional)
 
 ### US-008: Accessibility
-**As a** user with accessibility needs  
-**I want to** navigate and edit properties using keyboard and screen readers  
+**As a** user with accessibility needs
+**I want to** navigate and edit properties using keyboard and screen readers
 **So that** I can use the PropertyGrid effectively
 
 **Acceptance Criteria:**
@@ -132,8 +132,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Focus indicators visible in all themes
 
 ### US-009: Performance with Large Objects
-**As a** developer  
-**I want to** inspect objects with hundreds of properties without UI lag  
+**As a** developer
+**I want to** inspect objects with hundreds of properties without UI lag
 **So that** I can debug complex objects efficiently
 
 **Acceptance Criteria:**
@@ -144,8 +144,8 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Category expand/collapse is instant
 
 ### US-010: Theming
-**As a** developer  
-**I want to** PropertyGrid to match my app's Fluent/WinUI theme  
+**As a** developer
+**I want to** PropertyGrid to match my app's Fluent/WinUI theme
 **So that** I maintain consistent visual design
 
 **Acceptance Criteria:**
@@ -542,14 +542,14 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 ## Risks and Mitigations
 
 ### Risk 1: Reflection Performance on WebAssembly
-**Severity:** High  
+**Severity:** High
 **Mitigation:**
 - Aggressive metadata caching (cache per type, not per instance)
 - Lazy property discovery (only reflect visible properties)
 - Consider source generators for known types (future enhancement)
 
 ### Risk 2: Nested PropertyGrid Rendering Complexity
-**Severity:** High  
+**Severity:** High
 **Mitigation:**
 - Implement depth limit (e.g., max 5 levels of nesting) to prevent excessive recursion
 - Circular reference detection at property discovery time
@@ -558,28 +558,28 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Provide expansion depth configuration option
 
 ### Risk 3: Complex Custom Editors
-**Severity:** Medium  
+**Severity:** Medium
 **Mitigation:**
 - Provide clear `IPropertyEditor` documentation with examples
 - Include sample custom editors in sample app
 - Support both code-based and XAML-based editors
 
 ### Risk 4: Multi-Select Mixed Value Calculation
-**Severity:** Medium  
+**Severity:** Medium
 **Mitigation:**
 - Use efficient equality comparers
 - Cache mixed-value state per property
 - Provide `DeferRefresh()` for batch updates
 
 ### Risk 5: Accessibility Testing Coverage
-**Severity:** Medium  
+**Severity:** Medium
 **Mitigation:**
 - Partner with accessibility experts for validation
 - Automated accessibility testing in CI/CD
 - Manual testing on all platforms with assistive technologies
 
 ### Risk 6: Theme Consistency Across Platforms
-**Severity:** Low  
+**Severity:** Low
 **Mitigation:**
 - Use Uno.Toolkit.UI theming primitives
 - Test on all platforms in light, dark, and high-contrast modes
@@ -665,7 +665,7 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 
 ```xaml
 <Page xmlns:utu="using:Uno.Toolkit.UI">
-    <utu:PropertyGrid 
+    <utu:PropertyGrid
         SelectedObject="{x:Bind ViewModel.SelectedControl, Mode=OneWay}"
         ShowCategories="True"
         ShowDescriptionPanel="True"
@@ -695,17 +695,17 @@ public class ColorEditor : IPropertyEditor
 {
     public FrameworkElement EditorControl { get; }
     public object? Value { get; set; }
-    
+
     public ColorEditor()
     {
         EditorControl = new ColorPicker();
     }
-    
+
     public void Initialize(PropertyItem item)
     {
         // Bind ColorPicker to item.Value
     }
-    
+
     public void CommitValue() { /* Commit logic */ }
     public void CancelEdit() { /* Cancel logic */ }
 }
@@ -722,20 +722,20 @@ public class Person
     [Required]
     [StringLength(100)]
     public string Name { get; set; }
-    
+
     [Category("Identity")]
     [DisplayName("Date of Birth")]
     [Description("The person's date of birth")]
     public DateTime DateOfBirth { get; set; }
-    
+
     [Category("Appearance")]
     [Description("Favorite color for theming")]
     [Editor(typeof(ColorEditor))]
     public Color FavoriteColor { get; set; }
-    
+
     [Browsable(false)] // Hidden from PropertyGrid
     public string InternalId { get; set; }
-    
+
     [ReadOnly(true)] // Displayed but not editable
     public int Age => DateTime.Now.Year - DateOfBirth.Year;
 }
