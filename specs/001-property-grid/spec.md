@@ -145,7 +145,7 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 
 ### US-010: Theming
 **As a** developer
-**I want to** PropertyGrid to match my app's Fluent/WinUI theme
+**I want the** PropertyGrid to match my app's Fluent/WinUI theme
 **So that** I maintain consistent visual design
 
 **Acceptance Criteria:**
@@ -699,36 +699,31 @@ The following features have been considered and may be added in future versions.
 3. **Localization**: Multi-language support for all UI strings
 4. **Source Generators**: Pre-generate metadata for known types to improve WASM performance
 5. **Property Value History**: Show recent values or value change timeline
-6. **Property Grouping Beyond Categories** **(Deferred from v1 - Q10)**: Support tags or custom grouping mechanisms beyond standard `[Category]` attribute. Two-column layout with categories is sufficient for v1; advanced grouping can be added based on user feedback.
-7. **Compact Single-Column Mode** **(Deferred from v1 - Q11)**: Simplified layout option for constrained/mobile screen sizes where property name and editor stack vertically. Two-column layout works on mobile with appropriate sizing.
-8. **XAML Value Source Tracking** **(Deferred from v1 - Q4)**: Track and display whether property values come from literals, bindings, resources, or are inherited. Adds significant complexity requiring XAML runtime integration; not required for basic property editing.
-7. **Favorites/Pinned Properties**: Allow users to pin frequently used properties to top
-8. **Property Comparison**: Side-by-side comparison of two objects
-9. **Advanced Search**: Regex, value-based search, type-based filtering
-10. **Export/Import**: JSON or XML serialization of property values
+6. **Favorites/Pinned Properties**: Allow users to pin frequently used properties to top
+7. **Property Comparison**: Side-by-side comparison of two objects
+8. **Advanced Search**: Regex, value-based search, type-based filtering
+9. **Export/Import**: JSON or XML serialization of property values
 
----
+### Deferred Feature Details
 
-## Future Enhancements
+The following future enhancements from the list above are explicitly deferred from v1, with additional rationale and potential implementation notes:
 
-The following features have been deferred from v1 based on clarification sessions:
-
-### FE-001: Property Grouping Beyond Categories
-**Deferred from:** Q10 clarification
-**Description:** Support tags or custom grouping mechanisms beyond standard `[Category]` attribute
-**Rationale:** Two-column layout with categories is sufficient for v1; advanced grouping can be added in v2 based on user feedback
+#### FE-001: Property Grouping Beyond Categories
+**Deferred from:** Q10 clarification  
+**Description:** Support tags or custom grouping mechanisms beyond standard `[Category]` attribute  
+**Rationale:** Two-column layout with categories is sufficient for v1; advanced grouping can be added in v2 based on user feedback  
 **Potential Implementation:** Custom `IPropertyGroupProvider` interface allowing dynamic grouping by multiple criteria
 
-### FE-002: Compact Single-Column Mode
-**Deferred from:** Q11 clarification
-**Description:** Simplified layout option for constrained/mobile screen sizes where property name and editor stack vertically
-**Rationale:** Two-column layout is standard and works on mobile with appropriate sizing; single-column mode adds complexity without clear v1 requirement
+#### FE-002: Compact Single-Column Mode
+**Deferred from:** Q11 clarification  
+**Description:** Simplified layout option for constrained/mobile screen sizes where property name and editor stack vertically  
+**Rationale:** Two-column layout is standard and works on mobile with appropriate sizing; single-column mode adds complexity without clear v1 requirement  
 **Potential Implementation:** `LayoutMode` property with options: `TwoColumn`, `SingleColumn`, `Adaptive`
 
-### FE-003: XAML Value Source Tracking
-**Deferred from:** Q4 clarification
-**Description:** Track and display whether property values come from literals, bindings, resources, or are inherited
-**Rationale:** Adds significant complexity requiring integration with XAML runtime; not required for basic property editing scenarios
+#### FE-003: XAML Value Source Tracking
+**Deferred from:** Q4 clarification  
+**Description:** Track and display whether property values come from literals, bindings, resources, or are inherited  
+**Rationale:** Adds significant complexity requiring integration with XAML runtime; not required for basic property editing scenarios  
 **Potential Implementation:** Visual indicators next to property values (e.g., `{B}` for binding, `{R}` for resource, `{I}` for inherited) with tooltip showing source details
 
 ---

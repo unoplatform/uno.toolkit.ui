@@ -57,4 +57,4 @@ specs/
 
 ## Prompt Files
 
-Prompt instructions are stored in [.github/prompts/](.github/prompts/).
+Prompt instructions are stored in [.github/prompts/](../.github/prompts/).
