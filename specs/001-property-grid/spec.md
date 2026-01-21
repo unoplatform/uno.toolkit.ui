@@ -1,62 +1,86 @@
-# Property Grid Specification
+# PropertyGrid Specification
 
-<!-- Content of the existing spec file before the specified updates -->
-
-## Last Updated
-2026-01-21
-
-## Architecture
-
-### ViewModel-per-Property Pattern
-After each property in the grid, it is essential to utilize a ViewModel-per-Property architecture. This approach ensures that each property can manage its state and behavior independently, promoting better encapsulation and separation of concerns.
+## User Stories
+...
 
 ## Functional Requirements
 
-### FR-002: Value Source Tracking
-The property grid must implement Value Source Tracking to determine the origin of property values. This allows for informed decisions based on property origins, improving data handling.
-
-### FR-003: Built-in Editors
-The property grid will support various built-in editors. Editors can be either inline or presented in flyout menus, allowing for flexible user interaction.
-
+### FR-001: ...
 ...
-
-### FR-007: Property Flyout Pattern
-A flyout pattern should be employed for properties that require additional configuration. This ensures a clean and user-friendly interface.
-
-### FR-010: Metadata Caching Strategy
-Implement a caching strategy for metadata retrieval, along with search debouncing to optimize the property grid's responsiveness.
-
-### FR-013: Circular Reference Detection Algorithm
-To prevent potential issues with property references, a circular reference detection algorithm will be in place, enhancing the reliability of the property grid.
-
 ### FR-014: Message-Based Property Updates
-Newly introduced: The property grid will support message-based updates via the IPropertyUpdater interface, which facilitates dynamic updates across properties.
+- Introduces the IPropertyUpdater interface for notifying property changes with debouncing to prevent multiple rapid updates and reduce performance overhead. This will utilize event mechanisms to inform users of property changes effectively.
 
-### FR-015: Value Source Tracking (Optional)
-To accommodate optional tracking scenarios, support for value source tracking at a configurable level will be provided.
+### FR-015: Value Source Tracking
+- Allows optional tracking of where a property's value originates from, enabling developers to switch between literal values, bindings, and resources seamlessly using the XamlValueSource enumeration.
 
 ### FR-016: Responsive Extension Integration
-To ensure that extensions can respond appropriately to property changes, integration points for responsive extensions will be part of the property grid architecture.
+- Supports responsive design patterns by integrating features such as breakpoint management and handling events from ResponsiveExtensions for adaptive behavior in UI.
+
+## Non-Functional Requirements
+...
+
+## Architecture
+
+### 1. PropertyGridViewModel
+...  
+### 2. ViewModel-per-Property Pattern
+- This design pattern ensures that each property in the PropertyGrid has a dedicated ViewModel responsible for managing its lifecycle and state. This separation of concerns leads to a more modular architecture, enhances testability, and allows independent updates to property values without impacting the entire grid.
+...
+### 8. PropertyGridCellViewModel
+- This component represents the ViewModel for individual cells in the PropertyGrid, encapsulating the data logic for each property displayed. Its responsibilities include data validation, property editing capabilities, and binding to the underlying property value model.
+
+### 9. IPropertyUpdater Interface
+- This interface defines methods to update property values across the PropertyGrid efficiently. It ensures that updates can be communicated back to the model, triggering necessary change notifications to keep UI in sync.
+
+### 10. PropertyDetails Record
+- This record encapsulates detailed information regarding properties, including type, value, descriptions, and configuration options, providing a structured way to represent property data.
+
+### 11. PropertyValueBase Hierarchy
+- This hierarchy defines the various types of property values in the grid, such as SinglePropertyValue, BindingExpressionValue, ResourcePropertyValue, etc., that facilitate different data bindings and property handling strategies.
+
+## Success Criteria
+...
 
 ## Key Entities
-- **PropertyDescriptor**: Contains information about a property in the grid.
-- **PropertyDetails**: A detailed record of property characteristics after PropertyDescriptor.
-- **PropertyValueBase**: A hierarchy representing the possible values for properties post PropertyDetails.
-- **IPropertyUpdater**: An interface for message-based updates to properties.
-- **Event Argument Types**: Specifies various event types pertinent to the property grid operations.
 
-## Test Categories
-### SC-005: Detailed Test Categories
-Comprehensive test categories should be implemented from unit tests to integration tests to cover all aspects of property grid functionality.
+- **PropertyDetails**: Contains a full list of properties and methods for manipulation.
+- **PropertyValueBase Hierarchy**: Defines SinglePropertyValue, BindingExpressionValue, ResourcePropertyValue, NullPropertyValue, TypeOnlyPropertyValue, CollectionPropertyValue for different property scenarios.
+- **IPropertyUpdater Interface**: Outlines methods for managing property updates and change notification mechanisms.
+- **Enhanced Event Argument Types**: IncludesPropertyValueChangingEventArgs, PropertyValueChangedEventArgs, EditorPreparingEventArgs, EditorLoadedEventArgs for providing arguments in events related to editor interactions.
+
+## Dependencies
+...
+
+## Risks
+...
+
+## Clarifications
+...
+
+## Assumptions
+...
+
+## Out of Scope
+...
+
+## Future Enhancements
+...
+
+## References
+...
 
 ## Appendix
-### GridDefinitionsEditor Example
-An example of GridDefinitionsEditor is included to demonstrate its complexity and capabilities.
 
-## Open Questions
-- How will the active state of a property be tracked?
-- What requirements are there for design-time data support?
-- How should properties be ordered in the grid?
-- What analytics should be collected regarding property usage?
+### GridDefinitionsEditorViewModel Example
+- Demonstrates a complex custom editor utilizing ObservableCollection for dynamic property management, textual editing with validation, and error handling mechanisms.
 
-End of Specification
+### Existing Appendix Examples
+...
+
+### Open Questions
+- Should PropertyGrid support "active state" visual feedback?
+- Should PropertyGrid distinguish design-time vs runtime data?
+- Should PropertyGrid expose analytics/telemetry hooks?
+- Should description panel be fixed or flyout-based?
+
+### End of Specification
