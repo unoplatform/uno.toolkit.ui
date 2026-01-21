@@ -1,9 +1,9 @@
 # Feature Specification: PropertyGrid Control
 
 **Feature ID:** 001
-**Status:** Draft
+**Status:** Clarified
 **Created:** 2026-01-21
-**Last Updated:** 2026-01-21
+**Last Updated:** 2026-01-21 (Clarifications incorporated)
 
 ---
 
@@ -174,6 +174,7 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - **MUST** respect `[Description]` for tooltips
 - **MUST** sort properties by category first, then alphabetically by display name within each category
 - **SHOULD** respect `[DisplayOrder]` or `[PropertyOrder]` for custom ordering override within categories
+- **NOTE**: XAML value source tracking (literal, binding, resource, inherited) is deferred to future version (see Future Enhancements)
 
 ### FR-003: Built-in Editors
 - **MUST** provide editors for:
@@ -224,14 +225,16 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - **MUST** virtualize property list for performance
 - **MUST** detect and display circular object references with appropriate UI (e.g., "[Circular Reference]" message)
 - **SHOULD** support splitter between name and editor columns
-- **SHOULD** support optional description panel (bottom or side)
+- **SHOULD** support optional property flyout (triggered by "..." button on property rows with complex editors)
+- Flyout should display: property name, description, and advanced editing UI (e.g., ColorPicker, Binding editor, Resource picker)
 
 ### FR-008: Search and Filtering
 - **MUST** provide search box for filtering properties
 - **MUST** match against property name, category, and description
-- **MUST** update results in real-time
+- **MUST** update results in real-time with 300ms debounce after last keystroke
 - **MUST** support case-insensitive matching
 - **SHOULD** highlight matching text
+- **SHOULD** perform search in background thread for large property lists (> 100 properties)
 
 ### FR-009: Events
 - **MUST** raise `PropertyValueChanging` (cancellable, before change)
@@ -242,7 +245,10 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 
 ### FR-010: Performance
 - **MUST** virtualize property list (UI virtualization)
-- **MUST** cache property metadata per type
+- **MUST** cache property metadata per Type in static `ConcurrentDictionary<Type, PropertyDescriptor[]>`
+- **MUST** cache on first access, reuse for all instances of same Type
+- **SHOULD** support opt-in pre-caching for known types (avoids first-render reflection cost)
+- **SHOULD** measure cache hit rate and log warnings if reflection operations repeat
 - **MUST** provide `DeferRefresh()` / `ResumeRefresh()` for batch updates
 - **MUST** avoid reflection on every render cycle
 - **SHOULD** support incremental property discovery
@@ -266,8 +272,38 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - **MUST** handle missing property getters gracefully (show read-only)
 - **MUST** handle missing property setters gracefully (show read-only)
 - **MUST** catch and display exceptions from property setters
-- **MUST** detect circular object references and display "[Circular Reference]" message in property value (prevents infinite loops during nested expansion)
+- **MUST** detect circular object references using the following algorithm:
+  - **MUST** maintain `HashSet<object>` of visited objects during nested property expansion
+  - **MUST** check `ReferenceEquals(property.Value, visitedObject)` before expanding
+  - **MUST** display "[Circular Reference to {Type}]" in property value cell
+  - **MUST** make circular reference properties non-expandable
+  - **SHOULD** provide depth limit (default: 10 levels) as failsafe
 - **MUST** handle null values in editors
+
+### FR-014: Message-Based Property Updates
+- **MUST** implement `IPropertyUpdater` interface with the following methods:
+  - `ChangePropertyValue(object target, string propertyName, object? newValue)` - Updates property and enables tracking
+  - `ClearProperty(object target, string propertyName)` - Resets property to default value
+- **MUST** route all property changes through `IPropertyUpdater` implementation
+- **SHOULD** provide default implementation that directly sets property values
+- **SHOULD** enable future undo/redo, change tracking, and remote debugging through custom `IPropertyUpdater` implementations
+
+### FR-015: Editor Modes (Inline vs. Flyout)
+- **MUST** support inline editors for simple types:
+  - String, Numeric types, Boolean, Enum
+- **MUST** support flyout editors for complex types:
+  - Color, Brush, Thickness, CornerRadius, DateTime, Binding expressions, Resource references
+- **MUST** indicate flyout-enabled properties with "..." button in editor cell
+- **MUST** open flyout on button click or when property row receives focus and user presses Enter
+- **SHOULD** allow inline editing even for flyout-capable properties when possible (e.g., type color hex directly)
+
+### FR-016: Active State Visual Feedback
+- **MUST** provide distinct visual feedback for the following states:
+  - **Pointer Hover**: Highlight property row background on mouse hover
+  - **Keyboard Focus**: Show focus indicator (border or background change) on focused property row
+  - **Active Editing**: Visual indication when editor is active (e.g., focused TextBox, open ComboBox)
+- **MUST** ensure all visual states are accessible (sufficient color contrast, visible in high-contrast mode)
+- **SHOULD** use subtle transitions between states (e.g., fade-in hover effect)
 
 ---
 
@@ -342,6 +378,23 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 7. **PropertyGridViewModel** (optional)
    - Manages property list, filtering, categorization
    - Handles multi-select logic and mixed-value calculation
+
+8. **PropertyGridCellViewModel** (base class)
+   - Base ViewModel for property editors
+   - Specialized subclasses per type: `StringEditorViewModel`, `NumericEditorViewModel`, `BooleanEditorViewModel`, `ColorEditorViewModel`, etc.
+   - Provides common functionality: value binding, validation, change notification
+   - Enables better separation of concerns and testability
+
+9. **IPropertyUpdater** (interface)
+   - Abstraction for property value changes
+   - Methods: `ChangePropertyValue()`, `ClearProperty()`
+   - Enables future undo/redo, change tracking, and remote debugging
+   - Default implementation directly sets property values
+
+10. **PropertyDetails** (immutable record)
+   - Stores property metadata: Name, DisplayName, Description, Category, Type, Attributes
+   - Used for caching and reducing repeated reflection calls
+   - Immutable for thread-safety
 
 ### Data Flow
 
@@ -502,7 +555,11 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 - Tested on Mobile (iOS, Android)
 
 ### SC-005: Code Quality
-- Unit test coverage > 80%
+- **Unit test coverage > 80%** with breakdown by category:
+  - **Unit Tests**: Property reflection, metadata caching, validation logic, circular reference detection, search/filter algorithms
+  - **Integration Tests**: Property value changes, editor selection, event firing, ViewModel↔Model sync
+  - **Runtime Tests**: UI rendering on all platforms, keyboard navigation, theme changes, virtualization performance
+  - **UI Tests**: Visual regression, accessibility (keyboard, screen reader), touch interaction, flyout behavior
 - Zero high-priority static analysis warnings
 - XML documentation complete
 - Sample app included with all features demonstrated
@@ -635,16 +692,44 @@ A cross-platform PropertyGrid control for Uno Platform that enables runtime insp
 
 ## Future Enhancements
 
+The following features have been considered and may be added in future versions. Items marked with **(Deferred from v1)** were explicitly scoped out during clarification sessions:
+
 1. **Nested Object Editing**: Expand complex properties inline with drill-down UI
 2. **Collection Editing**: In-place add/remove/reorder for collection properties
-3. **Property Grouping**: Support tags or custom grouping beyond categories
-4. **Localization**: Multi-language support for all UI strings
-5. **Source Generators**: Pre-generate metadata for known types to improve WASM performance
-6. **Property Value History**: Show recent values or value change timeline
+3. **Localization**: Multi-language support for all UI strings
+4. **Source Generators**: Pre-generate metadata for known types to improve WASM performance
+5. **Property Value History**: Show recent values or value change timeline
+6. **Property Grouping Beyond Categories** **(Deferred from v1 - Q10)**: Support tags or custom grouping mechanisms beyond standard `[Category]` attribute. Two-column layout with categories is sufficient for v1; advanced grouping can be added based on user feedback.
+7. **Compact Single-Column Mode** **(Deferred from v1 - Q11)**: Simplified layout option for constrained/mobile screen sizes where property name and editor stack vertically. Two-column layout works on mobile with appropriate sizing.
+8. **XAML Value Source Tracking** **(Deferred from v1 - Q4)**: Track and display whether property values come from literals, bindings, resources, or are inherited. Adds significant complexity requiring XAML runtime integration; not required for basic property editing.
 7. **Favorites/Pinned Properties**: Allow users to pin frequently used properties to top
 8. **Property Comparison**: Side-by-side comparison of two objects
 9. **Advanced Search**: Regex, value-based search, type-based filtering
 10. **Export/Import**: JSON or XML serialization of property values
+
+---
+
+## Future Enhancements
+
+The following features have been deferred from v1 based on clarification sessions:
+
+### FE-001: Property Grouping Beyond Categories
+**Deferred from:** Q10 clarification
+**Description:** Support tags or custom grouping mechanisms beyond standard `[Category]` attribute
+**Rationale:** Two-column layout with categories is sufficient for v1; advanced grouping can be added in v2 based on user feedback
+**Potential Implementation:** Custom `IPropertyGroupProvider` interface allowing dynamic grouping by multiple criteria
+
+### FE-002: Compact Single-Column Mode
+**Deferred from:** Q11 clarification
+**Description:** Simplified layout option for constrained/mobile screen sizes where property name and editor stack vertically
+**Rationale:** Two-column layout is standard and works on mobile with appropriate sizing; single-column mode adds complexity without clear v1 requirement
+**Potential Implementation:** `LayoutMode` property with options: `TwoColumn`, `SingleColumn`, `Adaptive`
+
+### FE-003: XAML Value Source Tracking
+**Deferred from:** Q4 clarification
+**Description:** Track and display whether property values come from literals, bindings, resources, or are inherited
+**Rationale:** Adds significant complexity requiring integration with XAML runtime; not required for basic property editing scenarios
+**Potential Implementation:** Visual indicators next to property values (e.g., `{B}` for binding, `{R}` for resource, `{I}` for inherited) with tooltip showing source details
 
 ---
 
