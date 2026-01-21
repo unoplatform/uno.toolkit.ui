@@ -11,7 +11,7 @@ This document records all clarification decisions made during the specification 
 
 ### Q1: ViewModel-per-Property Architecture
 **Decision:** Yes (Specialized ViewModels per property type)
-**Rationale:** Provides better separation of concerns, testability, and is proven in Uno. HotDesign
+**Rationale:** Provides better separation of concerns, testability, and is proven in Uno HotDesign
 **Impact:**
 - Create `PropertyGridCellViewModel` base class
 - Implement specialized subclasses: `StringEditorViewModel`, `NumericEditorViewModel`, `BooleanEditorViewModel`, `ColorEditorViewModel`, etc.
