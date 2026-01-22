@@ -48,8 +48,8 @@ stages:
 - stage: Docs_Validations
   displayName: Docs Validations
   dependsOn: Determine_Changes
-  # Trigger this stage when docs files are changed (but not for spec-only changes)
-  condition: or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true'))
+  # Trigger this stage when docs files are changed (including mixed docs/specs, but not spec-only changes)
+  condition: or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsAndSpecsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true'))
   jobs:
   - template: stage-docs-validations.yml
 
