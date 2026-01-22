@@ -21,9 +21,12 @@ jobs:
       $gitDiffCommand = "git diff $mergeBase --name-only"
       $changedFiles = Invoke-Expression $gitDiffCommand
       $docsOnly = $false
+      $specsOnly = $false
+      $docsAndSpecsOnly = $false
       $nonDocsOnly = $false
       $mixedChanges = $false
       $docFiles = 0
+      $specFiles = 0
       $nonDocFiles = 0
 
       if ($changedFiles) {
@@ -34,41 +37,57 @@ jobs:
       }
 
       foreach ($file in $changedFiles -split "`n") {
-        # Identifying changes as documentation:
+        # Identifying changes as documentation, specifications, or code:
           $isDoc = $file.StartsWith("doc/") -or               # Files in the 'doc/' directory
             ($file -match "^[^/]+\.md$") -or                  # Markdown files at the root level (with no subdirectories involved)
             ($file -match "^\.github/.*\.md$") -or            # Markdown files within the .github folder (including its subdirectories)
             ($file -match '(^|[\\/])(markdownlint|cspell)\.json$')  # Specific JSON files: .markdownlint.json and cspell.json
           
+          $isSpec = $file.StartsWith(".specify/") -or         # Files in the '.specify/' directory
+            $file.StartsWith("specs/")                        # Files in the 'specs/' directory
+          
           if ($isDoc) {
               $docFiles++
+          } elseif ($isSpec) {
+              $specFiles++
           } else {
               $nonDocFiles++
           }
       }
 
       Write-Host "Documentation files changed: $docFiles"
-      Write-Host "Non-documentation files changed: $nonDocFiles"
+      Write-Host "Specification files changed: $specFiles"
+      Write-Host "Code files changed: $nonDocFiles"
 
-      if ($docFiles -gt 0 -and $nonDocFiles -eq 0) {
+      if ($docFiles -gt 0 -and $specFiles -eq 0 -and $nonDocFiles -eq 0) {
           $docsOnly = $true
           Write-Host "All changes are documentation-only."
-      } elseif ($docFiles -gt 0 -and $nonDocFiles -gt 0) {
+      } elseif ($specFiles -gt 0 -and $docFiles -eq 0 -and $nonDocFiles -eq 0) {
+          $specsOnly = $true
+          Write-Host "All changes are specification-only."
+      } elseif (($docFiles -gt 0 -or $specFiles -gt 0) -and $nonDocFiles -eq 0) {
+          $docsAndSpecsOnly = $true
+          Write-Host "All changes are documentation and/or specification-only."
+      } elseif (($docFiles -gt 0 -or $specFiles -gt 0) -and $nonDocFiles -gt 0) {
           $mixedChanges = $true
-          Write-Host "Mixed changes detected: Both documentation and non-documentation files have been modified."
+          Write-Host "Mixed changes detected: Both documentation/specification and code files have been modified."
       } elseif ($nonDocFiles -gt 0) {
           $nonDocsOnly = $true
-          Write-Host "Non-documentation changes detected."
+          Write-Host "Code changes detected."
       }
 
       # Explicitly write the final values for clarity
       Write-Host "Final values:"
       Write-Host "docsOnly: $docsOnly"
+      Write-Host "specsOnly: $specsOnly"
+      Write-Host "docsAndSpecsOnly: $docsAndSpecsOnly"
       Write-Host "nonDocsOnly: $nonDocsOnly"
       Write-Host "mixedChanges: $mixedChanges"
 
       # Output the results as pipeline variables
       Write-Host "##vso[task.setvariable variable=docsOnly;isOutput=true]$docsOnly"
+      Write-Host "##vso[task.setvariable variable=specsOnly;isOutput=true]$specsOnly"
+      Write-Host "##vso[task.setvariable variable=docsAndSpecsOnly;isOutput=true]$docsAndSpecsOnly"
       Write-Host "##vso[task.setvariable variable=nonDocsOnly;isOutput=true]$nonDocsOnly"
       Write-Host "##vso[task.setvariable variable=mixedChanges;isOutput=true]$mixedChanges"
     name: DetermineChanges

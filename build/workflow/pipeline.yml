@@ -48,7 +48,7 @@ stages:
 - stage: Docs_Validations
   displayName: Docs Validations
   dependsOn: Determine_Changes
-  # Trigger this stage when docs files are changed
+  # Trigger this stage when docs files are changed (but not for spec-only changes)
   condition: or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true'))
   jobs:
   - template: stage-docs-validations.yml
@@ -56,16 +56,16 @@ stages:
 - stage: Packages
   displayName: Packages
   dependsOn: Determine_Changes
-  # Don't trigger this stage if only docs files are changed
-  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
+  # Don't trigger this stage if only docs or specs files are changed
+  condition: and(ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.specsOnly'], 'true'), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsAndSpecsOnly'], 'true'))
   jobs:
   - template: stage-build-packages.yml
 
 - stage: Tests
   displayName: Tests
   dependsOn: Determine_Changes
-  # Don't trigger this stage if only docs files are changed
-  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
+  # Don't trigger this stage if only docs or specs files are changed
+  condition: and(ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.specsOnly'], 'true'), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsAndSpecsOnly'], 'true'))
   jobs:
   - template: stage-uitests-wasm.yml
   - template: stage-build-ios.yml
