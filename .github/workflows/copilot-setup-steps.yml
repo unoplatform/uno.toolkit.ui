@@ -30,10 +30,10 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Run uno-check (desktop + wasm)
-        run: bash build/workflow/copilot/scripts/run-uno-check.sh
+        run: bash build/workflow/copilot/run-uno-check.sh
 
       - name: Start virtual display (xvfb)
-        run: bash build/workflow/copilot/scripts/setup-virtual-display.sh
+        run: bash build/workflow/copilot/setup-virtual-display.sh
 
       - name: Restore solution packages
-        run: bash build/workflow/copilot/scripts/restore-solution.sh
+        run: bash build/workflow/copilot/restore-solution.sh
