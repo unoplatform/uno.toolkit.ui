@@ -15,6 +15,7 @@ EOF
 cd src
 
 dotnet workload restore
+dotnet workload install android
 
 # Restore solution packages to ensure dependencies are ready for subsequent steps
 dotnet restore Uno.Toolkit.sln
