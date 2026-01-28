@@ -2,8 +2,7 @@
 set -euo pipefail
 
 # Create a desktop-only crosstargeting override for build pipelines
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
-cat > "${repo_root}/src/crosstargeting_override.props" << 'EOF'
+cat > "src/crosstargeting_override.props" << 'EOF'
 <Project ToolsVersion="15.0">
 	<PropertyGroup>
 		<DisableMobileTargets>true</DisableMobileTargets>
@@ -13,4 +12,4 @@ cat > "${repo_root}/src/crosstargeting_override.props" << 'EOF'
 EOF
 
 # Restore solution packages to ensure dependencies are ready for subsequent steps
-dotnet restore Uno.Toolkit.sln
+dotnet restore src/Uno.Toolkit.sln
