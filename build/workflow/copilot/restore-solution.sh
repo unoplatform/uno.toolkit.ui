@@ -20,9 +20,9 @@ dotnet workload restore
 dotnet restore Uno.Toolkit.sln
 
 # Preload the dev server tool
-dotnet dnx -y uno.devserver --prelease -- start
+dotnet dnx -y uno.devserver --prerelease -- start -l trace
 
 sleep 20
 
-dotnet dnx -y uno.devserver --prelease -- stop
+dotnet dnx -y uno.devserver --prerelease -- stop -l trace
 
