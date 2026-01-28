@@ -18,3 +18,11 @@ dotnet workload restore
 
 # Restore solution packages to ensure dependencies are ready for subsequent steps
 dotnet restore Uno.Toolkit.sln
+
+# Preload the dev server tool
+dotnet dnx -y uno.devserver --prelease -- start
+
+sleep 20
+
+dotnet dnx -y uno.devserver --prelease -- stop
+
