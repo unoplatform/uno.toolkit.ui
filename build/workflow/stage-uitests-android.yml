@@ -1,5 +1,6 @@
 ﻿jobs:
 - job: Android_UITests
+  cancelTimeoutInMinutes: 0
   dependsOn: Android_UITest_Build
   displayName: 'Run Android UI Tests'
   timeoutInMinutes: 90

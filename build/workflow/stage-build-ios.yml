@@ -1,5 +1,6 @@
 jobs:
 - job: iOS_TestFlight_Build
+  cancelTimeoutInMinutes: 0
 
   timeoutInMinutes: 90
 
@@ -89,6 +90,7 @@ jobs:
       ArtifactName: $(ArtifactName)
 
 - job: iOS_UITest_Build
+  cancelTimeoutInMinutes: 0
 
   timeoutInMinutes: 90
 
