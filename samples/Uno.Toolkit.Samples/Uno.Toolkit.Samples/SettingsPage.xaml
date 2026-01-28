@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="Uno.Toolkit.Samples.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Uno.Toolkit.Samples"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  
+  <ScrollViewer>
+    <StackPanel Padding="24" Spacing="16">
+      <TextBlock Text="Settings"
+                 Style="{ThemeResource TitleTextBlockStyle}"
+                 Margin="0,0,0,24" />
+      
+      <StackPanel Spacing="8">
+        <TextBlock Text="Version Information"
+                   Style="{ThemeResource SubtitleTextBlockStyle}" />
+        
+        <StackPanel Spacing="4">
+          <TextBlock>
+            <Run Text="Version: " FontWeight="SemiBold" />
+            <Run x:Name="VersionText" Text="-" />
+          </TextBlock>
+        </StackPanel>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</Page>

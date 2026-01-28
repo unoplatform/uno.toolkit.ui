@@ -124,7 +124,8 @@ partial class App
 		}
 		else if (e.IsSettingsInvoked)
 		{
-			_shell.ActivateDebugPanel();
+			var settingsPage = new SettingsPage();
+			_shell.NavigationView.Content = settingsPage;
 		}
 	}
 
