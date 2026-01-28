@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+cd src
+
+dotnet workload restore
+
 # Restore solution packages to ensure dependencies are ready for subsequent steps
-dotnet restore src/Uno.Toolkit.sln -p:SamplesTargetFrameworkOverride=net9.0-desktop -p:DisableMobileTargets=true
+dotnet restore Uno.Toolkit.sln
