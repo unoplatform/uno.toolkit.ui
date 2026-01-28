@@ -1,4 +1,6 @@
 ﻿<Project Sdk="Uno.Sdk.Private">
+	<Import Project="..\..\..\src\crosstargeting_override.props" Condition="Exists('..\..\..\src\crosstargeting_override.props')" />
+
 	<PropertyGroup>
 		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'!=''">$(SamplesTargetFrameworkOverride)</TargetFrameworks>
 		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'==''">net10.0-android;net10.0-ios;net10.0-maccatalyst;net10.0-windows10.0.26100;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
@@ -35,6 +37,7 @@
 	  https://aka.platform.uno/singleproject-features
 	-->
 		<UnoFeatures>
+			SkiaRenderer;
 		</UnoFeatures>
 
 	</PropertyGroup>
