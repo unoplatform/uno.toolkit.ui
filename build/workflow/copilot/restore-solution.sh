@@ -12,5 +12,9 @@ cat > "src/crosstargeting_override.props" << 'EOF'
 </Project>
 EOF
 
+cd src
+
+dotnet workload restore
+
 # Restore solution packages to ensure dependencies are ready for subsequent steps
-dotnet restore src/Uno.Toolkit.sln
+dotnet restore Uno.Toolkit.sln
