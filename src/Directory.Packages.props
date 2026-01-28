@@ -6,7 +6,7 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
     <PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageVersion Include="SkiaSharp" Version="3.119.0" />
     <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="3.119.0" />
     <PackageVersion Include="SkiaSharp.Views.Uno" Version="3.119.0" />
