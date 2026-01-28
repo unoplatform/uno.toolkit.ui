@@ -5,13 +5,11 @@ parameters:
   UnoCheckParameters: ''
 
 steps:
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core SDK ${{ parameters.DotNetVersion }}'
-    retryCountOnTaskFailure: 3
-    inputs:
-      packageType: sdk
-      version: ${{ parameters.DotNetVersion }}
-      includePreviewVersions: true
+  - template: dotnet-install.yml
+    parameters:
+      UnoCheckParameters: '${{ parameters.UnoCheckParameters }}'
+      UnoCheck_Version: '${{ parameters.UnoCheck_Version }}'
+      DotNetVersion: '${{ parameters.DotNetVersion }}'
 
   - template: jdk-setup.yml
 
