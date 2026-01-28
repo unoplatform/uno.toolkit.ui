@@ -4,21 +4,17 @@
 #if !IS_WINUI || HAS_UNO
 #define SYS_NAV_MGR_SUPPORTED
 #endif
-#if __IOS__
-using UIKit;
-#endif
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Uno.Disposables;
 using Windows.Foundation;
 using Windows.UI.Core;
-#if HAS_UNO
-using Uno.UI.Helpers;
-using Uno.UI;
-#endif
+using Uno.Disposables;
+
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -40,7 +36,15 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.ViewManagement;
 using XamlWindow = Windows.UI.Xaml.Window;
+#endif
 
+#if HAS_UNO
+using Uno.UI;
+using Uno.UI.Helpers;
+#endif
+
+#if __IOS__
+using UIKit;
 #endif
 
 namespace Uno.Toolkit.UI
@@ -61,25 +65,25 @@ namespace Uno.Toolkit.UI
 		private const string NavigationBarPresenter = "NavigationBarPresenter";
 
 		private Popup? _popupHost;
-
-#if HAS_NATIVE_NAVBAR
-		private bool _isNativeTemplate;
-#endif
+		private ContentControl? _skiaHeaderContentControl;
 
 		private INavigationBarPresenter? _presenter;
-		private SerialDisposable _backRequestedHandler = new SerialDisposable();
-		private SerialDisposable _frameBackStackChangedHandler = new SerialDisposable();
+		private SerialDisposable _backRequestedHandler = new();
+		private SerialDisposable _frameBackStackChangedHandler = new();
+		private SerialDisposable _commandBarLoadedRevoker = new();
 		private WeakReference<Page?>? _pageRef;
 
 		public NavigationBar()
 		{
+			DefaultStyleKey = typeof(NavigationBar);
+
 			MainCommand ??= new AppBarButton();
 			PrimaryCommands ??= new NavigationBarElementCollection();
 			SecondaryCommands ??= new NavigationBarElementCollection();
 
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
-			DefaultStyleKey = typeof(NavigationBar);
+			RegisterPropertyChangedCallback(ContentControl.HorizontalContentAlignmentProperty, OnHorizontalContentAlignmentChanged);
 		}
 
 		protected override void OnApplyTemplate()
@@ -90,9 +94,31 @@ namespace Uno.Toolkit.UI
 
 			_presenter?.SetOwner(this);
 
-#if HAS_NATIVE_NAVBAR
-			_isNativeTemplate = _presenter is NativeNavigationBarPresenter;
-#endif
+			SubscribeToCommandBarIfNeeded();
+		}
+
+		private void SubscribeToCommandBarIfNeeded()
+		{
+			if (HasXamlPresenter())
+			{
+				_commandBarLoadedRevoker.Disposable = (_presenter as NavigationBarPresenter)?.SubscribeToNestedElements(
+				[
+					x => x?.GetFirstDescendant<CommandBar>(),
+					// fixme@xy: impl xpath-like query to properly isolate the header content control
+					// atm, this works because the header presenter currently is defined before navigation command and primary command presenters.
+					// with depth-first search, this is very prune to failure without a more robust way to uniquely identify the header presenter.
+					x => x?.GetFirstDescendant<ContentControl>(cc => cc.Name == "ContentControl"),
+				],
+				x =>
+				{
+					_skiaHeaderContentControl = x as ContentControl;
+					UpdateHeaderContentAlignment();
+				});
+			}
+			else
+			{
+				_commandBarLoadedRevoker.Disposable = null;
+			}
 		}
 
 		internal bool TryPerformMainCommand()
@@ -133,7 +159,7 @@ namespace Uno.Toolkit.UI
 			return false;
 		}
 
-#region Event Raising
+		#region Event Raising
 		internal void RaiseClosingEvent(object e)
 			=> Closing?.Invoke(this, e);
 
@@ -148,7 +174,7 @@ namespace Uno.Toolkit.UI
 
 		internal void RaiseDynamicOverflowItemsChanging(DynamicOverflowItemsChangingEventArgs args)
 			=> DynamicOverflowItemsChanging?.Invoke(this, args);
-#endregion
+		#endregion
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
@@ -196,29 +222,6 @@ namespace Uno.Toolkit.UI
 		}
 #endif
 
-		internal void UpdateMainCommandVisibility()
-		{
-			if (MainCommandMode != MainCommandMode.Back)
-			{
-				return;
-			}
-
-			var buttonVisibility = Visibility.Collapsed;
-			if (GetPage() is { } page && MainCommand is { } mainCommand)
-			{
-				if (page.Frame?.CanGoBack ?? false)
-				{
-					buttonVisibility = Visibility.Visible;
-				}
-				else
-				{
-					buttonVisibility = _popupHost is { } ? Visibility.Visible : Visibility.Collapsed;
-				}
-
-				mainCommand.Visibility = buttonVisibility;
-			}
-		}
-
 #if SYS_NAV_MGR_SUPPORTED
 		private void OnBackRequested(object? sender, BackRequestedEventArgs e)
 		{
@@ -231,6 +234,8 @@ namespace Uno.Toolkit.UI
 
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
 		{
+			// central entry point for all locally defined dependency property changes
+
 			if (args.Property == MainCommandProperty)
 			{
 				UpdateMainCommandVisibility();
@@ -245,6 +250,38 @@ namespace Uno.Toolkit.UI
 				{
 					mainCommand.Style = args.NewValue as Style;
 				}
+			}
+		}
+
+		private void OnHorizontalContentAlignmentChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			UpdateHeaderContentAlignment();
+		}
+
+		internal void UpdateMainCommandVisibility()
+		{
+			if (MainCommand is null) return;
+
+			MainCommand.Visibility = MainCommandMode switch
+			{
+				MainCommandMode.Back => (GetPage()?.Frame?.CanGoBack is true) || _popupHost is { },
+				MainCommandMode.Action => true,
+
+				_ => false
+			} ? Visibility.Visible : Visibility.Collapsed;
+		}
+
+		private void UpdateHeaderContentAlignment()
+		{
+			// native impl has centering built-in
+			if (!HasXamlPresenter()) return;
+
+			if (_skiaHeaderContentControl != null)
+			{
+				var inline = HorizontalContentAlignment is not HorizontalAlignment.Center;
+
+				Grid.SetColumn(_skiaHeaderContentControl, inline ? 1 : 0);
+				Grid.SetColumnSpan(_skiaHeaderContentControl, inline ? 1 : 4);
 			}
 		}
 
@@ -263,5 +300,17 @@ namespace Uno.Toolkit.UI
 
 			return null;
 		}
+
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "#if-conditioned implementation")]
+		private bool HasNativePresenter()
+		{
+#if HAS_NATIVE_NAVBAR
+			return _presenter is NativeNavigationBarPresenter;
+#else
+			return false;
+#endif
+		}
+
+		private bool HasXamlPresenter() => _presenter is NavigationBarPresenter;
 	}
 }
