@@ -1,5 +1,6 @@
 ﻿jobs:
 - job: iOS_UITests_Run
+  cancelTimeoutInMinutes: 0
   dependsOn: iOS_UITest_Build
   displayName: 'Run iOS UI Tests'
   timeoutInMinutes: 120

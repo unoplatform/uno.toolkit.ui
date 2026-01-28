@@ -1,5 +1,6 @@
 jobs:
 - job: Android_UITest_Build
+  cancelTimeoutInMinutes: 0
   timeoutInMinutes: 90
   pool:
     vmImage: macOS-15
@@ -50,6 +51,7 @@ jobs:
       ArtifactName: Android_UITest
 
 - job: Android
+  cancelTimeoutInMinutes: 0
 
   variables:
     - name: ArtifactName

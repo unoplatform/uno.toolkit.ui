@@ -1,5 +1,6 @@
 jobs:
 - job: WinAppSDK
+  cancelTimeoutInMinutes: 0
 
   pool:
     vmImage: windows-2022
