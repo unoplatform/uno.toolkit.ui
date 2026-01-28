@@ -39,6 +39,9 @@ jobs:
           setAllVars: true
 
       - run: |
+          bash build/workflow/copilot/run-uno-check.sh
+
+      - run: |
           cd samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
           dotnet build -c Release /p:SamplesTargetFrameworkOverride=net10.0-browserwasm "/p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}" /p:DisableMobileTargets=true
       - uses: actions/upload-artifact@v4
