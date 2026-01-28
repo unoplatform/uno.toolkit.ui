@@ -7,11 +7,7 @@ public sealed partial class SettingsPage : Page
     public SettingsPage()
     {
         this.InitializeComponent();
-        this.Loaded += OnLoaded;
-    }
-
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
+        
         // Get the version from the assembly
         var assembly = Assembly.GetExecutingAssembly();
         var version = assembly.GetName().Version;

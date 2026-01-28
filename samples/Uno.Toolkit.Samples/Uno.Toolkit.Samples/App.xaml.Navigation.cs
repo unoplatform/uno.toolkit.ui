@@ -124,8 +124,11 @@ partial class App
 		}
 		else if (e.IsSettingsInvoked)
 		{
-			var settingsPage = new SettingsPage();
-			_shell.NavigationView.Content = settingsPage;
+			// Only create a new settings page if not already displaying it
+			if (_shell.NavigationView.Content is not SettingsPage)
+			{
+				_shell.NavigationView.Content = new SettingsPage();
+			}
 		}
 	}
 
