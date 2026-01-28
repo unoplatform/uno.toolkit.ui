@@ -6,7 +6,8 @@ cat > "src/crosstargeting_override.props" << 'EOF'
 <Project ToolsVersion="15.0">
 	<PropertyGroup>
 		<DisableMobileTargets>true</DisableMobileTargets>
-		<TargetFrameworkOverride>net9.0-desktop</TargetFrameworkOverride>
+		<SamplesTargetFrameworkOverride>net10.0-desktop</SamplesTargetFrameworkOverride>
+		<TargetFrameworkOverride>net9.0</TargetFrameworkOverride>
 	</PropertyGroup>
 </Project>
 EOF
