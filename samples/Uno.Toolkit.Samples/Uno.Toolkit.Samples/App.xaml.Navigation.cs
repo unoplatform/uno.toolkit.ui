@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Reflection;
 using Uno.Extensions;
 
 using MUXC = Microsoft.UI.Xaml.Controls;

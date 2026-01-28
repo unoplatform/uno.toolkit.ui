@@ -7,12 +7,8 @@ namespace Uno.Toolkit.Samples.Content
 		public SettingsPage()
 		{
 			this.InitializeComponent();
-			this.Loaded += OnLoaded;
-		}
-
-		private void OnLoaded(object sender, RoutedEventArgs e)
-		{
-			// Get version information
+			
+			// Initialize version information once since the page is cached
 			var assembly = Assembly.GetExecutingAssembly();
 			var assemblyName = assembly.GetName();
 			var version = assemblyName.Version;
