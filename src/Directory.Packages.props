@@ -5,8 +5,8 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
     <PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageVersion Include="SkiaSharp" Version="3.119.0" />
     <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="3.119.0" />
     <PackageVersion Include="SkiaSharp.Views.Uno" Version="3.119.0" />
@@ -23,8 +23,8 @@
     <PackageVersion Include="Uno.Material" Version="5.0.13" />
     <PackageVersion Include="Uno.Material.WinUI" Version="5.0.13" />
     <PackageVersion Include="Uno.UI" Version="5.4.22" />
-	<PackageVersion Include="Uno.WinUI" Version="6.2.58" />
-	<PackageVersion Include="Uno.WinUI.Graphics2DSK" Version="6.2.58" />
+    <PackageVersion Include="Uno.WinUI" Version="6.6.0-dev.116" />
+    <PackageVersion Include="Uno.WinUI.Graphics2DSK" Version="6.6.0-dev.116" />
     <PackageVersion Include="Uno.XamlMerge.Task" Version="1.32.0-dev.61" />
     <PackageVersion Include="FluentAssertions" Version="5.10.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
@@ -32,15 +32,15 @@
     <PackageVersion Include="NUnit" Version="3.14.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.2.0" />
     <PackageVersion Include="NunitXml.TestLogger" Version="3.0.131" />
-    <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="1.33.0-dev.11" />
+    <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="2.0.0-dev.33" />
     <PackageVersion Include="Uno.UITest" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.82" />
-    <PackageVersion Include="Uno.WinUI.DevServer" Version="6.2.58" />
+    <PackageVersion Include="Uno.WinUI.DevServer" Version="6.6.0-dev.116" />
 	  <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.6" />
     <PackageVersion Include="Xamarin.UITest" Version="4.4.0" />
     <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0" />
   </ItemGroup>
 </Project>

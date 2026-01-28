@@ -27,6 +27,8 @@
 		<NoWarn>$(NoWarn);Uno0001</NoWarn>
 		<!-- This should be enabled back once https://github.com/microsoft/microsoft-ui-xaml/issues/4187 is fixed. -->
 		<NoWarn>$(NoWarn);CS8305</NoWarn>
+		<!-- Required for back compatibility -->
+		<NoWarn>$(NoWarn);CA1859</NoWarn>
 		<!-- TODO: Enable once https://github.com/xamarin/xamarin-macios/pull/16513 is merged and we have it -->
 		<NoWarn>$(NoWarn);CA1416</NoWarn>
 		<!-- error NU1903: Warning As Error: Package 'System.Private.Uri' 4.3.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-5f2m-466j-3848 [C:\a\1\s\src\SolutionTemplate\5.1\uno51blank\uno51blank.Mobile\uno51blank.Mobile.csproj] -->
