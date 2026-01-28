@@ -5,6 +5,8 @@ namespace Uno.Toolkit.Samples.Content
 {
 	public sealed partial class SettingsPage : Page
 	{
+		private Shell _shell;
+
 		public SettingsPage()
 		{
 			this.InitializeComponent();
@@ -48,6 +50,30 @@ namespace Uno.Toolkit.Samples.Content
 			{
 				PlatformTextBlock.Text = "Unknown";
 			}
+#endif
+
+#if DEBUG
+			// Load debug tools section in DEBUG builds only
+			this.FindName(nameof(DebugToolsSection));
+#endif
+		}
+
+		public void SetShell(Shell shell)
+		{
+			_shell = shell;
+		}
+
+		private void OnCopyVisualTreeClick(object sender, RoutedEventArgs e)
+		{
+#if DEBUG
+			_shell?.DebugCopyVisualTree();
+#endif
+		}
+
+		private void OnTestVisualStateClick(object sender, RoutedEventArgs e)
+		{
+#if DEBUG
+			_shell?.DebugTestVisualState();
 #endif
 		}
 	}

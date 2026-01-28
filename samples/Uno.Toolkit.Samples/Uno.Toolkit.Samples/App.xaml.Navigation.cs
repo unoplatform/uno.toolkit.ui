@@ -125,7 +125,11 @@ partial class App
 		else if (e.IsSettingsInvoked)
 		{
 			// Cache the settings page to avoid recreating it each time
-			_settingsPage ??= new Content.SettingsPage();
+			if (_settingsPage == null)
+			{
+				_settingsPage = new Content.SettingsPage();
+				_settingsPage.SetShell(_shell);
+			}
 			
 			// Clear selected item to avoid having a sample highlighted while Settings is displayed
 			_shell.NavigationView.SelectedItem = null;

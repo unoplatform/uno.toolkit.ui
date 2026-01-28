@@ -102,6 +102,34 @@
 						</StackPanel>
 					</Border>
 				</StackPanel>
+
+				<!-- Debug Tools Section (DEBUG only) -->
+				<StackPanel x:Name="DebugToolsSection" Spacing="16" x:Load="False">
+					<TextBlock Text="Debug Tools"
+					           FontSize="20"
+					           FontWeight="SemiBold"
+					           Foreground="{ThemeResource OnBackgroundBrush}" />
+
+					<Border Background="{ThemeResource SurfaceBrush}"
+					        CornerRadius="8"
+					        Padding="16">
+						<StackPanel Spacing="12">
+							<TextBlock Text="Development and debugging utilities"
+							           FontSize="14"
+							           Opacity="0.7"
+							           Foreground="{ThemeResource OnSurfaceBrush}"
+							           TextWrapping="Wrap" />
+							<Button x:Name="CopyVisualTreeButton"
+							        Content="Copy Visual Tree"
+							        Click="OnCopyVisualTreeClick"
+							        HorizontalAlignment="Stretch" />
+							<Button x:Name="TestVisualStateButton"
+							        Content="Test Visual State"
+							        Click="OnTestVisualStateClick"
+							        HorizontalAlignment="Stretch" />
+						</StackPanel>
+					</Border>
+				</StackPanel>
 			</StackPanel>
 		</ScrollViewer>
 	</Grid>
