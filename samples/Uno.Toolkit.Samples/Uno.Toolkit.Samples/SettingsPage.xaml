@@ -16,10 +16,12 @@
                    Style="{ThemeResource SubtitleTextBlockStyle}" />
         
         <StackPanel Spacing="4">
-          <TextBlock>
-            <Run Text="Version: " FontWeight="SemiBold" />
-            <Run x:Name="VersionText" Text="-" />
-          </TextBlock>
+          <StackPanel Orientation="Horizontal" Spacing="4">
+            <TextBlock Text="Version:" FontWeight="SemiBold" />
+            <TextBlock x:Name="VersionText"
+                       AutomationProperties.AutomationId="VersionText"
+                       Text="-" />
+          </StackPanel>
         </StackPanel>
       </StackPanel>
     </StackPanel>

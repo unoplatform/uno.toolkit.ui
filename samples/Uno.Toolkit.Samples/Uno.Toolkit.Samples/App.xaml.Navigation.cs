@@ -10,6 +10,7 @@ partial class App
 {
 	private static Sample[] _samples;
 	private static IDictionary<string, Type> _nestedSampleMap;
+	private static SettingsPage _settingsPage;
 
 	/// <summary>
 	/// Invoked when Navigation to a certain page fails
@@ -127,7 +128,8 @@ partial class App
 			// Only create a new settings page if not already displaying it
 			if (_shell.NavigationView.Content is not SettingsPage)
 			{
-				_shell.NavigationView.Content = new SettingsPage();
+				_settingsPage ??= new SettingsPage();
+				_shell.NavigationView.Content = _settingsPage;
 			}
 		}
 	}
