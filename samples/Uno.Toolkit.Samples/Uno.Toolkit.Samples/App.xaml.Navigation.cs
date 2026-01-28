@@ -10,6 +10,7 @@ partial class App
 {
 	private static Sample[] _samples;
 	private static IDictionary<string, Type> _nestedSampleMap;
+	private Content.SettingsPage _settingsPage;
 
 	/// <summary>
 	/// Invoked when Navigation to a certain page fails
@@ -124,8 +125,12 @@ partial class App
 		}
 		else if (e.IsSettingsInvoked)
 		{
-			var settingsPage = new Content.SettingsPage();
-			_shell.NavigationView.Content = settingsPage;
+			// Cache the settings page to avoid recreating it each time
+			_settingsPage ??= new Content.SettingsPage();
+			
+			// Clear selected item to avoid having a sample highlighted while Settings is displayed
+			_shell.NavigationView.SelectedItem = null;
+			_shell.NavigationView.Content = _settingsPage;
 		}
 	}
 
