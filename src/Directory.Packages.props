@@ -23,8 +23,8 @@
     <PackageVersion Include="Uno.Material" Version="5.0.13" />
     <PackageVersion Include="Uno.Material.WinUI" Version="5.0.13" />
     <PackageVersion Include="Uno.UI" Version="5.4.22" />
-	<PackageVersion Include="Uno.WinUI" Version="6.6.0-dev.116" />
-	<PackageVersion Include="Uno.WinUI.Graphics2DSK" Version="6.6.0-dev.116" />
+    <PackageVersion Include="Uno.WinUI" Version="6.6.0-dev.116" />
+    <PackageVersion Include="Uno.WinUI.Graphics2DSK" Version="6.6.0-dev.116" />
     <PackageVersion Include="Uno.XamlMerge.Task" Version="1.32.0-dev.61" />
     <PackageVersion Include="FluentAssertions" Version="5.10.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
@@ -32,7 +32,7 @@
     <PackageVersion Include="NUnit" Version="3.14.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.2.0" />
     <PackageVersion Include="NunitXml.TestLogger" Version="3.0.131" />
-    <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="1.33.0-dev.11" />
+    <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="2.0.0-dev.33" />
     <PackageVersion Include="Uno.UITest" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.82" />
