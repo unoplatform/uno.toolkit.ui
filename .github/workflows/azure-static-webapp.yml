@@ -53,7 +53,7 @@ jobs:
 
       - run: |
           cd samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
-          dotnet publish -c Release /p:SamplesTargetFrameworkOverride=net10.0-browserwasm "/p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}" /p:DisableMobileTargets=true
+          dotnet publish -c Release -f net10.0-browserwasm /p:SamplesTargetFrameworkOverride=net10.0-browserwasm "/p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}" /p:DisableMobileTargets=true
       - uses: actions/upload-artifact@v4
         with:
           name: wasm-site
