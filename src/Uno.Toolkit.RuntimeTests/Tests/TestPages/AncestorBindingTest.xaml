@@ -44,6 +44,8 @@
 					<StackPanel>
 						<TextBlock x:Name="NestedLvTextBlock1" Text="{utu:AncestorBinding AncestorType=Page, Path=Tag}" />
 						<TextBlock x:Name="NestedLvTextBlock2" Text="{utu:ItemsControlBindingExtension Path=Tag}" />
+						<TextBlock x:Name="NestedLvTextBlock1TwoWay" Text="{utu:AncestorBinding AncestorType=Page, Path=Tag, Mode=TwoWay}" />
+						<TextBlock x:Name="NestedLvTextBlock2TwoWay" Text="{utu:ItemsControlBindingExtension Path=Tag, Mode=TwoWay}" />
 					</StackPanel>
 				</DataTemplate>
 			</ListView.ItemTemplate>
