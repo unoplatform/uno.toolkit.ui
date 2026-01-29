@@ -84,6 +84,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
     </utu:DrawerControl.DrawerContent>
 </utu:DrawerControl>
 ```
+![](../assets/DrawerControls.png)
 
 #### NavigationView with drawer
 
