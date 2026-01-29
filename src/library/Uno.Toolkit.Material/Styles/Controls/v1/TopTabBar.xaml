@@ -62,7 +62,7 @@
 					 Color="{ThemeResource MaterialPrimaryColor}"
 					 Opacity="0.3" />
 
-    <StaticResource x:Key="MaterialTopTabBarItemBorderBrush"
+    <ThemeResource x:Key="MaterialTopTabBarItemBorderBrush"
 					ResourceKey="SystemControlTransparentBrush" />
 
 	<x:Double x:Key="MaterialTopTabBarFontSize">14</x:Double>
@@ -564,7 +564,7 @@
 					 Opacity="0.60" />
 
 
-	<StaticResource x:Key="MaterialColoredTopTabBarItemBorderBrush"
+	<ThemeResource x:Key="MaterialColoredTopTabBarItemBorderBrush"
 					ResourceKey="SystemControlTransparentBrush" />
 
 	<x:Double x:Key="MaterialColoredTopTabBarFontSize">14</x:Double>
