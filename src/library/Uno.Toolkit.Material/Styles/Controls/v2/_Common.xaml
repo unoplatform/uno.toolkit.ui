@@ -8,6 +8,8 @@
 	<Style BasedOn="{StaticResource MaterialDefaultNavigationBarStyle}" TargetType="utu:NavigationBar" />
 	<Style BasedOn="{StaticResource MaterialDefaultMainCommandStyle}" TargetType="AppBarButton" />
 	<Style BasedOn="{StaticResource MaterialDefaultChipStyle}" TargetType="utu:Chip" />
+	<Style BasedOn="{StaticResource MaterialDefaultCardStyle}" TargetType="utu:Card" />
+	<Style BasedOn="{StaticResource MaterialDefaultCardContentControlStyle}" TargetType="utu:CardContentControl" />
 	
 	<!-- Implicit styles aliases -->
 	<StaticResource x:Key="DividerStyle" ResourceKey="MaterialDividerStyle" />
