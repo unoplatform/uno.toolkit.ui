@@ -41,6 +41,17 @@ namespace Uno.Toolkit.Samples
 			this.FindName("DebugPanel"); // materialize x:Load=false element
 		}
 
+		// Public methods for SettingsPage to call debug functionality
+		public void DebugCopyVisualTree()
+		{
+			DebugVT(this, null);
+		}
+
+		public void DebugTestVisualState()
+		{
+			DebugVTAsync(this, null);
+		}
+
 		private void ToggleButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (this.XamlRoot.Content is FrameworkElement root)
