@@ -223,9 +223,12 @@ namespace Uno.Toolkit.Samples
 			//if (Debugger.IsAttached) Debugger.Break();
 		}
 
-		private void DebugVTAsync(object sender, RoutedEventArgs e)
+		private async void DebugVTAsync(object sender, RoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(NavigationView, "ListSizeFull", useTransitions: false);
+			// some wait time to let you open the flyout or navigate to a "nested" page
+			await Task.Delay(3000);
+
+			DebugVT(sender, e);
 		}
 
 		private void NavigationViewControl_DisplayModeChanged(MUXC.NavigationView sender, MUXC.NavigationViewDisplayModeChangedEventArgs e)
