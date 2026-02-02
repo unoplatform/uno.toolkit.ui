@@ -12,33 +12,19 @@ namespace Uno.Toolkit.Samples
 {
 	public sealed partial class Shell : UserControl
 	{
+		public static Shell GetForCurrentView() => (Shell)(App.Instance.MainWindow.Content as ExtendedSplashScreen)!.Content;
+
+		public MUXC.NavigationView NavigationView => NavigationViewControl;
+
 		public Shell()
 		{
 			this.InitializeComponent();
-
-			this.Loaded += OnLoaded;
 
 			NestedSampleFrame.RegisterPropertyChangedCallback(ContentControl.ContentProperty, OnNestedSampleFrameChanged);
 
 #if SYS_NAV_MGR_SUPPORTED
 			SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) => e.Handled = BackNavigateFromNestedSample();
 #endif
-		}
-
-		public static Shell GetForCurrentView() => (Shell)(App.Instance.MainWindow.Content as ExtendedSplashScreen)!.Content;
-
-		public MUXC.NavigationView NavigationView => NavigationViewControl;
-
-		private void OnLoaded(object sender, RoutedEventArgs e)
-		{
-#if DEBUG && false
-			ActivateDebugPanel();
-#endif
-		}
-
-		internal void ActivateDebugPanel()
-		{
-			this.FindName("DebugPanel"); // materialize x:Load=false element
 		}
 
 		private void ToggleButton_Click(object sender, RoutedEventArgs e)
@@ -151,6 +137,11 @@ namespace Uno.Toolkit.Samples
 			}
 		}
 
+		internal void EnableDebugPanel()
+		{
+			DebugPanel.Visibility = Visibility.Visible;
+		}
+
 		private void DebugVT(object sender, RoutedEventArgs e)
 		{
 			object FindViewOfInterest()
@@ -212,9 +203,12 @@ namespace Uno.Toolkit.Samples
 			//if (Debugger.IsAttached) Debugger.Break();
 		}
 
-		private void DebugVTAsync(object sender, RoutedEventArgs e)
+		private async void DebugVTAsync(object sender, RoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(NavigationView, "ListSizeFull", useTransitions: false);
+			// some wait time to let you open the flyout or navigate to a "nested" page
+			await Task.Delay(3000);
+
+			DebugVT(sender, e);
 		}
 
 		private void NavigationViewControl_DisplayModeChanged(MUXC.NavigationView sender, MUXC.NavigationViewDisplayModeChangedEventArgs e)

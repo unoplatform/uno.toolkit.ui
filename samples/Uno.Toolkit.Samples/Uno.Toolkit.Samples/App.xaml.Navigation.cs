@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Reflection;
 using Uno.Extensions;
 
 using MUXC = Microsoft.UI.Xaml.Controls;
@@ -10,6 +9,7 @@ partial class App
 {
 	private static Sample[] _samples;
 	private static IDictionary<string, Type> _nestedSampleMap;
+	private Content.SettingsPage _settingsPage;
 
 	/// <summary>
 	/// Invoked when Navigation to a certain page fails
@@ -124,7 +124,15 @@ partial class App
 		}
 		else if (e.IsSettingsInvoked)
 		{
-			_shell.ActivateDebugPanel();
+			// Cache the settings page to avoid recreating it each time
+			if (_settingsPage == null)
+			{
+				_settingsPage = new Content.SettingsPage();
+			}
+			
+			// Clear selected item to avoid having a sample highlighted while Settings is displayed
+			_shell.NavigationView.SelectedItem = null;
+			_shell.NavigationView.Content = _settingsPage;
 		}
 	}
 

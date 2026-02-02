@@ -1,0 +1,135 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Uno.Toolkit.Samples.Content"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<ScrollViewer>
+			<StackPanel Padding="48,24" Spacing="24" MaxWidth="600">
+				<!-- Header -->
+				<TextBlock Text="Settings"
+				           FontSize="32"
+				           FontWeight="Bold"
+				           Foreground="{ThemeResource OnBackgroundBrush}" />
+
+				<!-- App Information Section -->
+				<StackPanel Spacing="16">
+					<TextBlock Text="About"
+					           FontSize="20"
+					           FontWeight="SemiBold"
+					           Foreground="{ThemeResource OnBackgroundBrush}" />
+
+					<Border Background="{ThemeResource SurfaceBrush}"
+					        CornerRadius="8"
+					        Padding="16">
+						<StackPanel x:Name="AppInfoPanel" Spacing="12">
+							<!-- note: any top-level StackPanel here is automatically captured for CopyInfo -->
+
+							<!-- App Name -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Application"
+								           FontSize="14"
+								           Opacity="0.7"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+								<TextBlock Text="Uno Toolkit Samples"
+								           FontSize="16"
+								           FontWeight="SemiBold"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+							</StackPanel>
+
+							<!-- Version -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Version"
+								           FontSize="14"
+								           Opacity="0.7"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+								<TextBlock x:Name="VersionTextBlock"
+								           FontSize="16"
+								           FontWeight="SemiBold"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+							</StackPanel>
+
+							<!-- Framework -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Framework"
+								           FontSize="14"
+								           Opacity="0.7"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+								<TextBlock x:Name="FrameworkTextBlock"
+								           FontSize="16"
+								           FontWeight="SemiBold"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+							</StackPanel>
+
+							<!-- Platform -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Platform"
+								           FontSize="14"
+								           Opacity="0.7"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+								<TextBlock x:Name="PlatformTextBlock"
+								           FontSize="16"
+								           FontWeight="SemiBold"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+							</StackPanel>
+
+							<!-- Package Versions -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Package Versions"
+								           FontSize="14"
+								           Opacity="0.7"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+								<TextBox x:Name="PackageVersionsTextBlock"
+								         IsReadOnly="True"
+								         AcceptsReturn="True"
+								         FontSize="16"
+								         Foreground="{ThemeResource OnSurfaceBrush}" />
+							</StackPanel>
+
+							<Button Content="Copy to Clipboard"
+							        Click="CopyInfo"
+							        HorizontalAlignment="Stretch" />
+						</StackPanel>
+					</Border>
+				</StackPanel>
+
+				<!-- Additional Information -->
+				<StackPanel Spacing="16">
+					<TextBlock Text="Learn More"
+					           FontSize="20"
+					           FontWeight="SemiBold"
+					           Foreground="{ThemeResource OnBackgroundBrush}" />
+
+					<Border Background="{ThemeResource SurfaceBrush}"
+					        CornerRadius="8"
+					        Padding="16">
+						<StackPanel Spacing="12">
+							<HyperlinkButton Content="Uno Toolkit Documentation"
+							                 NavigateUri="https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html"
+							                 Padding="0" />
+							<HyperlinkButton Content="GitHub Repository"
+							                 NavigateUri="https://github.com/unoplatform/uno.toolkit.ui"
+							                 Padding="0" />
+							<HyperlinkButton Content="Report an Issue"
+							                 NavigateUri="https://github.com/unoplatform/uno.toolkit.ui/issues"
+							                 Padding="0" />
+						</StackPanel>
+					</Border>
+				</StackPanel>
+
+				<!-- Debug Tools Section -->
+				<StackPanel Spacing="16">
+
+					<Button Content="Enable visual debugging tool"
+					        Click="EnableDebugPanel"
+					        HorizontalAlignment="Stretch" />
+
+				</StackPanel>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</Page>
