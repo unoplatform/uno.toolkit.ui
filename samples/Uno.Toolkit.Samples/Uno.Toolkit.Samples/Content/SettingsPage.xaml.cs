@@ -1,22 +1,25 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Uno.UI.Extensions;
 
 namespace Uno.Toolkit.Samples.Content
 {
 	public sealed partial class SettingsPage : Page
 	{
-		private Shell _shell;
-
 		public SettingsPage()
 		{
 			this.InitializeComponent();
-			
-			// Initialize version information once since the page is cached
+
+			UpdateAppInfo();
+		}
+
+		private void UpdateAppInfo()
+		{
+
+			// Set version text
 			var assembly = Assembly.GetExecutingAssembly();
 			var assemblyName = assembly.GetName();
 			var version = assemblyName.Version;
-
-			// Set version text
 			VersionTextBlock.Text = version != null ? $"{version.Major}.{version.Minor}.{version.Build}" : "Unknown";
 
 			// Set framework information
@@ -38,10 +41,10 @@ namespace Uno.Toolkit.Samples.Content
 #else
 			// For Skia desktop builds, detect at runtime
 			// Check if we're running on a desktop platform (Windows, Linux, macOS) but not in browser
-			var isDesktop = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || 
-			                RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || 
-			                RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-			
+			var isDesktop = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ||
+							RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+							RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
 			if (isDesktop)
 			{
 				PlatformTextBlock.Text = "Skia (Desktop)";
@@ -51,30 +54,14 @@ namespace Uno.Toolkit.Samples.Content
 				PlatformTextBlock.Text = "Unknown";
 			}
 #endif
-
-#if DEBUG
-			// Load debug tools section in DEBUG builds only
-			this.FindName(nameof(DebugToolsSection));
-#endif
 		}
 
-		public void SetShell(Shell shell)
+		private void EnableDebugPanel(object sender, RoutedEventArgs e)
 		{
-			_shell = shell;
-		}
-
-		private void OnCopyVisualTreeClick(object sender, RoutedEventArgs e)
-		{
-#if DEBUG
-			_shell?.DebugCopyVisualTree();
-#endif
-		}
-
-		private void OnTestVisualStateClick(object sender, RoutedEventArgs e)
-		{
-#if DEBUG
-			_shell?.DebugTestVisualState();
-#endif
+			if (this.FindFirstAncestor<Shell>() is { } shell)
+			{
+				shell.EnableDebugPanel();
+			}
 		}
 	}
 }

@@ -12,44 +12,19 @@ namespace Uno.Toolkit.Samples
 {
 	public sealed partial class Shell : UserControl
 	{
+		public static Shell GetForCurrentView() => (Shell)(App.Instance.MainWindow.Content as ExtendedSplashScreen)!.Content;
+
+		public MUXC.NavigationView NavigationView => NavigationViewControl;
+
 		public Shell()
 		{
 			this.InitializeComponent();
-
-			this.Loaded += OnLoaded;
 
 			NestedSampleFrame.RegisterPropertyChangedCallback(ContentControl.ContentProperty, OnNestedSampleFrameChanged);
 
 #if SYS_NAV_MGR_SUPPORTED
 			SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) => e.Handled = BackNavigateFromNestedSample();
 #endif
-		}
-
-		public static Shell GetForCurrentView() => (Shell)(App.Instance.MainWindow.Content as ExtendedSplashScreen)!.Content;
-
-		public MUXC.NavigationView NavigationView => NavigationViewControl;
-
-		private void OnLoaded(object sender, RoutedEventArgs e)
-		{
-#if DEBUG && false
-			ActivateDebugPanel();
-#endif
-		}
-
-		internal void ActivateDebugPanel()
-		{
-			this.FindName("DebugPanel"); // materialize x:Load=false element
-		}
-
-		// Public methods for SettingsPage to call debug functionality
-		public void DebugCopyVisualTree()
-		{
-			DebugVT(this, null);
-		}
-
-		public void DebugTestVisualState()
-		{
-			DebugVTAsync(this, null);
 		}
 
 		private void ToggleButton_Click(object sender, RoutedEventArgs e)
@@ -160,6 +135,11 @@ namespace Uno.Toolkit.Samples
 				// just changes the visibility of the nested frame that overlays everything.
 				handler.OnExitedFromNestedSample(sender);
 			}
+		}
+
+		internal void EnableDebugPanel()
+		{
+			DebugPanel.Visibility = Visibility.Visible;
 		}
 
 		private void DebugVT(object sender, RoutedEventArgs e)

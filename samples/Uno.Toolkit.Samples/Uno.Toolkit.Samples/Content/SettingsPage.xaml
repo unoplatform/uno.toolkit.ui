@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Page x:Class="Uno.Toolkit.Samples.Content.SettingsPage"
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.SettingsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:Uno.Toolkit.Samples.Content"
@@ -103,32 +102,13 @@
 					</Border>
 				</StackPanel>
 
-				<!-- Debug Tools Section (DEBUG only) -->
-				<StackPanel x:Name="DebugToolsSection" Spacing="16" x:Load="False">
-					<TextBlock Text="Debug Tools"
-					           FontSize="20"
-					           FontWeight="SemiBold"
-					           Foreground="{ThemeResource OnBackgroundBrush}" />
+				<!-- Debug Tools Section -->
+				<StackPanel Spacing="16">
 
-					<Border Background="{ThemeResource SurfaceBrush}"
-					        CornerRadius="8"
-					        Padding="16">
-						<StackPanel Spacing="12">
-							<TextBlock Text="Development and debugging utilities"
-							           FontSize="14"
-							           Opacity="0.7"
-							           Foreground="{ThemeResource OnSurfaceBrush}"
-							           TextWrapping="Wrap" />
-							<Button x:Name="CopyVisualTreeButton"
-							        Content="Copy Visual Tree"
-							        Click="OnCopyVisualTreeClick"
-							        HorizontalAlignment="Stretch" />
-							<Button x:Name="TestVisualStateButton"
-							        Content="Test Visual State"
-							        Click="OnTestVisualStateClick"
-							        HorizontalAlignment="Stretch" />
-						</StackPanel>
-					</Border>
+					<Button Content="Enable visual debugging tool"
+					        Click="EnableDebugPanel"
+					        HorizontalAlignment="Stretch" />
+
 				</StackPanel>
 			</StackPanel>
 		</ScrollViewer>

@@ -128,7 +128,6 @@ partial class App
 			if (_settingsPage == null)
 			{
 				_settingsPage = new Content.SettingsPage();
-				_settingsPage.SetShell(_shell);
 			}
 			
 			// Clear selected item to avoid having a sample highlighted while Settings is displayed

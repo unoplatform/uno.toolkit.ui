@@ -56,20 +56,20 @@
 			   Grid.RowSpan="2"
 			   Visibility="Collapsed" />
 
-		<local:ModalDialog x:Name="ModalDialog" />
+		<local:ModalDialog x:Name="ModalDialog" Grid.Row="2" />
 
+		<!-- hidden debug tool, revealed from the SettingsPage -->
 		<StackPanel x:Name="DebugPanel"
-					x:Load="False"
 					Grid.RowSpan="2"
 					Background="Pink"
-					Padding="5"
+					Padding="4"
+					Spacing="4"
 					HorizontalAlignment="Center"
-					VerticalAlignment="Bottom">
+					VerticalAlignment="Bottom"
+					Visibility="Collapsed">
 			<StackPanel Orientation="Horizontal">
-				<Button Content="DebugVT"
-						Click="DebugVT" />
-				<Button Content="T"
-						Click="DebugVTAsync" />
+				<Button Content="DebugVT" Click="DebugVT" />
+				<Button Content="T" Click="DebugVTAsync" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>
