@@ -26,7 +26,9 @@
 					<Border Background="{ThemeResource SurfaceBrush}"
 					        CornerRadius="8"
 					        Padding="16">
-						<StackPanel Spacing="12">
+						<StackPanel x:Name="AppInfoPanel" Spacing="12">
+							<!-- note: any top-level StackPanel here is automatically captured for CopyInfo -->
+
 							<!-- App Name -->
 							<StackPanel Spacing="4">
 								<TextBlock Text="Application"
@@ -74,6 +76,23 @@
 								           FontWeight="SemiBold"
 								           Foreground="{ThemeResource OnSurfaceBrush}" />
 							</StackPanel>
+
+							<!-- Package Versions -->
+							<StackPanel Spacing="4">
+								<TextBlock Text="Package Versions"
+								           FontSize="14"
+								           Opacity="0.7"
+								           Foreground="{ThemeResource OnSurfaceBrush}" />
+								<TextBox x:Name="PackageVersionsTextBlock"
+								         IsReadOnly="True"
+								         AcceptsReturn="True"
+								         FontSize="16"
+								         Foreground="{ThemeResource OnSurfaceBrush}" />
+							</StackPanel>
+
+							<Button Content="Copy to Clipboard"
+							        Click="CopyInfo"
+							        HorizontalAlignment="Stretch" />
 						</StackPanel>
 					</Border>
 				</StackPanel>
