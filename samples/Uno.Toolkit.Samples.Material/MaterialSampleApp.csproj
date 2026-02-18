@@ -22,6 +22,11 @@
 		<DefineConstants>$(DefineConstants);THEME_MATERIAL</DefineConstants>
 	</PropertyGroup>
 
+	<!-- Disable AOT to work around Mono AOT cross-compiler crash on CI -->
+	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+		<RunAOTCompilation>false</RunAOTCompilation>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
 		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
 		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
