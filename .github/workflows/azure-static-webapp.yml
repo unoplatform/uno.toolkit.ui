@@ -1,88 +1,144 @@
-name: Azure Static Web Apps CI/CD
+name: Deploy WebAssembly to Azure Static Web Apps
 
 on:
   push:
     branches:
-      - main
-      - release/*
-      - feature/*
+      - master
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
     branches:
-      - main
+      - master
       - release/*
       - feature/*
+
+env:
+  APP_PROJECT: samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj
+  WASM_FRAMEWORK: net10.0-browserwasm
+  BUILD_CONFIGURATION: Release
+  WASM_PUBLISH_DIR: samples/Uno.Toolkit.Samples.Material/bin/Release/net10.0-browserwasm/publish/wwwroot
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
-  build_and_deploy_job:
-    env:
-      DIST_PATH: samples/Uno.Toolkit.Samples.Material/bin/Release/net10.0-browserwasm/publish/wwwroot
+  build:
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.action != 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
 
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
-    name: Build and Deploy Job
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required for gitversion
-          submodules: true
+          fetch-depth: 0
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1.7.2
+      - name: Cleanup unused image dependencies
+        shell: bash
+        run: |
+          rm -fR ~/.cargo
+          rm -fR ~/.rustup
+          rm -fR ~/.dotnet
+          sudo rm -fR /usr/share/swift
+          sudo rm -fR /opt/microsoft/msedge
+          sudo rm -fR /usr/local/.ghcup
+          sudo rm -fR /usr/lib/mono
+          sudo snap remove lxd
+          sudo snap remove core20
+          sudo apt remove snapd
+          df -h
+
+      - name: Set EMSDK cache path
+        shell: bash
+        run: echo "WasmCachePath=$HOME/.emscripten-cache" >> $GITHUB_ENV
+
+      - name: Cache EMSDK
+        id: cache-emsdk
+        uses: actions/cache@v4
         with:
-          dotnet-version: '10.0.100'
+          path: ${{ env.WasmCachePath }}
+          key: ${{ runner.os }}-emsdk
 
-      - uses: dotnet/nbgv@f088059084cb5d872e9d1a994433ca6440c2bf72 # v0.4.2
-        id: nbgv
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          toolVersion: 3.6.139
-          setAllVars: true
+          dotnet-version: 10.0.x
 
-      - run: |
-          # Ensure uno.check is available before running validation
-          if ! dotnet tool update --global uno.check; then
-            dotnet tool install --global uno.check
-          fi
-
-          echo "$HOME/.dotnet/tools" >> "$GITHUB_PATH"  
-              
+      - name: Run uno-check (wasm)
+        run: |
+          dotnet tool install --global uno.check
           uno-check -v --ci --non-interactive --fix \
-          --skip xcode --skip gtk3 --skip vswin --skip vswinworkloads --skip unosdk \
-          --skip dotnetnewunotemplates --skip vsmac --skip androidsdk --skip openjdk --skip androidemulator \
-          --tfm net10.0-browserwasm
+            --skip xcode --skip gtk3 --skip vswin --skip vswinworkloads --skip unosdk \
+            --skip dotnetnewunotemplates --skip vsmac --skip androidsdk --skip openjdk --skip androidemulator \
+            --tfm net10.0-browserwasm
 
-      - run: |
-          cd samples/Uno.Toolkit.Samples.Material
-          dotnet publish -c Release -f net10.0-browserwasm /p:SamplesTargetFrameworkOverride=net10.0-browserwasm "/p:PackageVersion=${{ steps.nbgv.outputs.SemVer2 }}" /p:DisableMobileTargets=true
-      - uses: actions/upload-artifact@v4
+      - name: Publish WebAssembly app
+        run: >
+          dotnet publish ${{ env.APP_PROJECT }}
+          -c ${{ env.BUILD_CONFIGURATION }}
+          -f ${{ env.WASM_FRAMEWORK }}
+          -p:CompressionEnabled=false
+          -bl:${{ github.workspace }}/binlogs/build-wasm.binlog
+
+      - name: Upload binlog
+        uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: wasm-site
-          path: ${{ env.DIST_PATH }}
+          name: binlogs-wasm
+          path: ${{ github.workspace }}/binlogs
 
-      - name: Publish to Azure Static WebApps
-        id: builddeploy_uno
-        continue-on-error: true
-        uses: Azure/static-web-apps-deploy@v0.0.1-preview
+      - name: Upload WASM app
+        uses: actions/upload-artifact@v4
         with:
-          skip_deploy_on_missing_secrets: true
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_STAGING }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
-          action: "upload"
-          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "${{ env.DIST_PATH }}" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "" # Built app content directory - optional
-          ###### End of Repository/Build Configurations ######
+          name: wasm-app
+          path: ${{ env.WASM_PUBLISH_DIR }}
 
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+  deploy:
+    needs: build
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.action != 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+
     runs-on: ubuntu-latest
-    name: Close Pull Request Job
+
     steps:
-      - name: Close Pull Request
-        id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v0.0.1-preview
+      - name: Download WASM app
+        uses: actions/download-artifact@v4
+        with:
+          name: wasm-app
+          path: app
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_STAGING }}
-          action: "close"
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          skip_app_build: true
+          app_location: app
+          api_location: ""
+          output_location: ""
+          production_branch: main
+
+  close-pull-request:
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Close Azure Static Web Apps environment
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_STAGING }}
+          action: close

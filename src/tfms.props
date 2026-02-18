@@ -2,7 +2,7 @@
 	<Import Project="CrossTargeting.props" />
 
 	<PropertyGroup>
-		<NetCurrent>net9.0</NetCurrent>
+		<NetCurrent>net10.0</NetCurrent>
 
 		<NetCurrentAndroid Condition="'$(TargetFrameworkOverride)'==''">$(NetCurrent)-android</NetCurrentAndroid>
 		<NetCurrentiOS Condition="'$(TargetFrameworkOverride)'==''">$(NetCurrent)-ios</NetCurrentiOS>

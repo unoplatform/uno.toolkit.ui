@@ -43,7 +43,7 @@ jobs:
 
   - template: templates/dotnet-workload-install-mac.yml
     parameters:
-      UnoCheckParameters: '--tfm net9.0-ios --tfm net9.0-maccatalyst'
+      UnoCheckParameters: '--tfm net10.0-ios --tfm net10.0-maccatalyst'
 
   - template: templates/xcode-select.yml
     parameters:
@@ -59,15 +59,15 @@ jobs:
   - bash: |
       cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet publish -f net9.0-ios -p:SamplesTargetFrameworkOverride=net9.0-ios -p:TargetFrameworkOverride=net9.0-ios -c Release /p:ArchiveOnBuild=true "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
-    displayName: Build project for Release - (net9.0-ios)
+      dotnet publish -f net10.0-ios -p:SamplesTargetFrameworkOverride=net10.0-ios -p:TargetFrameworkOverride=net10.0-ios -c Release /p:ArchiveOnBuild=true "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+    displayName: Build project for Release - (net10.0-ios)
     condition: eq(variables['System.PullRequest.IsFork'],'False')
 
   - bash: |
       cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -f net9.0-ios -p:SamplesTargetFrameworkOverride=net9.0-ios -p:TargetFrameworkOverride=net9.0-ios -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
-    displayName: Build project for Release - (net9.0-ios)
+      dotnet build -f net10.0-ios -p:SamplesTargetFrameworkOverride=net10.0-ios -p:TargetFrameworkOverride=net10.0-ios -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
+    displayName: Build project for Release - (net10.0-ios)
     condition: eq(variables['System.PullRequest.IsFork'],'True')
 
   - task: CopyFiles@2
@@ -75,7 +75,7 @@ jobs:
     condition: eq(variables['System.PullRequest.IsFork'],'False')
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net9.0-ios
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net10.0-ios
       Contents: |
         **/*.ipa
       TargetFolder: $(build.artifactstagingdirectory)
@@ -104,7 +104,7 @@ jobs:
   steps:
   - template: templates/dotnet-workload-install-mac.yml
     parameters:
-      UnoCheckParameters: '--tfm net9.0-ios'
+      UnoCheckParameters: '--tfm net10.0-ios'
 
   - template: templates/canary-updater.yml
 
@@ -127,7 +127,7 @@ jobs:
     displayName: 'Publish Binaries'
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net9.0-ios/iossimulator-x64/MaterialSampleApp.app
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net10.0-ios/iossimulator-x64/MaterialSampleApp.app
       Contents: '**'
       TargetFolder: $(build.artifactstagingdirectory)/MaterialSampleApp.app
       CleanTargetFolder: false

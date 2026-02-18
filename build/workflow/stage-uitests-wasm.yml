@@ -41,7 +41,7 @@ jobs:
 
   - template: templates/dotnet-workload-install-linux.yml
     parameters:
-      UnoCheckParameters: '--tfm net9.0-browserwasm'
+      UnoCheckParameters: '--tfm net10.0-browserwasm'
 
   - template: templates/canary-updater.yml
 

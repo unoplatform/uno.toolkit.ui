@@ -51,7 +51,7 @@
 
   - template: templates/dotnet-workload-install-mac.yml
     parameters:
-      UnoCheckParameters: '--tfm net9.0-android'
+      UnoCheckParameters: '--tfm net10.0-android'
   - template: templates/canary-updater.yml
   - template: templates/jdk-setup.yml
 

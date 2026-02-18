@@ -22,7 +22,7 @@ export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/Uno.Too
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
 export UNO_UITEST_LOGFILE=$BASE_ARTIFACTS_PATH/nunit-log.txt
 export UNO_UITEST_WASM_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_DIR
-export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_DIR/bin/Release/net9.0-browserwasm/publish/wwwroot
+export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_DIR/bin/Release/net10.0-browserwasm/publish/wwwroot
 export UNO_UITEST_NUNIT_VERSION=3.11.1
 export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
 export UNO_ORIGINAL_TEST_RESULTS=$BUILD_SOURCESDIRECTORY/build/$UNO_TEST_RESULTS_FILE_NAME
@@ -33,7 +33,7 @@ TEST_FAILED_FLAG=.tests-failed
 
 cd $UNO_UITEST_WASM_PROJECT
 
-dotnet publish -f net9.0-browserwasm /p:SamplesTargetFrameworkOverride=net9.0-browserwasm /p:TargetFrameworkOverride=net9.0 /p:Configuration=Release /p:IsUiAutomationMappingEnabled=True /p:DisableMobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-uitest.binlog
+dotnet publish -f net10.0-browserwasm /p:SamplesTargetFrameworkOverride=net10.0-browserwasm /p:TargetFrameworkOverride=net10.0 /p:Configuration=Release /p:IsUiAutomationMappingEnabled=True /p:DisableMobileTargets=True /bl:$BASE_ARTIFACTS_PATH/wasm-uitest.binlog
 cd $BUILD_SOURCESDIRECTORY/build
 mkdir -p tools
 
@@ -58,7 +58,7 @@ export PATH="$PATH:$BUILD_SOURCESDIRECTORY/build/tools"
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
 ## The python server serves the current working directory, and may be changed by the nunit runner
-ls -la "$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_DIR/bin/Release/net9.0-browserwasm/publish"
+ls -la "$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_DIR/bin/Release/net10.0-browserwasm/publish"
 dotnet-serve -p 5000 -d "$UNO_UITEST_WASM_OUTPUT_PATH" &
 
 echo "Test Parameters:"

@@ -16,9 +16,9 @@ namespace Uno.Toolkit.Samples.Droid;
     Icon = "@mipmap/icon",
     LargeHeap = true,
     HardwareAccelerated = true,
-    Theme = "@style/AppTheme"
+    Theme = "@style/Theme.App.Starting"
 )]
-public class Application : NativeApplication
+public class Application : Microsoft.UI.Xaml.NativeApplication
 {
     static Application()
     {

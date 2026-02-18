@@ -17,15 +17,15 @@
 
 		<!-- Uncomment each line for each platform that you want to build: -->
 
-		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">net9.0-windows10.0.19041;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">net9.0;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 9.0 iOS'">net9.0-ios;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 9.0 Android'">net9.0-android;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 9.0 macOS Catalyst'">net9.0-maccatalyst;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
-		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 9.0 macOS AppKit'">net9.0-macos;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: WinUI'">net10.0-windows10.0.19041;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: WASM, Skia'">net10.0;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 10.0 iOS'">net10.0-ios;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 10.0 Android'">net10.0-android;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 10.0 macOS Catalyst'">net10.0-maccatalyst;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
+		<!-- <TargetFrameworkOverride Condition="''!='hint: .NET 10.0 macOS AppKit'">net10.0-macos;$(TargetFrameworkOverride)</TargetFrameworkOverride> -->
 
-		<!-- DO NOT COMMENT OUT: net9.0 is a required tfm in all cases -->
-		<TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('net9.0;'))">net9.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
+		<!-- DO NOT COMMENT OUT: net10.0 is a required tfm in all cases -->
+		<TargetFrameworkOverride Condition="'$(TargetFrameworkOverride)'!='' AND !$(TargetFrameworkOverride.Contains('net10.0;'))">net10.0;$(TargetFrameworkOverride)</TargetFrameworkOverride>
 
 
 		<!--
@@ -39,7 +39,7 @@
 
 			### DisableMobileTargets ###
 
-				Disables bulding the net9.0 mobile SDK TargetFrameworks
+				Disables bulding the net10.0 mobile SDK TargetFrameworks
 
 			### TargetFrameworkOverride ###
 

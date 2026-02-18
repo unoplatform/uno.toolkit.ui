@@ -13,6 +13,12 @@ namespace Uno.Toolkit.Samples.Droid;
 )]
 public class MainActivity : Microsoft.UI.Xaml.ApplicationActivity
 {
+	protected override void OnCreate(Android.OS.Bundle? savedInstanceState)
+	{
+		global::AndroidX.Core.SplashScreen.SplashScreen.InstallSplashScreen(this);
+		base.OnCreate(savedInstanceState);
+	}
+
 #if USE_UITESTS
 	[Export("NavBackFromNestedPage")]
 	public static void NavBackFromNestedPage() => App.NavBackFromNestedPage();

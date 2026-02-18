@@ -7,9 +7,9 @@ jobs:
 
   variables:
     - name: TargetFrameworkOverride
-      value: net9.0-windows10.0.19041
+      value: net10.0-windows10.0.19041
     - name: SamplesTargetFrameworkOverride
-      value: net9.0-windows10.0.26100
+      value: net10.0-windows10.0.26100
     - name: PublishReadyToRun 
       value: true
 
@@ -32,7 +32,7 @@ jobs:
       msbuildLocationMethod: version
       msbuildVersion: latest
       msbuildArchitecture: x64
-      msbuildArguments: /t:Publish /m /v:m /p:TargetFramework=net9.0-windows10.0.26100 /p:SamplesTargetFrameworkOverride=net9.0-windows10.0.26100 /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk.binlog
+      msbuildArguments: /t:Publish /m /v:m /p:TargetFramework=net10.0-windows10.0.26100 /p:SamplesTargetFrameworkOverride=net10.0-windows10.0.26100 /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk.binlog
       clean: false
       configuration: Release
       logProjectEvents: false
@@ -43,7 +43,7 @@ jobs:
     condition: eq(variables['System.PullRequest.IsFork'],'False')
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net9.0-windows10.0.26100
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net10.0-windows10.0.26100
       TargetFolder: $(build.artifactstagingdirectory)/bin
       CleanTargetFolder: false
       OverWrite: false
