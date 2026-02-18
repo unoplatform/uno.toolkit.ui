@@ -3,7 +3,7 @@
     <TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
     <TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">net9.0-desktop;net9.0-browserwasm</TargetFrameworks>
     <TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'==''">$(TargetFrameworks);net9.0-ios;net9.0-macos;net9.0-android;net9.0-maccatalyst</TargetFrameworks>
-    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net9.0-windows10.0.26100</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net9.0-windows10.0.19041</TargetFrameworks>
     <UnoSingleProject>true</UnoSingleProject>
     <OutputType>Library</OutputType>
     <!-- Ensures the .xr.xml files are generated in a proper layout folder -->

@@ -1,4 +1,4 @@
-﻿#if WINDOWS || WINDOWS_UWP || __SKIA_OR_WASM__
+﻿#if WINDOWS || __SKIA_OR_WASM__
 using System;
 using System.IO;
 using System.Linq;
@@ -38,7 +38,7 @@ namespace Uno.Toolkit.UI
 		private const string WasmAppManifestFilename = "appmanifest.js";
 
 		public bool SplashIsEnabled =>
-#if WINDOWS_UWP || WINDOWS
+#if WINDOWS
 			Platforms.HasFlag(SplashScreenPlatform.Windows);
 #else
 			Platforms.HasFlag(RuntimeInfoHelper.IsBrowser ? SplashScreenPlatform.WebAssembly : SplashScreenPlatform.Skia);
@@ -93,15 +93,9 @@ namespace Uno.Toolkit.UI
 				var startIdx = js!.IndexOf('{') + 1;
 				var endIdx = js.LastIndexOf('}') - 1;
 				var manifestProps = js.Substring(startIdx, endIdx - startIdx); // Trim "var UnoAppManifest = " from the start of the file so we're left with just the inner of JSON
-#if !WINDOWS_UWP
 				var manifest = manifestProps.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
 					.Select(x => x.Split(':', 2, StringSplitOptions.TrimEntries))
 					.ToDictionarySafe(x => x[0], x => x[1].Trim('\"'));
-#else
-				var manifest = manifestProps.Trim().Split(',', StringSplitOptions.RemoveEmptyEntries)
-					.Select(x => x.Split(':', 2))
-					.ToDictionary(x => x[0].Trim(), x => x[1].Trim().Trim('\"'));
-#endif
 
 				if (manifest.TryGetValue("splashScreenImage", out var image))
 				{

@@ -10,9 +10,6 @@
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release' and '$(GeneratePackageOnBuild)'=='true'">true</GeneratePackageOnBuild>
 		<GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
 
-		<!-- Required in release using recent SDKs which use assembly embedded XBFs that are not supported by UWP -->
-		<DisableEmbeddedXbf Condition="$(TargetFramework.StartsWith('uap'))">true</DisableEmbeddedXbf>
-
 		<!-- Version management is now done through NuGet, this avoids issues related version mismatch -->
 		<Version>255.255.255.255</Version>
 
@@ -38,7 +35,7 @@
 
 	<PropertyGroup>
 		<PackageProjectUrl>$(BUILD_REPOSITORY_URI)</PackageProjectUrl>
-		<Description>A set of controls for Uno Platform, UWP and WinUI</Description>
+		<Description>A set of controls for Uno Platform and WinUI</Description>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -92,5 +89,4 @@
 	</PropertyGroup>
 
 	<Import Project="PlatformItemGroups.props" />
-	<Import Project="xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
 </Project>

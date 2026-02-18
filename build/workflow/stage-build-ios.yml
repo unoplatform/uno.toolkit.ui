@@ -57,14 +57,14 @@ jobs:
       xCodeRoot: $(XCODE_ROOT)
 
   - bash: |
-      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
+      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
       dotnet publish -f net9.0-ios -p:SamplesTargetFrameworkOverride=net9.0-ios -p:TargetFrameworkOverride=net9.0-ios -c Release /p:ArchiveOnBuild=true "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
     displayName: Build project for Release - (net9.0-ios)
     condition: eq(variables['System.PullRequest.IsFork'],'False')
 
   - bash: |
-      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
+      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
       dotnet build -f net9.0-ios -p:SamplesTargetFrameworkOverride=net9.0-ios -p:TargetFrameworkOverride=net9.0-ios -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" "/bl:$(build.artifactstagingdirectory)/toolkit-build-$(ArtifactName).binlog"
     displayName: Build project for Release - (net9.0-ios)
@@ -75,7 +75,7 @@ jobs:
     condition: eq(variables['System.PullRequest.IsFork'],'False')
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-ios
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net9.0-ios
       Contents: |
         **/*.ipa
       TargetFolder: $(build.artifactstagingdirectory)
@@ -127,9 +127,9 @@ jobs:
     displayName: 'Publish Binaries'
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-ios/iossimulator-x64/Uno.Toolkit.Samples.app
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net9.0-ios/iossimulator-x64/MaterialSampleApp.app
       Contents: '**'
-      TargetFolder: $(build.artifactstagingdirectory)/Uno.Toolkit.Samples.app
+      TargetFolder: $(build.artifactstagingdirectory)/MaterialSampleApp.app
       CleanTargetFolder: false
       OverWrite: false
       flattenFolders: false

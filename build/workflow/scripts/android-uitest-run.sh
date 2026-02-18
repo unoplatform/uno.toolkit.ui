@@ -16,18 +16,12 @@ then
 	export TEST_FILTERS="FullyQualifiedName ~ Uno.Toolkit.UITest.RuntimeTests";
 fi
 
-if [ "$XAML_FLAVOR_BUILD" == 'UWP' ];
-then
-	export SAMPLEAPP_NAME="uno.platform.toolkit_uwp";
-elif [ "$XAML_FLAVOR_BUILD" == 'WinUI' ];
-then
-	export SAMPLEAPP_NAME="uno.platform.toolkit";
-fi
+export SAMPLEAPP_NAME="uno.platform.toolkit.material"
 
 export UNO_UITEST_PLATFORM=Android
 export BASE_ARTIFACTS_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/android/$UITEST_TEST_MODE_NAME
 export UNO_UITEST_SCREENSHOT_PATH=$BASE_ARTIFACTS_PATH/screenshots
-export UNO_UITEST_MOBILE_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME
+export UNO_UITEST_MOBILE_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME
 export UNO_UITEST_PROJECT_PATH=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest
 export UNO_UITEST_PROJECT=$UNO_UITEST_PROJECT_PATH/Uno.Toolkit.UITest.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
@@ -42,7 +36,7 @@ export UITEST_TEST_TIMEOUT=60m
 # Prefer the signed APK from build artifacts (Windows job) when available,
 # otherwise fall back to the unsigned APK published locally by the UITest job (macOS agent).
 APK_FROM_ARTIFACT="$(ls "$BUILD_SOURCESDIRECTORY/build/Android_UITest/android-uitest/"*-Signed.apk 2>/dev/null | head -n 1 || true)"
-APK_FROM_LOCAL="$(ls $BUILD_SOURCESDIRECTORY/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-android/android-x64/publish/*.apk 2>/dev/null | head -n 1 || true)"
+APK_FROM_LOCAL="$(ls $BUILD_SOURCESDIRECTORY/samples/Uno.Toolkit.Samples.Material/bin/Release/net9.0-android/android-x64/publish/*.apk 2>/dev/null | head -n 1 || true)"
 
 if [ -f "$APK_FROM_ARTIFACT" ]; then
   export UNO_UITEST_ANDROIDAPK_PATH="$APK_FROM_ARTIFACT"

@@ -1,14 +1,13 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>$(NetCurrentAll)</TargetFrameworks>
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<AssemblyName>Uno.Toolkit.Skia.WinUI</AssemblyName>
 		<RootNamespace>Uno.Toolkit.Skia.WinUI</RootNamespace>
 		<PackageId>Uno.Toolkit.Skia.WinUI</PackageId>
 		<DefineConstants Condition="$(_IsWindowsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
-		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
-		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
 
 		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">win-x86;win-x64;win-arm64</RuntimeIdentifiers>

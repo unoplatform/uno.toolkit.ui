@@ -1,4 +1,4 @@
-﻿jobs:
+jobs:
 - job: Wasm_UITests
   cancelTimeoutInMinutes: 0
   displayName: 'Run WebAssembly UI Tests'
@@ -8,13 +8,17 @@
     maxParallel: 2
     matrix:
       WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples.Material
+        SAMPLE_PROJECT_DIR: Uno.Toolkit.Samples.Material
+        SAMPLE_CSPROJ_NAME: MaterialSampleApp
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: Automated
         UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-WinUI-Automated.xml
         SAMPLEAPP_ARTIFACT_NAME: sampleapp-wasm-build-WinUI
       WinUI_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples.Material
+        SAMPLE_PROJECT_DIR: Uno.Toolkit.Samples.Material
+        SAMPLE_CSPROJ_NAME: MaterialSampleApp
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: RuntimeTests
         UNO_TEST_RESULTS_FILE_NAME: TestResult-wasm-WinUI-RuntimeTests.xml

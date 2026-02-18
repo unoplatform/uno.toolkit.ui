@@ -21,8 +21,8 @@ export UNO_UITEST_CHROME_CONTAINER_MODE=true
 export UNO_UITEST_PROJECT=$BUILD_SOURCESDIRECTORY/src/Uno.Toolkit.UITest/Uno.Toolkit.UITest.csproj
 export UNO_UITEST_BINARY=$BUILD_SOURCESDIRECTORY/build/toolkit-uitest-binaries/Uno.Toolkit.UITest.dll
 export UNO_UITEST_LOGFILE=$BASE_ARTIFACTS_PATH/nunit-log.txt
-export UNO_UITEST_WASM_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME
-export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME/bin/Release/net9.0-browserwasm/publish/wwwroot
+export UNO_UITEST_WASM_PROJECT=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_DIR
+export UNO_UITEST_WASM_OUTPUT_PATH=$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_DIR/bin/Release/net9.0-browserwasm/publish/wwwroot
 export UNO_UITEST_NUNIT_VERSION=3.11.1
 export UNO_UITEST_NUGET_URL=https://dist.nuget.org/win-x86-commandline/v5.7.0/nuget.exe
 export UNO_ORIGINAL_TEST_RESULTS=$BUILD_SOURCESDIRECTORY/build/$UNO_TEST_RESULTS_FILE_NAME
@@ -58,7 +58,7 @@ export PATH="$PATH:$BUILD_SOURCESDIRECTORY/build/tools"
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
 ## The python server serves the current working directory, and may be changed by the nunit runner
-ls -la "$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_NAME/$SAMPLE_PROJECT_NAME/bin/Release/net9.0-browserwasm/publish"
+ls -la "$BUILD_SOURCESDIRECTORY/samples/$SAMPLE_PROJECT_DIR/bin/Release/net9.0-browserwasm/publish"
 dotnet-serve -p 5000 -d "$UNO_UITEST_WASM_OUTPUT_PATH" &
 
 echo "Test Parameters:"

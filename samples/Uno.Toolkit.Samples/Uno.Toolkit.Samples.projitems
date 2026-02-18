@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+		<HasSharedItems>true</HasSharedItems>
+		<SharedGUID>2e0817c1-bf2e-42f5-8be1-e9a37b54b457</SharedGUID>
+	</PropertyGroup>
+	<PropertyGroup Label="Configuration">
+		<Import_RootNamespace>Uno.Toolkit.Samples</Import_RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" />
+		<Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
+			<DependentUpon>Shell.xaml</DependentUpon>
+		</Compile>
+		<Compile Include="$(MSBuildThisFileDirectory)App.xaml.Navigation.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<Page Include="$(MSBuildThisFileDirectory)Shell.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Include="$(MSBuildThisFileDirectory)Converters.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)Content\**\*.cs" />
+		<Compile Include="$(MSBuildThisFileDirectory)Controls\**\*.cs" />
+		<Compile Include="$(MSBuildThisFileDirectory)Converters\**\*.cs" />
+		<Compile Include="$(MSBuildThisFileDirectory)Entities\**\*.cs" />
+		<Compile Include="$(MSBuildThisFileDirectory)Helpers\**\*.cs" />
+		<Compile Include="$(MSBuildThisFileDirectory)ViewModels\**\*.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<Page Include="$(MSBuildThisFileDirectory)Content\**\*.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Include="$(MSBuildThisFileDirectory)Controls\**\*.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Include="$(MSBuildThisFileDirectory)Styles\**\*.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="$(MSBuildThisFileDirectory)Assets\**" />
+		<Content Include="$(MSBuildThisFileDirectory)Strings\**" />
+	</ItemGroup>
+</Project>

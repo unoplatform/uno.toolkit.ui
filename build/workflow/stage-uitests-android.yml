@@ -12,21 +12,21 @@
     maxParallel: 2
     matrix:
       WinUI:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples.Material
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: Automated
         ANDROID_SIMULATOR_APILEVEL: 28
         UNO_TEST_RESULTS_FILE_NAME: TestResult-android-WinUI-Automated.xml
         SAMPLEAPP_ARTIFACT_NAME: android-winui-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
+        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit.material
       WinUI_Runtime:
-        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples
+        SAMPLE_PROJECT_NAME: Uno.Toolkit.Samples.Material
         XAML_FLAVOR_BUILD: WinUI
         UITEST_TEST_MODE_NAME: RuntimeTests
         ANDROID_SIMULATOR_APILEVEL: 28
         UNO_TEST_RESULTS_FILE_NAME: TestResult-android-WinUI-RuntimeTests.xml
         SAMPLEAPP_ARTIFACT_NAME: android-winui-uitest
-        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit
+        SAMPLEAPP_PACKAGE_NAME: uno.platform.toolkit.material
 
   pool:
     vmImage: 'macOS-15'

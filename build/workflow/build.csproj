@@ -1,6 +1,6 @@
 <Project DefaultTargets="BuildVersion">
 	<PropertyGroup>
-		<AppName Condition="$(AppName) == ''">Uno.Toolkit.Samples</AppName>
+		<AppName Condition="$(AppName) == ''">Uno.Toolkit.Samples.Material</AppName>
 	</PropertyGroup>
 	<Target Name="BuildVersion" Condition="'$(NBGV_InformationalVersion)'!=''">
 		<Message Text="%0A#### Running BuildVersion" Importance="$(_MessageImportance)" />
@@ -39,12 +39,12 @@
 		<Message Text="%0A" Importance="$(_MessageImportance)" />
 
 		<PropertyGroup>
-			<_SourceBasePath>$(MSBuildThisFileDirectory)../../samples/$(AppName)/$(AppName)</_SourceBasePath>
+			<_SourceBasePath>$(MSBuildThisFileDirectory)../../samples/$(AppName)</_SourceBasePath>
 			<_ManifestPath>$(_SourceBasePath)/Platforms/Android/AndroidManifest.xml</_ManifestPath>
 			<_PlistFilePath>$(_SourceBasePath)/Platforms/iOS/Info.plist</_PlistFilePath>
 			<_macPlistFilePath>$(_SourceBasePath)/Platforms/MacCatalyst/Info.plist</_macPlistFilePath>
 
-			<_mobileSourceBasePath>$(MSBuildThisFileDirectory)../../samples/$(AppName)/$(AppName)/Platforms</_mobileSourceBasePath>
+			<_mobileSourceBasePath>$(MSBuildThisFileDirectory)../../samples/$(AppName)/Platforms</_mobileSourceBasePath>
 			<_MobileAndroidManifestPath>$(_mobileSourceBasePath)/Android/AndroidManifest.xml</_MobileAndroidManifestPath>
 			<_catalystPlistFilePath>$(_mobileSourceBasePath)/MacCatalyst/Info.plist</_catalystPlistFilePath>
 			<_MobileiOSPlistFilePath>$(_mobileSourceBasePath)/iOS/Info.plist</_MobileiOSPlistFilePath>
@@ -94,20 +94,7 @@
 
 		<_XmlUpdate Condition="Exists('$(_MobileiOSPlistFilePath)')" XmlFileName="$(_MobileiOSPlistFilePath)" XPath="//plist/dict/key[text() = 'CFBundleVersion']/following-sibling::string[1]" Value="$(_AppleBuildNumber)" />
 
-		<!-- UWP -->
-		<ItemGroup>
-			<_Major Include="$(_AppVersion.Split('.')[0])" />
-			<_Minor Include="$(_AppVersion.Split('.')[1])" />
-			<_Revision Include="$(_AppVersion.Split('.')[2])" />
-		</ItemGroup>
-
-		<!-- Forcing the inclusion of the build number in UWP as the standard format is Major.Minor.Build.Revision -->
-		<!-- Not doing this makes it impossible to update a package unless the version is updated -->
-		<PropertyGroup>
-			<_UWPVersion>@(_Major).@(_Minor).$(NBGV_BuildNumber).@(_Revision)</_UWPVersion>
-		</PropertyGroup>
-
-		<XmlPoke Condition="Exists('$(_AppxManifestPath)')" XmlInputPath="$(_AppxManifestPath)" Query="/x:Package/x:Identity/@Version" Value="$(_UWPVersion)" Namespaces="$(_WindowsNamespace)" />
+		<XmlPoke Condition="Exists('$(_AppxManifestPath)')" XmlInputPath="$(_AppxManifestPath)" Query="/x:Package/x:Identity/@Version" Value="$(_AppVersion)" Namespaces="$(_WindowsNamespace)" />
 	</Target>
 
 	<UsingTask TaskName="_XmlUpdate"

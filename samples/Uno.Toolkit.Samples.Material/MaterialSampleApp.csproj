@@ -1,0 +1,51 @@
+﻿<Project Sdk="Uno.Sdk.Private">
+	<PropertyGroup>
+		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'!=''">$(SamplesTargetFrameworkOverride)</TargetFrameworks>
+		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'==''">net9.0-android;net9.0-ios;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<UnoSingleProject>true</UnoSingleProject>
+		<!-- Display name -->
+		<ApplicationTitle>Uno.Toolkit.Material.Samples</ApplicationTitle>
+		<!-- App Identifier -->
+		<ApplicationId>uno.platform.toolkit.material</ApplicationId>
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<UnoFeatures>
+			Material;
+			SkiaRenderer;
+		</UnoFeatures>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);THEME_MATERIAL</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
+		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
+		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.WinUI.DevServer" />
+		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
+	</ItemGroup>
+
+	<Import Project="..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.projitems" Label="Shared" />
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+		<ProjectReference Include="..\..\src\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
+		<ProjectReference Include="..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<UnoIcon Include="..\Uno.Toolkit.Samples\Assets\Icons\icon.svg"
+				 ForegroundFile="..\Uno.Toolkit.Samples\Assets\Icons\icon_foreground.svg"
+				 Color="#FFFFFF" />
+		<UnoSplashScreen Include="..\Uno.Toolkit.Samples\Assets\Splash\splash_screen.svg"
+						 Color="#FFFFFF"
+						 BaseSize="128,128" />
+	</ItemGroup>
+</Project>

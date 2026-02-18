@@ -28,7 +28,7 @@ jobs:
 
   - task: MSBuild@1
     inputs:
-      solution: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj
+      solution: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj
       msbuildLocationMethod: version
       msbuildVersion: latest
       msbuildArchitecture: x64
@@ -43,7 +43,7 @@ jobs:
     condition: eq(variables['System.PullRequest.IsFork'],'False')
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-windows10.0.26100
+      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net9.0-windows10.0.26100
       TargetFolder: $(build.artifactstagingdirectory)/bin
       CleanTargetFolder: false
       OverWrite: false

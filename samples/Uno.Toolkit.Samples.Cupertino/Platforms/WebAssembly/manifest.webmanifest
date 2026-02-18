@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "Uno.Toolkit.Cupertino.Samples",
+  "display": "standalone",
+  "name": "Uno.Toolkit.Cupertino.Samples",
+  "short_name": "Cupertino.Samples",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}
