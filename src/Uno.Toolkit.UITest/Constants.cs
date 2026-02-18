@@ -9,10 +9,10 @@ namespace Uno.Toolkit.UITest
 {
 	public class Constants
 	{
-		public readonly static string WebAssemblyDefaultUri = "http://localhost:59402/";
-		public readonly static string iOSAppName = "com.nventive.Uno.Toolkit.Samples";
-		public readonly static string AndroidAppName = "uno.platform.toolkit";
-		public readonly static string iOSDeviceNameOrId = "iPad Pro (12.9-inch) (6th generation)";
+		public readonly static string WebAssemblyDefaultUri = "http://localhost:5000/";
+		public readonly static string iOSAppName = "uno.platform.toolkit.material";
+		public readonly static string AndroidAppName = "uno.platform.toolkit.material";
+		public readonly static string iOSDeviceNameOrId = "iPad (10th generation)";
 
 		public readonly static Platform CurrentPlatform = Platform.Android;
 	}
