@@ -40,9 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
-    <PackageReference Include="Uno.WinUI.DevServer" />
 		<PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="FluentAssertions" />
+    <!-- Override SDK-managed versions to match the library SDK (Uno.Sdk 6.6.0-dev.15) ecosystem packages -->
+    <PackageReference Include="Uno.Material.WinUI" VersionOverride="6.2.0-dev.3" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" VersionOverride="10.0.26100.7463" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />

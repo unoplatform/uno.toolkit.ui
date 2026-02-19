@@ -4,22 +4,23 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-    <PackageVersion Include="SkiaSharp" Version="3.119.0" />
-    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="3.119.0" />
-    <PackageVersion Include="SkiaSharp.Views.WinUI" Version="3.119.0" />
-    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="3.119.0" />
+    <!-- SDK-managed packages: versions here must match or be compatible with Uno.Sdk's managed versions.
+         The Uno.Sdk overrides these at build time, but CPM validation needs entries during restore. -->
+    <PackageVersion Include="SkiaSharp" Version="3.119.1" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1" />
+    <PackageVersion Include="SkiaSharp.Views.WinUI" Version="3.119.1" />
+    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="3.119.1" />
+    <PackageVersion Include="Uno.Cupertino.WinUI" Version="6.2.0-dev.3" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="6.6.0-dev.3" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="6.2.0-dev.3" />
+    <PackageVersion Include="Uno.WinUI.Graphics2DSK" Version="6.6.0-dev.129" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="6.6.0-dev.3" />
+    <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />
+    <!-- Non-SDK-managed packages -->
     <PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
-    <PackageVersion Include="Uno.Cupertino.WinUI" Version="5.0.13" />
-    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="5.3.12" />
     <PackageVersion Include="Uno.SourceGenerationTasks" Version="4.2.0" />
-    <PackageVersion Include="Uno.WinUI.Markup" Version="5.3.12" />
-    <PackageVersion Include="Uno.Material.WinUI" Version="5.0.13" />
-    <PackageVersion Include="Uno.WinUI" Version="6.6.0-dev.116" />
-    <PackageVersion Include="Uno.WinUI.Graphics2DSK" Version="6.6.0-dev.116" />
     <PackageVersion Include="Uno.XamlMerge.Task" Version="1.32.0-dev.61" />
     <PackageVersion Include="FluentAssertions" Version="5.10.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
@@ -32,8 +33,6 @@
     <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.82" />
-    <PackageVersion Include="Uno.WinUI.DevServer" Version="6.6.0-dev.116" />
-	  <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.6" />
     <PackageVersion Include="Xamarin.UITest" Version="4.4.0" />
     <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0" />
