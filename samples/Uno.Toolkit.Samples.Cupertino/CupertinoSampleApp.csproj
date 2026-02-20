@@ -1,7 +1,19 @@
 ﻿<Project Sdk="Uno.Sdk.Private">
+	<!--
+		Expand platform suffix overrides to versioned TFMs for sample app (net10.0).
+		This allows crosstargeting_override.props to use platform suffixes (e.g., 'ios', 'android')
+		that work for both libraries (net9.0-*) and sample apps (net10.0-*).
+	-->
+	<PropertyGroup Condition="'$(TargetFrameworkOverride)'!=''">
+		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('ios'))">$(TargetFrameworks);net10.0-ios</TargetFrameworks>
+		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('android'))">$(TargetFrameworks);net10.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('browserwasm'))">$(TargetFrameworks);net10.0-browserwasm</TargetFrameworks>
+		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('desktop'))">$(TargetFrameworks);net10.0-desktop</TargetFrameworks>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFrameworkOverride)'==''">
+		<TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+	</PropertyGroup>
 	<PropertyGroup>
-		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'!=''">$(SamplesTargetFrameworkOverride)</TargetFrameworks>
-		<TargetFrameworks Condition="'$(SamplesTargetFrameworkOverride)'==''">net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<UnoSingleProject>true</UnoSingleProject>
 		<!-- Display name -->
