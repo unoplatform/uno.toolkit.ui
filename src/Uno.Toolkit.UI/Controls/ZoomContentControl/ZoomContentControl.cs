@@ -120,6 +120,7 @@ partial class ZoomContentControl
 	private SerialDisposable _contentSubscriptions = new();
 
 	private bool _isHandlingMouseWheelZooming;
+	private bool _isHandlingManipulationZooming;
 	private bool _preventTranslationUpdate;
 	private double? _previousZoomLevel;
 
@@ -160,6 +161,14 @@ partial class ZoomContentControl
 		_viewport.SizeChanged += OnViewportSizeChanged;
 		_scrollV.SizeChanged += OnScrollBarSizeChanged;
 		_scrollH.SizeChanged += OnScrollBarSizeChanged;
+
+		ManipulationMode = ManipulationModes.Scale;
+		ManipulationStarted -= OnManipulationStarted;
+		ManipulationDelta -= OnManipulationDelta;
+		ManipulationCompleted -= OnManipulationCompleted;
+		ManipulationStarted += OnManipulationStarted;
+		ManipulationDelta += OnManipulationDelta;
+		ManipulationCompleted += OnManipulationCompleted;
 
 		_previousZoomLevel = ZoomLevel;
 
@@ -330,6 +339,57 @@ partial class ZoomContentControl
 		}
 	}
 
+	private void OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+	{
+		if (!IsAllowedToWork) return;
+		if (!IsZoomAllowed) return;
+
+		e.Handled = true;
+	}
+
+	private void OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+	{
+		if (!IsAllowedToWork) return;
+
+		var handled = false;
+
+		if (IsZoomAllowed && _viewport is not null)
+		{
+			var deltaScale = e.Delta.Scale;
+			if (deltaScale != 1)
+			{
+				_isHandlingManipulationZooming = true;
+
+				var newZoom = Math.Clamp(ZoomLevel * deltaScale, MinZoomLevel, MaxZoomLevel);
+				var vpAnchor = this.TransformToVisual(_viewport).TransformPoint(e.Position);
+
+				var newOffset = CalculateNewOffset(
+					ViewportSize,
+					ContentSize,
+					VectoredScrollValue,
+					vpAnchor,
+					ZoomLevel,
+					newZoom,
+					AdditionalMargin);
+
+				ZoomLevel = newZoom;
+				SetScrollValue(newOffset, shouldClamp: !AllowFreePanning);
+
+				handled = true;
+			}
+		}
+
+		if (handled)
+		{
+			e.Handled = true;
+		}
+	}
+
+	private void OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+	{
+		_isHandlingManipulationZooming = false;
+	}
+
 	// dp changed handlers
 	private void OnHorizontalScrollValueChanged()
 	{
@@ -371,7 +431,7 @@ partial class ZoomContentControl
 		// when zooming occurs outside of mouse-wheel,
 		// we need to anchor the zoom to the center of the viewport.
 		var previousZoom = _previousZoomLevel;
-		if (!_isHandlingMouseWheelZooming && _previousZoomLevel is { } oldZoom)
+		if (!_isHandlingMouseWheelZooming && !_isHandlingManipulationZooming && _previousZoomLevel is { } oldZoom)
 		{
 			var anchor = ViewportSize.DivideBy(2).ToPoint();
 			var newOffset = CalculateNewOffset(

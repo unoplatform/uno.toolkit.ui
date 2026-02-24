@@ -222,4 +222,63 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 	}
 #endif
+
+	[TestClass]
+	[RunsOnUIThread]
+	internal class ZoomContentControlManipulationTests
+	{
+		[TestMethod]
+		public async Task When_PinchZoom_ShouldKeepAnchorStationary()
+		{
+			var sut = new ZoomContentControl
+			{
+				Width = 400,
+				Height = 300,
+				IsActive = true,
+				IsZoomAllowed = true,
+				AllowFreePanning = true,
+				Content = new Border
+				{
+					Width = 800,
+					Height = 600,
+					Background = new SolidColorBrush(Colors.Blue),
+				}
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+			await UnitTestUIContentHelperEx.WaitFor(() =>
+				sut.ViewportSize.Width > 0 &&
+				sut.ContentSize.Width > 0);
+
+			sut.ZoomLevel = 1.0;
+			sut.SetScrollValue(default, shouldClamp: false);
+
+			var vpAnchor = new Point(200, 150);
+			var oldZoom = sut.ZoomLevel;
+			var oldVectoredOffset = sut.VectoredScrollValue;
+			var newZoom = oldZoom * 2.0;
+
+			var newOffset = ZoomContentControl.CalculateNewOffset(
+				sut.ViewportSize,
+				sut.ContentSize,
+				oldVectoredOffset,
+				vpAnchor,
+				oldZoom,
+				newZoom,
+				sut.AdditionalMargin);
+
+			sut.ZoomLevel = newZoom;
+			sut.SetScrollValue(newOffset, shouldClamp: !sut.AllowFreePanning);
+
+			var finalOffset = new Point(sut.AdditionalMargin.Left, sut.AdditionalMargin.Top);
+			var baseAnchor = vpAnchor.Subtract(finalOffset).Subtract(oldVectoredOffset).DivideBy(oldZoom);
+			var newAnchor = baseAnchor.MultiplyBy(newZoom);
+			var newK = ZoomContentControl.ComputeK(sut.ViewportSize, sut.ContentSize, newZoom, sut.AdditionalMargin);
+			var newVectoredOffset = newOffset.MultiplyBy(newK);
+			var actualAnchor = newAnchor.Add(newVectoredOffset).Add(finalOffset);
+
+			Math.Abs(actualAnchor.X - vpAnchor.X).Should().BeLessThan(0.01);
+			Math.Abs(actualAnchor.Y - vpAnchor.Y).Should().BeLessThan(0.01);
+		}
+	}
 }
