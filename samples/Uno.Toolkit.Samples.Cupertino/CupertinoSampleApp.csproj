@@ -28,6 +28,8 @@
 			Cupertino;
 			SkiaRenderer;
 		</UnoFeatures>
+		<!-- RuntimeTests.Engine package still references old DOM-based WebAssembly runtime -->
+		<UnoDisableValidateNoUnoWasmDOMRuntimeDependency>true</UnoDisableValidateNoUnoWasmDOMRuntimeDependency>
 	</PropertyGroup>
 
 	<PropertyGroup>

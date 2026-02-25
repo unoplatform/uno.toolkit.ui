@@ -31,6 +31,15 @@ namespace Uno.Toolkit.Samples
 			Design.Material;
 #endif
 
+		/// <summary>
+		/// Gets or sets the active design for the sample app. Set this once at app startup.
+		/// </summary>
+		public static Design ActiveDesign
+		{
+			get => _design;
+			set => _design = value;
+		}
+
 		private IReadOnlyCollection<LayoutModeMapping> LayoutModeMappings => new List<LayoutModeMapping>
 		{
 			new LayoutModeMapping(Design.Material, () => !IsDesignAgnostic, _materialRadioButton, _stickyMaterialRadioButton, VisualStateMaterial, MaterialTemplate),
@@ -166,25 +175,30 @@ namespace Uno.Toolkit.Samples
 		private void UpdateLayoutRadioButtons()
 		{
 			var mappings = LayoutModeMappings;
-			var previouslySelected = default(LayoutModeMapping);
+
+			// In single-theme mode: hide all design-switching tabs
+			foreach (var mapping in mappings)
+			{
+				mapping.RadioButton?.Apply(x => x.Visibility = Visibility.Collapsed);
+				mapping.StickyRadioButton?.Apply(x => x.Visibility = Visibility.Collapsed);
+			}
+
+			// Hide the scrolling and sticky tab bars entirely
+			if (_scrollingTabs != null) _scrollingTabs.Visibility = Visibility.Collapsed;
+			if (_stickyTabs != null) _stickyTabs.Visibility = Visibility.Collapsed;
+
+			// Hide the Material version combo box and force M3 selection
+			if (_materialVersionComboBox != null)
+			{
+				_materialVersionComboBox.Visibility = Visibility.Collapsed;
+				_materialVersionComboBox.SelectedIndex = 1;
+			}
 
 			bool IsAvailable(LayoutModeMapping mapping) => mapping.Predicate() && mapping.Template != null;
 
-			foreach (var mapping in mappings)
-			{
-				var available = IsAvailable(mapping);
-				var visibility = available ? Visibility.Visible : Visibility.Collapsed;
-				mapping.RadioButton?.Apply(x => x.Visibility = visibility);
-				mapping.StickyRadioButton?.Apply(x => x.Visibility = visibility);
-
-				if (mapping.Design == _design && available)
-				{
-					previouslySelected = mapping;
-				}
-			}
-
-			// selected mode is based on previous selection and availability (whether the template is defined)
-			var selected = previouslySelected ?? mappings.FirstOrDefault(IsAvailable);
+			// Activate the design matching the app's active theme
+			var selected = mappings.FirstOrDefault(x => x.Design == ActiveDesign && IsAvailable(x))
+				?? mappings.FirstOrDefault(IsAvailable);
 			if (selected != null)
 			{
 				UpdateLayoutMode(transitionTo: selected.Design);

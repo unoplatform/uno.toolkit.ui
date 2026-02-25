@@ -13,6 +13,7 @@ public partial class App : Application
 
 	public App()
 	{
+		SamplePageLayout.ActiveDesign = Design.Material;
 		this.InitializeComponent();
 	}
 

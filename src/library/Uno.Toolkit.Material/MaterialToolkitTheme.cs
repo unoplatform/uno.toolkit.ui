@@ -20,15 +20,8 @@ namespace Uno.Toolkit.UI.Material
 	/// </summary>
 	public class MaterialToolkitTheme : ResourceDictionary
 	{
-#if IS_WINUI
 		private const string ToolkitPackageName = "Uno.Toolkit.WinUI";
 		private const string ToolkitMaterialPackageName = "Uno.Toolkit.WinUI.Material";
-		private const string PackageNameSuffix = "WinUI";
-#else
-		private const string ToolkitPackageName = "Uno.Toolkit.UI";
-		private const string ToolkitMaterialPackageName = "Uno.Toolkit.UI.Material";
-		private const string PackageNameSuffix = "UWP";
-#endif
 
 		private bool _isOverridingColor;
 		private bool _isOverridingFont;
@@ -190,8 +183,8 @@ namespace Uno.Toolkit.UI.Material
 			this.Clear();
 
 			MergedDictionaries.Add(new MaterialTheme(ColorOverrideDictionary, FontOverrideDictionary));
-			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.{PackageNameSuffix}.xaml") });
-			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitMaterialPackageName}/Generated/mergedpages.{PackageNameSuffix}.v2.xaml") });
+			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
+			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitMaterialPackageName}/Generated/mergedpages.v2.xaml") });
 		}
 	}
 }

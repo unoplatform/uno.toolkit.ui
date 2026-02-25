@@ -4,7 +4,7 @@ using Uno.Toolkit.Samples.Entities.Data;
 namespace Uno.Toolkit.Samples.Content.Controls;
 
 
-[SamplePage(SampleCategory.Behaviors, "IR IncrementalLoading", SourceSdk.UnoToolkit, DataType = typeof(IncrementalLoadingViewModel))]
+[SamplePage(SampleCategory.Behaviors, "IR IncrementalLoading", SourceSdk.UnoToolkit, DataType = typeof(IncrementalLoadingViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 
 public sealed partial class ItemsRepeaterExtensionsIncrementalLoadingSamplePage : Page
 {

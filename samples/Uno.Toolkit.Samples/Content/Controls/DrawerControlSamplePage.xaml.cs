@@ -2,7 +2,7 @@
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, nameof(DrawerControl))]
+	[SamplePage(SampleCategory.Controls, nameof(DrawerControl), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 	public sealed partial class DrawerControlSamplePage : Page
 	{
 		public DrawerControlSamplePage()

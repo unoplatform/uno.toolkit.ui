@@ -4,7 +4,7 @@ using Uno.Toolkit.Samples.ViewModels;
 namespace Uno.Toolkit.Samples.Content.Controls
 {
 
-	[SamplePage(SampleCategory.Controls, nameof(LoadingView), SourceSdk.UnoToolkit, DataType = typeof(ViewModel))]
+	[SamplePage(SampleCategory.Controls, nameof(LoadingView), SourceSdk.UnoToolkit, DataType = typeof(ViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 	public sealed partial class LoadingViewSample : Page
 	{
 		public LoadingViewSample()

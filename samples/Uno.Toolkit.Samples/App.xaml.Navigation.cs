@@ -219,24 +219,9 @@ partial class App
 			.Where(x => x.Namespace?.StartsWith("Uno.Toolkit.Samples") == true)
 			.Select(x => new { TypeInfo = x, SamplePageAttribute = x.GetCustomAttribute<SamplePageAttribute>() })
 			.Where(x => x.SamplePageAttribute != null)
-			.Where(x => IsSampleVisibleForCurrentTheme(x.SamplePageAttribute))
 			.Select(x => new Sample(x.SamplePageAttribute, x.TypeInfo.AsType()))
+			.Where(x => x.SupportedDesigns.Contains(SamplePageLayout.ActiveDesign))
 			.ToArray();
-
-	private static bool IsSampleVisibleForCurrentTheme(SamplePageAttribute attr)
-	{
-		// Design-agnostic sources are always visible
-		if (attr.Source is SourceSdk.WinUI or SourceSdk.Uno or SourceSdk.UnoToolkit)
-			return true;
-
-#if THEME_MATERIAL
-		return attr.Source != SourceSdk.UnoCupertino;
-#elif THEME_CUPERTINO
-		return attr.Source != SourceSdk.UnoMaterial;
-#else
-		return true;
-#endif
-	}
 
 	public static IDictionary<string, Type> GetNestedSamples()
 		=> _nestedSampleMap = _nestedSampleMap ?? Assembly.GetExecutingAssembly()

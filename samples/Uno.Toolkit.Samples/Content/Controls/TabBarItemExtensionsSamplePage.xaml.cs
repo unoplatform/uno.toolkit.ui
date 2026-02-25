@@ -1,6 +1,6 @@
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Behaviors, nameof(TabBarItemExtensions))]
+	[SamplePage(SampleCategory.Behaviors, nameof(TabBarItemExtensions), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 	public sealed partial class TabBarItemExtensionsSamplePage : Page
 	{
 		public TabBarItemExtensionsSamplePage()

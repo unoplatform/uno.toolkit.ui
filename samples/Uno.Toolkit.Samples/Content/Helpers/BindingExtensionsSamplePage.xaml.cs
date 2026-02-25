@@ -4,7 +4,7 @@ using Uno.Toolkit.Samples.ViewModels;
 
 namespace Uno.Toolkit.Samples.Content.Helpers
 {
-	[SamplePage(SampleCategory.Helpers, "Binding Extensions", SourceSdk.Uno, DataType = typeof(BindingExtensionsVM), IconPath = Icons.Helpers.MarkupExtension)]
+	[SamplePage(SampleCategory.Helpers, "Binding Extensions", SourceSdk.Uno, DataType = typeof(BindingExtensionsVM), IconPath = Icons.Helpers.MarkupExtension, SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 	public sealed partial class BindingExtensionsSamplePage : Page
 	{
 		public BindingExtensionsSamplePage()

@@ -19,6 +19,7 @@ namespace Uno.Toolkit.Samples.Entities
 			Data = CreateData(attribute.DataType);
 			Source = attribute.Source;
 			SortOrder = attribute.SortOrder;
+			SupportedDesigns = attribute.SupportedDesigns;
 
 			ViewType = viewType;
 		}
@@ -55,5 +56,10 @@ namespace Uno.Toolkit.Samples.Entities
 		public Type ViewType { get; }
 
 		public SourceSdk Source { get; }
+
+		/// <summary>
+		/// The designs this sample supports.
+		/// </summary>
+		public Design[] SupportedDesigns { get; }
 	}
 }

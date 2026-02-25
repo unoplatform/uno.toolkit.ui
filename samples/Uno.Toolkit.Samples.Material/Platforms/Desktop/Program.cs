@@ -4,7 +4,7 @@ namespace Uno.Toolkit.Samples;
 public class Program
 {
     [STAThread]
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         App.InitializeLogging();
 
@@ -16,6 +16,6 @@ public class Program
             .UseWin32()
             .Build();
 
-        host.Run();
+        await host.RunAsync();
     }
 }

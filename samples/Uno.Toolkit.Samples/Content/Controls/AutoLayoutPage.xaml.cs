@@ -5,7 +5,7 @@ namespace Uno.Toolkit.Samples.Content.Controls
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	[SamplePage(SampleCategory.Controls, "AutoLayout")]
+	[SamplePage(SampleCategory.Controls, "AutoLayout", SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 	public sealed partial class AutoLayoutPage : Page
 	{
 		public AutoLayoutPage()

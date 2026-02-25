@@ -3,7 +3,7 @@ using Uno.Toolkit.Samples.ViewModels;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Behaviors, nameof(VisualStateManagerExtensions), DataType = typeof(ViewModel))]
+	[SamplePage(SampleCategory.Behaviors, nameof(VisualStateManagerExtensions), DataType = typeof(ViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 	public sealed partial class VisualStateExtensionsSamplePage : Page
 	{
 		public VisualStateExtensionsSamplePage()

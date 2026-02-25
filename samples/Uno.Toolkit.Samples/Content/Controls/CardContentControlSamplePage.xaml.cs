@@ -1,6 +1,6 @@
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, "CardContentControl", SourceSdk.UnoMaterial)]
+	[SamplePage(SampleCategory.Controls, "CardContentControl", SourceSdk.UnoMaterial, SupportedDesigns = new[] { Design.Material })]
 	public sealed partial class CardContentControlSamplePage : Page
 	{
 		public CardContentControlSamplePage()

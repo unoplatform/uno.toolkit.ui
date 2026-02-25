@@ -1,6 +1,6 @@
 namespace Uno.Toolkit.Samples.Content.Controls;
 
-[SamplePage(SampleCategory.Controls, "ZoomContentControl")]
+[SamplePage(SampleCategory.Controls, "ZoomContentControl", SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 public sealed partial class ZoomContentControlSamplePage : Page
 {
 	private ZoomContentControl zoomControl;

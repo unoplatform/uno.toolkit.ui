@@ -4,7 +4,7 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
 
-	[SamplePage(SampleCategory.Tests, "ShadowContainerTest")]
+	[SamplePage(SampleCategory.Tests, "ShadowContainerTest", SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 	public sealed partial class ShadowContainerTestPage : Page
 	{
 		private enum ElementState

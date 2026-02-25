@@ -41,5 +41,12 @@ namespace Uno.Toolkit.Samples.Entities
 		/// Sort order with the same <see cref="Category"/>.
 		/// </summary>
 		public int SortOrder { get; set; } = int.MaxValue;
+
+		/// <summary>
+		/// The designs (themes) this sample page supports.
+		/// The page is only included in sample apps whose active design is listed.
+		/// Defaults to empty (not shown in any app) — must be set explicitly.
+		/// </summary>
+		public Design[] SupportedDesigns { get; set; } = Array.Empty<Design>();
 	}
 }

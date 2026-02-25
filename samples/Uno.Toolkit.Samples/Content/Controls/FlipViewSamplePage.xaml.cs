@@ -5,7 +5,7 @@ using UIKit;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Behaviors, nameof(FlipViewExtensions))]
+	[SamplePage(SampleCategory.Behaviors, nameof(FlipViewExtensions), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 	public sealed partial class FlipViewSamplePage : Page
 	{
 		public FlipViewSamplePage()
