@@ -26,7 +26,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Content\**\*.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\**\*.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\**\*.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\**\*.cs" />
@@ -34,10 +33,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Content\**\*.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\**\*.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -50,5 +45,8 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Assets\**" />
     <Content Include="$(MSBuildThisFileDirectory)Strings\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Content\NestedSamples\" />
   </ItemGroup>
 </Project>
