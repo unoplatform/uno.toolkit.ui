@@ -53,16 +53,24 @@ jobs:
 - job: Android
   cancelTimeoutInMinutes: 0
 
+  strategy:
+    matrix:
+      Material:
+        SAMPLE_DIR: Uno.Toolkit.Samples.Material
+        SAMPLE_CSPROJ: MaterialSampleApp
+        ARTIFACT_SUFFIX: material
+      Cupertino:
+        SAMPLE_DIR: Uno.Toolkit.Samples.Cupertino
+        SAMPLE_CSPROJ: CupertinoSampleApp
+        ARTIFACT_SUFFIX: cupertino
+
   variables:
-    - name: ArtifactName
-      value: android-winui
     - name: ApplicationBuildNumberOffset
       value: 50
     - name: VersionCodeOffset
       value: 1
     - name: GeneratePackageOnBuild
-      value: false  
-    - group: 'UnoPlatform KeyStore'
+      value: false
 
   pool:
     vmImage: windows-2022
@@ -75,31 +83,17 @@ jobs:
   - template: templates/gitversion.yml
   - template: templates/set-app-versions.yml
 
-  - task: DownloadSecureFile@1
-    name: keyStore
-    displayName: "Download keystore from secure files"
-    inputs:
-      secureFile: unoplatform.jks
-
   - script: |
-      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material
+      cd $(build.sourcesdirectory)/samples/$(SAMPLE_DIR)
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet publish -f net10.0-android -p:TargetFrameworkOverride=android -c Release /t:SignAndroidPackage "/p:InformationalVersion=%NBGV_InformationalVersion%" /p:AndroidSigningKeyStore=$(keyStore.secureFilePath) /p:AndroidSigningStorePass=$(AndroidSigningStorePass) /p:AndroidSigningKeyPass=$(AndroidSigningKeyPass) /p:AndroidSigningKeyAlias=$(AndroidSigningKeyAlias) /p:AndroidKeyStore=true  /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
-    displayName: Build project for Release - (net10.0-android)
-    condition: eq(variables['System.PullRequest.IsFork'],'False')
-
-  - script: |
-      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material
-      echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -f net10.0-android -p:TargetFrameworkOverride=android -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" /p:AndroidKeyStore=false /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
-    displayName: Build project for Release - (net10.0-android)
-    condition: eq(variables['System.PullRequest.IsFork'],'True')
+      dotnet build -f net10.0-android -p:TargetFrameworkOverride=android -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" /bl:$(build.artifactstagingdirectory)/build-android-$(ARTIFACT_SUFFIX).binlog
+    displayName: Build $(SAMPLE_DIR) for Release - (net10.0-android)
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net10.0-android
-      Contents:  |
+      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_DIR)/bin/Release/net10.0-android
+      Contents: |
         **/*.apk
         **/*.aab
       TargetFolder: $(build.artifactstagingdirectory)
@@ -111,5 +105,5 @@ jobs:
     condition: always()
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: $(ArtifactName)
+      ArtifactName: android-$(ARTIFACT_SUFFIX)
       ArtifactType: Container

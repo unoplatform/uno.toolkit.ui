@@ -2,6 +2,17 @@ jobs:
 - job: WinAppSDK
   cancelTimeoutInMinutes: 0
 
+  strategy:
+    matrix:
+      Material:
+        SAMPLE_DIR: Uno.Toolkit.Samples.Material
+        SAMPLE_CSPROJ: MaterialSampleApp
+        ARTIFACT_SUFFIX: material
+      Cupertino:
+        SAMPLE_DIR: Uno.Toolkit.Samples.Cupertino
+        SAMPLE_CSPROJ: CupertinoSampleApp
+        ARTIFACT_SUFFIX: cupertino
+
   pool:
     vmImage: windows-2022
 
@@ -26,11 +37,11 @@ jobs:
 
   - task: MSBuild@1
     inputs:
-      solution: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj
+      solution: $(build.sourcesdirectory)/samples/$(SAMPLE_DIR)/$(SAMPLE_CSPROJ).csproj
       msbuildLocationMethod: version
       msbuildVersion: latest
       msbuildArchitecture: x64
-      msbuildArguments: /t:Publish /m /v:m /p:TargetFramework=net10.0-windows10.0.26100 /p:TargetFrameworkOverride=windows /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk.binlog
+      msbuildArguments: /t:Publish /m /v:m /p:TargetFramework=net10.0-windows10.0.26100 /p:TargetFrameworkOverride=windows /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk-$(ARTIFACT_SUFFIX).binlog
       clean: false
       configuration: Release
       logProjectEvents: false
@@ -38,10 +49,9 @@ jobs:
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
-    condition: eq(variables['System.PullRequest.IsFork'],'False')
     retryCountOnTaskFailure: 3
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples.Material/bin/Release/net10.0-windows10.0.26100
+      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_DIR)/bin/Release/net10.0-windows10.0.26100
       TargetFolder: $(build.artifactstagingdirectory)/bin
       CleanTargetFolder: false
       OverWrite: false
@@ -51,4 +61,4 @@ jobs:
     retryCountOnTaskFailure: 3
     condition: always()
     inputs:
-      ArtifactName: WinAppSDK
+      ArtifactName: winappsdk-$(ARTIFACT_SUFFIX)
