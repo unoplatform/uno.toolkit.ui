@@ -7,9 +7,7 @@ jobs:
 
   variables:
     - name: TargetFrameworkOverride
-      value: net10.0-windows10.0.19041
-    - name: SamplesTargetFrameworkOverride
-      value: net10.0-windows10.0.26100
+      value: windows
     - name: PublishReadyToRun 
       value: true
 
@@ -32,7 +30,7 @@ jobs:
       msbuildLocationMethod: version
       msbuildVersion: latest
       msbuildArchitecture: x64
-      msbuildArguments: /t:Publish /m /v:m /p:TargetFramework=net10.0-windows10.0.26100 /p:SamplesTargetFrameworkOverride=net10.0-windows10.0.26100 /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk.binlog
+      msbuildArguments: /t:Publish /m /v:m /p:TargetFramework=net10.0-windows10.0.26100 /p:TargetFrameworkOverride=windows /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk.binlog
       clean: false
       configuration: Release
       logProjectEvents: false
