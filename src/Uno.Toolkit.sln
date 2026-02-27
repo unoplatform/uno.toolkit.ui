@@ -44,6 +44,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5D8F2DC4
 		..\build\workflow\stage-build.yml = ..\build\workflow\stage-build.yml
 		..\build\workflow\stage-build-desktop-runtime-tests.yml = ..\build\workflow\stage-build-desktop-runtime-tests.yml
 		..\build\workflow\stage-build-wasm-runtime-tests.yml = ..\build\workflow\stage-build-wasm-runtime-tests.yml
+		..\build\workflow\stage-build-ios.yml = ..\build\workflow\stage-build-ios.yml
+		..\build\workflow\stage-build-android.yml = ..\build\workflow\stage-build-android.yml
 		..\build\workflow\stage-runtime-tests.yml = ..\build\workflow\stage-runtime-tests.yml
 	EndProjectSection
 EndProject
