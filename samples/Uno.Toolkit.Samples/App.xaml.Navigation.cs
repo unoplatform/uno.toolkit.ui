@@ -78,42 +78,6 @@ partial class App
 		return _shell;
 	}
 
-#if USE_UITESTS
-	private void ForceSampleNavigation(string sampleName)
-	{
-		var backdoorParts = sampleName.Split("-");
-		var title = backdoorParts.FirstOrDefault();
-		var designName = backdoorParts.Length > 1 ? backdoorParts[1] : string.Empty;
-
-		var sample = GetSamples()
-			.FirstOrDefault(x => string.Equals(x.Title, title, StringComparison.OrdinalIgnoreCase));
-
-		if (Enum.TryParse<Design>(designName, out var design))
-		{
-			SamplePageLayout.SetPreferredDesign(design);
-		}
-
-		if (sample == null)
-		{
-			typeof(App).Log().LogWarning($"No SampleAttribute found with a Title that matches: {sampleName}");
-			return;
-		}
-
-		var page = (Page)Activator.CreateInstance(sample.ViewType);
-		page.DataContext = sample;
-
-		_shell.NavigationView.Content = page;
-	}
-
-	private void NavigateToNestedSampleCore(string sampleName)
-	{
-		if (GetNestedSamples().TryGetValue(sampleName, out var pageType))
-		{
-			_shell.ShowNestedSample(pageType, clearStack: true);
-		}
-	}
-#endif
-
 	private void OnNavigationItemInvoked(MUXC.NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs e)
 	{
 		if (e.InvokedItemContainer.DataContext is Sample sample)

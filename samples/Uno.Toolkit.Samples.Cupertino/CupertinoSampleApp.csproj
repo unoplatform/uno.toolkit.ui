@@ -41,11 +41,6 @@
 		<RunAOTCompilation>false</RunAOTCompilation>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
-		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
-		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
 		<!-- Override SDK-managed versions to match the library SDK (Uno.Sdk 6.6.0-dev.15) ecosystem packages -->

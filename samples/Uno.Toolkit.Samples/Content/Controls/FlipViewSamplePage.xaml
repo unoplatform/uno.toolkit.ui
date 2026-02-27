@@ -25,7 +25,7 @@
 
 					<TextBlock Text="Try to navigate the FlipView Items using the buttons inside it. " />
 
-					<!--  This is to help the UITests  -->
+					<!--  Hidden TextBlock to display FlipView item count programmatically  -->
 					<TextBlock x:Name="flipViewItems" Visibility="Collapsed" />
 
 					<FlipView x:Name="flipView"
