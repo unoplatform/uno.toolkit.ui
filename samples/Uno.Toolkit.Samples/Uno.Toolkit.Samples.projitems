@@ -32,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\HierarchyHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RuntimeTesting\RuntimeTestModeDetector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

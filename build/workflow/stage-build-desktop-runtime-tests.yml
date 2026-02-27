@@ -1,0 +1,41 @@
+jobs:
+  - job: Build_Desktop_RuntimeTests
+    displayName: Build Desktop Runtime Tests App
+    pool:
+      vmImage: ubuntu-latest
+
+    variables:
+      NUGET_PACKAGES: $(build.sourcesdirectory)/.nuget
+
+    steps:
+      - checkout: self
+        clean: true
+
+      - template: templates/dotnet-workload-install-linux.yml
+        parameters:
+          UnoCheckParameters: '--tfm net10.0-desktop'
+
+      - template: templates/canary-updater.yml
+
+      - bash: |
+          dotnet publish -c Release -f net10.0-desktop \
+            samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj \
+            -bl:$(build.artifactstagingdirectory)/binlogs/build-desktop-runtime-tests.binlog \
+            -o $(build.artifactstagingdirectory)/desktop-runtime-tests \
+            -p:GeneratePackageOnBuild=false
+        displayName: Publish Desktop Runtime Tests App
+
+      - task: PublishBuildArtifacts@1
+        retryCountOnTaskFailure: 3
+        condition: always()
+        displayName: Publish binlogs
+        inputs:
+          PathtoPublish: $(build.artifactstagingdirectory)/binlogs
+          ArtifactName: binlogs-desktop-runtime-tests
+          ArtifactType: Container
+
+      - task: PublishPipelineArtifact@1
+        retryCountOnTaskFailure: 3
+        inputs:
+          targetPath: $(build.artifactstagingdirectory)/desktop-runtime-tests
+          artifactName: desktop-runtime-tests

@@ -1,4 +1,5 @@
 using System.Globalization;
+using Uno.Toolkit.Samples.RuntimeTesting;
 
 #if __IOS__
 using Foundation;
@@ -29,6 +30,11 @@ public partial class App : Application
 			MainWindow.UseStudio();
 #endif
 
+			if (TryStartRuntimeTests(e))
+			{
+				return;
+			}
+
 			if (MainWindow.Content is null)
 			{
 				var loadable = new ManualLoadable { IsExecuting = true };
@@ -47,6 +53,22 @@ public partial class App : Application
 			}
 
 		}
+
+	private bool TryStartRuntimeTests(LaunchActivatedEventArgs args)
+	{
+		var isRuntimeTestMode = RuntimeTestModeDetector.IsRuntimeTestMode(
+			args?.Arguments,
+			Environment.GetCommandLineArgs());
+
+		if (!isRuntimeTestMode)
+		{
+			return false;
+		}
+
+		MainWindow.Content = new RuntimeTestRunner();
+		MainWindow.Activate();
+		return true;
+	}
 
 		private class ManualLoadable : ILoadable
 		{

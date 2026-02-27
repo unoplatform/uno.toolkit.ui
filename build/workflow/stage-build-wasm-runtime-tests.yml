@@ -1,0 +1,41 @@
+jobs:
+  - job: Build_Wasm_RuntimeTests
+    displayName: Build Wasm Runtime Tests App
+    pool:
+      vmImage: ubuntu-latest
+
+    variables:
+      NUGET_PACKAGES: $(build.sourcesdirectory)/.nuget
+
+    steps:
+      - checkout: self
+        clean: true
+
+      - template: templates/dotnet-workload-install-linux.yml
+        parameters:
+          UnoCheckParameters: '--tfm net10.0-browserwasm'
+
+      - template: templates/canary-updater.yml
+
+      - bash: |
+          dotnet publish -c Release -f net10.0-browserwasm \
+            samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj \
+            -bl:$(build.artifactstagingdirectory)/binlogs/build-wasm-runtime-tests.binlog \
+            -o $(build.artifactstagingdirectory)/wasm-runtime-tests \
+            -p:GeneratePackageOnBuild=false
+        displayName: Publish Wasm Runtime Tests App
+
+      - task: PublishBuildArtifacts@1
+        retryCountOnTaskFailure: 3
+        condition: always()
+        displayName: Publish binlogs
+        inputs:
+          PathtoPublish: $(build.artifactstagingdirectory)/binlogs
+          ArtifactName: binlogs-wasm-runtime-tests
+          ArtifactType: Container
+
+      - task: PublishPipelineArtifact@1
+        retryCountOnTaskFailure: 3
+        inputs:
+          targetPath: $(build.artifactstagingdirectory)/wasm-runtime-tests/wwwroot
+          artifactName: wasm-runtime-tests
