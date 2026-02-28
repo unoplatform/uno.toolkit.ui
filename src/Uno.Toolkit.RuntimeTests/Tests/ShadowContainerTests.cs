@@ -31,6 +31,7 @@ using Windows.UI.ViewManagement;
 using FluentAssertions;
 using SkiaSharp;
 using SkiaSharp.Views.Windows;
+using Uno.WinUI.Graphics2DSK;
 using System.Drawing;
 using Windows.Globalization.DateTimeFormatting;
 using Windows.Devices.Haptics;
@@ -99,14 +100,19 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			var shadowContainerChildGrid = (Grid)shadowContainer.GetChildren().First();
 			var canvas = (Canvas)shadowContainerChildGrid.GetChildren().First();
-			var skXamlCanvas = (SKXamlCanvas)canvas.GetChildren().First();
+			var skiaCanvasElement = (FrameworkElement)canvas.GetChildren().First();
+			Assert.IsTrue(
+				SKCanvasElement.IsSupportedOnCurrentPlatform()
+					? skiaCanvasElement is SKCanvasElement
+					: skiaCanvasElement is SKXamlCanvas
+			);
 
 			var lastActualHeight = double.NaN;
 			shadowContainer.SurfacePaintCompleted += (a, b) =>
 			{
-				if (double.IsNaN(lastActualHeight) || skXamlCanvas.ActualHeight > lastActualHeight)
+				if (double.IsNaN(lastActualHeight) || skiaCanvasElement.ActualHeight > lastActualHeight)
 				{
-					lastActualHeight = skXamlCanvas.ActualHeight;
+					lastActualHeight = skiaCanvasElement.ActualHeight;
 				}
 			};
 
@@ -187,14 +193,19 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			//Validate current structure.
 			var grid = shadowContainer.GetChildren().First() as Grid;
 			var canvas = grid?.GetChildren().First() as Canvas;
-			var skXamlCanvas = canvas?.GetChildren().First() as SKXamlCanvas;
+			var skiaCanvasElement = canvas?.GetChildren().First() as FrameworkElement;
+			Assert.IsTrue(
+				SKCanvasElement.IsSupportedOnCurrentPlatform()
+					? skiaCanvasElement is SKCanvasElement
+					: skiaCanvasElement is SKXamlCanvas
+			);
 			var contentPresenter = grid?.GetChildren().Skip(1).First() as ContentPresenter;
 			var border = contentPresenter?.GetChildren().First() as Border;
 
 			//Validate element measurements
-			Assert.AreEqual(grid?.ActualWidth, canvas?.ActualWidth);
-			Assert.AreEqual(canvas?.ActualWidth, border?.ActualWidth);
-			Assert.AreEqual(skXamlCanvas?.ActualWidth, border?.ActualWidth + canvasMargin);
+			Assert.AreEqual(grid?.ActualWidth, canvas?.ActualWidth * 2);
+			Assert.AreEqual(canvas?.ActualWidth, border?.ActualWidth / 2);
+			Assert.AreEqual(skiaCanvasElement?.ActualWidth, border?.ActualWidth + canvasMargin);
 
 			//Validate point colors
 			var renderer = await stackPanel.TakeScreenshot();
