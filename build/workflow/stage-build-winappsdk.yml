@@ -25,22 +25,11 @@ jobs:
   - template: templates/gitversion.yml
   - template: templates/set-app-versions.yml
 
-  # - task: NuGetCommand@2
-  #   displayName: 'NuGet restore'
-  #   inputs:
-  #     command: 'restore'
-  #     restoreSolution: $(build.sourcesdirectory)/src/Uno.Toolkit.sln
-  #     feedsToUse: 'config'
-  #     noCache: true
-
-  - task: MSBuild@1
+  - task: VSBuild@1
     inputs:
       solution: $(build.sourcesdirectory)/samples/$(SAMPLE_DIR)/$(SAMPLE_CSPROJ).csproj
-      msbuildLocationMethod: version
-      msbuildVersion: latest
       msbuildArchitecture: x64
-      msbuildArguments: /t:Publish /m /v:m /p:TargetFramework=net10.0-windows10.0.26100 /p:TargetFrameworkOverride=windows /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk-$(ARTIFACT_SUFFIX).binlog
-      clean: false
+      msbuildArgs: /t:Publish /m /v:m /p:TargetFramework=net10.0-windows10.0.26100 /p:TargetFrameworkOverride=windows /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /detailedsummary /bl:$(build.artifactstagingdirectory)/build-winappsdk-$(ARTIFACT_SUFFIX).binlog
       configuration: Release
       logProjectEvents: false
       createLogFile: false
