@@ -66,21 +66,14 @@ stages:
   # Don't trigger this stage if only docs files are changed
   condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
   jobs:
-  - template: stage-build-winappsdk.yml
+  - template: stage-build-desktop.yml
+  - template: stage-build-wasm.yml
   - template: stage-build-ios.yml
   - template: stage-build-android.yml
 
-- stage: RuntimeTest_Builds
-  displayName: Runtime Test Builds
-  dependsOn: Determine_Changes
-  condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
-  jobs:
-  - template: stage-build-desktop-runtime-tests.yml
-  - template: stage-build-wasm-runtime-tests.yml
-
 - stage: RuntimeTests
   displayName: Runtime Tests
-  dependsOn: RuntimeTest_Builds
+  dependsOn: Build_Samples
   condition: succeeded()
   jobs:
   - template: stage-runtime-tests.yml

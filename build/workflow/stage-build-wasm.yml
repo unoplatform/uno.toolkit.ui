@@ -1,6 +1,18 @@
 jobs:
-  - job: Build_Wasm_RuntimeTests
-    displayName: Build Wasm Runtime Tests App
+  - job: Build_Wasm
+    displayName: Build Wasm
+
+    strategy:
+      matrix:
+        Material:
+          SAMPLE_DIR: Uno.Toolkit.Samples.Material
+          SAMPLE_CSPROJ: MaterialSampleApp
+          ARTIFACT_SUFFIX: material
+        Cupertino:
+          SAMPLE_DIR: Uno.Toolkit.Samples.Cupertino
+          SAMPLE_CSPROJ: CupertinoSampleApp
+          ARTIFACT_SUFFIX: cupertino
+
     pool:
       vmImage: ubuntu-latest
 
@@ -19,12 +31,12 @@ jobs:
 
       - bash: |
           dotnet publish -c Release -f net10.0-browserwasm \
-            samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj \
-            -bl:$(build.artifactstagingdirectory)/binlogs/build-wasm-runtime-tests.binlog \
-            -o $(build.artifactstagingdirectory)/wasm-runtime-tests \
+            samples/$(SAMPLE_DIR)/$(SAMPLE_CSPROJ).csproj \
+            -bl:$(build.artifactstagingdirectory)/binlogs/build-wasm-$(ARTIFACT_SUFFIX).binlog \
+            -o $(build.artifactstagingdirectory)/wasm \
             -p:GeneratePackageOnBuild=false \
             -p:TargetFrameworkOverride=browserwasm
-        displayName: Publish Wasm Runtime Tests App
+        displayName: Publish $(SAMPLE_DIR) Wasm App
 
       - task: PublishBuildArtifacts@1
         retryCountOnTaskFailure: 3
@@ -32,11 +44,11 @@ jobs:
         displayName: Publish binlogs
         inputs:
           PathtoPublish: $(build.artifactstagingdirectory)/binlogs
-          ArtifactName: binlogs-wasm-runtime-tests
+          ArtifactName: binlogs-wasm-$(ARTIFACT_SUFFIX)
           ArtifactType: Container
 
       - task: PublishPipelineArtifact@1
         retryCountOnTaskFailure: 3
         inputs:
-          targetPath: $(build.artifactstagingdirectory)/wasm-runtime-tests/wwwroot
-          artifactName: wasm-runtime-tests
+          targetPath: $(build.artifactstagingdirectory)/wasm/wwwroot
+          artifactName: wasm-$(ARTIFACT_SUFFIX)

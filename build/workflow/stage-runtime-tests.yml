@@ -3,12 +3,22 @@ jobs:
     displayName: Desktop Runtime Tests
     timeoutInMinutes: 60
     cancelTimeoutInMinutes: 1
+
+    strategy:
+      matrix:
+        Material:
+          SAMPLE_CSPROJ: MaterialSampleApp
+          ARTIFACT_SUFFIX: material
+        Cupertino:
+          SAMPLE_CSPROJ: CupertinoSampleApp
+          ARTIFACT_SUFFIX: cupertino
+
     pool:
       vmImage: ubuntu-latest
 
     variables:
-      SamplesAppArtifactName: desktop-runtime-tests
-      SamplesAppArtifactPath: $(Build.SourcesDirectory)/build/$(SamplesAppArtifactName)
+      SamplesAppArtifactName: desktop-$(ARTIFACT_SUFFIX)
+      SamplesAppArtifactPath: $(Build.SourcesDirectory)/build/desktop-$(ARTIFACT_SUFFIX)
 
     steps:
       - checkout: self
@@ -27,14 +37,15 @@ jobs:
       - script: |
           chmod +x build/workflow/scripts/linux-skia-runtime-tests.sh
           build/workflow/scripts/linux-skia-runtime-tests.sh
-        displayName: Run desktop runtime tests
+        displayName: Run desktop runtime tests ($(ARTIFACT_SUFFIX))
         env:
           SamplesAppArtifactPath: $(SamplesAppArtifactPath)
+          SAMPLES_APP_DLL: $(SAMPLE_CSPROJ).dll
 
       - task: PublishTestResults@2
         condition: always()
         inputs:
-          testRunTitle: 'Desktop Runtime Tests'
+          testRunTitle: 'Desktop Runtime Tests ($(ARTIFACT_SUFFIX))'
           testResultsFormat: 'NUnit'
           testResultsFiles: '$(Build.SourcesDirectory)/build/desktop-runtime-tests-results.xml'
           failTaskOnFailedTests: true
@@ -44,13 +55,23 @@ jobs:
     displayName: Wasm Runtime Tests
     timeoutInMinutes: 60
     cancelTimeoutInMinutes: 1
+
+    strategy:
+      matrix:
+        Material:
+          SAMPLE_CSPROJ: MaterialSampleApp
+          ARTIFACT_SUFFIX: material
+        Cupertino:
+          SAMPLE_CSPROJ: CupertinoSampleApp
+          ARTIFACT_SUFFIX: cupertino
+
     pool:
       vmImage: ubuntu-latest
 
     variables:
-      SamplesAppArtifactName: wasm-runtime-tests
-      SamplesAppArtifactDownloadPath: $(Build.SourcesDirectory)/build/wasm-runtime-tests
-      SamplesAppArtifactPath: $(Build.SourcesDirectory)/build/wasm-runtime-tests
+      SamplesAppArtifactName: wasm-$(ARTIFACT_SUFFIX)
+      SamplesAppArtifactDownloadPath: $(Build.SourcesDirectory)/build/wasm-$(ARTIFACT_SUFFIX)
+      SamplesAppArtifactPath: $(Build.SourcesDirectory)/build/wasm-$(ARTIFACT_SUFFIX)
 
     steps:
       - checkout: self
@@ -69,14 +90,14 @@ jobs:
       - script: |
           chmod +x build/workflow/scripts/wasm-runtime-tests.sh
           build/workflow/scripts/wasm-runtime-tests.sh
-        displayName: Run wasm runtime tests
+        displayName: Run wasm runtime tests ($(ARTIFACT_SUFFIX))
         env:
           SamplesAppArtifactPath: $(SamplesAppArtifactPath)
 
       - task: PublishTestResults@2
         condition: always()
         inputs:
-          testRunTitle: 'Wasm Runtime Tests'
+          testRunTitle: 'Wasm Runtime Tests ($(ARTIFACT_SUFFIX))'
           testResultsFormat: 'NUnit'
           testResultsFiles: '$(Build.SourcesDirectory)/build/wasm-runtime-tests-results.xml'
           failTaskOnFailedTests: true
@@ -86,12 +107,12 @@ jobs:
         condition: always()
         inputs:
           targetPath: '$(Build.SourcesDirectory)/build/wasm-runtime-tests-logs'
-          artifact: 'wasm-runtime-tests-logs'
+          artifact: 'wasm-runtime-tests-logs-$(ARTIFACT_SUFFIX)'
           publishLocation: 'pipeline'
 
       - task: PublishPipelineArtifact@1
         condition: always()
         inputs:
           targetPath: '$(Build.SourcesDirectory)/build/wasm-runtime-tests-results.xml'
-          artifact: 'wasm-runtime-tests-results'
+          artifact: 'wasm-runtime-tests-results-$(ARTIFACT_SUFFIX)'
           publishLocation: 'pipeline'

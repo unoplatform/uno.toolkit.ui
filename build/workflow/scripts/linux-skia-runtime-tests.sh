@@ -8,6 +8,8 @@ export UNO_RUNTIME_TESTS_OUTPUT_PATH="$BUILD_ARTIFACT_ROOT/desktop-runtime-tests
 export UNO_RUNTIME_TESTS_RUN_TESTS='{}'
 export DOTNET_MODIFIABLE_ASSEMBLIES=debug
 
+SAMPLES_APP_DLL="${SAMPLES_APP_DLL:-MaterialSampleApp.dll}"
+
 results_path="$UNO_RUNTIME_TESTS_OUTPUT_PATH"
 
 mkdir -p "$BUILD_ARTIFACT_ROOT"
@@ -18,7 +20,7 @@ cd "$SamplesAppArtifactPath"
 sudo apt-get update -qq
 sudo apt-get install -y -qq xvfb fluxbox
 
-xvfb-run --auto-servernum --server-args='-screen 0 1280x1024x24' bash -c "{ fluxbox & } ; dotnet MaterialSampleApp.dll --runtime-tests=\"$results_path\"" || true
+xvfb-run --auto-servernum --server-args='-screen 0 1280x1024x24' bash -c "{ fluxbox & } ; dotnet $SAMPLES_APP_DLL --runtime-tests=\"$results_path\"" || true
 
 if [ ! -f "$results_path" ]; then
     echo "Runtime tests did not produce results at $results_path"

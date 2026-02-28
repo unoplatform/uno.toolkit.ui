@@ -1,6 +1,18 @@
 jobs:
-  - job: Build_Desktop_RuntimeTests
-    displayName: Build Desktop Runtime Tests App
+  - job: Build_Desktop
+    displayName: Build Desktop
+
+    strategy:
+      matrix:
+        Material:
+          SAMPLE_DIR: Uno.Toolkit.Samples.Material
+          SAMPLE_CSPROJ: MaterialSampleApp
+          ARTIFACT_SUFFIX: material
+        Cupertino:
+          SAMPLE_DIR: Uno.Toolkit.Samples.Cupertino
+          SAMPLE_CSPROJ: CupertinoSampleApp
+          ARTIFACT_SUFFIX: cupertino
+
     pool:
       vmImage: ubuntu-latest
 
@@ -19,12 +31,12 @@ jobs:
 
       - bash: |
           dotnet publish -c Release -f net10.0-desktop \
-            samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj \
-            -bl:$(build.artifactstagingdirectory)/binlogs/build-desktop-runtime-tests.binlog \
-            -o $(build.artifactstagingdirectory)/desktop-runtime-tests \
+            samples/$(SAMPLE_DIR)/$(SAMPLE_CSPROJ).csproj \
+            -bl:$(build.artifactstagingdirectory)/binlogs/build-desktop-$(ARTIFACT_SUFFIX).binlog \
+            -o $(build.artifactstagingdirectory)/desktop \
             -p:GeneratePackageOnBuild=false \
             -p:TargetFrameworkOverride=desktop
-        displayName: Publish Desktop Runtime Tests App
+        displayName: Publish $(SAMPLE_DIR) Desktop App
 
       - task: PublishBuildArtifacts@1
         retryCountOnTaskFailure: 3
@@ -32,11 +44,11 @@ jobs:
         displayName: Publish binlogs
         inputs:
           PathtoPublish: $(build.artifactstagingdirectory)/binlogs
-          ArtifactName: binlogs-desktop-runtime-tests
+          ArtifactName: binlogs-desktop-$(ARTIFACT_SUFFIX)
           ArtifactType: Container
 
       - task: PublishPipelineArtifact@1
         retryCountOnTaskFailure: 3
         inputs:
-          targetPath: $(build.artifactstagingdirectory)/desktop-runtime-tests
-          artifactName: desktop-runtime-tests
+          targetPath: $(build.artifactstagingdirectory)/desktop
+          artifactName: desktop-$(ARTIFACT_SUFFIX)
