@@ -22,7 +22,8 @@ jobs:
             samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj \
             -bl:$(build.artifactstagingdirectory)/binlogs/build-wasm-runtime-tests.binlog \
             -o $(build.artifactstagingdirectory)/wasm-runtime-tests \
-            -p:GeneratePackageOnBuild=false
+            -p:GeneratePackageOnBuild=false \
+            -p:TargetFrameworkOverride=browserwasm
         displayName: Publish Wasm Runtime Tests App
 
       - task: PublishBuildArtifacts@1

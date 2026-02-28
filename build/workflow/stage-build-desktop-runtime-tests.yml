@@ -22,7 +22,8 @@ jobs:
             samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj \
             -bl:$(build.artifactstagingdirectory)/binlogs/build-desktop-runtime-tests.binlog \
             -o $(build.artifactstagingdirectory)/desktop-runtime-tests \
-            -p:GeneratePackageOnBuild=false
+            -p:GeneratePackageOnBuild=false \
+            -p:TargetFrameworkOverride=desktop
         displayName: Publish Desktop Runtime Tests App
 
       - task: PublishBuildArtifacts@1
