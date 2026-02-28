@@ -14,7 +14,7 @@ jobs:
         ARTIFACT_SUFFIX: cupertino
 
   pool:
-    vmImage: windows-2022
+    vmImage: windows-latest
 
   variables:
     - name: PublishReadyToRun 
