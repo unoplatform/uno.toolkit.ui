@@ -63,11 +63,7 @@ partial class App
 		AddNavigationItems(nv);
 
 		// landing navigation
-#if THEME_CUPERTINO
-		ShellNavigateTo<TabBarSamplePage>(
-#else
-		ShellNavigateTo<NavigationBarSamplePage>(
-#endif
+		ShellNavigateTo<Content.OverviewPage>(
 			// workaround for uno#5069: setting NavView.SelectedItem at launch bricks it
 			trySynchronizeCurrentItem: false
 		);

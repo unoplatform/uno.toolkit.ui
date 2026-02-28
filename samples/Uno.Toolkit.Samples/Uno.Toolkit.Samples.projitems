@@ -449,6 +449,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\NestedSamples\TabBarItemExtensions_NestedPage2.xaml.cs">
       <DependentUpon>TabBarItemExtensions_NestedPage2.xaml</DependentUpon>
     </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)Content\OverviewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="$(MSBuildThisFileDirectory)Content\OverviewPage.xaml.cs">
+      <DependentUpon>OverviewPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="$(MSBuildThisFileDirectory)Content\RuntimeTestRunner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

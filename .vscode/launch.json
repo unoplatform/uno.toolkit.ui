@@ -16,7 +16,7 @@
     }
   ],
   "configurations": [
-    {
+    { 
       "name": "Uno Platform Mobile Debug",
       "type": "Uno",
       "request": "launch",
@@ -24,17 +24,14 @@
       "preLaunchTask": "Uno: android | Debug | android-x64"
     },
     {
-      // Use IntelliSense to find out which attributes exist for C# debugging
-      // Use hover for the description of the existing attributes
-      // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-      "name": "Uno Platform WebAssembly Debug (Chrome)",
+      "name": "WASM Debug (Chrome)",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:5000",
       "webRoot": "${workspaceFolder}/samples/Uno.Toolkit.Samples.${input:sampleApp}",
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
       "timeout": 30000,
-      "preLaunchTask": "build-wasm",
+      "preLaunchTask": "build-wasm-${input:sampleApp}",
       "server": {
         "runtimeExecutable": "dotnet",
         "program": "run",
@@ -45,17 +42,14 @@
       }
     },
     {
-      // Use IntelliSense to find out which attributes exist for C# debugging
-      // Use hover for the description of the existing attributes
-      // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-      "name": "Uno Platform WebAssembly Debug (Edge)",
+      "name": "WASM Debug (Edge)",
       "type": "msedge",
       "request": "launch",
       "url": "http://localhost:5000",
       "webRoot": "${workspaceFolder}/samples/Uno.Toolkit.Samples.${input:sampleApp}",
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
       "timeout": 30000,
-      "preLaunchTask": "build-wasm",
+      "preLaunchTask": "build-wasm-${input:sampleApp}",
       "server": {
         "runtimeExecutable": "dotnet",
         "program": "run",
@@ -66,21 +60,16 @@
       }
     },
     {
-      // Use IntelliSense to find out which attributes exist for C# debugging
-      // Use hover for the description of the existing attributes
-      // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-      "name": "Uno Platform Desktop Debug",
+      "name": "Desktop Debug",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build-desktop",
-      // If you have changed target frameworks, make sure to update the program path.
+      "preLaunchTask": "build-desktop-${input:sampleApp}",
       "program": "${workspaceFolder}/samples/Uno.Toolkit.Samples.${input:sampleApp}/bin/Debug/net10.0-desktop/${input:sampleApp}SampleApp.dll",
       "args": [],
       "env": {
         "DOTNET_MODIFIABLE_ASSEMBLIES": "debug"
       },
       "cwd": "${workspaceFolder}/samples/Uno.Toolkit.Samples.${input:sampleApp}",
-      // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
       "console": "internalConsole",
       "stopAtEntry": false
     },
