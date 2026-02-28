@@ -25,13 +25,13 @@ jobs:
   - template: templates/gitversion.yml
   - template: templates/set-app-versions.yml
 
-  - task: NuGetCommand@2
-    displayName: 'NuGet restore'
-    inputs:
-      command: 'restore'
-      restoreSolution: $(build.sourcesdirectory)/src/Uno.Toolkit.sln
-      feedsToUse: 'config'
-      noCache: true
+  # - task: NuGetCommand@2
+  #   displayName: 'NuGet restore'
+  #   inputs:
+  #     command: 'restore'
+  #     restoreSolution: $(build.sourcesdirectory)/src/Uno.Toolkit.sln
+  #     feedsToUse: 'config'
+  #     noCache: true
 
   - task: MSBuild@1
     inputs:
