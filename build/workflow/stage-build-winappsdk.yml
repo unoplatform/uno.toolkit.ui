@@ -32,8 +32,8 @@ jobs:
       version: '10.0.102'
   
   - script: |
-    cd $(build.sourcesdirectory)/samples/$(SAMPLE_DIR)
-    dotnet publish -c Release -f net10.0-windows10.0.26100 -p:TargetFrameworkOverride=windows /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:PublishUnsignedPackage=true /bl:$(build.artifactstagingdirectory)/build-winappsdk-$(ARTIFACT_SUFFIX).binlog
+      cd $(build.sourcesdirectory)/samples/$(SAMPLE_DIR)
+      dotnet publish -c Release -f net10.0-windows10.0.26100 -p:TargetFrameworkOverride=windows -p:Platform=x64 -p:RuntimeIdentifier=win-x64 -p:PublishUnsignedPackage=true -bl:$(build.artifactstagingdirectory)/build-winappsdk-$(ARTIFACT_SUFFIX).binlog
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
