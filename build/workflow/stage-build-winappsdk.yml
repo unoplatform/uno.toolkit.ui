@@ -17,8 +17,6 @@ jobs:
     vmImage: windows-2022
 
   variables:
-    - name: TargetFrameworkOverride
-      value: windows
     - name: PublishReadyToRun 
       value: true
 
