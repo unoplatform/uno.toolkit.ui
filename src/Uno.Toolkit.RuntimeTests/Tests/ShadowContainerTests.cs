@@ -460,7 +460,12 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			// Wait for the initial paint cycle to complete
 			var completed = await Task.WhenAny(paintTcs.Task, Task.Delay(5000));
 			Assert.AreEqual(paintTcs.Task, completed, "Initial SurfacePaintCompleted was not raised");
-			createdNewCanvas.Should().BeTrue();
+
+			// On SKXamlCanvas, CreatedNewCanvas is true; on SKCanvasElement it's always false.
+			if (!SKCanvasElement.IsSupportedOnCurrentPlatform())
+			{
+				createdNewCanvas.Should().BeTrue();
+			}
 			createdNewCanvas = false;
 
 			// Changing the height of the children content of the shadow. 
@@ -472,19 +477,23 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			// Wait for the resize paint cycle to complete
 			completed = await Task.WhenAny(paintTcs.Task, Task.Delay(5000));
 			Assert.AreEqual(paintTcs.Task, completed, "Resize SurfacePaintCompleted was not raised");
-			createdNewCanvas.Should().BeTrue();
+
+			// On SKXamlCanvas, CreatedNewCanvas is true; on SKCanvasElement it's always false.
+			if (!SKCanvasElement.IsSupportedOnCurrentPlatform())
+			{
+				createdNewCanvas.Should().BeTrue();
+			}
 
 			shadowContainer.SurfacePaintCompleted -= SurfacePaintCompleted;
 
 			void SurfacePaintCompleted(object? sender, ShadowContainer.SurfacePaintCompletedEventArgs args)
 			{
-				// OnSurfacePainted can fire twice per cycle (once from cache path with false,
-				// then with true). Only signal completion when a new canvas is actually created.
-				if (args.CreatedNewCanvas)
+				// OnSurfacePainted can be called several times, we must make sure that the canvas is regenerated at least once.
+				if (createdNewCanvas == false)
 				{
-					createdNewCanvas = true;
-					paintTcs.TrySetResult(true);
+					createdNewCanvas = args.CreatedNewCanvas;
 				}
+				paintTcs.TrySetResult(true);
 			}
 		}
 	}
