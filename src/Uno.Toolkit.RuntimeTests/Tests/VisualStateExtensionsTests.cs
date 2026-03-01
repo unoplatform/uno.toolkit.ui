@@ -128,7 +128,7 @@ internal class VisualStateExtensionsTests
 		group.States.Add(greenState);
 		group.States.Add(blueState);
 
-		VisualStateManager.GetVisualStateGroups(grid).Add(group);
+		VisualStateManager.SetVisualStateGroups(grid, new List<VisualStateGroup> { group }	);
 
 		var userControl = new UserControl { Content = grid };
 
