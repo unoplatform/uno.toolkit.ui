@@ -19,7 +19,7 @@ logs_dir="${build_root}/wasm-runtime-tests-logs"
 runner_log_path="${logs_dir}/wasm-runtime-tests-runner.log"
 tool_path="${build_root}/.dotnet-tools"
 playwright_root="${build_root}/playwright-browsers"
-runner_version="${UNO_WASM_RUNTIME_TESTS_RUNNER_VERSION:-2.0.0-dev.33}"
+runner_version="${UNO_WASM_RUNTIME_TESTS_RUNNER_VERSION:-2.0.0-dev.42}"
 
 mkdir -p "${build_root}" "${tool_path}" "${playwright_root}" "${logs_dir}"
 
