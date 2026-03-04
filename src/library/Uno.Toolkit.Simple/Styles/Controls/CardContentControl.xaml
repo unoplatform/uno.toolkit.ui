@@ -1,0 +1,112 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:utu="using:Uno.Toolkit.UI">
+
+	<ResourceDictionary.ThemeDictionaries>
+
+		<!--  ─── Light Theme ───  -->
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+		</ResourceDictionary>
+
+		<!--  ─── Dark Theme (Default) ───  -->
+		<ResourceDictionary x:Key="Default">
+			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<Style x:Key="SimpleBaseCardContentControlStyle" TargetType="utu:CardContentControl">
+		<Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
+		<Setter Property="Background" Value="{ThemeResource SimpleCardContentBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource SimpleTextDefaultDefaultBrush}" />
+		<Setter Property="FontFamily" Value="{StaticResource SimpleFontFamily}" />
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="HorizontalAlignment" Value="Center" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:CardContentControl">
+					<Grid
+						x:Name="GridRoot"
+						MinWidth="{TemplateBinding MinWidth}"
+						MinHeight="{TemplateBinding MinHeight}"
+						MaxWidth="{TemplateBinding MaxWidth}"
+						MaxHeight="{TemplateBinding MaxHeight}"
+						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						VerticalAlignment="{TemplateBinding VerticalAlignment}"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+						<ContentPresenter
+							x:Name="ContentPresenter"
+							Padding="{TemplateBinding Padding}"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							AutomationProperties.AccessibilityView="Raw"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardContentBackgroundPointerOver}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardContentBackgroundPointerOver}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardContentBackgroundDisabled}" />
+										<Setter Target="GridRoot.Opacity" Value="0.38" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Focused" />
+								<VisualState x:Name="PointerFocused" />
+								<VisualState x:Name="Unfocused" />
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="SimpleFilledCardContentControlStyle"
+		BasedOn="{StaticResource SimpleBaseCardContentControlStyle}"
+		TargetType="utu:CardContentControl">
+		<Setter Property="BorderThickness" Value="0" />
+	</Style>
+
+	<Style
+		x:Key="SimpleOutlinedCardContentControlStyle"
+		BasedOn="{StaticResource SimpleBaseCardContentControlStyle}"
+		TargetType="utu:CardContentControl">
+		<Setter Property="BorderBrush" Value="{ThemeResource SimpleCardContentBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{StaticResource CardBorderThickness}" />
+	</Style>
+
+	<Style
+		x:Key="SimpleElevatedCardContentControlStyle"
+		BasedOn="{StaticResource SimpleOutlinedCardContentControlStyle}"
+		TargetType="utu:CardContentControl" />
+
+</ResourceDictionary>

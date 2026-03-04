@@ -963,5 +963,114 @@
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.CupertinoTemplate>
+
+		<sample:SamplePageLayout.DesignAgnosticTemplate>
+			<DataTemplate>
+				<ScrollViewer>
+					<StackPanel Padding="0,20"
+								Spacing="20">
+
+						<!-- Top TabBar Style -->
+						<TextBlock Text="Standard TabBar"
+								   FontSize="20"
+								   FontWeight="SemiBold" />
+
+						<ContentControl Template="{StaticResource TabBarSampleTemplate}">
+							<utu:TabBar SelectedIndex="1"
+										Style="{StaticResource TopTabBarStyle}">
+								<utu:TabBar.Items>
+									<utu:TabBarItem Content="HOME">
+										<utu:TabBarItem.Icon>
+											<SymbolIcon Symbol="Home" />
+										</utu:TabBarItem.Icon>
+									</utu:TabBarItem>
+									<utu:TabBarItem Content="SUPPORT">
+										<utu:TabBarItem.Icon>
+											<FontIcon Glyph="&#xE8F2;" />
+										</utu:TabBarItem.Icon>
+									</utu:TabBarItem>
+									<utu:TabBarItem Content="ABOUT">
+										<utu:TabBarItem.Icon>
+											<FontIcon Glyph="&#xE946;" />
+										</utu:TabBarItem.Icon>
+									</utu:TabBarItem>
+								</utu:TabBar.Items>
+							</utu:TabBar>
+						</ContentControl>
+
+						<!-- Text-only items -->
+						<TextBlock Text="Text-only items"
+								   FontSize="14"
+								   Opacity="0.6" />
+						<ContentControl Template="{StaticResource TabBarSampleTemplate}">
+							<utu:TabBar SelectedIndex="2"
+										Style="{StaticResource TopTabBarStyle}">
+								<utu:TabBar.Items>
+									<utu:TabBarItem Content="Tab with Icon"
+													Icon="Accept" />
+									<utu:TabBarItem Icon="Accept" />
+									<utu:TabBarItem Content="Content only" />
+								</utu:TabBar.Items>
+							</utu:TabBar>
+						</ContentControl>
+
+						<!-- Using ItemsSource -->
+						<TextBlock Text="Using ItemsSource"
+								   FontSize="14"
+								   Opacity="0.6" />
+						<ContentControl Template="{StaticResource TabBarSampleTemplate}">
+							<utu:TabBar SelectedIndex="3"
+										ItemsSource="{Binding Data.Items}"
+										Style="{StaticResource TopTabBarStyle}" />
+						</ContentControl>
+
+						<!-- With Disabled item -->
+						<TextBlock Text="With disabled item"
+								   FontSize="14"
+								   Opacity="0.6" />
+						<ContentControl Template="{StaticResource TabBarSampleTemplate}">
+							<utu:TabBar Style="{StaticResource TopTabBarStyle}"
+										ItemsSource="{Binding Data.MenuItems}">
+								<utu:TabBar.ItemTemplate>
+									<DataTemplate>
+										<utu:TabBarItem Content="{Binding Name}"
+														IsEnabled="{Binding IsSelectable}" />
+									</DataTemplate>
+								</utu:TabBar.ItemTemplate>
+							</utu:TabBar>
+						</ContentControl>
+
+						<!-- Colored Top TabBar -->
+						<TextBlock Text="Colored TabBar"
+								   FontSize="20"
+								   FontWeight="SemiBold"
+								   Margin="0,12,0,0" />
+
+						<ContentControl Template="{StaticResource TabBarSampleTemplate}">
+							<utu:TabBar SelectedIndex="1"
+										Style="{StaticResource ColoredTopTabBarStyle}">
+								<utu:TabBar.Items>
+									<utu:TabBarItem Content="HOME">
+										<utu:TabBarItem.Icon>
+											<SymbolIcon Symbol="Home" />
+										</utu:TabBarItem.Icon>
+									</utu:TabBarItem>
+									<utu:TabBarItem Content="SUPPORT">
+										<utu:TabBarItem.Icon>
+											<FontIcon Glyph="&#xE8F2;" />
+										</utu:TabBarItem.Icon>
+									</utu:TabBarItem>
+									<utu:TabBarItem Content="ABOUT">
+										<utu:TabBarItem.Icon>
+											<FontIcon Glyph="&#xE946;" />
+										</utu:TabBarItem.Icon>
+									</utu:TabBarItem>
+								</utu:TabBar.Items>
+							</utu:TabBar>
+						</ContentControl>
+					</StackPanel>
+				</ScrollViewer>
+			</DataTemplate>
+		</sample:SamplePageLayout.DesignAgnosticTemplate>
 	</sample:SamplePageLayout>
 </Page>

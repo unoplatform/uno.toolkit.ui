@@ -27,18 +27,11 @@ namespace Uno.Toolkit.Samples
 		private static Design _design =
 #if THEME_CUPERTINO
 			Design.Cupertino;
+#elif THEME_SIMPLE
+			Design.Agnostic;
 #else
 			Design.Material;
 #endif
-
-		/// <summary>
-		/// Gets or sets the active design for the sample app. Set this once at app startup.
-		/// </summary>
-		public static Design ActiveDesign
-		{
-			get => _design;
-			set => _design = value;
-		}
 
 		private IReadOnlyCollection<LayoutModeMapping> LayoutModeMappings => new List<LayoutModeMapping>
 		{
@@ -74,7 +67,11 @@ namespace Uno.Toolkit.Samples
 					Title = sample.Title;
 					Description = sample.Description;
 					DocumentationLink = sample.DocumentationLink;
+#if THEME_SIMPLE
+					Source = SourceSdk.UnoSimple;
+#else
 					Source = sample.Source;
+#endif
 				}
 			}
 		}
@@ -117,6 +114,9 @@ namespace Uno.Toolkit.Samples
 			BindOnClick(_stickyCupertinoRadioButton);
 			BindOnClick(_stickyFluentRadioButton);
 
+#if THEME_SIMPLE
+			ApplySimpleThemeOverrides();
+#endif
 			UpdateLayoutRadioButtons();
 			UpdateSampleDataContext();
 
@@ -143,6 +143,15 @@ namespace Uno.Toolkit.Samples
 		}
 
 		/// <summary>
+		/// Gets or sets the active design for the sample app. Set this once at app startup.
+		/// </summary>
+		public static Design ActiveDesign
+		{
+			get => _design;
+			set => _design = value;
+		}
+
+		/// <summary>
 		/// Changes the preferred design.
 		/// This doesn't change the current UI. It only affects the next created sample.
 		/// </summary>
@@ -152,6 +161,28 @@ namespace Uno.Toolkit.Samples
 			_design = design;
 		}
 
+
+#if THEME_SIMPLE
+		private void ApplySimpleThemeOverrides()
+		{
+			// For pages with Material/Cupertino templates, remap to design-agnostic
+			// so no "Material"/"Cupertino" tabs or M2/M3 dropdowns appear
+			if (!IsDesignAgnostic && DesignAgnosticTemplate == null)
+			{
+				DesignAgnosticTemplate = M3MaterialTemplate ?? MaterialTemplate ?? CupertinoTemplate;
+			}
+			if (DesignAgnosticTemplate != null)
+			{
+				IsDesignAgnostic = true;
+			}
+
+			// Hide the M2/M3 ComboBox entirely
+			if (_materialVersionComboBox != null)
+			{
+				_materialVersionComboBox.Visibility = Visibility.Collapsed;
+			}
+		}
+#endif
 
 		private void UpdateSampleDataContext()
 		{
@@ -175,30 +206,25 @@ namespace Uno.Toolkit.Samples
 		private void UpdateLayoutRadioButtons()
 		{
 			var mappings = LayoutModeMappings;
-
-			// In single-theme mode: hide all design-switching tabs
-			foreach (var mapping in mappings)
-			{
-				mapping.RadioButton?.Apply(x => x.Visibility = Visibility.Collapsed);
-				mapping.StickyRadioButton?.Apply(x => x.Visibility = Visibility.Collapsed);
-			}
-
-			// Hide the scrolling and sticky tab bars entirely
-			if (_scrollingTabs != null) _scrollingTabs.Visibility = Visibility.Collapsed;
-			if (_stickyTabs != null) _stickyTabs.Visibility = Visibility.Collapsed;
-
-			// Hide the Material version combo box and force M3 selection
-			if (_materialVersionComboBox != null)
-			{
-				_materialVersionComboBox.Visibility = Visibility.Collapsed;
-				_materialVersionComboBox.SelectedIndex = 1;
-			}
+			var previouslySelected = default(LayoutModeMapping);
 
 			bool IsAvailable(LayoutModeMapping mapping) => mapping.Predicate() && mapping.Template != null;
 
-			// Activate the design matching the app's active theme
-			var selected = mappings.FirstOrDefault(x => x.Design == ActiveDesign && IsAvailable(x))
-				?? mappings.FirstOrDefault(IsAvailable);
+			foreach (var mapping in mappings)
+			{
+				var available = IsAvailable(mapping);
+				var visibility = available ? Visibility.Visible : Visibility.Collapsed;
+				mapping.RadioButton?.Apply(x => x.Visibility = visibility);
+				mapping.StickyRadioButton?.Apply(x => x.Visibility = visibility);
+
+				if (mapping.Design == _design && available)
+				{
+					previouslySelected = mapping;
+				}
+			}
+
+			// selected mode is based on previous selection and availability (whether the template is defined)
+			var selected = previouslySelected ?? mappings.FirstOrDefault(IsAvailable);
 			if (selected != null)
 			{
 				UpdateLayoutMode(transitionTo: selected.Design);

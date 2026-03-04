@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Uno.Sdk">
+	<Import Project="..\..\tfm-common-winui.props" />
+
+	<!--
+	Adding project references to this project requires some manual adjustments.
+	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
+	-->
+	<PropertyGroup>
+		<UnoSingleProject>true</UnoSingleProject>
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
+		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<AssemblyName>Uno.Toolkit.WinUI.Simple</AssemblyName>
+		<RootNamespace>Uno.Toolkit.UI.Simple</RootNamespace>
+		<PackageId>Uno.Toolkit.WinUI.Simple</PackageId>
+		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.Simple.WinUI" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" VersionOverride="10.0.26100.7463" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(_IsWindowsWinUI)">
+		<Page Remove="Generated\*.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
+		<Using Include="Uno.Toolkit.UI.Simple" />
+	</ItemGroup>
+
+	<Import Project="..\..\winappsdk-workaround.targets" />
+	<Import Project="xamlmerge-simple.props" />
+</Project>

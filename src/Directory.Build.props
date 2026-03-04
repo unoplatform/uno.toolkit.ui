@@ -2,8 +2,13 @@
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 	<Import Project="$(MSBuildThisFileDirectory)tfms.props" />
 	<PropertyGroup>
+		<!-- UWP has been dropped; all projects are WinUI -->
+		<FrameworkLineage>WinUI</FrameworkLineage>
 		<DebugType>portable</DebugType>
 		<DebugSymbols>True</DebugSymbols>
+		<!-- Disable HotDesign: library projects build Uno.Toolkit.WinUI from source,
+		     but Uno.UI.HotDesign depends on Uno.Toolkit.WinUI as a NuGet package, creating a cycle (NU1108). -->
+		<UnoDisableHotDesign>true</UnoDisableHotDesign>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 

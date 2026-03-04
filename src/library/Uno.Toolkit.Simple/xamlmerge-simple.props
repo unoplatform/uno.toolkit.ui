@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+	<ItemGroup>
+		<XamlMergeOutputFiles Include="Generated\mergedpages.$(FrameworkLineage).xaml" />
+
+		<XamlMergeInput Include="Styles\Controls\**\*.xaml" MergeFile="mergedpages.$(FrameworkLineage).xaml" />
+	</ItemGroup>
+	<Import Project="..\..\xamlmerge.props" />
+</Project>

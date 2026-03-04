@@ -1,0 +1,1287 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:android="http://uno.ui/android"
+	xmlns:contract12NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,12)"
+	xmlns:contract12Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,12)"
+	xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
+	xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
+	xmlns:contract6NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,6)"
+	xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,6)"
+	xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
+	xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
+	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
+	xmlns:ios="http://uno.ui/ios"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:mobile="http://uno.ui/mobile"
+	xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:not_win="http://uno.ui/not_win"
+	xmlns:toolkit="using:Uno.UI.Toolkit"
+	xmlns:ut="using:Uno.Themes"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	mc:Ignorable="android ios not_win mobile">
+
+	<ResourceDictionary.ThemeDictionaries>
+
+		<ResourceDictionary x:Key="Light">
+
+			<StaticResource x:Key="NavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="SimpleIconDisabledDefaultBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+
+			<StaticResource x:Key="NavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="NavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="NavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<Thickness x:Key="NavigationBarPadding">4,0,0,0</Thickness>
+			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="SimpleFontFamily" />
+			<FontWeight x:Key="NavigationBarFontWeight">Normal</FontWeight>
+			<x:Double x:Key="NavigationBarFontSize">24</x:Double>
+
+			<StaticResource x:Key="SimpleModalNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleModalNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleModalNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="SimpleIconDisabledDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+
+			<StaticResource x:Key="SimplePrimaryNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryAppBarButtonForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+
+			<StaticResource x:Key="NavigationBarOverflowAppBarButtonForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<SolidColorBrush x:Key="NavigationBarOverflowAppBarButtonBackground" Color="Transparent" />
+
+			<StaticResource x:Key="NavigationBarEllipsisButtonForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground" Color="Transparent" />
+
+			<x:Double x:Key="SimpleNavigationBarElevation">0</x:Double>
+			<x:Double x:Key="SimpleXamlNavigationBarHeight">64</x:Double>
+			<x:Double x:Key="SimpleNavigationBarHeight">64</x:Double>
+			<Thickness x:Key="SimpleNavigationBarContentMargin">16,0</Thickness>
+			<Thickness x:Key="SimpleAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
+
+			<StaticResource x:Key="NavigationBarSimpleEllipsisButtonFontFamily" ResourceKey="SimpleFontFamily" />
+			<FontWeight x:Key="NavigationBarSimpleEllipsisButtonFontWeight">SemiBold</FontWeight>
+			<StaticResource x:Key="NavigationBarSimpleEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
+			<StaticResource x:Key="NavigationBarSimpleEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
+
+			<x:Double x:Key="NavBarAppBarButtonContentHeight">16</x:Double>
+			<x:Double x:Key="NavBarMainCommandAppBarButtonContentHeight">24</x:Double>
+			<x:Double x:Key="NavBarAppBarThemeCompactHeight">64</x:Double>
+			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
+			<Visibility x:Key="NavBarAppBarButtonHasFlyoutChevronVisibility">Collapsed</Visibility>
+			<x:String x:Key="NavigationBarBackIconData">M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z</x:String>
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Default">
+
+			<StaticResource x:Key="NavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="SimpleIconDisabledDefaultBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+
+			<StaticResource x:Key="NavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="NavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="NavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<Thickness x:Key="NavigationBarPadding">4,0,0,0</Thickness>
+			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="SimpleFontFamily" />
+			<FontWeight x:Key="NavigationBarFontWeight">Normal</FontWeight>
+			<x:Double x:Key="NavigationBarFontSize">24</x:Double>
+
+			<StaticResource x:Key="SimpleModalNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleModalNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleModalNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="SimpleIconDisabledDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+
+			<StaticResource x:Key="SimplePrimaryNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryAppBarButtonForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+
+			<StaticResource x:Key="NavigationBarOverflowAppBarButtonForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<SolidColorBrush x:Key="NavigationBarOverflowAppBarButtonBackground" Color="Transparent" />
+
+			<StaticResource x:Key="NavigationBarEllipsisButtonForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground" Color="Transparent" />
+
+			<x:Double x:Key="SimpleNavigationBarElevation">0</x:Double>
+			<x:Double x:Key="SimpleXamlNavigationBarHeight">64</x:Double>
+			<x:Double x:Key="SimpleNavigationBarHeight">64</x:Double>
+			<Thickness x:Key="SimpleNavigationBarContentMargin">16,0</Thickness>
+			<Thickness x:Key="SimpleAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
+
+			<StaticResource x:Key="NavigationBarSimpleEllipsisButtonFontFamily" ResourceKey="SimpleFontFamily" />
+			<FontWeight x:Key="NavigationBarSimpleEllipsisButtonFontWeight">SemiBold</FontWeight>
+			<StaticResource x:Key="NavigationBarSimpleEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
+			<StaticResource x:Key="NavigationBarSimpleEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
+
+			<x:Double x:Key="NavBarAppBarButtonContentHeight">16</x:Double>
+			<x:Double x:Key="NavBarMainCommandAppBarButtonContentHeight">24</x:Double>
+			<x:Double x:Key="NavBarAppBarThemeCompactHeight">64</x:Double>
+			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
+			<Visibility x:Key="NavBarAppBarButtonHasFlyoutChevronVisibility">Collapsed</Visibility>
+			<x:String x:Key="NavigationBarBackIconData">M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z</x:String>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<Style x:Key="SimpleAppBarButtonStyle" TargetType="AppBarButton">
+		<Setter Property="Background" Value="{ThemeResource AppBarButtonBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource AppBarButtonForeground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource AppBarButtonBorderBrush}" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="Height" Value="{ThemeResource AppBarButtonHeight}" />
+		<Setter Property="Width" Value="{ThemeResource AppBarButtonWidth}" />
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+		<Setter Property="FontWeight" Value="Normal" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+		<Setter Property="FocusVisualMargin" Value="-3" />
+		<Setter Property="AllowFocusOnInteraction" Value="False" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="AppBarButton">
+					<Grid
+						x:Name="Root"
+						MinWidth="{TemplateBinding MinWidth}"
+						MaxWidth="{TemplateBinding MaxWidth}"
+						Background="Transparent">
+						<Border
+							x:Name="AppBarButtonInnerBorder"
+							Margin="{ThemeResource AppBarButtonInnerBorderMargin}"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Control.IsTemplateFocusTarget="True" />
+
+						<StackPanel
+							x:Name="ContentRoot"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							Orientation="Vertical"
+							Spacing="8">
+							<!--  Icon content wrapped in Viewbox (shown when Icon is set)  -->
+							<Viewbox
+								x:Name="ContentViewbox"
+								MaxWidth="{ThemeResource AppBarButtonContentHeight}"
+								MaxHeight="{ThemeResource AppBarButtonContentHeight}"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								AutomationProperties.AccessibilityView="Raw"
+								Visibility="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+								<ContentPresenter
+									x:Name="Content"
+									Content="{TemplateBinding Icon}"
+									Foreground="{TemplateBinding Foreground}" />
+							</Viewbox>
+							<!--  Content (shown when Content is not null/empty)  -->
+							<ContentPresenter
+								x:Name="ContentPresenter"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Content="{TemplateBinding Content}"
+								Foreground="{TemplateBinding Foreground}"
+								Visibility="{Binding Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" />
+						</StackPanel>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPointerOver}" />
+										<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushPointerOver}" />
+										<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPressed}" />
+										<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushPressed}" />
+										<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundDisabled}" />
+										<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushDisabled}" />
+										<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="SimpleDefaultAppBarButtonStyle"
+		BasedOn="{StaticResource SimpleAppBarButtonStyle}"
+		TargetType="AppBarButton" />
+
+	<Style x:Key="BaseSimpleNavigationBarStyle" TargetType="utu:NavigationBar">
+		<Setter Property="Content" Value="" />
+		<Setter Property="ContentTemplate">
+			<Setter.Value>
+				<DataTemplate>
+					<TextBlock Style="{StaticResource TitleLarge}" Text="{Binding}" />
+				</DataTemplate>
+			</Setter.Value>
+		</Setter>
+
+		<android:Setter Property="(toolkit:UIElementExtensions.Elevation)" Value="{ThemeResource SimpleNavigationBarElevation}" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="OverflowButtonVisibility" Value="Collapsed" />
+		<Setter Property="IsDynamicOverflowEnabled" Value="False" />
+		<mobile:Setter Property="utu:SafeArea.Insets" Value="Top" />
+		<mobile:Setter Property="Template" Value="{StaticResource SimpleNativeNavigationBarTemplate}" />
+		<not_mobile:Setter Property="Template" Value="{StaticResource XamlSimpleNavigationBarTemplate}" />
+		<mobile:Setter Property="Height" Value="NaN" />
+	</Style>
+
+	<Style
+		x:Key="SimpleMainCommandStyle"
+		BasedOn="{StaticResource SimpleAppBarButtonStyle}"
+		TargetType="AppBarButton">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="AppBarButton">
+					<Grid
+						x:Name="Root"
+						MinWidth="{TemplateBinding MinWidth}"
+						MaxWidth="{TemplateBinding MaxWidth}"
+						Background="Transparent">
+						<Border
+							x:Name="AppBarButtonInnerBorder"
+							Margin="{ThemeResource AppBarButtonInnerBorderMargin}"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Control.IsTemplateFocusTarget="True" />
+
+						<Grid
+							x:Name="ContentRoot"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center">
+							<!--  UNO WORKAROUND: The ViewBox center should be horizontal Stretch but the Grid aligns the content left  -->
+							<Viewbox
+								x:Name="ContentViewbox"
+								Height="{ThemeResource NavBarAppBarButtonContentHeight}"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								AutomationProperties.AccessibilityView="Raw"
+								Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}}">
+								<ContentPresenter
+									x:Name="Content"
+									Content="{TemplateBinding Icon}"
+									Foreground="{TemplateBinding Foreground}" />
+							</Viewbox>
+							<PathIcon
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Data="{ThemeResource NavigationBarBackIconData}"
+								Foreground="{TemplateBinding Foreground}"
+								Visibility="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToVisibleConverter}}" />
+						</Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPointerOver}" />
+										<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushPointerOver}" />
+										<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPressed}" />
+										<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushPressed}" />
+										<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundDisabled}" />
+										<Setter Target="AppBarButtonInnerBorder.BorderBrush" Value="{ThemeResource AppBarButtonBorderBrushDisabled}" />
+										<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="SimpleNavigationBarStyle"
+		BasedOn="{StaticResource BaseSimpleNavigationBarStyle}"
+		TargetType="utu:NavigationBar">
+		<Setter Property="Background" Value="{ThemeResource NavigationBarBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarForeground}" />
+		<Setter Property="MainCommandStyle" Value="{StaticResource SimpleMainCommandStyle}" />
+	</Style>
+
+	<Style x:Key="SimpleNavigationBarPresenter" TargetType="utu:NavigationBarPresenter">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:NavigationBarPresenter">
+					<Grid Background="{TemplateBinding Background}">
+						<CommandBar
+							x:Name="XamlNavigationBarCommandBar"
+							Height="{ThemeResource NavBarAppBarThemeCompactHeight}"
+							Margin="{TemplateBinding Padding}"
+							Content="{TemplateBinding Content}"
+							Style="{StaticResource SimpleNavigationBarCommandBar}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="SimpleNavigationBarCommandBar" TargetType="CommandBar">
+		<Setter Property="Padding" Value="{ThemeResource NavigationBarPadding}" />
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Top" />
+		<Setter Property="ClosedDisplayMode" Value="Compact" />
+		<Setter Property="ExitDisplayModeOnAccessKeyInvoked" Value="False" />
+		<not_win:Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+
+		<Setter Property="utu:CommandBarExtensions.MainCommand" Value="{x:Null}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="CommandBar">
+					<Grid x:Name="LayoutRoot">
+						<Grid.Resources>
+							<StaticResource x:Key="AppBarButtonHasFlyoutChevronVisibility" ResourceKey="NavBarAppBarButtonHasFlyoutChevronVisibility" />
+							<Storyboard x:Key="OverlayOpeningAnimation">
+								<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+									<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+									<SplineDoubleKeyFrame
+										KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+										KeyTime="{StaticResource ControlNormalAnimationDuration}"
+										Value="1" />
+								</DoubleAnimationUsingKeyFrames>
+							</Storyboard>
+							<Storyboard x:Key="OverlayClosingAnimation">
+								<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+									<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+									<SplineDoubleKeyFrame
+										KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+										KeyTime="{StaticResource ControlFastAnimationDuration}"
+										Value="0" />
+								</DoubleAnimationUsingKeyFrames>
+							</Storyboard>
+							<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
+							<StaticResource x:Key="AppBarThemeCompactHeight" ResourceKey="NavBarAppBarThemeCompactHeight" />
+							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}" TargetType="SplitButton" />
+							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}" TargetType="ToggleSplitButton" />
+							<Style BasedOn="{StaticResource SimpleAppBarButtonStyle}" TargetType="AppBarButton" />
+
+							<not_mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="SimpleXamlNavigationBarHeight" />
+							<not_mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="SimpleXamlNavigationBarHeight" />
+
+							<mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="SimpleNavigationBarHeight" />
+							<mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="SimpleNavigationBarHeight" />
+						</Grid.Resources>
+						<Grid
+							x:Name="ContentRoot"
+							Height="{TemplateBinding Height}"
+							MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+							VerticalAlignment="Center"
+							Background="{TemplateBinding Background}"
+							XYFocusKeyboardNavigation="Enabled">
+							<Grid.RenderTransform>
+								<TranslateTransform x:Name="ContentTransform" />
+							</Grid.RenderTransform>
+
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<!--  note: DynamicOverflowStates can modify content and primary column width  -->
+									<ColumnDefinition x:Name="MainCommandColumnDefinition" Width="Auto" />
+									<ColumnDefinition x:Name="ContentControlColumnDefinition" Width="*" />
+									<ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition" Width="Auto" />
+									<ColumnDefinition x:Name="SecondaryButtonColumnDefinition" Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<!--
+									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
+									in the Minimal/HiddenClosed states to remove it from being a tab-stop candidate.
+									
+									ContentControl spans all 4 columns to allow proper centering when HorizontalContentAlignment is Center.
+									ContentControl is placed first, so it is visually placed underneath everything else.
+								-->
+								<ContentControl
+									x:Name="ContentControl"
+									Grid.Column="0"
+									Grid.ColumnSpan="4"
+									Margin="{ThemeResource SimpleNavigationBarContentMargin}"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+									Content="{TemplateBinding Content}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									ContentTransitions="{TemplateBinding ContentTransitions}"
+									FontFamily="{ThemeResource NavigationBarFontFamily}"
+									FontSize="{ThemeResource NavigationBarFontSize}"
+									FontWeight="{ThemeResource NavigationBarFontWeight}"
+									Foreground="{TemplateBinding Foreground}"
+									IsTabStop="False" />
+
+								<ContentPresenter x:Name="MainCommandPresenter" Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
+
+								<ItemsControl
+									x:Name="PrimaryItemsControl"
+									Grid.Column="2"
+									MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+									HorizontalAlignment="Center"
+									IsTabStop="False">
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel Orientation="Horizontal" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+								</ItemsControl>
+
+								<Button
+									x:Name="MoreButton"
+									Grid.Column="3"
+									MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+									Padding="{ThemeResource CommandBarMoreButtonMargin}"
+									VerticalAlignment="Center"
+									Control.IsTemplateKeyTipTarget="True"
+									Foreground="{TemplateBinding Foreground}"
+									IsAccessKeyScope="True"
+									Style="{StaticResource SimpleEllipsisButton}">
+									<FontIcon
+										x:Name="EllipsisIcon"
+										Height="20"
+										VerticalAlignment="Center"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="20"
+										Glyph="&#xe712;"
+										RenderTransformOrigin="0.5, 0.5">
+										<FontIcon.RenderTransform>
+											<RotateTransform Angle="90" />
+										</FontIcon.RenderTransform>
+									</FontIcon>
+								</Button>
+							</Grid>
+
+							<!--  UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events  -->
+							<Rectangle
+								x:Name="HighContrastBorder"
+								VerticalAlignment="Stretch"
+								x:DeferLoadStrategy="Lazy"
+								IsHitTestVisible="False"
+								StrokeThickness="1"
+								Visibility="Collapsed" />
+							<Border
+								x:Name="OpenBorder"
+								VerticalAlignment="Stretch"
+								contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}"
+								contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
+								Visibility="Collapsed" />
+						</Grid>
+						<!--  UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands  -->
+						<Popup x:Name="OverflowPopup">
+							<Popup.RenderTransform>
+								<TransformGroup>
+									<TranslateTransform x:Name="OverflowContentRootMarginOffsetTransform" />
+									<TranslateTransform x:Name="OverflowContentRootTransform" X="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentHorizontalOffset}" />
+								</TransformGroup>
+							</Popup.RenderTransform>
+							<Grid
+								x:Name="OverflowContentRoot"
+								MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentMinWidth}"
+								MaxWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentMaxWidth}"
+								MaxHeight="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentMaxHeight}"
+								Opacity="0">
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<!--  For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow.  -->
+								<Grid
+									x:Name="SecondaryItemsControlShadowWrapper"
+									contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}"
+									contract7Present:CornerRadius="{ThemeResource OverlayCornerRadius}">
+									<Grid.Clip>
+										<RectangleGeometry Rect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentClipRect}">
+											<RectangleGeometry.Transform>
+												<TransformGroup>
+													<TranslateTransform x:Name="OverflowContentRootClipTransform" />
+												</TransformGroup>
+											</RectangleGeometry.Transform>
+										</RectangleGeometry>
+									</Grid.Clip>
+									<CommandBarOverflowPresenter
+										x:Name="SecondaryItemsControl"
+										IsTabStop="False"
+										Style="{TemplateBinding CommandBarOverflowPresenterStyle}">
+										<CommandBarOverflowPresenter.RenderTransform>
+											<TranslateTransform x:Name="OverflowContentTransform" />
+										</CommandBarOverflowPresenter.RenderTransform>
+										<CommandBarOverflowPresenter.ItemContainerStyle>
+											<Style TargetType="FrameworkElement">
+												<Setter Property="HorizontalAlignment" Value="Stretch" />
+												<Setter Property="Width" Value="NaN" />
+											</Style>
+										</CommandBarOverflowPresenter.ItemContainerStyle>
+									</CommandBarOverflowPresenter>
+								</Grid>
+
+								<!--
+									In order to give us extra space in the windowed popup to translate things down,
+									we add a rectangle to make the HWND taller than it otherwise would be.
+								-->
+
+								<Rectangle
+									x:Name="WindowedPopupPadding"
+									Grid.Row="1"
+									Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+							</Grid>
+						</Popup>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="EllipsisIcon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationBarCommandBarEllipsisIconForegroundDisabled}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="DisplayModeStates">
+								<contract8Present:VisualStateGroup.Transitions>
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
+									<VisualTransition
+										GeneratedDuration="00:00:00.250"
+										From="CompactClosed"
+										To="CompactOpenDown">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenDown}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Stretch" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighContrastBorder" Storyboard.TargetProperty="Visibility">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+											</ObjectAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Opacity">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform" Storyboard.TargetProperty="Y">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{ThemeResource AppBarThemeCompactHeight}" />
+												<SplineDoubleKeyFrame
+													KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+													KeyTime="{StaticResource ControlNormalAnimationDuration}"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentTransform" Storyboard.TargetProperty="Y">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.NegativeOverflowContentHeight}" />
+												<SplineDoubleKeyFrame
+													KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+													KeyTime="{StaticResource ControlNormalAnimationDuration}"
+													Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualTransition>
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
+									<VisualTransition
+										GeneratedDuration="00:00:00.167"
+										From="CompactOpenDown"
+										To="CompactClosed">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Stretch" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighContrastBorder" Storyboard.TargetProperty="Visibility">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+											</ObjectAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Opacity">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+												<DiscreteDoubleKeyFrame KeyTime="{StaticResource ControlFastAnimationDuration}" Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform" Storyboard.TargetProperty="Y">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+												<SplineDoubleKeyFrame
+													KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+													KeyTime="{StaticResource ControlFastAnimationDuration}"
+													Value="{ThemeResource AppBarThemeCompactHeight}" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentTransform" Storyboard.TargetProperty="Y">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+												<SplineDoubleKeyFrame
+													KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+													KeyTime="{StaticResource ControlFastAnimationDuration}"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.NegativeOverflowContentHeight}" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualTransition>
+								</contract8Present:VisualStateGroup.Transitions>
+								<VisualState x:Name="CompactClosed" />
+								<VisualState x:Name="CompactOpenUp">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenUp}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Stretch" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighContrastBorder" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+										</ObjectAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Opacity">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+										</DoubleAnimationUsingKeyFrames>
+										<contract8Present:DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform" Storyboard.TargetProperty="Y">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentCompactYTranslation}" />
+										</contract8Present:DoubleAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootMarginOffsetTransform" Storyboard.TargetProperty="Y">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="CompactOpenDown">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenDown}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Stretch" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighContrastBorder" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+										</ObjectAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Opacity">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+										</DoubleAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform" Storyboard.TargetProperty="Y">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="AvailableCommandsStates">
+								<VisualState x:Name="BothCommands" />
+								<VisualState x:Name="PrimaryCommandsOnly">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="SecondaryCommandsOnly">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PrimaryItemsControl" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="DynamicOverflowStates">
+								<VisualState x:Name="DynamicOverflowDisabled" />
+								<VisualState x:Name="DynamicOverflowEnabled">
+									<VisualState.Setters>
+										<Setter Target="ContentControlColumnDefinition.Width" Value="Auto" />
+										<Setter Target="PrimaryItemsControlColumnDefinition.Width" Value="*" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="SimpleModalNavigationBarStyle"
+		BasedOn="{StaticResource SimpleNavigationBarStyle}"
+		TargetType="utu:NavigationBar">
+		<Setter Property="MainCommandStyle" Value="{StaticResource SimpleModalMainCommandStyle}" />
+		<Setter Property="Background" Value="{ThemeResource SimpleModalNavigationBarBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource SimpleModalNavigationBarForeground}" />
+	</Style>
+
+	<Style
+		x:Key="SimpleModalMainCommandStyle"
+		BasedOn="{StaticResource SimpleMainCommandStyle}"
+		TargetType="AppBarButton">
+		<Setter Property="Foreground" Value="{ThemeResource SimpleModalNavigationBarMainCommandForeground}" />
+	</Style>
+
+	<Style
+		x:Key="SimplePrimaryMainCommandStyle"
+		BasedOn="{StaticResource SimpleMainCommandStyle}"
+		TargetType="AppBarButton">
+		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryNavigationBarMainCommandForeground}" />
+	</Style>
+
+	<Style
+		x:Key="SimplePrimaryNavigationBarStyle"
+		BasedOn="{StaticResource SimpleNavigationBarStyle}"
+		TargetType="utu:NavigationBar">
+		<Setter Property="Background" Value="{ThemeResource SimplePrimaryNavigationBarBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryNavigationBarForeground}" />
+		<Setter Property="MainCommandStyle" Value="{StaticResource SimplePrimaryMainCommandStyle}" />
+		<not_mobile:Setter Property="Template" Value="{StaticResource XamlSimplePrimaryNavigationBarTemplate}" />
+	</Style>
+
+	<Style x:Key="SimplePrimaryNavigationBarPresenter" TargetType="utu:NavigationBarPresenter">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:NavigationBarPresenter">
+					<Grid Background="{TemplateBinding Background}">
+						<CommandBar
+							x:Name="XamlNavigationBarCommandBar"
+							Height="{ThemeResource NavBarAppBarThemeCompactHeight}"
+							Margin="{TemplateBinding Padding}"
+							Content="{TemplateBinding Content}"
+							Style="{StaticResource SimplePrimaryNavigationBarCommandBar}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="SimplePrimaryNavigationBarCommandBar" TargetType="CommandBar">
+		<Setter Property="Padding" Value="{ThemeResource NavigationBarPadding}" />
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Top" />
+		<Setter Property="ClosedDisplayMode" Value="Compact" />
+		<Setter Property="ExitDisplayModeOnAccessKeyInvoked" Value="False" />
+		<not_win:Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+
+		<Setter Property="utu:CommandBarExtensions.MainCommand" Value="{x:Null}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="CommandBar">
+					<Grid x:Name="LayoutRoot">
+						<Grid.Resources>
+							<StaticResource x:Key="AppBarButtonHasFlyoutChevronVisibility" ResourceKey="NavBarAppBarButtonHasFlyoutChevronVisibility" />
+							<Storyboard x:Key="OverlayOpeningAnimation">
+								<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+									<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+									<SplineDoubleKeyFrame
+										KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+										KeyTime="{StaticResource ControlNormalAnimationDuration}"
+										Value="1" />
+								</DoubleAnimationUsingKeyFrames>
+							</Storyboard>
+							<Storyboard x:Key="OverlayClosingAnimation">
+								<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+									<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+									<SplineDoubleKeyFrame
+										KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+										KeyTime="{StaticResource ControlFastAnimationDuration}"
+										Value="0" />
+								</DoubleAnimationUsingKeyFrames>
+							</Storyboard>
+							<StaticResource x:Key="AppBarButtonContentHeight" ResourceKey="NavBarAppBarButtonContentHeight" />
+							<StaticResource x:Key="AppBarThemeCompactHeight" ResourceKey="NavBarAppBarThemeCompactHeight" />
+							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}" TargetType="SplitButton" />
+							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}" TargetType="ToggleSplitButton" />
+							<Style BasedOn="{StaticResource SimplePrimaryAppBarButtonStyle}" TargetType="AppBarButton" />
+
+							<not_mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="SimpleXamlNavigationBarHeight" />
+							<not_mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="SimpleXamlNavigationBarHeight" />
+
+							<mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="SimpleNavigationBarHeight" />
+							<mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="SimpleNavigationBarHeight" />
+						</Grid.Resources>
+						<Grid
+							x:Name="ContentRoot"
+							Height="{TemplateBinding Height}"
+							MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+							VerticalAlignment="Center"
+							Background="{TemplateBinding Background}"
+							XYFocusKeyboardNavigation="Enabled">
+							<Grid.RenderTransform>
+								<TranslateTransform x:Name="ContentTransform" />
+							</Grid.RenderTransform>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<!--  note: DynamicOverflowStates can modify content and primary column width  -->
+									<ColumnDefinition x:Name="MainCommandColumnDefinition" Width="Auto" />
+									<ColumnDefinition x:Name="ContentControlColumnDefinition" Width="*" />
+									<ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition" Width="Auto" />
+									<ColumnDefinition x:Name="SecondaryButtonColumnDefinition" Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<!--
+									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
+									in the Minimal/HiddenClosed states to remove it from being a tab-stop candidate.
+									
+									ContentControl spans all 4 columns to allow proper centering when HorizontalContentAlignment is Center.
+									ContentControl is placed first, so it is visually placed underneath everything else.
+								-->
+								<ContentControl
+									x:Name="ContentControl"
+									Grid.Column="0"
+									Grid.ColumnSpan="4"
+									Margin="{ThemeResource SimpleNavigationBarContentMargin}"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+									Content="{TemplateBinding Content}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									ContentTransitions="{TemplateBinding ContentTransitions}"
+									FontFamily="{ThemeResource NavigationBarFontFamily}"
+									FontSize="{ThemeResource NavigationBarFontSize}"
+									FontWeight="{ThemeResource NavigationBarFontWeight}"
+									Foreground="{TemplateBinding Foreground}"
+									IsTabStop="False" />
+
+								<ContentPresenter x:Name="MainCommandPresenter" Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
+
+								<ItemsControl
+									x:Name="PrimaryItemsControl"
+									Grid.Column="2"
+									MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+									HorizontalAlignment="Center"
+									IsTabStop="False">
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel Orientation="Horizontal" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+								</ItemsControl>
+
+								<Button
+									x:Name="MoreButton"
+									Grid.Column="3"
+									MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+									Padding="{ThemeResource CommandBarMoreButtonMargin}"
+									VerticalAlignment="Center"
+									Control.IsTemplateKeyTipTarget="True"
+									Foreground="{TemplateBinding Foreground}"
+									IsAccessKeyScope="True"
+									Style="{StaticResource SimpleEllipsisButton}">
+									<FontIcon
+										x:Name="EllipsisIcon"
+										Height="20"
+										VerticalAlignment="Center"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="20"
+										Glyph="&#xe712;"
+										RenderTransformOrigin="0.5, 0.5">
+										<FontIcon.RenderTransform>
+											<RotateTransform Angle="90" />
+										</FontIcon.RenderTransform>
+									</FontIcon>
+								</Button>
+							</Grid>
+
+							<!--  UNO WORKAROUND: Added IsHitTestVisible="False". The Rectangle was blocking pointer events  -->
+							<Rectangle
+								x:Name="HighContrastBorder"
+								VerticalAlignment="Stretch"
+								x:DeferLoadStrategy="Lazy"
+								IsHitTestVisible="False"
+								StrokeThickness="1"
+								Visibility="Collapsed" />
+							<Border
+								x:Name="OpenBorder"
+								VerticalAlignment="Stretch"
+								contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}"
+								contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
+								Visibility="Collapsed" />
+						</Grid>
+						<!--  UNO WORKAROUND: Added IsTabStop="False". Navigation focus with keyboard was erroneously focusing on the Popup instead of the SecondaryCommands  -->
+						<Popup x:Name="OverflowPopup">
+							<Popup.RenderTransform>
+								<TransformGroup>
+									<TranslateTransform x:Name="OverflowContentRootMarginOffsetTransform" />
+									<TranslateTransform x:Name="OverflowContentRootTransform" X="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentHorizontalOffset}" />
+								</TransformGroup>
+							</Popup.RenderTransform>
+							<Grid
+								x:Name="OverflowContentRoot"
+								MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentMinWidth}"
+								MaxWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentMaxWidth}"
+								MaxHeight="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentMaxHeight}"
+								Opacity="0">
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<!--  For 21H1 and up, we'll need to wrap the clip and presenter in a Grid which will host the Drop Shadow.  -->
+								<Grid
+									x:Name="SecondaryItemsControlShadowWrapper"
+									contract7NotPresent:CornerRadius="{ThemeResource OverlayCornerRadius}"
+									contract7Present:CornerRadius="{ThemeResource OverlayCornerRadius}">
+									<Grid.Clip>
+										<RectangleGeometry Rect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentClipRect}">
+											<RectangleGeometry.Transform>
+												<TransformGroup>
+													<TranslateTransform x:Name="OverflowContentRootClipTransform" />
+												</TransformGroup>
+											</RectangleGeometry.Transform>
+										</RectangleGeometry>
+									</Grid.Clip>
+									<CommandBarOverflowPresenter
+										x:Name="SecondaryItemsControl"
+										IsTabStop="False"
+										Style="{TemplateBinding CommandBarOverflowPresenterStyle}">
+										<CommandBarOverflowPresenter.RenderTransform>
+											<TranslateTransform x:Name="OverflowContentTransform" />
+										</CommandBarOverflowPresenter.RenderTransform>
+										<CommandBarOverflowPresenter.ItemContainerStyle>
+											<Style TargetType="FrameworkElement">
+												<Setter Property="HorizontalAlignment" Value="Stretch" />
+												<Setter Property="Width" Value="NaN" />
+											</Style>
+										</CommandBarOverflowPresenter.ItemContainerStyle>
+									</CommandBarOverflowPresenter>
+								</Grid>
+
+								<!--
+									In order to give us extra space in the windowed popup to translate things down,
+									we add a rectangle to make the HWND taller than it otherwise would be.
+								-->
+
+								<Rectangle
+									x:Name="WindowedPopupPadding"
+									Grid.Row="1"
+									Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+							</Grid>
+						</Popup>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="EllipsisIcon" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="DisplayModeStates">
+								<contract8Present:VisualStateGroup.Transitions>
+									<!--  UNO WORKAROUND: Use literal value of ControlNormalAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
+									<VisualTransition
+										GeneratedDuration="00:00:00.250"
+										From="CompactClosed"
+										To="CompactOpenDown">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Stretch" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighContrastBorder" Storyboard.TargetProperty="Visibility">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+											</ObjectAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Opacity">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform" Storyboard.TargetProperty="Y">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{ThemeResource AppBarThemeCompactHeight}" />
+												<SplineDoubleKeyFrame
+													KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+													KeyTime="{StaticResource ControlNormalAnimationDuration}"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentTransform" Storyboard.TargetProperty="Y">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.NegativeOverflowContentHeight}" />
+												<SplineDoubleKeyFrame
+													KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+													KeyTime="{StaticResource ControlNormalAnimationDuration}"
+													Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualTransition>
+									<!--  UNO WORKAROUND: Use literal value of ControlFastAnimationDuration. Resolving a StaticResource string to a string non-DP causes an exception  -->
+									<VisualTransition
+										GeneratedDuration="00:00:00.167"
+										From="CompactOpenDown"
+										To="CompactClosed">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Stretch" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighContrastBorder" Storyboard.TargetProperty="Visibility">
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+											</ObjectAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Opacity">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+												<DiscreteDoubleKeyFrame KeyTime="{StaticResource ControlFastAnimationDuration}" Value="0" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform" Storyboard.TargetProperty="Y">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+												<SplineDoubleKeyFrame
+													KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+													KeyTime="{StaticResource ControlFastAnimationDuration}"
+													Value="{ThemeResource AppBarThemeCompactHeight}" />
+											</DoubleAnimationUsingKeyFrames>
+											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentTransform" Storyboard.TargetProperty="Y">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+												<SplineDoubleKeyFrame
+													KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
+													KeyTime="{StaticResource ControlFastAnimationDuration}"
+													Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.NegativeOverflowContentHeight}" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualTransition>
+								</contract8Present:VisualStateGroup.Transitions>
+								<VisualState x:Name="CompactClosed" />
+								<VisualState x:Name="CompactOpenUp">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Stretch" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighContrastBorder" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+										</ObjectAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Opacity">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+										</DoubleAnimationUsingKeyFrames>
+										<contract8Present:DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform" Storyboard.TargetProperty="Y">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.OverflowContentCompactYTranslation}" />
+										</contract8Present:DoubleAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootMarginOffsetTransform" Storyboard.TargetProperty="Y">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="CompactOpenDown">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="VerticalAlignment">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Stretch" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HighContrastBorder" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+										</ObjectAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Opacity">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+										</DoubleAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform" Storyboard.TargetProperty="Y">
+											<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
+										</DoubleAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="AvailableCommandsStates">
+								<VisualState x:Name="BothCommands" />
+								<VisualState x:Name="PrimaryCommandsOnly">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRoot" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoreButton" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="SecondaryCommandsOnly">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PrimaryItemsControl" Storyboard.TargetProperty="Visibility">
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+							<VisualStateGroup x:Name="DynamicOverflowStates">
+								<VisualState x:Name="DynamicOverflowDisabled" />
+								<VisualState x:Name="DynamicOverflowEnabled">
+									<VisualState.Setters>
+										<Setter Target="ContentControlColumnDefinition.Width" Value="Auto" />
+										<Setter Target="PrimaryItemsControlColumnDefinition.Width" Value="*" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="SimplePrimaryModalNavigationBarStyle"
+		BasedOn="{StaticResource SimplePrimaryNavigationBarStyle}"
+		TargetType="utu:NavigationBar">
+		<Setter Property="Background" Value="{ThemeResource SimplePrimaryModalNavigationBarBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryModalNavigationBarForeground}" />
+		<Setter Property="MainCommandStyle" Value="{StaticResource SimplePrimaryModalMainCommandStyle}" />
+	</Style>
+
+	<Style
+		x:Key="SimplePrimaryModalMainCommandStyle"
+		BasedOn="{StaticResource SimplePrimaryMainCommandStyle}"
+		TargetType="AppBarButton">
+		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryModalNavigationBarMainCommandForeground}" />
+	</Style>
+
+	<Style
+		x:Key="SimpleAppBarButtonOverflowStyle"
+		BasedOn="{StaticResource AppBarButtonOverflowStyle}"
+		TargetType="AppBarButton">
+		<Setter Property="Background" Value="{ThemeResource NavigationBarOverflowAppBarButtonBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarOverflowAppBarButtonForeground}" />
+	</Style>
+
+	<Style x:Key="SimpleEllipsisButton" TargetType="Button">
+		<Setter Property="Background" Value="{ThemeResource NavigationBarEllipsisButtonBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarEllipsisButtonForeground}" />
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Padding" Value="0" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="FontFamily" Value="{ThemeResource NavigationBarSimpleEllipsisButtonFontFamily}" />
+		<Setter Property="FontWeight" Value="{ThemeResource NavigationBarSimpleEllipsisButtonFontWeight}" />
+		<Setter Property="FontSize" Value="{ThemeResource NavigationBarSimpleEllipsisButtonFontSize}" />
+		<Setter Property="Width" Value="{ThemeResource NavigationBarSimpleEllipsisButtonWidth}" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+		<Setter Property="FocusVisualMargin" Value="-3" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}">
+						<ContentPresenter
+							x:Name="ContentPresenter"
+							Margin="{ThemeResource SimpleAppBarEllipsisButtonInnerBorderMargin}"
+							Padding="0"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
+							AutomationProperties.AccessibilityView="Raw"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							ContentTransitions="{TemplateBinding ContentTransitions}"
+							Control.IsTemplateFocusTarget="True" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="SimplePrimaryAppBarButtonStyle"
+		BasedOn="{StaticResource SimpleAppBarButtonStyle}"
+		TargetType="AppBarButton">
+		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryAppBarButtonForeground}" />
+	</Style>
+
+	<Style
+		x:Key="SimpleDefaultNavigationBarStyle"
+		BasedOn="{StaticResource SimpleNavigationBarStyle}"
+		TargetType="utu:NavigationBar" />
+
+	<Style
+		x:Key="SimpleDefaultMainCommandStyle"
+		BasedOn="{StaticResource SimpleMainCommandStyle}"
+		TargetType="AppBarButton" />
+
+	<ios:ControlTemplate x:Key="SimpleNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
+		<Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding Padding}">
+			<!--  Setting Content to null to avoid the implicit binding to Content on the NativeNavigationBarPresenter  -->
+			<utu:NativeNavigationBarPresenter
+				x:Name="NavigationBarPresenter"
+				Height="44"
+				Content="{x:Null}" />
+		</Border>
+	</ios:ControlTemplate>
+
+	<android:ControlTemplate x:Key="SimpleNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
+		<utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
+	</android:ControlTemplate>
+
+	<ControlTemplate x:Key="XamlSimpleNavigationBarTemplate" TargetType="utu:NavigationBar">
+		<utu:NavigationBarPresenter
+			x:Name="NavigationBarPresenter"
+			Padding="{TemplateBinding Padding}"
+			Background="{TemplateBinding Background}"
+			Content="{TemplateBinding Content}"
+			Style="{StaticResource SimpleNavigationBarPresenter}" />
+	</ControlTemplate>
+
+	<ControlTemplate x:Key="XamlSimplePrimaryNavigationBarTemplate" TargetType="utu:NavigationBar">
+		<utu:NavigationBarPresenter
+			x:Name="NavigationBarPresenter"
+			Padding="{TemplateBinding Padding}"
+			Background="{TemplateBinding Background}"
+			Content="{TemplateBinding Content}"
+			Style="{StaticResource SimplePrimaryNavigationBarPresenter}" />
+	</ControlTemplate>
+</ResourceDictionary>

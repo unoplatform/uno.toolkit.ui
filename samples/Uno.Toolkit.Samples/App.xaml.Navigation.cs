@@ -63,7 +63,13 @@ partial class App
 		AddNavigationItems(nv);
 
 		// landing navigation
-		ShellNavigateTo<Content.OverviewPage>(
+#if THEME_CUPERTINO
+		ShellNavigateTo<TabBarSamplePage>(
+#elif THEME_SIMPLE
+		ShellNavigateTo<TabBarSamplePage>(
+#else
+		ShellNavigateTo<NavigationBarSamplePage>(
+#endif
 			// workaround for uno#5069: setting NavView.SelectedItem at launch bricks it
 			trySynchronizeCurrentItem: false
 		);
@@ -73,6 +79,42 @@ partial class App
 
 		return _shell;
 	}
+
+#if USE_UITESTS
+	private void ForceSampleNavigation(string sampleName)
+	{
+		var backdoorParts = sampleName.Split("-");
+		var title = backdoorParts.FirstOrDefault();
+		var designName = backdoorParts.Length > 1 ? backdoorParts[1] : string.Empty;
+
+		var sample = GetSamples()
+			.FirstOrDefault(x => string.Equals(x.Title, title, StringComparison.OrdinalIgnoreCase));
+
+		if (Enum.TryParse<Design>(designName, out var design))
+		{
+			SamplePageLayout.SetPreferredDesign(design);
+		}
+
+		if (sample == null)
+		{
+			typeof(App).Log().LogWarning($"No SampleAttribute found with a Title that matches: {sampleName}");
+			return;
+		}
+
+		var page = (Page)Activator.CreateInstance(sample.ViewType);
+		page.DataContext = sample;
+
+		_shell.NavigationView.Content = page;
+	}
+
+	private void NavigateToNestedSampleCore(string sampleName)
+	{
+		if (GetNestedSamples().TryGetValue(sampleName, out var pageType))
+		{
+			_shell.ShowNestedSample(pageType, clearStack: true);
+		}
+	}
+#endif
 
 	private void OnNavigationItemInvoked(MUXC.NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs e)
 	{
@@ -179,9 +221,39 @@ partial class App
 			.Where(x => x.Namespace?.StartsWith("Uno.Toolkit.Samples") == true)
 			.Select(x => new { TypeInfo = x, SamplePageAttribute = x.GetCustomAttribute<SamplePageAttribute>() })
 			.Where(x => x.SamplePageAttribute != null)
+			.Where(x => IsSampleVisibleForCurrentTheme(x.SamplePageAttribute))
+#if THEME_SIMPLE
+			.Where(x => IsSampleIncludedInSimpleTheme(x.SamplePageAttribute))
+#endif
 			.Select(x => new Sample(x.SamplePageAttribute, x.TypeInfo.AsType()))
-			.Where(x => x.SupportedDesigns.Contains(SamplePageLayout.ActiveDesign))
 			.ToArray();
+
+	private static bool IsSampleVisibleForCurrentTheme(SamplePageAttribute attr)
+	{
+		// Design-agnostic sources are always visible
+		if (attr.Source is SourceSdk.WinUI or SourceSdk.Uno or SourceSdk.UnoToolkit)
+			return true;
+
+#if THEME_MATERIAL
+		return attr.Source != SourceSdk.UnoCupertino;
+#elif THEME_CUPERTINO
+		return attr.Source != SourceSdk.UnoMaterial;
+#elif THEME_SIMPLE
+		// Simple theme provides its own styles for all toolkit controls
+		return true;
+#else
+		return true;
+#endif
+	}
+
+#if THEME_SIMPLE
+	private static bool IsSampleIncludedInSimpleTheme(SamplePageAttribute attr)
+	{
+		// Only show controls that have SDS styles
+		return attr.Category == SampleCategory.Controls
+			&& attr.Title is "Card" or "CardContentControl" or "Chip" or "Divider" or "NavigationBar" or "TabBar";
+	}
+#endif
 
 	public static IDictionary<string, Type> GetNestedSamples()
 		=> _nestedSampleMap = _nestedSampleMap ?? Assembly.GetExecutingAssembly()
