@@ -1,0 +1,104 @@
+jobs:
+  - job: RuntimeTests_Desktop
+    displayName: Desktop Runtime Tests
+    timeoutInMinutes: 60
+    cancelTimeoutInMinutes: 1
+
+    pool:
+      vmImage: ubuntu-latest
+
+    variables:
+      SAMPLE_CSPROJ: MaterialSampleApp
+      SamplesAppArtifactName: desktop-material
+      SamplesAppArtifactPath: $(Build.SourcesDirectory)/build/desktop-material
+
+    steps:
+      - checkout: self
+        clean: true
+
+      - task: DownloadPipelineArtifact@2
+        displayName: Download desktop artifact
+        inputs:
+          artifact: $(SamplesAppArtifactName)
+          path: $(SamplesAppArtifactPath)
+
+      - template: templates/dotnet-workload-install-linux.yml
+        parameters:
+          UnoCheckParameters: '--tfm net10.0-desktop'
+
+      - script: |
+          chmod +x build/workflow/scripts/linux-skia-runtime-tests.sh
+          build/workflow/scripts/linux-skia-runtime-tests.sh
+        displayName: Run desktop runtime tests
+        env:
+          SamplesAppArtifactPath: $(SamplesAppArtifactPath)
+          SAMPLES_APP_DLL: $(SAMPLE_CSPROJ).dll
+
+      - task: PublishTestResults@2
+        condition: always()
+        inputs:
+          testRunTitle: 'Desktop Runtime Tests'
+          testResultsFormat: 'NUnit'
+          testResultsFiles: '$(Build.SourcesDirectory)/build/desktop-runtime-tests-results.xml'
+          failTaskOnFailedTests: true
+          failTaskOnMissingResultsFile: true
+
+  - job: RuntimeTests_Wasm
+    displayName: Wasm Runtime Tests
+    # Disabled: WASM runtime tests are hanging, needs investigation
+    condition: false
+    timeoutInMinutes: 60
+    cancelTimeoutInMinutes: 1
+
+    pool:
+      vmImage: ubuntu-latest
+
+    variables:
+      SAMPLE_CSPROJ: MaterialSampleApp
+      SamplesAppArtifactName: wasm-material
+      SamplesAppArtifactDownloadPath: $(Build.SourcesDirectory)/build/wasm-material
+      SamplesAppArtifactPath: $(Build.SourcesDirectory)/build/wasm-material
+
+    steps:
+      - checkout: self
+        clean: true
+
+      - task: DownloadPipelineArtifact@2
+        displayName: Download wasm artifact
+        inputs:
+          artifact: $(SamplesAppArtifactName)
+          path: $(SamplesAppArtifactDownloadPath)
+
+      - template: templates/dotnet-workload-install-linux.yml
+        parameters:
+          UnoCheckParameters: '--tfm net10.0-browserwasm'
+
+      - script: |
+          chmod +x build/workflow/scripts/wasm-runtime-tests.sh
+          build/workflow/scripts/wasm-runtime-tests.sh
+        displayName: Run wasm runtime tests
+        env:
+          SamplesAppArtifactPath: $(SamplesAppArtifactPath)
+
+      - task: PublishTestResults@2
+        condition: always()
+        inputs:
+          testRunTitle: 'Wasm Runtime Tests'
+          testResultsFormat: 'NUnit'
+          testResultsFiles: '$(Build.SourcesDirectory)/build/wasm-runtime-tests-results.xml'
+          failTaskOnFailedTests: true
+          failTaskOnMissingResultsFile: true
+
+      - task: PublishPipelineArtifact@1
+        condition: always()
+        inputs:
+          targetPath: '$(Build.SourcesDirectory)/build/wasm-runtime-tests-logs'
+          artifact: 'wasm-runtime-tests-logs'
+          publishLocation: 'pipeline'
+
+      - task: PublishPipelineArtifact@1
+        condition: always()
+        inputs:
+          targetPath: '$(Build.SourcesDirectory)/build/wasm-runtime-tests-results.xml'
+          artifact: 'wasm-runtime-tests-results'
+          publishLocation: 'pipeline'

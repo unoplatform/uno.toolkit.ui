@@ -1,0 +1,67 @@
+﻿<Project Sdk="Uno.Sdk.Private">
+	<!--
+		Expand platform suffix overrides to versioned TFMs for sample app (net10.0).
+		This allows crosstargeting_override.props to use platform suffixes (e.g., 'ios', 'android')
+		that work for both libraries (net9.0-*) and sample apps (net10.0-*).
+	-->
+	<PropertyGroup Condition="'$(TargetFrameworkOverride)'!=''">
+		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('ios'))">$(TargetFrameworks);net10.0-ios</TargetFrameworks>
+		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('android'))">$(TargetFrameworks);net10.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('browserwasm'))">$(TargetFrameworks);net10.0-browserwasm</TargetFrameworks>
+		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('desktop'))">$(TargetFrameworks);net10.0-desktop</TargetFrameworks>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFrameworkOverride)'==''">
+		<TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+	</PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<UnoSingleProject>true</UnoSingleProject>
+		<!-- Display name -->
+		<ApplicationTitle>Uno.Toolkit.Material.Samples</ApplicationTitle>
+		<!-- App Identifier -->
+		<ApplicationId>uno.platform.toolkit.material</ApplicationId>
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<UnoFeatures>
+			Material;
+			SkiaRenderer;
+		</UnoFeatures>
+		<!-- RuntimeTests.Engine package still references old DOM-based WebAssembly runtime -->
+		<UnoDisableValidateNoUnoWasmDOMRuntimeDependency>true</UnoDisableValidateNoUnoWasmDOMRuntimeDependency>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);THEME_MATERIAL</DefineConstants>
+	</PropertyGroup>
+
+	<!-- Disable AOT to work around Mono AOT cross-compiler crash on CI -->
+	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+		<RunAOTCompilation>false</RunAOTCompilation>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
+		<!-- Override SDK-managed versions to match the library SDK (Uno.Sdk 6.6.0-dev.15) ecosystem packages -->
+		<PackageReference Include="Uno.Material.WinUI" VersionOverride="6.2.0-dev.3" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" VersionOverride="10.0.26100.7463" />
+	</ItemGroup>
+
+	<Import Project="..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.projitems" Label="Shared" />
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+		<ProjectReference Include="..\..\src\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
+		<ProjectReference Include="..\..\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<UnoIcon Include="..\Uno.Toolkit.Samples\Assets\Icons\icon.svg"
+				 ForegroundFile="..\Uno.Toolkit.Samples\Assets\Icons\icon_foreground.svg"
+				 Color="#FFFFFF" />
+		<UnoSplashScreen Include="..\Uno.Toolkit.Samples\Assets\Splash\splash_screen.svg"
+						 Color="#FFFFFF"
+						 BaseSize="128,128" />
+	</ItemGroup>
+</Project>

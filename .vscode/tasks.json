@@ -2,53 +2,105 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build-wasm",
+      "label": "build-wasm-Material",
       "command": "dotnet",
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj",
         "/property:GenerateFullPaths=true",
-        "/property:TargetFramework=net9.0-browserwasm",
+        "/property:TargetFramework=net10.0-browserwasm",
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "publish-wasm",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "publish",
-        "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj",
-        "/property:GenerateFullPaths=true",
-        "/property:TargetFramework=net9.0-browserwasm",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "build-desktop",
+      "label": "build-wasm-Cupertino",
       "command": "dotnet",
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples.Cupertino/CupertinoSampleApp.csproj",
         "/property:GenerateFullPaths=true",
-        "/property:TargetFramework=net9.0-desktop",
+        "/property:TargetFramework=net10.0-browserwasm",
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "publish-desktop",
+      "label": "publish-wasm-Material",
       "command": "dotnet",
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples.csproj",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj",
         "/property:GenerateFullPaths=true",
-        "/property:TargetFramework=net9.0-desktop",
+        "/property:TargetFramework=net10.0-browserwasm",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish-wasm-Cupertino",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples.Cupertino/CupertinoSampleApp.csproj",
+        "/property:GenerateFullPaths=true",
+        "/property:TargetFramework=net10.0-browserwasm",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-desktop-Material",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj",
+        "/property:GenerateFullPaths=true",
+        "/property:TargetFramework=net10.0-desktop",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-desktop-Cupertino",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples.Cupertino/CupertinoSampleApp.csproj",
+        "/property:GenerateFullPaths=true",
+        "/property:TargetFramework=net10.0-desktop",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish-desktop-Material",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj",
+        "/property:GenerateFullPaths=true",
+        "/property:TargetFramework=net10.0-desktop",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish-desktop-Cupertino",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/samples/Uno.Toolkit.Samples.Cupertino/CupertinoSampleApp.csproj",
+        "/property:GenerateFullPaths=true",
+        "/property:TargetFramework=net10.0-desktop",
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"

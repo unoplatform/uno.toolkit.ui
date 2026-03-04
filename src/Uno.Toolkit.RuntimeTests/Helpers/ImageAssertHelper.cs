@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -74,6 +75,7 @@ namespace Uno.Toolkit.RuntimeTests.Helpers
 		/// <summary>
 		/// Returns whether screenshots are supported on the current platform.
 		/// </summary>
+		[UnconditionalSuppressMessage("Trimming", "IL2122", Justification = "RenderTargetBitmap is a well-known WinUI type checked at runtime.")]
 		public static bool IsScreenshotSupported()
 		{
 			return ApiInformation.IsTypePresent("Microsoft.UI.Xaml.Media.Imaging.RenderTargetBitmap");

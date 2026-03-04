@@ -2,4 +2,4 @@
 set -euo pipefail
 
 # Restore solution packages to ensure dependencies are ready for subsequent steps
-dotnet restore src/Uno.Toolkit.sln -p:SamplesTargetFrameworkOverride=net9.0-desktop -p:DisableMobileTargets=true
+dotnet restore src/Uno.Toolkit.sln -p:TargetFrameworkOverride=desktop -p:DisableMobileTargets=true

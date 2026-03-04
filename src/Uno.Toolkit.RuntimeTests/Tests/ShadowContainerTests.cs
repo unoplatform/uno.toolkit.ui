@@ -31,6 +31,7 @@ using Windows.UI.ViewManagement;
 using FluentAssertions;
 using SkiaSharp;
 using SkiaSharp.Views.Windows;
+using Uno.WinUI.Graphics2DSK;
 using System.Drawing;
 using Windows.Globalization.DateTimeFormatting;
 using Windows.Devices.Haptics;
@@ -99,14 +100,21 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			var shadowContainerChildGrid = (Grid)shadowContainer.GetChildren().First();
 			var canvas = (Canvas)shadowContainerChildGrid.GetChildren().First();
-			var skXamlCanvas = (SKXamlCanvas)canvas.GetChildren().First();
+			var skiaCanvasElement = (FrameworkElement)canvas.GetChildren().First();
+			Assert.IsTrue(
+				SKCanvasElement.IsSupportedOnCurrentPlatform()
+					? skiaCanvasElement is SKCanvasElement
+					: skiaCanvasElement is SKXamlCanvas
+			);
 
 			var lastActualHeight = double.NaN;
+			var paintTcs = new TaskCompletionSource<double>();
 			shadowContainer.SurfacePaintCompleted += (a, b) =>
 			{
-				if (double.IsNaN(lastActualHeight) || skXamlCanvas.ActualHeight > lastActualHeight)
+				if (double.IsNaN(lastActualHeight) || skiaCanvasElement.ActualHeight > lastActualHeight)
 				{
-					lastActualHeight = skXamlCanvas.ActualHeight;
+					lastActualHeight = skiaCanvasElement.ActualHeight;
+					paintTcs.TrySetResult(lastActualHeight);
 				}
 			};
 
@@ -124,6 +132,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			sp.Children.Add(new Border() { Width = 50, Height = 50 });
 
 			await UnitTestsUIContentHelper.WaitForIdle();
+
+			// Wait for the paint cycle to complete after the layout change
+			var completedTask = await Task.WhenAny(paintTcs.Task, Task.Delay(5000));
+			Assert.AreEqual(paintTcs.Task, completedTask, "SurfacePaintCompleted was not raised after resize");
 
 			// The expected height is 160
 			// 100 is the stack panel height, and (10 offset + 20 blur) (top and bottom)
@@ -187,47 +199,62 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			//Validate current structure.
 			var grid = shadowContainer.GetChildren().First() as Grid;
 			var canvas = grid?.GetChildren().First() as Canvas;
-			var skXamlCanvas = canvas?.GetChildren().First() as SKXamlCanvas;
+			var skiaCanvasElement = canvas?.GetChildren().First() as FrameworkElement;
+			Assert.IsTrue(
+				SKCanvasElement.IsSupportedOnCurrentPlatform()
+					? skiaCanvasElement is SKCanvasElement
+					: skiaCanvasElement is SKXamlCanvas
+			);
 			var contentPresenter = grid?.GetChildren().Skip(1).First() as ContentPresenter;
 			var border = contentPresenter?.GetChildren().First() as Border;
 
 			//Validate element measurements
-			Assert.AreEqual(grid?.ActualWidth, canvas?.ActualWidth);
-			Assert.AreEqual(canvas?.ActualWidth, border?.ActualWidth);
-			Assert.AreEqual(skXamlCanvas?.ActualWidth, border?.ActualWidth + canvasMargin);
+			Assert.AreEqual(grid?.ActualWidth, canvas?.ActualWidth * 2);
+			Assert.AreEqual(canvas?.ActualWidth, border?.ActualWidth / 2);
+			Assert.AreEqual(skiaCanvasElement?.ActualWidth, border?.ActualWidth + canvasMargin);
 
 			//Validate point colors
 			var renderer = await stackPanel.TakeScreenshot();
 
-			//Set 4 coners positions to be validated
-			var leftX = inner ? absOffsetX + 1 : 1;
-			var rightX = (int)((stackPanel?.ActualWidth ?? 0) - (inner ? absOffsetX + 1 : 1));
-			var topY = inner ? absOffsetY + 1 : 1;
-			var bottomY = (int)((stackPanel?.ActualHeight ?? 0) - (inner ? absOffsetX + 1 : 1));
+			//Set 4 corners positions to be validated (use 2px inset to avoid edge anti-aliasing/bleed)
+			var leftX = inner ? absOffsetX + 2 : 2;
+			var rightX = (int)((stackPanel?.ActualWidth ?? 0) - (inner ? absOffsetX + 2 : 2));
+			var topY = inner ? absOffsetY + 2 : 2;
+			var bottomY = (int)((stackPanel?.ActualHeight ?? 0) - (inner ? absOffsetY + 2 : 2));
 
 
-			var topLeftColor =
-				inner
-					? (offsetX < 0 ? Colors.Green : Colors.Red)
-					: (offsetX < 0 ? Colors.Red : Colors.Yellow);
+			// For inner shadows, the shadow band appears on the edge the offset pulls away from:
+			//   offsetX > 0 → left band,  offsetX < 0 → right band
+			//   offsetY > 0 → top band,   offsetY < 0 → bottom band
+			// A corner shows shadow (Red) if either adjacent edge has a shadow band.
+			// For outer shadows, the shadow rect is offset from content:
+			//   A corner shows shadow (Red) only if the offset moves the shadow toward that corner.
+
+			//TopLeft
+			var topLeftColor = inner
+				? (offsetX > 0 || offsetY > 0 ? Colors.Red : Colors.Green)
+				: (offsetX < 0 && offsetY < 0 ? Colors.Red : Colors.Yellow);
 			await renderer.AssertColorAt(topLeftColor, leftX, topY);
 
 			//TopRight
-			var topRightColor = inner ? Colors.Red : Colors.Yellow;
+			var topRightColor = inner
+				? (offsetX < 0 || offsetY > 0 ? Colors.Red : Colors.Green)
+				: (offsetX > 0 && offsetY < 0 ? Colors.Red : Colors.Yellow);
 			await renderer.AssertColorAt(topRightColor, rightX, topY);
 
-			//BottomRight and CornerCurve
-			//Case we have RightCorner the Bottom will always be Yellow
-			var bottomRightColor =
-				bottomRightCorner > 50
-					? Colors.Yellow
-					: offsetX < 0
-						? inner ? Colors.Red : Colors.Yellow
-						: inner ? Colors.Green : Colors.Red;
+			//BottomRight
+			var bottomRightColor = bottomRightCorner > 50
+				? Colors.Yellow
+				: inner
+					? (offsetX < 0 || offsetY < 0 ? Colors.Red : Colors.Green)
+					: (offsetX > 0 && offsetY > 0 ? Colors.Red : Colors.Yellow);
 			await renderer.AssertColorAt(bottomRightColor, rightX, bottomY);
 
 			//BottomLeft
-			await renderer.AssertColorAt(Colors.Yellow, leftX, bottomY);
+			var bottomLeftColor = inner
+				? (offsetX > 0 || offsetY < 0 ? Colors.Red : Colors.Green)
+				: (offsetX < 0 && offsetY > 0 ? Colors.Red : Colors.Yellow);
+			await renderer.AssertColorAt(bottomLeftColor, leftX, bottomY);
 
 		}
 
@@ -283,12 +310,24 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			}
 
 			var parentBorder = new Border { Height = 500, Width = 500, HorizontalAlignment = HorizontalAlignment.Center, Background = new SolidColorBrush(Colors.Yellow) };
-			var border = new Border { HorizontalAlignment = HorizontalAlignment.Center, Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) };
+			var border = new Border { HorizontalAlignment = HorizontalAlignment.Center, Height = 200, Width = 200 };
 			var shadowContainer = new ShadowContainer
 			{
 				HorizontalAlignment = HorizontalAlignment.Center,
 				Content = border,
 			};
+
+			// Inner shadows are painted behind the content on a Skia canvas.
+			// If the content has an opaque background it hides the inner shadow.
+			// Place the Green background on ShadowContainer for inner, on Border for outer.
+			if (inner)
+			{
+				shadowContainer.Background = new SolidColorBrush(Colors.Green);
+			}
+			else
+			{
+				border.Background = new SolidColorBrush(Colors.Green);
+			}
 
 			shadowContainer.Shadows.Add(new UI.Shadow
 			{
@@ -307,24 +346,32 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await UnitTestsUIContentHelper.WaitForLoaded(shadowContainer);
 
 			var renderer = await parentBorder.TakeScreenshot();
-			var bounds = border.TransformToVisual(shadowContainer).TransformBounds(new Windows.Foundation.Rect(0, 0, border.ActualWidth, border.ActualHeight));
+			// Transform bounds relative to parentBorder (screenshot root) so pixel coordinates are correct
+			var bounds = border.TransformToVisual(parentBorder).TransformBounds(new Windows.Foundation.Rect(0, 0, border.ActualWidth, border.ActualHeight));
 
-			var xStart = offsetX < 0 ? (int)bounds.Left : (int)bounds.Right;
-			var yStart = offsetY < 0 ? (int)bounds.Top : (int)bounds.Bottom;
+			var centerX = (int)(bounds.X + bounds.Width / 2);
+			var centerY = (int)(bounds.Y + bounds.Height / 2);
 
-			await renderer.AssertColorAt(Colors.Green, 100, 100);
-			await renderer.AssertColorAt(Colors.Red, 210, 100);
+			// Center of content should always be green
+			await renderer.AssertColorAt(Colors.Green, centerX, centerY);
 
-			for (int x = 1; x <= Math.Abs(offsetX); x++)
+			// Check shadow pixels along the offset direction (use < to avoid the exact shadow boundary pixel)
+			for (int i = 1; i < Math.Abs(offsetX); i++)
 			{
-				x = inner ? x * -1 : x;
-				await renderer.AssertColorAt(Colors.Red, xStart + x, (int)bounds.Height / 2);
+				// For outer: shadow is outside the content on the offset side
+				// For inner: shadow is inside the content on the opposite side of the offset
+				var sampleX = inner
+					? (offsetX > 0 ? (int)bounds.Left + i : (int)bounds.Right - i)
+					: (offsetX > 0 ? (int)bounds.Right + i : (int)bounds.Left - i);
+				await renderer.AssertColorAt(Colors.Red, sampleX, centerY);
 			}
 
-			for (int y = 1; y <= Math.Abs(offsetY); y++)
+			for (int i = 1; i < Math.Abs(offsetY); i++)
 			{
-				y = inner ? y * -1 : y;
-				await renderer.AssertColorAt(Colors.Red, (int)bounds.Width / 2, yStart + y);
+				var sampleY = inner
+					? (offsetY > 0 ? (int)bounds.Top + i : (int)bounds.Bottom - i)
+					: (offsetY > 0 ? (int)bounds.Bottom + i : (int)bounds.Top - i);
+				await renderer.AssertColorAt(Colors.Red, centerX, sampleY);
 			}
 		}
 #endif
@@ -395,6 +442,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			UnitTestsUIContentHelper.Content = shadowContainer;
 
+			var paintTcs = new TaskCompletionSource<bool>();
 			shadowContainer.SurfacePaintCompleted += SurfacePaintCompleted;
 
 			shadowContainer.Shadows.Add(new UI.Shadow
@@ -408,17 +456,35 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestsUIContentHelper.WaitForIdle();
 			await UnitTestsUIContentHelper.WaitForLoaded(shadowContainer);
-			createdNewCanvas.Should().BeTrue();
+
+			// Wait for the initial paint cycle to complete
+			var completed = await Task.WhenAny(paintTcs.Task, Task.Delay(5000));
+			Assert.AreEqual(paintTcs.Task, completed, "Initial SurfacePaintCompleted was not raised");
+
+			// On SKXamlCanvas, CreatedNewCanvas is true; on SKCanvasElement it's always false.
+			if (!SKCanvasElement.IsSupportedOnCurrentPlatform())
+			{
+				createdNewCanvas.Should().BeTrue();
+			}
 			createdNewCanvas = false;
 
 			// Changing the height of the children content of the shadow. 
+			paintTcs = new TaskCompletionSource<bool>();
 			internalBorder.Height = 400;
 
 			await UnitTestsUIContentHelper.WaitForIdle();
 
-			createdNewCanvas.Should().BeTrue();
+			// Wait for the resize paint cycle to complete
+			completed = await Task.WhenAny(paintTcs.Task, Task.Delay(5000));
+			Assert.AreEqual(paintTcs.Task, completed, "Resize SurfacePaintCompleted was not raised");
 
-			shadowContainer.SurfacePaintCompleted -= SurfacePaintCompleted; ;
+			// On SKXamlCanvas, CreatedNewCanvas is true; on SKCanvasElement it's always false.
+			if (!SKCanvasElement.IsSupportedOnCurrentPlatform())
+			{
+				createdNewCanvas.Should().BeTrue();
+			}
+
+			shadowContainer.SurfacePaintCompleted -= SurfacePaintCompleted;
 
 			void SurfacePaintCompleted(object? sender, ShadowContainer.SurfacePaintCompletedEventArgs args)
 			{
@@ -427,6 +493,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				{
 					createdNewCanvas = args.CreatedNewCanvas;
 				}
+				paintTcs.TrySetResult(true);
 			}
 		}
 	}

@@ -1,68 +1,25 @@
 jobs:
-- job: Android_UITest_Build
-  cancelTimeoutInMinutes: 0
-  timeoutInMinutes: 90
-  pool:
-    vmImage: macOS-15
-
-  steps:
-  - checkout: self
-    clean: true
-    fetchDepth: 0
-    persistCredentials: true
-
-  - template: templates/canary-updater.yml
-  - template: templates/dotnet-workload-install-mac.yml
-    parameters:
-      UnoCheckParameters: '--tfm net9.0-android'
-
-  - bash: |
-      chmod +x $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-build.sh
-      $(build.sourcesdirectory)/build/workflow/scripts/android-uitest-build.sh
-    displayName: Build Android App for UI Tests
-
-  - bash: |
-      echo "Publish output:"
-      ls -la $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-android/android-x64/publish || true
-      APK="$(ls $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-android/android-x64/publish/*.apk | head -n 1 || true)"
-      if [ ! -f "$APK" ]; then
-        echo "ERROR: No APK produced (verify AndroidPackageFormat=apk)"; exit 1; fi
-      echo "Check APK contains .dll and no assemblies.blob (we inject assemblies.blob at run):"
-      unzip -l "$APK" | grep -E '\.dll|assemblies\.blob' || true
-      if ! unzip -l "$APK" | grep -q '\.dll'; then
-        echo "ERROR: No .dll in APK. Disable AOT/trim and set AndroidUseAssemblyStore=false"; exit 1; fi
-    displayName: Sanity check UITest APK contents
-
-  - task: CopyFiles@2
-    displayName: 'Publish Binaries'
-    retryCountOnTaskFailure: 3
-    inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-android/android-x64/publish
-      Contents: '*.apk'
-      TargetFolder: $(build.artifactstagingdirectory)/android-uitest
-      CleanTargetFolder: false
-      OverWrite: false
-      flattenFolders: false
-
-  - task: PublishBuildArtifacts@1
-    retryCountOnTaskFailure: 3
-    condition: always()
-    inputs:
-      ArtifactName: Android_UITest
-
 - job: Android
   cancelTimeoutInMinutes: 0
 
+  strategy:
+    matrix:
+      Material:
+        SAMPLE_DIR: Uno.Toolkit.Samples.Material
+        SAMPLE_CSPROJ: MaterialSampleApp
+        ARTIFACT_SUFFIX: material
+      Cupertino:
+        SAMPLE_DIR: Uno.Toolkit.Samples.Cupertino
+        SAMPLE_CSPROJ: CupertinoSampleApp
+        ARTIFACT_SUFFIX: cupertino
+
   variables:
-    - name: ArtifactName
-      value: android-winui
     - name: ApplicationBuildNumberOffset
       value: 50
     - name: VersionCodeOffset
       value: 1
     - name: GeneratePackageOnBuild
-      value: false  
-    - group: 'UnoPlatform KeyStore'
+      value: false
 
   pool:
     vmImage: windows-2022
@@ -70,36 +27,22 @@ jobs:
   steps:
   - template: templates/dotnet-workload-install-windows.yml
     parameters:
-      UnoCheckParameters: '--tfm net9.0-android'
+      UnoCheckParameters: '--tfm net10.0-android'
   - template: templates/canary-updater.yml
   - template: templates/gitversion.yml
   - template: templates/set-app-versions.yml
 
-  - task: DownloadSecureFile@1
-    name: keyStore
-    displayName: "Download keystore from secure files"
-    inputs:
-      secureFile: unoplatform.jks
-
   - script: |
-      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
+      cd $(build.sourcesdirectory)/samples/$(SAMPLE_DIR)
       echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet publish -f net9.0-android -p:SamplesTargetFrameworkOverride=net9.0-android -p:TargetFrameworkOverride=net9.0-android -c Release /t:SignAndroidPackage "/p:InformationalVersion=%NBGV_InformationalVersion%" /p:AndroidSigningKeyStore=$(keyStore.secureFilePath) /p:AndroidSigningStorePass=$(AndroidSigningStorePass) /p:AndroidSigningKeyPass=$(AndroidSigningKeyPass) /p:AndroidSigningKeyAlias=$(AndroidSigningKeyAlias) /p:AndroidKeyStore=true  /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
-    displayName: Build project for Release - (net9.0-android)
-    condition: eq(variables['System.PullRequest.IsFork'],'False')
-
-  - script: |
-      cd $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples
-      echo "BUILD_SOURCEBRANCH: $BUILD_SOURCEBRANCH"
-      dotnet build -f net9.0-android -p:SamplesTargetFrameworkOverride=net9.0-android -p:TargetFrameworkOverride=net9.0-android -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" /p:AndroidKeyStore=false /bl:$(build.artifactstagingdirectory)/build-$(ArtifactName).binlog
-    displayName: Build project for Release - (net9.0-android)
-    condition: eq(variables['System.PullRequest.IsFork'],'True')
+      dotnet build -f net10.0-android -p:TargetFrameworkOverride=android -c Release "/p:InformationalVersion=%NBGV_InformationalVersion%" /bl:$(build.artifactstagingdirectory)/build-android-$(ARTIFACT_SUFFIX).binlog
+    displayName: Build $(SAMPLE_DIR) for Release - (net10.0-android)
 
   - task: CopyFiles@2
     displayName: 'Publish Binaries'
     inputs:
-      SourceFolder: $(build.sourcesdirectory)/samples/Uno.Toolkit.Samples/Uno.Toolkit.Samples/bin/Release/net9.0-android
-      Contents:  |
+      SourceFolder: $(build.sourcesdirectory)/samples/$(SAMPLE_DIR)/bin/Release/net10.0-android
+      Contents: |
         **/*.apk
         **/*.aab
       TargetFolder: $(build.artifactstagingdirectory)
@@ -111,5 +54,5 @@ jobs:
     condition: always()
     inputs:
       PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: $(ArtifactName)
+      ArtifactName: android-$(ARTIFACT_SUFFIX)
       ArtifactType: Container

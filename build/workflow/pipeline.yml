@@ -36,8 +36,7 @@ variables:
 
   IsCanaryBranch: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries/')]
   IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
-  XCODE_ROOT: '/Applications/Xcode_16.4.app'
-  XCODE_ROOT_UITESTS: '/Applications/Xcode_16.4.app'
+  XCODE_ROOT: '/Applications/Xcode_26.1.1.app'
 
 stages:
 - stage: Determine_Changes
@@ -61,18 +60,23 @@ stages:
   jobs:
   - template: stage-build-packages.yml
 
-- stage: Tests
-  displayName: Tests
+- stage: Build_Samples
+  displayName: Build Samples
   dependsOn: Determine_Changes
   # Don't trigger this stage if only docs files are changed
   condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
   jobs:
-  - template: stage-uitests-wasm.yml
+  - template: stage-build-desktop.yml
+  - template: stage-build-wasm.yml
   - template: stage-build-ios.yml
-  - template: stage-uitests-ios.yml
   - template: stage-build-android.yml
-  - template: stage-uitests-android.yml
-  - template: stage-build-winappsdk.yml
+
+- stage: RuntimeTests
+  displayName: Runtime Tests
+  dependsOn: Build_Samples
+  condition: succeeded()
+  jobs:
+  - template: stage-runtime-tests.yml
 
 ##
 ## Publishing

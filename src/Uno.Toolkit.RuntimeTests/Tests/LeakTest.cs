@@ -1,4 +1,4 @@
-﻿#if !WINDOWS_UWP && !WINDOWS_WINUI
+﻿#if !WINDOWS_WINUI
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

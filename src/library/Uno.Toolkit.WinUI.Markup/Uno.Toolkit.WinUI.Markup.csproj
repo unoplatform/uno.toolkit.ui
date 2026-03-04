@@ -1,18 +1,16 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+﻿<Project Sdk="Uno.Sdk">
+	<Import Project="..\..\tfm-common-winui.props" />
 
 	<!--
 	Adding project references to this project requires some manual adjustments.
 	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
 	-->
 	<PropertyGroup>
-		<TargetFrameworks>$(NetCurrentAll)</TargetFrameworks>
+		<UnoSingleProject>true</UnoSingleProject>
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
-		<DefineConstants>WINUI</DefineConstants>
-		<UseWinUI>true</UseWinUI>
-
-		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 
 	<ItemGroup>

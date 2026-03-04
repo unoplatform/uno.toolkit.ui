@@ -1,8 +1,18 @@
 <Project>
+	<Import Project="$(MSBuildThisFileDirectory)src/CrossTargeting.props" />
+
 	<PropertyGroup>
 		<UnoEnableXamlFuzzyMatching>false</UnoEnableXamlFuzzyMatching>
 		<!-- Required by uno 6.0 (WinRT.Runtime.dll >= 2.2.0) -->
 		<WindowsSdkPackageVersion>10.0.19041.57</WindowsSdkPackageVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Build_Android>true</Build_Android>
+		<Build_iOS>true</Build_iOS>
+		<Build_MacOS>true</Build_MacOS>
+		<Build_Windows Condition="'$(OS)'=='Windows_NT'">true</Build_Windows>
+		<Build_Windows Condition="'$(OS)'!='Windows_NT'">false</Build_Windows>
 	</PropertyGroup>
 </Project>

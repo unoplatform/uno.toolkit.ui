@@ -1,21 +1,19 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+﻿<Project Sdk="Uno.Sdk">
+	<Import Project="..\tfm-common-winui.props" />
+
 	<PropertyGroup>
-		<TargetFrameworks>$(NetCurrentAll)</TargetFrameworks>
+		<UnoSingleProject>true</UnoSingleProject>
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<AssemblyName>Uno.Toolkit.Skia.WinUI</AssemblyName>
 		<RootNamespace>Uno.Toolkit.Skia.WinUI</RootNamespace>
 		<PackageId>Uno.Toolkit.Skia.WinUI</PackageId>
 		<DefineConstants Condition="$(_IsWindowsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
-		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
-		<FrameworkLineage>WinUI</FrameworkLineage>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
-
-		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" />
 		<PackageReference Include="Uno.Core.Extensions.Collections" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
@@ -25,8 +23,6 @@
 	<Choose>
 		<When Condition="$(_IsWindowsWinUI)">
 			<ItemGroup>
-				<PackageReference Include="Microsoft.WindowsAppSDK" />
-				<PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
 				<PackageReference Include="SkiaSharp.Views.WinUI" />
 			</ItemGroup>
 		</When>

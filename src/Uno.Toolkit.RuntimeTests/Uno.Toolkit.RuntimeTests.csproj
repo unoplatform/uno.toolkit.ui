@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Uno.Sdk.Private">
+	<Import Project="..\tfm-common-winui.props" />
   <PropertyGroup>
-    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'!=''">$(TargetFrameworkOverride)</TargetFrameworks>
-    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'==''">net9.0-desktop;net9.0-browserwasm</TargetFrameworks>
-    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(DisableMobileTargets)'==''">$(TargetFrameworks);net9.0-ios;net9.0-macos;net9.0-android;net9.0-maccatalyst</TargetFrameworks>
-    <TargetFrameworks Condition="'$(TargetFrameworkOverride)'=='' and '$(OS)'=='Windows_NT'">$(TargetFrameworks);net9.0-windows10.0.26100</TargetFrameworks>
     <UnoSingleProject>true</UnoSingleProject>
     <OutputType>Library</OutputType>
     <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
@@ -40,9 +37,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
-    <PackageReference Include="Uno.WinUI.DevServer" />
 		<PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="FluentAssertions" />
+    <!-- Override SDK-managed versions to match the library SDK (Uno.Sdk 6.6.0-dev.15) ecosystem packages -->
+    <PackageReference Include="Uno.Material.WinUI" VersionOverride="6.2.0-dev.3" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" VersionOverride="10.0.26100.7463" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
