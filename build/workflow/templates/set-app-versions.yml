@@ -1,3 +1,3 @@
 steps:
-  - pwsh: dotnet build $(build.sourcesdirectory)/build/workflow/build.csproj /r /t:BuildVersion /p:AppName=Uno.Toolkit.Samples.Material /bl:$(build.artifactstagingdirectory)//set-version-winui-build.binlog
+  - pwsh: dotnet build $(build.sourcesdirectory)/build/workflow/build.csproj /r /t:BuildVersion /p:AppName=$(SAMPLE_DIR) /bl:$(build.artifactstagingdirectory)//set-version-winui-build.binlog
     displayName: Update app versions

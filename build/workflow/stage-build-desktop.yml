@@ -35,7 +35,8 @@ jobs:
             -bl:$(build.artifactstagingdirectory)/binlogs/build-desktop-$(ARTIFACT_SUFFIX).binlog \
             -o $(build.artifactstagingdirectory)/desktop \
             -p:GeneratePackageOnBuild=false \
-            -p:TargetFrameworkOverride=desktop
+            -p:TargetFrameworkOverride=desktop \
+            -p:PublishTrimmed=false
         displayName: Publish $(SAMPLE_DIR) Desktop App
 
       - task: PublishBuildArtifacts@1

@@ -35,7 +35,8 @@ jobs:
             -bl:$(build.artifactstagingdirectory)/binlogs/build-wasm-$(ARTIFACT_SUFFIX).binlog \
             -o $(build.artifactstagingdirectory)/wasm \
             -p:GeneratePackageOnBuild=false \
-            -p:TargetFrameworkOverride=browserwasm
+            -p:TargetFrameworkOverride=browserwasm \
+            -p:PublishTrimmed=false
         displayName: Publish $(SAMPLE_DIR) Wasm App
 
       - task: PublishBuildArtifacts@1
