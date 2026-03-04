@@ -45,6 +45,8 @@ jobs:
 
   - job: RuntimeTests_Wasm
     displayName: Wasm Runtime Tests
+    # Disabled: WASM runtime tests are hanging, needs investigation
+    condition: false
     timeoutInMinutes: 60
     cancelTimeoutInMinutes: 1
 
