@@ -21,6 +21,7 @@ env:
   WASM_FRAMEWORK: net10.0-browserwasm
   BUILD_CONFIGURATION: Release
   WASM_PUBLISH_DIR: samples/Uno.Toolkit.Samples.Simple/bin/Release/net10.0-browserwasm/publish/wwwroot
+  TargetFrameworkOverride: browserwasm
 
 permissions:
   contents: read
