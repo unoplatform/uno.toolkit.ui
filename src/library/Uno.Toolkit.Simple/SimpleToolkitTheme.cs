@@ -1,13 +1,7 @@
 using System;
 using Uno.Simple;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-#else
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-#endif
 
 namespace Uno.Toolkit.UI.Simple
 {
@@ -16,15 +10,8 @@ namespace Uno.Toolkit.UI.Simple
 	/// </summary>
 	public class SimpleToolkitTheme : ResourceDictionary
 	{
-#if IS_WINUI
 		private const string ToolkitPackageName = "Uno.Toolkit.WinUI";
 		private const string ToolkitSimplePackageName = "Uno.Toolkit.WinUI.Simple";
-		private const string PackageNameSuffix = "WinUI";
-#else
-		private const string ToolkitPackageName = "Uno.Toolkit.UI";
-		private const string ToolkitSimplePackageName = "Uno.Toolkit.UI.Simple";
-		private const string PackageNameSuffix = "UWP";
-#endif
 
 		private bool _isOverridingColor;
 		private bool _isOverridingFont;
@@ -174,7 +161,7 @@ namespace Uno.Toolkit.UI.Simple
 
 			MergedDictionaries.Add(new SimpleTheme(ColorOverrideDictionary, FontOverrideDictionary));
 			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
-			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitSimplePackageName}/Generated/mergedpages.{PackageNameSuffix}.xaml") });
+			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitSimplePackageName}/Generated/mergedpages.xaml") });
 		}
 	}
 }
