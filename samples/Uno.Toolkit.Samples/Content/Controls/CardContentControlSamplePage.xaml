@@ -291,5 +291,109 @@
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.M3MaterialTemplate>
+
+		<sample:SamplePageLayout.DesignAgnosticTemplate>
+			<DataTemplate>
+				<ScrollViewer>
+					<StackPanel Padding="0,20"
+								Spacing="24">
+
+						<!-- Outlined CardContentControl -->
+						<TextBlock Text="Outlined CardContentControl"
+								   FontSize="20"
+								   FontWeight="SemiBold" />
+						<utu:CardContentControl MaxWidth="400"
+												Style="{StaticResource OutlinedCardContentControlStyle}">
+							<utu:CardContentControl.ContentTemplate>
+								<DataTemplate>
+									<Grid>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="Auto" />
+										</Grid.RowDefinitions>
+										<Image Source="ms-appx:///Assets/Media/LargeMedia.png"
+											   Stretch="Uniform" />
+										<StackPanel Grid.Row="1"
+													Margin="16">
+											<TextBlock Text="Outlined card"
+													   MaxLines="1"
+													   FontSize="20"
+													   FontWeight="SemiBold" />
+											<TextBlock Text="With media and supporting text"
+													   MaxLines="2"
+													   FontSize="14"
+													   Opacity="0.6" />
+											<TextBlock Margin="0,16,0,0"
+													   TextWrapping="WrapWholeWords"
+													   Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+													   FontSize="14"
+													   Opacity="0.6" />
+										</StackPanel>
+									</Grid>
+								</DataTemplate>
+							</utu:CardContentControl.ContentTemplate>
+						</utu:CardContentControl>
+
+						<!-- Filled CardContentControl -->
+						<TextBlock Text="Filled CardContentControl"
+								   FontSize="20"
+								   FontWeight="SemiBold" />
+						<utu:CardContentControl MaxWidth="400"
+												Style="{StaticResource FilledCardContentControlStyle}">
+							<utu:CardContentControl.ContentTemplate>
+								<DataTemplate>
+									<Grid>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="Auto" />
+										</Grid.RowDefinitions>
+										<Image Source="ms-appx:///Assets/Media/LargeMedia.png"
+											   Stretch="Uniform" />
+										<StackPanel Grid.Row="1"
+													Margin="16">
+											<TextBlock Text="Filled card"
+													   MaxLines="1"
+													   FontSize="20"
+													   FontWeight="SemiBold" />
+											<TextBlock Text="With media and supporting text"
+													   MaxLines="2"
+													   FontSize="14"
+													   Opacity="0.6" />
+											<TextBlock Margin="0,16,0,0"
+													   TextWrapping="WrapWholeWords"
+													   Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+													   FontSize="14"
+													   Opacity="0.6" />
+										</StackPanel>
+									</Grid>
+								</DataTemplate>
+							</utu:CardContentControl.ContentTemplate>
+						</utu:CardContentControl>
+
+						<!-- Disabled CardContentControl -->
+						<TextBlock Text="Disabled CardContentControl"
+								   FontSize="20"
+								   FontWeight="SemiBold" />
+						<utu:CardContentControl MaxWidth="400"
+												IsEnabled="False"
+												Style="{StaticResource OutlinedCardContentControlStyle}">
+							<utu:CardContentControl.ContentTemplate>
+								<DataTemplate>
+									<StackPanel Margin="16"
+												Spacing="4">
+										<TextBlock Text="Disabled card"
+												   FontSize="20"
+												   FontWeight="SemiBold" />
+										<TextBlock Text="Opacity reduced to 0.38"
+												   FontSize="14"
+												   Opacity="0.6" />
+									</StackPanel>
+								</DataTemplate>
+							</utu:CardContentControl.ContentTemplate>
+						</utu:CardContentControl>
+					</StackPanel>
+				</ScrollViewer>
+			</DataTemplate>
+		</sample:SamplePageLayout.DesignAgnosticTemplate>
 	</sample:SamplePageLayout>
 </Page>

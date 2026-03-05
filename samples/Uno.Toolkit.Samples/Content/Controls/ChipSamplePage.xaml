@@ -962,6 +962,126 @@
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.M3MaterialTemplate>
+
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<ScrollViewer>
+						<StackPanel Padding="0,20"
+									Spacing="24">
+
+							<!-- Section: Individual Chips -->
+							<TextBlock Text="Individual Chips"
+									   FontSize="20"
+									   FontWeight="SemiBold" />
+
+							<!-- Default (Neutral) Chip -->
+							<StackPanel Spacing="8">
+								<TextBlock Text="Neutral (Default)"
+										   FontSize="14"
+										   Opacity="0.6" />
+								<StackPanel Orientation="Horizontal"
+											Spacing="8">
+									<utu:Chip Content="Neutral"
+											  Style="{StaticResource ChipStyle}" />
+									<utu:Chip Content="Removable"
+											  CanRemove="True"
+											  Style="{StaticResource ChipStyle}" />
+									<utu:Chip Content="Disabled"
+											  IsEnabled="False"
+											  Style="{StaticResource ChipStyle}" />
+								</StackPanel>
+							</StackPanel>
+
+							<!-- Brand Chip -->
+							<StackPanel Spacing="8">
+								<TextBlock Text="Brand"
+										   FontSize="14"
+										   Opacity="0.6" />
+								<StackPanel Orientation="Horizontal"
+											Spacing="8">
+									<utu:Chip Content="Brand"
+											  Style="{StaticResource BrandChipStyle}" />
+									<utu:Chip Content="Removable"
+											  CanRemove="True"
+											  Style="{StaticResource BrandChipStyle}" />
+								</StackPanel>
+							</StackPanel>
+
+							<!-- Danger Chip -->
+							<StackPanel Spacing="8">
+								<TextBlock Text="Danger"
+										   FontSize="14"
+										   Opacity="0.6" />
+								<StackPanel Orientation="Horizontal"
+											Spacing="8">
+									<utu:Chip Content="Danger"
+											  Style="{StaticResource DangerChipStyle}" />
+									<utu:Chip Content="Removable"
+											  CanRemove="True"
+											  Style="{StaticResource DangerChipStyle}" />
+								</StackPanel>
+							</StackPanel>
+
+							<!-- Section: Chip Groups -->
+							<TextBlock Text="Chip Groups"
+									   FontSize="20"
+									   FontWeight="SemiBold"
+									   Margin="0,12,0,0" />
+
+							<!-- Filter ChipGroup (single select) -->
+							<StackPanel Spacing="8">
+								<TextBlock Text="Filter (Single Select)"
+										   FontSize="14"
+										   Opacity="0.6" />
+								<utu:ChipGroup SelectionMode="Single"
+											    Style="{StaticResource FilterChipGroupStyle}">
+									<utu:Chip Content="Option A" />
+									<utu:Chip Content="Option B" />
+									<utu:Chip Content="Option C" />
+								</utu:ChipGroup>
+							</StackPanel>
+
+							<!-- Filter ChipGroup (multi select) -->
+							<StackPanel Spacing="8">
+								<TextBlock Text="Filter (Multiple Select)"
+										   FontSize="14"
+										   Opacity="0.6" />
+								<utu:ChipGroup SelectionMode="Multiple"
+											    Style="{StaticResource FilterChipGroupStyle}">
+									<utu:Chip Content="Tag 1" />
+									<utu:Chip Content="Tag 2" />
+									<utu:Chip Content="Tag 3" />
+									<utu:Chip Content="Tag 4" />
+								</utu:ChipGroup>
+							</StackPanel>
+
+							<!-- Input ChipGroup (with remove) -->
+							<StackPanel Spacing="8">
+								<TextBlock Text="Input (Removable)"
+										   FontSize="14"
+										   Opacity="0.6" />
+								<utu:ChipGroup Style="{StaticResource InputChipGroupStyle}">
+									<utu:Chip Content="Email 1" />
+									<utu:Chip Content="Email 2" />
+									<utu:Chip Content="Email 3" />
+								</utu:ChipGroup>
+							</StackPanel>
+
+							<!-- Suggestion ChipGroup -->
+							<StackPanel Spacing="8">
+								<TextBlock Text="Suggestion"
+										   FontSize="14"
+										   Opacity="0.6" />
+								<utu:ChipGroup Style="{StaticResource SuggestionChipGroupStyle}">
+									<utu:Chip Content="Suggestion 1" />
+									<utu:Chip Content="Suggestion 2" />
+									<utu:Chip Content="Suggestion 3" />
+								</utu:ChipGroup>
+							</StackPanel>
+						</StackPanel>
+					</ScrollViewer>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
 		</sample:SamplePageLayout>
 	</Grid>
 </Page>

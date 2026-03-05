@@ -1,0 +1,324 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:mobile="http://uno.ui/mobile"
+	xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	mc:Ignorable="mobile">
+
+	<ResourceDictionary.ThemeDictionaries>
+
+		<!--  ─── Light Theme ───  -->
+		<ResourceDictionary x:Key="Light">
+			<x:Double x:Key="ChipHeight">32</x:Double>
+			<x:Double x:Key="ChipIconSize">16</x:Double>
+			<x:Double x:Key="ChipDeleteIconContainerLength">18</x:Double>
+			<x:Double x:Key="ChipDeleteIconLength">11</x:Double>
+			<CornerRadius x:Key="ChipCornerRadius">8</CornerRadius>
+			<Thickness x:Key="ChipBorderThickness">0</Thickness>
+			<Thickness x:Key="ChipContentMargin">12,0</Thickness>
+			<Thickness x:Key="ChipPadding">8,0</Thickness>
+
+			<StaticResource x:Key="SimpleChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
+			<StaticResource x:Key="SimpleChipBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
+			<StaticResource x:Key="SimpleChipForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleChipIconForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleChipBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleChipBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+			<StaticResource x:Key="SimpleChipForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+
+			<StaticResource x:Key="SimpleChipBackgroundChecked" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="SimpleChipBackgroundCheckedPointerOver" ResourceKey="SimpleBackgroundBrandHoverBrush" />
+			<StaticResource x:Key="SimpleChipForegroundChecked" ResourceKey="SimpleTextBrandOnBrandBrush" />
+			<StaticResource x:Key="SimpleChipDeleteIconForeground" ResourceKey="SimpleIconDefaultSecondaryBrush" />
+
+			<StaticResource x:Key="SimpleDangerChipBackground" ResourceKey="SimpleBackgroundDangerDefaultBrush" />
+			<StaticResource x:Key="SimpleDangerChipForeground" ResourceKey="SimpleTextDangerOnDangerBrush" />
+
+			<StaticResource x:Key="SimpleBrandChipBackground" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="SimpleBrandChipForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
+
+			<StaticResource x:Key="ChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
+			<StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
+			<StaticResource x:Key="ChipBackgroundPressed" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
+			<StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+			<StaticResource x:Key="ChipBackgroundChecked" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="ChipForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="ChipForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+			<StaticResource x:Key="ChipForegroundChecked" ResourceKey="SimpleTextBrandOnBrandBrush" />
+			<StaticResource x:Key="ChipBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="ChipBorderBrushDisabled" ResourceKey="SimpleBorderDisabledDefaultBrush" />
+			<StaticResource x:Key="ChipDeleteIconForeground" ResourceKey="SimpleIconDefaultSecondaryBrush" />
+			<StaticResource x:Key="ChipDeleteIconBackground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="ChipIconForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="ElevatedChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Default">
+			<x:Double x:Key="ChipHeight">32</x:Double>
+			<x:Double x:Key="ChipIconSize">16</x:Double>
+			<x:Double x:Key="ChipDeleteIconContainerLength">18</x:Double>
+			<x:Double x:Key="ChipDeleteIconLength">11</x:Double>
+			<CornerRadius x:Key="ChipCornerRadius">8</CornerRadius>
+			<Thickness x:Key="ChipBorderThickness">0</Thickness>
+			<Thickness x:Key="ChipContentMargin">12,0</Thickness>
+			<Thickness x:Key="ChipPadding">8,0</Thickness>
+
+			<StaticResource x:Key="SimpleChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
+			<StaticResource x:Key="SimpleChipBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
+			<StaticResource x:Key="SimpleChipForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleChipIconForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleChipBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleChipBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+			<StaticResource x:Key="SimpleChipForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+
+			<StaticResource x:Key="SimpleChipBackgroundChecked" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="SimpleChipBackgroundCheckedPointerOver" ResourceKey="SimpleBackgroundBrandHoverBrush" />
+			<StaticResource x:Key="SimpleChipForegroundChecked" ResourceKey="SimpleTextBrandOnBrandBrush" />
+			<StaticResource x:Key="SimpleChipDeleteIconForeground" ResourceKey="SimpleIconDefaultSecondaryBrush" />
+
+			<StaticResource x:Key="SimpleDangerChipBackground" ResourceKey="SimpleBackgroundDangerDefaultBrush" />
+			<StaticResource x:Key="SimpleDangerChipForeground" ResourceKey="SimpleTextDangerOnDangerBrush" />
+
+			<StaticResource x:Key="SimpleBrandChipBackground" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="SimpleBrandChipForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
+
+			<StaticResource x:Key="ChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
+			<StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
+			<StaticResource x:Key="ChipBackgroundPressed" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
+			<StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+			<StaticResource x:Key="ChipBackgroundChecked" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="ChipForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="ChipForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+			<StaticResource x:Key="ChipForegroundChecked" ResourceKey="SimpleTextBrandOnBrandBrush" />
+			<StaticResource x:Key="ChipBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="ChipBorderBrushDisabled" ResourceKey="SimpleBorderDisabledDefaultBrush" />
+			<StaticResource x:Key="ChipDeleteIconForeground" ResourceKey="SimpleIconDefaultSecondaryBrush" />
+			<StaticResource x:Key="ChipDeleteIconBackground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="ChipIconForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
+			<StaticResource x:Key="ElevatedChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<!--  Delete icon path data  -->
+	<x:String x:Key="SimpleChipDeleteIcon">M11.25 1.8075L10.1925 0.75L6 4.9425L1.8075 0.75L0.75 1.8075L4.9425 6L0.75 10.1925L1.8075 11.25L6 7.0575L10.1925 11.25L11.25 10.1925L7.0575 6L11.25 1.8075Z</x:String>
+
+	<Style x:Key="SimpleChipDeleteIconButtonStyle" TargetType="Button">
+		<Setter Property="Foreground" Value="{ThemeResource SimpleChipDeleteIconForeground}" />
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Border
+						x:Name="BorderRoot"
+						Width="{ThemeResource ChipDeleteIconContainerLength}"
+						Height="{ThemeResource ChipDeleteIconContainerLength}"
+						Background="{TemplateBinding Background}">
+						<Path
+							x:Name="GlyphElement"
+							Width="{ThemeResource ChipDeleteIconLength}"
+							Height="{ThemeResource ChipDeleteIconLength}"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							AutomationProperties.AccessibilityView="Raw"
+							Data="{StaticResource SimpleChipDeleteIcon}"
+							Fill="{TemplateBinding Foreground}"
+							Stretch="Uniform" />
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="SimpleChipStyle" TargetType="utu:Chip">
+		<Setter Property="Foreground" Value="{ThemeResource SimpleChipForeground}" />
+		<Setter Property="Background" Value="{ThemeResource SimpleChipBackground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource SimpleChipBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ChipCornerRadius}" />
+		<Setter Property="FontFamily" Value="{StaticResource SimpleFontFamily}" />
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="Padding" Value="{ThemeResource ChipPadding}" />
+		<Setter Property="Icon" Value="{x:Null}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:Chip">
+					<Grid
+						x:Name="RootGrid"
+						Height="{ThemeResource ChipHeight}"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+						<Grid Padding="{TemplateBinding Padding}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<!--  Leading Icon  -->
+							<ContentPresenter
+								x:Name="IconPresenter"
+								Grid.Column="0"
+								Width="{ThemeResource ChipIconSize}"
+								Height="{ThemeResource ChipIconSize}"
+								VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+								AutomationProperties.AccessibilityView="Raw"
+								Content="{TemplateBinding Icon}"
+								ContentTemplate="{TemplateBinding IconTemplate}"
+								Foreground="{TemplateBinding Foreground}"
+								Visibility="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}, FallbackValue=Collapsed}" />
+
+							<!--  Content  -->
+							<ContentPresenter
+								x:Name="ContentPresenter"
+								Grid.Column="1"
+								Margin="{ThemeResource ChipContentMargin}"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								AutomationProperties.AccessibilityView="Raw"
+								Content="{TemplateBinding Content}"
+								ContentTemplate="{TemplateBinding ContentTemplate}"
+								ContentTransitions="{TemplateBinding ContentTransitions}"
+								FontSize="16"
+								FontWeight="Normal"
+								Foreground="{TemplateBinding Foreground}" />
+
+							<!--  Remove Button  -->
+							<Button
+								x:Name="PART_RemoveButton"
+								Grid.Column="2"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								Foreground="{TemplateBinding Foreground}"
+								Style="{StaticResource SimpleChipDeleteIconButtonStyle}"
+								Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource TrueToVisibleConverter}, FallbackValue=Collapsed}" />
+						</Grid>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<not_mobile:VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Background" Value="{ThemeResource SimpleChipBackgroundPointerOver}" />
+									</VisualState.Setters>
+								</not_mobile:VisualState>
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Background" Value="{ThemeResource SimpleChipBackgroundPointerOver}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Background" Value="{ThemeResource SimpleChipBackgroundDisabled}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SimpleChipForegroundDisabled}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource SimpleChipForegroundDisabled}" />
+										<Setter Target="RootGrid.Opacity" Value="0.38" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Checked">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Background" Value="{ThemeResource SimpleChipBackgroundChecked}" />
+										<Setter Target="RootGrid.BorderThickness" Value="0" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SimpleChipForegroundChecked}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource SimpleChipForegroundChecked}" />
+										<Setter Target="PART_RemoveButton.Foreground" Value="{ThemeResource SimpleChipForegroundChecked}" />
+									</VisualState.Setters>
+								</VisualState>
+								<not_mobile:VisualState x:Name="CheckedPointerOver">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Background" Value="{ThemeResource SimpleChipBackgroundCheckedPointerOver}" />
+										<Setter Target="RootGrid.BorderThickness" Value="0" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SimpleChipForegroundChecked}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource SimpleChipForegroundChecked}" />
+										<Setter Target="PART_RemoveButton.Foreground" Value="{ThemeResource SimpleChipForegroundChecked}" />
+									</VisualState.Setters>
+								</not_mobile:VisualState>
+								<VisualState x:Name="CheckedPressed">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Background" Value="{ThemeResource SimpleChipBackgroundCheckedPointerOver}" />
+										<Setter Target="RootGrid.BorderThickness" Value="0" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SimpleChipForegroundChecked}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource SimpleChipForegroundChecked}" />
+										<Setter Target="PART_RemoveButton.Foreground" Value="{ThemeResource SimpleChipForegroundChecked}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="SimpleAssistChipStyle"
+		BasedOn="{StaticResource SimpleChipStyle}"
+		TargetType="utu:Chip">
+		<Setter Property="CanRemove" Value="False" />
+	</Style>
+
+	<Style
+		x:Key="SimpleElevatedAssistChipStyle"
+		BasedOn="{StaticResource SimpleAssistChipStyle}"
+		TargetType="utu:Chip" />
+
+	<!--  Input = Tag with remove  -->
+	<Style
+		x:Key="SimpleInputChipStyle"
+		BasedOn="{StaticResource SimpleChipStyle}"
+		TargetType="utu:Chip">
+		<Setter Property="CanRemove" Value="True" />
+	</Style>
+
+	<!--  Filter = Tag with remove  -->
+	<Style
+		x:Key="SimpleFilterChipStyle"
+		BasedOn="{StaticResource SimpleChipStyle}"
+		TargetType="utu:Chip">
+		<Setter Property="CanRemove" Value="True" />
+	</Style>
+
+	<Style
+		x:Key="SimpleElevatedFilterChipStyle"
+		BasedOn="{StaticResource SimpleFilterChipStyle}"
+		TargetType="utu:Chip" />
+
+	<!--  Suggestion = Tag without remove  -->
+	<Style
+		x:Key="SimpleSuggestionChipStyle"
+		BasedOn="{StaticResource SimpleAssistChipStyle}"
+		TargetType="utu:Chip" />
+
+	<Style
+		x:Key="SimpleElevatedSuggestionChipStyle"
+		BasedOn="{StaticResource SimpleAssistChipStyle}"
+		TargetType="utu:Chip" />
+
+	<!--  Default alias  -->
+	<Style
+		x:Key="SimpleDefaultChipStyle"
+		BasedOn="{StaticResource SimpleChipStyle}"
+		TargetType="utu:Chip" />
+
+
+	<Style
+		x:Key="SimpleDangerChipStyle"
+		BasedOn="{StaticResource SimpleChipStyle}"
+		TargetType="utu:Chip">
+		<Setter Property="Background" Value="{ThemeResource SimpleDangerChipBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource SimpleDangerChipForeground}" />
+	</Style>
+
+	<Style
+		x:Key="SimpleBrandChipStyle"
+		BasedOn="{StaticResource SimpleChipStyle}"
+		TargetType="utu:Chip">
+		<Setter Property="Background" Value="{ThemeResource SimpleBrandChipBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource SimpleBrandChipForeground}" />
+	</Style>
+
+</ResourceDictionary>

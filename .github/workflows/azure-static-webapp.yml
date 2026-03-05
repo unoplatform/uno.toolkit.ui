@@ -3,7 +3,7 @@ name: Deploy WebAssembly to Azure Static Web Apps
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     types:
       - opened
@@ -11,15 +11,17 @@ on:
       - reopened
       - closed
     branches:
-      - master
+      - main
       - release/*
       - feature/*
 
 env:
-  APP_PROJECT: samples/Uno.Toolkit.Samples.Material/MaterialSampleApp.csproj
+  SOLUTION_PATH: samples/Uno.Toolkit.Samples.Simple
+  APP_PROJECT: samples/Uno.Toolkit.Samples.Simple/SimpleSampleApp.csproj
   WASM_FRAMEWORK: net10.0-browserwasm
   BUILD_CONFIGURATION: Release
-  WASM_PUBLISH_DIR: samples/Uno.Toolkit.Samples.Material/bin/Release/net10.0-browserwasm/publish/wwwroot
+  WASM_PUBLISH_DIR: samples/Uno.Toolkit.Samples.Simple/bin/Release/net10.0-browserwasm/publish/wwwroot
+  TargetFrameworkOverride: browserwasm
 
 permissions:
   contents: read
@@ -28,9 +30,10 @@ permissions:
 jobs:
   build:
     if: >
-      github.event_name == 'pull_request' &&
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' &&
       github.event.action != 'closed' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event.pull_request.head.repo.full_name == github.repository)
 
     runs-on: ubuntu-latest
 
@@ -79,6 +82,9 @@ jobs:
             --skip dotnetnewunotemplates --skip vsmac --skip androidsdk --skip openjdk --skip androidemulator \
             --tfm net10.0-browserwasm
 
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
+
       - name: Publish WebAssembly app
         run: >
           dotnet publish ${{ env.APP_PROJECT }}
@@ -103,9 +109,10 @@ jobs:
   deploy:
     needs: build
     if: >
-      github.event_name == 'pull_request' &&
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' &&
       github.event.action != 'closed' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event.pull_request.head.repo.full_name == github.repository)
 
     runs-on: ubuntu-latest
 

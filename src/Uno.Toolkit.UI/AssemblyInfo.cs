@@ -5,12 +5,14 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("CupertinoSampleApp")]
 [assembly: InternalsVisibleTo("MaterialSampleApp")]
+[assembly: InternalsVisibleTo("SimpleSampleApp")]
 
 [assembly: AssemblyMetadata("IsTrimmable", "True")]
 
 [assembly: InternalsVisibleTo("Uno.Toolkit.RuntimeTests")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI.Material")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI.Cupertino")]
+[assembly: InternalsVisibleTo("Uno.Toolkit.UI.Simple")]
 [assembly: InternalsVisibleTo("Uno.Toolkit.UI")]
 
 #if IS_WINUI

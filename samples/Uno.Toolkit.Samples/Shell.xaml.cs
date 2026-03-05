@@ -22,6 +22,12 @@ namespace Uno.Toolkit.Samples
 			{
 				NavigationViewControl.Style = (Style)navStyle;
 			}
+#elif THEME_SIMPLE
+			if (Resources.TryGetValue("SimpleNavigationViewStyle", out var navStyle) ||
+				Application.Current.Resources.TryGetValue("SimpleNavigationViewStyle", out navStyle))
+			{
+				NavigationViewControl.Style = (Style)navStyle;
+			}
 #endif
 
 			this.Loaded += OnLoaded;
