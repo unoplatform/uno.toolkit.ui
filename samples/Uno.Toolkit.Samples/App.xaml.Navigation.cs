@@ -222,9 +222,7 @@ partial class App
 			.Select(x => new { TypeInfo = x, SamplePageAttribute = x.GetCustomAttribute<SamplePageAttribute>() })
 			.Where(x => x.SamplePageAttribute != null)
 			.Where(x => IsSampleVisibleForCurrentTheme(x.SamplePageAttribute))
-#if THEME_SIMPLE
-			.Where(x => IsSampleIncludedInSimpleTheme(x.SamplePageAttribute))
-#endif
+			.Where(x => x.SamplePageAttribute.SupportedDesigns?.Contains(SamplePageLayout.ActiveDesign) == true)
 			.Select(x => new Sample(x.SamplePageAttribute, x.TypeInfo.AsType()))
 			.ToArray();
 
@@ -245,15 +243,6 @@ partial class App
 		return true;
 #endif
 	}
-
-#if THEME_SIMPLE
-	private static bool IsSampleIncludedInSimpleTheme(SamplePageAttribute attr)
-	{
-		// Only show controls that have SDS styles
-		return attr.Category == SampleCategory.Controls
-			&& attr.Title is "Card" or "CardContentControl" or "Chip" or "Divider" or "NavigationBar" or "TabBar";
-	}
-#endif
 
 	public static IDictionary<string, Type> GetNestedSamples()
 		=> _nestedSampleMap = _nestedSampleMap ?? Assembly.GetExecutingAssembly()

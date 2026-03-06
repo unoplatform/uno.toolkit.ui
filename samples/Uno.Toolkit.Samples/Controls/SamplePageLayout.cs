@@ -10,6 +10,7 @@ namespace Uno.Toolkit.Samples
 		private const string VisualStateCupertino = nameof(Design.Cupertino);
 		private const string VisualStateFluent = nameof(Design.Fluent);
 		private const string VisualStateAgnostic = nameof(Design.Agnostic);
+		private const string VisualStateSimple = nameof(Design.Simple);
 
 		private const string MaterialRadioButtonPartName = "PART_MaterialRadioButton";
 		private const string CupertinoRadioButtonPartName = "PART_CupertinoRadioButton";
@@ -28,7 +29,7 @@ namespace Uno.Toolkit.Samples
 #if THEME_CUPERTINO
 			Design.Cupertino;
 #elif THEME_SIMPLE
-			Design.Agnostic;
+			Design.Simple;
 #else
 			Design.Material;
 #endif
@@ -39,6 +40,7 @@ namespace Uno.Toolkit.Samples
 			new LayoutModeMapping(Design.Cupertino, () => !IsDesignAgnostic, _cupertinoRadioButton, _stickyCupertinoRadioButton, VisualStateCupertino, CupertinoTemplate),
 			new LayoutModeMapping(Design.Fluent, () => !IsDesignAgnostic, _fluentRadioButton, _stickyFluentRadioButton, VisualStateFluent, FluentTemplate),
 			new LayoutModeMapping(Design.Agnostic, () => IsDesignAgnostic, null, null, VisualStateAgnostic, DesignAgnosticTemplate),
+			new LayoutModeMapping(Design.Simple, () => true, null, null, VisualStateSimple, SimpleTemplate),
 		};
 
 		private RadioButton _materialRadioButton;
@@ -165,16 +167,15 @@ namespace Uno.Toolkit.Samples
 #if THEME_SIMPLE
 		private void ApplySimpleThemeOverrides()
 		{
-			// For pages with Material/Cupertino templates, remap to design-agnostic
-			// so no "Material"/"Cupertino" tabs or M2/M3 dropdowns appear
-			if (!IsDesignAgnostic && DesignAgnosticTemplate == null)
+			// For pages without a dedicated SimpleTemplate, fall back to
+			// DesignAgnosticTemplate or M3Material/Material/Cupertino via the Agnostic path.
+			if (SimpleTemplate == null && DesignAgnosticTemplate == null)
 			{
 				DesignAgnosticTemplate = M3MaterialTemplate ?? MaterialTemplate ?? CupertinoTemplate;
 			}
-			if (DesignAgnosticTemplate != null)
-			{
-				IsDesignAgnostic = true;
-			}
+
+			// Suppress Material/Cupertino/Fluent design tabs so only Simple (or Agnostic fallback) shows.
+			IsDesignAgnostic = true;
 
 			// Hide the M2/M3 ComboBox entirely
 			if (_materialVersionComboBox != null)
@@ -289,6 +290,7 @@ namespace Uno.Toolkit.Samples
 					.GetFirstDescendant<ContentPresenter>(x =>
 						x.Name is "M2MaterialContentPresenter" or "M3MaterialContentPresenter" &&
 						x.Visibility == Visibility.Visible),
+				Design.Simple => GetTemplateChild("SimpleContentPresenter"),
 				_ => GetTemplateChild($"{mode}ContentPresenter"),
 			};
 
@@ -301,13 +303,18 @@ namespace Uno.Toolkit.Samples
 		/// <returns></returns>
 		public ContentPresenter GetActivePresenter()
 		{
-			var mode = (IsDesignAgnostic ? Design.Agnostic : _design);
+			var mode = _design switch
+			{
+				Design.Simple => Design.Simple,
+				_ => IsDesignAgnostic ? Design.Agnostic : _design,
+			};
 			return mode switch
 			{
 				Design.Material => this
 					.GetFirstDescendant<ContentPresenter>(x =>
 						x.Name is "M2MaterialContentPresenter" or "M3MaterialContentPresenter" &&
 						x.Visibility == Visibility.Visible),
+				Design.Simple => (ContentPresenter)GetTemplateChild("SimpleContentPresenter"),
 				_ => (ContentPresenter)GetTemplateChild($"{mode}ContentPresenter"),
 			};
 		}

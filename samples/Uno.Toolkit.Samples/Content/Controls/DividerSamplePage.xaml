@@ -255,6 +255,57 @@
 					</StackPanel>
 				</DataTemplate>
 			</sample:SamplePageLayout.M3MaterialTemplate>
+			<sample:SamplePageLayout.SimpleTemplate>
+				<DataTemplate>
+					<StackPanel Padding="0,8">
+
+						<StackPanel Margin="8">
+							<Grid Width="200" Padding="8">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="Item" />
+								<SymbolIcon Symbol="Favorite" Grid.Column="1" />
+							</Grid>
+
+							<utu:Divider Style="{StaticResource SimpleDividerStyle}" />
+
+							<Grid Width="200" Padding="8">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="Item" />
+								<SymbolIcon Symbol="Favorite" Grid.Column="1" />
+							</Grid>
+						</StackPanel>
+
+						<StackPanel Margin="8">
+							<Grid Width="200" Padding="8">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="Item" />
+								<SymbolIcon Symbol="Favorite" Grid.Column="1" />
+							</Grid>
+
+							<utu:Divider Style="{StaticResource SimpleDividerStyle}"
+										 SubHeader="SubHeader" />
+
+							<Grid Width="200" Padding="8">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="Item" />
+								<SymbolIcon Symbol="Favorite" Grid.Column="1" />
+							</Grid>
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.SimpleTemplate>
 		</sample:SamplePageLayout>
 	</Grid>
 </Page>

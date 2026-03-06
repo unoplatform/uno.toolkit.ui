@@ -550,7 +550,7 @@
 				</DataTemplate>
 			</sample:SamplePageLayout.M3MaterialTemplate>
 
-			<sample:SamplePageLayout.DesignAgnosticTemplate>
+			<sample:SamplePageLayout.SimpleTemplate>
 				<DataTemplate>
 					<ScrollViewer>
 						<StackPanel Padding="0,20"
@@ -559,55 +559,54 @@
 							<!-- Outlined Card -->
 							<utu:Card HeaderContent="Outlined card"
 									  SubHeaderContent="Title and subtitle only"
-									  Style="{StaticResource OutlinedCardStyle}" />
+									  Style="{StaticResource SimpleOutlinedCardStyle}" />
 
 							<!-- Filled Card -->
 							<utu:Card HeaderContent="Filled card"
 									  SubHeaderContent="Title and subtitle only"
-									  Style="{StaticResource FilledCardStyle}" />
+									  Style="{StaticResource SimpleFilledCardStyle}" />
+
+							<!-- Elevated Card -->
+							<utu:Card HeaderContent="Elevated card"
+									  SubHeaderContent="Title and subtitle only"
+									  Style="{StaticResource SimpleElevatedCardStyle}" />
 
 							<!-- Outlined Card with supporting text -->
 							<utu:Card HeaderContent="Outlined card"
 									  SubHeaderContent="With supporting text"
 									  SupportingContent="{StaticResource SupportingTextSample}"
-									  Style="{StaticResource OutlinedCardStyle}" />
-
-							<!-- Filled Card with supporting text -->
-							<utu:Card HeaderContent="Filled card"
-									  SubHeaderContent="With supporting text"
-									  SupportingContent="{StaticResource SupportingTextSample}"
-									  Style="{StaticResource FilledCardStyle}" />
+									  Style="{StaticResource SimpleOutlinedCardStyle}" />
 
 							<!-- Outlined Card with media -->
 							<utu:Card HeaderContent="Outlined card"
 									  SubHeaderContent="With media and supporting text"
 									  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 									  SupportingContent="{StaticResource SupportingTextSample}"
-									  Style="{StaticResource OutlinedCardStyle}" />
+									  Style="{StaticResource SimpleOutlinedCardStyle}" />
 
 							<!-- Filled Card with media -->
 							<utu:Card HeaderContent="Filled card"
 									  SubHeaderContent="With media and supporting text"
 									  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 									  SupportingContent="{StaticResource SupportingTextSample}"
-									  Style="{StaticResource FilledCardStyle}" />
+									  Style="{StaticResource SimpleFilledCardStyle}" />
 
 							<!-- Brand Filled Card -->
 							<utu:Card HeaderContent="Brand filled card"
 									  SubHeaderContent="Primary background with inverted text"
 									  SupportingContent="{StaticResource SupportingTextSample}"
-									  Style="{StaticResource BrandFilledCardStyle}" />
+									  Style="{StaticResource SimpleBrandFilledCardStyle}" />
 
 							<!-- Brand Outlined Card -->
 							<utu:Card HeaderContent="Brand outlined card"
 									  SubHeaderContent="Primary background with border"
 									  SupportingContent="{StaticResource SupportingTextSample}"
-									  Style="{StaticResource BrandOutlinedCardStyle}" />
+									  Style="{StaticResource SimpleBrandOutlinedCardStyle}" />
 
 							<!-- Disabled Card -->
 							<utu:Card HeaderContent="Disabled card"
 									  SubHeaderContent="Opacity reduced to 0.38"
-									  Style="{StaticResource OutlinedCardStyle}"
+									  Style="{StaticResource SimpleOutlinedCardStyle}"
 									  IsEnabled="False" />
 
 							<!-- Small Media Outlined -->
@@ -615,7 +614,7 @@
 									  SubHeaderContent="With small media"
 									  MediaContent="ms-appx:///Assets/Media/SmallMedia.png"
 									  SupportingContent="{StaticResource SupportingTextSample}"
-									  Style="{StaticResource SmallMediaOutlinedCardStyle}" />
+									  Style="{StaticResource SimpleSmallMediaOutlinedCardStyle}" />
 
 							<!-- Avatar Outlined -->
 							<utu:Card HeaderContent="Outlined card"
@@ -623,11 +622,11 @@
 									  AvatarContent="ms-appx:///Assets/Avatar.png"
 									  MediaContent="ms-appx:///Assets/Media/LargeMedia.png"
 									  SupportingContent="{StaticResource SupportingTextSample}"
-									  Style="{StaticResource AvatarOutlinedCardStyle}" />
+									  Style="{StaticResource SimpleAvatarOutlinedCardStyle}" />
 						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>
-			</sample:SamplePageLayout.DesignAgnosticTemplate>
+			</sample:SamplePageLayout.SimpleTemplate>
 		</sample:SamplePageLayout>
 	</Grid>
 </Page>

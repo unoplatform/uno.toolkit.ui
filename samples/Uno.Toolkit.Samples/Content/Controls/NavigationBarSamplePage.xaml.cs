@@ -1,6 +1,6 @@
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, nameof(NavigationBar), SourceSdk.UnoMaterial, SupportedDesigns = new[] { Design.Material })]
+	[SamplePage(SampleCategory.Controls, nameof(NavigationBar), SourceSdk.UnoMaterial, SupportedDesigns = new[] { Design.Material, Design.Simple })]
 	public sealed partial class NavigationBarSamplePage : Page
 	{
 		public NavigationBarSamplePage()

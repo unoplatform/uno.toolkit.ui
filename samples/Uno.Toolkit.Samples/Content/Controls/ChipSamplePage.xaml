@@ -963,7 +963,7 @@
 				</DataTemplate>
 			</sample:SamplePageLayout.M3MaterialTemplate>
 
-			<sample:SamplePageLayout.DesignAgnosticTemplate>
+			<sample:SamplePageLayout.SimpleTemplate>
 				<DataTemplate>
 					<ScrollViewer>
 						<StackPanel Padding="0,20"
@@ -982,13 +982,13 @@
 								<StackPanel Orientation="Horizontal"
 											Spacing="8">
 									<utu:Chip Content="Neutral"
-											  Style="{StaticResource ChipStyle}" />
+											  Style="{StaticResource SimpleChipStyle}" />
 									<utu:Chip Content="Removable"
 											  CanRemove="True"
-											  Style="{StaticResource ChipStyle}" />
+											  Style="{StaticResource SimpleChipStyle}" />
 									<utu:Chip Content="Disabled"
 											  IsEnabled="False"
-											  Style="{StaticResource ChipStyle}" />
+											  Style="{StaticResource SimpleChipStyle}" />
 								</StackPanel>
 							</StackPanel>
 
@@ -1000,10 +1000,10 @@
 								<StackPanel Orientation="Horizontal"
 											Spacing="8">
 									<utu:Chip Content="Brand"
-											  Style="{StaticResource BrandChipStyle}" />
+											  Style="{StaticResource SimpleBrandChipStyle}" />
 									<utu:Chip Content="Removable"
 											  CanRemove="True"
-											  Style="{StaticResource BrandChipStyle}" />
+											  Style="{StaticResource SimpleBrandChipStyle}" />
 								</StackPanel>
 							</StackPanel>
 
@@ -1015,10 +1015,10 @@
 								<StackPanel Orientation="Horizontal"
 											Spacing="8">
 									<utu:Chip Content="Danger"
-											  Style="{StaticResource DangerChipStyle}" />
+											  Style="{StaticResource SimpleDangerChipStyle}" />
 									<utu:Chip Content="Removable"
 											  CanRemove="True"
-											  Style="{StaticResource DangerChipStyle}" />
+											  Style="{StaticResource SimpleDangerChipStyle}" />
 								</StackPanel>
 							</StackPanel>
 
@@ -1034,7 +1034,7 @@
 										   FontSize="14"
 										   Opacity="0.6" />
 								<utu:ChipGroup SelectionMode="Single"
-											    Style="{StaticResource FilterChipGroupStyle}">
+											    Style="{StaticResource SimpleFilterChipGroupStyle}">
 									<utu:Chip Content="Option A" />
 									<utu:Chip Content="Option B" />
 									<utu:Chip Content="Option C" />
@@ -1047,7 +1047,7 @@
 										   FontSize="14"
 										   Opacity="0.6" />
 								<utu:ChipGroup SelectionMode="Multiple"
-											    Style="{StaticResource FilterChipGroupStyle}">
+											    Style="{StaticResource SimpleFilterChipGroupStyle}">
 									<utu:Chip Content="Tag 1" />
 									<utu:Chip Content="Tag 2" />
 									<utu:Chip Content="Tag 3" />
@@ -1060,7 +1060,7 @@
 								<TextBlock Text="Input (Removable)"
 										   FontSize="14"
 										   Opacity="0.6" />
-								<utu:ChipGroup Style="{StaticResource InputChipGroupStyle}">
+								<utu:ChipGroup Style="{StaticResource SimpleInputChipGroupStyle}">
 									<utu:Chip Content="Email 1" />
 									<utu:Chip Content="Email 2" />
 									<utu:Chip Content="Email 3" />
@@ -1072,7 +1072,7 @@
 								<TextBlock Text="Suggestion"
 										   FontSize="14"
 										   Opacity="0.6" />
-								<utu:ChipGroup Style="{StaticResource SuggestionChipGroupStyle}">
+								<utu:ChipGroup Style="{StaticResource SimpleSuggestionChipGroupStyle}">
 									<utu:Chip Content="Suggestion 1" />
 									<utu:Chip Content="Suggestion 2" />
 									<utu:Chip Content="Suggestion 3" />
@@ -1081,7 +1081,7 @@
 						</StackPanel>
 					</ScrollViewer>
 				</DataTemplate>
-			</sample:SamplePageLayout.DesignAgnosticTemplate>
+			</sample:SamplePageLayout.SimpleTemplate>
 		</sample:SamplePageLayout>
 	</Grid>
 </Page>

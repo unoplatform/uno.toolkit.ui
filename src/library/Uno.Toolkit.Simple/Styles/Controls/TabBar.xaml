@@ -7,16 +7,36 @@
 	xmlns:utu="using:Uno.Toolkit.UI"
 	mc:Ignorable="mobile">
 
+	<!--
+		SDS Tab mapping (sds/src/ui/primitives/Tab/tab.css)
+
+		.tab (normal):
+		  color:         sds-color-text-default-secondary
+		  border-bottom: sds-size-stroke-border / sds-color-border-default-default
+		  border-radius: sds-size-radius-100 (top only)
+		  padding:       sds-size-space-100  sds-size-space-300
+
+		.tab[data-selected]:
+		  color:         sds-color-text-default-default
+		  border-color:  sds-color-border-default-secondary
+
+		.tab[data-hovered]:not([data-selected]):
+		  background:    sds-color-background-default-default-hover
+	-->
+
 	<ResourceDictionary.ThemeDictionaries>
 
 		<!--  ─── Light Theme ───  -->
 		<ResourceDictionary x:Key="Light">
 
+			<!--  Tab sizing (SDS size tokens)  -->
 			<x:Double x:Key="SimpleTopTabBarHeight">48</x:Double>
 			<Thickness x:Key="SimpleTopTabBarItemPadding">12,4</Thickness>
 			<CornerRadius x:Key="SimpleTopTabBarItemCornerRadius">4,4,0,0</CornerRadius>
+			<Thickness x:Key="SimpleTopTabBarItemBorderThickness">0,0,0,1</Thickness>
+			<x:Double x:Key="SimpleTopTabBarItemIconSize">20</x:Double>
 
-			<!--  SDS Tab Brushes (tab.css)  -->
+			<!--  Simple-prefixed brush aliases (SDS color tokens)  -->
 			<StaticResource x:Key="SimpleTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleTabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
 			<StaticResource x:Key="SimpleTabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
@@ -24,21 +44,68 @@
 			<StaticResource x:Key="SimpleTabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
 			<StaticResource x:Key="SimpleTabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleTabBarItemBorderBrushSelected" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="SimpleTabBarIndicatorBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
 
+			<!--  Un-prefixed lightweight styling keys (Material v2 template compatibility)  -->
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
+			<x:Double x:Key="TopTabBarItemIconHeight">20</x:Double>
+			<Thickness x:Key="TopTabBarItemContentMargin">8,0,0,0</Thickness>
+			<Thickness x:Key="TopTabBarItemContentOnlyMargin">0</Thickness>
+
 			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+
+			<StaticResource x:Key="TopTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundFocused" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundPressed" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundSelectedPointerOver" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundSelectedPressed" ResourceKey="SystemControlTransparentBrush" />
+
+			<StaticResource x:Key="TopTabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundPointerOver" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundFocused" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundPressed" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundSelectedPointerOver" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundSelectedPressed" ResourceKey="SimpleTextDefaultDefaultBrush" />
+
+			<StaticResource x:Key="TopTabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+
+			<StaticResource x:Key="TopTabBarItemIconForeground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundPointerOver" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundFocused" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundPressed" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundSelectedPointerOver" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundSelectedPressed" ResourceKey="SimpleTextDefaultDefaultBrush" />
+
+			<StaticResource x:Key="TopTabBarItemPointerFillBrush" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushFocused" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushPressed" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushDisabled" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushSelected" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushSelectedPointerOver" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushSelectedPressed" ResourceKey="SystemControlTransparentBrush" />
+
+			<StaticResource x:Key="TopTabBarItemRippleFeedback" ResourceKey="SystemControlTransparentBrush" />
 		</ResourceDictionary>
 
 		<!--  ─── Dark Theme (Default) ───  -->
 		<ResourceDictionary x:Key="Default">
 
+			<!--  Tab sizing (SDS size tokens)  -->
 			<x:Double x:Key="SimpleTopTabBarHeight">48</x:Double>
 			<Thickness x:Key="SimpleTopTabBarItemPadding">12,4</Thickness>
 			<CornerRadius x:Key="SimpleTopTabBarItemCornerRadius">4,4,0,0</CornerRadius>
+			<Thickness x:Key="SimpleTopTabBarItemBorderThickness">0,0,0,1</Thickness>
+			<x:Double x:Key="SimpleTopTabBarItemIconSize">20</x:Double>
 
-			<!--  SDS Tab Brushes (tab.css)  -->
+			<!--  Simple-prefixed brush aliases (SDS color tokens)  -->
 			<StaticResource x:Key="SimpleTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleTabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
 			<StaticResource x:Key="SimpleTabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
@@ -46,14 +113,59 @@
 			<StaticResource x:Key="SimpleTabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
 			<StaticResource x:Key="SimpleTabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleTabBarItemBorderBrushSelected" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="SimpleTabBarIndicatorBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
 
+			<!--  Un-prefixed lightweight styling keys (Material v2 template compatibility)  -->
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
+			<x:Double x:Key="TopTabBarItemIconHeight">20</x:Double>
+			<Thickness x:Key="TopTabBarItemContentMargin">8,0,0,0</Thickness>
+			<Thickness x:Key="TopTabBarItemContentOnlyMargin">0</Thickness>
+
 			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+
+			<StaticResource x:Key="TopTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundFocused" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundPressed" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundSelectedPointerOver" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemBackgroundSelectedPressed" ResourceKey="SystemControlTransparentBrush" />
+
+			<StaticResource x:Key="TopTabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundPointerOver" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundFocused" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundPressed" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundSelectedPointerOver" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemForegroundSelectedPressed" ResourceKey="SimpleTextDefaultDefaultBrush" />
+
+			<StaticResource x:Key="TopTabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+
+			<StaticResource x:Key="TopTabBarItemIconForeground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundPointerOver" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundFocused" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundPressed" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundSelectedPointerOver" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TopTabBarItemIconForegroundSelectedPressed" ResourceKey="SimpleTextDefaultDefaultBrush" />
+
+			<StaticResource x:Key="TopTabBarItemPointerFillBrush" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushFocused" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushPressed" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushDisabled" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushSelected" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushSelectedPointerOver" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="TopTabBarItemPointerFillBrushSelectedPressed" ResourceKey="SystemControlTransparentBrush" />
+
+			<StaticResource x:Key="TopTabBarItemRippleFeedback" ResourceKey="SystemControlTransparentBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
+	<!--#region Selection Indicator Presenter (kept for BaseSimpleTabBarStyle template infrastructure) -->
 	<Style x:Key="SimpleTabBarSelectionIndicatorPresenterStyle" TargetType="utu:TabBarSelectionIndicatorPresenter">
 		<Setter Property="Template">
 			<Setter.Value>
@@ -105,7 +217,9 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+	<!--#endregion-->
 
+	<!--#region TabBar Styles -->
 	<Style
 		x:Key="BaseSimpleTabBarStyle"
 		BasedOn="{StaticResource DefaultTabBarStyle}"
@@ -179,6 +293,11 @@
 		</Setter>
 	</Style>
 
+	<!--
+		SDS TopTabBar: No separate selection indicator.
+		Selection is conveyed by the per-item border-color change (border-bottom changes
+		from sds-color-border-default-default to sds-color-border-default-secondary).
+	-->
 	<Style
 		x:Key="SimpleTopTabBarStyle"
 		BasedOn="{StaticResource BaseSimpleTabBarStyle}"
@@ -187,24 +306,35 @@
 		<Setter Property="VerticalAlignment" Value="Top" />
 		<Setter Property="MinHeight" Value="{ThemeResource SimpleTopTabBarHeight}" />
 		<Setter Property="ItemContainerStyle" Value="{StaticResource SimpleTopTabBarItemStyle}" />
-		<Setter Property="SelectionIndicatorContentTemplate">
-			<Setter.Value>
-				<DataTemplate>
-					<Border
-						Height="1"
-						Margin="0,0,0,0"
-						VerticalAlignment="Bottom"
-						Background="{ThemeResource SimpleTabBarIndicatorBrush}" />
-				</DataTemplate>
-			</Setter.Value>
-		</Setter>
 	</Style>
 
+	<Style
+		x:Key="SimpleColoredTopTabBarStyle"
+		BasedOn="{StaticResource SimpleTopTabBarStyle}"
+		TargetType="utu:TabBar" />
+
+	<Style
+		x:Key="SimpleBaseNavigationTabBarStyle"
+		BasedOn="{StaticResource SimpleTopTabBarStyle}"
+		TargetType="utu:TabBar" />
+
+	<Style
+		x:Key="SimpleVerticalTabBarStyle"
+		BasedOn="{StaticResource SimpleTopTabBarStyle}"
+		TargetType="utu:TabBar" />
+
+	<Style
+		x:Key="SimpleBottomTabBarStyle"
+		BasedOn="{StaticResource SimpleTopTabBarStyle}"
+		TargetType="utu:TabBar" />
+	<!--#endregion-->
+
+	<!--#region TabBarItem Styles -->
 	<Style x:Key="SimpleTopTabBarItemStyle" TargetType="utu:TabBarItem">
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Foreground" Value="{ThemeResource SimpleTabBarItemForeground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource SimpleTabBarItemBorderBrush}" />
-		<Setter Property="BorderThickness" Value="0,0,0,1" />
+		<Setter Property="BorderThickness" Value="{ThemeResource SimpleTopTabBarItemBorderThickness}" />
 		<Setter Property="FontSize" Value="16" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -217,26 +347,25 @@
 						Background="{TemplateBinding Background}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}"
-						Control.IsTemplateFocusTarget="True"
-						CornerRadius="{ThemeResource SimpleTopTabBarItemCornerRadius}">
+						CornerRadius="{ThemeResource SimpleTopTabBarItemCornerRadius}"
+						Control.IsTemplateFocusTarget="True">
+
 						<Grid
 							x:Name="ContentGrid"
 							Padding="{TemplateBinding Padding}"
 							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 							VerticalAlignment="Center"
-							RowSpacing="4">
-							<Grid.RowDefinitions>
-								<RowDefinition x:Name="IconRow" Height="Auto" />
-								<RowDefinition x:Name="ContentRow" Height="Auto" />
-							</Grid.RowDefinitions>
+							ColumnSpacing="8">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition x:Name="IconRow" Width="*" />
+								<ColumnDefinition x:Name="ContentRow" Width="Auto" />
+							</Grid.ColumnDefinitions>
 
 							<!--  Icon  -->
 							<Viewbox
 								x:Name="IconBox"
-								Grid.Row="0"
-								Width="20"
-								Height="20"
-								HorizontalAlignment="Center">
+								Width="{ThemeResource SimpleTopTabBarItemIconSize}"
+								Height="{ThemeResource SimpleTopTabBarItemIconSize}">
 								<ContentPresenter
 									x:Name="Icon"
 									Content="{TemplateBinding Icon}"
@@ -246,8 +375,9 @@
 							<!--  Text content  -->
 							<ContentPresenter
 								x:Name="ContentPresenter"
-								Grid.Row="1"
-								HorizontalAlignment="Center"
+								Grid.Column="1"
+								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 								AutomationProperties.AccessibilityView="Raw"
 								Content="{TemplateBinding Content}"
 								ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -263,6 +393,7 @@
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
+								<!-- SDS: [data-hovered]:not([data-selected]) -->
 								<not_mobile:VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="LayoutRoot.Background" Value="{ThemeResource SimpleTabBarItemBackgroundPointerOver}" />
@@ -280,12 +411,12 @@
 										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource SimpleTabBarItemBorderBrushSelected}" />
 									</VisualState.Setters>
 								</VisualState>
+								<!-- SDS: no hover background on selected tabs -->
 								<not_mobile:VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
 										<Setter Target="Icon.Foreground" Value="{ThemeResource SimpleTabBarItemForegroundSelected}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SimpleTabBarItemForegroundSelected}" />
 										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource SimpleTabBarItemBorderBrushSelected}" />
-										<Setter Target="LayoutRoot.Background" Value="{ThemeResource SimpleTabBarItemBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 								<not_mobile:VisualState x:Name="PressedSelected">
@@ -293,7 +424,6 @@
 										<Setter Target="Icon.Foreground" Value="{ThemeResource SimpleTabBarItemForegroundSelected}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SimpleTabBarItemForegroundSelected}" />
 										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource SimpleTabBarItemBorderBrushSelected}" />
-										<Setter Target="LayoutRoot.Background" Value="{ThemeResource SimpleTabBarItemBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
 							</VisualStateGroup>
@@ -317,13 +447,15 @@
 								<VisualState x:Name="IconOnly">
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
-										<Setter Target="ContentGrid.RowSpacing" Value="0" />
+										<Setter Target="ContentGrid.ColumnSpacing" Value="0" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="ContentOnly">
 									<VisualState.Setters>
 										<Setter Target="IconBox.Visibility" Value="Collapsed" />
-										<Setter Target="ContentGrid.RowSpacing" Value="0" />
+										<Setter Target="IconRow.Width" Value="0" />
+										<Setter Target="ContentRow.Width" Value="*" />
+										<Setter Target="ContentGrid.ColumnSpacing" Value="0" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -333,26 +465,6 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-
-	<Style
-		x:Key="SimpleBaseNavigationTabBarStyle"
-		BasedOn="{StaticResource SimpleTopTabBarStyle}"
-		TargetType="utu:TabBar" />
-
-	<Style
-		x:Key="SimpleVerticalTabBarStyle"
-		BasedOn="{StaticResource SimpleTopTabBarStyle}"
-		TargetType="utu:TabBar" />
-
-	<Style
-		x:Key="SimpleBottomTabBarStyle"
-		BasedOn="{StaticResource SimpleTopTabBarStyle}"
-		TargetType="utu:TabBar" />
-
-	<Style
-		x:Key="SimpleColoredTopTabBarStyle"
-		BasedOn="{StaticResource SimpleTopTabBarStyle}"
-		TargetType="utu:TabBar" />
 
 	<!--  TabBarItem aliases  -->
 	<Style
@@ -400,5 +512,6 @@
 		x:Key="SimpleBottomFabTabBarItemStyle"
 		BasedOn="{StaticResource SimpleTopTabBarItemStyle}"
 		TargetType="utu:TabBarItem" />
+	<!--#endregion-->
 
 </ResourceDictionary>

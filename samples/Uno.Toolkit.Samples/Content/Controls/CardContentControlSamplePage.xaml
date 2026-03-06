@@ -292,7 +292,7 @@
 			</DataTemplate>
 		</sample:SamplePageLayout.M3MaterialTemplate>
 
-		<sample:SamplePageLayout.DesignAgnosticTemplate>
+		<sample:SamplePageLayout.SimpleTemplate>
 			<DataTemplate>
 				<ScrollViewer>
 					<StackPanel Padding="0,20"
@@ -303,7 +303,7 @@
 								   FontSize="20"
 								   FontWeight="SemiBold" />
 						<utu:CardContentControl MaxWidth="400"
-												Style="{StaticResource OutlinedCardContentControlStyle}">
+												Style="{StaticResource SimpleOutlinedCardContentControlStyle}">
 							<utu:CardContentControl.ContentTemplate>
 								<DataTemplate>
 									<Grid>
@@ -339,7 +339,7 @@
 								   FontSize="20"
 								   FontWeight="SemiBold" />
 						<utu:CardContentControl MaxWidth="400"
-												Style="{StaticResource FilledCardContentControlStyle}">
+												Style="{StaticResource SimpleFilledCardContentControlStyle}">
 							<utu:CardContentControl.ContentTemplate>
 								<DataTemplate>
 									<Grid>
@@ -370,13 +370,49 @@
 							</utu:CardContentControl.ContentTemplate>
 						</utu:CardContentControl>
 
+						<!-- Elevated CardContentControl -->
+						<TextBlock Text="Elevated CardContentControl"
+								   FontSize="20"
+								   FontWeight="SemiBold" />
+						<utu:CardContentControl MaxWidth="400"
+												Style="{StaticResource SimpleElevatedCardContentControlStyle}">
+							<utu:CardContentControl.ContentTemplate>
+								<DataTemplate>
+									<Grid>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="Auto" />
+										</Grid.RowDefinitions>
+										<Image Source="ms-appx:///Assets/Media/LargeMedia.png"
+											   Stretch="Uniform" />
+										<StackPanel Grid.Row="1"
+													Margin="16">
+											<TextBlock Text="Elevated card"
+													   MaxLines="1"
+													   FontSize="20"
+													   FontWeight="SemiBold" />
+											<TextBlock Text="With media and supporting text"
+													   MaxLines="2"
+													   FontSize="14"
+													   Opacity="0.6" />
+											<TextBlock Margin="0,16,0,0"
+													   TextWrapping="WrapWholeWords"
+													   Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+													   FontSize="14"
+													   Opacity="0.6" />
+										</StackPanel>
+									</Grid>
+								</DataTemplate>
+							</utu:CardContentControl.ContentTemplate>
+						</utu:CardContentControl>
+
 						<!-- Disabled CardContentControl -->
 						<TextBlock Text="Disabled CardContentControl"
 								   FontSize="20"
 								   FontWeight="SemiBold" />
 						<utu:CardContentControl MaxWidth="400"
 												IsEnabled="False"
-												Style="{StaticResource OutlinedCardContentControlStyle}">
+												Style="{StaticResource SimpleOutlinedCardContentControlStyle}">
 							<utu:CardContentControl.ContentTemplate>
 								<DataTemplate>
 									<StackPanel Margin="16"
@@ -394,6 +430,6 @@
 					</StackPanel>
 				</ScrollViewer>
 			</DataTemplate>
-		</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout.SimpleTemplate>
 	</sample:SamplePageLayout>
 </Page>

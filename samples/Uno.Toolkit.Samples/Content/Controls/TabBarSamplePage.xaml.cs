@@ -5,7 +5,7 @@ using Uno.Toolkit.Samples.ViewModels;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, "TabBar", DataType = typeof(TabBarViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
+	[SamplePage(SampleCategory.Controls, "TabBar", DataType = typeof(TabBarViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Simple })]
 	public sealed partial class TabBarSamplePage : Page
 	{
 		public TabBarSamplePage()

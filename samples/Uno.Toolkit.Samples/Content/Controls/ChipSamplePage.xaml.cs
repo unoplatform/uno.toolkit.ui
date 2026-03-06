@@ -3,7 +3,7 @@ using Uno.Toolkit.Samples.Entities.Data;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, "Chip", SourceSdk.UnoMaterial, DataType = typeof(TestCollections), SupportedDesigns = new[] { Design.Material })]
+	[SamplePage(SampleCategory.Controls, "Chip", SourceSdk.UnoMaterial, DataType = typeof(TestCollections), SupportedDesigns = new[] { Design.Material, Design.Simple })]
 	public sealed partial class ChipSamplePage : Page
 	{
 		public ChipSamplePage()

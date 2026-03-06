@@ -98,5 +98,54 @@
 				</StackPanel>
 			</DataTemplate>
 		</sample:SamplePageLayout.M3MaterialTemplate>
+		<sample:SamplePageLayout.SimpleTemplate>
+			<DataTemplate>
+				<StackPanel Padding="0,20"
+							Spacing="16">
+
+					<TextBlock Text="Default NavigationBar"
+							   FontSize="20"
+							   FontWeight="SemiBold" />
+					<utu:NavigationBar Content="Page Title"
+									   Style="{StaticResource SimpleNavigationBarStyle}">
+						<utu:NavigationBar.MainCommand>
+							<AppBarButton Style="{StaticResource SimpleMainCommandStyle}">
+								<AppBarButton.Icon>
+									<SymbolIcon Symbol="Back" />
+								</AppBarButton.Icon>
+							</AppBarButton>
+						</utu:NavigationBar.MainCommand>
+					</utu:NavigationBar>
+
+					<TextBlock Text="Primary NavigationBar"
+							   FontSize="20"
+							   FontWeight="SemiBold" />
+					<utu:NavigationBar Content="Page Title"
+									   Style="{StaticResource SimplePrimaryNavigationBarStyle}">
+						<utu:NavigationBar.MainCommand>
+							<AppBarButton Style="{StaticResource SimplePrimaryMainCommandStyle}">
+								<AppBarButton.Icon>
+									<SymbolIcon Symbol="Back" />
+								</AppBarButton.Icon>
+							</AppBarButton>
+						</utu:NavigationBar.MainCommand>
+					</utu:NavigationBar>
+
+					<TextBlock Text="Modal NavigationBar"
+							   FontSize="20"
+							   FontWeight="SemiBold" />
+					<utu:NavigationBar Content="Modal Title"
+									   Style="{StaticResource SimpleModalNavigationBarStyle}">
+						<utu:NavigationBar.MainCommand>
+							<AppBarButton Style="{StaticResource SimpleModalMainCommandStyle}">
+								<AppBarButton.Icon>
+									<SymbolIcon Symbol="Cancel" />
+								</AppBarButton.Icon>
+							</AppBarButton>
+						</utu:NavigationBar.MainCommand>
+					</utu:NavigationBar>
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.SimpleTemplate>
 	</sample:SamplePageLayout>
 </Page>
