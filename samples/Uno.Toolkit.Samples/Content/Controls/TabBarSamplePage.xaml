@@ -969,7 +969,7 @@
 								Spacing="20">
 
 						<!--#region SimpleTopTabBarStyle -->
-						<TextBlock Text="Top TabBar HELLO HELLO HELLO"
+						<TextBlock Text="Top TabBar"
 								   FontSize="20"
 								   FontWeight="SemiBold" />
 
