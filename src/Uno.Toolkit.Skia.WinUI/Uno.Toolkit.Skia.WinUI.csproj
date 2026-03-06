@@ -17,21 +17,12 @@
 		<PackageReference Include="Uno.Core.Extensions.Collections" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
-		<PackageReference Include="Uno.WinUI.Graphics2DSK" />
 	</ItemGroup>
 
-	<Choose>
-		<When Condition="$(_IsWindowsWinUI)">
-			<ItemGroup>
-				<PackageReference Include="SkiaSharp.Views.WinUI" />
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
+	<PropertyGroup>
+		<UnoFeatures>Skia</UnoFeatures>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
 	</ItemGroup>
