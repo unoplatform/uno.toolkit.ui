@@ -25,7 +25,6 @@
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<UnoFeatures>
-			Cupertino;
 			SkiaRenderer;
 		</UnoFeatures>
 		<!-- RuntimeTests.Engine package still references old DOM-based WebAssembly runtime -->
