@@ -4,21 +4,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-    <!-- SDK-managed packages: versions here must match or be compatible with Uno.Sdk's managed versions.
-         The Uno.Sdk overrides these at build time, but CPM validation needs entries during restore. -->
-    <PackageVersion Include="SkiaSharp" Version="3.119.1" />
-    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1" />
-    <PackageVersion Include="SkiaSharp.Views.WinUI" Version="3.119.1" />
-    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="3.119.1" />
-    <PackageVersion Include="Uno.Cupertino.WinUI" Version="6.2.0-dev.3" />
-    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="6.6.0-dev.3" />
-    <PackageVersion Include="Uno.Material.WinUI" Version="6.2.0-dev.3" />
-    <PackageVersion Include="Uno.Simple.WinUI" Version="7.0.0-dev.6" />
-    <PackageVersion Include="Uno.WinUI.Graphics2DSK" Version="6.6.0-dev.129" />
-    <PackageVersion Include="Uno.WinUI.Markup" Version="6.6.0-dev.3" />
-    <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7463" />
-    <!-- Non-SDK-managed packages -->
     <PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.1.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />

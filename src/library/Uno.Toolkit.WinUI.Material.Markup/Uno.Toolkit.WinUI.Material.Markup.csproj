@@ -14,7 +14,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All"/>
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" VersionOverride="10.0.26100.7463" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />

@@ -11,11 +11,11 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<UnoFeatures>CSharpMarkup</UnoFeatures>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Uno.Extensions.Markup.Generators" PrivateAssets="All"/>
-		<PackageReference Include="Uno.WinUI.Markup" />
 	</ItemGroup>
 
 	<ItemGroup>

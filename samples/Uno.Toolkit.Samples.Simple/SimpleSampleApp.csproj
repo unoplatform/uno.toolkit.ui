@@ -49,9 +49,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
-		<!-- Override SDK-managed versions to match the library SDK (Uno.Sdk 6.6.0-dev.15) ecosystem packages -->
-		<PackageReference Include="Uno.Simple.WinUI" VersionOverride="7.0.0-dev.6" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" VersionOverride="10.0.26100.7463" />
 	</ItemGroup>
 
 	<Import Project="..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.projitems" Label="Shared" />
