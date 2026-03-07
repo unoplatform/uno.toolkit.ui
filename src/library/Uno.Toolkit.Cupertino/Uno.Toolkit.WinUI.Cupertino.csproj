@@ -15,10 +15,8 @@
 		<RootNamespace>Uno.Toolkit.UI.Cupertino</RootNamespace>
 		<PackageId>Uno.Toolkit.WinUI.Cupertino</PackageId>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
+		<UnoFeatures>Cupertino</UnoFeatures>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Uno.Cupertino.WinUI"  />		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" VersionOverride="10.0.26100.7463" />	</ItemGroup>
 
 	<ItemGroup Condition="$(_IsWindowsWinUI)">
 		<Page Remove="Generated\*.xaml" />
