@@ -82,6 +82,7 @@ server=/core.windows.net/${UPSTREAM_DNS}
 server=/nuget.org/${UPSTREAM_DNS}
 
 # Anthropic
+server=/claude.ai/${UPSTREAM_DNS}
 server=/claude.com/${UPSTREAM_DNS}
 
 # Azure DevOps (Uno Features feed)

@@ -9,11 +9,19 @@ find /tmp/uno-platform-host -maxdepth 1 -type f -exec cp {} "$HOME/.local/share/
 dotnet dev-certs https --trust || true
 
 printf 'claude --dangerously-skip-permissions\n' >> "$HOME/.bash_history"
+printf 'copilot --autopilot --allow-all\n' >> "$HOME/.bash_history"
 
 # Alias so bare `claude` always starts in bypass-permissions mode (safe in devcontainer)
 for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
   if [ -f "$rc" ] && ! grep -q 'alias claude=' "$rc"; then
     printf '\nalias claude="claude --dangerously-skip-permissions"\n' >> "$rc"
+  fi
+done
+
+# Alias so bare `copilot` runs in full autopilot mode (safe in devcontainer)
+for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
+  if [ -f "$rc" ] && ! grep -q 'alias copilot=' "$rc"; then
+    printf '\nalias copilot="copilot --autopilot --allow-all"\n' >> "$rc"
   fi
 done
 
@@ -24,6 +32,45 @@ claude mcp add --scope user --transport http uno https://mcp.platform.uno/v1 || 
 claude mcp add --scope user --transport stdio uno-app -- dotnet dnx -y uno.devserver --mcp-app || true
 
 echo "Claude MCP registration complete. If you encounter issues, run 'claude mcp list' or 'claude mcp inspect uno' / 'claude mcp inspect uno-app'."
+
+# ---------------------------------------------------------------------------
+# Copilot CLI: MCP servers & settings
+# ---------------------------------------------------------------------------
+COPILOT_DIR="$HOME/.copilot"
+mkdir -p "$COPILOT_DIR"
+
+echo "Registering Copilot MCPs for Uno Platform: uno (HTTP docs server) and uno-app (stdio app tooling)."
+
+COPILOT_MCP_CONFIG="$COPILOT_DIR/mcp-config.json"
+MCP_SERVERS='{
+  "mcpServers": {
+    "uno": {
+      "type": "http",
+      "url": "https://mcp.platform.uno/v1"
+    },
+    "uno-app": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": ["dnx", "-y", "uno.devserver", "--mcp-app"]
+    }
+  }
+}'
+
+if [ -f "$COPILOT_MCP_CONFIG" ]; then
+  if jq empty "$COPILOT_MCP_CONFIG" 2>/dev/null; then
+    # Deep-merge new servers into existing config (preserves user-added servers)
+    echo "$MCP_SERVERS" | jq -s '.[0] * .[1]' "$COPILOT_MCP_CONFIG" - > "${COPILOT_MCP_CONFIG}.tmp" \
+      && mv "${COPILOT_MCP_CONFIG}.tmp" "$COPILOT_MCP_CONFIG"
+  else
+    echo "Warning: $COPILOT_MCP_CONFIG contains invalid JSON. Backing up to ${COPILOT_MCP_CONFIG}.bak" >&2
+    cp "$COPILOT_MCP_CONFIG" "${COPILOT_MCP_CONFIG}.bak"
+    echo "$MCP_SERVERS" | jq . > "$COPILOT_MCP_CONFIG"
+  fi
+else
+  echo "$MCP_SERVERS" | jq . > "$COPILOT_MCP_CONFIG"
+fi
+
+echo "Copilot MCP registration complete. Config written to $COPILOT_MCP_CONFIG."
 
 # ---------------------------------------------------------------------------
 # Claude Code status line
@@ -52,12 +99,7 @@ BAR=$(printf "%${FILLED}s" | tr ' ' '=')$(printf "%${EMPTY}s" | tr ' ' '-')
 MINS=$((DURATION_MS / 60000)); SECS=$(((DURATION_MS % 60000) / 1000))
 
 BRANCH=""
-if [ -n "$DIR" ] && git -C "$DIR" rev-parse --git-dir >/dev/null 2>&1; then
-  BRANCH_NAME=$(git -C "$DIR" branch --show-current 2>/dev/null || true)
-  if [ -n "$BRANCH_NAME" ]; then
-    BRANCH=" | 🌿 $BRANCH_NAME"
-  fi
-fi
+git rev-parse --git-dir > /dev/null 2>&1 && BRANCH=" | 🌿 $(git branch --show-current 2>/dev/null)"
 
 echo -e "${CYAN}[$MODEL]${RESET} 📁 ${DIR##*/}$BRANCH"
 COST_FMT=$(printf '$%.2f' "$COST")
