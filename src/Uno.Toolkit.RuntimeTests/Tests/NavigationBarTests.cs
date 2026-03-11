@@ -93,13 +93,20 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			Assert.AreEqual(TextWrapping.Wrap, AppBarButtonExtensions.GetTextWrapping(button), "Attached property should be set to Wrap");
 
-			var presenter = button.GetFirstDescendant<ContentPresenter>("ContentPresenter");
-			Assert.IsNotNull(presenter, "ContentPresenter should exist in the visual tree");
-			Assert.AreEqual(TextWrapping.Wrap, presenter!.TextWrapping, "ContentPresenter.TextWrapping should be Wrap");
+			// Wait for the deferred LayoutUpdated application of TextWrapping
+			await UnitTestUIContentHelperEx.WaitFor(
+				() => button.GetFirstDescendant<ContentPresenter>("ContentPresenter") is { } p && p.TextWrapping == TextWrapping.Wrap,
+				message: "ContentPresenter.TextWrapping should become Wrap");
 
-			var textBlock = button.GetFirstDescendant<TextBlock>();
-			Assert.IsNotNull(textBlock, "TextBlock should exist in the visual tree");
-			Assert.AreEqual(TextWrapping.Wrap, textBlock!.TextWrapping, "TextBlock.TextWrapping should be Wrap");
+			var presenter = button.GetFirstDescendant<ContentPresenter>("ContentPresenter")!;
+			Assert.AreEqual(TextWrapping.Wrap, presenter.TextWrapping, "ContentPresenter.TextWrapping should be Wrap");
+
+			await UnitTestUIContentHelperEx.WaitFor(
+				() => button.GetFirstDescendant<TextBlock>() is { } tb && tb.TextWrapping == TextWrapping.Wrap,
+				message: "TextBlock.TextWrapping should become Wrap");
+
+			var textBlock = button.GetFirstDescendant<TextBlock>()!;
+			Assert.AreEqual(TextWrapping.Wrap, textBlock.TextWrapping, "TextBlock.TextWrapping should be Wrap");
 		}
 
 		[TestMethod]

@@ -50,8 +50,10 @@ public static class AppBarButtonExtensions
 						// Visual tree may not yet be built at Loaded time, defer to LayoutUpdated
 						void OnLayoutUpdated(object? s, object ea)
 						{
-							button.LayoutUpdated -= OnLayoutUpdated;
-							ApplyTextWrapping(button, GetTextWrapping(button));
+							if (ApplyTextWrapping(button, GetTextWrapping(button)))
+							{
+								button.LayoutUpdated -= OnLayoutUpdated;
+							}
 						}
 
 						button.LayoutUpdated += OnLayoutUpdated;
@@ -70,10 +72,9 @@ public static class AppBarButtonExtensions
 			return false;
 		}
 
-		presenter.TextWrapping = wrapping;
-
 		if (wrapping != TextWrapping.NoWrap)
 		{
+			presenter.TextWrapping = wrapping;
 			presenter.HorizontalAlignment = HorizontalAlignment.Stretch;
 
 			if (presenter.Parent is FrameworkElement contentRoot)
@@ -83,6 +84,7 @@ public static class AppBarButtonExtensions
 		}
 		else
 		{
+			presenter.ClearValue(ContentPresenter.TextWrappingProperty);
 			presenter.ClearValue(FrameworkElement.HorizontalAlignmentProperty);
 
 			if (presenter.Parent is FrameworkElement contentRoot)
@@ -93,8 +95,16 @@ public static class AppBarButtonExtensions
 
 		if (button.GetFirstDescendant<TextBlock>() is { } textBlock)
 		{
-			textBlock.TextWrapping = wrapping;
-			textBlock.TextAlignment = wrapping != TextWrapping.NoWrap ? TextAlignment.Center : TextAlignment.Start;
+			if (wrapping != TextWrapping.NoWrap)
+			{
+				textBlock.TextWrapping = wrapping;
+				textBlock.TextAlignment = TextAlignment.Center;
+			}
+			else
+			{
+				textBlock.ClearValue(TextBlock.TextWrappingProperty);
+				textBlock.ClearValue(TextBlock.TextAlignmentProperty);
+			}
 		}
 
 		return true;
