@@ -102,10 +102,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreEqual(TextWrapping.Wrap, presenter.TextWrapping, "ContentPresenter.TextWrapping should be Wrap");
 
 			await UnitTestUIContentHelperEx.WaitFor(
-				() => button.GetFirstDescendant<TextBlock>() is { } tb && tb.TextWrapping == TextWrapping.Wrap,
+				() => presenter.GetFirstDescendant<TextBlock>() is { } tb && tb.TextWrapping == TextWrapping.Wrap,
 				message: "TextBlock.TextWrapping should become Wrap");
 
-			var textBlock = button.GetFirstDescendant<TextBlock>()!;
+			var textBlock = presenter.GetFirstDescendant<TextBlock>()!;
 			Assert.AreEqual(TextWrapping.Wrap, textBlock.TextWrapping, "TextBlock.TextWrapping should be Wrap");
 		}
 

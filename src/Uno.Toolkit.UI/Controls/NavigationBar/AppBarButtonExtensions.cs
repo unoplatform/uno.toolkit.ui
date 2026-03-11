@@ -93,7 +93,7 @@ public static class AppBarButtonExtensions
 			}
 		}
 
-		if (button.GetFirstDescendant<TextBlock>() is { } textBlock)
+		if (presenter.GetFirstDescendant<TextBlock>() is { } textBlock)
 		{
 			if (wrapping != TextWrapping.NoWrap)
 			{
