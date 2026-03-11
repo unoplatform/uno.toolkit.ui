@@ -3,11 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 #endif
 
 namespace Uno.Toolkit.UI;
@@ -46,7 +44,18 @@ public static class AppBarButtonExtensions
 				void OnLoaded(object sender, RoutedEventArgs args)
 				{
 					button.Loaded -= OnLoaded;
-					ApplyTextWrapping(button, GetTextWrapping(button));
+
+					if (!ApplyTextWrapping(button, GetTextWrapping(button)))
+					{
+						// Visual tree may not yet be built at Loaded time, defer to LayoutUpdated
+						void OnLayoutUpdated(object? s, object ea)
+						{
+							button.LayoutUpdated -= OnLayoutUpdated;
+							ApplyTextWrapping(button, GetTextWrapping(button));
+						}
+
+						button.LayoutUpdated += OnLayoutUpdated;
+					}
 				}
 
 				button.Loaded += OnLoaded;
@@ -54,31 +63,40 @@ public static class AppBarButtonExtensions
 		}
 	}
 
-	private static void ApplyTextWrapping(AppBarButton button, TextWrapping wrapping)
+	private static bool ApplyTextWrapping(AppBarButton button, TextWrapping wrapping)
 	{
-		if (FindChildByName<ContentPresenter>(button, "ContentPresenter") is { } presenter)
+		if (button.GetFirstDescendant<ContentPresenter>("ContentPresenter") is not { } presenter)
 		{
-			presenter.TextWrapping = wrapping;
-		}
-	}
-
-	private static T? FindChildByName<T>(DependencyObject parent, string name) where T : FrameworkElement
-	{
-		for (var i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-		{
-			var child = VisualTreeHelper.GetChild(parent, i);
-
-			if (child is T match && match.Name == name)
-			{
-				return match;
-			}
-
-			if (FindChildByName<T>(child, name) is { } result)
-			{
-				return result;
-			}
+			return false;
 		}
 
-		return null;
+		presenter.TextWrapping = wrapping;
+
+		if (wrapping != TextWrapping.NoWrap)
+		{
+			presenter.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+			if (presenter.Parent is FrameworkElement contentRoot)
+			{
+				contentRoot.HorizontalAlignment = HorizontalAlignment.Stretch;
+			}
+		}
+		else
+		{
+			presenter.ClearValue(FrameworkElement.HorizontalAlignmentProperty);
+
+			if (presenter.Parent is FrameworkElement contentRoot)
+			{
+				contentRoot.ClearValue(FrameworkElement.HorizontalAlignmentProperty);
+			}
+		}
+
+		if (button.GetFirstDescendant<TextBlock>() is { } textBlock)
+		{
+			textBlock.TextWrapping = wrapping;
+			textBlock.TextAlignment = wrapping != TextWrapping.NoWrap ? TextAlignment.Center : TextAlignment.Start;
+		}
+
+		return true;
 	}
 }

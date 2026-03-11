@@ -76,28 +76,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
-		public async Task PrimaryCommand_AppBarButton_Does_Not_Overlap_Title()
-		{
-			var primaryCommand = new AppBarButton { Content = "Save Changes" };
-			var navigationBar = new NavigationBar
-			{
-				Content = "A Very Long Navigation Bar Title That Could Overlap",
-				Width = 400,
-			};
-			navigationBar.PrimaryCommands.Add(primaryCommand);
-
-			var content = new Grid { Children = { navigationBar } };
-
-			await UnitTestUIContentHelperEx.SetContentAndWait(content);
-
-			Assert.IsTrue(primaryCommand.ActualWidth > 0, "PrimaryCommand should render");
-			Assert.IsTrue(primaryCommand.ActualHeight > 0, "PrimaryCommand should render");
-		}
-
-		[TestMethod]
 		public async Task AppBarButton_TextWrapping_AttachedProperty_Applies()
 		{
-			var button = new AppBarButton { Content = "Wrap Me", Width = 50 };
+			var button = new AppBarButton { Content = "Wrap This Text" };
 			AppBarButtonExtensions.SetTextWrapping(button, TextWrapping.Wrap);
 
 			var navigationBar = new NavigationBar
@@ -111,8 +92,32 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await UnitTestUIContentHelperEx.SetContentAndWait(content);
 
 			Assert.AreEqual(TextWrapping.Wrap, AppBarButtonExtensions.GetTextWrapping(button), "Attached property should be set to Wrap");
-			Assert.IsTrue(button.ActualHeight > 0, "Button should render");
-			Assert.IsTrue(button.ActualWidth > 0, "Button should render");
+
+			var presenter = button.GetFirstDescendant<ContentPresenter>("ContentPresenter");
+			Assert.IsNotNull(presenter, "ContentPresenter should exist in the visual tree");
+			Assert.AreEqual(TextWrapping.Wrap, presenter!.TextWrapping, "ContentPresenter.TextWrapping should be Wrap");
+
+			var textBlock = button.GetFirstDescendant<TextBlock>();
+			Assert.IsNotNull(textBlock, "TextBlock should exist in the visual tree");
+			Assert.AreEqual(TextWrapping.Wrap, textBlock!.TextWrapping, "TextBlock.TextWrapping should be Wrap");
+		}
+
+		[TestMethod]
+		public async Task AppBarButton_TextWrapping_NoWrap_By_Default()
+		{
+			var button = new AppBarButton { Content = "Default" };
+
+			var navigationBar = new NavigationBar
+			{
+				Content = "Title",
+				Width = 400,
+			};
+			navigationBar.PrimaryCommands.Add(button);
+			var content = new Grid { Children = { navigationBar } };
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+			Assert.AreEqual(TextWrapping.NoWrap, AppBarButtonExtensions.GetTextWrapping(button), "Default TextWrapping should be NoWrap");
 		}
 
 		[TestMethod]

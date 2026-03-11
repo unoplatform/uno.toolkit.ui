@@ -325,7 +325,6 @@
 								   TargetType="ToggleSplitButton" />
 							<Style BasedOn="{StaticResource MaterialAppBarButtonStyle}"
 								   TargetType="AppBarButton">
-								<Setter Property="utu:AppBarButtonExtensions.TextWrapping" Value="Wrap" />
 							</Style>
 
 							<not_mobile:StaticResource x:Key="AppBarButtonHeight"
@@ -811,7 +810,6 @@
 								   TargetType="ToggleSplitButton" />
 							<Style BasedOn="{StaticResource MaterialPrimaryAppBarButtonStyle}"
 								   TargetType="AppBarButton">
-								<Setter Property="utu:AppBarButtonExtensions.TextWrapping" Value="Wrap" />
 							</Style>
 
 							<not_mobile:StaticResource x:Key="AppBarButtonHeight"
