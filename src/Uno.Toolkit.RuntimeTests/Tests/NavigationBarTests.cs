@@ -56,6 +56,66 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
+		public async Task PrimaryCommand_AppBarButton_Renders_With_Text_Content()
+		{
+			var primaryCommand = new AppBarButton { Content = "Save" };
+
+			var navigationBar = new NavigationBar
+			{
+				Content = "Title",
+				Width = 400,
+			};
+			navigationBar.PrimaryCommands.Add(primaryCommand);
+
+			var content = new Grid { Children = { navigationBar } };
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+			Assert.IsTrue(primaryCommand.ActualWidth > 0, "PrimaryCommand ActualWidth should be greater than 0");
+			Assert.IsTrue(primaryCommand.ActualHeight > 0, "PrimaryCommand ActualHeight should be greater than 0");
+		}
+
+		[TestMethod]
+		public async Task PrimaryCommand_AppBarButton_Does_Not_Overlap_Title()
+		{
+			var primaryCommand = new AppBarButton { Content = "Save Changes" };
+			var navigationBar = new NavigationBar
+			{
+				Content = "A Very Long Navigation Bar Title That Could Overlap",
+				Width = 400,
+			};
+			navigationBar.PrimaryCommands.Add(primaryCommand);
+
+			var content = new Grid { Children = { navigationBar } };
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+			Assert.IsTrue(primaryCommand.ActualWidth > 0, "PrimaryCommand should render");
+			Assert.IsTrue(primaryCommand.ActualHeight > 0, "PrimaryCommand should render");
+		}
+
+		[TestMethod]
+		public async Task AppBarButton_TextWrapping_AttachedProperty_Applies()
+		{
+			var button = new AppBarButton { Content = "Wrap Me", Width = 50 };
+			AppBarButtonExtensions.SetTextWrapping(button, TextWrapping.Wrap);
+
+			var navigationBar = new NavigationBar
+			{
+				Content = "Title",
+				Width = 400,
+			};
+			navigationBar.PrimaryCommands.Add(button);
+			var content = new Grid { Children = { navigationBar } };
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(content);
+
+			Assert.AreEqual(TextWrapping.Wrap, AppBarButtonExtensions.GetTextWrapping(button), "Attached property should be set to Wrap");
+			Assert.IsTrue(button.ActualHeight > 0, "Button should render");
+			Assert.IsTrue(button.ActualWidth > 0, "Button should render");
+		}
+
+		[TestMethod]
 		public async Task MainCommand_Works_From_Code_Init()
 		{
 			bool success = false;

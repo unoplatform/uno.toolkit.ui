@@ -29,7 +29,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.UI
 {
-	internal static class AppBarButtonExtensions
+	internal static class AppBarButtonInternalExtensions
 	{
 		public static void RaiseClick(this AppBarButton? button)
 		{
