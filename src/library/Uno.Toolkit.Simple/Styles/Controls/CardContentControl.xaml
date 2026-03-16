@@ -9,7 +9,7 @@
 		<ResourceDictionary x:Key="Light">
 			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
 			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
 		</ResourceDictionary>
 
@@ -17,7 +17,7 @@
 		<ResourceDictionary x:Key="Default">
 			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
 			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
