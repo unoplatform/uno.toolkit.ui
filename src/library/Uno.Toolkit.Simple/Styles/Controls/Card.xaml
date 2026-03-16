@@ -10,7 +10,7 @@
 			<!--  Default Card  -->
 			<StaticResource x:Key="SimpleCardBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleCardBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="SimpleCardBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleCardBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
 			<StaticResource x:Key="SimpleCardForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleCardSecondaryForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
 			<StaticResource x:Key="SimpleCardBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
@@ -28,7 +28,7 @@
 			<!--  Default Card  -->
 			<StaticResource x:Key="SimpleCardBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleCardBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="SimpleCardBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="SimpleCardBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
 			<StaticResource x:Key="SimpleCardForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
 			<StaticResource x:Key="SimpleCardSecondaryForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
 			<StaticResource x:Key="SimpleCardBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
