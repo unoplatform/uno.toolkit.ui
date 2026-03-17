@@ -197,10 +197,10 @@ namespace Uno.Toolkit.UI
 
 			var result = new Thickness
 			{
-				Left = visibleBounds.Left - bounds.Left,
-				Top = visibleBounds.Top - bounds.Top,
-				Right = bounds.Right - visibleBounds.Right,
-				Bottom = bounds.Bottom - visibleBounds.Bottom,
+				Left = Math.Max(0, visibleBounds.Left - bounds.Left),
+				Top = Math.Max(0, visibleBounds.Top - bounds.Top),
+				Right = Math.Max(0, bounds.Right - visibleBounds.Right),
+				Bottom = Math.Max(0, bounds.Bottom - visibleBounds.Bottom),
 			};
 
 			if (_log.IsEnabled(LogLevel.Debug))
@@ -294,6 +294,12 @@ namespace Uno.Toolkit.UI
 #if DEBUG
 			internal event TypedEventHandler<SafeAreaDetails, Thickness>? InsetsApplied;
 #endif
+
+			// Track the last-known Window.Bounds and VisibleBounds to detect race conditions
+			// during StatusBar translucency transitions where VisibleBounds updates before Bounds.
+			private static Rect s_lastKnownBounds;
+			private static Rect s_lastKnownVisibleBounds;
+			private static bool s_boundsTransitionPending;
 
 			private readonly WeakReference _owner;
 			private FrameworkElement? Owner => _owner.Target as FrameworkElement;
@@ -455,7 +461,40 @@ namespace Uno.Toolkit.UI
 					// The LayoutUpdated will guarantee that we will be called again after the ancestor is applied.
 					return;
 				}
-				
+
+				// Detect race condition: VisibleBounds updated before Window.Bounds
+				if (!HasSoftInput())
+				{
+					var currentBounds = XamlWindow.Current?.Bounds ?? Rect.Empty;
+					var currentVB = ApplicationView.GetForCurrentView().VisibleBounds;
+
+					var boundsChanged = currentBounds != s_lastKnownBounds;
+					var visibleBoundsChanged = currentVB != s_lastKnownVisibleBounds;
+
+					if (s_boundsTransitionPending && !boundsChanged)
+					{
+						// A previous instance already detected a transition in progress and
+						// Window.Bounds still hasn't caught up — defer this instance too.
+						Owner?.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
+						return;
+					}
+
+					if (s_lastKnownBounds != default
+						&& visibleBoundsChanged
+						&& !boundsChanged)
+					{
+						// VisibleBounds changed but Window.Bounds hasn't caught up yet — defer.
+						s_boundsTransitionPending = true;
+						Owner?.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
+						return;
+					}
+
+					// Bounds have caught up (or no transition was pending) — update cached values.
+					s_boundsTransitionPending = false;
+					s_lastKnownBounds = currentBounds;
+					s_lastKnownVisibleBounds = currentVB;
+				}
+
 				UpdateSafeAreaOverride();
 
 				var visibilityPadding = default(Thickness);
@@ -468,8 +507,8 @@ namespace Uno.Toolkit.UI
 
 					// Using relativeTo: null instead of Window.Current.Content since there are cases when the current UIElement
 					// may be outside the bounds of the current Window content, for example, when the element is hosted in a modal window.
-					var controlBounds = GetRelativeBounds(fixedControl, relativeTo: null);
-					controlBounds = CorrectControlBounds(fixedControl, controlBounds);
+					var controlBounds = GetRelativeBounds(fixedControl!, relativeTo: null);
+					controlBounds = CorrectControlBounds(fixedControl!, controlBounds);
 
 					visibilityPadding = CalculateVisibilityInsets(OffsetVisibleBounds, controlBounds);
 
@@ -650,7 +689,13 @@ namespace Uno.Toolkit.UI
 #if __ANDROID__
 				// Dispatching on Android prevents issues where layout/render changes occurring
 				// during the initial loading of the view are not always properly picked up by the layouting/rendering engine.
-				owner.GetDispatcherCompat().Schedule(()=> owner.InvalidateMeasure());
+				// Also invalidate the parent to ensure that Auto-sized grid rows properly
+				// shrink when the SafeArea padding decreases.
+				owner.GetDispatcherCompat().Schedule(() =>
+				{
+					owner.InvalidateMeasure();
+					(owner.Parent as UIElement)?.InvalidateMeasure();
+				});
 #endif
 
 				EffectiveInsetsApplied?.Invoke(this, newInsets);

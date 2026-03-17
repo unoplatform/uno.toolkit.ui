@@ -165,6 +165,72 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 
+		[TestMethod]
+		public async Task BottomInset_NotInflated_WhenTransitioningToTranslucentBars()
+		{
+			// Regression test: When transitioning to translucent system bars (e.g., setting StatusBar.Background),
+			// VisibleBounds updates before Window.Bounds, causing the SafeArea to temporarily calculate inflated
+			// bottom insets. This transient inflation can permanently stretch controls in Auto-sized grid rows.
+			using var _ = SetupWindow();
+
+			var content = new Grid { Background = new SolidColorBrush(Colors.Blue) };
+			var tabBarGrid = new Grid
+			{
+				Background = new SolidColorBrush(Colors.Red),
+				MinHeight = 80,
+			};
+
+			var parentGrid = new Grid
+			{
+				RowDefinitions =
+				{
+					new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+					new RowDefinition { Height = GridLength.Auto },
+				},
+			};
+
+			Grid.SetRow(content, 0);
+			Grid.SetRow(tabBarGrid, 1);
+			parentGrid.Children.Add(content);
+			parentGrid.Children.Add(tabBarGrid);
+
+			// Apply SafeArea.Insets="Bottom" on the bottom element (mimics MaterialBottomTabBarStyle)
+			SafeArea.SetInsets(tabBarGrid, SafeArea.InsetMask.Bottom);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(parentGrid);
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var heightBeforeTransition = tabBarGrid.ActualHeight;
+			var paddingBeforeTransition = tabBarGrid.Padding.Bottom;
+
+			// Now transition to translucent bars (simulates StatusBar.Background being set)
+			using var __ = UseTranslucentBars();
+
+			// Wait for the layout to stabilize after the bar transition
+			var lastHeight = tabBarGrid.ActualHeight;
+			await UnitTestUIContentHelperEx.WaitFor(() =>
+			{
+				var current = tabBarGrid.ActualHeight;
+				var stable = Math.Abs(current - lastHeight) < 0.1;
+				lastHeight = current;
+				return stable;
+			}, timeoutMS: 2000, message: "TabBar height did not stabilize after bar transition");
+
+			var heightAfterTransition = tabBarGrid.ActualHeight;
+			var paddingAfterTransition = tabBarGrid.Padding.Bottom;
+
+			// The bottom padding should not have increased beyond what it was before the transition.
+			// During the race condition, it would temporarily spike (e.g., from 24 to 75.8) and
+			// the control would get stuck at the inflated height.
+			Assert.IsTrue(
+				heightAfterTransition <= heightBeforeTransition + 1,
+				$"TabBar height should not inflate during bar transition. Before: {heightBeforeTransition}, After: {heightAfterTransition}");
+			Assert.IsTrue(
+				paddingAfterTransition <= paddingBeforeTransition + 1,
+				$"TabBar bottom padding should not inflate during bar transition. Before: {paddingBeforeTransition}, After: {paddingAfterTransition}");
+		}
+
+
 		private static IDisposable UseTranslucentBars()
 		{
 			var activity = Uno.UI.ContextHelper.Current as Android.App.Activity;
