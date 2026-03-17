@@ -299,6 +299,7 @@ namespace Uno.Toolkit.UI
 			// during StatusBar translucency transitions where VisibleBounds updates before Bounds.
 			private static Rect s_lastKnownBounds;
 			private static Rect s_lastKnownVisibleBounds;
+			private static bool s_boundsTransitionPending;
 
 			private readonly WeakReference _owner;
 			private FrameworkElement? Owner => _owner.Target as FrameworkElement;
@@ -467,12 +468,13 @@ namespace Uno.Toolkit.UI
 					var currentBounds = XamlWindow.Current?.Bounds ?? Rect.Empty;
 					var currentVB = ApplicationView.GetForCurrentView().VisibleBounds;
 
-					if (s_lastKnownBounds != default
-						&& currentVB != s_lastKnownVisibleBounds
-						&& currentBounds == s_lastKnownBounds)
+					var boundsChanged = currentBounds != s_lastKnownBounds;
+					var visibleBoundsChanged = currentVB != s_lastKnownVisibleBounds;
+
+					if (s_boundsTransitionPending && !boundsChanged)
 					{
-						// VisibleBounds changed but Window.Bounds hasn't caught up yet — defer.
-						s_lastKnownVisibleBounds = currentVB;
+						// A previous instance already detected a transition in progress and
+						// Window.Bounds still hasn't caught up — defer this instance too.
 						if (Owner is { } deferOwner)
 						{
 							deferOwner.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
@@ -480,6 +482,21 @@ namespace Uno.Toolkit.UI
 						return;
 					}
 
+					if (s_lastKnownBounds != default
+						&& visibleBoundsChanged
+						&& !boundsChanged)
+					{
+						// VisibleBounds changed but Window.Bounds hasn't caught up yet — defer.
+						s_boundsTransitionPending = true;
+						if (Owner is { } deferOwner)
+						{
+							deferOwner.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
+						}
+						return;
+					}
+
+					// Bounds have caught up (or no transition was pending) — update cached values.
+					s_boundsTransitionPending = false;
 					s_lastKnownBounds = currentBounds;
 					s_lastKnownVisibleBounds = currentVB;
 				}

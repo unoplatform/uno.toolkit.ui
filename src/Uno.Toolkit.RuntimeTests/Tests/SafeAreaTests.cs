@@ -206,9 +206,15 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			// Now transition to translucent bars (simulates StatusBar.Background being set)
 			using var __ = UseTranslucentBars();
 
-			// Allow multiple layout passes to settle
-			await Task.Delay(500);
-			await UnitTestsUIContentHelper.WaitForIdle();
+			// Wait for the layout to stabilize after the bar transition
+			var lastHeight = tabBarGrid.ActualHeight;
+			await UnitTestUIContentHelperEx.WaitFor(() =>
+			{
+				var current = tabBarGrid.ActualHeight;
+				var stable = Math.Abs(current - lastHeight) < 0.1;
+				lastHeight = current;
+				return stable;
+			}, timeoutMS: 2000, message: "TabBar height did not stabilize after bar transition");
 
 			var heightAfterTransition = tabBarGrid.ActualHeight;
 			var paddingAfterTransition = tabBarGrid.Padding.Bottom;
@@ -219,6 +225,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsTrue(
 				heightAfterTransition <= heightBeforeTransition + 1,
 				$"TabBar height should not inflate during bar transition. Before: {heightBeforeTransition}, After: {heightAfterTransition}");
+			Assert.IsTrue(
+				paddingAfterTransition <= paddingBeforeTransition + 1,
+				$"TabBar bottom padding should not inflate during bar transition. Before: {paddingBeforeTransition}, After: {paddingAfterTransition}");
 		}
 
 
