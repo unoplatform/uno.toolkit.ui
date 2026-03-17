@@ -475,10 +475,7 @@ namespace Uno.Toolkit.UI
 					{
 						// A previous instance already detected a transition in progress and
 						// Window.Bounds still hasn't caught up — defer this instance too.
-						if (Owner is { } deferOwner)
-						{
-							deferOwner.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
-						}
+						Owner?.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
 						return;
 					}
 
@@ -488,10 +485,7 @@ namespace Uno.Toolkit.UI
 					{
 						// VisibleBounds changed but Window.Bounds hasn't caught up yet — defer.
 						s_boundsTransitionPending = true;
-						if (Owner is { } deferOwner)
-						{
-							deferOwner.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
-						}
+						Owner?.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
 						return;
 					}
 
@@ -700,10 +694,7 @@ namespace Uno.Toolkit.UI
 				owner.GetDispatcherCompat().Schedule(() =>
 				{
 					owner.InvalidateMeasure();
-					if (owner.Parent is UIElement parent)
-					{
-						parent.InvalidateMeasure();
-					}
+					(owner.Parent as UIElement)?.InvalidateMeasure();
 				});
 #endif
 
