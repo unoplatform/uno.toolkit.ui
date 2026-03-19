@@ -1,0 +1,170 @@
+<Page x:Class="Uno.Toolkit.Samples.Content.Controls.DataGridSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d">
+
+	<Grid Padding="16">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!-- Tab header row -->
+		<StackPanel Orientation="Horizontal" Spacing="4" Margin="0,0,0,8">
+			<ToggleButton x:Name="TabAllComponents" Content="All Components" IsChecked="True" />
+			<ToggleButton x:Name="TabGrouping" Content="Grouping" />
+			<ToggleButton x:Name="TabLargeData" Content="Large Data" />
+			<ToggleButton x:Name="TabTheming" Content="Theming" />
+		</StackPanel>
+
+		<!-- ═══════════════════════════════════════════════════════
+		     TAB 1: All Components
+		     ═══════════════════════════════════════════════════════ -->
+		<Grid x:Name="AllComponentsPanel" Grid.Row="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,0,8">
+				<Button x:Name="AddRowBtn" Content="Add Row" />
+				<Button x:Name="RemoveLastBtn" Content="Remove Last" />
+				<Button x:Name="UpdateSalaryBtn" Content="Update Salary" />
+				<Button x:Name="RandomizeBtn" Content="Randomize Ratings" />
+				<Button x:Name="RowDragBtn" Content="Row Drag: Handle" />
+				<Button x:Name="ThemeBtn" Content="Theme: Light" />
+			</StackPanel>
+
+			<StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="6" Margin="0,0,0,8">
+				<Button x:Name="HandlePosBtn" Content="Handle: Left" />
+				<Button x:Name="DismissKBBtn" Content="Dismiss KB: ON" />
+				<Button x:Name="EditTriggerBtn" Content="Edit: DoubleTap" />
+				<Button x:Name="SelectionModeBtn" Content="Selection: Extended" />
+			</StackPanel>
+
+			<utu:DataGridView x:Name="SampleDataGrid"
+							  Grid.Row="2"
+							  HeaderHeight="40"
+							  RowHeight="36"
+							  AllowSorting="True"
+							  AllowFiltering="True"
+							  GridSelectionMode="Extended"
+							  FrozenRowCount="2"
+							  DismissKeyboardOnEnter="True"
+							  GridDescription="Employee data grid with all component types" />
+		</Grid>
+
+		<!-- ═══════════════════════════════════════════════════════
+		     TAB 2: Grouping
+		     ═══════════════════════════════════════════════════════ -->
+		<Grid x:Name="GroupingPanel" Grid.Row="1" Visibility="Collapsed">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,0,8">
+				<Button x:Name="GroupDeptBtn" Content="Group by Dept" />
+				<Button x:Name="GroupLevelBtn" Content="Group by Level" />
+				<Button x:Name="GroupBothBtn" Content="Group by Both" />
+				<Button x:Name="ClearGroupBtn" Content="Clear Groups" />
+			</StackPanel>
+
+			<StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="6" Margin="0,0,0,8">
+				<Button x:Name="ExpandAllBtn" Content="Expand All" />
+				<Button x:Name="CollapseAllBtn" Content="Collapse All" />
+				<Button x:Name="AddGroupSummaryBtn" Content="Add Group Summary" />
+				<Button x:Name="ToggleFilteringBtn" Content="Filtering: ON" />
+			</StackPanel>
+
+			<utu:DataGridView x:Name="GroupingDataGrid"
+							  Grid.Row="2"
+							  HeaderHeight="40"
+							  RowHeight="36"
+							  AllowSorting="True"
+							  AllowFiltering="True"
+							  GridSelectionMode="Extended"
+							  DismissKeyboardOnEnter="True"
+							  GridDescription="Grouping demo" />
+		</Grid>
+
+		<!-- ═══════════════════════════════════════════════════════
+		     TAB 3: Large Data
+		     ═══════════════════════════════════════════════════════ -->
+		<Grid x:Name="LargeDataPanel" Grid.Row="1" Visibility="Collapsed">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,0,8">
+				<Button x:Name="Load10KBtn" Content="Load 10K" />
+				<Button x:Name="Load50KBtn" Content="Load 50K" />
+				<Button x:Name="Load100KBtn" Content="Load 100K" />
+				<Button x:Name="ClearDataBtn" Content="Clear" />
+				<Button x:Name="UpdateRandomBtn" Content="Update Random" />
+				<Button x:Name="LargeThemeBtn" Content="Theme: Light" />
+			</StackPanel>
+
+			<TextBlock x:Name="LargeDataStatus" Grid.Row="1"
+					   Text="Click a button to load data..."
+					   Margin="0,0,0,8"
+					   Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+
+			<utu:DataGridView x:Name="LargeDataGrid"
+							  Grid.Row="2"
+							  HeaderHeight="40"
+							  RowHeight="36"
+							  AllowSorting="True"
+							  GridSelectionMode="Extended"
+							  IsReadOnly="True"
+							  GridDescription="Large data performance test" />
+		</Grid>
+
+		<!-- ═══════════════════════════════════════════════════════
+		     TAB 4: Theming
+		     ═══════════════════════════════════════════════════════ -->
+		<Grid x:Name="ThemingPanel" Grid.Row="1" Visibility="Collapsed">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,0,8">
+				<Button x:Name="ThemeLightBtn" Content="Light" />
+				<Button x:Name="ThemeDarkBtn" Content="Dark" />
+				<Button x:Name="ThemeHCBtn" Content="High Contrast" />
+				<Button x:Name="ThemeOceanBtn" Content="Ocean Blue" />
+				<Button x:Name="ThemeForestBtn" Content="Forest Green" />
+				<Button x:Name="ThemeSunsetBtn" Content="Sunset" />
+			</StackPanel>
+
+			<StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="6" Margin="0,0,0,8">
+				<TextBlock Text="Header R:" VerticalAlignment="Center" />
+				<Slider x:Name="SliderR" Minimum="0" Maximum="255" Value="63" Width="120" />
+				<TextBlock Text="G:" VerticalAlignment="Center" />
+				<Slider x:Name="SliderG" Minimum="0" Maximum="255" Value="81" Width="120" />
+				<TextBlock Text="B:" VerticalAlignment="Center" />
+				<Slider x:Name="SliderB" Minimum="0" Maximum="255" Value="181" Width="120" />
+			</StackPanel>
+
+			<utu:DataGridView x:Name="ThemingDataGrid"
+							  Grid.Row="2"
+							  HeaderHeight="40"
+							  RowHeight="36"
+							  AllowSorting="True"
+							  AllowFiltering="True"
+							  GridSelectionMode="Extended"
+							  IsReadOnly="True"
+							  GridDescription="Theming demo" />
+		</Grid>
+	</Grid>
+</Page>

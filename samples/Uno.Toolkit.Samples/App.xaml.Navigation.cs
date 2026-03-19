@@ -251,7 +251,7 @@ partial class App
 	{
 		// Only show controls that have SDS styles
 		return attr.Category == SampleCategory.Controls
-			&& attr.Title is "Card" or "CardContentControl" or "Chip" or "Divider" or "NavigationBar" or "TabBar";
+			&& attr.Title is "Card" or "CardContentControl" or "Chip" or "DataGrid" or "Divider" or "NavigationBar" or "TabBar";
 	}
 #endif
 

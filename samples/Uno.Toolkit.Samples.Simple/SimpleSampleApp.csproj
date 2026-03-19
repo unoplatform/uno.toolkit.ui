@@ -9,6 +9,9 @@
 		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('android'))">$(TargetFrameworks);net10.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('browserwasm'))">$(TargetFrameworks);net10.0-browserwasm</TargetFrameworks>
 		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('desktop'))">$(TargetFrameworks);net10.0-desktop</TargetFrameworks>
+		<!-- DataGrid POC: always include Android with SkiaRenderer, even when 'android' is not in the override -->
+		<!-- (keeping 'android' out of the override prevents libraries from building net9.0-android native) -->
+		<TargetFrameworks Condition="!$(TargetFrameworks.Contains('android'))">$(TargetFrameworks);net10.0-android</TargetFrameworks>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(TargetFrameworkOverride)'==''">
 		<TargetFrameworks>net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
@@ -50,6 +53,21 @@
 	<ItemGroup>
 		<PackageReference Include="Uno.Core.Extensions.Compatibility" />
 	</ItemGroup>
+
+	<!--
+		Workaround for .NET SDK bug: BundledVersions.props lists deprecated desktop Mono RIDs
+		(win-x64, linux-x64, osx-x64, etc.) that no longer have published NuGet packages
+		(deprecated since .NET 9 Preview 7). This causes NU1102 during multi-TFM restore/publish.
+		Remove them so only valid Mono RIDs (mobile, wasm, catalyst) remain.
+		Tracked by: https://github.com/dotnet/maui/issues/32968
+	-->
+	<Target Name="RemoveDeprecatedMonoDesktopRIDs" BeforeTargets="ProcessFrameworkReferences">
+		<ItemGroup>
+			<KnownRuntimePack Update="Microsoft.NETCore.App"
+			                  Condition="'%(RuntimePackLabels)' == 'Mono'"
+			                  RuntimePackRuntimeIdentifiers="browser-wasm;wasi-wasm;ios-arm64;ios-arm;iossimulator-arm64;iossimulator-x64;iossimulator-x86;tvos-arm64;tvossimulator-arm64;tvossimulator-x64;maccatalyst-x64;maccatalyst-arm64;android-arm64;android-arm;android-x64;android-x86" />
+		</ItemGroup>
+	</Target>
 
 	<Import Project="..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.projitems" Label="Shared" />
 

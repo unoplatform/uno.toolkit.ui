@@ -6,6 +6,7 @@
     <PackageVersion Include="Uno.Simple.WinUI" Version="7.0.0-dev.7" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
+    <PackageVersion Include="KumikoUI.SkiaSharp" Version="0.1.7" />
     <PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.1.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />

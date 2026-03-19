@@ -605,7 +605,7 @@ namespace Uno.Toolkit.UI
 				return _insetMode switch
 				{
 					InsetMode.Margin => _originalMargin,
-					InsetMode.Padding or _ => _originalPadding
+					_ => _originalPadding
 				};
 			}
 
@@ -667,7 +667,7 @@ namespace Uno.Toolkit.UI
 
 			private void VerifySoftInputUsage()
 			{
-				if (HasSoftInput() && Owner is { } owner && (owner is not SafeArea or ScrollViewer))
+				if (HasSoftInput() && Owner is { } owner && (owner is not (SafeArea or ScrollViewer)))
 				{
 					_log.WarnIfEnabled(() => $"The '{nameof(InsetMask.SoftInput)}' mask is only supported on {nameof(SafeArea)} or ScrollViewer.");
 				}
