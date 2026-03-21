@@ -1501,11 +1501,36 @@
 
 	<ControlTemplate x:Key="XamlNavigationBarTemplate"
 					 TargetType="utu:NavigationBar">
-		<utu:NavigationBarPresenter x:Name="NavigationBarPresenter"
-									Content="{TemplateBinding Content}"
-									Background="{TemplateBinding Background}"
-									Padding="{TemplateBinding Padding}"
-									Style="{StaticResource XamlNavigationBarPresenter}" />
+		<Grid Background="{TemplateBinding Background}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<utu:NavigationBarPresenter x:Name="NavigationBarPresenter"
+										Grid.Row="0"
+										Content="{TemplateBinding Content}"
+										Background="{TemplateBinding Background}"
+										Padding="{TemplateBinding Padding}"
+										Style="{StaticResource XamlNavigationBarPresenter}" />
+
+			<ContentPresenter x:Name="ExpandedContentPresenter"
+							  Grid.Row="1"
+							  Height="{Binding TemplateSettings.CurrentExpandedAreaHeight, RelativeSource={RelativeSource TemplatedParent}}"
+							  Opacity="{Binding TemplateSettings.ExpandProgress, RelativeSource={RelativeSource TemplatedParent}}"
+							  Visibility="{Binding IsExpandable, RelativeSource={RelativeSource TemplatedParent}}"
+							  Content="{TemplateBinding Content}"
+							  ContentTemplate="{TemplateBinding ExpandedContentTemplate}"
+							  Background="{TemplateBinding Background}"
+							  Padding="16,0,0,20"
+							  VerticalContentAlignment="Bottom"
+							  RenderTransformOrigin="0,1">
+				<ContentPresenter.RenderTransform>
+					<ScaleTransform ScaleX="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}"
+									ScaleY="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}" />
+				</ContentPresenter.RenderTransform>
+			</ContentPresenter>
+		</Grid>
 	</ControlTemplate>
 
 	<!-- Default native NavigationBar styles -->

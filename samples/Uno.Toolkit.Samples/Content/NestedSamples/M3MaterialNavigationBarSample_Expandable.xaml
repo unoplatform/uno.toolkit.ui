@@ -1,0 +1,136 @@
+<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.M3MaterialNavigationBarSample_Expandable"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<utu:NavigationBar Content="Expandable Bar"
+						   AutomationProperties.AutomationId="M3ExpandableNavBar"
+						   Background="CornflowerBlue"
+						   IsExpandable="True"
+						   ExpandedHeight="152"
+						   MainCommandMode="Action"
+						   Style="{StaticResource MaterialNavigationBarStyle}">
+			<utu:NavigationBar.MainCommand>
+				<AppBarButton Label="Close"
+							  Click="NavigateBack">
+					<AppBarButton.Icon>
+						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.MainCommand>
+			<utu:NavigationBar.PrimaryCommands>
+				<AppBarButton Label="Search"
+							  Style="{StaticResource MaterialAppBarButtonStyle}">
+					<AppBarButton.Icon>
+						<SymbolIcon Symbol="Find" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+			</utu:NavigationBar.PrimaryCommands>
+		</utu:NavigationBar>
+
+		<ScrollViewer Grid.Row="1">
+			<StackPanel Spacing="0">
+				<Border Background="{ThemeResource SurfaceVariantBrush}"
+						Padding="16,12">
+					<TextBlock Text="Scroll down to collapse the NavigationBar. Scroll back to the top to expand it."
+							   Style="{StaticResource BodyMedium}"
+							   TextWrapping="Wrap" />
+				</Border>
+
+				<ItemsControl>
+					<ItemsControl.Items>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 1" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="This is a sample list item to demonstrate scroll behavior with the expandable NavigationBar." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 2" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="The bar starts fully expanded at 152dp and collapses to 64dp as you scroll." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 3" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="The expanded area shows the title in HeadlineMedium style, following Material 3 Large Top App Bar guidelines." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 4" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="The expansion progress also controls the opacity of the expanded content area." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 5" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="You can customize the ExpandedHeight property to change how tall the bar gets when expanded." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 6" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="You can also provide custom ExpandedContent and ExpandedContentTemplate for the expanded area." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 7" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 8" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 9" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 10" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 11" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+						<Border Padding="16,16" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource OutlineBrush}">
+							<StackPanel Spacing="4">
+								<TextBlock Text="Item 12" Style="{StaticResource TitleMedium}" />
+								<TextBlock Text="Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit." Style="{StaticResource BodyMedium}" TextWrapping="Wrap" />
+							</StackPanel>
+						</Border>
+					</ItemsControl.Items>
+				</ItemsControl>
+
+				<Border Padding="16,24">
+					<Button Content="Exit sample"
+							Click="NavigateBack"
+							Style="{StaticResource FilledButtonStyle}" />
+				</Border>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</Page>

@@ -246,5 +246,47 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register("EffectiveOverflowButtonVisibility", typeof(Visibility), typeof(NavigationBarTemplateSettings), new PropertyMetadata(default(Visibility)));
 		#endregion
 
+		#region CurrentExpandedAreaHeight
+		/// <summary>
+		/// Gets the current height of the expandable content area, driven by scroll position.
+		/// </summary>
+		public double CurrentExpandedAreaHeight
+		{
+			get => (double)GetValue(CurrentExpandedAreaHeightProperty);
+			internal set => SetValue(CurrentExpandedAreaHeightProperty, value);
+		}
+
+		internal static DependencyProperty CurrentExpandedAreaHeightProperty { get; } =
+			DependencyProperty.Register(nameof(CurrentExpandedAreaHeight), typeof(double), typeof(NavigationBarTemplateSettings), new PropertyMetadata(0.0));
+		#endregion
+
+		#region ExpandProgress
+		/// <summary>
+		/// Gets the current expansion progress from 0.0 (collapsed) to 1.0 (fully expanded).
+		/// </summary>
+		public double ExpandProgress
+		{
+			get => (double)GetValue(ExpandProgressProperty);
+			internal set => SetValue(ExpandProgressProperty, value);
+		}
+
+		internal static DependencyProperty ExpandProgressProperty { get; } =
+			DependencyProperty.Register(nameof(ExpandProgress), typeof(double), typeof(NavigationBarTemplateSettings), new PropertyMetadata(0.0));
+		#endregion
+
+		#region ExpandedContentScale
+		/// <summary>
+		/// Gets the scale factor for the expanded content, interpolating between collapsed and expanded font sizes.
+		/// </summary>
+		public double ExpandedContentScale
+		{
+			get => (double)GetValue(ExpandedContentScaleProperty);
+			internal set => SetValue(ExpandedContentScaleProperty, value);
+		}
+
+		internal static DependencyProperty ExpandedContentScaleProperty { get; } =
+			DependencyProperty.Register(nameof(ExpandedContentScale), typeof(double), typeof(NavigationBarTemplateSettings), new PropertyMetadata(1.0));
+		#endregion
+
 	}
 }

@@ -63,6 +63,7 @@ namespace Uno.Toolkit.UI
 		public event TypedEventHandler<NavigationBar, DynamicOverflowItemsChangingEventArgs?>? DynamicOverflowItemsChanging;
 
 		private const string NavigationBarPresenter = "NavigationBarPresenter";
+		private const double DefaultCollapsedHeight = 64.0;
 
 		private Popup? _popupHost;
 		private ContentControl? _skiaHeaderContentControl;
@@ -71,11 +72,15 @@ namespace Uno.Toolkit.UI
 		private SerialDisposable _backRequestedHandler = new();
 		private SerialDisposable _frameBackStackChangedHandler = new();
 		private SerialDisposable _commandBarLoadedRevoker = new();
+		private SerialDisposable _scrollViewerSubscription = new();
+		private ScrollViewer? _scrollViewer;
 		private WeakReference<Page?>? _pageRef;
 
 		public NavigationBar()
 		{
 			DefaultStyleKey = typeof(NavigationBar);
+
+			TemplateSettings = new NavigationBarTemplateSettings(this);
 
 			MainCommand ??= new AppBarButton();
 			PrimaryCommands ??= new NavigationBarElementCollection();
@@ -180,6 +185,7 @@ namespace Uno.Toolkit.UI
 		{
 			_backRequestedHandler.Disposable = null;
 			_frameBackStackChangedHandler.Disposable = null;
+			TeardownExpandableBehavior();
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
@@ -205,6 +211,7 @@ namespace Uno.Toolkit.UI
 			}
 #endif
 			UpdateMainCommandVisibility();
+			SetupExpandableBehavior();
 		}
 
 		private Page? FindPage()
@@ -250,6 +257,21 @@ namespace Uno.Toolkit.UI
 				{
 					mainCommand.Style = args.NewValue as Style;
 				}
+			}
+			else if (args.Property == IsExpandableProperty)
+			{
+				if ((bool)args.NewValue)
+				{
+					SetupExpandableBehavior();
+				}
+				else
+				{
+					TeardownExpandableBehavior();
+				}
+			}
+			else if (args.Property == ExpandedHeightProperty)
+			{
+				UpdateExpandableState();
 			}
 		}
 
@@ -312,5 +334,128 @@ namespace Uno.Toolkit.UI
 		}
 
 		private bool HasXamlPresenter() => _presenter is NavigationBarPresenter;
+
+		#region Expandable Behavior
+
+		private void SetupExpandableBehavior()
+		{
+			TeardownExpandableBehavior();
+
+			if (!IsExpandable || !HasXamlPresenter())
+			{
+				return;
+			}
+
+			var page = GetPage();
+			if (page == null)
+			{
+				return;
+			}
+
+			var scrollViewer = page.GetFirstDescendant<ScrollViewer>();
+			if (scrollViewer != null)
+			{
+				AttachToScrollViewer(scrollViewer);
+			}
+			else
+			{
+				// ScrollViewer may not be in the visual tree yet; retry after one layout pass.
+				DispatcherQueue.TryEnqueue(() =>
+				{
+					if (!IsExpandable || _scrollViewer != null) return;
+
+					var sv = GetPage()?.GetFirstDescendant<ScrollViewer>();
+					if (sv != null)
+					{
+						AttachToScrollViewer(sv);
+					}
+					else
+					{
+						// No ScrollViewer found; start fully expanded.
+						UpdateExpandableState(0);
+					}
+				});
+			}
+
+			// Set initial expanded state
+			UpdateExpandableState(0);
+		}
+
+		private void AttachToScrollViewer(ScrollViewer scrollViewer)
+		{
+			_scrollViewer = scrollViewer;
+			scrollViewer.ViewChanged += OnScrollViewerViewChanged;
+			_scrollViewerSubscription.Disposable = Disposable.Create(() =>
+			{
+				scrollViewer.ViewChanged -= OnScrollViewerViewChanged;
+			});
+
+			// Apply current scroll position
+			UpdateExpandableState(scrollViewer.VerticalOffset);
+		}
+
+		private void TeardownExpandableBehavior()
+		{
+			_scrollViewerSubscription.Disposable = null;
+			_scrollViewer = null;
+			UpdateInlineContentOpacity(1.0);
+		}
+
+		private void OnScrollViewerViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+		{
+			if (sender is ScrollViewer sv)
+			{
+				UpdateExpandableState(sv.VerticalOffset);
+			}
+		}
+
+		private void UpdateExpandableState()
+		{
+			UpdateExpandableState(_scrollViewer?.VerticalOffset ?? 0);
+		}
+
+		private void UpdateExpandableState(double verticalOffset)
+		{
+			if (!IsExpandable) return;
+
+			var expandedHeight = ExpandedHeight;
+			var collapsedHeight = DefaultCollapsedHeight;
+			var expandRange = expandedHeight - collapsedHeight;
+
+			if (expandRange <= 0)
+			{
+				TemplateSettings.CurrentExpandedAreaHeight = 0;
+				TemplateSettings.ExpandProgress = 0;
+				TemplateSettings.ExpandedContentScale = 1.0;
+				UpdateInlineContentOpacity(1.0);
+				return;
+			}
+
+			// Clamp offset to [0, expandRange]
+			var clampedOffset = Math.Max(0, Math.Min(verticalOffset, expandRange));
+
+			// Progress: 1.0 = fully expanded (offset=0, top of content), 0.0 = collapsed (scrolled down)
+			var progress = 1.0 - (clampedOffset / expandRange);
+
+			TemplateSettings.CurrentExpandedAreaHeight = expandRange * progress;
+			TemplateSettings.ExpandProgress = progress;
+
+			// Scale: interpolate from collapsed ratio (~0.78, TitleLarge/HeadlineMedium) to 1.0
+			const double minScale = 0.78;
+			TemplateSettings.ExpandedContentScale = minScale + ((1.0 - minScale) * progress);
+
+			// Inline title: hidden when expanded, visible when collapsed
+			UpdateInlineContentOpacity(1.0 - progress);
+		}
+
+		private void UpdateInlineContentOpacity(double opacity)
+		{
+			if (_skiaHeaderContentControl != null)
+			{
+				_skiaHeaderContentControl.Opacity = opacity;
+			}
+		}
+
+		#endregion
 	}
 }

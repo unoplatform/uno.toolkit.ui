@@ -75,6 +75,11 @@
 							Content="Show DataContext Sample"
 							Style="{StaticResource FilledButtonStyle}" />
 
+					<Button AutomationProperties.AutomationId="Material_M3_NavigationBar_Launch_Expandable_Sample_Button"
+							Click="LaunchFullScreenM3MaterialExpandableSample"
+							Content="Show Expandable Sample"
+							Style="{StaticResource FilledButtonStyle}" />
+
 					<Button x:Name="M3ModalButton"
 							Content="Show Modal Sample"
 							Style="{StaticResource FilledButtonStyle}">

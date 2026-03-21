@@ -265,6 +265,101 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register(nameof(MainCommandStyle), typeof(Style), typeof(NavigationBar), new PropertyMetadata(default(Style), OnPropertyChanged));
 		#endregion
 
+		#region IsExpandable
+		/// <summary>
+		/// Gets or sets a value indicating whether the NavigationBar supports expand/collapse behavior linked to scroll.
+		/// </summary>
+		public bool IsExpandable
+		{
+			get => (bool)GetValue(IsExpandableProperty);
+			set => SetValue(IsExpandableProperty, value);
+		}
+
+		public static DependencyProperty IsExpandableProperty { get; } =
+			DependencyProperty.Register(
+				nameof(IsExpandable),
+				typeof(bool),
+				typeof(NavigationBar),
+				new PropertyMetadata(false, OnPropertyChanged)
+			);
+		#endregion
+
+		#region ExpandedHeight
+		/// <summary>
+		/// Gets or sets the total height of the NavigationBar when fully expanded.
+		/// </summary>
+		public double ExpandedHeight
+		{
+			get => (double)GetValue(ExpandedHeightProperty);
+			set => SetValue(ExpandedHeightProperty, value);
+		}
+
+		public static DependencyProperty ExpandedHeightProperty { get; } =
+			DependencyProperty.Register(
+				nameof(ExpandedHeight),
+				typeof(double),
+				typeof(NavigationBar),
+				new PropertyMetadata(152.0, OnPropertyChanged)
+			);
+		#endregion
+
+		#region ExpandedContent
+		/// <summary>
+		/// Gets or sets custom content for the expanded area. When null, the NavigationBar Content (title) is used.
+		/// </summary>
+		public object? ExpandedContent
+		{
+			get => GetValue(ExpandedContentProperty);
+			set => SetValue(ExpandedContentProperty, value);
+		}
+
+		public static DependencyProperty ExpandedContentProperty { get; } =
+			DependencyProperty.Register(
+				nameof(ExpandedContent),
+				typeof(object),
+				typeof(NavigationBar),
+				new PropertyMetadata(null)
+			);
+		#endregion
+
+		#region ExpandedContentTemplate
+		/// <summary>
+		/// Gets or sets the DataTemplate for the expanded content area.
+		/// </summary>
+		public DataTemplate? ExpandedContentTemplate
+		{
+			get => (DataTemplate?)GetValue(ExpandedContentTemplateProperty);
+			set => SetValue(ExpandedContentTemplateProperty, value);
+		}
+
+		public static DependencyProperty ExpandedContentTemplateProperty { get; } =
+			DependencyProperty.Register(
+				nameof(ExpandedContentTemplate),
+				typeof(DataTemplate),
+				typeof(NavigationBar),
+				new PropertyMetadata(null)
+			);
+		#endregion
+
+		#region TemplateSettings
+		/// <summary>
+		/// Gets the TemplateSettings for this NavigationBar, providing computed values for template bindings.
+		/// </summary>
+		public NavigationBarTemplateSettings TemplateSettings
+		{
+			get => (NavigationBarTemplateSettings)GetValue(TemplateSettingsProperty);
+			private set => SetValue(TemplateSettingsProperty, value);
+		}
+
+		public static DependencyProperty TemplateSettingsProperty { get; } =
+			DependencyProperty.Register(
+				nameof(TemplateSettings),
+				typeof(NavigationBarTemplateSettings),
+				typeof(NavigationBar),
+				new PropertyMetadata(null)
+			);
+		#endregion
+
 		private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
 		{
 			var owner = (NavigationBar)sender;
