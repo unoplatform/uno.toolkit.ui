@@ -4,6 +4,7 @@ ARG TZ
 ENV TZ="$TZ"
 
 ARG CLAUDE_CODE_VERSION=latest
+ARG COPILOT_CLI_VERSION=latest
 
 # ---------------------------------------------------------------------------
 # System packages: core dev tools + firewall utilities
@@ -33,6 +34,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libvlc-dev \
   libgtk-3-dev \
   libwebkit2gtk-4.1-dev \
+  # SSH client (WSL host terminal)
+  openssh-client \
   # Misc
   curl \
   wget \
@@ -51,7 +54,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ---------------------------------------------------------------------------
-# Node.js 20 (required for Claude Code npm install)
+# Node.js 20 (required for Playwright install-deps and npm tooling)
 # ---------------------------------------------------------------------------
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
   && apt-get install -y --no-install-recommends nodejs \
@@ -101,8 +104,8 @@ RUN mkdir -p /usr/local/share/npm-global && \
   chown -R ${USERNAME}:${USERNAME} /usr/local/share
 
 # Create workspace and config directories
-RUN mkdir -p /uno-toolkit-ui /home/${USERNAME}/.claude /home/${USERNAME}/.nuget && \
-  chown -R ${USERNAME}:${USERNAME} /uno-toolkit-ui /home/${USERNAME}/.claude /home/${USERNAME}/.nuget
+RUN mkdir -p /uno-toolkit-ui /home/${USERNAME}/.claude /home/${USERNAME}/.copilot /home/${USERNAME}/.nuget && \
+  chown -R ${USERNAME}:${USERNAME} /uno-toolkit-ui /home/${USERNAME}/.claude /home/${USERNAME}/.copilot /home/${USERNAME}/.nuget
 
 WORKDIR /uno-toolkit-ui
 
@@ -133,16 +136,24 @@ ENV PATH=$PATH:/usr/local/share/npm-global/bin
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
 # ---------------------------------------------------------------------------
+# GitHub Copilot CLI (installs to ~/.local/bin/copilot)
+# ---------------------------------------------------------------------------
+RUN curl -fsSL https://gh.io/copilot-install | bash -s -- ${COPILOT_CLI_VERSION}
+
+# ---------------------------------------------------------------------------
 # .NET workloads (pre-install so builds work immediately)
 # ---------------------------------------------------------------------------
 USER root
 RUN dotnet workload install wasm-tools
 
 # ---------------------------------------------------------------------------
-# uno-check (validate environment)
+# uno-check (validate environment, from build/ci/scripts/run-uno-check.sh)
+# Installed as developer so the tool is usable interactively.
 # ---------------------------------------------------------------------------
+USER ${USERNAME}
+ENV PATH="${PATH}:/home/${USERNAME}/.dotnet/tools"
 RUN dotnet tool install --global uno.check
-ENV PATH="${PATH}:/root/.dotnet/tools:/home/${USERNAME}/.dotnet/tools"
+USER root
 RUN uno-check -v --ci --non-interactive --fix \
   --skip xcode --skip gtk3 --skip vswin --skip vswinworkloads --skip unosdk \
   --skip dotnetnewunotemplates --skip vsmac --skip androidsdk --skip openjdk --skip androidemulator \
@@ -163,7 +174,8 @@ RUN dpkg-divert --rename --add /usr/bin/git && \
 # Firewall script
 # ---------------------------------------------------------------------------
 COPY init-firewall.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/init-firewall.sh && \
+COPY ssh-wsl-host.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/init-firewall.sh /usr/local/bin/ssh-wsl-host.sh && \
   echo "${USERNAME} ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/${USERNAME}-firewall && \
   chmod 0440 /etc/sudoers.d/${USERNAME}-firewall
 

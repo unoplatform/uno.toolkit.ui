@@ -65,6 +65,34 @@ namespace Uno.Toolkit.UI.Simple
 				new PropertyMetadata(null, OnFontOverrideChanged));
 		#endregion
 
+		#region DependencyProperty: DefaultSize
+		/// <summary>
+		/// Gets or sets the default size variant for control styles.
+		/// The default is <see cref="SimpleControlSize.Small"/>.
+		/// The value is forwarded to the underlying <see cref="SimpleTheme"/>.
+		/// </summary>
+		public SimpleControlSize DefaultSize
+		{
+			get => (SimpleControlSize)GetValue(DefaultSizeProperty);
+			set => SetValue(DefaultSizeProperty, value);
+		}
+
+		public static DependencyProperty DefaultSizeProperty { get; } =
+			DependencyProperty.Register(
+				nameof(DefaultSize),
+				typeof(SimpleControlSize),
+				typeof(SimpleToolkitTheme),
+				new PropertyMetadata(SimpleControlSize.Small, OnDefaultSizeChanged));
+
+		private static void OnDefaultSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is SimpleToolkitTheme toolkitTheme)
+			{
+				toolkitTheme.UpdateSource();
+			}
+		}
+		#endregion
+
 		#region DependencyProperty: ColorOverrideDictionary
 		public ResourceDictionary? ColorOverrideDictionary
 		{
@@ -159,7 +187,7 @@ namespace Uno.Toolkit.UI.Simple
 			MergedDictionaries.Clear();
 			this.Clear();
 
-			MergedDictionaries.Add(new SimpleTheme(ColorOverrideDictionary, FontOverrideDictionary));
+			MergedDictionaries.Add(new SimpleTheme(ColorOverrideDictionary, FontOverrideDictionary) { DefaultSize = DefaultSize });
 			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
 			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitSimplePackageName}/Generated/mergedpages.xaml") });
 		}

@@ -1,10 +1,13 @@
 {
-  "name": "Uno Toolkit — Agent Sandbox",
+  // Linux / WSL host only — Windows-native Docker hosts are not supported
+  // (mounts rely on $HOME which is unset on Windows).
+  "name": "Uno Toolkit — ${localWorkspaceFolderBasename}",
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
       "TZ": "${localEnv:TZ:America/Los_Angeles}",
       "CLAUDE_CODE_VERSION": "latest",
+      "COPILOT_CLI_VERSION": "latest",
       "GIT_DELTA_VERSION": "0.18.2",
       "ZSH_IN_DOCKER_VERSION": "1.2.0"
     }
@@ -18,6 +21,8 @@
     "vscode": {
       "extensions": [
         "anthropic.claude-code",
+        "github.copilot",
+        "github.copilot-chat",
         "unoplatform.vscode",
         "ms-dotnettools.csdevkit",
         "eamodio.gitlens"
@@ -40,6 +45,12 @@
           },
           "zsh": {
             "path": "zsh"
+          },
+          "WSL Host": {
+            "path": "/usr/local/bin/ssh-wsl-host.sh",
+            "icon": "vm",
+            "color": "terminal.ansiYellow",
+            "overrideName": true
           }
         }
       }
@@ -48,19 +59,22 @@
   "remoteUser": "developer",
   "mounts": [
     "source=unotoolkit-claude-config-${devcontainerId},target=/home/developer/.claude,type=volume",
+    "source=unotoolkit-copilot-config-${devcontainerId},target=/home/developer/.copilot,type=volume",
     "source=unotoolkit-commandhistory-${devcontainerId},target=/commandhistory,type=volume",
     "source=unotoolkit-nuget-cache-${devcontainerId},target=/home/developer/.nuget,type=volume",
     "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
-    "source=${localEnv:HOME}/.local/share/Uno Platform,target=/tmp/uno-platform-host,type=bind,readonly"
+    "source=${localEnv:HOME}/.local/share/Uno Platform,target=/tmp/uno-platform-host,type=bind,readonly",
+    "source=${localEnv:HOME}/.claude/plugins,target=/tmp/claude-host-plugins,type=bind,readonly"
   ],
   "containerEnv": {
     "DEVCONTAINER": "true",
     "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
     "DISPLAY": "${localEnv:DISPLAY::0}",
     "CLAUDE_CONFIG_DIR": "/home/developer/.claude",
-    "POWERLEVEL9K_DISABLE_GITSTATUS": "true"
+    "POWERLEVEL9K_DISABLE_GITSTATUS": "true",
+    "WSL_HOST_WORKSPACE": "${localWorkspaceFolder}"
   },
-  "initializeCommand": "mkdir -p \"${HOME}/.local/share/Uno Platform\"",
+  "initializeCommand": "mkdir -p \"${HOME}/.local/share/Uno Platform\" \"${HOME}/.claude/plugins\"",
   "workspaceMount": "source=${localWorkspaceFolder},target=/uno-toolkit-ui,type=bind,consistency=delegated",
   "workspaceFolder": "/uno-toolkit-ui",
   "postStartCommand": "bash /uno-toolkit-ui/.devcontainer/post-start.sh",
