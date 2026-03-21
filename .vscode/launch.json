@@ -10,7 +10,8 @@
       "description": "Select which sample app to use",
       "options": [
         "Material",
-        "Cupertino"
+        "Cupertino",
+        "Simple"
       ],
       "default": "Material"
     }
