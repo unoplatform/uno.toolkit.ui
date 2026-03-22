@@ -288,5 +288,47 @@ namespace Uno.Toolkit.UI
 			DependencyProperty.Register(nameof(ExpandedContentScale), typeof(double), typeof(NavigationBarTemplateSettings), new PropertyMetadata(1.0));
 		#endregion
 
+		#region ExpandedContentOpacity
+		/// <summary>
+		/// Gets the opacity for the expanded content area. Discrete: 1.0 when expanding/expanded, 0.0 when fully collapsed.
+		/// </summary>
+		public double ExpandedContentOpacity
+		{
+			get => (double)GetValue(ExpandedContentOpacityProperty);
+			internal set => SetValue(ExpandedContentOpacityProperty, value);
+		}
+
+		internal static DependencyProperty ExpandedContentOpacityProperty { get; } =
+			DependencyProperty.Register(nameof(ExpandedContentOpacity), typeof(double), typeof(NavigationBarTemplateSettings), new PropertyMetadata(0.0));
+		#endregion
+
+		#region ExpandedContentTranslateX
+		/// <summary>
+		/// Gets the horizontal translation for the expanded content, aligning it with the inline content position when collapsed.
+		/// </summary>
+		public double ExpandedContentTranslateX
+		{
+			get => (double)GetValue(ExpandedContentTranslateXProperty);
+			internal set => SetValue(ExpandedContentTranslateXProperty, value);
+		}
+
+		internal static DependencyProperty ExpandedContentTranslateXProperty { get; } =
+			DependencyProperty.Register(nameof(ExpandedContentTranslateX), typeof(double), typeof(NavigationBarTemplateSettings), new PropertyMetadata(0.0));
+		#endregion
+
+		#region ExpandedContentTranslateY
+		/// <summary>
+		/// Gets the vertical translation for the expanded content, moving it from center (collapsed) to near-bottom (expanded).
+		/// </summary>
+		public double ExpandedContentTranslateY
+		{
+			get => (double)GetValue(ExpandedContentTranslateYProperty);
+			internal set => SetValue(ExpandedContentTranslateYProperty, value);
+		}
+
+		internal static DependencyProperty ExpandedContentTranslateYProperty { get; } =
+			DependencyProperty.Register(nameof(ExpandedContentTranslateY), typeof(double), typeof(NavigationBarTemplateSettings), new PropertyMetadata(0.0));
+		#endregion
+
 	}
 }

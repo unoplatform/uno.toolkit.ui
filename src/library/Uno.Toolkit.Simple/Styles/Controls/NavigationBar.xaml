@@ -1282,6 +1282,11 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
+			<!-- Spacer to control the expanded area's contribution to layout height -->
+			<Border Grid.Row="1"
+					Height="{Binding TemplateSettings.CurrentExpandedAreaHeight, RelativeSource={RelativeSource TemplatedParent}}"
+					Visibility="{Binding IsExpandable, RelativeSource={RelativeSource TemplatedParent}}" />
+
 			<utu:NavigationBarPresenter
 				x:Name="NavigationBarPresenter"
 				Grid.Row="0"
@@ -1290,20 +1295,25 @@
 				Content="{TemplateBinding Content}"
 				Style="{StaticResource SimpleNavigationBarPresenter}" />
 
+			<!-- Expanded content spans both rows and overlays the navigation bar area.
+				 Renders on top so the title visibly transitions from the bottom (expanded)
+				 into the same position as the inline content (collapsed). -->
 			<ContentPresenter x:Name="ExpandedContentPresenter"
-							  Grid.Row="1"
-							  Height="{Binding TemplateSettings.CurrentExpandedAreaHeight, RelativeSource={RelativeSource TemplatedParent}}"
-							  Opacity="{Binding TemplateSettings.ExpandProgress, RelativeSource={RelativeSource TemplatedParent}}"
+							  Grid.Row="0"
+							  Grid.RowSpan="2"
+							  IsHitTestVisible="False"
+							  Opacity="{Binding TemplateSettings.ExpandedContentOpacity, RelativeSource={RelativeSource TemplatedParent}}"
 							  Visibility="{Binding IsExpandable, RelativeSource={RelativeSource TemplatedParent}}"
 							  Content="{TemplateBinding Content}"
 							  ContentTemplate="{TemplateBinding ExpandedContentTemplate}"
-							  Background="{TemplateBinding Background}"
-							  Padding="16,0,0,20"
-							  VerticalContentAlignment="Bottom"
-							  RenderTransformOrigin="0,1">
+							  Padding="16,0,0,0"
+							  VerticalContentAlignment="Center"
+							  RenderTransformOrigin="0,0.5">
 				<ContentPresenter.RenderTransform>
-					<ScaleTransform ScaleX="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}"
-									ScaleY="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}" />
+					<CompositeTransform ScaleX="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}"
+										ScaleY="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}"
+										TranslateX="{Binding TemplateSettings.ExpandedContentTranslateX, RelativeSource={RelativeSource TemplatedParent}}"
+										TranslateY="{Binding TemplateSettings.ExpandedContentTranslateY, RelativeSource={RelativeSource TemplatedParent}}" />
 				</ContentPresenter.RenderTransform>
 			</ContentPresenter>
 		</Grid>
@@ -1316,6 +1326,11 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
+			<!-- Spacer to control the expanded area's contribution to layout height -->
+			<Border Grid.Row="1"
+					Height="{Binding TemplateSettings.CurrentExpandedAreaHeight, RelativeSource={RelativeSource TemplatedParent}}"
+					Visibility="{Binding IsExpandable, RelativeSource={RelativeSource TemplatedParent}}" />
+
 			<utu:NavigationBarPresenter
 				x:Name="NavigationBarPresenter"
 				Grid.Row="0"
@@ -1324,20 +1339,25 @@
 				Content="{TemplateBinding Content}"
 				Style="{StaticResource SimplePrimaryNavigationBarPresenter}" />
 
+			<!-- Expanded content spans both rows and overlays the navigation bar area.
+				 Renders on top so the title visibly transitions from the bottom (expanded)
+				 into the same position as the inline content (collapsed). -->
 			<ContentPresenter x:Name="ExpandedContentPresenter"
-							  Grid.Row="1"
-							  Height="{Binding TemplateSettings.CurrentExpandedAreaHeight, RelativeSource={RelativeSource TemplatedParent}}"
-							  Opacity="{Binding TemplateSettings.ExpandProgress, RelativeSource={RelativeSource TemplatedParent}}"
+							  Grid.Row="0"
+							  Grid.RowSpan="2"
+							  IsHitTestVisible="False"
+							  Opacity="{Binding TemplateSettings.ExpandedContentOpacity, RelativeSource={RelativeSource TemplatedParent}}"
 							  Visibility="{Binding IsExpandable, RelativeSource={RelativeSource TemplatedParent}}"
 							  Content="{TemplateBinding Content}"
 							  ContentTemplate="{TemplateBinding ExpandedContentTemplate}"
-							  Background="{TemplateBinding Background}"
-							  Padding="16,0,0,20"
-							  VerticalContentAlignment="Bottom"
-							  RenderTransformOrigin="0,1">
+							  Padding="16,0,0,0"
+							  VerticalContentAlignment="Center"
+							  RenderTransformOrigin="0,0.5">
 				<ContentPresenter.RenderTransform>
-					<ScaleTransform ScaleX="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}"
-									ScaleY="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}" />
+					<CompositeTransform ScaleX="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}"
+										ScaleY="{Binding TemplateSettings.ExpandedContentScale, RelativeSource={RelativeSource TemplatedParent}}"
+										TranslateX="{Binding TemplateSettings.ExpandedContentTranslateX, RelativeSource={RelativeSource TemplatedParent}}"
+										TranslateY="{Binding TemplateSettings.ExpandedContentTranslateY, RelativeSource={RelativeSource TemplatedParent}}" />
 				</ContentPresenter.RenderTransform>
 			</ContentPresenter>
 		</Grid>

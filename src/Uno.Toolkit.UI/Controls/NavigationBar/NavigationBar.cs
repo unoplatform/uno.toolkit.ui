@@ -118,6 +118,14 @@ namespace Uno.Toolkit.UI
 				{
 					_skiaHeaderContentControl = x as ContentControl;
 					UpdateHeaderContentAlignment();
+
+					// Apply expandable state now that the inline content control is available.
+					// SetupExpandableBehavior may have already run (via OnLoaded) before this
+					// callback fires, leaving the inline content at its default opacity.
+					if (IsExpandable)
+					{
+						UpdateExpandableState();
+					}
 				});
 			}
 			else
@@ -398,6 +406,9 @@ namespace Uno.Toolkit.UI
 		{
 			_scrollViewerSubscription.Disposable = null;
 			_scrollViewer = null;
+			TemplateSettings.ExpandedContentOpacity = 0;
+			TemplateSettings.ExpandedContentTranslateX = 0;
+			TemplateSettings.ExpandedContentTranslateY = 0;
 			UpdateInlineContentOpacity(1.0);
 		}
 
@@ -427,6 +438,9 @@ namespace Uno.Toolkit.UI
 				TemplateSettings.CurrentExpandedAreaHeight = 0;
 				TemplateSettings.ExpandProgress = 0;
 				TemplateSettings.ExpandedContentScale = 1.0;
+				TemplateSettings.ExpandedContentOpacity = 0;
+				TemplateSettings.ExpandedContentTranslateX = 0;
+				TemplateSettings.ExpandedContentTranslateY = 0;
 				UpdateInlineContentOpacity(1.0);
 				return;
 			}
@@ -444,8 +458,38 @@ namespace Uno.Toolkit.UI
 			const double minScale = 0.78;
 			TemplateSettings.ExpandedContentScale = minScale + ((1.0 - minScale) * progress);
 
-			// Inline title: hidden when expanded, visible when collapsed
-			UpdateInlineContentOpacity(1.0 - progress);
+			// The expanded content is center-aligned in the presenter and translated downward
+			// based on progress so it rests near the bottom when expanded and at the vertical
+			// center of the collapsed bar when fully collapsed.
+			const double expandedBottomPadding = 20.0;
+			const double estimatedHalfTextHeight = 18.0;
+			var maxTranslateY = expandedHeight / 2.0 - expandedBottomPadding - estimatedHalfTextHeight;
+			TemplateSettings.ExpandedContentTranslateY = maxTranslateY * progress;
+
+			// Horizontal offset: transition from expanded left padding to inline content position.
+			const double expandedLeftPadding = 16.0;
+			if (_skiaHeaderContentControl is { ActualWidth: > 0 } inlineControl)
+			{
+				try
+				{
+					var inlinePosition = inlineControl.TransformToVisual(this).TransformPoint(new Point(0, 0));
+					var targetOffsetX = inlinePosition.X - expandedLeftPadding;
+					TemplateSettings.ExpandedContentTranslateX = targetOffsetX * (1 - progress);
+				}
+				catch
+				{
+					TemplateSettings.ExpandedContentTranslateX = 0;
+				}
+			}
+			else
+			{
+				TemplateSettings.ExpandedContentTranslateX = 0;
+			}
+
+			// The expanded content overlays the nav bar and is the sole visible title.
+			// Inline content stays hidden so there is no discrete swap.
+			TemplateSettings.ExpandedContentOpacity = 1.0;
+			UpdateInlineContentOpacity(0.0);
 		}
 
 		private void UpdateInlineContentOpacity(double opacity)
