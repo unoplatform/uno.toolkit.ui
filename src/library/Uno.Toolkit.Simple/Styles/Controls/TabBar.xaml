@@ -12,45 +12,61 @@
 		<!--  ─── Light Theme ───  -->
 		<ResourceDictionary x:Key="Light">
 
-			<x:Double x:Key="SimpleTopTabBarHeight">48</x:Double>
-			<Thickness x:Key="SimpleTopTabBarItemPadding">12,4</Thickness>
-			<CornerRadius x:Key="SimpleTopTabBarItemCornerRadius">4,4,0,0</CornerRadius>
-
-			<!--  SDS Tab Brushes (tab.css)  -->
-			<StaticResource x:Key="SimpleTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleTabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
-			<StaticResource x:Key="SimpleTabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleTabBarItemForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
-			<StaticResource x:Key="SimpleTabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="SimpleTabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleTabBarItemBorderBrushSelected" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="SimpleTabBarIndicatorBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
 			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
 			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="TabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="TabBarItemBorderBrushSelected" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+
+			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
+			<x:Double x:Key="SimpleTopTabBarHeight">48</x:Double>
+			<Thickness x:Key="SimpleTopTabBarItemPadding">12,4</Thickness>
+			<CornerRadius x:Key="SimpleTopTabBarItemCornerRadius">4,4,0,0</CornerRadius>
+			<StaticResource x:Key="SimpleTabBarBackground" ResourceKey="TopTabBarBackground" />
+			<StaticResource x:Key="SimpleTabBarItemForeground" ResourceKey="TabBarItemForeground" />
+			<StaticResource x:Key="SimpleTabBarItemForegroundSelected" ResourceKey="TabBarItemForegroundSelected" />
+			<StaticResource x:Key="SimpleTabBarItemForegroundDisabled" ResourceKey="TabBarItemForegroundDisabled" />
+			<StaticResource x:Key="SimpleTabBarItemBackgroundPointerOver" ResourceKey="TabBarItemBackgroundPointerOver" />
+			<StaticResource x:Key="SimpleTabBarItemBorderBrush" ResourceKey="TabBarItemBorderBrush" />
+			<StaticResource x:Key="SimpleTabBarItemBorderBrushSelected" ResourceKey="TabBarItemBorderBrushSelected" />
+			<StaticResource x:Key="SimpleTabBarIndicatorBrush" ResourceKey="TabBarIndicatorBrush" />
 		</ResourceDictionary>
 
 		<!--  ─── Dark Theme (Default) ───  -->
 		<ResourceDictionary x:Key="Default">
 
-			<x:Double x:Key="SimpleTopTabBarHeight">48</x:Double>
-			<Thickness x:Key="SimpleTopTabBarItemPadding">12,4</Thickness>
-			<CornerRadius x:Key="SimpleTopTabBarItemCornerRadius">4,4,0,0</CornerRadius>
-
-			<!--  SDS Tab Brushes (tab.css)  -->
-			<StaticResource x:Key="SimpleTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleTabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
-			<StaticResource x:Key="SimpleTabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleTabBarItemForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
-			<StaticResource x:Key="SimpleTabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="SimpleTabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleTabBarItemBorderBrushSelected" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="SimpleTabBarIndicatorBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
 			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
 			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="TabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
+			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
+			<StaticResource x:Key="TabBarItemBorderBrushSelected" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+
+			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
+			<x:Double x:Key="SimpleTopTabBarHeight">48</x:Double>
+			<Thickness x:Key="SimpleTopTabBarItemPadding">12,4</Thickness>
+			<CornerRadius x:Key="SimpleTopTabBarItemCornerRadius">4,4,0,0</CornerRadius>
+			<StaticResource x:Key="SimpleTabBarBackground" ResourceKey="TopTabBarBackground" />
+			<StaticResource x:Key="SimpleTabBarItemForeground" ResourceKey="TabBarItemForeground" />
+			<StaticResource x:Key="SimpleTabBarItemForegroundSelected" ResourceKey="TabBarItemForegroundSelected" />
+			<StaticResource x:Key="SimpleTabBarItemForegroundDisabled" ResourceKey="TabBarItemForegroundDisabled" />
+			<StaticResource x:Key="SimpleTabBarItemBackgroundPointerOver" ResourceKey="TabBarItemBackgroundPointerOver" />
+			<StaticResource x:Key="SimpleTabBarItemBorderBrush" ResourceKey="TabBarItemBorderBrush" />
+			<StaticResource x:Key="SimpleTabBarItemBorderBrushSelected" ResourceKey="TabBarItemBorderBrushSelected" />
+			<StaticResource x:Key="SimpleTabBarIndicatorBrush" ResourceKey="TabBarIndicatorBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
