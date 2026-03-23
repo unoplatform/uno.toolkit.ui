@@ -91,6 +91,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
+Both Material and Simple themes share the same semantic (unprefixed) resource keys. Override these keys to customize control appearance regardless of which theme your app uses. For more information, see [Lightweight Styling](../lightweight-styling.md).
+
+### Material Theme
+
 | Key                                    | Type              | Value                               |
 |----------------------------------------|-------------------|-------------------------------------|
 | `ChipContentMinHeight`                 | `Double`          | 20                                  |
@@ -161,6 +165,36 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `ChipStateOverlayCheckedDisabled`      | `SolidColorBrush` | `SystemControlTransparentBrush`     |
 | `ChipRippleFeedback`                   | `SolidColorBrush` | `OnSurfaceFocusedBrush`             |
 | `ElevatedChipBackground`               | `SolidColorBrush` | `SurfaceBrush`                      |
+
+### Simple Theme
+
+The following semantic resource keys are available when using the Simple theme:
+
+| Key                           | Type              | Value                                       |
+|-------------------------------|-------------------|---------------------------------------------|
+| `ChipHeight`                  | `Double`          | `32`                                        |
+| `ChipIconSize`                | `Double`          | `16`                                        |
+| `ChipDeleteIconContainerLength` | `Double`        | `18`                                        |
+| `ChipDeleteIconLength`        | `Double`          | `11`                                        |
+| `ChipCornerRadius`            | `CornerRadius`    | `8`                                         |
+| `ChipBorderThickness`         | `Thickness`       | `0`                                         |
+| `ChipContentMargin`           | `Thickness`       | `12,0`                                      |
+| `ChipPadding`                 | `Thickness`       | `8,0`                                       |
+| `ChipBackground`              | `SolidColorBrush` | `SimpleBackgroundDefaultTertiaryBrush`      |
+| `ChipBackgroundPointerOver`   | `SolidColorBrush` | `SimpleBackgroundDefaultTertiaryHoverBrush` |
+| `ChipBackgroundPressed`       | `SolidColorBrush` | `SimpleBackgroundDefaultTertiaryHoverBrush` |
+| `ChipBackgroundDisabled`      | `SolidColorBrush` | `SimpleBackgroundDisabledDefaultBrush`      |
+| `ChipBackgroundChecked`       | `SolidColorBrush` | `SimpleBackgroundBrandDefaultBrush`         |
+| `ChipBackgroundCheckedPointerOver` | `SolidColorBrush` | `SimpleBackgroundBrandHoverBrush`      |
+| `ChipForeground`              | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`             |
+| `ChipForegroundDisabled`      | `SolidColorBrush` | `SimpleTextDisabledDefaultBrush`            |
+| `ChipForegroundChecked`       | `SolidColorBrush` | `SimpleTextBrandOnBrandBrush`               |
+| `ChipBorderBrush`             | `SolidColorBrush` | `SimpleBorderDefaultDefaultBrush`           |
+| `ChipBorderBrushDisabled`     | `SolidColorBrush` | `SimpleBorderDisabledDefaultBrush`          |
+| `ChipDeleteIconForeground`    | `SolidColorBrush` | `SimpleIconDefaultSecondaryBrush`           |
+| `ChipDeleteIconBackground`    | `SolidColorBrush` | `SystemControlTransparentBrush`             |
+| `ChipIconForeground`          | `SolidColorBrush` | `SimpleIconDefaultDefaultBrush`             |
+| `ElevatedChipBackground`      | `SolidColorBrush` | `SimpleBackgroundDefaultTertiaryBrush`      |
 
 ## ChipGroup
 

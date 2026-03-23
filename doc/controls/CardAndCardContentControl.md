@@ -103,6 +103,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
+Both Material and Simple themes share the same semantic (unprefixed) resource keys. Override these keys to customize control appearance regardless of which theme your app uses. For more information, see [Lightweight Styling](../lightweight-styling.md).
+
+### Material Theme
+
 | Key                                            | Type              | Value                           |
 |------------------------------------------------|-------------------|---------------------------------|
 | `ContentTemplateForeground`                    | `SolidColorBrush` | `OnSurfaceMediumBrush`          |
@@ -137,6 +141,25 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `SmallMediaElevatedCardBorderBrush`            | `SolidColorBrush` | `SystemControlTransparentBrush` |
 | `SmallMediaElevatedCardBorderBrushPointerOver` | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
 | `SmallMediaElevatedCardBorderBrushFocused`     | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
+
+### Simple Theme
+
+The following semantic resource keys are available when using the Simple theme:
+
+| Key                           | Type              | Value                                    |
+|-------------------------------|-------------------|------------------------------------------|
+| `FilledCardBackground`        | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `FilledCardBorderBrush`       | `SolidColorBrush` | `SystemControlTransparentBrush`          |
+| `OutlinedCardBackground`      | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `OutlinedCardBorderBrush`     | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`      |
+| `ElevatedCardBackground`      | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `ElevatedCardBorderBrush`     | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`      |
+| `CardForeground`              | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`          |
+| `CardSecondaryForeground`     | `SolidColorBrush` | `SimpleTextDefaultSecondaryBrush`        |
+| `CardBackgroundPointerOver`   | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultHoverBrush` |
+| `CardBackgroundDisabled`      | `SolidColorBrush` | `SimpleBackgroundDisabledDefaultBrush`   |
+| `CardForegroundDisabled`      | `SolidColorBrush` | `SimpleTextDisabledDefaultBrush`         |
+| `ContentTemplateForeground`   | `SolidColorBrush` | `SimpleTextDefaultSecondaryBrush`        |
 
 ## CardContentControl
 
@@ -235,6 +258,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
+Both Material and Simple themes share the same semantic (unprefixed) resource keys. Override these keys to customize control appearance regardless of which theme your app uses. For more information, see [Lightweight Styling](../lightweight-styling.md).
+
+### Material Theme
+
 | Key                                         | Type              | Value                           |
 |---------------------------------------------|-------------------|---------------------------------|
 | `FilledCardContentBackground`               | `SolidColorBrush` | `SurfaceBrush`                  |
@@ -249,3 +276,18 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `ElevatedCardContentBorderBrushPointerOver` | `SolidColorBrush` | `OnSurfaceHoverBrush`           |
 | `ElevatedCardContentBorderBrushFocused`     | `SolidColorBrush` | `OnSurfaceFocusedBrush`         |
 | `ElevatedCardContentBorderBrushPressed`     | `SolidColorBrush` | `OnSurfacePressedBrush`         |
+
+### Simple Theme
+
+The following semantic resource keys are available when using the Simple theme:
+
+| Key                                 | Type              | Value                                    |
+|-------------------------------------|-------------------|------------------------------------------|
+| `FilledCardContentBackground`       | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `FilledCardContentBorderBrush`      | `SolidColorBrush` | `SystemControlTransparentBrush`          |
+| `OutlinedCardContentBackground`     | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `OutlinedCardContentBorderBrush`    | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`      |
+| `ElevatedCardContentBackground`     | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `ElevatedCardContentBorderBrush`    | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`      |
+| `CardContentBackgroundPointerOver`  | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultHoverBrush` |
+| `CardContentBackgroundDisabled`     | `SolidColorBrush` | `SimpleBackgroundDisabledDefaultBrush`   |

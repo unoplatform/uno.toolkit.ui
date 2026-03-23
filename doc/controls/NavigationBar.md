@@ -412,6 +412,10 @@ Only supports `BitmapImage` on iOS/Android
 
 ## Lightweight Styling
 
+Both Material and Simple themes share the same semantic (unprefixed) resource keys. Override these keys to customize control appearance regardless of which theme your app uses. For more information, see [Lightweight Styling](../lightweight-styling.md).
+
+### Material Theme
+
 | Key                                                                    | Type              | Value                                   |
 |------------------------------------------------------------------------|-------------------|-----------------------------------------|
 | `NavigationBarCommandBarEllipsisIconForegroundDisabled`                | `SolidColorBrush` | TextFillColorDisabledBrush              |
@@ -456,6 +460,21 @@ Only supports `BitmapImage` on iOS/Android
 | `NavBarAppBarThemeCompactHeight`                                       | `Double`          | 56                                      |
 | `NavBarAppBarButtonPadding`                                            | `Thickness`       | 12,16                                   |
 | `NavBarAppBarButtonHasFlyoutChevronVisibility`                         | `Visibility`      | Collapsed                               |
+
+### Simple Theme
+
+The following semantic resource keys are available when using the Simple theme:
+
+| Key                                                        | Type              | Value                                    |
+|------------------------------------------------------------|-------------------|------------------------------------------|
+| `NavigationBarCommandBarEllipsisIconForegroundDisabled`    | `SolidColorBrush` | `SimpleIconDisabledDefaultBrush`         |
+| `NavigationBarCommandBarBackgroundCompactOpenUp`           | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `NavigationBarCommandBarBackgroundCompactOpenDown`         | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `NavigationBarMainCommandForeground`                       | `SolidColorBrush` | `SimpleIconDefaultDefaultBrush`          |
+| `NavigationBarForeground`                                  | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`          |
+| `NavigationBarBackground`                                  | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `NavigationBarOverflowAppBarButtonForeground`              | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`          |
+| `NavigationBarEllipsisButtonForeground`                    | `SolidColorBrush` | `SimpleIconDefaultDefaultBrush`          |
 
 ## Navigation
 

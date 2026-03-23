@@ -178,3 +178,38 @@ In `App.xaml`, use the `DefaultSize` property on `SimpleToolkitTheme`:
 <SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
                     DefaultSize="Medium" />
 ```
+
+## Lightweight Styling
+
+The Simple Toolkit supports [lightweight styling](xref:Toolkit.LightweightStyling) using semantic (unprefixed) resource keys shared with the Material Toolkit. This means you can customize control appearance by overriding the same resource key names regardless of which theme you use.
+
+> [!NOTE]
+> Simple-prefixed resource keys (e.g., `SimpleChipForeground`, `SimpleCardBackground`) can still be referenced directly for theme-specific customizations, but **semantic (unprefixed) keys are the recommended approach**.
+
+### Example
+
+```xml
+xmlns:utu="using:Uno.Toolkit.UI"
+...
+
+<!-- Default Card -->
+<utu:Card HeaderContent="Default card"
+          Style="{StaticResource FilledCardStyle}" />
+
+<!-- Customized Card via lightweight styling -->
+<utu:Card HeaderContent="Custom card"
+          Style="{StaticResource FilledCardStyle}">
+    <utu:Card.Resources>
+        <SolidColorBrush x:Key="FilledCardBackground" Color="LightBlue" />
+        <SolidColorBrush x:Key="CardForeground" Color="DarkBlue" />
+    </utu:Card.Resources>
+</utu:Card>
+```
+
+For the full list of resource keys available for each control, see:
+
+- [Card & CardContentControl](controls/CardAndCardContentControl.md#lightweight-styling)
+- [Chip & ChipGroup](controls/ChipAndChipGroup.md#lightweight-styling)
+- [Divider](controls/Divider.md#lightweight-styling)
+- [NavigationBar](controls/NavigationBar.md#lightweight-styling)
+- [TabBar & TabBarItem](controls/TabBarAndTabBarItem.md#lightweight-styling)

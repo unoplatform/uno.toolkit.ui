@@ -13,7 +13,9 @@ A divider is a thin line that groups content in lists and layouts.
 | `SubHeaderForeground` | `Brush`  | Gets or sets the foreground of the subheader.        |
 
 ## Lightweight Styling
+Both Material and Simple themes share the same semantic (unprefixed) resource keys. Override these keys to customize control appearance regardless of which theme your app uses. For more information, see [Lightweight Styling](../lightweight-styling.md).
 
+### Material Theme
 | Key                              | Type                 | Value                       |
 |------------------------------------|--------------------|-----------------------------|
 | `DividerForeground`                | `SolidColorBrush`  | `OutlineVariantBrush`       |
@@ -24,6 +26,21 @@ A divider is a thin line that groups content in lists and layouts.
 | `DividerSubHeaderCharacterSpacing` | `CharacterSpacing` | `BodySmallCharacterSpacing` |
 | `DividerSubHeaderMargin`           | `Thickness`        | `0,4,0,0`                   |
 | `DividerHeight`                    | `Double`           | `1`                         |
+
+### Simple Theme
+
+The Divider uses the same semantic resource keys in the Simple theme:
+
+| Key                              | Type               | Value                                  |
+|----------------------------------|--------------------|----------------------------------------|
+| `DividerForeground`              | `SolidColorBrush`  | `SimpleBorderDefaultDefaultBrush`      |
+| `DividerSubHeaderForeground`     | `SolidColorBrush`  | `SimpleTextDefaultDefaultBrush`        |
+| `DividerSubHeaderFontFamily`     | `FontFamily`       | `SimpleFontFamily`                     |
+| `DividerSubHeaderFontWeight`     | `FontWeight`       | `Normal`                               |
+| `DividerSubHeaderFontSize`       | `FontSize`         | `14`                                   |
+| `DividerSubHeaderCharacterSpacing` | `CharacterSpacing` | `0`                                  |
+| `DividerSubHeaderMargin`         | `Thickness`        | `0,4,0,0`                              |
+| `DividerHeight`                  | `Double`           | `1`                                    |
 
 ## Usage
 

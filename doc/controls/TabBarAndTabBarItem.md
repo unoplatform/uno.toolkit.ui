@@ -562,6 +562,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
+Both Material and Simple themes share the same semantic (unprefixed) resource keys. Override these keys to customize control appearance regardless of which theme your app uses. For more information, see [Lightweight Styling](../lightweight-styling.md).
+
+### Material Theme
+
 | Key                                                                  | Type            | Value                                        |
 |----------------------------------------------------------------------|-----------------|----------------------------------------------|
 | `NavigationTabBarWidthOrHeight`                                    | `Double`          | 80                                           |
@@ -718,3 +722,22 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `NavigationTabBarForegroundSelectedPressed`                        | `SolidColorBrush` | OnSurfaceBrush                               |
 | `NavigationTabBarBorderBrush`                                      | `SolidColorBrush` | SystemControlTransparentBrush                |
 | `NavigationTabBarTintBrush`                                        | `SolidColorBrush` | SurfaceTintColor@NavigationTabBarTintOpacity |
+
+### Simple Theme
+
+The following semantic resource keys are available when using the Simple theme:
+
+| Key                            | Type              | Value                                      |
+|--------------------------------|-------------------|--------------------------------------------|
+| `TopTabBarHeight`              | `Double`          | `48`                                       |
+| `TopTabBarBackground`          | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`      |
+| `TopTabBarBottomBorderBrush`   | `SolidColorBrush` | `SimpleBorderDefaultDefaultBrush`          |
+| `BottomTabBarBackground`       | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`      |
+| `VerticalTabBarBackground`     | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`      |
+| `TabBarItemForeground`         | `SolidColorBrush` | `SimpleTextDefaultSecondaryBrush`          |
+| `TabBarItemForegroundSelected` | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`            |
+| `TabBarItemForegroundDisabled` | `SolidColorBrush` | `SimpleTextDisabledDefaultBrush`           |
+| `TabBarItemBackgroundPointerOver` | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultHoverBrush` |
+| `TabBarItemBorderBrush`        | `SolidColorBrush` | `SimpleBorderDefaultDefaultBrush`          |
+| `TabBarItemBorderBrushSelected` | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`       |
+| `TabBarIndicatorBrush`         | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`        |
