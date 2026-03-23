@@ -20,30 +20,13 @@
 			<Thickness x:Key="ChipContentMargin">12,0</Thickness>
 			<Thickness x:Key="ChipPadding">8,0</Thickness>
 
-			<StaticResource x:Key="SimpleChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
-			<StaticResource x:Key="SimpleChipBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
-			<StaticResource x:Key="SimpleChipForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleChipIconForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleChipBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleChipBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
-			<StaticResource x:Key="SimpleChipForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
-
-			<StaticResource x:Key="SimpleChipBackgroundChecked" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
-			<StaticResource x:Key="SimpleChipBackgroundCheckedPointerOver" ResourceKey="SimpleBackgroundBrandHoverBrush" />
-			<StaticResource x:Key="SimpleChipForegroundChecked" ResourceKey="SimpleTextBrandOnBrandBrush" />
-			<StaticResource x:Key="SimpleChipDeleteIconForeground" ResourceKey="SimpleIconDefaultSecondaryBrush" />
-
-			<StaticResource x:Key="SimpleDangerChipBackground" ResourceKey="SimpleBackgroundDangerDefaultBrush" />
-			<StaticResource x:Key="SimpleDangerChipForeground" ResourceKey="SimpleTextDangerOnDangerBrush" />
-
-			<StaticResource x:Key="SimpleBrandChipBackground" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
-			<StaticResource x:Key="SimpleBrandChipForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
-
+			<!--  Semantic keys (design-system-agnostic, shared with Material)  -->
 			<StaticResource x:Key="ChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
 			<StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
 			<StaticResource x:Key="ChipBackgroundPressed" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
 			<StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
 			<StaticResource x:Key="ChipBackgroundChecked" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="ChipBackgroundCheckedPointerOver" ResourceKey="SimpleBackgroundBrandHoverBrush" />
 			<StaticResource x:Key="ChipForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
 			<StaticResource x:Key="ChipForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
 			<StaticResource x:Key="ChipForegroundChecked" ResourceKey="SimpleTextBrandOnBrandBrush" />
@@ -53,6 +36,25 @@
 			<StaticResource x:Key="ChipDeleteIconBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="ChipIconForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
 			<StaticResource x:Key="ElevatedChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
+
+			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
+			<StaticResource x:Key="SimpleChipBackground" ResourceKey="ChipBackground" />
+			<StaticResource x:Key="SimpleChipBackgroundPointerOver" ResourceKey="ChipBackgroundPointerOver" />
+			<StaticResource x:Key="SimpleChipForeground" ResourceKey="ChipForeground" />
+			<StaticResource x:Key="SimpleChipIconForeground" ResourceKey="ChipIconForeground" />
+			<StaticResource x:Key="SimpleChipBorderBrush" ResourceKey="ChipBorderBrush" />
+			<StaticResource x:Key="SimpleChipBackgroundDisabled" ResourceKey="ChipBackgroundDisabled" />
+			<StaticResource x:Key="SimpleChipForegroundDisabled" ResourceKey="ChipForegroundDisabled" />
+			<StaticResource x:Key="SimpleChipBackgroundChecked" ResourceKey="ChipBackgroundChecked" />
+			<StaticResource x:Key="SimpleChipBackgroundCheckedPointerOver" ResourceKey="ChipBackgroundCheckedPointerOver" />
+			<StaticResource x:Key="SimpleChipForegroundChecked" ResourceKey="ChipForegroundChecked" />
+			<StaticResource x:Key="SimpleChipDeleteIconForeground" ResourceKey="ChipDeleteIconForeground" />
+
+			<!--  SDS-specific variants (no Material equivalent)  -->
+			<StaticResource x:Key="SimpleDangerChipBackground" ResourceKey="SimpleBackgroundDangerDefaultBrush" />
+			<StaticResource x:Key="SimpleDangerChipForeground" ResourceKey="SimpleTextDangerOnDangerBrush" />
+			<StaticResource x:Key="SimpleBrandChipBackground" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="SimpleBrandChipForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Default">
@@ -65,30 +67,13 @@
 			<Thickness x:Key="ChipContentMargin">12,0</Thickness>
 			<Thickness x:Key="ChipPadding">8,0</Thickness>
 
-			<StaticResource x:Key="SimpleChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
-			<StaticResource x:Key="SimpleChipBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
-			<StaticResource x:Key="SimpleChipForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleChipIconForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleChipBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleChipBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
-			<StaticResource x:Key="SimpleChipForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
-
-			<StaticResource x:Key="SimpleChipBackgroundChecked" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
-			<StaticResource x:Key="SimpleChipBackgroundCheckedPointerOver" ResourceKey="SimpleBackgroundBrandHoverBrush" />
-			<StaticResource x:Key="SimpleChipForegroundChecked" ResourceKey="SimpleTextBrandOnBrandBrush" />
-			<StaticResource x:Key="SimpleChipDeleteIconForeground" ResourceKey="SimpleIconDefaultSecondaryBrush" />
-
-			<StaticResource x:Key="SimpleDangerChipBackground" ResourceKey="SimpleBackgroundDangerDefaultBrush" />
-			<StaticResource x:Key="SimpleDangerChipForeground" ResourceKey="SimpleTextDangerOnDangerBrush" />
-
-			<StaticResource x:Key="SimpleBrandChipBackground" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
-			<StaticResource x:Key="SimpleBrandChipForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
-
+			<!--  Semantic keys (design-system-agnostic, shared with Material)  -->
 			<StaticResource x:Key="ChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
 			<StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
 			<StaticResource x:Key="ChipBackgroundPressed" ResourceKey="SimpleBackgroundDefaultTertiaryHoverBrush" />
 			<StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
 			<StaticResource x:Key="ChipBackgroundChecked" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="ChipBackgroundCheckedPointerOver" ResourceKey="SimpleBackgroundBrandHoverBrush" />
 			<StaticResource x:Key="ChipForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
 			<StaticResource x:Key="ChipForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
 			<StaticResource x:Key="ChipForegroundChecked" ResourceKey="SimpleTextBrandOnBrandBrush" />
@@ -98,6 +83,25 @@
 			<StaticResource x:Key="ChipDeleteIconBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="ChipIconForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
 			<StaticResource x:Key="ElevatedChipBackground" ResourceKey="SimpleBackgroundDefaultTertiaryBrush" />
+
+			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
+			<StaticResource x:Key="SimpleChipBackground" ResourceKey="ChipBackground" />
+			<StaticResource x:Key="SimpleChipBackgroundPointerOver" ResourceKey="ChipBackgroundPointerOver" />
+			<StaticResource x:Key="SimpleChipForeground" ResourceKey="ChipForeground" />
+			<StaticResource x:Key="SimpleChipIconForeground" ResourceKey="ChipIconForeground" />
+			<StaticResource x:Key="SimpleChipBorderBrush" ResourceKey="ChipBorderBrush" />
+			<StaticResource x:Key="SimpleChipBackgroundDisabled" ResourceKey="ChipBackgroundDisabled" />
+			<StaticResource x:Key="SimpleChipForegroundDisabled" ResourceKey="ChipForegroundDisabled" />
+			<StaticResource x:Key="SimpleChipBackgroundChecked" ResourceKey="ChipBackgroundChecked" />
+			<StaticResource x:Key="SimpleChipBackgroundCheckedPointerOver" ResourceKey="ChipBackgroundCheckedPointerOver" />
+			<StaticResource x:Key="SimpleChipForegroundChecked" ResourceKey="ChipForegroundChecked" />
+			<StaticResource x:Key="SimpleChipDeleteIconForeground" ResourceKey="ChipDeleteIconForeground" />
+
+			<!--  SDS-specific variants (no Material equivalent)  -->
+			<StaticResource x:Key="SimpleDangerChipBackground" ResourceKey="SimpleBackgroundDangerDefaultBrush" />
+			<StaticResource x:Key="SimpleDangerChipForeground" ResourceKey="SimpleTextDangerOnDangerBrush" />
+			<StaticResource x:Key="SimpleBrandChipBackground" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
+			<StaticResource x:Key="SimpleBrandChipForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 

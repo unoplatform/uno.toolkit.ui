@@ -7,18 +7,38 @@
 
 		<!--  ─── Light Theme ───  -->
 		<ResourceDictionary x:Key="Light">
-			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="FilledCardContentBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+
+			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
+			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
+			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="CardContentBackgroundPointerOver" />
+			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="OutlinedCardContentBorderBrush" />
+			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="CardContentBackgroundDisabled" />
 		</ResourceDictionary>
 
 		<!--  ─── Dark Theme (Default) ───  -->
 		<ResourceDictionary x:Key="Default">
-			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="FilledCardContentBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
+			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+
+			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
+			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
+			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="CardContentBackgroundPointerOver" />
+			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="OutlinedCardContentBorderBrush" />
+			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="CardContentBackgroundDisabled" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 

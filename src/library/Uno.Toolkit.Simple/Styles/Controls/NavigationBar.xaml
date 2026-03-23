@@ -38,28 +38,31 @@
 			<FontWeight x:Key="NavigationBarFontWeight">Normal</FontWeight>
 			<x:Double x:Key="NavigationBarFontSize">24</x:Double>
 
-			<StaticResource x:Key="SimpleModalNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleModalNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleModalNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="SimpleIconDisabledDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-
-			<StaticResource x:Key="SimplePrimaryNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryAppBarButtonForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-
 			<StaticResource x:Key="NavigationBarOverflowAppBarButtonForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
 			<SolidColorBrush x:Key="NavigationBarOverflowAppBarButtonBackground" Color="Transparent" />
 
 			<StaticResource x:Key="NavigationBarEllipsisButtonForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
 			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground" Color="Transparent" />
+
+			<!--  Simple-prefixed aliases for Modal variant (alias through semantic)  -->
+			<StaticResource x:Key="SimpleModalNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
+			<StaticResource x:Key="SimpleModalNavigationBarForeground" ResourceKey="NavigationBarForeground" />
+			<StaticResource x:Key="SimpleModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
+
+			<!--  Simple-prefixed aliases for Primary variant (alias through semantic)  -->
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="NavigationBarCommandBarEllipsisIconForegroundDisabled" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="NavigationBarCommandBarBackgroundCompactOpenUp" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="NavigationBarCommandBarBackgroundCompactOpenDown" />
+
+			<StaticResource x:Key="SimplePrimaryNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarForeground" ResourceKey="NavigationBarForeground" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarBackground" ResourceKey="NavigationBarBackground" />
+			<StaticResource x:Key="SimplePrimaryAppBarButtonForeground" ResourceKey="NavigationBarMainCommandForeground" />
+
+			<!--  Simple-prefixed aliases for PrimaryModal variant (alias through semantic)  -->
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarForeground" ResourceKey="NavigationBarForeground" />
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
 
 			<x:Double x:Key="SimpleNavigationBarElevation">0</x:Double>
 			<x:Double x:Key="SimpleXamlNavigationBarHeight">64</x:Double>
@@ -94,28 +97,31 @@
 			<FontWeight x:Key="NavigationBarFontWeight">Normal</FontWeight>
 			<x:Double x:Key="NavigationBarFontSize">24</x:Double>
 
-			<StaticResource x:Key="SimpleModalNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleModalNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimpleModalNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="SimpleIconDisabledDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-
-			<StaticResource x:Key="SimplePrimaryNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryAppBarButtonForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarMainCommandForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-
 			<StaticResource x:Key="NavigationBarOverflowAppBarButtonForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
 			<SolidColorBrush x:Key="NavigationBarOverflowAppBarButtonBackground" Color="Transparent" />
 
 			<StaticResource x:Key="NavigationBarEllipsisButtonForeground" ResourceKey="SimpleIconDefaultDefaultBrush" />
 			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground" Color="Transparent" />
+
+			<!--  Simple-prefixed aliases for Modal variant (alias through semantic)  -->
+			<StaticResource x:Key="SimpleModalNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
+			<StaticResource x:Key="SimpleModalNavigationBarForeground" ResourceKey="NavigationBarForeground" />
+			<StaticResource x:Key="SimpleModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
+
+			<!--  Simple-prefixed aliases for Primary variant (alias through semantic)  -->
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="NavigationBarCommandBarEllipsisIconForegroundDisabled" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="NavigationBarCommandBarBackgroundCompactOpenUp" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="NavigationBarCommandBarBackgroundCompactOpenDown" />
+
+			<StaticResource x:Key="SimplePrimaryNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarForeground" ResourceKey="NavigationBarForeground" />
+			<StaticResource x:Key="SimplePrimaryNavigationBarBackground" ResourceKey="NavigationBarBackground" />
+			<StaticResource x:Key="SimplePrimaryAppBarButtonForeground" ResourceKey="NavigationBarMainCommandForeground" />
+
+			<!--  Simple-prefixed aliases for PrimaryModal variant (alias through semantic)  -->
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarForeground" ResourceKey="NavigationBarForeground" />
+			<StaticResource x:Key="SimplePrimaryModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
 
 			<x:Double x:Key="SimpleNavigationBarElevation">0</x:Double>
 			<x:Double x:Key="SimpleXamlNavigationBarHeight">64</x:Double>
