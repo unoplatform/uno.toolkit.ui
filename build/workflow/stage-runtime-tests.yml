@@ -16,6 +16,8 @@ jobs:
       - checkout: self
         clean: true
 
+      - template: templates/host-cleanup-linux.yml
+
       - task: DownloadPipelineArtifact@2
         displayName: Download desktop artifact
         inputs:
@@ -62,6 +64,8 @@ jobs:
     steps:
       - checkout: self
         clean: true
+
+      - template: templates/host-cleanup-linux.yml
 
       - task: DownloadPipelineArtifact@2
         displayName: Download wasm artifact
