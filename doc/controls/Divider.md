@@ -1,4 +1,4 @@
----
+﻿---
 uid: Toolkit.Controls.Divider
 ---
 # Divider
@@ -33,8 +33,8 @@ The Divider uses the same semantic resource keys in the Simple theme:
 
 | Key                              | Type               | Value                                  |
 |----------------------------------|--------------------|----------------------------------------|
-| `DividerForeground`              | `SolidColorBrush`  | `SimpleBorderDefaultDefaultBrush`      |
-| `DividerSubHeaderForeground`     | `SolidColorBrush`  | `SimpleTextDefaultDefaultBrush`        |
+| `DividerForeground`              | `SolidColorBrush`  | `OutlineBrush`      |
+| `DividerSubHeaderForeground`     | `SolidColorBrush`  | `OnSurfaceBrush`        |
 | `DividerSubHeaderFontFamily`     | `FontFamily`       | `SimpleFontFamily`                     |
 | `DividerSubHeaderFontWeight`     | `FontWeight`       | `Normal`                               |
 | `DividerSubHeaderFontSize`       | `FontSize`         | `14`                                   |

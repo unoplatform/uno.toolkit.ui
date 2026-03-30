@@ -1,4 +1,4 @@
----
+﻿---
 uid: Toolkit.Controls.Card
 ---
 
@@ -148,18 +148,18 @@ The following semantic resource keys are available when using the Simple theme:
 
 | Key                           | Type              | Value                                    |
 |-------------------------------|-------------------|------------------------------------------|
-| `FilledCardBackground`        | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `FilledCardBackground`        | `SolidColorBrush` | `SurfaceBrush`    |
 | `FilledCardBorderBrush`       | `SolidColorBrush` | `SystemControlTransparentBrush`          |
-| `OutlinedCardBackground`      | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
-| `OutlinedCardBorderBrush`     | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`      |
-| `ElevatedCardBackground`      | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
-| `ElevatedCardBorderBrush`     | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`      |
-| `CardForeground`              | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`          |
-| `CardSecondaryForeground`     | `SolidColorBrush` | `SimpleTextDefaultSecondaryBrush`        |
-| `CardBackgroundPointerOver`   | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultHoverBrush` |
-| `CardBackgroundDisabled`      | `SolidColorBrush` | `SimpleBackgroundDisabledDefaultBrush`   |
-| `CardForegroundDisabled`      | `SolidColorBrush` | `SimpleTextDisabledDefaultBrush`         |
-| `ContentTemplateForeground`   | `SolidColorBrush` | `SimpleTextDefaultSecondaryBrush`        |
+| `OutlinedCardBackground`      | `SolidColorBrush` | `SurfaceBrush`    |
+| `OutlinedCardBorderBrush`     | `SolidColorBrush` | `OutlineBrush`      |
+| `ElevatedCardBackground`      | `SolidColorBrush` | `SurfaceBrush`    |
+| `ElevatedCardBorderBrush`     | `SolidColorBrush` | `OutlineBrush`      |
+| `CardForeground`              | `SolidColorBrush` | `OnSurfaceBrush`          |
+| `CardSecondaryForeground`     | `SolidColorBrush` | `OnSurfaceLowBrush`        |
+| `CardBackgroundPointerOver`   | `SolidColorBrush` | `SurfaceVariantBrush` |
+| `CardBackgroundDisabled`      | `SolidColorBrush` | `OnSurfaceDisabledBrush`   |
+| `CardForegroundDisabled`      | `SolidColorBrush` | `OnSurfaceDisabledBrush`         |
+| `ContentTemplateForeground`   | `SolidColorBrush` | `OnSurfaceLowBrush`        |
 
 ## CardContentControl
 
@@ -283,11 +283,11 @@ The following semantic resource keys are available when using the Simple theme:
 
 | Key                                 | Type              | Value                                    |
 |-------------------------------------|-------------------|------------------------------------------|
-| `FilledCardContentBackground`       | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
+| `FilledCardContentBackground`       | `SolidColorBrush` | `SurfaceBrush`    |
 | `FilledCardContentBorderBrush`      | `SolidColorBrush` | `SystemControlTransparentBrush`          |
-| `OutlinedCardContentBackground`     | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
-| `OutlinedCardContentBorderBrush`    | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`      |
-| `ElevatedCardContentBackground`     | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
-| `ElevatedCardContentBorderBrush`    | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`      |
-| `CardContentBackgroundPointerOver`  | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultHoverBrush` |
-| `CardContentBackgroundDisabled`     | `SolidColorBrush` | `SimpleBackgroundDisabledDefaultBrush`   |
+| `OutlinedCardContentBackground`     | `SolidColorBrush` | `SurfaceBrush`    |
+| `OutlinedCardContentBorderBrush`    | `SolidColorBrush` | `OutlineBrush`      |
+| `ElevatedCardContentBackground`     | `SolidColorBrush` | `SurfaceBrush`    |
+| `ElevatedCardContentBorderBrush`    | `SolidColorBrush` | `OutlineBrush`      |
+| `CardContentBackgroundPointerOver`  | `SolidColorBrush` | `SurfaceVariantBrush` |
+| `CardContentBackgroundDisabled`     | `SolidColorBrush` | `OnSurfaceDisabledBrush`   |

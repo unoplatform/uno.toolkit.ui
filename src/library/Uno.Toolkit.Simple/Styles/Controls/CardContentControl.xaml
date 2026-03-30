@@ -1,4 +1,4 @@
-<ResourceDictionary
+﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:utu="using:Uno.Toolkit.UI">
@@ -7,14 +7,14 @@
 
 		<!--  ─── Light Theme ───  -->
 		<ResourceDictionary x:Key="Light">
-			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="FilledCardContentBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 
 			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
 			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
@@ -25,14 +25,14 @@
 
 		<!--  ─── Dark Theme (Default) ───  -->
 		<ResourceDictionary x:Key="Default">
-			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="FilledCardContentBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
+			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 
 			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
 			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
@@ -45,7 +45,7 @@
 	<Style x:Key="SimpleBaseCardContentControlStyle" TargetType="utu:CardContentControl">
 		<Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
 		<Setter Property="Background" Value="{ThemeResource SimpleCardContentBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource SimpleTextDefaultDefaultBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
 		<Setter Property="FontFamily" Value="{StaticResource SimpleFontFamily}" />
 		<Setter Property="FontSize" Value="16" />
 		<Setter Property="HorizontalAlignment" Value="Center" />

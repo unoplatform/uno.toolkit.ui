@@ -1,4 +1,4 @@
----
+﻿---
 uid: Toolkit.Controls.Chip
 ---
 # Chip & ChipGroup
@@ -180,21 +180,21 @@ The following semantic resource keys are available when using the Simple theme:
 | `ChipBorderThickness`         | `Thickness`       | `0`                                         |
 | `ChipContentMargin`           | `Thickness`       | `12,0`                                      |
 | `ChipPadding`                 | `Thickness`       | `8,0`                                       |
-| `ChipBackground`              | `SolidColorBrush` | `SimpleBackgroundDefaultTertiaryBrush`      |
-| `ChipBackgroundPointerOver`   | `SolidColorBrush` | `SimpleBackgroundDefaultTertiaryHoverBrush` |
-| `ChipBackgroundPressed`       | `SolidColorBrush` | `SimpleBackgroundDefaultTertiaryHoverBrush` |
-| `ChipBackgroundDisabled`      | `SolidColorBrush` | `SimpleBackgroundDisabledDefaultBrush`      |
-| `ChipBackgroundChecked`       | `SolidColorBrush` | `SimpleBackgroundBrandDefaultBrush`         |
-| `ChipBackgroundCheckedPointerOver` | `SolidColorBrush` | `SimpleBackgroundBrandHoverBrush`      |
-| `ChipForeground`              | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`             |
-| `ChipForegroundDisabled`      | `SolidColorBrush` | `SimpleTextDisabledDefaultBrush`            |
-| `ChipForegroundChecked`       | `SolidColorBrush` | `SimpleTextBrandOnBrandBrush`               |
-| `ChipBorderBrush`             | `SolidColorBrush` | `SimpleBorderDefaultDefaultBrush`           |
-| `ChipBorderBrushDisabled`     | `SolidColorBrush` | `SimpleBorderDisabledDefaultBrush`          |
-| `ChipDeleteIconForeground`    | `SolidColorBrush` | `SimpleIconDefaultSecondaryBrush`           |
+| `ChipBackground`              | `SolidColorBrush` | `SurfaceVariantBrush`      |
+| `ChipBackgroundPointerOver`   | `SolidColorBrush` | `OutlineBrush` |
+| `ChipBackgroundPressed`       | `SolidColorBrush` | `OutlineBrush` |
+| `ChipBackgroundDisabled`      | `SolidColorBrush` | `OnSurfaceDisabledBrush`      |
+| `ChipBackgroundChecked`       | `SolidColorBrush` | `PrimaryBrush`         |
+| `ChipBackgroundCheckedPointerOver` | `SolidColorBrush` | `PrimaryVariantDarkBrush`      |
+| `ChipForeground`              | `SolidColorBrush` | `OnSurfaceBrush`             |
+| `ChipForegroundDisabled`      | `SolidColorBrush` | `OnSurfaceDisabledBrush`            |
+| `ChipForegroundChecked`       | `SolidColorBrush` | `OnPrimaryBrush`               |
+| `ChipBorderBrush`             | `SolidColorBrush` | `OutlineBrush`           |
+| `ChipBorderBrushDisabled`     | `SolidColorBrush` | `OutlineDisabledBrush`          |
+| `ChipDeleteIconForeground`    | `SolidColorBrush` | `OnSurfaceLowBrush`           |
 | `ChipDeleteIconBackground`    | `SolidColorBrush` | `SystemControlTransparentBrush`             |
-| `ChipIconForeground`          | `SolidColorBrush` | `SimpleIconDefaultDefaultBrush`             |
-| `ElevatedChipBackground`      | `SolidColorBrush` | `SimpleBackgroundDefaultTertiaryBrush`      |
+| `ChipIconForeground`          | `SolidColorBrush` | `OnSurfaceBrush`             |
+| `ElevatedChipBackground`      | `SolidColorBrush` | `SurfaceVariantBrush`      |
 
 ## ChipGroup
 

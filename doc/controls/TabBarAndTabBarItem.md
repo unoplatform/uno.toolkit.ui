@@ -1,4 +1,4 @@
----
+﻿---
 uid: Toolkit.Controls.TabBar
 ---
 # TabBar & TabBarItem
@@ -730,14 +730,14 @@ The following semantic resource keys are available when using the Simple theme:
 | Key                            | Type              | Value                                      |
 |--------------------------------|-------------------|--------------------------------------------|
 | `TopTabBarHeight`              | `Double`          | `48`                                       |
-| `TopTabBarBackground`          | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`      |
-| `TopTabBarBottomBorderBrush`   | `SolidColorBrush` | `SimpleBorderDefaultDefaultBrush`          |
-| `BottomTabBarBackground`       | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`      |
-| `VerticalTabBarBackground`     | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`      |
-| `TabBarItemForeground`         | `SolidColorBrush` | `SimpleTextDefaultSecondaryBrush`          |
-| `TabBarItemForegroundSelected` | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`            |
-| `TabBarItemForegroundDisabled` | `SolidColorBrush` | `SimpleTextDisabledDefaultBrush`           |
-| `TabBarItemBackgroundPointerOver` | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultHoverBrush` |
-| `TabBarItemBorderBrush`        | `SolidColorBrush` | `SimpleBorderDefaultDefaultBrush`          |
-| `TabBarItemBorderBrushSelected` | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`       |
-| `TabBarIndicatorBrush`         | `SolidColorBrush` | `SimpleBorderDefaultSecondaryBrush`        |
+| `TopTabBarBackground`          | `SolidColorBrush` | `SurfaceBrush`      |
+| `TopTabBarBottomBorderBrush`   | `SolidColorBrush` | `OutlineBrush`          |
+| `BottomTabBarBackground`       | `SolidColorBrush` | `SurfaceBrush`      |
+| `VerticalTabBarBackground`     | `SolidColorBrush` | `SurfaceBrush`      |
+| `TabBarItemForeground`         | `SolidColorBrush` | `OnSurfaceLowBrush`          |
+| `TabBarItemForegroundSelected` | `SolidColorBrush` | `OnSurfaceBrush`            |
+| `TabBarItemForegroundDisabled` | `SolidColorBrush` | `OnSurfaceDisabledBrush`           |
+| `TabBarItemBackgroundPointerOver` | `SolidColorBrush` | `SurfaceVariantBrush` |
+| `TabBarItemBorderBrush`        | `SolidColorBrush` | `OutlineBrush`          |
+| `TabBarItemBorderBrushSelected` | `SolidColorBrush` | `OutlineBrush`       |
+| `TabBarIndicatorBrush`         | `SolidColorBrush` | `OutlineBrush`        |

@@ -1,4 +1,4 @@
----
+﻿---
 uid: Toolkit.LightweightStyling
 ---
 # Lightweight Styling
@@ -13,7 +13,7 @@ For general information about [lightweight styling](https://learn.microsoft.com/
 
 Starting with the latest versions of the Toolkit, lightweight styling resource keys use **semantic (unprefixed) names** that are shared across both the **Material** and **Simple** themes. This means the same key names (e.g., `ChipForeground`, `FilledCardBackground`, `NavigationBarBackground`) work regardless of which theme you are using — only the underlying foundation brush values differ.
 
-For example, `FilledCardBackground` resolves to `SurfaceBrush` in Material and `SimpleBackgroundDefaultDefaultBrush` in Simple.
+For example, `FilledCardBackground` resolves to `SurfaceBrush` in Material and `SurfaceBrush` in Simple.
 
 This design allows your lightweight styling customizations to be **theme-portable**: override a semantic key once, and it applies whether your app uses Material or Simple.
 

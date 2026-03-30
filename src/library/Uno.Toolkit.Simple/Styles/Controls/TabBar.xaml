@@ -1,4 +1,4 @@
-<ResourceDictionary
+﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,17 +13,17 @@
 		<ResourceDictionary x:Key="Light">
 
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
-			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
-			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="TabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
-			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
-			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
-			<StaticResource x:Key="TabBarItemBorderBrushSelected" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="TabBarItemForeground" ResourceKey="OnSurfaceLowBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="OnSurfaceBrush" />
+			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="TabBarItemBorderBrushSelected" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="OutlineBrush" />
 
 			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
 			<x:Double x:Key="SimpleTopTabBarHeight">48</x:Double>
@@ -43,17 +43,17 @@
 		<ResourceDictionary x:Key="Default">
 
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
-			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
-			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="TabBarItemForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
-			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
-			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="SimpleBorderDefaultDefaultBrush" />
-			<StaticResource x:Key="TabBarItemBorderBrushSelected" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
+			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="TabBarItemForeground" ResourceKey="OnSurfaceLowBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="OnSurfaceBrush" />
+			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="TabBarItemBorderBrushSelected" ResourceKey="OutlineBrush" />
+			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="OutlineBrush" />
 
 			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
 			<x:Double x:Key="SimpleTopTabBarHeight">48</x:Double>

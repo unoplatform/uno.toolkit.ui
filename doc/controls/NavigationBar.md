@@ -1,4 +1,4 @@
----
+﻿---
 uid: Toolkit.Controls.NavigationBar
 ---
 
@@ -467,14 +467,14 @@ The following semantic resource keys are available when using the Simple theme:
 
 | Key                                                        | Type              | Value                                    |
 |------------------------------------------------------------|-------------------|------------------------------------------|
-| `NavigationBarCommandBarEllipsisIconForegroundDisabled`    | `SolidColorBrush` | `SimpleIconDisabledDefaultBrush`         |
-| `NavigationBarCommandBarBackgroundCompactOpenUp`           | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
-| `NavigationBarCommandBarBackgroundCompactOpenDown`         | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
-| `NavigationBarMainCommandForeground`                       | `SolidColorBrush` | `SimpleIconDefaultDefaultBrush`          |
-| `NavigationBarForeground`                                  | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`          |
-| `NavigationBarBackground`                                  | `SolidColorBrush` | `SimpleBackgroundDefaultDefaultBrush`    |
-| `NavigationBarOverflowAppBarButtonForeground`              | `SolidColorBrush` | `SimpleTextDefaultDefaultBrush`          |
-| `NavigationBarEllipsisButtonForeground`                    | `SolidColorBrush` | `SimpleIconDefaultDefaultBrush`          |
+| `NavigationBarCommandBarEllipsisIconForegroundDisabled`    | `SolidColorBrush` | `OnSurfaceDisabledBrush`         |
+| `NavigationBarCommandBarBackgroundCompactOpenUp`           | `SolidColorBrush` | `SurfaceBrush`    |
+| `NavigationBarCommandBarBackgroundCompactOpenDown`         | `SolidColorBrush` | `SurfaceBrush`    |
+| `NavigationBarMainCommandForeground`                       | `SolidColorBrush` | `OnSurfaceBrush`          |
+| `NavigationBarForeground`                                  | `SolidColorBrush` | `OnSurfaceBrush`          |
+| `NavigationBarBackground`                                  | `SolidColorBrush` | `SurfaceBrush`    |
+| `NavigationBarOverflowAppBarButtonForeground`              | `SolidColorBrush` | `OnSurfaceBrush`          |
+| `NavigationBarEllipsisButtonForeground`                    | `SolidColorBrush` | `OnSurfaceBrush`          |
 
 ## Navigation
 
