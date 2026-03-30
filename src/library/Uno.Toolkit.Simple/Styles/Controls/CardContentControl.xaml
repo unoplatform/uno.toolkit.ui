@@ -15,12 +15,14 @@
 			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
 			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+			<StaticResource x:Key="CardContentForeground" ResourceKey="OnSurfaceBrush" />
 
 			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
 			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
 			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="CardContentBackgroundPointerOver" />
 			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="OutlinedCardContentBorderBrush" />
 			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="CardContentBackgroundDisabled" />
+			<StaticResource x:Key="SimpleCardContentForeground" ResourceKey="CardContentForeground" />
 		</ResourceDictionary>
 
 		<!--  ─── Dark Theme (Default) ───  -->
@@ -33,19 +35,21 @@
 			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
 			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+			<StaticResource x:Key="CardContentForeground" ResourceKey="OnSurfaceBrush" />
 
 			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
 			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
 			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="CardContentBackgroundPointerOver" />
 			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="OutlinedCardContentBorderBrush" />
 			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="CardContentBackgroundDisabled" />
+			<StaticResource x:Key="SimpleCardContentForeground" ResourceKey="CardContentForeground" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
 	<Style x:Key="SimpleBaseCardContentControlStyle" TargetType="utu:CardContentControl">
 		<Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
 		<Setter Property="Background" Value="{ThemeResource SimpleCardContentBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource SimpleCardContentForeground}" />
 		<Setter Property="FontFamily" Value="{StaticResource SimpleFontFamily}" />
 		<Setter Property="FontSize" Value="16" />
 		<Setter Property="HorizontalAlignment" Value="Center" />

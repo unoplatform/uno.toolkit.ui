@@ -291,3 +291,4 @@ The following semantic resource keys are available when using the Simple theme:
 | `ElevatedCardContentBorderBrush`    | `SolidColorBrush` | `OutlineBrush`      |
 | `CardContentBackgroundPointerOver`  | `SolidColorBrush` | `SurfaceVariantBrush` |
 | `CardContentBackgroundDisabled`     | `SolidColorBrush` | `OnSurfaceDisabledBrush`   |
+| `CardContentForeground`             | `SolidColorBrush` | `OnSurfaceBrush`           |
