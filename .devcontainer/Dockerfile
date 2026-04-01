@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   iptables \
   iproute2 \
   dnsutils \
-  # Uno / Skia desktop dependencies
+  # Uno / Skia desktop dependencies (from build/ci/templates/linux-install-deps.yml)
   xvfb \
   fluxbox \
   vlc \

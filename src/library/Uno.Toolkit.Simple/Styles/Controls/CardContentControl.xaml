@@ -7,45 +7,33 @@
 
 		<!--  ─── Light Theme ───  -->
 		<ResourceDictionary x:Key="Light">
-			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="FilledCardContentBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
-
-			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
-			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
-			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="CardContentBackgroundPointerOver" />
-			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="OutlinedCardContentBorderBrush" />
-			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="CardContentBackgroundDisabled" />
+			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 		</ResourceDictionary>
 
 		<!--  ─── Dark Theme (Default) ───  -->
 		<ResourceDictionary x:Key="Default">
-			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="FilledCardContentBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="FilledCardContentBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
-
-			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
-			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
-			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="CardContentBackgroundPointerOver" />
-			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="OutlinedCardContentBorderBrush" />
-			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="CardContentBackgroundDisabled" />
+			<StaticResource x:Key="OutlinedCardContentBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="OutlinedCardContentBorderBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="ElevatedCardContentBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="ElevatedCardContentBorderBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
 	<Style x:Key="SimpleBaseCardContentControlStyle" TargetType="utu:CardContentControl">
 		<Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
-		<Setter Property="Background" Value="{ThemeResource SimpleCardContentBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource SimpleTextDefaultDefaultBrush}" />
+		<Setter Property="Background" Value="{ThemeResource FilledCardContentBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
 		<Setter Property="FontFamily" Value="{StaticResource SimpleFontFamily}" />
 		<Setter Property="FontSize" Value="16" />
 		<Setter Property="HorizontalAlignment" Value="Center" />
@@ -82,17 +70,17 @@
 								<VisualState x:Name="Normal" />
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardContentBackgroundPointerOver}" />
+										<Setter Target="GridRoot.Background" Value="{ThemeResource CardContentBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardContentBackgroundPointerOver}" />
+										<Setter Target="GridRoot.Background" Value="{ThemeResource CardContentBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardContentBackgroundDisabled}" />
+										<Setter Target="GridRoot.Background" Value="{ThemeResource CardContentBackgroundDisabled}" />
 										<Setter Target="GridRoot.Opacity" Value="0.38" />
 									</VisualState.Setters>
 								</VisualState>
@@ -120,7 +108,7 @@
 		x:Key="SimpleOutlinedCardContentControlStyle"
 		BasedOn="{StaticResource SimpleBaseCardContentControlStyle}"
 		TargetType="utu:CardContentControl">
-		<Setter Property="BorderBrush" Value="{ThemeResource SimpleCardContentBorderBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource OutlinedCardContentBorderBrush}" />
 		<Setter Property="BorderThickness" Value="{StaticResource CardBorderThickness}" />
 	</Style>
 
