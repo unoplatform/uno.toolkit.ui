@@ -7,64 +7,46 @@
 
 		<!--  ─── Light Theme ───  -->
 		<ResourceDictionary x:Key="Light">
-			<StaticResource x:Key="FilledCardBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="FilledCardBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="FilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="OutlinedCardBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="OutlinedCardBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="ElevatedCardBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="ElevatedCardBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="CardForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="CardSecondaryForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
-			<StaticResource x:Key="CardBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="CardBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
-			<StaticResource x:Key="CardForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
-			<StaticResource x:Key="ContentTemplateForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="OutlinedCardBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="OutlinedCardBorderBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="ElevatedCardBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="ElevatedCardBorderBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="CardForeground" ResourceKey="OnSurfaceBrush" />
+			<StaticResource x:Key="CardSecondaryForeground" ResourceKey="OnSurfaceMediumBrush" />
+			<StaticResource x:Key="CardBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="CardBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+			<StaticResource x:Key="CardForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+			<StaticResource x:Key="ContentTemplateForeground" ResourceKey="OnSurfaceMediumBrush" />
 
-			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
-			<StaticResource x:Key="SimpleCardBackground" ResourceKey="FilledCardBackground" />
-			<StaticResource x:Key="SimpleCardBackgroundPointerOver" ResourceKey="CardBackgroundPointerOver" />
-			<StaticResource x:Key="SimpleCardBorderBrush" ResourceKey="OutlinedCardBorderBrush" />
-			<StaticResource x:Key="SimpleCardForeground" ResourceKey="CardForeground" />
-			<StaticResource x:Key="SimpleCardSecondaryForeground" ResourceKey="CardSecondaryForeground" />
-			<StaticResource x:Key="SimpleCardBackgroundDisabled" ResourceKey="CardBackgroundDisabled" />
-			<StaticResource x:Key="SimpleCardForegroundDisabled" ResourceKey="CardForegroundDisabled" />
-
-			<!--  Brand Card (SDS-specific, no Material equivalent)  -->
-			<StaticResource x:Key="SimpleBrandCardBackground" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
-			<StaticResource x:Key="SimpleBrandCardBackgroundPointerOver" ResourceKey="SimpleBackgroundBrandHoverBrush" />
-			<StaticResource x:Key="SimpleBrandCardForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
-			<StaticResource x:Key="SimpleBrandCardSecondaryForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
+			<!--  Brand Card  -->
+			<StaticResource x:Key="BrandCardBackground" ResourceKey="PrimaryBrush" />
+			<StaticResource x:Key="BrandCardBackgroundPointerOver" ResourceKey="PrimaryVariantDarkBrush" />
+			<StaticResource x:Key="BrandCardForeground" ResourceKey="OnPrimaryBrush" />
+			<StaticResource x:Key="BrandCardSecondaryForeground" ResourceKey="OnPrimaryBrush" />
 		</ResourceDictionary>
 
 		<!--  ─── Dark Theme (Default) ───  -->
 		<ResourceDictionary x:Key="Default">
-			<StaticResource x:Key="FilledCardBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
+			<StaticResource x:Key="FilledCardBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="FilledCardBorderBrush" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="OutlinedCardBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="OutlinedCardBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="ElevatedCardBackground" ResourceKey="SimpleBackgroundDefaultDefaultBrush" />
-			<StaticResource x:Key="ElevatedCardBorderBrush" ResourceKey="SimpleBorderDefaultSecondaryBrush" />
-			<StaticResource x:Key="CardForeground" ResourceKey="SimpleTextDefaultDefaultBrush" />
-			<StaticResource x:Key="CardSecondaryForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
-			<StaticResource x:Key="CardBackgroundPointerOver" ResourceKey="SimpleBackgroundDefaultDefaultHoverBrush" />
-			<StaticResource x:Key="CardBackgroundDisabled" ResourceKey="SimpleBackgroundDisabledDefaultBrush" />
-			<StaticResource x:Key="CardForegroundDisabled" ResourceKey="SimpleTextDisabledDefaultBrush" />
-			<StaticResource x:Key="ContentTemplateForeground" ResourceKey="SimpleTextDefaultSecondaryBrush" />
+			<StaticResource x:Key="OutlinedCardBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="OutlinedCardBorderBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="ElevatedCardBackground" ResourceKey="SurfaceBrush" />
+			<StaticResource x:Key="ElevatedCardBorderBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="CardForeground" ResourceKey="OnSurfaceBrush" />
+			<StaticResource x:Key="CardSecondaryForeground" ResourceKey="OnSurfaceMediumBrush" />
+			<StaticResource x:Key="CardBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="CardBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+			<StaticResource x:Key="CardForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
+			<StaticResource x:Key="ContentTemplateForeground" ResourceKey="OnSurfaceMediumBrush" />
 
-			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
-			<StaticResource x:Key="SimpleCardBackground" ResourceKey="FilledCardBackground" />
-			<StaticResource x:Key="SimpleCardBackgroundPointerOver" ResourceKey="CardBackgroundPointerOver" />
-			<StaticResource x:Key="SimpleCardBorderBrush" ResourceKey="OutlinedCardBorderBrush" />
-			<StaticResource x:Key="SimpleCardForeground" ResourceKey="CardForeground" />
-			<StaticResource x:Key="SimpleCardSecondaryForeground" ResourceKey="CardSecondaryForeground" />
-			<StaticResource x:Key="SimpleCardBackgroundDisabled" ResourceKey="CardBackgroundDisabled" />
-			<StaticResource x:Key="SimpleCardForegroundDisabled" ResourceKey="CardForegroundDisabled" />
-
-			<!--  Brand Card (SDS-specific, no Material equivalent)  -->
-			<StaticResource x:Key="SimpleBrandCardBackground" ResourceKey="SimpleBackgroundBrandDefaultBrush" />
-			<StaticResource x:Key="SimpleBrandCardBackgroundPointerOver" ResourceKey="SimpleBackgroundBrandHoverBrush" />
-			<StaticResource x:Key="SimpleBrandCardForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
-			<StaticResource x:Key="SimpleBrandCardSecondaryForeground" ResourceKey="SimpleTextBrandOnBrandBrush" />
+			<!--  Brand Card  -->
+			<StaticResource x:Key="BrandCardBackground" ResourceKey="PrimaryBrush" />
+			<StaticResource x:Key="BrandCardBackgroundPointerOver" ResourceKey="PrimaryVariantDarkBrush" />
+			<StaticResource x:Key="BrandCardForeground" ResourceKey="OnPrimaryBrush" />
+			<StaticResource x:Key="BrandCardSecondaryForeground" ResourceKey="OnPrimaryBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
@@ -87,7 +69,7 @@
 			Margin="0,0,0,8"
 			FontSize="24"
 			FontWeight="SemiBold"
-			Foreground="{ThemeResource SimpleCardForeground}"
+			Foreground="{ThemeResource CardForeground}"
 			MaxLines="1"
 			Text="{Binding}" />
 	</DataTemplate>
@@ -95,7 +77,7 @@
 	<DataTemplate x:Key="SimpleDefaultSubHeaderContentTemplate">
 		<TextBlock
 			FontSize="16"
-			Foreground="{ThemeResource SimpleCardSecondaryForeground}"
+			Foreground="{ThemeResource CardSecondaryForeground}"
 			MaxLines="2"
 			Text="{Binding}" />
 	</DataTemplate>
@@ -103,7 +85,7 @@
 	<DataTemplate x:Key="SimpleDefaultSupportingContentTemplate">
 		<TextBlock
 			FontSize="16"
-			Foreground="{ThemeResource SimpleCardSecondaryForeground}"
+			Foreground="{ThemeResource CardSecondaryForeground}"
 			Text="{Binding}"
 			TextWrapping="Wrap" />
 	</DataTemplate>
@@ -125,7 +107,7 @@
 	<DataTemplate x:Key="SimpleDefaultAvatarSupportingContentTemplate">
 		<TextBlock
 			FontSize="16"
-			Foreground="{ThemeResource SimpleCardSecondaryForeground}"
+			Foreground="{ThemeResource CardSecondaryForeground}"
 			Text="{Binding}"
 			TextWrapping="Wrap" />
 	</DataTemplate>
@@ -133,7 +115,7 @@
 	<DataTemplate x:Key="SimpleDefaultSmallMediaSupportingContentTemplate">
 		<TextBlock
 			FontSize="16"
-			Foreground="{ThemeResource SimpleCardSecondaryForeground}"
+			Foreground="{ThemeResource CardSecondaryForeground}"
 			Text="{Binding}"
 			TextWrapping="Wrap" />
 	</DataTemplate>
@@ -152,8 +134,8 @@
 		<Setter Property="MaxWidth" Value="{StaticResource SimpleCardMaxWidth}" />
 		<Setter Property="CornerRadius" Value="{StaticResource SimpleCardCornerRadius}" />
 		<Setter Property="Padding" Value="{StaticResource SimpleCardPadding}" />
-		<Setter Property="Background" Value="{ThemeResource SimpleCardBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource SimpleCardForeground}" />
+		<Setter Property="Background" Value="{ThemeResource FilledCardBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource CardForeground}" />
 		<Setter Property="FontFamily" Value="{StaticResource SimpleFontFamily}" />
 		<Setter Property="FontSize" Value="16" />
 		<Setter Property="HeaderContentTemplate" Value="{StaticResource SimpleDefaultHeaderContentTemplate}" />
@@ -257,17 +239,17 @@
 								<VisualState x:Name="Normal" />
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardBackgroundPointerOver}" />
+										<Setter Target="GridRoot.Background" Value="{ThemeResource CardBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardBackgroundPointerOver}" />
+										<Setter Target="GridRoot.Background" Value="{ThemeResource CardBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardBackgroundDisabled}" />
+										<Setter Target="GridRoot.Background" Value="{ThemeResource CardBackgroundDisabled}" />
 										<Setter Target="GridRoot.Opacity" Value="0.38" />
 									</VisualState.Setters>
 								</VisualState>
@@ -295,7 +277,7 @@
 		x:Key="SimpleOutlinedCardStyle"
 		BasedOn="{StaticResource SimpleBaseCardStyle}"
 		TargetType="utu:Card">
-		<Setter Property="BorderBrush" Value="{ThemeResource SimpleCardBorderBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource OutlinedCardBorderBrush}" />
 		<Setter Property="BorderThickness" Value="{StaticResource SimpleCardBorderThickness}" />
 	</Style>
 
@@ -339,7 +321,7 @@
 			Margin="0,0,0,8"
 			FontSize="24"
 			FontWeight="SemiBold"
-			Foreground="{ThemeResource SimpleBrandCardForeground}"
+			Foreground="{ThemeResource BrandCardForeground}"
 			MaxLines="1"
 			Text="{Binding}" />
 	</DataTemplate>
@@ -347,7 +329,7 @@
 	<DataTemplate x:Key="SimpleBrandSubHeaderContentTemplate">
 		<TextBlock
 			FontSize="16"
-			Foreground="{ThemeResource SimpleBrandCardSecondaryForeground}"
+			Foreground="{ThemeResource BrandCardSecondaryForeground}"
 			MaxLines="2"
 			Text="{Binding}" />
 	</DataTemplate>
@@ -355,7 +337,7 @@
 	<DataTemplate x:Key="SimpleBrandSupportingContentTemplate">
 		<TextBlock
 			FontSize="16"
-			Foreground="{ThemeResource SimpleBrandCardSecondaryForeground}"
+			Foreground="{ThemeResource BrandCardSecondaryForeground}"
 			Text="{Binding}"
 			TextWrapping="Wrap" />
 	</DataTemplate>
@@ -364,7 +346,7 @@
 		x:Key="SimpleBrandFilledCardStyle"
 		BasedOn="{StaticResource SimpleFilledCardStyle}"
 		TargetType="utu:Card">
-		<Setter Property="Background" Value="{ThemeResource SimpleBrandCardBackground}" />
+		<Setter Property="Background" Value="{ThemeResource BrandCardBackground}" />
 		<Setter Property="HeaderContentTemplate" Value="{StaticResource SimpleBrandHeaderContentTemplate}" />
 		<Setter Property="SubHeaderContentTemplate" Value="{StaticResource SimpleBrandSubHeaderContentTemplate}" />
 		<Setter Property="SupportingContentTemplate" Value="{StaticResource SimpleBrandSupportingContentTemplate}" />
@@ -374,7 +356,7 @@
 		x:Key="SimpleBrandOutlinedCardStyle"
 		BasedOn="{StaticResource SimpleOutlinedCardStyle}"
 		TargetType="utu:Card">
-		<Setter Property="Background" Value="{ThemeResource SimpleBrandCardBackground}" />
+		<Setter Property="Background" Value="{ThemeResource BrandCardBackground}" />
 		<Setter Property="HeaderContentTemplate" Value="{StaticResource SimpleBrandHeaderContentTemplate}" />
 		<Setter Property="SubHeaderContentTemplate" Value="{StaticResource SimpleBrandSubHeaderContentTemplate}" />
 		<Setter Property="SupportingContentTemplate" Value="{StaticResource SimpleBrandSupportingContentTemplate}" />

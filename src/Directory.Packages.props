@@ -1,6 +1,7 @@
 <Project ToolsVersion="15.0">
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <UnoThemesVersion>7.0.0-dev.24</UnoThemesVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />

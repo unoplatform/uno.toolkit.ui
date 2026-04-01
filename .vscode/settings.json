@@ -6,21 +6,5 @@
   },
   "files.associations": {
     "global.json": "jsonc"
-  },
-  "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#907d20",
-    "activityBar.background": "#907d20",
-    "activityBar.foreground": "#e7e7e7",
-    "activityBar.inactiveForeground": "#e7e7e799",
-    "activityBarBadge.background": "#2ed1b5",
-    "activityBarBadge.foreground": "#15202b",
-    "commandCenter.border": "#e7e7e799",
-    "sash.hoverBorder": "#907d20",
-    "titleBar.activeBackground": "#907d20",
-    "titleBar.activeForeground": "#e7e7e7",
-    "titleBar.border": "#907d20",
-    "titleBar.inactiveBackground": "#907d2099",
-    "titleBar.inactiveForeground": "#e7e7e799"
-  },
-  "peacock.remoteColor": "#907d20"
+  }
 }
