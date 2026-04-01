@@ -992,21 +992,6 @@
 								</StackPanel>
 							</StackPanel>
 
-							<!-- Brand Chip -->
-							<StackPanel Spacing="8">
-								<TextBlock Text="Brand"
-										   FontSize="14"
-										   Opacity="0.6" />
-								<StackPanel Orientation="Horizontal"
-											Spacing="8">
-									<utu:Chip Content="Brand"
-											  Style="{StaticResource BrandChipStyle}" />
-									<utu:Chip Content="Removable"
-											  CanRemove="True"
-											  Style="{StaticResource BrandChipStyle}" />
-								</StackPanel>
-							</StackPanel>
-
 							<!-- Danger Chip -->
 							<StackPanel Spacing="8">
 								<TextBlock Text="Danger"

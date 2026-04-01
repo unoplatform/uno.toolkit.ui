@@ -21,9 +21,9 @@
 			<Thickness x:Key="ChipPadding">8,0</Thickness>
 
 			<!--  Semantic keys (design-system-agnostic, shared with Material)  -->
-			<StaticResource x:Key="ChipBackground" ResourceKey="TertiaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundPressed" ResourceKey="SecondaryContainerBrush" />
+			<StaticResource x:Key="ChipBackground" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="PrimaryContainerBrush" />
+			<StaticResource x:Key="ChipBackgroundPressed" ResourceKey="TertiaryContainerBrush" />
 			<StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="ChipBackgroundChecked" ResourceKey="PrimaryBrush" />
 			<StaticResource x:Key="ChipBackgroundCheckedPointerOver" ResourceKey="PrimaryVariantDarkBrush" />
@@ -35,14 +35,12 @@
 			<StaticResource x:Key="ChipDeleteIconForeground" ResourceKey="OnSurfaceMediumBrush" />
 			<StaticResource x:Key="ChipDeleteIconBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="ChipIconForeground" ResourceKey="OnSurfaceBrush" />
-			<StaticResource x:Key="ElevatedChipBackground" ResourceKey="TertiaryContainerBrush" />
+			<StaticResource x:Key="ElevatedChipBackground" ResourceKey="SurfaceVariantBrush" />
 
 
 			<!--  Toolkit-specific variants  -->
 			<StaticResource x:Key="DangerChipBackground" ResourceKey="ErrorBrush" />
 			<StaticResource x:Key="DangerChipForeground" ResourceKey="OnErrorBrush" />
-			<StaticResource x:Key="BrandChipBackground" ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="BrandChipForeground" ResourceKey="OnPrimaryBrush" />
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Default">
@@ -56,9 +54,9 @@
 			<Thickness x:Key="ChipPadding">8,0</Thickness>
 
 			<!--  Semantic keys (design-system-agnostic, shared with Material)  -->
-			<StaticResource x:Key="ChipBackground" ResourceKey="TertiaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="SecondaryContainerBrush" />
-			<StaticResource x:Key="ChipBackgroundPressed" ResourceKey="SecondaryContainerBrush" />
+			<StaticResource x:Key="ChipBackground" ResourceKey="SurfaceVariantBrush" />
+			<StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="PrimaryContainerBrush" />
+			<StaticResource x:Key="ChipBackgroundPressed" ResourceKey="TertiaryContainerBrush" />
 			<StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="ChipBackgroundChecked" ResourceKey="PrimaryBrush" />
 			<StaticResource x:Key="ChipBackgroundCheckedPointerOver" ResourceKey="PrimaryVariantDarkBrush" />
@@ -70,13 +68,11 @@
 			<StaticResource x:Key="ChipDeleteIconForeground" ResourceKey="OnSurfaceMediumBrush" />
 			<StaticResource x:Key="ChipDeleteIconBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="ChipIconForeground" ResourceKey="OnSurfaceBrush" />
-			<StaticResource x:Key="ElevatedChipBackground" ResourceKey="TertiaryContainerBrush" />
+			<StaticResource x:Key="ElevatedChipBackground" ResourceKey="SurfaceVariantBrush" />
 
 			<!--  Toolkit-specific variants  -->
 			<StaticResource x:Key="DangerChipBackground" ResourceKey="ErrorBrush" />
 			<StaticResource x:Key="DangerChipForeground" ResourceKey="OnErrorBrush" />
-			<StaticResource x:Key="BrandChipBackground" ResourceKey="PrimaryBrush" />
-			<StaticResource x:Key="BrandChipForeground" ResourceKey="OnPrimaryBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
@@ -292,12 +288,5 @@
 		<Setter Property="Foreground" Value="{ThemeResource DangerChipForeground}" />
 	</Style>
 
-	<Style
-		x:Key="SimpleBrandChipStyle"
-		BasedOn="{StaticResource SimpleChipStyle}"
-		TargetType="utu:Chip">
-		<Setter Property="Background" Value="{ThemeResource BrandChipBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource BrandChipForeground}" />
-	</Style>
 
 </ResourceDictionary>
