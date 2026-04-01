@@ -59,7 +59,7 @@
 	<StaticResource x:Key="FilledCardContentControlStyle" ResourceKey="SimpleFilledCardContentControlStyle" />
 	<StaticResource x:Key="ElevatedCardContentControlStyle" ResourceKey="SimpleElevatedCardContentControlStyle" />
 	<StaticResource x:Key="DangerChipStyle" ResourceKey="SimpleDangerChipStyle" />
-<StaticResource x:Key="VerticalTabBarStyle" ResourceKey="SimpleVerticalTabBarStyle" />
+	<StaticResource x:Key="VerticalTabBarStyle" ResourceKey="SimpleVerticalTabBarStyle" />
 	<StaticResource x:Key="VerticalTabBarItemStyle" ResourceKey="SimpleVerticalTabBarItemStyle" />
 	<StaticResource x:Key="FabTabBarItemStyle" ResourceKey="SimpleFabTabBarItemStyle" />
 	<StaticResource x:Key="NavigationTabBarItemStyle" ResourceKey="SimpleNavigationTabBarItemStyle" />
