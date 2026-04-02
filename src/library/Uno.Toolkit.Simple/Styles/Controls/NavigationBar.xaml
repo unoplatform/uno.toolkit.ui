@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:android="http://uno.ui/android"
@@ -44,31 +44,11 @@
 			<StaticResource x:Key="NavigationBarEllipsisButtonForeground" ResourceKey="OnSurfaceBrush" />
 			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground" Color="Transparent" />
 
-			<!--  Simple-prefixed aliases for Modal variant (alias through semantic)  -->
-			<StaticResource x:Key="SimpleModalNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
-			<StaticResource x:Key="SimpleModalNavigationBarForeground" ResourceKey="NavigationBarForeground" />
-			<StaticResource x:Key="SimpleModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
-
-			<!--  Simple-prefixed aliases for Primary variant (alias through semantic)  -->
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="NavigationBarCommandBarEllipsisIconForegroundDisabled" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="NavigationBarCommandBarBackgroundCompactOpenUp" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="NavigationBarCommandBarBackgroundCompactOpenDown" />
-
-			<StaticResource x:Key="SimplePrimaryNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarForeground" ResourceKey="NavigationBarForeground" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarBackground" ResourceKey="NavigationBarBackground" />
-			<StaticResource x:Key="SimplePrimaryAppBarButtonForeground" ResourceKey="NavigationBarMainCommandForeground" />
-
-			<!--  Simple-prefixed aliases for PrimaryModal variant (alias through semantic)  -->
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarForeground" ResourceKey="NavigationBarForeground" />
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
-
-			<x:Double x:Key="SimpleNavigationBarElevation">0</x:Double>
-			<x:Double x:Key="SimpleXamlNavigationBarHeight">64</x:Double>
-			<x:Double x:Key="SimpleNavigationBarHeight">64</x:Double>
-			<Thickness x:Key="SimpleNavigationBarContentMargin">16,0</Thickness>
-			<Thickness x:Key="SimpleAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
+			<x:Double x:Key="NavigationBarElevation">0</x:Double>
+			<x:Double x:Key="XamlNavigationBarHeight">64</x:Double>
+			<x:Double x:Key="NavigationBarHeight">64</x:Double>
+			<Thickness x:Key="NavigationBarContentMargin">16,0</Thickness>
+			<Thickness x:Key="AppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
 
 			<StaticResource x:Key="NavigationBarSimpleEllipsisButtonFontFamily" ResourceKey="SimpleFontFamily" />
 			<FontWeight x:Key="NavigationBarSimpleEllipsisButtonFontWeight">SemiBold</FontWeight>
@@ -103,31 +83,11 @@
 			<StaticResource x:Key="NavigationBarEllipsisButtonForeground" ResourceKey="OnSurfaceBrush" />
 			<SolidColorBrush x:Key="NavigationBarEllipsisButtonBackground" Color="Transparent" />
 
-			<!--  Simple-prefixed aliases for Modal variant (alias through semantic)  -->
-			<StaticResource x:Key="SimpleModalNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
-			<StaticResource x:Key="SimpleModalNavigationBarForeground" ResourceKey="NavigationBarForeground" />
-			<StaticResource x:Key="SimpleModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
-
-			<!--  Simple-prefixed aliases for Primary variant (alias through semantic)  -->
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="NavigationBarCommandBarEllipsisIconForegroundDisabled" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="NavigationBarCommandBarBackgroundCompactOpenUp" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="NavigationBarCommandBarBackgroundCompactOpenDown" />
-
-			<StaticResource x:Key="SimplePrimaryNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarForeground" ResourceKey="NavigationBarForeground" />
-			<StaticResource x:Key="SimplePrimaryNavigationBarBackground" ResourceKey="NavigationBarBackground" />
-			<StaticResource x:Key="SimplePrimaryAppBarButtonForeground" ResourceKey="NavigationBarMainCommandForeground" />
-
-			<!--  Simple-prefixed aliases for PrimaryModal variant (alias through semantic)  -->
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarMainCommandForeground" ResourceKey="NavigationBarMainCommandForeground" />
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarForeground" ResourceKey="NavigationBarForeground" />
-			<StaticResource x:Key="SimplePrimaryModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
-
-			<x:Double x:Key="SimpleNavigationBarElevation">0</x:Double>
-			<x:Double x:Key="SimpleXamlNavigationBarHeight">64</x:Double>
-			<x:Double x:Key="SimpleNavigationBarHeight">64</x:Double>
-			<Thickness x:Key="SimpleNavigationBarContentMargin">16,0</Thickness>
-			<Thickness x:Key="SimpleAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
+			<x:Double x:Key="NavigationBarElevation">0</x:Double>
+			<x:Double x:Key="XamlNavigationBarHeight">64</x:Double>
+			<x:Double x:Key="NavigationBarHeight">64</x:Double>
+			<Thickness x:Key="NavigationBarContentMargin">16,0</Thickness>
+			<Thickness x:Key="AppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
 
 			<StaticResource x:Key="NavigationBarSimpleEllipsisButtonFontFamily" ResourceKey="SimpleFontFamily" />
 			<FontWeight x:Key="NavigationBarSimpleEllipsisButtonFontWeight">SemiBold</FontWeight>
@@ -254,7 +214,7 @@
 			</Setter.Value>
 		</Setter>
 
-		<android:Setter Property="(toolkit:UIElementExtensions.Elevation)" Value="{ThemeResource SimpleNavigationBarElevation}" />
+		<android:Setter Property="(toolkit:UIElementExtensions.Elevation)" Value="{ThemeResource NavigationBarElevation}" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Top" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -415,11 +375,11 @@
 							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}" TargetType="ToggleSplitButton" />
 							<Style BasedOn="{StaticResource SimpleAppBarButtonStyle}" TargetType="AppBarButton" />
 
-							<not_mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="SimpleXamlNavigationBarHeight" />
-							<not_mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="SimpleXamlNavigationBarHeight" />
+							<not_mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="XamlNavigationBarHeight" />
+							<not_mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="XamlNavigationBarHeight" />
 
-							<mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="SimpleNavigationBarHeight" />
-							<mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="SimpleNavigationBarHeight" />
+							<mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="NavigationBarHeight" />
+							<mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="NavigationBarHeight" />
 						</Grid.Resources>
 						<Grid
 							x:Name="ContentRoot"
@@ -452,7 +412,7 @@
 									x:Name="ContentControl"
 									Grid.Column="0"
 									Grid.ColumnSpan="4"
-									Margin="{ThemeResource SimpleNavigationBarContentMargin}"
+									Margin="{ThemeResource NavigationBarContentMargin}"
 									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 									HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -754,30 +714,30 @@
 		BasedOn="{StaticResource SimpleNavigationBarStyle}"
 		TargetType="utu:NavigationBar">
 		<Setter Property="MainCommandStyle" Value="{StaticResource SimpleModalMainCommandStyle}" />
-		<Setter Property="Background" Value="{ThemeResource SimpleModalNavigationBarBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource SimpleModalNavigationBarForeground}" />
+		<Setter Property="Background" Value="{ThemeResource NavigationBarBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarForeground}" />
 	</Style>
 
 	<Style
 		x:Key="SimpleModalMainCommandStyle"
 		BasedOn="{StaticResource SimpleMainCommandStyle}"
 		TargetType="AppBarButton">
-		<Setter Property="Foreground" Value="{ThemeResource SimpleModalNavigationBarMainCommandForeground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarMainCommandForeground}" />
 	</Style>
 
 	<Style
 		x:Key="SimplePrimaryMainCommandStyle"
 		BasedOn="{StaticResource SimpleMainCommandStyle}"
 		TargetType="AppBarButton">
-		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryNavigationBarMainCommandForeground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarMainCommandForeground}" />
 	</Style>
 
 	<Style
 		x:Key="SimplePrimaryNavigationBarStyle"
 		BasedOn="{StaticResource SimpleNavigationBarStyle}"
 		TargetType="utu:NavigationBar">
-		<Setter Property="Background" Value="{ThemeResource SimplePrimaryNavigationBarBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryNavigationBarForeground}" />
+		<Setter Property="Background" Value="{ThemeResource NavigationBarBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarForeground}" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource SimplePrimaryMainCommandStyle}" />
 		<not_mobile:Setter Property="Template" Value="{StaticResource XamlSimplePrimaryNavigationBarTemplate}" />
 	</Style>
@@ -842,11 +802,11 @@
 							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}" TargetType="ToggleSplitButton" />
 							<Style BasedOn="{StaticResource SimplePrimaryAppBarButtonStyle}" TargetType="AppBarButton" />
 
-							<not_mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="SimpleXamlNavigationBarHeight" />
-							<not_mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="SimpleXamlNavigationBarHeight" />
+							<not_mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="XamlNavigationBarHeight" />
+							<not_mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="XamlNavigationBarHeight" />
 
-							<mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="SimpleNavigationBarHeight" />
-							<mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="SimpleNavigationBarHeight" />
+							<mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="NavigationBarHeight" />
+							<mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="NavigationBarHeight" />
 						</Grid.Resources>
 						<Grid
 							x:Name="ContentRoot"
@@ -878,7 +838,7 @@
 									x:Name="ContentControl"
 									Grid.Column="0"
 									Grid.ColumnSpan="4"
-									Margin="{ThemeResource SimpleNavigationBarContentMargin}"
+									Margin="{ThemeResource NavigationBarContentMargin}"
 									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 									HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -1012,7 +972,7 @@
 								<VisualState x:Name="Disabled">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="EllipsisIcon" Storyboard.TargetProperty="Foreground">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SimplePrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled}" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationBarCommandBarEllipsisIconForegroundDisabled}" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>
@@ -1026,7 +986,7 @@
 										To="CompactOpenDown">
 										<Storyboard>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
-												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown}" />
+												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenDown}" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
 												<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
@@ -1093,7 +1053,7 @@
 								<VisualState x:Name="CompactOpenUp">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenUp}" />
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenUp}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
 											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
@@ -1118,7 +1078,7 @@
 								<VisualState x:Name="CompactOpenDown">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource SimplePrimaryNavigationBarCommandBarBackgroundCompactOpenDown}" />
+											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource NavigationBarCommandBarBackgroundCompactOpenDown}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenBorder" Storyboard.TargetProperty="Visibility">
 											<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
@@ -1178,8 +1138,8 @@
 		x:Key="SimplePrimaryModalNavigationBarStyle"
 		BasedOn="{StaticResource SimplePrimaryNavigationBarStyle}"
 		TargetType="utu:NavigationBar">
-		<Setter Property="Background" Value="{ThemeResource SimplePrimaryModalNavigationBarBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryModalNavigationBarForeground}" />
+		<Setter Property="Background" Value="{ThemeResource NavigationBarBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarForeground}" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource SimplePrimaryModalMainCommandStyle}" />
 	</Style>
 
@@ -1187,7 +1147,7 @@
 		x:Key="SimplePrimaryModalMainCommandStyle"
 		BasedOn="{StaticResource SimplePrimaryMainCommandStyle}"
 		TargetType="AppBarButton">
-		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryModalNavigationBarMainCommandForeground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarMainCommandForeground}" />
 	</Style>
 
 	<Style
@@ -1223,7 +1183,7 @@
 						BorderThickness="{TemplateBinding BorderThickness}">
 						<ContentPresenter
 							x:Name="ContentPresenter"
-							Margin="{ThemeResource SimpleAppBarEllipsisButtonInnerBorderMargin}"
+							Margin="{ThemeResource AppBarEllipsisButtonInnerBorderMargin}"
 							Padding="0"
 							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -1246,7 +1206,7 @@
 		x:Key="SimplePrimaryAppBarButtonStyle"
 		BasedOn="{StaticResource SimpleAppBarButtonStyle}"
 		TargetType="AppBarButton">
-		<Setter Property="Foreground" Value="{ThemeResource SimplePrimaryAppBarButtonForeground}" />
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarMainCommandForeground}" />
 	</Style>
 
 	<Style

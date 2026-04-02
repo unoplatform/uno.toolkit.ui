@@ -183,27 +183,25 @@ In `App.xaml`, use the `DefaultSize` property on `SimpleToolkitTheme`:
 
 The Simple Toolkit supports [lightweight styling](xref:Toolkit.LightweightStyling) using semantic (unprefixed) resource keys shared with the Material Toolkit. This means you can customize control appearance by overriding the same resource key names regardless of which theme you use.
 
-> [!NOTE]
-> Simple-prefixed resource keys (e.g., `SimpleChipForeground`, `SimpleCardBackground`) can still be referenced directly for theme-specific customizations, but **semantic (unprefixed) keys are the recommended approach**.
-
 ### Example
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
-<!-- Default Card -->
-<utu:Card HeaderContent="Default card"
-          Style="{StaticResource FilledCardStyle}" />
+<!-- Default CardContentControl -->
+<utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}">
+    <TextBlock Text="Default card" />
+</utu:CardContentControl>
 
-<!-- Customized Card via lightweight styling -->
-<utu:Card HeaderContent="Custom card"
-          Style="{StaticResource FilledCardStyle}">
-    <utu:Card.Resources>
-        <SolidColorBrush x:Key="FilledCardBackground" Color="LightBlue" />
-        <SolidColorBrush x:Key="CardForeground" Color="DarkBlue" />
-    </utu:Card.Resources>
-</utu:Card>
+<!-- Customized CardContentControl via lightweight styling -->
+<utu:CardContentControl Style="{StaticResource FilledCardContentControlStyle}">
+    <utu:CardContentControl.Resources>
+        <SolidColorBrush x:Key="FilledCardContentBackground" Color="LightBlue" />
+        <SolidColorBrush x:Key="CardContentForeground" Color="DarkBlue" />
+    </utu:CardContentControl.Resources>
+    <TextBlock Text="Custom card" />
+</utu:CardContentControl>
 ```
 
 For the full list of resource keys available for each control, see:

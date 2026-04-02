@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:utu="using:Uno.Toolkit.UI">
@@ -16,13 +16,6 @@
 			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
 			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="CardContentForeground" ResourceKey="OnSurfaceBrush" />
-
-			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
-			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
-			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="CardContentBackgroundPointerOver" />
-			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="OutlinedCardContentBorderBrush" />
-			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="CardContentBackgroundDisabled" />
-			<StaticResource x:Key="SimpleCardContentForeground" ResourceKey="CardContentForeground" />
 		</ResourceDictionary>
 
 		<!--  ─── Dark Theme (Default) ───  -->
@@ -36,20 +29,13 @@
 			<StaticResource x:Key="CardContentBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
 			<StaticResource x:Key="CardContentBackgroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="CardContentForeground" ResourceKey="OnSurfaceBrush" />
-
-			<!--  Simple-prefixed aliases (backward compat, used by templates)  -->
-			<StaticResource x:Key="SimpleCardContentBackground" ResourceKey="FilledCardContentBackground" />
-			<StaticResource x:Key="SimpleCardContentBackgroundPointerOver" ResourceKey="CardContentBackgroundPointerOver" />
-			<StaticResource x:Key="SimpleCardContentBorderBrush" ResourceKey="OutlinedCardContentBorderBrush" />
-			<StaticResource x:Key="SimpleCardContentBackgroundDisabled" ResourceKey="CardContentBackgroundDisabled" />
-			<StaticResource x:Key="SimpleCardContentForeground" ResourceKey="CardContentForeground" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
 	<Style x:Key="SimpleBaseCardContentControlStyle" TargetType="utu:CardContentControl">
 		<Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
-		<Setter Property="Background" Value="{ThemeResource SimpleCardContentBackground}" />
-		<Setter Property="Foreground" Value="{ThemeResource SimpleCardContentForeground}" />
+		<Setter Property="Background" Value="{ThemeResource FilledCardContentBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource CardContentForeground}" />
 		<Setter Property="FontFamily" Value="{StaticResource SimpleFontFamily}" />
 		<Setter Property="FontSize" Value="16" />
 		<Setter Property="HorizontalAlignment" Value="Center" />
@@ -86,17 +72,17 @@
 								<VisualState x:Name="Normal" />
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardContentBackgroundPointerOver}" />
+										<Setter Target="GridRoot.Background" Value="{ThemeResource CardContentBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardContentBackgroundPointerOver}" />
+										<Setter Target="GridRoot.Background" Value="{ThemeResource CardContentBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="GridRoot.Background" Value="{ThemeResource SimpleCardContentBackgroundDisabled}" />
+										<Setter Target="GridRoot.Background" Value="{ThemeResource CardContentBackgroundDisabled}" />
 										<Setter Target="GridRoot.Opacity" Value="0.38" />
 									</VisualState.Setters>
 								</VisualState>
@@ -124,7 +110,7 @@
 		x:Key="SimpleOutlinedCardContentControlStyle"
 		BasedOn="{StaticResource SimpleBaseCardContentControlStyle}"
 		TargetType="utu:CardContentControl">
-		<Setter Property="BorderBrush" Value="{ThemeResource SimpleCardContentBorderBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource OutlinedCardContentBorderBrush}" />
 		<Setter Property="BorderThickness" Value="{StaticResource CardBorderThickness}" />
 	</Style>
 

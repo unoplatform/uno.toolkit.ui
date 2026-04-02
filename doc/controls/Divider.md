@@ -16,6 +16,7 @@ A divider is a thin line that groups content in lists and layouts.
 Both Material and Simple themes share the same semantic (unprefixed) resource keys. Override these keys to customize control appearance regardless of which theme your app uses. For more information, see [Lightweight Styling](../lightweight-styling.md).
 
 ### Material Theme
+
 | Key                              | Type                 | Value                       |
 |------------------------------------|--------------------|-----------------------------|
 | `DividerForeground`                | `SolidColorBrush`  | `OutlineVariantBrush`       |
