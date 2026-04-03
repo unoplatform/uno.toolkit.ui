@@ -15,8 +15,11 @@
 		<RootNamespace>Uno.Toolkit.UI.Simple</RootNamespace>
 		<PackageId>Uno.Toolkit.WinUI.Simple</PackageId>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
-		<UnoFeatures>SimpleTheme</UnoFeatures>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Uno.Simple.WinUI" />
+	</ItemGroup>
 
 	<ItemGroup Condition="$(_IsWindowsWinUI)">
 		<Page Remove="Generated\*.xaml" />
