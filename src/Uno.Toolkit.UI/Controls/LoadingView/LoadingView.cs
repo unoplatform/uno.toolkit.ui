@@ -1,4 +1,6 @@
-﻿using Uno.Disposables;
+﻿using Microsoft.Extensions.Logging;
+using Uno.Disposables;
+using Uno.Extensions;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -152,10 +154,10 @@ namespace Uno.Toolkit.UI
 			await Task.Delay(TimeSpan.FromSeconds(5));
 			if (Source is null && _isReady)
 			{
-				System.Diagnostics.Debug.WriteLine(
-					$"[LoadingView] WARNING: Source is still null 5 seconds after the template was applied. " +
-					$"The view will remain in 'Loading' state indefinitely. " +
-					$"Ensure that the Source property is set to an ILoadable instance (e.g., via navigation extensions).");
+				typeof(LoadingView).Log().LogWarning(
+					"Source is still null 5 seconds after the template was applied. " +
+					"The view will remain in 'Loading' state indefinitely. " +
+					"Ensure that the Source property is set to an ILoadable instance (e.g., via navigation extensions).");
 			}
 		}
 
