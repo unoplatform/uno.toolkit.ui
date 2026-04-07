@@ -71,12 +71,26 @@ stages:
   - template: stage-build-ios.yml
   - template: stage-build-android.yml
 
+- stage: Build_Desktop_Debug
+  displayName: Build Desktop (Debug - Hot Reload)
+  dependsOn: Determine_Changes
+  condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
+  jobs:
+  - template: stage-build-desktop-debug.yml
+
 - stage: RuntimeTests
   displayName: Runtime Tests
   dependsOn: Build_Samples
   condition: succeeded()
   jobs:
   - template: stage-runtime-tests.yml
+
+- stage: RuntimeTests_HotReload
+  displayName: Hot-Reload Runtime Tests
+  dependsOn: Build_Desktop_Debug
+  condition: succeeded()
+  jobs:
+  - template: stage-runtime-tests-hotreload.yml
 
 ##
 ## Publishing

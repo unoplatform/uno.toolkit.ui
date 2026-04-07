@@ -1,0 +1,47 @@
+jobs:
+  - job: RuntimeTests_HotReload
+    displayName: Hot-Reload Runtime Tests (Debug)
+    timeoutInMinutes: 30
+    cancelTimeoutInMinutes: 1
+
+    pool:
+      vmImage: ubuntu-latest
+
+    variables:
+      SAMPLE_CSPROJ: MaterialSampleApp
+      SamplesAppArtifactName: desktop-material-debug
+      SamplesAppArtifactPath: $(Build.SourcesDirectory)/build/desktop-material-debug
+
+    steps:
+      - checkout: self
+        clean: true
+
+      - template: templates/host-cleanup-linux.yml
+
+      - task: DownloadPipelineArtifact@2
+        displayName: Download desktop Debug artifact
+        inputs:
+          artifact: $(SamplesAppArtifactName)
+          path: $(SamplesAppArtifactPath)
+
+      - template: templates/dotnet-workload-install-linux.yml
+        parameters:
+          UnoCheckParameters: '--tfm net10.0-desktop'
+
+      - script: |
+          chmod +x build/workflow/scripts/linux-skia-runtime-tests.sh
+          build/workflow/scripts/linux-skia-runtime-tests.sh
+        displayName: Run hot-reload tests
+        env:
+          SamplesAppArtifactPath: $(SamplesAppArtifactPath)
+          SAMPLES_APP_DLL: $(SAMPLE_CSPROJ).dll
+          UNO_RUNTIME_TESTS_RUN_TESTS: '{"Filter": {"Value": "Given_HotReload"}}'
+
+      - task: PublishTestResults@2
+        condition: always()
+        inputs:
+          testRunTitle: 'Hot-Reload Runtime Tests'
+          testResultsFormat: 'NUnit'
+          testResultsFiles: '$(Build.SourcesDirectory)/build/desktop-runtime-tests-results.xml'
+          failTaskOnFailedTests: true
+          failTaskOnMissingResultsFile: true
