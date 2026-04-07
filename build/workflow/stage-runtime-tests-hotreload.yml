@@ -1,16 +1,16 @@
 jobs:
   - job: RuntimeTests_HotReload
     displayName: Hot-Reload Runtime Tests (Debug)
-    timeoutInMinutes: 30
+    timeoutInMinutes: 60
     cancelTimeoutInMinutes: 1
 
     pool:
       vmImage: ubuntu-latest
 
     variables:
+      NUGET_PACKAGES: $(build.sourcesdirectory)/.nuget
+      SAMPLE_DIR: Uno.Toolkit.Samples.Material
       SAMPLE_CSPROJ: MaterialSampleApp
-      SamplesAppArtifactName: desktop-material-debug
-      SamplesAppArtifactPath: $(Build.SourcesDirectory)/build/desktop-material-debug
 
     steps:
       - checkout: self
@@ -18,22 +18,35 @@ jobs:
 
       - template: templates/host-cleanup-linux.yml
 
-      - task: DownloadPipelineArtifact@2
-        displayName: Download desktop Debug artifact
-        inputs:
-          artifact: $(SamplesAppArtifactName)
-          path: $(SamplesAppArtifactPath)
-
       - template: templates/dotnet-workload-install-linux.yml
         parameters:
           UnoCheckParameters: '--tfm net10.0-desktop'
+
+      - template: templates/canary-updater.yml
+
+      - bash: |
+          dotnet build -c Debug -f net10.0-desktop \
+            samples/$(SAMPLE_DIR)/$(SAMPLE_CSPROJ).csproj \
+            -bl:$(build.artifactstagingdirectory)/binlogs/build-desktop-debug.binlog \
+            -p:GeneratePackageOnBuild=false \
+            -p:TargetFrameworkOverride=desktop
+        displayName: Build MaterialSampleApp Desktop (Debug)
+
+      - task: PublishBuildArtifacts@1
+        retryCountOnTaskFailure: 3
+        condition: always()
+        displayName: Publish binlogs
+        inputs:
+          PathtoPublish: $(build.artifactstagingdirectory)/binlogs
+          ArtifactName: binlogs-desktop-hotreload
+          ArtifactType: Container
 
       - script: |
           chmod +x build/workflow/scripts/linux-skia-runtime-tests.sh
           build/workflow/scripts/linux-skia-runtime-tests.sh
         displayName: Run hot-reload tests
         env:
-          SamplesAppArtifactPath: $(SamplesAppArtifactPath)
+          SamplesAppArtifactPath: $(Build.SourcesDirectory)/samples/$(SAMPLE_DIR)/bin/Debug/net10.0-desktop
           SAMPLES_APP_DLL: $(SAMPLE_CSPROJ).dll
           UNO_RUNTIME_TESTS_RUN_TESTS: '{"Filter": {"Value": "Given_HotReload"}}'
 
