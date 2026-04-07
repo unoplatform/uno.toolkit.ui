@@ -1,3 +1,4 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.UI.RuntimeTests;
 
@@ -7,6 +8,13 @@ namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
 [RunsInSecondaryApp(ignoreIfNotSupported: true)]
 public class Given_HotReload
 {
+	[TestInitialize]
+	public void Setup()
+	{
+		// Allow more time for the dev-server to load the Roslyn workspace
+		HotReloadHelper.DefaultWorkspaceTimeout = TimeSpan.FromSeconds(120);
+	}
+
 	[TestMethod]
 	public async Task When_UpdateMethodBody_Then_MetadataUpdateReceived(CancellationToken ct)
 	{
