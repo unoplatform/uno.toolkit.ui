@@ -35,7 +35,7 @@ jobs:
         env:
           SamplesAppArtifactPath: $(SamplesAppArtifactPath)
           SAMPLES_APP_DLL: $(SAMPLE_CSPROJ).dll
-          UNO_RUNTIME_TESTS_RUN_TESTS: '{"Filter": {"Value": "!Given_HotReload"}}'
+          UNO_RUNTIME_TESTS_RUN_TESTS: '{}'
 
       - task: PublishTestResults@2
         condition: always()

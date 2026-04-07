@@ -1,3 +1,4 @@
+#if DEBUG // Hot-reload tests are only relevant in debug configuration
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.UI.RuntimeTests;
@@ -29,3 +30,4 @@ public class Given_HotReload
 		Assert.AreEqual("updated", HotReloadTarget.GetValue());
 	}
 }
+#endif

@@ -23,8 +23,9 @@
 
   <ItemGroup>
     <PackageReference Include="Uno.UI.RuntimeTests.Engine" />
-    <!-- Required for hot-reload tests ([RunsInSecondaryApp]) - enables HAS_UNO_DEVSERVER in the RuntimeTests.Engine -->
-    <PackageReference Include="Uno.WinUI.DevServer" PrivateAssets="all" />
+    <!-- Required for hot-reload tests ([RunsInSecondaryApp]) - enables HAS_UNO_DEVSERVER in the RuntimeTests.Engine.
+         Debug-only: in Release the DevServer assembly is not published and would cause a FileNotFoundException. -->
+    <PackageReference Include="Uno.WinUI.DevServer" PrivateAssets="all" Condition="'$(Configuration)' == 'Debug'" />
 		<PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="FluentAssertions" />
   </ItemGroup>
