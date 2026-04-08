@@ -68,7 +68,6 @@ namespace Uno.Toolkit.UI
 		private bool _initOnceOnLoaded = true;
 		private double _startingTranslateOffset;
 		private bool _suppressIsOpenHandler;
-		private double? _lastSetOpenness;
 
 		private Size? _lastMeasuredFlyoutContentSize;
 
@@ -162,21 +161,15 @@ namespace Uno.Toolkit.UI
 		{
 			_lastMeasuredFlyoutContentSize = e.NewSize;
 
-			// For native renderer specifically, on first opening, there are two size changed on the DrawerContentPresenter.
-			// First one contains the minimal size, and the second one contains the stabilized size. We need to re-adjust the translate offset
-			// with the values from the second one. Otherwise, we may observe a single frame "jump" by UpdateOpenness dispatched from OnPopupOpened.
-			if (_lastSetOpenness is { } value)
-			{
-				UpdateOpenness(value);
+			UpdateOpenness(IsOpen);
 
-				// For the first open animation, we attempt to delay StartOpenAnimation to run after DrawerContentPresenterSizeChanged, by re-dispatching it.
-				// On native, it may still be too early. In that case, we should start the animation again, as we now have the required size to proceed.
-				var previousLength = IsOpenDirectionHorizontal() ? e.PreviousSize.Width : e.PreviousSize.Height;
-				if (previousLength is 0 && HasConcreteDrawerActualSize() &&
-					IsOpen && _popup is { IsOpen: true })
-				{
-					StartOpenAnimation();
-				}
+			// For the first open animation, we attempt to delay StartOpenAnimation to run after DrawerContentPresenterSizeChanged, by re-dispatching it.
+			// On native, it may still be too early. In that case, we should start the animation again, as we now have the required size to proceed.
+			var previousLength = IsOpenDirectionHorizontal() ? e.PreviousSize.Width : e.PreviousSize.Height;
+			if (previousLength is 0 && HasConcreteDrawerActualSize() &&
+			    IsOpen && _popup is { IsOpen: true })
+			{
+				StartOpenAnimation();
 			}
 		}
 
@@ -328,8 +321,6 @@ namespace Uno.Toolkit.UI
 
 		private void UpdateOpenness(double ratio)
 		{
-			_lastSetOpenness = ratio;
-
 			TranslateOffset = (1 - ratio) * GetVectoredLength();
 			if (_lightDismissOverlay != null)
 			{
