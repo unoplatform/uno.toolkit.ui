@@ -25,8 +25,8 @@ public class Given_HotReload
 
 		await using var _ = await HotReloadHelper.UpdateSourceFile(
 			"../../src/Uno.Toolkit.RuntimeTests/Tests/HotReload/HotReloadTarget.cs",
-			"""GetValue() => "original";""",
-			"""GetValue() => "updated";""",
+			"""return "original";""",
+			"""return "updated";""",
 			ct);
 
 		Assert.AreEqual("updated", HotReloadTarget.GetValue());
