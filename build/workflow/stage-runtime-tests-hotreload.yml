@@ -58,3 +58,4 @@ jobs:
           testResultsFiles: '$(Build.SourcesDirectory)/build/desktop-runtime-tests-results.xml'
           failTaskOnFailedTests: true
           failTaskOnMissingResultsFile: true
+
