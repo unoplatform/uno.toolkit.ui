@@ -167,7 +167,7 @@ namespace Uno.Toolkit.UI
 			// On native, it may still be too early. In that case, we should start the animation again, as we now have the required size to proceed.
 			var previousLength = IsOpenDirectionHorizontal() ? e.PreviousSize.Width : e.PreviousSize.Height;
 			if (previousLength is 0 && HasConcreteDrawerActualSize() &&
-			    IsOpen && _popup is { IsOpen: true })
+				IsOpen && _popup is { IsOpen: true })
 			{
 				StartOpenAnimation();
 			}
