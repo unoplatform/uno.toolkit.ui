@@ -48,7 +48,7 @@ jobs:
         env:
           SamplesAppArtifactPath: $(Build.SourcesDirectory)/samples/$(SAMPLE_DIR)/bin/Debug/net10.0-desktop
           SAMPLES_APP_DLL: $(SAMPLE_CSPROJ).dll
-          UNO_RUNTIME_TESTS_RUN_TESTS: '{"Filter": {"Value": "Given_HotReload"}}'
+          UNO_RUNTIME_TESTS_RUN_TESTS: '{"Filter": {"Value": "_HotReload"}}'
 
       - task: PublishTestResults@2
         condition: always()
