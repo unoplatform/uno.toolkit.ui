@@ -78,6 +78,13 @@ stages:
   jobs:
   - template: stage-runtime-tests.yml
 
+- stage: RuntimeTests_HotReload
+  displayName: Hot-Reload Runtime Tests
+  dependsOn: Determine_Changes
+  condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
+  jobs:
+  - template: stage-runtime-tests-hotreload.yml
+
 ##
 ## Publishing
 ##

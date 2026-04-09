@@ -31,10 +31,11 @@ jobs:
       - script: |
           chmod +x build/workflow/scripts/linux-skia-runtime-tests.sh
           build/workflow/scripts/linux-skia-runtime-tests.sh
-        displayName: Run desktop runtime tests
+        displayName: Run desktop runtime tests (excluding hot-reload)
         env:
           SamplesAppArtifactPath: $(SamplesAppArtifactPath)
           SAMPLES_APP_DLL: $(SAMPLE_CSPROJ).dll
+          UNO_RUNTIME_TESTS_RUN_TESTS: '{}'
 
       - task: PublishTestResults@2
         condition: always()
