@@ -12,8 +12,10 @@ public class Given_HotReload
 	[TestInitialize]
 	public void Setup()
 	{
-		// Allow more time for the dev-server to load the Roslyn workspace
-		HotReloadHelper.DefaultWorkspaceTimeout = TimeSpan.FromSeconds(120);
+		// Allow more time for the dev-server to load the Roslyn workspace (solution can be large)
+		HotReloadHelper.DefaultWorkspaceTimeout = TimeSpan.FromSeconds(180);
+		// Allow more time for the first metadata update (delta compilation can be slow on CI)
+		HotReloadHelper.DefaultMetadataUpdateTimeout = TimeSpan.FromSeconds(60);
 	}
 
 	[TestMethod]

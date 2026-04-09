@@ -95,6 +95,8 @@ public partial class App : Application
 			builder.SetMinimumLevel(LogLevel.Information);
 
 			builder.AddFilter("Uno", LogLevel.Warning);
+			builder.AddFilter("Uno.UI.RuntimeTests", LogLevel.Trace);
+			builder.AddFilter("Uno.UI.RemoteControl", LogLevel.Trace);
 			builder.AddFilter("Windows", LogLevel.Warning);
 			builder.AddFilter("Microsoft", LogLevel.Warning);
 		});
