@@ -31,5 +31,107 @@ public class Given_HotReload
 
 		Assert.AreEqual("updated", HotReloadTarget.GetValue());
 	}
+
+	[TestMethod]
+	public async Task When_UpdateMethodBody_Then_RevertRestoresOriginal(CancellationToken ct)
+	{
+		Assert.AreEqual("original", HotReloadTarget.GetValue());
+
+		await using (await HotReloadHelper.UpdateSourceFile(
+			"../../src/Uno.Toolkit.RuntimeTests/Tests/HotReload/HotReloadTarget.cs",
+			"""return "original";""",
+			"""return "updated";""",
+			ct))
+		{
+			Assert.AreEqual("updated", HotReloadTarget.GetValue());
+		}
+
+		// After dispose, the file is reverted and the original value is restored
+		Assert.AreEqual("original", HotReloadTarget.GetValue());
+	}
+
+	[TestMethod]
+	public async Task When_UpdateNumericReturn_Then_NewValueReturned(CancellationToken ct)
+	{
+		Assert.AreEqual(1, HotReloadTarget.GetNumber());
+
+		await using var _ = await HotReloadHelper.UpdateSourceFile(
+			"../../src/Uno.Toolkit.RuntimeTests/Tests/HotReload/HotReloadTarget.cs",
+			"return 1;",
+			"return 42;",
+			ct);
+
+		Assert.AreEqual(42, HotReloadTarget.GetNumber());
+	}
+
+	[TestMethod]
+	public async Task When_UpdateBoolReturn_Then_NewValueReturned(CancellationToken ct)
+	{
+		Assert.AreEqual(false, HotReloadTarget.GetFlag());
+
+		await using var _ = await HotReloadHelper.UpdateSourceFile(
+			"../../src/Uno.Toolkit.RuntimeTests/Tests/HotReload/HotReloadTarget.cs",
+			"return false;",
+			"return true;",
+			ct);
+
+		Assert.AreEqual(true, HotReloadTarget.GetFlag());
+	}
+
+	[TestMethod]
+	public async Task When_UpdateStringInterpolation_Then_OutputChanges(CancellationToken ct)
+	{
+		Assert.AreEqual("Hello, World!", HotReloadTarget.Greet("World"));
+
+		await using var _ = await HotReloadHelper.UpdateSourceFile(
+			"../../src/Uno.Toolkit.RuntimeTests/Tests/HotReload/HotReloadTarget.cs",
+			"""return $"Hello, {name}!";""",
+			"""return $"Hi, {name}!";""",
+			ct);
+
+		Assert.AreEqual("Hi, World!", HotReloadTarget.Greet("World"));
+	}
+
+	[TestMethod]
+	public async Task When_UpdateConditionalLogic_Then_BehaviorChanges(CancellationToken ct)
+	{
+		Assert.AreEqual("condition-true", HotReloadTarget.GetConditional(true));
+		Assert.AreEqual("condition-false", HotReloadTarget.GetConditional(false));
+
+		await using var _ = await HotReloadHelper.UpdateSourceFile(
+			"../../src/Uno.Toolkit.RuntimeTests/Tests/HotReload/HotReloadTarget.cs",
+			"""condition-true";""",
+			"""condition-true-updated";""",
+			ct);
+
+		Assert.AreEqual("condition-true-updated", HotReloadTarget.GetConditional(true));
+		Assert.AreEqual("condition-false", HotReloadTarget.GetConditional(false));
+	}
+
+	[TestMethod]
+	public async Task When_MultipleSequentialUpdates_Then_AllApplied(CancellationToken ct)
+	{
+		Assert.AreEqual(1, HotReloadTarget.GetNumber());
+
+		await using (await HotReloadHelper.UpdateSourceFile(
+			"../../src/Uno.Toolkit.RuntimeTests/Tests/HotReload/HotReloadTarget.cs",
+			"return 1;",
+			"return 10;",
+			ct))
+		{
+			Assert.AreEqual(10, HotReloadTarget.GetNumber());
+		}
+
+		// After revert, apply a different update
+		Assert.AreEqual(1, HotReloadTarget.GetNumber());
+
+		await using var _ = await HotReloadHelper.UpdateSourceFile(
+			"../../src/Uno.Toolkit.RuntimeTests/Tests/HotReload/HotReloadTarget.cs",
+			"return 1;",
+			"return 99;",
+			ct);
+
+		Assert.AreEqual(99, HotReloadTarget.GetNumber());
+	}
 }
 #endif
