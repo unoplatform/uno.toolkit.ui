@@ -5,6 +5,7 @@ namespace Uno.Toolkit.Samples.Entities
 		Material,
 		Cupertino,
 		Fluent,
+		Simple,
 		Agnostic,
 	}
 }
