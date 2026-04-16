@@ -3,7 +3,9 @@ using Windows.UI;
 
 namespace Uno.Toolkit.Samples.Content.Controls;
 
-[SamplePage(SampleCategory.Behaviors, "GridExtensions", SourceSdk.UnoToolkit, SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Fluent, Design.Agnostic })]
+[SamplePage(SampleCategory.Behaviors, "GridExtensions", SourceSdk.UnoToolkit,
+	Description = "Provides attached properties that automatically assign Grid.Row and Grid.Column to children based on their order.",
+	SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Fluent, Design.Agnostic })]
 public sealed partial class GridExtensionsSamplePage : Page
 {
 	private static readonly Orientation[] DirectionOptions = { Orientation.Horizontal, Orientation.Vertical };
@@ -15,78 +17,80 @@ public sealed partial class GridExtensionsSamplePage : Page
 		Color.FromArgb(0xFF, 0xF6, 0x56, 0x78), // #FFF65678 UnoRed
 	];
 
-	private int _counter;
-
 	public GridExtensionsSamplePage()
 	{
 		this.InitializeComponent();
+		this.Loaded += (s, e) => SetupOptions();
+	}
 
-		DirectionComboBox.ItemsSource = DirectionOptions;
+	private void SetupOptions()
+	{
+		var design = Design.Agnostic;
+
+		var demoGrid = SamplePageLayout.GetSampleChild<Grid>(design, "DemoGrid");
+		var optionAuto = SamplePageLayout.GetSampleChild<CheckBox>(design, "OptionAuto");
+		var optionDirection = SamplePageLayout.GetSampleChild<ComboBox>(design, "OptionDirection");
+		var optionColumns = SamplePageLayout.GetSampleChild<TextBox>(design, "OptionColumns");
+		var optionRows = SamplePageLayout.GetSampleChild<TextBox>(design, "OptionRows");
+		var optionAdd = SamplePageLayout.GetSampleChild<Button>(design, "OptionAdd");
+		var optionRemove = SamplePageLayout.GetSampleChild<Button>(design, "OptionRemove");
+		var optionReset = SamplePageLayout.GetSampleChild<Button>(design, "OptionReset");
+
+		var counter = 0;
+
+		optionDirection.ItemsSource = DirectionOptions;
+
+		optionAuto.Click += (s, e) => GridExtensions.SetAuto(demoGrid, optionAuto.IsChecked == true);
+		optionDirection.SelectionChanged += (s, e) =>
+		{
+			if (optionDirection.SelectedItem is Orientation direction)
+				GridExtensions.SetDirection(demoGrid, direction);
+		};
+		optionColumns.TextChanged += (s, e) => ApplyColumnDefinitions();
+		optionRows.TextChanged += (s, e) => ApplyRowDefinitions();
+		optionAdd.Click += (s, e) => demoGrid.Children.Add(CreateItem(++counter));
+		optionRemove.Click += (s, e) =>
+		{
+			if (demoGrid.Children.Count > 0)
+				demoGrid.Children.RemoveAt(demoGrid.Children.Count - 1);
+		};
+		optionReset.Click += (s, e) => Reset();
 
 		Reset();
-	}
 
-	private void OnAddClick(object sender, RoutedEventArgs e)
-	{
-		DemoGrid.Children.Add(CreateItem(++_counter));
-	}
+		void ApplyColumnDefinitions()
+		{
+			demoGrid.ColumnDefinitions.Clear();
+			foreach (var length in ParseGridLengths(optionColumns.Text))
+				demoGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = length });
+		}
 
-	private void OnRemoveClick(object sender, RoutedEventArgs e)
-	{
-		if (DemoGrid.Children.Count > 0)
-			DemoGrid.Children.RemoveAt(DemoGrid.Children.Count - 1);
-	}
+		void ApplyRowDefinitions()
+		{
+			demoGrid.RowDefinitions.Clear();
+			foreach (var length in ParseGridLengths(optionRows.Text))
+				demoGrid.RowDefinitions.Add(new RowDefinition { Height = length });
+		}
 
-	private void OnResetClick(object sender, RoutedEventArgs e) => Reset();
+		void Reset()
+		{
+			counter = 0;
+			demoGrid.Children.Clear();
 
-	private void OnAutoChanged(object sender, RoutedEventArgs e)
-	{
-		GridExtensions.SetAuto(DemoGrid, AutoCheckBox.IsChecked == true);
-	}
+			optionColumns.Text = "*,*,*";
+			optionRows.Text = "Auto,Auto,Auto";
+			ApplyColumnDefinitions();
+			ApplyRowDefinitions();
 
-	private void OnDirectionChanged(object sender, SelectionChangedEventArgs e)
-	{
-		if (DirectionComboBox.SelectedItem is Orientation direction)
-			GridExtensions.SetDirection(DemoGrid, direction);
-	}
+			optionAuto.IsChecked = true;
+			GridExtensions.SetAuto(demoGrid, true);
 
-	private void OnColumnsTextChanged(object sender, TextChangedEventArgs e) => ApplyColumnDefinitions();
+			optionDirection.SelectedItem = Orientation.Horizontal;
+			GridExtensions.SetDirection(demoGrid, Orientation.Horizontal);
 
-	private void OnRowsTextChanged(object sender, TextChangedEventArgs e) => ApplyRowDefinitions();
-
-	private void Reset()
-	{
-		_counter = 0;
-		DemoGrid.Children.Clear();
-
-		// Suspend text-change events by setting Text before hooking definitions
-		ColumnsTextBox.Text = "*,*,*";
-		RowsTextBox.Text = "Auto,Auto,Auto";
-		ApplyColumnDefinitions();
-		ApplyRowDefinitions();
-
-		AutoCheckBox.IsChecked = true;
-		GridExtensions.SetAuto(DemoGrid, true);
-
-		DirectionComboBox.SelectedItem = Orientation.Horizontal;
-		GridExtensions.SetDirection(DemoGrid, Orientation.Horizontal);
-
-		for (var i = 0; i < 4; i++)
-			DemoGrid.Children.Add(CreateItem(++_counter));
-	}
-
-	private void ApplyColumnDefinitions()
-	{
-		DemoGrid.ColumnDefinitions.Clear();
-		foreach (var length in ParseGridLengths(ColumnsTextBox.Text))
-			DemoGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = length });
-	}
-
-	private void ApplyRowDefinitions()
-	{
-		DemoGrid.RowDefinitions.Clear();
-		foreach (var length in ParseGridLengths(RowsTextBox.Text))
-			DemoGrid.RowDefinitions.Add(new RowDefinition { Height = length });
+			for (var i = 0; i < 4; i++)
+				demoGrid.Children.Add(CreateItem(++counter));
+		}
 	}
 
 	private static IEnumerable<GridLength> ParseGridLengths(string input)
