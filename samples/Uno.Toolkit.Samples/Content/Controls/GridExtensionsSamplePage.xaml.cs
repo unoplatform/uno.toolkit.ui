@@ -1,20 +1,27 @@
 using System.Collections.Generic;
+using Windows.UI;
 
 namespace Uno.Toolkit.Samples.Content.Controls;
 
-[SamplePage(SampleCategory.Behaviors, "AutoGrid", SourceSdk.UnoToolkit, SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Fluent, Design.Agnostic })]
-public sealed partial class AutoGridSamplePage : Page
+[SamplePage(SampleCategory.Behaviors, "GridExtensions", SourceSdk.UnoToolkit, SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Fluent, Design.Agnostic })]
+public sealed partial class GridExtensionsSamplePage : Page
 {
-	private static readonly AutoGridMode[] ModeOptions = { AutoGridMode.None, AutoGridMode.Column, AutoGridMode.Row };
-	private static readonly string[] ItemColors = { "#E57373", "#81C784", "#64B5F6", "#FFD54F", "#BA68C8", "#4DB6AC", "#FF8A65", "#A1A1A1" };
+	private static readonly Orientation[] DirectionOptions = { Orientation.Horizontal, Orientation.Vertical };
+	private static readonly Color[] UnoColors =
+	[
+		Color.FromArgb(0xFF, 0x22, 0x9D, 0xFC), // #FF229DFC UnoBlue
+		Color.FromArgb(0xFF, 0x7A, 0x69, 0xF5), // #FF7A69F5 UnoPurple
+		Color.FromArgb(0xFF, 0x6C, 0xE5, 0xAE), // #FF6CE5AE UnoGreen
+		Color.FromArgb(0xFF, 0xF6, 0x56, 0x78), // #FFF65678 UnoRed
+	];
 
 	private int _counter;
 
-	public AutoGridSamplePage()
+	public GridExtensionsSamplePage()
 	{
 		this.InitializeComponent();
 
-		ModeComboBox.ItemsSource = ModeOptions;
+		DirectionComboBox.ItemsSource = DirectionOptions;
 
 		Reset();
 	}
@@ -32,10 +39,15 @@ public sealed partial class AutoGridSamplePage : Page
 
 	private void OnResetClick(object sender, RoutedEventArgs e) => Reset();
 
-	private void OnModeChanged(object sender, SelectionChangedEventArgs e)
+	private void OnAutoChanged(object sender, RoutedEventArgs e)
 	{
-		if (ModeComboBox.SelectedItem is AutoGridMode mode)
-			AutoGrid.SetMode(DemoGrid, mode);
+		GridExtensions.SetAuto(DemoGrid, AutoCheckBox.IsChecked == true);
+	}
+
+	private void OnDirectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (DirectionComboBox.SelectedItem is Orientation direction)
+			GridExtensions.SetDirection(DemoGrid, direction);
 	}
 
 	private void OnColumnsTextChanged(object sender, TextChangedEventArgs e) => ApplyColumnDefinitions();
@@ -49,12 +61,15 @@ public sealed partial class AutoGridSamplePage : Page
 
 		// Suspend text-change events by setting Text before hooking definitions
 		ColumnsTextBox.Text = "*,*,*";
-		RowsTextBox.Text = "Auto,Auto";
+		RowsTextBox.Text = "Auto,Auto,Auto";
 		ApplyColumnDefinitions();
 		ApplyRowDefinitions();
 
-		ModeComboBox.SelectedItem = AutoGridMode.Column;
-		AutoGrid.SetMode(DemoGrid, AutoGridMode.Column);
+		AutoCheckBox.IsChecked = true;
+		GridExtensions.SetAuto(DemoGrid, true);
+
+		DirectionComboBox.SelectedItem = Orientation.Horizontal;
+		GridExtensions.SetDirection(DemoGrid, Orientation.Horizontal);
 
 		for (var i = 0; i < 4; i++)
 			DemoGrid.Children.Add(CreateItem(++_counter));
@@ -99,16 +114,13 @@ public sealed partial class AutoGridSamplePage : Page
 
 	private static UIElement CreateItem(int number)
 	{
-		var color = Windows.UI.ColorHelper.FromArgb(0xFF,
-			byte.Parse(ItemColors[(number - 1) % ItemColors.Length][1..3], System.Globalization.NumberStyles.HexNumber),
-			byte.Parse(ItemColors[(number - 1) % ItemColors.Length][3..5], System.Globalization.NumberStyles.HexNumber),
-			byte.Parse(ItemColors[(number - 1) % ItemColors.Length][5..7], System.Globalization.NumberStyles.HexNumber));
+		var color = UnoColors[(number - 1) % UnoColors.Length];
 
 		return new Border
 		{
 			Background = new SolidColorBrush(color),
-			MinHeight = 60,
-			MinWidth = 60,
+			MinHeight = 50,
+			MinWidth = 50,
 			Margin = new Thickness(2),
 			Child = new TextBlock
 			{
