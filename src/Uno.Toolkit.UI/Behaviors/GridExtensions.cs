@@ -91,6 +91,7 @@ public static class GridExtensions
 		{
 			GetSubscription(grid)?.Dispose();
 			SetSubscription(grid, null);
+			SetStateHash(grid, 0);
 		}
 	}
 
