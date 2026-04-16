@@ -5,7 +5,7 @@ namespace Uno.Toolkit.Samples.Content.Controls;
 [SamplePage(SampleCategory.Behaviors, "AutoGrid", SourceSdk.UnoToolkit, SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Fluent, Design.Agnostic })]
 public sealed partial class AutoGridSamplePage : Page
 {
-	private static readonly AutoGridMode[] ModeOptions = { AutoGridMode.Disabled, AutoGridMode.Horizontal, AutoGridMode.Vertical };
+	private static readonly AutoGridMode[] ModeOptions = { AutoGridMode.None, AutoGridMode.Column, AutoGridMode.Row };
 	private static readonly string[] ItemColors = { "#E57373", "#81C784", "#64B5F6", "#FFD54F", "#BA68C8", "#4DB6AC", "#FF8A65", "#A1A1A1" };
 
 	private int _counter;
@@ -53,8 +53,8 @@ public sealed partial class AutoGridSamplePage : Page
 		ApplyColumnDefinitions();
 		ApplyRowDefinitions();
 
-		ModeComboBox.SelectedItem = AutoGridMode.Horizontal;
-		AutoGrid.SetMode(DemoGrid, AutoGridMode.Horizontal);
+		ModeComboBox.SelectedItem = AutoGridMode.Column;
+		AutoGrid.SetMode(DemoGrid, AutoGridMode.Column);
 
 		for (var i = 0; i < 4; i++)
 			DemoGrid.Children.Add(CreateItem(++_counter));
@@ -115,7 +115,7 @@ public sealed partial class AutoGridSamplePage : Page
 				Text = $"Item {number}",
 				HorizontalAlignment = HorizontalAlignment.Center,
 				VerticalAlignment = VerticalAlignment.Center,
-				Foreground = new SolidColorBrush(Windows.UI.Colors.White),
+				Foreground = new SolidColorBrush(Colors.White),
 			},
 		};
 	}

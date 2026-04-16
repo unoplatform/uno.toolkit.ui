@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Uno.Disposables;
 
@@ -11,24 +10,17 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #endif
 
-#if HAS_UNO
-using Windows.Foundation.Collections;
-#endif
-
 namespace Uno.Toolkit.UI;
 
 public static class AutoGrid
 {
-	// Disposable subscriptions keyed by Grid instance
-	private static readonly Dictionary<Grid, IDisposable> _state = new();
-
-	// -- Mode Attached Property --
+	#region DependencyProperty: Mode
 
 	public static DependencyProperty ModeProperty { [DynamicDependency(nameof(GetMode))] get; } = DependencyProperty.RegisterAttached(
 		"Mode",
 		typeof(AutoGridMode),
 		typeof(AutoGrid),
-		new PropertyMetadata(AutoGridMode.Disabled, OnModeChanged));
+		new PropertyMetadata(AutoGridMode.None, OnModeChanged));
 
 	[DynamicDependency(nameof(SetMode))]
 	public static AutoGridMode GetMode(DependencyObject obj) => (AutoGridMode)obj.GetValue(ModeProperty);
@@ -36,52 +28,9 @@ public static class AutoGrid
 	[DynamicDependency(nameof(GetMode))]
 	public static void SetMode(DependencyObject obj, AutoGridMode value) => obj.SetValue(ModeProperty, value);
 
-	private static void OnModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		if (d is not Grid grid) return;
-		Unsubscribe(grid);
-		if ((AutoGridMode)e.NewValue != AutoGridMode.Disabled)
-			Subscribe(grid);
-	}
+	#endregion
+	#region DependencyProperty: StateHash (private)
 
-	private static void Subscribe(Grid grid)
-	{
-#if HAS_UNO
-		VectorChangedEventHandler<UIElement> childrenHandler = (_, _) => UpdateLayout(grid);
-		VectorChangedEventHandler<ColumnDefinition> columnsHandler = (_, _) => UpdateLayout(grid);
-		VectorChangedEventHandler<RowDefinition> rowsHandler = (_, _) => UpdateLayout(grid);
-
-		grid.Children.VectorChanged += childrenHandler;
-		grid.ColumnDefinitions.VectorChanged += columnsHandler;
-		grid.RowDefinitions.VectorChanged += rowsHandler;
-
-		_state[grid] = Disposable.Create(() =>
-		{
-			grid.Children.VectorChanged -= childrenHandler;
-			grid.ColumnDefinitions.VectorChanged -= columnsHandler;
-			grid.RowDefinitions.VectorChanged -= rowsHandler;
-		});
-#else
-		// WinAppSDK: UIElementCollection/DefinitionCollection don't implement IObservableVector,
-		// so fall back to LayoutUpdated which fires after any structural change to the Grid.
-		EventHandler<object> layoutHandler = (_, _) => UpdateLayout(grid);
-		grid.LayoutUpdated += layoutHandler;
-		_state[grid] = Disposable.Create(() => grid.LayoutUpdated -= layoutHandler);
-#endif
-
-		UpdateLayout(grid);
-	}
-
-	private static void Unsubscribe(Grid grid)
-	{
-		if (!_state.TryGetValue(grid, out var disposable)) return;
-		disposable.Dispose();
-		_state.Remove(grid);
-	}
-
-	// -- StateHash Attached Property (private, WinAppSDK only) --
-	// LayoutUpdated fires on every layout pass (not just structural changes), so we use a hash
-	// of the children identity and definition counts to skip updates when nothing relevant changed.
 	private static DependencyProperty StateHashProperty { get; } = DependencyProperty.RegisterAttached(
 		"StateHash",
 		typeof(int),
@@ -91,66 +40,95 @@ public static class AutoGrid
 	private static int GetStateHash(DependencyObject obj) => (int)obj.GetValue(StateHashProperty);
 	private static void SetStateHash(DependencyObject obj, int value) => obj.SetValue(StateHashProperty, value);
 
+	#endregion
+	#region DependencyProperty: Subscription (private)
+
+	private static DependencyProperty SubscriptionProperty { get; } = DependencyProperty.RegisterAttached(
+		"Subscription",
+		typeof(IDisposable),
+		typeof(AutoGrid),
+		new PropertyMetadata(null));
+
+	private static IDisposable? GetSubscription(DependencyObject obj) => (IDisposable?)obj.GetValue(SubscriptionProperty);
+	private static void SetSubscription(DependencyObject obj, IDisposable? value) => obj.SetValue(SubscriptionProperty, value);
+
+	#endregion
+
+	private static void OnModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		if (d is not Grid grid) return;
+
+		if (e.NewValue is not AutoGridMode.None)
+		{
+			if (GetSubscription(grid) is null)
+			{
+				// WinAppSDK: UIElementCollection/DefinitionCollection don't implement IObservableVector,
+				// so fall back to LayoutUpdated which fires after any structural change to the Grid.
+				// Uno: There is UIElementCollection.CollectionChanged, but still missing relevant hooks for row/column-definitions.
+				grid.LayoutUpdated += OnGridLayoutUpdated;
+				SetSubscription(grid, Disposable.Create(() => grid.LayoutUpdated -= OnGridLayoutUpdated));
+			}
+
+			UpdateLayout(grid);
+		}
+		else
+		{
+			GetSubscription(grid)?.Dispose();
+			SetSubscription(grid, null);
+		}
+	}
+
+	private static void OnGridLayoutUpdated(object? sender, object e)
+	{
+		if (sender is not Grid grid) return;
+
+		UpdateLayout(grid);
+	}
+
 	private static int ComputeStateHash(Grid grid)
 	{
+		if (GetMode(grid) is { } mode && mode is AutoGridMode.None) return 0;
+		if (grid.RowDefinitions.Count is { } rowCount &&
+			grid.ColumnDefinitions.Count is { } columnCount &&
+			rowCount == 0 && columnCount == 0) return 0;
+
 		var hash = new HashCode();
-		hash.Add(grid.ColumnDefinitions.Count);
-		hash.Add(grid.RowDefinitions.Count);
+
+		hash.Add(mode);
+		hash.Add(rowCount);
+		hash.Add(columnCount);
+
 		foreach (var child in grid.Children)
 			hash.Add(child.GetHashCode());
+
 		return hash.ToHashCode();
 	}
 
 	private static void UpdateLayout(Grid grid)
 	{
-#if !HAS_UNO
+		// LayoutUpdated fires on every layout pass (not just structural changes),
+		// so we use a state-hash to skip updates when nothing relevant changed.
 		var hash = ComputeStateHash(grid);
-		if (GetStateHash(grid) == hash) return;
+		var oldHash = GetStateHash(grid);
+		if (hash == oldHash) return;
 		SetStateHash(grid, hash);
-#endif
+		
+		if (GetMode(grid) is { } mode && mode is AutoGridMode.None) return;
+		if (grid.RowDefinitions.Count is { } rowCount &&
+			grid.ColumnDefinitions.Count is { } columnCount &&
+			rowCount == 0 && columnCount == 0) return;
 
-		var mode = GetMode(grid);
-		var children = grid.Children;
-		var childCount = children.Count;
-		var hasCols = grid.ColumnDefinitions.Count > 0;
-		var hasRows = grid.RowDefinitions.Count > 0;
+		var childCount = grid.Children.Count;
+		var fillByColumnsFirst = mode is AutoGridMode.Column;
 
-		for (int i = 0; i < childCount; i++)
+		for (var i = 0; i < childCount; i++)
 		{
-			int row, col;
-			if (!hasCols && !hasRows)
-			{
-				row = 0;
-				col = 0;
-			}
-			else if (hasCols && !hasRows)
-			{
-				row = 0;
-				col = i % grid.ColumnDefinitions.Count;
-			}
-			else if (!hasCols && hasRows)
-			{
-				col = 0;
-				row = i % grid.RowDefinitions.Count;
-			}
-			else
-			{
-				var cols = grid.ColumnDefinitions.Count;
-				var rows = grid.RowDefinitions.Count;
-				var cell = i % (cols * rows);
-				if (mode == AutoGridMode.Vertical)
-				{
-					col = cell / rows;
-					row = cell % rows;
-				}
-				else // Horizontal / Enable
-				{
-					row = cell / cols;
-					col = cell % cols;
-				}
-			}
-			Grid.SetRow((UIElement)children[i], row);
-			Grid.SetColumn((UIElement)children[i], col);
+			var (row, column) = fillByColumnsFirst
+				? (i / columnCount % rowCount, i % columnCount)
+				: (i % rowCount, i / rowCount % columnCount);
+
+			Grid.SetRow(grid.Children[i], row);
+			Grid.SetColumn(grid.Children[i], column);
 		}
 	}
 }
