@@ -12,21 +12,36 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.UI;
 
-public static class AutoGrid
+public static class GridExtensions
 {
-	#region DependencyProperty: Mode
+	#region DependencyProperty: Auto
 
-	public static DependencyProperty ModeProperty { [DynamicDependency(nameof(GetMode))] get; } = DependencyProperty.RegisterAttached(
-		"Mode",
-		typeof(AutoGridMode),
-		typeof(AutoGrid),
-		new PropertyMetadata(AutoGridMode.None, OnModeChanged));
+	public static DependencyProperty AutoProperty { [DynamicDependency(nameof(GetAuto))] get; } = DependencyProperty.RegisterAttached(
+		"Auto",
+		typeof(bool),
+		typeof(GridExtensions),
+		new PropertyMetadata(false, OnAutoChanged));
 
-	[DynamicDependency(nameof(SetMode))]
-	public static AutoGridMode GetMode(DependencyObject obj) => (AutoGridMode)obj.GetValue(ModeProperty);
+	[DynamicDependency(nameof(SetAuto))]
+	public static bool GetAuto(DependencyObject obj) => (bool)obj.GetValue(AutoProperty);
 
-	[DynamicDependency(nameof(GetMode))]
-	public static void SetMode(DependencyObject obj, AutoGridMode value) => obj.SetValue(ModeProperty, value);
+	[DynamicDependency(nameof(GetAuto))]
+	public static void SetAuto(DependencyObject obj, bool value) => obj.SetValue(AutoProperty, value);
+
+	#endregion
+	#region DependencyProperty: Direction
+
+	public static DependencyProperty DirectionProperty { [DynamicDependency(nameof(GetDirection))] get; } = DependencyProperty.RegisterAttached(
+		"Direction",
+		typeof(Orientation),
+		typeof(GridExtensions),
+		new PropertyMetadata(Orientation.Horizontal, OnDirectionChanged));
+
+	[DynamicDependency(nameof(SetDirection))]
+	public static Orientation GetDirection(DependencyObject obj) => (Orientation)obj.GetValue(DirectionProperty);
+
+	[DynamicDependency(nameof(GetDirection))]
+	public static void SetDirection(DependencyObject obj, Orientation value) => obj.SetValue(DirectionProperty, value);
 
 	#endregion
 	#region DependencyProperty: StateHash (private)
@@ -34,7 +49,7 @@ public static class AutoGrid
 	private static DependencyProperty StateHashProperty { get; } = DependencyProperty.RegisterAttached(
 		"StateHash",
 		typeof(int),
-		typeof(AutoGrid),
+		typeof(GridExtensions),
 		new PropertyMetadata(0));
 
 	private static int GetStateHash(DependencyObject obj) => (int)obj.GetValue(StateHashProperty);
@@ -46,7 +61,7 @@ public static class AutoGrid
 	private static DependencyProperty SubscriptionProperty { get; } = DependencyProperty.RegisterAttached(
 		"Subscription",
 		typeof(IDisposable),
-		typeof(AutoGrid),
+		typeof(GridExtensions),
 		new PropertyMetadata(null));
 
 	private static IDisposable? GetSubscription(DependencyObject obj) => (IDisposable?)obj.GetValue(SubscriptionProperty);
@@ -54,19 +69,20 @@ public static class AutoGrid
 
 	#endregion
 
-	private static void OnModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	private static void OnAutoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		if (d is not Grid grid) return;
 
-		if (e.NewValue is not AutoGridMode.None)
+		if (e.NewValue is true)
 		{
 			if (GetSubscription(grid) is null)
 			{
 				// WinAppSDK: UIElementCollection/DefinitionCollection don't implement IObservableVector,
 				// so fall back to LayoutUpdated which fires after any structural change to the Grid.
 				// Uno: There is UIElementCollection.CollectionChanged, but still missing relevant hooks for row/column-definitions.
-				grid.LayoutUpdated += OnGridLayoutUpdated;
-				SetSubscription(grid, Disposable.Create(() => grid.LayoutUpdated -= OnGridLayoutUpdated));
+				EventHandler<object> handler = (_, _) => UpdateLayout(grid);
+				grid.LayoutUpdated += handler;
+				SetSubscription(grid, Disposable.Create(() => grid.LayoutUpdated -= handler));
 			}
 
 			UpdateLayout(grid);
@@ -78,23 +94,24 @@ public static class AutoGrid
 		}
 	}
 
-	private static void OnGridLayoutUpdated(object? sender, object e)
+	private static void OnDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		if (sender is not Grid grid) return;
-
-		UpdateLayout(grid);
+		if (d is Grid grid && GetAuto(grid))
+			UpdateLayout(grid);
 	}
 
 	private static int ComputeStateHash(Grid grid)
 	{
-		if (GetMode(grid) is { } mode && mode is AutoGridMode.None) return 0;
+		if (!GetAuto(grid)) return 0;
+
+		// if there is no more than 1 cells, there is nothing to arrange
 		if (grid.RowDefinitions.Count is { } rowCount &&
 			grid.ColumnDefinitions.Count is { } columnCount &&
-			rowCount == 0 && columnCount == 0) return 0;
+			rowCount <= 1 && columnCount <= 1) return 0;
 
 		var hash = new HashCode();
 
-		hash.Add(mode);
+		hash.Add(GetDirection(grid));
 		hash.Add(rowCount);
 		hash.Add(columnCount);
 
@@ -112,14 +129,16 @@ public static class AutoGrid
 		var oldHash = GetStateHash(grid);
 		if (hash == oldHash) return;
 		SetStateHash(grid, hash);
+
+		if (!GetAuto(grid)) return;
 		
-		if (GetMode(grid) is { } mode && mode is AutoGridMode.None) return;
-		if (grid.RowDefinitions.Count is { } rowCount &&
-			grid.ColumnDefinitions.Count is { } columnCount &&
-			rowCount == 0 && columnCount == 0) return;
+		// if there is no more than 1 cells, there is nothing to arrange
+		var rowCount = Math.Max(grid.RowDefinitions.Count, 1);
+		var columnCount = Math.Max(grid.ColumnDefinitions.Count, 1);
+		if (rowCount == 1 && columnCount == 1) return;
 
 		var childCount = grid.Children.Count;
-		var fillByColumnsFirst = mode is AutoGridMode.Column;
+		var fillByColumnsFirst = GetDirection(grid) is Orientation.Horizontal;
 
 		for (var i = 0; i < childCount; i++)
 		{

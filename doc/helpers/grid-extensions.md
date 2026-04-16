@@ -1,26 +1,19 @@
 ---
-uid: Toolkit.Helpers.AutoGridExtensions
+uid: Toolkit.Helpers.GridExtensions
 ---
 
-# AutoGrid Extensions
+# GridExtensions
 
 **UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
-Provides the `AutoGrid.Mode` attached property that automatically assigns `Grid.Row` and `Grid.Column` to the children of a `Grid` based on their order in the `Children` collection. Whenever the children or definitions change, the assignments are recalculated.
+Provides attached properties that automatically assign `Grid.Row` and `Grid.Column` to the children of a `Grid` based on their order in the `Children` collection. Whenever the children or definitions change, the assignments are recalculated.
 
 ## Attached Properties
 
 | Property | Type | Description |
 |---|---|---|
-| `Mode` | `AutoGridMode` | Enables auto-placement and sets the fill direction. Default: `None`. |
-
-## AutoGridMode Enum
-
-| Value | Description |
-|---|---|
-| `None` (0) | Auto-placement is off. |
-| `Row` (1) | Fill top-to-bottom, wrapping to the next column. Row count is taken from `RowDefinitions`. |
-| `Column` (2) | Fill left-to-right, wrapping to the next row. Column count is taken from `ColumnDefinitions`. |
+| `Auto` | `bool` | Enables or disables auto-placement. Default: `false`. |
+| `Direction` | `Orientation` | Fill direction. `Horizontal` fills left-to-right (columns first); `Vertical` fills top-to-bottom (rows first). Default: `Horizontal`. |
 
 ## Fill Behavior
 
@@ -31,15 +24,15 @@ The placement logic depends on which definitions are present:
 | Empty | Empty | All children placed at Row 0, Column 0. |
 | Defined | Empty | Children fill along columns only (`row=0`, `col = index % cols`). |
 | Empty | Defined | Children fill along rows only (`col=0`, `row = index % rows`). |
-| Defined | Defined | Normal two-axis fill (see mode). Overflow wraps back modulo `rows × cols`. |
+| Defined | Defined | Normal two-axis fill (see `Direction`). Overflow wraps back modulo `rows × cols`. |
 
-When both axes are defined, the `Mode` determines the fill direction:
+When both axes are defined, `Direction` determines the fill order:
 
-- **Column**: `row = cell / cols`, `col = cell % cols`
-- **Row**: `col = cell / rows`, `row = cell % rows`
+- **Horizontal**: `row = cell / cols`, `col = cell % cols` (left-to-right, wraps to next row)
+- **Vertical**: `col = cell / rows`, `row = cell % rows` (top-to-bottom, wraps to next column)
 
 > [!NOTE]
-> `AutoGrid` does **not** add or remove `RowDefinition`/`ColumnDefinition` entries. You are responsible for defining the grid dimensions. If children overflow the available cells, placement wraps back to cell 0.
+> `GridExtensions` does **not** add or remove `RowDefinition`/`ColumnDefinition` entries. You are responsible for defining the grid dimensions. If children overflow the available cells, placement wraps back to cell 0.
 
 ## Usage
 
@@ -47,10 +40,11 @@ When both axes are defined, the `Mode` determines the fill direction:
 xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
-### Column fill (3 columns, auto rows)
+### Horizontal fill (3 columns, auto rows)
 
 ```xml
-<Grid utu:AutoGrid.Mode="Column">
+<Grid utu:GridExtensions.Auto="True"
+      utu:GridExtensions.Direction="Horizontal">
     <Grid.ColumnDefinitions>
         <ColumnDefinition />
         <ColumnDefinition />
@@ -68,10 +62,11 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </Grid>
 ```
 
-### Row fill (3 rows, auto columns)
+### Vertical fill (3 rows, auto columns)
 
 ```xml
-<Grid utu:AutoGrid.Mode="Row">
+<Grid utu:GridExtensions.Auto="True"
+      utu:GridExtensions.Direction="Vertical">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
