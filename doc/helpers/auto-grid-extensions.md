@@ -12,17 +12,15 @@ Provides the `AutoGrid.Mode` attached property that automatically assigns `Grid.
 
 | Property | Type | Description |
 |---|---|---|
-| `Mode` | `AutoGridMode` | Enables auto-placement and sets the fill direction. Default: `Disabled`. |
+| `Mode` | `AutoGridMode` | Enables auto-placement and sets the fill direction. Default: `None`. |
 
 ## AutoGridMode Enum
 
 | Value | Description |
 |---|---|
-| `Disabled` (0) | Auto-placement is off. |
-| `Enable` / `Horizontal` (1) | Fill left-to-right, wrapping to the next row. Column count is taken from `ColumnDefinitions`. |
-| `Vertical` (2) | Fill top-to-bottom, wrapping to the next column. Row count is taken from `RowDefinitions`. |
-
-`Enable` and `Horizontal` are aliases with the same integer value (`1`).
+| `None` (0) | Auto-placement is off. |
+| `Row` (1) | Fill top-to-bottom, wrapping to the next column. Row count is taken from `RowDefinitions`. |
+| `Column` (2) | Fill left-to-right, wrapping to the next row. Column count is taken from `ColumnDefinitions`. |
 
 ## Fill Behavior
 
@@ -37,8 +35,8 @@ The placement logic depends on which definitions are present:
 
 When both axes are defined, the `Mode` determines the fill direction:
 
-- **Horizontal**: `row = cell / cols`, `col = cell % cols`
-- **Vertical**: `col = cell / rows`, `row = cell % rows`
+- **Column**: `row = cell / cols`, `col = cell % cols`
+- **Row**: `col = cell / rows`, `row = cell % rows`
 
 > [!NOTE]
 > `AutoGrid` does **not** add or remove `RowDefinition`/`ColumnDefinition` entries. You are responsible for defining the grid dimensions. If children overflow the available cells, placement wraps back to cell 0.
@@ -49,10 +47,10 @@ When both axes are defined, the `Mode` determines the fill direction:
 xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
-### Horizontal fill (3 columns, auto rows)
+### Column fill (3 columns, auto rows)
 
 ```xml
-<Grid utu:AutoGrid.Mode="Horizontal">
+<Grid utu:AutoGrid.Mode="Column">
     <Grid.ColumnDefinitions>
         <ColumnDefinition />
         <ColumnDefinition />
@@ -70,10 +68,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </Grid>
 ```
 
-### Vertical fill (3 rows, auto columns)
+### Row fill (3 rows, auto columns)
 
 ```xml
-<Grid utu:AutoGrid.Mode="Vertical">
+<Grid utu:AutoGrid.Mode="Row">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
