@@ -132,7 +132,7 @@ public static class GridExtensions
 		SetStateHash(grid, hash);
 
 		if (!GetAuto(grid)) return;
-		
+
 		// if there is no more than 1 cells, there is nothing to arrange
 		var rowCount = Math.Max(grid.RowDefinitions.Count, 1);
 		var columnCount = Math.Max(grid.ColumnDefinitions.Count, 1);
@@ -147,8 +147,11 @@ public static class GridExtensions
 				? (i / columnCount % rowCount, i % columnCount)
 				: (i % rowCount, i / rowCount % columnCount);
 
-			Grid.SetRow(grid.Children[i], row);
-			Grid.SetColumn(grid.Children[i], column);
+			if (grid.Children[i] is FrameworkElement childAsFE)
+			{
+				Grid.SetRow(childAsFE, row);
+				Grid.SetColumn(childAsFE, column);
+			}
 		}
 	}
 }
