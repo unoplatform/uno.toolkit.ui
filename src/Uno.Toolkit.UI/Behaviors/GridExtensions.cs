@@ -29,19 +29,19 @@ public static class GridExtensions
 	public static void SetAuto(DependencyObject obj, bool value) => obj.SetValue(AutoProperty, value);
 
 	#endregion
-	#region DependencyProperty: Direction
+	#region DependencyProperty: AutoOrientation
 
-	public static DependencyProperty DirectionProperty { [DynamicDependency(nameof(GetDirection))] get; } = DependencyProperty.RegisterAttached(
-		"Direction",
+	public static DependencyProperty AutoOrientationProperty { [DynamicDependency(nameof(GetAutoOrientation))] get; } = DependencyProperty.RegisterAttached(
+		"AutoOrientation",
 		typeof(Orientation),
 		typeof(GridExtensions),
-		new PropertyMetadata(Orientation.Horizontal, OnDirectionChanged));
+		new PropertyMetadata(Orientation.Horizontal, OnAutoOrientationChanged));
 
-	[DynamicDependency(nameof(SetDirection))]
-	public static Orientation GetDirection(DependencyObject obj) => (Orientation)obj.GetValue(DirectionProperty);
+	[DynamicDependency(nameof(SetAutoOrientation))]
+	public static Orientation GetAutoOrientation(DependencyObject obj) => (Orientation)obj.GetValue(AutoOrientationProperty);
 
-	[DynamicDependency(nameof(GetDirection))]
-	public static void SetDirection(DependencyObject obj, Orientation value) => obj.SetValue(DirectionProperty, value);
+	[DynamicDependency(nameof(GetAutoOrientation))]
+	public static void SetAutoOrientation(DependencyObject obj, Orientation value) => obj.SetValue(AutoOrientationProperty, value);
 
 	#endregion
 	#region DependencyProperty: StateHash (private)
@@ -95,7 +95,7 @@ public static class GridExtensions
 		}
 	}
 
-	private static void OnDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	private static void OnAutoOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		if (d is Grid grid && GetAuto(grid))
 			UpdateLayout(grid);
@@ -112,7 +112,7 @@ public static class GridExtensions
 
 		var hash = new HashCode();
 
-		hash.Add(GetDirection(grid));
+		hash.Add(GetAutoOrientation(grid));
 		hash.Add(rowCount);
 		hash.Add(columnCount);
 
@@ -139,7 +139,7 @@ public static class GridExtensions
 		if (rowCount == 1 && columnCount == 1) return;
 
 		var childCount = grid.Children.Count;
-		var fillByColumnsFirst = GetDirection(grid) is Orientation.Horizontal;
+		var fillByColumnsFirst = GetAutoOrientation(grid) is Orientation.Horizontal;
 
 		for (var i = 0; i < childCount; i++)
 		{

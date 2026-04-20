@@ -32,7 +32,7 @@ partial class GridExtensionsTests
 	{
 		var sut = CreateGrid(rows: 2, cols: 3, childCount: 4);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Horizontal);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Horizontal);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
@@ -54,7 +54,7 @@ partial class GridExtensionsTests
 		// 2 rows x 3 cols, 6 children
 		var sut = CreateGrid(rows: 2, cols: 3, childCount: 6);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Horizontal);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Horizontal);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
@@ -73,7 +73,7 @@ partial class GridExtensionsTests
 		// 2 rows x 2 cols, 5 children — 5th wraps back to (0,0)
 		var sut = CreateGrid(rows: 2, cols: 2, childCount: 5);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Horizontal);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Horizontal);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
@@ -88,7 +88,7 @@ partial class GridExtensionsTests
 		// 3 rows x 2 cols, 6 children
 		var sut = CreateGrid(rows: 3, cols: 2, childCount: 6);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Vertical);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Vertical);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
@@ -107,7 +107,7 @@ partial class GridExtensionsTests
 		// 2 rows x 2 cols, 5 children — 5th wraps back to (0,0)
 		var sut = CreateGrid(rows: 2, cols: 2, childCount: 5);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Vertical);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Vertical);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
@@ -122,7 +122,7 @@ partial class GridExtensionsTests
 		// 2 rows x 3 cols, 4 children
 		var sut = CreateGrid(rows: 2, cols: 3, childCount: 4);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Horizontal);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Horizontal);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
@@ -130,7 +130,7 @@ partial class GridExtensionsTests
 		Assert.AreEqual((1, 0), GetPosition(sut.Children[3]));
 
 		// Switch to Vertical: child[3] → (1, 1)  (3 % 2 = 1, 3 / 2 = 1)
-		GridExtensions.SetDirection(sut, Orientation.Vertical);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Vertical);
 		await UnitTestUIContentHelperEx.WaitForIdle();
 
 		Assert.AreEqual((1, 1), GetPosition(sut.Children[3]));
@@ -143,7 +143,7 @@ partial class GridExtensionsTests
 	{
 		var sut = CreateGrid(rows: 2, cols: 2, childCount: 2);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Horizontal);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Horizontal);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
@@ -159,7 +159,7 @@ partial class GridExtensionsTests
 	{
 		var sut = CreateGrid(rows: 2, cols: 2, childCount: 4);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Horizontal);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Horizontal);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
@@ -192,7 +192,7 @@ partial class GridExtensionsTests
 	{
 		var sut = CreateGrid(rows: 0, cols: 3, childCount: 3);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Horizontal);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Horizontal);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
@@ -206,7 +206,7 @@ partial class GridExtensionsTests
 	{
 		var sut = CreateGrid(rows: 3, cols: 0, childCount: 3);
 		GridExtensions.SetAuto(sut, true);
-		GridExtensions.SetDirection(sut, Orientation.Vertical);
+		GridExtensions.SetAutoOrientation(sut, Orientation.Vertical);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
