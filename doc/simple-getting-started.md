@@ -178,3 +178,29 @@ In `App.xaml`, use the `DefaultSize` property on `SimpleToolkitTheme`:
 <SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
                     DefaultSize="Medium" />
 ```
+
+### Seed Color Customization
+
+`SimpleToolkitTheme` supports seed-based color generation. A single seed color is used to derive tonal palettes for both Light and Dark themes.
+
+Unlike `MaterialToolkitTheme`, `SimpleToolkitTheme` does not use a default seed — its grayscale palette is not seed-derived. You can opt in to seed generation by setting the `Colors` property:
+
+```xml
+<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
+                    xmlns:ut="using:Uno.Themes">
+    <SimpleToolkitTheme.Colors>
+        <ut:ThemeColors PrimarySeed="#2196F3" />
+    </SimpleToolkitTheme.Colors>
+</SimpleToolkitTheme>
+```
+
+You can also change the seed color at runtime:
+
+```csharp
+using Uno.Themes;
+using Windows.UI;
+
+SemanticThemeHelper.PrimarySeed = Color.FromArgb(0xFF, 0x21, 0x96, 0xF3);
+```
+
+For more details, see the [Seed Color Palette documentation](xref:Uno.Themes.SeedColors).
