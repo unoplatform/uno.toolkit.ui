@@ -1,5 +1,6 @@
 using System;
 using Uno.Simple;
+using Uno.Themes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
@@ -108,6 +109,34 @@ namespace Uno.Toolkit.UI.Simple
 				new PropertyMetadata(null, OnColorOverrideChanged));
 		#endregion
 
+		#region DependencyProperty: Colors
+		/// <summary>
+		/// (Optional) Gets or sets a <see cref="ThemeColors"/> object that groups all color-related
+		/// configuration including seed colors and overrides.
+		/// This is the recommended way to configure theme colors, including seed-based palette generation.
+		/// </summary>
+		public ThemeColors? Colors
+		{
+			get => (ThemeColors?)GetValue(ColorsProperty);
+			set => SetValue(ColorsProperty, value);
+		}
+
+		public static DependencyProperty ColorsProperty { get; } =
+			DependencyProperty.Register(
+				nameof(Colors),
+				typeof(ThemeColors),
+				typeof(SimpleToolkitTheme),
+				new PropertyMetadata(null, OnColorsChanged));
+
+		private static void OnColorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is SimpleToolkitTheme toolkitTheme)
+			{
+				toolkitTheme.UpdateSource();
+			}
+		}
+		#endregion
+
 		private static void OnFontOverrideSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is SimpleToolkitTheme theme && e.NewValue is string sourceUri)
@@ -187,7 +216,13 @@ namespace Uno.Toolkit.UI.Simple
 			MergedDictionaries.Clear();
 			this.Clear();
 
-			MergedDictionaries.Add(new SimpleTheme(ColorOverrideDictionary, FontOverrideDictionary) { DefaultSize = DefaultSize });
+			var simpleTheme = new SimpleTheme(ColorOverrideDictionary, FontOverrideDictionary) { DefaultSize = DefaultSize };
+			if (Colors is { } colors)
+			{
+				simpleTheme.Colors = colors;
+			}
+
+			MergedDictionaries.Add(simpleTheme);
 			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
 			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitSimplePackageName}/Generated/mergedpages.xaml") });
 		}

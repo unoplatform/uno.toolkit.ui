@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Uno.Material;
+using Uno.Themes;
 using Windows.UI;
 
 #if IS_WINUI
@@ -102,6 +103,34 @@ namespace Uno.Toolkit.UI.Material
 				new PropertyMetadata(null, OnColorOverrideChanged));
 		#endregion
 
+		#region DependencyProperty: Colors
+		/// <summary>
+		/// (Optional) Gets or sets a <see cref="ThemeColors"/> object that groups all color-related
+		/// configuration including seed colors and overrides.
+		/// This is the recommended way to configure theme colors, including seed-based palette generation.
+		/// </summary>
+		public ThemeColors? Colors
+		{
+			get => (ThemeColors?)GetValue(ColorsProperty);
+			set => SetValue(ColorsProperty, value);
+		}
+
+		public static DependencyProperty ColorsProperty { get; } =
+			DependencyProperty.Register(
+				nameof(Colors),
+				typeof(ThemeColors),
+				typeof(MaterialToolkitTheme),
+				new PropertyMetadata(null, OnColorsChanged));
+
+		private static void OnColorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is MaterialToolkitTheme toolkitTheme)
+			{
+				toolkitTheme.UpdateSource();
+			}
+		}
+		#endregion
+
 		private static void OnFontOverrideSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is MaterialToolkitTheme theme && e.NewValue is string sourceUri)
@@ -182,7 +211,13 @@ namespace Uno.Toolkit.UI.Material
 			MergedDictionaries.Clear();
 			this.Clear();
 
-			MergedDictionaries.Add(new MaterialTheme(ColorOverrideDictionary, FontOverrideDictionary));
+			var materialTheme = new MaterialTheme(ColorOverrideDictionary, FontOverrideDictionary);
+			if (Colors is { } colors)
+			{
+				materialTheme.Colors = colors;
+			}
+
+			MergedDictionaries.Add(materialTheme);
 			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
 			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitMaterialPackageName}/Generated/mergedpages.v2.xaml") });
 		}
