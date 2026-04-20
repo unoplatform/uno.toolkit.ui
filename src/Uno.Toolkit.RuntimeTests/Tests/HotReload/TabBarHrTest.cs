@@ -127,5 +127,66 @@ public class TabBarHrTest
 		Assert.AreEqual(2, tbAfter.Items.Count, "Should now have 2 tabs after HR.");
 		Assert.AreEqual(0, tbAfter.SelectedIndex, "SelectedIndex 0 should still be valid.");
 	}
+
+	/// <summary>
+	/// Verifies that modifying a TabBarItem's Content text via XAML Hot Reload is reflected at runtime.
+	/// </summary>
+	[TestMethod]
+	public async Task ModifyTabBarItemContent_Via_Xaml_HotReload(CancellationToken ct)
+	{
+		await UIHelper.Load(new TabBarPage(), ct);
+
+		var tb = UIHelper.GetChild<TabBar>(name: "TB");
+		var firstItem = (TabBarItem)tb.Items[0];
+
+		Assert.AreEqual("Tab One", firstItem.Content);
+
+		// Change the first tab's label via XAML HR
+		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage>(
+			originalText: "Content=\"Tab One\"",
+			replacementText: "Content=\"Tab First\"",
+			ct))
+		{
+			await TestHelper.WaitFor(
+				() => ((TabBarItem)UIHelper.GetChild<TabBar>(name: "TB").Items[0]).Content as string == "Tab First", ct);
+		}
+
+		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
+		var firstItemAfter = (TabBarItem)tbAfter.Items[0];
+
+		Assert.AreEqual("Tab First", firstItemAfter.Content as string, "Tab content should be updated after HR.");
+		Assert.AreEqual(3, tbAfter.Items.Count, "Items count should remain 3.");
+	}
+
+	/// <summary>
+	/// Verifies that changing TabBar Orientation via XAML Hot Reload is applied at runtime.
+	/// </summary>
+	[TestMethod]
+	public async Task ChangeOrientation_Via_Xaml_HotReload(CancellationToken ct)
+	{
+		await UIHelper.Load(new TabBarPage(), ct);
+
+		var tb = UIHelper.GetChild<TabBar>(name: "TB");
+
+		// Default is Horizontal (not set in XAML, so it uses the DP default)
+		Assert.AreEqual(Orientation.Horizontal, tb.Orientation);
+
+		tb.SelectedIndex = 1;
+
+		// Add Orientation="Vertical" to the TabBar via XAML HR
+		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage>(
+			originalText: "<utu:TabBar x:Name=\"TB\" Grid.Row=\"1\" SelectedIndex=\"0\">",
+			replacementText: "<utu:TabBar x:Name=\"TB\" Grid.Row=\"1\" SelectedIndex=\"0\" Orientation=\"Vertical\">",
+			ct))
+		{
+			await TestHelper.WaitFor(
+				() => UIHelper.GetChild<TabBar>(name: "TB").Orientation == Orientation.Vertical, ct);
+		}
+
+		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
+
+		Assert.AreEqual(Orientation.Vertical, tbAfter.Orientation, "Orientation should be Vertical after HR.");
+		Assert.AreEqual(1, tbAfter.SelectedIndex, "SelectedIndex should be preserved after orientation change.");
+	}
 }
 #endif
