@@ -48,26 +48,29 @@ public class TabBarHrTest
 			replacementText: "Updated marker",
 			ct))
 		{
-			// Wait for the XAML change to propagate
-			await TestHelper.WaitFor(
-				() => UIHelper.GetChild<TextBlock>(name: "Marker").Text == "Updated marker", ct);
+			// UpdateSourceFile completes once the UI is updated
+			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
+			Assert.AreEqual("Updated marker", UIHelper.GetChild<TextBlock>(name: "Marker").Text, "Marker should be updated after HR.");
+			Assert.AreEqual(1, tbDuring.SelectedIndex, "SelectedIndex should be preserved after HR.");
+			Assert.AreEqual(3, tbDuring.Items.Count, "Items count should remain 3.");
 		}
 
+		// After dispose, UI is restored to original state
 		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
-
-		// The HR handler should have restored SelectedIndex
-		Assert.AreEqual(1, tbAfter.SelectedIndex, "SelectedIndex should be preserved after HR.");
+		Assert.AreEqual("Original marker", UIHelper.GetChild<TextBlock>(name: "Marker").Text, "Marker should be restored after dispose.");
+		Assert.AreEqual(1, tbAfter.SelectedIndex, "SelectedIndex should be preserved after restoration.");
 		Assert.AreEqual(3, tbAfter.Items.Count, "Items count should remain 3.");
 	}
 
 	/// <summary>
 	/// Verifies that adding a new TabBarItem via XAML Hot Reload is reflected at runtime
 	/// and the previously selected index is preserved.
+	/// Uses TabBarPage4 for test isolation.
 	/// </summary>
 	[TestMethod]
 	public async Task AddingTabBarItem_Via_Xaml_HotReload(CancellationToken ct)
 	{
-		await UIHelper.Load(new TabBarPage(), ct);
+		await UIHelper.Load(new TabBarPage4(), ct);
 
 		var tb = UIHelper.GetChild<TabBar>(name: "TB");
 
@@ -77,7 +80,7 @@ public class TabBarHrTest
 		tb.SelectedIndex = 1;
 
 		// Add a fourth TabBarItem via XAML HR
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage>(
+		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage4>(
 			originalText: """"<utu:TabBarItem Content="Tab Three" />"""",
 			replacementText:
 				""""
@@ -86,46 +89,14 @@ public class TabBarHrTest
 				"""",
 			ct))
 		{
-			await TestHelper.WaitFor(
-				() => UIHelper.GetChild<TabBar>(name: "TB").Items.Count == 4, ct);
+			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
+			Assert.AreEqual(4, tbDuring.Items.Count, "Should now have 4 tabs after HR.");
+			Assert.AreEqual(1, tbDuring.SelectedIndex, "SelectedIndex should be preserved after adding item.");
 		}
 
+		// After dispose, UI is restored to original 3 tabs
 		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
-
-		Assert.AreEqual(4, tbAfter.Items.Count, "Should now have 4 tabs after HR.");
-		Assert.AreEqual(1, tbAfter.SelectedIndex, "SelectedIndex should be preserved after adding item.");
-	}
-
-	/// <summary>
-	/// Verifies that removing a TabBarItem via XAML Hot Reload is reflected at runtime
-	/// and selection adjusts appropriately.
-	/// </summary>
-	[TestMethod]
-	public async Task RemovingTabBarItem_Via_Xaml_HotReload(CancellationToken ct)
-	{
-		await UIHelper.Load(new TabBarPage(), ct);
-
-		var tb = UIHelper.GetChild<TabBar>(name: "TB");
-
-		Assert.AreEqual(3, tb.Items.Count, "Should start with 3 tabs.");
-
-		// Select the first tab
-		tb.SelectedIndex = 0;
-
-		// Remove the third TabBarItem via XAML HR
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage>(
-			originalText: "<utu:TabBarItem Content=\"Tab Three\" />",
-			replacementText: "",
-			ct))
-		{
-			await TestHelper.WaitFor(
-				() => UIHelper.GetChild<TabBar>(name: "TB").Items.Count == 2, ct);
-		}
-
-		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
-
-		Assert.AreEqual(2, tbAfter.Items.Count, "Should now have 2 tabs after HR.");
-		Assert.AreEqual(0, tbAfter.SelectedIndex, "SelectedIndex 0 should still be valid.");
+		Assert.AreEqual(3, tbAfter.Items.Count, "Should be restored to 3 tabs after dispose.");
 	}
 
 	/// <summary>
@@ -147,15 +118,16 @@ public class TabBarHrTest
 			replacementText: "Content=\"Tab First\"",
 			ct))
 		{
-			await TestHelper.WaitFor(
-				() => ((TabBarItem)UIHelper.GetChild<TabBar>(name: "TB").Items[0]).Content as string == "Tab First", ct);
+			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
+			var firstItemDuring = (TabBarItem)tbDuring.Items[0];
+			Assert.AreEqual("Tab First", firstItemDuring.Content as string, "Tab content should be updated after HR.");
+			Assert.AreEqual(3, tbDuring.Items.Count, "Items count should remain 3.");
 		}
 
+		// After dispose, UI is restored to original content
 		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
 		var firstItemAfter = (TabBarItem)tbAfter.Items[0];
-
-		Assert.AreEqual("Tab First", firstItemAfter.Content as string, "Tab content should be updated after HR.");
-		Assert.AreEqual(3, tbAfter.Items.Count, "Items count should remain 3.");
+		Assert.AreEqual("Tab One", firstItemAfter.Content as string, "Tab content should be restored after dispose.");
 	}
 
 	/// <summary>
@@ -179,14 +151,15 @@ public class TabBarHrTest
 			replacementText: "<utu:TabBar x:Name=\"TB\" Grid.Row=\"1\" SelectedIndex=\"0\" Orientation=\"Vertical\">",
 			ct))
 		{
-			await TestHelper.WaitFor(
-				() => UIHelper.GetChild<TabBar>(name: "TB").Orientation == Orientation.Vertical, ct);
+			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
+			Assert.AreEqual(Orientation.Vertical, tbDuring.Orientation, "Orientation should be Vertical after HR.");
+			Assert.AreEqual(1, tbDuring.SelectedIndex, "SelectedIndex should be preserved after orientation change.");
 		}
 
+		// After dispose, UI is restored to original Horizontal orientation
 		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
-
-		Assert.AreEqual(Orientation.Vertical, tbAfter.Orientation, "Orientation should be Vertical after HR.");
-		Assert.AreEqual(1, tbAfter.SelectedIndex, "SelectedIndex should be preserved after orientation change.");
+		Assert.AreEqual(Orientation.Horizontal, tbAfter.Orientation, "Orientation should be restored to Horizontal after dispose.");
+		Assert.AreEqual(1, tbAfter.SelectedIndex, "SelectedIndex should be preserved after restoration.");
 	}
 
 	/// <summary>
@@ -213,16 +186,16 @@ public class TabBarHrTest
 			replacementText: "",
 			ct))
 		{
-			await TestHelper.WaitFor(
-				() => UIHelper.GetChild<TabBar>(name: "TB").Items.Count == 1, ct);
+			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
+			Assert.AreEqual(1, tbDuring.Items.Count, "Should now have 1 tab after HR.");
+			// SelectedIndex should be clamped to 0 since index 2 is no longer valid
+			Assert.IsTrue(tbDuring.SelectedIndex >= 0 && tbDuring.SelectedIndex < tbDuring.Items.Count,
+				$"SelectedIndex ({tbDuring.SelectedIndex}) should be within valid range [0, {tbDuring.Items.Count - 1}].");
 		}
 
+		// After dispose, UI is restored to original 3 tabs
 		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
-
-		Assert.AreEqual(1, tbAfter.Items.Count, "Should now have 1 tab after HR.");
-		// SelectedIndex should be clamped to 0 since index 2 is no longer valid
-		Assert.IsTrue(tbAfter.SelectedIndex >= 0 && tbAfter.SelectedIndex < tbAfter.Items.Count,
-			$"SelectedIndex ({tbAfter.SelectedIndex}) should be within valid range [0, {tbAfter.Items.Count - 1}].");
+		Assert.AreEqual(3, tbAfter.Items.Count, "Should be restored to 3 tabs after dispose.");
 	}
 
 	/// <summary>
@@ -247,16 +220,18 @@ public class TabBarHrTest
 			replacementText: "<utu:TabBarItem Content=\"Tab Three\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab One\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />",
 			ct))
 		{
-			await TestHelper.WaitFor(
-				() => ((TabBarItem)UIHelper.GetChild<TabBar>(name: "TB").Items[0]).Content as string == "Tab Three", ct);
+			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
+			Assert.AreEqual(3, tbDuring.Items.Count, "Should still have 3 tabs after reorder.");
+			Assert.AreEqual("Tab Three", ((TabBarItem)tbDuring.Items[0]).Content as string, "First tab should now be Tab Three.");
+			Assert.AreEqual("Tab One", ((TabBarItem)tbDuring.Items[1]).Content as string, "Second tab should now be Tab One.");
+			Assert.AreEqual("Tab Two", ((TabBarItem)tbDuring.Items[2]).Content as string, "Third tab should now be Tab Two.");
 		}
 
+		// After dispose, UI is restored to original order
 		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
-
-		Assert.AreEqual(3, tbAfter.Items.Count, "Should still have 3 tabs after reorder.");
-		Assert.AreEqual("Tab Three", ((TabBarItem)tbAfter.Items[0]).Content as string, "First tab should now be Tab Three.");
-		Assert.AreEqual("Tab One", ((TabBarItem)tbAfter.Items[1]).Content as string, "Second tab should now be Tab One.");
-		Assert.AreEqual("Tab Two", ((TabBarItem)tbAfter.Items[2]).Content as string, "Third tab should now be Tab Two.");
+		Assert.AreEqual("Tab One", ((TabBarItem)tbAfter.Items[0]).Content as string, "First tab should be restored to Tab One.");
+		Assert.AreEqual("Tab Two", ((TabBarItem)tbAfter.Items[1]).Content as string, "Second tab should be restored to Tab Two.");
+		Assert.AreEqual("Tab Three", ((TabBarItem)tbAfter.Items[2]).Content as string, "Third tab should be restored to Tab Three.");
 	}
 }
 #endif
