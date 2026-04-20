@@ -29,7 +29,6 @@
 										<CheckBox x:Name="OptionAuto"
 												  Content="Auto"
 												  IsChecked="True" />
-										<ComboBox x:Name="OptionDirection" Header="Direction" />
 										<TextBox x:Name="OptionColumns"
 												 Header="Columns"
 												 PlaceholderText="e.g. *,*,*" />

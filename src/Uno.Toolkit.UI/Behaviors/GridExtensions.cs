@@ -29,21 +29,6 @@ public static class GridExtensions
 	public static void SetAuto(DependencyObject obj, bool value) => obj.SetValue(AutoProperty, value);
 
 	#endregion
-	#region DependencyProperty: AutoOrientation
-
-	public static DependencyProperty AutoOrientationProperty { [DynamicDependency(nameof(GetAutoOrientation))] get; } = DependencyProperty.RegisterAttached(
-		"AutoOrientation",
-		typeof(Orientation),
-		typeof(GridExtensions),
-		new PropertyMetadata(Orientation.Horizontal, OnAutoOrientationChanged));
-
-	[DynamicDependency(nameof(SetAutoOrientation))]
-	public static Orientation GetAutoOrientation(DependencyObject obj) => (Orientation)obj.GetValue(AutoOrientationProperty);
-
-	[DynamicDependency(nameof(GetAutoOrientation))]
-	public static void SetAutoOrientation(DependencyObject obj, Orientation value) => obj.SetValue(AutoOrientationProperty, value);
-
-	#endregion
 	#region DependencyProperty: StateHash (private)
 
 	private static DependencyProperty StateHashProperty { get; } = DependencyProperty.RegisterAttached(
@@ -95,12 +80,6 @@ public static class GridExtensions
 		}
 	}
 
-	private static void OnAutoOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		if (d is Grid grid && GetAuto(grid))
-			UpdateLayout(grid);
-	}
-
 	private static int ComputeStateHash(Grid grid)
 	{
 		if (!GetAuto(grid)) return 0;
@@ -112,7 +91,6 @@ public static class GridExtensions
 
 		var hash = new HashCode();
 
-		hash.Add(GetAutoOrientation(grid));
 		hash.Add(rowCount);
 		hash.Add(columnCount);
 
@@ -139,13 +117,10 @@ public static class GridExtensions
 		if (rowCount == 1 && columnCount == 1) return;
 
 		var childCount = grid.Children.Count;
-		var fillByColumnsFirst = GetAutoOrientation(grid) is Orientation.Horizontal;
 
 		for (var i = 0; i < childCount; i++)
 		{
-			var (row, column) = fillByColumnsFirst
-				? (i / columnCount % rowCount, i % columnCount)
-				: (i % rowCount, i / rowCount % columnCount);
+			var (row, column) = (i / columnCount % rowCount, i % columnCount);
 
 			if (grid.Children[i] is FrameworkElement childAsFE)
 			{
