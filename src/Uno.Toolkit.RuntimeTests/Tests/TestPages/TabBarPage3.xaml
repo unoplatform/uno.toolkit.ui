@@ -1,5 +1,5 @@
 <Page
-	x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.TabBarPage"
+	x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.TabBarPage3"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

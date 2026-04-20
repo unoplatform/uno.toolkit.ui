@@ -188,5 +188,75 @@ public class TabBarHrTest
 		Assert.AreEqual(Orientation.Vertical, tbAfter.Orientation, "Orientation should be Vertical after HR.");
 		Assert.AreEqual(1, tbAfter.SelectedIndex, "SelectedIndex should be preserved after orientation change.");
 	}
+
+	/// <summary>
+	/// Verifies that when items are removed via XAML HR causing SelectedIndex to be out of range,
+	/// the TabBar handles it gracefully (clamps or resets).
+	/// Uses TabBarPage2 for test isolation.
+	/// </summary>
+	[TestMethod]
+	public async Task SelectedIndex_OutOfRange_After_Remove_HotReload(CancellationToken ct)
+	{
+		await UIHelper.Load(new TabBarPage2(), ct);
+
+		var tb = UIHelper.GetChild<TabBar>(name: "TB");
+
+		Assert.AreEqual(3, tb.Items.Count, "Should start with 3 tabs.");
+
+		// Select the last tab (index 2)
+		tb.SelectedIndex = 2;
+		Assert.AreEqual(2, tb.SelectedIndex);
+
+		// Remove the last two TabBarItems, making index 2 out of range
+		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage2>(
+			originalText: "<utu:TabBarItem Content=\"Tab Two\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />",
+			replacementText: "",
+			ct))
+		{
+			await TestHelper.WaitFor(
+				() => UIHelper.GetChild<TabBar>(name: "TB").Items.Count == 1, ct);
+		}
+
+		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
+
+		Assert.AreEqual(1, tbAfter.Items.Count, "Should now have 1 tab after HR.");
+		// SelectedIndex should be clamped to 0 since index 2 is no longer valid
+		Assert.IsTrue(tbAfter.SelectedIndex >= 0 && tbAfter.SelectedIndex < tbAfter.Items.Count,
+			$"SelectedIndex ({tbAfter.SelectedIndex}) should be within valid range [0, {tbAfter.Items.Count - 1}].");
+	}
+
+	/// <summary>
+	/// Verifies that reordering TabBarItems via XAML Hot Reload is reflected at runtime.
+	/// Uses TabBarPage3 for test isolation.
+	/// </summary>
+	[TestMethod]
+	public async Task ReorderTabBarItems_Via_Xaml_HotReload(CancellationToken ct)
+	{
+		await UIHelper.Load(new TabBarPage3(), ct);
+
+		var tb = UIHelper.GetChild<TabBar>(name: "TB");
+
+		Assert.AreEqual(3, tb.Items.Count, "Should start with 3 tabs.");
+		Assert.AreEqual("Tab One", ((TabBarItem)tb.Items[0]).Content);
+		Assert.AreEqual("Tab Two", ((TabBarItem)tb.Items[1]).Content);
+		Assert.AreEqual("Tab Three", ((TabBarItem)tb.Items[2]).Content);
+
+		// Reorder: move Tab Three to be first
+		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage3>(
+			originalText: "<utu:TabBarItem Content=\"Tab One\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />",
+			replacementText: "<utu:TabBarItem Content=\"Tab Three\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab One\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />",
+			ct))
+		{
+			await TestHelper.WaitFor(
+				() => ((TabBarItem)UIHelper.GetChild<TabBar>(name: "TB").Items[0]).Content as string == "Tab Three", ct);
+		}
+
+		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
+
+		Assert.AreEqual(3, tbAfter.Items.Count, "Should still have 3 tabs after reorder.");
+		Assert.AreEqual("Tab Three", ((TabBarItem)tbAfter.Items[0]).Content as string, "First tab should now be Tab Three.");
+		Assert.AreEqual("Tab One", ((TabBarItem)tbAfter.Items[1]).Content as string, "Second tab should now be Tab One.");
+		Assert.AreEqual("Tab Two", ((TabBarItem)tbAfter.Items[2]).Content as string, "Third tab should now be Tab Two.");
+	}
 }
 #endif
