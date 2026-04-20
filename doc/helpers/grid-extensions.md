@@ -13,7 +13,6 @@ Provides attached properties that automatically assign `Grid.Row` and `Grid.Colu
 | Property | Type | Description |
 |---|---|---|
 | `Auto` | `bool` | Enables or disables auto-placement. Default: `false`. |
-| `AutoOrientation` | `Orientation` | Fill direction. `Horizontal` fills left-to-right (columns first); `Vertical` fills top-to-bottom (rows first). Default: `Horizontal`. |
 
 ## Fill Behavior
 
@@ -24,12 +23,7 @@ The placement logic depends on which definitions are present:
 | Empty | Empty | All children placed at Row 0, Column 0. |
 | Defined | Empty | Children fill along columns only (`row=0`, `col = index % cols`). |
 | Empty | Defined | Children fill along rows only (`col=0`, `row = index % rows`). |
-| Defined | Defined | Normal two-axis fill (see `AutoOrientation`). Overflow wraps back modulo `rows × cols`. |
-
-When both axes are defined, `AutoOrientation` determines the fill order:
-
-- **Horizontal**: `row = cell / cols`, `col = cell % cols` (left-to-right, wraps to next row)
-- **Vertical**: `col = cell / rows`, `row = cell % rows` (top-to-bottom, wraps to next column)
+| Defined | Defined | Normal two-axis fill (left-to-right, wraps to next row). Overflow wraps back modulo `rows × cols`. |
 
 > [!NOTE]
 > `GridExtensions` does **not** add or remove `RowDefinition`/`ColumnDefinition` entries. You are responsible for defining the grid dimensions. If children overflow the available cells, placement wraps back to cell 0.
@@ -43,8 +37,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ### Horizontal fill (3 columns, auto rows)
 
 ```xml
-<Grid utu:GridExtensions.Auto="True"
-      utu:GridExtensions.AutoOrientation="Horizontal">
+<Grid utu:GridExtensions.Auto="True">
     <Grid.ColumnDefinitions>
         <ColumnDefinition />
         <ColumnDefinition />
@@ -62,24 +55,3 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </Grid>
 ```
 
-### Vertical fill (3 rows, auto columns)
-
-```xml
-<Grid utu:GridExtensions.Auto="True"
-      utu:GridExtensions.AutoOrientation="Vertical">
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition />
-    </Grid.ColumnDefinitions>
-
-    <TextBlock Text="(0,0)" />  <!-- Row=0 Col=0 -->
-    <TextBlock Text="(1,0)" />  <!-- Row=1 Col=0 -->
-    <TextBlock Text="(2,0)" />  <!-- Row=2 Col=0 -->
-    <TextBlock Text="(0,1)" />  <!-- Row=0 Col=1 -->
-</Grid>
-```

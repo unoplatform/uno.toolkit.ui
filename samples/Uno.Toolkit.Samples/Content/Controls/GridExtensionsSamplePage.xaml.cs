@@ -8,7 +8,6 @@ namespace Uno.Toolkit.Samples.Content.Controls;
 	SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Fluent, Design.Agnostic })]
 public sealed partial class GridExtensionsSamplePage : Page
 {
-	private static readonly Orientation[] DirectionOptions = { Orientation.Horizontal, Orientation.Vertical };
 	private static readonly Color[] UnoColors =
 	[
 		Color.FromArgb(0xFF, 0x22, 0x9D, 0xFC), // #FF229DFC UnoBlue
@@ -29,7 +28,6 @@ public sealed partial class GridExtensionsSamplePage : Page
 
 		var demoGrid = SamplePageLayout.GetSampleChild<Grid>(design, "DemoGrid");
 		var optionAuto = SamplePageLayout.GetSampleChild<CheckBox>(design, "OptionAuto");
-		var optionDirection = SamplePageLayout.GetSampleChild<ComboBox>(design, "OptionDirection");
 		var optionColumns = SamplePageLayout.GetSampleChild<TextBox>(design, "OptionColumns");
 		var optionRows = SamplePageLayout.GetSampleChild<TextBox>(design, "OptionRows");
 		var optionAdd = SamplePageLayout.GetSampleChild<Button>(design, "OptionAdd");
@@ -38,14 +36,7 @@ public sealed partial class GridExtensionsSamplePage : Page
 
 		var counter = 0;
 
-		optionDirection.ItemsSource = DirectionOptions;
-
 		optionAuto.Click += (s, e) => GridExtensions.SetAuto(demoGrid, optionAuto.IsChecked == true);
-		optionDirection.SelectionChanged += (s, e) =>
-		{
-			if (optionDirection.SelectedItem is Orientation direction)
-				GridExtensions.SetAutoOrientation(demoGrid, direction);
-		};
 		optionColumns.TextChanged += (s, e) => ApplyColumnDefinitions();
 		optionRows.TextChanged += (s, e) => ApplyRowDefinitions();
 		optionAdd.Click += (s, e) => demoGrid.Children.Add(CreateItem(++counter));
@@ -84,9 +75,6 @@ public sealed partial class GridExtensionsSamplePage : Page
 
 			optionAuto.IsChecked = true;
 			GridExtensions.SetAuto(demoGrid, true);
-
-			optionDirection.SelectedItem = Orientation.Horizontal;
-			GridExtensions.SetAutoOrientation(demoGrid, Orientation.Horizontal);
 
 			for (var i = 0; i < 4; i++)
 				demoGrid.Children.Add(CreateItem(++counter));
