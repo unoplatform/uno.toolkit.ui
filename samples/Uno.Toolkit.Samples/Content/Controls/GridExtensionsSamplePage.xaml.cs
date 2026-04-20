@@ -44,7 +44,7 @@ public sealed partial class GridExtensionsSamplePage : Page
 		optionDirection.SelectionChanged += (s, e) =>
 		{
 			if (optionDirection.SelectedItem is Orientation direction)
-				GridExtensions.SetDirection(demoGrid, direction);
+				GridExtensions.SetAutoOrientation(demoGrid, direction);
 		};
 		optionColumns.TextChanged += (s, e) => ApplyColumnDefinitions();
 		optionRows.TextChanged += (s, e) => ApplyRowDefinitions();
@@ -86,7 +86,7 @@ public sealed partial class GridExtensionsSamplePage : Page
 			GridExtensions.SetAuto(demoGrid, true);
 
 			optionDirection.SelectedItem = Orientation.Horizontal;
-			GridExtensions.SetDirection(demoGrid, Orientation.Horizontal);
+			GridExtensions.SetAutoOrientation(demoGrid, Orientation.Horizontal);
 
 			for (var i = 0; i < 4; i++)
 				demoGrid.Children.Add(CreateItem(++counter));

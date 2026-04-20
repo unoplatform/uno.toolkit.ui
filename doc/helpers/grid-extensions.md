@@ -13,7 +13,7 @@ Provides attached properties that automatically assign `Grid.Row` and `Grid.Colu
 | Property | Type | Description |
 |---|---|---|
 | `Auto` | `bool` | Enables or disables auto-placement. Default: `false`. |
-| `Direction` | `Orientation` | Fill direction. `Horizontal` fills left-to-right (columns first); `Vertical` fills top-to-bottom (rows first). Default: `Horizontal`. |
+| `AutoOrientation` | `Orientation` | Fill direction. `Horizontal` fills left-to-right (columns first); `Vertical` fills top-to-bottom (rows first). Default: `Horizontal`. |
 
 ## Fill Behavior
 
@@ -24,9 +24,9 @@ The placement logic depends on which definitions are present:
 | Empty | Empty | All children placed at Row 0, Column 0. |
 | Defined | Empty | Children fill along columns only (`row=0`, `col = index % cols`). |
 | Empty | Defined | Children fill along rows only (`col=0`, `row = index % rows`). |
-| Defined | Defined | Normal two-axis fill (see `Direction`). Overflow wraps back modulo `rows × cols`. |
+| Defined | Defined | Normal two-axis fill (see `AutoOrientation`). Overflow wraps back modulo `rows × cols`. |
 
-When both axes are defined, `Direction` determines the fill order:
+When both axes are defined, `AutoOrientation` determines the fill order:
 
 - **Horizontal**: `row = cell / cols`, `col = cell % cols` (left-to-right, wraps to next row)
 - **Vertical**: `col = cell / rows`, `row = cell % rows` (top-to-bottom, wraps to next column)
@@ -44,7 +44,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ```xml
 <Grid utu:GridExtensions.Auto="True"
-      utu:GridExtensions.Direction="Horizontal">
+      utu:GridExtensions.AutoOrientation="Horizontal">
     <Grid.ColumnDefinitions>
         <ColumnDefinition />
         <ColumnDefinition />
@@ -66,7 +66,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ```xml
 <Grid utu:GridExtensions.Auto="True"
-      utu:GridExtensions.Direction="Vertical">
+      utu:GridExtensions.AutoOrientation="Vertical">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
