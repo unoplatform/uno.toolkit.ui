@@ -183,7 +183,7 @@ In `App.xaml`, use the `DefaultSize` property on `SimpleToolkitTheme`:
 
 `SimpleToolkitTheme` supports seed-based color generation. A single seed color is used to derive tonal palettes for both Light and Dark themes.
 
-Unlike `MaterialToolkitTheme`, `SimpleToolkitTheme` does not use a default seed — its grayscale palette is not seed-derived. You can opt in to seed generation by setting the `Colors` property:
+`SimpleToolkitTheme` uses seed color generation by default with a neutral gray seed (`#808080`). You can override it by setting the `Colors` property:
 
 ```xml
 <SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"

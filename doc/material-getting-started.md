@@ -197,7 +197,7 @@ using Windows.UI;
 // Change the primary seed color at runtime
 SemanticThemeHelper.PrimarySeed = Color.FromArgb(0xFF, 0xFF, 0x6B, 0x35);
 
-// Clear the seed to revert to the static palette
+// Clear the seed to revert to the default (#5946D2)
 SemanticThemeHelper.PrimarySeed = null;
 ```
 
