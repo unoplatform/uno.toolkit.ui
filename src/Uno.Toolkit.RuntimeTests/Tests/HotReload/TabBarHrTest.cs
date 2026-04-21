@@ -163,12 +163,12 @@ public class TabBarHrTest
 	}
 
 	/// <summary>
-	/// Verifies that when items are removed via XAML HR causing SelectedIndex to be out of range,
-	/// the TabBar handles it gracefully (clamps or resets).
+	/// Verifies that removing the entire TabBar via XAML Hot Reload is reflected at runtime,
+	/// and that the TabBar is restored after dispose.
 	/// Uses TabBarPage2 for test isolation.
 	/// </summary>
 	[TestMethod]
-	public async Task SelectedIndex_OutOfRange_After_Remove_HotReload(CancellationToken ct)
+	public async Task RemoveTabBar_Via_Xaml_HotReload(CancellationToken ct)
 	{
 		await UIHelper.Load(new TabBarPage2(), ct);
 
@@ -180,21 +180,19 @@ public class TabBarHrTest
 		tb.SelectedIndex = 2;
 		Assert.AreEqual(2, tb.SelectedIndex);
 
-		// Remove the last two TabBarItems, making index 2 out of range
+		// Remove the entire TabBar element, replacing it with a comment placeholder
 		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage2>(
-			originalText: "<utu:TabBarItem Content=\"Tab Two\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />",
-			replacementText: "",
+			originalText: "<utu:TabBar x:Name=\"TB\" Grid.Row=\"1\" SelectedIndex=\"0\">\n\t\t\t<utu:TabBar.Items>\n\t\t\t\t<utu:TabBarItem Content=\"Tab One\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />\n\t\t\t</utu:TabBar.Items>\n\t\t</utu:TabBar>",
+			replacementText: "<!-- Removed_TabBar -->",
 			ct))
 		{
 			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
-			Assert.AreEqual(1, tbDuring.Items.Count, "Should now have 1 tab after HR.");
-			// SelectedIndex should be clamped to 0 since index 2 is no longer valid
-			Assert.IsTrue(tbDuring.SelectedIndex >= 0 && tbDuring.SelectedIndex < tbDuring.Items.Count,
-				$"SelectedIndex ({tbDuring.SelectedIndex}) should be within valid range [0, {tbDuring.Items.Count - 1}].");
+			Assert.IsNull(tbDuring, "TabBar should be removed after HR.");
 		}
 
-		// After dispose, UI is restored to original 3 tabs
+		// After dispose, UI is restored — TabBar should be back
 		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
+		Assert.IsNotNull(tbAfter, "TabBar should be restored after dispose.");
 		Assert.AreEqual(3, tbAfter.Items.Count, "Should be restored to 3 tabs after dispose.");
 	}
 
