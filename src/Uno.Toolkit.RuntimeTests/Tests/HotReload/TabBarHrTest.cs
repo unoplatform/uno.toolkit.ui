@@ -156,12 +156,28 @@ public class TabBarHrTest
 			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
 			Assert.AreEqual(Orientation.Vertical, tbDuring.Orientation, "Orientation should be Vertical after HR.");
 			Assert.AreEqual(1, tbDuring.SelectedIndex, "SelectedIndex should be preserved after orientation change.");
+
+			// Validate items are actually laid out vertically (stacked on Y axis)
+			var item0 = (TabBarItem)tbDuring.Items[0];
+			var item1 = (TabBarItem)tbDuring.Items[1];
+			var pos0 = item0.TransformToVisual(tbDuring).TransformPoint(new Windows.Foundation.Point(0, 0));
+			var pos1 = item1.TransformToVisual(tbDuring).TransformPoint(new Windows.Foundation.Point(0, 0));
+			Assert.AreEqual(pos0.X, pos1.X, 1, "Vertical items should have the same X position.");
+			Assert.IsTrue(pos1.Y > pos0.Y, "Second item should be below first when Vertical.");
 		}
 
 		// After dispose, UI is restored to original Horizontal orientation
 		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
 		Assert.AreEqual(Orientation.Horizontal, tbAfter.Orientation, "Orientation should be restored to Horizontal after dispose.");
 		Assert.AreEqual(1, tbAfter.SelectedIndex, "SelectedIndex should be preserved after restoration.");
+
+		// Validate items are laid out horizontally again
+		var itemA = (TabBarItem)tbAfter.Items[0];
+		var itemB = (TabBarItem)tbAfter.Items[1];
+		var posA = itemA.TransformToVisual(tbAfter).TransformPoint(new Windows.Foundation.Point(0, 0));
+		var posB = itemB.TransformToVisual(tbAfter).TransformPoint(new Windows.Foundation.Point(0, 0));
+		Assert.AreEqual(posA.Y, posB.Y, 1, "Horizontal items should have the same Y position.");
+		Assert.IsTrue(posB.X > posA.X, "Second item should be to the right of first when Horizontal.");
 	}
 
 	/// <summary>
