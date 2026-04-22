@@ -1,7 +1,9 @@
 #if DEBUG
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
@@ -180,13 +182,17 @@ public class TabBarHrTest
 		tb.SelectedIndex = 2;
 		Assert.AreEqual(2, tb.SelectedIndex);
 
+		// Build the expected text with platform-correct line endings (CRLF on Windows, LF on Linux)
+		var nl = Environment.NewLine;
+		var tabBarXaml = $"<utu:TabBar x:Name=\"TB\" Grid.Row=\"1\" SelectedIndex=\"0\">{nl}\t\t\t<utu:TabBar.Items>{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab One\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />{nl}\t\t\t</utu:TabBar.Items>{nl}\t\t</utu:TabBar>";
+
 		// Remove the entire TabBar element, replacing it with a comment placeholder
 		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage2>(
-			originalText: "<utu:TabBar x:Name=\"TB\" Grid.Row=\"1\" SelectedIndex=\"0\">\n\t\t\t<utu:TabBar.Items>\n\t\t\t\t<utu:TabBarItem Content=\"Tab One\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />\n\t\t\t</utu:TabBar.Items>\n\t\t</utu:TabBar>",
+			originalText: tabBarXaml,
 			replacementText: "<!-- Removed_TabBar -->",
 			ct))
 		{
-			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
+			var tbDuring = UIHelper.GetChildren<TabBar>().FirstOrDefault(t => t.Name == "TB");
 			Assert.IsNull(tbDuring, "TabBar should be removed after HR.");
 		}
 
@@ -194,6 +200,35 @@ public class TabBarHrTest
 		var tbAfter = UIHelper.GetChild<TabBar>(name: "TB");
 		Assert.IsNotNull(tbAfter, "TabBar should be restored after dispose.");
 		Assert.AreEqual(3, tbAfter.Items.Count, "Should be restored to 3 tabs after dispose.");
+	}
+
+	/// <summary>
+	/// Baseline test: verifies that removing and restoring a plain Button via HR works.
+	/// If this passes but RemoveTabBar fails, the issue is TabBar-specific.
+	/// Uses ButtonTestPage for test isolation.
+	/// </summary>
+	[TestMethod]
+	public async Task RemoveButton_Via_Xaml_HotReload(CancellationToken ct)
+	{
+		await UIHelper.Load(new ButtonTestPage(), ct);
+
+		var btn = UIHelper.GetChild<Button>(name: "TestButton");
+		Assert.AreEqual("Click Me", btn.Content as string, "Button should start with expected content.");
+
+		// Remove the Button, replacing it with a comment placeholder
+		await using (await HotReloadHelper.UpdateSourceFile<ButtonTestPage>(
+			originalText: "<Button x:Name=\"TestButton\" Grid.Row=\"1\" Content=\"Click Me\" />",
+			replacementText: "<!-- Removed_Button -->",
+			ct))
+		{
+			var btnDuring = UIHelper.GetChildren<Button>().FirstOrDefault(b => b.Name == "TestButton");
+			Assert.IsNull(btnDuring, "Button should be removed after HR.");
+		}
+
+		// After dispose, UI is restored — Button should be back
+		var btnAfter = UIHelper.GetChild<Button>(name: "TestButton");
+		Assert.IsNotNull(btnAfter, "Button should be restored after dispose.");
+		Assert.AreEqual("Click Me", btnAfter.Content as string, "Button content should be restored.");
 	}
 
 	/// <summary>
@@ -212,10 +247,15 @@ public class TabBarHrTest
 		Assert.AreEqual("Tab Two", ((TabBarItem)tb.Items[1]).Content);
 		Assert.AreEqual("Tab Three", ((TabBarItem)tb.Items[2]).Content);
 
+		// Build the expected text with platform-correct line endings (CRLF on Windows, LF on Linux)
+		var nl = Environment.NewLine;
+		var originalItems = $"<utu:TabBarItem Content=\"Tab One\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />";
+		var reorderedItems = $"<utu:TabBarItem Content=\"Tab Three\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab One\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />";
+
 		// Reorder: move Tab Three to be first
 		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage3>(
-			originalText: "<utu:TabBarItem Content=\"Tab One\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />",
-			replacementText: "<utu:TabBarItem Content=\"Tab Three\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab One\" />\n\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />",
+			originalText: originalItems,
+			replacementText: reorderedItems,
 			ct))
 		{
 			var tbDuring = UIHelper.GetChild<TabBar>(name: "TB");
