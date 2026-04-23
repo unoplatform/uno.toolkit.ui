@@ -1,3 +1,4 @@
+using System.Linq;
 using Uno.Themes;
 using Windows.UI;
 using Microsoft.UI.Xaml.Media;
@@ -9,7 +10,7 @@ namespace Uno.Toolkit.Samples.Content.Controls;
 	"Seed Color",
 	SourceSdk.UnoToolkit,
 	Description = "Generate a full color palette from a single seed color using the HCT color space.",
-	SupportedDesigns = new[] { Design.Material, Design.Agnostic })]
+	SupportedDesigns = new[] { Design.Material })]
 public sealed partial class SeedColorSamplePage : Page
 {
 	private static Color _lastSeed = Color.FromArgb(0xFF, 0x59, 0x46, 0xD2);
@@ -22,8 +23,8 @@ public sealed partial class SeedColorSamplePage : Page
 
 		this.ActualThemeChanged += (s, e) =>
 		{
-			SemanticThemeHelper.PrimarySeed = null;
-			SemanticThemeHelper.PrimarySeed = _lastSeed;
+			SetPrimarySeed(null);
+			SetPrimarySeed(_lastSeed);
 		};
 	}
 
@@ -35,7 +36,7 @@ public sealed partial class SeedColorSamplePage : Page
 	private void ApplySeedColor(Color seed)
 	{
 		_lastSeed = seed;
-		SemanticThemeHelper.PrimarySeed = seed;
+		SetPrimarySeed(seed);
 
 		SeedSwatch.Background = new SolidColorBrush(seed);
 		SeedHex.Text = $"#{seed.R:X2}{seed.G:X2}{seed.B:X2}";
@@ -57,5 +58,26 @@ public sealed partial class SeedColorSamplePage : Page
 			$"  </MaterialToolkitTheme.Colors>\n" +
 			$"</MaterialToolkitTheme>";
 #endif
+	}
+
+	/// <summary>
+	/// Finds the <see cref="BaseTheme"/> nested inside the toolkit theme wrapper
+	/// and sets the primary seed color on it.
+	/// </summary>
+	private static void SetPrimarySeed(Color? seed)
+	{
+		var baseTheme = Application.Current?.Resources?.MergedDictionaries
+			.SelectMany(rd => rd.MergedDictionaries)
+			.OfType<BaseTheme>()
+			.FirstOrDefault();
+
+		if (baseTheme is null) return;
+
+		if (baseTheme.Colors is null)
+		{
+			baseTheme.Colors = new ThemeColors();
+		}
+
+		baseTheme.Colors.PrimarySeed = seed;
 	}
 }
