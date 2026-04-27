@@ -12,8 +12,8 @@ using Windows.UI.Xaml.Media;
 namespace Uno.Toolkit.UI
 {
 	/// <summary>
-	/// Base class for toolkit theme wrappers (e.g. <see cref="Material.MaterialToolkitTheme"/>,
-	/// <see cref="Simple.SimpleToolkitTheme"/>). Contains the shared override dependency properties
+	/// Base class for toolkit theme wrappers (e.g. MaterialToolkitTheme,
+	/// SimpleToolkitTheme). Contains the shared override dependency properties
 	/// and plumbing that each concrete theme inherits.
 	/// </summary>
 	public abstract class BaseToolkitTheme : ResourceDictionary
