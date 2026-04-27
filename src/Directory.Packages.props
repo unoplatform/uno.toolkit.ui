@@ -27,5 +27,6 @@
     <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0" />
     <PackageVersion Include="Uno.Simple.WinUI" Version="7.0.0-dev.25" />
+    <PackageVersion Include="Uno.Themes.WinUI" Version="$(UnoThemesVersion)" />
   </ItemGroup>
 </Project>
