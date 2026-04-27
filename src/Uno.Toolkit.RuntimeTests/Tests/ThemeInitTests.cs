@@ -31,8 +31,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	[RunsOnUIThread]
 	internal class ThemeInitTests
 	{
-		private const string DarkColor = "#FFC7BFFF";
-		private const string LightColor = "#FF5946D2";
+		private const string DarkColor = "#FFC5BDFF";
+		private const string LightColor = "#FF594DB4";
 
 		[TestMethod]
 		[DataRow(true, DisplayName = "Dark Mode")]

@@ -173,6 +173,36 @@ In `App.xaml`, use the `FontOverrideSource` property on `MaterialToolkitTheme`:
                       FontOverrideSource="ms-appx:///Style/Application/FontOverride.xaml" />
 ```
 
+### Seed Color Customization
+
+`MaterialToolkitTheme` supports seed-based color generation using the Material Design 3 HCT color space. A single seed color is used to derive the full tonal palette (Primary, Secondary, Tertiary, Neutral, and Error), for both Light and Dark themes.
+
+By default, `MaterialToolkitTheme` generates its palette from the built-in Material seed color (`#5946D2`). You can override this with the `Colors` property:
+
+```xml
+<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
+                      xmlns:ut="using:Uno.Themes">
+    <MaterialToolkitTheme.Colors>
+        <ut:ThemeColors PrimarySeed="#FF6B35" />
+    </MaterialToolkitTheme.Colors>
+</MaterialToolkitTheme>
+```
+
+You can also change the seed color at runtime from C#:
+
+```csharp
+using Uno.Themes;
+using Windows.UI;
+
+// Change the primary seed color at runtime
+SemanticThemeHelper.PrimarySeed = Color.FromArgb(0xFF, 0xFF, 0x6B, 0x35);
+
+// Clear the seed to revert to the default (#5946D2)
+SemanticThemeHelper.PrimarySeed = null;
+```
+
+For more details, see the [Seed Color Palette documentation](xref:Uno.Themes.SeedColors).
+
 ## Using C# Markup
 
 The Uno Material Toolkit library also has support for C# Markup through a [Uno.Toolkit.WinUI.Material.Markup](https://www.nuget.org/packages/Uno.Toolkit.WinUI.Material.Markup) NuGet Package.
