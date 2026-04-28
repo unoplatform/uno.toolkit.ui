@@ -1,0 +1,55 @@
+<Page x:Class="Uno.Toolkit.Samples.Content.TestPages.CameraSafeAreaTestPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.TestPages"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid utu:SafeArea.Insets="VisibleBounds"
+		  Padding="16"
+		  RowSpacing="12">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Row="0"
+				   Style="{StaticResource SubtitleTextBlockStyle}"
+				   Text="iPad SafeArea modal-dismiss live-lock repro" />
+
+		<TextBlock Grid.Row="1"
+				   TextWrapping="Wrap"
+				   Text="Run on iPad. (1) Tap 'Tap me' a few times — counter increments. (2) Tap 'Present picker' and dismiss it (Cancel or pick a photo). (3) Tap 'Tap me' again — the counter MUST keep incrementing. If it stops, the SafeArea bounds-transition guard is rescheduling on the dispatcher and starving managed input." />
+
+		<Button Grid.Row="2"
+				x:Name="TapButton"
+				AutomationProperties.AutomationId="CameraSafeAreaTestPage_TapButton"
+				Content="Tap me"
+				Click="OnTapClicked" />
+
+		<TextBlock Grid.Row="3"
+				   x:Name="TapCountText"
+				   AutomationProperties.AutomationId="CameraSafeAreaTestPage_TapCountText"
+				   Text="Taps: 0" />
+
+		<Button Grid.Row="4"
+				x:Name="PresentPickerButton"
+				AutomationProperties.AutomationId="CameraSafeAreaTestPage_PresentPickerButton"
+				Content="Present picker (FormSheet)"
+				Click="OnPresentPickerClicked" />
+
+		<TextBlock Grid.Row="5"
+				   x:Name="PickerStatusText"
+				   AutomationProperties.AutomationId="CameraSafeAreaTestPage_PickerStatusText"
+				   TextWrapping="Wrap"
+				   Text="Picker idle" />
+	</Grid>
+</Page>

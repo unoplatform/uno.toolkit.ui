@@ -293,6 +293,11 @@ namespace Uno.Toolkit.UI
 			internal event TypedEventHandler<SafeAreaDetails, Thickness>? EffectiveInsetsApplied;
 #if DEBUG
 			internal event TypedEventHandler<SafeAreaDetails, Thickness>? InsetsApplied;
+
+			internal static Rect TestHook_LastKnownBounds { get => s_lastKnownBounds; set => s_lastKnownBounds = value; }
+			internal static Rect TestHook_LastKnownVisibleBounds { get => s_lastKnownVisibleBounds; set => s_lastKnownVisibleBounds = value; }
+			internal static bool TestHook_BoundsTransitionPending { get => s_boundsTransitionPending; set => s_boundsTransitionPending = value; }
+			internal void TestHook_InvokeUpdateInsets(bool forceUpdate = false) => UpdateInsets(forceUpdate);
 #endif
 
 			// Track the last-known Window.Bounds and VisibleBounds to detect race conditions
@@ -462,8 +467,29 @@ namespace Uno.Toolkit.UI
 					return;
 				}
 
-				// Detect race condition: VisibleBounds updated before Window.Bounds
-				if (!HasSoftInput())
+				// Detect race condition: VisibleBounds updated before Window.Bounds.
+				//
+				// On Android, StatusBar translucency transitions can cause
+				// ApplicationView.VisibleBounds to update before Window.Bounds, which leads
+				// GetWindowInsets() to compute an inflated bottom inset against the stale
+				// Bounds and permanently stretch Auto-sized rows. Deferring the inset
+				// computation until Window.Bounds catches up resolves that.
+				// (See PR #1554 / dispatchscience-private#74.)
+				//
+				// The guard is restricted to Android at runtime because the same shape of
+				// state — VisibleBounds changes while Window.Bounds stays stable — arises
+				// naturally on iPad after a UIImagePickerController-style FormSheet /
+				// OverFullScreen modal dismisses. There, Window.Bounds will never catch up
+				// (iOS keeps the host view attached and the modal did not change Bounds),
+				// so the deferred UpdateInsets call reschedules itself indefinitely on the
+				// DispatcherQueue and live-locks managed input handling — scroll continues
+				// to work because UIKit gesture recognizers route at the native layer, but
+				// taps/buttons/back-nav stop responding.
+				//
+				// `OperatingSystem.IsAndroid()` (vs `#if __ANDROID__`) is required so the
+				// guard remains active for Skia Android builds (`net9.0` TFM without the
+				// `__ANDROID__` define).
+				if (!HasSoftInput() && OperatingSystem.IsAndroid())
 				{
 					var currentBounds = XamlWindow.Current?.Bounds ?? Rect.Empty;
 					var currentVB = ApplicationView.GetForCurrentView().VisibleBounds;
