@@ -70,16 +70,12 @@ namespace Uno.Toolkit.Samples.Content.TestPages
 #if __IOS__
 		private static UIViewController? ResolveRootViewController()
 		{
-			var keyWindowRoot = UIApplication.SharedApplication.KeyWindow?.RootViewController;
-			if (keyWindowRoot is not null)
-			{
-				return keyWindowRoot;
-			}
-
-			return UIApplication.SharedApplication.ConnectedScenes
+			var windows = UIApplication.SharedApplication.ConnectedScenes
 				.OfType<UIWindowScene>()
 				.SelectMany(s => s.Windows)
-				.FirstOrDefault(w => w.IsKeyWindow)?.RootViewController;
+				.ToArray();
+
+			return (windows.FirstOrDefault(w => w.IsKeyWindow) ?? windows.FirstOrDefault())?.RootViewController;
 		}
 #endif
 	}
