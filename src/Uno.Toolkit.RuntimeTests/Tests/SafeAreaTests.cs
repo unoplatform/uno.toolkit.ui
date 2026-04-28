@@ -24,6 +24,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Windows.UI.ViewManagement;
+using XamlWindow = Microsoft.UI.Xaml.Window;
 #else
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
@@ -33,6 +34,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using XamlWindow = Windows.UI.Xaml.Window;
 #endif
 
 namespace Uno.Toolkit.RuntimeTests.Tests
@@ -85,7 +87,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreEqual((nameof(grid0), customBounds), effectiveUpdates[0]);
 		}
 
-#if DEBUG && !__ANDROID__
+#if DEBUG && !__ANDROID__ && !WINDOWS_WINUI
 		[TestMethod]
 		[RequiresFullWindow]
 		public async Task BoundsTransitionGuard_NotActive_OnNonAndroid()
@@ -117,7 +119,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			try
 			{
-				var currentBounds = Window.Current?.Bounds ?? default;
+				var currentBounds = XamlWindow.Current?.Bounds ?? default;
 				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = currentBounds;
 				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
 				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = false;
