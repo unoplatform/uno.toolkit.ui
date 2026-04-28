@@ -125,8 +125,11 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = false;
 
 				details.TestHook_InvokeUpdateInsets(forceUpdate: false);
-				await UnitTestUIContentHelperEx.WaitForIdle();
 
+				// The guard sets s_boundsTransitionPending=true synchronously before scheduling
+				// its reschedule, so we assert immediately. Awaiting WaitForIdle() here would hang
+				// the test if the guard ever regresses — the reschedule loop saturates the
+				// dispatcher and idle is never reached (the very symptom this test guards against).
 				Assert.IsFalse(
 					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
 					"Bounds-transition guard must stay gated off on non-Android — otherwise iPad live-locks the managed dispatcher after a FormSheet modal dismisses (see fix/iPadOS.transitions).");
