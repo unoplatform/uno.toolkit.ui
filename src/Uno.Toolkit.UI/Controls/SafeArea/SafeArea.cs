@@ -293,6 +293,11 @@ namespace Uno.Toolkit.UI
 			internal event TypedEventHandler<SafeAreaDetails, Thickness>? EffectiveInsetsApplied;
 #if DEBUG
 			internal event TypedEventHandler<SafeAreaDetails, Thickness>? InsetsApplied;
+
+			internal static Rect TestHook_LastKnownBounds { get => s_lastKnownBounds; set => s_lastKnownBounds = value; }
+			internal static Rect TestHook_LastKnownVisibleBounds { get => s_lastKnownVisibleBounds; set => s_lastKnownVisibleBounds = value; }
+			internal static bool TestHook_BoundsTransitionPending { get => s_boundsTransitionPending; set => s_boundsTransitionPending = value; }
+			internal void TestHook_InvokeUpdateInsets(bool forceUpdate = false) => UpdateInsets(forceUpdate);
 #endif
 
 			// Track the last-known Window.Bounds and VisibleBounds to detect race conditions

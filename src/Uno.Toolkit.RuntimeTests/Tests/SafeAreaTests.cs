@@ -85,6 +85,59 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreEqual((nameof(grid0), customBounds), effectiveUpdates[0]);
 		}
 
+#if DEBUG && !__ANDROID__
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task BoundsTransitionGuard_NotActive_OnNonAndroid()
+		{
+			// Regression test for the iPad CameraCaptureUI live-lock (fix/iPadOS.transitions).
+			//
+			// PR #1554 added a Bounds/VisibleBounds-mismatch guard in UpdateInsets() that
+			// self-reschedules on the dispatcher when VisibleBounds changes ahead of Window.Bounds.
+			// On iPad, after a UIImagePickerController-style FormSheet/OverFullScreen modal
+			// dismisses, VisibleBounds updates while Window.Bounds stays stable — Bounds NEVER
+			// catches up because the host view stayed attached. Without the Android-only gate,
+			// the guard reschedules indefinitely and starves the managed DispatcherQueue,
+			// freezing taps/buttons/back-nav while UIKit-routed scroll keeps working.
+			//
+			// This test seeds the trap state (prior Bounds matches current; prior VisibleBounds
+			// differs from current) and asserts that on non-Android the guard never engages.
+			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
+			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var details = SafeArea.SafeAreaDetails.FindInstance(grid)
+				?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+			var savedBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownBounds;
+			var savedVisibleBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds;
+			var savedPending = SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending;
+
+			try
+			{
+				var currentBounds = Window.Current?.Bounds ?? default;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = currentBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = false;
+
+				details.TestHook_InvokeUpdateInsets(forceUpdate: false);
+				await UnitTestUIContentHelperEx.WaitForIdle();
+
+				Assert.IsFalse(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"Bounds-transition guard must stay gated off on non-Android — otherwise iPad live-locks the managed dispatcher after a FormSheet modal dismisses (see fix/iPadOS.transitions).");
+			}
+			finally
+			{
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = savedBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = savedVisibleBounds;
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = savedPending;
+			}
+		}
+#endif
+
 #if __ANDROID__
 		[TestMethod]
 		public async Task Translucent_SystemBars()
