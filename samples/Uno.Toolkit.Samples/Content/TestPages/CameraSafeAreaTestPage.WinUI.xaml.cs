@@ -1,6 +1,6 @@
 using System;
-using System.Linq;
 #if __IOS__
+using System.Linq;
 using UIKit;
 #endif
 
