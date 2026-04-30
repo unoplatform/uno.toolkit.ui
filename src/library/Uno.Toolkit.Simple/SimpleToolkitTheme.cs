@@ -59,10 +59,24 @@ namespace Uno.Toolkit.UI.Simple
 			MergedDictionaries.Clear();
 			this.Clear();
 
-			var simpleTheme = new SimpleTheme(ColorOverrideDictionary, FontOverrideDictionary) { DefaultSize = DefaultSize };
+			var simpleTheme = new SimpleTheme(fontOverride: FontOverrideDictionary) { DefaultSize = DefaultSize };
+
+			// Route color overrides through ThemeColors.OverrideDictionary which has
+			// highest precedence in BaseTheme (above the seed palette). This ensures
+			// user color overrides aren't stomped by seed colors.
 			if (Colors is { } colors)
 			{
 				simpleTheme.Colors = colors;
+			}
+
+			if (ColorOverrideDictionary is { } colorOverride)
+			{
+				var tc = simpleTheme.Colors ?? new ThemeColors();
+				tc.OverrideDictionary ??= colorOverride;
+				if (simpleTheme.Colors is null)
+				{
+					simpleTheme.Colors = tc;
+				}
 			}
 
 			MergedDictionaries.Add(simpleTheme);

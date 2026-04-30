@@ -36,10 +36,24 @@ namespace Uno.Toolkit.UI.Material
 			MergedDictionaries.Clear();
 			this.Clear();
 
-			var materialTheme = new MaterialTheme(ColorOverrideDictionary, FontOverrideDictionary);
+			var materialTheme = new MaterialTheme(fontOverride: FontOverrideDictionary);
+
+			// Route color overrides through ThemeColors.OverrideDictionary which has
+			// highest precedence in BaseTheme (above the seed palette). This ensures
+			// user color overrides aren't stomped by DefaultPrimarySeed.
 			if (Colors is { } colors)
 			{
 				materialTheme.Colors = colors;
+			}
+
+			if (ColorOverrideDictionary is { } colorOverride)
+			{
+				var tc = materialTheme.Colors ?? new ThemeColors();
+				tc.OverrideDictionary ??= colorOverride;
+				if (materialTheme.Colors is null)
+				{
+					materialTheme.Colors = tc;
+				}
 			}
 
 			MergedDictionaries.Add(materialTheme);
