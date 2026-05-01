@@ -73,10 +73,7 @@ namespace Uno.Toolkit.UI.Simple
 			{
 				var tc = simpleTheme.Colors ?? new ThemeColors();
 				tc.OverrideDictionary ??= colorOverride;
-				if (simpleTheme.Colors is null)
-				{
-					simpleTheme.Colors = tc;
-				}
+				simpleTheme.Colors ??= tc;
 			}
 
 			MergedDictionaries.Add(simpleTheme);

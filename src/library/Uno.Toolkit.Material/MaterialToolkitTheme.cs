@@ -50,10 +50,7 @@ namespace Uno.Toolkit.UI.Material
 			{
 				var tc = materialTheme.Colors ?? new ThemeColors();
 				tc.OverrideDictionary ??= colorOverride;
-				if (materialTheme.Colors is null)
-				{
-					materialTheme.Colors = tc;
-				}
+				materialTheme.Colors ??= tc;
 			}
 
 			MergedDictionaries.Add(materialTheme);
