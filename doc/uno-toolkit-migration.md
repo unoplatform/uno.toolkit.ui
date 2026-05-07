@@ -50,7 +50,7 @@ Uno Toolkit 9.0 takes a dependency on Uno Themes 7.0, which introduces seed-base
 
 5. Default Material palette is now seed-generated
 
-    `MaterialToolkitTheme` now uses a default primary seed color (`#5946D2`) to algorithmically generate the Material Design 3 tonal palette. This produces a different visual result than 8.x's static palette. To preserve the previous look, set `Colors.PrimarySeed` to your desired anchor color or use `Colors.OverrideDictionary` to override individual color resources. `SimpleToolkitTheme` continues to use its hand-crafted neutral palette by default (no seed).
+    `MaterialToolkitTheme` now uses a default primary seed color (`#5946D2`) to algorithmically generate the Material Design 3 tonal palette. This produces a different visual result than 8.x's static palette. To preserve the previous look, set `Colors.PrimarySeed` to your desired anchor color or use `Colors.OverrideDictionary` to override individual color resources. `SimpleToolkitTheme` still defaults to the standard neutral Simple palette; if you do not specify any `Colors` seeds or overrides, apps keep the default neutral appearance. In current documentation this default Simple palette may be described as being produced from the built-in neutral gray seed (`#808080`), rather than from an app-specified seed.
 
 6. `ColorOverrideDictionary` precedence changed
 
