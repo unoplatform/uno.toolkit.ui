@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using Uno.Material;
-using Uno.Themes;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -12,8 +11,11 @@ namespace Uno.Toolkit.UI.Material
 {
 	/// <summary>
 	/// Material (Material Design 3) styles for the controls in the Uno.Toolkit.UI library.
+	/// Inherits from <see cref="MaterialTheme"/> so all theme properties
+	/// (Colors, DefaultDensity, DefaultCornerRadius, font/color overrides) are
+	/// available directly without manual forwarding.
 	/// </summary>
-	public class MaterialToolkitTheme : BaseToolkitTheme
+	public class MaterialToolkitTheme : MaterialTheme
 	{
 		private const string ToolkitPackageName = "Uno.Toolkit.WinUI";
 		private const string ToolkitMaterialPackageName = "Uno.Toolkit.WinUI.Material";
@@ -27,35 +29,12 @@ namespace Uno.Toolkit.UI.Material
 		{
 		}
 
-		protected override void UpdateSource()
+		protected override ResourceDictionary GenerateSpecificResources()
 		{
-#if !HAS_UNO
-			Source = null;
-#endif
-			ThemeDictionaries.Clear();
-			MergedDictionaries.Clear();
-			this.Clear();
-
-			var materialTheme = new MaterialTheme(fontOverride: FontOverrideDictionary);
-
-			// Route color overrides through ThemeColors.OverrideDictionary which has
-			// highest precedence in BaseTheme (above the seed palette). This ensures
-			// user color overrides aren't stomped by DefaultPrimarySeed.
-			if (Colors is { } colors)
-			{
-				materialTheme.Colors = colors;
-			}
-
-			if (ColorOverrideDictionary is { } colorOverride)
-			{
-				var tc = materialTheme.Colors ?? new ThemeColors();
-				tc.OverrideDictionary ??= colorOverride;
-				materialTheme.Colors ??= tc;
-			}
-
-			MergedDictionaries.Add(materialTheme);
-			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
-			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitMaterialPackageName}/Generated/mergedpages.v2.xaml") });
+			var dict = base.GenerateSpecificResources();
+			dict.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
+			dict.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitMaterialPackageName}/Generated/mergedpages.v2.xaml") });
+			return dict;
 		}
 	}
 }

@@ -1,45 +1,19 @@
 using System;
 using Uno.Simple;
-using Uno.Themes;
 using Microsoft.UI.Xaml;
 
 namespace Uno.Toolkit.UI.Simple
 {
 	/// <summary>
 	/// Simple Design System styles for the controls in the Uno.Toolkit.UI library.
+	/// Inherits from <see cref="SimpleTheme"/> so all theme properties
+	/// (Colors, DefaultDensity, DefaultCornerRadius, font/color overrides) are
+	/// available directly without manual forwarding.
 	/// </summary>
-	public class SimpleToolkitTheme : BaseToolkitTheme
+	public class SimpleToolkitTheme : SimpleTheme
 	{
 		private const string ToolkitPackageName = "Uno.Toolkit.WinUI";
 		private const string ToolkitSimplePackageName = "Uno.Toolkit.WinUI.Simple";
-
-		#region DependencyProperty: DefaultSize
-		/// <summary>
-		/// Gets or sets the default size variant for control styles.
-		/// The default is <see cref="SimpleControlSize.Small"/>.
-		/// The value is forwarded to the underlying <see cref="SimpleTheme"/>.
-		/// </summary>
-		public SimpleControlSize DefaultSize
-		{
-			get => (SimpleControlSize)GetValue(DefaultSizeProperty);
-			set => SetValue(DefaultSizeProperty, value);
-		}
-
-		public static DependencyProperty DefaultSizeProperty { get; } =
-			DependencyProperty.Register(
-				nameof(DefaultSize),
-				typeof(SimpleControlSize),
-				typeof(SimpleToolkitTheme),
-				new PropertyMetadata(SimpleControlSize.Small, OnDefaultSizeChanged));
-
-		private static void OnDefaultSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is SimpleToolkitTheme toolkitTheme)
-			{
-				toolkitTheme.UpdateSource();
-			}
-		}
-		#endregion
 
 		public SimpleToolkitTheme() : this(colorOverride: null, fontOverride: null)
 		{
@@ -50,35 +24,12 @@ namespace Uno.Toolkit.UI.Simple
 		{
 		}
 
-		protected override void UpdateSource()
+		protected override ResourceDictionary GenerateSpecificResources()
 		{
-#if !HAS_UNO
-			Source = null;
-#endif
-			ThemeDictionaries.Clear();
-			MergedDictionaries.Clear();
-			this.Clear();
-
-			var simpleTheme = new SimpleTheme(fontOverride: FontOverrideDictionary) { DefaultSize = DefaultSize };
-
-			// Route color overrides through ThemeColors.OverrideDictionary which has
-			// highest precedence in BaseTheme (above the seed palette). This ensures
-			// user color overrides aren't stomped by seed colors.
-			if (Colors is { } colors)
-			{
-				simpleTheme.Colors = colors;
-			}
-
-			if (ColorOverrideDictionary is { } colorOverride)
-			{
-				var tc = simpleTheme.Colors ?? new ThemeColors();
-				tc.OverrideDictionary ??= colorOverride;
-				simpleTheme.Colors ??= tc;
-			}
-
-			MergedDictionaries.Add(simpleTheme);
-			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
-			MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitSimplePackageName}/Generated/mergedpages.xaml") });
+			var dict = base.GenerateSpecificResources();
+			dict.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
+			dict.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitSimplePackageName}/Generated/mergedpages.xaml") });
+			return dict;
 		}
 	}
 }

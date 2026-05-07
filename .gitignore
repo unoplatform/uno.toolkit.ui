@@ -334,3 +334,5 @@ mergedpages.xaml
 .DS_Store
 
 !build/workflow/publish
+
+ref/*

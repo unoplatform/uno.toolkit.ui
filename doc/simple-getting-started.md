@@ -29,7 +29,8 @@ Initialization of the Simple Toolkit resources is handled by the specialized `Si
 |-----------------------|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `ColorOverrideSource` | `string`             | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Simple Color resources       |
 | `FontOverrideSource`  | `string`             | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Simple FontFamily resources  |
-| `DefaultSize`         | `SimpleControlSize`  | (Optional) Gets or sets the default size variant for control styles. The default is `Small`. Accepted values are `Small` (compact, 32 px height for buttons) and `Medium` (standard, 40 px height for buttons) |
+| `DefaultDensity`      | `Density`            | (Optional) Gets or sets the density preset that drives the base spacing unit used by all `Space*` tokens. Default is `Regular`. Accepted values are `Compact` (3 px), `Regular` (4 px), and `Comfy` (5 px). |
+| `DefaultCornerRadius` | `double`             | (Optional) Gets or sets the base corner radius unit (in pixels) used to compute all shape scale tokens (`Radius100`, `Radius200`, …) as multiples of this value. Default is `4`. |
 
 ## Installation
 
@@ -165,18 +166,28 @@ In `App.xaml`, use the `FontOverrideSource` property on `SimpleToolkitTheme`:
                     FontOverrideSource="ms-appx:///Style/Application/FontOverride.xaml" />
 ```
 
-### Customize Default Control Size
+### Customize Default Density
 
-The `SimpleToolkitTheme` supports two size variants for control styles through the `DefaultSize` property:
+The `SimpleToolkitTheme` exposes a density preset through the `DefaultDensity` property, which drives the base spacing unit used by all `Space*` tokens (control heights and icon sizes remain constant across densities):
 
-- `Small` (default) - Compact sizing (32 px height for buttons)
-- `Medium` - Standard sizing (40 px height for buttons)
+- `Compact` - Tighter padding for data-dense UIs (base spacing unit = 3 px)
+- `Regular` (default) - Balanced spacing (base spacing unit = 4 px)
+- `Comfy` - More generous padding (base spacing unit = 5 px)
 
-In `App.xaml`, use the `DefaultSize` property on `SimpleToolkitTheme`:
+In `App.xaml`, use the `DefaultDensity` property on `SimpleToolkitTheme`:
 
 ```xml
 <SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
-                    DefaultSize="Medium" />
+                    DefaultDensity="Comfy" />
+```
+
+### Customize Default Corner Radius
+
+The `SimpleToolkitTheme` exposes the base corner radius unit (in pixels) through the `DefaultCornerRadius` property. All shape scale tokens (`Radius100`, `Radius200`, …) are computed as multiples of this value — e.g. `DefaultCornerRadius="6"` makes `Radius100=6`, `Radius200=12`, `Radius400=24`, etc. `RadiusFull` always remains `9999` (pill shape). Default is `4`.
+
+```xml
+<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
+                    DefaultCornerRadius="6" />
 ```
 
 ### Seed Color Customization
