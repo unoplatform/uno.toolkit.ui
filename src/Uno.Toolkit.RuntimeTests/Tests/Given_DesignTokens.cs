@@ -2,8 +2,6 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Uno.Material;
-using Uno.Themes;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
 using Uno.Toolkit.UI.Material;
@@ -309,12 +307,12 @@ public class Given_DesignTokens
 
 	[TestMethod]
 	[RunsOnUIThread]
-	[DataRow(Density.Compact)]
-	[DataRow(Density.Regular)]
-	[DataRow(Density.Comfy)]
-	public void When_DensityChanges_Then_FixedToolkitTokensAreConstant(Density density)
+	[DataRow(3)] // Compact
+	[DataRow(4)] // Regular
+	[DataRow(5)] // Comfy
+	public void When_DensityChanges_Then_FixedToolkitTokensAreConstant(int densityValue)
 	{
-		var theme = new MaterialToolkitTheme { DefaultDensity = density };
+		var theme = new MaterialToolkitTheme { DefaultDensity = (Uno.Themes.Density)densityValue };
 		var container = new Grid();
 		container.Resources.MergedDictionaries.Add(theme);
 

@@ -568,7 +568,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | Key                                                                  | Type            | Value (Regular)                              | Design Token                    |
 |----------------------------------------------------------------------|-----------------|----------------------------------------------|---------------------------------|
 | `NavigationTabBarWidthOrHeight`                                    | `Double`          | 80                                           |                                 |
-| `NavigationTabBarTintOpacity`                                      | `Double`          | 0.8                                          |                                 |
+| `NavigationTabBarTintOpacity`                                      | `Double`          | 0.08                                         |                                 |
 | `NavigationTabBarItemIconHeight`                                   | `Double`          | 18                                           |                                 |
 | `NavigationTabBarItemActiveIndicatorWidth`                         | `Double`          | 64                                           | `Space1600`                     |
 | `NavigationTabBarItemActiveIndicatorHeight`                        | `Double`          | 32                                           | `ControlHeightSmall`            |
