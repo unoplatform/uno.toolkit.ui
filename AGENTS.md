@@ -27,6 +27,7 @@ Uno Toolkit ships higher-level UI controls for multi-platform Uno Platform / Win
 ## Target frameworks and platform builds
 
 Target frameworks are managed centrally:
+
 - `src/tfms.props` defines `NetCurrent` (currently `net10.0`).
 - `src/tfm-common-winui.props` expands library projects to `net9.0` + per-platform suffixes (`net9.0-ios`, `net9.0-android`, `net9.0-windows10.0.19041`, `net9.0-maccatalyst`); sample apps use `net10.0-*`.
 - The Uno SDK version is pinned in `global.json` (`Uno.Sdk` and `Uno.Sdk.Private`).
@@ -38,18 +39,21 @@ The top-level `Directory.Build.props` also exposes `Build_Android`, `Build_iOS`,
 <flow_orchestration>
 
 ### 1. Plan Node Default
+
 - Enter plan mode for ANY non-trivial task (3+ steps or architectural decisions)
 - If something goes sideways, STOP and re-plan immediately - don't keep pushing
 - Use plan mode for verification steps, not just building
 - Write detailed specs upfront to reduce ambiguity
 
 ### 2. Subagent Strategy
+
 - Use subagents liberally to keep main context window clean
 - Offload research, exploration, and parallel analysis to subagents
 - For complex problems, throw more compute at it via subagents
 - One tack per subagent for focused execution
 
 ### 3. Self-Improvement Loop
+
 - After ANY correction from the user: update `specs/lessons.md` with the pattern (create the file/folder if it does not yet exist)
 - Write rules for yourself that prevent the same mistake
 - Ruthlessly iterate on these lessons until mistake rate drops
@@ -58,6 +62,7 @@ The top-level `Directory.Build.props` also exposes `Build_Android`, `Build_iOS`,
 #### Where corrections are recorded
 
 User corrections, "do this / never do that" rules, workflow guardrails, and tool-usage policies that should bind **every** agent working on this repo MUST be written to a checked-in, shared file:
+
 - Repo-wide rules → `AGENTS.md` (this file).
 - Skill-specific rules (e.g. how to use a particular tool/MCP) → the relevant `.claude/skills/<skill>/SKILL.md`.
 - Domain lessons / postmortems → `specs/lessons.md`.
@@ -67,6 +72,7 @@ User corrections, "do this / never do that" rules, workflow guardrails, and tool
 When in doubt: if removing the rule would let any other agent on this repo repeat the same mistake, the rule is shared and must be checked in.
 
 ### 4. Verification Before Done
+
 - Never mark a task complete without proving it works
 - Diff behavior between `main` and your changes when relevant
 - Ask yourself: "Would a staff engineer approve this?"
@@ -74,12 +80,14 @@ When in doubt: if removing the rule would let any other agent on this repo repea
 - You MUST assume that for a given branch, the `main` branch is correct and failures are specific to the current branch. You MUST assume that changes in the current branch are the cause of any new failures.
 
 ### 5. Demand Elegance (Balanced)
+
 - For non-trivial changes: pause and ask "is there a more elegant way?"
 - If a fix feels hacky: "Knowing everything I know now, implement the elegant solution"
 - Skip this for simple, obvious fixes - don't over-engineer
 - Challenge your own work before presenting it
 
 ### 6. Autonomous Bug Fixing
+
 - When given a bug report: just fix it. Don't ask for hand-holding
 - Point at logs, errors, failing tests - then resolve them
 - Zero context switching required from the user
@@ -101,7 +109,6 @@ When in doubt: if removing the rule would let any other agent on this repo repea
 - **Minimal Impact**: Changes should only touch what's necessary. Avoid introducing bugs.
 
 </flow_orchestration>
-
 
 <coding_directives>
 
@@ -159,6 +166,7 @@ Formatting and style rules are defined in the repo configuration files below. Tr
 ## 4. Build & Validation
 
 Primary solutions:
+
 - `src/Uno.Toolkit.sln` — full development solution (libraries, samples, runtime tests).
 - `samples/Uno.Toolkit.Samples.sln` — samples-only.
 
