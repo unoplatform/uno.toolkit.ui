@@ -33,7 +33,7 @@
 			<StaticResource x:Key="NavigationBarMainCommandForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="NavigationBarForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="NavigationBarBackground" ResourceKey="SurfaceBrush" />
-			<Thickness x:Key="NavigationBarPadding">4,0,0,0</Thickness>
+			<StaticResource x:Key="NavigationBarPadding" ResourceKey="Space100LeftThickness" />
 			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="SimpleFontFamily" />
 			<FontWeight x:Key="NavigationBarFontWeight">Normal</FontWeight>
 			<x:Double x:Key="NavigationBarFontSize">24</x:Double>
@@ -65,9 +65,9 @@
 			<StaticResource x:Key="PrimaryModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
 
 			<x:Double x:Key="NavigationBarElevation">0</x:Double>
-			<x:Double x:Key="XamlNavigationBarHeight">64</x:Double>
-			<x:Double x:Key="NavigationBarHeight">64</x:Double>
-			<Thickness x:Key="NavigationBarContentMargin">16,0</Thickness>
+			<StaticResource x:Key="XamlNavigationBarHeight" ResourceKey="Space1600" />
+			<StaticResource x:Key="NavigationBarHeight" ResourceKey="Space1600" />
+			<StaticResource x:Key="NavigationBarContentMargin" ResourceKey="Space400HorizontalThickness" />
 			<Thickness x:Key="AppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
 
 			<StaticResource x:Key="NavigationBarEllipsisButtonFontFamily" ResourceKey="SimpleFontFamily" />
@@ -75,9 +75,9 @@
 			<StaticResource x:Key="NavigationBarEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
 			<StaticResource x:Key="NavigationBarEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
 
-			<x:Double x:Key="NavBarAppBarButtonContentHeight">16</x:Double>
-			<x:Double x:Key="NavBarMainCommandAppBarButtonContentHeight">24</x:Double>
-			<x:Double x:Key="NavBarAppBarThemeCompactHeight">64</x:Double>
+			<StaticResource x:Key="NavBarAppBarButtonContentHeight" ResourceKey="IconSizeSmall" />
+			<StaticResource x:Key="NavBarMainCommandAppBarButtonContentHeight" ResourceKey="IconSizeMedium" />
+			<StaticResource x:Key="NavBarAppBarThemeCompactHeight" ResourceKey="Space1600" />
 			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
 			<Visibility x:Key="NavBarAppBarButtonHasFlyoutChevronVisibility">Collapsed</Visibility>
 			<x:String x:Key="NavigationBarBackIconData">M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z</x:String>
@@ -92,7 +92,7 @@
 			<StaticResource x:Key="NavigationBarMainCommandForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="NavigationBarForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="NavigationBarBackground" ResourceKey="SurfaceBrush" />
-			<Thickness x:Key="NavigationBarPadding">4,0,0,0</Thickness>
+			<StaticResource x:Key="NavigationBarPadding" ResourceKey="Space100LeftThickness" />
 			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="SimpleFontFamily" />
 			<FontWeight x:Key="NavigationBarFontWeight">Normal</FontWeight>
 			<x:Double x:Key="NavigationBarFontSize">24</x:Double>
@@ -124,9 +124,9 @@
 			<StaticResource x:Key="PrimaryModalNavigationBarBackground" ResourceKey="NavigationBarBackground" />
 
 			<x:Double x:Key="NavigationBarElevation">0</x:Double>
-			<x:Double x:Key="XamlNavigationBarHeight">64</x:Double>
-			<x:Double x:Key="NavigationBarHeight">64</x:Double>
-			<Thickness x:Key="NavigationBarContentMargin">16,0</Thickness>
+			<StaticResource x:Key="XamlNavigationBarHeight" ResourceKey="Space1600" />
+			<StaticResource x:Key="NavigationBarHeight" ResourceKey="Space1600" />
+			<StaticResource x:Key="NavigationBarContentMargin" ResourceKey="Space400HorizontalThickness" />
 			<Thickness x:Key="AppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
 
 			<StaticResource x:Key="NavigationBarEllipsisButtonFontFamily" ResourceKey="SimpleFontFamily" />
@@ -134,9 +134,9 @@
 			<StaticResource x:Key="NavigationBarEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
 			<StaticResource x:Key="NavigationBarEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
 
-			<x:Double x:Key="NavBarAppBarButtonContentHeight">16</x:Double>
-			<x:Double x:Key="NavBarMainCommandAppBarButtonContentHeight">24</x:Double>
-			<x:Double x:Key="NavBarAppBarThemeCompactHeight">64</x:Double>
+			<StaticResource x:Key="NavBarAppBarButtonContentHeight" ResourceKey="IconSizeSmall" />
+			<StaticResource x:Key="NavBarMainCommandAppBarButtonContentHeight" ResourceKey="IconSizeMedium" />
+			<StaticResource x:Key="NavBarAppBarThemeCompactHeight" ResourceKey="Space1600" />
 			<Thickness x:Key="NavBarAppBarButtonPadding">12,16,12,16</Thickness>
 			<Visibility x:Key="NavBarAppBarButtonHasFlyoutChevronVisibility">Collapsed</Visibility>
 			<x:String x:Key="NavigationBarBackIconData">M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z</x:String>
@@ -177,7 +177,7 @@
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							Orientation="Vertical"
-							Spacing="8">
+							Spacing="{ThemeResource Space200}">
 							<!--  Icon content wrapped in Viewbox (shown when Icon is set)  -->
 							<Viewbox
 								x:Name="ContentViewbox"
@@ -1264,7 +1264,7 @@
 			<!--  Setting Content to null to avoid the implicit binding to Content on the NativeNavigationBarPresenter  -->
 			<utu:NativeNavigationBarPresenter
 				x:Name="NavigationBarPresenter"
-				Height="44"
+				Height="{ThemeResource ControlHeightMediumLarge}"
 				Content="{x:Null}" />
 		</Border>
 	</ios:ControlTemplate>
