@@ -25,11 +25,13 @@ Uno Toolkit 9.0 takes a dependency on Uno Themes 7.0, which introduces seed-base
 
     This only affects code that merged these dictionaries directly by URI. Apps using `<MaterialToolkitTheme/>` or `<SimpleToolkitTheme/>` are unaffected.
 
-3. `MaterialToolkitTheme` and new `SimpleToolkitTheme` inherit from their underlying theme
+3. `BaseToolkitTheme` removed — toolkit themes inherit from their underlying theme directly
 
-    Previously `MaterialToolkitTheme` derived from `ResourceDictionary` and instantiated `MaterialTheme` internally as a merged dictionary. It now derives from `MaterialTheme` directly, and the new `SimpleToolkitTheme` derives from `SimpleTheme`. The override dependency properties (`FontOverrideSource`, `ColorOverrideSource`, `FontOverrideDictionary`, `ColorOverrideDictionary`) are now inherited from `BaseTheme` in Uno Themes.
+    The abstract `BaseToolkitTheme` class has been removed. `MaterialToolkitTheme` now derives from `MaterialTheme` directly, and `SimpleToolkitTheme` derives from `SimpleTheme`. The override dependency properties (`FontOverrideSource`, `ColorOverrideSource`, `FontOverrideDictionary`, `ColorOverrideDictionary`) are now inherited from `BaseTheme` in Uno Themes.
 
-    Source-compatible for normal XAML and C# usage — no changes required if you set these properties via XAML attributes or the standard property accessors. Reflection-based code that asserts the inheritance chain (e.g. `typeof(MaterialToolkitTheme).BaseType == typeof(ResourceDictionary)`) will need to walk the chain instead.
+    **If you derived from `BaseToolkitTheme`**: change your base class to `MaterialTheme` or `SimpleTheme` (from `Uno.Themes`) as appropriate, then override `GenerateSpecificResources()` to merge your toolkit resources.
+
+    Source-compatible for normal XAML and C# usage — no changes required if you set these properties via XAML attributes or the standard property accessors. Reflection-based code that asserts the inheritance chain (e.g. `typeof(MaterialToolkitTheme).BaseType == typeof(BaseToolkitTheme)`) will need to walk the chain instead.
 
     > [!IMPORTANT]
     > Because `MaterialToolkitTheme` is now also a `MaterialTheme`, do not initialize both `<MaterialTheme/>` and `<MaterialToolkitTheme/>` in the same `App.xaml` — that would cause duplicate theme initialization. The same applies to `<SimpleTheme/>` and `<SimpleToolkitTheme/>`. The toolkit theme already initializes the underlying theme.
@@ -62,7 +64,7 @@ Uno Toolkit 9.0 takes a dependency on Uno Themes 7.0, which introduces seed-base
 
     | Property              | Type      | Default   | Description                                                                                                                                         |
     |-----------------------|-----------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-    | `DefaultDensity`      | `Density` | `Regular` | Drives the base spacing unit used by `Space*` tokens. Accepted values: `Compact` (3 px), `Regular` (4 px), `Comfy` (5 px). Control heights and icon sizes are unchanged across densities. |
+    | `DefaultDensity`      | `Density` | `Regular` | Drives the base spacing unit used by `Space*` tokens. Accepted values: `Compact` (3 px), `Regular` (4 px), `Comfy` (5 px). Fixed tokens (`ControlHeight*`, `IconSize*`) remain constant; `Space*`-based dimensions (padding, margins, some heights like NavigationBar) scale with density. |
     | `DefaultCornerRadius` | `double`  | `4`       | Base corner radius unit (in pixels). All `Radius*` tokens are computed as multiples of this. `RadiusFull` always remains `9999`.                    |
 
     ```xml

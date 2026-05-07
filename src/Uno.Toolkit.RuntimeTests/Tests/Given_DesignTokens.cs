@@ -19,32 +19,25 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 [TestClass]
 public class Given_DesignTokens
 {
-	// ─────────────────────────────────────────────────────────────────────
-	// Helpers
-	// ─────────────────────────────────────────────────────────────────────
+	#region Default Density
 
-	private static (Grid container, MaterialToolkitTheme theme) CreateThemedContainer()
+	[TestMethod]
+	[RunsOnUIThread]
+	public void When_DefaultDensity_Then_SpacingBaseIsFour()
 	{
-		var theme = new MaterialToolkitTheme();
-		var container = new Grid();
-		container.Resources.MergedDictionaries.Add(theme);
-		return (container, theme);
+		var (container, theme) = CreateThemedContainer();
+
+		// Default density should be Regular (int value 4), giving spacing base=4.
+		// Validate via Space100 which equals base×1.
+		Assert.AreEqual((int)theme.DefaultDensity, 4,
+			"Default density should be Regular (4)");
+		Assert.AreEqual(4.0, GetResource<double>(container, "Space100"), 0.001,
+			"Space100 should be 4 (base=4 × 1), confirming spacing base=4");
 	}
 
-	private static T GetResource<T>(Grid container, string key)
-	{
-		if (container.Resources.TryGetValue(key, out var value) && value is T typed)
-		{
-			return typed;
-		}
+	#endregion
 
-		Assert.Fail($"Resource '{key}' not found or not of type {typeof(T).Name}");
-		return default!;
-	}
-
-	// ═══════════════════════════════════════════════════════════════════════
-	// 1. CARD — padding and corner radius reference design tokens
-	// ═══════════════════════════════════════════════════════════════════════
+	#region Card
 
 	[TestMethod]
 	[RunsOnUIThread]
@@ -79,9 +72,9 @@ public class Given_DesignTokens
 			"CardElevationMargin should be Space150Thickness (6) at Regular density");
 	}
 
-	// ═══════════════════════════════════════════════════════════════════════
-	// 2. CHIP — height, corner radius, padding, margins reference tokens
-	// ═══════════════════════════════════════════════════════════════════════
+	#endregion
+
+	#region Chip
 
 	[TestMethod]
 	[RunsOnUIThread]
@@ -147,9 +140,9 @@ public class Given_DesignTokens
 			"ChipContentMinHeight should be Space500 (20) at Regular density");
 	}
 
-	// ═══════════════════════════════════════════════════════════════════════
-	// 3. NAVIGATION BAR — heights and icon sizes reference tokens
-	// ═══════════════════════════════════════════════════════════════════════
+	#endregion
+
+	#region NavigationBar
 
 	[TestMethod]
 	[RunsOnUIThread]
@@ -208,9 +201,9 @@ public class Given_DesignTokens
 			"NavBarAppBarThemeCompactHeight should be Space1600 (64)");
 	}
 
-	// ═══════════════════════════════════════════════════════════════════════
-	// 4. TAB BAR — heights reference design tokens
-	// ═══════════════════════════════════════════════════════════════════════
+	#endregion
+
+	#region TabBar
 
 	[TestMethod]
 	[RunsOnUIThread]
@@ -286,9 +279,9 @@ public class Given_DesignTokens
 		Assert.AreEqual(new Thickness(20), GetResource<Thickness>(container, "FabTabBarItemPadding"));
 	}
 
-	// ═══════════════════════════════════════════════════════════════════════
-	// 4b. DIVIDER — sub-header margin references design tokens
-	// ═══════════════════════════════════════════════════════════════════════
+	#endregion
+
+	#region Divider
 
 	[TestMethod]
 	[RunsOnUIThread]
@@ -301,9 +294,9 @@ public class Given_DesignTokens
 			"DividerSubHeaderMargin should be Space100TopThickness (0,4,0,0)");
 	}
 
-	// ═══════════════════════════════════════════════════════════════════════
-	// 5. FIXED TOKENS — control heights and icon sizes are density-invariant
-	// ═══════════════════════════════════════════════════════════════════════
+	#endregion
+
+	#region Density Invariance
 
 	[TestMethod]
 	[RunsOnUIThread]
@@ -331,14 +324,17 @@ public class Given_DesignTokens
 			"NavBarMainCommandAppBarButtonContentHeight (IconSizeMedium) should be 24 at all densities");
 	}
 
-	// ═══════════════════════════════════════════════════════════════════════
-	// 6. INTEGRATION — rendered controls use design token values
-	// ═══════════════════════════════════════════════════════════════════════
+	#endregion
+
+	#region Integration — Rendered Controls
 
 	[TestMethod]
 	[RunsOnUIThread]
 	public async Task When_CardRendered_Then_PaddingAndCornerRadiusFromTokens()
 	{
+		if (!Application.Current.Resources.ContainsKey("MaterialFilledCardStyle"))
+			Assert.Inconclusive("MaterialFilledCardStyle not available — run in Material sample app");
+
 		var card = XamlHelper.LoadXaml<Card>("""
 			<utu:Card Style="{StaticResource MaterialFilledCardStyle}" />
 		""");
@@ -358,6 +354,9 @@ public class Given_DesignTokens
 	[RunsOnUIThread]
 	public async Task When_ChipRendered_Then_CornerRadiusAndPaddingFromTokens()
 	{
+		if (!Application.Current.Resources.ContainsKey("MaterialChipStyle"))
+			Assert.Inconclusive("MaterialChipStyle not available — run in Material sample app");
+
 		var chip = XamlHelper.LoadXaml<Chip>("""
 			<utu:Chip Style="{StaticResource MaterialChipStyle}" Content="Test" />
 		""");
@@ -377,6 +376,9 @@ public class Given_DesignTokens
 	[RunsOnUIThread]
 	public async Task When_TopTabBarRendered_Then_MinHeightFromToken()
 	{
+		if (!Application.Current.Resources.ContainsKey("MaterialTopTabBarStyle"))
+			Assert.Inconclusive("MaterialTopTabBarStyle not available — run in Material sample app");
+
 		var tabBar = XamlHelper.LoadXaml<TabBar>("""
 			<utu:TabBar Style="{StaticResource MaterialTopTabBarStyle}">
 				<utu:TabBarItem Content="Tab1" />
@@ -389,5 +391,30 @@ public class Given_DesignTokens
 		Assert.AreEqual(48.0, tabBar.MinHeight, 0.001,
 			"Rendered TabBar.MinHeight should be ControlHeightLarge (48)");
 	}
+
+	#endregion
+
+	#region Helpers
+
+	private static (Grid container, MaterialToolkitTheme theme) CreateThemedContainer()
+	{
+		var theme = new MaterialToolkitTheme();
+		var container = new Grid();
+		container.Resources.MergedDictionaries.Add(theme);
+		return (container, theme);
+	}
+
+	private static T GetResource<T>(Grid container, string key)
+	{
+		if (container.Resources.TryGetValue(key, out var value) && value is T typed)
+		{
+			return typed;
+		}
+
+		Assert.Fail($"Resource '{key}' not found or not of type {typeof(T).Name}");
+		return default!;
+	}
+
+	#endregion
 }
 
