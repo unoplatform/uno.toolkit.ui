@@ -29,10 +29,12 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 
 #### Properties
 
-| Property              | Type     | Description                                                                                                                                                                            |
-|-----------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ColorOverrideSource` | `string` | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material Color resources      |
-| `FontOverrideSource`  | `string` | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material FontFamily resources |
+| Property              | Type      | Description                                                                                                                                                                            |
+|-----------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ColorOverrideSource` | `string`  | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material Color resources      |
+| `FontOverrideSource`  | `string`  | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material FontFamily resources |
+| `DefaultDensity`      | `Density` | (Optional) Gets or sets the density preset that drives the base spacing unit used by all `Space*` tokens. Default is `Regular`. Accepted values are `Compact` (3 px), `Regular` (4 px), and `Comfy` (5 px). |
+| `DefaultCornerRadius` | `double`  | (Optional) Gets or sets the base corner radius unit (in pixels) used to compute all shape scale tokens (`Radius100`, `Radius200`, …) as multiples of this value. Default is `4`. |
 
 ## Installation
 
