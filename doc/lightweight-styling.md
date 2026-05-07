@@ -55,6 +55,9 @@ All Lightweight Styling resource keys can also be used in C# Markup through a co
 
 ## Resource Keys
 
+> [!NOTE]
+> Many dimension-based resource keys (padding, margins, corner radii, heights) are now backed by [design tokens](design-tokens.md) that adjust automatically with `DefaultDensity` and `DefaultCornerRadius`. See the **Design Token** column in each control's table below.
+
 For more information about the lightweight styling resource keys used in each control, check out the following links:
 
 - [Card](controls/CardAndCardContentControl.md#lightweight-styling)

@@ -91,22 +91,25 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
-| Key                                    | Type              | Value                               |
-|----------------------------------------|-------------------|-------------------------------------|
-| `ChipContentMinHeight`                 | `Double`          | 20                                  |
-| `ChipDeleteIconContainerLength`        | `Double`          | 18                                  |
-| `ChipDeleteIconLength`                 | `Double`          | 11                                  |
-| `ChipElevation`                        | `Double`          | 4                                   |
-| `ChipElevationDisabled`                | `Double`          | 0                                   |
-| `ChipHeight`                           | `Double`          | 32                                  |
-| `ChipIconSize`                         | `Double`          | 18                                  |
-| `ChipSize`                             | `Double`          | 12                                  |
-| `ChipCornerRadius`                     | `CornerRadius`    | 8                                   |
-| `ChipBorderThickness`                  | `Thickness`       | 1                                   |
-| `ChipContentMargin`                    | `Thickness`       | 8,0                                 |
-| `ChipElevationBorderThickness`         | `Thickness`       | 0                                   |
-| `ChipElevationMargin`                  | `Thickness`       | 4                                   |
-| `ChipPadding`                          | `Thickness`       | 8,0                                 |
+> [!TIP]
+> Values marked with a design token name adjust automatically when you change `DefaultDensity` or `DefaultCornerRadius`. See [Design Tokens](../design-tokens.md) for details.
+
+| Key                                    | Type              | Value (Regular) | Design Token                 |
+|----------------------------------------|-------------------|:---------------:|------------------------------|
+| `ChipContentMinHeight`                 | `Double`          | 20              | `Space500`                   |
+| `ChipDeleteIconContainerLength`        | `Double`          | 18              |                              |
+| `ChipDeleteIconLength`                 | `Double`          | 11              |                              |
+| `ChipElevation`                        | `Double`          | 4               |                              |
+| `ChipElevationDisabled`                | `Double`          | 0               |                              |
+| `ChipHeight`                           | `Double`          | 32              | `ControlHeightSmall`         |
+| `ChipIconSize`                         | `Double`          | 18              |                              |
+| `ChipSize`                             | `Double`          | 12              | `Space300`                   |
+| `ChipCornerRadius`                     | `CornerRadius`    | 8               | `Radius200CornerRadius`      |
+| `ChipBorderThickness`                  | `Thickness`       | 1               |                              |
+| `ChipContentMargin`                    | `Thickness`       | 8,0             | `Space200HorizontalThickness`|
+| `ChipElevationBorderThickness`         | `Thickness`       | 0               |                              |
+| `ChipElevationMargin`                  | `Thickness`       | 4               | `Space100Thickness`          |
+| `ChipPadding`                          | `Thickness`       | 8,0             | `Space200HorizontalThickness`|
 | `ChipBackground`                       | `SolidColorBrush` | `SystemControlTransparentBrush`     |
 | `ChipBackgroundPointerOver`            | `SolidColorBrush` | `SystemControlTransparentBrush`     |
 | `ChipBackgroundFocused`                | `SolidColorBrush` | `SystemControlTransparentBrush`     |

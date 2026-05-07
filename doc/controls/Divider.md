@@ -14,16 +14,19 @@ A divider is a thin line that groups content in lists and layouts.
 
 ## Lightweight Styling
 
-| Key                              | Type                 | Value                       |
-|------------------------------------|--------------------|-----------------------------|
-| `DividerForeground`                | `SolidColorBrush`  | `OutlineVariantBrush`       |
-| `DividerSubHeaderForeground`       | `SolidColorBrush`  | `OnSurfaceLowBrush`         |
-| `DividerSubHeaderFontFamily`       | `FontFamily`       | `BodySmallFontFamily`       |
-| `DividerSubHeaderFontWeight`       | `FontWeight`       | `BodySmallFontWeight`       |
-| `DividerSubHeaderFontSize`         | `FontSize`         | `BodySmallFontSize`         |
-| `DividerSubHeaderCharacterSpacing` | `CharacterSpacing` | `BodySmallCharacterSpacing` |
-| `DividerSubHeaderMargin`           | `Thickness`        | `0,4,0,0`                   |
-| `DividerHeight`                    | `Double`           | `1`                         |
+> [!TIP]
+> Values marked with a design token name adjust automatically when you change `DefaultDensity` or `DefaultCornerRadius`. See [Design Tokens](../design-tokens.md) for details.
+
+| Key                              | Type                 | Value (Regular)             | Design Token            |
+|------------------------------------|--------------------|-----------------------------|-------------------------|
+| `DividerForeground`                | `SolidColorBrush`  | `OutlineVariantBrush`       |                         |
+| `DividerSubHeaderForeground`       | `SolidColorBrush`  | `OnSurfaceLowBrush`         |                         |
+| `DividerSubHeaderFontFamily`       | `FontFamily`       | `BodySmallFontFamily`       |                         |
+| `DividerSubHeaderFontWeight`       | `FontWeight`       | `BodySmallFontWeight`       |                         |
+| `DividerSubHeaderFontSize`         | `FontSize`         | `BodySmallFontSize`         |                         |
+| `DividerSubHeaderCharacterSpacing` | `CharacterSpacing` | `BodySmallCharacterSpacing` |                         |
+| `DividerSubHeaderMargin`           | `Thickness`        | `0,4,0,0`                   | `Space100TopThickness`  |
+| `DividerHeight`                    | `Double`           | `1`                         |                         |
 
 ## Usage
 
