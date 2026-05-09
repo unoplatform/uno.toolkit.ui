@@ -6,19 +6,19 @@ Three PRs form a progressive fix chain for a race condition in `SafeArea.UpdateI
 
 | PR | Issue | Platform | Problem | Fix |
 |----|-------|----------|---------|-----|
-| [#1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554) | [dispatchscience-private#74](https://github.com/unoplatform/dispatchscience-private/issues/74) | Android | Inflated bottom inset during StatusBar translucency transition | Added bounds-transition deferral guard + `Math.Max(0,…)` clamping |
-| [#1572](https://github.com/unoplatform/uno.toolkit.ui/pull/1572) | [kahua-private#458](https://github.com/unoplatform/kahua-private/issues/458) | iOS (iPad) | Infinite dispatcher loop after FormSheet modal dismiss | Restricted guard to `OperatingSystem.IsAndroid()` |
-| [#1593](https://github.com/unoplatform/uno.toolkit.ui/pull/1593) | [kahua-private#460](https://github.com/unoplatform/kahua-private/issues/460) | Android | Dispatcher starvation on lock/unlock (Low-priority queue starved) | Converted infinite re-deferral to one-shot accept-and-proceed |
+| [#1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554) | [`dispatchscience-private#74`](https://github.com/unoplatform/dispatchscience-private/issues/74) | Android | Inflated bottom inset during `StatusBar` translucency transition | Added bounds-transition deferral guard + `Math.Max(0,…)` clamping |
+| [#1572](https://github.com/unoplatform/uno.toolkit.ui/pull/1572) | [`kahua-private#458`](https://github.com/unoplatform/kahua-private/issues/458) | iOS (iPad) | Infinite dispatcher loop after `FormSheet` modal dismiss | Restricted guard to `OperatingSystem.IsAndroid()` |
+| [#1593](https://github.com/unoplatform/uno.toolkit.ui/pull/1593) | [`kahua-private#460`](https://github.com/unoplatform/kahua-private/issues/460) | Android | Dispatcher starvation on lock/unlock (Low-priority queue starved) | Converted infinite re-deferral to one-shot accept-and-proceed |
 
 ---
 
 ## Problem Chain
 
-### Original Problem ([dispatchscience-private#74](https://github.com/unoplatform/dispatchscience-private/issues/74))
+### Original Problem ([`dispatchscience-private#74`](https://github.com/unoplatform/dispatchscience-private/issues/74))
 
 **Scenario:** Android app with `SafeArea.Insets="VisibleBounds"` on a layout containing a `TabBar` in an Auto-height Grid row. User sets `StatusBar.Background` to a translucent color.
 
-**Root cause:** During the StatusBar translucency transition, `ApplicationView.VisibleBounds` updates to reflect the new translucent-bar coordinates *before* `Window.Bounds` updates. `GetWindowInsets()` computes `Bounds.Bottom - VisibleBounds.Bottom` against the stale (smaller) `Bounds`, producing an inflated bottom inset (~75.8px vs expected ~24px). This inflated value is applied as padding to the TabBar's Auto-sized row, permanently stretching it.
+**Root cause:** During the `StatusBar` translucency transition, `ApplicationView.VisibleBounds` updates to reflect the new translucent-bar coordinates *before* `Window.Bounds` updates. `GetWindowInsets()` computes `Bounds.Bottom - VisibleBounds.Bottom` against the stale (smaller) `Bounds`, producing an inflated bottom inset (~75.8px vs expected ~24px). This inflated value is applied as padding to the TabBar's Auto-sized row, permanently stretching it.
 
 **Fix ([PR #1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554)):**
 
@@ -30,11 +30,11 @@ Three PRs form a progressive fix chain for a race condition in `SafeArea.UpdateI
 3. Added parent `InvalidateMeasure()` in `OnInsetsApplied` for Android.
 4. The guard was **not platform-restricted** — it ran on all platforms.
 
-### First Regression ([kahua-private#458](https://github.com/unoplatform/kahua-private/issues/458))
+### First Regression ([`kahua-private#458`](https://github.com/unoplatform/kahua-private/issues/458))
 
-**Scenario:** iPad app with `SafeArea.Insets="VisibleBounds"`. User opens a `UIImagePickerController` presented as `FormSheet`/`OverFullScreen`. After dismissing the modal, taps, buttons, and back-navigation stop responding. Scroll (UIKit gesture recognizers) continues to work.
+**Scenario:** iPad app with `SafeArea.Insets="VisibleBounds"`. User opens a `UIImagePickerController` presented as `FormSheet`/`OverFullScreen`. After dismissing the modal, taps, buttons, and back-navigation stop responding. Scroll (`UIKit` gesture recognizers) continues to work.
 
-**Root cause:** On iPad, dismissing a FormSheet modal causes `VisibleBounds` to update while `Window.Bounds` stays stable — the host view was never detached, so Bounds has no reason to change. [PR #1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554)'s guard enters Branch 2 (defer), then Branch 1 fires on the deferred callback and **re-defers indefinitely** because `boundsChanged` is perpetually `false`. This infinite `Normal`-priority dispatch loop live-locks the managed `DispatcherQueue`, starving all input handling.
+**Root cause:** On iPad, dismissing a `FormSheet` modal causes `VisibleBounds` to update while `Window.Bounds` stays stable — the host view was never detached, so Bounds has no reason to change. [PR #1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554)'s guard enters Branch 2 (defer), then Branch 1 fires on the deferred callback and **re-defers indefinitely** because `boundsChanged` is perpetually `false`. This infinite `Normal`-priority dispatch loop live-locks the managed `DispatcherQueue`, starving all input handling.
 
 **Fix ([PR #1572](https://github.com/unoplatform/uno.toolkit.ui/pull/1572)):**
 
@@ -46,7 +46,7 @@ Changed the guard condition from `if (!HasSoftInput())` to `if (!HasSoftInput() 
 - Added test `BoundsTransitionGuard_NotActive_OnNonAndroid`.
 - Added sample page `CameraSafeAreaTestPage` for iPad manual repro.
 
-### Second Regression ([kahua-private#460](https://github.com/unoplatform/kahua-private/issues/460))
+### Second Regression ([`kahua-private#460`](https://github.com/unoplatform/kahua-private/issues/460))
 
 **Scenario:** Android app with `SafeArea.Insets="VisibleBounds"`. User locks and unlocks the device. After unlock, low-priority `DispatcherQueue` items (e.g., timer-based updates, deferred navigation) stop executing.
 
@@ -96,7 +96,7 @@ When both conditions hold, `s_boundsTransitionPending` is set but never cleared,
 
 ### [PR #1593](https://github.com/unoplatform/uno.toolkit.ui/pull/1593) vs [PR #1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554) (inflated bottom inset)
 
-**No regression.** The StatusBar translucency transition scenario works as follows:
+**No regression.** The `StatusBar` translucency transition scenario works as follows:
 
 1. VB changes → Branch 2 fires → defers once (unchanged by [PR #1593](https://github.com/unoplatform/uno.toolkit.ui/pull/1593)).
 2. On the deferred callback, either:
@@ -162,7 +162,7 @@ UpdateInsets() called
 
 ### Manual Repro Page
 
-`CameraSafeAreaTestPage` (added by [PR #1572](https://github.com/unoplatform/uno.toolkit.ui/pull/1572)): iPad-only page with a `UIImagePickerController` FormSheet to manually verify tap counter remains responsive after modal dismiss.
+`CameraSafeAreaTestPage` (added by [PR #1572](https://github.com/unoplatform/uno.toolkit.ui/pull/1572)): iPad-only page with a `UIImagePickerController` `FormSheet` to manually verify tap counter remains responsive after modal dismiss.
 
 ---
 
