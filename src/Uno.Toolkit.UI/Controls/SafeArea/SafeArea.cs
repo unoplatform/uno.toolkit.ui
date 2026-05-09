@@ -467,28 +467,42 @@ namespace Uno.Toolkit.UI
 					return;
 				}
 
-				// Detect race condition: VisibleBounds updated before Window.Bounds.
+				// ──────────────────────────────────────────────────────────────────
+				// Bounds-transition guard — Android-only deferral for VisibleBounds /
+				// Window.Bounds race condition.
 				//
-				// On Android, StatusBar translucency transitions can cause
-				// ApplicationView.VisibleBounds to update before Window.Bounds, which leads
-				// GetWindowInsets() to compute an inflated bottom inset against the stale
-				// Bounds and permanently stretch Auto-sized rows. Deferring the inset
-				// computation until Window.Bounds catches up resolves that.
-				// (See PR #1554 / dispatchscience-private#74.)
+				// Full R&D recap: specs/safearea-bounds-guard/recap.md
 				//
-				// The guard is restricted to Android at runtime because the same shape of
-				// state — VisibleBounds changes while Window.Bounds stays stable — arises
-				// naturally on iPad after a UIImagePickerController-style FormSheet /
-				// OverFullScreen modal dismisses. There, Window.Bounds will never catch up
-				// (iOS keeps the host view attached and the modal did not change Bounds),
-				// so the deferred UpdateInsets call reschedules itself indefinitely on the
-				// DispatcherQueue and live-locks managed input handling — scroll continues
-				// to work because UIKit gesture recognizers route at the native layer, but
-				// taps/buttons/back-nav stop responding.
+				// Three issues drove this guard through successive fixes:
+				//
+				//   1. https://github.com/unoplatform/dispatchscience-private/issues/74 → PR https://github.com/unoplatform/uno.toolkit.ui/pull/1554
+				//      Android: StatusBar translucency transitions cause VisibleBounds to
+				//      update before Window.Bounds, making GetWindowInsets() compute an
+				//      inflated bottom inset against the stale Bounds and permanently
+				//      stretching Auto-sized rows. Fix: defer the inset computation until
+				//      Window.Bounds catches up (Branch 2 below), then re-check (Branch 1).
+				//
+				//   2. https://github.com/unoplatform/kahua-private/issues/458 → PR https://github.com/unoplatform/uno.toolkit.ui/pull/1572
+				//      iPad: the same VisibleBounds-changes-without-Bounds-changing shape
+				//      occurs naturally after a UIImagePickerController FormSheet /
+				//      OverFullScreen modal dismisses (iOS keeps the host view attached, so
+				//      Window.Bounds never catches up). The original Branch 1 re-deferred
+				//      infinitely at Normal priority, live-locking managed input handling
+				//      (scroll still worked via native UIKit gesture recognizers, but taps /
+				//      buttons / back-nav stopped responding). Fix: restrict the entire
+				//      guard to Android via `OperatingSystem.IsAndroid()`.
+				//
+				//   3. https://github.com/unoplatform/kahua-private/issues/460 → PR https://github.com/unoplatform/uno.toolkit.ui/pull/1593
+				//      Android: on some devices/OEM skins, Window.Bounds genuinely never
+				//      changes during lock/unlock — only VisibleBounds shifts. The original
+				//      Branch 1 kept re-deferring at Normal priority, starving Low-priority
+				//      DispatcherQueue work. Fix: convert Branch 1 from re-defer to
+				//      accept-and-proceed (one-shot pattern).
 				//
 				// `OperatingSystem.IsAndroid()` (vs `#if __ANDROID__`) is required so the
 				// guard remains active for Skia Android builds (`net9.0` TFM without the
 				// `__ANDROID__` define).
+				// ──────────────────────────────────────────────────────────────────
 				if (!HasSoftInput() && OperatingSystem.IsAndroid())
 				{
 					var currentBounds = XamlWindow.Current?.Bounds ?? Rect.Empty;
@@ -499,26 +513,37 @@ namespace Uno.Toolkit.UI
 
 					if (s_boundsTransitionPending && !boundsChanged)
 					{
-						// A previous instance already detected a transition in progress and
-						// Window.Bounds still hasn't caught up — defer this instance too.
-						Owner?.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
-						return;
+						// Branch 1 — accept-and-proceed (one-shot).
+						// We already deferred once (Branch 2) and Window.Bounds still hasn't
+						// caught up. Accept current values instead of re-deferring to avoid
+						// an infinite Normal-priority dispatch loop that permanently starves
+						// Low-priority DispatcherQueue items.
+						// Fixed in: https://github.com/unoplatform/uno.toolkit.ui/pull/1593
+						s_boundsTransitionPending = false;
+						s_lastKnownBounds = currentBounds;
+						s_lastKnownVisibleBounds = currentVB;
 					}
-
-					if (s_lastKnownBounds != default
+					else if (s_lastKnownBounds != default
 						&& visibleBoundsChanged
 						&& !boundsChanged)
 					{
-						// VisibleBounds changed but Window.Bounds hasn't caught up yet — defer.
+						// Branch 2 — defer once.
+						// VisibleBounds changed but Window.Bounds hasn't caught up yet.
+						// Defer the inset computation to give Bounds time to settle.
+						// Introduced in: https://github.com/unoplatform/uno.toolkit.ui/pull/1554
 						s_boundsTransitionPending = true;
 						Owner?.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
 						return;
 					}
-
-					// Bounds have caught up (or no transition was pending) — update cached values.
-					s_boundsTransitionPending = false;
-					s_lastKnownBounds = currentBounds;
-					s_lastKnownVisibleBounds = currentVB;
+					else
+					{
+						// Branch 3 — normal path.
+						// Bounds have caught up (or no transition was pending). Update
+						// cached values and proceed with inset computation.
+						s_boundsTransitionPending = false;
+						s_lastKnownBounds = currentBounds;
+						s_lastKnownVisibleBounds = currentVB;
+					}
 				}
 
 				UpdateSafeAreaOverride();

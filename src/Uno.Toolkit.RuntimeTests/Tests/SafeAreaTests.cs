@@ -92,6 +92,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[RequiresFullWindow]
 		public async Task BoundsTransitionGuard_NotActive_OnNonAndroid()
 		{
+			// Guard spec: SafeArea.cs → "Bounds-transition guard" block, gated by
+			//   `!HasSoftInput() && OperatingSystem.IsAndroid()`.
+			// Full R&D recap: specs/safearea-bounds-guard/recap.md
+			//
 			// Regression test for the iPad CameraCaptureUI live-lock (fix/iPadOS.transitions).
 			//
 			// PR #1554 added a Bounds/VisibleBounds-mismatch guard in UpdateInsets() that
@@ -133,6 +137,369 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				Assert.IsFalse(
 					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
 					"Bounds-transition guard must stay gated off on non-Android — otherwise iPad live-locks the managed dispatcher after a FormSheet modal dismisses (see fix/iPadOS.transitions).");
+			}
+			finally
+			{
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = savedBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = savedVisibleBounds;
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = savedPending;
+			}
+		}
+
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task BoundsTransitionGuard_IgnoredForAllStates_OnNonAndroid()
+		{
+			// Guard spec: SafeArea.cs → "Bounds-transition guard" block, gated by
+			//   `!HasSoftInput() && OperatingSystem.IsAndroid()`.
+			// Full R&D recap: specs/safearea-bounds-guard/recap.md
+			//
+			// Complementary to BoundsTransitionGuard_NotActive_OnNonAndroid:
+			// Even if s_boundsTransitionPending is already true (e.g. stale state from a
+			// previous Android-gated execution), the guard block is entirely skipped on
+			// non-Android. The pending flag must remain unchanged — it is never read or
+			// cleared outside the Android guard.
+			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
+			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var details = SafeArea.SafeAreaDetails.FindInstance(grid)
+				?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+			var savedBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownBounds;
+			var savedVisibleBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds;
+			var savedPending = SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending;
+
+			try
+			{
+				var currentBounds = XamlWindow.Current?.Bounds ?? default;
+
+				// Seed a "pending" state that would be handled on Android but must be ignored here.
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = currentBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = true;
+
+				details.TestHook_InvokeUpdateInsets(forceUpdate: false);
+
+				// On non-Android, the guard block is skipped entirely, so the pending flag
+				// stays in whatever state it was seeded with.
+				Assert.IsTrue(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"On non-Android the guard block is entirely skipped — pending flag must stay unchanged.");
+			}
+			finally
+			{
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = savedBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = savedVisibleBounds;
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = savedPending;
+			}
+		}
+#endif
+
+#if DEBUG && __ANDROID__
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task BoundsTransition_DefersOnce_WhenVisibleBoundsChangeAheadOfWindowBounds()
+		{
+			// Guard spec: SafeArea.cs → Branch 2 — defer once.
+			// Introduced in: https://github.com/unoplatform/uno.toolkit.ui/pull/1554
+			// Full R&D recap: specs/safearea-bounds-guard/recap.md
+			//
+			// Branch 2: VisibleBounds changed but Window.Bounds hasn't yet — the guard
+			// must set s_boundsTransitionPending = true and schedule one deferred callback.
+			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
+			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var details = SafeArea.SafeAreaDetails.FindInstance(grid)
+				?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+			var savedBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownBounds;
+			var savedVisibleBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds;
+			var savedPending = SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending;
+
+			try
+			{
+				var currentBounds = XamlWindow.Current?.Bounds ?? default;
+
+				// Seed: Bounds match current (no change), VisibleBounds differ (changed).
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = currentBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = false;
+
+				details.TestHook_InvokeUpdateInsets(forceUpdate: false);
+
+				// Branch 2 fires synchronously: pending flag must be true.
+				Assert.IsTrue(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"Guard must set pending=true when VisibleBounds changed ahead of Window.Bounds.");
+			}
+			finally
+			{
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = savedBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = savedVisibleBounds;
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = savedPending;
+			}
+		}
+
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task BoundsTransition_AcceptsCurrent_AfterSingleDeferral()
+		{
+			// Guard spec: SafeArea.cs → Branch 1 — accept-and-proceed (one-shot).
+			// Fixed in: https://github.com/unoplatform/uno.toolkit.ui/pull/1593
+			// Full R&D recap: specs/safearea-bounds-guard/recap.md
+			//
+			// Branch 1 — THE KEY FIX: After one deferral, if Bounds still hasn't caught up,
+			// the guard must accept current values and clear pending instead of re-deferring
+			// indefinitely (which would starve DispatcherQueue Low-priority items).
+			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
+			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var details = SafeArea.SafeAreaDetails.FindInstance(grid)
+				?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+			var savedBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownBounds;
+			var savedVisibleBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds;
+			var savedPending = SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending;
+
+			try
+			{
+				var currentBounds = XamlWindow.Current?.Bounds ?? default;
+
+				// Seed: pending=true (already deferred once), Bounds match current (no change).
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = currentBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = true;
+
+				details.TestHook_InvokeUpdateInsets(forceUpdate: false);
+
+				// Branch 1 must accept and clear pending — no infinite re-deferral.
+				Assert.IsFalse(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"After one deferral, guard must accept current values and clear pending to prevent dispatcher starvation.");
+
+				// Cached values must be updated to the current state.
+				Assert.AreEqual(currentBounds, SafeArea.SafeAreaDetails.TestHook_LastKnownBounds,
+					"LastKnownBounds must be updated to current Window.Bounds after acceptance.");
+
+				var currentVB = ApplicationView.GetForCurrentView().VisibleBounds;
+				Assert.AreEqual(currentVB, SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds,
+					"LastKnownVisibleBounds must be updated to current VisibleBounds after acceptance.");
+			}
+			finally
+			{
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = savedBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = savedVisibleBounds;
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = savedPending;
+			}
+		}
+
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task BoundsTransition_ClearsGuard_WhenBoundsCatchUp()
+		{
+			// Guard spec: SafeArea.cs → Branch 3 — normal path.
+			// Full R&D recap: specs/safearea-bounds-guard/recap.md
+			//
+			// Branch 3: When Bounds change (i.e. they caught up to VisibleBounds), the guard
+			// must clear pending and update cached values — normal flow resumes.
+			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
+			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var details = SafeArea.SafeAreaDetails.FindInstance(grid)
+				?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+			var savedBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownBounds;
+			var savedVisibleBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds;
+			var savedPending = SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending;
+
+			try
+			{
+				var currentBounds = XamlWindow.Current?.Bounds ?? default;
+
+				// Seed: pending=true, but lastKnownBounds differ from current → boundsChanged=true.
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = true;
+
+				details.TestHook_InvokeUpdateInsets(forceUpdate: false);
+
+				// Branch 3: bounds caught up — pending must be cleared and caches updated.
+				Assert.IsFalse(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"Guard must clear pending when Window.Bounds have caught up.");
+				Assert.AreEqual(currentBounds, SafeArea.SafeAreaDetails.TestHook_LastKnownBounds,
+					"LastKnownBounds must be updated when bounds catch up.");
+			}
+			finally
+			{
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = savedBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = savedVisibleBounds;
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = savedPending;
+			}
+		}
+
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task BoundsTransition_NoDeferral_WhenLastKnownBoundsIsDefault()
+		{
+			// Guard spec: SafeArea.cs → Branch 2 edge case (s_lastKnownBounds == default).
+			// Full R&D recap: specs/safearea-bounds-guard/recap.md
+			//
+			// Edge case for Branch 2 guard: s_lastKnownBounds == default means this is the
+			// first ever UpdateInsets call. Even if VisibleBounds changed, no deferral should
+			// occur because there is no "prior state" to compare against.
+			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
+			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var details = SafeArea.SafeAreaDetails.FindInstance(grid)
+				?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+			var savedBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownBounds;
+			var savedVisibleBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds;
+			var savedPending = SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending;
+
+			try
+			{
+				// Seed: lastKnownBounds = default (first run), VB differs from current.
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = default;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = false;
+
+				details.TestHook_InvokeUpdateInsets(forceUpdate: false);
+
+				// Branch 2 condition requires s_lastKnownBounds != default — since it IS default,
+				// we must fall through to Branch 3 (normal update), so no deferral.
+				Assert.IsFalse(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"No deferral should occur on the first-ever UpdateInsets call (lastKnownBounds is default).");
+			}
+			finally
+			{
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = savedBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = savedVisibleBounds;
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = savedPending;
+			}
+		}
+
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task BoundsTransition_FullCycle_DefersOnceThenAccepts()
+		{
+			// Guard spec: SafeArea.cs → Branch 2 → Branch 1 full cycle.
+			// Full R&D recap: specs/safearea-bounds-guard/recap.md
+			//
+			// Integration test: walks through the complete cycle that the fix enables.
+			// Step 1 (Branch 2): VB changed, Bounds didn't → defer once.
+			// Step 2 (Branch 1): Pending, Bounds still unchanged → accept and clear.
+			// This proves the infinite loop is impossible.
+			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
+			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var details = SafeArea.SafeAreaDetails.FindInstance(grid)
+				?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+			var savedBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownBounds;
+			var savedVisibleBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds;
+			var savedPending = SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending;
+
+			try
+			{
+				var currentBounds = XamlWindow.Current?.Bounds ?? default;
+
+				// Step 1: Simulate VB changing while Bounds stays the same.
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = currentBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = false;
+
+				details.TestHook_InvokeUpdateInsets(forceUpdate: false);
+				Assert.IsTrue(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"Step 1: Guard must defer once when VB changed ahead of Bounds.");
+
+				// Step 2: Simulate the deferred callback firing — Bounds still haven't changed.
+				// (In real code, the deferred Schedule() calls UpdateInsets again.)
+				details.TestHook_InvokeUpdateInsets(forceUpdate: true);
+				Assert.IsFalse(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"Step 2: Guard must accept and clear pending after one deferral — no infinite loop.");
+			}
+			finally
+			{
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = savedBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = savedVisibleBounds;
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = savedPending;
+			}
+		}
+
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task BoundsTransition_FullCycle_DefersOnceThenBoundsCatchUp()
+		{
+			// Guard spec: SafeArea.cs → Branch 2 → Branch 3 happy-path cycle.
+			// Full R&D recap: specs/safearea-bounds-guard/recap.md
+			//
+			// Happy-path full cycle (the PR #1554 intended flow):
+			// Step 1 (Branch 2): VB changed, Bounds didn't → defer once.
+			// Step 2 (Branch 3): Bounds caught up → clear pending, update caches, proceed.
+			// This is the translucent StatusBar transition scenario where Window.Bounds
+			// updates one dispatch cycle after VisibleBounds.
+			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
+			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var details = SafeArea.SafeAreaDetails.FindInstance(grid)
+				?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+			var savedBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownBounds;
+			var savedVisibleBounds = SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds;
+			var savedPending = SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending;
+
+			try
+			{
+				var currentBounds = XamlWindow.Current?.Bounds ?? default;
+
+				// Step 1: Simulate VB changing while Bounds stays the same.
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = currentBounds;
+				SafeArea.SafeAreaDetails.TestHook_LastKnownVisibleBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+				SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending = false;
+
+				details.TestHook_InvokeUpdateInsets(forceUpdate: false);
+				Assert.IsTrue(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"Step 1: Guard must defer once when VB changed ahead of Bounds.");
+
+				// Step 2: Simulate Bounds catching up between deferred callbacks.
+				// In reality, Window.Bounds changes → currentBounds differs from cached.
+				// We simulate this by changing the cached value so the comparison yields
+				// boundsChanged=true when XamlWindow.Current?.Bounds is read.
+				SafeArea.SafeAreaDetails.TestHook_LastKnownBounds = new Windows.Foundation.Rect(0, 0, 1, 1);
+
+				details.TestHook_InvokeUpdateInsets(forceUpdate: true);
+				Assert.IsFalse(
+					SafeArea.SafeAreaDetails.TestHook_BoundsTransitionPending,
+					"Step 2: Guard must clear pending when Bounds have caught up.");
+				Assert.AreEqual(currentBounds, SafeArea.SafeAreaDetails.TestHook_LastKnownBounds,
+					"Step 2: LastKnownBounds must be updated to the new Bounds value.");
 			}
 			finally
 			{
@@ -226,6 +593,10 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task BottomInset_NotInflated_WhenTransitioningToTranslucentBars()
 		{
+			// Guard spec: SafeArea.cs → Branch 2 defers to prevent this inflation.
+			// Original fix: https://github.com/unoplatform/uno.toolkit.ui/pull/1554
+			// Full R&D recap: specs/safearea-bounds-guard/recap.md
+			//
 			// Regression test: When transitioning to translucent system bars (e.g., setting StatusBar.Background),
 			// VisibleBounds updates before Window.Bounds, causing the SafeArea to temporarily calculate inflated
 			// bottom insets. This transient inflation can permanently stretch controls in Auto-sized grid rows.
