@@ -37,6 +37,7 @@ jobs:
       foreach ($file in $changedFiles -split "`n") {
         # Identifying changes as documentation:
           $isDoc = $file.StartsWith("doc/") -or               # Files in the 'doc/' directory
+            $file.StartsWith("specs/") -or                    # Files in the 'specs/' directory
             ($file -match "^[^/]+\.md$") -or                  # Markdown files at the root level (with no subdirectories involved)
             ($file -match "^\.github/.*\.md$") -or            # Markdown files within the .github folder (including its subdirectories)
             ($file -match '(^|[\\/])(markdownlint|cspell)\.json$')  # Specific JSON files: .markdownlint.json and cspell.json

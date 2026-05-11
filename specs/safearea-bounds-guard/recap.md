@@ -109,7 +109,7 @@ In the translucency transition, `Window.Bounds` *does* catch up within one dispa
 
 ## Guard Logic (Final State)
 
-```
+```text
 UpdateInsets() called
 │
 ├── HasSoftInput()? ──yes──► Skip guard entirely (keyboard is up)
