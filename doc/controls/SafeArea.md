@@ -29,9 +29,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </Grid>
 
 <!-- or, as a control -->
-<SafeArea Insets="Left,Top,Right,Bottom">
+<utu:SafeArea Insets="Left,Top,Right,Bottom">
     <!-- Content -->
-</SafeArea>
+</utu:SafeArea>
 ```
 
 > [!WARNING]
@@ -61,7 +61,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Using `SafeArea.Insets`
 
-The `InsetMask` enum can represent a single edge/side or it can be composed of multiple values (eg: `InsetMask="Left, Right"`). `InsetMask` has the following available values:
+The `InsetMask` enum can represent a single edge/side or it can be composed of multiple values (eg: `Insets="Left, Right"`). `InsetMask` has the following available values:
 
 - `Left`
 - `Top`
