@@ -24,12 +24,16 @@ namespace Uno.Toolkit.UI.Simple
 		{
 		}
 
-		protected override ResourceDictionary GenerateSpecificResources()
+		protected override void AddThemeSpecificResources()
 		{
-			var dict = base.GenerateSpecificResources();
-			dict.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
-			dict.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitSimplePackageName}/Generated/mergedpages.xaml") });
-			return dict;
+			base.AddThemeSpecificResources();
+
+			// Layer the toolkit's own control styles on top of the generated theme.
+			// A fresh ResourceDictionary is created per call so hot-reload edits to the
+			// underlying XAML propagate, and AddThemeDictionary tracks them so they are
+			// removed and re-added on every rebuild instead of accumulating.
+			AddThemeDictionary(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
+			AddThemeDictionary(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitSimplePackageName}/Generated/mergedpages.xaml") });
 		}
 	}
 }
