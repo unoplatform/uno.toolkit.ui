@@ -1,4 +1,3 @@
-using System;
 using Uno.Simple;
 using Microsoft.UI.Xaml;
 
@@ -12,9 +11,6 @@ namespace Uno.Toolkit.UI.Simple
 	/// </summary>
 	public class SimpleToolkitTheme : SimpleTheme
 	{
-		private const string ToolkitPackageName = "Uno.Toolkit.WinUI";
-		private const string ToolkitSimplePackageName = "Uno.Toolkit.WinUI.Simple";
-
 		public SimpleToolkitTheme() : this(colorOverride: null, fontOverride: null)
 		{
 		}
@@ -24,16 +20,12 @@ namespace Uno.Toolkit.UI.Simple
 		{
 		}
 
-		protected override void AddThemeSpecificResources()
-		{
-			base.AddThemeSpecificResources();
-
-			// Layer the toolkit's own control styles on top of the generated theme.
-			// A fresh ResourceDictionary is created per call so hot-reload edits to the
-			// underlying XAML propagate, and AddThemeDictionary tracks them so they are
-			// removed and re-added on every rebuild instead of accumulating.
-			AddThemeDictionary(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitPackageName}/Generated/mergedpages.xaml") });
-			AddThemeDictionary(new ResourceDictionary { Source = new Uri($"ms-appx:///{ToolkitSimplePackageName}/Generated/mergedpages.xaml") });
-		}
+		/// <summary>
+		/// The combined, static control styles for the Simple toolkit theme. This layers the
+		/// Simple base styles, the toolkit base styles, and the toolkit Simple styles into a
+		/// single source so they are applied once via <see cref="ResourceDictionary.Source"/>,
+		/// rather than re-added on every theme rebuild through the dynamic resource hook.
+		/// </summary>
+		protected override string DefaultStylesSource => "ms-appx:///Uno.Toolkit.WinUI.Simple/Themes/SimpleToolkitStyles.xaml";
 	}
 }
