@@ -369,20 +369,70 @@ namespace Uno.Toolkit.UI
 				UpdateInsets();
 			}
 
+			// Creates a TypedEventHandler that invokes <paramref name="onEvent"/> against a WeakReference
+			// to <paramref name="target"/>, so a process-global event source cannot strongly root the
+			// target. Once the target has been collected the wrapper detaches itself via
+			// <paramref name="detach"/>. onEvent/detach MUST be static (non-capturing) so the returned
+			// delegate captures only the WeakReference — never the target instance.
+			private static TypedEventHandler<TSender, TArgs> CreateWeakHandler<TSender, TArgs>(
+				SafeAreaDetails target,
+				Action<SafeAreaDetails, TSender, TArgs> onEvent,
+				Action<TSender, TypedEventHandler<TSender, TArgs>> detach,
+				out TypedEventHandler<TSender, TArgs> handler)
+				where TSender : class
+			{
+				var weakTarget = new WeakReference<SafeAreaDetails>(target);
+				TypedEventHandler<TSender, TArgs> h = null!;
+				h = (s, e) =>
+				{
+					if (weakTarget.TryGetTarget(out var self))
+					{
+						onEvent(self, s, e);
+					}
+					else
+					{
+						detach(s, h);
+					}
+				};
+				handler = h;
+				return h;
+			}
+
 			private void RegisterEvents()
 			{
-				ApplicationView.GetForCurrentView().VisibleBoundsChanged += OnInsetUpdateRequired;
-				_subscriptions.Add(() => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= OnInsetUpdateRequired);
+				// ApplicationView and InputPane are process-global singletons. Subscribing to their events
+				// with an instance-method delegate makes the singleton strongly root this SafeAreaDetails
+				// (and, through its subscription closures, the owner element). Unregister() undoes this on
+				// the owner's Unloaded — but that event does not fire when the owner's AssemblyLoadContext
+				// is torn down abruptly (e.g. a plugin/preview host unloading a collectible ALC), leaking
+				// the owner and its ALC for the process lifetime. Subscribe weakly so the global singleton
+				// only holds a WeakReference back; the wrapper self-detaches once this instance is collected.
+				var appView = ApplicationView.GetForCurrentView();
+				appView.VisibleBoundsChanged += CreateWeakHandler<ApplicationView, object>(
+					this,
+					static (self, s, e) => self.OnInsetUpdateRequired(s, e),
+					static (s, h) => s.VisibleBoundsChanged -= h,
+					out var appViewHandler);
+				_subscriptions.Add(() => appView.VisibleBoundsChanged -= appViewHandler);
 
 				if (InputPane.GetForCurrentView() is { } inputPane)
 				{
-					inputPane.Showing += OnInputPaneChanged;
-					inputPane.Hiding += OnInputPaneChanged;
+					var inputPaneHandler = CreateWeakHandler<InputPane, InputPaneVisibilityEventArgs>(
+						this,
+						static (self, s, e) => self.OnInputPaneChanged(s, e),
+						static (s, h) =>
+						{
+							s.Showing -= h;
+							s.Hiding -= h;
+						},
+						out _);
+					inputPane.Showing += inputPaneHandler;
+					inputPane.Hiding += inputPaneHandler;
 
 					_subscriptions.Add(() =>
 					{
-						inputPane.Showing -= OnInputPaneChanged;
-						inputPane.Hiding -= OnInputPaneChanged;
+						inputPane.Showing -= inputPaneHandler;
+						inputPane.Hiding -= inputPaneHandler;
 					});
 				}
 
