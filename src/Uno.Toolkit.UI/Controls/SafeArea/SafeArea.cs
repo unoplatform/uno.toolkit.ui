@@ -5,6 +5,7 @@
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Uno.Disposables;
@@ -386,8 +387,8 @@ namespace Uno.Toolkit.UI
 				// its closure display-class would be rooted by the delegate (Target != null) and would
 				// in turn root whatever it captured. Callers must pass static/non-capturing delegates
 				// (Target == null); assert it in DEBUG so an accidental capture is caught during dev.
-				System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-				System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+				Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+				Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
 
 				var weakTarget = new WeakReference<SafeAreaDetails>(target);
 				TypedEventHandler<TSender, TArgs> h = null!;
