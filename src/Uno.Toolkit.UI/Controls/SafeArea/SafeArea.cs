@@ -377,8 +377,7 @@ namespace Uno.Toolkit.UI
 			private static TypedEventHandler<TSender, TArgs> CreateWeakHandler<TSender, TArgs>(
 				SafeAreaDetails target,
 				Action<SafeAreaDetails, TSender, TArgs> onEvent,
-				Action<TSender, TypedEventHandler<TSender, TArgs>> detach,
-				out TypedEventHandler<TSender, TArgs> handler)
+				Action<TSender, TypedEventHandler<TSender, TArgs>> detach)
 				where TSender : class
 			{
 				// The whole point of this wrapper is that the global event singleton holds only a
@@ -404,7 +403,6 @@ namespace Uno.Toolkit.UI
 						detach(s, h);
 					}
 				};
-				handler = h;
 				return h;
 			}
 
@@ -418,11 +416,11 @@ namespace Uno.Toolkit.UI
 				// the owner and its ALC for the process lifetime. Subscribe weakly so the global singleton
 				// only holds a WeakReference back; the wrapper self-detaches once this instance is collected.
 				var appView = ApplicationView.GetForCurrentView();
-				appView.VisibleBoundsChanged += CreateWeakHandler<ApplicationView, object>(
+				var appViewHandler = CreateWeakHandler<ApplicationView, object>(
 					this,
 					static (self, s, e) => self.OnInsetUpdateRequired(s, e),
-					static (s, h) => s.VisibleBoundsChanged -= h,
-					out var appViewHandler);
+					static (s, h) => s.VisibleBoundsChanged -= h);
+				appView.VisibleBoundsChanged += appViewHandler;
 				_subscriptions.Add(() => appView.VisibleBoundsChanged -= appViewHandler);
 
 				if (InputPane.GetForCurrentView() is { } inputPane)
@@ -434,8 +432,7 @@ namespace Uno.Toolkit.UI
 						{
 							s.Showing -= h;
 							s.Hiding -= h;
-						},
-						out _);
+						});
 					inputPane.Showing += inputPaneHandler;
 					inputPane.Hiding += inputPaneHandler;
 
