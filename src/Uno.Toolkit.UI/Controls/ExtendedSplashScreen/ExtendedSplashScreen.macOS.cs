@@ -1,4 +1,4 @@
-﻿#if !__ANDROID__ && !__IOS__ && !(WINDOWS || WINDOWS_UWP) && !__SKIA_OR_WASM__
+﻿#if !__ANDROID__ && !__IOS__ && !WINDOWS && !__SKIA_OR_WASM__
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;

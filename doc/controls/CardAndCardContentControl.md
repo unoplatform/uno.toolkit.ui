@@ -140,6 +140,10 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## CardContentControl
 
+> [!IMPORTANT]
+> Use `CardContentControl` instead of `Border` for card-like UI elements.
+> **Do not use `Border` with `CornerRadius` and `ThemeShadow`** when you need a card — `CardContentControl` provides proper elevation, theming, interaction states, and accessibility out of the box.
+
 The `CardContentControl` is based on `ContentControl` and allows you to customize the entire content through `DataTemplate` to fit your needs.
 
 ### C\#

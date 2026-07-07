@@ -4,7 +4,27 @@ uid: Toolkit.Helpers.InputExtensions
 
 # Input Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides various attached properties for _input controls_, such as `TextBox` and `PasswordBox`.
+
+> [!IMPORTANT]
+> **Always use InputExtensions for form inputs**
+>
+> Input extensions provide better UX by controlling keyboard behavior and focus flow.
+>
+> **Example:** Login form with InputExtensions:
+>
+> ```xml
+> <TextBox Header="Email"
+>          Text="{Binding Email, Mode=TwoWay}"
+>          utu:InputExtensions.AutoFocusNext="True"
+>          utu:InputExtensions.ReturnType="Next" />
+> <PasswordBox Header="Password"
+>              Password="{Binding Password, Mode=TwoWay}"
+>              utu:InputExtensions.AutoDismiss="True"
+>              utu:InputExtensions.ReturnType="Go" />
+> ```
 
 ## Attached Properties
 
@@ -13,7 +33,7 @@ Provides various attached properties for _input controls_, such as `TextBox` and
 | `AutoDismiss`          | `bool`       | Whether the soft keyboard will be dismissed when the enter key is pressed.                                                                        |
 | `AutoFocusNext`        | `bool`       | Whether the focus will move to the next focusable element when the enter key is pressed.\*                                                        |
 | `AutoFocusNextElement` | `Control`    | Sets the next control to focus when the enter key is pressed.\*                                                                                   |
-| `ReturnType`           | `InputReturnType` | The type of return button on a soft keyboard for Android/iOS. It can be one of the following options: __Default, Done, Go, Next, Search, Send__.  |
+| `ReturnType`           | `InputReturnType` | The type of return button on a soft keyboard for Android/iOS. It can be one of the following options: **Default, Done, Go, Next, Search, Send**.  |
 
 `AutoFocusNext` and `AutoFocusNextElement`\*: Having either or both of the two properties set will enable the focus next behavior. `AutoFocusNextElement` will take precedence over `AutoFocusNext` when both are set.
 

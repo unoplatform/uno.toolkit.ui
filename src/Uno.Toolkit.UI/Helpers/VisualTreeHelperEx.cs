@@ -279,7 +279,6 @@ namespace Uno.Toolkit.UI
 						? $"Responsive: {FormatSize(rv.LastResolved.Size)}@{rv.LastResolved.Layout}->{rv.LastResolved.Result}"
 						: "Responsive: unresolved";
 				}
-#if !WINDOWS_UWP
 				if (ResponsiveExtension.TrackedInstances.Where(y => y.Owner.Target == x).ToArray() is { Length: > 0 } instances)
 				{
 					foreach (var item in instances)
@@ -292,7 +291,6 @@ namespace Uno.Toolkit.UI
 						}
 					}
 				}
-#endif
 				#endregion
 				#region Common Details: Layout,Misc (low priority)
 				if (TryGetDpValue<CornerRadius>(x, "CornerRadius", out var cr)) yield return $"CornerRadius={FormatCornerRadius(cr)}";

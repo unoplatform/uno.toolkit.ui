@@ -4,7 +4,14 @@ uid: Toolkit.Helpers.SelectorExtensions
 
 # Selector Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides an easy integration between `PipsPager` and `Selector` controls.
+
+> [!IMPORTANT]
+> The `SelectorExtensions.PipsPager` attached property must be set on the **Selector control** (e.g., `FlipView`, `ListView`), NOT on the `PipsPager`.
+>
+> `<FlipView utu:SelectorExtensions.PipsPager="{Binding ElementName=pager}" />`
 
 ## Attached Properties
 

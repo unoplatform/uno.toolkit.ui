@@ -1,6 +1,9 @@
-﻿using Uno.Disposables;
+﻿using Microsoft.Extensions.Logging;
+using Uno.Disposables;
+using Uno.Extensions;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 
 
@@ -137,6 +140,25 @@ namespace Uno.Toolkit.UI
 			_isReady = true;
 
 			UpdateVisualState();
+
+			// Diagnostic: if Source is never set, the LoadingView stays in "Loading" state
+			// indefinitely. Emit a debug warning after a delay to help diagnose stuck splash screens.
+			if (Source is null)
+			{
+				_ = WarnIfSourceNeverSetAsync();
+			}
+		}
+
+		private async Task WarnIfSourceNeverSetAsync()
+		{
+			await Task.Delay(TimeSpan.FromSeconds(5));
+			if (Source is null && _isReady)
+			{
+				typeof(LoadingView).Log().LogWarning(
+					"Source is still null 5 seconds after the template was applied. " +
+					"The view will remain in 'Loading' state indefinitely. " +
+					"Ensure that the Source property is set to an ILoadable instance (e.g., via navigation extensions).");
+			}
 		}
 
 		private void OnSourceChanged(DependencyPropertyChangedEventArgs e)

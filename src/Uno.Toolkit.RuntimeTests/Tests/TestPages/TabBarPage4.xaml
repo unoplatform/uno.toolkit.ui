@@ -1,0 +1,30 @@
+<Page
+	x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.TabBarPage4"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	mc:Ignorable="d">
+
+	<Grid Padding="12">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<TextBlock
+			x:Name="Marker"
+			Margin="0,0,0,12"
+			Text="Original marker" />
+
+		<utu:TabBar x:Name="TB" Grid.Row="1" SelectedIndex="0">
+			<utu:TabBar.Items>
+				<utu:TabBarItem Content="Tab One" />
+				<utu:TabBarItem Content="Tab Two" />
+				<utu:TabBarItem Content="Tab Three" />
+			</utu:TabBar.Items>
+		</utu:TabBar>
+	</Grid>
+</Page>

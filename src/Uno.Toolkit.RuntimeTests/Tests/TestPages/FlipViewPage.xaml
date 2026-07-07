@@ -1,0 +1,26 @@
+<Page
+	x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.FlipViewPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid Padding="12">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<FlipView x:Name="FV" Grid.Row="0" Height="200">
+			<FlipView.Items>
+				<TextBlock Text="Slide One" />
+				<TextBlock Text="Slide Two" />
+			</FlipView.Items>
+		</FlipView>
+
+		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button x:Name="PrevBtn" Content="Prev" utu:FlipViewExtensions.Previous="{Binding ElementName=FV}" />
+			<Button x:Name="NextBtn" Content="Next" utu:FlipViewExtensions.Next="{Binding ElementName=FV}" />
+		</StackPanel>
+	</Grid>
+</Page>

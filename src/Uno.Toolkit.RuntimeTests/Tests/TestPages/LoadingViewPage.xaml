@@ -1,0 +1,24 @@
+﻿<Page
+	x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.LoadingViewPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Uno.Toolkit.RuntimeTests.Tests.TestPages"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	Tag="Page Tag"
+	mc:Ignorable="d">
+
+	<Grid Padding="12">
+		<TextBlock
+			x:Name="Marker"
+			Margin="0,0,0,12"
+			Text="Original marker" />
+		<utu:LoadingView x:Name="LV">
+			<utu:LoadingView.LoadingContent>
+				<TextBlock Text="Loading…" />
+			</utu:LoadingView.LoadingContent>
+		</utu:LoadingView>
+	</Grid>
+</Page>

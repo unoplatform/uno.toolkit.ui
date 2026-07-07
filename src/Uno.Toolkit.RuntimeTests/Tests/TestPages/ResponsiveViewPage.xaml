@@ -1,0 +1,22 @@
+<Page
+	x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.ResponsiveViewPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid Padding="12">
+		<utu:ResponsiveView x:Name="RV">
+			<utu:ResponsiveView.NarrowTemplate>
+				<DataTemplate>
+					<TextBlock x:Name="NarrowText" Text="Narrow layout" />
+				</DataTemplate>
+			</utu:ResponsiveView.NarrowTemplate>
+			<utu:ResponsiveView.WideTemplate>
+				<DataTemplate>
+					<TextBlock x:Name="WideText" Text="Wide layout" />
+				</DataTemplate>
+			</utu:ResponsiveView.WideTemplate>
+		</utu:ResponsiveView>
+	</Grid>
+</Page>

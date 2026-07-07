@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.ResponsiveExtension
 
 # ResponsiveExtension
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 The `ResponsiveExtension` class is a markup extension that enables the customization of `UIElement` properties based on screen size.
 This functionality provides a dynamic and responsive user interface experience.
 

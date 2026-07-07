@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "Uno.Toolkit.Material.Samples",
+  "display": "standalone",
+  "name": "Uno.Toolkit.Material.Samples",
+  "short_name": "Material.Samples",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

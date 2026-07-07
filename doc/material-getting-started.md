@@ -3,6 +3,8 @@ uid: Toolkit.GettingStarted.Material
 ---
 # Uno Material Toolkit Library
 
+**UnoFeatures:** `Toolkit;Material` (add to `<UnoFeatures>` in your `.csproj`)
+
 <p align="center">
   <img src="assets/material-toolkit-design-system.png" alt="Material Toolkit Design System">
 </p>
@@ -27,10 +29,12 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 
 #### Properties
 
-| Property              | Type     | Description                                                                                                                                                                            |
-|-----------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ColorOverrideSource` | `string` | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material Color resources      |
-| `FontOverrideSource`  | `string` | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material FontFamily resources |
+| Property              | Type      | Description                                                                                                                                                                            |
+|-----------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ColorOverrideSource` | `string`  | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material Color resources      |
+| `FontOverrideSource`  | `string`  | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material FontFamily resources |
+| `DefaultDensity`      | `Density` | (Optional) Gets or sets the density preset that drives the base spacing unit used by all `Space*` tokens. Default is `Regular`. Accepted values are `Compact` (3 px), `Regular` (4 px), and `Comfy` (5 px). |
+| `DefaultCornerRadius` | `double`  | (Optional) Gets or sets the base corner radius unit (in pixels) used to compute all shape scale tokens (`Radius100`, `Radius200`, …) as multiples of this value. Default is `4`. |
 
 ## Installation
 
@@ -170,6 +174,36 @@ In `App.xaml`, use the `FontOverrideSource` property on `MaterialToolkitTheme`:
 <MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
                       FontOverrideSource="ms-appx:///Style/Application/FontOverride.xaml" />
 ```
+
+### Seed Color Customization
+
+`MaterialToolkitTheme` supports seed-based color generation using the Material Design 3 HCT color space. A single seed color is used to derive the full tonal palette (Primary, Secondary, Tertiary, Neutral, and Error), for both Light and Dark themes.
+
+By default, `MaterialToolkitTheme` generates its palette from the built-in Material seed color (`#5946D2`). You can override this with the `Colors` property:
+
+```xml
+<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
+                      xmlns:ut="using:Uno.Themes">
+    <MaterialToolkitTheme.Colors>
+        <ut:ThemeColors PrimarySeed="#FF6B35" />
+    </MaterialToolkitTheme.Colors>
+</MaterialToolkitTheme>
+```
+
+You can also change the seed color at runtime from C#:
+
+```csharp
+using Uno.Themes;
+using Windows.UI;
+
+// Change the primary seed color at runtime
+SemanticThemeHelper.PrimarySeed = Color.FromArgb(0xFF, 0xFF, 0x6B, 0x35);
+
+// Clear the seed to revert to the default (#5946D2)
+SemanticThemeHelper.PrimarySeed = null;
+```
+
+For more details, see the [Seed Color Palette documentation](xref:Uno.Themes.SeedColors).
 
 ## Using C# Markup
 

@@ -139,9 +139,15 @@ Remarks:
 
 Gets or sets the content of a `ContentControl`.
 
+> [!IMPORTANT]
+> For simple text titles, always set `Content` directly as a string: `<utu:NavigationBar Content="Title" />`
+> Only use `FrameworkElement` content (like `TextBox`, `SearchBox`, etc.) when you need interactive or complex UI in the title area.
+
 Remarks:
 
 The `Content` is processed differently whether it is of type `string` or `FrameworkElement`.
+
+#### String Content (Recommended for Simple Titles)
 
 When `Content` is a `string`, it's displayed using the platform's default font family, font size, font style, and text alignment. Only the foreground color can be changed, using `Foreground`.
 

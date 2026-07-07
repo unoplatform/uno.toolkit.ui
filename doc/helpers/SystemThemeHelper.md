@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.SystemThemeHelper
 
 # SystemThemeHelper
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides utilities for managing and retrieving the current theme of the operating system and the application.
 
 ## Theme Retrieval

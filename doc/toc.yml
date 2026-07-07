@@ -55,6 +55,33 @@
       href: controls/TabBarAndTabBarItem.md
     - name: ZoomContentControl
       href: controls/ZoomContentControl.md
+    # ***************** Reference\Controls\Walkthroughs *******************
+    - name: Walkthroughs
+      items:
+      - name: AutoLayout
+        href: controls/walkthroughs/AutoLayout.howto.md
+      - name: Card and CardContentControl
+        href: controls/walkthroughs/Card-and-CardContentControl.howto.md
+      - name: Chip and ChipGroup
+        href: controls/walkthroughs/Chip-and-ChipGroup.howto.md
+      - name: DrawerFlyoutPresenter
+        href: controls/walkthroughs/DrawerFlyoutPresenter.howto.md
+      - name: ExtendedSplashScreen
+        href: controls/walkthroughs/ExtendedSplashScreen.howto.md
+      - name: LoadingView
+        href: controls/walkthroughs/LoadingView.howto.md
+      - name: NavigationBar
+        href: controls/walkthroughs/NavigationBar.howto.md
+      - name: ResponsiveView
+        href: controls/walkthroughs/ResponsiveView.howto.md
+      - name: SafeArea
+        href: controls/walkthroughs/SafeArea.howto.md
+      - name: ShadowContainer
+        href: controls/walkthroughs/ShadowContainer.howto.md
+      - name: TabBar and TabBarItem
+        href: controls/walkthroughs/TabBar-and-TabBarItem.howto.md
+      - name: ZoomContentControl
+        href: controls/walkthroughs/ZoomContentControl.howto.md
   # ***************** Reference\Helpers *******************
   - name: Helpers
     items:
@@ -84,6 +111,31 @@
       href: helpers/TabBarItem-extensions.md
     - name: VisualStateManager Extensions
       href: helpers/VisualStateManager-extensions.md
+    # ***************** Reference\Helpers\Walkthroughs *******************
+    - name: Walkthroughs
+      items:
+      - name: AncestorBinding and ItemsControlBinding
+        href: helpers/walkthroughs/ancestor-itemscontrol-binding.howto.md
+      - name: CommandExtensions
+        href: helpers/walkthroughs/command-extensions.howto.md
+      - name: FlipView Extensions
+        href: helpers/walkthroughs/flipview-extensions.howto.md
+      - name: InputExtensions
+        href: helpers/walkthroughs/input-extensions.howto.md
+      - name: ItemsRepeater Extensions
+        href: helpers/walkthroughs/itemsrepeater-extensions.howto.md
+      - name: Responsive Extension
+        href: helpers/walkthroughs/responsive-extension.howto.md
+      - name: Resource Extensions
+        href: helpers/walkthroughs/resource-extensions.howto.md
+      - name: Selector Extensions
+        href: helpers/walkthroughs/selector-extensions.howto.md
+      - name: StatusBar Extensions
+        href: helpers/walkthroughs/statusbar-extensions.howto.md
+      - name: SystemThemeHelper
+        href: helpers/walkthroughs/systemthemehelper.howto.md
+      - name: TabBarItem Extensions
+        href: helpers/walkthroughs/tabbaritem-extensions.howto.md
   # ***************** Reference\Styles **********************
   - name: Styles
     href: controls-styles.md

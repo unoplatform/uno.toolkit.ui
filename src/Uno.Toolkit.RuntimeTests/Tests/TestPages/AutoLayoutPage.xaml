@@ -1,0 +1,15 @@
+<Page
+	x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.AutoLayoutPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid Padding="12">
+		<utu:AutoLayout x:Name="AL" Orientation="Vertical" Spacing="10">
+			<TextBlock x:Name="Child1" Text="Item One" />
+			<TextBlock x:Name="Child2" Text="Item Two" />
+			<TextBlock x:Name="Child3" Text="Item Three" />
+		</utu:AutoLayout>
+	</Grid>
+</Page>

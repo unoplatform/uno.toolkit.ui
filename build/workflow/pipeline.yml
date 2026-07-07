@@ -36,8 +36,7 @@ variables:
 
   IsCanaryBranch: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries/')]
   IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
-  XCODE_ROOT: '/Applications/Xcode_16.3.app'
-  XCODE_ROOT_UITESTS: '/Applications/Xcode_16.3.app'
+  XCODE_ROOT: '/Applications/Xcode_26.1.1.app'
 
 stages:
 - stage: Determine_Changes
@@ -49,7 +48,7 @@ stages:
   displayName: Docs Validations
   dependsOn: Determine_Changes
   # Trigger this stage when docs files are changed
-  condition: or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true'))
+  condition: and(succeeded(), or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true')))
   jobs:
   - template: stage-docs-validations.yml
 
@@ -57,22 +56,34 @@ stages:
   displayName: Packages
   dependsOn: Determine_Changes
   # Don't trigger this stage if only docs files are changed
-  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
+  condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
   jobs:
   - template: stage-build-packages.yml
 
-- stage: Tests
-  displayName: Tests
+- stage: Build_Samples
+  displayName: Build Samples
   dependsOn: Determine_Changes
   # Don't trigger this stage if only docs files are changed
-  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
+  condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
   jobs:
-  - template: stage-uitests-wasm.yml
+  - template: stage-build-desktop.yml
+  - template: stage-build-wasm.yml
   - template: stage-build-ios.yml
-  - template: stage-uitests-ios.yml
   - template: stage-build-android.yml
-  - template: stage-uitests-android.yml
-  - template: stage-build-winappsdk.yml
+
+- stage: RuntimeTests
+  displayName: Runtime Tests
+  dependsOn: Build_Samples
+  condition: succeeded()
+  jobs:
+  - template: stage-runtime-tests.yml
+
+- stage: RuntimeTests_HotReload
+  displayName: Hot-Reload Runtime Tests
+  dependsOn: Determine_Changes
+  condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
+  jobs:
+  - template: stage-runtime-tests-hotreload.yml
 
 ##
 ## Publishing

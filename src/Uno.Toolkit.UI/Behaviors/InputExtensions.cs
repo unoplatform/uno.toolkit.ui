@@ -138,7 +138,12 @@ namespace Uno.Toolkit.UI
 #if false // The property is now forwarded from CommandExtensions.Command
 		#region DependencyProperty: EnterCommand
 
-		public static DependencyProperty EnterCommandProperty { get; } = DependencyProperty.RegisterAttached(
+		public static DependencyProperty EnterCommandProperty
+		{
+			[DynamicDependency(nameof(GetEnterCommand))]
+			[DynamicDependency(nameof(SetEnterCommand))]
+			get;
+		} = DependencyProperty.RegisterAttached(
 			"EnterCommand",
 			typeof(ICommand),
 			typeof(InputExtensions),

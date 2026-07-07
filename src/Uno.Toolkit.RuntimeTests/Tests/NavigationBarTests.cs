@@ -214,7 +214,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 				if (mainCommandMode == MainCommandMode.Back)
 				{
-					await UnitTestsUIContentHelper.WaitForLoaded(firstPageNavBar!);
 					Assert.IsTrue(frame.CurrentSourcePageType == typeof(NavBarFirstPage), "Expected to navigate back to NavBarFirstPage");
 				}
 				else

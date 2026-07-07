@@ -5,7 +5,6 @@
 #define TOOLKIT1082_WORKAROUND // https://github.com/unoplatform/uno.toolkit.ui/issues/1082
 #endif
 
-#if !WINDOWS_UWP
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -368,4 +367,3 @@ public partial class ResponsiveExtension
 		extension.Disconnect();
 	}
 }
-#endif

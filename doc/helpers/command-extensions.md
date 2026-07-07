@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.CommandExtensions
 
 # Command Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides Command/CommandParameter attached properties for common scenarios.
 
 ## Attached Properties
@@ -12,6 +14,9 @@ Provides Command/CommandParameter attached properties for common scenarios.
 |--------------------|------------|------------------------------------------------------------------|
 | `Command`          | `ICommand` | Sets the command to execute when interacting with the control.\* |
 | `CommandParameter` | `object`   | Sets the parameter to pass to the Command property.              |
+
+> [!IMPORTANT]
+> Use `CommandExtensions.Command` to handle key press with automatic keyboard dismissal. No need for `KeyboardAccelerator` or code-behind event handlers.
 
 ### Remarks
 

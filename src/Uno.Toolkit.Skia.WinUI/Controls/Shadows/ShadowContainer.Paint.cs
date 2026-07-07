@@ -42,11 +42,42 @@ public partial class ShadowContainer
 
 	private void OnSurfacePainted(object? sender, SKPaintSurfaceEventArgs e)
 	{
-		if (_shadowHost == null ||
-			Content is not FrameworkElement { ActualHeight: > 0, ActualWidth: > 0 } contentAsFE)
+		if (_shadowHost == null)
 		{
 			return;
 		}
+
+		var canvas = e.Surface.Canvas;
+		canvas.Clear(SKColors.Transparent);
+		using var _ = canvas.SnapshotState();
+
+		var pixelRatio = (float)(e.Info.Width / _shadowHost.ActualWidth);
+		var key = PaintInner(canvas, pixelRatio, e.Info.Width, e.Info.Height);
+		if (key is not null)
+		{
+			Cache.AddOrUpdate(key, e.Surface.Snapshot());
+		}
+
+		OnSurfacePaintCompleted(createdNewCanvas: true);
+	}
+
+	private void OnRenderOverride(SKCanvas canvas, Windows.Foundation.Size area)
+	{
+		PaintInner(canvas, pixelRatio: 1, (float)area.Width, (float)area.Height);
+
+		OnSurfacePaintCompleted(createdNewCanvas: false);
+	}
+
+	/// <returns>A cache key string if the cache should be updated, otherwise null.</returns>
+	private string? PaintInner(SKCanvas canvas, float pixelRatio, float width, float height)
+	{
+		if (_shadowHost is null || Content is not FrameworkElement contentAsFE) {
+			return null;
+		}
+
+#if DEBUG
+		_isShadowDirty = false;
+#endif
 
 		var background = GetBackgroundColor(Background);
 		if (background is { A: 0 })
@@ -57,27 +88,18 @@ public partial class ShadowContainer
 		}
 
 		var shape = GetShadowShapeContext(Content);
-		var pixelRatio = (float)(e.Info.Width / _shadowHost.ActualWidth);
 		var state = new ShadowPaintState(shape, background, pixelRatio, ShadowInfo.Snapshot(Shadows));
-#if DEBUG
-		_isShadowDirty = false;
-#endif
-
-		var canvas = e.Surface.Canvas;
-		canvas.Clear(SKColors.Transparent);
 
 		if (state.Shadows.Length == 0)
 		{
 			shape.DrawContentBackground(state, canvas, background ?? Colors.Transparent);
-			return;
+			return null;
 		}
 
 		if (_logger.IsEnabled(LogLevel.Trace))
 		{
 			_logger.Trace($"[ShadowContainer] Painting shadows (x{++_paintCount}) for content {Content.GetType().Name}, actualSize: {contentAsFE.ActualWidth}x{contentAsFE.ActualHeight}");
 		}
-
-		using var _ = canvas.SnapshotState();
 
 		var key =
 			FormattableString.Invariant($"[{contentAsFE.ActualWidth}x{contentAsFE.ActualHeight},{_shadowHost.ActualWidth}x{_shadowHost.ActualHeight},{background},{shape.ToString()}]: ") +
@@ -94,14 +116,14 @@ public partial class ShadowContainer
 			{
 				canvas.DrawImage(snapshot, SKPoint.Empty);
 				OnSurfacePaintCompleted(createdNewCanvas: false);
-				return;
+				return null;
 			}
 		}
 
 		// relative to the SKCanvas, the entire content is padded to leave room for drop shadow
 		// here, we need to re-calibrate the coord system to zero on the top-left corner of the content
-		var deltaWidth = e.Info.Width - ((float)contentAsFE.ActualWidth * pixelRatio);
-		var deltaHeight = e.Info.Height - ((float)contentAsFE.ActualHeight * pixelRatio);
+		var deltaWidth = width - ((float)contentAsFE.ActualWidth * pixelRatio);
+		var deltaHeight = height - ((float)contentAsFE.ActualHeight * pixelRatio);
 		canvas.Translate(deltaWidth / 2, deltaHeight / 2);
 
 		using var paint = new SKPaint() { IsAntialias = true };
@@ -129,9 +151,7 @@ public partial class ShadowContainer
 		global::System.Diagnostics.Debug.Assert(!_isShadowDirty);
 #endif
 
-		Cache.AddOrUpdate(key, e.Surface.Snapshot());
-
-		OnSurfacePaintCompleted(createdNewCanvas: true);
+		return key;
 	}
 
 	private static Color? GetBackgroundColor(Brush? background)

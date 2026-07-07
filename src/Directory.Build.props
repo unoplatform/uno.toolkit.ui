@@ -2,16 +2,18 @@
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 	<Import Project="$(MSBuildThisFileDirectory)tfms.props" />
 	<PropertyGroup>
+		<!-- UWP has been dropped; all projects are WinUI -->
+		<FrameworkLineage>WinUI</FrameworkLineage>
 		<DebugType>portable</DebugType>
 		<DebugSymbols>True</DebugSymbols>
+		<!-- Disable HotDesign: library projects build Uno.Toolkit.WinUI from source,
+		     but Uno.UI.HotDesign depends on Uno.Toolkit.WinUI as a NuGet package, creating a cycle (NU1108). -->
+		<UnoDisableHotDesign>true</UnoDisableHotDesign>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release' and '$(GeneratePackageOnBuild)'=='true'">true</GeneratePackageOnBuild>
 		<GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
-
-		<!-- Required in release using recent SDKs which use assembly embedded XBFs that are not supported by UWP -->
-		<DisableEmbeddedXbf Condition="$(TargetFramework.StartsWith('uap'))">true</DisableEmbeddedXbf>
 
 		<!-- Version management is now done through NuGet, this avoids issues related version mismatch -->
 		<Version>255.255.255.255</Version>
@@ -27,6 +29,8 @@
 		<NoWarn>$(NoWarn);Uno0001</NoWarn>
 		<!-- This should be enabled back once https://github.com/microsoft/microsoft-ui-xaml/issues/4187 is fixed. -->
 		<NoWarn>$(NoWarn);CS8305</NoWarn>
+		<!-- Required for back compatibility -->
+		<NoWarn>$(NoWarn);CA1859</NoWarn>
 		<!-- TODO: Enable once https://github.com/xamarin/xamarin-macios/pull/16513 is merged and we have it -->
 		<NoWarn>$(NoWarn);CA1416</NoWarn>
 		<!-- error NU1903: Warning As Error: Package 'System.Private.Uri' 4.3.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-5f2m-466j-3848 [C:\a\1\s\src\SolutionTemplate\5.1\uno51blank\uno51blank.Mobile\uno51blank.Mobile.csproj] -->
@@ -36,7 +40,7 @@
 
 	<PropertyGroup>
 		<PackageProjectUrl>$(BUILD_REPOSITORY_URI)</PackageProjectUrl>
-		<Description>A set of controls for Uno Platform, UWP and WinUI</Description>
+		<Description>A set of controls for Uno Platform and WinUI</Description>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -90,5 +94,4 @@
 	</PropertyGroup>
 
 	<Import Project="PlatformItemGroups.props" />
-	<Import Project="xamarinmac-workaround.targets" Condition="$(TargetFramework.ToLower().StartsWith('xamarin')) and $(TargetFramework.ToLower().Contains('mac'))" />
 </Project>

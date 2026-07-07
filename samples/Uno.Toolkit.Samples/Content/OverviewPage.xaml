@@ -1,0 +1,188 @@
+<Page x:Class="Uno.Toolkit.Samples.Content.OverviewPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:controls="using:Uno.Toolkit.Samples.Content.Controls"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  mc:Ignorable="d">
+
+	<sample:SamplePageLayout>
+		<sample:SamplePageLayout.MaterialTemplate>
+			<DataTemplate>
+				<StackPanel>
+
+					<!-- TabBar -->
+					<sample:OverviewSampleView SamplePageType="controls:TabBarSamplePage">
+						<utu:TabBar SelectedIndex="0"
+									Style="{StaticResource MaterialTopTabBarStyle}">
+							<utu:TabBar.Items>
+								<utu:TabBarItem Content="Home" />
+								<utu:TabBarItem Content="Search" />
+								<utu:TabBarItem Content="Settings" />
+							</utu:TabBar.Items>
+						</utu:TabBar>
+					</sample:OverviewSampleView>
+
+					<!-- NavigationBar -->
+					<sample:OverviewSampleView SamplePageType="controls:NavigationBarSamplePage">
+						<utu:NavigationBar Content="Page Title">
+							<utu:NavigationBar.MainCommand>
+								<AppBarButton>
+									<AppBarButton.Icon>
+										<BitmapIcon UriSource="ms-appx:///Assets/Icons/back.png"
+													ShowAsMonochrome="True" />
+									</AppBarButton.Icon>
+								</AppBarButton>
+							</utu:NavigationBar.MainCommand>
+						</utu:NavigationBar>
+					</sample:OverviewSampleView>
+
+					<!-- Card -->
+					<sample:OverviewSampleView SamplePageType="controls:CardSamplePage">
+						<StackPanel Spacing="12">
+							<utu:Card HeaderContent="Filled Card"
+									  SubHeaderContent="With supporting text"
+									  Style="{StaticResource MaterialFilledCardStyle}">
+								<TextBlock Text="Card content goes here."
+										   Style="{StaticResource MaterialBody2}" />
+							</utu:Card>
+
+							<utu:Card HeaderContent="Outlined Card"
+									  SubHeaderContent="With supporting text"
+									  Style="{StaticResource MaterialOutlinedCardStyle}">
+								<TextBlock Text="Card content goes here."
+										   Style="{StaticResource MaterialBody2}" />
+							</utu:Card>
+						</StackPanel>
+					</sample:OverviewSampleView>
+
+					<!-- Chip -->
+					<sample:OverviewSampleView SamplePageType="controls:ChipSamplePage">
+						<StackPanel Spacing="8">
+							<utu:ChipGroup SelectionMode="Single"
+										   Style="{StaticResource MaterialFilledInputChipGroupStyle}">
+								<utu:Chip Content="Input"
+										  Style="{StaticResource MaterialFilledInputChipStyle}" />
+								<utu:Chip Content="Selected"
+										  IsChecked="True"
+										  Style="{StaticResource MaterialFilledInputChipStyle}" />
+								<utu:Chip Content="Disabled"
+										  IsEnabled="False"
+										  Style="{StaticResource MaterialFilledInputChipStyle}" />
+							</utu:ChipGroup>
+						</StackPanel>
+					</sample:OverviewSampleView>
+
+					<!-- Divider -->
+					<sample:OverviewSampleView SamplePageType="controls:DividerSamplePage">
+						<StackPanel Spacing="12">
+							<TextBlock Text="Above divider"
+									   Style="{StaticResource MaterialBody2}" />
+							<utu:Divider Style="{StaticResource MaterialDividerStyle}" />
+							<TextBlock Text="Below divider"
+									   Style="{StaticResource MaterialBody2}" />
+							<utu:Divider SubHeader="With subheader"
+										 Style="{StaticResource MaterialDividerStyle}" />
+						</StackPanel>
+					</sample:OverviewSampleView>
+
+					<!-- ShadowContainer -->
+					<sample:OverviewSampleView SamplePageType="controls:ShadowContainerSamplePage">
+						<utu:ShadowContainer>
+							<utu:ShadowContainer.Shadows>
+								<utu:ShadowCollection>
+									<utu:Shadow BlurRadius="16"
+												OffsetX="0"
+												OffsetY="4"
+												Opacity="0.3"
+												Color="Black" />
+								</utu:ShadowCollection>
+							</utu:ShadowContainer.Shadows>
+							<Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+									CornerRadius="8"
+									Padding="24,16">
+								<TextBlock Text="Shadowed content"
+										   HorizontalAlignment="Center" />
+							</Border>
+						</utu:ShadowContainer>
+					</sample:OverviewSampleView>
+
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.MaterialTemplate>
+
+		<sample:SamplePageLayout.CupertinoTemplate>
+			<DataTemplate>
+				<StackPanel>
+
+					<!-- TabBar -->
+					<sample:OverviewSampleView SamplePageType="controls:TabBarSamplePage">
+						<utu:TabBar SelectedIndex="0"
+									Style="{StaticResource MaterialTopTabBarStyle}">
+							<utu:TabBar.Items>
+								<utu:TabBarItem Content="Home" />
+								<utu:TabBarItem Content="Search" />
+								<utu:TabBarItem Content="Settings" />
+							</utu:TabBar.Items>
+						</utu:TabBar>
+					</sample:OverviewSampleView>
+
+					<!-- DrawerControl -->
+					<sample:OverviewSampleView SamplePageType="controls:DrawerControlSamplePage">
+						<utu:DrawerControl MinHeight="200">
+							<TextBlock Text="Main Content"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center" />
+							<utu:DrawerControl.DrawerContent>
+								<StackPanel Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+											Padding="16"
+											Spacing="8">
+									<TextBlock Text="Drawer Content"
+											   Style="{StaticResource TitleTextBlockStyle}" />
+									<TextBlock Text="Swipe from the left edge to open."
+											   TextWrapping="Wrap" />
+								</StackPanel>
+							</utu:DrawerControl.DrawerContent>
+						</utu:DrawerControl>
+					</sample:OverviewSampleView>
+
+					<!-- ShadowContainer -->
+					<sample:OverviewSampleView SamplePageType="controls:ShadowContainerSamplePage">
+						<utu:ShadowContainer>
+							<utu:ShadowContainer.Shadows>
+								<utu:ShadowCollection>
+									<utu:Shadow BlurRadius="16"
+												OffsetX="0"
+												OffsetY="4"
+												Opacity="0.3"
+												Color="Black" />
+								</utu:ShadowCollection>
+							</utu:ShadowContainer.Shadows>
+							<Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+									CornerRadius="8"
+									Padding="24,16">
+								<TextBlock Text="Shadowed content"
+										   HorizontalAlignment="Center" />
+							</Border>
+						</utu:ShadowContainer>
+					</sample:OverviewSampleView>
+
+					<!-- AutoLayout -->
+					<sample:OverviewSampleView SamplePageType="controls:AutoLayoutPage">
+						<utu:AutoLayout Spacing="8"
+										Padding="12"
+										PrimaryAxisAlignment="Start">
+							<TextBlock Text="Item 1" />
+							<TextBlock Text="Item 2" />
+							<TextBlock Text="Item 3" />
+						</utu:AutoLayout>
+					</sample:OverviewSampleView>
+
+				</StackPanel>
+			</DataTemplate>
+		</sample:SamplePageLayout.CupertinoTemplate>
+	</sample:SamplePageLayout>
+</Page>

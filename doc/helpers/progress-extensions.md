@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.ProgressExtensions
 
 # Progress Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides attached properties to easily change the behavior of progress controls (ie. `ProgressBar` and `ProgressRing`), when nested in a complex visual tree.
 
 ## Remarks

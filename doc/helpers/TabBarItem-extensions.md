@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.TabBarItemExtensions
 
 # TabBarItem Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides additional features for `TabBarItem`.
 
 ## Attached Properties

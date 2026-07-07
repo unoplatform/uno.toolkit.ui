@@ -22,13 +22,6 @@ namespace Uno.Toolkit.UI
 	/// </summary>
 	public class AncestorBindingExtension : MarkupExtension
 	{
-#if WINDOWS_UWP
-		/// <summary>
-		/// Define whether <see cref="ProvideValue()" /> should throw or just result null.
-		/// </summary>
-		public static bool ShouldThrow = true;
-#endif
-
 		/// <summary>
 		/// Binding path from the ancestor.
 		/// </summary>
@@ -59,13 +52,6 @@ namespace Uno.Toolkit.UI
 		{
 		}
 
-#if WINDOWS_UWP
-		protected override object? ProvideValue()
-		{
-			const string Message = "This feature is not supported on UWP for windows as it depends on WinUI3 api. It still works on all non-Windows UWP platforms and all WinUI 3 platforms.";
-			return ShouldThrow ? throw new PlatformNotSupportedException(Message) : null;
-		}
-#else
 		protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
 		{
 			// until we can reach/resolve 'property', we have no option but to return null.
@@ -112,7 +98,6 @@ namespace Uno.Toolkit.UI
 			// return current value, until the binding comes online.
 			return owner.GetValue(property);
 		}
-#endif
 
 		private static IEnumerable<DependencyObject> GetAncestors(DependencyObject x)
 		{

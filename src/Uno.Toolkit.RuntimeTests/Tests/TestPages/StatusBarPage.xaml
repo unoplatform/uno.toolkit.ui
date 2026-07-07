@@ -1,0 +1,13 @@
+<Page
+	x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.StatusBarPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	utu:StatusBar.Foreground="Dark"
+	utu:StatusBar.Background="Blue"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid Padding="12">
+		<TextBlock x:Name="StatusContent" Text="StatusBar test page" />
+	</Grid>
+</Page>
