@@ -1,7 +1,8 @@
 <Project ToolsVersion="15.0">
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-		<SkiaSharpVersion>3.119.2</SkiaSharpVersion>
+		<!-- Canary-only: pin SkiaSharp to v4 (4.148.0) so the dev Uno.Material / Uno.WinUI.Lottie floor (>=3.119.4) is satisfied without the broken 3.119.4 iOS 26.2 assets. Remove when a fixed 3.119.x ships or the Uno.Sdk moves to v4 (7.0). https://github.com/unoplatform/uno/issues/23680 -->
+		<SkiaSharpVersion>4.148.0</SkiaSharpVersion>
 		<UnoThemesVersion>7.0.0-dev.35</UnoThemesVersion>
 	</PropertyGroup>
 	<ItemGroup>
