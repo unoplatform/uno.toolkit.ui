@@ -45,7 +45,22 @@ internal static class FrameworkElementExtensions
 		return Disposable.Create(() =>
 		{
 			disposed = true;
-			subscriptions.Clear();
+
+			// Invoke each recorded unsubscribe action so the Loaded handlers are actually detached.
+			// Merely clearing the list left every 'e.Loaded += handler' attached: each subscribed
+			// FrameworkElement kept the handler delegate alive, which captured the whole closure graph
+			// (subscriptions, innerSelectors, onInnerMostLoaded). When any of those elements are owned by
+			// a host that outlives a previewed app loaded into a collectible AssemblyLoadContext, that
+			// closure pins the app's (and the Toolkit's) ALC for the process lifetime.
+			lock (subscriptionsLock)
+			{
+				foreach (var subscription in subscriptions)
+				{
+					subscription.Unsubscribe();
+				}
+
+				subscriptions.Clear();
+			}
 		});
 
 		void Subscribe(FrameworkElement e, int depth)

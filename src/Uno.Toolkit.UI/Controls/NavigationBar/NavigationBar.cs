@@ -189,8 +189,18 @@ namespace Uno.Toolkit.UI
 			_popupHost = Uno.Toolkit.UI.DependencyObjectExtensions.FindFirstParent<Popup>(this);
 
 #if SYS_NAV_MGR_SUPPORTED
-			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
+			// SystemNavigationManager is a process-global singleton. Subscribing to BackRequested with an
+			// instance-method delegate makes it strongly root this NavigationBar. Unloaded detaches it via
+			// the SerialDisposable below (the fast path), but Unloaded does not fire when the owner's
+			// AssemblyLoadContext is torn down abruptly (e.g. a downstream host that loads previewed apps
+			// into their own collectible ALCs). Subscribe weakly so the global singleton only holds a
+			// WeakReference back; the wrapper self-detaches once this instance is collected.
+			var backRequestedHandler = CreateWeakHandler<NavigationBar, BackRequestedEventArgs>(
+				this,
+				static (self, s, e) => self.OnBackRequested(s, e),
+				static h => SystemNavigationManager.GetForCurrentView().BackRequested -= h);
+			SystemNavigationManager.GetForCurrentView().BackRequested += backRequestedHandler;
+			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= backRequestedHandler);
 #endif
 
 #if !HAS_NATIVE_NAVBAR
@@ -229,6 +239,50 @@ namespace Uno.Toolkit.UI
 			{
 				e.Handled = TryPerformMainCommand();
 			}
+		}
+
+#if DEBUG
+		// Test hook: subscribes this instance's weak BackRequested handler to the process-global
+		// SystemNavigationManager exactly as OnLoaded does, but deliberately WITHOUT recording the
+		// SerialDisposable teardown. This models an abrupt AssemblyLoadContext teardown where Unloaded
+		// never fires, so a test can verify the global singleton still holds only a weak reference back.
+		internal void TestHook_SubscribeWeakBackRequestedWithoutTeardown()
+		{
+			var backRequestedHandler = CreateWeakHandler<NavigationBar, BackRequestedEventArgs>(
+				this,
+				static (self, s, e) => self.OnBackRequested(s, e),
+				static h => SystemNavigationManager.GetForCurrentView().BackRequested -= h);
+			SystemNavigationManager.GetForCurrentView().BackRequested += backRequestedHandler;
+		}
+#endif
+
+		// Creates an EventHandler that invokes onEvent against a WeakReference to target, so a
+		// process-global event source cannot strongly root the target. Once the target has been collected
+		// the wrapper detaches itself via detach. onEvent/detach MUST be static (non-capturing) so the
+		// returned delegate captures only the WeakReference — never the target instance.
+		private static EventHandler<TArgs> CreateWeakHandler<TTarget, TArgs>(
+			TTarget target,
+			Action<TTarget, object?, TArgs> onEvent,
+			Action<EventHandler<TArgs>> detach)
+			where TTarget : class
+		{
+			System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+			System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+
+			var weakTarget = new WeakReference<TTarget>(target);
+			EventHandler<TArgs> h = null!;
+			h = (s, e) =>
+			{
+				if (weakTarget.TryGetTarget(out var self))
+				{
+					onEvent(self, s, e);
+				}
+				else
+				{
+					detach(h);
+				}
+			};
+			return h;
 		}
 #endif
 
