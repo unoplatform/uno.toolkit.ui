@@ -69,17 +69,21 @@ internal class ResponsiveExtensionsLeakTests
 	[TestMethod]
 	public async Task Connected_Extension_IsCollectible_WithoutResizeOrExplicitUninstall()
 	{
-		// Neither a resize (fixed preview canvas) nor an explicit Uninstall happens here. The extension
-		// must still be collectible once its host is gone, because the static WindowSizeChanged event only
-		// holds a weak reference to it.
+		// Real-path regression guard. The extension is installed on a loaded host and then the host is
+		// removed from the tree — but no resize (fixed preview canvas) and no explicit Uninstall happen.
+		// It must still be collectible. Pre-fix this pinned: the constructor's HardSelfReferences.Add was
+		// only undone from OnWindowSizeChanged (never fires without a resize) and there was no Unloaded
+		// hook, while the strong WindowSizeChanged subscription rooted it too. The fix collects it via the
+		// weak subscription + the Unloaded teardown + HardSelfReferences pruning together.
 		var extensionRef = await InstallAndAbandon();
 
 		await CollectAndWait();
 
 		Assert.IsFalse(
 			extensionRef.IsAlive,
-			"A connected ResponsiveExtension should be collectible after its host is gone even without a " +
-			"resize or Uninstall; if it survives, the static WindowSizeChanged event is strongly rooting it.");
+			"A connected ResponsiveExtension should be collectible after its host leaves the tree even " +
+			"without a resize or Uninstall; if it survives, it is still rooted by HardSelfReferences or the " +
+			"static WindowSizeChanged event.");
 	}
 
 	[MethodImpl(MethodImplOptions.NoInlining)]

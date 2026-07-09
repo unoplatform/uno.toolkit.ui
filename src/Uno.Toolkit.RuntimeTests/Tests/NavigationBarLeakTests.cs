@@ -8,6 +8,12 @@ using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using Windows.UI.Core;
 
+#if IS_WINUI
+using Microsoft.UI.Xaml.Controls;
+#else
+using Windows.UI.Xaml.Controls;
+#endif
+
 namespace Uno.Toolkit.RuntimeTests.Tests;
 
 /// <summary>
@@ -41,6 +47,25 @@ internal class NavigationBarLeakTests
 		GC.KeepAlive(SystemNavigationManager.GetForCurrentView());
 	}
 
+	[TestMethod]
+#if __ANDROID__ || __IOS__
+	[Ignore("Native NavigationBar hosting differs on mobile platforms.")]
+#endif
+	public async Task NavigationBar_IsCollectible_AfterRemovedFromTree()
+	{
+		// Real-path regression guard: drives the production OnLoaded subscription (not the DEBUG hook), then
+		// removes the bar from the tree. It must be collectible afterwards. This turns red if the whole
+		// BackRequested subscription/teardown wiring regresses (e.g. a strong sub with no working teardown).
+		var navRef = await LoadThenRemoveNavigationBar();
+
+		await CollectAndWait();
+
+		Assert.IsFalse(
+			navRef.IsAlive,
+			"A NavigationBar should be collectible after being removed from the visual tree; if it survives, " +
+			"the BackRequested subscription is not being torn down.");
+	}
+
 	// Kept in a separate non-inlined frame so the NavigationBar is not kept alive by a local on the test
 	// method's stack while we assert collection.
 	[MethodImpl(MethodImplOptions.NoInlining)]
@@ -49,6 +74,22 @@ internal class NavigationBarLeakTests
 		var nav = new NavigationBar();
 		nav.TestHook_SubscribeWeakBackRequestedWithoutTeardown();
 		return new WeakReference(nav);
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	private static async Task<WeakReference> LoadThenRemoveNavigationBar()
+	{
+		var container = new ContentControl();
+		var nav = new NavigationBar { Content = "Title" };
+		var navRef = new WeakReference(nav);
+
+		container.Content = nav;
+		await UnitTestUIContentHelperEx.SetContentAndWait(container);
+
+		container.Content = null;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		return navRef;
 	}
 
 	private static async Task CollectAndWait()
