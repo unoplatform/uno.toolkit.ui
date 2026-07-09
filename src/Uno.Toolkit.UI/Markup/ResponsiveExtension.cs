@@ -180,11 +180,12 @@ public partial class ResponsiveExtension
 		// does not strongly root this extension (and, through it, its target/host). The wrapper
 		// self-detaches once this extension is collected. This is what lets a dead extension be collected
 		// even if neither Unloaded nor a resize ever fires.
+		// Note: a fresh handler instance is created per Connect; the previous one (if any) was already
+		// detached by '_disposable.Disposable = null' above, so no explicit '-=' is needed here.
 		var handler = CreateWeakHandler(
 			this,
 			static (self, s, e) => self.OnWindowSizeChanged(s, e),
 			static h => ResponsiveHelper.WindowSizeChanged -= h);
-		ResponsiveHelper.WindowSizeChanged -= handler;
 		ResponsiveHelper.WindowSizeChanged += handler;
 		IsConnected = true;
 
