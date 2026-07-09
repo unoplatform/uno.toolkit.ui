@@ -96,6 +96,21 @@ public partial class ExtendedSplashScreen
 		}
 	}
 
+	partial void ReleaseNativeSplashResources()
+	{
+		// The captured splash bitmap is only needed while the extended splash screen is displayed. Once
+		// the control unloads, drop and recycle it so it does not linger in the process-lifetime static.
+		if (SplashBitmap is { } bitmap)
+		{
+			SplashBitmap = null;
+
+			if (!bitmap.IsRecycled)
+			{
+				bitmap.Recycle();
+			}
+		}
+	}
+
 	private void OnSourceChanged(DependencyObject sender, DependencyProperty dp)
 	{
 		if (sender is ExtendedSplashScreen extended)

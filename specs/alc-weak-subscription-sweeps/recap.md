@@ -81,9 +81,22 @@ Test hooks added under `#if DEBUG`: `TestHook_IsDefaultProviderInitialized`,
 
 ## Progress
 
-- [x] Finding 1 — ResponsiveHelper weak handler + Reset (fix + tests compile clean)
-- [ ] Finding 2 — DependencyObjectExtensions reflection-cache ALC purge
-- [ ] Finding 3 — NavigationBar BackRequested weak handler
-- [ ] Finding 4 — ResponsiveExtension accumulation sweeps
-- [ ] Finding 5 — SubscribeToNestedElements dispose invokes unsubscribe
-- [ ] Finding 6 — ExtendedSplashScreen Instance + bitmap release
+- [x] Finding 1 — ResponsiveHelper weak handler + Reset
+- [x] Finding 2 — DependencyObjectExtensions reflection-cache keyed weakly by Type (ConditionalWeakTable)
+- [x] Finding 3 — NavigationBar BackRequested weak self-detaching handler (keeps Unloaded fast path)
+- [x] Finding 4 — ResponsiveExtension weak WindowSizeChanged sub + Unloaded teardown + dead-instance sweep
+- [x] Finding 5 — SubscribeToNestedElements dispose invokes recorded Unsubscribe actions
+- [x] Finding 6 — ExtendedSplashScreen releases static Instance + splash content (Android: recycles bitmap) on Unloaded
+
+All fixes + red/green tests compile clean on `net9.0` (Toolkit.UI + RuntimeTests, 0 warnings).
+
+## Tests (all runtime, `#if DEBUG`)
+
+| Finding | Test class | Tests |
+|---------|-----------|-------|
+| 1 | `ResponsiveHelperLeakTests` | `Reset_TearsDown_DefaultProvider`, `DefaultProvider_IsCollectible_WhileXamlRootAlive` |
+| 2 | `DependencyObjectExtensionsLeakTests` | `ReflectionCache_DoesNotRoot_CollectibleTypeKey` (RunAndCollect dynamic assembly) |
+| 3 | `NavigationBarLeakTests` | `BackRequested_Subscription_IsWeak_WhenUnloadedNeverFires` |
+| 4 | `ResponsiveExtensionsLeakTests` | `SweepDeadInstances_Prunes_CollectedTrackedInstances`, `Connected_Extension_IsCollectible_WithoutResizeOrExplicitUninstall` |
+| 5 | `FrameworkElementExtensionsLeakTests` | `SubscribeToNestedElements_Dispose_DetachesLoadedHandlers` |
+| 6 | `ExtendedSplashScreenLeakTests` | `Instance_IsReleased_OnUnloaded`, `SplashScreen_IsCollectible_AfterUnloaded` |
