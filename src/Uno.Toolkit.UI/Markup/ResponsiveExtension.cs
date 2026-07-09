@@ -166,15 +166,38 @@ public partial class ResponsiveExtension
 		_disposable.Disposable = null;
 		if (selfOrProxyHost.XamlRoot is null) return;
 
+		// Prune any previously-connected extensions whose host/owner is already gone. In a fixed-size
+		// preview canvas the window never resizes, so OnWindowSizeChanged (the only place that ran
+		// CleanupIfHostDisposed) never fires and dead extensions would otherwise accumulate forever,
+		// each pinning its target/host graph — and, across a collectible AssemblyLoadContext boundary,
+		// the previewed app's ALC. Sweeping here bounds the accumulation to live instances.
+		SweepDeadInstances();
+
 		_hostWeakRef = new WeakReference(selfOrProxyHost);
 		ResponsiveHelper.InitializeIfNeeded(selfOrProxyHost.XamlRoot);
-		ResponsiveHelper.WindowSizeChanged -= OnWindowSizeChanged;
-		ResponsiveHelper.WindowSizeChanged += OnWindowSizeChanged;
+
+		// Subscribe to the process-lifetime static WindowSizeChanged event weakly, so the static event
+		// does not strongly root this extension (and, through it, its target/host). The wrapper
+		// self-detaches once this extension is collected. This is what lets a dead extension be collected
+		// even if neither Unloaded nor a resize ever fires.
+		var handler = CreateWeakHandler(
+			this,
+			static (self, s, e) => self.OnWindowSizeChanged(s, e),
+			static h => ResponsiveHelper.WindowSizeChanged -= h);
+		ResponsiveHelper.WindowSizeChanged -= handler;
+		ResponsiveHelper.WindowSizeChanged += handler;
 		IsConnected = true;
+
+		// Proactively tear down when the host unloads (the common, graceful path). Abrupt ALC teardown
+		// (no Unloaded) is covered by the weak subscription above + the SweepDeadInstances on the next
+		// Connect.
+		selfOrProxyHost.Unloaded -= OnHostUnloaded;
+		selfOrProxyHost.Unloaded += OnHostUnloaded;
 
 		_disposable.Disposable = Disposable.Create(() =>
 		{
-			ResponsiveHelper.WindowSizeChanged -= OnWindowSizeChanged;
+			ResponsiveHelper.WindowSizeChanged -= handler;
+			selfOrProxyHost.Unloaded -= OnHostUnloaded;
 			IsConnected = false;
 		});
 
@@ -182,6 +205,65 @@ public partial class ResponsiveExtension
 		// But because in ProvideValue, the target has not been added to the visual tree yet, we cannot access the "full" .resources yet.
 		// So we need to rectify that here.
 		UpdateBinding(forceApplyValue: true);
+	}
+
+	private void OnHostUnloaded(object sender, RoutedEventArgs e)
+	{
+		// Host left the tree: release the hard self-reference and tracking so this extension can be
+		// collected instead of lingering in the process-lifetime statics.
+		CleanupIfHostDisposed(force: true);
+		Disconnect();
+	}
+
+	// Creates a TypedEventHandler that invokes onEvent against a WeakReference to target, so the
+	// process-lifetime static event source cannot strongly root the target. Once the target has been
+	// collected the wrapper detaches itself via detach. onEvent/detach MUST be static (non-capturing).
+	private static TypedEventHandler<object, Size> CreateWeakHandler(
+		ResponsiveExtension target,
+		Action<ResponsiveExtension, object, Size> onEvent,
+		Action<TypedEventHandler<object, Size>> detach)
+	{
+		System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+		System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+
+		var weakTarget = new WeakReference<ResponsiveExtension>(target);
+		TypedEventHandler<object, Size> h = null!;
+		h = (s, e) =>
+		{
+			if (weakTarget.TryGetTarget(out var self))
+			{
+				onEvent(self, s, e);
+			}
+			else
+			{
+				detach(h);
+			}
+		};
+		return h;
+	}
+
+	// Prunes dead entries from the process-lifetime statics: TrackedInstances tuples whose extension has
+	// been collected, and (UNO14502) HardSelfReferences whose host is gone. Bounded, cheap, and safe to
+	// call on every Connect.
+	private static void SweepDeadInstances()
+	{
+		for (var i = TrackedInstances.Count - 1; i >= 0; i--)
+		{
+			if (!TrackedInstances[i].Extension.IsAlive)
+			{
+				TrackedInstances.RemoveAt(i);
+			}
+		}
+
+#if UNO14502_WORKAROUND
+		for (var i = HardSelfReferences.Count - 1; i >= 0; i--)
+		{
+			if (HardSelfReferences[i] is { _hostWeakRef.IsAlive: false })
+			{
+				HardSelfReferences.RemoveAt(i);
+			}
+		}
+#endif
 	}
 
 	internal void Disconnect()
@@ -292,10 +374,10 @@ public partial class ResponsiveExtension
 		(TargetWeakRef?.Target as FrameworkElement)?.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey) ??
 		Application.Current.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
 
-	private bool CleanupIfHostDisposed()
+	private bool CleanupIfHostDisposed(bool force = false)
 	{
-		// if self/proxy host was disposed, remove the circular references to allow self-disposal.
-		if (_hostWeakRef is { Target: null })
+		// if self/proxy host was disposed (or the host unloaded), remove the circular references to allow self-disposal.
+		if (force || _hostWeakRef is { Target: null })
 		{
 #if UNO14502_WORKAROUND
 			HardSelfReferences.Remove(this);
@@ -309,6 +391,17 @@ public partial class ResponsiveExtension
 
 		return false;
 	}
+
+#if DEBUG
+	// Test hooks: expose the accumulation state of the process-lifetime statics so tests can verify that
+	// dead instances are swept and that live extensions are not strongly rooted by the WindowSizeChanged
+	// static event.
+	internal static int TestHook_TrackedInstanceCount => TrackedInstances.Count;
+#if UNO14502_WORKAROUND
+	internal static int TestHook_HardSelfReferenceCount => HardSelfReferences.Count;
+#endif
+	internal static void TestHook_SweepDeadInstances() => SweepDeadInstances();
+#endif
 }
 public partial class ResponsiveExtension
 {
