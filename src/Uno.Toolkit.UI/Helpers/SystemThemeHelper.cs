@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Runtime.CompilerServices;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using System.ComponentModel;
@@ -21,6 +22,49 @@ namespace Uno.Toolkit.UI
 	{
 		private static readonly ILogger Logger = typeof(SystemThemeHelper).Log();
 
+		// Maps a XamlRoot to the app's own root element, for apps hosted under a XamlRoot they don't
+		// own (e.g. Hot Design re-parents the app's Window.Content into the host's shared XamlRoot,
+		// so XamlRoot.Content resolves to the host's root, not the app's). Registered by the hosting
+		// integration via SetAppRootOverride. Both key and value are held weakly so an unloaded app
+		// (collectible ALC) is not kept alive.
+		private static readonly ConditionalWeakTable<XamlRoot, WeakReference<FrameworkElement>> _appRootOverrides = new();
+
+		/// <summary>
+		/// Registers the element to be treated as the app's root for the given XamlRoot, in place of
+		/// <see cref="XamlRoot.Content"/>. Used by hosting integrations (e.g. Hot Design) when an app's
+		/// content is re-parented under a XamlRoot it doesn't own. Pass null to clear the override.
+		/// </summary>
+		internal static void SetAppRootOverride(XamlRoot root, FrameworkElement? appRoot)
+		{
+			if (appRoot is null)
+			{
+				_appRootOverrides.Remove(root);
+			}
+			else
+			{
+				_appRootOverrides.AddOrUpdate(root, new WeakReference<FrameworkElement>(appRoot));
+			}
+		}
+
+		// Resolves the element whose theme is read/written for the given XamlRoot: the registered
+		// app-root override when it is alive and still attached to that XamlRoot, else XamlRoot.Content.
+		internal static FrameworkElement? ResolveThemeTarget(XamlRoot? root)
+		{
+			if (root is null)
+			{
+				return null;
+			}
+
+			if (_appRootOverrides.TryGetValue(root, out var weakAppRoot) &&
+				weakAppRoot.TryGetTarget(out var appRoot) &&
+				appRoot.XamlRoot == root)
+			{
+				return appRoot;
+			}
+
+			return root.Content as FrameworkElement;
+		}
+
 		/// <summary>
 		/// Get the current theme of the operating system.
 		/// </summary>
@@ -36,24 +80,16 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Get the current theme of the application.
 		/// </summary>
-		[Obsolete("GetApplicationTheme is obsolete. Use GetRootTheme(Window window) or GetRootTheme(FrameworkElement root) instead.")]
+		[Obsolete("GetApplicationTheme is obsolete. Use GetRootTheme(XamlRoot root) instead.")]
 		public static ApplicationTheme GetApplicationTheme()
 			=> GetRootTheme(GetWindowRoot()?.XamlRoot);
 
 		/// <summary>
 		/// Gets a <see cref="ApplicationTheme"/> from the provided XamlRoot.
 		/// </summary>
-		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root under a foreign XamlRoot (e.g. Hot Design); prefer <see cref="GetRootTheme(FrameworkElement?)"/> there.</remarks>
 		public static ApplicationTheme GetRootTheme(XamlRoot? root)
-			=> GetRootTheme(root?.Content as FrameworkElement);
-
-		/// <summary>
-		/// Gets a <see cref="ApplicationTheme"/> from the provided root element.
-		/// </summary>
-		/// <param name="root">The app's root element, typically the window's content.</param>
-		public static ApplicationTheme GetRootTheme(FrameworkElement? root)
 		{
-			return root?.ActualTheme switch
+			return ResolveThemeTarget(root)?.ActualTheme switch
 			{
 				ElementTheme.Light => ApplicationTheme.Light,
 				ElementTheme.Dark => ApplicationTheme.Dark,
@@ -63,108 +99,46 @@ namespace Uno.Toolkit.UI
 		}
 
 		/// <summary>
-		/// Gets a <see cref="ApplicationTheme"/> from the content of the provided window.
-		/// </summary>
-		/// <param name="window">The app's window.</param>
-		public static ApplicationTheme GetRootTheme(XamlWindow? window)
-			=> GetRootTheme(window?.Content as FrameworkElement);
-
-		/// <summary>
 		/// Get if the application is currently in dark mode.
 		/// </summary>
-		[Obsolete("IsAppInDarkMode is obsolete. Use IsRootInDarkMode(Window window) or IsRootInDarkMode(FrameworkElement root) instead.")]
+		[Obsolete("IsAppInDarkMode is obsolete. Use IsRootInDarkMode(XamlRoot root) instead.")]
 		public static bool IsAppInDarkMode()
 			=> GetRootTheme(GetWindowRoot().XamlRoot) == ApplicationTheme.Dark;
 
-		/// <summary>
-		/// Gets whether the content of the provided XamlRoot is currently in dark mode.
-		/// </summary>
-		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root under a foreign XamlRoot (e.g. Hot Design); prefer <see cref="IsRootInDarkMode(FrameworkElement)"/> there.</remarks>
 		public static bool IsRootInDarkMode(XamlRoot root)
 			=> GetRootTheme(root) == ApplicationTheme.Dark;
 
-		/// <summary>
-		/// Gets whether the provided root element is currently in dark mode.
-		/// </summary>
-		/// <param name="root">The app's root element, typically the window's content.</param>
-		public static bool IsRootInDarkMode(FrameworkElement root)
-			=> GetRootTheme(root) == ApplicationTheme.Dark;
-
-		/// <summary>
-		/// Gets whether the content of the provided window is currently in dark mode.
-		/// </summary>
-		/// <param name="window">The app's window.</param>
-		public static bool IsRootInDarkMode(XamlWindow window)
-			=> GetRootTheme(window) == ApplicationTheme.Dark;
-
-		[Obsolete("SetApplicationTheme(bool darkMode) is obsolete. Use SetApplicationTheme(Window? window, ElementTheme theme) or SetApplicationTheme(FrameworkElement? root, ElementTheme theme) instead.")]
+		[Obsolete("SetApplicationTheme(bool darkMode) is obsolete. Use SetApplicationTheme(XamlRoot? root, ElementTheme theme) instead.")]
 		public static void SetApplicationTheme(bool darkMode)
 			=> SetRootTheme(GetWindowRoot().XamlRoot, darkMode);
 
 		/// <summary>
 		/// Sets the theme for the provided XamlRoot
 		/// </summary>
-		/// <param name="root">The XamlRoot whose content to theme.</param>
-		/// <param name="darkMode">Whether to apply the dark theme.</param>
-		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root under a foreign XamlRoot (e.g. Hot Design); prefer <see cref="SetRootTheme(FrameworkElement?, bool)"/> there.</remarks>
+		/// <param name="root"></param>
+		/// <param name="darkMode"></param>
 		public static void SetRootTheme(XamlRoot? root, bool darkMode)
-			=> SetRootTheme(root?.Content as FrameworkElement, darkMode);
-
-		/// <summary>
-		/// Sets the theme for the provided root element and its subtree.
-		/// </summary>
-		/// <param name="root">The app's root element, typically the window's content.</param>
-		/// <param name="darkMode">Whether to apply the dark theme.</param>
-		public static void SetRootTheme(FrameworkElement? root, bool darkMode)
 			=> SetApplicationTheme(root, darkMode ? ElementTheme.Dark : ElementTheme.Light);
 
-		/// <summary>
-		/// Sets the theme for the content of the provided window.
-		/// </summary>
-		/// <param name="window">The app's window.</param>
-		/// <param name="darkMode">Whether to apply the dark theme.</param>
-		public static void SetRootTheme(XamlWindow? window, bool darkMode)
-			=> SetRootTheme(window?.Content as FrameworkElement, darkMode);
-
-		/// <summary>
-		/// Sets the theme for the content of the provided XamlRoot.
-		/// </summary>
-		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root under a foreign XamlRoot (e.g. Hot Design); prefer <see cref="SetApplicationTheme(FrameworkElement?, ElementTheme)"/> there.</remarks>
 		public static void SetApplicationTheme(XamlRoot? root, ElementTheme theme)
-			=> SetApplicationTheme(root?.Content as FrameworkElement, theme);
-
-		/// <summary>
-		/// Sets the theme for the provided root element and its subtree.
-		/// </summary>
-		/// <param name="root">The app's root element, typically the window's content.</param>
-		/// <param name="theme">The theme to apply.</param>
-		public static void SetApplicationTheme(FrameworkElement? root, ElementTheme theme)
 		{
-			if (root is not null)
+			if (ResolveThemeTarget(root) is { } target)
 			{
-				root.RequestedTheme = theme;
+				target.RequestedTheme = theme;
 			}
 			else
 			{
-				Logger.WarnIfEnabled(() => "No root element to apply the theme to (window/XamlRoot content not set, or not a FrameworkElement).");
+				Logger.WarnIfEnabled(() => "No root element to apply the theme to (XamlRoot is null, or its content is not a FrameworkElement).");
 			}
 		}
 
-		/// <summary>
-		/// Sets the theme for the content of the provided window.
-		/// </summary>
-		/// <param name="window">The app's window.</param>
-		/// <param name="theme">The theme to apply.</param>
-		public static void SetApplicationTheme(XamlWindow? window, ElementTheme theme)
-			=> SetApplicationTheme(window?.Content as FrameworkElement, theme);
-
-		[Obsolete("ToggleApplicationTheme() is obsolete. Use IsRootInDarkMode + SetRootTheme with the app's Window or root element instead.")]
+		[Obsolete("ToggleApplicationTheme() is obsolete. Use SetApplicationTheme(XamlRoot? root, ElementTheme theme) instead.")]
 		public static void ToggleApplicationTheme()
 			=> SetApplicationTheme(darkMode: !IsAppInDarkMode());
 
 		private static FrameworkElement GetWindowRoot() =>
 #if IS_WINUI
-			throw new NotSupportedException($"This method is not supported with WinUI, use the overloads that take the app's Window or root FrameworkElement (or a XamlRoot).");
+			throw new NotSupportedException($"This method is not supported with WinUI, use methods that take a XamlRoot as a parameter");
 #else
 			XamlWindow.Current?.Content as FrameworkElement ??
 			throw new InvalidOperationException($"The current window content is not {(XamlWindow.Current?.Content == null ? "set" : "a FrameworkElement")}.");
