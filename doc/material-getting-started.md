@@ -179,7 +179,7 @@ In `App.xaml`, use the `FontOverrideSource` property on `MaterialToolkitTheme`:
 
 `MaterialToolkitTheme` supports seed-based color generation using the Material Design 3 HCT color space. A single seed color is used to derive the full tonal palette (Primary, Secondary, Tertiary, Neutral, and Error), for both Light and Dark themes.
 
-By default, `MaterialToolkitTheme` generates its palette from the built-in Material seed color (`#5946D2`). You can override this with the `Colors` property:
+By default, no seed is set and `MaterialToolkitTheme` uses the Material color palette. To opt into seed-based generation, set a seed via the `Colors` property:
 
 ```xml
 <MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
@@ -199,7 +199,7 @@ using Windows.UI;
 // Change the primary seed color at runtime
 SemanticThemeHelper.PrimarySeed = Color.FromArgb(0xFF, 0xFF, 0x6B, 0x35);
 
-// Clear the seed to revert to the default (#5946D2)
+// Clear the seed to revert to the default palette
 SemanticThemeHelper.PrimarySeed = null;
 ```
 

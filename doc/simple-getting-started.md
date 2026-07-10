@@ -194,7 +194,7 @@ The `SimpleToolkitTheme` exposes the base corner radius unit (in pixels) through
 
 `SimpleToolkitTheme` supports seed-based color generation. A single seed color is used to derive tonal palettes for both Light and Dark themes.
 
-`SimpleToolkitTheme` uses seed color generation by default with a neutral gray seed (`#808080`). You can override it by setting the `Colors` property:
+By default, no seed is set and `SimpleToolkitTheme` uses its grayscale palette. To opt into seed-based generation, set a seed via the `Colors` property:
 
 ```xml
 <SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
