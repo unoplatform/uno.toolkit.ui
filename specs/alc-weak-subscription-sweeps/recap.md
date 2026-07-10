@@ -15,7 +15,7 @@ roots an object graph that belongs to the previewed app's ALC, so the ALc's
 `LoaderAllocator` is never released and the ALC leaks for the process lifetime.
 
 This spec tracks a batch of low-risk sweeps that make those subscriptions weak /
-self-detaching, or add explicit purge hooks, without changing behaviour for normal apps.
+self-detaching, or add explicit purge hooks, without changing behavior for normal apps.
 
 Backing issue: **#1607**.
 

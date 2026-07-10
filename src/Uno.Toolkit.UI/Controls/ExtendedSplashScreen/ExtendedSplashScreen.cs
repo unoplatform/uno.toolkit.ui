@@ -110,8 +110,8 @@ Window? Window
 	}
 
 	// Releases any retained native splash resources (e.g. the Android splash bitmap). No-op where there
-	// are none.
-	partial void ReleaseNativeSplashResources();
+	// are none. Static because the only implementation (Android) clears a process-lifetime static field.
+	static partial void ReleaseNativeSplashResources();
 
 	private async Task LoadNativeSplashScreen()
 	{

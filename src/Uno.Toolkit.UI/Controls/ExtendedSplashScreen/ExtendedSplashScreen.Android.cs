@@ -96,7 +96,7 @@ public partial class ExtendedSplashScreen
 		}
 	}
 
-	partial void ReleaseNativeSplashResources()
+	static partial void ReleaseNativeSplashResources()
 	{
 		// The captured splash bitmap is only needed while the extended splash screen is displayed. Once
 		// the control unloads, drop and recycle it so it does not linger in the process-lifetime static.
