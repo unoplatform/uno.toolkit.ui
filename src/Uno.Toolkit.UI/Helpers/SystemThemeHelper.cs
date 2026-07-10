@@ -164,7 +164,7 @@ namespace Uno.Toolkit.UI
 
 		private static FrameworkElement GetWindowRoot() =>
 #if IS_WINUI
-			throw new NotSupportedException($"This method is not supported with WinUI, use methods that take a XamlRoot as a parameter");
+			throw new NotSupportedException($"This method is not supported with WinUI, use the overloads that take the app's Window or root FrameworkElement (or a XamlRoot).");
 #else
 			XamlWindow.Current?.Content as FrameworkElement ??
 			throw new InvalidOperationException($"The current window content is not {(XamlWindow.Current?.Content == null ? "set" : "a FrameworkElement")}.");
