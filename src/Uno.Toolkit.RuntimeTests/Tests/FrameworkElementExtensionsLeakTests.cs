@@ -18,7 +18,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 /// <summary>
 /// Guards that the disposable returned by
-/// <see cref="FrameworkElementExtensions.SubscribeToNestedElements"/> actually detaches its
+/// <c>FrameworkElementExtensions.SubscribeToNestedElements</c> actually detaches its
 /// <c>Loaded</c> handlers on dispose. Leaving them attached pins the whole subscription closure
 /// (including the caller-supplied callback) to any host-owned element that outlives a previewed app
 /// loaded into a collectible AssemblyLoadContext.
