@@ -22,17 +22,13 @@ namespace Uno.Toolkit.UI
 	{
 		private static readonly ILogger Logger = typeof(SystemThemeHelper).Log();
 
-		// Maps a XamlRoot to the app's own root element, for apps hosted under a XamlRoot they don't
-		// own (e.g. Hot Design re-parents the app's Window.Content into the host's shared XamlRoot,
-		// so XamlRoot.Content resolves to the host's root, not the app's). Registered by the hosting
-		// integration via SetAppRootOverride. Both key and value are held weakly so an unloaded app
-		// (collectible ALC) is not kept alive.
+		// Maps a XamlRoot to the app's own root element, for apps hosted under a XamlRoot they
+		// don't own. Held weakly on both sides so an unloaded app is not kept alive.
 		private static readonly ConditionalWeakTable<XamlRoot, WeakReference<FrameworkElement>> _appRootOverrides = new();
 
 		/// <summary>
-		/// Registers the element to be treated as the app's root for the given XamlRoot, in place of
-		/// <see cref="XamlRoot.Content"/>. Used by hosting integrations (e.g. Hot Design) when an app's
-		/// content is re-parented under a XamlRoot it doesn't own. Pass null to clear the override.
+		/// Registers the element to treat as the app's root for the given XamlRoot, in place of
+		/// <see cref="XamlRoot.Content"/>. Pass null to clear the override.
 		/// </summary>
 		internal static void SetAppRootOverride(XamlRoot root, FrameworkElement? appRoot)
 		{
@@ -46,8 +42,6 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		// Resolves the element whose theme is read/written for the given XamlRoot: the registered
-		// app-root override when it is alive and still attached to that XamlRoot, else XamlRoot.Content.
 		internal static FrameworkElement? ResolveThemeTarget(XamlRoot? root)
 		{
 			if (root is null)
