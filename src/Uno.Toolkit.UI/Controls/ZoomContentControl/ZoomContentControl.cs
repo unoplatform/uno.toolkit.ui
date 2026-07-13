@@ -345,7 +345,12 @@ partial class ZoomContentControl
 
 	private void OnAdditionalMarginChanged()
 	{
-		UpdateScrollBars();
+		// AdditionalMargin insets the usable viewport (see ClippedViewportSize) and participates in
+		// FitToCanvas/CenterContent, so a margin change is effectively a viewport change. Mirror
+		// OnViewportSizeChanged and re-run the auto fit/center pass (gated on AutoFitToCanvas/
+		// AutoCenterContent inside UpdateScrollDetails); otherwise the content stays fitted/centered
+		// against the previous margin until an unrelated size/zoom change happens to re-fit.
+		UpdateScrollDetails();
 
 		ViewportSizeChanged?.Invoke(this, EventArgs.Empty);
 	}
