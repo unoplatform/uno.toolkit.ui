@@ -38,7 +38,7 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		[Obsolete("GetApplicationTheme is obsolete. Use GetRootTheme(Window window) or GetRootTheme(FrameworkElement root) instead.")]
 		public static ApplicationTheme GetApplicationTheme()
-			=> GetRootTheme(GetWindowRoot()?.XamlRoot);
+			=> GetRootTheme(GetWindowRoot().XamlRoot);
 
 		/// <summary>
 		/// Gets a <see cref="ApplicationTheme"/> from the provided XamlRoot.

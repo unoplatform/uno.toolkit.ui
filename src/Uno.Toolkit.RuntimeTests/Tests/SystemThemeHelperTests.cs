@@ -58,6 +58,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			SystemThemeHelper.SetApplicationTheme((FrameworkElement?)null, ElementTheme.Dark);
 			SystemThemeHelper.SetApplicationTheme((Window?)null, ElementTheme.Dark);
 			SystemThemeHelper.SetRootTheme((FrameworkElement?)null, darkMode: true);
+			SystemThemeHelper.SetRootTheme((Window?)null, darkMode: true);
 
 			Assert.AreEqual(SystemThemeHelper.GetCurrentOsTheme(), SystemThemeHelper.GetRootTheme((FrameworkElement?)null));
 			Assert.AreEqual(SystemThemeHelper.GetCurrentOsTheme(), SystemThemeHelper.GetRootTheme((Window?)null));

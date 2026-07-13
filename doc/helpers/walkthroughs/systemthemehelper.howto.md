@@ -248,6 +248,7 @@ For this, the helper offers overloads that take your app's own root element or `
 
 ```csharp
 using Uno.Toolkit.UI;
+using Microsoft.UI.Xaml; // or Windows.UI.Xaml, depending on your target
 
 // Option A - with your app's root element, captured once at startup
 // (e.g. in App.xaml.cs, right after setting window.Content):
