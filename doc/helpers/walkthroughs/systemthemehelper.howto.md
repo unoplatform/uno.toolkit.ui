@@ -45,7 +45,7 @@ var appTheme = SystemThemeHelper.GetRootTheme(xamlRoot);
 **Notes**
 
 * If `xamlRoot` is `null`, the helper falls back to the OS theme.
-* This reads the theme of `XamlRoot.Content` - the root visual of the `XamlRoot`. For the hosted-safe default, prefer the `Window`/`FrameworkElement` overloads (section 8).
+* This reads the theme of `XamlRoot.Content` - the root visual of the `XamlRoot`. If the app is hosted under a `XamlRoot` it doesn't own, use the `Window`/`FrameworkElement` overloads instead (section 8).
 
 ---
 
@@ -106,7 +106,7 @@ SystemThemeHelper.SetApplicationTheme(xamlRoot, ElementTheme.Light);
 * “Preview in Light/Dark” buttons
 
 > [!IMPORTANT]
-> The `XamlRoot`-based overloads target `XamlRoot.Content` - the root visual of the `XamlRoot`. If your app's content is hosted under a `XamlRoot` it doesn't own (for example under Hot Design), that element is the **host's** root, not your app's. Prefer the `Window`/`FrameworkElement` overloads described in section 8 below - they behave identically in standalone apps and remain correct when hosted.
+> The `XamlRoot`-based overloads target `XamlRoot.Content` - the root visual of the `XamlRoot`. If your app's content is hosted under a `XamlRoot` it doesn't own (for example an ALC-hosted app running inside another app), that element is the **host's** root, not your app's. In that case use the `Window`/`FrameworkElement` overloads described in section 8 below.
 
 ---
 
@@ -168,11 +168,11 @@ var theme = SystemThemeHelper.GetApplicationTheme(); // obsolete
 **After (recommended):**
 
 ```csharp
-var theme = SystemThemeHelper.GetRootTheme(appRoot); // the app's root element (see section 8)
-// or, standalone-only: SystemThemeHelper.GetRootTheme(MyPage.XamlRoot);
+var theme = SystemThemeHelper.GetRootTheme(MyPage.XamlRoot);
+// hosted under a XamlRoot the app doesn't own: use the root element overload (section 8)
 ```
 
-Why: the new version is root-aware, and the element overload stays correct when hosted (section 8).
+Why: the new version is root-aware.
 
 ---
 
@@ -187,11 +187,11 @@ var isDark = SystemThemeHelper.IsAppInDarkMode(); // obsolete
 **After (recommended):**
 
 ```csharp
-var isDark = SystemThemeHelper.IsRootInDarkMode(appRoot); // the app's root element (see section 8)
-// or, standalone-only: SystemThemeHelper.IsRootInDarkMode(MyPage.XamlRoot);
+var isDark = SystemThemeHelper.IsRootInDarkMode(MyPage.XamlRoot);
+// hosted under a XamlRoot the app doesn't own: use the root element overload (section 8)
 ```
 
-Why: again, this works for the current visual root - and the element overload stays correct when hosted.
+Why: again, this works for the current visual root.
 
 ---
 
@@ -205,19 +205,19 @@ SystemThemeHelper.SetApplicationTheme(true); // dark
 
 **After (recommended):**
 
-Option A – use the app's root element + enum (hosted-safe, see section 8):
+Option A – use `XamlRoot` + enum:
 
 ```csharp
-SystemThemeHelper.SetApplicationTheme(appRoot, ElementTheme.Dark);
+SystemThemeHelper.SetApplicationTheme(MyPage.XamlRoot, ElementTheme.Dark);
 ```
 
-Option B – use the app's root element + bool:
+Option B – use `XamlRoot` + bool:
 
 ```csharp
-SystemThemeHelper.SetRootTheme(appRoot, darkMode: true);
+SystemThemeHelper.SetRootTheme(MyPage.XamlRoot, darkMode: true);
 ```
 
-The `XamlRoot`-based equivalents remain available for standalone apps.
+Hosted under a `XamlRoot` the app doesn't own: use the root element / window overloads (section 8).
 
 ---
 
@@ -232,17 +232,17 @@ SystemThemeHelper.ToggleApplicationTheme(); // obsolete
 **After (manual toggle):**
 
 ```csharp
-var isDark = SystemThemeHelper.IsRootInDarkMode(appRoot); // the app's root element (see section 8)
-SystemThemeHelper.SetRootTheme(appRoot, darkMode: !isDark);
+var isDark = SystemThemeHelper.IsRootInDarkMode(MyPage.XamlRoot);
+SystemThemeHelper.SetRootTheme(MyPage.XamlRoot, darkMode: !isDark);
 ```
 
-This keeps the old behavior but on the correct root.
+This keeps the old behavior but on the correct root. Hosted under a `XamlRoot` the app doesn't own: use the root element / window overloads (section 8).
 
 ---
 
 ## 8. Theme the app via its own root element or window (hosted-safe)
 
-All the `XamlRoot`-based members above resolve the target element through `XamlRoot.Content`. In a standalone app that element **is** your app's root, so they work fine. But when your app's content is hosted under a `XamlRoot` it doesn't own - for example under **Hot Design**, where the app's `Window.Content` is re-parented into a host's shared `XamlRoot` - `XamlRoot.Content` is the *host's* root visual. Reading through it reports the host's theme, and writing through it re-themes the host while your app stays unchanged.
+All the `XamlRoot`-based members above resolve the target element through `XamlRoot.Content`. In a standalone app that element **is** your app's root, so they work fine. But when your app's content is hosted under a `XamlRoot` it doesn't own - for example an app loaded into another app via an `AssemblyLoadContext`, with its content re-parented into a host's shared `XamlRoot` - `XamlRoot.Content` is the *host's* root visual. Reading through it reports the host's theme, and writing through it re-themes the host while your app stays unchanged.
 
 For this, the helper offers overloads that take your app's own root element or `Window` directly:
 
@@ -267,7 +267,7 @@ var isDark = SystemThemeHelper.IsRootInDarkMode(window);
 * Pass your app's **root** element (typically `window.Content`), not an arbitrary page - elements outside the page's subtree would otherwise keep the previous theme.
 * Content hosted in the popup root (flyouts, `ContentDialog`, tooltips) renders **outside** the app root's subtree and may not pick up the theme automatically - set `RequestedTheme` on such content explicitly if it doesn't.
 * If your root element gets recreated (e.g. a hot-reload replacing the visual tree), re-apply the theme to the new root.
-* In standalone apps these overloads behave exactly like the `XamlRoot` ones, so they are a safe default everywhere.
+* In standalone apps these overloads behave exactly like the `XamlRoot` ones; the `XamlRoot` API remains the one to use in normal situations.
 * If the resolved root is `null` (window content not set yet, or not a `FrameworkElement`), `Set*` is a no-op (a warning is logged when logging is enabled) and `Get*` falls back to the OS theme.
 
 **Toggle example (hosted-safe):**

@@ -17,7 +17,7 @@ Provides utilities for managing and retrieving the current theme of the operatin
 | `GetCurrentOsTheme()`        | `ApplicationTheme`      | Retrieves the current theme of the operating system.                          |
 | `GetApplicationTheme()`      | `ApplicationTheme`      | **[Obsolete]** Retrieves the current theme of the application. Will be removed in future versions.           |
 | `GetRootTheme(XamlRoot?)`    | `ApplicationTheme`      | Gets the `ApplicationTheme` of the provided `XamlRoot`, or falls back to the operating system theme.          |
-| `GetRootTheme(FrameworkElement?)` | `ApplicationTheme` | Gets the `ApplicationTheme` of the provided root element, or falls back to the operating system theme. **Preferred**: reliable even when the app is hosted under a `XamlRoot` it doesn't own (e.g. Hot Design). |
+| `GetRootTheme(FrameworkElement?)` | `ApplicationTheme` | Gets the `ApplicationTheme` of the provided root element, or falls back to the operating system theme. Use when the app is hosted under a `XamlRoot` it doesn't own (e.g. ALC-hosted), where `XamlRoot.Content` is the host's root. |
 | `GetRootTheme(Window?)`      | `ApplicationTheme`      | Gets the `ApplicationTheme` of the provided window's content, or falls back to the operating system theme.   |
 | `IsAppInDarkMode()`          | `bool`                 | **[Obsolete]** Returns `true` if the application is currently in dark mode, otherwise `false`.               |
 | `IsRootInDarkMode(XamlRoot)` | `bool`                 | Determines if the provided `XamlRoot` is in dark mode.                                                       |
@@ -49,7 +49,7 @@ Console.WriteLine($"Current App Theme: {appTheme}");
 |-------------------------------------|----------------------------------------------------------------------------------------------|
 | `SetApplicationTheme(bool)`         | **[Obsolete]** Sets the application theme to dark mode if `darkMode` is `true`, otherwise light mode. Will be removed in future versions. |
 | `SetRootTheme(XamlRoot?, bool)`     | Sets the theme for the provided `XamlRoot` based on the `darkMode` parameter.              |
-| `SetRootTheme(FrameworkElement?, bool)` | Sets the theme for the provided root element (and its subtree) based on the `darkMode` parameter. **Preferred**: reliable even when the app is hosted under a `XamlRoot` it doesn't own (e.g. Hot Design). |
+| `SetRootTheme(FrameworkElement?, bool)` | Sets the theme for the provided root element (and its subtree) based on the `darkMode` parameter. Use when the app is hosted under a `XamlRoot` it doesn't own (e.g. ALC-hosted), where `XamlRoot.Content` is the host's root. |
 | `SetRootTheme(Window?, bool)`       | Sets the theme for the provided window's content based on the `darkMode` parameter.        |
 | `SetApplicationTheme(XamlRoot?, ElementTheme)` | Sets the `ElementTheme` (`Light` or `Dark`) for the provided `XamlRoot`. |
 | `SetApplicationTheme(FrameworkElement?, ElementTheme)` | Sets the `ElementTheme` (`Light` or `Dark`) on the provided root element, theming its whole subtree. |
@@ -58,7 +58,15 @@ Console.WriteLine($"Current App Theme: {appTheme}");
 
 ### Usage
 
-Set the theme for the app, using its root element (preferred):
+Set the theme for a specific `XamlRoot`:
+
+```csharp
+var xamlRoot = someElement.XamlRoot;
+SystemThemeHelper.SetApplicationTheme(xamlRoot, ElementTheme.Light);
+Console.WriteLine("XamlRoot theme set to Light Mode.");
+```
+
+Set the theme when the app is hosted under a `XamlRoot` it doesn't own (e.g. ALC-hosted):
 
 ```csharp
 // Capture the app's root element once (e.g. in App.xaml.cs, right after setting window.Content):
@@ -71,13 +79,5 @@ SystemThemeHelper.SetApplicationTheme(window, ElementTheme.Dark);
 
 If the resolved root element is `null` (for example, the window content is not set yet, or is not a `FrameworkElement`), the `Set*` overloads are a no-op (a warning is logged when logging is enabled), and the `Get*` overloads fall back to the operating system theme.
 
-Set the theme for a specific `XamlRoot`:
-
-```csharp
-var xamlRoot = someElement.XamlRoot;
-SystemThemeHelper.SetApplicationTheme(xamlRoot, ElementTheme.Light);
-Console.WriteLine("XamlRoot theme set to Light Mode.");
-```
-
 > [!IMPORTANT]
-> The `XamlRoot`-based overloads read and write the theme of `XamlRoot.Content` - the root visual of the `XamlRoot`. When the app's content is hosted under a `XamlRoot` it doesn't own (for example, when running under Hot Design, where the app's content is re-parented into a host's shared `XamlRoot`), `XamlRoot.Content` is the **host's** root visual: theming it re-themes the host instead of the app. In that scenario, use the `Window`- or `FrameworkElement`-based overloads with the app's own window or root element (typically `window.Content`), which behave identically in standalone apps and remain correct when hosted.
+> The `XamlRoot`-based overloads read and write the theme of `XamlRoot.Content` - the root visual of the `XamlRoot` - and are the API to use in normal situations. When the app's content is hosted under a `XamlRoot` it doesn't own (for example, an app loaded into another app via an `AssemblyLoadContext`, with its content re-parented into a shared `XamlRoot`), `XamlRoot.Content` is the **host's** root visual: theming it re-themes the host instead of the app. In that scenario, use the `Window`- or `FrameworkElement`-based overloads with the app's own window or root element (typically `window.Content`).

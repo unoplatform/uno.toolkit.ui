@@ -23,7 +23,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[DataRow(false, DisplayName = "App goes light, host stays dark")]
 		public async Task When_HostedUnderForeignXamlRoot_ThemesOwnRoot_NotHost(bool appDark)
 		{
-			// Hosted-app topology (e.g. Hot Design): the app root is a nested child, XamlRoot.Content is the host's root.
+			// Hosted-app topology: the app root is a nested child, XamlRoot.Content is the host's root.
 			var hostTheme = appDark ? ElementTheme.Light : ElementTheme.Dark;
 			var appRoot = new Grid();
 			// explicit size: WaitForLoaded requires non-zero ActualWidth/Height
@@ -59,7 +59,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			SystemThemeHelper.SetApplicationTheme((Window?)null, ElementTheme.Dark);
 			SystemThemeHelper.SetRootTheme((FrameworkElement?)null, darkMode: true);
 
-			// null root falls back to the OS theme
 			Assert.AreEqual(SystemThemeHelper.GetCurrentOsTheme(), SystemThemeHelper.GetRootTheme((FrameworkElement?)null));
 			Assert.AreEqual(SystemThemeHelper.GetCurrentOsTheme(), SystemThemeHelper.GetRootTheme((Window?)null));
 		}

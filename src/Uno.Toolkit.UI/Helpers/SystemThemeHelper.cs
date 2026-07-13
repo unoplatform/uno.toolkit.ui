@@ -43,7 +43,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Gets a <see cref="ApplicationTheme"/> from the provided XamlRoot.
 		/// </summary>
-		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root under a foreign XamlRoot (e.g. Hot Design); prefer <see cref="GetRootTheme(FrameworkElement?)"/> there.</remarks>
+		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root when the app is hosted under a XamlRoot it does not own; use <see cref="GetRootTheme(FrameworkElement?)"/> in that case.</remarks>
 		public static ApplicationTheme GetRootTheme(XamlRoot? root)
 			=> GetRootTheme(root?.Content as FrameworkElement);
 
@@ -79,7 +79,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Gets whether the content of the provided XamlRoot is currently in dark mode.
 		/// </summary>
-		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root under a foreign XamlRoot (e.g. Hot Design); prefer <see cref="IsRootInDarkMode(FrameworkElement)"/> there.</remarks>
+		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root when the app is hosted under a XamlRoot it does not own; use <see cref="IsRootInDarkMode(FrameworkElement)"/> in that case.</remarks>
 		public static bool IsRootInDarkMode(XamlRoot root)
 			=> GetRootTheme(root) == ApplicationTheme.Dark;
 
@@ -106,7 +106,7 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		/// <param name="root">The XamlRoot whose content to theme.</param>
 		/// <param name="darkMode">Whether to apply the dark theme.</param>
-		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root under a foreign XamlRoot (e.g. Hot Design); prefer <see cref="SetRootTheme(FrameworkElement?, bool)"/> there.</remarks>
+		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root when the app is hosted under a XamlRoot it does not own; use <see cref="SetRootTheme(FrameworkElement?, bool)"/> in that case.</remarks>
 		public static void SetRootTheme(XamlRoot? root, bool darkMode)
 			=> SetRootTheme(root?.Content as FrameworkElement, darkMode);
 
@@ -129,7 +129,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Sets the theme for the content of the provided XamlRoot.
 		/// </summary>
-		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root under a foreign XamlRoot (e.g. Hot Design); prefer <see cref="SetApplicationTheme(FrameworkElement?, ElementTheme)"/> there.</remarks>
+		/// <remarks>Targets <see cref="XamlRoot.Content"/>, which is the host's root when the app is hosted under a XamlRoot it does not own; use <see cref="SetApplicationTheme(FrameworkElement?, ElementTheme)"/> in that case.</remarks>
 		public static void SetApplicationTheme(XamlRoot? root, ElementTheme theme)
 			=> SetApplicationTheme(root?.Content as FrameworkElement, theme);
 
