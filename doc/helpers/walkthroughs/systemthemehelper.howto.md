@@ -6,7 +6,7 @@ Use this when you just want to know what the operating system is using (Light/Da
 
 ```csharp
 using Uno.Toolkit.UI;
-using Microsoft.UI.Xaml; // or Windows.UI.Xaml, depending on your target
+using Microsoft.UI.Xaml;
 
 var osTheme = SystemThemeHelper.GetCurrentOsTheme();
 
@@ -32,7 +32,7 @@ Use this when your app has multiple windows/surfaces and you need the theme **fo
 
 ```csharp
 using Uno.Toolkit.UI;
-using Microsoft.UI.Xaml; // or Windows.UI.Xaml, depending on your target
+using Microsoft.UI.Xaml;
 
 // any FrameworkElement you have on screen:
 var xamlRoot = MyPage.XamlRoot;
@@ -82,7 +82,7 @@ Use this when you want to **override** the OS/user setting for a specific root.
 
 ```csharp
 using Uno.Toolkit.UI;
-using Microsoft.UI.Xaml; // or Windows.UI.Xaml, depending on your target
+using Microsoft.UI.Xaml;
 
 var xamlRoot = MyPage.XamlRoot;
 
@@ -136,7 +136,7 @@ Sometimes you just want to know “what do I have right now?”
 
 ```csharp
 using Uno.Toolkit.UI;
-using Microsoft.UI.Xaml; // or Windows.UI.Xaml, depending on your target
+using Microsoft.UI.Xaml;
 
 var osTheme   = SystemThemeHelper.GetCurrentOsTheme();
 var rootTheme = SystemThemeHelper.GetRootTheme(MyPage.XamlRoot);
@@ -248,7 +248,7 @@ For this, the helper offers overloads that take your app's own root element or `
 
 ```csharp
 using Uno.Toolkit.UI;
-using Microsoft.UI.Xaml; // or Windows.UI.Xaml, depending on your target
+using Microsoft.UI.Xaml;
 
 // Option A - with your app's root element, captured once at startup
 // (e.g. in App.xaml.cs, right after setting window.Content):

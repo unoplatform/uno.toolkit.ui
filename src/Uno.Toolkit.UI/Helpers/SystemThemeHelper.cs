@@ -36,7 +36,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Get the current theme of the application.
 		/// </summary>
-		[Obsolete("GetApplicationTheme is obsolete. Use GetRootTheme(Window window) or GetRootTheme(FrameworkElement root) instead.")]
+		[Obsolete("GetApplicationTheme is obsolete. Use GetRootTheme(XamlRoot root) instead, or GetRootTheme(FrameworkElement root) when hosted under a XamlRoot the app doesn't own.")]
 		public static ApplicationTheme GetApplicationTheme()
 			=> GetRootTheme(GetWindowRoot().XamlRoot);
 
@@ -72,7 +72,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Get if the application is currently in dark mode.
 		/// </summary>
-		[Obsolete("IsAppInDarkMode is obsolete. Use IsRootInDarkMode(Window window) or IsRootInDarkMode(FrameworkElement root) instead.")]
+		[Obsolete("IsAppInDarkMode is obsolete. Use IsRootInDarkMode(XamlRoot root) instead, or IsRootInDarkMode(FrameworkElement root) when hosted under a XamlRoot the app doesn't own.")]
 		public static bool IsAppInDarkMode()
 			=> GetRootTheme(GetWindowRoot().XamlRoot) == ApplicationTheme.Dark;
 
@@ -97,7 +97,7 @@ namespace Uno.Toolkit.UI
 		public static bool IsRootInDarkMode(XamlWindow window)
 			=> GetRootTheme(window) == ApplicationTheme.Dark;
 
-		[Obsolete("SetApplicationTheme(bool darkMode) is obsolete. Use SetApplicationTheme(Window? window, ElementTheme theme) or SetApplicationTheme(FrameworkElement? root, ElementTheme theme) instead.")]
+		[Obsolete("SetApplicationTheme(bool darkMode) is obsolete. Use SetApplicationTheme(XamlRoot? root, ElementTheme theme) instead, or SetApplicationTheme(FrameworkElement? root, ElementTheme theme) when hosted under a XamlRoot the app doesn't own.")]
 		public static void SetApplicationTheme(bool darkMode)
 			=> SetRootTheme(GetWindowRoot().XamlRoot, darkMode);
 
@@ -158,13 +158,13 @@ namespace Uno.Toolkit.UI
 		public static void SetApplicationTheme(XamlWindow? window, ElementTheme theme)
 			=> SetApplicationTheme(window?.Content as FrameworkElement, theme);
 
-		[Obsolete("ToggleApplicationTheme() is obsolete. Use IsRootInDarkMode + SetRootTheme with the app's Window or root element instead.")]
+		[Obsolete("ToggleApplicationTheme() is obsolete. Use SetApplicationTheme(XamlRoot? root, ElementTheme theme) instead.")]
 		public static void ToggleApplicationTheme()
 			=> SetApplicationTheme(darkMode: !IsAppInDarkMode());
 
 		private static FrameworkElement GetWindowRoot() =>
 #if IS_WINUI
-			throw new NotSupportedException($"This method is not supported with WinUI, use the overloads that take the app's Window or root FrameworkElement (or a XamlRoot).");
+			throw new NotSupportedException($"This method is not supported with WinUI, use methods that take a XamlRoot as a parameter");
 #else
 			XamlWindow.Current?.Content as FrameworkElement ??
 			throw new InvalidOperationException($"The current window content is not {(XamlWindow.Current?.Content == null ? "set" : "a FrameworkElement")}.");
