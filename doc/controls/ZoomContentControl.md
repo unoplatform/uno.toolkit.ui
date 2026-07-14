@@ -43,7 +43,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `AutoFitToCanvas`   | `bool`                              | Gets or sets a value indicating whether the content should be automatically scaled to fit within the viewport. |
 | `AutoCenterContent` | `bool`                              | Gets or sets a value indicating whether the content should be automatically centered within the viewport.      |
 | `AllowFreePanning`  | `bool`                              | Gets or sets a value indicating whether content can be panned outside of the viewport.                         |
-| `AdditionalMargin`  | `Thickness`                         | Gets or sets additional margins around the content.                                                            |
+| `AdditionalMargin`  | `Thickness`                         | Gets or sets additional margins that inset the usable viewport around the content. Changing it re-runs the auto fit/center pass (honoring `AutoFitToCanvas`/`AutoCenterContent`), like a viewport-size change. |
 | `ScrollBarLayout`   | `ZoomContentControlScrollBarLayout` | Gets or sets the layout style of the scroll bars.                                                              |
 | `ElementOnFocus`    | `FrameworkElement`                  | Gets or sets the focused element which auto-zoom and auto-fit will be centered around.                         |
 
