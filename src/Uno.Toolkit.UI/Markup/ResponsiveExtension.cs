@@ -177,15 +177,16 @@ public partial class ResponsiveExtension
 		ResponsiveHelper.InitializeIfNeeded(selfOrProxyHost.XamlRoot);
 
 		// Subscribe to the process-lifetime static WindowSizeChanged event weakly, so the static event
-		// does not strongly root this extension (and, through it, its target/host). The wrapper
-		// self-detaches once this extension is collected. This is what lets a dead extension be collected
-		// even if neither Unloaded nor a resize ever fires.
+		// does not strongly root this extension (and, through it, its target/host) — this is what lets a
+		// dead extension be collected even if neither Unloaded nor a resize ever fires. The stale weak
+		// wrapper left in the event's invocation list self-detaches on the next WindowSizeChanged raised
+		// after the extension has been collected (Unloaded is the primary, proactive teardown below).
 		// Note: a fresh handler instance is created per Connect; the previous one (if any) was already
 		// detached by '_disposable.Disposable = null' above, so no explicit '-=' is needed here.
-		var handler = CreateWeakHandler(
+		var handler = WeakEventHelper.CreateWeakHandler<ResponsiveExtension, object, Size>(
 			this,
 			static (self, s, e) => self.OnWindowSizeChanged(s, e),
-			static h => ResponsiveHelper.WindowSizeChanged -= h);
+			static (s, h) => ResponsiveHelper.WindowSizeChanged -= h);
 		ResponsiveHelper.WindowSizeChanged += handler;
 		IsConnected = true;
 
@@ -214,33 +215,6 @@ public partial class ResponsiveExtension
 		// collected instead of lingering in the process-lifetime statics.
 		CleanupIfHostDisposed(force: true);
 		Disconnect();
-	}
-
-	// Creates a TypedEventHandler that invokes onEvent against a WeakReference to target, so the
-	// process-lifetime static event source cannot strongly root the target. Once the target has been
-	// collected the wrapper detaches itself via detach. onEvent/detach MUST be static (non-capturing).
-	private static TypedEventHandler<object, Size> CreateWeakHandler(
-		ResponsiveExtension target,
-		Action<ResponsiveExtension, object, Size> onEvent,
-		Action<TypedEventHandler<object, Size>> detach)
-	{
-		System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-		System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-
-		var weakTarget = new WeakReference<ResponsiveExtension>(target);
-		TypedEventHandler<object, Size> h = null!;
-		h = (s, e) =>
-		{
-			if (weakTarget.TryGetTarget(out var self))
-			{
-				onEvent(self, s, e);
-			}
-			else
-			{
-				detach(h);
-			}
-		};
-		return h;
 	}
 
 	// Prunes dead entries from the process-lifetime statics: TrackedInstances tuples whose extension has

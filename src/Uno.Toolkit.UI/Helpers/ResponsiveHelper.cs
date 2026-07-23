@@ -143,8 +143,8 @@ public static class ResponsiveHelper
 
 	private static ResponsiveSizeProvider? _defaultSizeProvider;
 	private static ResponsiveSizeProvider? _overrideSizeProvider;
-	private static SerialDisposable _overrideSizeProviderDisposable = new();
-	private static SerialDisposable _defaultSizeProviderDisposable = new();
+	private static readonly SerialDisposable _overrideSizeProviderDisposable = new();
+	private static readonly SerialDisposable _defaultSizeProviderDisposable = new();
 
 	public static void InitializeIfNeeded(XamlRoot provider) // backdoor
 	{
@@ -160,50 +160,27 @@ public static class ResponsiveHelper
 			// previewed apps into their own collectible ALCs) this pins the Toolkit ALC and prevents it
 			// from ever unloading. Subscribe weakly so the host XamlRoot only holds a WeakReference back;
 			// the wrapper self-detaches once the size provider is collected, and Reset() tears it down.
-			var handler = CreateWeakHandler<XamlRoot, XamlRootChangedEventArgs>(
+			var handler = WeakEventHelper.CreateWeakHandler<ResponsiveSizeProvider, XamlRoot, XamlRootChangedEventArgs>(
 				sizeProvider,
 				static (self, s, e) => self.Size = s.Size,
 				static (s, h) => s.Changed -= h);
 			provider.Changed += handler;
-			_defaultSizeProviderDisposable.Disposable = Disposable.Create(() => provider.Changed -= handler);
+
+			// Capture the host XamlRoot weakly in the teardown so this process-lifetime static does not
+			// itself strongly root a (possibly closed) window's XamlRoot. The weak 'handler' above already
+			// keeps the provider from rooting the size provider.
+			var weakProvider = new WeakReference<XamlRoot>(provider);
+			_defaultSizeProviderDisposable.Disposable = Disposable.Create(() =>
+			{
+				if (weakProvider.TryGetTarget(out var p))
+				{
+					p.Changed -= handler;
+				}
+			});
 
 			sizeProvider.SizeChanged += RaiseSizeChanged;
 			sizeProvider.Size = provider.Size;
 		}
-	}
-
-	// Creates a TypedEventHandler that invokes onEvent against a WeakReference to target, so a
-	// process-global event source cannot strongly root the target. Once the target has been collected
-	// the wrapper detaches itself via detach. onEvent/detach MUST be static (non-capturing) so the
-	// returned delegate captures only the WeakReference — never the target instance.
-	private static TypedEventHandler<TSender, TArgs> CreateWeakHandler<TSender, TArgs>(
-		ResponsiveSizeProvider target,
-		Action<ResponsiveSizeProvider, TSender, TArgs> onEvent,
-		Action<TSender, TypedEventHandler<TSender, TArgs>> detach)
-		where TSender : class
-	{
-		// The whole point of this wrapper is that the global event source holds only a WeakReference
-		// back. That guarantee is defeated if a caller passes a capturing lambda: its closure display
-		// class would be rooted by the delegate (Target != null) and would in turn root whatever it
-		// captured. Callers must pass static/non-capturing delegates (Target == null); assert it in
-		// DEBUG so an accidental capture is caught during dev.
-		System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-		System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-
-		var weakTarget = new WeakReference<ResponsiveSizeProvider>(target);
-		TypedEventHandler<TSender, TArgs> h = null!;
-		h = (s, e) =>
-		{
-			if (weakTarget.TryGetTarget(out var self))
-			{
-				onEvent(self, s, e);
-			}
-			else
-			{
-				detach(s, h);
-			}
-		};
-		return h;
 	}
 
 #if DEBUG

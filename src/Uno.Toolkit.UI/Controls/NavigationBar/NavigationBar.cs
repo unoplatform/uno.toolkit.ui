@@ -1,4 +1,4 @@
-﻿#if __IOS__ || __ANDROID__
+#if __IOS__ || __ANDROID__
 #define HAS_NATIVE_NAVBAR
 #endif
 #if !IS_WINUI || HAS_UNO
@@ -194,8 +194,9 @@ namespace Uno.Toolkit.UI
 			// the SerialDisposable below (the fast path), but Unloaded does not fire when the owner's
 			// AssemblyLoadContext is torn down abruptly (e.g. a downstream host that loads previewed apps
 			// into their own collectible ALCs). Subscribe weakly so the global singleton only holds a
-			// WeakReference back; the wrapper self-detaches once this instance is collected.
-			var backRequestedHandler = CreateWeakHandler<NavigationBar, BackRequestedEventArgs>(
+			// WeakReference back; the stale weak wrapper self-detaches on the next BackRequested raised
+			// after this instance is collected (Unloaded is the primary, proactive teardown below).
+			var backRequestedHandler = WeakEventHelper.CreateWeakHandler<NavigationBar, BackRequestedEventArgs>(
 				this,
 				static (self, s, e) => self.OnBackRequested(s, e),
 				static h => SystemNavigationManager.GetForCurrentView().BackRequested -= h);
@@ -248,42 +249,13 @@ namespace Uno.Toolkit.UI
 		// never fires, so a test can verify the global singleton still holds only a weak reference back.
 		internal void TestHook_SubscribeWeakBackRequestedWithoutTeardown()
 		{
-			var backRequestedHandler = CreateWeakHandler<NavigationBar, BackRequestedEventArgs>(
+			var backRequestedHandler = WeakEventHelper.CreateWeakHandler<NavigationBar, BackRequestedEventArgs>(
 				this,
 				static (self, s, e) => self.OnBackRequested(s, e),
 				static h => SystemNavigationManager.GetForCurrentView().BackRequested -= h);
 			SystemNavigationManager.GetForCurrentView().BackRequested += backRequestedHandler;
 		}
 #endif
-
-		// Creates an EventHandler that invokes onEvent against a WeakReference to target, so a
-		// process-global event source cannot strongly root the target. Once the target has been collected
-		// the wrapper detaches itself via detach. onEvent/detach MUST be static (non-capturing) so the
-		// returned delegate captures only the WeakReference — never the target instance.
-		private static EventHandler<TArgs> CreateWeakHandler<TTarget, TArgs>(
-			TTarget target,
-			Action<TTarget, object?, TArgs> onEvent,
-			Action<EventHandler<TArgs>> detach)
-			where TTarget : class
-		{
-			System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-			System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-
-			var weakTarget = new WeakReference<TTarget>(target);
-			EventHandler<TArgs> h = null!;
-			h = (s, e) =>
-			{
-				if (weakTarget.TryGetTarget(out var self))
-				{
-					onEvent(self, s, e);
-				}
-				else
-				{
-					detach(h);
-				}
-			};
-			return h;
-		}
 #endif
 
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)

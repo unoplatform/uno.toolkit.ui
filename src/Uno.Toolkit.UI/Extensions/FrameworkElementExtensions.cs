@@ -71,9 +71,20 @@ internal static class FrameworkElementExtensions
 			{
 				if ((subscriptions.ElementAt(depth).Element != e))
 				{
-					// elment register at this depth is no longer the same
-					// drop everything from this depth and lower
-					lock (subscriptionsLock) subscriptions.RemoveRange(depth, subscriptions.Count - depth);
+					// element registered at this depth is no longer the same
+					// drop everything from this depth and lower, detaching each Loaded handler first:
+					// without this the removed entries stay subscribed (and, once dropped from the list,
+					// untracked), so Dispose can no longer detach them and their closures leak — exactly
+					// the pin this subscription bookkeeping exists to prevent.
+					lock (subscriptionsLock)
+					{
+						for (var i = depth; i < subscriptions.Count; i++)
+						{
+							subscriptions[i].Unsubscribe();
+						}
+
+						subscriptions.RemoveRange(depth, subscriptions.Count - depth);
+					}
 
 					// and, push a new stack
 					RoutedEventHandler handler = (s, _) => Walk(e, depth);
