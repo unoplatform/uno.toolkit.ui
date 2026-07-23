@@ -70,6 +70,8 @@ public partial class ExtendedSplashScreen : LoadingView
 Window? Window
 	{ get; set; }
 
+	private bool _isUnloaded;
+
 	public ExtendedSplashScreen()
 	{
 		Instance = this;
@@ -98,6 +100,8 @@ Window? Window
 		// splash bitmap). If those are never released, this ExtendedSplashScreen — and, when it belongs to
 		// a previewed app loaded into a collectible AssemblyLoadContext, that app's whole ALC — is pinned
 		// for the process lifetime. Once the control leaves the tree it is done, so release both.
+		_isUnloaded = true;
+
 		if (ReferenceEquals(Instance, this))
 		{
 			Instance = null;
@@ -115,13 +119,28 @@ Window? Window
 
 	private async Task LoadNativeSplashScreen()
 	{
-		var splashScreenContent = await GetNativeSplashScreen();
-
-		if (splashScreenContent is not null)
+		try
 		{
-			// Return a non-visible element to make sure some content is set on the ContentPresenter
-			// Setting null on WinUI throws an exception
-			SplashScreenContent = splashScreenContent;
+			var splashScreenContent = await GetNativeSplashScreen();
+
+			// GetNativeSplashScreen can await real I/O (reading the app manifest on Skia/WASM/Windows),
+			// during which the control may unload. If it did, OnUnloaded already released the content, so a
+			// late completion must not re-populate SplashScreenContent and undo that teardown.
+			if (_isUnloaded)
+			{
+				return;
+			}
+
+			if (splashScreenContent is not null)
+			{
+				// Return a non-visible element to make sure some content is set on the ContentPresenter
+				// Setting null on WinUI throws an exception
+				SplashScreenContent = splashScreenContent;
+			}
+		}
+		catch (Exception e)
+		{
+			this.Log().LogError(0, e, "Error while loading native splash screen.");
 		}
 	}
 }
