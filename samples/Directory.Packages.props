@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<SkiaSharpVersion>3.119.2</SkiaSharpVersion>
-		<UnoThemesVersion>7.0.0-dev.35</UnoThemesVersion>
+		<UnoThemesVersion>7.0.1</UnoThemesVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
