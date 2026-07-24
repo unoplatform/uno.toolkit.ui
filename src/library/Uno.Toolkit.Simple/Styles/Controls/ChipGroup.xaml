@@ -4,7 +4,7 @@
 	xmlns:utu="using:Uno.Toolkit.UI">
 
 	<ItemsPanelTemplate x:Key="SimpleHorizontalChipGroupItemsPanel">
-		<StackPanel Orientation="Horizontal" Spacing="8" />
+		<StackPanel Orientation="Horizontal" Spacing="{ThemeResource Space200}" />
 	</ItemsPanelTemplate>
 
 	<Style x:Key="SimpleBaseChipGroupStyle" TargetType="utu:ChipGroup">

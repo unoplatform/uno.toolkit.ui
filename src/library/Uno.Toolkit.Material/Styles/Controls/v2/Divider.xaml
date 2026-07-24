@@ -13,7 +13,7 @@
 			<StaticResource x:Key="DividerSubHeaderFontSize" ResourceKey="BodySmallFontSize" />
 			<StaticResource x:Key="DividerSubHeaderCharacterSpacing" ResourceKey="BodySmallCharacterSpacing" />
 
-			<Thickness x:Key="DividerSubHeaderMargin">0,4,0,0</Thickness>
+			<StaticResource x:Key="DividerSubHeaderMargin" ResourceKey="Space100TopThickness" />
 			<x:Double x:Key="DividerHeight">1</x:Double>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Light">
@@ -25,7 +25,7 @@
 			<StaticResource x:Key="DividerSubHeaderFontSize" ResourceKey="BodySmallFontSize" />
 			<StaticResource x:Key="DividerSubHeaderCharacterSpacing" ResourceKey="BodySmallCharacterSpacing" />
 
-			<Thickness x:Key="DividerSubHeaderMargin">0,4,0,0</Thickness>
+			<StaticResource x:Key="DividerSubHeaderMargin" ResourceKey="Space100TopThickness" />
 			<x:Double x:Key="DividerHeight">1</x:Double>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>

@@ -562,31 +562,34 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
-| Key                                                                  | Type            | Value                                        |
-|----------------------------------------------------------------------|-----------------|----------------------------------------------|
-| `NavigationTabBarWidthOrHeight`                                    | `Double`          | 80                                           |
-| `NavigationTabBarTintOpacity`                                      | `Double`          | 0.8                                          |
-| `NavigationTabBarItemIconHeight`                                   | `Double`          | 18                                           |
-| `NavigationTabBarItemActiveIndicatorWidth`                         | `Double`          | 64                                           |
-| `NavigationTabBarItemActiveIndicatorHeight`                        | `Double`          | 32                                           |
-| `NavigationTabBarItemPadding`                                      | `Thickness`       | 0,12,0,16                                    |
-| `NavigationTabBarItemActiveIndicatorCornerRadius`                  | `CornerRadius`    | 16                                           |
-| `TopTabBarHeight`                                                  | `Double`          | 48                                           |
-| `TopTabBarItemIconHeight`                                          | `Double`          | 20                                           |
-| `TopTabBarItemContentMargin`                                       | `Thickness`       | 0                                            |
-| `FabTabBarItemOffset`                                              | `Double`          | -32                                          |
-| `FabTabBarItemContentWidthOrHeight`                                | `Double`          | 16                                           |
-| `FabTabBarItemIconTextPadding`                                     | `Double`          | 12                                           |
-| `FabTabBarItemCornerRadius`                                        | `CornerRadius`    | 16                                           |
-| `FabTabBarItemPadding`                                             | `Thickness`       | 20                                           |
-| `NavigationTabBarItemSmallBadgeHeight`                             | `Double`          | 6                                            |
-| `NavigationTabBarItemSmallBadgeWidth`                              | `Double`          | 6                                            |
-| `NavigationTabBarItemSmallBadgeMargin`                             | `Thickness`       | 0,4,20,0                                     |
-| `NavigationTabBarItemLargeBadgeHeight`                             | `Double`          | 16                                           |
-| `NavigationTabBarItemLargeBadgeMinWidth`                           | `Double`          | 16                                           |
-| `NavigationTabBarItemLargeBadgeMargin`                             | `Thickness`       | 32,2,0,0                                     |
-| `NavigationTabBarItemLargeBadgePadding`                            | `Thickness`       | 4,0                                          |
-| `NavigationTabBarItemLargeBadgeCornerRadius`                       | `CornerRadius`    | 8                                            |
+> [!TIP]
+> Values marked with a design token name adjust automatically when you change `DefaultDensity` or `DefaultCornerRadius`. See [Design Tokens](../design-tokens.md) for details.
+
+| Key                                                                  | Type            | Value (Regular)                              | Design Token                    |
+|----------------------------------------------------------------------|-----------------|----------------------------------------------|---------------------------------|
+| `NavigationTabBarWidthOrHeight`                                    | `Double`          | 80                                           |                                 |
+| `NavigationTabBarTintOpacity`                                      | `Double`          | 0.08                                         |                                 |
+| `NavigationTabBarItemIconHeight`                                   | `Double`          | 18                                           |                                 |
+| `NavigationTabBarItemActiveIndicatorWidth`                         | `Double`          | 64                                           | `Space1600`                     |
+| `NavigationTabBarItemActiveIndicatorHeight`                        | `Double`          | 32                                           | `ControlHeightSmall`            |
+| `NavigationTabBarItemPadding`                                      | `Thickness`       | 0,12,0,16                                    |                                 |
+| `NavigationTabBarItemActiveIndicatorCornerRadius`                  | `CornerRadius`    | 16                                           | `Radius400CornerRadius`         |
+| `TopTabBarHeight`                                                  | `Double`          | 48                                           | `ControlHeightLarge`            |
+| `TopTabBarItemIconHeight`                                          | `Double`          | 20                                           | `Space500`                      |
+| `TopTabBarItemContentMargin`                                       | `Thickness`       | 8,0,0,0                                      | `Space200LeftThickness`         |
+| `FabTabBarItemOffset`                                              | `Double`          | -32                                          |                                 |
+| `FabTabBarItemContentWidthOrHeight`                                | `Double`          | 16                                           | `IconSizeSmall`                 |
+| `FabTabBarItemIconTextPadding`                                     | `Double`          | 12                                           | `Space300`                      |
+| `FabTabBarItemCornerRadius`                                        | `CornerRadius`    | 16                                           | `Radius400CornerRadius`         |
+| `FabTabBarItemPadding`                                             | `Thickness`       | 20                                           | `Space500Thickness`             |
+| `NavigationTabBarItemSmallBadgeHeight`                             | `Double`          | 6                                            | `Space150`                      |
+| `NavigationTabBarItemSmallBadgeWidth`                              | `Double`          | 6                                            | `Space150`                      |
+| `NavigationTabBarItemSmallBadgeMargin`                             | `Thickness`       | 0,4,20,0                                    |                                 |
+| `NavigationTabBarItemLargeBadgeHeight`                             | `Double`          | 16                                           | `Space400`                      |
+| `NavigationTabBarItemLargeBadgeMinWidth`                           | `Double`          | 16                                           | `Space400`                      |
+| `NavigationTabBarItemLargeBadgeMargin`                             | `Thickness`       | 32,2,0,0                                    |                                 |
+| `NavigationTabBarItemLargeBadgePadding`                            | `Thickness`       | 4,0                                          | `Space100HorizontalThickness`   |
+| `NavigationTabBarItemLargeBadgeCornerRadius`                       | `CornerRadius`    | 8                                            | `Radius200CornerRadius`         |
 | `VerticalTabBarBackground`                                         | `SolidColorBrush` | SurfaceBrush                                 |
 | `BottomTabBarBackground`                                           | `SolidColorBrush` | SurfaceBrush                                 |
 | `TopTabBarBackground`                                              | `SolidColorBrush` | BackgroundBrush                              |
