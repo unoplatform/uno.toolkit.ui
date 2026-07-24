@@ -143,18 +143,75 @@ public static class ResponsiveHelper
 
 	private static ResponsiveSizeProvider? _defaultSizeProvider;
 	private static ResponsiveSizeProvider? _overrideSizeProvider;
-	private static SerialDisposable _overrideSizeProviderDisposable = new();
+	private static readonly SerialDisposable _overrideSizeProviderDisposable = new();
+	private static readonly SerialDisposable _defaultSizeProviderDisposable = new();
 
 	public static void InitializeIfNeeded(XamlRoot provider) // backdoor
 	{
 		if (_defaultSizeProvider is null)
 		{
-			_defaultSizeProvider = new();
+			var sizeProvider = new ResponsiveSizeProvider();
+			_defaultSizeProvider = sizeProvider;
 
-			provider.Changed += (s, e) => _defaultSizeProvider.Size = s.Size;
-			_defaultSizeProvider.SizeChanged += RaiseSizeChanged;
-			_defaultSizeProvider.Size = provider.Size;
+			// XamlRoot is owned by the window/host and typically outlives any single previewed app.
+			// Subscribing with a strong lambda that captures the process-lifetime static size provider
+			// makes the host XamlRoot root that static chain for the process lifetime; when the Toolkit
+			// is loaded into a collectible AssemblyLoadContext (e.g. a downstream host that loads
+			// previewed apps into their own collectible ALCs) this pins the Toolkit ALC and prevents it
+			// from ever unloading. Subscribe weakly so the host XamlRoot only holds a WeakReference back;
+			// the wrapper self-detaches once the size provider is collected, and Reset() tears it down.
+			var handler = WeakEventHelper.CreateWeakHandler<ResponsiveSizeProvider, XamlRoot, XamlRootChangedEventArgs>(
+				sizeProvider,
+				static (self, s, e) => self.Size = s.Size,
+				static (s, h) => s.Changed -= h);
+			provider.Changed += handler;
+
+			// Capture the host XamlRoot weakly in the teardown so this process-lifetime static does not
+			// itself strongly root a (possibly closed) window's XamlRoot. The weak 'handler' above already
+			// keeps the provider from rooting the size provider.
+			var weakProvider = new WeakReference<XamlRoot>(provider);
+			_defaultSizeProviderDisposable.Disposable = Disposable.Create(() =>
+			{
+				if (weakProvider.TryGetTarget(out var p))
+				{
+					p.Changed -= handler;
+				}
+			});
+
+			sizeProvider.SizeChanged += RaiseSizeChanged;
+			sizeProvider.Size = provider.Size;
 		}
+	}
+
+#if DEBUG
+	// Test hook: exposes whether the process-lifetime default size provider is currently initialized,
+	// so tests can verify Reset() tears it down.
+	internal static bool TestHook_IsDefaultProviderInitialized => _defaultSizeProvider is not null;
+
+	// Test hook: exposes the current default provider so tests can build a WeakReference to it and
+	// verify it is collectible (i.e. the XamlRoot.Changed subscription is weak) after Reset().
+	internal static ResponsiveSizeProvider? TestHook_GetDefaultProvider() => _defaultSizeProvider;
+#endif
+
+	/// <summary>
+	/// Tears down the process-lifetime default size provider and its global <see cref="XamlRoot.Changed"/>
+	/// subscription so a subsequent <see cref="InitializeIfNeeded"/> re-initializes against a fresh
+	/// <see cref="XamlRoot"/>. Intended for hosts that unload and reload previewed apps into collectible
+	/// AssemblyLoadContexts, where the previous default provider must not outlive the previous app.
+	/// </summary>
+	internal static void Reset() // backdoor
+	{
+		_defaultSizeProviderDisposable.Disposable = null;
+		if (_defaultSizeProvider is { } provider)
+		{
+			provider.SizeChanged -= RaiseSizeChanged;
+			_defaultSizeProvider = null;
+		}
+
+		_overrideSizeProviderDisposable.Disposable = null;
+		_overrideSizeProvider = null;
+
+		WindowSize = default;
 	}
 	public static void SetOverrideSizeProvider(ResponsiveSizeProvider? provider) // backdoor
 	{
