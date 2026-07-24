@@ -35,7 +35,9 @@ internal class FrameworkElementExtensionsLeakTests
 		// The root stays alive (it plays the role of the long-lived, host-owned element). After the
 		// disposable is disposed, a sentinel captured only by the subscription callback must become
 		// collectible — which is only possible if the Loaded handler was actually removed from the root.
-		var root = new Grid();
+		// Give the root a non-zero size: SetContentAndWait's loaded-check treats an element with
+		// ActualWidth/ActualHeight == 0 as not-yet-loaded, so a bare Grid would time out.
+		var root = new Grid { Width = 100, Height = 100 };
 		await UnitTestUIContentHelperEx.SetContentAndWait(root);
 
 		var sentinelRef = SubscribeThenDispose(root);
