@@ -10,6 +10,12 @@ uid: Toolkit.Controls.DrawerControl
 
 `DrawerControl` is a container with two views; one view for the main content, and another view that can be revealed with a swipe gesture.
 
+## Accessibility
+
+When open, the drawer pane is exposed as a window-like automation element and the light-dismiss surface is exposed as an invocable button. Keyboard focus moves into the pane, remains contained while tabbing, and returns to the previously focused control when the drawer closes. <kbd>Esc</kbd> closes the drawer when `IsLightDismissEnabled` is `true`.
+
+When closed, the pane is collapsed and removed from keyboard and assistive-technology navigation. Set `AutomationProperties.Name` on `DrawerControl` to provide the pane's accessible name.
+
 ## Remarks
 
 Due to the lack of clipping, this control should be used as a full window-sized control or, at least, the side where the drawer opens from should be placed on the edge of the screen.
