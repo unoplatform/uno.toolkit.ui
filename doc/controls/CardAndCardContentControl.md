@@ -21,6 +21,8 @@ Depending on the amount of user attention you want to draw to the content you ca
 - `FilledCardStyle` or `FilledCardContentControlStyle` to display a simple background color without any elevation or border for the card.
 - `OutlinedCardStyle` or `OutlinedCardContentControlStyle` to display a simple solid stroke along the border of the card.
 
+When `IsClickable` is `true` (the default), both controls are tab stops, support Enter and Space activation, expose the UI Automation Invoke pattern as buttons, and raise `Click`. Set `AutomationProperties.Name` or `AutomationProperties.LabeledBy` when the rendered header or content does not provide a suitable accessible name. When `IsClickable` is `false`, the controls remain structural groups without the Invoke pattern.
+
 ## Card
 
 The `Card` control is based on `Control` and allows you to customize the control's content through [additional properties](#properties) to fit your needs.
@@ -70,10 +72,16 @@ The `Card` control comes with all the built-in properties of a `Control`, and al
 | `IconsContentTemplate`      | `DataTemplate` | Gets or sets the data template used to display the content of the control's icons.            |
 | `Elevation`                 | `double`       | Gets or sets the elevation of the control.                                                    |
 | `ShadowColor`               | `Color`        | Gets or sets the color to use for the shadow of the control.                                  |
-| `IsClickable`               | `bool`         | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
+| `IsClickable`               | `bool`         | Gets or sets whether the control supports pointer, keyboard, and automation activation.       |
 
 > [!TIP]
 > Consider using [CardContentControl](#cardcontentcontrol) if you need full control over the content layout.
+
+### Events
+
+| Event   | Description                                                               |
+|---------|---------------------------------------------------------------------------|
+| `Click` | Occurs when the card is activated by pointer, keyboard, or UI Automation. |
 
 ### Usage
 
@@ -187,7 +195,13 @@ The `Card` control comes with all the built-in properties of a `ContentControl`,
 |---------------|----------|-----------------------------------------------------------------------------------------------|
 | `Elevation`   | `double` | Gets or sets the elevation of the control.                                                    |
 | `ShadowColor` | `Color`  | Gets or sets the color to use for the shadow of the control.                                  |
-| `IsClickable` | `bool`   | Gets or sets a value indicating whether the control will respond to pointer and focus events. |
+| `IsClickable` | `bool`   | Gets or sets whether the control supports pointer, keyboard, and automation activation.       |
+
+### Events
+
+| Event   | Description                                                               |
+|---------|---------------------------------------------------------------------------|
+| `Click` | Occurs when the card is activated by pointer, keyboard, or UI Automation. |
 
 ### Usage
 

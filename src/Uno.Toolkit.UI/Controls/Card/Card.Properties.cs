@@ -299,15 +299,23 @@ namespace Uno.Toolkit.UI
 			nameof(IsClickable),
 			typeof(bool),
 			typeof(Card),
-			new PropertyMetadata(true));
+			new PropertyMetadata(true, OnIsClickableChanged));
 
 		/// <summary>
-		/// Gets or sets a value indicating whether the control will respond to pointer and focus events.
+		/// Gets or sets a value indicating whether the control supports pointer, keyboard, and automation activation.
 		/// </summary>
 		public bool IsClickable
 		{
 			get => (bool)GetValue(IsClickableProperty);
 			set => SetValue(IsClickableProperty, value);
+		}
+
+		private static void OnIsClickableChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+		{
+			if (sender is Card card)
+			{
+				card.UpdateIsClickable((bool)args.NewValue);
+			}
 		}
 
 		#endregion
