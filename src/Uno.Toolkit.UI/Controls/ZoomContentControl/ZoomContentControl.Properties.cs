@@ -226,7 +226,7 @@ partial class ZoomContentControl // dependency properties
 		nameof(IsZoomAllowed),
 		typeof(bool),
 		typeof(ZoomContentControl),
-		new PropertyMetadata(DefaultValues.IsZoomAllowed));
+		new PropertyMetadata(DefaultValues.IsZoomAllowed, OnIsZoomAllowedChanged));
 
 	/// <summary>
 	/// Gets or sets a value indicating whether zooming is allowed.
@@ -291,7 +291,7 @@ partial class ZoomContentControl // dependency properties
 		nameof(IsPanAllowed),
 		typeof(bool),
 		typeof(ZoomContentControl),
-		new PropertyMetadata(DefaultValues.IsPanAllowed));
+		new PropertyMetadata(DefaultValues.IsPanAllowed, OnIsPanAllowedChanged));
 
 	/// <summary>
 	/// Gets or sets a value indicating whether panning is allowed.
@@ -458,6 +458,8 @@ partial class ZoomContentControl // dependency properties
 	private static void OnZoomLevelChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((ZoomContentControl)sender).OnZoomLevelChanged();
 	private static void OnMinZoomLevelChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((ZoomContentControl)sender).OnMinZoomLevelChanged();
 	private static void OnMaxZoomLevelChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((ZoomContentControl)sender).OnMaxZoomLevelChanged();
+	private static void OnIsZoomAllowedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((ZoomContentControl)sender).OnIsZoomAllowedChanged();
+	private static void OnIsPanAllowedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((ZoomContentControl)sender).OnIsPanAllowedChanged();
 	private static void OnIsActiveChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((ZoomContentControl)sender).OnIsActiveChanged();
 	private static void OnAllowFreePanningChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((ZoomContentControl)sender).OnAllowFreePanningChanged();
 	private static void OnAdditionalMarginChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) => ((ZoomContentControl)sender).OnAdditionalMarginChanged();

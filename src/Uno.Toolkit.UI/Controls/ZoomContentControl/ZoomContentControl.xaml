@@ -5,6 +5,8 @@
 	<Style x:Key="DefaultZoomContentControlStyle" TargetType="utu:ZoomContentControl">
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
 		<Setter Property="VerticalContentAlignment" Value="Top" />
 
 		<Setter Property="Template">
@@ -13,7 +15,8 @@
 					<Grid x:Name="PART_RootGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
-						  BorderThickness="{TemplateBinding BorderThickness}">
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  Control.IsTemplateFocusTarget="True">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ScrollBarLayoutStates">
 								<VisualState x:Name="BottomRight">
