@@ -43,6 +43,12 @@ partial class GridExtensionsTests
 		await UnitTestUIContentHelperEx.WaitForIdle();
 
 		Assert.AreEqual((0, 1), GetPosition(sut.Children[1]));
+
+		// ...and should stop placing new children, proving the subscription was torn down
+		sut.Children.Add(CreateChild(4));
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		Assert.AreEqual((0, 0), GetPosition(sut.Children[4]), "expecting no placement once Auto is disabled");
 	}
 
 	[TestMethod]
@@ -85,11 +91,53 @@ partial class GridExtensionsTests
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
 
-		sut.Children.Add(new Border());
+		sut.Children.Add(CreateChild(2));
 		await UnitTestUIContentHelperEx.WaitForIdle();
 
 		// 3rd child: i=2, row=2/2=1, col=2%2=0
 		Assert.AreEqual((1, 0), GetPosition(sut.Children[2]));
+	}
+
+	[TestMethod]
+	public async Task When_Definitions_Changed_Positions_Are_Updated()
+	{
+		var sut = CreateGrid(rows: 2, cols: 3, childCount: 4);
+		GridExtensions.SetAuto(sut, true);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		Assert.AreEqual((1, 0), GetPosition(sut.Children[3]));
+
+		// narrowing to 2 columns re-flows the 4th child: i=3, row=3/2%2=1, col=3%2=1
+		sut.ColumnDefinitions.RemoveAt(2);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		Assert.AreEqual((1, 1), GetPosition(sut.Children[3]));
+	}
+
+	[TestMethod]
+	public async Task When_Detached_And_Reattached_Positions_Are_Still_Updated()
+	{
+		var sut = CreateGrid(rows: 2, cols: 2, childCount: 2);
+		var host = new Border { Child = sut };
+		GridExtensions.SetAuto(sut, true);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(host);
+
+		// The LayoutUpdated subscription is scoped to Loaded/Unloaded, so a round-trip
+		// through the tree must re-subscribe. (A "placement stops while detached" assert
+		// would prove nothing: an unrooted element gets no layout pass either way.)
+		host.Child = null;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		host.Child = sut;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		sut.Children.Add(CreateChild(2));
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		// 3rd child: i=2, row=2/2=1, col=2%2=0
+		Assert.AreEqual((1, 0), GetPosition(sut.Children[2]), "expecting placement to resume after the grid is re-attached");
 	}
 
 	[TestMethod]
@@ -108,6 +156,79 @@ partial class GridExtensionsTests
 
 		// After removal: what was child[2] is now child[1] → (0, 1)
 		Assert.AreEqual((0, 1), GetPosition(sut.Children[1]));
+	}
+
+	// Layout outcome
+
+	[TestMethod]
+	public async Task When_Auto_Children_Are_Laid_Out_In_Their_Cells()
+	{
+		// 2 rows x 2 cols of equal stars over a 200x100 grid => 100x50 cells
+		var sut = CreateGrid(rows: 2, cols: 2, childCount: 4, cellLength: new GridLength(1, GridUnitType.Star));
+		sut.Width = 200;
+		sut.Height = 100;
+
+		// let the children fill their cell, so that their offset is the cell origin
+		for (var i = 0; i < sut.Children.Count; i++)
+		{
+			var child = (FrameworkElement)sut.Children[i];
+			child.Width = double.NaN;
+			child.Height = double.NaN;
+		}
+
+		GridExtensions.SetAuto(sut, true);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		// beyond the attached-property values, the children should actually land in those cells
+		AssertOffset(sut.Children[0], 0, 0);
+		AssertOffset(sut.Children[1], 100, 0);
+		AssertOffset(sut.Children[2], 0, 50);
+		AssertOffset(sut.Children[3], 100, 50);
+
+		void AssertOffset(UIElement child, double x, double y)
+		{
+			var offset = child.TransformToVisual(sut).TransformPoint(default);
+
+			Assert.AreEqual(x, offset.X, 1, $"unexpected x-offset for child at {GetPosition(child)}");
+			Assert.AreEqual(y, offset.Y, 1, $"unexpected y-offset for child at {GetPosition(child)}");
+		}
+	}
+
+	// Documented limitations
+
+	[TestMethod]
+	public async Task When_Child_Has_Preset_Position_It_Is_Overwritten()
+	{
+		var sut = CreateGrid(rows: 2, cols: 3, childCount: 4);
+		Grid.SetRow(sut.Children[1], 1);
+		Grid.SetColumn(sut.Children[1], 2);
+
+		GridExtensions.SetAuto(sut, true);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		// by design: author-set positions are not preserved while Auto is enabled
+		Assert.AreEqual((0, 1), GetPosition(sut.Children[1]));
+	}
+
+	[TestMethod]
+	public async Task When_Child_Has_Span_It_Is_Ignored()
+	{
+		var sut = CreateGrid(rows: 2, cols: 2, childCount: 3);
+		Grid.SetColumnSpan(sut.Children[0], 2);
+
+		GridExtensions.SetAuto(sut, true);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		// by design: spans are not accounted for and children are placed as 1x1, so the
+		// 2nd child lands in the cell already covered by the 1st child's span.
+		Assert.AreEqual((0, 0), GetPosition(sut.Children[0]));
+		Assert.AreEqual((0, 1), GetPosition(sut.Children[1]));
+		Assert.AreEqual((1, 0), GetPosition(sut.Children[2]));
+
+		Assert.AreEqual(2, Grid.GetColumnSpan(sut.Children[0]), "the span itself should be left untouched");
 	}
 
 	// Edge cases
@@ -160,25 +281,28 @@ partial class GridExtensionsTests // helpers methods
 		Color.FromArgb(0xFF, 0xF6, 0x56, 0x78), // #FFF65678 UnoRed
 	];
 
-	private static Grid CreateGrid(int rows, int cols, int childCount)
+	private static Grid CreateGrid(int rows, int cols, int childCount, GridLength? cellLength = null)
 	{
+		var length = cellLength ?? GridLength.Auto;
 		var grid = new Grid();
 
 		for (var r = 0; r < rows; r++)
-			grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+			grid.RowDefinitions.Add(new RowDefinition { Height = length });
 		for (var c = 0; c < cols; c++)
-			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = length });
 
 		for (var i = 0; i < childCount; i++)
-			grid.Children.Add(new Border
-			{
-				Width = 10,
-				Height = 10,
-				Background = new SolidColorBrush(UnoColors[i % UnoColors.Length]),
-			});
+			grid.Children.Add(CreateChild(i));
 
 		return grid;
 	}
+
+	private static Border CreateChild(int index) => new()
+	{
+		Width = 10,
+		Height = 10,
+		Background = new SolidColorBrush(UnoColors[index % UnoColors.Length]),
+	};
 
 	private static (int row, int col) GetPosition(UIElement child) => (Grid.GetRow(child), Grid.GetColumn(child));
 }

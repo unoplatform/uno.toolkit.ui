@@ -25,8 +25,16 @@ The placement logic depends on which definitions are present:
 | Empty | Defined | Children fill along rows only (`col=0`, `row = index % rows`). |
 | Defined | Defined | Normal two-axis fill (left-to-right, wraps to next row). Overflow wraps back modulo `rows × cols`. |
 
+Fill order is implied by which definitions are present; there is no explicit orientation property.
+
+## Limitations
+
 > [!NOTE]
 > `GridExtensions` does **not** add or remove `RowDefinition`/`ColumnDefinition` entries. You are responsible for defining the grid dimensions. If children overflow the available cells, placement wraps back to cell 0.
+
+- **Spans are not accounted for.** `Grid.RowSpan`/`Grid.ColumnSpan` set on a child are left untouched, but placement treats every child as 1×1. A child with `Grid.ColumnSpan="2"` will therefore be overlapped by the next child, which takes the cell the span covers.
+- **Author-set positions are overwritten.** While `Auto="True"`, any `Grid.Row`/`Grid.Column` set on a child is replaced by its index-derived position. There is no per-child opt-out.
+- **Placement is recalculated on layout.** The `Auto` handler is scoped to the `Grid` being loaded, so children added while the `Grid` is detached from the visual tree are placed when it is loaded again.
 
 ## Usage
 

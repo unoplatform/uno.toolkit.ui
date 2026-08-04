@@ -36,7 +36,8 @@ public sealed partial class GridExtensionsSamplePage : Page
 
 		var counter = 0;
 
-		optionAuto.Click += (s, e) => GridExtensions.SetAuto(demoGrid, optionAuto.IsChecked == true);
+		optionAuto.Checked += (s, e) => GridExtensions.SetAuto(demoGrid, true);
+		optionAuto.Unchecked += (s, e) => GridExtensions.SetAuto(demoGrid, false);
 		optionColumns.TextChanged += (s, e) => ApplyColumnDefinitions();
 		optionRows.TextChanged += (s, e) => ApplyRowDefinitions();
 		optionAdd.Click += (s, e) => demoGrid.Children.Add(CreateItem(++counter));
