@@ -8,11 +8,11 @@ uid: Toolkit.Migration
 
 ## Upgrading to Uno Toolkit 9.0
 
-Uno Toolkit 9.0 takes a dependency on Uno Themes 7.0, which introduces seed-based color generation and a unified design-token system. It also drops UWP support and reshapes the public surface of the theme classes. Most apps that consume `<MaterialToolkitTheme/>` or `<SimpleToolkitTheme/>` via XAML will not need code changes, but several behaviors and defaults have shifted.
+Uno Toolkit 9.0 takes a dependency on Uno Themes 7.0, which introduces seed-based color generation and a unified design-token system. It also drops UWP support and reshapes the public surface of the theme classes. Most apps that consume `<MaterialToolkitTheme/>` or `<SimpleToolkitTheme/>` via XAML will not need code changes, but several behaviors and defaults have shifted. Uno Toolkit 9.0 requires Uno.WinUI 6.5 or later; apps using the Uno SDK get compatible versions automatically, while apps pinning package versions manually should update their `Uno.WinUI` reference.
 
 1. UWP target dropped
 
-    The Uno Toolkit packages no longer target UWP and migrate to the `Uno.Sdk` single-project model. Apps must be on .NET 6+ / WinUI to upgrade. UWP-only consumers should remain on the 8.x line.
+    The Uno Toolkit packages no longer target UWP and migrate to the `Uno.Sdk` single-project model. Apps must be on .NET 6+ / WinUI to upgrade. UWP-only consumers should remain on the 8.x line (the last UWP-flavored release is 8.4.2). The packages also no longer ship `net9.0-macos` / `net9.0-maccatalyst` assets — move these heads to the Skia Desktop target (for example `net10.0-desktop`) instead.
 
 2. Generated resource paths renamed
 
@@ -23,7 +23,7 @@ Uno Toolkit 9.0 takes a dependency on Uno Themes 7.0, which introduces seed-base
     | `ms-appx:///Uno.Toolkit.WinUI/Generated/mergedpages.WinUI.xaml`               | `ms-appx:///Uno.Toolkit.WinUI/Generated/mergedpages.xaml`             |
     | `ms-appx:///Uno.Toolkit.WinUI.Material/Generated/mergedpages.WinUI.v2.xaml`   | `ms-appx:///Uno.Toolkit.WinUI.Material/Generated/mergedpages.v2.xaml` |
 
-    This only affects code that merged these dictionaries directly by URI. Apps using `<MaterialToolkitTheme/>` or `<SimpleToolkitTheme/>` are unaffected.
+    This breaks code that merged these dictionaries directly by URI, as well as the deprecated `MaterialToolkitResourcesV1` / `MaterialToolkitResourcesV2` dictionaries, which reference the old URIs internally and now fail at startup with `Cannot locate resource from 'ms-appx:///Uno.Toolkit.WinUI.Material/Generated/mergedpages.WinUI.v2.xaml'`. Replace them with `<MaterialToolkitTheme/>`. Apps already using `<MaterialToolkitTheme/>` or `<SimpleToolkitTheme/>` are unaffected.
 
 3. `MaterialToolkitTheme` and new `SimpleToolkitTheme` inherit from their underlying theme
 
