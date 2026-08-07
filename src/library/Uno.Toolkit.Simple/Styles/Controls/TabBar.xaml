@@ -17,6 +17,7 @@
 			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SurfaceBrush" />
+			<x:Double x:Key="NavigationTabBarWidthOrHeight">80</x:Double>
 			<StaticResource x:Key="TabBarItemForeground" ResourceKey="OnSurfaceMediumBrush" />
 			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
@@ -36,6 +37,7 @@
 			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SurfaceBrush" />
+			<x:Double x:Key="NavigationTabBarWidthOrHeight">80</x:Double>
 			<StaticResource x:Key="TabBarItemForeground" ResourceKey="OnSurfaceMediumBrush" />
 			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
@@ -335,8 +337,29 @@
 
 	<Style
 		x:Key="SimpleVerticalTabBarStyle"
-		BasedOn="{StaticResource SimpleTopTabBarStyle}"
-		TargetType="utu:TabBar" />
+		BasedOn="{StaticResource BaseSimpleTabBarStyle}"
+		TargetType="utu:TabBar">
+		<Setter Property="Background" Value="{ThemeResource VerticalTabBarBackground}" />
+		<Setter Property="MinWidth" Value="{ThemeResource NavigationTabBarWidthOrHeight}" />
+		<Setter Property="Orientation" Value="Vertical" />
+		<Setter Property="ItemContainerStyle" Value="{StaticResource SimpleVerticalTabBarItemStyle}" />
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<utu:TabBarListPanel Orientation="Vertical" />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="SelectionIndicatorContentTemplate">
+			<Setter.Value>
+				<DataTemplate>
+					<Border Width="2"
+							HorizontalAlignment="Left"
+							Background="{ThemeResource TabBarIndicatorBrush}" />
+				</DataTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
 	<Style
 		x:Key="SimpleBottomTabBarStyle"
@@ -359,10 +382,14 @@
 		BasedOn="{StaticResource SimpleTopTabBarItemStyle}"
 		TargetType="utu:TabBarItem" />
 
+	<!--  The inherited bottom underline is a horizontal-tab affordance; in a vertical stack it
+		 reads as a stray divider, and selection is carried by the bar-level edge indicator.  -->
 	<Style
 		x:Key="SimpleVerticalTabBarItemStyle"
 		BasedOn="{StaticResource SimpleTopTabBarItemStyle}"
-		TargetType="utu:TabBarItem" />
+		TargetType="utu:TabBarItem">
+		<Setter Property="BorderThickness" Value="0" />
+	</Style>
 
 	<Style
 		x:Key="SimpleBottomTabBarItemStyle"
