@@ -350,6 +350,15 @@
 				</ItemsPanelTemplate>
 			</Setter.Value>
 		</Setter>
+		<Setter Property="SelectionIndicatorContentTemplate">
+			<Setter.Value>
+				<DataTemplate>
+					<Border Width="2"
+							HorizontalAlignment="Left"
+							Background="{ThemeResource TabBarIndicatorBrush}" />
+				</DataTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 
 	<Style
@@ -373,10 +382,14 @@
 		BasedOn="{StaticResource SimpleTopTabBarItemStyle}"
 		TargetType="utu:TabBarItem" />
 
+	<!--  The inherited bottom underline is a horizontal-tab affordance; in a vertical stack it
+		 reads as a stray divider, and selection is carried by the bar-level edge indicator.  -->
 	<Style
 		x:Key="SimpleVerticalTabBarItemStyle"
 		BasedOn="{StaticResource SimpleTopTabBarItemStyle}"
-		TargetType="utu:TabBarItem" />
+		TargetType="utu:TabBarItem">
+		<Setter Property="BorderThickness" Value="0" />
+	</Style>
 
 	<Style
 		x:Key="SimpleBottomTabBarItemStyle"
