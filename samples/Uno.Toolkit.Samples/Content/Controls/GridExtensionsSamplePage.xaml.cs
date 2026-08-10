@@ -86,19 +86,18 @@ public sealed partial class GridExtensionsSamplePage : Page
 	{
 		if (string.IsNullOrWhiteSpace(input)) yield break;
 
-		foreach (var token in input.Split(','))
+		foreach (var token in input.Split(',').Select(x => x.Trim()))
 		{
-			var t = token.Trim();
-			if (string.Equals(t, "Auto", StringComparison.OrdinalIgnoreCase))
+			if (string.Equals(token, "Auto", StringComparison.OrdinalIgnoreCase))
 			{
 				yield return GridLength.Auto;
 			}
-			else if (t.EndsWith('*'))
+			else if (token.EndsWith('*'))
 			{
-				var factor = t.Length == 1 ? 1d : double.TryParse(t[..^1], out var v) ? v : 1d;
+				var factor = token.Length == 1 ? 1d : double.TryParse(token[..^1], out var v) ? v : 1d;
 				yield return new GridLength(factor, GridUnitType.Star);
 			}
-			else if (double.TryParse(t, out var px))
+			else if (double.TryParse(token, out var px))
 			{
 				yield return new GridLength(px, GridUnitType.Pixel);
 			}
