@@ -11,6 +11,7 @@ using Windows.Foundation.Collections;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -19,6 +20,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #else
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
@@ -58,6 +60,9 @@ namespace Uno.Toolkit.UI
 			UpdateOrientation();
 			UpdateIndicatorPlacement();
 		}
+
+		/// <inheritdoc />
+		protected override AutomationPeer OnCreateAutomationPeer() => new TabBarAutomationPeer(this);
 
 		protected override bool IsItemItsOwnContainerOverride(object? item) => item is TabBarItem;
 
@@ -447,6 +452,31 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		internal bool TryClearSelection(TabBarItem item)
+		{
+			if (!ReferenceEquals(item, GetSelectedTabBarItem()))
+			{
+				return false;
+			}
+
+			var previouslySelectedItem = SelectedItem;
+
+			try
+			{
+				_isSynchronizingSelection = true;
+				item.IsSelected = false;
+				SetValue(SelectedItemProperty, null);
+				SelectedIndex = -1;
+			}
+			finally
+			{
+				_isSynchronizingSelection = false;
+			}
+
+			RaiseSelectionChangedEvent(previouslySelectedItem, null);
+			return true;
+		}
+
 		private void RaiseSelectionChangedEvent(object? prevItem, object? nextItem)
 		{
 			var eventArgs = new TabBarSelectionChangedEventArgs
@@ -469,6 +499,27 @@ namespace Uno.Toolkit.UI
 			}
 
 			return container as TabBarItem;
+		}
+
+		internal TabBarItem? FindTabBarItem(object? item) =>
+			GetInnerContainer(this.FindContainer<DependencyObject>(item));
+
+		internal TabBarItem? GetSelectedTabBarItem()
+		{
+			if (FindTabBarItem(SelectedItem) is { IsSelected: true } selectedItem)
+			{
+				return selectedItem;
+			}
+
+			foreach (var container in this.GetItemContainers<UIElement>())
+			{
+				if (GetInnerContainer(container) is { IsSelected: true } selectedContainer)
+				{
+					return selectedContainer;
+				}
+			}
+
+			return null;
 		}
 
 		internal DependencyObject? InnerContainerFromIndex(int index)

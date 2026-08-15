@@ -17,6 +17,9 @@ using System.ComponentModel;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Automation.Provider;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI;
@@ -24,6 +27,9 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 #else
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
@@ -550,6 +556,180 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreEqual(0, setup.SelectedIndex, "SelectedIndex is expected to be 0");
 			Assert.AreEqual(selected, setup.SelectedItem, "SelectedItem is expected to be container#0");
 			Assert.AreEqual(true, selected.IsSelected, "Container#0 should be selected");
+		}
+
+		[TestMethod]
+		public async Task Verify_TabBar_AutomationPeer_ControlType_And_Selection_Pattern()
+		{
+			var source = Enumerable.Range(0, 3).ToArray();
+			var SUT = new TabBar
+			{
+				ItemsSource = source,
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as TabBarAutomationPeer;
+			Assert.IsNotNull(peer, "TabBar should expose a TabBarAutomationPeer");
+			Assert.AreEqual(AutomationControlType.Tab, peer!.GetAutomationControlType());
+
+			var selectionProvider = peer.GetPattern(PatternInterface.Selection) as ISelectionProvider;
+			Assert.IsNotNull(selectionProvider, "TabBar peer should support the Selection pattern");
+			Assert.IsFalse(selectionProvider!.CanSelectMultiple);
+			Assert.IsFalse(selectionProvider.IsSelectionRequired);
+
+			// No selection yet: GetSelection should be empty.
+			Assert.AreEqual(0, selectionProvider.GetSelection().Length);
+
+			SUT.SelectedIndex = 1;
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var selection = selectionProvider.GetSelection();
+			Assert.AreEqual(1, selection.Length);
+			Assert.IsNotNull(selection[0]);
+
+			var selectedItem = (TabBarItem)SUT.ContainerFromIndex(1);
+			var nonSelectableItem = (TabBarItem)SUT.ContainerFromIndex(2);
+			nonSelectableItem.IsSelectable = false;
+			SUT.SelectedIndex = 2;
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			Assert.IsTrue(selectedItem.IsSelected);
+			Assert.IsFalse(nonSelectableItem.IsSelected);
+			Assert.AreEqual(1, selectionProvider.GetSelection().Length, "GetSelection should return the actual selected item");
+		}
+
+		[TestMethod]
+		public async Task Verify_TabBar_AutomationPeer_Selection_With_TabBarItem_ItemTemplate()
+		{
+			var source = new[] { new TestRecord("Home", true) };
+			var SUT = new TabBar
+			{
+				ItemsSource = source,
+				ItemTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+					<DataTemplate>
+						<utu:TabBarItem Content="{Binding Name}" />
+					</DataTemplate>
+				"""),
+				SelectedIndex = 0,
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as TabBarAutomationPeer;
+			Assert.IsNotNull(peer);
+
+			var selectionProvider = peer!.GetPattern(PatternInterface.Selection) as ISelectionProvider;
+			Assert.IsNotNull(selectionProvider);
+			Assert.AreEqual(1, selectionProvider!.GetSelection().Length);
+		}
+
+		[TestMethod]
+		public async Task Verify_TabBarItem_AutomationPeer_ControlType_And_Selection_State()
+		{
+			var source = Enumerable.Range(0, 2).ToArray();
+			var SUT = new TabBar
+			{
+				ItemsSource = source,
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			var item0 = (TabBarItem)SUT.ContainerFromIndex(0);
+			var item1 = (TabBarItem)SUT.ContainerFromIndex(1);
+
+			var peer0 = FrameworkElementAutomationPeer.CreatePeerForElement(item0) as TabBarItemAutomationPeer;
+			var peer1 = FrameworkElementAutomationPeer.CreatePeerForElement(item1) as TabBarItemAutomationPeer;
+			Assert.IsNotNull(peer0, "TabBarItem should expose a TabBarItemAutomationPeer");
+			Assert.IsNotNull(peer1, "TabBarItem should expose a TabBarItemAutomationPeer");
+			Assert.AreEqual(AutomationControlType.TabItem, peer0!.GetAutomationControlType());
+
+			var selectionItem0 = peer0.GetPattern(PatternInterface.SelectionItem) as ISelectionItemProvider;
+			var selectionItem1 = peer1!.GetPattern(PatternInterface.SelectionItem) as ISelectionItemProvider;
+			Assert.IsNotNull(selectionItem0, "TabBarItem peer should support the SelectionItem pattern");
+			Assert.IsNotNull(selectionItem1, "TabBarItem peer should support the SelectionItem pattern");
+
+			Assert.IsFalse(selectionItem0!.IsSelected);
+			Assert.IsFalse(selectionItem1!.IsSelected);
+			Assert.IsNotNull(selectionItem0.SelectionContainer);
+
+			item0.IsSelectable = false;
+			SUT.SelectedIndex = 0;
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			Assert.IsFalse(selectionItem0.IsSelected);
+			selectionItem1.AddToSelection();
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			Assert.IsTrue(selectionItem1.IsSelected, "A rejected SelectedIndex must not count as an existing selection");
+			selectionItem1.RemoveFromSelection();
+			item0.IsSelectable = true;
+
+			selectionItem0.AddToSelection();
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			Assert.IsTrue(selectionItem0.IsSelected, "AddToSelection should select when the TabBar has no selection");
+			Assert.IsFalse(selectionItem1.IsSelected);
+			Assert.AreEqual(0, SUT.SelectedIndex);
+			Assert.ThrowsException<InvalidOperationException>(
+				selectionItem1.AddToSelection,
+				"AddToSelection should reject a second selection");
+
+			selectionItem1.Select();
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			Assert.IsFalse(selectionItem0.IsSelected, "Select should replace the current selection");
+			Assert.IsTrue(selectionItem1.IsSelected);
+			Assert.AreEqual(1, SUT.SelectedIndex);
+
+			selectionItem1.RemoveFromSelection();
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			Assert.IsFalse(selectionItem1.IsSelected, "RemoveFromSelection should clear an optional selection");
+			Assert.AreEqual(-1, SUT.SelectedIndex);
+			Assert.IsNull(SUT.SelectedItem);
+
+			item0.IsSelectable = false;
+			Assert.ThrowsException<InvalidOperationException>(
+				selectionItem0.Select,
+				"Select should reject a non-selectable TabBarItem");
+		}
+
+		[TestMethod]
+		public async Task Verify_TabBarItem_AutomationPeer_Name_Honors_Explicit_And_Falls_Back_To_Content()
+		{
+			var plainItem = new TabBarItem { Content = "Home" };
+			var namedItem = new TabBarItem { Content = "Home" };
+			var templatedItem = new TabBarItem
+			{
+				Content = new TestRecord("Settings", true),
+				ContentTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+					<DataTemplate>
+						<Grid>
+							<TextBlock Text="{Binding Name}" />
+						</Grid>
+					</DataTemplate>
+				"""),
+			};
+			AutomationProperties.SetName(namedItem, "Go to home screen");
+
+			var SUT = new TabBar();
+			SUT.Items.Add(plainItem);
+			SUT.Items.Add(namedItem);
+			SUT.Items.Add(templatedItem);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			var plainPeer = FrameworkElementAutomationPeer.CreatePeerForElement(plainItem) as TabBarItemAutomationPeer;
+			var namedPeer = FrameworkElementAutomationPeer.CreatePeerForElement(namedItem) as TabBarItemAutomationPeer;
+			var templatedPeer = FrameworkElementAutomationPeer.CreatePeerForElement(templatedItem) as TabBarItemAutomationPeer;
+			Assert.IsNotNull(plainPeer);
+			Assert.IsNotNull(namedPeer);
+			Assert.IsNotNull(templatedPeer);
+
+			Assert.AreEqual("Home", plainPeer!.GetName(), "Name should fall back to the item's textual content");
+			Assert.AreEqual("Go to home screen", namedPeer!.GetName(), "Explicit AutomationProperties.Name should be honored");
+			Assert.AreEqual("Settings", templatedPeer!.GetName(), "Name should use text rendered by the ContentTemplate");
 		}
 	}
 	
