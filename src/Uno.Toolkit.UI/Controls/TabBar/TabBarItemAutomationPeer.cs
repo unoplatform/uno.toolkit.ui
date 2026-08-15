@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -94,7 +95,7 @@ namespace Uno.Toolkit.UI
 		/// <inheritdoc />
 		public void AddToSelection()
 		{
-			if (Owner is not TabBarItem tbi || tbi.IsSelected)
+			if (Owner is not TabBarItem { IsSelected: false } tbi)
 			{
 				return;
 			}
@@ -116,7 +117,8 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			if (tbi.FindFirstParent<TabBar>()?.TryClearSelection(tbi) != true)
+			var tabBar = tbi.FindFirstParent<TabBar>();
+			if (tabBar is null || !tabBar.TryClearSelection(tbi))
 			{
 				tbi.IsSelected = false;
 			}
@@ -124,23 +126,23 @@ namespace Uno.Toolkit.UI
 
 		private static string GetContentName(UIElement element)
 		{
-			if (FrameworkElementAutomationPeer.CreatePeerForElement(element) is { } peer)
+			var pending = new Stack<UIElement>();
+			pending.Push(element);
+
+			while (pending.Count > 0)
 			{
-				var name = peer.GetName();
-				if (!string.IsNullOrEmpty(name))
+				var current = pending.Pop();
+				if (FrameworkElementAutomationPeer.CreatePeerForElement(current) is { } peer &&
+					peer.GetName() is { Length: > 0 } name)
 				{
 					return name;
 				}
-			}
 
-			for (var i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
-			{
-				if (VisualTreeHelper.GetChild(element, i) is UIElement child)
+				for (var i = VisualTreeHelper.GetChildrenCount(current) - 1; i >= 0; i--)
 				{
-					var name = GetContentName(child);
-					if (!string.IsNullOrEmpty(name))
+					if (VisualTreeHelper.GetChild(current, i) is UIElement child)
 					{
-						return name;
+						pending.Push(child);
 					}
 				}
 			}

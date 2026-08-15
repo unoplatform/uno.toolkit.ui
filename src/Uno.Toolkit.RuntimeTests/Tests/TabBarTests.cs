@@ -569,9 +569,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-			var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as TabBarAutomationPeer;
-			Assert.IsNotNull(peer, "TabBar should expose a TabBarAutomationPeer");
-			Assert.AreEqual(AutomationControlType.Tab, peer!.GetAutomationControlType());
+			var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as TabBarAutomationPeer
+				?? throw new AssertFailedException("TabBar should expose a TabBarAutomationPeer");
+			Assert.AreEqual(AutomationControlType.Tab, peer.GetAutomationControlType());
 
 			var selectionProvider = peer.GetPattern(PatternInterface.Selection) as ISelectionProvider;
 			Assert.IsNotNull(selectionProvider, "TabBar peer should support the Selection pattern");
@@ -638,14 +638,14 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var item0 = (TabBarItem)SUT.ContainerFromIndex(0);
 			var item1 = (TabBarItem)SUT.ContainerFromIndex(1);
 
-			var peer0 = FrameworkElementAutomationPeer.CreatePeerForElement(item0) as TabBarItemAutomationPeer;
-			var peer1 = FrameworkElementAutomationPeer.CreatePeerForElement(item1) as TabBarItemAutomationPeer;
-			Assert.IsNotNull(peer0, "TabBarItem should expose a TabBarItemAutomationPeer");
-			Assert.IsNotNull(peer1, "TabBarItem should expose a TabBarItemAutomationPeer");
-			Assert.AreEqual(AutomationControlType.TabItem, peer0!.GetAutomationControlType());
+			var peer0 = FrameworkElementAutomationPeer.CreatePeerForElement(item0) as TabBarItemAutomationPeer
+				?? throw new AssertFailedException("TabBarItem should expose a TabBarItemAutomationPeer");
+			var peer1 = FrameworkElementAutomationPeer.CreatePeerForElement(item1) as TabBarItemAutomationPeer
+				?? throw new AssertFailedException("TabBarItem should expose a TabBarItemAutomationPeer");
+			Assert.AreEqual(AutomationControlType.TabItem, peer0.GetAutomationControlType());
 
 			var selectionItem0 = peer0.GetPattern(PatternInterface.SelectionItem) as ISelectionItemProvider;
-			var selectionItem1 = peer1!.GetPattern(PatternInterface.SelectionItem) as ISelectionItemProvider;
+			var selectionItem1 = peer1.GetPattern(PatternInterface.SelectionItem) as ISelectionItemProvider;
 			Assert.IsNotNull(selectionItem0, "TabBarItem peer should support the SelectionItem pattern");
 			Assert.IsNotNull(selectionItem1, "TabBarItem peer should support the SelectionItem pattern");
 
