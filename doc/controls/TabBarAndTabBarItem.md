@@ -521,6 +521,8 @@ Icons in `TabBar` items can display `InfoBadge`s in their upper right corners.
 
 Currently, only the Material Theme Toolkit Library contains a `BottomTabBarItemStyle` or `VerticalTabBarItemStyle` that you can use to display the `InfoBadge` (which is optional).
 
+`BadgeVisibility` and `BadgeValue` remain available for compatibility, but new code should use `InfoBadge`. Their removal in the next major Toolkit release is tracked by [issue #1626](https://github.com/unoplatform/uno.toolkit.ui/issues/1626).
+
 ![TabBar with `InfoBadge` usage](../assets/tabbaritem-winui-material-badges.png)
 
 ##### Small `InfoBadge`

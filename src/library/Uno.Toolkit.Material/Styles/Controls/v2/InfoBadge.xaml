@@ -7,22 +7,25 @@
 
 	<!-- InfoBadge BottomTabBarItem Resources and Styles -->
 
-	<!-- Common -->
-	<StaticResource x:Key="MaterialInfoBadgeBottomTabBarItemBackground"
-					ResourceKey="ErrorBrush" />
-	<StaticResource x:Key="MaterialInfoBadgeBottomTabBarItemForeground"
-					ResourceKey="OnErrorBrush" />
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<!-- Common -->
+			<StaticResource x:Key="MaterialInfoBadgeBottomTabBarItemBackground"
+							ResourceKey="ErrorBrush" />
+			<StaticResource x:Key="MaterialInfoBadgeBottomTabBarItemForeground"
+							ResourceKey="OnErrorBrush" />
 
-	<!-- Small InfoBadge-->
-	<x:Double x:Key="MaterialSmallInfoBadgeBottomTabBarItemHeight">6</x:Double>
-	<x:Double x:Key="MaterialSmallInfoBadgeBottomTabBarItemWidth">6</x:Double>
-	<Thickness x:Key="MaterialSmallInfoBadgeBottomTabBarItemMargin">0,4,20,0</Thickness>
+			<!-- Small InfoBadge-->
+			<x:Double x:Key="MaterialSmallInfoBadgeBottomTabBarItemHeight">6</x:Double>
+			<x:Double x:Key="MaterialSmallInfoBadgeBottomTabBarItemWidth">6</x:Double>
+			<Thickness x:Key="MaterialSmallInfoBadgeBottomTabBarItemMargin">0,4,20,0</Thickness>
 
-
-	<!-- Large InfoBadge-->
-	<x:Double x:Key="MaterialLargeInfoBadgeBottomTabBarItemHeight">16</x:Double>
-	<Thickness x:Key="MaterialLargeInfoBadgeBottomTabBarItemMargin">32,4,0,0</Thickness>
-	<CornerRadius x:Key="MaterialLargeInfoBadgeBottomTabBarItemCornerRadius">8</CornerRadius>
+			<!-- Large InfoBadge-->
+			<x:Double x:Key="MaterialLargeInfoBadgeBottomTabBarItemHeight">16</x:Double>
+			<Thickness x:Key="MaterialLargeInfoBadgeBottomTabBarItemMargin">32,4,0,0</Thickness>
+			<CornerRadius x:Key="MaterialLargeInfoBadgeBottomTabBarItemCornerRadius">8</CornerRadius>
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
 
 	<Style x:Key="MaterialSmallInfoBadgeBottomTabBarItemStyle"
 		   TargetType="muxc:InfoBadge">

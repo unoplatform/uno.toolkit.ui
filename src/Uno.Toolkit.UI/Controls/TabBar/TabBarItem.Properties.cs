@@ -34,20 +34,14 @@ namespace Uno.Toolkit.UI
 		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public Visibility BadgeVisibility
 		{
-			get => InfoBadge?.Visibility ?? (Visibility)GetValue(BadgeVisibilityProperty);
-			set
-			{
-				SetValue(BadgeVisibilityProperty, value);
-
-				InfoBadge ??= new MUXC.InfoBadge();
-				InfoBadge.Visibility = value;
-			}
+			get => (Visibility)GetValue(BadgeVisibilityProperty);
+			set => SetValue(BadgeVisibilityProperty, value);
 		}
 
 		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
 		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public static readonly DependencyProperty BadgeVisibilityProperty =
-			DependencyProperty.Register(nameof(BadgeVisibility), typeof(Visibility), typeof(TabBarItem), new PropertyMetadata(Visibility.Collapsed, OnPropertyChanged));
+			DependencyProperty.Register(nameof(BadgeVisibility), typeof(Visibility), typeof(TabBarItem), new PropertyMetadata(Visibility.Collapsed, OnBadgeVisibilityChanged));
 		#endregion
 
 		#region BadgeValue
@@ -55,30 +49,13 @@ namespace Uno.Toolkit.UI
 		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public string? BadgeValue
 		{
-			get => (InfoBadge as MUXC.InfoBadge)?.Value.ToString() ?? (string)GetValue(BadgeValueProperty);
-			set
-			{
-				SetValue(BadgeValueProperty, value);
-
-				InfoBadge ??= new MUXC.InfoBadge();
-
-				if (InfoBadge is MUXC.InfoBadge infoBadge)
-				{
-					if (int.TryParse(value, out int intValue))
-					{
-						infoBadge.Value = intValue;
-					}
-					else
-					{
-						infoBadge.IconSource = new MUXC.FontIconSource { Glyph = value };
-					}
-				}
-			}
+			get => (string?)GetValue(BadgeValueProperty);
+			set => SetValue(BadgeValueProperty, value);
 		}
 		// UNO TODO: Obsolete attribute is currently not working with generators, for more details see https://github.com/unoplatform/uno.csharpmarkup/issues/741
 		// [Obsolete("This property is deprecated. Use InfoBadge instead.", true)]
 		public static readonly DependencyProperty BadgeValueProperty =
-			DependencyProperty.Register(nameof(BadgeValue), typeof(string), typeof(TabBarItem), new PropertyMetadata(default(string?), OnPropertyChanged));
+			DependencyProperty.Register(nameof(BadgeValue), typeof(string), typeof(TabBarItem), new PropertyMetadata(default(string?), OnBadgeValueChanged));
 		#endregion
 
 		#region InfoBadge
@@ -142,6 +119,41 @@ namespace Uno.Toolkit.UI
 		{
 			var owner = (TabBarItem)sender;
 			owner.OnPropertyChanged(args);
+		}
+
+		private static void OnBadgeVisibilityChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+		{
+			var owner = (TabBarItem)sender;
+			owner.InfoBadge ??= new MUXC.InfoBadge();
+			owner.InfoBadge.Visibility = (Visibility)args.NewValue;
+		}
+
+		private static void OnBadgeValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+		{
+			var owner = (TabBarItem)sender;
+			owner.InfoBadge ??= new MUXC.InfoBadge
+			{
+				Visibility = owner.BadgeVisibility
+			};
+
+			if (owner.InfoBadge is not MUXC.InfoBadge infoBadge)
+			{
+				return;
+			}
+
+			var value = (string?)args.NewValue;
+			if (int.TryParse(value, out int intValue))
+			{
+				infoBadge.IconSource = null;
+				infoBadge.Value = intValue;
+			}
+			else
+			{
+				infoBadge.Value = -1;
+				infoBadge.IconSource = string.IsNullOrEmpty(value)
+					? null
+					: new MUXC.FontIconSource { Glyph = value };
+			}
 		}
 	}
 }
