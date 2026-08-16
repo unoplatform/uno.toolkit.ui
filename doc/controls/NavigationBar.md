@@ -139,9 +139,15 @@ Remarks:
 
 Gets or sets the content of a `ContentControl`.
 
+> [!IMPORTANT]
+> For simple text titles, always set `Content` directly as a string: `<utu:NavigationBar Content="Title" />`
+> Only use `FrameworkElement` content (like `TextBox`, `SearchBox`, etc.) when you need interactive or complex UI in the title area.
+
 Remarks:
 
 The `Content` is processed differently whether it is of type `string` or `FrameworkElement`.
+
+#### String Content (Recommended for Simple Titles)
 
 When `Content` is a `string`, it's displayed using the platform's default font family, font size, font style, and text alignment. Only the foreground color can be changed, using `Foreground`.
 
@@ -310,10 +316,14 @@ If no `MainCommand` is provided in the XAML, the `NavigationBar` will render the
 
 `MainCommand` is typically used for customizing the back button, displaying a different icon, and/or invoking some type of custom action other than back navigation when clicked.
 
-On **Android**, only icons are supported (`AppBarButton.Icon`). This is due to a platform limitation, which can be explained by the fact that `NavigationBar.Content` is left-aligned.
-
-> [!WARNING]
-> Due to [platform limitations](https://github.com/microsoft/microsoft-ui-xaml/issues/1494) on Windows only, a default back button icon is not provided out of the box. You will need to provide your own icon on each instance of the `NavigationBar` where you want to display a back button. On Android and iOS, the native default back button icon is used. On all other platforms, a back button icon is bundled in the default styles for the `NavigationBar`.
+> [!NOTE]
+> The default back button icon can be customized for non-mobile platforms by overriding the `NavigationBarBackIconData` resource. On `Android` and `iOS`, the native default back button icon is used. On Windows and other non-mobile platforms, you can provide a custom back button icon by defining the `NavigationBarBackIconData` resource in your resource dictionary:
+>
+>```xml
+><Application.Resources>
+>    <x:String x:Key="NavigationBarBackIconData">YOUR_CUSTOM_PATH_DATA</x:String>
+></Application.Resources> 
+>```
 
 ### MainCommand Properties
 
@@ -414,6 +424,7 @@ Only supports `BitmapImage` on iOS/Android
 | `NavigationBarFontFamily`                                              | `FontFamily`      | TitleLargeFontFamily                    |
 | `NavigationBarFontWeight`                                              | `String`          | TitleLargeFontWeight                    |
 | `NavigationBarFontSize`                                                | `Double`          | TitleLargeFontSize                      |
+| `NavigationBarBackIconData`                                            | `String`          | NavigationBarBackIconData               |
 | `MaterialModalNavigationBarMainCommandForeground`                      | `SolidColorBrush` | OnSurfaceBrush                          |
 | `MaterialModalNavigationBarForeground`                                 | `SolidColorBrush` | OnSurfaceBrush                          |
 | `MaterialModalNavigationBarBackground`                                 | `SolidColorBrush` | SurfaceBrush                            |
@@ -544,7 +555,7 @@ Gets or sets the graphic content of the `AppBarButton`
 
 Remarks:
 
-* On **Android** and **iOS**, the `MainCommand` Icon only supports `BitmapIcon`s. `PrimaryCommands` and `SecondaryCommands` support any `IconElement` type.
+* On **Android**, the `MainCommand` Icon only supports `BitmapIcon`s. `PrimaryCommands` and `SecondaryCommands` support any `IconElement` type.
 
 ### Recommended icon sizes (by scale)
 

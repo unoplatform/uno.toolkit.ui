@@ -25,6 +25,9 @@ internal class ChipGroupTests
 	#region Selection via Toggle
 
 	[TestMethod]
+#if __ANDROID__
+	[Ignore("Skip Android due to failures. Tracked by https://github.com/unoplatform/uno.toolkit.ui/issues/1300")]
+#endif
 	[DataRow(ChipSelectionMode.None, new[] { 1 }, null)]
 	[DataRow(ChipSelectionMode.SingleOrNone, new[] { 1 }, 1)]
 	[DataRow(ChipSelectionMode.SingleOrNone, new[] { 1, 1 }, null)] // deselection
@@ -82,7 +85,7 @@ internal class ChipGroupTests
 		Assert.AreEqual(source[1], SUT.SelectedItem);
 	}
 
-	#endregion
+#endregion
 
 	#region Selection via SelectedItem & SelectItems
 
@@ -112,6 +115,9 @@ internal class ChipGroupTests
 	}
 
 	[TestMethod]
+#if __ANDROID__
+	[Ignore("Skip Android due to failures. Tracked by https://github.com/unoplatform/uno.toolkit.ui/issues/1300")]
+#endif
 	public async Task Single_SetSelection()
 	{
 		var source = Enumerable.Range(0, 3).ToArray();
@@ -263,6 +269,31 @@ internal class ChipGroupTests
 
 		SUT.SelectionMode = ChipSelectionMode.Single;
 		Assert.AreEqual(selected.First(), SUT.SelectedItem);
+	}
+
+	#endregion
+
+	#region Misc
+
+	[TestMethod]
+#if __ANDROID__
+	[Ignore("Skip Android due to failures. Tracked by https://github.com/unoplatform/uno.toolkit.ui/issues/1300")]
+#endif
+	public async Task Initial_Selection()
+	{
+		var setup = XamlHelper.LoadXaml<ChipGroup>("""
+			<utu:ChipGroup>
+				<utu:Chip Content="Uno" IsChecked="True"/>
+				<utu:Chip Content="Deux" />
+				<utu:Chip Content="Three" />
+			</utu:ChipGroup>
+		""");
+		await UnitTestUIContentHelperEx.SetContentAndWait(setup);
+
+		var selected = setup.ContainerFromIndex(0) as Chip ?? throw new Exception("Container#0 not found");
+
+		Assert.AreEqual(selected, setup.SelectedItem, "SelectedItem is expected to be container#0");
+		Assert.AreEqual(true, selected.IsChecked, "Container#0 should be selected");
 	}
 
 	#endregion

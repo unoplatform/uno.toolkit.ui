@@ -22,15 +22,6 @@ namespace Uno.Toolkit.UI
 	/// </summary>
 	public class AncestorBindingExtension : MarkupExtension
 	{
-#if WINDOWS_UWP
-		/// <summary>
-		/// Define whether <see cref="ProvideValue()" /> should throw or just result null.
-		/// </summary>
-		public static bool ShouldThrow = true;
-#endif
-
-		private static readonly Dictionary<(Type, string), PropertyInfo?> _targetPropertyLookupCache = new();
-
 		/// <summary>
 		/// Binding path from the ancestor.
 		/// </summary>
@@ -42,31 +33,49 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		public Type AncestorType { get; set; } = typeof(object);
 
+		/// <summary>
+		/// Gets or sets the converter object that is called by the binding engine to modify the data as it is passed between the source and target, or vice versa.
+		/// </summary>
+		public IValueConverter? Converter { get; set; }
+
+		/// <summary>
+		/// Gets or sets a parameter that can be used in the Converter logic.
+		/// </summary>
+		public object? ConverterParameter { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value that names the language to pass to any converter specified by the Converter property.
+		/// </summary>
+		public string? ConverterLanguage { get; set; }
+
 		public AncestorBindingExtension()
 		{
 		}
 
-#if WINDOWS_UWP
-		protected override object? ProvideValue()
-		{
-			const string Message = "This feature is not supported on UWP for windows as it depends on WinUI3 api. It still works on all non-Windows UWP platforms and all WinUI 3 platforms.";
-			return ShouldThrow ? throw new PlatformNotSupportedException(Message) : null;
-		}
-#else
 		protected override object? ProvideValue(IXamlServiceProvider serviceProvider)
 		{
+			// until we can reach/resolve 'property', we have no option but to return null.
+			// while, this would crash if this is set on a dp that doesn't accept null,
+			// there is really nothing else we can salvage from here.
+			// but usually that is also indicative of another problem: using this on an invalid target/property.
 			if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget pvt) return null;
 			if (pvt.TargetObject is not FrameworkElement owner) return null;
 			if (pvt.TargetProperty is not ProvideValueTargetProperty { DeclaringType: { } ownerType, Name: { } propertyName }) return null;
-			if (FindTargetDependencyProperty(ownerType, propertyName)?.GetValue(pvt.TargetObject) is not DependencyProperty property) return null;
+			if (ownerType.FindDependencyProperty(propertyName) is not { } property) return null;
 
 			owner.Loaded += OnTargetLoaded;
+			if (owner.IsLoaded)
+			{
+				OnTargetLoaded(owner, default!);
+			}
+
 			void OnTargetLoaded(object s, RoutedEventArgs e)
 			{
 				if (s is FrameworkElement fe)
 				{
-					fe.Loaded -= OnTargetLoaded;
-
+					// normally, this is a one-shot installation, so we should self-unsubscribe. but we don't here, because
+					// it is possible that we are in a data-template that gets recyled from one content-presenter to another.
+					//fe.Loaded -= OnTargetLoaded;
 					if (GetAncestors(fe).FirstOrDefault(x => AncestorType?.IsAssignableFrom(x.GetType()) == true) is { } source)
 					{
 						var binding = new Binding
@@ -74,26 +83,20 @@ namespace Uno.Toolkit.UI
 							Path = new PropertyPath(Path),
 							Source = source,
 							Mode = BindingMode.OneWay,
+							Converter = Converter,
+							ConverterLanguage = ConverterLanguage,
+							ConverterParameter = ConverterParameter,
 						};
 						fe.SetBinding(property, binding);
+						return;
 					}
 				}
+
+				(s as DependencyObject)?.ClearValue(property);
 			}
 
-			return null;
-		}
-#endif
-
-		private static PropertyInfo? FindTargetDependencyProperty(Type ownerType, string propertyName)
-		{
-			var key = (ownerType, propertyName);
-			if (!_targetPropertyLookupCache.TryGetValue(key, out var value))
-			{
-				value = ownerType.GetProperty(propertyName + "Property", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				_targetPropertyLookupCache[key] = value;
-			}
-
-			return value;
+			// return current value, until the binding comes online.
+			return owner.GetValue(property);
 		}
 
 		private static IEnumerable<DependencyObject> GetAncestors(DependencyObject x)

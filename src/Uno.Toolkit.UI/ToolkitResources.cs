@@ -17,23 +17,11 @@ namespace Uno.Toolkit.UI
 	/// </summary>
 	public sealed class ToolkitResources : ResourceDictionary
 	{
-		private const string PackageName =
-#if IS_WINUI
-			"Uno.Toolkit.WinUI";
-#else
-			"Uno.Toolkit.UI";
-#endif
-		private const string PackageNameSuffix =
-#if IS_WINUI
-			"WinUI";
-#else
-			"UWP";
-#endif
-
+		private const string PackageName = "Uno.Toolkit.WinUI";
 
 		public ToolkitResources()
 		{
-			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.xaml");
+			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.xaml");
 		}
 	}
 }

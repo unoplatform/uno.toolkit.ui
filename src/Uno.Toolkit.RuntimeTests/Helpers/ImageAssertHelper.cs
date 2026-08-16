@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,19 +12,11 @@ using Windows.Foundation.Metadata;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.AppService;
 using FluentAssertions;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-#else
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-#endif
 
 namespace Uno.Toolkit.RuntimeTests.Helpers
 {
@@ -82,15 +75,10 @@ namespace Uno.Toolkit.RuntimeTests.Helpers
 		/// <summary>
 		/// Returns whether screenshots are supported on the current platform.
 		/// </summary>
+		[UnconditionalSuppressMessage("Trimming", "IL2122", Justification = "RenderTargetBitmap is a well-known WinUI type checked at runtime.")]
 		public static bool IsScreenshotSupported()
 		{
-			return ApiInformation.IsTypePresent(
-#if IS_WINUI
-				"Microsoft.UI.Xaml.Media.Imaging.RenderTargetBitmap"
-#else
-				"Windows.UI.Xaml.Media.Imaging.RenderTargetBitmap"
-#endif
-			);
+			return ApiInformation.IsTypePresent("Microsoft.UI.Xaml.Media.Imaging.RenderTargetBitmap");
 		}
 
 		private static void AssertExpectedColor(Color expected, Color? actual)

@@ -56,6 +56,7 @@ namespace Uno.Toolkit.UI
 		private ContentPresenter _drawerContentPresenter;
 
 		// references
+		private readonly DispatcherCompat _dispatcher;
 		private TranslateTransform _drawerContentPresenterTransform;
 		private Storyboard _storyboard = new Storyboard();
 		private DoubleAnimation _translateAnimation, _opacityAnimation;
@@ -73,6 +74,8 @@ namespace Uno.Toolkit.UI
 		public DrawerFlyoutPresenter()
 		{
 			DefaultStyleKey = typeof(DrawerFlyoutPresenter);
+
+			_dispatcher = this.GetDispatcherCompat();
 		}
 
 		protected override void OnApplyTemplate()
@@ -134,6 +137,7 @@ namespace Uno.Toolkit.UI
 						}
 					};
 					_drawerContentPresenter.SizeChanged += DrawerContentPresenterSizeChanged;
+					UpdateOpenness(false);
 				}
 			};
 
@@ -156,15 +160,32 @@ namespace Uno.Toolkit.UI
 		private void DrawerContentPresenterSizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			_lastMeasuredFlyoutContentSize = e.NewSize;
+
+			UpdateOpenness(IsOpen);
+
+			// For the first open animation, we attempt to delay StartOpenAnimation to run after DrawerContentPresenterSizeChanged, by re-dispatching it.
+			// On native, it may still be too early. In that case, we should start the animation again, as we now have the required size to proceed.
+			var previousLength = IsOpenDirectionHorizontal() ? e.PreviousSize.Width : e.PreviousSize.Height;
+			if (previousLength is 0 && HasConcreteDrawerActualSize() &&
+				IsOpen && _popup is { IsOpen: true })
+			{
+				StartOpenAnimation();
+			}
 		}
 
 		private void OnPopupOpened(object sender, object e)
 		{
-			if (!HasConcreteActualSize()) return;
-
-			// reset to close position, and animate to open position
-			UpdateOpenness(false);
-			UpdateIsOpen(true, animate: true);
+			if (!HasConcreteActualSize())
+			{
+				_dispatcher.Invoke(() =>
+				{
+					StartOpenAnimation();
+				});
+			}
+			else
+			{
+				StartOpenAnimation();
+			}
 		}
 
 		private void OnDrawerLengthChanged(DependencyPropertyChangedEventArgs e)
@@ -301,7 +322,6 @@ namespace Uno.Toolkit.UI
 		private void UpdateOpenness(double ratio)
 		{
 			TranslateOffset = (1 - ratio) * GetVectoredLength();
-
 			if (_lightDismissOverlay != null)
 			{
 				_lightDismissOverlay.Opacity = ratio;
@@ -309,11 +329,24 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		private void StartOpenAnimation()
+		{
+			// reset to close position, and animate to open position
+			UpdateOpenness(false);
+			UpdateIsOpen(true, animate: true);
+		}
+
 		private void PlayAnimation(double fromRatio, bool willBeOpen)
 		{
+			if (_storyboard == null) return;
+			if (!HasConcreteDrawerActualSize()) return;
+
+			if (double.IsNaN(fromRatio))
+			{
+				fromRatio = willBeOpen ? 1 : 0;
+			}
 			var toRatio = willBeOpen ? 0 : 1;
 
-			if (_storyboard == null) return;
 
 			if (_translateAnimation != null)
 			{
@@ -507,6 +540,8 @@ namespace Uno.Toolkit.UI
 
 		private bool HasConcreteActualSize() => ActualWidth > 0 && ActualHeight > 0;
 
+		private bool HasConcreteDrawerActualSize() => _drawerContentPresenter?.ActualWidth > 0 && _drawerContentPresenter?.ActualHeight > 0;
+
 		private double GetActualDrawerLength()
 		{
 			if (_drawerContentPresenter == null) throw new InvalidOperationException($"{nameof(_drawerContentPresenter)} is null");
@@ -521,15 +556,15 @@ namespace Uno.Toolkit.UI
 			return UseNegativeTranslation() ? -GetActualDrawerLength() : GetActualDrawerLength();
 		}
 
-        private Popup FindHostPopup()
-        {
-            if (this.FindFirstParent<FlyoutPresenter>() is FlyoutPresenter flyoutPresenter)
-            {
-                return VisualTreeHelper.GetOpenPopupsForXamlRoot(XamlRoot).FirstOrDefault(x => x.Child == flyoutPresenter);
-            }
+		private Popup FindHostPopup()
+		{
+			if (this.FindFirstParent<FlyoutPresenter>() is FlyoutPresenter flyoutPresenter)
+			{
+				return VisualTreeHelper.GetOpenPopupsForXamlRoot(XamlRoot).FirstOrDefault(x => x.Child == flyoutPresenter);
+			}
 
-            return default;
-        }
+			return default;
+		}
 
 		private static double Clamp(double min, double value, double max)
 		{

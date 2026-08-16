@@ -220,7 +220,10 @@ namespace Uno.Toolkit.UI
 					backButtonAppearance.Normal.TitleTextAttributes = attributes;
 					backButtonAppearance.Highlighted.TitleTextAttributes = attributes;
 
-					backImage = backImage?.ApplyTintColor(foreground);
+					if (mainCommand is { } && mainCommand.TryGetIconColor(out var _))
+					{
+						backImage = backImage?.ApplyTintColor(foregroundColor);
+					}
 				}
 
 				if (backImage is { })

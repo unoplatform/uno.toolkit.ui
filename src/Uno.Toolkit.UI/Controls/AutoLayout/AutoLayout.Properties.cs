@@ -104,7 +104,7 @@ partial class AutoLayout
 		element.SetValue(PrimaryAlignmentProperty, value);
 	}
 
-	[DynamicDependency(nameof(GetPrimaryAlignment))]
+	[DynamicDependency(nameof(SetPrimaryAlignment))]
 	public static AutoLayoutPrimaryAlignment GetPrimaryAlignment(DependencyObject element)
 	{
 		return (AutoLayoutPrimaryAlignment)element.GetValue(PrimaryAlignmentProperty);
@@ -124,7 +124,7 @@ partial class AutoLayout
 		element.SetValue(CounterAlignmentProperty, value);
 	}
 
-	//[DynamicDependency(nameof(SetCounterAlignment))]
+	[DynamicDependency(nameof(SetCounterAlignment))]
 	public static AutoLayoutAlignment GetCounterAlignment(DependencyObject element)
 	{
 		return (AutoLayoutAlignment)element.GetValue(CounterAlignmentProperty);

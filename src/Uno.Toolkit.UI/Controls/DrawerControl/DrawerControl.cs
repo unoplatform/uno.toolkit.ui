@@ -44,8 +44,8 @@ namespace Uno.Toolkit.UI
 			public const string GestureInterceptorName = "GestureInterceptor";
 		}
 
-		private const double DragToggleThresholdRatio = 1.0 / 3;
-		private const double AnimateSnappingThresholdRatio = 0.95;
+		private const double DragToggleThresholdRatio = 1.0 / 3; // only accept gesture open/close if 1/3 of distance is completed
+		private const double AnimateSnappingThresholdRatio = 0.05; // skip animation at if 5% of distance from done
 		private static readonly TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(150);
 
 		// template parts
@@ -55,6 +55,7 @@ namespace Uno.Toolkit.UI
 		private Border? _gestureInterceptor;
 
 		// references
+		private DispatcherCompat _dispatcher;
 		private Storyboard _storyboard = new Storyboard();
 		private DoubleAnimation? _translateAnimation, _opacityAnimation;
 		private TranslateTransform? _drawerContentPresenterTransform;
@@ -65,9 +66,14 @@ namespace Uno.Toolkit.UI
 		private double _startingTranslateOffset;
 		private bool _suppressIsOpenHandler;
 
+		// test backdoor
+		internal Storyboard AnimationStoryboard => _storyboard;
+
 		public DrawerControl()
 		{
 			DefaultStyleKey = typeof(DrawerControl);
+
+			_dispatcher = this.GetDispatcherCompat();
 		}
 
 		protected override void OnApplyTemplate()
@@ -127,7 +133,7 @@ namespace Uno.Toolkit.UI
 
 			if (DrawerDepth != 0)
 			{
-				UpdateIsOpen(IsOpen, animate: false);
+				UpdateIsOpen(IsOpen, shouldAnimate: false);
 			}
 			_isReady = _drawerContentControl != null;
 
@@ -154,7 +160,7 @@ namespace Uno.Toolkit.UI
 			if (_suppressIsOpenHandler) return;
 
 			StopRunningAnimation();
-			UpdateIsOpen((bool)e.NewValue, animate: IsLoaded);
+			UpdateIsOpen((bool)e.NewValue, shouldAnimate: true);
 		}
 
 		private void OnDrawerDepthChanged(DependencyPropertyChangedEventArgs e)
@@ -162,7 +168,7 @@ namespace Uno.Toolkit.UI
 			if (!_isReady) return;
 
 			UpdateSwipeContentPresenterSize();
-			UpdateIsOpen(IsOpen, animate: false);
+			UpdateIsOpen(IsOpen, shouldAnimate: false);
 		}
 
 		private void OnOpenDirectionChanged(DependencyPropertyChangedEventArgs e)
@@ -181,7 +187,7 @@ namespace Uno.Toolkit.UI
 			RebuildTranslateAnimation();
 #endif
 			ResetOtherAxisTranslateOffset();
-			UpdateIsOpen(IsOpen, animate: false);
+			UpdateIsOpen(IsOpen, shouldAnimate: false);
 		}
 
 		private void OnEdgeSwipeDetectionLengthChanged(DependencyPropertyChangedEventArgs e)
@@ -196,7 +202,7 @@ namespace Uno.Toolkit.UI
 			UpdateSwipeContentPresenterLayout();
 
 			_drawerContentControl?.UpdateLayout();
-			UpdateIsOpen(IsOpen, animate: false);
+			UpdateIsOpen(IsOpen, shouldAnimate: false);
 		}
 
 		private void OnIsGestureEnabledChanged(DependencyPropertyChangedEventArgs e)
@@ -261,13 +267,13 @@ namespace Uno.Toolkit.UI
 			var isInCorrectDirection = Math.Sign(cumulative) == (IsOpen ^ UseNegativeTranslation() ? 1 : -1);
 			var isPastThresholdRatio = Math.Abs(cumulative / length) >= DragToggleThresholdRatio;
 
-			UpdateIsOpen(IsOpen ^ (isInCorrectDirection && isPastThresholdRatio));
+			UpdateIsOpen(IsOpen ^ (isInCorrectDirection && isPastThresholdRatio), shouldAnimate: true);
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			UpdateSwipeContentPresenterSize();
-			UpdateIsOpen(IsOpen, animate: false);
+			UpdateIsOpen(IsOpen, shouldAnimate: false);
 		}
 
 		private void OnLightDismissOverlayTapped(object sender, TappedRoutedEventArgs e)
@@ -275,25 +281,29 @@ namespace Uno.Toolkit.UI
 			if (!IsLightDismissEnabled) return;
 
 			StopRunningAnimation();
-			UpdateIsOpen(false);
+			UpdateIsOpen(false, shouldAnimate: true);
 		}
 
-		private void UpdateIsOpen(bool willBeOpen, bool animate = true)
+		private void UpdateIsOpen(bool willBeOpen, bool shouldAnimate = true)
 		{
 			var length = GetActualDrawerDepth();
 			var currentOffset = TranslateOffset;
 			var targetOffset = GetSnappingOffsetFor(willBeOpen);
 			var relativeDistanceRatio = Math.Abs(Math.Abs(currentOffset) - Math.Abs(targetOffset)) / length;
 
-			if (!animate || ((1 - relativeDistanceRatio) >= AnimateSnappingThresholdRatio))
+			if (shouldAnimate &&
+				IsLoaded &&
+				_dispatcher.HasThreadAccess &&
+				length > 0 && // skip animation if we have nothing to animate (either from not being ready, or no valid content)
+				relativeDistanceRatio >= AnimateSnappingThresholdRatio) // skip animation if we are less than 5% from done
 			{
-				UpdateOpenness(willBeOpen ? 0 : 1);
 				UpdateIsOpenWithSuppress(willBeOpen);
+				PlayAnimation(willBeOpen);
 			}
 			else
 			{
+				UpdateOpenness(willBeOpen ? 0 : 1);
 				UpdateIsOpenWithSuppress(willBeOpen);
-				PlayAnimation(currentOffset / GetVectoredLength(), willBeOpen);
 			}
 
 			void UpdateIsOpenWithSuppress(bool value)
@@ -324,23 +334,29 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void PlayAnimation(double fromRatio, bool willBeOpen)
+		private void PlayAnimation(bool willBeOpen)
 		{
 			if (_storyboard == null) return;
 
-			var toRatio = willBeOpen ? 0 : 1;
-			if (_translateAnimation != null)
+			var vectoredLength = GetVectoredLength();
+			if (Math.Abs(vectoredLength) > 0)
 			{
-				var vectoredLength = GetVectoredLength();
+				var fromRatio = TranslateOffset / vectoredLength;
+				var toRatio = willBeOpen ? 0 : 1;
+				if (_translateAnimation != null)
+				{
+					_translateAnimation.From = fromRatio * vectoredLength;
+					_translateAnimation.To = toRatio * vectoredLength;
+				}
+				if (_opacityAnimation != null)
+				{
+					_opacityAnimation.From = 1 - fromRatio;
+					_opacityAnimation.To = 1 - toRatio;
+				}
 
-				_translateAnimation.From = fromRatio * vectoredLength;
-				_translateAnimation.To = toRatio * vectoredLength;
+				_storyboard.Begin();
 			}
-			if (_opacityAnimation != null)
-			{
-				_opacityAnimation.From = 1 - fromRatio;
-				_opacityAnimation.To = 1 - toRatio;
-			}
+
 			if (_lightDismissOverlay != null)
 			{
 				_lightDismissOverlay.IsHitTestVisible = willBeOpen;
@@ -349,8 +365,6 @@ namespace Uno.Toolkit.UI
 			{
 				_gestureInterceptor.IsHitTestVisible = IsGestureEnabled && !willBeOpen;
 			}
-
-			_storyboard.Begin();
 		}
 
 		private void StopRunningAnimation()

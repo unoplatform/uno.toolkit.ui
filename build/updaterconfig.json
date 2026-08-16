@@ -1,0 +1,12 @@
+[
+	{
+		"PackageId": "Uno.Wasm.Bootstrap",
+		"UpdatedVersion": "0.0.0.0",
+		"UpgradePolicy": "Minor"
+	},
+	{
+		"PackageId": "Uno.Wasm.Bootstrap.DevServer",
+		"UpdatedVersion": "0.0.0.0",
+		"UpgradePolicy": "Minor"
+	}
+]

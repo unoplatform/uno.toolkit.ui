@@ -5,6 +5,7 @@
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Uno.Disposables;
 using Uno.Extensions;
@@ -196,10 +197,10 @@ namespace Uno.Toolkit.UI
 
 			var result = new Thickness
 			{
-				Left = visibleBounds.Left - bounds.Left,
-				Top = visibleBounds.Top - bounds.Top,
-				Right = bounds.Right - visibleBounds.Right,
-				Bottom = bounds.Bottom - visibleBounds.Bottom,
+				Left = Math.Max(0, visibleBounds.Left - bounds.Left),
+				Top = Math.Max(0, visibleBounds.Top - bounds.Top),
+				Right = Math.Max(0, bounds.Right - visibleBounds.Right),
+				Bottom = Math.Max(0, bounds.Bottom - visibleBounds.Bottom),
 			};
 
 			if (_log.IsEnabled(LogLevel.Debug))
@@ -210,7 +211,6 @@ namespace Uno.Toolkit.UI
 			return result;
 #endif
 		}
-
 
 		private static Rect GetVisibleBounds(Rect? safeAreaOverride = null, bool withSoftInput = false)
 		{
@@ -224,9 +224,15 @@ namespace Uno.Toolkit.UI
 			var visibleBounds = safeAreaOverride?.IsEmptyOrZero() ?? true
 				? ApplicationView.GetForCurrentView().VisibleBounds
 				: safeAreaOverride.GetValueOrDefault();
+
+			if (!(XamlWindow.Current is { } xamlWindow))
+			{
+				return new();
+			}
+
 #if __ANDROID__
 			var statusBarOffset = 0d;
-			if (!XamlWindow.Current.IsStatusBarTranslucent())
+			if (!XamlWindow.Current!.IsStatusBarTranslucent())
 			{
 				statusBarOffset = Windows.UI.ViewManagement.StatusBar.GetForCurrentView()?.OccludedRect.Height ?? 0d;
 			}
@@ -237,7 +243,7 @@ namespace Uno.Toolkit.UI
 				if (inputRect.Top != 0 && inputRect.Top < visibleBounds.Bottom)
 				{
 
-					var windowBottom = XamlWindow.Current.Bounds.Bottom;
+					var windowBottom = XamlWindow.Current!.Bounds.Bottom;
 #if __ANDROID__
 					var totalOffset = Math.Max(0, inputRect.Bottom - windowBottom);
 
@@ -268,12 +274,41 @@ namespace Uno.Toolkit.UI
 			return visibleBounds;
 #endif
 		}
+	}
 
-		internal class SafeAreaDetails
+	public partial class SafeArea
+	{
+		internal partial class SafeAreaDetails
 		{
-			private static readonly ConditionalWeakTable<FrameworkElement, SafeAreaDetails> _instances =
-				new ConditionalWeakTable<FrameworkElement, SafeAreaDetails>();
+			private static readonly ConditionalWeakTable<FrameworkElement, SafeAreaDetails> _instances = new();
+
+			internal static SafeAreaDetails GetInstance(FrameworkElement element) => _instances.GetValue(element, e => new SafeAreaDetails(e));
+
+			internal static SafeAreaDetails? FindInstance(FrameworkElement e) => _instances.TryGetValue(e, out var instance) ? instance : default;
+		}
+
+		internal partial class SafeAreaDetails
+		{
+			// test hooks to validate performance
+			internal event TypedEventHandler<SafeAreaDetails, Thickness>? EffectiveInsetsApplied;
+#if DEBUG
+			internal event TypedEventHandler<SafeAreaDetails, Thickness>? InsetsApplied;
+
+			internal static Rect TestHook_LastKnownBounds { get => s_lastKnownBounds; set => s_lastKnownBounds = value; }
+			internal static Rect TestHook_LastKnownVisibleBounds { get => s_lastKnownVisibleBounds; set => s_lastKnownVisibleBounds = value; }
+			internal static bool TestHook_BoundsTransitionPending { get => s_boundsTransitionPending; set => s_boundsTransitionPending = value; }
+			internal void TestHook_InvokeUpdateInsets(bool forceUpdate = false) => UpdateInsets(forceUpdate);
+#endif
+
+			// Track the last-known Window.Bounds and VisibleBounds to detect race conditions
+			// during StatusBar translucency transitions where VisibleBounds updates before Bounds.
+			private static Rect s_lastKnownBounds;
+			private static Rect s_lastKnownVisibleBounds;
+			private static bool s_boundsTransitionPending;
+
 			private readonly WeakReference _owner;
+			private FrameworkElement? Owner => _owner.Target as FrameworkElement;
+
 			private Rect? _overriddenVisibleBounds;
 			private InsetMask _insetMask;
 			private InsetMode _insetMode = InsetMode.Padding;
@@ -298,26 +333,19 @@ namespace Uno.Toolkit.UI
 				owner.SizeChanged += OnInsetUpdateRequired;
 				_subscriptions.Add(() => owner.SizeChanged -= OnInsetUpdateRequired);
 #endif
-				owner.LayoutUpdated += OnInsetUpdateRequired;
-				_subscriptions.Add(() => owner.LayoutUpdated -= OnInsetUpdateRequired);
+				owner.LayoutUpdated += OnOwnerLayoutUpdated;
+				_subscriptions.Add(() => owner.LayoutUpdated -= OnOwnerLayoutUpdated);
 
-				if (!owner.IsLoaded)
+				if (owner.IsLoaded)
 				{
-					owner.Loaded += OnOwnerLoaded;
-					_subscriptions.Add(() => owner.Loaded -= OnOwnerLoaded);
+					OnOwnerLoaded(owner, new());
 				}
-				else
-				{
-					RegisterEvents();
-				}
+
+				owner.Loaded += OnOwnerLoaded;
+				_subscriptions.Add(() => owner.Loaded -= OnOwnerLoaded);
 
 				owner.Unloaded += OnOwnerUnloaded;
 				_subscriptions.Add(() => owner.Unloaded -= OnOwnerUnloaded);
-			}
-
-			private void OnOwnerUnloaded(object sender, RoutedEventArgs e)
-			{
-				Unregister();
 			}
 
 			private void OnOwnerLoaded(object sender, RoutedEventArgs e)
@@ -326,26 +354,92 @@ namespace Uno.Toolkit.UI
 				RegisterEvents();
 			}
 
+			private void OnOwnerUnloaded(object sender, RoutedEventArgs e)
+			{
+				Unregister();
+			}
+
+			private void OnOwnerLayoutUpdated(object? sender, object e)
+			{
+				UpdateInsets(forceUpdate: false);
+			}
+
 			private void OnInsetUpdateRequired(object? sender, object? args)
 			{
 				UpdateInsets();
 			}
 
+			// Creates a TypedEventHandler that invokes <paramref name="onEvent"/> against a WeakReference
+			// to <paramref name="target"/>, so a process-global event source cannot strongly root the
+			// target. Once the target has been collected the wrapper detaches itself via
+			// <paramref name="detach"/>. onEvent/detach MUST be static (non-capturing) so the returned
+			// delegate captures only the WeakReference — never the target instance.
+			private static TypedEventHandler<TSender, TArgs> CreateWeakHandler<TSender, TArgs>(
+				SafeAreaDetails target,
+				Action<SafeAreaDetails, TSender, TArgs> onEvent,
+				Action<TSender, TypedEventHandler<TSender, TArgs>> detach)
+				where TSender : class
+			{
+				// The whole point of this wrapper is that the global event singleton holds only a
+				// WeakReference back. That guarantee is defeated if a caller passes a capturing lambda:
+				// its closure display-class would be rooted by the delegate (Target != null) and would
+				// in turn root whatever it captured. Callers must pass static/non-capturing delegates
+				// (Target == null); assert it in DEBUG so an accidental capture is caught during dev.
+				// Fully qualified: on net*-android an unqualified `Debug` binds to the inherited
+				// Android.Views.ViewGroup.Debug(int) method (CS0119), not System.Diagnostics.Debug.
+				System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+				System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+
+				var weakTarget = new WeakReference<SafeAreaDetails>(target);
+				TypedEventHandler<TSender, TArgs> h = null!;
+				h = (s, e) =>
+				{
+					if (weakTarget.TryGetTarget(out var self))
+					{
+						onEvent(self, s, e);
+					}
+					else
+					{
+						detach(s, h);
+					}
+				};
+				return h;
+			}
+
 			private void RegisterEvents()
 			{
-				ApplicationView.GetForCurrentView().VisibleBoundsChanged += OnInsetUpdateRequired;
-				_subscriptions.Add(() => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= OnInsetUpdateRequired);
-
+				// ApplicationView and InputPane are process-global singletons. Subscribing to their events
+				// with an instance-method delegate makes the singleton strongly root this SafeAreaDetails
+				// (and, through its subscription closures, the owner element). Unregister() undoes this on
+				// the owner's Unloaded — but that event does not fire when the owner's AssemblyLoadContext
+				// is torn down abruptly (e.g. a plugin/preview host unloading a collectible ALC), leaking
+				// the owner and its ALC for the process lifetime. Subscribe weakly so the global singleton
+				// only holds a WeakReference back; the wrapper self-detaches once this instance is collected.
+				var appView = ApplicationView.GetForCurrentView();
+				var appViewHandler = CreateWeakHandler<ApplicationView, object>(
+					this,
+					static (self, s, e) => self.OnInsetUpdateRequired(s, e),
+					static (s, h) => s.VisibleBoundsChanged -= h);
+				appView.VisibleBoundsChanged += appViewHandler;
+				_subscriptions.Add(() => appView.VisibleBoundsChanged -= appViewHandler);
 
 				if (InputPane.GetForCurrentView() is { } inputPane)
 				{
-					inputPane.Showing += OnInputPaneChanged;
-					inputPane.Hiding += OnInputPaneChanged;
+					var inputPaneHandler = CreateWeakHandler<InputPane, InputPaneVisibilityEventArgs>(
+						this,
+						static (self, s, e) => self.OnInputPaneChanged(s, e),
+						static (s, h) =>
+						{
+							s.Showing -= h;
+							s.Hiding -= h;
+						});
+					inputPane.Showing += inputPaneHandler;
+					inputPane.Hiding += inputPaneHandler;
 
 					_subscriptions.Add(() =>
 					{
-						inputPane.Showing -= OnInputPaneChanged;
-						inputPane.Hiding -= OnInputPaneChanged;
+						inputPane.Showing -= inputPaneHandler;
+						inputPane.Hiding -= inputPaneHandler;
 					});
 				}
 
@@ -370,8 +464,6 @@ namespace Uno.Toolkit.UI
 					UpdateInsets();
 				}
 			}
-
-			private FrameworkElement? Owner => _owner.Target as FrameworkElement;
 
 			/// <summary>
 			/// VisibleBounds offset to the reference frame of the window Bounds.
@@ -404,7 +496,7 @@ namespace Uno.Toolkit.UI
 
 			private bool HasSoftInput() => _insetMask.HasFlag(InsetMask.SoftInput);
 
-			private void UpdateInsets()
+			private void UpdateInsets(bool forceUpdate = false)
 			{
 				if (XamlWindow.Current?.Content == null)
 				{
@@ -421,12 +513,101 @@ namespace Uno.Toolkit.UI
 					return;
 				}
 
-				Thickness visibilityPadding;
+				if (!forceUpdate &&
+					Owner
+						.GetAncestors(includeCurrent: false)
+						.OfType<FrameworkElement>()
+						.Any(x => FindInstance(x)?.Owner?.IsLoaded == false))
+				{
+					// If any ancestor has unapplied SafeArea, we should wait until they are applied first.
+					// The LayoutUpdated will guarantee that we will be called again after the ancestor is applied.
+					return;
+				}
+
+				// ──────────────────────────────────────────────────────────────────
+				// Bounds-transition guard — Android-only deferral for VisibleBounds /
+				// Window.Bounds race condition.
+				//
+				// Full R&D recap: specs/safearea-bounds-guard/recap.md
+				//
+				// Three issues drove this guard through successive fixes:
+				//
+				//   1. https://github.com/unoplatform/dispatchscience-private/issues/74 → PR https://github.com/unoplatform/uno.toolkit.ui/pull/1554
+				//      Android: StatusBar translucency transitions cause VisibleBounds to
+				//      update before Window.Bounds, making GetWindowInsets() compute an
+				//      inflated bottom inset against the stale Bounds and permanently
+				//      stretching Auto-sized rows. Fix: defer the inset computation until
+				//      Window.Bounds catches up (Branch 2 below), then re-check (Branch 1).
+				//
+				//   2. https://github.com/unoplatform/kahua-private/issues/458 → PR https://github.com/unoplatform/uno.toolkit.ui/pull/1572
+				//      iPad: the same VisibleBounds-changes-without-Bounds-changing shape
+				//      occurs naturally after a UIImagePickerController FormSheet /
+				//      OverFullScreen modal dismisses (iOS keeps the host view attached, so
+				//      Window.Bounds never catches up). The original Branch 1 re-deferred
+				//      infinitely at Normal priority, live-locking managed input handling
+				//      (scroll still worked via native UIKit gesture recognizers, but taps /
+				//      buttons / back-nav stopped responding). Fix: restrict the entire
+				//      guard to Android via `OperatingSystem.IsAndroid()`.
+				//
+				//   3. https://github.com/unoplatform/kahua-private/issues/460 → PR https://github.com/unoplatform/uno.toolkit.ui/pull/1593
+				//      Android: on some devices/OEM skins, Window.Bounds genuinely never
+				//      changes during lock/unlock — only VisibleBounds shifts. The original
+				//      Branch 1 kept re-deferring at Normal priority, starving Low-priority
+				//      DispatcherQueue work. Fix: convert Branch 1 from re-defer to
+				//      accept-and-proceed (one-shot pattern).
+				//
+				// `OperatingSystem.IsAndroid()` (vs `#if __ANDROID__`) is required so the
+				// guard remains active for Skia Android builds (`net9.0` TFM without the
+				// `__ANDROID__` define).
+				// ──────────────────────────────────────────────────────────────────
+				if (!HasSoftInput() && OperatingSystem.IsAndroid())
+				{
+					var currentBounds = XamlWindow.Current?.Bounds ?? Rect.Empty;
+					var currentVB = ApplicationView.GetForCurrentView().VisibleBounds;
+
+					var boundsChanged = currentBounds != s_lastKnownBounds;
+					var visibleBoundsChanged = currentVB != s_lastKnownVisibleBounds;
+
+					if (s_boundsTransitionPending && !boundsChanged)
+					{
+						// Branch 1 — accept-and-proceed (one-shot).
+						// We already deferred once (Branch 2) and Window.Bounds still hasn't
+						// caught up. Accept current values instead of re-deferring to avoid
+						// an infinite Normal-priority dispatch loop that permanently starves
+						// Low-priority DispatcherQueue items.
+						// Fixed in: https://github.com/unoplatform/uno.toolkit.ui/pull/1593
+						s_boundsTransitionPending = false;
+						s_lastKnownBounds = currentBounds;
+						s_lastKnownVisibleBounds = currentVB;
+					}
+					else if (s_lastKnownBounds != default
+						&& visibleBoundsChanged
+						&& !boundsChanged)
+					{
+						// Branch 2 — defer once.
+						// VisibleBounds changed but Window.Bounds hasn't caught up yet.
+						// Defer the inset computation to give Bounds time to settle.
+						// Introduced in: https://github.com/unoplatform/uno.toolkit.ui/pull/1554
+						s_boundsTransitionPending = true;
+						Owner?.GetDispatcherCompat().Schedule(() => UpdateInsets(forceUpdate: true));
+						return;
+					}
+					else
+					{
+						// Branch 3 — normal path.
+						// Bounds have caught up (or no transition was pending). Update
+						// cached values and proceed with inset computation.
+						s_boundsTransitionPending = false;
+						s_lastKnownBounds = currentBounds;
+						s_lastKnownVisibleBounds = currentVB;
+					}
+				}
 
 				UpdateSafeAreaOverride();
 
-				var windowPadding = GetWindowInsets(_overriddenVisibleBounds, HasSoftInput());
+				var visibilityPadding = default(Thickness);
 
+				var windowPadding = GetWindowInsets(_overriddenVisibleBounds, HasSoftInput());
 				if (windowPadding != default)
 				{
 					// If the owner view is scrollable, the visibility of interest is that of the scroll viewport.
@@ -434,7 +615,8 @@ namespace Uno.Toolkit.UI
 
 					// Using relativeTo: null instead of Window.Current.Content since there are cases when the current UIElement
 					// may be outside the bounds of the current Window content, for example, when the element is hosted in a modal window.
-					var controlBounds = GetRelativeBounds(fixedControl, relativeTo: null);
+					var controlBounds = GetRelativeBounds(fixedControl!, relativeTo: null);
+					controlBounds = CorrectControlBounds(fixedControl!, controlBounds);
 
 					visibilityPadding = CalculateVisibilityInsets(OffsetVisibleBounds, controlBounds);
 
@@ -443,14 +625,27 @@ namespace Uno.Toolkit.UI
 						visibilityPadding = AdjustScrollableInsets(visibilityPadding, scrollViewer);
 					}
 				}
-				else
-				{
-					visibilityPadding = default(Thickness);
-				}
 
 				var padding = CalculateAppliedInsets(_insetMask, visibilityPadding);
 
 				ApplyInsets(padding);
+			}
+
+			private Rect CorrectControlBounds(FrameworkElement control, Rect bounds)
+			{
+				if (control.GetAncestors(includeCurrent: true).OfType<DrawerFlyoutPresenter>().FirstOrDefault() is { } dfp)
+				{
+					if ((dfp.Content as FrameworkElement)?.Parent is ContentPresenter { Name: DrawerFlyoutPresenter.TemplateParts.DrawerContentPresenter } dcp &&
+						dcp.RenderTransform is TranslateTransform tt)
+					{
+						// corrects for DrawerFlyout's opening animation, by applying its inverse
+						var corrected = tt.Inverse.TransformBounds(bounds);
+						return corrected;
+					}
+
+				}
+
+				return bounds;
 			}
 
 			/// <summary>
@@ -567,38 +762,52 @@ namespace Uno.Toolkit.UI
 				{
 					return;
 				}
-				if (_insetMode == InsetMode.Padding &&
-					owner.TryUpdatePadding(insets))
+				else if (_insetMode == InsetMode.Padding)
 				{
-					_appliedPadding = insets;
-					OnInsetsApplied(owner, insets);
+					if (owner.TryUpdatePadding(insets))
+					{
+						_appliedPadding = insets;
+						OnInsetsApplied(owner, insets);
+					}
+#if DEBUG
+					InsetsApplied?.Invoke(this, insets);
+#endif
 				}
 				else if (_insetMode == InsetMode.Margin)
 				{
 					if (!owner.Margin.Equals(insets))
 					{
-						_appliedMargin = insets;
 						owner.Margin = insets;
+						_appliedMargin = insets;
 						OnInsetsApplied(owner, insets);
 					}
+#if DEBUG
+					InsetsApplied?.Invoke(this, insets);
+#endif
 				}
 			}
 
 			private void OnInsetsApplied(FrameworkElement owner, Thickness newInsets)
 			{
-#if __ANDROID__
-				// Dispatching on Android prevents issues where layout/render changes occurring
-				// during the initial loading of the view are not always properly picked up by the layouting/rendering engine.
-				owner.GetDispatcherCompat().Schedule(()=> owner.InvalidateMeasure());
-#endif
 				if (_log.IsEnabled(LogLevel.Debug))
 				{
 					_log.LogDebug($"ApplyInsets={newInsets}, Mode={_insetMode}");
 				}
-			}
 
-			internal static SafeAreaDetails GetInstance(FrameworkElement element)
-				=> _instances.GetValue(element, (ConditionalWeakTable<FrameworkElement, SafeAreaDetails>.CreateValueCallback)(e => (SafeAreaDetails)new SafeArea.SafeAreaDetails(e)));
+#if __ANDROID__
+				// Dispatching on Android prevents issues where layout/render changes occurring
+				// during the initial loading of the view are not always properly picked up by the layouting/rendering engine.
+				// Also invalidate the parent to ensure that Auto-sized grid rows properly
+				// shrink when the SafeArea padding decreases.
+				owner.GetDispatcherCompat().Schedule(() =>
+				{
+					owner.InvalidateMeasure();
+					(owner.Parent as UIElement)?.InvalidateMeasure();
+				});
+#endif
+
+				EffectiveInsetsApplied?.Invoke(this, newInsets);
+			}
 
 			internal void OnInsetsChanged(InsetMask oldValue, InsetMask newValue)
 			{
@@ -611,7 +820,7 @@ namespace Uno.Toolkit.UI
 
 			private void VerifySoftInputUsage()
 			{
-				if (HasSoftInput() && Owner is { } owner && (owner is not SafeArea or ScrollViewer))
+				if (HasSoftInput() && Owner is { } owner && (owner is not (SafeArea or ScrollViewer)))
 				{
 					_log.WarnIfEnabled(() => $"The '{nameof(InsetMask.SoftInput)}' mask is only supported on {nameof(SafeArea)} or ScrollViewer.");
 				}
@@ -636,7 +845,7 @@ namespace Uno.Toolkit.UI
 
 			internal void UpdateSafeAreaOverride()
 			{
-				if (Owner is { } owner)
+				if (Owner is { } owner && XamlWindow.Current is { } xamlWindow)
 				{
 					var safeAreaOverride = GetSafeAreaOverride(owner);
 
@@ -646,7 +855,7 @@ namespace Uno.Toolkit.UI
 						return;
 					}
 
-					var fullBounds = XamlWindow.Current.Bounds;
+					var fullBounds = XamlWindow.Current!.Bounds;
 					var height = fullBounds.Height - unsafeArea.Top - unsafeArea.Bottom;
 					var width = fullBounds.Width - unsafeArea.Left - unsafeArea.Right;
 
@@ -660,18 +869,18 @@ namespace Uno.Toolkit.UI
 
 				if (Owner is { } owner)
 				{
-						if (oldValue == InsetMode.Margin)
-						{
-							_appliedMargin = new Thickness(0);
-							owner.Margin = _originalMargin;
-							OnInsetsApplied(owner, _originalMargin);
-						}
-						else if (oldValue == InsetMode.Padding)
-						{
-							_appliedPadding = new Thickness(0);
-							PaddingHelper.SetPadding(owner, _originalPadding);
-							OnInsetsApplied(owner, _originalPadding);
-						}
+					if (oldValue == InsetMode.Margin)
+					{
+						_appliedMargin = new Thickness(0);
+						owner.Margin = _originalMargin;
+						OnInsetsApplied(owner, _originalMargin);
+					}
+					else if (oldValue == InsetMode.Padding)
+					{
+						_appliedPadding = new Thickness(0);
+						PaddingHelper.SetPadding(owner, _originalPadding);
+						OnInsetsApplied(owner, _originalPadding);
+					}
 				}
 				UpdateInsets();
 			}

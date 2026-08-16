@@ -143,12 +143,12 @@ internal class DrawerFlyoutTests
 				}
 			}
 		};
-		void Setup(DrawerFlyoutPresenter presenter)
+		void Setup(FlyoutPresenter presenter)
 		{
 			presenter.Background = new SolidColorBrush(Colors.Pink with { A = 127 });
-			presenter.LightDismissOverlayBackground = new SolidColorBrush(Colors.SkyBlue);
-			presenter.OpenDirection = openDirection;
-			presenter.DrawerLength = new GridLength(0.5, GridUnitType.Star);
+			DrawerFlyoutPresenter.SetLightDismissOverlayBackground(presenter, new SolidColorBrush(Colors.SkyBlue));
+			DrawerFlyoutPresenter.SetOpenDirection(presenter, openDirection);
+			DrawerFlyoutPresenter.SetDrawerLength(presenter, new GridLength(0.5, GridUnitType.Star));
 		}
 #endif
 
@@ -226,9 +226,9 @@ internal class DrawerFlyoutTests
 	// this is a workaround to inject property without having to re-template everything.
 	private class LambdaDrawerFlyout : Flyout
 	{
-		private readonly Action<DrawerFlyoutPresenter> _setup;
+		private readonly Action<FlyoutPresenter> _setup;
 
-		public LambdaDrawerFlyout(Action<DrawerFlyoutPresenter> setup)
+		public LambdaDrawerFlyout(Action<FlyoutPresenter> setup)
 		{
 			_setup = setup;
 
@@ -239,7 +239,7 @@ internal class DrawerFlyoutTests
 		protected override Control CreatePresenter()
 		{
 			var wrapper = base.CreatePresenter();
-			if (wrapper.GetTemplateRoot() is DrawerFlyoutPresenter presenter)
+			if (wrapper is FlyoutPresenter presenter)
 			{
 				// note: the style is already applied in base.CreatePresenter(), so we can safely override from here.
 				_setup(presenter);

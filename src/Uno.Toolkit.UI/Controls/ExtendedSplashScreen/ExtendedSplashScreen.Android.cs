@@ -96,6 +96,21 @@ public partial class ExtendedSplashScreen
 		}
 	}
 
+	static partial void ReleaseNativeSplashResources()
+	{
+		// The captured splash bitmap is only needed while the extended splash screen is displayed. Once
+		// the control unloads, drop and recycle it so it does not linger in the process-lifetime static.
+		if (SplashBitmap is { } bitmap)
+		{
+			SplashBitmap = null;
+
+			if (!bitmap.IsRecycled)
+			{
+				bitmap.Recycle();
+			}
+		}
+	}
+
 	private void OnSourceChanged(DependencyObject sender, DependencyProperty dp)
 	{
 		if (sender is ExtendedSplashScreen extended)
@@ -174,8 +189,10 @@ public partial class ExtendedSplashScreen
 				controller.Show(WindowInsetsCompat.Type.SystemBars());
 
 				window.Attributes = systemUi.WindowAttributes;
+#pragma warning disable CA1422 // Validate platform compatibility
 				window.SetNavigationBarColor(systemUi.NavigationBarColor);
 				window.SetStatusBarColor(systemUi.StatusBarColor);
+#pragma warning restore CA1422 // Validate platform compatibility
 			}
 		}
 	}
@@ -219,7 +236,7 @@ public partial class ExtendedSplashScreen
 		return returnedBitmap;
 	}
 
-	private static Task<FrameworkElement?> GetNativeSplashScreen()
+	internal static Task<FrameworkElement?> GetNativeSplashScreen()
 	{
 		try
 		{

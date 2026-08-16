@@ -4,6 +4,8 @@ uid: Toolkit.Migration.Material2.0
 
 # Upgrading Material Toolkit Version
 
+**UnoFeatures:** `Toolkit;Material` (add to `<UnoFeatures>` in your `.csproj`)
+
 ## Upgrading to Material Toolkit v6
 
 Material Toolkit v6 contains a dependency on [Uno Material](Uno.Themes.Material.GetStarted) which, as of its v5 release, introduces breaking changes that can affect applications using the Material Toolkit. Refer to the [Uno Material v5 upgrade documentation](xref:Uno.Themes.Material.Migration#upgrading-to-uno-themes-v50) for further information.

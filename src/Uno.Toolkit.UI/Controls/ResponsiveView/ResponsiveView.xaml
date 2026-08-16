@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:utu="using:Uno.Toolkit.UI">
+	<Style TargetType="utu:ResponsiveView">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="utu:ResponsiveView">
+					<Border x:Name="ResponsiveRoot" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

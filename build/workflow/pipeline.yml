@@ -36,6 +36,7 @@ variables:
 
   IsCanaryBranch: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries/')]
   IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
+  XCODE_ROOT: '/Applications/Xcode_26.1.1.app'
 
 stages:
 - stage: Determine_Changes
@@ -47,7 +48,7 @@ stages:
   displayName: Docs Validations
   dependsOn: Determine_Changes
   # Trigger this stage when docs files are changed
-  condition: or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true'))
+  condition: and(succeeded(), or(eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'), eq(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.mixedChanges'], 'true')))
   jobs:
   - template: stage-docs-validations.yml
 
@@ -55,18 +56,62 @@ stages:
   displayName: Packages
   dependsOn: Determine_Changes
   # Don't trigger this stage if only docs files are changed
-  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
+  condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
   jobs:
   - template: stage-build-packages.yml
 
-- stage: Tests
-  displayName: Tests
+- stage: Build_Samples
+  displayName: Build Samples
   dependsOn: Determine_Changes
   # Don't trigger this stage if only docs files are changed
-  condition: ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true')
+  condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
   jobs:
-  - template: stage-uitests-wasm.yml
+  - template: stage-build-desktop.yml
+  - template: stage-build-wasm.yml
   - template: stage-build-ios.yml
-  - template: stage-uitests-ios.yml
   - template: stage-build-android.yml
-  - template: stage-uitests-android.yml
+
+- stage: RuntimeTests
+  displayName: Runtime Tests
+  dependsOn: Build_Samples
+  condition: succeeded()
+  jobs:
+  - template: stage-runtime-tests.yml
+
+- stage: RuntimeTests_HotReload
+  displayName: Hot-Reload Runtime Tests
+  dependsOn: Determine_Changes
+  condition: and(succeeded(), ne(dependencies.Determine_Changes.outputs['evaluate_changes.DetermineChanges.docsOnly'], 'true'))
+  jobs:
+  - template: stage-runtime-tests-hotreload.yml
+
+##
+## Publishing
+##
+
+- stage: Publish_Dev
+  displayName: 'Publish - Dev NuGet.org'
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature')), not(eq(variables['build.reason'], 'PullRequest')))
+  dependsOn: Packages
+  jobs:
+  - template: publish/publish-nuget-dev.yml
+    parameters:
+      vmImage: 'windows-2022'
+
+- stage: Publish_Prod_Dev
+  displayName: 'Publish - Prod Uno Dev Feed'
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), not(eq(variables['build.reason'], 'PullRequest')))
+  dependsOn: Packages
+  jobs:
+  - template: publish/publish-nuget-prod-dev.yml
+    parameters:
+      vmImage: 'windows-2022'
+  
+- stage: Publish_Prod_Public
+  displayName: 'Publish - Prod NuGet.org'
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), not(eq(variables['build.reason'], 'PullRequest')))
+  dependsOn: Publish_Prod_Dev
+  jobs:
+  - template: publish/publish-nuget-prod.yml
+    parameters:
+      vmImage: 'windows-2022'

@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Uno.Toolkit.UI
 {
-	public partial class NativeNavigationBarPresenter : ContentPresenter, INavigationBarPresenter
+	public partial class NativeNavigationBarPresenter
 	{
 		private SerialDisposable _mainCommandClickHandler = new SerialDisposable();
 
@@ -36,32 +36,33 @@ namespace Uno.Toolkit.UI
 			Unloaded += OnUnloaded;
 		}
 
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			OnOwnerChanged();
+		}
+
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
 			_mainCommandClickHandler.Disposable = null;
 		}
 
-		public void SetOwner(NavigationBar navigationBar)
-		{
-			//Owner is accessed through TemplatedParent on Uno platforms
-		}
-
-		private void OnLoaded(object sender, RoutedEventArgs e)
-		{
-			var navBar = TemplatedParent as NavigationBar;
-			if (navBar is { })
-			{
-				Content = navBar.GetOrAddDefaultRenderer().Native;
-				navBar.MainCommand.Click += OnMainCommandClicked;
-				_mainCommandClickHandler.Disposable = null;
-				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClicked);
-			}
-		}
-
 		private void OnMainCommandClicked(object sender, RoutedEventArgs e)
 		{
-			var navBar = TemplatedParent as NavigationBar;
+			var navBar = GetNavBar();
 			navBar?.TryPerformMainCommand();
+		}
+
+		partial void OnOwnerChanged()
+		{
+			_mainCommandClickHandler.Disposable = null;
+
+			if (GetNavBar() is { } navBar)
+			{
+				Content = navBar.GetOrAddDefaultRenderer().Native;
+				ContentTemplate = null; // normally, the ContentTemplate is inherited from the NavigationBar, but in this case, we don't want it to. We want to use the renderer directly as the child.
+				navBar.MainCommand.Click += OnMainCommandClicked;
+				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClicked);
+			}
 		}
 	}
 }

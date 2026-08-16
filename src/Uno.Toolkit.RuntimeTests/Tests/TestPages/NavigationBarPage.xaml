@@ -1,0 +1,22 @@
+<Page
+	x:Class="Uno.Toolkit.RuntimeTests.Tests.TestPages.NavigationBarPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:utu="using:Uno.Toolkit.UI"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<utu:NavigationBar x:Name="NavBar" Content="Page Title">
+			<utu:NavigationBar.PrimaryCommands>
+				<AppBarButton x:Name="SearchBtn" Label="Search" />
+			</utu:NavigationBar.PrimaryCommands>
+		</utu:NavigationBar>
+
+		<TextBlock x:Name="BodyText" Grid.Row="1" Text="Body content" Margin="12" />
+	</Grid>
+</Page>

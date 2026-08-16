@@ -1,32 +1,28 @@
 <Project DefaultTargets="BuildVersion">
 	<PropertyGroup>
-		<AppName Condition="$(AppName) == ''">Uno.Toolkit.WinUI.Samples</AppName>
+		<AppName Condition="$(AppName) == ''">Uno.Toolkit.Samples.Material</AppName>
 	</PropertyGroup>
-	<Target Name="BuildVersion" Condition="'$(GITVERSION_InformationalVersion)'!=''">
+	<Target Name="BuildVersion" Condition="'$(NBGV_InformationalVersion)'!=''">
 		<Message Text="%0A#### Running BuildVersion" Importance="$(_MessageImportance)" />
 
-		<Exec Command="git rev-list --count HEAD" Condition="'$(_BuildNumber)' == ''" ConsoleToMSBuild="true">
-			<Output TaskParameter="ConsoleOutput" PropertyName="_BuildNumber" />
-		</Exec>
-
 		<PropertyGroup>
-			<_VersionCode>$(_BuildNumber)</_VersionCode>
-			<_BuildNumber Condition="$(BuildNumberOffset) != ''">$([MSBuild]::Add($(_BuildNumber), $(BuildNumberOffset)))</_BuildNumber>
-			<_VersionCode Condition="$(VersionCodeOffset) != ''">$([MSBuild]::Add($(_BuildNumber), $(VersionCodeOffset)))</_VersionCode>
+			<_VersionCode>$(NBGV_BuildNumber)</_VersionCode>
+			<NBGV_BuildNumber Condition="$(BuildNumberOffset) != ''">$([MSBuild]::Add($(NBGV_BuildNumber), $(BuildNumberOffset)))</NBGV_BuildNumber>
+			<_VersionCode Condition="$(VersionCodeOffset) != ''">$([MSBuild]::Add($(NBGV_BuildNumber), $(VersionCodeOffset)))</_VersionCode>
 			<_VersionCode Condition="$(VersionCodeOffset) != ''">$([MSBuild]::Add($(_VersionCode), $([System.DateTime]::Now.ToString(`yyMMddHHmm`))))</_VersionCode>
 			<_VersionCode Condition="$(VersionCodeOffset) != ''">$([MSBuild]::Subtract($(_VersionCode), '2200000000'))</_VersionCode>
-			<_AppleBuildNumber Condition="$(_AppleBuildNumber) == ''">$([System.DateTime]::Now.ToString(`yyMMddHHmm`)).$(_BuildNumber)</_AppleBuildNumber>
+			<_AppleBuildNumber Condition="$(_AppleBuildNumber) == ''">$([System.DateTime]::Now.ToString(`yyMMddHHmm`)).$(NBGV_BuildNumber)</_AppleBuildNumber>
 			<_InformationalVersion>$(PackageInformationalVersion)</_InformationalVersion>
-			<_InformationalVersion Condition="'$(_InformationalVersion)' == ''">$(GITVERSION_InformationalVersion)</_InformationalVersion>
+			<_InformationalVersion Condition="'$(_InformationalVersion)' == ''">$(NBGV_InformationalVersion)</_InformationalVersion>
 			<_AppVersion>$(_AppVersion)</_AppVersion>
-			<_AppVersion Condition="'$(_AppVersion)'==''">$(GitVersion_MajorMinorPatch)</_AppVersion>
+			<_AppVersion Condition="'$(_AppVersion)'==''">$(NBGV_SimpleVersion)</_AppVersion>
 		</PropertyGroup>
 
-		<Error Condition="'$(_InformationalVersion)'=='' Or '$(_AppVersion)'==''" Text="Failed to calculate version. You must either run GitVersion before building the application or set both AppVersion and InformationalVersion variables."/>
+		<Error Condition="'$(_InformationalVersion)'=='' Or '$(_AppVersion)'==''" Text="Failed to calculate version. You must either run NBGV before building the application or set both AppVersion and InformationalVersion variables."/>
 
 		<!-- App version without revision -->
 		<PropertyGroup Condition="'$(IncludeBuildInVersion)' == 'True'">
-			<_AppVersion>$(GitVersion_Major).$(GitVersion_Minor).$(_BuildNumber)</_AppVersion>
+			<_AppVersion>$(NBGV_VersionMajor).$(NBGV_VersionMinor).$(NBGV_BuildNumber)</_AppVersion>
 		</PropertyGroup>
 
 		<!-- Pad the version in case it's too short -->
@@ -36,20 +32,19 @@
 		</PropertyGroup>
 
 		<Message Text="App version : $(_AppVersion)" Importance="$(_MessageImportance)" />
-		<Message Text="Build number : $(_BuildNumber)" Importance="$(_MessageImportance)" />
+		<Message Text="Build number : $(NBGV_BuildNumber)" Importance="$(_MessageImportance)" />
 		<Message Text="Informational version : $(_InformationalVersion)" Importance="$(_MessageImportance)" />
 
 		<Message Text="#### Done running BuildVersion" Importance="$(_MessageImportance)" />
 		<Message Text="%0A" Importance="$(_MessageImportance)" />
 
 		<PropertyGroup>
-			<_SourceBasePath>$(MSBuildThisFileDirectory)../../src/$(AppName)/$(AppName)</_SourceBasePath>
-			<_ManifestPath>$(_SourceBasePath).Droid/Properties/AndroidManifest.xml</_ManifestPath>
-			<_PlistFilePath>$(_SourceBasePath).iOS/Info.plist</_PlistFilePath>
-			<_macPlistFilePath>$(_SourceBasePath).macOS/Info.plist</_macPlistFilePath>
-			<_AppxManifestPath>$(_SourceBasePath).UWP/Package.appxmanifest</_AppxManifestPath>
+			<_SourceBasePath>$(MSBuildThisFileDirectory)../../samples/$(AppName)</_SourceBasePath>
+			<_ManifestPath>$(_SourceBasePath)/Platforms/Android/AndroidManifest.xml</_ManifestPath>
+			<_PlistFilePath>$(_SourceBasePath)/Platforms/iOS/Info.plist</_PlistFilePath>
+			<_macPlistFilePath>$(_SourceBasePath)/Platforms/MacCatalyst/Info.plist</_macPlistFilePath>
 
-			<_mobileSourceBasePath>../../src/$(AppName).Mobile</_mobileSourceBasePath>
+			<_mobileSourceBasePath>$(MSBuildThisFileDirectory)../../samples/$(AppName)/Platforms</_mobileSourceBasePath>
 			<_MobileAndroidManifestPath>$(_mobileSourceBasePath)/Android/AndroidManifest.xml</_MobileAndroidManifestPath>
 			<_catalystPlistFilePath>$(_mobileSourceBasePath)/MacCatalyst/Info.plist</_catalystPlistFilePath>
 			<_MobileiOSPlistFilePath>$(_mobileSourceBasePath)/iOS/Info.plist</_MobileiOSPlistFilePath>
@@ -63,7 +58,7 @@
 		</PropertyGroup>
 
 		<Message Text="Updating Package versions" />
-		<Message Text="_AppVersion: $(_AppVersion) _BuildNumber: $(_BuildNumber) _AppleBuildNumber: $(_AppleBuildNumber) _VersionCode: $(_VersionCode)" Importance="high" />
+		<Message Text="_AppVersion: $(_AppVersion) NBGV_BuildNumber: $(NBGV_BuildNumber) _AppleBuildNumber: $(_AppleBuildNumber) _VersionCode: $(_VersionCode)" Importance="high" />
 
 		<!-- Android -->
 		<XmlPoke Condition="Exists('$(_ManifestPath)')" XmlInputPath="$(_ManifestPath)" Query="/manifest/@android:versionName" Value="$(_AppVersion)" Namespaces="$(_AndroidNamespace)" />
@@ -99,31 +94,18 @@
 
 		<_XmlUpdate Condition="Exists('$(_MobileiOSPlistFilePath)')" XmlFileName="$(_MobileiOSPlistFilePath)" XPath="//plist/dict/key[text() = 'CFBundleVersion']/following-sibling::string[1]" Value="$(_AppleBuildNumber)" />
 
-		<!-- UWP -->
-		<ItemGroup>
-			<_Major Include="$(_AppVersion.Split('.')[0])" />
-			<_Minor Include="$(_AppVersion.Split('.')[1])" />
-			<_Revision Include="$(_AppVersion.Split('.')[2])" />
-		</ItemGroup>
-
-		<!-- Forcing the inclusion of the build number in UWP as the standard format is Major.Minor.Build.Revision -->
-		<!-- Not doing this makes it impossible to update a package unless the version is updated -->
-		<PropertyGroup>
-			<_UWPVersion>@(_Major).@(_Minor).$(_BuildNumber).@(_Revision)</_UWPVersion>
-		</PropertyGroup>
-
-		<XmlPoke Condition="Exists('$(_AppxManifestPath)')" XmlInputPath="$(_AppxManifestPath)" Query="/x:Package/x:Identity/@Version" Value="$(_UWPVersion)" Namespaces="$(_WindowsNamespace)" />
+		<XmlPoke Condition="Exists('$(_AppxManifestPath)')" XmlInputPath="$(_AppxManifestPath)" Query="/x:Package/x:Identity/@Version" Value="$(_AppVersion)" Namespaces="$(_WindowsNamespace)" />
 	</Target>
 
-	<UsingTask TaskName="_XmlUpdate" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.v12.0.dll">
+	<UsingTask TaskName="_XmlUpdate"
+			   TaskFactory="RoslynCodeTaskFactory"
+			   AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
 		<ParameterGroup>
 			<XmlFileName Required="True" />
 			<XPath Required="True" />
 			<Value Required="True" />
 		</ParameterGroup>
 		<Task>
-			<Reference Include="System.Xml" />
-			<Reference Include="System.Xml.Linq" />
 			<Using Namespace="System"/>
 			<Using Namespace="System.Xml.XPath"/>
 			<!-- The following code is from the MSBuildTasks library (https://github.com/loresoft/msbuildtasks/blob/6196d43e7eb6807f306e9861b286fe61c8bb0993/Source/MSBuild.Community.Tasks/XmlUpdate.cs) -->

@@ -1,15 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using Windows.Foundation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.UI.RuntimeTests;
 using Uno.Toolkit.RuntimeTests.Helpers;
-using Windows.Foundation;
 using Uno.Toolkit.UI;
 
 #if IS_WINUI
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
 #else
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Shapes;
 #endif
 
@@ -39,7 +36,7 @@ internal class ResponsiveViewTests
 		await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
 		host.ForceResponsiveSize(new Size(300, 400));
-		Assert.AreEqual("Narrow", (host.Content as TextBlock)?.Text);
+		Assert.AreEqual("Narrow", (host.GetResolvedContent() as TextBlock)?.Text);
 	}
 
 	[TestMethod]
@@ -67,7 +64,7 @@ internal class ResponsiveViewTests
 		await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
 		host.ForceResponsiveSize(new Size(600, 400));
-		Assert.AreEqual(typeof(Rectangle), host.Content?.GetType());
+		Assert.AreEqual(typeof(Rectangle), host.GetResolvedContent()?.GetType());
 	}
 
 	[TestMethod]
@@ -109,7 +106,7 @@ internal class ResponsiveViewTests
 		await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
 		host.ForceResponsiveSize(new Size(322, 400));
-		Assert.AreEqual(typeof(Ellipse), host.Content?.GetType());
+		Assert.AreEqual(typeof(Ellipse), host.GetResolvedContent()?.GetType());
 	}
 
 	[TestMethod]
@@ -142,7 +139,7 @@ internal class ResponsiveViewTests
 		await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
 		host.ForceResponsiveSize(new Size(2000, 400));
-		Assert.AreEqual(typeof(Ellipse), host.Content?.GetType());
+		Assert.AreEqual(typeof(Ellipse), host.GetResolvedContent()?.GetType());
 	}
 
 	[TestMethod]
@@ -175,9 +172,9 @@ internal class ResponsiveViewTests
 		await UnitTestUIContentHelperEx.SetContentAndWait(host);
 
 		host.ForceResponsiveSize(new Size(150, 400));
-		Assert.AreEqual(typeof(TextBlock), host.Content?.GetType());
+		Assert.AreEqual(typeof(TextBlock), host.GetResolvedContent()?.GetType());
 
 		host.ForceResponsiveSize(new Size(800, 400));
-		Assert.AreEqual(typeof(TextBox), host.Content?.GetType());
+		Assert.AreEqual(typeof(TextBox), host.GetResolvedContent()?.GetType());
 	}
 }

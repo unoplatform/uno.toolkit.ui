@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.ItemRepeaterExtensions
 
 # ItemsRepeater Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides selection and incremental loading support for `ItemsRepeater`.
 
 ## Selection

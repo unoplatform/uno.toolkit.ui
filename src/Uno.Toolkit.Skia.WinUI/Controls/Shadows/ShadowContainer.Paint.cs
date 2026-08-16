@@ -11,6 +11,7 @@ using SkiaSharp.Views.Windows;
 using Uno.Extensions;
 using Uno.Logging;
 using Windows.UI;
+using Uno.Toolkit.Skia.WinUI;
 
 namespace Uno.Toolkit.UI;
 
@@ -21,9 +22,11 @@ public partial class ShadowContainer
 	// note: There "may" be a difference between windows vs skia in measurement; This ratio is recorded as the `PixelRatio` where: WindowsValue * PixelRatio = SkiaValue.
 	// To ease comprehension, values in `double` type is in windows unit, and values in `float` is in skia unit or windows unit scaled to skia.
 
-	private ShadowPaintState? _lastPaintState;
+#if DEBUG
 	private bool _isShadowDirty;
+#endif
 	private int _paintCount;
+	private float _lastPixelRatio;
 
 	internal event EventHandler<SurfacePaintCompletedEventArgs>? SurfacePaintCompleted;
 
@@ -37,23 +40,44 @@ public partial class ShadowContainer
 		SurfacePaintCompleted?.Invoke(this, new SurfacePaintCompletedEventArgs(createdNewCanvas));
 	}
 
-	private bool NeedsPaint(ShadowPaintState state, out bool pixelRatioChanged)
-	{
-		var needsPaint = state != _lastPaintState || _isShadowHostDirty;
-		pixelRatioChanged = _lastPaintState != null && state.PixelRatio != _lastPaintState.PixelRatio;
-
-		_lastPaintState = state;
-		_isShadowHostDirty = false;
-		return needsPaint;
-	}
-
 	private void OnSurfacePainted(object? sender, SKPaintSurfaceEventArgs e)
 	{
-		if (_shadowHost == null ||
-			Content is not FrameworkElement { ActualHeight: > 0, ActualWidth: > 0 } contentAsFE)
+		if (_shadowHost == null)
 		{
 			return;
 		}
+
+		var canvas = e.Surface.Canvas;
+		canvas.Clear(SKColors.Transparent);
+		using var _ = canvas.SnapshotState();
+
+		var pixelRatio = (float)(e.Info.Width / _shadowHost.ActualWidth);
+		var key = PaintInner(canvas, pixelRatio, e.Info.Width, e.Info.Height);
+		if (key is not null)
+		{
+			Cache.AddOrUpdate(key, e.Surface.Snapshot());
+		}
+
+		OnSurfacePaintCompleted(createdNewCanvas: true);
+	}
+
+	private void OnRenderOverride(SKCanvas canvas, Windows.Foundation.Size area)
+	{
+		PaintInner(canvas, pixelRatio: 1, (float)area.Width, (float)area.Height);
+
+		OnSurfacePaintCompleted(createdNewCanvas: false);
+	}
+
+	/// <returns>A cache key string if the cache should be updated, otherwise null.</returns>
+	private string? PaintInner(SKCanvas canvas, float pixelRatio, float width, float height)
+	{
+		if (_shadowHost is null || Content is not FrameworkElement contentAsFE) {
+			return null;
+		}
+
+#if DEBUG
+		_isShadowDirty = false;
+#endif
 
 		var background = GetBackgroundColor(Background);
 		if (background is { A: 0 })
@@ -64,22 +88,12 @@ public partial class ShadowContainer
 		}
 
 		var shape = GetShadowShapeContext(Content);
-		var pixelRatio = (float)(e.Info.Width / _shadowHost.ActualWidth);
 		var state = new ShadowPaintState(shape, background, pixelRatio, ShadowInfo.Snapshot(Shadows));
-		_isShadowDirty = false;
-
-		if (!NeedsPaint(state, out bool pixelRatioChanged))
-		{
-			return;
-		}
-
-		var canvas = e.Surface.Canvas;
-		canvas.Clear(SKColors.Transparent);
 
 		if (state.Shadows.Length == 0)
 		{
 			shape.DrawContentBackground(state, canvas, background ?? Colors.Transparent);
-			return;
+			return null;
 		}
 
 		if (_logger.IsEnabled(LogLevel.Trace))
@@ -87,30 +101,29 @@ public partial class ShadowContainer
 			_logger.Trace($"[ShadowContainer] Painting shadows (x{++_paintCount}) for content {Content.GetType().Name}, actualSize: {contentAsFE.ActualWidth}x{contentAsFE.ActualHeight}");
 		}
 
-		using var _ = canvas.SnapshotState();
-
 		var key =
 			FormattableString.Invariant($"[{contentAsFE.ActualWidth}x{contentAsFE.ActualHeight},{_shadowHost.ActualWidth}x{_shadowHost.ActualHeight},{background},{shape.ToString()}]: ") +
 			string.Join("; ", state.Shadows.Select(x => x.ToKey()));
 		if (Cache.TryGetValue(key, out var snapshot))
 		{
-			if (pixelRatioChanged)
+			if (pixelRatio != _lastPixelRatio)
 			{
 				// Monitor pixel density changed, need to remove cached image
 				Cache.Remove(key);
+				_lastPixelRatio = state.PixelRatio;
 			}
 			else
 			{
 				canvas.DrawImage(snapshot, SKPoint.Empty);
 				OnSurfacePaintCompleted(createdNewCanvas: false);
-				return;
+				return null;
 			}
 		}
 
 		// relative to the SKCanvas, the entire content is padded to leave room for drop shadow
 		// here, we need to re-calibrate the coord system to zero on the top-left corner of the content
-		var deltaWidth = e.Info.Width - ((float)contentAsFE.ActualWidth * pixelRatio);
-		var deltaHeight = e.Info.Height - ((float)contentAsFE.ActualHeight * pixelRatio);
+		var deltaWidth = width - ((float)contentAsFE.ActualWidth * pixelRatio);
+		var deltaHeight = height - ((float)contentAsFE.ActualHeight * pixelRatio);
 		canvas.Translate(deltaWidth / 2, deltaHeight / 2);
 
 		using var paint = new SKPaint() { IsAntialias = true };
@@ -133,14 +146,12 @@ public partial class ShadowContainer
 			shape.DrawInnerShadow(state, canvas, paint, shadow);
 		}
 
-		// If a property has changed dynamically during this paint method,
-		// then we don't want to cache the updated shadows
-		if (!_isShadowDirty)
-		{
-			Cache.AddOrUpdate(key, e.Surface.Snapshot());
-		}
+		// No property should have changed during painting.
+#if DEBUG
+		global::System.Diagnostics.Debug.Assert(!_isShadowDirty);
+#endif
 
-		OnSurfacePaintCompleted(createdNewCanvas: true);
+		return key;
 	}
 
 	private static Color? GetBackgroundColor(Brush? background)
@@ -217,7 +228,7 @@ public partial class ShadowContainer
 
 			paint.Style = SKPaintStyle.Fill;
 			paint.Color = shadow.GetSKColor();
-			paint.ImageFilter = SKImageFilter.CreateBlur(blurSigma, blurSigma);
+			paint.ImageFilter = SkiaCompat.SKImageFilter_CreateBlur(blurSigma, blurSigma);
 			paint.MaskFilter = null;
 			paint.StrokeWidth = 0;
 
@@ -287,7 +298,7 @@ public partial class ShadowContainer
 			};
 			var shape = new SKRoundRect();
 			shape.SetRectRadii(rect, radii);
-			
+
 			return shape;
 		}
 	}
@@ -298,7 +309,7 @@ public partial class ShadowContainer
 		{
 			var rect = new SKRect(0, 0, (float)Width * state.PixelRatio, (float)Height * state.PixelRatio);
 			var shape = new SKRoundRect(rect, (float)RadiusX * state.PixelRatio, (float)RadiusY * state.PixelRatio);
-			
+
 			return shape;
 		}
 	}

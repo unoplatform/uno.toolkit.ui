@@ -6,12 +6,7 @@ using Uno.UI.RuntimeTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml;
-#else
-using Windows.UI.Xaml;
-#endif
 
 using Base = Uno.UI.RuntimeTests.UnitTestsUIContentHelper;
 
@@ -19,6 +14,8 @@ namespace Uno.Toolkit.RuntimeTests.Helpers
 {
 	internal static class UnitTestUIContentHelperEx
 	{
+		public static Task WaitForIdle() => Base.WaitForIdle();
+
 		public static async Task SetContentAndWait(FrameworkElement e)
 		{
 			Base.Content = e;

@@ -4,6 +4,8 @@ uid: Toolkit.Helpers.StatusBarExtensions
 
 # StatusBar Extensions
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 Provides two attached properties on `Page` to control the visuals of the status bar on mobile platforms.
 
 > [!Video https://www.youtube-nocookie.com/embed/Mef71b6978s]

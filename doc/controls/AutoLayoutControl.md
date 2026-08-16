@@ -45,10 +45,44 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `Orientation`          | `Orientation`         | Gets or sets the dimension by which the items are stacked.                                                                                                                                                                                                                                                                                             |
 | `Spacing`              | `double`              | Gets or sets a uniform distance (in pixels) between stacked items. It is applied in the direction of the `AutoLayout`'s Orientation.                                                                                                                                                                                                                   |
 | `Justify`              | `AutoLayoutJustify`   | Gets or sets the value to determine how items are justified within the container. Options are `Stack` or `SpaceBetween`. Note: If a child has its `PrimaryAlignment` set to `Stretch`, it will default to `Stack`.                                                                                                                                     |
-| `PrimaryAxisAlignment` | `AutoLayoutAlignment` | Gets or sets the alignment characteristics that are applied to the content, based on the value of the `Orientation` property.  Options are `Start`, `Center`, and `End`. The default is `Start`.                                                                                                                                                       |
+| `PrimaryAxisAlignment` | `AutoLayoutAlignment` | Gets or sets the alignment characteristics that are applied to the content, based on the value of the `Orientation` property.  Options are `Start`, `Center`, `End` and `Stretch`. The default is `Start`.                                                                                                                                             |
 | `CounterAxisAlignment` | `AutoLayoutAlignment` | Gets or sets the alignment characteristics that are applied to the content, based on the inverse value of the `Orientation` property. Options are `Start`, `Center`, `End`, and `Stretch`. The default is `Stretch`. If already set in `CounterAlignment`, CounterAlignment will have priority.                                                        |
 | `IsReverseZIndex`      | `bool`                | Gets or sets whether or not the ZIndex of the children should be reversed. The default is `false`.                                                                                                                                                                                                                                                     |
 | `Padding`              | `Thickness`           | **WARNING:** Padding for `AutoLayout` behaves the same as it does within the Figma Plugin: The anchor points determine which sides of the Padding will be taken into consideration. For example, items that are aligned to the Right and Top positions will only take the `Tickness.Right` and `Thickness.Top` values of `Padding` into consideration. |
+
+> [!IMPORTANT]
+> Use `Justify="SpaceBetween"` when you would like space distributed between children. `PrimaryAxisAlignment` only accepts `Start|Center|End|Stretch`; setting `PrimaryAxisAlignment="SpaceBetween"` is invalid and will result in a XAML parse error (`UXAML0001`).
+
+### Enums
+
+#### AutoLayoutJustify
+
+Defines how items are justified within the `AutoLayout` container.
+
+| Value          | Description                                                                                                                                                  |
+|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Stack`        | Items are stacked together with the specified `Spacing` between them. This is the default behavior and mirrors Figma's "Packed" distribution mode.           |
+| `SpaceBetween` | Items are distributed evenly with equal spacing between them. The first item aligns to the start and the last item aligns to the end of the available space. |
+
+> [!NOTE]
+> If a child element has its `PrimaryAlignment` set to `Stretch`, the `Justify` property will default to `Stack` behavior for that element.
+
+#### AutoLayoutAlignment
+
+Defines the alignment of items along an axis within the `AutoLayout` container.
+
+| Value     | Description                                                                                                                                        |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Start`   | Items are aligned to the start of the container along the specified axis. This is the default value for `PrimaryAxisAlignment`.                    |
+| `Center`  | Items are centered within the container along the specified axis.                                                                                  |
+| `End`     | Items are aligned to the end of the container along the specified axis.                                                                            |
+| `Stretch` | Items are stretched to fill the available space along the specified axis. This is the default value for `CounterAxisAlignment`.                    |
+
+> [!TIP]
+>
+> - `PrimaryAxisAlignment` controls alignment along the orientation axis (horizontal for `Orientation="Horizontal"`, vertical for `Orientation="Vertical"`).
+> - `CounterAxisAlignment` controls alignment perpendicular to the orientation axis.
+> - Individual child elements can override `CounterAxisAlignment` by setting the `CounterAlignment` attached property.
 
 ### Attached Properties
 

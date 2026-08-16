@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Uno.Disposables;
 using Uno.Extensions;
-using Microsoft.Extensions.Logging;
 using Uno.Logging;
 
 #if IS_WINUI
@@ -25,7 +26,12 @@ namespace Uno.Toolkit.UI
 {
 	internal static class DependencyObjectExtensions
 	{
-		private static Dictionary<(Type Type, string Property), DependencyProperty?> _dependencyPropertyReflectionCache = new Dictionary<(Type, string), DependencyProperty?>(2);
+		// Keyed weakly by owner Type so a Type from a collectible AssemblyLoadContext (e.g. a downstream
+		// host that loads previewed apps into their own collectible ALCs) is not rooted by this
+		// process-lifetime static cache. A strong Type key would keep the Type's LoaderAllocator alive,
+		// pinning the whole ALC for the process lifetime. When the owner Type is collected, its inner
+		// per-property dictionary (and the DependencyPropertyInfo values it holds) becomes unreachable too.
+		private static readonly ConditionalWeakTable<Type, Dictionary<string, DependencyPropertyInfo?>> _dependencyPropertyReflectionCache = new();
 
 #if HAS_UNO
 		/// <summary>
@@ -182,53 +188,100 @@ namespace Uno.Toolkit.UI
 		}
 #endif
 
-		public static DependencyProperty? FindDependencyProperty<TProperty>(this DependencyObject owner, string propertyName) => owner.GetType().FindDependencyProperty<TProperty>(propertyName);
+		public static DependencyProperty? FindDependencyProperty<TProperty>(this DependencyObject owner, string propertyName) =>
+			owner.GetType().FindDependencyProperty<TProperty>(propertyName);
 
-		public static DependencyProperty? FindDependencyProperty(this DependencyObject owner, string propertyName) => owner.GetType().FindDependencyProperty(propertyName);
+		public static DependencyProperty? FindDependencyProperty(this DependencyObject owner, string propertyName) =>
+			owner.GetType().FindDependencyProperty(propertyName);
 
 		public static DependencyProperty? FindDependencyProperty<TProperty>(this Type ownerOrDescendantType, string propertyName)
 		{
 			var propertyType = typeof(TProperty);
-			var property = FindDependencyProperty(ownerOrDescendantType, propertyName);
+			var property = FindDependencyPropertyInfo(ownerOrDescendantType, propertyName);
 
-#if HAS_UNO
-			// note: for winui, it is no possible to obtain the property type from DependencyProperty by reflection.
-			// we can only check the sibling {propertyName} property or G/Set{propertyName} method (for attached dp) for the property type.
-			if (property != null && (
-				property.GetType().GetProperty("Type", NonPublic | Instance)?.GetValue(property) is not Type type ||
-				type != propertyType
-			))
+			if (property is { } && property.PropertyType != typeof(TProperty))
 			{
-				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{ownerOrDescendantType.GetType().Name}.{propertyName}' dependency property is not of the expected '{propertyType.Name}' type.");
+				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{ownerOrDescendantType.GetType().Name}.{propertyName}' dependency property is not of the expected type '{propertyType.Name}': [{property.PropertyType?.FullName}]{property.OwnerType.FullName}{property.PropertyName}");
 				property = null;
 			}
-#endif
 
-			return property;
+			return property?.Definition;
 		}
 
-		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName)
+		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName) =>
+			FindDependencyPropertyInfo(ownerOrDescendantType, propertyName)?.Definition;
+
+		internal static DependencyPropertyInfo? FindDependencyPropertyInfo(this Type ownerOrDescendantType, string propertyName)
 		{
+			propertyName = propertyName.RemoveTail("Property");
+
 			var type = ownerOrDescendantType;
-			var key = (ownerType: type, propertyName);
 
 			// given that we are doing FlattenHierarchy lookup, it is fine that we are storing multiple pairs of (types-to-same-dp)
 			// since it is not worth the trouble to handle the type hierarchy...
-			if (!_dependencyPropertyReflectionCache.TryGetValue(key, out var property))
+			var propertyCache = _dependencyPropertyReflectionCache.GetOrCreateValue(type);
+			DependencyPropertyInfo? property;
+			bool cached;
+			lock (propertyCache)
 			{
-				property =
-					type.GetProperty(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty ??
-					type.GetField(propertyName, Public | Static | FlattenHierarchy)?.GetValue(null) as DependencyProperty;
-				_dependencyPropertyReflectionCache[key] = property;
+				cached = propertyCache.TryGetValue(propertyName, out property);
 			}
 
-			if (property == null)
+			if (!cached)
 			{
-				typeof(DependencyObjectExtensions).Log().LogWarning($"The dependency property '{propertyName}' does not exist on '{type}' or its ancestors.");
+				property = GetDetails(
+					type.GetProperty($"{propertyName}Property", Public | NonPublic | Static | FlattenHierarchy) as MemberInfo ??
+					type.GetField($"{propertyName}Property", Public | NonPublic | Static | FlattenHierarchy)
+				);
+
+				lock (propertyCache)
+				{
+					propertyCache[propertyName] = property;
+				}
+
+				if (property is null)
+				{
+					typeof(DependencyObjectExtensions).Log().LogWarning($"The dependency property '{propertyName}' does not exist on '{type}' or its ancestors.");
+				}
+
+				DependencyPropertyInfo? GetDetails(MemberInfo? dpInfo)
+				{
+					if (dpInfo is { } && GetValue(dpInfo) is DependencyProperty dp)
+					{
+						// DeclaredOnly: Specifies flags that control binding and the way in which the search for members and types is conducted by reflection.
+						// because 'dpInfo.DeclaringType' is the guaranteed type, and we don't want an overridden property from a random base to throw AmbiguousMatchException
+						// ex: UIElement::Visibility & [droid]UnoViewGroup::Visibility
+						var holderProperty = dpInfo.DeclaringType?.GetProperty(propertyName, Public | NonPublic | Instance | DeclaredOnly);
+						var propertyType =
+							holderProperty?.PropertyType ??
+							dpInfo.DeclaringType?.GetMethod($"Get{propertyName}", Public | NonPublic | Static)?.ReturnType ??
+							dpInfo.DeclaringType?.GetMethod($"Set{propertyName}", Public | NonPublic | Static)?.GetParameters().ElementAtOrDefault(1)?.ParameterType ??
+							null;
+
+						return new(dp, propertyName, propertyType, dpInfo.DeclaringType!, holderProperty is null);
+					}
+
+					return null;
+				}
+				static object? GetValue(MemberInfo member) => member switch
+				{
+					PropertyInfo pi => pi.GetValue(null),
+					FieldInfo fi => fi.GetValue(null),
+
+					_ => throw new ArgumentOutOfRangeException(member?.GetType().Name),
+				};
 			}
 
 			return property;
 		}
+
+#if DEBUG
+		// Test hook: reports whether the reflection cache currently holds an entry for the given owner
+		// Type, so a test can verify the entry (and therefore the Type key) is released once the Type
+		// becomes collectible. Does not create an entry.
+		internal static bool TestHook_ReflectionCacheContains(Type ownerType) =>
+			_dependencyPropertyReflectionCache.TryGetValue(ownerType, out _);
+#endif
 
 		private static bool TryGetValue(this DependencyObject dependencyObject, DependencyProperty dependencyProperty, out DependencyObject? value)
 		{
@@ -246,5 +299,7 @@ namespace Uno.Toolkit.UI
 
 			return true;
 		}
+
+		internal record class DependencyPropertyInfo(DependencyProperty Definition, string PropertyName, Type? PropertyType, Type OwnerType, bool IsAttached);
 	}
 }

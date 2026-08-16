@@ -17,23 +17,40 @@ namespace Uno.Toolkit.UI
 {
 	public partial class TabBarListPanel : Panel
 	{
-		public Orientation Orientation
-		{
-			get { return (Orientation)GetValue(OrientationProperty); }
-			set { SetValue(OrientationProperty, value); }
-		}
+		#region DependencyProperty: Orientation
 
 		public static DependencyProperty OrientationProperty { get; } = DependencyProperty.Register(
 			nameof(Orientation),
 			typeof(Orientation),
 			typeof(TabBarListPanel),
-			new PropertyMetadata(Orientation.Horizontal, (s, e) => ((TabBarListPanel)s).OnPropertyChanged(e)));
+			new PropertyMetadata(default(Orientation), OnOrientationChanged));
 
-		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
+		public Orientation Orientation
 		{
-			if (args.Property == OrientationProperty)
+			get => (Orientation)GetValue(OrientationProperty);
+			set => SetValue(OrientationProperty, value);
+		}
+
+		#endregion
+
+		public TabBarListPanel()
+		{
+			this.Loaded += OnLoaded;
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			var owner = this.FindFirstParent<TabBar>();
+
+			// workaround for #1287 ItemsPanelRoot resolution timing related issue
+			owner?.OnItemsPanelConnected(this);
+		}
+
+		private static void OnOrientationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (sender is TabBar owner)
 			{
-				InvalidateMeasure();
+				owner.InvalidateMeasure();
 			}
 		}
 
@@ -132,6 +149,6 @@ namespace Uno.Toolkit.UI
 			return finalSize;
 		}
 
-		private bool IsVisible(UIElement x) => x.Visibility == Visibility.Visible;
+		private static bool IsVisible(UIElement x) => x.Visibility == Visibility.Visible;
 	}
 }

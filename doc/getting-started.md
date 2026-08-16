@@ -3,9 +3,11 @@ uid: Toolkit.GettingStarted
 ---
 # Getting Started with Uno Toolkit
 
+**UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
+
 ## Uno Toolkit Library
 
-The Uno Toolkit library is available as NuGet packages that can be added to any new or existing Uno solution.
+The Uno Toolkit library is available as NuGet packages, but for Single Project apps the recommended way to add them is through the `UnoFeatures` project property.
 
 This article is a guide for installing the base Uno Toolkit library, additional steps are needed when installing the Toolkit support libraries for Uno Material and Uno Cupertino. Most controls within the base Uno Toolkit library are not designed to be used without an underlying design system installed. Refer to the following guides for Material/Cupertino support:
 

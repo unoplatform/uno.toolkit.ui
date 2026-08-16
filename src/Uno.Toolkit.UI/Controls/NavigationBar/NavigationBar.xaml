@@ -42,7 +42,8 @@
 	<Style x:Key="DefaultMainCommandStyle"
 		   TargetType="AppBarButton">
 		<!-- Native back icons are used on mobile platforms -->
-		<not_mobile:Setter Property="Icon" win:Value="{x:Null}">
+		<not_mobile:Setter Property="Icon"
+						   win:Value="{x:Null}">
 			<not_win:Setter.Value>
 				<SymbolIcon Symbol="Back" />
 			</not_win:Setter.Value>
@@ -54,9 +55,12 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:NavigationBarPresenter">
-					<CommandBar x:Name="XamlNavigationBarCommandBar"
-								Content="{TemplateBinding Content}"
-								Style="{StaticResource NavigationBarCommandBar}" />
+					<Grid Background="{TemplateBinding Background}">
+						<CommandBar x:Name="XamlNavigationBarCommandBar"
+									Margin="{TemplateBinding Padding}"
+									Content="{TemplateBinding Content}"
+									Style="{StaticResource NavigationBarCommandBar}" />
+					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -136,16 +140,17 @@
 									<ColumnDefinition x:Name="PrimaryItemsControlColumnDefinition"
 													  Width="Auto" />
 								</Grid.ColumnDefinitions>
-								<ContentPresenter x:Name="MainCommandPresenter"
-												  Margin="{TemplateBinding Padding}"
-												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
 
 								<!--
 									Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
 									in the Minimal/HiddenClosed states to remove it from being a tab-stop candidate.
+									
+									ContentControl spans all 3 columns to allow proper centering when HorizontalContentAlignment is Center.
+									MainCommandPresenter and PrimaryItemsControl are layered on top to avoid visual overlap.
 								-->
 								<ContentControl x:Name="ContentControl"
-												Grid.Column="1"
+												Grid.Column="0"
+												Grid.ColumnSpan="3"
 												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 												HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -155,6 +160,10 @@
 												ContentTransitions="{TemplateBinding ContentTransitions}"
 												Foreground="{TemplateBinding Foreground}"
 												IsTabStop="False" />
+
+								<ContentPresenter x:Name="MainCommandPresenter"
+												  Content="{Binding Path=(utu:CommandBarExtensions.MainCommand), RelativeSource={RelativeSource TemplatedParent}}" />
+
 								<ItemsControl x:Name="PrimaryItemsControl"
 											  Grid.Column="2"
 											  MinHeight="{ThemeResource AppBarThemeCompactHeight}"
@@ -1443,8 +1452,7 @@
 		<Setter Property="OverflowButtonVisibility" Value="Collapsed" />
 		<Setter Property="IsDynamicOverflowEnabled" Value="False" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource DefaultMainCommandStyle}" />
-		<mobile:Setter Property="utu:SafeArea.Insets"
-					   Value="Top" />
+		<Setter Property="utu:SafeArea.Insets" Value="Top" />
 		<mobile:Setter Property="Template"
 					   Value="{StaticResource NativeNavigationBarTemplate}" />
 		<not_mobile:Setter Property="Template"
@@ -1478,7 +1486,9 @@
 						 TargetType="utu:NavigationBar">
 		<Border BorderThickness="{TemplateBinding Padding}"
 				Background="{TemplateBinding Background}">
+			<!-- Setting Content to null to avoid the implicit binding to Content on the NativeNavigationBarPresenter -->
 			<utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter"
+											  Content="{x:Null}"
 											  Height="44" />
 			<!-- TODO: 1px line -->
 		</Border>
@@ -1493,6 +1503,8 @@
 					 TargetType="utu:NavigationBar">
 		<utu:NavigationBarPresenter x:Name="NavigationBarPresenter"
 									Content="{TemplateBinding Content}"
+									Background="{TemplateBinding Background}"
+									Padding="{TemplateBinding Padding}"
 									Style="{StaticResource XamlNavigationBarPresenter}" />
 	</ControlTemplate>
 

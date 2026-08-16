@@ -11,6 +11,7 @@ using Windows.Foundation.Collections;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -19,6 +20,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #else
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
@@ -36,6 +38,8 @@ namespace Uno.Toolkit.UI
 	public partial class TabBar : ItemsControl
 	{
 		private const string TabBarGridName = "TabBarGrid";
+
+		internal bool IsUsingOwnContainerAsTemplateRoot { get; private set; }
 
 		private bool _isSynchronizingSelection;
 		private object? _previouslySelectedItem;
@@ -57,19 +61,95 @@ namespace Uno.Toolkit.UI
 			UpdateIndicatorPlacement();
 		}
 
-		protected override bool IsItemItsOwnContainerOverride(object item) => item is TabBarItem;
+		/// <inheritdoc />
+		protected override AutomationPeer OnCreateAutomationPeer() => new TabBarAutomationPeer(this);
 
-		protected override DependencyObject GetContainerForItemOverride() => new TabBarItem();
+		protected override bool IsItemItsOwnContainerOverride(object? item) => item is TabBarItem;
+
+		protected override DependencyObject GetContainerForItemOverride()
+		{
+			if (IsUsingOwnContainerAsTemplateRoot)
+			{
+				return new ContentPresenter();
+			}
+
+			return new TabBarItem();
+		}
 
 		protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
 		{
-			base.PrepareContainerForItemOverride(element, item);
+			if (IsUsingOwnContainerAsTemplateRoot && element is ContentPresenter cp)
+			{
+				// ItemsControl::PrepareContainerForItemOverride will apply the ItemContainerStyle to the element which is not something we want here,
+				// since it can throw: The DP [WrongDP] is owned by [Control] and cannot be used on [ContentPresenter].
+				// While this doesnt break the control or the visual, it can cause a scaling performance degradation.
 
-			if (element is TabBarItem container)
-			{	
-				container.IsSelected = IsSelected(IndexFromContainer(element));
-				container.Click += OnTabBarItemClick;
-				container.IsSelectedChanged += OnTabBarIsSelectedChanged;
+				cp.ContentTemplate = ItemTemplate;
+				cp.ContentTemplateSelector = ItemTemplateSelector;
+
+				cp.DataContext = item;
+				SetContent(cp, item);
+
+#if !HAS_UNO
+				// force template materialization
+				cp.Measure(Size.Empty);
+#endif
+
+				if (cp.GetFirstChild() is TabBarItem tbi)
+				{
+					ApplyContainerStyle(tbi);
+					SetupTabBarItem(tbi);
+				}
+			}
+			else
+			{
+				base.PrepareContainerForItemOverride(element, item);
+				if (element is TabBarItem tbi)
+				{
+					SetupTabBarItem(tbi);
+				}
+			}
+
+			void SetContent(ContentPresenter cp, object item)
+			{
+				if (string.IsNullOrEmpty(DisplayMemberPath))
+				{
+					cp.Content = item;
+				}
+				else
+				{
+					cp.SetBinding(ContentPresenter.ContentProperty, new Binding
+					{
+						Source = item,
+						Path = new(DisplayMemberPath),
+					});
+				}
+			}
+			void ApplyContainerStyle(TabBarItem tbi)
+			{
+				var localStyleValue = tbi.ReadLocalValue(FrameworkElement.StyleProperty);
+				var isStyleSetFromTabBar = tbi.IsStyleSetFromTabBar;
+
+				if (localStyleValue == DependencyProperty.UnsetValue || isStyleSetFromTabBar)
+				{
+					var style = ItemContainerStyle ?? ItemContainerStyleSelector?.SelectStyle(item, tbi);
+					if (style is { })
+					{
+						tbi.Style = style;
+						tbi.IsStyleSetFromTabBar = true;
+					}
+					else
+					{
+						tbi.ClearValue(FrameworkElement.StyleProperty);
+						tbi.IsStyleSetFromTabBar = false;
+					}
+				}
+			}
+			void SetupTabBarItem(TabBarItem tbi)
+			{
+				tbi.IsSelected = IsSelected(IndexFromContainer(element));
+				tbi.Click += OnTabBarItemClick;
+				tbi.IsSelectedChanged += OnTabBarIsSelectedChanged;
 			}
 		}
 
@@ -80,13 +160,26 @@ namespace Uno.Toolkit.UI
 
 		protected override void ClearContainerForItemOverride(DependencyObject element, object item)
 		{
-			base.ClearContainerForItemOverride(element, item);
-
-			if (element is TabBarItem container)
+			if (IsUsingOwnContainerAsTemplateRoot && element is ContentPresenter cp)
 			{
-				container.Click -= OnTabBarItemClick;
-				container.IsSelectedChanged -= OnTabBarIsSelectedChanged;
-				container.Style = null;
+				if (cp.GetFirstChild() is TabBarItem tbi)
+				{
+					TearDownTabBarItem(tbi);
+				}
+			}
+			else
+			{
+				base.ClearContainerForItemOverride(element, item);
+				if (element is TabBarItem tbi)
+				{
+					TearDownTabBarItem(tbi);
+				}
+			}
+
+			void TearDownTabBarItem(TabBarItem item)
+			{
+				item.Click -= OnTabBarItemClick;
+				item.IsSelectedChanged -= OnTabBarIsSelectedChanged;
 			}
 		}
 
@@ -103,9 +196,9 @@ namespace Uno.Toolkit.UI
 				{
 					var item = Items[(int)iVCE.Index];
 
-					if (item is TabBarItem tabBarItem && tabBarItem.IsSelected)
+					if (GetInnerContainer(item as DependencyObject) is { IsSelected: true } selected) // see comment on GetInnerContainer
 					{
-						SelectedItem = tabBarItem;
+						SelectedItem = selected;
 					}
 				}
 				else if (iVCE.CollectionChange == CollectionChange.ItemRemoved)
@@ -136,7 +229,7 @@ namespace Uno.Toolkit.UI
 			if (SelectedItem != null)
 			{
 				OnSelectedItemChanged(null);
-			} 
+			}
 			else if (SelectedIndex >= 0)
 			{
 				OnSelectedIndexChanged(null);
@@ -146,6 +239,14 @@ namespace Uno.Toolkit.UI
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			_isLoaded = true;
+			SynchronizeInitialSelection();
+			UpdateOrientation();
+		}
+
+		internal void OnItemsPanelConnected(TabBarListPanel panel)
+		{
+			System.Diagnostics.Debug.Assert(ItemsPanelRoot != null, "ItemsPanelRoot is expected to be already set in here.");
+
 			SynchronizeInitialSelection();
 			UpdateOrientation();
 		}
@@ -227,6 +328,12 @@ namespace Uno.Toolkit.UI
 			SynchronizeInitialSelection();
 		}
 
+		protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
+		{
+			IsUsingOwnContainerAsTemplateRoot = IsItemItsOwnContainerOverride(newItemTemplate?.LoadContent());
+			base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
+		}
+
 		private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs? args)
 		{
 			if (_isSynchronizingSelection)
@@ -256,10 +363,10 @@ namespace Uno.Toolkit.UI
 			TabBarItem? oldItem = null;
 			if (args?.OldValue is int oldIndex && oldIndex != -1)
 			{
-				oldItem = this.ContainerFromIndexSafe<TabBarItem>(oldIndex);
+				oldItem = this.InnerContainerFromIndexSafe(oldIndex);
 			}
 
-			var newItem = this.ContainerFromIndexSafe<TabBarItem>(SelectedIndex);
+			var newItem = this.InnerContainerFromIndexSafe(SelectedIndex);
 
 			if (TryUpdateTabBarItemSelectedState(oldItem, newItem))
 			{
@@ -301,16 +408,20 @@ namespace Uno.Toolkit.UI
 			{
 				_isSynchronizingSelection = true;
 
-				foreach (var container in this.GetItemContainers<TabBarItem>())
+				var containers = this.GetItemContainers<UIElement>();
+				foreach (var container in containers)
 				{
-					if (!container.IsSelected)
+					var tbi = GetInnerContainer(container); // see comment on GetInnerContainer
+					if (tbi is not { }) continue;
+
+					if (!tbi.IsSelected)
 					{
 						continue;
 					}
 
-					if (container != item)
+					if (tbi != item)
 					{
-						container.IsSelected = false;
+						tbi.IsSelected = false;
 					}
 					else
 					{
@@ -341,6 +452,31 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		internal bool TryClearSelection(TabBarItem item)
+		{
+			if (!ReferenceEquals(item, GetSelectedTabBarItem()))
+			{
+				return false;
+			}
+
+			var previouslySelectedItem = SelectedItem;
+
+			try
+			{
+				_isSynchronizingSelection = true;
+				item.IsSelected = false;
+				SetValue(SelectedItemProperty, null);
+				SelectedIndex = -1;
+			}
+			finally
+			{
+				_isSynchronizingSelection = false;
+			}
+
+			RaiseSelectionChangedEvent(previouslySelectedItem, null);
+			return true;
+		}
+
 		private void RaiseSelectionChangedEvent(object? prevItem, object? nextItem)
 		{
 			var eventArgs = new TabBarSelectionChangedEventArgs
@@ -352,7 +488,59 @@ namespace Uno.Toolkit.UI
 			SelectionChanged?.Invoke(this, eventArgs);
 		}
 
-		private bool IsReady => _isLoaded && HasItems;
+		// When using an `ItemTemplate` with a `TabBarItem`, the container will be a `ContentPresenter` that wraps the `TabBarItem`.
+		// In that case, to access the `ContentPresenter` from a `TabBarItem`, you must first call `ContainerFromItem`.
+		// Afterward, pass the resulting `ContentPresenter` as a parameter to this method.
+		internal TabBarItem? GetInnerContainer(DependencyObject? container)
+		{
+			if (IsUsingOwnContainerAsTemplateRoot)
+			{
+				return (container as ContentPresenter)?.GetFirstChild() as TabBarItem;
+			}
+
+			return container as TabBarItem;
+		}
+
+		internal TabBarItem? FindTabBarItem(object? item) =>
+			GetInnerContainer(this.FindContainer<DependencyObject>(item));
+
+		internal TabBarItem? GetSelectedTabBarItem()
+		{
+			if (FindTabBarItem(SelectedItem) is { IsSelected: true } selectedItem)
+			{
+				return selectedItem;
+			}
+
+			foreach (var container in this.GetItemContainers<UIElement>())
+			{
+				if (GetInnerContainer(container) is { IsSelected: true } selectedContainer)
+				{
+					return selectedContainer;
+				}
+			}
+
+			return null;
+		}
+
+		internal DependencyObject? InnerContainerFromIndex(int index)
+		{
+			var container = ContainerFromIndex(index);
+			var inner = GetInnerContainer(container);
+
+			return inner;
+		}
+
+		private TabBarItem? InnerContainerFromIndexSafe(int index)
+		{
+			if (index >= 0 && index < Items.Count)
+			{
+				return InnerContainerFromIndex(index) as TabBarItem;
+			}
+
+			return null;
+		}
+
+		private bool IsReady => _isLoaded && HasItems && ItemsPanelRoot is { };
 
 		private bool HasItems => this.GetItems().Any();
 	}

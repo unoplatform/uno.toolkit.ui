@@ -5,14 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 using Uno.Toolkit.UI;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-#else
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-#endif
 
 namespace Uno.Toolkit.RuntimeTests.Extensions
 {

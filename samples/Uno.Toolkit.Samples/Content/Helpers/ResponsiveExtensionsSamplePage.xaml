@@ -1,0 +1,134 @@
+<Page x:Class="Uno.Toolkit.Samples.Content.Helpers.ResponsiveExtensionsSamplePage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:sample="using:Uno.Toolkit.Samples"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:void="used for quickly commenting out node or attribute"
+	  mc:Ignorable="d void"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Page.Resources>
+		<ResourceDictionary Source="ResponsiveExtensionsResources.xaml" />
+	</Page.Resources>
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<sample:SamplePageLayout IsDesignAgnostic="True">
+			<sample:SamplePageLayout.DesignAgnosticTemplate>
+				<DataTemplate>
+					<StackPanel Spacing="20">
+						<StackPanel.Resources>
+							<GridLength x:Key="GL50">50</GridLength>
+							<GridLength x:Key="GL150">150</GridLength>
+							<SolidColorBrush x:Key="Red">Red</SolidColorBrush>
+							<SolidColorBrush x:Key="Green">Green</SolidColorBrush>
+							<SolidColorBrush x:Key="Blue">Blue</SolidColorBrush>
+						</StackPanel.Resources>
+
+						<!-- string literal -->
+						<TextBlock Text="Text test" FontWeight="Bold" />
+						<TextBlock Text="{utu:Responsive Narrow='Narrow Threshold 300', Normal='Normal Threshold 600', Wide='Wide Threshold 800'}" />
+
+						<!-- primitive literal -->
+						<TextBlock Text="FontSize test" FontWeight="Bold" />
+						<TextBlock Text="Normal 15 Wide 25" FontSize="{utu:Responsive Normal=15, Wide=25}" />
+
+						<!-- enum literal -->
+						<TextBlock Text="Orientation test | Normal=Vertical | Wide=Horizontal" FontWeight="Bold" />
+						<StackPanel Orientation="{utu:Responsive Normal=Vertical, Wide=Horizontal}">
+							<TextBlock Text="A" />
+							<TextBlock Text="B" />
+							<TextBlock Text="C" />
+						</StackPanel>
+
+						<!-- xaml parsable object -->
+						<TextBlock Text="Color test | Normal Red | Wide Blue" FontWeight="Bold" />
+						<Border Width="30"
+								Height="30"
+								HorizontalAlignment="Left"
+								Background="{utu:Responsive Normal=Red,
+															Wide=Blue}" />
+
+						<!-- attached property -->
+						<TextBlock Text="Grid.Column test: Narrowest=0, 1, 0, 1, Widest=0" FontWeight="Bold" />
+						<Grid Width="100"
+							  Height="50"
+							  Background="SkyBlue"
+							  HorizontalAlignment="Left">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<Border Grid.Column="{utu:Responsive Narrowest=0, Narrow=1, Normal=0, Wide=1, Widest=0}" Background="Pink" />
+						</Grid>
+
+						<!-- non-FE: Grid.Column/RowDefinitions -->
+						<TextBlock Text="Grid.ColumnDefinition test" />
+						<Grid Height="50" HorizontalAlignment="Left">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL150}, Normal={StaticResource GL50}, Wide={StaticResource GL150}, Widest={StaticResource GL50}}" />
+								<ColumnDefinition Width="{utu:Responsive Narrow={StaticResource GL50}, Normal={StaticResource GL150}, Wide={StaticResource GL50}, Widest={StaticResource GL150}}" />
+							</Grid.ColumnDefinitions>
+
+							<Border Grid.Column="0" Background="Pink" />
+							<Border Grid.Column="1" Background="SkyBlue" />
+						</Grid>
+
+						<!-- non-FE: TextBlock.Inlines -->
+						<TextBlock Text="TextBlock.Inlines test" />
+						<TextBlock>
+							<Run Text="asd" Foreground="{utu:Responsive Narrow={StaticResource Red}, Normal={StaticResource Blue}, Wide={StaticResource Green}, Widest={StaticResource Red}}" />
+							<Run Text="qwe" Foreground="{utu:Responsive Narrow={StaticResource Green}, Normal={StaticResource Red}, Wide={StaticResource Blue}, Widest={StaticResource Green}}" />
+							<Run Text="zxc" Foreground="{utu:Responsive Narrow={StaticResource Blue}, Normal={StaticResource Green}, Wide={StaticResource Red}, Widest={StaticResource Blue}}" />
+							<Span FontStyle="Italic">
+								<Run Text="asd" Foreground="{utu:Responsive Narrow={StaticResource Red}, Normal={StaticResource Blue}, Wide={StaticResource Green}, Widest={StaticResource Red}}" />
+								<Run Text="qwe" Foreground="{utu:Responsive Narrow={StaticResource Green}, Normal={StaticResource Red}, Wide={StaticResource Blue}, Widest={StaticResource Green}}" />
+								<Span>
+									<Run Text="zxc" Foreground="{utu:Responsive Narrow={StaticResource Blue}, Normal={StaticResource Green}, Wide={StaticResource Red}, Widest={StaticResource Blue}}" />
+								</Span>
+							</Span>
+						</TextBlock>
+
+						<!-- NOT_SUPPORTED: non-FE from Res-Dict-->
+						<void:TextBlock Text="Res-Dict nested non-FE" />
+						<void:ContentControl Content="AsdAsd" Style="{StaticResource TestResponsiveContentControlStyle}" />
+
+						<!-- layout overriding -->
+						<TextBlock Text="Custom values override" FontWeight="Bold" />
+						<StackPanel>
+							<TextBlock Text="Global Override:" />
+							<TextBlock Text="{utu:Responsive Narrowest=Narrowest, Narrow=Narrow, Normal=Normal, Wide=Wide, Widest=Widest}" />
+							<StackPanel>
+								<StackPanel.Resources>
+									<!-- inheritable override with +50px all -->
+									<utu:ResponsiveLayout x:Key="DefaultResponsiveLayout"
+														  Narrowest="200"
+														  Narrow="350"
+														  Normal="650"
+														  Wide="850"
+														  Widest="1130" />
+
+									<!-- local override with +100px all -->
+									<utu:ResponsiveLayout x:Key="CustomLayout"
+														  Narrowest="250"
+														  Narrow="400"
+														  Normal="700"
+														  Wide="900"
+														  Widest="1180" />
+								</StackPanel.Resources>
+
+								<TextBlock Text="Inherited Override:" />
+								<TextBlock x:Name="TestBlock" Text="{utu:Responsive Narrowest=Narrowest, Narrow=Narrow, Normal=Normal, Wide=Wide, Widest=Widest}" />
+								<TextBlock Text="Local Override:" />
+								<TextBlock Text="{utu:Responsive Layout={StaticResource CustomLayout}, Narrowest=Narrowest, Narrow=Narrow, Normal=Normal, Wide=Wide, Widest=Widest}" />
+							</StackPanel>
+						</StackPanel>
+
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.DesignAgnosticTemplate>
+		</sample:SamplePageLayout>
+	</Grid>
+</Page>

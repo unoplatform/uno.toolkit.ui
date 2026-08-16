@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
-
-#if IS_WINUI
 using Microsoft.UI.Xaml.Controls.Primitives;
-#else
-using Windows.UI.Xaml.Controls.Primitives;
-#endif
 
 namespace Uno.Toolkit.RuntimeTests.Extensions;
 
+[UnconditionalSuppressMessage("Trimming", "IL2075")]
 internal static partial class ToggleButtonExtensions
 {
 	public static void Toggle(this ToggleButton toggle)

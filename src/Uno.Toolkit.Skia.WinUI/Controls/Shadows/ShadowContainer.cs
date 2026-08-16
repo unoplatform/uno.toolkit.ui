@@ -7,8 +7,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using SkiaSharp;
 using SkiaSharp.Views.Windows;
 using Uno.Disposables;
+using Uno.WinUI.Graphics2DSK;
+using Windows.Foundation;
 
 #if __ANDROID__
 using Android.Views;
@@ -36,9 +39,7 @@ public partial class ShadowContainer : ContentControl
 	private Grid? _panel;
 	private Canvas? _canvas;
 
-	private SKXamlCanvas? _shadowHost;
-
-	private bool _isShadowHostDirty = true;
+	private FrameworkElement? _shadowHost; // either an SKXamlCanvas or an SKCanvasElement
 
 	public ShadowContainer()
 	{
@@ -90,7 +91,7 @@ public partial class ShadowContainer : ContentControl
 		// This method should not fire any of InvalidateXyz-methods directly,
 		// in order to avoid duplicated invalidate calls.
 		// Which is why the BindToXyz has been separated from the OnXyzChanged.
-		
+
 		void OnBackgroundChanged(DependencyObject sender, DependencyProperty dp)
 		{
 			BindToBackgroundMemberProperties(Background);
@@ -113,8 +114,6 @@ public partial class ShadowContainer : ContentControl
 		// When the skia canvas size changes, the whole canvas is cleared: we'll need to redraw the shadows.
 		void OnShadowHostSizeChanged(object sender, SizeChangedEventArgs args)
 		{
-			_isShadowHostDirty = true;
-
 			// This is not necessary on WinUI, but is necessary on Uno due to behavior mismatch in ActualWidth/ActualHeight.
 			// For the ShadowContainerSamplePage, when we add a new shadow, we are expanding the StackPanel that's wrapped in ShadowContainer.
 			// We get through InvalidateCanvasLayout via OnContentSizeChanged and we update SKXamlCanvas.Height to the new Height
@@ -128,7 +127,9 @@ public partial class ShadowContainer : ContentControl
 
 		void OnShadowPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
+#if DEBUG
 			_isShadowDirty = true;
+#endif
 
 			if (Uno.Toolkit.UI.Shadow.IsShadowSizeProperty(e.PropertyName ?? ""))
 			{
@@ -199,7 +200,9 @@ public partial class ShadowContainer : ContentControl
 					UnbindItems(shadows);
 				});
 
+#if DEBUG
 				_isShadowDirty = true;
+#endif
 
 				void OnShadowCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 				{
@@ -208,7 +211,9 @@ public partial class ShadowContainer : ContentControl
 						UnbindItems(e.OldItems?.Cast<Shadow>());
 						BindItems(e.NewItems?.Cast<Shadow>());
 
+#if DEBUG
 						_isShadowDirty = true;
+#endif
 
 						InvalidateCanvasLayout();
 						InvalidateShadows();
@@ -233,7 +238,9 @@ public partial class ShadowContainer : ContentControl
 			{
 				shadowsNestedDisposable.Disposable = null;
 
+#if DEBUG
 				_isShadowDirty = true;
+#endif
 			}
 		}
 		void BindToContent(object? content)
@@ -278,9 +285,18 @@ public partial class ShadowContainer : ContentControl
 		_canvas = GetTemplateChild(nameof(PART_Canvas)) as Canvas;
 		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
 
-		var skiaCanvas = new SKXamlCanvas();
+		FrameworkElement skiaCanvas;
+		if (SKCanvasElement.IsSupportedOnCurrentPlatform())
+		{
+			skiaCanvas = new ShadowContainerSKCanvasElement() { Owner = this };
+		}
+		else
+		{
+			var skXamlCanvas= new SKXamlCanvas();
+			skXamlCanvas.PaintSurface += OnSurfacePainted;
+			skiaCanvas = skXamlCanvas;
+		}
 
-		skiaCanvas.PaintSurface += OnSurfacePainted;
 
 #if __IOS__ || __MACCATALYST__
 		skiaCanvas.Opaque = false;
@@ -371,7 +387,8 @@ public partial class ShadowContainer : ContentControl
 
 	private void InvalidateShadows(bool force = false)
 	{
-		_shadowHost?.Invalidate();
+		(_shadowHost as SKCanvasElement)?.Invalidate();
+		(_shadowHost as SKXamlCanvas)?.Invalidate();
 	}
 
 	private static DependencyProperty? GetCornerRadiusPropertyFor(object? content)
@@ -385,7 +402,7 @@ public partial class ShadowContainer : ContentControl
 			StackPanel => StackPanel.CornerRadiusProperty,
 
 			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
-			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadiusProperty"),
+			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadius"),
 			_ => null,
 		};
 	}
@@ -401,10 +418,19 @@ public partial class ShadowContainer : ContentControl
 			StackPanel stackpanel => stackpanel.CornerRadius,
 
 			Shape => null, // note: shapes have special handling, see: GetShadowShapeContext
-			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadiusProperty") is { } dp
+			DependencyObject @do => @do.FindDependencyProperty<CornerRadius>("CornerRadius") is { } dp
 				? (CornerRadius)@do.GetValue(dp)
 				: null,
 			_ => null,
 		};
+	}
+
+	private partial class ShadowContainerSKCanvasElement : SKCanvasElement
+	{
+		public ShadowContainer? Owner { get; set; }
+		protected override void RenderOverride(SKCanvas canvas, Size area)
+		{
+			Owner?.OnRenderOverride(canvas, area);
+		}
 	}
 }

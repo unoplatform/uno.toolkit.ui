@@ -1,0 +1,5 @@
+<Project ToolsVersion="15.0">
+	<PropertyGroup>
+		<NetCurrent>net10.0</NetCurrent>
+	</PropertyGroup>
+</Project>

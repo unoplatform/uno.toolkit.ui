@@ -224,23 +224,24 @@ namespace Uno.Toolkit.UI
 			if (Owner is { } tabBar
 				&& GetSelectionIndicator() is { } indicator)
 			{
-				var tabBarItems = tabBar.GetItemContainers<TabBarItem>().Where(tbi => tbi.Visibility == Visibility.Visible);
-				if (tabBarItems.None())
+				var tabBarItems = tabBar.GetItemContainers<UIElement>()
+					.Select(tabBar.GetInnerContainer) // see comment on GetInnerContainer
+					.OfType<TabBarItem>();
+				var visibleItems = tabBarItems.Count(x => x.Visibility == Visibility.Visible);
+				if (visibleItems is 0)
 				{
 					return;
 				}
 
 				var maxSize = new Size();
-				var numItems = tabBarItems.Count();
-
 				if (tabBar.Orientation == Orientation.Vertical)
 				{
-					maxSize.Height = tabBar.ActualHeight / numItems;
+					maxSize.Height = tabBar.ActualHeight / visibleItems;
 					maxSize.Width = tabBar.ActualWidth;
 				}
 				else
 				{
-					maxSize.Width = tabBar.ActualWidth / numItems;
+					maxSize.Width = tabBar.ActualWidth / visibleItems;
 					maxSize.Height = tabBar.ActualHeight;
 				}
 
@@ -297,7 +298,7 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			if (tabBar.ContainerFromIndex(tabBar.SelectedIndex) is TabBarItem newSelectedItem)
+			if (tabBar.InnerContainerFromIndex(tabBar.SelectedIndex) is TabBarItem newSelectedItem)
 			{
 				newSelectedItem.SizeChanged += OnSelectedTabBarItemSizeChanged;
 				_tabBarItemSizeChangedRevoker.Disposable = Disposable.Create(() => newSelectedItem.SizeChanged -= OnSelectedTabBarItemSizeChanged);
@@ -322,6 +323,53 @@ namespace Uno.Toolkit.UI
 			_verticalStoryboard?.Stop();
 		}
 
+		private double TranslateOffset
+		{
+			get
+			{
+				if (GetSelectionIndicator() is not { RenderTransform: CompositeTransform transform }) return 0;
+				{
+					return Owner?.Orientation == Orientation.Horizontal ? transform.TranslateX : transform.TranslateY;
+				}
+			}
+			set
+			{
+				if (GetSelectionIndicator() is not { RenderTransform: CompositeTransform transform }) return;
+				if (Owner?.Orientation == Orientation.Horizontal)
+				{
+					transform.TranslateX = value;
+				}
+				else
+				{
+					transform.TranslateY = value;
+				}
+			}
+		}
+
+		private bool TryStopRunningAnimation(out Point animatedOffset)
+		{
+			animatedOffset = default;
+
+			var storyboard = GetStoryboardForCurrentOrientation();
+
+			if (storyboard != null && storyboard.GetCurrentState() != ClockState.Stopped)
+			{
+				// Pause and snapshot the current animated offset so subsequent animations start from the visible state.
+				storyboard.Pause();
+				var currentOffset = TranslateOffset;
+				storyboard.Stop();
+				TranslateOffset = currentOffset;
+
+				animatedOffset = Owner?.Orientation == Orientation.Horizontal
+					? TemplateSettings.IndicatorTransitionTo with { X = currentOffset }
+					: TemplateSettings.IndicatorTransitionTo with { Y = currentOffset };
+
+				return true;
+			}
+
+			return false;
+		}
+
 		private void UpdateSelectionIndicatorPosition(Point? destination = null)
 		{
 			if (Owner is not { } tabBar)
@@ -331,7 +379,7 @@ namespace Uno.Toolkit.UI
 
 			if (destination == null && tabBar.SelectedIndex != -1)
 			{
-				destination = GetRelativePosition(tabBar.ContainerFromIndex(tabBar.SelectedIndex) as TabBarItem);
+				destination = GetRelativePosition(tabBar.InnerContainerFromIndex(tabBar.SelectedIndex) as TabBarItem);
 			}
 
 			if (destination == null ||
@@ -343,9 +391,9 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			StopStoryboards();
-
-			templateSettings.IndicatorTransitionFrom = templateSettings.IndicatorTransitionTo;
+			TemplateSettings.IndicatorTransitionFrom = TryStopRunningAnimation(out var animatedOffset)
+				? animatedOffset
+				: TemplateSettings.IndicatorTransitionTo;
 			templateSettings.IndicatorTransitionTo = destination.Value;
 
 			storyboard.BeginTime = TimeSpan.FromMilliseconds(0);

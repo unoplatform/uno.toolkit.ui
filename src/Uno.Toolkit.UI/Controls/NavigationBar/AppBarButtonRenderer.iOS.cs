@@ -78,7 +78,6 @@ namespace Uno.Toolkit.UI
 				(s, e) => Invalidate(),
 				new[] { AppBarButton.LabelProperty },
 				new[] { AppBarButton.IconProperty },
-				new[] { AppBarButton.IconProperty, BitmapIcon.UriSourceProperty },
 				new[] { AppBarButton.ContentProperty },
 				new[] { AppBarButton.ContentProperty, FrameworkElement.VisibilityProperty },
 				new[] { AppBarButton.OpacityProperty },
@@ -185,7 +184,7 @@ namespace Uno.Toolkit.UI
 						? new UIImage() // Clears the background
 						: ((UIColor)backgroundColor).ToUIImage(); // Applies the solid color;
 
-					// We're using SetBackgroundImage instead of SetBackgroundColor 
+					// We're using SetBackgroundImage instead of SetBackgroundColor
 					// because it extends all the way up under the status bar.
 					native.SetBackgroundImage(backgroundImage, UIControlState.Normal, UIBarMetrics.Default);
 				}

@@ -31,12 +31,11 @@ using XamlStatusBar = Windows.UI.ViewManagement.StatusBar;
 
 namespace Uno.Toolkit.UI
 {
-	public partial class NativeNavigationBarPresenter : ContentPresenter, INavigationBarPresenter
+	public partial class NativeNavigationBarPresenter
 	{
 		private readonly SerialDisposable _statusBarSubscription = new SerialDisposable();
 		private readonly SerialDisposable _orientationSubscription = new SerialDisposable();
 		private SerialDisposable _mainCommandClickHandler = new SerialDisposable();
-		private WeakReference<NavigationBar?>? _navBarRef;
 
 		private readonly bool _isPhone = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone;
 
@@ -46,9 +45,9 @@ namespace Uno.Toolkit.UI
 			Unloaded += OnUnloaded;
 		}
 
-		public void SetOwner(NavigationBar navigationBar)
+		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			//Owner is accessed through TemplatedParent on Uno platforms
+			OnOwnerChanged();
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -58,24 +57,15 @@ namespace Uno.Toolkit.UI
 			_mainCommandClickHandler.Disposable = null;
 		}
 
-		private void OnLoaded(object sender, RoutedEventArgs e)
+		partial void OnOwnerChanged()
 		{
 			// TODO: Find a proper way to decide whether a NavigationBar exists on canvas (within Page), or is mapped to the UINavigationController's NavigationBar.
+			_mainCommandClickHandler.Disposable = null;
 
-			NavigationBar? navBar = null;
-
-			_navBarRef?.TryGetTarget(out navBar);
-
-			if (navBar == null)
-			{
-				navBar = TemplatedParent as NavigationBar;
-				_navBarRef = new WeakReference<NavigationBar?>(navBar);
-			}
-
-			if (navBar is { })
+			if (GetNavBar() is { } navBar)
 			{
 				navBar.MainCommand.Click += OnMainCommandClick;
-				_mainCommandClickHandler.Disposable = null;
+
 				_mainCommandClickHandler.Disposable = Disposable.Create(() => navBar.MainCommand.Click -= OnMainCommandClick);
 
 				LayoutNativeNavBar(navBar);
@@ -84,6 +74,21 @@ namespace Uno.Toolkit.UI
 
 		private void LayoutNativeNavBar(NavigationBar navBar)
 		{
+			var page = navBar.FindFirstParent<Page>();
+			var parent = page?.Parent as Page;
+			if (page is not null
+				&& parent?.GetType() == page.GetType())
+			{
+				// Support for Hot Reload
+				// On iOS, the current Page instance is retained and its Content is replaced with a new instance of the Page
+				// If we detect that we have fallen into this scenario, hook up the new NavigationBar from within the new Page instance
+				// to the native UINavigationBar and UINavigationItem instances.
+				var vc = parent.FindViewController();
+
+				NavigationBarHelper.SetNavigationItem(navBar, vc.NavigationItem);
+				NavigationBarHelper.SetNavigationBar(navBar, vc.NavigationController?.NavigationBar);
+			}
+
 			if (navBar.TryGetNative<NavigationBar, NavigationBarRenderer, UINavigationBar>(out var nativeBar)
 				&& nativeBar is { })
 			{
@@ -115,18 +120,15 @@ namespace Uno.Toolkit.UI
 				void OnStatusBarChanged(XamlStatusBar sender, object args)
 				{
 					nativeBar.SetNeedsLayout();
-					nativeBar.Superview.SetNeedsLayout();
+					nativeBar.Superview?.SetNeedsLayout();
 				}
 			}
 		}
 		
 		private void OnMainCommandClick(object sender, RoutedEventArgs e)
 		{
-			NavigationBar? navBar = null;
-			if (_navBarRef?.TryGetTarget(out navBar) ?? false)
-			{
-				navBar?.TryPerformMainCommand();
-			}
+			var navBar = GetNavBar();
+			navBar?.TryPerformMainCommand();
 		}
 
 		protected override Size MeasureOverride(Size size)
@@ -159,8 +161,6 @@ namespace Uno.Toolkit.UI
 
 			return measuredSize;
 		}
-
-		
 	}
 }
 #endif

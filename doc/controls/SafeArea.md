@@ -29,11 +29,26 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </Grid>
 
 <!-- or, as a control -->
-<SafeArea Insets="Left,Top,Right,Bottom">
+<utu:SafeArea Insets="Left,Top,Right,Bottom">
     <!-- Content -->
-</SafeArea>
+</utu:SafeArea>
 ```
 
+> [!WARNING]
+> **Always wrap form inputs with SafeArea when using TextBox or PasswordBox**
+>
+> On mobile devices, the on-screen keyboard will obscure input fields unless you wrap them with `SafeArea` using `Insets="SoftInput"` or `Insets="SoftInput,Bottom"`. This is especially critical for login forms and any page with text entry controls.
+>
+> ```xml
+> <utu:SafeArea Insets="SoftInput,Bottom">
+>     <StackPanel>
+>         <TextBox Header="Email" />
+>         <PasswordBox Header="Password" />
+>         <Button Content="Login" />
+>     </StackPanel>
+> </utu:SafeArea>
+> ```
+>
 > [!WARNING]
 > In most cases, the attached properties and the `SafeArea` control can be used interchangeably. However, be aware that using `SafeArea` as a control while `Insets` contains `InsetMask.SoftInput` will introduce a `ScrollViewer` into the visual tree as the content root of the `SafeArea`. Please refer to the [SoftInput usage section](#using-insetmasksoftinput-for-on-screen-keyboards).
 
@@ -46,7 +61,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### Using `SafeArea.Insets`
 
-The `InsetMask` enum can represent a single edge/side or it can be composed of multiple values (eg: `InsetMask="Left, Right"`). `InsetMask` has the following available values:
+The `InsetMask` enum can represent a single edge/side or it can be composed of multiple values (eg: `Insets="Left, Right"`). `InsetMask` has the following available values:
 
 - `Left`
 - `Top`

@@ -52,7 +52,6 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
-**/Properties/launchSettings.json
 
 # StyleCop
 StyleCopReport.xml
@@ -331,4 +330,9 @@ ASALocalRun/
 
 /src/crosstargeting_override.props
 mergedpages.*.xaml
-.vscode/
+mergedpages.xaml
+.DS_Store
+
+!build/workflow/publish
+
+ref/*

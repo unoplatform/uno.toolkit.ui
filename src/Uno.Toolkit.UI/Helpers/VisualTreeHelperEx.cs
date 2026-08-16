@@ -135,6 +135,10 @@ namespace Uno.Toolkit.UI
 			.OfType<T>()
 			.FirstOrDefault();
 
+		public static T? GetFirstDescendant<T>(this DependencyObject reference, string name) where T : FrameworkElement => GetDescendants(reference)
+			.OfType<T>()
+			.FirstOrDefault(x => x.Name == name);
+
 		/// <summary>
 		/// Returns the first descendant of a specified type that satisfies the <paramref name="predicate"/>.
 		/// </summary>
@@ -145,6 +149,10 @@ namespace Uno.Toolkit.UI
 		public static T? GetFirstDescendant<T>(this DependencyObject reference, Func<T, bool> predicate) => GetDescendants(reference)
 			.OfType<T>()
 			.FirstOrDefault(predicate);
+
+		public static T GetFirstDescendantOrThrow<T>(this DependencyObject reference, string name) where T : FrameworkElement =>
+			GetFirstDescendant<T>(reference, name) ??
+			throw new Exception($"Unable to find element: {typeof(T).Name}#{name}");
 
 		/// <summary>
 		/// Returns the first descendant of a specified type that satisfies the <paramref name="predicate"/> whose ancestors (up to <paramref name="reference"/>) satisfy the <paramref name="hierarchyPredicate"/>.
@@ -188,6 +196,13 @@ namespace Uno.Toolkit.UI
 			return Enumerable
 				.Range(0, VisualTreeHelper.GetChildrenCount(reference))
 				.Select(x => VisualTreeHelper.GetChild(reference, x));
+		}
+
+		public static DependencyObject? GetFirstChild(this DependencyObject reference)
+		{
+			return VisualTreeHelper.GetChildrenCount(reference) > 0
+				? VisualTreeHelper.GetChild(reference, 0)
+				: null;
 		}
 
 		public static DependencyObject? GetTemplateRoot(this DependencyObject o) => o?.GetChildren().FirstOrDefault();
@@ -264,7 +279,6 @@ namespace Uno.Toolkit.UI
 						? $"Responsive: {FormatSize(rv.LastResolved.Size)}@{rv.LastResolved.Layout}->{rv.LastResolved.Result}"
 						: "Responsive: unresolved";
 				}
-#if !WINDOWS_UWP
 				if (ResponsiveExtension.TrackedInstances.Where(y => y.Owner.Target == x).ToArray() is { Length: > 0 } instances)
 				{
 					foreach (var item in instances)
@@ -277,7 +291,6 @@ namespace Uno.Toolkit.UI
 						}
 					}
 				}
-#endif
 				#endregion
 				#region Common Details: Layout,Misc (low priority)
 				if (TryGetDpValue<CornerRadius>(x, "CornerRadius", out var cr)) yield return $"CornerRadius={FormatCornerRadius(cr)}";

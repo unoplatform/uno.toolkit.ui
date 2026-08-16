@@ -12,36 +12,63 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.UI;
 
-public partial class ResponsiveView : ContentControl
+public partial class ResponsiveView : Control;
+
+partial class ResponsiveView
+{
+	private class TemplateParts
+	{
+		public const string ResponsiveRoot = "ResponsiveRoot";
+	}
+}
+
+[TemplatePart(Name = TemplateParts.ResponsiveRoot, Type = typeof(Border))]
+partial class ResponsiveView
 {
 	public Layout? CurrentLayout { get; private set; }
 	internal ResolvedLayout? LastResolved { get; private set; }
+
+	private Border? _responsiveRoot;
 
 	public ResponsiveView()
 	{
 		DefaultStyleKey = typeof(ResponsiveView);
 
 		Loaded += OnLoaded;
+		Unloaded += OnUnloaded;
+	}
+
+	protected override void OnApplyTemplate()
+	{
+		base.OnApplyTemplate();
+
+		_responsiveRoot = GetTemplateChild(TemplateParts.ResponsiveRoot) as Border
+			?? throw new Exception($"The template part '{TemplateParts.ResponsiveRoot}' is missing or is not of type Border.");
 	}
 
 	private void OnLoaded(object sender, RoutedEventArgs e)
 	{
 		if (XamlRoot is null) return;
 
-		UpdateTemplate(forceApplyValue: true);
+		ResponsiveHelper.InitializeIfNeeded(XamlRoot);
+		ResponsiveHelper.WindowSizeChanged += OnWindowSizeChanged;
 
-		XamlRoot.Changed -= OnXamlRootPropertyChanged;
-		XamlRoot.Changed += OnXamlRootPropertyChanged;
+		UpdateTemplate(forceApplyValue: true);
 	}
 
-	private void OnXamlRootPropertyChanged(XamlRoot sender, XamlRootChangedEventArgs args)
+	private void OnUnloaded(object sender, RoutedEventArgs e)
 	{
-		if (sender.Size == LastResolved?.Size) return;
+		ResponsiveHelper.WindowSizeChanged -= OnWindowSizeChanged;
+	}
+
+	private void OnWindowSizeChanged(object sender, Size size)
+	{
+		if (size == LastResolved?.Size) return;
 
 		UpdateTemplate();
 	}
 
-	internal void ForceResponsiveSize(Size size)
+	internal void ForceResponsiveSize(Size size) // test backdoor
 	{
 		var resolved = ResponsiveHelper.ResolveLayout(size, GetAppliedLayout(), GetAvailableLayoutOptions());
 		UpdateTemplate(resolved, forceApplyValue: true);
@@ -50,9 +77,8 @@ public partial class ResponsiveView : ContentControl
 	private void UpdateTemplate(bool forceApplyValue = false)
 	{
 		if (!IsLoaded) return;
-		if (XamlRoot is null) return;
-		
-		var resolved = ResponsiveHelper.ResolveLayout(XamlRoot.Size, GetAppliedLayout(), GetAvailableLayoutOptions());
+
+		var resolved = ResponsiveHelper.ResolveLayout(ResponsiveHelper.WindowSize, GetAppliedLayout(), GetAvailableLayoutOptions());
 		UpdateTemplate(resolved, forceApplyValue);
 	}
 
@@ -60,7 +86,10 @@ public partial class ResponsiveView : ContentControl
 	{
 		if (forceApplyValue || CurrentLayout != resolved.Result)
 		{
-			Content = GetTemplateFor(resolved.Result)?.LoadContent() as UIElement;
+			if (_responsiveRoot is { })
+			{
+				_responsiveRoot.Child = GetTemplateFor(resolved.Result)?.LoadContent() as UIElement;
+			}
 
 			CurrentLayout = resolved.Result;
 			LastResolved = resolved;
@@ -89,6 +118,8 @@ public partial class ResponsiveView : ContentControl
 		if (WideTemplate != null) yield return UI.Layout.Wide;
 		if (WidestTemplate != null) yield return UI.Layout.Widest;
 	}
+
+	internal UIElement? GetResolvedContent() => _responsiveRoot?.Child;
 
 	internal ResponsiveLayout? GetAppliedLayout() =>
 		ResponsiveLayout ??

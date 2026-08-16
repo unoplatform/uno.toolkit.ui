@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.Toolkit.UI;
+using Layout = Uno.Toolkit.UI.Layout;
 
 namespace Uno.Toolkit.RuntimeTests.Tests;
 
