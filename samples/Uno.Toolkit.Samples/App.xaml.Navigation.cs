@@ -222,9 +222,6 @@ partial class App
 			.Select(x => new { TypeInfo = x, SamplePageAttribute = x.GetCustomAttribute<SamplePageAttribute>() })
 			.Where(x => x.SamplePageAttribute != null)
 			.Where(x => IsSampleVisibleForCurrentTheme(x.SamplePageAttribute))
-#if THEME_SIMPLE
-			.Where(x => IsSampleIncludedInSimpleTheme(x.SamplePageAttribute))
-#endif
 			.Select(x => new Sample(x.SamplePageAttribute, x.TypeInfo.AsType()))
 			.ToArray();
 
@@ -234,26 +231,23 @@ partial class App
 		if (attr.Source is SourceSdk.WinUI or SourceSdk.Uno or SourceSdk.UnoToolkit)
 			return true;
 
-#if THEME_MATERIAL
-		return attr.Source != SourceSdk.UnoCupertino;
-#elif THEME_CUPERTINO
-		return attr.Source != SourceSdk.UnoMaterial;
-#elif THEME_SIMPLE
-		// Simple theme provides its own styles for all toolkit controls
-		return true;
-#else
-		return true;
-#endif
-	}
+		if (attr.SupportedDesigns.Contains(Design.Agnostic))
+			return true;
 
 #if THEME_SIMPLE
-	private static bool IsSampleIncludedInSimpleTheme(SamplePageAttribute attr)
-	{
-		// Only show controls that have SDS styles
-		return attr.Category == SampleCategory.Controls
-			&& attr.Title is "Card" or "CardContentControl" or "Chip" or "Divider" or "NavigationBar" or "Seed Color" or "TabBar";
-	}
+		return attr.SupportedDesigns.Contains(Design.Simple);
+#elif THEME_MATERIAL
+		return attr.SupportedDesigns.Contains(Design.Material);
+#elif THEME_CUPERTINO
+		return attr.SupportedDesigns.Contains(Design.Cupertino);
+#else
+#warning Define THEME_SIMPLE, THEME_MATERIAL or THEME_CUPERTINO to filter samples by design.
+#if DEBUG
+#error No THEME_... constant defined, showing all samples.
 #endif
+		return true;
+#endif
+	}
 
 	public static IDictionary<string, Type> GetNestedSamples()
 		=> _nestedSampleMap = _nestedSampleMap ?? Assembly.GetExecutingAssembly()

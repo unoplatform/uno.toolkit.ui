@@ -1,14 +1,20 @@
 ﻿#if IS_WINUI
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media;
 
 #else
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 
 #endif
 using System;
@@ -22,6 +28,8 @@ namespace Uno.Toolkit.UI
 	/// </summary>
 	public partial class TabBarItem : SelectorItem
 	{
+		private const string ContentPresenterName = "ContentPresenter";
+
 		private static class CommonStates
 		{
 			public const string Selected = "Selected";
@@ -48,6 +56,7 @@ namespace Uno.Toolkit.UI
 
 		private bool _isPointerOver;
 		private bool _isPointerPressed;
+		private bool _wasAutomationSelected;
 
 		public TabBarItem()
 		{
@@ -55,6 +64,32 @@ namespace Uno.Toolkit.UI
 			Unloaded += OnUnloaded;
 			Tapped += OnTap;
 			this.RegisterPropertyChangedCallback(SelectorItem.IsSelectedProperty, OnIsSelectedChanged);
+		}
+
+		/// <inheritdoc />
+		protected override AutomationPeer OnCreateAutomationPeer() => new TabBarItemAutomationPeer(this);
+
+		internal UIElement? GetContentTemplateRoot()
+		{
+			// ContentControl.ContentTemplateRoot is typed as the native view on
+			// some platforms (UIView on iOS/macOS, View on Android), so it needs
+			// a cast rather than an implicit conversion. On those platforms
+			// UIElement derives from the native type, so the cast succeeds for
+			// XAML content.
+			if (ContentTemplateRoot as UIElement is { } root)
+			{
+				return root;
+			}
+
+			// ContentPresenter.ContentTemplateRoot is Uno-specific and does not
+			// exist on WinUI, so walk the visual tree instead.
+			if (GetTemplateChild(ContentPresenterName) is ContentPresenter presenter &&
+				VisualTreeHelper.GetChildrenCount(presenter) > 0)
+			{
+				return VisualTreeHelper.GetChild(presenter, 0) as UIElement;
+			}
+
+			return null;
 		}
 
 		private void OnTap(object sender, TappedRoutedEventArgs e)
@@ -73,8 +108,23 @@ namespace Uno.Toolkit.UI
 		{
 			if (dp == SelectorItem.IsSelectedProperty)
 			{
+				var isSelected = IsSelected;
+
 				IsSelectedChanged?.Invoke(this, null);
 				UpdateCommonStates();
+
+				if (isSelected != _wasAutomationSelected)
+				{
+					var oldValue = _wasAutomationSelected;
+					_wasAutomationSelected = isSelected;
+
+					// Screen readers rely on this to announce selection changes (WinUI parity).
+					if (AutomationPeer.ListenerExists(AutomationEvents.PropertyChanged) &&
+						FrameworkElementAutomationPeer.CreatePeerForElement(this) is TabBarItemAutomationPeer peer)
+					{
+						peer.RaisePropertyChangedEvent(SelectionItemPatternIdentifiers.IsSelectedProperty, oldValue, isSelected);
+					}
+				}
 			}
 		}
 

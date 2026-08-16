@@ -35,10 +35,13 @@ namespace Uno.Toolkit.Samples.Entities
 		/// <remarks>The DataContext of the page will be an instance of <see cref="Sample"/>. This DataType will be available from <see cref="Sample.Data"/>.</remarks>
 		public Type DataType { get; set; }
 
+		/// <summary>
+		/// The source SDK where the sample Control/Extension/Type is sourced from, used for filtering and informational purposes.
+		/// </summary>
 		public SourceSdk Source { get; }
 
 		/// <summary>
-		/// Sort order with the same <see cref="Category"/>.
+		/// Sort order within the same <see cref="Category"/>.
 		/// </summary>
 		public int SortOrder { get; set; } = int.MaxValue;
 
@@ -47,6 +50,9 @@ namespace Uno.Toolkit.Samples.Entities
 		/// The page is only included in sample apps whose active design is listed.
 		/// Defaults to empty (not shown in any app) — must be set explicitly.
 		/// </summary>
-		public Design[] SupportedDesigns { get; set; } = Array.Empty<Design>();
+		/// <remarks>
+		/// This should generally match the <c>SamplePageLayout</c> templates defined in the associated XAML file.
+		/// </remarks>
+		public required Design[] SupportedDesigns { get; set; }
 	}
 }
