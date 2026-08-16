@@ -45,13 +45,13 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(root);
 
-			var clickablePeer = FrameworkElementAutomationPeer.CreatePeerForElement(clickableCard) as CardAutomationPeer;
-			var structuralPeer = FrameworkElementAutomationPeer.CreatePeerForElement(structuralCard) as CardAutomationPeer;
+			var clickablePeer = FrameworkElementAutomationPeer.CreatePeerForElement(clickableCard) as CardAutomationPeer
+				?? throw new AssertFailedException("Card should expose a CardAutomationPeer.");
+			var structuralPeer = FrameworkElementAutomationPeer.CreatePeerForElement(structuralCard) as CardAutomationPeer
+				?? throw new AssertFailedException("Card should expose a CardAutomationPeer.");
 
-			Assert.IsNotNull(clickablePeer);
-			Assert.IsNotNull(structuralPeer);
-			Assert.AreEqual(AutomationControlType.Button, clickablePeer!.GetAutomationControlType());
-			Assert.AreEqual(AutomationControlType.Group, structuralPeer!.GetAutomationControlType());
+			Assert.AreEqual(AutomationControlType.Button, clickablePeer.GetAutomationControlType());
+			Assert.AreEqual(AutomationControlType.Group, structuralPeer.GetAutomationControlType());
 			Assert.IsTrue(clickableCard.IsTabStop);
 			Assert.IsFalse(structuralCard.IsTabStop);
 
@@ -89,13 +89,13 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			await UnitTestUIContentHelperEx.SetContentAndWait(root);
 
-			var clickablePeer = FrameworkElementAutomationPeer.CreatePeerForElement(clickableCard) as CardContentControlAutomationPeer;
-			var structuralPeer = FrameworkElementAutomationPeer.CreatePeerForElement(structuralCard) as CardContentControlAutomationPeer;
+			var clickablePeer = FrameworkElementAutomationPeer.CreatePeerForElement(clickableCard) as CardContentControlAutomationPeer
+				?? throw new AssertFailedException("CardContentControl should expose a CardContentControlAutomationPeer.");
+			var structuralPeer = FrameworkElementAutomationPeer.CreatePeerForElement(structuralCard) as CardContentControlAutomationPeer
+				?? throw new AssertFailedException("CardContentControl should expose a CardContentControlAutomationPeer.");
 
-			Assert.IsNotNull(clickablePeer);
-			Assert.IsNotNull(structuralPeer);
-			Assert.AreEqual(AutomationControlType.Button, clickablePeer!.GetAutomationControlType());
-			Assert.AreEqual(AutomationControlType.Group, structuralPeer!.GetAutomationControlType());
+			Assert.AreEqual(AutomationControlType.Button, clickablePeer.GetAutomationControlType());
+			Assert.AreEqual(AutomationControlType.Group, structuralPeer.GetAutomationControlType());
 			Assert.IsTrue(clickableCard.IsTabStop);
 			Assert.IsFalse(structuralCard.IsTabStop);
 

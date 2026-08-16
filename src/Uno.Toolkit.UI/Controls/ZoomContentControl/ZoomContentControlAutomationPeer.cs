@@ -20,6 +20,7 @@ public partial class ZoomContentControlAutomationPeer : FrameworkElementAutomati
 {
 	private const double MinimumPercent = 0d;
 	private const double MaximumPercent = 100d;
+	private const double PercentTolerance = 0.0001d;
 	private const double SmallScrollRatio = 0.1d;
 	private const double SmallZoomChange = 10d;
 	private const double LargeZoomChange = 50d;
@@ -124,8 +125,8 @@ public partial class ZoomContentControlAutomationPeer : FrameworkElementAutomati
 	{
 		EnsureEnabled();
 
-		var scrollHorizontally = horizontalPercent != ScrollPatternIdentifiers.NoScroll;
-		var scrollVertically = verticalPercent != ScrollPatternIdentifiers.NoScroll;
+		var scrollHorizontally = !IsNoScroll(horizontalPercent);
+		var scrollVertically = !IsNoScroll(verticalPercent);
 		if (!scrollHorizontally && !scrollVertically)
 		{
 			return;
@@ -266,6 +267,9 @@ public partial class ZoomContentControlAutomationPeer : FrameworkElementAutomati
 		var range = maximum - minimum;
 		return double.IsFinite(range) && range > 0 ? range : 0;
 	}
+
+	private static bool IsNoScroll(double percent) =>
+		Math.Abs(percent - ScrollPatternIdentifiers.NoScroll) < PercentTolerance;
 
 	private static double GetScrollPercent(bool scrollable, double value, double minimum, double range)
 	{

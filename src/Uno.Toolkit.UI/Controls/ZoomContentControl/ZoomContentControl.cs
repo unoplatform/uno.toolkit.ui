@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Uno.Disposables;
+using Uno.Extensions;
+using Uno.Logging;
 using Uno.UI.Extensions;
 
 #if IS_WINUI
@@ -425,7 +427,7 @@ partial class ZoomContentControl
 		ViewportSizeChanged?.Invoke(this, EventArgs.Empty);
 	}
 
-	private async void OnZoomLevelChanged()
+	private void OnZoomLevelChanged()
 	{
 		if (_viewport is null || _translation is null)
 		{
@@ -469,7 +471,7 @@ partial class ZoomContentControl
 		UpdateTransformAutomationProperties();
 		ZoomLevelChanged?.Invoke(this, new(previousZoom ?? double.NaN, ZoomLevel, fromMouseWheelPanning: _isHandlingMouseWheelZooming));
 		NotifyStateChanged();
-		await RaiseRenderedContentUpdated();
+		_ = RaiseRenderedContentUpdated();
 	}
 
 	private void OnMinZoomLevelChanged()
@@ -663,7 +665,7 @@ partial class ZoomContentControl // helpers
 		return false;
 	}
 
-	private async void UpdateScrollDetails()
+	private void UpdateScrollDetails()
 	{
 		if ((_localFocusTarget ?? Content) is FrameworkElement { IsLoaded: true } fe)
 		{
@@ -673,7 +675,7 @@ partial class ZoomContentControl // helpers
 			if (AutoCenterContent) CenterContent();
 			UpdateScrollBars();
 
-			await RaiseRenderedContentUpdated();
+			_ = RaiseRenderedContentUpdated();
 		}
 	}
 
@@ -792,9 +794,15 @@ partial class ZoomContentControl // helpers
 
 	private async Task RaiseRenderedContentUpdated()
 	{
-		await Task.Yield();
-
-		RenderedContentUpdated?.Invoke(this, EventArgs.Empty);
+		try
+		{
+			await Task.Yield();
+			RenderedContentUpdated?.Invoke(this, EventArgs.Empty);
+		}
+		catch (Exception error)
+		{
+			this.Log().Error("Failed to raise RenderedContentUpdated.", error);
+		}
 	}
 
 	private void UpdateScrollBarMirrorSpacing()

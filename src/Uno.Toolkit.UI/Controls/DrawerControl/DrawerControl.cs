@@ -51,6 +51,7 @@ namespace Uno.Toolkit.UI
 
 		private const double DragToggleThresholdRatio = 1.0 / 3; // only accept gesture open/close if 1/3 of distance is completed
 		private const double AnimateSnappingThresholdRatio = 0.05; // skip animation at if 5% of distance from done
+		private const double OpennessTolerance = 0.0001;
 		private static readonly TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(150);
 
 		// template parts
@@ -438,15 +439,16 @@ namespace Uno.Toolkit.UI
 		private void UpdateOpenness(double ratio)
 		{
 			TranslateOffset = ratio * GetVectoredLength();
+			var isClosed = Math.Abs(ratio - 1) < OpennessTolerance;
 			if (_lightDismissOverlay != null)
 			{
 				_lightDismissOverlay.Opacity = 1 - ratio;
-				_lightDismissOverlay.IsHitTestVisible = ratio != 1;
-				_lightDismissOverlay.Visibility = ratio == 1 ? Visibility.Collapsed : Visibility.Visible;
+				_lightDismissOverlay.IsHitTestVisible = !isClosed;
+				_lightDismissOverlay.Visibility = isClosed ? Visibility.Collapsed : Visibility.Visible;
 			}
 			if (_gestureInterceptor != null)
 			{
-				_gestureInterceptor.IsHitTestVisible = IsGestureEnabled && ratio == 1;
+				_gestureInterceptor.IsHitTestVisible = IsGestureEnabled && isClosed;
 			}
 		}
 

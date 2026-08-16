@@ -306,9 +306,9 @@ internal class ChipGroupTests
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as ChipGroupAutomationPeer;
-		Assert.IsNotNull(peer, "ChipGroup should expose a ChipGroupAutomationPeer.");
-		Assert.AreEqual(AutomationControlType.List, peer!.GetAutomationControlType());
+		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as ChipGroupAutomationPeer
+			?? throw new AssertFailedException("ChipGroup should expose a ChipGroupAutomationPeer.");
+		Assert.AreEqual(AutomationControlType.List, peer.GetAutomationControlType());
 
 		var selectionProvider = peer.GetPattern(PatternInterface.Selection) as ISelectionProvider;
 		if (!supportsSelection)
@@ -341,9 +341,9 @@ internal class ChipGroupTests
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
 		var chip = (ChipControl)SUT.ContainerFromIndex(0);
-		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(chip) as ChipAutomationPeer;
-		Assert.IsNotNull(peer, "Chip should expose a ChipAutomationPeer.");
-		Assert.IsNull(peer!.GetPattern(PatternInterface.Toggle), "A ChipGroup item should not expose Toggle.");
+		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(chip) as ChipAutomationPeer
+			?? throw new AssertFailedException("Chip should expose a ChipAutomationPeer.");
+		Assert.IsNull(peer.GetPattern(PatternInterface.Toggle), "A ChipGroup item should not expose Toggle.");
 
 		var invokeProvider = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
 		var selectionItem = peer.GetPattern(PatternInterface.SelectionItem) as ISelectionItemProvider;
@@ -377,9 +377,9 @@ internal class ChipGroupTests
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as ChipAutomationPeer;
-		Assert.IsNotNull(peer);
-		Assert.AreEqual(AutomationControlType.Button, peer!.GetAutomationControlType());
+		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as ChipAutomationPeer
+			?? throw new AssertFailedException("Chip should expose a ChipAutomationPeer.");
+		Assert.AreEqual(AutomationControlType.Button, peer.GetAutomationControlType());
 		Assert.IsNull(peer.GetPattern(PatternInterface.SelectionItem));
 
 		var toggleProvider = peer.GetPattern(PatternInterface.Toggle) as IToggleProvider;
