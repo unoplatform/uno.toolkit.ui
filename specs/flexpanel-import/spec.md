@@ -25,6 +25,63 @@ This spec covers importing that code as a **new, additive** `FlexPanel` control.
 
 `AutoLayout` keeps serving Figma-generated layouts, which is what it is good at. `FlexPanel` serves CSS-shaped layouts. Two mental models, two controls, no compromise API that satisfies neither.
 
+## `AutoLayout` coverage audit
+
+D1 keeps `AutoLayout` untouched and FR-9 keeps its tests green, which leaves one question open before P0: **if a consumer moved a layout from `AutoLayout` to `FlexPanel`, what would break?** Operationally, "the existing `AutoLayout` feature set" is the behavior pinned by `src/Uno.Toolkit.RuntimeTests/Tests/AutoLayoutTest.cs` — 20 test methods, ~130 `DataRow` cases, one method `[Ignore]`d for #1203. Every case below was checked by hand against the CSS flexbox result, arithmetically wherever an offset is asserted.
+
+**Result: 2 of the 19 active tests are non-portable, and both fail for the same single reason — `IsIndependentLayout`.** The Figma-vs-CSS divide is real but far narrower than the Summary implies.
+
+### The padding warning is not a gap
+
+`doc/controls/AutoLayoutControl.md` warns that "the anchor points determine which sides of the Padding will be taken into consideration", and `InnerArrange` does gate padding behind `haveStartPadding` / `haveEndPadding`. That gating does **not** produce Figma-anchored offsets, because `PrimaryAxisAlignmentOffsetSize` receives the *raw* padding values and adds them back:
+
+| `PrimaryAxisAlignment` | resulting `currentOffset` | CSS content-box offset |
+|---|---|---|
+| `Start` | `borderStart + start` | `borderStart + start` |
+| `Center` | `borderStart + start + (C − occupied) / 2` | identical |
+| `End` | `borderStart + (H − end − occupied)`, which expands to `borderStart + start + (C − occupied)` | identical |
+
+(`H` = full length along the axis, `C = H − start − end`.) `ComputeCounterAlignmentOffset` has the same shape on the counter axis. Verified numerically against the one test built to break symmetry — `When_Axis_Are_Center_With_No_Homogeneous_Padding`, `Padding="150,20,100,50"` on 300×300, two 100×50 children, `Spacing="10"`: the asserted `(80, 140, 125, 125)` and `(110, 110, 70, 180)` are exactly the CSS results.
+
+**`AutoLayout`'s `Padding` is CSS padding.** The gating leaks in exactly one place — the overflow clamp at `AutoLayout.Layouting.Arrange.cs:213` measures against `H − start` instead of the content box, so an already-overflowing child truncates at a different point (G3).
+
+### Verdict per test
+
+| Verdict | Tests (cases) | Count |
+|---|---|---|
+| ✅ Ports unchanged | `When_Collapsed`, `When_Initially_Collapsed_With_Spacing`, `When_Late_Collapsed_With_Spacing`, `When_Collapsed_With_Spacing_Margin` (16), `When_Measure`, `When_CounterAlignment_stretch` (2), `When_Fixed_Dimensions_Padding_And_SpaceBetween_Horizontal`, `..._Vertical`, `When_Hug_With_Padding`, `When_Hug_With_Padding_CounterAxis`, `When_Axis_Are_Center_With_No_Homogeneous_Padding` (2) | 11 |
+| ⚠️ Ports under a mapping rule | `When_Padding` (40) and `When_Padding_CounterAxis` (40) → M1 + M2; `When_SpaceBetween_with_spacing` (2) → M3; `When_Stretched_PrimaryAlignment_In_ScrollViewer` → M4 | 4 |
+| 🔶 Ports only if `MaxWidth`/`MaxHeight` ships in v1 | `When_PrimaryAxisAlignment_Centered_And_Filled_Single_Element_With_MaxSize` (3), `..._Filled_Elements_With_MaxSize` (2) | 2 |
+| ❌ Non-portable | `When_AbsolutePosition_WithPadding` (9), `When_Space_between_With_AbsolutePosition` (2) | 2 |
+| — Already disabled | `When_Hug_With_CounterAlignment` (`[Ignore]`, #1203) | 1 |
+
+### Mapping rules
+
+Not gaps — the behavior is reachable, but only through a non-obvious translation. Anything generating `FlexPanel` XAML from `AutoLayout` XAML must apply all four.
+
+- **M1 — every `AutoLayout` child is `Shrink="0"`.** `AutoLayout` has no shrink concept: `Fixed` children keep their declared length and `Hug` children their desired length, whatever the deficit. `FlexPanel`'s default is `Shrink="1"`. Without `Shrink="0"`, the overflow rows of `When_Padding` (a 350px child in a 400px panel with `Padding="100"`, asserted at `-50`) shrink to fit instead of overflowing; with it, CSS also lands on `-50`.
+- **M2 — `PrimaryAlignment="Stretch"` is `Grow="1" Basis="0"`, never `Grow="1"` alone.** `MeasureFilledChildren` divides `remainingSize / filledChildrenCount`, giving equal *final* sizes — that is `flex: 1 1 0`. Bare `flex-grow: 1` distributes only *free* space on top of each child's content size, so unequal children stay unequal.
+- **M3 — `Justify="SpaceBetween"` drops `Spacing`.** `MeasureOverride` step 4 skips spacing entirely under `SpaceBetween`, and `ComputeSpaceBetween` recomputes it from the leftover. CSS treats `gap` as a *floor* under `space-between`, so carrying `Spacing="100"` over as `RowGap="100"` turns `When_SpaceBetween_with_spacing`'s expected `10 / 130 / 250` into `10 / 210 / 410`. Translate `Spacing` to `0` whenever `Justify="SpaceBetween"`.
+- **M4 — the adapter must re-run Yoga against the arrange `finalSize`.** `When_Stretched_PrimaryAlignment_In_ScrollViewer` depends on `AutoLayout`'s two-pass behavior: under the `ScrollViewer`'s infinite constraint `filledAsHug` demotes `Filled` to `Hug`, then `InnerArrange` re-measures at the real 300px and the child fills 275px. Yoga reaches the same answer only if the adapter recomputes when `finalSize` differs from the measure constraint.
+
+### Genuine gaps
+
+- **G1 — `IsIndependentLayout` is a different positioning model, not a remappable property.** The child is arranged into `new Rect(default, finalSize)` — the whole panel rect, padding ignored — then positioned by its *own* `HorizontalAlignment` / `VerticalAlignment` / `Margin`; `doc/controls/walkthroughs/AutoLayout.howto.md` documents exactly that ("position it with normal alignments"). Yoga's `Position: Absolute` is inset-driven off the *padding box* and never consults WinUI alignment, so `Margin="10,280,0,0"` + `VerticalAlignment="Top"` (asserted at `Y = 280` in `When_Space_between_With_AbsolutePosition`) becomes `Top="270"` — a different number through a different mechanism. Separately, `MeasureIndependentChildren` folds these children into the panel's desired size (`Math.Max` on both axes), where CSS absolutely-positioned children contribute nothing to container intrinsic size. Both non-portable tests fail here.
+- **G2 — negative `Spacing` has no container-level equivalent.** CSS `gap` is non-negative. Four of `When_AbsolutePosition_WithPadding`'s nine rows use `spacing: -30` / `-20`, and the overlapping-avatar samples use `Spacing="-10"` / `"-20"` (`samples/Uno.Toolkit.Samples/Content/Controls/AutoLayoutPage.xaml:51,87,163`). The *capability* survives via negative child `Margin` (Yoga supports negative margins); the container property does not. **P1 must verify** whether Yoga's gap resolution clamps negatives to `0` — the engine is not vendored yet, so this could not be checked.
+- **G3 — overflow is truncated, not shrunk or overflowed.** A child longer than the remaining space is clamped to it (`Arrange.cs:213`), against a padding box that omits the non-anchored side. Under M1 the *offsets* match CSS but the arranged *size* does not: a 350px child in a 300px slot arranges at 300 under `AutoLayout`, at 350 (overflowing) under `FlexPanel`. No test asserts it — the padding tests check offsets only — but consumers see it.
+- **G4 — no frame chrome.** `AutoLayout : RelativePanel` inherits *public* `Padding`, `BorderBrush`, `BorderThickness` and `CornerRadius` (declared in Uno's `RelativePanel.Properties.cs`); `Panel` exposes only the `internal` `PaddingInternal` / `BorderThicknessInternal` / `CornerRadiusInternal` plumbing, which `Uno.Toolkit.UI` cannot reach. `FlexPanel : Panel` therefore declares its own `Padding` (D3) but **cannot draw a border or corner radius at all** — a wrapping `Border` is required. This is broader than the deferred "Yoga-measured `BorderThickness`", which is about measurement; this is about rendering. `AutoLayout` also folds `BorderThickness` into both measure and arrange.
+- **G5 — `IsReverseZIndex` needs a justify flip.** Despite the name (and the howto's claim that it "does not change layout order"), the arrange loop iterates children in reverse while `currentOffset` still increases — so it reverses *positional* order and leaves paint order, which follows the `Children` index, untouched. `Direction="RowReverse"` plus the mirrored `JustifyContent` reproduces both. Listed here rather than as a mapping rule because the doc is wrong and should be fixed independently of this work.
+
+### Divergence in the other direction
+
+**`AutoLayout` ignores child `Margin`.** `When_Collapsed_With_Spacing_Margin_Test_Matrix` hard-codes `itemMargin = 0d` with the comment *"AutoLayout just ignores margin on children"* (see also #1279). FR-4 makes `FlexPanel` honor `Margin` as Yoga margin edges — correct, and a superset — but a consumer migrating a layout whose children carry incidental margins will see them start to apply.
+
+### Consequences for this spec
+
+1. **Recommend un-deferring `MaxWidth` / `MaxHeight` into v1.** The only bucket the audit found that is purely a scope decision: two additive attached properties, no engine work, `YogaMinMaxDimensionTest` already in the tier-1 corpus. Both max-size tests were verified *exactly* CSS-equivalent — `AutoLayout`'s `filledMaxSurplus` / `GetChildrenLowerThanAllocateSurplus` machinery is a hand-rolled CSS §9.7 freeze-violations loop, and Yoga's is the correct one. Left in Deferred, the audit's 🔶 row becomes a second pair of non-portable tests for no reason. **P0 decision.**
+2. **Tier 2 gains four mapping-rule guards**, one per M1–M4, named after the rule, so a future "unify the two controls" attempt cannot quietly regress them. `When_Grow_InScrollViewer_ThenFillsViewport` (M4) has no analogue in the current tier-2 list.
+3. **D1's justification is narrower than the Summary suggests and should be stated as such** in the "`FlexPanel` vs `AutoLayout`: which do I want?" doc section: the answer is G1 (absolute-position semantics), G2 (negative spacing) and G4 (frame chrome) — not padding, and not alignment.
+
 ## Scope of the import
 
 Upstream `src/Reactor/Yoga/` — 11 files, 5,449 LOC. Verified dependency split:
@@ -184,6 +241,13 @@ Coverage inherited: `YogaAbsolutePositionTest`, `YogaAlignContentTest`, `YogaAli
 - `When_LayoutDirectionRightToLeft_ThenMainAxisMirrored` — FR-7.
 - `When_FlowDirectionAndLayoutDirectionBothSet_ThenNoDoubleMirror` — FR-7's hazard, pinned as a test so the "independent mechanisms" contract can't silently regress into double-mirroring on some target.
 
+Plus four mapping-rule guards from the `AutoLayout` coverage audit above, one per rule, so a future convergence attempt cannot quietly regress them:
+
+- `When_ChildHasNoShrink_ThenOverflowsInsteadOfFitting` — M1.
+- `When_GrowWithBasisZero_ThenChildrenAreEqualNotProportional` — M2, the `flex: 1` vs `flex: 1 1 0` distinction.
+- `When_SpaceBetweenWithGap_ThenGapIsAFloor` — M3, the behavior `AutoLayout` does *not* have.
+- `When_Grow_InScrollViewer_ThenFillsViewport` — M4; no analogue in the list above, and the one most likely to break silently per target.
+
 **Tier 3 — leak guard**, `Tests/FlexPanelLeakTests.cs`: children removed from a `FlexPanel` (including via `ItemsRepeater` recycling) are collectable after a subsequent layout pass — D9 / NFR-4.
 
 ## Docs and samples
@@ -214,7 +278,7 @@ Coverage inherited: `YogaAbsolutePositionTest`, `YogaAlignContentTest`, `YogaAli
 ## Phases
 
 - [ ] **P0 — Approval.** Confirm vendoring (risk 5), the name (risk 6), and the v1/deferred API split.
-- [ ] **P1 — Engine import.** Vendor 10 files, rename namespace to `Uno.Toolkit.UI.Layout`, add `Layout/Yoga/README.md` + scoped `.editorconfig` (D7), update `LICENSE.md`/notices (NFR-5). Builds clean, no adapter yet.
+- [ ] **P1 — Engine import.** Vendor 10 files, rename namespace to `Uno.Toolkit.UI.Layout`, add `Layout/Yoga/README.md` + scoped `.editorconfig` (D7), update `LICENSE.md`/notices (NFR-5). Builds clean, no adapter yet. Also answer G2 from the coverage audit: does Yoga's gap resolution clamp negative values to `0`?
 - [ ] **P2 — Tier-1 conformance.** Port the 26 generated test files. **Gate: 100% green on desktop before any adapter work.** A failure here is an import bug, and finding it now is 10× cheaper.
 - [ ] **P3 — Adapter.** `FlexPanel.cs` + `FlexPanel.Properties.cs` per D3/D4/D5. Tier-2 tests alongside, red/fix/green.
 - [ ] **P4 — Cross-platform validation.** Tier 1 + 2 on desktop, WASM, Android, iOS, Windows. Rounding matrix (risk 1). Tier-3 leak test.
