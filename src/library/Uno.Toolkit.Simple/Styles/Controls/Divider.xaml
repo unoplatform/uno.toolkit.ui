@@ -15,7 +15,7 @@
 			<x:Double x:Key="DividerSubHeaderFontSize">14</x:Double>
 			<x:Int32 x:Key="DividerSubHeaderCharacterSpacing">0</x:Int32>
 
-			<Thickness x:Key="DividerSubHeaderMargin">0,4,0,0</Thickness>
+			<StaticResource x:Key="DividerSubHeaderMargin" ResourceKey="Space100TopThickness" />
 			<x:Double x:Key="DividerHeight">1</x:Double>
 		</ResourceDictionary>
 
@@ -29,7 +29,7 @@
 			<x:Double x:Key="DividerSubHeaderFontSize">14</x:Double>
 			<x:Int32 x:Key="DividerSubHeaderCharacterSpacing">0</x:Int32>
 
-			<Thickness x:Key="DividerSubHeaderMargin">0,4,0,0</Thickness>
+			<StaticResource x:Key="DividerSubHeaderMargin" ResourceKey="Space100TopThickness" />
 			<x:Double x:Key="DividerHeight">1</x:Double>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>

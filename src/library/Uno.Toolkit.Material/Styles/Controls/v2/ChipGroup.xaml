@@ -12,7 +12,7 @@
 
 	<ItemsPanelTemplate x:Key="MaterialHorizontalChipGroupItemsPanel">
 		<StackPanel Orientation="Horizontal"
-					Spacing="8" />
+					Spacing="{ThemeResource Space200}" />
 	</ItemsPanelTemplate>
 
 	<Style x:Key="MaterialBaseChipGroupStyle"

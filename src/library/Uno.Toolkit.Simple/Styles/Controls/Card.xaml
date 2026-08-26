@@ -50,14 +50,14 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-	<CornerRadius x:Key="SimpleCardCornerRadius">8</CornerRadius>
-	<Thickness x:Key="SimpleCardPadding">24</Thickness>
+	<StaticResource x:Key="SimpleCardCornerRadius" ResourceKey="Radius200CornerRadius" />
+	<StaticResource x:Key="SimpleCardPadding" ResourceKey="Space600Thickness" />
 	<Thickness x:Key="SimpleCardBorderThickness">1</Thickness>
 	<x:Double x:Key="SimpleCardMinWidth">240</x:Double>
 	<x:Double x:Key="SimpleCardMaxWidth">440</x:Double>
 
-	<CornerRadius x:Key="CardCornerRadius">8</CornerRadius>
-	<Thickness x:Key="CardPadding">24</Thickness>
+	<StaticResource x:Key="CardCornerRadius" ResourceKey="Radius200CornerRadius" />
+	<StaticResource x:Key="CardPadding" ResourceKey="Space600Thickness" />
 	<Thickness x:Key="CardBorderThickness">1</Thickness>
 	<x:Double x:Key="CardMinHeight">72</x:Double>
 	<x:Double x:Key="CardMaxWidth">440</x:Double>
@@ -66,7 +66,7 @@
 
 	<DataTemplate x:Key="SimpleDefaultHeaderContentTemplate">
 		<TextBlock
-			Margin="0,0,0,8"
+			Margin="{ThemeResource Space200BottomThickness}"
 			FontSize="24"
 			FontWeight="SemiBold"
 			Foreground="{ThemeResource CardForeground}"
@@ -91,15 +91,15 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="SimpleDefaultMediaContentTemplate">
-		<Border MinHeight="160" CornerRadius="8">
+		<Border MinHeight="160" CornerRadius="{ThemeResource Radius200CornerRadius}">
 			<Image Source="{Binding}" Stretch="UniformToFill" />
 		</Border>
 	</DataTemplate>
 
 	<DataTemplate x:Key="SimpleDefaultAvatarContentTemplate">
 		<Image
-			MaxWidth="40"
-			MaxHeight="40"
+			MaxWidth="{ThemeResource ControlHeightMedium}"
+			MaxHeight="{ThemeResource ControlHeightMedium}"
 			Source="{Binding}"
 			Stretch="Uniform" />
 	</DataTemplate>
@@ -121,7 +121,7 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="SimpleDefaultSmallMediaContentTemplate">
-		<Border MaxHeight="94" CornerRadius="8">
+		<Border MaxHeight="94" CornerRadius="{ThemeResource Radius200CornerRadius}">
 			<Image
 				VerticalAlignment="Top"
 				Source="{Binding}"
@@ -174,7 +174,7 @@
 						<!--  Media content  -->
 						<ContentPresenter
 							x:Name="MediaContentPresenter"
-							Margin="0,0,0,24"
+							Margin="{ThemeResource Space600BottomThickness}"
 							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 							AutomationProperties.AccessibilityView="Raw"
 							Content="{TemplateBinding MediaContent}"
@@ -186,7 +186,7 @@
 						<ContentPresenter
 							x:Name="AvatarContentPresenter"
 							Grid.Row="1"
-							Margin="0,0,0,8"
+							Margin="{ThemeResource Space200BottomThickness}"
 							AutomationProperties.AccessibilityView="Raw"
 							Content="{TemplateBinding AvatarContent}"
 							ContentTemplate="{TemplateBinding AvatarContentTemplate}"
@@ -217,7 +217,7 @@
 						<ContentPresenter
 							x:Name="SupportingContentPresenter"
 							Grid.Row="4"
-							Margin="0,24,0,0"
+							Margin="{ThemeResource Space600TopThickness}"
 							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 							AutomationProperties.AccessibilityView="Raw"
 							Content="{TemplateBinding SupportingContent}"
@@ -318,7 +318,7 @@
 
 	<DataTemplate x:Key="SimpleBrandHeaderContentTemplate">
 		<TextBlock
-			Margin="0,0,0,8"
+			Margin="{ThemeResource Space200BottomThickness}"
 			FontSize="24"
 			FontWeight="SemiBold"
 			Foreground="{ThemeResource BrandCardForeground}"

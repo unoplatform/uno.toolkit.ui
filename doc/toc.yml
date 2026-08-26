@@ -16,6 +16,9 @@
   # ***************** Lightweight Styling ********
   - name: Lightweight Styling
     href: lightweight-styling.md
+  # ***************** Design Tokens **************
+  - name: Design Tokens
+    href: design-tokens.md
 
 # ******************* Learn **********************
 #- name: Learn

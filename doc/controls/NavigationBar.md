@@ -412,50 +412,53 @@ Only supports `BitmapImage` on iOS/Android
 
 ## Lightweight Styling
 
-| Key                                                                    | Type              | Value                                   |
-|------------------------------------------------------------------------|-------------------|-----------------------------------------|
-| `NavigationBarCommandBarEllipsisIconForegroundDisabled`                | `SolidColorBrush` | TextFillColorDisabledBrush              |
-| `NavigationBarCommandBarBackgroundCompactOpenUp`                       | `SolidColorBrush` | SurfaceBrush                            |
-| `NavigationBarCommandBarBackgroundCompactOpenDown`                     | `SolidColorBrush` | SurfaceBrush                            |
-| `NavigationBarMainCommandForeground`                                   | `SolidColorBrush` | OnSurfaceBrush                          |
-| `NavigationBarForeground`                                              | `SolidColorBrush` | OnSurfaceBrush                          |
-| `NavigationBarBackground`                                              | `SolidColorBrush` | SurfaceBrush                            |
-| `NavigationBarPadding`                                                 | `Thickness`       | 4,0,0,0                                 |
-| `NavigationBarFontFamily`                                              | `FontFamily`      | TitleLargeFontFamily                    |
-| `NavigationBarFontWeight`                                              | `String`          | TitleLargeFontWeight                    |
-| `NavigationBarFontSize`                                                | `Double`          | TitleLargeFontSize                      |
-| `NavigationBarBackIconData`                                            | `String`          | NavigationBarBackIconData               |
-| `MaterialModalNavigationBarMainCommandForeground`                      | `SolidColorBrush` | OnSurfaceBrush                          |
-| `MaterialModalNavigationBarForeground`                                 | `SolidColorBrush` | OnSurfaceBrush                          |
-| `MaterialModalNavigationBarBackground`                                 | `SolidColorBrush` | SurfaceBrush                            |
-| `MaterialPrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled` | `SolidColorBrush` | TextFillColorDisabledBrush              |
-| `MaterialPrimaryNavigationBarCommandBarBackgroundCompactOpenUp`        | `SolidColorBrush` | PrimaryBrush                            |
-| `MaterialPrimaryNavigationBarCommandBarBackgroundCompactOpenDown`      | `SolidColorBrush` | PrimaryBrush                            |
-| `MaterialPrimaryNavigationBarMainCommandForeground`                    | `SolidColorBrush` | OnPrimaryBrush                          |
-| `MaterialPrimaryNavigationBarForeground`                               | `SolidColorBrush` | OnPrimaryBrush                          |
-| `MaterialPrimaryNavigationBarBackground`                               | `SolidColorBrush` | PrimaryBrush                            |
-| `MaterialPrimaryAppBarButtonForeground`                                | `SolidColorBrush` | OnPrimaryBrush                          |
-| `MaterialPrimaryModalNavigationBarMainCommandForeground`               | `SolidColorBrush` | OnPrimaryBrush                          |
-| `MaterialPrimaryModalNavigationBarForeground`                          | `SolidColorBrush` | OnPrimaryBrush                          |
-| `MaterialPrimaryModalNavigationBarBackground`                          | `SolidColorBrush` | PrimaryBrush                            |
-| `NavigationBarOverflowAppBarButtonForeground`                          | `SolidColorBrush` | OnPrimaryBrush                          |
-| `NavigationBarOverflowAppBarButtonBackground`                          | `SolidColorBrush` | SolidColorBrush { Color = Transparent } |
-| `NavigationBarEllipsisButtonForeground`                                | `SolidColorBrush` | OnSurfaceBrush                          |
-| `NavigationBarEllipsisButtonBackground`                                | `SolidColorBrush` | SolidColorBrush { Color = Transparent } |
-| `MaterialNavigationBarElevation`                                       | `Double`          | 4                                       |
-| `MaterialXamlNavigationBarHeight`                                      | `Double`          | 64                                      |
-| `MaterialNavigationBarHeight`                                          | `Double`          | 48                                      |
-| `MaterialNavigationBarContentMargin`                                   | `Thickness`       | 16,0,0,0                                |
-| `MaterialAppBarEllipsisButtonInnerBorderMargin`                        | `Thickness`       | 2,6,6,6                                 |
-| `NavigationBarMaterialEllipsisButtonFontFamily`                        | `FontFamily`      | MaterialRegularFontFamily               |
-| `NavigationBarMaterialEllipsisButtonFontWeight`                        | `FontWeight`      | SemiBold                                |
-| `NavigationBarMaterialEllipsisButtonFontSize`                          | `Double`          | ControlContentThemeFontSize             |
-| `NavigationBarMaterialEllipsisButtonWidth`                             | `Double`          | AppBarExpandButtonThemeWidth            |
-| `NavBarAppBarButtonContentHeight`                                      | `Double`          | 24                                      |
-| `NavBarMainCommandAppBarButtonContentHeight`                           | `Double`          | 16                                      |
-| `NavBarAppBarThemeCompactHeight`                                       | `Double`          | 56                                      |
-| `NavBarAppBarButtonPadding`                                            | `Thickness`       | 12,16                                   |
-| `NavBarAppBarButtonHasFlyoutChevronVisibility`                         | `Visibility`      | Collapsed                               |
+> [!TIP]
+> Values marked with a design token name adjust automatically when you change `DefaultDensity` or `DefaultCornerRadius`. See [Design Tokens](../design-tokens.md) for details.
+
+| Key                                                                    | Type              | Value (Regular)                         | Design Token                    |
+|------------------------------------------------------------------------|-------------------|-----------------------------------------|---------------------------------|
+| `NavigationBarCommandBarEllipsisIconForegroundDisabled`                | `SolidColorBrush` | TextFillColorDisabledBrush              |                                 |
+| `NavigationBarCommandBarBackgroundCompactOpenUp`                       | `SolidColorBrush` | SurfaceBrush                            |                                 |
+| `NavigationBarCommandBarBackgroundCompactOpenDown`                     | `SolidColorBrush` | SurfaceBrush                            |                                 |
+| `NavigationBarMainCommandForeground`                                   | `SolidColorBrush` | OnSurfaceBrush                          |                                 |
+| `NavigationBarForeground`                                              | `SolidColorBrush` | OnSurfaceBrush                          |                                 |
+| `NavigationBarBackground`                                              | `SolidColorBrush` | SurfaceBrush                            |                                 |
+| `NavigationBarPadding`                                                 | `Thickness`       | 4,0,0,0                                | `Space100LeftThickness`         |
+| `NavigationBarFontFamily`                                              | `FontFamily`      | TitleLargeFontFamily                    |                                 |
+| `NavigationBarFontWeight`                                              | `String`          | TitleLargeFontWeight                    |                                 |
+| `NavigationBarFontSize`                                                | `Double`          | TitleLargeFontSize                      |                                 |
+| `NavigationBarBackIconData`                                            | `String`          | NavigationBarBackIconData               |                                 |
+| `MaterialModalNavigationBarMainCommandForeground`                      | `SolidColorBrush` | OnSurfaceBrush                          |                                 |
+| `MaterialModalNavigationBarForeground`                                 | `SolidColorBrush` | OnSurfaceBrush                          |                                 |
+| `MaterialModalNavigationBarBackground`                                 | `SolidColorBrush` | SurfaceBrush                            |                                 |
+| `MaterialPrimaryNavigationBarCommandBarEllipsisIconForegroundDisabled` | `SolidColorBrush` | TextFillColorDisabledBrush              |                                 |
+| `MaterialPrimaryNavigationBarCommandBarBackgroundCompactOpenUp`        | `SolidColorBrush` | PrimaryBrush                            |                                 |
+| `MaterialPrimaryNavigationBarCommandBarBackgroundCompactOpenDown`      | `SolidColorBrush` | PrimaryBrush                            |                                 |
+| `MaterialPrimaryNavigationBarMainCommandForeground`                    | `SolidColorBrush` | OnPrimaryBrush                          |                                 |
+| `MaterialPrimaryNavigationBarForeground`                               | `SolidColorBrush` | OnPrimaryBrush                          |                                 |
+| `MaterialPrimaryNavigationBarBackground`                               | `SolidColorBrush` | PrimaryBrush                            |                                 |
+| `MaterialPrimaryAppBarButtonForeground`                                | `SolidColorBrush` | OnPrimaryBrush                          |                                 |
+| `MaterialPrimaryModalNavigationBarMainCommandForeground`               | `SolidColorBrush` | OnPrimaryBrush                          |                                 |
+| `MaterialPrimaryModalNavigationBarForeground`                          | `SolidColorBrush` | OnPrimaryBrush                          |                                 |
+| `MaterialPrimaryModalNavigationBarBackground`                          | `SolidColorBrush` | PrimaryBrush                            |                                 |
+| `NavigationBarOverflowAppBarButtonForeground`                          | `SolidColorBrush` | OnPrimaryBrush                          |                                 |
+| `NavigationBarOverflowAppBarButtonBackground`                          | `SolidColorBrush` | SolidColorBrush { Color = Transparent } |                                 |
+| `NavigationBarEllipsisButtonForeground`                                | `SolidColorBrush` | OnSurfaceBrush                          |                                 |
+| `NavigationBarEllipsisButtonBackground`                                | `SolidColorBrush` | SolidColorBrush { Color = Transparent } |                                 |
+| `MaterialNavigationBarElevation`                                       | `Double`          | 4                                       |                                 |
+| `MaterialXamlNavigationBarHeight`                                      | `Double`          | 64                                      | `Space1600`                     |
+| `MaterialNavigationBarHeight`                                          | `Double`          | 64                                      | `Space1600`                     |
+| `MaterialNavigationBarContentMargin`                                   | `Thickness`       | 16,0,16,0                              | `Space400HorizontalThickness`   |
+| `MaterialAppBarEllipsisButtonInnerBorderMargin`                        | `Thickness`       | 2,6,6,6                                |                                 |
+| `NavigationBarMaterialEllipsisButtonFontFamily`                        | `FontFamily`      | MaterialRegularFontFamily               |                                 |
+| `NavigationBarMaterialEllipsisButtonFontWeight`                        | `FontWeight`      | SemiBold                                |                                 |
+| `NavigationBarMaterialEllipsisButtonFontSize`                          | `Double`          | ControlContentThemeFontSize             |                                 |
+| `NavigationBarMaterialEllipsisButtonWidth`                             | `Double`          | AppBarExpandButtonThemeWidth            |                                 |
+| `NavBarAppBarButtonContentHeight`                                      | `Double`          | 16                                      | `IconSizeSmall`                 |
+| `NavBarMainCommandAppBarButtonContentHeight`                           | `Double`          | 24                                      | `IconSizeMedium`                |
+| `NavBarAppBarThemeCompactHeight`                                       | `Double`          | 64                                      | `Space1600`                     |
+| `NavBarAppBarButtonPadding`                                            | `Thickness`       | 12,16                                   |                                 |
+| `NavBarAppBarButtonHasFlyoutChevronVisibility`                         | `Visibility`      | Collapsed                               |                                 |
 
 ## Navigation
 
