@@ -562,6 +562,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
+### Material
+
 | Key                                                                  | Type            | Value                                        |
 |----------------------------------------------------------------------|-----------------|----------------------------------------------|
 | `NavigationTabBarWidthOrHeight`                                    | `Double`          | 80                                           |
@@ -718,3 +720,22 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `NavigationTabBarForegroundSelectedPressed`                        | `SolidColorBrush` | OnSurfaceBrush                               |
 | `NavigationTabBarBorderBrush`                                      | `SolidColorBrush` | SystemControlTransparentBrush                |
 | `NavigationTabBarTintBrush`                                        | `SolidColorBrush` | SurfaceTintColor@NavigationTabBarTintOpacity |
+
+### Simple
+
+| Key                               | Type              | Value                  |
+|-----------------------------------|-------------------|------------------------|
+| `TopTabBarHeight`                 | `Double`          | 48                     |
+| `TopTabBarBackground`             | `SolidColorBrush` | SurfaceBrush           |
+| `BottomTabBarBackground`          | `SolidColorBrush` | SurfaceBrush           |
+| `VerticalTabBarBackground`        | `SolidColorBrush` | SurfaceBrush           |
+| `NavigationTabBarWidthOrHeight`   | `Double`          | 80                     |
+| `TabBarItemForeground`            | `SolidColorBrush` | OnSurfaceMediumBrush   |
+| `TabBarItemForegroundSelected`    | `SolidColorBrush` | OnSurfaceBrush         |
+| `TabBarItemForegroundDisabled`    | `SolidColorBrush` | OnSurfaceDisabledBrush |
+| `TabBarItemBackgroundPointerOver` | `SolidColorBrush` | SurfaceVariantBrush    |
+| `TabBarIndicatorBrush`            | `SolidColorBrush` | OnSurfaceBrush         |
+| `TopTabBarItemPadding`            | `Thickness`       | 12,4                   |
+| `TopTabBarItemCornerRadius`       | `CornerRadius`    | 4,4,0,0                |
+
+`TabBarIndicatorBrush` colors the `TabBar`-level selection indicator — the hairline that animates between tabs. It is the only line the Simple styles draw; items have no border of their own, so overriding this key is what changes the selection visual.
