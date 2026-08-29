@@ -14,7 +14,6 @@
 
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
 			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SurfaceBrush" />
 			<x:Double x:Key="NavigationTabBarWidthOrHeight">80</x:Double>
@@ -22,9 +21,7 @@
 			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
-			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="TabBarItemBorderBrushSelected" ResourceKey="OutlineVariantBrush" />
-			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="OnSurfaceBrush" />
 			<Thickness x:Key="TopTabBarItemPadding">12,4</Thickness>
 			<CornerRadius x:Key="TopTabBarItemCornerRadius">4,4,0,0</CornerRadius>
 		</ResourceDictionary>
@@ -34,7 +31,6 @@
 
 			<x:Double x:Key="TopTabBarHeight">48</x:Double>
 			<StaticResource x:Key="TopTabBarBackground" ResourceKey="SurfaceBrush" />
-			<StaticResource x:Key="TopTabBarBottomBorderBrush" ResourceKey="OutlineBrush" />
 			<StaticResource x:Key="BottomTabBarBackground" ResourceKey="SurfaceBrush" />
 			<StaticResource x:Key="VerticalTabBarBackground" ResourceKey="SurfaceBrush" />
 			<x:Double x:Key="NavigationTabBarWidthOrHeight">80</x:Double>
@@ -42,9 +38,7 @@
 			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="OnSurfaceDisabledBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SurfaceVariantBrush" />
-			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="OutlineBrush" />
-			<StaticResource x:Key="TabBarItemBorderBrushSelected" ResourceKey="OutlineVariantBrush" />
-			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="OutlineVariantBrush" />
+			<StaticResource x:Key="TabBarIndicatorBrush" ResourceKey="OnSurfaceBrush" />
 			<Thickness x:Key="TopTabBarItemPadding">12,4</Thickness>
 			<CornerRadius x:Key="TopTabBarItemCornerRadius">4,4,0,0</CornerRadius>
 		</ResourceDictionary>
@@ -187,8 +181,7 @@
 			<Setter.Value>
 				<DataTemplate>
 					<Border
-						Height="1"
-						Margin="0,0,0,0"
+						Height="2"
 						VerticalAlignment="Bottom"
 						Background="{ThemeResource TabBarIndicatorBrush}" />
 				</DataTemplate>
@@ -199,8 +192,6 @@
 	<Style x:Key="SimpleTopTabBarItemStyle" TargetType="utu:TabBarItem">
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Foreground" Value="{ThemeResource TabBarItemForeground}" />
-		<Setter Property="BorderBrush" Value="{ThemeResource TabBarItemBorderBrush}" />
-		<Setter Property="BorderThickness" Value="0,0,0,1" />
 		<Setter Property="FontSize" Value="16" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -269,18 +260,18 @@
 										<Setter Target="LayoutRoot.Background" Value="{ThemeResource TabBarItemBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
+								<!--  Selected states only recolor content: the selection line is drawn by the
+									 TabBar-level indicator (TabBarIndicatorBrush) so it can animate between tabs.  -->
 								<VisualState x:Name="Selected">
 									<VisualState.Setters>
 										<Setter Target="Icon.Foreground" Value="{ThemeResource TabBarItemForegroundSelected}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabBarItemForegroundSelected}" />
-										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource TabBarItemBorderBrushSelected}" />
 									</VisualState.Setters>
 								</VisualState>
 								<not_mobile:VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
 										<Setter Target="Icon.Foreground" Value="{ThemeResource TabBarItemForegroundSelected}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabBarItemForegroundSelected}" />
-										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource TabBarItemBorderBrushSelected}" />
 										<Setter Target="LayoutRoot.Background" Value="{ThemeResource TabBarItemBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
@@ -288,7 +279,6 @@
 									<VisualState.Setters>
 										<Setter Target="Icon.Foreground" Value="{ThemeResource TabBarItemForegroundSelected}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabBarItemForegroundSelected}" />
-										<Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource TabBarItemBorderBrushSelected}" />
 										<Setter Target="LayoutRoot.Background" Value="{ThemeResource TabBarItemBackgroundPointerOver}" />
 									</VisualState.Setters>
 								</not_mobile:VisualState>
@@ -382,14 +372,10 @@
 		BasedOn="{StaticResource SimpleTopTabBarItemStyle}"
 		TargetType="utu:TabBarItem" />
 
-	<!--  The inherited bottom underline is a horizontal-tab affordance; in a vertical stack it
-		 reads as a stray divider, and selection is carried by the bar-level edge indicator.  -->
 	<Style
 		x:Key="SimpleVerticalTabBarItemStyle"
 		BasedOn="{StaticResource SimpleTopTabBarItemStyle}"
-		TargetType="utu:TabBarItem">
-		<Setter Property="BorderThickness" Value="0" />
-	</Style>
+		TargetType="utu:TabBarItem" />
 
 	<Style
 		x:Key="SimpleBottomTabBarItemStyle"
