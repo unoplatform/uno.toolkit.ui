@@ -380,16 +380,11 @@ namespace Uno.Toolkit.UI
 				Action<TSender, TypedEventHandler<TSender, TArgs>> detach)
 				where TSender : class
 			{
-				// The whole point of this wrapper is that the global event singleton holds only a
-				// WeakReference back. That guarantee is defeated if a caller passes a capturing lambda:
-				// its closure display-class would be rooted by the delegate (Target != null) and would
-				// in turn root whatever it captured. Callers must pass static/non-capturing delegates
-				// (Target == null); assert it in DEBUG so an accidental capture is caught during dev.
-				// Fully qualified: on net*-android an unqualified `Debug` binds to the inherited
-				// Android.Views.ViewGroup.Debug(int) method (CS0119), not System.Diagnostics.Debug.
-				System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-				System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-
+				// The `static` modifier on each call site's lambda is what enforces the no-capture
+				// contract, and it does so at compile time. Do not add a runtime `onEvent.Target is null`
+				// check: Roslyn emits a non-capturing lambda as an instance method on a cached `<>c`
+				// singleton, so its Target is non-null (fieldless) and such a check trips on correct
+				// call sites. Only a static *method group* has a null Target.
 				var weakTarget = new WeakReference<SafeAreaDetails>(target);
 				TypedEventHandler<TSender, TArgs> h = null!;
 				h = (s, e) =>

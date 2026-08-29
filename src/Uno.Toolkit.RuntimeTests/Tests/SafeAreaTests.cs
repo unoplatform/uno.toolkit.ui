@@ -87,6 +87,27 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreEqual((nameof(grid0), customBounds), effectiveUpdates[0]);
 		}
 
+		[TestMethod]
+		[RequiresFullWindow]
+		public async Task RegisterEvents_SubscribesWithoutTrippingCaptureCheck()
+		{
+			// Regression for the CreateWeakHandler capture check (b2844ea6): it asserted
+			// `onEvent.Target is null` as a proxy for "non-capturing". Roslyn emits a non-capturing
+			// lambda as an instance method on a cached <>c singleton, so Target is non-null even for
+			// the `static` lambdas RegisterEvents passes. The assert therefore tripped on its own
+			// correct call sites and terminated any DEBUG app that loaded an element with
+			// SafeArea.Insets set. Only a static *method group* has a null Target.
+			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
+			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			Assert.IsNotNull(
+				SafeArea.SafeAreaDetails.FindInstance(grid),
+				"SafeArea must attach and complete RegisterEvents() when the owner loads.");
+		}
+
 #if DEBUG && !__ANDROID__ && !WINDOWS_WINUI
 		[TestMethod]
 		[RequiresFullWindow]
