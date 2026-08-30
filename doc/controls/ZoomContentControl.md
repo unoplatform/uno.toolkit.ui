@@ -81,3 +81,9 @@ The `PanWheelRatio` property determines how many pixels to move per mouse wheel 
 Press and hold the middle button.
 Drag to move the content.
 Release the mouse button to stop panning.
+
+#### Touch and Pen (Pinch to Zoom, Drag to Pan)
+
+Pinch/stretch with two fingers to zoom in/out around the gesture's center point.
+Drag with a single finger (or pen) to pan; the content follows the finger.
+Both respect the same gates as the mouse interactions (`IsZoomAllowed`, `IsPanAllowed`, `MinZoomLevel`/`MaxZoomLevel`).
