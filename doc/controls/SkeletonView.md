@@ -84,8 +84,8 @@ Like `LoadingView`, the skeleton state can follow any `ILoadable` (such as an as
 
 ## Lightweight Styling
 
-Key | Type | Value
---- | ---- | -----
-`SkeletonViewBackground` | `SolidColorBrush` | `#E0E0E0` (Dark: `#3D3D3D`)
-`SkeletonViewShimmerBrush` | `LinearGradientBrush` | Horizontal transparent → `#F5F5F5` → transparent (Dark: `#4D4D4D`)
-`SkeletonViewCornerRadius` | `CornerRadius` | `4`
+| Key                        | Type                  | Value                                                              |
+|----------------------------|-----------------------|--------------------------------------------------------------------|
+| `SkeletonViewBackground`   | `SolidColorBrush`     | `#E0E0E0` (Dark: `#3D3D3D`)                                        |
+| `SkeletonViewShimmerBrush` | `LinearGradientBrush` | Horizontal transparent → `#F5F5F5` → transparent (Dark: `#4D4D4D`) |
+| `SkeletonViewCornerRadius` | `CornerRadius`        | `4`                                                                |
