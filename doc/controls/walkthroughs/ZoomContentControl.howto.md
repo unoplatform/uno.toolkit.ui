@@ -9,7 +9,7 @@ tags: [zoom, pan, pinch-zoom, zoom-control, image-zoom, map-zoom]
 
 ## Pan & zoom large content
 
-Place any visual inside `ZoomContentControl` to enable pinch‑zoom and panning.
+Place any visual inside `ZoomContentControl` to enable zooming and panning (Ctrl + mouse wheel zooms, the wheel scrolls, middle-click-drag pans).
 
 ```xml
 <Page
@@ -21,12 +21,13 @@ Place any visual inside `ZoomContentControl` to enable pinch‑zoom and panning.
 </Page>
 ```
 
-## Reset zoom programmatically
+## Drive the zoom from code
 
-Call methods from code‑behind/view‑model.
+`ZoomLevel` is a plain `double` dependency property — set it (or bind it) directly, and use the built-in helpers for the common actions:
 
 ```csharp
 // x:Name="Zoomer"
-Zoomer.ZoomTo(1.0f);          // 100%
-Zoomer.ZoomToRect(new Rect(0,0,500,300));
+Zoomer.ZoomLevel = 2.0;   // zoom to 200%; also bindable from a view-model
+Zoomer.FitToCanvas();     // pick the ZoomLevel that fits the content to the viewport
+Zoomer.ResetViewport();   // back to 100%, re-centered (ResetZoom + CenterContent)
 ```
