@@ -16,6 +16,7 @@ The `Uno.Toolkit.UI` library adds the following controls:
 - [`LoadingView`](controls/LoadingView.md): A control that indicates that the UI is waiting on a task to complete.
 - [`NavigationBar`](controls/NavigationBar.md): A custom control that helps implement navigation logic for your application.
 - [`ShadowContainer`](controls/ShadowContainer.md): A content control allowing you to add multiple shadows to your content.
+- [`SkeletonView`](controls/SkeletonView.md): A control that visually replaces its content with auto-generated skeleton placeholders while loading.
 - [`TabBar` and `TabBarItem`](controls/TabBarAndTabBarItem.md): A list of selectable items that can be used to facilitate lateral navigation within an application.
 
 ## Helpers
