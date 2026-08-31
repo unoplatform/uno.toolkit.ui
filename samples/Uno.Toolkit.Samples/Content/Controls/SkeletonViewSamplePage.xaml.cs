@@ -2,7 +2,7 @@ using Uno.Toolkit.Samples.ViewModels;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, "SkeletonView", SourceSdk.UnoToolkit, DataType = typeof(SkeletonViewViewModel))]
+	[SamplePage(SampleCategory.Controls, "SkeletonView", SourceSdk.UnoToolkit, DataType = typeof(SkeletonViewViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
 	public sealed partial class SkeletonViewSamplePage : Page
 	{
 		public SkeletonViewSamplePage()
@@ -12,32 +12,47 @@ namespace Uno.Toolkit.Samples.Content.Controls
 
 		public class SkeletonViewViewModel : ViewModelBase
 		{
-			private bool _isLoading = true;
-
 			public bool IsLoading
 			{
-				get => _isLoading;
+				get => GetProperty<bool>();
 				set
 				{
-					if (_isLoading != value)
+					SetProperty(value);
+
+					if (!value && Title is null)
 					{
-						_isLoading = value;
-						OnPropertyChanged();
+						PopulateData();
 					}
 				}
 			}
+
+			public string? Title { get => GetProperty<string>(); set => SetProperty(value); }
+			public string? Subtitle { get => GetProperty<string>(); set => SetProperty(value); }
+			public string? Description { get => GetProperty<string>(); set => SetProperty(value); }
 
 			public AsyncCommand LoadDataCommand { get; }
 
 			public SkeletonViewViewModel()
 			{
+				IsLoading = true;
 				LoadDataCommand = new AsyncCommand(LoadDataAsync);
 			}
 
 			private async Task LoadDataAsync()
 			{
+				Title = Subtitle = Description = null;
+
 				// Simulate loading data
 				await Task.Delay(2000);
+
+				PopulateData();
+			}
+
+			private void PopulateData()
+			{
+				Title = "John Doe";
+				Subtitle = "Software Engineer";
+				Description = "This is the actual content that appears once loading completes. While the data was being fetched, placeholders matching this layout were generated automatically.";
 			}
 		}
 
@@ -76,6 +91,10 @@ namespace Uno.Toolkit.Samples.Content.Controls
 				{
 					IsExecuting = true;
 					await _executeAsync();
+				}
+				catch (Exception)
+				{
+					// Simulated load; nothing to surface. async void must not throw.
 				}
 				finally
 				{
