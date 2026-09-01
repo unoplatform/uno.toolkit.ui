@@ -64,6 +64,7 @@ namespace Uno.Toolkit.UI
 		private Canvas? _overlay;
 		private Storyboard? _shimmerStoryboard;
 		private bool _isReady;
+		private bool _isWaitingForContent;
 
 		public SkeletonView()
 		{
@@ -114,6 +115,44 @@ namespace Uno.Toolkit.UI
 		{
 			_sourceSubscription.Disposable = null;
 			StopShimmer();
+			UnhookLayoutUpdated();
+		}
+
+		/// <summary>
+		/// Called before placeholders are collected, allowing derived controls to prepare
+		/// the (invisible) content tree — e.g. stamping placeholder rows into empty list controls.
+		/// Must be idempotent: it runs on every generation pass.
+		/// </summary>
+		private protected virtual void PrepareSkeletonContent(DependencyObject contentRoot)
+		{
+		}
+
+		private void HookLayoutUpdated()
+		{
+			if (_isWaitingForContent) return;
+
+			_isWaitingForContent = true;
+			LayoutUpdated += OnLayoutUpdated;
+		}
+
+		private void UnhookLayoutUpdated()
+		{
+			if (!_isWaitingForContent) return;
+
+			_isWaitingForContent = false;
+			LayoutUpdated -= OnLayoutUpdated;
+		}
+
+		private void OnLayoutUpdated(object? sender, object e)
+		{
+			if (IsLoading)
+			{
+				GenerateOverlay(); // unhooks itself once content materializes
+			}
+			else
+			{
+				UnhookLayoutUpdated();
+			}
 		}
 
 		private void OnSourceChanged() => BindSource();
@@ -175,6 +214,7 @@ namespace Uno.Toolkit.UI
 				VisualStateManager.GoToState(this, VisualStateNames.SkeletonHidden, useTransitions: IsLoaded);
 				StopShimmer();
 				ClearOverlay();
+				UnhookLayoutUpdated();
 			}
 		}
 
@@ -183,8 +223,22 @@ namespace Uno.Toolkit.UI
 			if (_overlay is null || _contentPresenter is null) return;
 			if (_overlay.ActualWidth < EmptySizeThreshold || _overlay.ActualHeight < EmptySizeThreshold) return; // not laid out yet
 
+			PrepareSkeletonContent(_contentPresenter);
+
 			var placeholders = new List<PlaceholderInfo>();
 			CollectPlaceholders(_contentPresenter, placeholders);
+
+			// Content that materializes asynchronously (e.g. list containers realized for injected placeholder
+			// items) can appear without resizing the presenter or the overlay; while loading yields nothing,
+			// retry on layout activity until something materializes.
+			if (placeholders.Count == 0)
+			{
+				HookLayoutUpdated();
+			}
+			else
+			{
+				UnhookLayoutUpdated();
+			}
 
 			if (placeholders.SequenceEqual(_lastPlaceholders))
 			{
@@ -216,12 +270,12 @@ namespace Uno.Toolkit.UI
 				}
 
 				var fe = element as FrameworkElement;
-				if (fe is { } && GetIgnore(fe))
+				if (fe is { } && Skeleton.GetIgnore(fe))
 				{
 					continue;
 				}
 
-				var shape = fe is { } ? GetShape(fe) : SkeletonShape.Auto;
+				var shape = fe is { } ? Skeleton.GetShape(fe) : SkeletonShape.Auto;
 				if (fe is { } && (shape != SkeletonShape.Auto || IsSkeletonLeaf(element)))
 				{
 					if (TryCreatePlaceholderInfo(fe, shape, out var info))

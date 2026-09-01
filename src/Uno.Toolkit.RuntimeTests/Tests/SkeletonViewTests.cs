@@ -117,7 +117,7 @@ public class SkeletonViewTests
 	public async Task When_Ignore_Set_Subtree_Skipped()
 	{
 		var ignored = new StackPanel { Children = { new TextBlock { Text = "ignored" }, new TextBlock { Text = "also ignored" } } };
-		SkeletonView.SetIgnore(ignored, true);
+		Skeleton.SetIgnore(ignored, true);
 		var sut = new SkeletonView
 		{
 			EnableShimmer = false,
@@ -133,7 +133,7 @@ public class SkeletonViewTests
 	public async Task When_Shape_Circle_Forced()
 	{
 		var square = new Border { Width = 64, Height = 64, Background = new SolidColorBrush(Microsoft.UI.Colors.Blue) };
-		SkeletonView.SetShape(square, SkeletonShape.Circle);
+		Skeleton.SetShape(square, SkeletonShape.Circle);
 		var sut = new SkeletonView
 		{
 			EnableShimmer = false,

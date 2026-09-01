@@ -9,6 +9,24 @@
 	  mc:Ignorable="d"
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+	<Page.Resources>
+		<DataTemplate x:Key="PersonRowTemplate">
+			<StackPanel Margin="0,6"
+						Orientation="Horizontal"
+						Spacing="12">
+				<Ellipse Width="40"
+						 Height="40"
+						 Fill="{ThemeResource SystemControlHighlightAccentBrush}" />
+				<StackPanel VerticalAlignment="Center"
+							Spacing="4">
+					<TextBlock Text="{Binding Name}" />
+					<TextBlock FontSize="12"
+							   Text="{Binding Title}" />
+				</StackPanel>
+			</StackPanel>
+		</DataTemplate>
+	</Page.Resources>
+
 	<sample:SamplePageLayout x:Name="SamplePageLayout"
 							 IsDesignAgnostic="True">
 		<sample:SamplePageLayout.DesignAgnosticTemplate>
@@ -69,18 +87,18 @@
 						<TextBlock Margin="0,16,0,0"
 								   Style="{StaticResource TitleTextBlockStyle}"
 								   Text="Overrides" />
-						<TextBlock Text="A static header is excluded with SkeletonView.Ignore; a square image is forced into a circle with SkeletonView.Shape."
+						<TextBlock Text="A static header is excluded with Skeleton.Ignore; a square image is forced into a circle with Skeleton.Shape."
 								   TextWrapping="Wrap" />
 
 						<utu:SkeletonView EnableShimmer="False"
 										  IsLoading="{Binding Data.IsLoading}">
 							<StackPanel Spacing="12">
-								<TextBlock utu:SkeletonView.Ignore="True"
+								<TextBlock utu:Skeleton.Ignore="True"
 										   Style="{StaticResource SubtitleTextBlockStyle}"
 										   Text="Always visible header" />
 								<StackPanel Orientation="Horizontal"
 											Spacing="12">
-									<Border utu:SkeletonView.Shape="Circle"
+									<Border utu:Skeleton.Shape="Circle"
 											Width="64"
 											Height="64"
 											Background="{ThemeResource SystemControlHighlightAccentBrush}" />
@@ -89,6 +107,22 @@
 								</StackPanel>
 							</StackPanel>
 						</utu:SkeletonView>
+
+						<!-- Section 4: template-driven skeleton (SkeletonPresenter) -->
+						<TextBlock Margin="0,16,0,0"
+								   Style="{StaticResource TitleTextBlockStyle}"
+								   Text="Template-driven (SkeletonPresenter)" />
+						<TextBlock Text="The same DataTemplate that renders real list items also drives the skeleton — empty list controls are stamped with placeholder rows. This is what utu:Skeleton.IsEnabled injects as a FeedView's ProgressTemplate."
+								   TextWrapping="Wrap" />
+
+						<utu:SkeletonPresenter utu:Skeleton.PlaceholderCount="3"
+											   MaxHeight="220">
+							<utu:SkeletonPresenter.ContentTemplate>
+								<DataTemplate>
+									<ListView ItemTemplate="{StaticResource PersonRowTemplate}" />
+								</DataTemplate>
+							</utu:SkeletonPresenter.ContentTemplate>
+						</utu:SkeletonPresenter>
 
 					</StackPanel>
 				</ScrollViewer>

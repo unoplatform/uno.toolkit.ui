@@ -4,7 +4,11 @@ uid: Toolkit.Controls.SkeletonView
 
 # SkeletonView
 
-Wraps content and, while loading, visually replaces it with auto-generated skeleton placeholders and an optional shimmer animation.
+Auto-generated skeleton placeholders with an optional shimmer animation, in three flavors:
+
+- `SkeletonView` wraps live content and visually replaces it with placeholders while loading.
+- `SkeletonPresenter` derives a skeleton from a `DataTemplate` — for loading templates where the real content isn't in the tree yet.
+- The `Skeleton.IsEnabled` attached property injects a `SkeletonPresenter` as the `ProgressTemplate` of a state-aware control (such as `FeedView` from Uno.Extensions) with no skeleton markup at all.
 
 ## Overview
 
@@ -26,12 +30,15 @@ For elements that have no value yet (an empty data-bound `TextBlock`, an `Image`
 | `ShimmerBrush`            | `Brush`        | Brush of the band swept across the placeholders; typically a horizontal `LinearGradientBrush` fading in and out of transparency. |
 | `PlaceholderCornerRadius` | `CornerRadius` | Corner radius of the generated rectangular placeholders.                                                          |
 
-### Attached properties
+### Skeleton attached properties
 
-| Property               | Type            | Description                                                                                                        |
-|------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------|
-| `SkeletonView.Ignore`  | `bool`          | Excludes an element and its subtree from placeholder generation (e.g. a static header that should stay visible in structure). |
-| `SkeletonView.Shape`   | `SkeletonShape` | Forces the placeholder shape for an element: `Auto` (default), `Rectangle`, or `Circle`. A non-`Auto` value also makes the element a generation leaf — a single placeholder covers it and its subtree is not visited. |
+| Property                       | Type            | Description                                                                                                        |
+|--------------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------|
+| `Skeleton.Ignore`              | `bool`          | Excludes an element and its subtree from placeholder generation (e.g. a static header that should stay visible in structure). |
+| `Skeleton.Shape`               | `SkeletonShape` | Forces the placeholder shape for an element: `Auto` (default), `Rectangle`, or `Circle`. A non-`Auto` value also makes the element a generation leaf — a single placeholder covers it and its subtree is not visited. |
+| `Skeleton.IsEnabled`           | `bool`          | Set on a control exposing a `ProgressTemplate` (e.g. `FeedView`) to inject an auto-generated skeleton as that template. An explicitly assigned `ProgressTemplate` is never overwritten. |
+| `Skeleton.PlaceholderTemplate` | `DataTemplate`  | Overrides the template the injected skeleton is derived from (default: the target's `ValueTemplate`).              |
+| `Skeleton.PlaceholderCount`    | `int`           | How many placeholder rows are stamped into empty list controls of a derived skeleton. Default is `4`.              |
 
 With `SkeletonShape.Auto`, an `Ellipse` produces a circle and every other leaf produces a rounded rectangle.
 
@@ -72,15 +79,51 @@ Like `LoadingView`, the skeleton state can follow any `ILoadable` (such as an as
 <utu:SkeletonView IsLoading="{Binding IsBusy}">
 	<StackPanel Spacing="12">
 		<!-- excluded from generation -->
-		<TextBlock utu:SkeletonView.Ignore="True" Text="Static header" />
+		<TextBlock utu:Skeleton.Ignore="True" Text="Static header" />
 
 		<!-- forced into a circular placeholder, subtree not visited -->
-		<Border utu:SkeletonView.Shape="Circle" Width="64" Height="64">
+		<Border utu:Skeleton.Shape="Circle" Width="64" Height="64">
 			<Image Source="{Binding AvatarUrl}" />
 		</Border>
 	</StackPanel>
 </utu:SkeletonView>
 ```
+
+### FeedView (automatic injection)
+
+For controls whose loading state is a *separate template* — like `FeedView` from Uno.Extensions, which shows its `ProgressTemplate` while the feed loads — a single attached property injects the whole skeleton:
+
+```xml
+<mvux:FeedView Source="{Binding People}"
+			   utu:Skeleton.IsEnabled="True">
+	<DataTemplate>
+		<ListView ItemsSource="{Binding Data}"
+				  ItemTemplate="{StaticResource PersonItem}" />
+	</DataTemplate>
+</mvux:FeedView>
+```
+
+While the feed is loading, an auto-generated skeleton is shown, derived from the `ValueTemplate` itself: empty list controls inside it are stamped with `Skeleton.PlaceholderCount` placeholder rows of their own `ItemTemplate`, so the skeleton can never drift from the real layout. Notes:
+
+- The target is resolved by convention (`ProgressTemplate`/`ValueTemplate` dependency properties, found reflectively), so the toolkit takes no dependency on Uno.Extensions — and the same convention works on any control that follows it.
+- A `ProgressTemplate` you assign yourself always wins; `Skeleton.IsEnabled` never overwrites it.
+- Set `Skeleton.PlaceholderTemplate` on the same element to derive the skeleton from a different template than the `ValueTemplate`.
+
+### SkeletonPresenter (template-driven, manual)
+
+`SkeletonPresenter` is what the injection drops in — an always-loading `SkeletonView` that derives its skeleton from a template instead of live content. It can also be used directly inside any loading slot (e.g. `LoadingView.LoadingContent`, or a hand-written `ProgressTemplate`):
+
+```xml
+<utu:SkeletonPresenter utu:Skeleton.PlaceholderCount="3">
+	<utu:SkeletonPresenter.ContentTemplate>
+		<DataTemplate>
+			<ListView ItemTemplate="{StaticResource PersonItem}" />
+		</DataTemplate>
+	</utu:SkeletonPresenter.ContentTemplate>
+</utu:SkeletonPresenter>
+```
+
+It inherits all of `SkeletonView`'s appearance properties and theme resources.
 
 ## Lightweight Styling
 
