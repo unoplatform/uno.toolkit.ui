@@ -86,4 +86,16 @@
 	<Style TargetType="utu:SkeletonView"
 		   BasedOn="{StaticResource DefaultSkeletonView}" />
 
+	<Style x:Key="DefaultSkeletonPresenter"
+		   TargetType="utu:SkeletonPresenter"
+		   BasedOn="{StaticResource DefaultSkeletonView}" />
+
+	<Style TargetType="utu:SkeletonPresenter"
+		   BasedOn="{StaticResource DefaultSkeletonPresenter}" />
+
+	<!-- Injected as ProgressTemplate by Skeleton.IsEnabled -->
+	<DataTemplate x:Key="SkeletonDefaultProgressTemplate">
+		<utu:SkeletonPresenter />
+	</DataTemplate>
+
 </ResourceDictionary>

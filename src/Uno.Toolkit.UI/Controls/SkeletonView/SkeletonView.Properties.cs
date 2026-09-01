@@ -11,21 +11,6 @@ using Windows.UI.Xaml.Media;
 
 namespace Uno.Toolkit.UI
 {
-	/// <summary>
-	/// Defines the placeholder shape that <see cref="SkeletonView"/> generates for an element.
-	/// </summary>
-	public enum SkeletonShape
-	{
-		/// <summary>The shape is inferred from the element (an <c>Ellipse</c> becomes a circle, everything else a rounded rectangle).</summary>
-		Auto,
-
-		/// <summary>A rounded rectangle.</summary>
-		Rectangle,
-
-		/// <summary>A circle, sized to the smaller dimension of the element and centered within its bounds.</summary>
-		Circle,
-	}
-
 	public partial class SkeletonView
 	{
 		#region DependencyProperty: IsLoading
@@ -160,50 +145,6 @@ namespace Uno.Toolkit.UI
 			get => (CornerRadius)GetValue(PlaceholderCornerRadiusProperty);
 			set => SetValue(PlaceholderCornerRadiusProperty, value);
 		}
-
-		#endregion
-
-		#region AttachedProperty: Ignore
-
-		/// <summary>
-		/// Backing property for whether an element and its subtree are excluded from skeleton generation.
-		/// </summary>
-		[DynamicDependency(nameof(GetIgnore))]
-		[DynamicDependency(nameof(SetIgnore))]
-		public static readonly DependencyProperty IgnoreProperty = DependencyProperty.RegisterAttached(
-			"Ignore",
-			typeof(bool),
-			typeof(SkeletonView),
-			new PropertyMetadata(false));
-
-		/// <summary>Gets whether the element and its subtree are excluded from skeleton generation.</summary>
-		public static bool GetIgnore(FrameworkElement element) => (bool)element.GetValue(IgnoreProperty);
-
-		/// <summary>Sets whether the element and its subtree are excluded from skeleton generation.</summary>
-		public static void SetIgnore(FrameworkElement element, bool value) => element.SetValue(IgnoreProperty, value);
-
-		#endregion
-
-		#region AttachedProperty: Shape
-
-		/// <summary>
-		/// Backing property for the placeholder shape forced onto an element.
-		/// Setting a value other than <see cref="SkeletonShape.Auto"/> also makes the element a generation leaf:
-		/// a single placeholder covers it and its subtree is not visited.
-		/// </summary>
-		[DynamicDependency(nameof(GetShape))]
-		[DynamicDependency(nameof(SetShape))]
-		public static readonly DependencyProperty ShapeProperty = DependencyProperty.RegisterAttached(
-			"Shape",
-			typeof(SkeletonShape),
-			typeof(SkeletonView),
-			new PropertyMetadata(SkeletonShape.Auto));
-
-		/// <summary>Gets the placeholder shape forced onto the element.</summary>
-		public static SkeletonShape GetShape(FrameworkElement element) => (SkeletonShape)element.GetValue(ShapeProperty);
-
-		/// <summary>Sets the placeholder shape forced onto the element.</summary>
-		public static void SetShape(FrameworkElement element, SkeletonShape value) => element.SetValue(ShapeProperty, value);
 
 		#endregion
 	}
