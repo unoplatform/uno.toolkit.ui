@@ -1,7 +1,6 @@
 <Project ToolsVersion="15.0">
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-		<SkiaSharpVersion>3.119.2</SkiaSharpVersion>
 		<UnoThemesVersion>8.0.0-dev.15</UnoThemesVersion>
 	</PropertyGroup>
 	<ItemGroup>
