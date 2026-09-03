@@ -114,7 +114,7 @@ public partial class ShadowContainer
 			}
 			else
 			{
-				canvas.DrawImage(snapshot, SKPoint.Empty);
+				canvas.DrawImage(snapshot, SKPoint.Empty, SKSamplingOptions.Default);
 				OnSurfacePaintCompleted(createdNewCanvas: false);
 				return null;
 			}
