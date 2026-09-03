@@ -7,7 +7,6 @@
 					xmlns:ios="http://uno.ui/ios"
 					xmlns:wasm="http://uno.ui/wasm"
 					xmlns:macos="http://uno.ui/macos"
-					xmlns:toolkit="using:Uno.UI.Toolkit"
 					mc:Ignorable="android ios wasm macos">
 
 	<ItemsPanelTemplate x:Key="MaterialHorizontalChipGroupItemsPanel">

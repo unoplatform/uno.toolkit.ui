@@ -27,7 +27,7 @@ namespace Uno.Toolkit.RuntimeTests.Helpers
 		{
 			[string.Empty] = "http://schemas.microsoft.com/winfx/2006/xaml/presentation",
 			["x"] = "http://schemas.microsoft.com/winfx/2006/xaml",
-			["toolkit"] = "using:Uno.UI.Toolkit", // uno utilities
+			["toolkit"] = "using:Uno.UI.Xaml.Controls", // uno utilities (ex-Uno.UI.Toolkit; extensions now live in Uno.UI.Xaml)
 			["utu"] = "using:Uno.Toolkit.UI", // this library
 			["muxc"] = "using:Microsoft.UI.Xaml.Controls",
 		};
