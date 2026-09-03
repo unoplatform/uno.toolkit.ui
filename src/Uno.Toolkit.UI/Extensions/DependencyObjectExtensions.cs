@@ -98,11 +98,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static T? FindChild<T>(this DependencyObject depObj)
-		where T :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+		where T : DependencyObject
 		{
 			if (depObj == null) return default(T);
 
@@ -117,11 +113,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static T? GetFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
-		where T :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+		where T : DependencyObject
 		{
 			var c = element.GetAncestors(includeCurrent);
 			return c.OfType<T>().FirstOrDefault();
