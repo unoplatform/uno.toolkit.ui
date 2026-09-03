@@ -528,7 +528,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			public NavBarTestPage()
 			{
-				Content = PageContent;
+				Content = PageContent!;
 			}
 		}
 
