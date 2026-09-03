@@ -4,7 +4,6 @@
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  xmlns:ios="http://uno.ui/ios"
 	  mc:Ignorable="d ios"
