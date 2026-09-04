@@ -1,5 +1,9 @@
 # MIT License
 
+> Uno Toolkit includes vendored third-party material. See
+> [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for those components and their licenses.
+
+
 Copyright (c) 2021 Uno Platform
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
