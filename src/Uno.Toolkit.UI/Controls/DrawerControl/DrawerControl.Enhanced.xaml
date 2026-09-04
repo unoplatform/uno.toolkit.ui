@@ -12,8 +12,8 @@
 					xmlns:todo="what should be done"
 					mc:Ignorable="todo xamarin">
 
-	<x:Double x:Key="PaneToggleButtonHeight">40</x:Double>
-	<x:Double x:Key="NavigationViewPaneHeaderRowMinHeight">4</x:Double>
+	<x:Double x:Key="DrawerPaneToggleButtonHeight">40</x:Double>
+	<x:Double x:Key="DrawerNavigationViewPaneHeaderRowMinHeight">4</x:Double>
 	<StaticResource x:Key="DrawerControlDrawerBackgroundBrush"
 					ResourceKey="SystemControlBackgroundChromeMediumLowBrush" />
 	<SolidColorBrush x:Key="SplitViewDrawerLightDismissOverlayBackgroundBrush"
@@ -168,7 +168,7 @@
 											<!-- above button margin + back button space -->
 											<RowDefinition x:Name="PaneContentGridToggleButtonRow"
 														   Height="Auto"
-														   MinHeight="{StaticResource NavigationViewPaneHeaderRowMinHeight}" />
+														   MinHeight="{StaticResource DrawerNavigationViewPaneHeaderRowMinHeight}" />
 											<RowDefinition Height="Auto" />
 											<RowDefinition Height="Auto" />
 											<RowDefinition Height="8" />
@@ -182,7 +182,7 @@
 
 										<Grid Grid.Row="2"
 											  x:Name="PaneHeaderContentBorderWrapper"
-											  MinHeight="{StaticResource NavigationViewPaneHeaderRowMinHeight}">
+											  MinHeight="{StaticResource DrawerNavigationViewPaneHeaderRowMinHeight}">
 											<!-- TODO: Uno specific: MinHeight and x:Name used here as RowDefinifiont.MinHeight does not work (issue #4727) -->
 											<Grid.RowDefinitions>
 												<RowDefinition x:Name="PaneHeaderContentBorderRow" />
@@ -307,7 +307,7 @@
 										<ContentControl x:Name="HeaderContent"
 														Grid.Row="1"
 														Grid.Column="1"
-														MinHeight="{StaticResource PaneToggleButtonHeight}"
+														MinHeight="{StaticResource DrawerPaneToggleButtonHeight}"
 														IsTabStop="False"
 														Content="{TemplateBinding Header}"
 														ContentTemplate="{TemplateBinding HeaderTemplate}"
