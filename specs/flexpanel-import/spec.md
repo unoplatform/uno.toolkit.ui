@@ -18,7 +18,7 @@ This spec covers importing that code as a **new, additive** `FlexPanel` control.
 | | Extend `AutoLayout` | Import Yoga + `FlexPanel` |
 |---|---|---|
 | Algorithm | hand-written CSS §9 | Yoga, already written |
-| Conformance evidence | tests we author | 26 upstream generated test files, ~1,300 assertions |
+| Conformance evidence | tests we author | 26 upstream generated test files, 590 tests, 17,784 assertions |
 | Figma semantics | must keep (hijacked `Padding`, hug/fill roles) | not our problem — separate control |
 | Breaking-change risk to existing `AutoLayout` users | high (every behavior change is a regression surface) | zero |
 | Ongoing cost | we own the algorithm forever | we own ~1,000 LOC of adapter; engine is a vendored fork |
@@ -67,7 +67,7 @@ Not gaps — the behavior is reachable, but only through a non-obvious translati
 ### Genuine gaps
 
 - **G1 — `IsIndependentLayout` is a different positioning model, not a remappable property.** The child is arranged into `new Rect(default, finalSize)` — the whole panel rect, padding ignored — then positioned by its *own* `HorizontalAlignment` / `VerticalAlignment` / `Margin`; `doc/controls/walkthroughs/AutoLayout.howto.md` documents exactly that ("position it with normal alignments"). Yoga's `Position: Absolute` is inset-driven off the *padding box* and never consults WinUI alignment, so `Margin="10,280,0,0"` + `VerticalAlignment="Top"` (asserted at `Y = 280` in `When_Space_between_With_AbsolutePosition`) becomes `Top="270"` — a different number through a different mechanism. Separately, `MeasureIndependentChildren` folds these children into the panel's desired size (`Math.Max` on both axes), where CSS absolutely-positioned children contribute nothing to container intrinsic size. Both non-portable tests fail here.
-- **G2 — negative `Spacing` has no container-level equivalent.** CSS `gap` is non-negative. Four of `When_AbsolutePosition_WithPadding`'s nine rows use `spacing: -30` / `-20`, and the overlapping-avatar samples use `Spacing="-10"` / `"-20"` (`samples/Uno.Toolkit.Samples/Content/Controls/AutoLayoutPage.xaml:51,87,163`). The *capability* survives via negative child `Margin` (Yoga supports negative margins); the container property does not. **P1 must verify** whether Yoga's gap resolution clamps negatives to `0` — the engine is not vendored yet, so this could not be checked.
+- **G2 — negative `Spacing` has no container-level equivalent.** CSS `gap` is non-negative. Four of `When_AbsolutePosition_WithPadding`'s nine rows use `spacing: -30` / `-20`, and the overlapping-avatar samples use `Spacing="-10"` / `"-20"` (`samples/Uno.Toolkit.Samples/Content/Controls/AutoLayoutPage.xaml:51,87,163`). The *capability* survives via negative child `Margin` (Yoga supports negative margins); the container property does not. **Answered in P1 — Yoga clamps.** `YogaStyle.ComputeGapForAxis` is the single gap entry point for both `YogaAlgorithm` call sites and ends in `YogaFloat.MaxOrDefined(gap.Resolve(ownerSize), 0)`, i.e. `MathF.Max(x, 0)`. So G2 stands as a genuine gap, exactly as described.
 - **G3 — overflow is truncated, not shrunk or overflowed.** A child longer than the remaining space is clamped to it (`Arrange.cs:213`), against a padding box that omits the non-anchored side. Under M1 the *offsets* match CSS but the arranged *size* does not: a 350px child in a 300px slot arranges at 300 under `AutoLayout`, at 350 (overflowing) under `FlexPanel`. No test asserts it — the padding tests check offsets only — but consumers see it.
 - **G4 — no frame chrome.** `AutoLayout : RelativePanel` inherits *public* `Padding`, `BorderBrush`, `BorderThickness` and `CornerRadius` (declared in Uno's `RelativePanel.Properties.cs`); `Panel` exposes only the `internal` `PaddingInternal` / `BorderThicknessInternal` / `CornerRadiusInternal` plumbing, which `Uno.Toolkit.UI` cannot reach. `FlexPanel : Panel` therefore declares its own `Padding` (D3) but **cannot draw a border or corner radius at all** — a wrapping `Border` is required. This is broader than the deferred "Yoga-measured `BorderThickness`", which is about measurement; this is about rendering. `AutoLayout` also folds `BorderThickness` into both measure and arrange.
 - **G5 — `IsReverseZIndex` needs a justify flip.** Despite the name (and the howto's claim that it "does not change layout order"), the arrange loop iterates children in reverse while `currentOffset` still increases — so it reverses *positional* order and leaves paint order, which follows the `Children` index, untouched. `Direction="RowReverse"` plus the mirrored `JustifyContent` reproduces both. Listed here rather than as a mapping rule because the doc is wrong and should be fixed independently of this work.
@@ -175,6 +175,15 @@ src/Uno.Toolkit.UI/
 
 Splitting DPs into `FlexPanel.Properties.cs` follows `AutoLayout`'s existing file layout. The vendored folder is *not* under `Controls/` because it is not a control and must not be confused for our code; its `README.md` pins the upstream SHA so the next sync is a diff, not an archaeology exercise.
 
+⚠️ **Namespace correction (P1).** This spec originally called for namespace `Uno.Toolkit.UI.Layout`. **That name is unavailable**: `Uno.Toolkit.UI` already declares `public enum Layout` (`Helpers/ResponsiveHelper.cs:17`, consumed by `ResponsiveHelper`), a namespace cannot share a fully-qualified name with a type in the same assembly, and the enum is public API that cannot be renamed. As imported:
+
+| | namespace |
+|---|---|
+| `FlexEnums.cs` — the 6 public enums that become `FlexPanel`'s DP types | `Uno.Toolkit.UI` |
+| The other 9 engine files, all `internal` | `Uno.Toolkit.UI.Yoga` |
+
+The public enums join the flat toolkit namespace (132 of 133 files there today) so `FlexPanel.SetAlignSelf(el, FlexAlign.Center)` needs no extra `using`; C# enclosing-namespace lookup lets the engine resolve them without one either. Public surface added by the import is **exactly those 6 enum types** — everything else was already `internal` upstream, so no visibility rewrite was needed.
+
 **D3 — `Padding`, not `FlexPadding`.** Upstream needs the `Flex` prefix because Reactor's `.Padding()` DSL modifier already means "`FrameworkElement.Margin`/`Padding`". We have no such conflict: `Panel` exposes only `Background` — **there is no `Panel.Padding`** (verified against `src/Uno.UI/Generated/3.0.0.0/Microsoft.UI.Xaml.Controls/Panel.cs`). So `FlexPanel.Padding` reads exactly like `Border.Padding` and means what a XAML author expects.
 *Kept* upstream naming for `FlexMinWidth`/`FlexMinHeight`, despite the `FlexPanel.FlexMinWidth` stutter. Rejected alternative `FlexPanel.MinWidth`: it would sit next to `FrameworkElement.MinWidth` on the same element while meaning something different (the flex floor, not the measure constraint) — the stutter is cheaper than that trap.
 
@@ -193,6 +202,8 @@ This gives an escape hatch for any target where double-rounding produces drift, 
 
 **D7 — Analyzer containment via a scoped `.editorconfig`, never global `NoWarn`.** `src/Directory.Build.props` sets `TreatWarningsAsErrors=true`, `Nullable=enable`, and `AnalysisModePerformance=AllEnabledByDefault`. 4,471 LOC of C++-shaped port (`float` math, `ref` returns, big `switch`es, unused generated enum members) will not pass that clean, and *editing it to comply destroys the line-for-line correspondence that makes upstream syncs tractable*. Fix: a `.editorconfig` scoped to `src/Uno.Toolkit.UI/Layout/Yoga/` that downgrades the offending rules to `none` for that path only. AGENTS.md forbids expanding global `<NoWarn>`; this satisfies the rule and keeps the blast radius at the folder.
 
+✅ **Measured in P1: no suppressions were needed.** The vendored engine builds **zero-warning** in Release under all three settings — upstream already builds under the same `TreatWarningsAsErrors=true` + `Nullable=enable`. The scoped `.editorconfig` was still added, but it carries only `indent_style = space` / `indent_size = 4` (upstream is 4-space, the repo is tabs, and reformatting would break the line-for-line correspondence) plus a note directing any future suppression *here* rather than to the global `<NoWarn>`.
+
 **D8 — The engine's static generation counter is accepted as-is.** `YogaAlgorithm` is a static class with `private static uint s_currentGenerationCount`, self-documented "thread-unsafe", bumped via `Interlocked.Increment`. Layout runs on the UI thread on every Uno target, so the invariant holds. It is a value type, so it pins nothing and is ALC-safe. Recorded rather than refactored — divergence from upstream must be paid for.
 
 **D9 — Node cache lifetime is already handled; we still guard it.** `SyncYogaTree()` prunes `_nodeCache` / `_attachedCache` against the live `Children` on every layout pass, so removed children are released. The residual window — a panel that never lays out again after a child is removed holds that child alive — is exactly what a `LeakTest` is for (see Tests, tier 3).
@@ -206,7 +217,7 @@ This gives an escape hatch for any target where double-rounding produces drift, 
 - **FR-5** — CSS §4.5 automatic minimum size is honored on the main axis: `Basis=auto` + `FlexMinWidth=NaN` floors at min-content; `FlexMinWidth=0` or `Basis=0` opts out; `ScrollViewer`/`ScrollView` children always floor at 0 so a sizing-only pre-measure never realizes virtualized content.
 - **FR-6** — `UseLayoutRounding=false` disables Yoga's pixel-grid rounding (`PointScaleFactor=0`); `true` tracks `XamlRoot.RasterizationScale`.
 - **FR-7** — `LayoutDirection` is the *only* RTL input `FlexPanel` reads. Verified: the adapter never touches `FlowDirection` — it passes `LayoutDirection` straight into `CalculateLayout` (`FlexPanel.cs:479`, `:580`) and its DP default is `LeftToRight`, not `Inherit`. The two mirroring mechanisms are therefore fully independent, and setting **both** `FlowDirection="RightToLeft"` and `LayoutDirection="RightToLeft"` double-mirrors. v1 contract: `FlexPanel` ignores `FlowDirection`; the doc states this and the sample demonstrates `LayoutDirection`. (Deferred, not silently dropped: resolving `Inherit` from the ambient `FlowDirection` so the WinUI-idiomatic path works — additive, and better decided once we have real RTL feedback.)
-- **FR-8** — Layout is identical across `net10.0-windows`, desktop/Skia, WASM, iOS, Android and Mac Catalyst for the conformance corpus, modulo documented rounding.
+- **FR-8** — Layout is identical across the **Skia heads** — desktop/Skia, WASM, and Skia mobile — for the conformance corpus, modulo documented rounding. (Narrowed in P1: Uno 7.0 removes the native `-ios` / `-android` / `-windows` / `-maccatalyst` targets, work already underway in this repo on `dev/mazi/uno7-groundwork`. Library projects have a single non-native TFM, and `-p:TargetFrameworkOverride=desktop` resolves to it alone. Costs nothing here — the engine is pure managed `float` math with no platform API, no `#if`, and no TFM-conditional code.)
 - **FR-9** — `AutoLayout`'s public API and behavior are byte-for-byte unchanged; its existing runtime tests pass untouched.
 
 ## Non-functional requirements
@@ -215,7 +226,7 @@ This gives an escape hatch for any target where double-rounding produces drift, 
 - **NFR-2** — No per-layout-pass allocation in the adapter's steady state: the node cache, the child `HashSet`, and the removal list are instance fields reused across passes (upstream already does this; a change that regresses it is a defect). No LINQ in `MeasureOverride`/`ArrangeOverride`.
 - **NFR-3** — A `FlexPanel` whose children never change performs at most one `Measure` per child per pass in the `Basis`-definite case; the min-content pre-measure only runs where FR-5 requires it.
 - **NFR-4** — No static event subscriptions, no `XamlRoot.Changed` subscription, no strong reference held to a child after it is removed *and* the panel re-lays out.
-- **NFR-5** — Every vendored file keeps its upstream MIT header; `LICENSE.md` gains a third-party section (or a new `THIRD-PARTY-NOTICES.md`) naming Reactor/Yoga, the MIT text, and the pinned SHA.
+- **NFR-5** — Every imported file carries a provenance + license header, and `THIRD-PARTY-NOTICES.md` at the repo root names Reactor/Yoga, both MIT texts, and the pinned SHA. (Restated in P1: there was **no upstream MIT header to keep** — the vendored files carry only `// C# port of Meta's Yoga…` comments, with no copyright, license or provenance. Each imported file is therefore prepended with a generated 4-line header giving the upstream repo, tag, commit, that file's own upstream path, the import date, and `SPDX-License-Identifier: MIT` with both copyright holders — Microsoft for the C# port, Facebook/Meta for Yoga. The full license text lives once in the notices file.)
 
 ## Tests
 
@@ -268,7 +279,7 @@ Plus four mapping-rule guards from the `AutoLayout` coverage audit above, one pe
 
 ## Risks and open questions
 
-1. **Rounding parity across targets (highest).** D4 gives the escape hatch, but the per-target validation is real work — `YogaRoundingTest` at scale factors 1.0/1.25/1.5/2.0 on every head is the gate. Expect this to be where the schedule goes.
+1. **Rounding parity across the Skia heads (highest).** D4 gives the escape hatch, but the per-head validation is real work — `YogaRoundingTest` at scale factors 1.0/1.25/1.5/2.0 on desktop/Skia, WASM and Skia mobile is the gate. Expect this to be where the schedule goes. (Scope narrowed with FR-8; the native heads are going away in Uno 7.0.) All 17,784 corpus assertions route through a single `YogaAssert.Equal` shim precisely so a tolerance can be introduced in one place if a head needs it.
 2. **Min-content pre-measure semantics.** `ComputeMinContent` calls `Measure(0, ∞)` and then re-measures; `DesiredSize` caching and repeat-measure behavior differ subtly across Uno targets. Tier-1 tests will not catch this — tier 2 `When_AutoMin_*` on WASM/iOS will.
 3. **WASM cost.** Two-pass measure over a large `FlexPanel` is more `Measure` traffic than `StackPanel`. Need a sample-page stress case (200 children) profiled on WASM before we recommend `FlexPanel` for list rows in docs.
 4. **Fork drift.** Upstream is `0.1.0-preview.13` and moving weekly. Pin the SHA in `Layout/Yoga/README.md`; re-sync deliberately, never opportunistically.
@@ -277,12 +288,12 @@ Plus four mapping-rule guards from the `AutoLayout` coverage audit above, one pe
 
 ## Phases
 
-- [ ] **P0 — Approval.** Confirm vendoring (risk 5), the name (risk 6), and the v1/deferred API split.
-- [ ] **P1 — Engine import.** Vendor 10 files, rename namespace to `Uno.Toolkit.UI.Layout`, add `Layout/Yoga/README.md` + scoped `.editorconfig` (D7), update `LICENSE.md`/notices (NFR-5). Builds clean, no adapter yet. Also answer G2 from the coverage audit: does Yoga's gap resolution clamp negative values to `0`?
-- [ ] **P2 — Tier-1 conformance.** Port the 26 generated test files. **Gate: 100% green on desktop before any adapter work.** A failure here is an import bug, and finding it now is 10× cheaper.
+- [x] **P0 — Approval.** Confirm vendoring (risk 5), the name (risk 6), and the v1/deferred API split.
+- [x] **P1 — Engine import.** Vendor 10 files, namespace `Uno.Toolkit.UI.Yoga` (+ `Uno.Toolkit.UI` for the public enums — see D2's correction), add `Layout/Yoga/README.md` + scoped `.editorconfig` (D7), add `THIRD-PARTY-NOTICES.md` (NFR-5). Builds clean, no adapter yet. G2 answered: **Yoga clamps negative gap to `0`**.
+- [x] **P2 — Tier-1 conformance.** Port the 26 generated test files. **Gate: 100% green on desktop before any adapter work.** ✅ **544 passed / 0 failed / 46 skipped upstream** on desktop/Skia in 6s. A failure here would have been an import bug, 10× cheaper to find at this point than after P3.
 - [ ] **P3 — Adapter.** `FlexPanel.cs` + `FlexPanel.Properties.cs` per D3/D4/D5. Tier-2 tests alongside, red/fix/green.
-- [ ] **P4 — Cross-platform validation.** Tier 1 + 2 on desktop, WASM, Android, iOS, Windows. Rounding matrix (risk 1). Tier-3 leak test.
+- [ ] **P4 — Cross-platform validation.** Tier 1 + 2 on the Skia heads: desktop, WASM, Skia mobile. Rounding matrix (risk 1). Tier-3 leak test.
 - [ ] **P5 — Sample + docs.** Sample page, `doc/controls/FlexPanel.md`, `AutoLayoutControl.md` cross-link. WASM stress profile (risk 3).
-- [ ] **P6 — Review.** Release build zero-warning on every TFM; `/review-panel`; PR against #17 with the deferred list as follow-up issues.
+- [ ] **P6 — Review.** Release build zero-warning on every Skia TFM; `/review-panel`; PR against #17 with the deferred list as follow-up issues.
 
-Progress tracking moves to `specs/flexpanel-import/progress.md` when P1 starts.
+Progress tracking lives in [`progress.md`](./progress.md) — P1/P2 results, the amendments recorded above, and the P3 handoff notes.
