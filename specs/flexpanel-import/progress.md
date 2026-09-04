@@ -46,8 +46,26 @@ result=Passed  total=544  passed=544  failed=0  skipped=46  inconclusive=0
 Run on desktop/Skia (`MaterialSampleApp` @ `net10.0-desktop`), filter `Tests.Yoga.`, **6 seconds**.
 
 **FR-9 re-verified in the same host**: `AutoLayoutTest` → 119 passed / 0 failed / 1 skipped (the
-pre-existing `[Ignore]` for #1203). `git diff` against the fork point shows zero changes under
-`src/Uno.Toolkit.UI/Controls/AutoLayout/`.
+pre-existing `[Ignore]` for #1203). `git diff --stat` against the fork point is empty for both
+`src/Uno.Toolkit.UI/Controls/AutoLayout/` and `src/Uno.Toolkit.RuntimeTests/Tests/AutoLayoutTest.cs`.
+
+### Verified in the configuration CI actually uses
+
+CI runs the suite **unfiltered** (`UNO_RUNTIME_TESTS_RUN_TESTS: '{}'` in
+`build/workflow/stage-runtime-tests.yml`), so the filtered runs above are not sufficient evidence on
+their own. Unfiltered run, Release sample head, desktop/Skia:
+
+```
+result=Passed  total=874  passed=874  failed=0  skipped=57   (931 cases)
+```
+
+Cross-checking every test-method name in the imported corpus against that result:
+**590 / 590 present — 544 passed, 46 skipped, 0 missing, 0 failed.** The remaining 341 cases are the
+pre-existing suite, unperturbed. Whole run: 38s.
+
+Release was used because the `Tests/HotReload/` folder is `#if DEBUG`-only, and those tests need a
+dev-server that is not available in this environment — a pre-existing local limitation, untouched by
+this work (the import adds no XAML and no hot-reload surface). They run in their own CI stage.
 
 ### Corpus size — correcting the spec
 
@@ -79,7 +97,8 @@ and easy to re-sync; enabling them would import 46 known-failing cases. Concentr
 ### Compile cost
 
 Adding 1.7 MB / 17,784 statements to `Uno.Toolkit.RuntimeTests` costs **~0.1s** on a full `-t:Rebuild`
-(8.41s → 8.51s). Negligible; no need to gate the corpus behind a build flag.
+(8.41s → 8.51s). At run time the corpus adds about **6s** to a 38s suite. Negligible on both counts;
+no need to gate it behind a build flag.
 
 ## Findings that amend the spec
 

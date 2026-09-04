@@ -71,7 +71,10 @@ and it is preserved intentionally — do not "fix" it, or the fork silently dive
 
 The other 21 files match their file name.
 
-`YogaAssert.cs` is **ours**, not vendored — it is the only hand-written file in this folder.
+`YogaAssert.cs` is **ours**, not vendored — it is the only hand-written file in this folder. The
+scoped `.editorconfig` here keeps the imported files at their upstream 4-space indentation (the repo
+default is tabs) so a formatter run cannot silently rewrite 1.7 MB of corpus and destroy the upstream
+diff; `YogaAssert.cs` is carved out and follows repo style.
 
 ## The 46 skipped tests
 
