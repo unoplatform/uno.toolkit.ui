@@ -360,9 +360,14 @@ partial class ZoomContentControl
 		// mouse gestures are already covered: middle-drag pans, ctrl+wheel zooms.
 		if (e.PointerDeviceType == PointerDeviceType.Mouse) return;
 
-		ProcessManipulationDelta(e.Position, e.Delta.Scale, e.Delta.Translation);
-		e.Handled = true;
-	}
+		var canZoom = IsZoomAllowed && e.Delta.Scale != 1;
+		var canPan = IsPanAllowed && e.Delta.Translation != default(Point);
+
+		if (canZoom || canPan)
+		{
+			ProcessManipulationDelta(e.Position, e.Delta.Scale, e.Delta.Translation);
+			e.Handled = true;
+		}
 
 	// core of OnManipulationDelta, factored out for testability (the event args are not constructible).
 	internal void ProcessManipulationDelta(Point vpAnchor, double scaleDelta, Point translationDelta)
