@@ -372,7 +372,7 @@ partial class ZoomContentControl
 	// core of OnManipulationDelta, factored out for testability (the event args are not constructible).
 	internal void ProcessManipulationDelta(Point vpAnchor, double scaleDelta, Point translationDelta)
 	{
-		if (IsZoomAllowed && scaleDelta != 1)
+		if (IsZoomAllowed && Math.Abs(scaleDelta - 1d) > 1e-6)
 		{
 			_isHandlingPinchZooming = true;
 
