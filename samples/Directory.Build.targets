@@ -1,0 +1,11 @@
+<Project>
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
+	<!-- Uno finalizes OutputType later on Desktop; sample head names are already available here. -->
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('SampleApp'))">
+		<!-- The runner needs the head's __WASM__ symbol for browser-safe startup and configuration.
+		     Its shared engine internals are exposed only to these sample hosts. -->
+		<Compile Include="$(NuGetPackageRoot)uno.ui.runtimetests.engine/$(UnoRuntimeTestsEngineVersion)/src/Engine/ExternalRunner/RuntimeTestEmbeddedRunner.cs"
+				 Link="RuntimeTesting/RuntimeTestEmbeddedRunner.cs"
+				 Visible="False" />
+	</ItemGroup>
+</Project>

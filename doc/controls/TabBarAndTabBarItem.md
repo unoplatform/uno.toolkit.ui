@@ -13,6 +13,8 @@ For more information and detailed walkthroughs on using TabBar and TabBarItem, p
 
 Represents a control that provides a list of `TabItem`s to select from. The `TabBar` selection can be used to trigger frame navigation or to toggle the visibility of views.
 
+The [Fluent Toolkit](../fluent-getting-started.md) supplies top, bottom, vertical, colored, and navigation semantic styles with Fluent accent indicators and badge support. `TabBarStyle` and `TabBarItemStyle` default to top navigation. FAB item aliases are nonselectable action items and retain the Fluent navigation appearance.
+
 ## TabBarItem
 
 `TabBarItem` is a specialized `SelectorItem` that includes functionality such as triggering an `ICommand` on click/tap or displaying a flyout.

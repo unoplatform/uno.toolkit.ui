@@ -1,0 +1,35 @@
+<Project Sdk="Uno.Sdk.Private">
+  <PropertyGroup Condition="'$(TargetFrameworkOverride)'!=''">
+    <TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('browserwasm'))">net10.0-browserwasm</TargetFrameworks>
+    <TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('desktop'))">$(TargetFrameworks);net10.0-desktop</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFrameworkOverride)'==''">
+    <TargetFrameworks>net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+    <ApplicationTitle>Uno.Toolkit.Fluent.Samples</ApplicationTitle>
+    <ApplicationId>uno.platform.toolkit.fluent</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <UnoFeatures>SkiaRenderer;</UnoFeatures>
+    <!-- The host builds Toolkit from source; HotDesign's Toolkit package would create a dependency cycle. -->
+    <UnoDisableHotDesign>true</UnoDisableHotDesign>
+    <!-- The existing hosted test engine still references the DOM runtime. -->
+    <UnoDisableValidateNoUnoWasmDOMRuntimeDependency>true</UnoDisableValidateNoUnoWasmDOMRuntimeDependency>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/library/Uno.Toolkit.Fluent/Uno.Toolkit.WinUI.Fluent.csproj" />
+    <ProjectReference Include="../../src/Uno.Toolkit.RuntimeTests/Uno.Toolkit.RuntimeTests.csproj" />
+    <Compile Include="../Uno.Toolkit.Samples/RuntimeTesting/RuntimeTestModeDetector.cs" Link="RuntimeTesting/RuntimeTestModeDetector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <UnoIcon Include="../Uno.Toolkit.Samples/Assets/Icons/icon.svg"
+             ForegroundFile="../Uno.Toolkit.Samples/Assets/Icons/icon_foreground.svg"
+             Color="#FFFFFF" />
+    <UnoSplashScreen Include="../Uno.Toolkit.Samples/Assets/Splash/splash_screen.svg"
+                     Color="#FFFFFF"
+                     BaseSize="128,128" />
+  </ItemGroup>
+</Project>

@@ -11,6 +11,8 @@ uid: Toolkit.Controls.Chip
 `Chip` is a control that can be used for selection, filtering, or performing an action from a list.
 `ChipGroup` is a container that can house a collection of `Chip`s.
 
+The [Fluent Toolkit](../fluent-getting-started.md) supports the shared chip and group style keys, including `DangerChipStyle`. Fluent chips use compact corners, accent selection, and pointer, pressed, disabled, and indeterminate states. Input chips retain their remove button and cancellable removal behavior. Elevated aliases use the regular Fluent chip appearance.
+
 ## Chip
 
 `Chip` is derived from `ToggleButton`, a control that an user can select (check) or deselect (uncheck).

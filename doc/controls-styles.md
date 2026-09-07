@@ -35,6 +35,8 @@ Exposes visual states as attachable properties that lets you bind a string on a 
 
 ## Control Styles
 
+The [Fluent Toolkit](fluent-getting-started.md) implements the shared styles below, plus the Simple semantic variants `DangerChipStyle`, `BrandFilledCardStyle`, and `BrandOutlinedCardStyle`. Its utility styles include `ChipGroupStyle`, `LoadingViewStyle`, `ExtendedSplashScreenStyle`, `DrawerControlStyle`, `ToolkitDrawerFlyoutPresenterStyle`, `ResponsiveViewStyle`, `SafeAreaStyle`, and `ZoomContentControlStyle`. Concrete Fluent keys prepend `Fluent` to the semantic name. Fluent uses implicit filled cards and top tabs; the default markers below describe the original Toolkit theme surface.
+
 | Control                  | Style Key                          | IsDefaultStyle\* |
 |--------------------------|------------------------------------|-----------------|
 | `AppBarButton`           | `MainCommandStyle`                 | True            |

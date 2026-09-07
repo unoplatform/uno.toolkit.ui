@@ -5,6 +5,8 @@ uid: Toolkit.Controls.Divider
 
 A divider is a thin line that groups content in lists and layouts.
 
+The [Fluent Toolkit](../fluent-getting-started.md) supplies `DividerStyle` as an implicit default: a one-pixel `OutlineVariantBrush` rule, with `OnSurfaceVariantBrush` and semantic body typography for the optional subheader.
+
 ## Properties
 
 | Property              | Type     | Description                                          |

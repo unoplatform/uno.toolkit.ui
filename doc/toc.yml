@@ -13,6 +13,8 @@
   # ***************** Cupertino ******************
   - name: Cupertino
     href: cupertino-getting-started.md
+  - name: Fluent
+    href: fluent-getting-started.md
   # ***************** Lightweight Styling ********
   - name: Lightweight Styling
     href: lightweight-styling.md

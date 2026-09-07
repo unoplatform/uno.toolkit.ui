@@ -1,0 +1,5 @@
+<Project>
+	<ItemGroup Condition="('$(ImplicitUsings)' == 'true' OR '$(ImplicitUsings)' == 'enable') AND '$(UnoDisableToolkitFluentImplicitUsings)' != 'true'">
+		<Using Include="Uno.Toolkit.UI.Fluent" />
+	</ItemGroup>
+</Project>

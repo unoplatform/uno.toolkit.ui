@@ -12,6 +12,8 @@ uid: Toolkit.Controls.Card
 `Card` and `CardContentControl` represent controls identifiable as a single, contained unit used to visually group related child content and actions that relate information about a subject.
 A card's layout and dimensions depend on its contents.
 
+The [Fluent Toolkit](../fluent-getting-started.md) implements the same filled, outlined, elevated, avatar, and small-media semantic styles, plus brand variants. It uses Fluent corners, semantic typography, and theme spacing; all six `Card` content slots remain available. Avatar and media slots use image templates by default; supply or clear the template when using custom visual content.
+
 ## Remarks
 
 Currently, there are three [Material](https://m3.material.io/components/cards/) styles for `Card` and `CardContentControl` that you can use.

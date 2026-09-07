@@ -1,0 +1,4 @@
+<linker>
+	<assembly fullname="FluentSampleApp" />
+	<assembly fullname="Uno.Toolkit.RuntimeTests" />
+</linker>

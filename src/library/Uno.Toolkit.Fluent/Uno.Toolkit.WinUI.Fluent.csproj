@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Uno.Sdk">
+	<Import Project="..\..\tfm-common-winui.props" />
+	<PropertyGroup>
+		<UnoSingleProject>true</UnoSingleProject>
+		<DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<AssemblyName>Uno.Toolkit.WinUI.Fluent</AssemblyName>
+		<RootNamespace>Uno.Toolkit.UI.Fluent</RootNamespace>
+		<PackageId>Uno.Toolkit.WinUI.Fluent</PackageId>
+		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
+		<!-- Build against the Fluent implementation in the referenced Themes checkout. -->
+		<ProjectReference Include="..\..\..\ref\Uno.Themes\src\library\Uno.Fluent.WinUI\Uno.Fluent.WinUI.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="$(_IsWindowsWinUI)">
+		<Page Remove="Generated\*.xaml" />
+	</ItemGroup>
+	<ItemGroup>
+		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
+		<Using Include="Uno.Toolkit.UI.Fluent" />
+	</ItemGroup>
+	<Import Project="..\..\winappsdk-workaround.targets" />
+	<Import Project="xamlmerge-fluent.props" />
+</Project>

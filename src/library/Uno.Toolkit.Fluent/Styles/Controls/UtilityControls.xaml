@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:utu="using:Uno.Toolkit.UI">
+	<DataTemplate x:Key="FluentToolkitLoadingTemplate">
+		<ProgressRing Width="32"
+					  Height="32"
+					  HorizontalAlignment="Center"
+					  VerticalAlignment="Center"
+					  Foreground="{ThemeResource PrimaryBrush}"
+					  IsActive="{Binding Path=(utu:ProgressExtensions.IsActive), RelativeSource={RelativeSource TemplatedParent}}" />
+	</DataTemplate>
+	<Style x:Key="FluentLoadingViewStyle"
+		   TargetType="utu:LoadingView"
+		   BasedOn="{StaticResource DefaultLoadingView}">
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+		<Setter Property="LoadingContentTemplate" Value="{StaticResource FluentToolkitLoadingTemplate}" />
+	</Style>
+	<Style x:Key="FluentExtendedSplashScreenStyle"
+		   TargetType="utu:ExtendedSplashScreen"
+		   BasedOn="{StaticResource DefaultExtendedSplashScreen}">
+		<Setter Property="Foreground" Value="{ThemeResource OnBackgroundBrush}" />
+		<Setter Property="LoadingContentTemplate" Value="{StaticResource FluentToolkitLoadingTemplate}" />
+	</Style>
+	<!-- The theme attaches each control's implicit base style before installing these defaults. -->
+	<Style x:Key="FluentDrawerControlStyle"
+		   TargetType="utu:DrawerControl">
+		<Setter Property="DrawerBackground" Value="{ThemeResource SurfaceBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+		<Setter Property="LightDismissOverlayBackground" Value="{ThemeResource SmokeFillColorDefaultBrush}" />
+	</Style>
+	<Style x:Key="FluentResponsiveViewStyle"
+		   TargetType="utu:ResponsiveView">
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+	</Style>
+	<Style x:Key="FluentSafeAreaStyle"
+		   TargetType="utu:SafeArea">
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+	</Style>
+	<Style x:Key="FluentZoomContentControlStyle"
+		   TargetType="utu:ZoomContentControl"
+		   BasedOn="{StaticResource DefaultZoomContentControlStyle}">
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+	</Style>
+	<Style x:Key="FluentToolkitDrawerFlyoutPresenterStyle"
+		   TargetType="utu:DrawerFlyoutPresenter"
+		   BasedOn="{StaticResource DefaultDrawerFlyoutPresenterStyle}">
+		<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource OutlineVariantBrush}" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+		<Setter Property="LightDismissOverlayBackground" Value="{ThemeResource SmokeFillColorDefaultBrush}" />
+	</Style>
+	<!-- The public DrawerFlyoutPresenterStyle targets FlyoutPresenter for use on Flyout. -->
+	<Style x:Key="FluentDrawerFlyoutPresenterStyle"
+		   TargetType="FlyoutPresenter"
+		   BasedOn="{StaticResource DrawerFlyoutPresenterStyle}">
+		<Setter Property="Background" Value="{ThemeResource SurfaceBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource OnSurfaceBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource OutlineVariantBrush}" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+		<Setter Property="utu:DrawerFlyoutPresenter.LightDismissOverlayBackground" Value="{ThemeResource SmokeFillColorDefaultBrush}" />
+	</Style>
+	<Style x:Key="FluentLeftDrawerFlyoutPresenterStyle"
+		   TargetType="FlyoutPresenter"
+		   BasedOn="{StaticResource FluentDrawerFlyoutPresenterStyle}">
+		<Setter Property="utu:DrawerFlyoutPresenter.OpenDirection" Value="Right" />
+	</Style>
+	<Style x:Key="FluentTopDrawerFlyoutPresenterStyle"
+		   TargetType="FlyoutPresenter"
+		   BasedOn="{StaticResource FluentDrawerFlyoutPresenterStyle}">
+		<Setter Property="utu:DrawerFlyoutPresenter.OpenDirection" Value="Down" />
+	</Style>
+	<Style x:Key="FluentRightDrawerFlyoutPresenterStyle"
+		   TargetType="FlyoutPresenter"
+		   BasedOn="{StaticResource FluentDrawerFlyoutPresenterStyle}">
+		<Setter Property="utu:DrawerFlyoutPresenter.OpenDirection" Value="Left" />
+	</Style>
+	<Style x:Key="FluentBottomDrawerFlyoutPresenterStyle"
+		   TargetType="FlyoutPresenter"
+		   BasedOn="{StaticResource FluentDrawerFlyoutPresenterStyle}">
+		<Setter Property="utu:DrawerFlyoutPresenter.OpenDirection" Value="Up" />
+	</Style>
+</ResourceDictionary>

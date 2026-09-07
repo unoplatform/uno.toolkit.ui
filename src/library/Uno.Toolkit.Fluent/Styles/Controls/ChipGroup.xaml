@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:utu="using:Uno.Toolkit.UI">
+
+	<!-- Preserve selection/removal contracts while sharing the Fluent chip geometry. -->
+	<Style x:Key="FluentChipGroupStyle"
+		   BasedOn="{StaticResource DefaultChipGroupStyle}"
+		   TargetType="utu:ChipGroup">
+		<Setter Property="ItemContainerStyle" Value="{StaticResource FluentChipStyle}" />
+	</Style>
+
+	<Style x:Key="FluentInputChipGroupStyle"
+		   BasedOn="{StaticResource FluentChipGroupStyle}"
+		   TargetType="utu:ChipGroup">
+		<Setter Property="ItemContainerStyle" Value="{StaticResource FluentInputChipStyle}" />
+		<Setter Property="SelectionMode" Value="Multiple" />
+		<Setter Property="CanRemove" Value="True" />
+	</Style>
+
+	<Style x:Key="FluentFilterChipGroupStyle"
+		   BasedOn="{StaticResource FluentChipGroupStyle}"
+		   TargetType="utu:ChipGroup">
+		<Setter Property="ItemContainerStyle" Value="{StaticResource FluentFilterChipStyle}" />
+		<Setter Property="SelectionMode" Value="Multiple" />
+		<Setter Property="CanRemove" Value="False" />
+	</Style>
+
+	<Style x:Key="FluentSuggestionChipGroupStyle"
+		   BasedOn="{StaticResource FluentChipGroupStyle}"
+		   TargetType="utu:ChipGroup">
+		<Setter Property="ItemContainerStyle" Value="{StaticResource FluentSuggestionChipStyle}" />
+		<Setter Property="SelectionMode" Value="Single" />
+		<Setter Property="CanRemove" Value="False" />
+	</Style>
+
+	<Style x:Key="FluentAssistChipGroupStyle"
+		   BasedOn="{StaticResource FluentChipGroupStyle}"
+		   TargetType="utu:ChipGroup">
+		<Setter Property="ItemContainerStyle" Value="{StaticResource FluentAssistChipStyle}" />
+		<Setter Property="SelectionMode" Value="None" />
+		<Setter Property="CanRemove" Value="False" />
+	</Style>
+	<Style x:Key="FluentElevatedFilterChipGroupStyle"
+		   BasedOn="{StaticResource FluentFilterChipGroupStyle}"
+		   TargetType="utu:ChipGroup" />
+	<Style x:Key="FluentElevatedSuggestionChipGroupStyle"
+		   BasedOn="{StaticResource FluentSuggestionChipGroupStyle}"
+		   TargetType="utu:ChipGroup" />
+	<Style x:Key="FluentElevatedAssistChipGroupStyle"
+		   BasedOn="{StaticResource FluentAssistChipGroupStyle}"
+		   TargetType="utu:ChipGroup" />
+</ResourceDictionary>

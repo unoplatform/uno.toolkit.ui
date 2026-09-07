@@ -9,6 +9,14 @@ For general information about [lightweight styling](https://learn.microsoft.com/
 
 > [!Video https://www.youtube-nocookie.com/embed/5CsJHMTlNAw]
 
+## Fluent Toolkit
+
+The [Fluent Toolkit theme](fluent-getting-started.md) consumes the base Fluent semantic palette and typography. Override `SurfaceBrush` with `OnSurfaceBrush`, `PrimaryBrush` with `OnPrimaryBrush`, and the corresponding container pairs to keep background/content contrast. State brushes such as `OnSurfaceHoverBrush`, `OnSurfacePressedBrush`, and `OnSurfaceDisabledBrush` affect interaction feedback.
+
+Card geometry follows `OverlayCornerRadius` and `Space400Thickness`; card slot spacing follows `Space300*Thickness`. Chips and tabs follow `ControlCornerRadius`. Theme `DefaultCornerRadius`, `DefaultSpacing`, and `DefaultDensity` settings produce these tokens. Individual `CornerRadius`, `Padding`, `Background`, and `Foreground` properties remain available for instance-specific customization.
+
+Fluent-specific geometry keys include `FluentChipMinHeight`, `FluentChipPadding`, `FluentTabBarItemPadding`, `FluentNavigationBarPadding`, `FluentCardBorderThickness`, `FluentCardElevation`, and `FluentDividerHeight`. Apply brush overrides in both Light and Default theme dictionaries. Use `ThemeResource` for color and token values, and `StaticResource` for styles.
+
 ## Example
 
 ```xml

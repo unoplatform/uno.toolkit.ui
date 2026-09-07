@@ -1,0 +1,13 @@
+﻿<Application x:Class="Uno.Toolkit.Samples.Fluent.App"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:fluent="using:Uno.Toolkit.UI.Fluent">
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+				<fluent:FluentToolkitTheme />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
+</Application>

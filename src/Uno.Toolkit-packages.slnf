@@ -6,6 +6,7 @@
       "Uno.Toolkit.UI\\Uno.Toolkit.WinUI.csproj",
       "Uno.Toolkit\\Uno.Toolkit.csproj",
       "library\\Uno.Toolkit.Cupertino\\Uno.Toolkit.WinUI.Cupertino.csproj",
+      "library\\Uno.Toolkit.Fluent\\Uno.Toolkit.WinUI.Fluent.csproj",
       "library\\Uno.Toolkit.Material\\Uno.Toolkit.WinUI.Material.csproj",
       "library\\Uno.Toolkit.Simple\\Uno.Toolkit.WinUI.Simple.csproj",
       "library\\Uno.Toolkit.WinUI.Markup\\Uno.Toolkit.WinUI.Markup.csproj",

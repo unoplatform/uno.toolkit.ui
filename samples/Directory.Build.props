@@ -4,6 +4,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<!-- Patch the SDK-injected WASM compatibility bundle, including System.Security.Cryptography.Xml. -->
+		<WindowsCompatibilityVersion>10.0.11</WindowsCompatibilityVersion>
 
 		<!--
 		  Adding NoWarn to remove build warnings

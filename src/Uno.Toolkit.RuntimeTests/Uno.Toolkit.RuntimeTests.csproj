@@ -32,7 +32,17 @@
   <ItemGroup>
     <ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
     <ProjectReference Include="..\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+    <ProjectReference Include="..\library\Uno.Toolkit.Fluent\Uno.Toolkit.WinUI.Fluent.csproj" />
     <ProjectReference Include="..\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Compile the platform-sensitive entry point in the sample heads, not this shared net9.0 assembly.
+         Keep the engine UI, secondary-app helpers, and source-project metadata here. -->
+    <Compile Remove="$(NuGetPackageRoot)uno.ui.runtimetests.engine/$(UnoRuntimeTestsEngineVersion)/src/Engine/ExternalRunner/RuntimeTestEmbeddedRunner.cs" />
+    <InternalsVisibleTo Include="MaterialSampleApp" />
+    <InternalsVisibleTo Include="CupertinoSampleApp" />
+    <InternalsVisibleTo Include="SimpleSampleApp" />
+    <InternalsVisibleTo Include="FluentSampleApp" />
   </ItemGroup>
   <Import Project="..\winappsdk-workaround.targets" />
 </Project>
