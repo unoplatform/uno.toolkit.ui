@@ -25,14 +25,7 @@ Initialization of the Simple Toolkit resources is handled by the specialized `Si
 
 #### Properties
 
-| Property              | Type                 | Description                                                                                                                                                                       |
-|-----------------------|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ColorOverrideSource` | `string`             | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Simple Color resources       |
-| `FontOverrideSource`  | `string`             | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Simple FontFamily resources  |
-| `DefaultFontFamily` | `FontFamily` | (Optional) Sets the root typeface and derived type-scale font families. When unset, the theme uses Inter. |
-| `DefaultSpacing` | `double` | (Optional) Sets the base spacing unit in pixels (default `4`), scaled by `DefaultDensity` to generate `Space*` tokens. |
-| `DefaultDensity`      | `Density`            | (Optional) Scales `DefaultSpacing`: `Compact` ×0.75, `Regular` ×1 (default), or `Comfy` ×1.25. Control heights and icon sizes remain unchanged. |
-| `DefaultCornerRadius` | `double`             | (Optional) Gets or sets the base corner radius unit (in pixels) used to compute all shape scale tokens (`Radius100`, `Radius200`, …) as multiples of this value. Default is `4`. |
+`SimpleToolkitTheme` inherits its theme properties from Uno Themes' `SimpleTheme` and `BaseTheme`, including `Colors`, font/color overrides, `DefaultFontFamily`, `DefaultSpacing`, `DefaultDensity`, and `DefaultCornerRadius`. See the [Uno Themes property reference](xref:Uno.Themes.DesignTokens#properties-reference) and [Uno Simple customization guide](xref:Uno.Themes.Simple.GetStarted#customization) for their behavior and usage.
 
 ## Installation
 
@@ -144,94 +137,26 @@ Depending on the type of project template that the Uno Platform application was 
 
 ## Customization
 
-With `SimpleToolkitTheme`, you do not need to explicitly initialize `ToolkitResources`, `SimpleTheme`, or `SimpleColors`. This means that all resource overrides should go through `SimpleToolkitTheme` itself.
+Apply the properties shown in Uno Themes examples directly to `SimpleToolkitTheme`. It initializes the underlying theme and Toolkit resources, so do not add a separate `SimpleTheme`.
 
 ### Customize Colors
 
-Follow the [Uno Simple Customization guide](xref:Uno.Themes.Simple.GetStarted#customization) to create a `ColorPaletteOverride.xaml` file and add it to your application project.
-
-In `App.xaml`, use the `ColorOverrideSource` property on `SimpleToolkitTheme`:
-
-```xml
-<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
-                    ColorOverrideSource="ms-appx:///Style/Application/ColorPaletteOverride.xaml" />
-```
+Follow the [Uno Simple color override guide](xref:Uno.Themes.Simple.GetStarted#customize-color-palette), using `SimpleToolkitTheme` as the theme dictionary.
 
 ### Customize Fonts
 
-Set `DefaultFontFamily` to customize the root typeface and its derived type-scale font families:
+See [Uno Themes typography customization](xref:Uno.Themes.DesignTokens#typography-font-swap) for `DefaultFontFamily`, override precedence, and runtime refresh behavior, and the [Uno Simple font guide](xref:Uno.Themes.Simple.GetStarted#customize-fonts) for font resources.
 
-```xml
-<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
-                    DefaultFontFamily="ms-appx:///Fonts/MyFont.ttf#MyFont" />
-```
-
-Use a font that supports the required weights, through a variable font or font manifest. The `*FontWeight` tokens continue to select each type scale's weight. The former `TypefacePlain` / `TypefaceBrand` keys and Simple's `SimpleFontFamily` / per-weight font-family keys have been removed; use `DefaultFontFamily` instead.
-
-For individual resource overrides, use `FontOverrideSource` or `FontOverrideDictionary`. Explicit keys in a font override take precedence over the corresponding generated keys. Toolkit control-specific aliases such as `NavigationBarFontFamily` and `DividerSubHeaderFontFamily` retain their own override keys; the root property does not regenerate these aliases. See [NavigationBar styling](controls/NavigationBar.md) and [Divider styling](controls/Divider.md).
-
-Changing the property at runtime regenerates the root and type-scale resources. Existing text that reads them through `ThemeResource` re-resolves after a theme-change pass (toggle the root's `RequestedTheme` away from its `ActualTheme` and back) or when root content is recreated. Unstyled text uses the framework's font default independently. See [Uno Themes design tokens](xref:Uno.Themes.DesignTokens).
-
-Follow the [Uno Simple Customization guide](xref:Uno.Themes.Simple.GetStarted#customization) to create a `FontOverride.xaml` file and add it to your application project.
-
-In `App.xaml`, use the `FontOverrideSource` property on `SimpleToolkitTheme`:
-
-```xml
-<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
-                    FontOverrideSource="ms-appx:///Style/Application/FontOverride.xaml" />
-```
+Toolkit control-specific aliases such as `NavigationBarFontFamily` and `DividerSubHeaderFontFamily` retain their own override keys; `DefaultFontFamily` does not regenerate these aliases. See [NavigationBar styling](controls/NavigationBar.md) and [Divider styling](controls/Divider.md).
 
 ### Customize Default Density
 
-`DefaultSpacing` sets the base unit (default `4` pixels), and `DefaultDensity` scales it:
-
-| Density | Factor | Effective base when `DefaultSpacing="4"` |
-|---------|--------|-----------------------------------------|
-| `Compact` | ×0.75 | 3 px |
-| `Regular` (default) | ×1 | 4 px |
-| `Comfy` | ×1.25 | 5 px |
-
-For example, a base of `6` with `Comfy` generates `Space100=7.5` and `Space200=15`:
-
-```xml
-<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
-                    DefaultSpacing="6"
-                    DefaultDensity="Comfy" />
-```
-
-Only styles consuming `Space*` tokens follow this scale; fixed Toolkit padding and margins remain unchanged. Control heights and icon sizes are independent of density. Runtime changes regenerate the resources; existing controls reading them through `ThemeResource` re-resolve after a theme-change pass or root-content recreation. See [Uno Themes design tokens](xref:Uno.Themes.DesignTokens).
+See [Uno Themes spacing and shape customization](xref:Uno.Themes.DesignTokens#via-scalar-properties) and [density modes](xref:Uno.Themes.DesignTokens#density-modes) for `DefaultSpacing` and `DefaultDensity`. Toolkit padding and margins defined as fixed values do not follow these generated scales.
 
 ### Customize Default Corner Radius
 
-The `SimpleToolkitTheme` exposes the base corner radius unit (in pixels) through the `DefaultCornerRadius` property. All shape scale tokens (`Radius100`, `Radius200`, …) are computed as multiples of this value — e.g. `DefaultCornerRadius="6"` makes `Radius100=6`, `Radius200=12`, `Radius400=24`, etc. `RadiusFull` always remains `9999` (pill shape). Default is `4`.
-
-```xml
-<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
-                    DefaultCornerRadius="6" />
-```
+See [Uno Themes shape customization](xref:Uno.Themes.DesignTokens#via-scalar-properties) for `DefaultCornerRadius`. Toolkit styles follow it where they consume the generated shape tokens.
 
 ### Seed Color Customization
 
-`SimpleToolkitTheme` supports seed-based color generation. A single seed color is used to derive tonal palettes for both Light and Dark themes.
-
-By default, no seed is set and `SimpleToolkitTheme` uses its grayscale palette. To opt into seed-based generation, set a seed via the `Colors` property:
-
-```xml
-<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
-                    xmlns:ut="using:Uno.Themes">
-    <SimpleToolkitTheme.Colors>
-        <ut:ThemeColors PrimarySeed="#2196F3" />
-    </SimpleToolkitTheme.Colors>
-</SimpleToolkitTheme>
-```
-
-You can also change the seed color at runtime:
-
-```csharp
-using Uno.Themes;
-using Windows.UI;
-
-SemanticThemeHelper.PrimarySeed = Color.FromArgb(0xFF, 0x21, 0x96, 0xF3);
-```
-
-For more details, see the [Seed Color Palette documentation](xref:Uno.Themes.SeedColors).
+Follow the [Uno Themes seed color guide](xref:Uno.Themes.SeedColors) for color generation and runtime customization, applying its examples to the Toolkit theme.

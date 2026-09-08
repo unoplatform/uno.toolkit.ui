@@ -29,14 +29,7 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 
 #### Properties
 
-| Property              | Type      | Description                                                                                                                                                                            |
-|-----------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ColorOverrideSource` | `string`  | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material Color resources      |
-| `FontOverrideSource`  | `string`  | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Uno.Material FontFamily resources |
-| `DefaultFontFamily` | `FontFamily` | (Optional) Sets the root typeface and derived type-scale font families. When unset, the theme uses Roboto. |
-| `DefaultSpacing` | `double` | (Optional) Sets the base spacing unit in pixels (default `4`), scaled by `DefaultDensity` to generate `Space*` tokens. |
-| `DefaultDensity`      | `Density` | (Optional) Scales `DefaultSpacing`: `Compact` ×0.75, `Regular` ×1 (default), or `Comfy` ×1.25. Control heights and icon sizes remain unchanged. |
-| `DefaultCornerRadius` | `double`  | (Optional) Gets or sets the base corner radius unit (in pixels) used to compute all shape scale tokens (`Radius100`, `Radius200`, …) as multiples of this value. Default is `4`. |
+`MaterialToolkitTheme` inherits its theme properties from Uno Themes' `MaterialTheme` and `BaseTheme`, including `Colors`, font/color overrides, `DefaultFontFamily`, `DefaultSpacing`, `DefaultDensity`, and `DefaultCornerRadius`. See the [Uno Themes property reference](xref:Uno.Themes.DesignTokens#properties-reference) and [Uno Material customization guide](xref:Uno.Themes.Material.GetStarted#customization) for their behavior and usage.
 
 ## Installation
 
@@ -153,84 +146,25 @@ Depending on the type of project template that the Uno Platform application was 
 
 ## Customization
 
-With `MaterialToolkitTheme`, you do not need to explicitly initialize `ToolkitResources`, `MaterialTheme`, `MaterialColors`, or `MaterialFonts`. This means that all resource overrides should go through `MaterialToolkitTheme` itself.
+Apply the properties shown in Uno Themes examples directly to `MaterialToolkitTheme`. It initializes the underlying theme and Toolkit resources, so do not add a separate `MaterialTheme`.
 
 ### Customize Colors
 
-Follow the [Uno Material Customization guide](xref:Uno.Themes.Material.GetStarted#customization) to create a `ColorPaletteOverride.xaml` file and add it to your application project.
-
-In `App.xaml`, use the `ColorOverrideSource` property on `MaterialToolkitTheme`:
-
-```xml
-<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
-                      ColorOverrideSource="ms-appx:///Style/Application/ColorPaletteOverride.xaml" />
-```
+Follow the [Uno Material color override guide](xref:Uno.Themes.Material.GetStarted#manual-color-overrides), using `MaterialToolkitTheme` as the theme dictionary.
 
 ### Customize Fonts
 
-Set `DefaultFontFamily` to customize the root typeface and its derived type-scale font families:
+See [Uno Themes typography customization](xref:Uno.Themes.DesignTokens#typography-font-swap) for `DefaultFontFamily`, override precedence, and runtime refresh behavior, and the [Uno Material font guide](xref:Uno.Themes.Material.GetStarted#change-default-font) for font resources.
 
-```xml
-<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
-                      DefaultFontFamily="ms-appx:///Fonts/MyFont.ttf#MyFont" />
-```
-
-Use a font that supports the required weights, through a variable font or font manifest. The `*FontWeight` tokens continue to select each type scale's weight. The former `TypefacePlain` / `TypefaceBrand` keys and Simple's `SimpleFontFamily` / per-weight font-family keys have been removed; use `DefaultFontFamily` instead.
-
-For individual resource overrides, use `FontOverrideSource` or `FontOverrideDictionary`. Explicit keys in a font override take precedence over the corresponding generated keys. Toolkit control-specific aliases such as `NavigationBarFontFamily` and `DividerSubHeaderFontFamily` retain their own override keys; the root property does not regenerate these aliases. See [NavigationBar styling](controls/NavigationBar.md) and [Divider styling](controls/Divider.md).
-
-Changing the property at runtime regenerates the root and type-scale resources. Existing text that reads them through `ThemeResource` re-resolves after a theme-change pass (toggle the root's `RequestedTheme` away from its `ActualTheme` and back) or when root content is recreated. Unstyled text uses the framework's font default independently. See [Uno Themes design tokens](xref:Uno.Themes.DesignTokens).
-
-Follow the [Uno Material Customization guide](xref:Uno.Themes.Material.GetStarted#customization) to create a `FontOverride.xaml` file and add it to your application project.
-
-In `App.xaml`, use the `FontOverrideSource` property on `MaterialToolkitTheme`:
-
-```xml
-<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
-                      FontOverrideSource="ms-appx:///Style/Application/FontOverride.xaml" />
-```
+Toolkit control-specific aliases such as `NavigationBarFontFamily` and `DividerSubHeaderFontFamily` retain their own override keys; `DefaultFontFamily` does not regenerate these aliases. See [NavigationBar styling](controls/NavigationBar.md) and [Divider styling](controls/Divider.md).
 
 ### Customize Spacing and Density
 
-`DefaultSpacing` sets the base unit (default `4` pixels), and `DefaultDensity` scales it by ×0.75 (`Compact`), ×1 (`Regular`), or ×1.25 (`Comfy`). For example, a base of `6` with `Comfy` generates `Space100=7.5` and `Space200=15`:
-
-```xml
-<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
-                      DefaultSpacing="6"
-                      DefaultDensity="Comfy" />
-```
-
-Only styles consuming `Space*` tokens follow this scale; fixed Toolkit padding and margins remain unchanged. Runtime changes regenerate the resources; existing controls reading them through `ThemeResource` re-resolve after a theme-change pass or root-content recreation. See [Uno Themes design tokens](xref:Uno.Themes.DesignTokens).
+See [Uno Themes spacing and shape customization](xref:Uno.Themes.DesignTokens#via-scalar-properties) and [density modes](xref:Uno.Themes.DesignTokens#density-modes) for `DefaultSpacing` and `DefaultDensity`. Toolkit padding and margins defined as fixed values do not follow these generated scales.
 
 ### Seed Color Customization
 
-`MaterialToolkitTheme` supports seed-based color generation using the Material Design 3 HCT color space. A single seed color is used to derive the full tonal palette (Primary, Secondary, Tertiary, Neutral, and Error), for both Light and Dark themes.
-
-By default, no seed is set and `MaterialToolkitTheme` uses the Material color palette. To opt into seed-based generation, set a seed via the `Colors` property:
-
-```xml
-<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
-                      xmlns:ut="using:Uno.Themes">
-    <MaterialToolkitTheme.Colors>
-        <ut:ThemeColors PrimarySeed="#FF6B35" />
-    </MaterialToolkitTheme.Colors>
-</MaterialToolkitTheme>
-```
-
-You can also change the seed color at runtime from C#:
-
-```csharp
-using Uno.Themes;
-using Windows.UI;
-
-// Change the primary seed color at runtime
-SemanticThemeHelper.PrimarySeed = Color.FromArgb(0xFF, 0xFF, 0x6B, 0x35);
-
-// Clear the seed to revert to the default palette
-SemanticThemeHelper.PrimarySeed = null;
-```
-
-For more details, see the [Seed Color Palette documentation](xref:Uno.Themes.SeedColors).
+Follow the [Uno Themes seed color guide](xref:Uno.Themes.SeedColors) for color generation and runtime customization, applying its examples to the Toolkit theme.
 
 ## Using C# Markup
 

@@ -20,6 +20,14 @@ Adapt Toolkit's existing 10.0 development line to the latest breaking changes in
 - Upstream #1715 makes generated spacing/shape reads dynamic; Toolkit has no direct Space*/Radius* reads to migrate.
 - Preserve Toolkit lightweight styling keys and existing public API.
 
+## Documentation follow-up
+
+- [x] Remove exact prerelease package versions from public migration guidance.
+- [x] Link shared BaseTheme API usage to Uno Themes; retain Toolkit setup, migration impact, and control-specific caveats.
+- [x] Record the documentation rule in shared agent guidance and lessons, verify links, and prepare the PR update.
+
+Follow-up validation: all 13 Uno Themes cross-reference targets/anchors and local Markdown links in the three revised guides resolve against the checked-out sources. `git diff --check` passes. This follow-up changes documentation only; the previous build/runtime results remain applicable and were not rerun.
+
 ## Review and validation
 
 Validated on 2026-09-08 with .NET SDK 10.0.400.
