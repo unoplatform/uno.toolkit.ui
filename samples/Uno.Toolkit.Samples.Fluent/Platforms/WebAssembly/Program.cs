@@ -1,6 +1,6 @@
 using Uno.UI.Hosting;
 
-namespace Uno.Toolkit.Samples.Fluent;
+namespace Uno.Toolkit.Samples;
 
 public static class Program
 {

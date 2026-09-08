@@ -2,7 +2,7 @@ using Shadow = Uno.Toolkit.UI.Shadow;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, nameof(ShadowContainer), Description = "Add many colored shadows to your controls.", SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
+	[SamplePage(SampleCategory.Controls, nameof(ShadowContainer), Description = "Add many colored shadows to your controls.", SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Agnostic })]
 	public sealed partial class ShadowContainerSamplePage : Page
 	{
 		private ShadowCollection _shadows;
@@ -41,4 +41,3 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		}
 	}
 }
-

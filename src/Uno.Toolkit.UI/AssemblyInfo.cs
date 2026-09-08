@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("CupertinoSampleApp")]
 [assembly: InternalsVisibleTo("MaterialSampleApp")]
 [assembly: InternalsVisibleTo("SimpleSampleApp")]
+[assembly: InternalsVisibleTo("FluentSampleApp")]
 
 [assembly: AssemblyMetadata("IsTrimmable", "True")]
 

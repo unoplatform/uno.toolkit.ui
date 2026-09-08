@@ -24,6 +24,8 @@ Uno Toolkit ships higher-level UI controls for multi-platform Uno Platform / Win
 - `samples/Uno.Toolkit.Samples/` — shared project (`.shproj`) with the sample UI; the platform heads in `samples/Uno.Toolkit.Samples.{Material,Cupertino,Simple}/` are the runnable apps.
 - `ref/Uno.Themes` — sibling `Uno.Themes` repo content checked into this tree (not a git submodule despite appearances). Treat as vendored source unless told otherwise.
 
+Theme sample heads, including Fluent, must import `Uno.Toolkit.Samples.projitems` and use the shared `App` navigation, `Shell`, resources, and sample catalog like Material and Simple. Do not substitute a standalone gallery. Keep each theme's catalog metadata consistent with its `SamplePageLayout` templates; the Fluent host must display all pages that provide `FluentTemplate`.
+
 ## Target frameworks and platform builds
 
 Target frameworks are managed centrally:

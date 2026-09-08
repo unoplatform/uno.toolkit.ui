@@ -16,5 +16,7 @@ namespace Uno.Toolkit.Samples.Entities
 		UnoSimple,
 		[Description("Uno.Toolkit")]
 		UnoToolkit,
+		[Description("Uno.Fluent")]
+		UnoFluent,
 	}
 }

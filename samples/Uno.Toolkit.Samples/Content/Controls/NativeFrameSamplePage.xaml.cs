@@ -1,6 +1,6 @@
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, "NativeFrame", SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
+	[SamplePage(SampleCategory.Controls, "NativeFrame", SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Agnostic })]
 	public sealed partial class NativeFrameSamplePage : Page
 	{
 		public NativeFrameSamplePage()

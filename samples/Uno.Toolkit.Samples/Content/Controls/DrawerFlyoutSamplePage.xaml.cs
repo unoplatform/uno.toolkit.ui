@@ -1,6 +1,6 @@
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, "DrawerFlyout", SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
+	[SamplePage(SampleCategory.Controls, "DrawerFlyout", SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Agnostic })]
 	public sealed partial class DrawerFlyoutSamplePage : Page
 	{
 		public DrawerFlyoutSamplePage()

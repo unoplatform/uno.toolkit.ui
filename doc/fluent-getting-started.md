@@ -67,7 +67,9 @@ Card avatar and media defaults accept image data. When placing a UIElement direc
 
 ## Sample and runtime tests
 
-The dedicated gallery is `samples/Uno.Toolkit.Samples.Fluent/FluentSampleApp.csproj` and targets Desktop and WebAssembly:
+The Fluent sample head is `samples/Uno.Toolkit.Samples.Fluent/FluentSampleApp.csproj` and targets Desktop and WebAssembly. Like Material and Simple, it imports `Uno.Toolkit.Samples.projitems` and uses the shared application resources, splash screen, navigation shell, and sample catalog.
+
+The host starts with `Design.Fluent`. Pages declaring Fluent support display their `FluentTemplate`; genuinely design-agnostic pages use `DesignAgnosticTemplate`. Keep `SamplePageAttribute.SupportedDesigns` consistent with the templates when adding a page. Material/Cupertino-only pages and their design selectors are not shown in the Fluent host.
 
 ```shell
 dotnet run --project samples/Uno.Toolkit.Samples.Fluent/FluentSampleApp.csproj -f net10.0-desktop -p:TargetFrameworkOverride=desktop -p:NugetOverrideVersion=

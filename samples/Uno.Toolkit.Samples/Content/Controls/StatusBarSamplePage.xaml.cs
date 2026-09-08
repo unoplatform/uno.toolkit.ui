@@ -1,6 +1,6 @@
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Behaviors, nameof(Uno.Toolkit.UI.StatusBar), source: SourceSdk.UnoToolkit, SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
+	[SamplePage(SampleCategory.Behaviors, nameof(Uno.Toolkit.UI.StatusBar), source: SourceSdk.UnoToolkit, SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Agnostic })]
 	public sealed partial class StatusBarSamplePage : Page, IExitNestedSampleHandler
 	{
 		public StatusBarSamplePage()

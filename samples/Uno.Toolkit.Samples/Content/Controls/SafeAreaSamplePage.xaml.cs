@@ -4,7 +4,7 @@ using UIKit;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, nameof(SafeArea), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
+	[SamplePage(SampleCategory.Controls, nameof(SafeArea), SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Agnostic })]
 	public sealed partial class SafeAreaSamplePage : Page
 	{
 		public SafeAreaSamplePage()

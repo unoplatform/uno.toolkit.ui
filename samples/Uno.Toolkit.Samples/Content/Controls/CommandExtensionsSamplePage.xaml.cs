@@ -4,7 +4,7 @@ using static System.FormattableString;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Behaviors, nameof(CommandExtensions), SourceSdk.UnoToolkit, DataType = typeof(CommandExtensionsSamplePageVM), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
+	[SamplePage(SampleCategory.Behaviors, nameof(CommandExtensions), SourceSdk.UnoToolkit, DataType = typeof(CommandExtensionsSamplePageVM), SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Agnostic })]
 	public sealed partial class CommandExtensionsSamplePage : Page
 	{
 		public CommandExtensionsSamplePage()

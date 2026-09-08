@@ -1,6 +1,6 @@
 namespace Uno.Toolkit.Samples.Content.Helpers;
 
-[SamplePage(SampleCategory.Helpers, "Responsive Extensions", SourceSdk.UnoToolkit, IconPath = Icons.Helpers.MarkupExtension, SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
+[SamplePage(SampleCategory.Helpers, "Responsive Extensions", SourceSdk.UnoToolkit, IconPath = Icons.Helpers.MarkupExtension, SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Agnostic })]
 public sealed partial class ResponsiveExtensionsSamplePage : Page
 {
 	public ResponsiveExtensionsSamplePage()

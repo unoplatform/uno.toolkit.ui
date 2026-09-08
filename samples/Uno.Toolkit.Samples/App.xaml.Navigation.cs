@@ -67,6 +67,8 @@ partial class App
 		ShellNavigateTo<TabBarSamplePage>(
 #elif THEME_SIMPLE
 		ShellNavigateTo<TabBarSamplePage>(
+#elif THEME_FLUENT
+		ShellNavigateTo<NavigationBarSamplePage>(
 #else
 		ShellNavigateTo<NavigationBarSamplePage>(
 #endif
@@ -227,6 +229,10 @@ partial class App
 
 	private static bool IsSampleVisibleForCurrentTheme(SamplePageAttribute attr)
 	{
+#if THEME_FLUENT
+		// A shared source alone does not guarantee a Fluent or agnostic template.
+		return attr.SupportedDesigns.Contains(Design.Fluent) || attr.SupportedDesigns.Contains(Design.Agnostic);
+#else
 		// Design-agnostic sources are always visible
 		if (attr.Source is SourceSdk.WinUI or SourceSdk.Uno or SourceSdk.UnoToolkit)
 			return true;
@@ -241,11 +247,12 @@ partial class App
 #elif THEME_CUPERTINO
 		return attr.SupportedDesigns.Contains(Design.Cupertino);
 #else
-#warning Define THEME_SIMPLE, THEME_MATERIAL or THEME_CUPERTINO to filter samples by design.
+#warning Define THEME_SIMPLE, THEME_MATERIAL, THEME_CUPERTINO or THEME_FLUENT to filter samples by design.
 #if DEBUG
 #error No THEME_... constant defined, showing all samples.
 #endif
 		return true;
+#endif
 #endif
 	}
 

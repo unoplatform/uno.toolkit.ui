@@ -14,15 +14,20 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
     <UnoFeatures>SkiaRenderer;</UnoFeatures>
+    <DefineConstants>$(DefineConstants);THEME_FLUENT</DefineConstants>
     <!-- The host builds Toolkit from source; HotDesign's Toolkit package would create a dependency cycle. -->
     <UnoDisableHotDesign>true</UnoDisableHotDesign>
     <!-- The existing hosted test engine still references the DOM runtime. -->
     <UnoDisableValidateNoUnoWasmDOMRuntimeDependency>true</UnoDisableValidateNoUnoWasmDOMRuntimeDependency>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Uno.Core.Extensions.Compatibility" />
+  </ItemGroup>
+  <Import Project="..\Uno.Toolkit.Samples\Uno.Toolkit.Samples.projitems" Label="Shared" />
+  <ItemGroup>
     <ProjectReference Include="../../src/library/Uno.Toolkit.Fluent/Uno.Toolkit.WinUI.Fluent.csproj" />
+    <ProjectReference Include="../../src/Uno.Toolkit.Skia.WinUI/Uno.Toolkit.Skia.WinUI.csproj" />
     <ProjectReference Include="../../src/Uno.Toolkit.RuntimeTests/Uno.Toolkit.RuntimeTests.csproj" />
-    <Compile Include="../Uno.Toolkit.Samples/RuntimeTesting/RuntimeTestModeDetector.cs" Link="RuntimeTesting/RuntimeTestModeDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <UnoIcon Include="../Uno.Toolkit.Samples/Assets/Icons/icon.svg"

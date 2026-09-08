@@ -29,6 +29,8 @@ namespace Uno.Toolkit.Samples
 			Design.Cupertino;
 #elif THEME_SIMPLE
 			Design.Agnostic;
+#elif THEME_FLUENT
+			Design.Fluent;
 #else
 			Design.Material;
 #endif
@@ -69,6 +71,10 @@ namespace Uno.Toolkit.Samples
 					DocumentationLink = sample.DocumentationLink;
 #if THEME_SIMPLE
 					Source = SourceSdk.UnoSimple;
+#elif THEME_FLUENT
+					Source = sample.Source is SourceSdk.UnoMaterial or SourceSdk.UnoCupertino or SourceSdk.UnoSimple
+						? SourceSdk.UnoFluent
+						: sample.Source;
 #else
 					Source = sample.Source;
 #endif
@@ -116,6 +122,8 @@ namespace Uno.Toolkit.Samples
 
 #if THEME_SIMPLE
 			ApplySimpleThemeOverrides();
+#elif THEME_FLUENT
+			ApplyFluentThemeOverrides();
 #endif
 			UpdateLayoutRadioButtons();
 			UpdateSampleDataContext();
@@ -162,6 +170,29 @@ namespace Uno.Toolkit.Samples
 		}
 
 
+#if THEME_FLUENT
+		private void ApplyFluentThemeOverrides()
+		{
+			// Collapsed presenters can still instantiate their templates. This host
+			// does not load the foreign themes those templates require.
+			ClearValue(MaterialTemplateProperty);
+			ClearValue(M3MaterialTemplateProperty);
+			ClearValue(CupertinoTemplateProperty);
+
+			// Use only templates the page actually declares for this host.
+			// A genuine agnostic section is the fallback when there is no Fluent section.
+			if (FluentTemplate == null && DesignAgnosticTemplate != null)
+			{
+				IsDesignAgnostic = true;
+			}
+
+			if (_materialVersionComboBox != null)
+			{
+				_materialVersionComboBox.Visibility = Visibility.Collapsed;
+			}
+		}
+#endif
+
 #if THEME_SIMPLE
 		private void ApplySimpleThemeOverrides()
 		{
@@ -200,7 +231,9 @@ namespace Uno.Toolkit.Samples
 
 		private void OnMaterialVersionComboBoxLoaded(object sender, RoutedEventArgs e)
 		{
-			_materialVersionComboBox.SelectedIndex = 1;
+#if !THEME_FLUENT
+			_materialVersionComboBox.SelectedIndex = M3MaterialTemplate != null ? 1 : 0;
+#endif
 		}
 
 		private void UpdateLayoutRadioButtons()
@@ -208,7 +241,11 @@ namespace Uno.Toolkit.Samples
 			var mappings = LayoutModeMappings;
 			var previouslySelected = default(LayoutModeMapping);
 
-			bool IsAvailable(LayoutModeMapping mapping) => mapping.Predicate() && mapping.Template != null;
+			bool IsAvailable(LayoutModeMapping mapping) => mapping.Predicate() && mapping.Template != null
+#if THEME_FLUENT
+				&& mapping.Design is Design.Fluent or Design.Agnostic
+#endif
+				;
 
 			foreach (var mapping in mappings)
 			{

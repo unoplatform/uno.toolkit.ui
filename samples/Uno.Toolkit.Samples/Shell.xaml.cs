@@ -28,6 +28,8 @@ namespace Uno.Toolkit.Samples
 			{
 				NavigationViewControl.Style = (Style)navStyle;
 			}
+#elif THEME_FLUENT
+			NavigationViewControl.PaneTitle = "Uno Fluent Toolkit";
 #endif
 
 			this.Loaded += OnLoaded;

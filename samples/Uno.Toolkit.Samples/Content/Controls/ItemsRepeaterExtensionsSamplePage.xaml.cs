@@ -3,7 +3,7 @@ using Uno.Toolkit.Samples.ViewModels;
 
 namespace Uno.Toolkit.Samples.Content.Controls;
 
-[SamplePage(SampleCategory.Behaviors, "IR Selection", SourceSdk.UnoToolkit, DataType = typeof(ViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]
+[SamplePage(SampleCategory.Behaviors, "IR Selection", SourceSdk.UnoToolkit, DataType = typeof(ViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Agnostic })]
 public sealed partial class ItemsRepeaterExtensionsSamplePage : Page
 {
 	public ItemsRepeaterExtensionsSamplePage()
@@ -33,4 +33,3 @@ public sealed partial class ItemsRepeaterExtensionsSamplePage : Page
 		}
 	}
 }
-

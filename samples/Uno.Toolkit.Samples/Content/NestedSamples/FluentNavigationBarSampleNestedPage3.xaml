@@ -15,12 +15,12 @@
 		</Grid.RowDefinitions>
 		<utu:NavigationBar Content="Third Page"
 						   AutomationProperties.AutomationId="FluentPage3NavBar"
-						   Style="{StaticResource DefaultNavigationBar}">
+						   Style="{StaticResource NavigationBarStyle}">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Click="NavigateBack"
 							  Label="Back"
 							  AutomationProperties.AutomationId="FluentPage3NavBarMainCommand"
-							  Style="{StaticResource DefaultMainCommandStyle}">
+							  Style="{StaticResource MainCommandStyle}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
 					</AppBarButton.Icon>

@@ -26,12 +26,12 @@
 		<utu:NavigationBar Content="First Page"
 						   MainCommandMode="Action"
 						   AutomationProperties.AutomationId="FluentPage1NavBar"
-						   Style="{StaticResource DefaultNavigationBar}">
+						   Style="{StaticResource NavigationBarStyle}">
 			<utu:NavigationBar.MainCommand>
 				<AppBarButton Click="NavigateBack"
 							  Label="Close"
 							  AutomationProperties.AutomationId="FluentPage1NavBarMainCommand"
-							  Style="{StaticResource DefaultMainCommandStyle}">
+							  Style="{StaticResource MainCommandStyle}">
 					<AppBarButton.Icon>
 						<BitmapIcon UriSource="ms-appx:///Assets/CloseIcon.png" />
 					</AppBarButton.Icon>
