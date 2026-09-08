@@ -19,6 +19,8 @@
     <PackageVersion Include="NunitXml.TestLogger" Version="3.0.131" />
     <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="2.0.0-dev.79" />
     <PackageVersion Include="Uno.WinUI.DevServer" Version="7.0.0-dev.679" />
+    <!-- Matches the SkiaSharp group version pinned by Uno.Sdk.Private; bump together with global.json. -->
+    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="4.151.1" />
     <PackageVersion Include="Uno.UITest" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.82" />
