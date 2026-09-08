@@ -171,11 +171,11 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		internal static void SetParent(this DependencyObject dependencyObject, object? parent)
 		{
-			if (parent != null
-				&& dependencyObject is IDependencyObjectStoreProvider storeProvider
-				&& (!ReferenceEquals(storeProvider.Store.Parent, parent)))
+			if (parent != null)
 			{
-				storeProvider.Store.Parent = parent;
+				// MarkupHelper replaces the removed IDependencyObjectStoreProvider, and already
+				// no-ops when the parent is unchanged.
+				Uno.UI.Helpers.MarkupHelper.SetParent(dependencyObject, parent);
 			}
 		}
 #endif
