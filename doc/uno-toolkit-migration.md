@@ -6,6 +6,41 @@ uid: Toolkit.Migration
 
 **UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
+## Upgrading to Uno Toolkit 10.0
+
+Uno Toolkit 10.0 adopts the Uno Themes typography and spacing changes in `8.0.0-dev.15`. Apps that override font resource keys or persist density values should make the following changes.
+
+### Replace removed font resources
+
+The `TypefacePlain` and `TypefaceBrand` root tokens have been replaced by `DefaultFontFamily`. Simple also removes `SimpleFontFamily`, `SimpleRegularFontFamily`, `SimpleMediumFontFamily`, `SimpleSemiBoldFontFamily`, and `SimpleBoldFontFamily`. Replace these keys in app resource overrides with `DefaultFontFamily`; per-scale weights are controlled by the existing `*FontWeight` tokens.
+
+Both toolkit themes inherit a `DefaultFontFamily` property that generates the root and derived type-scale font families:
+
+```xml
+<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
+                    DefaultFontFamily="ms-appx:///Fonts/MyFont.ttf#MyFont" />
+```
+
+Use a variable font or a font manifest to resolve the required weights from a single family. `FontOverrideSource` and `FontOverrideDictionary` still support individual overrides, and their explicit keys take precedence over corresponding generated keys. Toolkit aliases such as `NavigationBarFontFamily` and `DividerSubHeaderFontFamily` retain their own override keys; the root property does not regenerate them. Material's legacy `MaterialLightFontFamily`, `MaterialMediumFontFamily`, and `MaterialRegularFontFamily` keys remain available.
+
+Changing `DefaultFontFamily` at runtime regenerates its resources. Existing text reading those resources through `ThemeResource` re-resolves after a theme-change pass or root-content recreation. Unstyled text keeps the framework's font default. See [font customization](simple-getting-started.md#customize-fonts) for details.
+
+### Separate spacing from density
+
+`DefaultSpacing` is the base spacing unit in pixels (default `4`). `DefaultDensity` now scales that unit: `Compact` ×0.75, `Regular` ×1, or `Comfy` ×1.25. Defaults still produce the previous 3 / 4 / 5 pixel spacing bases.
+
+```xml
+<MaterialToolkitTheme xmlns="using:Uno.Toolkit.UI.Material"
+                      DefaultSpacing="6"
+                      DefaultDensity="Comfy" />
+```
+
+This produces an effective base of 7.5 pixels (`Space100=7.5`, `Space200=15`). Only styles that consume the spacing tokens follow this scale; fixed Toolkit padding, control heights, and icon sizes are unchanged.
+
+The numeric values of `Density.Compact`, `Density.Regular`, and `Density.Comfy` changed from `3`, `4`, and `5` to `0`, `1`, and `2`. Replace casts from spacing values with named enum members, and migrate any persisted numeric density values. XAML using the names needs no change.
+
+For runtime resource refresh behavior and precedence, see [Uno Themes design tokens](xref:Uno.Themes.DesignTokens).
+
 ## Upgrading to Uno Toolkit 9.0
 
 Uno Toolkit 9.0 takes a dependency on Uno Themes 7.0, which introduces seed-based color generation and a unified design-token system. It also drops UWP support and reshapes the public surface of the theme classes. Most apps that consume `<MaterialToolkitTheme/>` or `<SimpleToolkitTheme/>` via XAML will not need code changes, but several behaviors and defaults have shifted. Uno Toolkit 9.0 requires Uno.WinUI 6.5 or later; apps using the Uno SDK get compatible versions automatically, while apps pinning package versions manually should update their `Uno.WinUI` reference.

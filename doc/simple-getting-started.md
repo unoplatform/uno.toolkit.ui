@@ -29,7 +29,9 @@ Initialization of the Simple Toolkit resources is handled by the specialized `Si
 |-----------------------|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `ColorOverrideSource` | `string`             | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Simple Color resources       |
 | `FontOverrideSource`  | `string`             | (Optional) Gets or sets a Uniform Resource Identifier that provides the source location of a ResourceDictionary containing overrides for the default Simple FontFamily resources  |
-| `DefaultDensity`      | `Density`            | (Optional) Gets or sets the density preset that drives the base spacing unit used by all `Space*` tokens. Default is `Regular`. Accepted values are `Compact` (3 px), `Regular` (4 px), and `Comfy` (5 px). |
+| `DefaultFontFamily` | `FontFamily` | (Optional) Sets the root typeface and derived type-scale font families. When unset, the theme uses Inter. |
+| `DefaultSpacing` | `double` | (Optional) Sets the base spacing unit in pixels (default `4`), scaled by `DefaultDensity` to generate `Space*` tokens. |
+| `DefaultDensity`      | `Density`            | (Optional) Scales `DefaultSpacing`: `Compact` ×0.75, `Regular` ×1 (default), or `Comfy` ×1.25. Control heights and icon sizes remain unchanged. |
 | `DefaultCornerRadius` | `double`             | (Optional) Gets or sets the base corner radius unit (in pixels) used to compute all shape scale tokens (`Radius100`, `Radius200`, …) as multiples of this value. Default is `4`. |
 
 ## Installation
@@ -157,6 +159,19 @@ In `App.xaml`, use the `ColorOverrideSource` property on `SimpleToolkitTheme`:
 
 ### Customize Fonts
 
+Set `DefaultFontFamily` to customize the root typeface and its derived type-scale font families:
+
+```xml
+<SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
+                    DefaultFontFamily="ms-appx:///Fonts/MyFont.ttf#MyFont" />
+```
+
+Use a font that supports the required weights, through a variable font or font manifest. The `*FontWeight` tokens continue to select each type scale's weight. The former `TypefacePlain` / `TypefaceBrand` keys and Simple's `SimpleFontFamily` / per-weight font-family keys have been removed; use `DefaultFontFamily` instead.
+
+For individual resource overrides, use `FontOverrideSource` or `FontOverrideDictionary`. Explicit keys in a font override take precedence over the corresponding generated keys. Toolkit control-specific aliases such as `NavigationBarFontFamily` and `DividerSubHeaderFontFamily` retain their own override keys; the root property does not regenerate these aliases. See [NavigationBar styling](controls/NavigationBar.md) and [Divider styling](controls/Divider.md).
+
+Changing the property at runtime regenerates the root and type-scale resources. Existing text that reads them through `ThemeResource` re-resolves after a theme-change pass (toggle the root's `RequestedTheme` away from its `ActualTheme` and back) or when root content is recreated. Unstyled text uses the framework's font default independently. See [Uno Themes design tokens](xref:Uno.Themes.DesignTokens).
+
 Follow the [Uno Simple Customization guide](xref:Uno.Themes.Simple.GetStarted#customization) to create a `FontOverride.xaml` file and add it to your application project.
 
 In `App.xaml`, use the `FontOverrideSource` property on `SimpleToolkitTheme`:
@@ -168,18 +183,23 @@ In `App.xaml`, use the `FontOverrideSource` property on `SimpleToolkitTheme`:
 
 ### Customize Default Density
 
-The `SimpleToolkitTheme` exposes a density preset through the `DefaultDensity` property, which drives the base spacing unit used by all `Space*` tokens (control heights and icon sizes remain constant across densities):
+`DefaultSpacing` sets the base unit (default `4` pixels), and `DefaultDensity` scales it:
 
-- `Compact` - Tighter padding for data-dense UIs (base spacing unit = 3 px)
-- `Regular` (default) - Balanced spacing (base spacing unit = 4 px)
-- `Comfy` - More generous padding (base spacing unit = 5 px)
+| Density | Factor | Effective base when `DefaultSpacing="4"` |
+|---------|--------|-----------------------------------------|
+| `Compact` | ×0.75 | 3 px |
+| `Regular` (default) | ×1 | 4 px |
+| `Comfy` | ×1.25 | 5 px |
 
-In `App.xaml`, use the `DefaultDensity` property on `SimpleToolkitTheme`:
+For example, a base of `6` with `Comfy` generates `Space100=7.5` and `Space200=15`:
 
 ```xml
 <SimpleToolkitTheme xmlns="using:Uno.Toolkit.UI.Simple"
+                    DefaultSpacing="6"
                     DefaultDensity="Comfy" />
 ```
+
+Only styles consuming `Space*` tokens follow this scale; fixed Toolkit padding and margins remain unchanged. Control heights and icon sizes are independent of density. Runtime changes regenerate the resources; existing controls reading them through `ThemeResource` re-resolve after a theme-change pass or root-content recreation. See [Uno Themes design tokens](xref:Uno.Themes.DesignTokens).
 
 ### Customize Default Corner Radius
 

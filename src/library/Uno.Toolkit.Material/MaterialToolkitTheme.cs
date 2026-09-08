@@ -11,8 +11,8 @@ namespace Uno.Toolkit.UI.Material
 	/// <summary>
 	/// Material (Material Design 3) styles for the controls in the Uno.Toolkit.UI library.
 	/// Inherits from <see cref="MaterialTheme"/> so all theme properties
-	/// (Colors, DefaultDensity, DefaultCornerRadius, font/color overrides) are
-	/// available directly without manual forwarding.
+	/// (Colors, DefaultFontFamily, DefaultSpacing, DefaultDensity, DefaultCornerRadius,
+	/// font/color overrides) are available directly without manual forwarding.
 	/// </summary>
 	public class MaterialToolkitTheme : MaterialTheme
 	{
