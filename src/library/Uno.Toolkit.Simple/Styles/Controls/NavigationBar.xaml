@@ -34,7 +34,7 @@
 			<StaticResource x:Key="NavigationBarForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="NavigationBarBackground" ResourceKey="SurfaceBrush" />
 			<Thickness x:Key="NavigationBarPadding">4,0,0,0</Thickness>
-			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="SimpleFontFamily" />
+			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="DefaultFontFamily" />
 			<FontWeight x:Key="NavigationBarFontWeight">Normal</FontWeight>
 			<x:Double x:Key="NavigationBarFontSize">24</x:Double>
 
@@ -70,7 +70,7 @@
 			<Thickness x:Key="NavigationBarContentMargin">16,0</Thickness>
 			<Thickness x:Key="AppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
 
-			<StaticResource x:Key="NavigationBarEllipsisButtonFontFamily" ResourceKey="SimpleFontFamily" />
+			<StaticResource x:Key="NavigationBarEllipsisButtonFontFamily" ResourceKey="DefaultFontFamily" />
 			<FontWeight x:Key="NavigationBarEllipsisButtonFontWeight">SemiBold</FontWeight>
 			<StaticResource x:Key="NavigationBarEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
 			<StaticResource x:Key="NavigationBarEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
@@ -93,7 +93,7 @@
 			<StaticResource x:Key="NavigationBarForeground" ResourceKey="OnSurfaceBrush" />
 			<StaticResource x:Key="NavigationBarBackground" ResourceKey="SurfaceBrush" />
 			<Thickness x:Key="NavigationBarPadding">4,0,0,0</Thickness>
-			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="SimpleFontFamily" />
+			<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="DefaultFontFamily" />
 			<FontWeight x:Key="NavigationBarFontWeight">Normal</FontWeight>
 			<x:Double x:Key="NavigationBarFontSize">24</x:Double>
 
@@ -129,7 +129,7 @@
 			<Thickness x:Key="NavigationBarContentMargin">16,0</Thickness>
 			<Thickness x:Key="AppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
 
-			<StaticResource x:Key="NavigationBarEllipsisButtonFontFamily" ResourceKey="SimpleFontFamily" />
+			<StaticResource x:Key="NavigationBarEllipsisButtonFontFamily" ResourceKey="DefaultFontFamily" />
 			<FontWeight x:Key="NavigationBarEllipsisButtonFontWeight">SemiBold</FontWeight>
 			<StaticResource x:Key="NavigationBarEllipsisButtonFontSize" ResourceKey="ControlContentThemeFontSize" />
 			<StaticResource x:Key="NavigationBarEllipsisButtonWidth" ResourceKey="AppBarExpandButtonThemeWidth" />
