@@ -52,11 +52,11 @@ All 20 `UNOB0020` warnings name Uno-6-built *dependencies*, not toolkit code.
 
 `clean679.log` is a build of `Uno.Toolkit-packages.slnf` — the 8 library projects only. It does
 **not** cover the runtime-test project or any sample head, and once a project reference fails its
-dependants are skipped without a diagnostic. So:
+dependents are skipped without a diagnostic. So:
 
 - iOS diagnostics come from exactly one project (`Uno.Toolkit.WinUI`). The iOS surface of
   Cupertino, Material, Simple, Skia and both Markup projects is unknown.
-- Known-but-unbuilt breakage: `Tests/ShadowContainerTests.cs` (`SkiaSharp.Views.Windows`,
+- Known-but-never built breakage: `Tests/ShadowContainerTests.cs` (`SkiaSharp.Views.Windows`,
   `is SKXamlCanvas`) and `Tests/NavigationBarTests.cs` (`GetNativeNavBar`,
   `FindChild<NativeFramePresenter>`, `presenter.NavigationController`).
 
@@ -71,7 +71,7 @@ proposes to delete:
 | `SKXamlCanvas.Opaque` | `Skia.WinUI/Controls/Shadows/ShadowContainer.cs:302` |
 
 `SafeArea` on Android has no public replacement for `IsStatusBarTranslucent` — it needs computing
-from the activity window, or the behaviour changes.
+from the activity window, or the behavior changes.
 
 ### 2. `ShadowContainer` / SkiaSharp — the committed fix is not sufficient
 
@@ -79,7 +79,7 @@ from the activity window, or the behaviour changes.
 it binds `Uno`, `Uno.Foundation` and `Uno.UI.Toolkit`. Referencing it makes the toolkit *compile*,
 but the app then dies at startup:
 
-```
+```text
 System.IO.FileNotFoundException: Could not load file or assembly 'Uno.UI.Toolkit, Version=255.255.255.255'
    at SkiaSharp.Views.Windows.GlobalStaticResources.Initialize()
    at Uno.Toolkit.RuntimeTests.GlobalStaticResources..cctor()
@@ -139,7 +139,7 @@ dead, instead of a TFM removal hiding it.
       both `IsNativeStyle="True"` styles, and the `mobile:` arms in Material v1/v2 and Simple).
       Delete the CS0109 `#if __ANDROID__ new` sites explicitly rather than letting a TFM drop hide them.
       Collapse `VisualTreeHelperEx.Native` and `ScrollableHelper` — Uno 7 aliases
-      `_View = UIElement`, so the "native tree isn't crawlable" premise is dead.
+      `_View = UIElement`, so the "native tree isn't walkable" premise is dead.
 - [ ] **3. Port the runtime tests before touching TFMs.** ≥21 `[TestMethod]`s sit behind
       `__ANDROID__`/`__IOS__` (`NavigationBarTests`, `SafeAreaTests`, the leak tests,
       `ChipGroupTests`, `AutoLayoutTest`, `DrawerTests`, `LeakTest`). Re-express them against the
@@ -170,7 +170,7 @@ never gate XAML per-runtime again — a `net10.0` build bakes in `not_android`/`
 platform services, via a per-project override — *not* by editing `src/tfm-common-winui.props`,
 which **eight** projects import (including `Uno.Toolkit.RuntimeTests`). Then add the missing
 `Xamarin.AndroidX.AppCompat` / `.Core` / `.ViewPager` references (`.Core.SplashScreen` is already
-there) and repoint `DrawableHelper` at `Uno.Helpers`.
+there) and point `DrawableHelper` at `Uno.Helpers`.
 
 Either way, drop `net10.0-maccatalyst`.
 
@@ -184,7 +184,7 @@ Either way, drop `net10.0-maccatalyst`.
 - Under (a): `ExtendedSplashScreen.Init(Android.App.Activity)` and the per-platform `SplashIsEnabled`.
 - `net10.0-maccatalyst`.
 
-Behavioural, no signature change: `NavigationBar` on Android/iOS stops rendering as a native
+Behavioral, no signature change: `NavigationBar` on Android/iOS stops rendering as a native
 `Toolbar`/`UINavigationBar`. `TabBarSelectorBehaviorState` is internal — no API impact.
 
 ## CI environment issues (not code)
