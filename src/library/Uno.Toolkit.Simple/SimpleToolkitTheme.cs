@@ -5,9 +5,7 @@ namespace Uno.Toolkit.UI.Simple
 {
 	/// <summary>
 	/// Simple Design System styles for the controls in the Uno.Toolkit.UI library.
-	/// Inherits from <see cref="SimpleTheme"/> so all theme properties
-	/// (Colors, DefaultFontFamily, DefaultSpacing, DefaultDensity, DefaultCornerRadius,
-	/// font/color overrides) are available directly without manual forwarding.
+	/// Inherits theme configuration from <see cref="SimpleTheme"/>.
 	/// </summary>
 	public class SimpleToolkitTheme : SimpleTheme
 	{

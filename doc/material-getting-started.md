@@ -29,7 +29,7 @@ Initialization of the Material Toolkit resources is handled by the specialized `
 
 #### Properties
 
-`MaterialToolkitTheme` inherits its theme properties from Uno Themes' `MaterialTheme` and `BaseTheme`, including `Colors`, font/color overrides, `DefaultFontFamily`, `DefaultSpacing`, `DefaultDensity`, and `DefaultCornerRadius`. See the [Uno Themes property reference](xref:Uno.Themes.DesignTokens#properties-reference) and [Uno Material customization guide](xref:Uno.Themes.Material.GetStarted#customization) for their behavior and usage.
+`MaterialToolkitTheme` inherits its configuration from Uno Themes. Refer to [Uno Material customization](xref:Uno.Themes.Material.GetStarted#customization) and the [shared theme property reference](xref:Uno.Themes.DesignTokens#properties-reference).
 
 ## Installation
 
@@ -154,17 +154,17 @@ Follow the [Uno Material color override guide](xref:Uno.Themes.Material.GetStart
 
 ### Customize Fonts
 
-See [Uno Themes typography customization](xref:Uno.Themes.DesignTokens#typography-font-swap) for `DefaultFontFamily`, override precedence, and runtime refresh behavior, and the [Uno Material font guide](xref:Uno.Themes.Material.GetStarted#change-default-font) for font resources.
+Follow the [Uno Themes typography guide](xref:Uno.Themes.DesignTokens#typography-font-swap) and [Uno Material font guide](xref:Uno.Themes.Material.GetStarted#change-default-font).
 
 Toolkit control-specific aliases such as `NavigationBarFontFamily` and `DividerSubHeaderFontFamily` retain their own override keys; `DefaultFontFamily` does not regenerate these aliases. See [NavigationBar styling](controls/NavigationBar.md) and [Divider styling](controls/Divider.md).
 
 ### Customize Spacing and Density
 
-See [Uno Themes spacing and shape customization](xref:Uno.Themes.DesignTokens#via-scalar-properties) and [density modes](xref:Uno.Themes.DesignTokens#density-modes) for `DefaultSpacing` and `DefaultDensity`. Toolkit padding and margins defined as fixed values do not follow these generated scales.
+Follow the Uno Themes guides for [spacing](xref:Uno.Themes.DesignTokens#via-scalar-properties) and [density](xref:Uno.Themes.DesignTokens#density-modes). Fixed Toolkit padding and margins remain independent of the generated spacing scale.
 
 ### Seed Color Customization
 
-Follow the [Uno Themes seed color guide](xref:Uno.Themes.SeedColors) for color generation and runtime customization, applying its examples to the Toolkit theme.
+Follow the [Uno Themes seed color guide](xref:Uno.Themes.SeedColors), using the Toolkit theme in its examples.
 
 ## Using C# Markup
 

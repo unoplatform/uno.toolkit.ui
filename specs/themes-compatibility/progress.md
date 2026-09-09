@@ -68,3 +68,11 @@ included in the total. Logs and XML results are in ignored
 - XAML Styler was run on all five changed files. Its unrelated whole-file formatting changes were removed to preserve the minimal nine-reference diff.
 - Generated XAML build output was excluded from the change; final `git diff --check` passed.
 - Independent source/documentation/test review found no blocking issues. Toolkit-specific font aliases retain their override keys; their runtime regeneration limitation is documented.
+
+## Full-branch documentation review
+
+- [x] Review all public-documentation and XML-summary changes against origin/main.
+- [x] Remove inherited-member catalogs from getting-started pages and XML summaries; keep upstream links, Toolkit setup, migration actions, and control caveats.
+- [x] Verify all 13 upstream cross-reference targets/anchors and local Markdown links; prepare the documentation follow-up for publication.
+
+`git diff --check` passes. Changes are limited to documentation and XML comments; no executable code changed, so builds and runtime tests were not rerun.
