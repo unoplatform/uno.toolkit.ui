@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Uno.Material;
 using Uno.Themes;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
@@ -51,8 +51,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.AreEqual(expected, card.FontFamily.Source, "Card");
 			Assert.AreEqual(expected, contentCard.FontFamily.Source, "CardContentControl");
 			Assert.AreEqual(expected, chip.FontFamily.Source, "Chip");
-			Assert.AreEqual(expected, Descendants<TextBlock>(divider).Single(x => x.Text == "Divider").FontFamily.Source, "Divider subheader alias");
-			Assert.AreEqual(expected, Descendants<ContentControl>(navigationBar).Single(x => x.Name == "ContentControl").FontFamily.Source, "NavigationBar content alias");
+			Assert.AreEqual(expected, divider.GetDescendants().OfType<TextBlock>().Single(x => x.Text == "Divider").FontFamily.Source, "Divider subheader alias");
+			Assert.AreEqual(expected, navigationBar.GetDescendants().OfType<ContentControl>().Single(x => x.Name == "ContentControl").FontFamily.Source, "NavigationBar content alias");
 			Assert.AreEqual(expected, ellipsisButton.FontFamily.Source, "NavigationBar ellipsis alias");
 		}
 
@@ -77,22 +77,28 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
-		[DataRow(Density.Compact, 9d)]
-		[DataRow(Density.Regular, 12d)]
-		[DataRow(Density.Comfy, 15d)]
-		public async Task When_MaterialDefaultSpacingSet_DensityScalesInheritedTokens(Density density, double expected)
+		[DataRow(Density.Compact)]
+		[DataRow(Density.Regular)]
+		[DataRow(Density.Comfy)]
+		public async Task When_MaterialDefaultSpacingSet_InheritsMaterialThemeTokens(Density density)
 		{
 			var theme = new MaterialToolkitTheme { DefaultSpacing = 6, DefaultDensity = density };
+			var referenceTheme = new MaterialTheme { DefaultSpacing = 6, DefaultDensity = density };
 			var root = CreateRoot(theme, ElementTheme.Light);
-			var probe = (TextBlock)XamlReader.Load("""
-				<TextBlock xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-				           FontSize="{ThemeResource Space200}" Text="Spacing token" />
-				""");
+			var referenceRoot = CreateRoot(referenceTheme, ElementTheme.Light);
+			const string probeXaml = """
+				<Border xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				        Padding="{ThemeResource Space200}" />
+				""";
+			var probe = (Border)XamlReader.Load(probeXaml);
+			var referenceProbe = (Border)XamlReader.Load(probeXaml);
 			root.Children.Add(probe);
+			referenceRoot.Children.Add(referenceProbe);
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(root);
+			await UnitTestUIContentHelperEx.SetContentAndWait(new Grid { Children = { root, referenceRoot } });
 
-			Assert.AreEqual(expected, probe.FontSize, "Space200 must equal DefaultSpacing × density factor × 2.");
+			Assert.IsTrue(referenceProbe.Padding.Left > 0, "The reference spacing token must resolve.");
+			Assert.AreEqual(referenceProbe.Padding, probe.Padding, "Toolkit must inherit MaterialTheme spacing generation for the same inputs.");
 		}
 
 		private static Grid CreateRoot(ResourceDictionary theme, ElementTheme requestedTheme)
@@ -100,22 +106,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var root = new Grid { Width = 500, Height = 600, RequestedTheme = requestedTheme };
 			root.Resources.MergedDictionaries.Add(theme);
 			return root;
-		}
-
-		private static IEnumerable<T> Descendants<T>(DependencyObject parent) where T : DependencyObject
-		{
-			for (var i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-			{
-				var child = VisualTreeHelper.GetChild(parent, i);
-				if (child is T match)
-				{
-					yield return match;
-				}
-				foreach (var descendant in Descendants<T>(child))
-				{
-					yield return descendant;
-				}
-			}
 		}
 	}
 }

@@ -76,3 +76,31 @@ included in the total. Logs and XML results are in ignored
 - [x] Verify all 13 upstream cross-reference targets/anchors and local Markdown links; prepare the documentation follow-up for publication.
 
 `git diff --check` passes. Changes are limited to documentation and XML comments; no executable code changed, so builds and runtime tests were not rerun.
+
+## PR #1636 review follow-up
+
+- [x] Inventory all review threads, including resolved feedback and release coordination.
+- [x] Compare Toolkit spacing generation with plain MaterialTheme for identical inputs, using Border.Padding probes.
+- [x] Replace the local descendant iterator with the existing Toolkit extension.
+- [x] Build Release Desktop and WebAssembly and run ThemeCompatibilityTests.
+- [x] Audit CI notices and issue-link feedback; record remaining publication steps and validation results.
+
+Keep the PR targeting main. Merge, servicing/10.0 backport publication, and notifying
+Martin after merge remain release coordination steps requiring explicit authorization.
+
+### Review follow-up validation (2026-09-09)
+
+- `ThemeCompatibilityTests`: **Passed: 7, Failed: 0, Skipped: 0** on macOS Desktop, including all three density cases compared against plain MaterialTheme and all four existing font cases. The reference padding must also be positive so unresolved tokens cannot produce a vacuous comparison.
+- Standalone Release runtime-test project build passed with **0 warnings, 0 errors**.
+- Release Material sample builds passed for Desktop and WebAssembly (.NET SDK 10.0.103): 100 and 113 warnings respectively, matching the counts in the prior baseline audit above; zero errors. No warning suppressions were added. WebAssembly runtime tests were not rerun.
+- Launch from `samples/Uno.Toolkit.Samples.Material/bin/Release/net10.0-desktop`:
+
+  ```sh
+  UNO_RUNTIME_TESTS_RUN_TESTS='{"Filter":{"Value":"ThemeCompatibilityTests"},"Attempts":1}' UNO_RUNTIME_TESTS_OUTPUT_PATH="$PWD/results.xml" dotnet MaterialSampleApp.dll --runtime-tests="$PWD/results.xml"
+  ```
+
+  The initial launches without `UNO_RUNTIME_TESTS_OUTPUT_PATH` produced no results; setting the output environment variable required by the embedded runner enabled execution. Actual logs/XML are in ignored `artifacts/themes-review/`.
+- Review changes refactor existing tests; no product behavior changed and no test cases were removed.
+- Latest Azure CI run 232693 passes, superseding the older failure notices. Preview deployment is blocked by Azure's staging-environment quota. Copilot setup fails on a missing `Uno.Toolkit.UITest.csproj` solution entry also present on `origin/main`; neither failure calls for changing theme compatibility code.
+- The PR template permits GitHub or internal issues and does not require a Toolkit-repository issue. Verified related upstream issues: [Uno.Themes#1709](https://github.com/unoplatform/Uno.Themes/issues/1709) and [Uno.Themes#1688](https://github.com/unoplatform/Uno.Themes/issues/1688). An updated PR body is prepared in ignored `artifacts/themes-review/pr-body.md`.
+- Publication, review-thread updates, merge/backport, and post-merge notification have not been performed.
