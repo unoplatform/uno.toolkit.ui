@@ -46,7 +46,32 @@ All 20 `UNOB0020` warnings name Uno-6-built *dependencies*, not toolkit code.
 | Package | State | Action |
 |---|---|---|
 | `Uno.Themes.WinUI` / `.Material` / `.Cupertino` / `.Simple` `7.1.0-dev.1` | Uno 6 (`lib/net9.0-android35.0`, binds `Uno.dll`, `Uno.Foundation`, `Uno.UI.Toolkit`) | Retarget PR open: [uno.themes#1722](https://github.com/unoplatform/Uno.Themes/pull/1722) — all four desktop sample heads publish clean locally. Bump `UnoThemesVersion` once it merges and publishes a dev package. |
-| `Uno.WinUI.Markup`, `Uno.Extensions.Markup.WinUI` `6.7.0-dev.16` | **No Uno 7 build exists** | Gates `Uno.Toolkit.WinUI.Markup` and `.Material.Markup` entirely. Not a port task — needs the owning repo. Raise now; this may be the real critical path. |
+| `Uno.WinUI.Markup`, `Uno.Extensions.Markup.WinUI` `6.7.0-dev.16` | **No Uno 7 build exists** | Pinned by the SDK's `CSharpMarkup` group; the override lever is `$(UnoCSharpMarkupVersion)`, which this repo never sets. Gates `Uno.Toolkit.WinUI.Markup` and `.Material.Markup` entirely (both declare `<UnoFeatures>CSharpMarkup</UnoFeatures>`). Not a port task — needs the owning repo. **Longest lead time in the port; raise first.** |
+
+### 1b. The error list is shallower than it looks
+
+`clean679.log` is a build of `Uno.Toolkit-packages.slnf` — the 8 library projects only. It does
+**not** cover the runtime-test project or any sample head, and once a project reference fails its
+dependants are skipped without a diagnostic. So:
+
+- iOS diagnostics come from exactly one project (`Uno.Toolkit.WinUI`). The iOS surface of
+  Cupertino, Material, Simple, Skia and both Markup projects is unknown.
+- Known-but-unbuilt breakage: `Tests/ShadowContainerTests.cs` (`SkiaSharp.Views.Windows`,
+  `is SKXamlCanvas`) and `Tests/NavigationBarTests.cs` (`GetNativeNavBar`,
+  `FindChild<NativeFramePresenter>`, `presenter.NavigationController`).
+
+Roslyn also stops binding method bodies once declaration errors exist, so a second wave is
+guaranteed. These Uno 6 APIs are absent from **every** Uno 7 assembly and sit in files no plan
+proposes to delete:
+
+| Symbol | Used at |
+|---|---|
+| `XamlWindow.IsStatusBarTranslucent()` | `Controls/SafeArea/SafeArea.cs:235` (`#if __ANDROID__`) |
+| `ListViewHelper.SmoothScrollToIndex` | `Helpers/ScrollableHelper.cs:133,135` (iOS **and** Android) |
+| `SKXamlCanvas.Opaque` | `Skia.WinUI/Controls/Shadows/ShadowContainer.cs:302` |
+
+`SafeArea` on Android has no public replacement for `IsStatusBarTranslucent` — it needs computing
+from the activity window, or the behaviour changes.
 
 ### 2. `ShadowContainer` / SkiaSharp — the committed fix is not sufficient
 
