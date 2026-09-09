@@ -46,6 +46,7 @@ All 20 `UNOB0020` warnings name Uno-6-built *dependencies*, not toolkit code.
 | Package | State | Action |
 |---|---|---|
 | `Uno.Themes.WinUI` / `.Material` / `.Cupertino` / `.Simple` `7.1.0-dev.1` | Uno 6 (`lib/net9.0-android35.0`, binds `Uno.dll`, `Uno.Foundation`, `Uno.UI.Toolkit`) | Retarget PR open: [uno.themes#1722](https://github.com/unoplatform/Uno.Themes/pull/1722) — all four desktop sample heads publish clean locally. Bump `UnoThemesVersion` once it merges and publishes a dev package. |
+| `Uno.ShowMeTheXAML` `2.0.0-dev0026` (latest) | Uno 6 (`net9.0`, binds `Uno.UI.Toolkit`) | Used by the Themes samples; crashes those apps at startup. Bumping does not help — no Uno 7 build exists. Same failure class as the SkiaSharp item below. |
 | `Uno.WinUI.Markup`, `Uno.Extensions.Markup.WinUI` `6.7.0-dev.16` | **No Uno 7 build exists** | Pinned by the SDK's `CSharpMarkup` group; the override lever is `$(UnoCSharpMarkupVersion)`, which this repo never sets. Gates `Uno.Toolkit.WinUI.Markup` and `.Material.Markup` entirely (both declare `<UnoFeatures>CSharpMarkup</UnoFeatures>`). Not a port task — needs the owning repo. **Longest lead time in the port; raise first.** |
 
 ### 1b. The error list is shallower than it looks
@@ -92,6 +93,21 @@ The Uno 7 route for drawing Skia content is `Uno.WinUI.Graphics2DSK` (`SKCanvasE
 what the retargeted `Uno.Themes` already references. **`ShadowContainer` should be ported off
 `SKXamlCanvas` onto `SKCanvasElement`.** Until then the `SkiaSharp.Views.Uno.WinUI` reference stays
 as a compile-time unblock only.
+
+### 2b. Upstream: XAML generator emits a native-view template builder on mobile
+
+Seen on the sibling `uno.themes` PR, and likely to hit this repo once its mobile legs compile:
+
+```text
+mergedpages_*.cs: error CS0407: 'View  GlobalStaticResources...Build_ResDic..._ConTem(
+    object, TemplateMaterializationSettings)' has the wrong return type   (net10.0-android)
+mergedpages_*.cs: error CS0407: 'UIView GlobalStaticResources...Build_ResDic..._ConTem(
+    object, TemplateMaterializationSettings)' has the wrong return type   (net10.0-ios)
+```
+
+The generator still types a `ControlTemplate` builder as returning the native view type, which
+Uno 7 removed. It reproduces only in `Uno.Simple.WinUI` — Material and Cupertino build fine on the
+same target frameworks — so it is template-shape specific. Not fixable downstream; report upstream.
 
 ### 3. Mobile (iOS + Android) — needs a product decision
 
