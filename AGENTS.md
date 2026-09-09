@@ -349,6 +349,8 @@ The PR template (`.github/pull_request_template.md`) requires updating documenta
 
 ✅ Prefer updating an existing page over adding a new one.
 ✅ Cross-link relevant pages (e.g. between a control's doc and `controls-styles.md`).
+✅ Keep public documentation independent of exact prerelease NuGet build versions; record package provenance in PR or validation notes instead.
+✅ Document Toolkit-specific setup, migration impact, and behavior here. For inherited Uno Themes / `BaseTheme` APIs, link to the authoritative Uno Themes documentation rather than duplicating usage, defaults, formulas, or runtime semantics.
 ✅ Sample pages: add a page under `samples/Uno.Toolkit.Samples/Content/` (the shared project) so all sample heads pick it up.
 
 </coding_directives>

@@ -6,6 +6,17 @@ uid: Toolkit.Migration
 
 **UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
+## Upgrading to Uno Toolkit 10.0
+
+Uno Toolkit 10.0 adopts the Uno Themes typography and spacing changes. Applications that override removed font resources or persist numeric density values need to update those usages:
+
+- Replace `TypefacePlain`, `TypefaceBrand`, `SimpleFontFamily`, and Simple's per-weight font-family keys with `DefaultFontFamily`. See [Uno Themes typography](xref:Uno.Themes.DesignTokens#typography) for the resource changes.
+- Use named `Density` members and migrate persisted numeric values: `Compact`, `Regular`, and `Comfy` changed from `3`, `4`, and `5` to `0`, `1`, and `2`. XAML using the names needs no change. See [Uno Themes density modes](xref:Uno.Themes.DesignTokens#density-modes).
+
+`MaterialToolkitTheme` and `SimpleToolkitTheme` inherit the shared `BaseTheme` APIs. Apply the [Uno Themes customization examples](xref:Uno.Themes.DesignTokens#overriding-tokens) directly to the Toolkit theme; a separate underlying theme dictionary is unnecessary.
+
+Toolkit's `NavigationBarFontFamily` and `DividerSubHeaderFontFamily` override keys remain available; `DefaultFontFamily` does not regenerate these aliases. Fixed Toolkit padding and margins also remain independent of the generated spacing scale. See [Material customization](material-getting-started.md#customization) and [Simple customization](simple-getting-started.md#customization) for Toolkit-specific considerations.
+
 ## Upgrading to Uno Toolkit 9.0
 
 Uno Toolkit 9.0 takes a dependency on Uno Themes 7.0, which introduces seed-based color generation and a unified design-token system. It also drops UWP support and reshapes the public surface of the theme classes. Most apps that consume `<MaterialToolkitTheme/>` or `<SimpleToolkitTheme/>` via XAML will not need code changes, but several behaviors and defaults have shifted. Uno Toolkit 9.0 requires Uno.WinUI 6.5 or later; apps using the Uno SDK get compatible versions automatically, while apps pinning package versions manually should update their `Uno.WinUI` reference.

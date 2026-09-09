@@ -105,7 +105,8 @@
 		"UWP's",
 		"VSIX",
 		"walkthrough",
-		"WEBASSEMBLY"
+		"WEBASSEMBLY",
+		"worktree"
 	],
 	"ignoreWords": [
 		"ADAL",
