@@ -29,11 +29,7 @@ using Windows.UI.Xaml.Navigation;
 namespace Uno.Toolkit.UI
 {
 	internal abstract class Renderer<TElement, TNative> : IDisposable
-			where TElement :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+			where TElement : DependencyObject
 			where TNative : class
 	{
 		private CompositeDisposable _subscriptions = new CompositeDisposable();
@@ -177,11 +173,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static bool TryGetNative<TElement, TRenderer, TNative>(this TElement element, out TNative? native)
-			where TElement :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+			where TElement : DependencyObject
 			where TRenderer : Renderer<TElement, TNative>
 			where TNative : class
 		{

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Uno.Sdk">
+﻿<Project Sdk="Uno.Sdk.Private">
 	<Import Project="..\tfm-common-winui.props" />
 
 	<PropertyGroup>
@@ -17,6 +17,15 @@
 		<PackageReference Include="Uno.Core.Extensions.Collections" />
 		<PackageReference Include="Uno.Core.Extensions.Logging.Singleton" />
 		<PackageReference Include="Uno.Core.Extensions.Logging" />
+	</ItemGroup>
+
+	<!--
+		The Uno SDK only flows a SkiaSharp views package to the WinAppSDK head, where
+		SkiaSharp.Views.WinUI supplies the SkiaSharp.Views.Windows namespace. Every other
+		target framework needs SkiaSharp.Views.Uno.WinUI for the same namespace.
+	-->
+	<ItemGroup Condition="!$(_IsWindowsWinUI)">
+		<PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
 	</ItemGroup>
 
 	<PropertyGroup>

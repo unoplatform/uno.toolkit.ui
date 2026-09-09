@@ -29,8 +29,8 @@ Uno Toolkit ships higher-level UI controls for multi-platform Uno Platform / Win
 Target frameworks are managed centrally:
 
 - `src/tfms.props` defines `NetCurrent` (currently `net10.0`).
-- `src/tfm-common-winui.props` expands library projects to `net9.0` + per-platform suffixes (`net9.0-ios`, `net9.0-android`, `net9.0-windows10.0.19041`, `net9.0-maccatalyst`); sample apps use `net10.0-*`.
-- The Uno SDK version is pinned in `global.json` (`Uno.Sdk` and `Uno.Sdk.Private`).
+- `src/tfm-common-winui.props` expands library projects to `net10.0` + per-platform suffixes (`net10.0-ios`, `net10.0-android`, `net10.0-windows10.0.19041`, `net10.0-maccatalyst`); sample apps use `net10.0-*`.
+- The Uno SDK version is pinned in `global.json` (`Uno.Sdk.Private`).
 
 The top-level `Directory.Build.props` also exposes `Build_Android`, `Build_iOS`, `Build_MacOS`, `Build_Windows` switches; non-Windows hosts default `Build_Windows=false`. The single-platform local-build flow (via `crosstargeting_override.props`) is documented in §4 below.
 

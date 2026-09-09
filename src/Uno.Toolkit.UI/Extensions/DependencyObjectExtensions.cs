@@ -98,11 +98,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static T? FindChild<T>(this DependencyObject depObj)
-		where T :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+		where T : DependencyObject
 		{
 			if (depObj == null) return default(T);
 
@@ -117,11 +113,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static T? GetFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
-		where T :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+		where T : DependencyObject
 		{
 			var c = element.GetAncestors(includeCurrent);
 			return c.OfType<T>().FirstOrDefault();
@@ -179,11 +171,11 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		internal static void SetParent(this DependencyObject dependencyObject, object? parent)
 		{
-			if (parent != null
-				&& dependencyObject is IDependencyObjectStoreProvider storeProvider
-				&& (!ReferenceEquals(storeProvider.Store.Parent, parent)))
+			if (parent != null)
 			{
-				storeProvider.Store.Parent = parent;
+				// MarkupHelper replaces the removed IDependencyObjectStoreProvider, and already
+				// no-ops when the parent is unchanged.
+				Uno.UI.Helpers.MarkupHelper.SetParent(dependencyObject, parent);
 			}
 		}
 #endif

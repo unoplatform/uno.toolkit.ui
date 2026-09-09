@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Uno.Sdk">
+<Project Sdk="Uno.Sdk.Private">
 	<Import Project="..\..\tfm-common-winui.props" />
 
 	<!--
