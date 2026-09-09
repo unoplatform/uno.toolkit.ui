@@ -45,7 +45,7 @@ All 20 `UNOB0020` warnings name Uno-6-built *dependencies*, not toolkit code.
 
 | Package | State | Action |
 |---|---|---|
-| `Uno.Themes.WinUI` / `.Material` / `.Cupertino` / `.Simple` `7.1.0-dev.1` | Uno 6 (`lib/net9.0-android35.0`, binds `Uno.dll`, `Uno.Foundation`, `Uno.UI.Toolkit`) | Retarget PR open: [uno.themes#1722](https://github.com/unoplatform/Uno.Themes/pull/1722). Bump `UnoThemesVersion` once it publishes a dev package. |
+| `Uno.Themes.WinUI` / `.Material` / `.Cupertino` / `.Simple` `7.1.0-dev.1` | Uno 6 (`lib/net9.0-android35.0`, binds `Uno.dll`, `Uno.Foundation`, `Uno.UI.Toolkit`) | Retarget PR open: [uno.themes#1722](https://github.com/unoplatform/Uno.Themes/pull/1722) — all four desktop sample heads publish clean locally. Bump `UnoThemesVersion` once it merges and publishes a dev package. |
 | `Uno.WinUI.Markup`, `Uno.Extensions.Markup.WinUI` `6.7.0-dev.16` | **No Uno 7 build exists** | Gates `Uno.Toolkit.WinUI.Markup` and `.Material.Markup` entirely. Not a port task — needs the owning repo. Raise now; this may be the real critical path. |
 
 ### 2. `ShadowContainer` / SkiaSharp — the committed fix is not sufficient
