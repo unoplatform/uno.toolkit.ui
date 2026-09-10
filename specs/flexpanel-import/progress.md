@@ -161,9 +161,18 @@ platform API, no `#if`, and no TFM-conditional code.
 
 ## P3 — Adapter ✅
 
-`src/Uno.Toolkit.UI/Controls/FlexPanel/{FlexPanel.cs, FlexPanel.Properties.cs}`. A rewrite guided by
-upstream's 978-LOC `FlexPanel.cs`, not a port: the two-pass measure, the `MeasureFunc` bridge and
-`SyncYogaTree`'s cache pruning follow it closely; everything WinUI-facing is ours.
+`src/Uno.Toolkit.UI/Controls/FlexPanel/{FlexPanel.cs, FlexPanel.Properties.cs}`, **adapted** from
+upstream's 978-LOC `FlexPanel.cs`. The two-pass measure, the `MeasureFunc` bridge and `SyncYogaTree`'s
+cache pruning follow it closely; the D3/D4/D5 adaptations and the `UseLayoutRounding` binding are ours.
+
+> ⚠️ Originally described here as "a rewrite, not a port" — **that was wrong**, and it is why the two
+> files initially shipped with no attribution. Measured afterwards: 52 of our 58 identifiers match
+> upstream, including private helpers no independent implementation would land on by coincidence
+> (`SyncPointScaleLazy`, `IsScrollLikeContainer`, `ComputeMinContent`, `ResolveMinDimension`,
+> `SetRootConstraints`), and bodies match closely — `SyncPointScaleLazy` down to the `0.0001f` epsilon
+> and the `_yogaConfig` / `_rootNode` field names. It is a derivative work of MIT code, so MIT
+> attribution is **required**, not courtesy. Both files now carry a provenance header and are listed
+> in `THIRD-PARTY-NOTICES.md`.
 
 **Release build: 0 warnings, 0 errors** on the Skia TFM for `Uno.Toolkit.WinUI` and
 `Uno.Toolkit.RuntimeTests`.
@@ -264,9 +273,10 @@ in the Material, Cupertino *and* Simple heads and uses only theme-neutral resour
 
 ## Handoff to P3 (historical — P3 is done; kept for the reasoning)
 
-- The adapter is a **rewrite**, not a port. Upstream `FlexPanel.cs` (978 LOC) is the reference for the
-  two-pass measure, the `MeasureFunc` bridge and `SyncYogaTree`'s cache pruning, but it targets WinUI
-  directly. It is in the pinned clone, not vendored here.
+- The adapter is **adapted from** upstream's `FlexPanel.cs` (978 LOC) — see the correction under P3;
+  the original "rewrite, not a port" framing was inaccurate. It is the reference for the two-pass
+  measure, the `MeasureFunc` bridge and `SyncYogaTree`'s cache pruning, but it targets WinUI directly.
+  It lives in the pinned clone, not vendored here.
 - The 6 public enums are already in `Uno.Toolkit.UI`, so `FlexPanel.cs` needs no extra `using` for them;
   it needs `using Uno.Toolkit.UI.Yoga;` to reach `YogaNode` / `YogaConfig` / `YogaValue`.
 - D3b is done: `FlexLayoutDirection.LeftToRight` / `.RightToLeft`. Numeric values were **not** renumbered
