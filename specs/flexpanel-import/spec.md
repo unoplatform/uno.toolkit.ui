@@ -98,7 +98,7 @@ Upstream `src/Reactor/Yoga/` — 11 files, 5,449 LOC. Verified dependency split:
 | `YogaValue.cs` | 116 | none | namespace only |
 | `FlexDirectionHelper.cs` | 81 | none | namespace only |
 | **subtotal (engine)** | **4,471** | **`System.Threading`, `System.Diagnostics` only** | **mechanical** |
-| `FlexPanel.cs` | 978 | `Microsoft.UI.Xaml{,.Controls}`, `Windows.Foundation` | **rewrite as Uno adapter** |
+| `FlexPanel.cs` | 978 | `Microsoft.UI.Xaml{,.Controls}`, `Windows.Foundation` | **adapt as Uno adapter** (P3 outcome: a close adaptation, not an independent rewrite - it is a derivative work and carries MIT attribution) |
 
 Not imported: `src/Reactor/Elements/FlexExtensions.cs` (the `.Flex(...)` Reactor-DSL modifier — a ~40-line wrapper over the attached DPs; our surface is XAML-first).
 
@@ -165,7 +165,7 @@ Child `Margin`, `Width`, `Height`, and `Visibility` participate without any atta
 ```
 src/Uno.Toolkit.UI/
   Controls/FlexPanel/
-    FlexPanel.cs                  # our adapter (rewritten)
+    FlexPanel.cs                  # our adapter, ADAPTED from upstream's (MIT - see notices)
     FlexPanel.Properties.cs       # container + attached DPs
   Layout/Yoga/                    # vendored, near-verbatim
     .editorconfig                 # analyzer containment (see D7)
