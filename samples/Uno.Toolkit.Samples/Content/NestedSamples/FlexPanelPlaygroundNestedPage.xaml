@@ -1,0 +1,443 @@
+﻿<Page x:Class="Uno.Toolkit.Samples.Content.NestedSamples.FlexPanelPlaygroundNestedPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Page.Resources>
+		<SolidColorBrush x:Key="StageBorderBrush" Color="#80808080" />
+
+		<Style x:Key="OptionLabelStyle" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="12" />
+			<Setter Property="Opacity" Value="0.75" />
+			<Setter Property="Margin" Value="0,10,0,2" />
+		</Style>
+
+		<Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="14" />
+			<Setter Property="FontWeight" Value="SemiBold" />
+			<Setter Property="Margin" Value="0,20,0,0" />
+		</Style>
+
+		<Style x:Key="OptionComboStyle" TargetType="ComboBox">
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="MinWidth" Value="0" />
+		</Style>
+
+		<Style x:Key="OptionSliderStyle" TargetType="Slider">
+			<Setter Property="Margin" Value="0,-4,0,-4" />
+		</Style>
+	</Page.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!-- Header -->
+		<Grid Grid.Row="0" Padding="16,12">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0" VerticalAlignment="Center">
+				<TextBlock Text="FlexPanel playground"
+						   FontSize="18"
+						   FontWeight="SemiBold" />
+				<TextBlock Text="Every container and per-child property, live."
+						   FontSize="12"
+						   Opacity="0.75"
+						   TextWrapping="Wrap" />
+			</StackPanel>
+			<Button Grid.Column="1"
+					Content="Close"
+					Click="ExitNestedSample"
+					AutomationProperties.AutomationId="FlexPanelPlayground_Exit_Button"
+					VerticalAlignment="Center" />
+		</Grid>
+
+		<!-- Body -->
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition x:Name="OptionsColumn" Width="340" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<VisualStateManager.VisualStateGroups>
+				<!-- Options on the right side by default, moves below stage area in narrow mode -->
+				<VisualStateGroup>
+					<VisualState x:Name="WideState">
+						<VisualState.StateTriggers>
+							<AdaptiveTrigger MinWindowWidth="720" />
+						</VisualState.StateTriggers>
+					</VisualState>
+					<VisualState x:Name="NarrowState">
+						<VisualState.StateTriggers>
+							<AdaptiveTrigger MinWindowWidth="0" />
+						</VisualState.StateTriggers>
+						<VisualState.Setters>
+							<Setter Target="OptionsColumn.Width" Value="0" />
+							<Setter Target="OptionsHost.(Grid.Row)" Value="1" />
+							<Setter Target="OptionsHost.(Grid.Column)" Value="0" />
+							<Setter Target="OptionsHost.(Grid.ColumnSpan)" Value="2" />
+							<Setter Target="OptionsHost.MaxHeight" Value="300" />
+							<Setter Target="OptionsHost.BorderThickness" Value="0,1,0,0" />
+						</VisualState.Setters>
+					</VisualState>
+				</VisualStateGroup>
+			</VisualStateManager.VisualStateGroups>
+
+			<!-- Stage: Playground Element + Layout Readout -->
+			<Grid Grid.Row="0"
+				  Grid.Column="0"
+				  Padding="16">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<!-- Playground Element -->
+				<ScrollViewer Grid.Row="0"
+							  HorizontalScrollBarVisibility="Auto"
+							  HorizontalScrollMode="Auto"
+							  VerticalScrollBarVisibility="Auto">
+					<Border x:Name="StageHost"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Top"
+							BorderBrush="{StaticResource StageBorderBrush}"
+							BorderThickness="1">
+						<!-- The subject of this whole page. -->
+						<utu:FlexPanel x:Name="Stage" />
+					</Border>
+				</ScrollViewer>
+
+				<!-- Layout Readout -->
+				<Border Grid.Row="1"
+						Margin="0,12,0,0"
+						MaxHeight="140"
+						BorderBrush="{StaticResource StageBorderBrush}"
+						BorderThickness="1">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto">
+						<TextBlock x:Name="Readout"
+								   Margin="8"
+								   FontFamily="Consolas"
+								   FontSize="11"
+								   IsTextSelectionEnabled="True" />
+					</ScrollViewer>
+				</Border>
+			</Grid>
+
+			<!-- Options -->
+			<Border x:Name="OptionsHost"
+					Grid.Row="0"
+					Grid.Column="1"
+					BorderBrush="{StaticResource StageBorderBrush}"
+					BorderThickness="1,0,0,0">
+				<ScrollViewer Padding="16,0,16,16">
+					<StackPanel>
+
+						<TextBlock Text="Container" Style="{StaticResource SectionHeaderStyle}" />
+
+						<TextBlock Text="Direction" Style="{StaticResource OptionLabelStyle}" />
+						<ComboBox x:Name="DirectionCombo"
+								  SelectionChanged="OnContainerOptionChanged"
+								  Style="{StaticResource OptionComboStyle}" />
+
+						<TextBlock Text="Wrap" Style="{StaticResource OptionLabelStyle}" />
+						<ComboBox x:Name="WrapCombo"
+								  SelectionChanged="OnContainerOptionChanged"
+								  Style="{StaticResource OptionComboStyle}" />
+
+						<TextBlock Text="JustifyContent" Style="{StaticResource OptionLabelStyle}" />
+						<ComboBox x:Name="JustifyCombo"
+								  SelectionChanged="OnContainerOptionChanged"
+								  Style="{StaticResource OptionComboStyle}" />
+
+						<TextBlock Text="AlignItems" Style="{StaticResource OptionLabelStyle}" />
+						<ComboBox x:Name="AlignItemsCombo"
+								  SelectionChanged="OnContainerOptionChanged"
+								  Style="{StaticResource OptionComboStyle}" />
+
+						<TextBlock Text="AlignContent (needs Wrap + 2 lines)" Style="{StaticResource OptionLabelStyle}" />
+						<ComboBox x:Name="AlignContentCombo"
+								  SelectionChanged="OnContainerOptionChanged"
+								  Style="{StaticResource OptionComboStyle}" />
+
+						<TextBlock Text="LayoutDirection" Style="{StaticResource OptionLabelStyle}" />
+						<ComboBox x:Name="LayoutDirectionCombo"
+								  SelectionChanged="OnContainerOptionChanged"
+								  Style="{StaticResource OptionComboStyle}" />
+
+						<TextBlock x:Name="ColumnGapLabel"
+								   Text="ColumnGap"
+								   Style="{StaticResource OptionLabelStyle}" />
+						<Slider x:Name="ColumnGapSlider"
+								Maximum="48"
+								Minimum="0"
+								Value="8"
+								ValueChanged="OnContainerSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<TextBlock x:Name="RowGapLabel"
+								   Text="RowGap"
+								   Style="{StaticResource OptionLabelStyle}" />
+						<Slider x:Name="RowGapSlider"
+								Maximum="48"
+								Minimum="0"
+								Value="8"
+								ValueChanged="OnContainerSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<TextBlock x:Name="PaddingLabel"
+								   Text="Padding"
+								   Style="{StaticResource OptionLabelStyle}" />
+						<Slider x:Name="PaddingLeftSlider"
+								Header="Left"
+								Maximum="64"
+								Minimum="0"
+								Value="8"
+								ValueChanged="OnContainerSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+						<Slider x:Name="PaddingTopSlider"
+								Header="Top"
+								Maximum="64"
+								Minimum="0"
+								Value="8"
+								ValueChanged="OnContainerSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+						<Slider x:Name="PaddingRightSlider"
+								Header="Right"
+								Maximum="64"
+								Minimum="0"
+								Value="8"
+								ValueChanged="OnContainerSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+						<Slider x:Name="PaddingBottomSlider"
+								Header="Bottom"
+								Maximum="64"
+								Minimum="0"
+								Value="8"
+								ValueChanged="OnContainerSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<TextBlock Text="Host and rounding" Style="{StaticResource SectionHeaderStyle}" />
+
+						<CheckBox x:Name="StageAutoWidthCheck"
+								  Checked="OnStageSizeOptionChanged"
+								  Content="Auto width"
+								  IsChecked="False"
+								  Unchecked="OnStageSizeOptionChanged" />
+						<Slider x:Name="StageWidthSlider"
+								Maximum="1400"
+								Minimum="120"
+								Value="560"
+								ValueChanged="OnStageSizeSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<CheckBox x:Name="StageAutoHeightCheck"
+								  Checked="OnStageSizeOptionChanged"
+								  Content="Auto height"
+								  IsChecked="True"
+								  Unchecked="OnStageSizeOptionChanged" />
+						<Slider x:Name="StageHeightSlider"
+								Maximum="800"
+								Minimum="80"
+								Value="240"
+								ValueChanged="OnStageSizeSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<CheckBox x:Name="UseLayoutRoundingCheck"
+								  Checked="OnRoundingChanged"
+								  Content="UseLayoutRounding"
+								  IsChecked="True"
+								  Unchecked="OnRoundingChanged" />
+
+						<CheckBox x:Name="FlowDirectionRtlCheck"
+								  Checked="OnFlowDirectionChanged"
+								  Content="FlowDirection = RightToLeft"
+								  IsChecked="False"
+								  Unchecked="OnFlowDirectionChanged" />
+						<TextBlock FontSize="11"
+								   Opacity="0.7"
+								   TextWrapping="Wrap"
+								   Text="FlexPanel ignores FlowDirection. Combining it with LayoutDirection=RightToLeft mirrors twice — that is the documented hazard, shown here on purpose." />
+
+						<TextBlock Text="Children" Style="{StaticResource SectionHeaderStyle}" />
+
+						<StackPanel Orientation="Horizontal" Spacing="8">
+							<Button Click="OnAddChild" Content="Add" />
+							<Button Click="OnRemoveChild" Content="Remove" />
+							<Button Click="OnResetChildren" Content="Reset" />
+						</StackPanel>
+
+						<CheckBox x:Name="StressCheck"
+								  Margin="0,8,0,0"
+								  Checked="OnStressChanged"
+								  Content="Stress: 200 children"
+								  IsChecked="False"
+								  Unchecked="OnStressChanged" />
+
+						<TextBlock Text="Selected child" Style="{StaticResource OptionLabelStyle}" />
+						<ComboBox x:Name="ChildSelector"
+								  SelectionChanged="OnSelectedChildChanged"
+								  Style="{StaticResource OptionComboStyle}" />
+
+						<TextBlock Text="Selected child properties" Style="{StaticResource SectionHeaderStyle}" />
+
+						<Slider x:Name="GrowSlider"
+								Header="Grow"
+								Maximum="5"
+								Minimum="0"
+								StepFrequency="1"
+								Value="0"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<Slider x:Name="ShrinkSlider"
+								Header="Shrink"
+								Maximum="5"
+								Minimum="0"
+								StepFrequency="1"
+								Value="1"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<CheckBox x:Name="BasisAutoCheck"
+								  Checked="OnChildOptionChanged"
+								  Content="Basis = auto"
+								  IsChecked="True"
+								  Unchecked="OnChildOptionChanged" />
+						<Slider x:Name="BasisSlider"
+								Maximum="400"
+								Minimum="0"
+								Value="0"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<TextBlock Text="AlignSelf" Style="{StaticResource OptionLabelStyle}" />
+						<ComboBox x:Name="AlignSelfCombo"
+								  SelectionChanged="OnChildComboChanged"
+								  Style="{StaticResource OptionComboStyle}" />
+
+						<CheckBox x:Name="FlexMinWidthAutoCheck"
+								  Checked="OnChildOptionChanged"
+								  Content="FlexMinWidth = auto"
+								  IsChecked="True"
+								  Unchecked="OnChildOptionChanged" />
+						<Slider x:Name="FlexMinWidthSlider"
+								Maximum="300"
+								Minimum="0"
+								Value="0"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<CheckBox x:Name="FlexMinHeightAutoCheck"
+								  Checked="OnChildOptionChanged"
+								  Content="FlexMinHeight = auto"
+								  IsChecked="True"
+								  Unchecked="OnChildOptionChanged" />
+						<Slider x:Name="FlexMinHeightSlider"
+								Maximum="300"
+								Minimum="0"
+								Value="0"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<TextBlock Text="Position" Style="{StaticResource OptionLabelStyle}" />
+						<ComboBox x:Name="PositionCombo"
+								  SelectionChanged="OnChildComboChanged"
+								  Style="{StaticResource OptionComboStyle}" />
+
+						<CheckBox x:Name="InsetsEnabledCheck"
+								  Checked="OnChildOptionChanged"
+								  Content="Apply Left/Top/Right/Bottom insets"
+								  IsChecked="False"
+								  Unchecked="OnChildOptionChanged" />
+						<Slider x:Name="LeftSlider"
+								Header="Left"
+								Maximum="300"
+								Minimum="0"
+								Value="0"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+						<Slider x:Name="TopSlider"
+								Header="Top"
+								Maximum="300"
+								Minimum="0"
+								Value="0"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+						<Slider x:Name="RightSlider"
+								Header="Right"
+								Maximum="300"
+								Minimum="0"
+								Value="0"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+						<Slider x:Name="BottomSlider"
+								Header="Bottom"
+								Maximum="300"
+								Minimum="0"
+								Value="0"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<TextBlock Text="Selected child — no attached property needed" Style="{StaticResource SectionHeaderStyle}" />
+						<TextBlock FontSize="11"
+								   Opacity="0.7"
+								   TextWrapping="Wrap"
+								   Text="Width, Height, Margin and Visibility participate in flex layout directly." />
+
+						<CheckBox x:Name="WidthAutoCheck"
+								  Checked="OnChildOptionChanged"
+								  Content="Width = auto"
+								  IsChecked="True"
+								  Unchecked="OnChildOptionChanged" />
+						<Slider x:Name="WidthSlider"
+								Maximum="500"
+								Minimum="0"
+								Value="120"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<CheckBox x:Name="HeightAutoCheck"
+								  Checked="OnChildOptionChanged"
+								  Content="Height = auto"
+								  IsChecked="True"
+								  Unchecked="OnChildOptionChanged" />
+						<Slider x:Name="HeightSlider"
+								Maximum="400"
+								Minimum="0"
+								Value="60"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<Slider x:Name="MarginSlider"
+								Header="Margin (uniform, negative allowed)"
+								Maximum="40"
+								Minimum="-20"
+								Value="0"
+								ValueChanged="OnChildSliderChanged"
+								Style="{StaticResource OptionSliderStyle}" />
+
+						<CheckBox x:Name="ChildVisibleCheck"
+								  Checked="OnChildOptionChanged"
+								  Content="Visible"
+								  IsChecked="True"
+								  Unchecked="OnChildOptionChanged" />
+
+					</StackPanel>
+				</ScrollViewer>
+			</Border>
+		</Grid>
+	</Grid>
+</Page>
