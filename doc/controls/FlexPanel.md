@@ -9,7 +9,7 @@ uid: Toolkit.Controls.FlexPanel
 
 ## Summary
 
-`FlexPanel` arranges its children using [CSS Flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) semantics. Layout is computed by a vendored C# port of [Meta's Yoga](https://github.com/facebook/yoga) engine, so sizing, wrapping and distribution follow the CSS specification rather than an approximation of it.
+`FlexPanel` arranges its children using [CSS Flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) semantics. Layout is computed by a vendored C# port of [Meta's Yoga](https://github.com/facebook/yoga) engine, so sizing, wrapping and distribution follow the CSS specification rather than an approximation of it. That port — and the `Panel` adapter this control is adapted from — comes from Microsoft's [Reactor](https://github.com/microsoft/microsoft-ui-reactor) project. Both are MIT; see [THIRD-PARTY-NOTICES.md](../../THIRD-PARTY-NOTICES.md).
 
 ### C\#
 

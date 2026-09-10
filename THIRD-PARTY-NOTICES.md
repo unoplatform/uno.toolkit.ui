@@ -11,8 +11,17 @@ full text.
 
 ## Yoga flexbox layout engine (C# port)
 
-Vendored into `src/Uno.Toolkit.UI/Layout/Yoga/` and, for the conformance corpus, into
-`src/Uno.Toolkit.RuntimeTests/Tests/Yoga/`.
+Used in three places in this repository:
+
+| Path | Relationship |
+|---|---|
+| `src/Uno.Toolkit.UI/Layout/Yoga/` | vendored near-verbatim; the layout engine itself |
+| `src/Uno.Toolkit.RuntimeTests/Tests/Yoga/` | vendored; the generated conformance corpus |
+| `src/Uno.Toolkit.UI/Controls/FlexPanel/` | **adapted** from upstream's `src/Reactor/Yoga/FlexPanel.cs`, then diverged (this one is ours to maintain) |
+
+The engine is compiled into the `Uno.Toolkit.WinUI` assembly, so this notice file also ships
+inside that NuGet package — MIT requires the notice to travel with every copy, and a compiled
+package is a copy.
 
 The code is a C# line-port, authored by Microsoft as part of the Reactor project, of Meta's Yoga layout
 engine. Both copyright holders are named below; both grants are MIT.

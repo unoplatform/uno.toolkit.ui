@@ -1,3 +1,9 @@
+// Adapted from microsoft/microsoft-ui-reactor's src/Reactor/Yoga/FlexPanel.cs
+// @ v0.1.0-preview.13 (c9191b97c40a2e4d6bcbc72df7714184862b4d36). Unlike the engine under
+// Layout/Yoga/, this file is ours to maintain and has diverged - edit it freely.
+// SPDX-License-Identifier: MIT -- (c) Microsoft Corporation (the original adapter);
+// (c) Facebook, Inc. and its affiliates (Yoga). Full license text: THIRD-PARTY-NOTICES.md
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
