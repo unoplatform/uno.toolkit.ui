@@ -8,9 +8,9 @@ Tracking for [`spec.md`](./spec.md). Branch `dev/xygu/20260904/reactor-flexpanel
 | P0 — Approval | ✅ vendoring confirmed, name `FlexPanel` kept |
 | **P1 — Engine import** | ✅ **done** |
 | **P2 — Tier-1 conformance** | ✅ **done — 544/544 green on desktop/Skia** |
-| P3 — Adapter (`FlexPanel.cs`) | ⬜ not started (P2's gate deliberately blocks it until now) |
-| P4 — Cross-platform validation | ⬜ |
-| P5 — Sample + docs | ⬜ |
+| **P3 — Adapter (`FlexPanel.cs`)** | ✅ **done — 24/24 tier-2 + tier-3 green on desktop/Skia** |
+| P4 — Cross-platform validation | ⬜ (deliberately deferred — see below) |
+| **P5 — Sample + docs** | ✅ **done** |
 | P6 — Review | ⬜ |
 
 ## Pinned upstream
@@ -159,7 +159,110 @@ is underway in the toolkit on `dev/mazi/uno7-groundwork`. FR-8 and the P4 matrix
 the Skia heads accordingly. This costs nothing here — the engine is pure managed `float` math with no
 platform API, no `#if`, and no TFM-conditional code.
 
-## Handoff to P3
+## P3 — Adapter ✅
+
+`src/Uno.Toolkit.UI/Controls/FlexPanel/{FlexPanel.cs, FlexPanel.Properties.cs}`. A rewrite guided by
+upstream's 978-LOC `FlexPanel.cs`, not a port: the two-pass measure, the `MeasureFunc` bridge and
+`SyncYogaTree`'s cache pruning follow it closely; everything WinUI-facing is ours.
+
+**Release build: 0 warnings, 0 errors** on the Skia TFM for `Uno.Toolkit.WinUI` and
+`Uno.Toolkit.RuntimeTests`.
+
+### Deviations from upstream, and why
+
+| | |
+|---|---|
+| `FlexPadding` → `Padding` | D3. `Panel` has no `Padding`, so there is no conflict to dodge. |
+| `GetMinWidth`/`SetMinWidth` → `GetFlexMinWidth`/`SetFlexMinWidth` | **Upstream bug.** It registers the DP as `"FlexMinWidth"` but names the accessors `Get/SetMinWidth`. XAML resolves an attached property by the accessor name, so `utu:FlexPanel.FlexMinWidth="0"` would not bind against upstream's naming. Ours is XAML-first, so the accessors must match the registered name. |
+| `PointScaleFactor` bound to `UseLayoutRounding` | D4 / FR-6, rather than upstream's unconditional `RasterizationScale`. |
+| Scratch collections cleared at end of pass | See the leak note below. |
+
+### Tier 2 + tier 3 — 24/24 green
+
+`Tests/FlexPanelTests.cs` (21) and `Tests/FlexPanelLeakTests.cs` (3). All 18 tier-2 cases the spec
+names, plus three not in the spec:
+
+- `When_DirectionNotSet_ThenDefaultsToRow` — pins the `FlexDirection.Column = 0` vs `Row`-default
+  hazard flagged in the P3 handoff notes.
+- `When_UseLayoutRoundingTrue_ThenArrangeSnapsToPixelGrid` — the counterpart that makes the FR-6
+  toggle an observable change rather than an untested claim.
+- `When_PanelUnloaded_ThenChildrenAreCollectable` — the `Unloaded` half of D9.
+
+### 🔴 A real leak the tier-3 tests caught
+
+The first run was 20/23: two leak tests failed. `SyncYogaTree` correctly evicted removed children
+from `_nodeCache` / `_attachedCache`, but the **scratch collections themselves were left populated**
+— `_syncToRemove` still held every element it had just evicted, and `_measuredThisPass` held the
+children measured that pass. Both are instance fields reused across passes (NFR-2), so a panel that
+never laid out again pinned those children indefinitely. Fixed by clearing `_syncToRemove` /
+`_syncCurrentChildren` at the end of `SyncYogaTree` and `_measuredThisPass` at the end of
+`MeasureOverride`. Allocation-free, so NFR-2 is unaffected.
+
+This is exactly what D9 predicted tier 3 was for, and it would not have been visible from any
+tier-1 or tier-2 assertion.
+
+**Hardened past what the tests can see.** Clearing at the end of a *successful* pass is still the
+"released only on the next pass" shape that caused the bug: a pass that throws part-way, or a
+panel unloaded mid-pass, would keep holding. The clears now sit in `finally` blocks
+(`MeasureOverride` delegates to `MeasureCore`, `SyncYogaTree` to `SyncYogaTreeCore`) and are
+repeated in `OnUnloaded`, so the release is unconditional. The leak tests pass either way --
+they always trigger a clean subsequent pass -- so this one is reasoned, not test-driven.
+
+### The third failure was the test, not the adapter
+
+`When_UseLayoutRoundingFalse_ThenFractionalArrangePreserved` expected `33.333` and got `33.0`. Yoga
+was in fact not rounding — `PixelGridHelper` skips when `PointScaleFactor == 0`, verified in
+`AlgorithmUtils.cs`. The remaining rounding was the **framework's own**, applied per element, which
+is precisely what FR-6 says survives ("the platform's own rounding is the only one applied"). The
+test now clears `UseLayoutRounding` on the children too.
+
+### Verified in the configuration CI uses
+
+Unfiltered, Release sample head, desktop/Skia:
+
+```
+result=Passed  total=898  passed=898  failed=0  skipped=57
+```
+
+874 → 898 is exactly the 24 added; `skipped` is unchanged at 57, so nothing in the pre-existing suite
+moved. All 24 new method names confirmed present in that unfiltered run.
+
+**FR-9 re-verified**: `git diff` against the fork point is empty for
+`src/Uno.Toolkit.UI/Controls/AutoLayout/` and `src/Uno.Toolkit.RuntimeTests/Tests/AutoLayoutTest.cs`,
+and the AutoLayout tests pass inside the 898.
+
+## P5 — Sample + docs ✅
+
+- `samples/…/Content/Controls/FlexPanelSamplePage.xaml{,.cs}` — the gallery, `SampleCategory.Controls`,
+  `IsDesignAgnostic`. Eleven captioned sections covering direction, the justify/align matrices,
+  wrap + gaps, align-content, grow/shrink/basis, absolute positioning, RTL, and padding/auto-min.
+  Section 2 is a bare `FlexPanel` whose only job is to show the `Row` default holding.
+  Section 8 puts `Grow="1"` next to `Grow="1" Basis="0"` so the M2 trap is visible rather than
+  described.
+- `samples/…/Content/NestedSamples/FlexPanelPlaygroundNestedPage.xaml{,.cs}` — the playground, opened
+  full-screen from the gallery via `Shell.ShowNestedSample`. Every container and per-child property
+  live, plus the `UseLayoutRounding` toggle, a `FlowDirection` toggle that demonstrates the FR-7
+  double-mirror, a 200-child stress toggle, and an arranged-rect readout.
+  A **nested** page rather than `SampleCategory.Tests`: the Tests category is dropped from the
+  navigation under `#if !DEBUG`, so a playground there would not ship. Nested pages have no nav entry
+  by design and behave identically in Debug and Release.
+- `doc/controls/FlexPanel.md`, an `AutoLayoutControl.md` cross-link, and a `doc/toc.yml` entry.
+- No `controls-styles.md` / `lightweight-styling.md` changes (D6 — templateless panel).
+
+**Spec amendment**: the sample attribute uses `SourceSdk.UnoToolkit`, which the spec's snippet omits.
+It renders the correct "SOURCE" line. Note that `SupportedDesigns` does **not** filter this page —
+`App.xaml.Navigation.cs` early-returns for `WinUI`/`Uno`/`UnoToolkit` sources — so the gallery renders
+in the Material, Cupertino *and* Simple heads and uses only theme-neutral resource keys.
+
+## Still open
+
+- **P4 is untouched and deliberately out of scope here.** The rounding matrix across the Skia heads
+  (WASM, Skia mobile, scale factors 1.0/1.25/1.5/2.0) remains spec risk 1, and everything above was
+  verified on desktop/Skia only.
+- **Spec risk 3 is not closed.** The playground ships the 200-child stress toggle, but the WASM
+  profile it calls for has not been run; that defers with P4.
+
+## Handoff to P3 (historical — P3 is done; kept for the reasoning)
 
 - The adapter is a **rewrite**, not a port. Upstream `FlexPanel.cs` (978 LOC) is the reference for the
   two-pass measure, the `MeasureFunc` bridge and `SyncYogaTree`'s cache pruning, but it targets WinUI
