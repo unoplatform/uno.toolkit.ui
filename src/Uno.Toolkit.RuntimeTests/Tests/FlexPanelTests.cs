@@ -539,4 +539,93 @@ internal class FlexPanelTests
 		SlotOf(child).Height.Should().BeApproximately(300, Tolerance,
 			"a definite parent slot gives grow a pool to distribute");
 	}
+
+	[TestMethod]
+	public async Task When_Padding_ThenContentBoxIsInsetOnce()
+	{
+		// FlexPanel.Padding is a DP of our own: WinUI's Panel has no Padding, and Uno's Panel only
+		// carries an internal PaddingInternal that Grid/StackPanel/RelativePanel assign from their
+		// own DP and FlexPanel never touches. So the engine is the single consumer, and the numbers
+		// below are chosen to separate that from a double application: a 200-wide box with a 20
+		// inset leaves 160 of content, where applying the padding twice would leave 120.
+		var SUT = new FlexPanel
+		{
+			Width = 200,
+			Height = 100,
+			Padding = new Thickness(20),
+		};
+
+		var child = CreateChild();
+		FlexPanel.SetGrow(child, 1);
+		FlexPanel.SetBasis(child, 0);
+		SUT.Children.Add(child);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var slot = SlotOf(child);
+		slot.X.Should().BeApproximately(20, Tolerance, "the content box starts one padding in, not two");
+		slot.Y.Should().BeApproximately(20, Tolerance, "the content box starts one padding in, not two");
+		slot.Width.Should().BeApproximately(160, Tolerance, "200 - 20 - 20; a double inset would give 120");
+		slot.Height.Should().BeApproximately(60, Tolerance, "100 - 20 - 20; a double inset would give 20");
+	}
+
+	[TestMethod]
+	public async Task When_PaddingAndContentSized_ThenDesiredSizeGrowsByPaddingOnce()
+	{
+		// The other half of the seam: the engine reports a border-box size that already includes the
+		// padding, and MeasureCore hands that straight back as DesiredSize. Adding it again here
+		// would report 130 for a 50 child with a 20 inset.
+		var SUT = new FlexPanel
+		{
+			Padding = new Thickness(20),
+			HorizontalAlignment = HorizontalAlignment.Left,
+			VerticalAlignment = VerticalAlignment.Top,
+		};
+
+		SUT.Children.Add(CreateChild(50, 50));
+
+		var host = new Grid
+		{
+			Width = 400,
+			Height = 400,
+			Children = { SUT },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(host);
+
+		SUT.DesiredSize.Width.Should().BeApproximately(90, Tolerance, "50 + 20 + 20; a double inset would give 130");
+		SUT.DesiredSize.Height.Should().BeApproximately(90, Tolerance, "50 + 20 + 20; a double inset would give 130");
+	}
+
+	[TestMethod]
+	public async Task When_PaddingAndArrangeRelayout_ThenInsetStillAppliedOnce()
+	{
+		// The two cases above measure and arrange at the same size, so ArrangeOverride reuses the
+		// rects Yoga produced during measure. This one measures at content size and is arranged
+		// taller, which takes the sizeChanged branch and re-runs CalculateLayout -- the only point
+		// where the padding reaches the engine a second time within one layout cycle.
+		var SUT = new FlexPanel
+		{
+			Direction = FlexDirection.Column,
+			Padding = new Thickness(20),
+			VerticalAlignment = VerticalAlignment.Stretch,
+		};
+
+		var child = CreateChild(50, 50);
+		FlexPanel.SetGrow(child, 1);
+		SUT.Children.Add(child);
+
+		var host = new Grid
+		{
+			Width = 200,
+			Height = 400,
+			Children = { SUT },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(host);
+
+		var slot = SlotOf(child);
+		slot.Y.Should().BeApproximately(20, Tolerance, "the arrange re-layout must not stack a second top inset");
+		slot.Height.Should().BeApproximately(360, Tolerance, "400 - 20 - 20; a double inset would give 320");
+	}
 }
