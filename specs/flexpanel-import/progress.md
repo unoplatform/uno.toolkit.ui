@@ -181,21 +181,30 @@ cache pruning follow it closely; the D3/D4/D5 adaptations and the `UseLayoutRoun
 
 | | |
 |---|---|
-| `FlexPadding` → `Padding` | D3. `Panel` has no `Padding`, so there is no conflict to dodge. |
+| `FlexPadding` → `Padding` | D3. `Panel` has no `Padding`, so there is no conflict to dodge. Re-verified against the resolved `Uno.UI.dll` (Uno.WinUI 6.6.166, via `Uno.Sdk.Private`): `Microsoft.UI.Xaml.Controls.Panel` carries only an `internal`, non-virtual `PaddingInternal` auto-property that `Grid`/`StackPanel`/`RelativePanel`/`LayoutPanel` assign from their own DP — `FlexPanel` never writes it, so it stays `default(Thickness)` and the engine is the single consumer. Pinned by `When_Padding_ThenContentBoxIsInsetOnce` / `When_PaddingAndContentSized_ThenDesiredSizeGrowsByPaddingOnce` / `When_PaddingAndArrangeRelayout_ThenInsetStillAppliedOnce`. |
 | `GetMinWidth`/`SetMinWidth` → `GetFlexMinWidth`/`SetFlexMinWidth` | **Upstream bug.** It registers the DP as `"FlexMinWidth"` but names the accessors `Get/SetMinWidth`. XAML resolves an attached property by the accessor name, so `utu:FlexPanel.FlexMinWidth="0"` would not bind against upstream's naming. Ours is XAML-first, so the accessors must match the registered name. |
 | `PointScaleFactor` bound to `UseLayoutRounding` | D4 / FR-6, rather than upstream's unconditional `RasterizationScale`. |
 | Scratch collections cleared at end of pass | See the leak note below. |
 
-### Tier 2 + tier 3 — 24/24 green
+### Tier 2 + tier 3 — 27/27 green
 
-`Tests/FlexPanelTests.cs` (21) and `Tests/FlexPanelLeakTests.cs` (3). All 18 tier-2 cases the spec
-names, plus three not in the spec:
+`Tests/FlexPanelTests.cs` (24) and `Tests/FlexPanelLeakTests.cs` (3). All 18 tier-2 cases the spec
+names, plus six not in the spec:
 
 - `When_DirectionNotSet_ThenDefaultsToRow` — pins the `FlexDirection.Column = 0` vs `Row`-default
   hazard flagged in the P3 handoff notes.
 - `When_UseLayoutRoundingTrue_ThenArrangeSnapsToPixelGrid` — the counterpart that makes the FR-6
   toggle an observable change rather than an untested claim.
 - `When_PanelUnloaded_ThenChildrenAreCollectable` — the `Unloaded` half of D9.
+- `When_Padding_ThenContentBoxIsInsetOnce` and `When_PaddingAndContentSized_ThenDesiredSizeGrowsByPaddingOnce`
+  — the D3 rename left `Padding` looking like a framework property, so these pin the seam in both
+  directions: a 200-wide box with `Padding="20"` leaves 160 of content (a double inset would leave 120),
+  and a content-sized panel around a 50×50 child reports 90×90 (a double inset would report 130×130).
+- `When_PaddingAndArrangeRelayout_ThenInsetStillAppliedOnce` — the same seam on the other arrange
+  path. The two above measure and arrange at the same size, so `ArrangeOverride` reuses the cached
+  child rects; this one measures at content size and arranges larger, forcing the `sizeChanged`
+  branch to re-run `CalculateLayout` — the one place padding reaches the engine twice in a single
+  layout cycle.
 
 ### 🔴 A real leak the tier-3 tests caught
 
