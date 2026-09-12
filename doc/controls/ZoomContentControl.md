@@ -81,3 +81,7 @@ The `PanWheelRatio` property determines how many pixels to move per mouse wheel 
 Press and hold the middle button.
 Drag to move the content.
 Release the mouse button to stop panning.
+
+#### Keyboard
+
+When the control has focus, use the arrow keys to pan by a small amount and Page Up/Page Down to pan by a viewport. Use the numeric keypad plus and minus keys to zoom in and out.

@@ -10,6 +10,18 @@ using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using ChipControl = Uno.Toolkit.UI.Chip; // ios/macos: to avoid collision with `global::Chip` namespace...
 
+#if IS_WINUI
+using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Automation.Provider;
+using Microsoft.UI.Xaml.Controls;
+#else
+using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Automation.Provider;
+using Windows.UI.Xaml.Controls;
+#endif
+
 namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
@@ -269,6 +281,202 @@ internal class ChipGroupTests
 
 		SUT.SelectionMode = ChipSelectionMode.Single;
 		Assert.AreEqual(selected.First(), SUT.SelectedItem);
+	}
+
+	#endregion
+
+	#region Automation
+
+	[TestMethod]
+	[DataRow(ChipSelectionMode.None, false, false, false)]
+	[DataRow(ChipSelectionMode.SingleOrNone, true, false, false)]
+	[DataRow(ChipSelectionMode.Single, true, false, true)]
+	[DataRow(ChipSelectionMode.Multiple, true, true, false)]
+	public async Task AutomationPeer_SelectionPattern_MatchesSelectionMode(
+		ChipSelectionMode mode,
+		bool supportsSelection,
+		bool canSelectMultiple,
+		bool isSelectionRequired)
+	{
+		var SUT = new ChipGroup
+		{
+			SelectionMode = mode,
+			ItemsSource = new[] { "One", "Two" },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as ChipGroupAutomationPeer
+			?? throw new AssertFailedException("ChipGroup should expose a ChipGroupAutomationPeer.");
+		Assert.AreEqual(AutomationControlType.List, peer.GetAutomationControlType());
+
+		var selectionProvider = peer.GetPattern(PatternInterface.Selection) as ISelectionProvider;
+		if (!supportsSelection)
+		{
+			Assert.IsNull(selectionProvider, "Selection mode None should not expose the Selection pattern.");
+			return;
+		}
+
+		Assert.IsNotNull(selectionProvider);
+		Assert.AreEqual(canSelectMultiple, selectionProvider!.CanSelectMultiple);
+		Assert.AreEqual(isSelectionRequired, selectionProvider.IsSelectionRequired);
+		Assert.AreEqual(mode == ChipSelectionMode.Single ? 1 : 0, selectionProvider.GetSelection().Length);
+	}
+
+	[TestMethod]
+	[DataRow(ChipSelectionMode.None, false)]
+	[DataRow(ChipSelectionMode.SingleOrNone, true)]
+	[DataRow(ChipSelectionMode.Single, true)]
+	[DataRow(ChipSelectionMode.Multiple, true)]
+	public async Task ChipAutomationPeer_PatternsAndState_AreModeAware(
+		ChipSelectionMode mode,
+		bool supportsSelectionItem)
+	{
+		var SUT = new ChipGroup
+		{
+			SelectionMode = mode,
+			ItemsSource = new[] { "One", "Two" },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var chip = (ChipControl)SUT.ContainerFromIndex(0);
+		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(chip) as ChipAutomationPeer
+			?? throw new AssertFailedException("Chip should expose a ChipAutomationPeer.");
+		Assert.IsNull(peer.GetPattern(PatternInterface.Toggle), "A ChipGroup item should not expose Toggle.");
+
+		var invokeProvider = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+		var selectionItem = peer.GetPattern(PatternInterface.SelectionItem) as ISelectionItemProvider;
+		if (!supportsSelectionItem)
+		{
+			Assert.IsNotNull(invokeProvider, "Selection mode None should expose Invoke.");
+			Assert.IsNull(selectionItem, "Selection mode None should not expose SelectionItem.");
+			Assert.AreEqual(AutomationControlType.Button, peer.GetAutomationControlType());
+
+			var clickCount = 0;
+			chip.Click += (_, _) => clickCount++;
+			invokeProvider!.Invoke();
+			Assert.AreEqual(false, chip.IsChecked);
+			Assert.AreEqual(1, clickCount);
+			return;
+		}
+
+		Assert.IsNull(invokeProvider, "Selectable ChipGroup items should expose SelectionItem instead of Invoke.");
+		Assert.IsNotNull(selectionItem);
+		Assert.AreEqual(AutomationControlType.ListItem, peer.GetAutomationControlType());
+		Assert.AreEqual(mode == ChipSelectionMode.Single, selectionItem!.IsSelected);
+		Assert.IsNotNull(selectionItem.SelectionContainer);
+	}
+
+	[TestMethod]
+	public async Task StandaloneChipAutomationPeer_PreservesTogglePattern()
+	{
+		var SUT = new ChipControl { Content = "Standalone" };
+		var clickCount = 0;
+		SUT.Click += (_, _) => clickCount++;
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as ChipAutomationPeer
+			?? throw new AssertFailedException("Chip should expose a ChipAutomationPeer.");
+		Assert.AreEqual(AutomationControlType.Button, peer.GetAutomationControlType());
+		Assert.IsNull(peer.GetPattern(PatternInterface.SelectionItem));
+
+		var toggleProvider = peer.GetPattern(PatternInterface.Toggle) as IToggleProvider;
+		Assert.IsNotNull(toggleProvider);
+		Assert.AreEqual(ToggleState.Off, toggleProvider!.ToggleState);
+
+		toggleProvider.Toggle();
+
+		Assert.AreEqual(ToggleState.On, toggleProvider.ToggleState);
+		Assert.AreEqual(1, clickCount, "Automation Toggle should preserve ToggleButton click semantics.");
+	}
+
+	[TestMethod]
+	public async Task SelectionItemProvider_UpdatesMultipleSelection()
+	{
+		var SUT = new ChipGroup
+		{
+			SelectionMode = ChipSelectionMode.Multiple,
+			ItemsSource = new[] { "One", "Two" },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var groupPeer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as ChipGroupAutomationPeer ??
+			throw new InvalidOperationException("ChipGroup does not expose its automation peer.");
+		var groupProvider = groupPeer.GetPattern(PatternInterface.Selection) as ISelectionProvider ??
+			throw new InvalidOperationException("ChipGroup does not expose Selection.");
+		var first = GetSelectionItemProvider(SUT, 0);
+		var second = GetSelectionItemProvider(SUT, 1);
+
+		first.AddToSelection();
+		Assert.IsTrue(first.IsSelected);
+		Assert.AreEqual(1, groupProvider.GetSelection().Length);
+
+		second.AddToSelection();
+		Assert.IsTrue(first.IsSelected);
+		Assert.IsTrue(second.IsSelected);
+		Assert.AreEqual(2, groupProvider.GetSelection().Length);
+
+		second.Select();
+		Assert.IsFalse(first.IsSelected);
+		Assert.IsTrue(second.IsSelected);
+		Assert.AreEqual(1, groupProvider.GetSelection().Length);
+
+		second.RemoveFromSelection();
+		Assert.IsFalse(second.IsSelected);
+		Assert.AreEqual(0, groupProvider.GetSelection().Length);
+	}
+
+	[TestMethod]
+	public async Task SelectionItemProvider_CannotRemoveRequiredSelection()
+	{
+		var SUT = new ChipGroup
+		{
+			SelectionMode = ChipSelectionMode.Single,
+			ItemsSource = new[] { "One", "Two" },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var selectionItem = GetSelectionItemProvider(SUT, 0);
+		Assert.IsTrue(selectionItem.IsSelected);
+		Assert.ThrowsException<InvalidOperationException>(selectionItem.RemoveFromSelection);
+	}
+
+	[TestMethod]
+	public async Task RemoveButtonAutomationName_UsesRenderedChipName()
+	{
+		var SUT = new ChipControl
+		{
+			CanRemove = true,
+			Content = new object(),
+			ContentTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+				<DataTemplate>
+					<TextBlock Text="Project" />
+				</DataTemplate>
+				"""),
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var chipPeer = FrameworkElementAutomationPeer.CreatePeerForElement(SUT) as ChipAutomationPeer;
+		Assert.IsNotNull(chipPeer);
+		Assert.AreEqual("Project", chipPeer!.GetName());
+
+		var removeButton = SUT.GetFirstDescendantOrThrow<Button>("PART_RemoveButton");
+		var removeButtonPeer = FrameworkElementAutomationPeer.CreatePeerForElement(removeButton);
+		Assert.IsNotNull(removeButtonPeer);
+		Assert.AreEqual("Remove Project", removeButtonPeer!.GetName());
+	}
+
+	private static ISelectionItemProvider GetSelectionItemProvider(ChipGroup chipGroup, int index)
+	{
+		var chip = (ChipControl)chipGroup.ContainerFromIndex(index);
+		var peer = FrameworkElementAutomationPeer.CreatePeerForElement(chip) as ChipAutomationPeer;
+		return peer?.GetPattern(PatternInterface.SelectionItem) as ISelectionItemProvider ??
+			throw new InvalidOperationException($"Chip at index {index} does not expose SelectionItem.");
 	}
 
 	#endregion

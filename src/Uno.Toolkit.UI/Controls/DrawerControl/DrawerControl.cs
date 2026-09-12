@@ -12,17 +12,22 @@ using Windows.Foundation;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 #else
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 #endif
+using Windows.System;
 
 namespace Uno.Toolkit.UI
 {
@@ -46,6 +51,7 @@ namespace Uno.Toolkit.UI
 
 		private const double DragToggleThresholdRatio = 1.0 / 3; // only accept gesture open/close if 1/3 of distance is completed
 		private const double AnimateSnappingThresholdRatio = 0.05; // skip animation at if 5% of distance from done
+		private const double OpennessTolerance = 0.0001;
 		private static readonly TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(150);
 
 		// template parts
@@ -65,9 +71,34 @@ namespace Uno.Toolkit.UI
 		private bool _isGestureCaptured;
 		private double _startingTranslateOffset;
 		private bool _suppressIsOpenHandler;
+		private WeakReference<Control>? _previouslyFocusedElement;
+		private FocusState _previousFocusState;
 
 		// test backdoor
 		internal Storyboard AnimationStoryboard => _storyboard;
+		internal ContentControl? DrawerContentPart => _drawerContentControl;
+		internal Border? LightDismissPart => _lightDismissOverlay;
+
+		/// <summary>
+		/// Walks up the visual tree to find the owning <see cref="DrawerControl"/>.
+		/// </summary>
+		/// <remarks>
+		/// FrameworkElement.TemplatedParent is not public API on WinUI, so it
+		/// cannot be used to climb out of a template on every target platform.
+		/// </remarks>
+		internal static DrawerControl? FindOwner(DependencyObject? element)
+		{
+			for (var current = element; current is not null;
+				 current = VisualTreeHelper.GetParent(current))
+			{
+				if (current is DrawerControl drawer)
+				{
+					return drawer;
+				}
+			}
+
+			return null;
+		}
 
 		public DrawerControl()
 		{
@@ -75,6 +106,9 @@ namespace Uno.Toolkit.UI
 
 			_dispatcher = this.GetDispatcherCompat();
 		}
+
+		/// <inheritdoc />
+		protected override AutomationPeer OnCreateAutomationPeer() => new DrawerControlAutomationPeer(this);
 
 		protected override void OnApplyTemplate()
 		{
@@ -90,6 +124,11 @@ namespace Uno.Toolkit.UI
 
 			if (_drawerContentControl != null)
 			{
+				if (_drawerContentControl is DrawerPane drawerPane)
+				{
+					drawerPane.DrawerOwner = this;
+				}
+
 				UpdateSwipeContentPresenterSize();
 				UpdateSwipeContentPresenterLayout();
 				_drawerContentControl.RenderTransform = _drawerContentPresenterTransform = new TranslateTransform();
@@ -125,6 +164,14 @@ namespace Uno.Toolkit.UI
 				_lightDismissOverlay.Tapped += OnLightDismissOverlayTapped;
 			}
 
+			_storyboard.Completed += (_, _) =>
+			{
+				if (!IsOpen)
+				{
+					UpdateAccessibilityState(isOpen: false);
+				}
+			};
+
 			if (_gestureInterceptor != null)
 			{
 				UpdateGestureInterceptorSize();
@@ -134,6 +181,10 @@ namespace Uno.Toolkit.UI
 			if (DrawerDepth != 0)
 			{
 				UpdateIsOpen(IsOpen, shouldAnimate: false);
+			}
+			else
+			{
+				UpdateInteractionState(IsOpen);
 			}
 			_isReady = _drawerContentControl != null;
 
@@ -154,13 +205,48 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		protected override void OnKeyDown(KeyRoutedEventArgs e)
+		{
+			base.OnKeyDown(e);
+
+			if (!e.Handled && TryHandleDismissKey(e.Key))
+			{
+				e.Handled = true;
+			}
+		}
+
+		internal bool TryHandleDismissKey(VirtualKey key)
+		{
+			if (key != VirtualKey.Escape || !IsOpen || !IsLightDismissEnabled)
+			{
+				return false;
+			}
+
+			Dismiss();
+			return true;
+		}
+
 		private void OnIsOpenChanged(DependencyPropertyChangedEventArgs e)
 		{
 			if (!_isReady) return;
 			if (_suppressIsOpenHandler) return;
 
+			var isOpen = (bool)e.NewValue;
+			if (!_dispatcher.HasThreadAccess)
+			{
+				_dispatcher.Invoke(() =>
+				{
+					if (_isReady && IsOpen == isOpen)
+					{
+						StopRunningAnimation();
+						UpdateIsOpen(isOpen, shouldAnimate: true);
+					}
+				});
+				return;
+			}
+
 			StopRunningAnimation();
-			UpdateIsOpen((bool)e.NewValue, shouldAnimate: true);
+			UpdateIsOpen(isOpen, shouldAnimate: true);
 		}
 
 		private void OnDrawerDepthChanged(DependencyPropertyChangedEventArgs e)
@@ -213,6 +299,11 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		private void OnIsLightDismissEnabledChanged(DependencyPropertyChangedEventArgs e)
+		{
+			UpdateLightDismissAccessibilityState();
+		}
+
 		private void OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
 			if (!ShouldHandleManipulationFrom(e.OriginalSource)) return;
@@ -229,6 +320,11 @@ namespace Uno.Toolkit.UI
 			if (_isGestureCaptured)
 			{
 				StopRunningAnimation();
+				if (!IsOpen && PrepareDrawerForOpening())
+				{
+					TranslateOffset = GetVectoredLength();
+				}
+
 				_startingTranslateOffset = TranslateOffset;
 
 				e.Handled = true;
@@ -278,7 +374,15 @@ namespace Uno.Toolkit.UI
 
 		private void OnLightDismissOverlayTapped(object sender, TappedRoutedEventArgs e)
 		{
-			if (!IsLightDismissEnabled) return;
+			Dismiss();
+		}
+
+		internal void Dismiss()
+		{
+			if (!IsOpen || !IsLightDismissEnabled)
+			{
+				return;
+			}
 
 			StopRunningAnimation();
 			UpdateIsOpen(false, shouldAnimate: true);
@@ -286,16 +390,26 @@ namespace Uno.Toolkit.UI
 
 		private void UpdateIsOpen(bool willBeOpen, bool shouldAnimate = true)
 		{
+			var wasHidden = willBeOpen && PrepareDrawerForOpening();
+
 			var length = GetActualDrawerDepth();
+			if (wasHidden)
+			{
+				TranslateOffset = UseNegativeTranslation() ? -length : length;
+			}
+
 			var currentOffset = TranslateOffset;
 			var targetOffset = GetSnappingOffsetFor(willBeOpen);
 			var relativeDistanceRatio = Math.Abs(Math.Abs(currentOffset) - Math.Abs(targetOffset)) / length;
 
-			if (shouldAnimate &&
+			var willAnimate =
+				shouldAnimate &&
 				IsLoaded &&
 				_dispatcher.HasThreadAccess &&
 				length > 0 && // skip animation if we have nothing to animate (either from not being ready, or no valid content)
-				relativeDistanceRatio >= AnimateSnappingThresholdRatio) // skip animation if we are less than 5% from done
+				relativeDistanceRatio >= AnimateSnappingThresholdRatio; // skip animation if we are less than 5% from done
+
+			if (willAnimate)
 			{
 				UpdateIsOpenWithSuppress(willBeOpen);
 				PlayAnimation(willBeOpen);
@@ -305,6 +419,8 @@ namespace Uno.Toolkit.UI
 				UpdateOpenness(willBeOpen ? 0 : 1);
 				UpdateIsOpenWithSuppress(willBeOpen);
 			}
+
+			UpdateInteractionState(willBeOpen, keepPaneVisible: willAnimate && !willBeOpen);
 
 			void UpdateIsOpenWithSuppress(bool value)
 			{
@@ -323,14 +439,16 @@ namespace Uno.Toolkit.UI
 		private void UpdateOpenness(double ratio)
 		{
 			TranslateOffset = ratio * GetVectoredLength();
+			var isClosed = Math.Abs(ratio - 1) < OpennessTolerance;
 			if (_lightDismissOverlay != null)
 			{
 				_lightDismissOverlay.Opacity = 1 - ratio;
-				_lightDismissOverlay.IsHitTestVisible = ratio != 1;
+				_lightDismissOverlay.IsHitTestVisible = !isClosed;
+				_lightDismissOverlay.Visibility = isClosed ? Visibility.Collapsed : Visibility.Visible;
 			}
 			if (_gestureInterceptor != null)
 			{
-				_gestureInterceptor.IsHitTestVisible = IsGestureEnabled && ratio == 1;
+				_gestureInterceptor.IsHitTestVisible = IsGestureEnabled && isClosed;
 			}
 		}
 
@@ -360,6 +478,7 @@ namespace Uno.Toolkit.UI
 			if (_lightDismissOverlay != null)
 			{
 				_lightDismissOverlay.IsHitTestVisible = willBeOpen;
+				_lightDismissOverlay.Visibility = Visibility.Visible;
 			}
 			if (_gestureInterceptor != null)
 			{
@@ -625,6 +744,145 @@ namespace Uno.Toolkit.UI
 		private static double Clamp(double min, double value, double max)
 		{
 			return Math.Max(Math.Min(value, max), min);
+		}
+
+		private void MoveFocusIntoDrawer()
+		{
+			if (_drawerContentControl is null)
+			{
+				return;
+			}
+
+			var focusedControl = XamlRoot is { } xamlRoot
+				? FocusManager.GetFocusedElement(xamlRoot) as Control
+				: null;
+			if (focusedControl is not null && IsAncestorOf(_drawerContentControl, focusedControl))
+			{
+				return;
+			}
+
+			if (focusedControl is not null && _previouslyFocusedElement is null)
+			{
+				_previouslyFocusedElement = new WeakReference<Control>(focusedControl);
+				_previousFocusState = focusedControl.FocusState == FocusState.Unfocused
+					? FocusState.Programmatic
+					: focusedControl.FocusState;
+			}
+
+			if (FocusManager.FindFirstFocusableElement(_drawerContentControl) is Control firstFocusable)
+			{
+				firstFocusable.Focus(FocusState.Programmatic);
+			}
+			else
+			{
+				_drawerContentControl.Focus(FocusState.Programmatic);
+			}
+		}
+
+		private void RestoreFocus()
+		{
+			if (_previouslyFocusedElement?.TryGetTarget(out var previouslyFocusedElement) == true)
+			{
+				previouslyFocusedElement.Focus(
+					_previousFocusState == FocusState.Unfocused ? FocusState.Programmatic : _previousFocusState);
+			}
+
+			_previouslyFocusedElement = null;
+			_previousFocusState = FocusState.Unfocused;
+		}
+
+		private static bool IsAncestorOf(DependencyObject ancestor, DependencyObject descendant)
+		{
+			for (var current = descendant; current is not null; current = VisualTreeHelper.GetParent(current))
+			{
+				if (ReferenceEquals(current, ancestor))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private void UpdateAccessibilityState(bool isOpen, bool keepPaneVisible = false)
+		{
+			if (!_dispatcher.HasThreadAccess)
+			{
+				_dispatcher.Invoke(() => UpdateAccessibilityState(isOpen, keepPaneVisible));
+				return;
+			}
+
+			if (_lightDismissOverlay is not null)
+			{
+				_lightDismissOverlay.Visibility = isOpen || keepPaneVisible
+					? Visibility.Visible
+					: Visibility.Collapsed;
+				AutomationProperties.SetAccessibilityView(
+					_lightDismissOverlay,
+					isOpen && IsLightDismissEnabled ? AccessibilityView.Control : AccessibilityView.Raw);
+			}
+
+			if (_drawerContentControl is not null)
+			{
+				_drawerContentControl.Visibility = isOpen || keepPaneVisible
+					? Visibility.Visible
+					: Visibility.Collapsed;
+				_drawerContentControl.IsEnabled = isOpen;
+				_drawerContentControl.IsHitTestVisible = isOpen;
+				_drawerContentControl.TabFocusNavigation = isOpen
+					? KeyboardNavigationMode.Cycle
+					: KeyboardNavigationMode.Local;
+				AutomationProperties.SetAccessibilityView(
+					_drawerContentControl,
+					isOpen ? AccessibilityView.Control : AccessibilityView.Raw);
+			}
+		}
+
+		private void UpdateInteractionState(bool isOpen, bool keepPaneVisible = false)
+		{
+			if (!_dispatcher.HasThreadAccess)
+			{
+				_dispatcher.Invoke(() => UpdateInteractionState(isOpen, keepPaneVisible));
+				return;
+			}
+
+			UpdateAccessibilityState(isOpen, keepPaneVisible);
+			if (isOpen)
+			{
+				MoveFocusIntoDrawer();
+			}
+			else
+			{
+				RestoreFocus();
+			}
+		}
+
+		private void UpdateLightDismissAccessibilityState()
+		{
+			if (!_dispatcher.HasThreadAccess)
+			{
+				_dispatcher.Invoke(UpdateLightDismissAccessibilityState);
+				return;
+			}
+
+			if (_lightDismissOverlay is not null)
+			{
+				AutomationProperties.SetAccessibilityView(
+					_lightDismissOverlay,
+					IsOpen && IsLightDismissEnabled ? AccessibilityView.Control : AccessibilityView.Raw);
+			}
+		}
+
+		private bool PrepareDrawerForOpening()
+		{
+			if (_drawerContentControl is null || _drawerContentControl.Visibility == Visibility.Visible)
+			{
+				return false;
+			}
+
+			_drawerContentControl.Visibility = Visibility.Visible;
+			_drawerContentControl.UpdateLayout();
+			return true;
 		}
 	}
 }

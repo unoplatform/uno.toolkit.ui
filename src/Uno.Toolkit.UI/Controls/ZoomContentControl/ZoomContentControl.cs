@@ -5,10 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Uno.Disposables;
+using Uno.Extensions;
+using Uno.Logging;
 using Uno.UI.Extensions;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
@@ -16,6 +19,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Input;
 #else
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
@@ -78,6 +82,9 @@ partial class ZoomContentControl
 [TemplatePart(Name = TemplateParts.HorizontalScrollBar, Type = typeof(ScrollBar))]
 partial class ZoomContentControl
 {
+	private const double KeyboardScrollRatio = 0.1d;
+	private const double KeyboardZoomChange = 0.1d;
+
 	private static class TemplateParts
 	{
 		public const string RootGrid = "PART_RootGrid";
@@ -128,6 +135,9 @@ partial class ZoomContentControl
 		DefaultStyleKey = typeof(ZoomContentControl);
 		SizeChanged += OnSizeChanged;
 	}
+
+	/// <inheritdoc />
+	protected override AutomationPeer OnCreateAutomationPeer() => new ZoomContentControlAutomationPeer(this);
 
 	protected override void OnApplyTemplate()
 	{
@@ -207,6 +217,7 @@ partial class ZoomContentControl
 	private void OnViewportSizeChanged(object sender, SizeChangedEventArgs args)
 	{
 		UpdateScrollDetails();
+		UpdateScrollAutomationProperties();
 
 		ViewportSizeChanged?.Invoke(this, EventArgs.Empty);
 	}
@@ -330,17 +341,77 @@ partial class ZoomContentControl
 		}
 	}
 
+	protected override void OnKeyDown(KeyRoutedEventArgs e)
+	{
+		base.OnKeyDown(e);
+
+		if (e.Handled || !IsAllowedToWork)
+		{
+			return;
+		}
+
+		if (e.OriginalKey is Windows.System.VirtualKey.Add or Windows.System.VirtualKey.Subtract)
+		{
+			if (!IsZoomAllowed)
+			{
+				return;
+			}
+
+			var oldZoomLevel = ZoomLevel;
+			var change = e.OriginalKey == Windows.System.VirtualKey.Add
+				? KeyboardZoomChange
+				: -KeyboardZoomChange;
+			ZoomLevel = Math.Clamp(ZoomLevel + change, MinZoomLevel, MaxZoomLevel);
+			e.Handled = ZoomLevel != oldZoomLevel;
+			return;
+		}
+
+		if (!IsPanAllowed)
+		{
+			return;
+		}
+
+		var viewport = ClippedViewportSize;
+		var horizontalSmallChange = GetKeyboardScrollChange(viewport.Width);
+		var verticalSmallChange = GetKeyboardScrollChange(viewport.Height);
+		var horizontalLargeChange = Math.Max(horizontalSmallChange, GetFinitePositiveValue(viewport.Width));
+		var verticalLargeChange = Math.Max(verticalSmallChange, GetFinitePositiveValue(viewport.Height));
+		var delta = e.OriginalKey switch
+		{
+			Windows.System.VirtualKey.Left => new Point(-horizontalSmallChange, 0),
+			Windows.System.VirtualKey.Right => new Point(horizontalSmallChange, 0),
+			Windows.System.VirtualKey.Up => new Point(0, -verticalSmallChange),
+			Windows.System.VirtualKey.Down => new Point(0, verticalSmallChange),
+			Windows.System.VirtualKey.PageUp => new Point(0, -verticalLargeChange),
+			Windows.System.VirtualKey.PageDown => new Point(0, verticalLargeChange),
+			_ => default,
+		};
+
+		if (delta == default)
+		{
+			return;
+		}
+
+		var oldScrollValue = ScrollValue;
+		SetScrollValue(oldScrollValue.Add(delta));
+		e.Handled =
+			HorizontalScrollValue != oldScrollValue.X ||
+			VerticalScrollValue != oldScrollValue.Y;
+	}
+
 	// dp changed handlers
 	private void OnHorizontalScrollValueChanged()
 	{
 		if (_preventTranslationUpdate) return;
 		UpdateTranslation();
+		UpdateScrollAutomationProperties();
 	}
 
 	private void OnVerticalScrollValueChanged()
 	{
 		if (_preventTranslationUpdate) return;
 		UpdateTranslation();
+		UpdateScrollAutomationProperties();
 	}
 
 	private void OnAdditionalMarginChanged()
@@ -351,13 +422,18 @@ partial class ZoomContentControl
 		// AutoCenterContent inside UpdateScrollDetails); otherwise the content stays fitted/centered
 		// against the previous margin until an unrelated size/zoom change happens to re-fit.
 		UpdateScrollDetails();
+		UpdateScrollAutomationProperties();
 
 		ViewportSizeChanged?.Invoke(this, EventArgs.Empty);
 	}
 
-	private async void OnZoomLevelChanged()
+	private void OnZoomLevelChanged()
 	{
-		if (_viewport is null || _translation is null) return;
+		if (_viewport is null || _translation is null)
+		{
+			UpdateTransformAutomationProperties();
+			return;
+		}
 
 		if (CoerceZoomLevel())
 		{
@@ -392,19 +468,32 @@ partial class ZoomContentControl
 		}
 		_previousZoomLevel = ZoomLevel;
 
+		UpdateTransformAutomationProperties();
 		ZoomLevelChanged?.Invoke(this, new(previousZoom ?? double.NaN, ZoomLevel, fromMouseWheelPanning: _isHandlingMouseWheelZooming));
 		NotifyStateChanged();
-		await RaiseRenderedContentUpdated();
+		_ = RaiseRenderedContentUpdated();
 	}
 
 	private void OnMinZoomLevelChanged()
 	{
 		CoerceZoomLevel();
+		UpdateTransformAutomationProperties();
 	}
 
 	private void OnMaxZoomLevelChanged()
 	{
 		CoerceZoomLevel();
+		UpdateTransformAutomationProperties();
+	}
+
+	private void OnIsZoomAllowedChanged()
+	{
+		UpdateTransformAutomationProperties();
+	}
+
+	private void OnIsPanAllowedChanged()
+	{
+		UpdateScrollAutomationProperties();
 	}
 
 	private void OnIsActiveChanged()
@@ -423,6 +512,8 @@ partial class ZoomContentControl
 			_scrollV.Visibility = IsActive ? Visibility.Visible : Visibility.Collapsed;
 		}
 
+		UpdateScrollAutomationProperties();
+		UpdateTransformAutomationProperties();
 		IsActiveChanged?.Invoke(this, EventArgs.Empty);
 	}
 
@@ -574,7 +665,7 @@ partial class ZoomContentControl // helpers
 		return false;
 	}
 
-	private async void UpdateScrollDetails()
+	private void UpdateScrollDetails()
 	{
 		if ((_localFocusTarget ?? Content) is FrameworkElement { IsLoaded: true } fe)
 		{
@@ -584,7 +675,7 @@ partial class ZoomContentControl // helpers
 			if (AutoCenterContent) CenterContent();
 			UpdateScrollBars();
 
-			await RaiseRenderedContentUpdated();
+			_ = RaiseRenderedContentUpdated();
 		}
 	}
 
@@ -663,6 +754,8 @@ partial class ZoomContentControl // helpers
 			sb.IsEnabled = shown;
 			sb.Opacity = shown ? 1 : 0;
 		}
+
+		UpdateScrollAutomationProperties();
 	}
 
 	internal void SetScrollValue(Point value, bool shouldClamp = true)
@@ -681,6 +774,7 @@ partial class ZoomContentControl // helpers
 		_preventTranslationUpdate = false;
 
 		UpdateTranslation();
+		UpdateScrollAutomationProperties();
 		NotifyStateChanged();
 	}
 
@@ -700,9 +794,15 @@ partial class ZoomContentControl // helpers
 
 	private async Task RaiseRenderedContentUpdated()
 	{
-		await Task.Yield();
-
-		RenderedContentUpdated?.Invoke(this, EventArgs.Empty);
+		try
+		{
+			await Task.Yield();
+			RenderedContentUpdated?.Invoke(this, EventArgs.Empty);
+		}
+		catch (Exception error)
+		{
+			this.Log().Error("Failed to raise RenderedContentUpdated.", error);
+		}
 	}
 
 	private void UpdateScrollBarMirrorSpacing()
@@ -764,6 +864,28 @@ partial class ZoomContentControl // helpers
 #else
 			.PointerDevice.PointerDeviceType == PointerDeviceType.Mouse;
 #endif
+	}
+
+	private static double GetKeyboardScrollChange(double viewport) =>
+		Math.Max(1d, GetFinitePositiveValue(viewport) * KeyboardScrollRatio);
+
+	private static double GetFinitePositiveValue(double value) =>
+		double.IsFinite(value) && value > 0 ? value : 0;
+
+	private void UpdateScrollAutomationProperties()
+	{
+		if (FrameworkElementAutomationPeer.FromElement(this) is ZoomContentControlAutomationPeer peer)
+		{
+			peer.UpdateScrollPatternProperties();
+		}
+	}
+
+	private void UpdateTransformAutomationProperties()
+	{
+		if (FrameworkElementAutomationPeer.FromElement(this) is ZoomContentControlAutomationPeer peer)
+		{
+			peer.UpdateTransformPatternProperties();
+		}
 	}
 
 	public Size ViewportSize => _viewport is { } ? new Size(_viewport.ActualWidth, _viewport.ActualHeight) : new Size(double.NaN, double.NaN);

@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 #if IS_WINUI
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 #else
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 #endif
 
 namespace Uno.Toolkit.UI
@@ -43,6 +47,10 @@ namespace Uno.Toolkit.UI
 	/// </summary>
 	public partial class CardContentControl : ContentControl
 	{
+		private const string ContentPresenterName = "ContentPresenter";
+
+		private Windows.System.VirtualKey? _activationKey;
+
 		#region DependencyProperty: Elevation
 
 		public static DependencyProperty ElevationProperty { get; } = DependencyProperty.Register(
@@ -89,10 +97,10 @@ namespace Uno.Toolkit.UI
 			nameof(IsClickable),
 			typeof(bool),
 			typeof(CardContentControl),
-			new PropertyMetadata(true));
+			new PropertyMetadata(true, OnIsClickableChanged));
 
 		/// <summary>
-		/// Gets or sets a value indicating whether the control will respond to pointer and focus events.
+		/// Gets or sets a value indicating whether the control supports pointer, keyboard, and automation activation.
 		/// </summary>
 		public bool IsClickable
 		{
@@ -100,12 +108,34 @@ namespace Uno.Toolkit.UI
 			set => SetValue(IsClickableProperty, value);
 		}
 
+		private static void OnIsClickableChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+		{
+			if (sender is CardContentControl card)
+			{
+				card.UpdateIsClickable((bool)args.NewValue);
+			}
+		}
+
 		#endregion
+
+		/// <summary>
+		/// Occurs when the clickable card is activated by pointer, keyboard, or automation.
+		/// </summary>
+		public
+#if __ANDROID__
+			new
+#endif
+			event RoutedEventHandler? Click;
 
 		public CardContentControl()
 		{
 			DefaultStyleKey = typeof(CardContentControl);
+			IsTabStop = IsClickable;
+			Tapped += OnTapped;
 		}
+
+		/// <inheritdoc />
+		protected override AutomationPeer OnCreateAutomationPeer() => new CardContentControlAutomationPeer(this);
 
 		protected override void OnApplyTemplate()
 		{
@@ -167,12 +197,106 @@ namespace Uno.Toolkit.UI
 
 		protected override void OnLostFocus(RoutedEventArgs e)
 		{
+			if (_activationKey is not null)
+			{
+				VisualStateManager.GoToState(this, IsEnabled ? CommonStates.Normal : CommonStates.Disabled, true);
+			}
+
+			_activationKey = null;
+
 			if (IsClickable)
 			{
 				VisualStateManager.GoToState(this, FocusStates.Unfocused, true);
-
-				base.OnLostFocus(e);
 			}
+
+			base.OnLostFocus(e);
+		}
+
+		protected override void OnKeyDown(KeyRoutedEventArgs e)
+		{
+			base.OnKeyDown(e);
+
+			if (!e.Handled &&
+				IsClickable &&
+				IsEnabled &&
+				FocusState != FocusState.Unfocused &&
+				IsActivationKey(e.OriginalKey))
+			{
+				e.Handled = true;
+
+				if (_activationKey is null)
+				{
+					_activationKey = e.OriginalKey;
+					VisualStateManager.GoToState(this, CommonStates.Pressed, true);
+				}
+			}
+		}
+
+		protected override void OnKeyUp(KeyRoutedEventArgs e)
+		{
+			base.OnKeyUp(e);
+
+			if (!e.Handled &&
+				_activationKey == e.OriginalKey &&
+				IsActivationKey(e.OriginalKey))
+			{
+				_activationKey = null;
+				e.Handled = true;
+				VisualStateManager.GoToState(this, IsEnabled ? CommonStates.Normal : CommonStates.Disabled, true);
+				InvokeClick();
+			}
+		}
+
+		internal UIElement? GetContentTemplateRoot()
+		{
+			if (ContentTemplateRoot as UIElement is { } root)
+			{
+				return root;
+			}
+
+			if (GetTemplateChild(ContentPresenterName) is UIElement presenter)
+			{
+				return presenter;
+			}
+
+			return VisualTreeHelper.GetChildrenCount(this) > 0
+				? VisualTreeHelper.GetChild(this, 0) as UIElement
+				: null;
+		}
+
+		internal void InvokeClick()
+		{
+			if (!IsClickable || !IsEnabled)
+			{
+				return;
+			}
+
+			if (AutomationPeer.ListenerExists(AutomationEvents.InvokePatternOnInvoked) &&
+				FrameworkElementAutomationPeer.CreatePeerForElement(this) is { } peer)
+			{
+				peer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
+			}
+
+			Click?.Invoke(this, new RoutedEventArgs());
+		}
+
+		private void UpdateIsClickable(bool isClickable)
+		{
+			IsTabStop = isClickable;
+
+			if (!isClickable)
+			{
+				_activationKey = null;
+				VisualStateManager.GoToState(this, IsEnabled ? CommonStates.Normal : CommonStates.Disabled, true);
+			}
+		}
+
+		private static bool IsActivationKey(Windows.System.VirtualKey key) =>
+			key is Windows.System.VirtualKey.Enter or Windows.System.VirtualKey.Space;
+
+		private void OnTapped(object sender, TappedRoutedEventArgs e)
+		{
+			InvokeClick();
 		}
 	}
 }
