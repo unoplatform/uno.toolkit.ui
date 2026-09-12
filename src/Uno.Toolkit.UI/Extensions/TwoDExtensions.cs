@@ -67,7 +67,7 @@ partial class TwoDExtensions // Size arithmetics
 	public static Size Subtract(this Size x, Thickness value) => new Size(x.Width - value.Left - value.Right, x.Height - value.Top - value.Bottom);
 
 	public static Size MultiplyBy(this Size x, double scale) => new Size(x.Width * scale, x.Height * scale);
-	public static Size MultiplyBy(this Size x, double scaleX, double scaleY) => new Size(x.Width * scaleX, x.Width * scaleY);
+	public static Size MultiplyBy(this Size x, double scaleX, double scaleY) => new Size(x.Width * scaleX, x.Height * scaleY);
 	public static Size DivideBy(this Size x, double scale) => new Size(x.Width / scale, x.Height / scale);
 }
 

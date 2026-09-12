@@ -3,8 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Windows.Foundation;
 using Uno.Disposables;
+using Uno.Extensions;
+using Uno.Logging;
 using Uno.UI.Extensions;
 
 #if IS_WINUI
@@ -62,6 +65,8 @@ partial class ZoomContentControl
 		public TranslateTransform? Translation => instance._translation;
 		public TranslateTransform? LocalTranslation => instance._localFocusTranslation;
 
+		public double IdealFitZoomLevel => ViewportSize is { } vp ? Math.Min(vp.Width / ContentSize.Width, vp.Height / ContentSize.Height) : double.NaN;
+		public Point OffsetForCentering => instance.ViewportSize.Subtract(instance.PaddedScaledContentSize).DivideBy(2).ToPoint();
 		//public string ZoomInfo => $"{instance.ZoomLevel:0.#}, Min={instance.MinZoomLevel:0.#}, Max={instance.MaxZoomLevel:0.#}";
 		//public string ScrollHInfo => $"{instance.HorizontalScrollValue:0.#}, Min={instance.HorizontalMinScroll:0.#}, Max={instance.HorizontalMaxScroll:0.#}";
 		//public string ScrollVInfo => $"{instance.VerticalScrollValue:0.#}, Min={instance.VerticalMinScroll:0.#}, Max={instance.VerticalMaxScroll:0.#}";
@@ -104,6 +109,8 @@ partial class ZoomContentControl
 		}
 	}
 	#endregion
+
+	private static readonly ILogger _logger = typeof(ZoomContentControl).Log();
 
 	private Grid? _rootGrid;
 	private Grid? _viewport;
@@ -357,6 +364,20 @@ partial class ZoomContentControl
 
 	private async void OnZoomLevelChanged()
 	{
+		// async void safety: same containment as UpdateScrollDetails — this path also resumes
+		// after Task.Yield (RaiseRenderedContentUpdated) where a throw would be unobserved.
+		try
+		{
+			await OnZoomLevelChangedCore();
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Unobserved exception in fire-and-forget operation '{Operation}'.", nameof(OnZoomLevelChangedCore));
+		}
+	}
+
+	private async Task OnZoomLevelChangedCore()
+	{
 		if (_viewport is null || _translation is null) return;
 
 		if (CoerceZoomLevel())
@@ -366,8 +387,16 @@ partial class ZoomContentControl
 			return;
 		}
 
-		// capture current scroll value before it gets clamped by UpdateScrollBars
-		var oldScrollValue = VectoredScrollValue;
+		// capture current scroll value before it gets clamped by UpdateScrollBars.
+		// ZoomLevel has already changed here, but the scroll value on record was applied under
+		// the previous zoom level, so its vector direction K (whose sign flips per-axis when the
+		// scaled content outgrows the viewport, or vice versa) must be derived from that previous
+		// zoom level — using the current one would flip the translation whenever the zoom change
+		// crosses the fit boundary, making the content jump off-center.
+		var previousZoom = _previousZoomLevel;
+		var oldScrollValue = previousZoom is { } zoom
+			? ScrollValue.MultiplyBy(ComputeK(ViewportSize, ContentSize, zoom, AdditionalMargin))
+			: VectoredScrollValue;
 
 		// make sure h/v min-max scroll range are updated before setting a new offset
 		// to avoid clamping the value within an outdated range.
@@ -375,8 +404,7 @@ partial class ZoomContentControl
 
 		// when zooming occurs outside of mouse-wheel,
 		// we need to anchor the zoom to the center of the viewport.
-		var previousZoom = _previousZoomLevel;
-		if (!_isHandlingMouseWheelZooming && _previousZoomLevel is { } oldZoom)
+		if (!_isHandlingMouseWheelZooming && previousZoom is { } oldZoom)
 		{
 			var anchor = ViewportSize.DivideBy(2).ToPoint();
 			var newOffset = CalculateNewOffset(
@@ -575,6 +603,20 @@ partial class ZoomContentControl // helpers
 	}
 
 	private async void UpdateScrollDetails()
+	{
+		// async void safety: an unobserved exception here (e.g. from a consumer's event handler
+		// resumed after Task.Yield) would crash the process, so it is contained and logged instead.
+		try
+		{
+			await UpdateScrollDetailsCore();
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Unobserved exception in fire-and-forget operation '{Operation}'.", nameof(UpdateScrollDetailsCore));
+		}
+	}
+
+	private async Task UpdateScrollDetailsCore()
 	{
 		if ((_localFocusTarget ?? Content) is FrameworkElement { IsLoaded: true } fe)
 		{
@@ -821,9 +863,13 @@ partial class ZoomContentControl // helpers
 		var baseAnchor = oldAnchor.DivideBy(oldZoom);
 		var newAnchor = baseAnchor.MultiplyBy(newZoom);
 
-		// find offset required to keep the anchor point in the same viewport position
+		// find offset required to keep the anchor point in the same viewport position.
+		// the desired translation is (vpAnchor - newAnchor); since translation = ScrollValue * K + finalOffset
+		// (see UpdateTranslation), the finalOffset must be removed BEFORE converting back to scroll-value
+		// space with K — adding it after the K multiplication would flip its sign on any axis where the
+		// padded content fits within the viewport (K=+1), landing the content off-center by twice the margin.
 		var newK = ComputeK(vpSize, baseContentSize, newZoom, additionalMargin);
-		var newOffset = vpAnchor.Subtract(newAnchor).MultiplyBy(newK).Add(finalOffset);
+		var newOffset = vpAnchor.Subtract(newAnchor).Subtract(finalOffset).MultiplyBy(newK);
 
 		return newOffset;
 	}
