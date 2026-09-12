@@ -187,6 +187,129 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				?? throw new InvalidOperationException("Failed to find PART_InnerContentControl's TranslateTransform");
 	}
 
+	[TestClass]
+	[RunsOnUIThread]
+	public class ZoomContentControlTouchGestureTests
+	{
+		// Exercises ProcessManipulationDelta, the core of OnManipulationDelta (pinch-to-zoom and
+		// touch-drag panning), factored internal because the manipulation event args cannot be
+		// constructed from a test.
+
+		[TestMethod]
+		public async Task When_PinchZooming_FocalPointStaysStationary()
+		{
+			var SUT = await Setup(initialZoom: 4); // scaled 400x200, overflows on X, fits on Y
+			var anchor = new Point(150, 100); // arbitrary off-center viewport point
+
+			var before = ContentPointAt(SUT, anchor);
+			SUT.ProcessManipulationDelta(anchor, scaleDelta: 1.5, translationDelta: default);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			SUT.ZoomLevel.Should().BeApproximately(6.0, precision: 0.001);
+			var after = ContentPointAt(SUT, anchor);
+			after.X.Should().BeApproximately(before.X, precision: 1.5);
+			after.Y.Should().BeApproximately(before.Y, precision: 1.5);
+		}
+
+		[TestMethod]
+		public async Task When_PinchZooming_IsClampedToMaxZoomLevel()
+		{
+			var SUT = await Setup(initialZoom: 4);
+
+			SUT.ProcessManipulationDelta(new Point(200, 200), scaleDelta: 100, translationDelta: default);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			SUT.ZoomLevel.Should().Be(SUT.MaxZoomLevel);
+		}
+
+		[TestMethod]
+		public async Task When_TouchPanning_ContentFollowsFinger()
+		{
+			var SUT = await Setup(initialZoom: 9); // scaled 900x450, overflows both axes
+			var before = GetTranslationPoint(SUT);
+
+			SUT.ProcessManipulationDelta(new Point(200, 200), scaleDelta: 1, translationDelta: new Point(15, -10));
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var after = GetTranslationPoint(SUT);
+			(after.X - before.X).Should().BeApproximately(15, precision: 0.5);
+			(after.Y - before.Y).Should().BeApproximately(-10, precision: 0.5);
+		}
+
+		[TestMethod]
+		public async Task When_ZoomNotAllowed_PinchIsIgnored()
+		{
+			var SUT = await Setup(initialZoom: 4);
+			SUT.IsZoomAllowed = false;
+
+			SUT.ProcessManipulationDelta(new Point(200, 200), scaleDelta: 1.5, translationDelta: default);
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			SUT.ZoomLevel.Should().Be(4);
+		}
+
+		[TestMethod]
+		public async Task When_PanNotAllowed_TouchPanIsIgnored()
+		{
+			var SUT = await Setup(initialZoom: 9);
+			SUT.IsPanAllowed = false;
+			var before = GetTranslationPoint(SUT);
+
+			SUT.ProcessManipulationDelta(new Point(200, 200), scaleDelta: 1, translationDelta: new Point(15, -10));
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			var after = GetTranslationPoint(SUT);
+			after.Should().Be(before);
+		}
+
+		// A 400x400 control with 100x50 content, centered, no auto fit/center to interfere.
+		private static async Task<ZoomContentControl> Setup(double initialZoom)
+		{
+			var content = new Border
+			{
+				Width = 100,
+				Height = 50,
+				Background = new SolidColorBrush(Colors.Blue),
+			};
+			var SUT = new ZoomContentControl
+			{
+				Width = 400,
+				Height = 400,
+				MaxZoomLevel = 10,
+				AutoFitToCanvas = false,
+				AutoCenterContent = false,
+				Content = content,
+			};
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+			SUT.ZoomLevel = initialZoom;
+			await UnitTestUIContentHelperEx.WaitForIdle();
+			SUT.CenterContent();
+			await UnitTestUIContentHelperEx.WaitForIdle();
+
+			return SUT;
+		}
+
+		// The content-space coordinate currently rendered at the given viewport point:
+		// viewportPoint = contentPoint * ZoomLevel + translation (see UpdateTranslation).
+		private static Point ContentPointAt(ZoomContentControl SUT, Point viewportPoint)
+		{
+			var translation = GetTranslationPoint(SUT);
+			return new Point(
+				(viewportPoint.X - translation.X) / SUT.ZoomLevel,
+				(viewportPoint.Y - translation.Y) / SUT.ZoomLevel);
+		}
+
+		private static Point GetTranslationPoint(ZoomContentControl SUT)
+		{
+			var translation = (SUT.GetFirstDescendant<ContentControl>(x => x.Name == "PART_InnerContentControl")?.RenderTransform as TransformGroup)?.Children[1] as TranslateTransform
+				?? throw new InvalidOperationException("Failed to find PART_InnerContentControl's TranslateTransform");
+
+			return new Point(translation.X, translation.Y);
+		}
+	}
+
 #if false
 	[TestClass]
 	[RunsOnUIThread]

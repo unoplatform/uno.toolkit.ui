@@ -127,6 +127,7 @@ partial class ZoomContentControl
 	private SerialDisposable _contentSubscriptions = new();
 
 	private bool _isHandlingMouseWheelZooming;
+	private bool _isHandlingPinchZooming;
 	private bool _preventTranslationUpdate;
 	private double? _previousZoomLevel;
 
@@ -134,6 +135,10 @@ partial class ZoomContentControl
 	{
 		DefaultStyleKey = typeof(ZoomContentControl);
 		SizeChanged += OnSizeChanged;
+
+		// touch/pen gestures: pinch-to-zoom and drag-to-pan (see OnManipulationDelta).
+		// mouse is excluded there, keeping its middle-drag/ctrl+wheel semantics.
+		ManipulationMode = ManipulationModes.Scale | ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.TranslateInertia;
 	}
 
 	protected override void OnApplyTemplate()
@@ -337,6 +342,70 @@ partial class ZoomContentControl
 		}
 	}
 
+	protected override void OnManipulationStarting(ManipulationStartingRoutedEventArgs e)
+	{
+		base.OnManipulationStarting(e);
+
+		// report Position in the delta events relative to the viewport,
+		// the same coordinate space as the wheel-zoom anchor.
+		if (_viewport is { }) e.Container = _viewport;
+	}
+
+	protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
+	{
+		base.OnManipulationDelta(e);
+
+		if (!IsAllowedToWork) return;
+
+		// mouse gestures are already covered: middle-drag pans, ctrl+wheel zooms.
+		if (e.PointerDeviceType == PointerDeviceType.Mouse) return;
+
+		var canZoom = IsZoomAllowed && e.Delta.Scale != 1;
+		var canPan = IsPanAllowed && e.Delta.Translation != default(Point);
+
+		if (canZoom || canPan)
+		{
+			ProcessManipulationDelta(e.Position, e.Delta.Scale, e.Delta.Translation);
+			e.Handled = true;
+		}
+
+	// core of OnManipulationDelta, factored out for testability (the event args are not constructible).
+	internal void ProcessManipulationDelta(Point vpAnchor, double scaleDelta, Point translationDelta)
+	{
+		if (IsZoomAllowed && Math.Abs(scaleDelta - 1d) > 1e-6)
+		{
+			_isHandlingPinchZooming = true;
+
+			var newZoom = Math.Clamp(ZoomLevel * scaleDelta, MinZoomLevel, MaxZoomLevel);
+			var newOffset = CalculateNewOffset(
+				ViewportSize,
+				ContentSize,
+				VectoredScrollValue,
+				vpAnchor,
+				ZoomLevel,
+				newZoom,
+				AdditionalMargin);
+
+			// same ordering caveat as the mouse-wheel path: setting ZoomLevel clamps
+			// ScrollValue through the scrollbars, so the new offset must be computed
+			// before the zoom change and applied after it.
+			ZoomLevel = newZoom;
+			SetScrollValue(newOffset.Add(ToScrollDelta(translationDelta)), shouldClamp: !AllowFreePanning);
+
+			_isHandlingPinchZooming = false;
+		}
+		else if (IsPanAllowed && ToScrollDelta(translationDelta) is { } panDelta && panDelta != default(Point))
+		{
+			SetScrollValue(ScrollValue.Add(panDelta));
+		}
+
+		// the content should follow the finger 1:1: translation-space delta equals the gesture's
+		// Translation, and K (whose per-axis sign flips with the fit state) maps it to scroll-value
+		// space, since translation = ScrollValue * K + AdditionalMargin.TopLeft (see UpdateTranslation).
+		Point ToScrollDelta(Point translation) =>
+			IsPanAllowed ? translation.MultiplyBy(K) : default;
+	}
+
 	// dp changed handlers
 	private void OnHorizontalScrollValueChanged()
 	{
@@ -402,9 +471,9 @@ partial class ZoomContentControl
 		// to avoid clamping the value within an outdated range.
 		UpdateScrollBars(shouldCommitTranslationImmediately: false);
 
-		// when zooming occurs outside of mouse-wheel,
+		// when zooming occurs outside of an anchored gesture (mouse-wheel, pinch),
 		// we need to anchor the zoom to the center of the viewport.
-		if (!_isHandlingMouseWheelZooming && previousZoom is { } oldZoom)
+		if (!_isHandlingMouseWheelZooming && !_isHandlingPinchZooming && previousZoom is { } oldZoom)
 		{
 			var anchor = ViewportSize.DivideBy(2).ToPoint();
 			var newOffset = CalculateNewOffset(
