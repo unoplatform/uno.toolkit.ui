@@ -265,7 +265,43 @@ and the AutoLayout tests pass inside the 898.
   navigation under `#if !DEBUG`, so a playground there would not ship. Nested pages have no nav entry
   by design and behave identically in Debug and Release.
 - `doc/controls/FlexPanel.md`, an `AutoLayoutControl.md` cross-link, and a `doc/toc.yml` entry.
-- No `controls-styles.md` / `lightweight-styling.md` changes (D6 — templateless panel).
+- No `lightweight-styling.md` changes, and no row in the **Control Styles** table of
+  `controls-styles.md` (D6 — templateless panel, no theme resources).
+
+### P5b — walkthrough + discovery (added after the P5 doc-gap review)
+
+`FlexPanel` shipped with a reference page but no `*.howto.md`, leaving it one of three controls in
+`doc/toc.yml` without one (the others are `Divider` and `DrawerControl`, both still missing one since the
+walkthrough batch in #1492). The reference page is also not reachable from anywhere but the nav tree.
+
+- `doc/controls/walkthroughs/FlexPanel.howto.md` — 13 outcome-first recipes in the house `.howto.md`
+  shape (`uid` + `tags` front matter, `UnoFeatures` line, per-recipe XAML + bullets, quick reference,
+  gotchas). Ordered to lead with the four places CSS/WinUI intuition misleads — `Basis` vs `Width`,
+  `Grow="1"` vs `flex: 1 1 0`, `Shrink="0"` overflow, and the auto-min escape hatch — rather than
+  burying them after the generic direction/gap/justify recipes.
+- **Every recipe is traced to an assertion in `FlexPanelTests.cs`**, not extrapolated from the property
+  tables. This is deliberate: `specs/lessons.md` records that `AutoLayout.howto.md` teaches two
+  behaviors the code does not implement, and that failure mode is exactly what a table-derived recipe
+  reproduces. `Position="Absolute"` and `AlignItems="Baseline"` were written only because
+  `When_PositionAbsolute_ThenInsetsHonoredAndSiblingsUnaffected` and
+  `When_AlignItemsBaseline_ThenTextBaselinesAlign` pin them; `AlignContent`, `WrapReverse` and the
+  `*Reverse` directions are named in the quick reference but given **no** behavioral recipe, because
+  nothing at the control level asserts them.
+- `doc/toc.yml` — walkthrough entry, alphabetical between `ExtendedSplashScreen` and `LoadingView`.
+- Cross-links from `FlexPanel.md` **and** `AutoLayoutControl.md` to their walkthroughs. Neither
+  reference page previously linked to its own how-to, so the walkthroughs were reachable only via the
+  nav tree or site search.
+
+**Amendment to D6.** `controls-styles.md` now lists `FlexPanel` in the *control index* at the top of
+the page — the plain "the library adds the following controls" list, which every other shipped control
+appears in. D6 is unchanged as written: it rules out `Style`s, theme resources, a **Control Styles**
+table row and `lightweight-styling.md` keys, all of which still apply to a templateless panel. Omitting
+the control from the index as well was a side effect of that decision, not part of it, and it left
+`FlexPanel` absent from the one page that enumerates what the library ships.
+
+**Not addressed — distribution.** `platform.uno/llms.txt` indexes only `unoplatform/uno`; it carries no
+`uno.toolkit.ui` URL at all, so neither this walkthrough nor any existing one reaches that channel.
+Fixing it is a change to a different repo and is not in this branch's scope.
 
 **Spec amendment**: the sample attribute uses `SourceSdk.UnoToolkit`, which the spec's snippet omits.
 It renders the correct "SOURCE" line. Note that `SupportedDesigns` does **not** filter this page —
