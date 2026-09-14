@@ -41,8 +41,8 @@ Scripted and idempotent, by the same [`build/scripts/import-yoga.py`](../../../.
 that imports the engine:
 
 1. **Provenance header** — 4 lines, offsetting each file by 4 relative to upstream.
-2. `using Microsoft.UI.Reactor.Layout;` + `using Xunit;` → `using Microsoft.VisualStudio.TestTools.UnitTesting;`
-   + `using Uno.Toolkit.UI;` + `using Uno.Toolkit.UI.Yoga;`
+2. `using Microsoft.UI.Reactor.Layout;` + `using Xunit;` →
+   `using Microsoft.VisualStudio.TestTools.UnitTesting;` + `using Uno.Toolkit.UI;` + `using Uno.Toolkit.UI.Yoga;`
 3. `namespace Microsoft.UI.Reactor.Tests.YogaGenerated;` → `namespace Uno.Toolkit.RuntimeTests.Tests.Yoga;`
 4. `[Fact]` → `[TestMethod]`, and `[TestClass]` inserted (xUnit has no class attribute).
    `[Fact(Skip = "…")]` → `[TestMethod]` + `[Ignore("…")]` — see "The 46 skipped tests" below.

@@ -39,7 +39,7 @@ which is P3 and gets rewritten rather than vendored). Plus `README.md`, a scoped
 
 26 files into `src/Uno.Toolkit.RuntimeTests/Tests/Yoga/`, plus our own `YogaAssert.cs` and a `README.md`.
 
-```
+```text
 result=Passed  total=544  passed=544  failed=0  skipped=46  inconclusive=0
 ```
 
@@ -55,7 +55,7 @@ CI runs the suite **unfiltered** (`UNO_RUNTIME_TESTS_RUN_TESTS: '{}'` in
 `build/workflow/stage-runtime-tests.yml`), so the filtered runs above are not sufficient evidence on
 their own. Unfiltered run, Release sample head, desktop/Skia:
 
-```
+```text
 result=Passed  total=874  passed=874  failed=0  skipped=57   (931 cases)
 ```
 
@@ -238,7 +238,7 @@ test now clears `UseLayoutRounding` on the children too.
 
 Unfiltered, Release sample head, desktop/Skia:
 
-```
+```text
 result=Passed  total=898  passed=898  failed=0  skipped=57
 ```
 
