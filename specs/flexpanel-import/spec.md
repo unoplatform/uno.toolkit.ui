@@ -66,7 +66,7 @@ Not gaps — the behavior is reachable, but only through a non-obvious translati
 
 ### Genuine gaps
 
-- **G1 — `IsIndependentLayout` is a different positioning model, not a remappable property.** The child is arranged into `new Rect(default, finalSize)` — the whole panel rect, padding ignored — then positioned by its *own* `HorizontalAlignment` / `VerticalAlignment` / `Margin`; `doc/controls/walkthroughs/AutoLayout.howto.md` documents exactly that ("position it with normal alignments"). Yoga's `Position: Absolute` is inset-driven off the *padding box* and never consults WinUI alignment, so `Margin="10,280,0,0"` + `VerticalAlignment="Top"` (asserted at `Y = 280` in `When_Space_between_With_AbsolutePosition`) becomes `Top="270"` — a different number through a different mechanism. Separately, `MeasureIndependentChildren` folds these children into the panel's desired size (`Math.Max` on both axes), where CSS absolutely-positioned children contribute nothing to container intrinsic size. Both non-portable tests fail here.
+- **G1 — `IsIndependentLayout` is a different positioning model, not a property we can remap.** The child is arranged into `new Rect(default, finalSize)` — the whole panel rect, padding ignored — then positioned by its *own* `HorizontalAlignment` / `VerticalAlignment` / `Margin`; `doc/controls/walkthroughs/AutoLayout.howto.md` documents exactly that ("position it with normal alignments"). Yoga's `Position: Absolute` is inset-driven off the *padding box* and never consults WinUI alignment, so `Margin="10,280,0,0"` + `VerticalAlignment="Top"` (asserted at `Y = 280` in `When_Space_between_With_AbsolutePosition`) becomes `Top="270"` — a different number through a different mechanism. Separately, `MeasureIndependentChildren` folds these children into the panel's desired size (`Math.Max` on both axes), where CSS absolutely-positioned children contribute nothing to container intrinsic size. Both non-portable tests fail here.
 - **G2 — negative `Spacing` has no container-level equivalent.** CSS `gap` is non-negative. Four of `When_AbsolutePosition_WithPadding`'s nine rows use `spacing: -30` / `-20`, and the overlapping-avatar samples use `Spacing="-10"` / `"-20"` (`samples/Uno.Toolkit.Samples/Content/Controls/AutoLayoutPage.xaml:51,87,163`). The *capability* survives via negative child `Margin` (Yoga supports negative margins); the container property does not. **Answered in P1 — Yoga clamps.** `YogaStyle.ComputeGapForAxis` is the single gap entry point for both `YogaAlgorithm` call sites and ends in `YogaFloat.MaxOrDefined(gap.Resolve(ownerSize), 0)`, i.e. `MathF.Max(x, 0)`. So G2 stands as a genuine gap, exactly as described.
 - **G3 — overflow is truncated, not shrunk or overflowed.** A child longer than the remaining space is clamped to it (`Arrange.cs:213`), against a padding box that omits the non-anchored side. Under M1 the *offsets* match CSS but the arranged *size* does not: a 350px child in a 300px slot arranges at 300 under `AutoLayout`, at 350 (overflowing) under `FlexPanel`. No test asserts it — the padding tests check offsets only — but consumers see it.
 - **G4 — no frame chrome.** `AutoLayout : RelativePanel` inherits *public* `Padding`, `BorderBrush`, `BorderThickness` and `CornerRadius` (declared in Uno's `RelativePanel.Properties.cs`); `Panel` exposes only the `internal` `PaddingInternal` / `BorderThicknessInternal` / `CornerRadiusInternal` plumbing, which `Uno.Toolkit.UI` cannot reach. `FlexPanel : Panel` therefore declares its own `Padding` (D3) but **cannot draw a border or corner radius at all** — a wrapping `Border` is required. This is broader than the deferred "Yoga-measured `BorderThickness`", which is about measurement; this is about rendering. `AutoLayout` also folds `BorderThickness` into both measure and arrange.
@@ -162,7 +162,7 @@ Child `Margin`, `Width`, `Height`, and `Visibility` participate without any atta
 
 **D2 — Vendored code is physically isolated and marked.**
 
-```
+```text
 src/Uno.Toolkit.UI/
   Controls/FlexPanel/
     FlexPanel.cs                  # our adapter, ADAPTED from upstream's (MIT - see notices)
@@ -274,7 +274,7 @@ Plus four mapping-rule guards from the `AutoLayout` coverage audit above, one pe
 - The deferred API list above.
 - CSS Grid, even though `YogaStyle` carries `JustifyItems`/`JustifySelf`.
 - A `Uno.Toolkit.WinUI.Markup` builder for `FlexPanel` (follow-up once the API settles).
-- Upstreaming our adapter changes back to Reactor.
+- Contributing our adapter changes back upstream to Reactor.
 - Contributing the engine to `Uno.UI` proper.
 
 ## Risks and open questions
@@ -296,4 +296,4 @@ Plus four mapping-rule guards from the `AutoLayout` coverage audit above, one pe
 - [x] **P5 — Sample + docs.** Sample page, `doc/controls/FlexPanel.md`, `AutoLayoutControl.md` cross-link. ✅ An 11-section gallery page plus a full-screen `FlexPanelPlaygroundNestedPage` exposing every container and per-child property live (the M2 `Grow="1"` vs `Grow="1" Basis="0"` trap and the FR-7 double-mirror are demonstrated rather than described); `doc/controls/FlexPanel.md`, the `AutoLayoutControl.md` cross-link and a `doc/toc.yml` entry. The playground is a *nested* page rather than `SampleCategory.Tests`, because `#if !DEBUG` drops that category from navigation. No `controls-styles.md` / `lightweight-styling.md` changes (D6). ⚠️ **The WASM stress profile is not done** — the playground ships the 200-child toggle, but profiling it defers with P4, so risk 3 stays open.
 - [ ] **P6 — Review.** Release build zero-warning on every Skia TFM; `/review-panel`; PR against #17 with the deferred list as follow-up issues.
 
-Progress tracking lives in [`progress.md`](./progress.md) — the P1/P2/P3/P5 results behind the checkmarks above, the spec amendments they forced, and the historical P3 handoff notes.
+Progress tracking lives in [`progress.md`](./progress.md) — the P1/P2/P3/P5 results behind the check marks above, the spec amendments they forced, and the historical P3 handoff notes.
