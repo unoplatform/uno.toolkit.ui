@@ -225,15 +225,15 @@ partial class FlexPanelPlaygroundNestedPage // host size and rounding
 			return;
 		}
 
-		StageHost.Width = StageAutoWidthCheck.IsChecked == true
+		StageHost.Width = StageAutoWidthCheck.IsChecked is true
 			? double.NaN
 			: StageWidthSlider.Value;
-		StageHost.Height = StageAutoHeightCheck.IsChecked == true
+		StageHost.Height = StageAutoHeightCheck.IsChecked is true
 			? double.NaN
 			: StageHeightSlider.Value;
 
-		StageWidthSlider.IsEnabled = StageAutoWidthCheck.IsChecked != true;
-		StageHeightSlider.IsEnabled = StageAutoHeightCheck.IsChecked != true;
+		StageWidthSlider.IsEnabled = StageAutoWidthCheck.IsChecked is not true;
+		StageHeightSlider.IsEnabled = StageAutoHeightCheck.IsChecked is not true;
 
 		QueueReadout();
 	}
@@ -246,7 +246,7 @@ partial class FlexPanelPlaygroundNestedPage // host size and rounding
 		}
 
 		// FR-6: UseLayoutRounding=false makes the engine emit unrounded values.
-		Stage.UseLayoutRounding = UseLayoutRoundingCheck.IsChecked == true;
+		Stage.UseLayoutRounding = UseLayoutRoundingCheck.IsChecked is true;
 		Stage.InvalidateMeasure();
 		QueueReadout();
 	}
@@ -259,7 +259,7 @@ partial class FlexPanelPlaygroundNestedPage // host size and rounding
 		}
 
 		// FlexPanel ignores FlowDirection; this exists to make the double-mirror visible.
-		Stage.FlowDirection = FlowDirectionRtlCheck.IsChecked == true
+		Stage.FlowDirection = FlowDirectionRtlCheck.IsChecked is true
 			? FlowDirection.RightToLeft
 			: FlowDirection.LeftToRight;
 		QueueReadout();
@@ -291,7 +291,7 @@ partial class FlexPanelPlaygroundNestedPage // children
 
 	private void OnResetChildren(object sender, RoutedEventArgs e)
 	{
-		if (StressCheck.IsChecked == true)
+		if (StressCheck.IsChecked is true)
 		{
 			_isSyncing = true;
 			try
@@ -324,7 +324,7 @@ partial class FlexPanelPlaygroundNestedPage // children
 		Stage.Children.Clear();
 		_nextChildNumber = 0;
 
-		var count = StressCheck.IsChecked == true ? StressChildCount : DefaultChildCount;
+		var count = StressCheck.IsChecked is true ? StressChildCount : DefaultChildCount;
 		for (var i = 0; i < count; i++)
 		{
 			Stage.Children.Add(CreateChild(_nextChildNumber++));
@@ -501,7 +501,7 @@ partial class FlexPanelPlaygroundNestedPage // children
 
 		FlexPanel.SetGrow(child, GrowSlider.Value);
 		FlexPanel.SetShrink(child, ShrinkSlider.Value);
-		FlexPanel.SetBasis(child, BasisAutoCheck.IsChecked == true ? double.NaN : BasisSlider.Value);
+		FlexPanel.SetBasis(child, BasisAutoCheck.IsChecked is true ? double.NaN : BasisSlider.Value);
 
 		if (AlignSelfCombo.SelectedItem is FlexAlign alignSelf)
 		{
@@ -513,19 +513,19 @@ partial class FlexPanelPlaygroundNestedPage // children
 			FlexPanel.SetPosition(child, position);
 		}
 
-		FlexPanel.SetFlexMinWidth(child, FlexMinWidthAutoCheck.IsChecked == true ? double.NaN : FlexMinWidthSlider.Value);
-		FlexPanel.SetFlexMinHeight(child, FlexMinHeightAutoCheck.IsChecked == true ? double.NaN : FlexMinHeightSlider.Value);
+		FlexPanel.SetFlexMinWidth(child, FlexMinWidthAutoCheck.IsChecked is true ? double.NaN : FlexMinWidthSlider.Value);
+		FlexPanel.SetFlexMinHeight(child, FlexMinHeightAutoCheck.IsChecked is true ? double.NaN : FlexMinHeightSlider.Value);
 
-		var insetsOn = InsetsEnabledCheck.IsChecked == true;
+		var insetsOn = InsetsEnabledCheck.IsChecked is true;
 		FlexPanel.SetLeft(child, insetsOn ? LeftSlider.Value : double.NaN);
 		FlexPanel.SetTop(child, insetsOn ? TopSlider.Value : double.NaN);
 		FlexPanel.SetRight(child, insetsOn ? RightSlider.Value : double.NaN);
 		FlexPanel.SetBottom(child, insetsOn ? BottomSlider.Value : double.NaN);
 
-		child.Width = WidthAutoCheck.IsChecked == true ? double.NaN : WidthSlider.Value;
-		child.Height = HeightAutoCheck.IsChecked == true ? double.NaN : HeightSlider.Value;
+		child.Width = WidthAutoCheck.IsChecked is true ? double.NaN : WidthSlider.Value;
+		child.Height = HeightAutoCheck.IsChecked is true ? double.NaN : HeightSlider.Value;
 		child.Margin = new Thickness(MarginSlider.Value);
-		child.Visibility = ChildVisibleCheck.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+		child.Visibility = ChildVisibleCheck.IsChecked is true ? Visibility.Visible : Visibility.Collapsed;
 
 		UpdateChildEditorEnabledState();
 		QueueReadout();
@@ -533,13 +533,13 @@ partial class FlexPanelPlaygroundNestedPage // children
 
 	private void UpdateChildEditorEnabledState()
 	{
-		BasisSlider.IsEnabled = BasisAutoCheck.IsChecked != true;
-		FlexMinWidthSlider.IsEnabled = FlexMinWidthAutoCheck.IsChecked != true;
-		FlexMinHeightSlider.IsEnabled = FlexMinHeightAutoCheck.IsChecked != true;
-		WidthSlider.IsEnabled = WidthAutoCheck.IsChecked != true;
-		HeightSlider.IsEnabled = HeightAutoCheck.IsChecked != true;
+		BasisSlider.IsEnabled = BasisAutoCheck.IsChecked is not true;
+		FlexMinWidthSlider.IsEnabled = FlexMinWidthAutoCheck.IsChecked is not true;
+		FlexMinHeightSlider.IsEnabled = FlexMinHeightAutoCheck.IsChecked is not true;
+		WidthSlider.IsEnabled = WidthAutoCheck.IsChecked is not true;
+		HeightSlider.IsEnabled = HeightAutoCheck.IsChecked is not true;
 
-		var insetsOn = InsetsEnabledCheck.IsChecked == true;
+		var insetsOn = InsetsEnabledCheck.IsChecked is true;
 		LeftSlider.IsEnabled = insetsOn;
 		TopSlider.IsEnabled = insetsOn;
 		RightSlider.IsEnabled = insetsOn;
