@@ -666,7 +666,7 @@ public partial class FlexPanel : Panel
 	/// <summary>
 	/// Resolves the CSS Flexbox automatic minimum size (section 4.5) for one axis.
 	/// </summary>
-	private YogaValue ResolveMinDimension(
+	private static YogaValue ResolveMinDimension(
 		UIElement element,
 		bool axisIsMain,
 		double explicitMin,
