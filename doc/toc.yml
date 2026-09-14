@@ -41,6 +41,8 @@
       href: controls/DrawerFlyoutPresenter.md
     - name: ExtendedSplashScreen
       href: controls/ExtendedSplashScreen.md
+    - name: FlexPanel
+      href: controls/FlexPanel.md
     - name: LoadingView
       href: controls/LoadingView.md
     - name: NavigationBar
