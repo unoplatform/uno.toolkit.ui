@@ -70,6 +70,8 @@
         href: controls/walkthroughs/DrawerFlyoutPresenter.howto.md
       - name: ExtendedSplashScreen
         href: controls/walkthroughs/ExtendedSplashScreen.howto.md
+      - name: FlexPanel
+        href: controls/walkthroughs/FlexPanel.howto.md
       - name: LoadingView
         href: controls/walkthroughs/LoadingView.howto.md
       - name: NavigationBar
