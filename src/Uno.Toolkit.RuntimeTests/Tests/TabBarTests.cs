@@ -63,6 +63,32 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
+		public void LegacyBadgePropertiesConfigureInfoBadge()
+		{
+			var sut = new TabBarItem();
+			sut.SetValue(TabBarItem.BadgeValueProperty, "8");
+
+			var infoBadge = sut.InfoBadge as Microsoft.UI.Xaml.Controls.InfoBadge;
+			if (infoBadge is null)
+			{
+				Assert.Fail("BadgeValue should create an InfoBadge.");
+				return;
+			}
+
+			Assert.AreEqual(Visibility.Collapsed, infoBadge.Visibility);
+			Assert.AreEqual(8, infoBadge.Value);
+			Assert.AreEqual("8", sut.BadgeValue);
+
+			sut.SetValue(TabBarItem.BadgeVisibilityProperty, Visibility.Visible);
+			Assert.AreEqual(Visibility.Visible, infoBadge.Visibility);
+
+			sut.SetValue(TabBarItem.BadgeValueProperty, "!");
+			Assert.AreEqual(-1, infoBadge.Value);
+			Assert.AreEqual("!", (infoBadge.IconSource as Microsoft.UI.Xaml.Controls.FontIconSource)?.Glyph);
+			Assert.AreEqual("!", sut.BadgeValue);
+		}
+
+		[TestMethod]
 		[DataRow(new int[0], null)]
 		[DataRow(new[] { 1 }, 1)]
 		[DataRow(new[] { 1, 1 }, 1)]
