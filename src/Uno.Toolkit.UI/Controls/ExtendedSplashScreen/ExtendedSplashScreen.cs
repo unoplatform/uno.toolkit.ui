@@ -63,12 +63,7 @@ public partial class ExtendedSplashScreen : LoadingView
 	internal static bool TestHook_HasInstance => Instance is not null;
 #endif
 
-	public
-#if __IOS__ || __MACOS__ && !HAS_UNO_WINUI // hides UIView.Window and NSView.Window
-	new
-#endif
-Window? Window
-	{ get; set; }
+	public Window? Window { get; set; }
 
 	private bool _isUnloaded;
 
@@ -76,10 +71,7 @@ Window? Window
 	{
 		Instance = this;
 		Unloaded += OnUnloaded;
-		InitPartial();
 	}
-
-	partial void InitPartial();
 
 	protected override void OnApplyTemplate()
 	{
@@ -96,10 +88,10 @@ Window? Window
 	private void OnUnloaded(object sender, RoutedEventArgs e)
 	{
 		// The splash screen is a one-shot control shown at startup. It keeps a process-lifetime static
-		// Instance reference and holds SplashScreenContent (which, on Android, wraps the retained native
-		// splash bitmap). If those are never released, this ExtendedSplashScreen — and, when it belongs to
-		// a previewed app loaded into a collectible AssemblyLoadContext, that app's whole ALC — is pinned
-		// for the process lifetime. Once the control leaves the tree it is done, so release both.
+		// Instance reference and holds SplashScreenContent (which references the splash image). If those are
+		// never released, this ExtendedSplashScreen — and, when it belongs to a previewed app loaded into a
+		// collectible AssemblyLoadContext, that app's whole ALC — is pinned for the process lifetime. Once
+		// the control leaves the tree it is done, so release both.
 		_isUnloaded = true;
 
 		if (ReferenceEquals(Instance, this))
@@ -109,13 +101,7 @@ Window? Window
 
 		// Setting null on WinUI throws, so drop to an empty placeholder instead.
 		SplashScreenContent = new Border();
-
-		ReleaseNativeSplashResources();
 	}
-
-	// Releases any retained native splash resources (e.g. the Android splash bitmap). No-op where there
-	// are none. Static because the only implementation (Android) clears a process-lifetime static field.
-	static partial void ReleaseNativeSplashResources();
 
 	private async Task LoadNativeSplashScreen()
 	{
@@ -123,7 +109,7 @@ Window? Window
 		{
 			var splashScreenContent = await GetNativeSplashScreen();
 
-			// GetNativeSplashScreen can await real I/O (reading the app manifest on Skia/WASM/Windows),
+			// GetNativeSplashScreen can await real I/O (reading the app manifest or splash definition),
 			// during which the control may unload. If it did, OnUnloaded already released the content, so a
 			// late completion must not re-populate SplashScreenContent and undo that teardown.
 			if (_isUnloaded)
