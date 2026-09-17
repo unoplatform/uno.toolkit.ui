@@ -11,11 +11,12 @@ uid: Toolkit.Controls.NavigationBar
 
 The `NavigationBar` represents a specialized app bar that provides the layout for `AppBarButton` and navigation logic.
 
+> [!IMPORTANT]
+> Starting with Uno Platform 7, `NavigationBar` is rendered from its XAML template on every platform, including iOS and Android. The native mode, which mapped the control to a `UINavigationBar` on iOS and a `Toolbar` on Android, has been removed. If your app relied on it, see [Migrating from the native mode](#migrating-from-the-native-mode).
+
 For a quick introduction to `NavigationBar`, you can check out our introductory video below:
 
 > [!Video https://www.youtube-nocookie.com/embed/4-Q0hy2BnMI]
-
-This document highlights some of the differences you might encounter when working with the native mode of `NavigationBar` on either **iOS** or **Android**.
 
 ### C\#
 
@@ -42,98 +43,49 @@ xmlns:utu="using:Uno.Toolkit.UI"
 |-------------------|----------------------------------------------------------|
 | `NavigationBar()` | Initializes a new instance of the `NavigationBar` class. |
 
-## Modes
+## Template
 
-The `NavigationBar` supports 2 different modes:
+Under the hood, `NavigationBar` uses a custom-styled `CommandBar`. It is templatable and supports a template that's almost identical to the default WinUI `CommandBar`, except for the addition of a leading `AppBarButton` named `MainCommand`. The same template, visual states, and `AppBarButton` styles are used on every platform.
 
-| Mode    | Style                        |
-|---------|------------------------------|
-| Windows | `XamlDefaultNavigationBar`   |
-| Native  | `NativeDefaultNavigationBar` |
+![NavigationBar - First Page](../assets/navbar-windows-page1.png)
 
-### Windows
+![NavigationBar - Second Page](../assets/navbar-windows-page2.png)
 
-Under the hood, this mode uses a custom-styled `CommandBar`. It is templatable and supports a template that's almost identical to **UWP**'s default `CommandBar`, except for the addition of a leading `AppBarButton` named `MainCommand`.
-
-![Windows NavigationBar - First Page](../assets/navbar-windows-page1.png)
-
-![Windows NavigationBar - Second Page](../assets/navbar-windows-page2.png)
-
-#### Usage Example
+### Usage Example
 
 ```xml
-<Style TargetType="utu:NavigationBar" BasedOn="{StaticResource XamlDefaultNavigationBar}" />
+<Style TargetType="utu:NavigationBar" BasedOn="{StaticResource NavigationBarStyle}" />
 ```
 
-### Native
-
-This mode is the default for Android and iOS. It uses platform-specific controls to ensure a more native user experience.
-
-#### Android
-
-![Android NavigationBar - First Page](../assets/navbar-android-page1.png)
-
-![Android NavigationBar - Second Page](../assets/navbar-android-page2.png)
-
-#### iOS
-
-![iOS NavigationBar - First Page](../assets/navbar-ios-page1.png)
-
-![iOS NavigationBar - Second Page](../assets/navbar-ios-page2.png)
-
-| Platform | Native control    | Benefits                                              |
-|----------|-------------------|-------------------------------------------------------|
-| Android  | `Toolbar`         | Native pressed states (ripple), native overflow menu. |
-| iOS      | `UINavigationBar` | Transitions when navigating between pages.            |
-
-The rest of this document will exclusively cover the native mode.
-
-#### Usage Example
-
-```xml
-<Style TargetType="NavigationBar" BasedOn="{StaticResource NativeDefaultNavigationBar}" />
-```
-
-Remarks:
-
-In this mode, the `NavigationBar` can't be fully customized like other templatable controls would. Additionally, you can't customize the visual states of either the `NavigationBar` or its `AppBarButtons`.
-
-#### Padding
-
-By default on iOS and Android, the `VisibleBoundsPadding.PaddingMask` on `NavigationBar` is set to `Top` to properly support the screen notch or punch-holes.
+`NavigationBarStyle` is provided by the Material and Simple style libraries. Without a design system, use `DefaultNavigationBar`.
 
 ## Properties
 
-| Property                     | Windows | iOS | Android | Comments                                                                                                              |
-|------------------------------|:-------:|:---:|:-------:|---------------------------------------------------------------------------------------------------------------------- |
-| `Background`                 | x       | x   | x       |                                                                                                                       |
-| `Content`                    | x       | x   | x       |                                                                                                                       |
-| `Foreground`                 | x       | x   | x       |                                                                                                                       |
-| `Height`                     | x       | -   | -       | **iOS** and **Android**: Fixed and can't be changed.                                                                  |
-| `HorizontalAlignment`        | x       | -   | x       | **iOS**: Always use `HorizontalAlignment.Stretch`.                                                                    |
-| `Opacity`                    | x       | x   | x       |                                                                                                                       |
-| `Padding`                    | x       | x   | x       | **iOS** and **Android**: Please refer to the `Padding` section.                                                       |
-| `MainCommand`                | x       | x   | x       |                                                                                                                       |
-| `PrimaryCommands`            | x       | x   | x       |                                                                                                                       |
-| `SecondaryCommands`          | x       | -   | x       | **iOS**: Not supported.                                                                                               |
-| `VerticalAlignment`          | x       | -   | x       | **iOS**: Always use `VerticalAlignment.Top`.                                                                          |
-| `Visibility`                 | x       | x   | x       |                                                                                                                       |
-| `Width`                      | x       | -   | x       | **iOS**: Always use `double.NaN`.                                                                                     |
-| `HorizontalContentAlignment` | x       | -   | x       | **Android**: Stretch and Left are supported. **Windows**: Set `IsDynamicOverflowEnabled="False"` for proper behavior. |
-| `VerticalContentAlignment`   | x       | -   | -       | Only supported on Windows. **Android**: Alignment needs to be done through the content itself.                        |
-
-*If it's not listed, assume it's not supported.*
+| Property                     | Comments                                                                                                                            |
+|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `Background`                 |                                                                                                                                     |
+| `Content`                    | Please refer to the `Content` section.                                                                                              |
+| `Foreground`                 |                                                                                                                                     |
+| `Height`                     |                                                                                                                                     |
+| `HorizontalAlignment`        |                                                                                                                                     |
+| `HorizontalContentAlignment` | `Center` centers the `Content` across the whole bar, while other values place it next to the `MainCommand`. Set `IsDynamicOverflowEnabled="False"` for proper behavior. |
+| `IsDynamicOverflowEnabled`   |                                                                                                                                     |
+| `MainCommand`                | Please refer to the `MainCommand` section.                                                                                          |
+| `MainCommandMode`            | Please refer to the `MainCommandMode` section.                                                                                      |
+| `MainCommandStyle`           |                                                                                                                                     |
+| `Opacity`                    |                                                                                                                                     |
+| `Padding`                    |                                                                                                                                     |
+| `PrimaryCommands`            |                                                                                                                                     |
+| `SecondaryCommands`          |                                                                                                                                     |
+| `Subtitle`                   | Not displayed by the built-in templates.                                                                                            |
+| `VerticalAlignment`          |                                                                                                                                     |
+| `VerticalContentAlignment`   |                                                                                                                                     |
+| `Visibility`                 |                                                                                                                                     |
+| `Width`                      |                                                                                                                                     |
 
 ### Background
 
 Gets or sets a `Brush` that describes the background of a control.
-
-![Android NavigationBar - Background example](../assets/navbar-android-background.png)
-
-Remarks:
-
-* Only supports `SolidColorBrush`.
-* Changing the opacity through `SolidColorBrush.Opacity` is supported.
 
 ### Content
 
@@ -143,17 +95,9 @@ Gets or sets the content of a `ContentControl`.
 > For simple text titles, always set `Content` directly as a string: `<utu:NavigationBar Content="Title" />`
 > Only use `FrameworkElement` content (like `TextBox`, `SearchBox`, etc.) when you need interactive or complex UI in the title area.
 
-Remarks:
-
-The `Content` is processed differently whether it is of type `string` or `FrameworkElement`.
-
 #### String Content (Recommended for Simple Titles)
 
-When `Content` is a `string`, it's displayed using the platform's default font family, font size, font style, and text alignment. Only the foreground color can be changed, using `Foreground`.
-
-![Android NavigationBar - Content Foreground example](../assets/navbar-android-content-string.png)
-
-![iOS NavigationBar - Content Foreground example](../assets/navbar-ios-content-string.png)
+When `Content` is a `string`, it's displayed using the `ContentTemplate` of the style in use, which applies the typography of the design system.
 
 ```xml
 <utu:NavigationBar Content="Title">
@@ -167,21 +111,7 @@ When `Content` is a `string`, it's displayed using the platform's default font f
 </utu:NavigationBar>
 ```
 
-| Platform | FontFamily    | FontSize | HorizontalAlignment |
-|----------|---------------|----------|---------------------|
-| iOS      | San Francisco | 17       | Center              |
-| Android  | Roboto        | 20       | Left                |
-
-| Platform | Available height |
-|----------|:----------------:|
-| iOS      | 30px             |
-| Android  | 48px             |
-
 When `Content` is a `FrameworkElement`, it's displayed within the available area:
-
-![Android NavigationBar - Content is a FrameworkElement example](../assets/navbar-android-content-fe.png)
-
-![iOS NavigationBar - Content is a FrameworkElement example](../assets/navbar-ios-content-fe.png)
 
 ```xml
 <utu:NavigationBar>
@@ -198,18 +128,9 @@ When `Content` is a `FrameworkElement`, it's displayed within the available area
 </utu:NavigationBar>
 ```
 
-Please note that:
-
-* `HorizontalContentAlignment` and `VerticalContentAlignment` are ignored.
-* On **iOS**, the Content is automatically centered horizontally unless `HorizontalAlignment.Stretch` is used.
-
 ### Foreground
 
 Gets or sets a `Brush` that describes the foreground color.
-
-![Android NavigationBar - Foreground example](../assets/navbar-android-fg.png)
-
-![iOS NavigationBar - Foreground example](../assets/navbar-ios-fg.png)
 
 ```xml
 <utu:NavigationBar Content="Title"
@@ -221,16 +142,11 @@ Gets or sets a `Brush` that describes the foreground color.
 Remarks:
 
 * This is typically used to change the text color of the `Content`.
-* Only supports `SolidColorBrush`.
-* Setting this property will not affect the tint color of the `PrimaryCommands` or `SecondaryCommands`. If you need to change the `AppBarButton` color, you should set the `Foreground` property on each `AppBarButton`s individually.
+* The `AppBarButton`s take their colors from their own styles. To change them, set `Foreground` on each `AppBarButton`, or use `MainCommandStyle` for the `MainCommand`.
 
 ### PrimaryCommands
 
 Gets the collection of primary command elements for the `NavigationBar`.
-
-![Android NavigationBar - PrimaryCommands example](../assets/navbar-android-primary.png)
-
-![iOS NavigationBar - PrimaryCommands example](../assets/navbar-ios-primary.png)
 
 ```xml
 <utu:NavigationBar Content="Title">
@@ -246,17 +162,11 @@ Gets the collection of primary command elements for the `NavigationBar`.
 
 Remarks:
 
-* Only supports `AppBarButton`.
-* `AppBarToggleButton` and `AppBarSeparator` are not supported.
-* Refer to the `AppBarButton` section for details.
+* Accepts the same `ICommandBarElement` items as `CommandBar.PrimaryCommands`.
 
 ### SecondaryCommands
 
-Gets the collection of secondary command elements for the `NavigationBar`.
-
-![Android NavigationBar - SecondaryCommands close example](../assets/navbar-android-secondary.png)
-
-![Android NavigationBar - SecondaryCommands open example](../assets/navbar-android-secondary-open.png)
+Gets the collection of secondary command elements for the `NavigationBar`. They are displayed in the overflow menu of the underlying `CommandBar`.
 
 ```xml
 <utu:NavigationBar Content="Title">
@@ -268,26 +178,13 @@ Gets the collection of secondary command elements for the `NavigationBar`.
 </utu:NavigationBar>
 ```
 
-Remarks:
-
-* Not supported on **iOS**.
-
 ### Height
 
 Gets or sets the suggested height of a `FrameworkElement`.
 
 Remarks:
 
-The height is fixed and cannot be changed.
-
-| Platform | Form factor | Portrait | Landscape |
-|----------|-------------|:--------:|:---------:|
-| iOS      | Phone       | 44pt     | 44pt      |
-| iOS      | Tablet      | 44pt     | 44pt      |
-| Android  | Phone       | 48dp     | 56dp      |
-| Android  | Tablet      | 64dp     | 64dp      |
-
-[Source (Android)](https://material.io/guidelines/layout/structure.html#structure-app-bar)
+The height is defined by the style in use rather than by the platform or the device. Please refer to the **Lightweight Styling** section for the resources involved.
 
 ### MainCommandMode
 
@@ -306,59 +203,32 @@ Remarks:
 
 Unlike the `PrimaryCommands` or `SecondaryCommands`, which appear to the right of the `NavigationBar`, the `MainCommand` is a special `AppBarButton` that appears to the left of the `NavigationBar`.
 
-Whenever the `NavigationBar` is part of a `Page` whose `Frame` has a non-empty back stack, the back button will be displayed as long as the `NavigationBar` has its `MainCommandMode` set to `Back`.
-
-If no `MainCommand` is provided in the XAML, the `NavigationBar` will render the native back button icons/text when appropriate.
-
-![Android NavigationBar - native back button](../assets/navbar-android-backbutton.png)
-
-![iOS NavigationBar - native back button](../assets/navbar-ios-backbutton.png)
+Whenever the `NavigationBar` is part of a `Page` whose `Frame` has a non-empty back stack, the back button will be displayed as long as the `NavigationBar` has its `MainCommandMode` set to `Back`. It is also displayed when the `NavigationBar` is hosted in a `Popup`, so that the `Popup` can be closed.
 
 `MainCommand` is typically used for customizing the back button, displaying a different icon, and/or invoking some type of custom action other than back navigation when clicked.
 
 > [!NOTE]
-> The default back button icon can be customized for non-mobile platforms by overriding the `NavigationBarBackIconData` resource. On `Android` and `iOS`, the native default back button icon is used. On Windows and other non-mobile platforms, you can provide a custom back button icon by defining the `NavigationBarBackIconData` resource in your resource dictionary:
+> With the Material and Simple styles, the default back button icon can be customized by overriding the `NavigationBarBackIconData` resource in your resource dictionary:
 >
 >```xml
 ><Application.Resources>
 >    <x:String x:Key="NavigationBarBackIconData">YOUR_CUSTOM_PATH_DATA</x:String>
-></Application.Resources> 
+></Application.Resources>
 >```
 
 ### MainCommand Properties
 
 #### Label
 
-Gets or sets the back button title for the `MainCommand`.
-
-![iOS NavigationBar - back button title example](../assets/navbar-ios-back-title.png)
-
-```xml
-<utu:NavigationBar Content="Title">
-  <utu:NavigationBar.MainCommand>
-    <AppBarButton Label="BackButtonTitle" />
-  </utu:NavigationBar.MainCommand>
-</utu:NavigationBar>
-```
+Gets or sets the text label of the `MainCommand`.
 
 Remarks:
 
-Only supported on **iOS**.
-
-On **iOS**, the back button displays the title of the previous page (which we usually set as a `string` on the `NavigationBar.Content` property). When the title of the previous page is too long (over 140px wide on iPhone 5) or isn't set (for example, if we set `FrameworkElement` instead of `string` on `NavigationBar.Content`), "Back" will be displayed instead.
-
-If navigating from ViewController A to ViewController B, B's back button text is determined either by A's `NavigationBar.MainCommand.Label` or by A's `NavigationBar.Content` as described previously.
-To explicitly provide a value to be used by the back button of the next page, set the next page's `MainCommand.Label`.
-
-To remove the back button title from all pages (and only leave the back arrow), set `Label` to `""` in the default `MainCommand` style.
+The `Label` behaves like the `Label` of any other `AppBarButton`. It is not replaced by the title of the previous page. It is highly recommended to set and localize `Label` on all `AppBarButton`s, if only for accessibility.
 
 #### Foreground
 
 Gets or sets the back button foreground for the `MainCommand`.
-
-![Android NavigationBar - back button foreground example](../assets/navbar-android-back-fg.png)
-
-![iOS NavigationBar - back button foreground example](../assets/navbar-ios-back-fg.png)
 
 ```xml
 <utu:NavigationBar Content="Title">
@@ -382,17 +252,9 @@ OR
   </Style>
 ```
 
-Remarks:
-
-Only supports `SolidColorBrush`.
-
 #### Icon
 
 Gets or sets the back button icon for the `MainCommand`.
-
-![Android NavigationBar - back button icon example](../assets/navbar-android-back-icon.png)
-
-![iOS NavigationBar - back button icon example](../assets/navbar-ios-back-icon.png)
 
 ```xml
 <utu:NavigationBar Content="Title">
@@ -408,7 +270,7 @@ Gets or sets the back button icon for the `MainCommand`.
 
 Remarks:
 
-Only supports `BitmapImage` on iOS/Android
+Any `IconElement` can be used.
 
 ## Lightweight Styling
 
@@ -442,7 +304,6 @@ Only supports `BitmapImage` on iOS/Android
 | `NavigationBarOverflowAppBarButtonBackground`                          | `SolidColorBrush` | SolidColorBrush { Color = Transparent } |
 | `NavigationBarEllipsisButtonForeground`                                | `SolidColorBrush` | OnSurfaceBrush                          |
 | `NavigationBarEllipsisButtonBackground`                                | `SolidColorBrush` | SolidColorBrush { Color = Transparent } |
-| `MaterialNavigationBarElevation`                                       | `Double`          | 4                                       |
 | `MaterialXamlNavigationBarHeight`                                      | `Double`          | 64                                      |
 | `MaterialNavigationBarHeight`                                          | `Double`          | 48                                      |
 | `MaterialNavigationBarContentMargin`                                   | `Thickness`       | 16,0,0,0                                |
@@ -457,6 +318,8 @@ Only supports `BitmapImage` on iOS/Android
 | `NavBarAppBarButtonPadding`                                            | `Thickness`       | 12,16                                   |
 | `NavBarAppBarButtonHasFlyoutChevronVisibility`                         | `Visibility`      | Collapsed                               |
 
+`MaterialNavigationBarHeight` is only defined by the Material v1 styles.
+
 ## Navigation
 
 The `NavigationBar` automatically hooks itself up to the [`SystemNavigationManager.BackRequested` event](https://learn.microsoft.com/uwp/api/windows.ui.core.systemnavigationmanager.backrequested) and will attempt to navigate back by calling `Frame.GoBack()` as long as all of the following conditions are met:
@@ -469,151 +332,36 @@ NOTE: `SystemNavigationManager` is not supported for WinAppSDK
 
 The `NavigationBar` is also aware of its parent `Page` possibly being hosted in a `Popup` (for things like modal pages) and will close the `Popup` when attempting to navigate backward within the `Popup` while `Frame.BackStack` is empty.
 
-## Placement
+## Status Bar and Safe Area
 
-On **iOS**, the same `UINavigationBar` instance is shared throughout all pages. When navigating between two pages, you can see that the `UINavigationBar` doesn't move, and only its content and the pages have a transition. To get the same effect for Uno's `NavigationBar`, the `NavigationBar` that you define inside your `Page` is never actually rendered there, and only serves as a placeholder from which to read the information we need to pass to the shared native `UINavigationBar` instance.
+On iOS and Android, the app draws behind the status bar, so a `NavigationBar` placed at the top of a page needs the unsafe area to be reserved:
 
-To ensure everything works properly, you must follow a few rules:
+* The default style (`DefaultNavigationBar`) sets `utu:SafeArea.Insets="Top"` on the `NavigationBar` itself.
+* The Material and Simple styles do not, and behave the same on every platform. Apply [`SafeArea`](xref:Toolkit.Controls.SafeArea) to the page instead, for example on its root panel:
 
-* The `NavigationBar` must stretch horizontally and be aligned with the top of your `Page`
-* The `NavigationBar` can't move (i.e., don't put it inside a `ScrollViewer`)
-* The `NavigationBar` must be accessible as soon as the `Page` is being navigated to (i.e., don't put it inside a `DataTemplate`)
-* There can only be one `NavigationBar` per `Page`
+```xml
+<Grid utu:SafeArea.Insets="VisibleBounds">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
 
-## Extensibility
+    <utu:NavigationBar Content="Title" />
+</Grid>
+```
 
-The `NavigationBar` is automatically managed by the `Frame` control, however, you can still use the "native" mode of the `NavigationBar` with your own navigation mechanism.
+## Migrating from the native mode
 
-On **iOS** a `NavigationBarHelper` is available for this purpose, you only have to invoke each of the provided methods in your own `UIViewController` implementation.
+Before Uno Platform 7, `NavigationBar` defaulted to a native mode on iOS and Android. That mode no longer exists, and the XAML template described above is used everywhere:
 
-## AppBarButton
-
-The `AppBarButton` in **Uno** is designed to be used the same way you would use the `AppBarButton` on **UWP**. In most cases, you should refer to the [official `AppBarButton` documentation](https://learn.microsoft.com/uwp/api/windows.ui.xaml.controls.appbarbutton).
-
-When `AppBarButton` is used within a native `NavigationBar`, its control template is completely ignored and can't be customized.
-
-### Events
-
-| Event     | Windows | iOS | Android | Comments |
-|-----------|:-------:|:---:|:-------:|----------|
-| `Clicked` | x       | x   | x       |          |
-
-### Properties
-
-| Property       | Windows | iOS | Android | Comments                                  |
-|----------------|---------|-----|---------|-------------------------------------------|
-| `Command`      | x       | x   | x       |                                           |
-| `Content`      | x       | x*  | x*      | Supports `string` and `FrameworkElement`  |
-| `Foreground`   | x       | x   | x*      | **Android**: See details below            |
-| `Icon`         | x       | x*  | x*      | See details below                         |
-| `IsEnabled`    | x       | x   | x*      | **Android**: Not supported with `Content` |
-| `Label`        | x       | x*  | x*      | See details below                         |
-| `Opacity`      | x       | x   | x       |                                           |
-| `Visibility`   | x       | x   | x       |                                           |
-| `IsInOverflow` | x       | -   | x       | **Android**: See details below            |
-
-*If it's not listed, assume it's not supported.*
-
-### Foreground
-
-Gets or sets the brush used for the foreground color of this control.
-
-![Android NavigationBar - AppBarButton foreground example](../assets/navbar-android-appbar-fg.png)
-
-![iOS NavigationBar - AppBarButton foreground example](../assets/navbar-ios-appbar-fg.png)
-
-Remarks:
-
-* This changes the color of the `Content` (text) or `Icon`.
-* Only supports `SolidColorBrush`.
-* On **Android**, this only affects the color of `Icon`, not `Content` (text).
-* On **iOS**, the default value is blue.
-
-### Content
-
-Gets or sets the content of the control.
-
-![Android NavigationBar - AppBarButton content example](../assets/navbar-android-appbar-content.png)
-
-![iOS NavigationBar - AppBarButton content example](../assets/navbar-ios-appbar-content.png)
-
-Remarks:
-
-* When given a `string`, its text will be displayed instead of the icon.
-* When given a `FrameworkElement`:
-  * it will be displayed instead of the `Icon` if the latter is not set
-  * the native pressed state and tooltip (Android only) won't work
-* Make sure to set `Icon` to null, as it takes priority over `Content`.
-
-### Icon
-
-Gets or sets the graphic content of the `AppBarButton`
-
-![Android NavigationBar - AppBarButton icon example](../assets/navbar-android-appbar-icon.png)
-
-![iOS NavigationBar - AppBarButton icon example](../assets/navbar-ios-appbar-icon.png)
-
-Remarks:
-
-* On **Android**, the `MainCommand` Icon only supports `BitmapIcon`s. `PrimaryCommands` and `SecondaryCommands` support any `IconElement` type.
-
-### Recommended icon sizes (by scale)
-
-| Platform | 100%  | 150%  | 200%  | 300%  | 400%    |
-|----------|:-----:|:-----:|:-----:|:-----:|:-------:|
-| iOS      | 25x25 | -     | 50x50 | 75x75 | -       |
-| Android  | 24x24 | 36x36 | 48x48 | 72x72 | 96x96   |
-| Windows  | 32x32 | 48x48 | 64x64 | 96x96 | 128x128 |
-
-### Label
-
-Gets or sets the text description of the control.
-
-![Android NavigationBar - AppBarButton label example](../assets/navbar-android-appbar-label.png)
-
-![Android NavigationBar - AppBarButton label overflow example](../assets/navbar-android-appbar-label-overflow.png)
-
-Remarks:
-
-The `Label` will not be displayed below the `Icon` when being placed in a native `NavigationBar`. The exception on **iOS** is the case of the `Label` being set on `MainCommand` to override the default "Back" string next to the back arrow
-
-`Label` is only displayed on **Android** when the `AppBarButton` is displayed from the overflow (when part of `SecondaryCommands` or if `IsInOverflow` is `True`)
-
-It is highly recommended to set and localize `Label` on all `AppBarButton`s, if only for accessibility.
-
-### IsInOverflow
-
-**Android only**
-
-Gets or sets a value indicating whether the `AppBarButton` is in the overflow menu.
-
-![Android NavigationBar - AppBarButton label is in overflow example](../assets/navbar-android-appbar-label-overflow.png)
-
-Remarks:
-
-* When set to `True`, the `AppBarButton` will be placed in the native overflow menu of the Android `Toolbar`
-* When set to `False`, the native Android `NavigationBar` will attempt to display the `AppBarButton` directly on the `Toolbar` if there is room available
+* `NativeFramePresenter` and `NativeNavigationBarPresenter` have been removed. `Frame` no longer needs a custom style: remove any `Style` based on `NativeDefaultToolkitFrame`.
+* The `NativeDefaultToolkitFrame`, `NativeNavigationBarTemplate`, `MaterialNativeNavigationBarTemplate`, and `SimpleNativeNavigationBarTemplate` resources have been removed, along with `MaterialNavigationBarElevation`, the Material v2 `MaterialNavigationBarHeight`, and the Simple `NavigationBarElevation` and `NavigationBarHeight` resources.
+* The bar is part of the `Page`, so there is no shared `UINavigationBar` or navigation transition across pages. It can be placed anywhere, including inside a `ScrollViewer`, and a page can contain several `NavigationBar`s.
+* The back button no longer shows the title of the previous page on iOS, and `SecondaryCommands` use the `CommandBar` overflow menu instead of the Android `Toolbar` menu.
+* The `AppBarButton` templates and visual states apply. Platform resources such as the Android `actionMenuTextColor` or `colorControlHighlight` styles no longer affect the bar: use the **Lightweight Styling** resources instead.
+* The Material and Simple styles no longer pad the bar for the status bar on iOS and Android. Please refer to the **Status Bar and Safe Area** section.
 
 ## FAQ: NavigationBar
-
-### How can I remove the back button title from all pages on iOS?
-
-  ```xml
-  xmlns:utu="using:Uno.Toolkit.UI"
-  ...
-  <Style x:Key="MyCustomAppBarButtonStyle"
-         BasedOn="{StaticResource AppBarButtonStyle}"
-         TargetType="AppBarButton">
-   <Setter Property="Label"
-              Value="" />
-  </Style>
-
-  <Style BasedOn="{StaticResource NavigationBarStyle}"
-         TargetType="utu:NavigationBar">
-      <Setter Property="MainCommandStyle"
-              Value="{StaticResource MyCustomAppBarButtonStyle}" />
-  </Style>
-  ```
 
 ### How can I change the back button icon/arrow/chevron in my app?
 
@@ -644,26 +392,9 @@ Remarks:
   </utu:NavigationBar>
   ```
 
-### Why does my back button display "Back" on iOS?
-
-The back button will display "Back" if:
-
-* The previous page doesn't have a `NavigationBar`.
-* The previous page's `NavigationBar` doesn't have a `Content` of type `string`
-* The current page's `NavigationBar` doesn't set the `Label` of its `MainCommand`
-* The previous page's `NavigationBar` has a title that's too long (more than 140px)
-
-### Why can't I overlap content over the NavigationBar on iOS?
-
-The `NavigationBar` is not actually part of the `Page` on **iOS**, and you can't overlap content over it like you would on **UWP** or **Android**. Please refer to the **Placement** section for details.
-
 ### Why doesn't my NavigationBar show a back button?
 
-For a `NavigationBar` to show a back button, it must first be resolved by `Frame` as soon as it navigates to a `Page`. To ensure that `NavigationBar` is available as soon as the navigation starts, make sure it's directly part of a page, and not part of a `DataTemplate` or `ControlTemplate`.
-
-### Why don't my AppBarButton visual states work?
-
-You can't customize the `ControlTemplate` of `AppBarButton` when using `NavigationBar` in native mode.
+The back button is displayed when `MainCommandMode` is `Back` and the `Frame` of the `Page` containing the `NavigationBar` can go back, or when the `NavigationBar` is hosted in a `Popup`. The `NavigationBar` finds its `Page` when it is loaded, so make sure it's part of the page's visual tree.
 
 ### How can I add a badge to an AppBarButton?
 
@@ -711,32 +442,16 @@ You can set a custom content to an `AppBarButton` like this:
 </AppBarButton>
 ```
 
-### Why does my NavigationBar always appear at the top of the page on iOS?
-
-You can't place your `NavigationBar` anywhere other than at the top of the `Page` on **iOS**. See the **Placement** section for details.
-
 ### How can I change the height of my NavigationBar?
 
-You can't currently change the height of the `NavigationBar`. It is dictated by the platform and the device.
-
-### How can I customize the pressed/disabled visual states of my AppBarButton?
-
-You can't currently customize the visual states of `AppBarButton` when using `NavigationBar` in native mode.
-
-### Why doesn't the disabled state work on my AppBarButton on Android?
-
-`AppBarButton` doesn't currently support the disabled state when used with `Content` (of `string`) on **Android**. You can use an `Icon` instead.
-
-### How can I display two NavigationBars side by side on iOS (i.e., master-detail)
-
-`Page` only supports a single `NavigationBar` at a time. To display two `NavigationBar`s side by side (i.e., master-detail), you should place two `Frame`s side by side and put a `NavigationBar` in the `Page` of each `Frame`.
+The height is defined by the style in use. Override the related resources listed in the **Lightweight Styling** section, or provide your own style.
 
 ### How can I add a burger menu to the left of my NavigationBar?
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
-<utu:NavigationBar>
+<utu:NavigationBar MainCommandMode="Action">
     <utu:NavigationBar.MainCommand>
     <AppBarButton Command="{Binding ToggleMenu}">
         <AppBarButton.Icon>
@@ -747,51 +462,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </utu:NavigationBar>
 ```
 
-### Why doesn't Flyout work on my AppBarButton?
-
-`AppBarButton` doesn't currently support `Flyout` when using `NavigationBar` in native mode. You can use `MenuFlyout` instead.
-
-### Why can't I change the Foreground of my AppBarButton on Android?
-
-`AppBarButton` doesn't currently support `Foreground` when displaying text (using `Content` of `string`).
-
-However, you can change the color of all textual `AppBarButton`s globally using **Android** styles:
-
-**Colors.xml**
-
-```xml
-<color name="red">#FFFF0000</color>
-```
-
-**Styles.xml**
-
-```xml
-<item name="android:actionMenuTextColor">@color/red</item>
-<item name="actionMenuTextColor">@color/red</item>
-```
-
-If you need the button to display a different color to reflect being in a disabled state, you can add a selector in its own file, under res/color, like so:
-
-**PrimaryTextColorSelector.xml**
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:state_enabled="false" android:color="#88888888"/>
-    <item android:color="#FF00FFFF"/>
-</selector>
-```
-
-**Styles.xml**
-
-```xml
-<item name="android:actionMenuTextColor">@color/PrimaryTextColorSelector</item>
-<item name="actionMenuTextColor">@color/PrimaryTextColorSelector</item>
-```
-
 ### How can I customize the font of the NavigationBar title/content?
 
-To customize the font of the `NavigationBar`'s title, you must set a custom `FrameworkElement` as the `Content` of your `NavigationBar`:
+To customize the font of the `NavigationBar`'s title, you can set a custom `FrameworkElement` as the `Content` of your `NavigationBar`:
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -801,46 +474,6 @@ xmlns:utu="using:Uno.Toolkit.UI"
         <TextBlock Text="Title"
                     FontFamily="{StaticResource CustomFontFamily}" />
     </utu:NavigationBar.Content>
-</utu:NavigationBar>
-```
-
-### Why doesn't my NavigationBar scroll when placed inside a ScrollViewer on iOS?
-
-`NavigationBar` can't be placed inside a `ScrollViewer`. It must be anchored to the top of your `Page` at all times. Please refer to the **Placement** section for details.
-
-### How can I change the color of the ripple effect when pressing on AppBarButtons on Android?
-
-You can change the color of the ripple effect globally using Android styles:
-
-**Colors.xml**
-
-```xml
-<!-- https://android.googlesource.com/platform/frameworks/support/+/415f740/v7/appcompat/res/values/colors_material.xml -->
-<color name="ripple_material_light">#20444444</color>
-<color name="ripple_material_dark">#20ffffff</color>
-```
-
-**Styles.xml**
-
-```xml
-<item name="colorControlHighlight">@color/ripple_material_dark</item>
-```
-
-### Why doesn't my AppBarToggleButton work?
-
-`AppBarToggleButton` is not currently supported.
-
-To implement a similar effect, you can bind your `AppBarButton`'s icon to a state using a converter:
-
-```xml
-xmlns:utu="using:Uno.Toolkit.UI"
-...
-<utu:NavigationBar>
-    <AppBarButton Command="{Binding ToggleIsFavorite}">
-        <AppBarButton.Icon>
-            <BitmapIcon UriSource="{Binding IsFavorite, Converter={StaticResource IsFavoriteToStarIcon}}" />
-        </AppBarButton.Icon>
-    </AppBarButton>
 </utu:NavigationBar>
 ```
 
@@ -856,32 +489,4 @@ xmlns:utu="using:Uno.Toolkit.UI"
     <utu:NavigationBar Background="Transparent"
                        VerticalAlignment="Top" />
 </Grid>
-```
-
-### What size should my AppBarButton icons be?
-
-Please refer to the **Icon** section for details.
-
-### Why does my back button icon change when swiping back on iOS?
-
-This can happen when navigating between two pages with `NavigationBar`s using different `MainCommand.Icon`s
-
-To avoid this issue, please make sure that all `NavigationBar`s use the same `BitmapIcon` for their `MainCommand.Icon` by using a style:
-
-```xml
-xmlns:utu="using:Uno.Toolkit.UI"
-...
-<Style x:Key="MyCustomMainCommandStyle" TargetType="AppBarButton">
-<Setter Property="Icon">
-    <Setter.Value>
-    <BitmapIcon UriSource="ms-appx:///Assets/Icons/back.png" />
-    </Setter.Value>
-</Setter>
-</Style>
-
-<Style TargetType="utu:NavigationBar">
-    <Setter Property="MainCommandStyle"
-            Value="{StaticResource MyCustomMainCommandStyle}" />
-    </Setter>
-</Style>
 ```
