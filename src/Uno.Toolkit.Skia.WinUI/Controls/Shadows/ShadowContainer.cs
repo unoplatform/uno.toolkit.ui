@@ -15,10 +15,6 @@ using Uno.Disposables;
 using Uno.WinUI.Graphics2DSK;
 using Windows.Foundation;
 
-#if __ANDROID__
-using Android.Views;
-#endif
-
 namespace Uno.Toolkit.UI;
 
 /// <summary>
@@ -313,11 +309,7 @@ public partial class ShadowContainer : ContentControl
 			return;
 		}
 
-#if __ANDROID__ || __IOS__
-		this.GetDispatcherCompat().Schedule(() => InvalidateCanvasLayoutSize());
-#else
 		InvalidateCanvasLayoutSize();
-#endif
 
 	}
 	private void InvalidateCanvasLayoutSize()
@@ -337,9 +329,6 @@ public partial class ShadowContainer : ContentControl
 			return;
 		}
 
-#if __ANDROID__ || __IOS__
-		_canvas.GetDispatcherCompat().Schedule(() => _canvas.InvalidateMeasure());
-#endif
 		double absoluteMaxOffsetX = 0;
 		double absoluteMaxOffsetY = 0;
 		double maxBlurRadius = 0;

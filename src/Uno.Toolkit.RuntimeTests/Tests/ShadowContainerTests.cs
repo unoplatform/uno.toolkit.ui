@@ -44,8 +44,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	[RunsOnUIThread]
 	internal partial class ShadowContainerTests
 	{
-
-#if !(__ANDROID__ || __IOS__)
 		[TestMethod]
 		public async Task When_Element_Is_Resized()
 		{
@@ -384,7 +382,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				await renderer.AssertColorAt(Colors.Red, centerX, sampleY);
 			}
 		}
-#endif
 
 		[TestMethod]
 		public async Task Displays_Content()
