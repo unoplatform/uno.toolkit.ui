@@ -158,11 +158,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[DataRow(-10, -10, true, 100)]
 		public async Task ShadowsCornerRadius_Content(int offsetX, int offsetY, bool inner, double bottomRightCorner)
 		{
-			if (!ImageAssertHelper.IsScreenshotSupported())
-			{
-				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
-			}
-
 			var shadowContainer = new ShadowContainer
 			{
 				HorizontalAlignment = HorizontalAlignment.Left,
@@ -312,11 +307,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[DataRow(10, -10, false)]
 		public async Task Outer_Shadows(int offsetX, int offsetY, bool inner)
 		{
-			if (!ImageAssertHelper.IsScreenshotSupported())
-			{
-				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
-			}
-
 			var parentBorder = new Border { Height = 500, Width = 500, HorizontalAlignment = HorizontalAlignment.Center, Background = new SolidColorBrush(Colors.Yellow) };
 			var border = new Border { HorizontalAlignment = HorizontalAlignment.Center, Height = 200, Width = 200 };
 			var shadowContainer = new ShadowContainer
@@ -386,11 +376,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task Displays_Content()
 		{
-			if (!ImageAssertHelper.IsScreenshotSupported())
-			{
-				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
-			}
-
 			var greenBorder = new ShadowContainer
 			{
 				Content = new Border { Height = 200, Width = 200, Background = new SolidColorBrush(Colors.Green) }
