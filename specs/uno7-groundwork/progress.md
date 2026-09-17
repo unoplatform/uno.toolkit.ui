@@ -56,35 +56,82 @@ pins: `uno.winui.nuspec` for `7.0.0-dev.701` pins `0a4053a40b7bc7fe5f7a0ef5aaa89
   sub-pixel `AutoLayout` assertions (`24.8` vs `25`) consistent with a non-100 % display scale;
   CI runs under `xvfb` at scale 1, so re-baseline on Linux before reading them as regressions.
 
-## In progress — mobile port
+## Done — mobile port
 
-Split into four slices by file ownership, each in its own worktree, reviewed adversarially before
-integration:
+Split into four slices by file ownership, each built in its own worktree and reviewed
+adversarially before integration.
 
-- [ ] **NavigationBar** — delete native renderers, `NativeFramePresenter`,
-      `NativeNavigationBarPresenter`, the native templates/keys and the `IsNativeStyle` frame styles
-      (UI, Material v1/v2, Simple); port `NavigationBarTests`; update `doc/controls/NavigationBar.md`.
-- [ ] **TabBar and helpers** — managed `TabBarSelectorBehaviorState` everywhere, managed
-      `ScrollableHelper` scroll-to-top (the mobile branch threw `NotImplementedException`),
-      collapse `VisualTreeHelperEx.Native`, drop the `CS0109` `new` members, unwrap the TabBar, Chip,
-      segmented-control and FlipView XAML forks.
-- [ ] **Platform services** — `ExtendedSplashScreen` Skia path on mobile, `SafeArea` without
-      `IsStatusBarTranslucent`, remaining `ShadowContainer` mobile gates, their tests and docs.
-- [ ] **Samples, build and CI** — Android host through `UnoPlatformHostBuilder`, Android API 24 floor
-      for app heads, dead native sample code and XAML prefixes, remaining test gates, the upstream
-      `CS0407` generator issue, CI stage review.
-- [ ] Integrate, then build every leg with the CI commands (Packages via MSBuild, desktop, WASM,
-      Android, iOS) and run runtime tests on desktop, WASM and a local Android emulator.
+- [x] **NavigationBar** — the XAML template is the only path; native renderers,
+      `NativeFramePresenter`, `NativeNavigationBarPresenter`, the native keys and the `IsNativeStyle`
+      frame styles are gone. `NavigationBarTests` assert on `NavigationBarPresenter`/`CommandBar`.
+      The size and elevation resources stay defined for compatibility.
+- [x] **TabBar and helpers** — `TabBarSelectorBehaviorState` follows the FlipView `ScrollViewer`
+      everywhere; `ScrollableHelper` scrolls the `ListView`'s `ScrollViewer` on every Uno target
+      (new `ScrollableHelperTests`, `TabBarItemExtensionsTests`); the TabBar, Chip, segmented-control
+      and FlipView styles use the arm Skia heads already ran.
+- [x] **Platform services** — `ExtendedSplashScreen` builds the Skia splash from `UnoSplash.def` on
+      Android and iOS. `SafeArea` uses `Bounds`/`VisibleBounds` everywhere; the Android bounds-race
+      guard stays because Uno 7 still raises `VisibleBoundsChanged` before updating `Bounds`.
+- [x] **Samples, build and CI** — Android heads go through `UnoPlatformHostBuilder`; Hot Design and
+      App MCP are disabled in Debug heads (their pinned builds still bind Uno 6); macOS/Catalyst
+      plumbing and dead XAML prefixes are gone. The API 24 floor already comes from the SDK.
+- [x] `DrawerControl.IsOpen` set off the UI thread is applied on the UI thread; Uno 7 enforces thread
+      access in composition like WinUI.
+- [x] iOS trim analyzer (enabled by the iOS SDK for every project): `IL2122` fixed by qualifying the
+      type name with `Uno.WinRT`; `IL2070`/`IL2075` suppressed with justification on name-based
+      dependency-property lookups.
+- [x] Markup projects build against C# Markup `7.0.0-dev.33` (`UnoCSharpMarkupVersion`).
+- [x] The incremental-loading tests scroll to the current end: Uno 7's `ScrollViewer` keeps a
+      `ChangeView` offset as intent (`unoplatform/uno@385b6146a9`), so a fixed 10,000 px offset kept
+      loading batches.
+
+### Kept native-only exception
+
+`ExtendedSplashScreen.Init(Activity)` still calls AndroidX `InstallSplashScreen` and keeps the
+pre-API-31 `ExtendedSplashScreenTheme`. It drives the OS splash screen, not the view tree.
+
+### Verified
+
+Local, Windows, with the pipeline commands:
+
+| Leg | Result |
+|---|---|
+| Libraries and runtime tests, `net10.0-android` / `net10.0-ios` | 0 errors, no `UNOB0020` |
+| Desktop publish (Material, Cupertino, Simple) | 0 errors |
+| WASM publish (Material, Cupertino) | 0 errors |
+| Android build (Material, Cupertino) | 0 errors |
+| Packages (MSBuild, all TFMs, 8 packages) | 0 errors |
+| Desktop runtime tests, Linux (WSLg), before the port | 334 of 341 passed |
+| Desktop runtime tests, Linux (WSLg), after integration | 354 of 360 passed; the 6 failures were the incremental-loading tests, fixed and re-run with `Attempts: 1` |
+
+On Windows the same suite reports sub-pixel `AutoLayout` failures (`24.8` vs `25`) caused by the
+display scale; use Linux or a 100 % scale.
+
+### Not verified
+
+- Runtime behavior on Skia Android and iOS devices: splash handoff and logo size, `SafeArea` with
+  real system bars, the re-enabled `ChipGroupTests` (#1300) and leak tests.
+- iOS app heads (need a Mac) and the WinAppSDK sample heads.
+- Hot-reload runtime tests.
 
 ## Blockers and risks
 
 | Item | State |
 |---|---|
 | Uno.Themes Uno 7 build | **Resolved** — `9.0.0-dev.15` |
-| `Uno.WinUI.Markup` Uno 7 build | Exists (`7.0.0-dev.33`); the SDK still pins `6.7.0-dev.16`, so the Markup projects need `UnoCSharpMarkupVersion`. `Uno.Themes.WinUI.Markup` 9.0 still references `Uno.WinUI.Markup` 5.2 — check at runtime |
+| C# Markup Uno 7 build | **Resolved** — `7.0.0-dev.33`. `Uno.Themes.WinUI.Markup` 9.0 still references `Uno.WinUI.Markup` 5.2; check at runtime |
 | SkiaSharp views built for Uno 7 | None exist; avoided by `SKCanvasElement` |
-| `CS0407` in generated `mergedpages_*.cs` on mobile (seen in Uno.Themes for Simple) | Under investigation |
-| Mobile runtime tests | CI runs desktop and WASM only; Android is verified locally |
+| `CS0407` in generated `mergedpages_*.cs` on mobile | **Resolved** upstream (`unoplatform/uno#24457`, in `7.0.0-dev.697`) |
+| Hot Design / App MCP Uno 7 builds | None published; disabled in Debug sample heads |
+| Mobile runtime tests | CI runs desktop and WASM only |
+| Runtime-test engine retries | `Uno.UI.RuntimeTests.Engine` 2.0.0-dev.79 retries failures three times without reporting; run with `Attempts: 1` when validating |
+
+## Follow-ups
+
+- `uno#7393` is closed; the Material v1 bottom TabBar FAB workaround could return to its
+  `RenderTransform` design after a visual check.
+- The `NativeFrame` sample now only exercises `Frame` back-stack handling; rename it.
+- `NavigationBar.Subtitle` is displayed nowhere since the Android renderer went.
 
 ## Public API removals to announce
 
