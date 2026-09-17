@@ -107,10 +107,25 @@ Local, Windows, with the pipeline commands:
 On Windows the same suite reports sub-pixel `AutoLayout` failures (`24.8` vs `25`) caused by the
 display scale; use Linux or a 100 % scale.
 
+**Skia Android, API 34 emulator (local, Release, `Attempts: 1`):** 244 of 365 passed. Every one of
+the 121 failures is an exact-size assertion broken by layout rounding at the emulator's 2.625
+density (`100` vs `99.81`): 109 in `AutoLayoutTest`, 8 in `ShadowContainerTests`, 4 in
+`TabBarTests.Verify_Indicator_Transitions`. The port-sensitive tests all pass: the
+`ExtendedSplashScreen` smoke and splash tests, the `SafeArea` system-bar and bottom-inset tests, every
+`NavigationBar` test, the re-enabled `ChipGroupTests` (#1300), `DrawerTests.IsOpen_FromNonUIThread`,
+`ScrollableHelper`, `TabBarItemExtensions` and the incremental-loading tests.
+
+The run needs an app-side autostart: the engine's embedded runner hooks `Console.CancelKeyPress`,
+which throws `PlatformNotSupportedException` on Android. The local harness reused Uno.Extensions'
+`MobileRuntimeTestsAutostart` (`UITEST_RUNTIME_AUTOSTART_RESULT_FILE` passed as an `am start` extra)
+and is not committed.
+
 ### Not verified
 
-- Runtime behavior on Skia Android and iOS devices: splash handoff and logo size, `SafeArea` with
-  real system bars, the re-enabled `ChipGroupTests` (#1300) and leak tests.
+- Skia iOS runtime tests, and on Android the visual splash handoff and the DEBUG-only leak and
+  bounds-transition tests (the emulator run used Release).
+- Exact-size runtime assertions fail at fractional scales (Windows display scale, Android density);
+  they would need a tolerance before a mobile runtime-test lane is added.
 - iOS app heads (need a Mac) and the WinAppSDK sample heads.
 - Hot-reload runtime tests.
 
