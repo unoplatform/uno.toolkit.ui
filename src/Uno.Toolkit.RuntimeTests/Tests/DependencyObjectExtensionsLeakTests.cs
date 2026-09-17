@@ -26,13 +26,6 @@ internal class DependencyObjectExtensionsLeakTests
 	[TestMethod]
 	public async Task ReflectionCache_DoesNotRoot_CollectibleTypeKey()
 	{
-		// Excluded on the Mono targets: Android and iOS at compile time, the browser here because it
-		// shares this net10.0 build with desktop.
-		if (OperatingSystem.IsBrowser())
-		{
-			return;
-		}
-
 		var typeRef = PopulateCacheFromCollectibleAssembly();
 
 		await CollectAndWait();
