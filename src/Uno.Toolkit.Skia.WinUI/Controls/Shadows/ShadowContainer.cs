@@ -309,19 +309,6 @@ public partial class ShadowContainer : ContentControl
 			return;
 		}
 
-		InvalidateCanvasLayoutSize();
-
-	}
-	private void InvalidateCanvasLayoutSize()
-	{
-		if (Content is not FrameworkElement contentAsFE ||
-						_panel == null ||
-						_canvas == null ||
-						_shadowHost == null)
-		{
-			return;
-		}
-
 		var childWidth = contentAsFE.ActualWidth;
 		var childHeight = contentAsFE.ActualHeight;
 		if (childWidth == 0 || childHeight == 0)
