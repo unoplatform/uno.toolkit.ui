@@ -230,13 +230,6 @@ namespace Uno.Toolkit.UI
 				return new();
 			}
 
-#if __ANDROID__
-			var statusBarOffset = 0d;
-			if (!XamlWindow.Current!.IsStatusBarTranslucent())
-			{
-				statusBarOffset = Windows.UI.ViewManagement.StatusBar.GetForCurrentView()?.OccludedRect.Height ?? 0d;
-			}
-#endif
 			if (withSoftInput)
 			{
 				var inputRect = InputPane.GetForCurrentView()?.OccludedRect ?? Rect.Empty;
@@ -244,33 +237,11 @@ namespace Uno.Toolkit.UI
 				{
 
 					var windowBottom = XamlWindow.Current!.Bounds.Bottom;
-#if __ANDROID__
-					var totalOffset = Math.Max(0, inputRect.Bottom - windowBottom);
-
-					// On Android, the InputPane OccludedRect includes the space needed for the system-level NavigationBar
-					// (either the 3-/2-button navigation area or the gesture navigation "pill"), as well as the height of the system status bar.
-					// If either of these areas are not translucent, the VisibleBounds does not include them in its Rect and we will have to offset
-					// the InputRect to align with the VisibleBounds Rect.
-					if (totalOffset > 0)
-					{
-						var navBarOffset = (totalOffset - statusBarOffset);
-
-						inputRect.Height -= navBarOffset;
-					}
-
-#endif
 					var newBottom = windowBottom - inputRect.Height;
 					visibleBounds.Height = newBottom - visibleBounds.Y;
 
 				}
 			}
-#if __ANDROID__
-			else
-			{
-				visibleBounds.Y += statusBarOffset;
-				visibleBounds.Height -= statusBarOffset;
-			}
-#endif
 			return visibleBounds;
 #endif
 		}
@@ -325,14 +296,6 @@ namespace Uno.Toolkit.UI
 
 				_originalMargin = owner.Margin;
 				_originalPadding = PaddingHelper.GetPadding(owner);
-#if __IOS__
-				// For iOS, it's required to react on SizeChanged to prevent weird alignment
-				// problems with Text using the LayoutManager (NSTextContainer).
-				// https://github.com/unoplatform/uno/issues/2836
-
-				owner.SizeChanged += OnInsetUpdateRequired;
-				_subscriptions.Add(() => owner.SizeChanged -= OnInsetUpdateRequired);
-#endif
 				owner.LayoutUpdated += OnOwnerLayoutUpdated;
 				_subscriptions.Add(() => owner.LayoutUpdated -= OnOwnerLayoutUpdated);
 
@@ -385,8 +348,6 @@ namespace Uno.Toolkit.UI
 				// its closure display-class would be rooted by the delegate (Target != null) and would
 				// in turn root whatever it captured. Callers must pass static/non-capturing delegates
 				// (Target == null); assert it in DEBUG so an accidental capture is caught during dev.
-				// Fully qualified: on net*-android an unqualified `Debug` binds to the inherited
-				// Android.Views.ViewGroup.Debug(int) method (CS0119), not System.Diagnostics.Debug.
 				System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
 				System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
 
@@ -556,9 +517,9 @@ namespace Uno.Toolkit.UI
 				//      DispatcherQueue work. Fix: convert Branch 1 from re-defer to
 				//      accept-and-proceed (one-shot pattern).
 				//
-				// `OperatingSystem.IsAndroid()` (vs `#if __ANDROID__`) is required so the
-				// guard remains active for Skia Android builds (`net9.0` TFM without the
-				// `__ANDROID__` define).
+				// `OperatingSystem.IsAndroid()` (vs `#if __ANDROID__`) keeps the guard active
+				// whichever build of this library an Android head loads (before Uno Platform 7,
+				// Skia Android heads loaded the plain `net` build, without the `__ANDROID__` define).
 				// ──────────────────────────────────────────────────────────────────
 				if (!HasSoftInput() && OperatingSystem.IsAndroid())
 				{
@@ -678,14 +639,6 @@ namespace Uno.Toolkit.UI
 			private Thickness AdjustScrollableInsets(Thickness visibilityInsets, ScrollViewer scrollAncestor)
 			{
 				var scrollableRoot = scrollAncestor.Content as FrameworkElement;
-#if XAMARIN
-				if (scrollableRoot is ItemsPresenter)
-				{
-					// This implies we're probably inside a ListView, in which case the reasoning breaks down in Uno (because ItemsPresenter
-					// is *outside* the scrollable region); we skip the adjustment and hope for the best.
-					scrollableRoot = null;
-				}
-#endif
 				if (scrollableRoot != null && Owner is { })
 				{
 					// Get the spacing already provided by the alignment of the child relative to it ancestor at the root of the scrollable hierarchy.
@@ -767,7 +720,7 @@ namespace Uno.Toolkit.UI
 					if (owner.TryUpdatePadding(insets))
 					{
 						_appliedPadding = insets;
-						OnInsetsApplied(owner, insets);
+						OnInsetsApplied(insets);
 					}
 #if DEBUG
 					InsetsApplied?.Invoke(this, insets);
@@ -779,7 +732,7 @@ namespace Uno.Toolkit.UI
 					{
 						owner.Margin = insets;
 						_appliedMargin = insets;
-						OnInsetsApplied(owner, insets);
+						OnInsetsApplied(insets);
 					}
 #if DEBUG
 					InsetsApplied?.Invoke(this, insets);
@@ -787,24 +740,12 @@ namespace Uno.Toolkit.UI
 				}
 			}
 
-			private void OnInsetsApplied(FrameworkElement owner, Thickness newInsets)
+			private void OnInsetsApplied(Thickness newInsets)
 			{
 				if (_log.IsEnabled(LogLevel.Debug))
 				{
 					_log.LogDebug($"ApplyInsets={newInsets}, Mode={_insetMode}");
 				}
-
-#if __ANDROID__
-				// Dispatching on Android prevents issues where layout/render changes occurring
-				// during the initial loading of the view are not always properly picked up by the layouting/rendering engine.
-				// Also invalidate the parent to ensure that Auto-sized grid rows properly
-				// shrink when the SafeArea padding decreases.
-				owner.GetDispatcherCompat().Schedule(() =>
-				{
-					owner.InvalidateMeasure();
-					(owner.Parent as UIElement)?.InvalidateMeasure();
-				});
-#endif
 
 				EffectiveInsetsApplied?.Invoke(this, newInsets);
 			}
@@ -873,13 +814,13 @@ namespace Uno.Toolkit.UI
 					{
 						_appliedMargin = new Thickness(0);
 						owner.Margin = _originalMargin;
-						OnInsetsApplied(owner, _originalMargin);
+						OnInsetsApplied(_originalMargin);
 					}
 					else if (oldValue == InsetMode.Padding)
 					{
 						_appliedPadding = new Thickness(0);
 						PaddingHelper.SetPadding(owner, _originalPadding);
-						OnInsetsApplied(owner, _originalPadding);
+						OnInsetsApplied(_originalPadding);
 					}
 				}
 				UpdateInsets();
