@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -203,6 +204,8 @@ namespace Uno.Toolkit.UI
 		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName) =>
 			FindDependencyPropertyInfo(ownerOrDescendantType, propertyName)?.Definition;
 
+		[UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Looks up a dependency property by name on any control type; a trimmed member resolves to null, which callers already handle.")]
+		[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Same lookup on the declaring type of the dependency property found above.")]
 		internal static DependencyPropertyInfo? FindDependencyPropertyInfo(this Type ownerOrDescendantType, string propertyName)
 		{
 			propertyName = propertyName.RemoveTail("Property");

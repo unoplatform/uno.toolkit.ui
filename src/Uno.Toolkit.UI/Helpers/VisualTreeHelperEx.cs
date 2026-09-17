@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -297,6 +298,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Debug tree formatting reads optional dependency properties by name; a trimmed member is skipped.")]
 		internal static bool TryGetDpValue<T>(object owner, string property, out T? value)
 		{
 			if (owner is DependencyObject @do &&
