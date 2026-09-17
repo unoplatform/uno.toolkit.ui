@@ -11,7 +11,16 @@
 		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('android'))">$(TargetFrameworks);net10.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="$(TargetFrameworkOverride.Contains('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041</TargetFrameworks>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(TargetFrameworkOverride)'==''">
+	<!--
+		The Uno 7 hot-reload workspace (UnoIsHotReloadHost) narrows only the head project to the running
+		flavor. Referenced libraries still load every TargetFrameworks entry, and flavors that were never
+		built fail its initial emit, which disables hot reload. Without an explicit TargetFrameworkOverride,
+		evaluate the libraries for net10.0 only there.
+	-->
+	<PropertyGroup Condition="'$(TargetFrameworkOverride)'=='' and '$(UnoIsHotReloadHost)'=='True'">
+		<TargetFrameworks>net10.0</TargetFrameworks>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFrameworkOverride)'=='' and '$(UnoIsHotReloadHost)'!='True'">
 		<TargetFrameworks>net10.0</TargetFrameworks>
 		<TargetFrameworks Condition="'$(Build_iOS)'=='true'">$(TargetFrameworks);net10.0-ios</TargetFrameworks>
 		<TargetFrameworks Condition="'$(Build_Android)'=='true'">$(TargetFrameworks);net10.0-android</TargetFrameworks>
