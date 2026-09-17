@@ -16,12 +16,6 @@ using Uno.UI.RuntimeTests;
 //using Uno.UI.RuntimeTests.Tests.Windows_UI_Xaml.Controls;
 using Windows.UI.Core;
 
-#if __MACOS__
-using AppKit;
-#elif __IOS__
-using UIKit;
-#endif
-
 #if IS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -49,9 +43,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 		[TestMethod]
 		[RunsOnUIThread]
-#if __MACOS__
-		[Ignore("Currently fails on macOS, part of #9282! epic")]
-#endif
 		[DataRow(typeof(TextBox), 15)]
 		[DataRow(typeof(Button), 15)]
 		public async Task When_Add_Remove(object controlTypeRaw, int count)
@@ -132,7 +123,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			var retainedMessage = "";
 
-#if NET5_0 || __IOS__ || __ANDROID__
 			if (activeControls != 0)
 			{
 				var retainedTypes = string.Join(";", _holders.AsEnumerable().Select(ExtractTargetName));
@@ -140,18 +130,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 				retainedMessage = $"Retained types: {retainedTypes}";
 			}
-#endif
-#if __IOS__
-			// On iOS, the collection of objects does not seem to be reliable enough
-			// to always go to zero during runtime tests. If the count of active objects
-			// is arbitrarily below the half of the number of top-level objects.
-			// created, we can assume that enough objects were collected entirely.
-			Assert.IsTrue(activeControls < count, retainedMessage);
-#else
-			Assert.AreEqual(0, activeControls, retainedMessage);
-#endif
 
-#if NET5_0 || __IOS__ || __ANDROID__
+			Assert.AreEqual(0, activeControls, retainedMessage);
+
 			static string? ExtractTargetName(KeyValuePair<DependencyObject, Holder> p)
 			{
 				if(p.Key is FrameworkElement fe)
@@ -163,7 +144,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 					return p.Key?.ToString();
 				}
 			}
-#endif
 
 			async Task MaterializeControl(Type controlType, ConditionalWeakTable<DependencyObject, Holder> _holders, int maxCounter, ContentControl rootContainer)
 			{

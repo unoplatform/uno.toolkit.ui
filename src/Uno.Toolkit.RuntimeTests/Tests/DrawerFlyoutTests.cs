@@ -104,9 +104,6 @@ internal class DrawerFlyoutTests
 	}
 
 	[TestMethod]
-#if __ANDROID__
-	[Ignore("blocked behind uno#14420: flyout having 0 size")]
-#endif
 	[DataRow(DrawerOpenDirection.Left)]
 	[DataRow(DrawerOpenDirection.Up)]
 	[DataRow(DrawerOpenDirection.Right)]
@@ -177,7 +174,7 @@ internal class DrawerFlyoutTests
 			var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
 			var content = presenter.Content is Border { Name: "FlyoutContentBorder" } border ? border : throw new InvalidOperationException("#FlyoutContentBorder not found");
 
-#if HAS_UNO && !__MOBILE__ // this is only really needed for wasm, but we don't have a good #define to use here
+#if HAS_UNO // this is only really needed for wasm, but we don't have a good #define to use here
 			// wait until the layout settle
 			await Task.Delay(1000);
 #endif
