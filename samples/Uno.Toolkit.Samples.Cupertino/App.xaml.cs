@@ -16,6 +16,10 @@ public partial class App : Application
 	protected override async void OnLaunched(LaunchActivatedEventArgs e)
 	{
 			MainWindow = new Window();
+#if DEBUG
+			// Registers the window for hot reload; Hot Design (UseStudio) has no Uno 7 build yet.
+			MainWindow.EnableHotReload();
+#endif
 
 			if (MainWindow.Content is null)
 			{
