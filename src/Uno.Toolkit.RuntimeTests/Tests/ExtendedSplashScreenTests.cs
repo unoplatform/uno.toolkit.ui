@@ -36,10 +36,23 @@ public class ExtendedSplashScreenTests
 	{
 		// The sample apps declare an UnoSplashScreen, so Uno.Resizetizer embeds its definition on every target.
 		// This is the only splash screen source on Android and iOS, and the fallback everywhere else.
-		var splash = await ExtendedSplashScreen.LoadSplashScreenFromResizetizerDefinition() ?? throw new Exception("Failed to find the embedded splash screen definition");
+		var splash = ExtendedSplashScreen.LoadSplashScreenFromResizetizerDefinition() ?? throw new Exception("Failed to find the embedded splash screen definition");
 
 		await AssertSplashImageLoads(ExtendedSplashScreen.BuildSplashScreen(splash));
 	}
+
+#if __ANDROID__ || __IOS__
+	[TestMethod]
+	public async Task When_Mobile_Then_Splash_Screen_Is_Built_Synchronously()
+	{
+		// The first frame dismisses the operating system splash screen, so the splash screen must not wait on manifest lookups.
+		var loading = ExtendedSplashScreen.GetNativeSplashScreen();
+
+		Assert.IsTrue(loading.IsCompleted, "The splash screen should be built from the embedded definition without awaiting.");
+
+		await AssertSplashImageLoads(await loading ?? throw new Exception("Failed to load native splash screen"));
+	}
+#endif
 
 	private static async Task AssertSplashImageLoads(FrameworkElement host)
 	{

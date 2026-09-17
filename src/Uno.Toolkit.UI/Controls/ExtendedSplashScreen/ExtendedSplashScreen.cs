@@ -109,7 +109,7 @@ public partial class ExtendedSplashScreen : LoadingView
 		{
 			var splashScreenContent = await GetNativeSplashScreen();
 
-			// GetNativeSplashScreen can await real I/O (reading the app manifest or splash definition),
+			// GetNativeSplashScreen can await real I/O (reading the app manifest),
 			// during which the control may unload. If it did, OnUnloaded already released the content, so a
 			// late completion must not re-populate SplashScreenContent and undo that teardown.
 			if (_isUnloaded)

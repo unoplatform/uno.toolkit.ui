@@ -61,13 +61,22 @@ namespace Uno.Toolkit.UI
 
 		internal static async Task<FrameworkElement?> GetNativeSplashScreen()
 		{
+			// Android and iOS heads embed no app manifest, so the definition comes first there. Reading it synchronously sets
+			// the splash screen before the first frame, which is when the operating system splash screen is dismissed.
+			var isMobile = OperatingSystem.IsAndroid() || OperatingSystem.IsIOS();
+			if (isMobile && LoadSplashScreenFromResizetizerDefinition() is { } mobileSplash)
+			{
+				return BuildSplashScreen(mobileSplash);
+			}
+
 			var splash = RuntimeInfoHelper.IsBrowser
 				? await LoadSplashScreenFromWasmManifest()
 				: await LoadSplashScreenFromPackageManifest();
 
 			if (splash.ImageUri is null &&
 				!RuntimeInfoHelper.IsBrowser &&
-				await LoadSplashScreenFromResizetizerDefinition() is { } definition)
+				!isMobile &&
+				LoadSplashScreenFromResizetizerDefinition() is { } definition)
 			{
 				splash = definition;
 			}
@@ -185,7 +194,8 @@ namespace Uno.Toolkit.UI
 			return result;
 		}
 
-		internal static async Task<SplashScreenInfo?> LoadSplashScreenFromResizetizerDefinition()
+		// The definition is a single line in an embedded resource, so reading it involves no file or network I/O.
+		internal static SplashScreenInfo? LoadSplashScreenFromResizetizerDefinition()
 		{
 			try
 			{
@@ -198,7 +208,7 @@ namespace Uno.Toolkit.UI
 					}
 
 					using var reader = new StreamReader(stream);
-					return ParseResizetizerDefinition(await reader.ReadLineAsync());
+					return ParseResizetizerDefinition(reader.ReadLine());
 				}
 			}
 			catch (Exception e)
