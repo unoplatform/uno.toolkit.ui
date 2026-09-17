@@ -2,6 +2,21 @@
 
 Corrections worth not repeating. Newest first.
 
+## A hot-reload run that is killed leaves its fixture edits on disk
+
+**2026-09-17 — Uno 7.0 retarget.**
+
+A timed-out local hot-reload run left `StatusBarPage.xaml` edited ("Updated page"). The next
+Debug build compiled that text into the page, so the test failed on its initial assertion before
+any hot reload happened.
+
+**Rules:**
+
+- After any interrupted hot-reload run, `git status src/Uno.Toolkit.RuntimeTests/Tests` and restore
+  the fixtures before building. A diff that flips a baseline literal is leftover test state.
+- When a CI version pin "does not take effect", check the cache keys of the steps that install it
+  before anything else: a key without the version restores the old install unchanged.
+
 ## A Skia mobile head did not run your mobile asset before Uno 7 — now it does
 
 **2026-09-17 — Uno 7.0 retarget.**

@@ -84,6 +84,15 @@ adversarially before integration.
 - [x] The incremental-loading tests scroll to the current end: Uno 7's `ScrollViewer` keeps a
       `ChangeView` offset as intent (`unoplatform/uno@385b6146a9`), so a fixed 10,000 px offset kept
       loading batches.
+- [x] Hot-reload runtime tests (CI: 39 of 45 failed), three independent causes:
+      the dev-server narrows only the head to the running flavor, so the libraries now evaluate
+      `net10.0` only when `UnoIsHotReloadHost` is set; the Debug heads call `EnableHotReload()` now that
+      `UseStudio()` is gone with Hot Design; and `HotReloadTestHelper` waits for the edited assembly's
+      delta, because one edit also produces a delta for the head's `uno.hot-reload.info` and
+      `HotReloadHelper` resumed on that one. `CardContentControlHrTest` reads `Content` directly: an
+      unstyled `CardContentControl` has no template on Uno 7, as on WinUI.
+- [x] CI: the `.NET` install cache is keyed on `DotNetVersion`; without it the `10.0.101` pin restored
+      the cached `10.0.102` install and Packages kept failing with `NETSDK1147`.
 
 ### Kept native-only exception
 
@@ -103,6 +112,7 @@ Local, Windows, with the pipeline commands:
 | Packages (MSBuild, all TFMs, 8 packages) | 0 errors |
 | Desktop runtime tests, Linux (WSLg), before the port | 334 of 341 passed |
 | Desktop runtime tests, Linux (WSLg), after integration | 354 of 360 passed; the 6 failures were the incremental-loading tests, fixed and re-run with `Attempts: 1` |
+| Hot-reload runtime tests, Debug desktop (Windows) | 48 of 48 passed with the fixes above |
 
 On Windows the same suite reports sub-pixel `AutoLayout` failures (`24.8` vs `25`) caused by the
 display scale; use Linux or a 100 % scale.
