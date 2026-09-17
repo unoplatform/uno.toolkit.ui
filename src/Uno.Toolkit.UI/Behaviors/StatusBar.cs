@@ -193,7 +193,7 @@ namespace Uno.Toolkit.UI
 
 		private static void SetForegroundCore(XamlColor value)
 		{
-			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar, Uno.WinRT"))
 			{
 #if HAS_UNO
 				XamlStatusBar.GetForCurrentView().ForegroundColor = value;
@@ -207,7 +207,7 @@ namespace Uno.Toolkit.UI
 		private static void SetBackgroundCore(XamlColor value)
 		{
 
-			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar, Uno.WinRT"))
 			{
 #if HAS_UNO
 				XamlStatusBar.GetForCurrentView().BackgroundColor = value;

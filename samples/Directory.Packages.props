@@ -1,11 +1,9 @@
 <Project ToolsVersion="15.0">
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-		<SkiaSharpVersion>3.119.2</SkiaSharpVersion>
-		<UnoThemesVersion>8.0.0-dev.15</UnoThemesVersion>
+		<UnoThemesVersion>9.0.0-dev.15</UnoThemesVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
-		<PackageVersion Include="Xamarin.TestCloud.Agent" Version="0.23.2" />
 	</ItemGroup>
 </Project>

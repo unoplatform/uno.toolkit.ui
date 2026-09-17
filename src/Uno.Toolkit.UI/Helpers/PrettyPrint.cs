@@ -46,12 +46,6 @@ internal static class PrettyPrint
 	{
 		return $"[{x.Width:0.#}x{x.Height:0.#}@{x.Left:0.#},{x.Top:0.#}]";
 	}
-#if __ANDROID__
-	internal static string FormatViewRect(Android.Views.View x)
-	{
-		return $"[{x.Width:0.#}x{x.Height:0.#}@{x.Left:0.#},{x.Top:0.#}]";
-	}
-#endif
 	internal static string FormatSize(Size size) => $"{size.Width:0.#}x{size.Height:0.#}";
 	internal static string FormatBrush(Brush b)
 	{

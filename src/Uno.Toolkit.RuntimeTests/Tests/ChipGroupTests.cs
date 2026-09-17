@@ -25,9 +25,6 @@ internal class ChipGroupTests
 	#region Selection via Toggle
 
 	[TestMethod]
-#if __ANDROID__
-	[Ignore("Skip Android due to failures. Tracked by https://github.com/unoplatform/uno.toolkit.ui/issues/1300")]
-#endif
 	[DataRow(ChipSelectionMode.None, new[] { 1 }, null)]
 	[DataRow(ChipSelectionMode.SingleOrNone, new[] { 1 }, 1)]
 	[DataRow(ChipSelectionMode.SingleOrNone, new[] { 1, 1 }, null)] // deselection
@@ -115,9 +112,6 @@ internal class ChipGroupTests
 	}
 
 	[TestMethod]
-#if __ANDROID__
-	[Ignore("Skip Android due to failures. Tracked by https://github.com/unoplatform/uno.toolkit.ui/issues/1300")]
-#endif
 	public async Task Single_SetSelection()
 	{
 		var source = Enumerable.Range(0, 3).ToArray();
@@ -276,9 +270,6 @@ internal class ChipGroupTests
 	#region Misc
 
 	[TestMethod]
-#if __ANDROID__
-	[Ignore("Skip Android due to failures. Tracked by https://github.com/unoplatform/uno.toolkit.ui/issues/1300")]
-#endif
 	public async Task Initial_Selection()
 	{
 		var setup = XamlHelper.LoadXaml<ChipGroup>("""

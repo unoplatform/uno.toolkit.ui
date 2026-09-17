@@ -1,4 +1,4 @@
-#if DEBUG && !__WASM__ && !__ANDROID__ && !__IOS__
+#if DEBUG && !__ANDROID__ && !__IOS__
 using System;
 using System.Reflection;
 using System.Reflection.Emit;

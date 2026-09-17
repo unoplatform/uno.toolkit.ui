@@ -1,7 +1,6 @@
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:android="http://uno.ui/android"
 	xmlns:contract12NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,12)"
 	xmlns:contract12Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,12)"
 	xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
@@ -11,16 +10,12 @@
 	xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
 	xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-	xmlns:ios="http://uno.ui/ios"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:mobile="http://uno.ui/mobile"
-	xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:not_win="http://uno.ui/not_win"
-	xmlns:toolkit="using:Uno.UI.Toolkit"
 	xmlns:ut="using:Uno.Themes"
 	xmlns:utu="using:Uno.Toolkit.UI"
 	xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	mc:Ignorable="android ios not_win mobile">
+	mc:Ignorable="not_win">
 
 	<ResourceDictionary.ThemeDictionaries>
 
@@ -254,17 +249,13 @@
 			</Setter.Value>
 		</Setter>
 
-		<android:Setter Property="(toolkit:UIElementExtensions.Elevation)" Value="{ThemeResource NavigationBarElevation}" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Top" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="OverflowButtonVisibility" Value="Collapsed" />
 		<Setter Property="IsDynamicOverflowEnabled" Value="False" />
-		<mobile:Setter Property="utu:SafeArea.Insets" Value="Top" />
-		<mobile:Setter Property="Template" Value="{StaticResource SimpleNativeNavigationBarTemplate}" />
-		<not_mobile:Setter Property="Template" Value="{StaticResource XamlSimpleNavigationBarTemplate}" />
-		<mobile:Setter Property="Height" Value="NaN" />
+		<Setter Property="Template" Value="{StaticResource XamlSimpleNavigationBarTemplate}" />
 	</Style>
 
 	<Style
@@ -415,11 +406,8 @@
 							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}" TargetType="ToggleSplitButton" />
 							<Style BasedOn="{StaticResource SimpleAppBarButtonStyle}" TargetType="AppBarButton" />
 
-							<not_mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="XamlNavigationBarHeight" />
-							<not_mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="XamlNavigationBarHeight" />
-
-							<mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="NavigationBarHeight" />
-							<mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="NavigationBarHeight" />
+							<StaticResource x:Key="AppBarButtonHeight" ResourceKey="XamlNavigationBarHeight" />
+							<StaticResource x:Key="AppBarButtonWidth" ResourceKey="XamlNavigationBarHeight" />
 						</Grid.Resources>
 						<Grid
 							x:Name="ContentRoot"
@@ -779,7 +767,7 @@
 		<Setter Property="Background" Value="{ThemeResource PrimaryNavigationBarBackground}" />
 		<Setter Property="Foreground" Value="{ThemeResource PrimaryNavigationBarForeground}" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource SimplePrimaryMainCommandStyle}" />
-		<not_mobile:Setter Property="Template" Value="{StaticResource XamlSimplePrimaryNavigationBarTemplate}" />
+		<Setter Property="Template" Value="{StaticResource XamlSimplePrimaryNavigationBarTemplate}" />
 	</Style>
 
 	<Style x:Key="SimplePrimaryNavigationBarPresenter" TargetType="utu:NavigationBarPresenter">
@@ -842,11 +830,8 @@
 							<Style BasedOn="{StaticResource SplitButtonCommandBarStyle}" TargetType="ToggleSplitButton" />
 							<Style BasedOn="{StaticResource SimplePrimaryAppBarButtonStyle}" TargetType="AppBarButton" />
 
-							<not_mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="XamlNavigationBarHeight" />
-							<not_mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="XamlNavigationBarHeight" />
-
-							<mobile:StaticResource x:Key="AppBarButtonHeight" ResourceKey="NavigationBarHeight" />
-							<mobile:StaticResource x:Key="AppBarButtonWidth" ResourceKey="NavigationBarHeight" />
+							<StaticResource x:Key="AppBarButtonHeight" ResourceKey="XamlNavigationBarHeight" />
+							<StaticResource x:Key="AppBarButtonWidth" ResourceKey="XamlNavigationBarHeight" />
 						</Grid.Resources>
 						<Grid
 							x:Name="ContentRoot"
@@ -1258,20 +1243,6 @@
 		x:Key="SimpleDefaultMainCommandStyle"
 		BasedOn="{StaticResource SimpleMainCommandStyle}"
 		TargetType="AppBarButton" />
-
-	<ios:ControlTemplate x:Key="SimpleNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
-		<Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding Padding}">
-			<!--  Setting Content to null to avoid the implicit binding to Content on the NativeNavigationBarPresenter  -->
-			<utu:NativeNavigationBarPresenter
-				x:Name="NavigationBarPresenter"
-				Height="44"
-				Content="{x:Null}" />
-		</Border>
-	</ios:ControlTemplate>
-
-	<android:ControlTemplate x:Key="SimpleNativeNavigationBarTemplate" TargetType="utu:NavigationBar">
-		<utu:NativeNavigationBarPresenter x:Name="NavigationBarPresenter" />
-	</android:ControlTemplate>
 
 	<ControlTemplate x:Key="XamlSimpleNavigationBarTemplate" TargetType="utu:NavigationBar">
 		<utu:NavigationBarPresenter

@@ -1,9 +1,5 @@
 using Windows.ApplicationModel.DataTransfer;
 
-#if __IOS__
-using Foundation;
-#endif
-
 using MUXC = Microsoft.UI.Xaml.Controls;
 using static Uno.Toolkit.UI.VisualTreeHelperEx;
 
@@ -143,18 +139,6 @@ namespace Uno.Toolkit.Samples
 		{
 			var sender = NestedSampleFrame.Content;
 			NestedSampleFrame.Content = null;
-
-#if __IOS__
-			// This will force reset the UINavigationController, to prevent the back button from appearing when the stack is supposely empty.
-			// note: Merely setting the Frame.Content to null, doesnt fully reset the stack.
-			// When revisiting the page1 again, the previous page1 is still in the UINavigationController stack
-			// causing a back button to appear that takes us back to the previous page1
-			NestedSampleFrame.BackStack.Add(default);
-			NestedSampleFrame.BackStack.Clear();
-#endif
-#if __ANDROID__
-			NestedSampleFrame.BackStack.Clear();
-#endif
 
 			if (NavigationView.Content is IExitNestedSampleHandler handler)
 			{

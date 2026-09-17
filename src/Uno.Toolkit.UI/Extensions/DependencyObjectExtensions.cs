@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -98,11 +99,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static T? FindChild<T>(this DependencyObject depObj)
-		where T :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+		where T : DependencyObject
 		{
 			if (depObj == null) return default(T);
 
@@ -117,11 +114,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static T? GetFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
-		where T :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+		where T : DependencyObject
 		{
 			var c = element.GetAncestors(includeCurrent);
 			return c.OfType<T>().FirstOrDefault();
@@ -179,11 +172,11 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		internal static void SetParent(this DependencyObject dependencyObject, object? parent)
 		{
-			if (parent != null
-				&& dependencyObject is IDependencyObjectStoreProvider storeProvider
-				&& (!ReferenceEquals(storeProvider.Store.Parent, parent)))
+			if (parent != null)
 			{
-				storeProvider.Store.Parent = parent;
+				// MarkupHelper replaces the removed IDependencyObjectStoreProvider, and already
+				// no-ops when the parent is unchanged.
+				Uno.UI.Helpers.MarkupHelper.SetParent(dependencyObject, parent);
 			}
 		}
 #endif
@@ -211,6 +204,8 @@ namespace Uno.Toolkit.UI
 		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName) =>
 			FindDependencyPropertyInfo(ownerOrDescendantType, propertyName)?.Definition;
 
+		[UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Looks up a dependency property by name on any control type; a trimmed member resolves to null, which callers already handle.")]
+		[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Same lookup on the declaring type of the dependency property found above.")]
 		internal static DependencyPropertyInfo? FindDependencyPropertyInfo(this Type ownerOrDescendantType, string propertyName)
 		{
 			propertyName = propertyName.RemoveTail("Property");
