@@ -16,9 +16,6 @@ public partial class App : Application
 	protected override async void OnLaunched(LaunchActivatedEventArgs e)
 	{
 			MainWindow = new Window();
-#if DEBUG
-			MainWindow.UseStudio();
-#endif
 
 			if (MainWindow.Content is null)
 			{
