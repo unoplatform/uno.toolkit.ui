@@ -318,8 +318,6 @@ Any `IconElement` can be used.
 | `NavBarAppBarButtonPadding`                                            | `Thickness`       | 12,16                                   |
 | `NavBarAppBarButtonHasFlyoutChevronVisibility`                         | `Visibility`      | Collapsed                               |
 
-`MaterialNavigationBarHeight` is only defined by the Material v1 styles.
-
 ## Navigation
 
 The `NavigationBar` automatically hooks itself up to the [`SystemNavigationManager.BackRequested` event](https://learn.microsoft.com/uwp/api/windows.ui.core.systemnavigationmanager.backrequested) and will attempt to navigate back by calling `Frame.GoBack()` as long as all of the following conditions are met:
@@ -355,7 +353,7 @@ On iOS and Android, the app draws behind the status bar, so a `NavigationBar` pl
 Before Uno Platform 7, `NavigationBar` defaulted to a native mode on iOS and Android. That mode no longer exists, and the XAML template described above is used everywhere:
 
 * `NativeFramePresenter` and `NativeNavigationBarPresenter` have been removed. `Frame` no longer needs a custom style: remove any `Style` based on `NativeDefaultToolkitFrame`.
-* The `NativeDefaultToolkitFrame`, `NativeNavigationBarTemplate`, `MaterialNativeNavigationBarTemplate`, and `SimpleNativeNavigationBarTemplate` resources have been removed, along with `MaterialNavigationBarElevation`, the Material v2 `MaterialNavigationBarHeight`, and the Simple `NavigationBarElevation` and `NavigationBarHeight` resources.
+* The `NativeDefaultToolkitFrame`, `NativeNavigationBarTemplate`, `MaterialNativeNavigationBarTemplate`, and `SimpleNativeNavigationBarTemplate` resources have been removed. `MaterialNavigationBarElevation` and the Simple `NavigationBarElevation` remain defined but are no longer applied, since they only drove the Android native elevation.
 * The bar is part of the `Page`, so there is no shared `UINavigationBar` or navigation transition across pages. It can be placed anywhere, including inside a `ScrollViewer`, and a page can contain several `NavigationBar`s.
 * The back button no longer shows the title of the previous page on iOS, and `SecondaryCommands` use the `CommandBar` overflow menu instead of the Android `Toolbar` menu.
 * The `AppBarButton` templates and visual states apply. Platform resources such as the Android `actionMenuTextColor` or `colorControlHighlight` styles no longer affect the bar: use the **Lightweight Styling** resources instead.
