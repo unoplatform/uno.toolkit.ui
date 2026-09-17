@@ -323,11 +323,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task Verify_Indicator_Display_On_Selection()
 		{
-			if (!ImageAssertHelper.IsScreenshotSupported())
-			{
-				Assert.Inconclusive(); // System.NotImplementedException: RenderTargetBitmap is not supported on this platform.;
-			}
-
 			const int NumItems = 3;
 			var SUT = new TabBar
 			{
