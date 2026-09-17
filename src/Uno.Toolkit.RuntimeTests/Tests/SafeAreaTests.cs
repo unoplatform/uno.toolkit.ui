@@ -456,8 +456,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			// Happy-path full cycle (the PR #1554 intended flow):
 			// Step 1 (Branch 2): VB changed, Bounds didn't → defer once.
 			// Step 2 (Branch 3): Bounds caught up → clear pending, update caches, proceed.
-			// This is the translucent StatusBar transition scenario where Window.Bounds
-			// updates one dispatch cycle after VisibleBounds.
+			// This is the status bar background transition, where Uno raises VisibleBoundsChanged
+			// before it updates Window.Bounds.
 			var grid = new Grid { Background = new SolidColorBrush(Colors.Red), Width = 200, Height = 200 };
 			SafeArea.SetInsets(grid, SafeArea.InsetMask.VisibleBounds);
 
@@ -586,25 +586,102 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 
 		[TestMethod]
-		public async Task BottomInset_NotInflated_WhenSystemBarsHidden()
+		public async Task BottomInset_NotInflated_WhenStatusBarBackgroundSet()
 		{
 			// Guard spec: SafeArea.cs → Branch 2 defers to prevent this inflation.
 			// Original fix: https://github.com/unoplatform/uno.toolkit.ui/pull/1554
 			// Full R&D recap: specs/safearea-bounds-guard/recap.md
 			//
-			// Regression test: when the system bars change, VisibleBounds can update before Window.Bounds, causing the SafeArea
-			// to temporarily calculate inflated bottom insets. This transient inflation can permanently stretch controls in
-			// Auto-sized grid rows. Hiding the bars changes VisibleBounds while the edge-to-edge Window.Bounds stay unchanged.
+			// Regression test: from API 35, a status bar background moves the window below the status bar, which changes both
+			// Window.Bounds and VisibleBounds. Uno raises VisibleBoundsChanged before it updates Window.Bounds, so an inset
+			// computed against the stale, taller Bounds adds the status bar height to the bottom inset.
+			// Before API 35, the background does not resize the window, and the bottom inset must simply stay put.
 			using var _ = SetupWindow();
 
-			var content = new Grid { Background = new SolidColorBrush(Colors.Blue) };
-			var tabBarGrid = new Grid
+			// Start from a window that spans the status bar.
+			using var __ = UseStatusBarBackground(null);
+
+			var (root, tabBar, tabBarContent) = CreateBottomTabBarLayout();
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(root);
+			await UnitTestUIContentHelperEx.WaitFor(
+				() => ApplicationView.GetForCurrentView().VisibleBounds.Top > 0,
+				timeoutMS: 2000,
+				message: "The window is expected to span the status bar when there is no status bar background.");
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var details = SafeArea.SafeAreaDetails.FindInstance(tabBar)
+				?? throw new InvalidOperationException("SafeAreaDetails not found");
+			// The stale-bounds inset is transient, as the next layout pass corrects it, so record every applied inset.
+			var appliedBottomInsets = new List<double>();
+			details.EffectiveInsetsApplied += (s, insets) => appliedBottomInsets.Add(insets.Bottom);
+
+			var boundsBefore = XamlWindow.Current?.Bounds ?? default;
+			var paddingBefore = tabBar.Padding.Bottom;
+
+			using var ___ = UseStatusBarBackground(Colors.Red);
+			if (OperatingSystem.IsAndroidVersionAtLeast(35))
+			{
+				// Without this transition, the test cannot reproduce the race.
+				await UnitTestUIContentHelperEx.WaitFor(
+					() => (XamlWindow.Current?.Bounds ?? default) != boundsBefore,
+					timeoutMS: 2000,
+					message: "Window.Bounds did not change after setting the status bar background.");
+			}
+
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var paddingAfter = tabBar.Padding.Bottom;
+			var settledPadding = Math.Max(paddingBefore, paddingAfter);
+
+			Assert.IsTrue(
+				appliedBottomInsets.All(inset => inset <= settledPadding + 1),
+				$"The bottom inset should not exceed its settled value during the transition. Before: {paddingBefore}, After: {paddingAfter}, Applied: [{string.Join(", ", appliedBottomInsets)}]");
+			AssertAutoRowFits(tabBar, tabBarContent);
+		}
+
+		[TestMethod]
+		public async Task BottomInset_AutoRowShrinks_WhenSystemBarsHidden()
+		{
+			// Hiding the system bars removes the navigation bar inset, and the Auto row hosting the SafeArea must shrink with it.
+			using var _ = SetupWindow();
+
+			var (root, tabBar, tabBarContent) = CreateBottomTabBarLayout();
+
+			await UnitTestUIContentHelperEx.SetContentAndWait(root);
+			await UnitTestUIContentHelperEx.WaitFor(
+				() => tabBar.Padding.Bottom > 0,
+				timeoutMS: 2000,
+				message: "SafeArea did not apply the navigation bar inset; the system bars are expected to be visible.");
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			var paddingWithBars = tabBar.Padding.Bottom;
+			var heightWithBars = tabBar.ActualHeight;
+			var visibleBoundsWithBars = ApplicationView.GetForCurrentView().VisibleBounds;
+
+			using var __ = UseFullScreen();
+			await WaitForVisibleBoundsChange(visibleBoundsWithBars);
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			Assert.IsTrue(
+				tabBar.Padding.Bottom < paddingWithBars,
+				$"The bottom inset should decrease when the system bars are hidden. With bars: {paddingWithBars}, Without: {tabBar.Padding.Bottom}");
+			Assert.IsTrue(
+				tabBar.ActualHeight < heightWithBars,
+				$"The Auto row should shrink when the bottom inset decreases. With bars: {heightWithBars}, Without: {tabBar.ActualHeight}");
+			AssertAutoRowFits(tabBar, tabBarContent);
+		}
+
+		private static (Grid Root, Grid TabBar, Border TabBarContent) CreateBottomTabBarLayout()
+		{
+			var tabBarContent = new Border { Height = 56 };
+			var tabBar = new Grid
 			{
 				Background = new SolidColorBrush(Colors.Red),
-				MinHeight = 80,
+				Children = { tabBarContent },
 			};
 
-			var parentGrid = new Grid
+			var root = new Grid
 			{
 				RowDefinitions =
 				{
@@ -613,47 +690,22 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 				},
 			};
 
-			Grid.SetRow(content, 0);
-			Grid.SetRow(tabBarGrid, 1);
-			parentGrid.Children.Add(content);
-			parentGrid.Children.Add(tabBarGrid);
+			Grid.SetRow(tabBar, 1);
+			root.Children.Add(new Grid { Background = new SolidColorBrush(Colors.Blue) });
+			root.Children.Add(tabBar);
 
 			// Apply SafeArea.Insets="Bottom" on the bottom element (mimics MaterialBottomTabBarStyle)
-			SafeArea.SetInsets(tabBarGrid, SafeArea.InsetMask.Bottom);
+			SafeArea.SetInsets(tabBar, SafeArea.InsetMask.Bottom);
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(parentGrid);
-			await UnitTestsUIContentHelper.WaitForIdle();
-
-			var heightBeforeTransition = tabBarGrid.ActualHeight;
-			var paddingBeforeTransition = tabBarGrid.Padding.Bottom;
-			var visibleBoundsBeforeTransition = ApplicationView.GetForCurrentView().VisibleBounds;
-
-			using var __ = UseFullScreen();
-			await WaitForVisibleBoundsChange(visibleBoundsBeforeTransition);
-
-			// Wait for the layout to stabilize after the bar transition
-			var lastHeight = tabBarGrid.ActualHeight;
-			await UnitTestUIContentHelperEx.WaitFor(() =>
-			{
-				var current = tabBarGrid.ActualHeight;
-				var stable = Math.Abs(current - lastHeight) < 0.1;
-				lastHeight = current;
-				return stable;
-			}, timeoutMS: 2000, message: "TabBar height did not stabilize after bar transition");
-
-			var heightAfterTransition = tabBarGrid.ActualHeight;
-			var paddingAfterTransition = tabBarGrid.Padding.Bottom;
-
-			// The bottom padding should not have increased beyond what it was before the transition.
-			// During the race condition, it would temporarily spike (e.g., from 24 to 75.8) and
-			// the control would get stuck at the inflated height.
-			Assert.IsTrue(
-				heightAfterTransition <= heightBeforeTransition + 1,
-				$"TabBar height should not inflate during bar transition. Before: {heightBeforeTransition}, After: {heightAfterTransition}");
-			Assert.IsTrue(
-				paddingAfterTransition <= paddingBeforeTransition + 1,
-				$"TabBar bottom padding should not inflate during bar transition. Before: {paddingBeforeTransition}, After: {paddingAfterTransition}");
+			return (root, tabBar, tabBarContent);
 		}
+
+		private static void AssertAutoRowFits(Grid tabBar, FrameworkElement tabBarContent) =>
+			Assert.AreEqual(
+				tabBarContent.ActualHeight + tabBar.Padding.Bottom,
+				tabBar.ActualHeight,
+				1d,
+				$"The Auto row should fit the tab bar content and its bottom inset: {tabBar.Padding.Bottom}");
 
 		private static async Task WaitForStatusBarInset(Grid safeAreaGrid) =>
 			await UnitTestUIContentHelperEx.WaitFor(
@@ -673,6 +725,16 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsTrue(applicationView.TryEnterFullScreenMode(), "Could not enter full screen mode to hide the system bars.");
 
 			return Disposable.Create(applicationView.ExitFullScreenMode);
+		}
+
+		private static IDisposable UseStatusBarBackground(Windows.UI.Color? color)
+		{
+			// Qualified, as Uno.Toolkit.UI declares a StatusBar too.
+			var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+			var originalColor = statusBar.BackgroundColor;
+			statusBar.BackgroundColor = color;
+
+			return Disposable.Create(() => statusBar.BackgroundColor = originalColor);
 		}
 
 		private static IDisposable SetupWindow()

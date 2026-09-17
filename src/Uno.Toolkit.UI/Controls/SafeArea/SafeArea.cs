@@ -517,6 +517,10 @@ namespace Uno.Toolkit.UI
 				//      DispatcherQueue work. Fix: convert Branch 1 from re-defer to
 				//      accept-and-proceed (one-shot pattern).
 				//
+				// The race still exists on Uno Platform 7: when Window.Bounds and VisibleBounds change
+				// together (e.g. a StatusBar background set on API 35+), the Android window raises
+				// VisibleBoundsChanged before it updates Window.Bounds.
+				//
 				// `OperatingSystem.IsAndroid()` (vs `#if __ANDROID__`) keeps the guard active
 				// whichever build of this library an Android head loads (before Uno Platform 7,
 				// Skia Android heads loaded the plain `net` build, without the `__ANDROID__` define).
