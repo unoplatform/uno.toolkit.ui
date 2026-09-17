@@ -90,7 +90,10 @@ adversarially before integration.
       `UseStudio()` is gone with Hot Design; and `HotReloadTestHelper` waits for the edited assembly's
       delta, because one edit also produces a delta for the head's `uno.hot-reload.info` and
       `HotReloadHelper` resumed on that one. `CardContentControlHrTest` reads `Content` directly: an
-      unstyled `CardContentControl` has no template on Uno 7, as on WinUI.
+      unstyled `CardContentControl` has no template on Uno 7, as on WinUI. In CI the hot-reload job
+      also writes `src/crosstargeting_override.props` (desktop): the dev-server ignores the build's
+      global properties, and on the Linux agent the head's android/ios flavors otherwise load as
+      plain `net10.0` and fail the workspace's initial emit.
 - [x] CI: the `.NET` install cache is keyed on `DotNetVersion`; without it the `10.0.101` pin restored
       the cached `10.0.102` install and Packages kept failing with `NETSDK1147`.
 
@@ -113,6 +116,7 @@ Local, Windows, with the pipeline commands:
 | Desktop runtime tests, Linux (WSLg), before the port | 334 of 341 passed |
 | Desktop runtime tests, Linux (WSLg), after integration | 354 of 360 passed; the 6 failures were the incremental-loading tests, fixed and re-run with `Attempts: 1` |
 | Hot-reload runtime tests, Debug desktop (Windows) | 48 of 48 passed with the fixes above |
+| CI, PR #1635 at `ceab87d8` | Every job green: Packages, desktop/WASM/Android/iOS samples, desktop and hot-reload runtime tests |
 
 On Windows the same suite reports sub-pixel `AutoLayout` failures (`24.8` vs `25`) caused by the
 display scale; use Linux or a 100 % scale.
