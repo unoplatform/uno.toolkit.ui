@@ -127,11 +127,11 @@ In order to prolong the splash screen display, you can set the `Source` property
 
 `ExtendedSplashScreen` recreates the application's splash screen with XAML, using the image and background color declared for the app:
 
-- On Windows and the desktop targets, from the `SplashScreen` element of the `Package.appxmanifest`.
+- On Windows and the desktop targets, from the `SplashScreen` element of the `Package.appxmanifest`, or, when it declares no image, from the Uno.Resizetizer definition described below.
 - On WebAssembly, from the `splashScreenImage` and `splashScreenColor` entries of the app manifest.
 - On Android and iOS, from the splash screen definition that [Uno.Resizetizer](xref:Uno.Resizetizer.GettingStarted) generates for the app's `UnoSplashScreen` item. When the item sets a `BaseSize`, the image is centered at that size, like on the generated iOS launch screen.
 
-Uno Platform 7 renders Android and iOS apps with Skia, so `ExtendedSplashScreen` no longer hosts the native launch screen views: an app that defines its launch screen without `UnoSplashScreen` (for example a hand-written iOS `LaunchScreen` storyboard) is not reproduced: only the `LoadingContent` is displayed.
+Uno Platform 7 renders Android and iOS apps with Skia, so `ExtendedSplashScreen` no longer hosts the native launch screen views: an app that defines its launch screen without `UnoSplashScreen` (for example a hand-written iOS `LaunchScreen` storyboard) is not reproduced, and only the `LoadingContent` is displayed.
 
 ## Setup on Android
 
