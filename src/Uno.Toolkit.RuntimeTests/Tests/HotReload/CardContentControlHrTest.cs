@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -35,7 +36,7 @@ public class CardContentControlHrTest
 		var card = UIHelper.GetChild<CardContentControl>(name: "Card");
 		Assert.AreEqual(2, card.Elevation, "Elevation should start at 2.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<CardContentControlPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<CardContentControlPage>(
 			originalText: "Elevation=\"2\"",
 			replacementText: "Elevation=\"8\"",
 			ct))
@@ -59,7 +60,7 @@ public class CardContentControlHrTest
 		var card = UIHelper.GetChild<CardContentControl>(name: "Card");
 		Assert.IsTrue(card.IsClickable, "IsClickable should start True.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<CardContentControlPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<CardContentControlPage>(
 			originalText: "IsClickable=\"True\"",
 			replacementText: "IsClickable=\"False\"",
 			ct))
@@ -80,20 +81,23 @@ public class CardContentControlHrTest
 	{
 		await UIHelper.Load(new CardContentControlPage(), ct);
 
-		var content = UIHelper.GetChild<TextBlock>(name: "CardContent");
+		// The page applies no Style, so the control has no template (as on WinUI) and its content is not in the visual tree.
+		var content = GetCardContent();
 		Assert.AreEqual("Card content", content.Text);
 
-		await using (await HotReloadHelper.UpdateSourceFile<CardContentControlPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<CardContentControlPage>(
 			originalText: "Text=\"Card content\"",
 			replacementText: "Text=\"Updated card content\"",
 			ct))
 		{
-			var contentDuring = UIHelper.GetChild<TextBlock>(name: "CardContent");
+			var contentDuring = GetCardContent();
 			Assert.AreEqual("Updated card content", contentDuring.Text, "Content text should be updated after HR.");
 		}
 
-		var contentAfter = UIHelper.GetChild<TextBlock>(name: "CardContent");
+		var contentAfter = GetCardContent();
 		Assert.AreEqual("Card content", contentAfter.Text, "Content text should be restored after dispose.");
+
+		static TextBlock GetCardContent() => (TextBlock)UIHelper.GetChild<CardContentControl>(name: "Card").Content;
 	}
 }
 #endif
