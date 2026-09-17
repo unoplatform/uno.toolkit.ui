@@ -174,8 +174,8 @@ internal class DrawerFlyoutTests
 			var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
 			var content = presenter.Content is Border { Name: "FlyoutContentBorder" } border ? border : throw new InvalidOperationException("#FlyoutContentBorder not found");
 
-#if HAS_UNO // this is only really needed for wasm, but we don't have a good #define to use here
-			// wait until the layout settle
+#if HAS_UNO
+			// Wait until the layout settles. Added for wasm, but every Skia target (mobile included) already ran with it before Uno 7.
 			await Task.Delay(1000);
 #endif
 			Assert.AreEqual(presenter.OpenDirection, openDirection, "Unexpected OpenDirection");
