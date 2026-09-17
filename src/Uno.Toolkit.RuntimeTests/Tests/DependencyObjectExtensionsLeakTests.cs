@@ -1,4 +1,4 @@
-#if DEBUG && !__WASM__ && !__ANDROID__ && !__IOS__
+#if DEBUG && !__ANDROID__ && !__IOS__
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -26,6 +26,13 @@ internal class DependencyObjectExtensionsLeakTests
 	[TestMethod]
 	public async Task ReflectionCache_DoesNotRoot_CollectibleTypeKey()
 	{
+		// Excluded on the Mono targets: Android and iOS at compile time, the browser here because it
+		// shares this net10.0 build with desktop.
+		if (OperatingSystem.IsBrowser())
+		{
+			return;
+		}
+
 		var typeRef = PopulateCacheFromCollectibleAssembly();
 
 		await CollectAndWait();
