@@ -14,6 +14,7 @@ using Windows.System;
 using Windows.Foundation;
 
 #if IS_WINUI
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
@@ -21,6 +22,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI;
 #else
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -344,12 +346,12 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			// LabelTitlePage
 			var labelTitleNavBar = await frame.NavigateAndGetNavBar<LabelTitlePage>();
 			await AssertMainCommandRendered(labelTitleNavBar);
-			Assert.AreEqual("Label Title", labelTitleNavBar!.MainCommand.Label);
+			AssertMainCommandAutomationName(labelTitleNavBar, "Label Title");
 
 			// ContentTitlePage
 			var contentTitleNavBar = await frame.NavigateAndGetNavBar<ContentTitlePage>();
 			await AssertMainCommandRendered(contentTitleNavBar);
-			Assert.AreEqual("Content Title", contentTitleNavBar!.MainCommand.Content);
+			AssertMainCommandAutomationName(contentTitleNavBar, "Content Title");
 		}
 
 		[TestMethod]
@@ -419,7 +421,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var secondNavBar = await frame.NavigateAndGetNavBar<NavBarAutoLayoutPage2>();
 
 			await AssertMainCommandRendered(secondNavBar);
-			Assert.AreEqual("Hello", secondNavBar!.MainCommand.Label);
+			AssertMainCommandAutomationName(secondNavBar, "Hello");
 		}
 
 		private static CommandBar GetPresenterCommandBar(NavigationBar navBar)
@@ -456,6 +458,19 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await UnitTestUIContentHelperEx.WaitFor(
 				() => mainCommand.Visibility == Visibility.Visible && mainCommand.ActualHeight > 0 && mainCommand.ActualWidth > 0,
 				message: "MainCommand was not rendered with a non-zero size");
+		}
+
+		private static void AssertMainCommandAutomationName(NavigationBar? navBar, string expectedName)
+		{
+			Assert.IsNotNull(navBar, "NavigationBar not found");
+
+			var mainCommand = CommandBarExtensions.GetMainCommand(GetPresenterCommandBar(navBar!));
+			Assert.IsNotNull(mainCommand, "CommandBar does not host a MainCommand");
+
+			// Styles decide whether Label/Content is drawn (the Material v2 and Simple back buttons are icon-only),
+			// so assert the name it resolves to for assistive technologies instead
+			var peer = FrameworkElementAutomationPeer.CreatePeerForElement(mainCommand!);
+			Assert.AreEqual(expectedName, peer?.GetName(), "MainCommand automation name does not reflect its Label or Content");
 		}
 
 		private sealed partial class FirstPage : Page
