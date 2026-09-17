@@ -1,6 +1,7 @@
 #if DEBUG // Hot-reload tests are only relevant in debug configuration
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -23,7 +24,7 @@ public class Given_HotReload
 	{
 		Assert.AreEqual("original", HotReloadTarget.GetValue());
 
-		await using var _ = await HotReloadHelper.UpdateSourceFile(
+		await using var _ = await HotReloadTestHelper.UpdateSourceFile(
 			"../../src/Uno.Toolkit.RuntimeTests/Tests/HotReload/HotReloadTarget.cs",
 			"""return "original";""",
 			"""return "updated";""",
