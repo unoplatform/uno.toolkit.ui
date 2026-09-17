@@ -12,9 +12,6 @@ using Uno.Toolkit.UI;
 using Uno.UI.RuntimeTests;
 using Windows.System;
 using Windows.Foundation;
-#if __IOS__
-using UIKit;
-#endif
 
 #if IS_WINUI
 using Microsoft.UI.Xaml.Controls;
@@ -40,7 +37,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 	[RunsOnUIThread]
 	internal partial class NavigationBarTests
 	{
-#if !(__ANDROID__ || __IOS__)
 		[TestMethod]
 		public async Task NavigationBar_Renders_MainCommand()
 		{
@@ -81,7 +77,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 			Assert.IsTrue(success);
 		}
-#endif
 
 		[TestMethod]
 		[DataRow(MainCommandMode.Back, DisplayName = nameof(MainCommandMode.Back))]
@@ -252,7 +247,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			}
 		}
 
-#if __ANDROID__ || __IOS__
 		[TestMethod]
 		public async Task NavigationBar_Dynamic_Background()
 		{
@@ -301,7 +295,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
 
 			var navBar = await frame.NavigateAndGetNavBar(pageType);
-			AssertNavigationBar(frame);
+
+			await AssertNavigationBarRendered(navBar);
 		}
 
 		[TestMethod]
@@ -323,56 +318,43 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			
 			await UnitTestsUIContentHelper.WaitForLoaded(secondNavBar!);
 
-			await Task.Delay(1000);
-
 			frame.GoBack();
 
-			await UnitTestsUIContentHelper.WaitForLoaded(firstNavBar!);
+			await UnitTestsUIContentHelper.WaitForIdle();
+
+			// NavBarFirstPage is not cached, so going back creates a new page and NavigationBar
+			var backPage = frame.Content as NavBarFirstPage;
+			Assert.IsNotNull(backPage, "Expected to navigate back to NavBarFirstPage");
+
+			await UnitTestsUIContentHelper.WaitForLoaded(backPage!);
+			await AssertNavigationBarRendered(backPage!.FindChild<NavigationBar>());
 		}
 
-
-#if __ANDROID__
-		private static void AssertNavigationBar(Frame frame)
-		{
-			var page = frame.Content as Page;
-			var navBar = page?.FindChild<NavigationBar>();
-
-			var renderedNativeNavBar = navBar.GetNativeNavBar();
-
-			Assert.IsNotNull(renderedNativeNavBar);
-
-			Assert.IsTrue(renderedNativeNavBar!.Height > 0, "Native toolbar height is not greater than 0");
-			Assert.IsTrue(renderedNativeNavBar!.Width > 0, "Native toolbar width is not greater than 0");
-		}
-#endif
-
-#if __IOS__
 		[TestMethod]
 		public async Task Can_Set_MainCommand_Label_Or_Content()
 		{
-			Frame frame = new Frame() { Width = 400, Height = 400 };
+			var frame = new Frame() { Width = 400, Height = 400 };
 			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
 			await UnitTestsUIContentHelper.WaitForIdle();
 
-			// FirstPage
+			// FirstPage: empty back stack, so the back MainCommand stays collapsed
 			var firstNavBar = await frame.NavigateAndGetNavBar<FirstPage>();
-			Assert.IsNull(firstNavBar?.GetNativeNavBar()?.BackItem);
+			Assert.AreEqual(Visibility.Collapsed, firstNavBar?.MainCommand.Visibility);
 
 			// LabelTitlePage
 			var labelTitleNavBar = await frame.NavigateAndGetNavBar<LabelTitlePage>();
-			Assert.AreEqual("Label Title", labelTitleNavBar?.GetNativeNavBar()?.BackItem?.BackButtonTitle);
+			await AssertMainCommandRendered(labelTitleNavBar);
+			Assert.AreEqual("Label Title", labelTitleNavBar!.MainCommand.Label);
 
-			// ContentTitlePage 
+			// ContentTitlePage
 			var contentTitleNavBar = await frame.NavigateAndGetNavBar<ContentTitlePage>();
-			Assert.AreEqual("Content Title", contentTitleNavBar?.GetNativeNavBar()?.BackItem?.BackButtonTitle);
+			await AssertMainCommandRendered(contentTitleNavBar);
+			Assert.AreEqual("Content Title", contentTitleNavBar!.MainCommand.Content);
 		}
 
 		[TestMethod]
-		public async Task MainCommand_Use_LeftBarButtonItem_When_No_BackStack()
+		public async Task MainCommand_Visible_In_Popup_Without_BackStack()
 		{
-			NavigationBar? firstPageNavBar = null;
-			NavigationBar? secondPageNavBar = null;
-
 			var popup = new Popup { Width = 100, Height = 100, HorizontalOffset = 100, VerticalOffset = 100 };
 
 			var content = new Border { Width = 100, Height = 100, Child = popup };
@@ -388,27 +370,16 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 				await UnitTestsUIContentHelper.WaitForIdle();
 
-				frame.Navigate(typeof(NavBarFirstPage));
+				// Without a back stack, the MainCommand is still shown so it can close the hosting Popup
+				var firstPageNavBar = await frame.NavigateAndGetNavBar<NavBarFirstPage>();
 
-				await UnitTestsUIContentHelper.WaitForIdle();
+				Assert.IsFalse(frame.CanGoBack);
+				await AssertMainCommandRendered(firstPageNavBar);
 
-				var firstPage = frame.Content as NavBarFirstPage;
-				firstPageNavBar = firstPage?.FindChild<NavigationBar>();
+				var secondPageNavBar = await frame.NavigateAndGetNavBar<NavBarSecondPage>();
 
-				var renderedNativeNavItem = firstPageNavBar.GetNativeNavItem();
-
-				Assert.IsNotNull(renderedNativeNavItem?.LeftBarButtonItem);
-
-				frame.Navigate(typeof(NavBarSecondPage));
-
-				await UnitTestsUIContentHelper.WaitForIdle();
-
-				var secondPage = frame.Content as NavBarSecondPage;
-				secondPageNavBar = secondPage?.FindChild<NavigationBar>();
-
-				renderedNativeNavItem = secondPageNavBar.GetNativeNavItem();
-
-				Assert.IsNull(renderedNativeNavItem?.LeftBarButtonItem);
+				Assert.IsTrue(frame.CanGoBack);
+				await AssertMainCommandRendered(secondPageNavBar);
 			}
 			finally
 			{
@@ -419,14 +390,12 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[TestMethod]
 		public async Task NavigationBar_Does_Render()
 		{
-			var frame = new Frame { Width = 200, Height = 200 }; ;
+			var frame = new Frame { Width = 200, Height = 200 };
 			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
 
-			frame.Navigate(typeof(NavBarSimplePage));
+			var navBar = await frame.NavigateAndGetNavBar<NavBarSimplePage>();
 
-			await UnitTestsUIContentHelper.WaitForIdle();
-
-			AssertNavigationBar(frame);
+			await AssertNavigationBarRendered(navBar);
 		}
 
 		[TestMethod]
@@ -435,11 +404,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var frame = new Frame { Width = 200, Height = 200 };
 			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
 
-			frame.Navigate(typeof(NavBarAutoLayoutPage));
+			var navBar = await frame.NavigateAndGetNavBar<NavBarAutoLayoutPage>();
 
-			await UnitTestsUIContentHelper.WaitForIdle();
-
-			AssertNavigationBar(frame);
+			await AssertNavigationBarRendered(navBar);
 		}
 
 		[TestMethod]
@@ -448,36 +415,48 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var frame = new Frame { Width = 600, Height = 200 };
 			await UnitTestUIContentHelperEx.SetContentAndWait(frame);
 
-			var firstNavBar = await frame.NavigateAndGetNavBar<NavBarAutoLayoutPage>();
+			await frame.NavigateAndGetNavBar<NavBarAutoLayoutPage>();
+			var secondNavBar = await frame.NavigateAndGetNavBar<NavBarAutoLayoutPage2>();
 
-			await UnitTestsUIContentHelper.WaitForIdle();
-
-			frame.Navigate(typeof(NavBarAutoLayoutPage2));
-			await UnitTestsUIContentHelper.WaitForIdle();
-
-			await UnitTestUIContentHelperEx.WaitFor(() => firstNavBar?.GetNativeNavItem()?.BackButtonTitle == "Hello");
+			await AssertMainCommandRendered(secondNavBar);
+			Assert.AreEqual("Hello", secondNavBar!.MainCommand.Label);
 		}
 
-		private static void AssertNavigationBar(Frame frame)
+		private static CommandBar GetPresenterCommandBar(NavigationBar navBar)
 		{
-			var page = frame.Content as Page;
-			var presenter = frame.FindChild<NativeFramePresenter>();
-			var navBar = page?.FindChild<NavigationBar>();
+			var presenter = navBar.FindChild<NavigationBarPresenter>();
+			Assert.IsNotNull(presenter, "NavigationBarPresenter not found in the NavigationBar template");
 
-			var renderedNativeNavItem = navBar.GetNativeNavItem();
-			var renderedNativeNavBar = navBar.GetNativeNavBar();
+			var commandBar = presenter!.FindChild<CommandBar>();
+			Assert.IsNotNull(commandBar, "CommandBar not found in the NavigationBarPresenter template");
 
-			Assert.IsNotNull(presenter);
-			Assert.IsFalse(presenter!.NavigationController.NavigationBarHidden);
-
-			Assert.AreSame(renderedNativeNavItem, presenter.NavigationController.TopViewController.NavigationItem);
-			Assert.AreSame(renderedNativeNavBar, presenter.NavigationController.NavigationBar);
-
-			Assert.IsTrue(renderedNativeNavBar!.Bounds.Height > 0, "Native toolbar height is not greater than 0");
-			Assert.IsTrue(renderedNativeNavBar!.Bounds.Width > 0, "Native toolbar width is not greater than 0");
+			return commandBar!;
 		}
-#endif
-#endif
+
+		private static async Task AssertNavigationBarRendered(NavigationBar? navBar)
+		{
+			Assert.IsNotNull(navBar, "NavigationBar not found");
+
+			var commandBar = GetPresenterCommandBar(navBar!);
+
+			await UnitTestUIContentHelperEx.WaitFor(
+				() => commandBar.ActualHeight > 0 && commandBar.ActualWidth > 0,
+				message: "NavigationBar CommandBar was not rendered with a non-zero size");
+		}
+
+		private static async Task AssertMainCommandRendered(NavigationBar? navBar)
+		{
+			Assert.IsNotNull(navBar, "NavigationBar not found");
+
+			var commandBar = GetPresenterCommandBar(navBar!);
+			var mainCommand = navBar!.MainCommand;
+
+			Assert.AreSame(mainCommand, CommandBarExtensions.GetMainCommand(commandBar), "CommandBar does not host NavigationBar.MainCommand");
+
+			await UnitTestUIContentHelperEx.WaitFor(
+				() => mainCommand.Visibility == Visibility.Visible && mainCommand.ActualHeight > 0 && mainCommand.ActualWidth > 0,
+				message: "MainCommand was not rendered with a non-zero size");
+		}
 
 		private sealed partial class FirstPage : Page
 		{
@@ -599,20 +578,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 	}
 
-#if __IOS__ || __ANDROID__
 	public static class NavigationBarTestHelper
 	{
-#if __IOS__
-		public static UINavigationBar? GetNativeNavBar(this NavigationBar? navBar) => navBar
-			?.TryGetNative<NavigationBar, NavigationBarRenderer, UINavigationBar>(out var native) ?? false ? native : null;
-
-		public static UINavigationItem? GetNativeNavItem(this NavigationBar? navBar) => navBar
-			?.TryGetNative<NavigationBar, NavigationBarNavigationItemRenderer, UINavigationItem>(out var native) ?? false ? native : null;
-
-#elif __ANDROID__
-		public static AndroidX.AppCompat.Widget.Toolbar? GetNativeNavBar(this NavigationBar? navBar) => navBar
-			?.TryGetNative<NavigationBar, NavigationBarRenderer, AndroidX.AppCompat.Widget.Toolbar>(out var native) ?? false ? native : null;
-#endif
 		public static Task<NavigationBar?> NavigateAndGetNavBar<TPage>(this Frame frame) where TPage : Page
 		{
 			return frame.NavigateAndGetNavBar(typeof(TPage));
@@ -628,5 +595,4 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			return page?.FindChild<NavigationBar>();
 		}
 	}
-#endif
 }
