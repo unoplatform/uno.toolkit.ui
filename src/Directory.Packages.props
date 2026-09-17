@@ -2,6 +2,8 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <UnoThemesVersion>9.0.0-dev.15</UnoThemesVersion>
+    <!-- The SDK still pins the Uno 6 C# Markup line (6.7.0-dev.16), which UNOB0020 reports as broken on Uno 7. -->
+    <UnoCSharpMarkupVersion>7.0.0-dev.33</UnoCSharpMarkupVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />
