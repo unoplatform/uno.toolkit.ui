@@ -1,4 +1,3 @@
-#if DEBUG // Hot-reload tests are only relevant in debug configuration
 using System.Reflection;
 using System.Reflection.Metadata;
 using Uno.Toolkit.RuntimeTests.Helpers;
@@ -103,4 +102,3 @@ internal static class HotReloadTestHelper
 		}
 	}
 }
-#endif
