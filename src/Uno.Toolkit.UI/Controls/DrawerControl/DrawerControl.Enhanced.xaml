@@ -8,9 +8,8 @@
 					xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
 					xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
 					xmlns:primitiveContract7Present="using:Microsoft.UI.Xaml.Controls.Primitives?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
-					xmlns:xamarin="http://uno.ui/xamarin"
 					xmlns:todo="what should be done"
-					mc:Ignorable="todo xamarin">
+					mc:Ignorable="todo">
 
 	<x:Double x:Key="PaneToggleButtonHeight">40</x:Double>
 	<x:Double x:Key="NavigationViewPaneHeaderRowMinHeight">4</x:Double>
