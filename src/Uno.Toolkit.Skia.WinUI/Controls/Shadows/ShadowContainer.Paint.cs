@@ -7,7 +7,9 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using SkiaSharp;
+#if WINDOWS
 using SkiaSharp.Views.Windows;
+#endif
 using Uno.Extensions;
 using Uno.Logging;
 using Windows.UI;
@@ -40,6 +42,7 @@ public partial class ShadowContainer
 		SurfacePaintCompleted?.Invoke(this, new SurfacePaintCompletedEventArgs(createdNewCanvas));
 	}
 
+#if WINDOWS
 	private void OnSurfacePainted(object? sender, SKPaintSurfaceEventArgs e)
 	{
 		if (_shadowHost == null)
@@ -60,6 +63,7 @@ public partial class ShadowContainer
 
 		OnSurfacePaintCompleted(createdNewCanvas: true);
 	}
+#endif
 
 	private void OnRenderOverride(SKCanvas canvas, Windows.Foundation.Size area)
 	{

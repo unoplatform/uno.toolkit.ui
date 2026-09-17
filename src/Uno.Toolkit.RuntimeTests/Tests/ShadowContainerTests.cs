@@ -30,7 +30,9 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI.ViewManagement;
 using FluentAssertions;
 using SkiaSharp;
+#if WINDOWS_WINUI
 using SkiaSharp.Views.Windows;
+#endif
 using Uno.WinUI.Graphics2DSK;
 using System.Drawing;
 using Windows.Globalization.DateTimeFormatting;
@@ -102,9 +104,13 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var canvas = (Canvas)shadowContainerChildGrid.GetChildren().First();
 			var skiaCanvasElement = (FrameworkElement)canvas.GetChildren().First();
 			Assert.IsTrue(
+#if WINDOWS_WINUI
 				SKCanvasElement.IsSupportedOnCurrentPlatform()
 					? skiaCanvasElement is SKCanvasElement
 					: skiaCanvasElement is SKXamlCanvas
+#else
+				skiaCanvasElement is SKCanvasElement
+#endif
 			);
 
 			var lastActualHeight = double.NaN;
@@ -201,9 +207,13 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var canvas = grid?.GetChildren().First() as Canvas;
 			var skiaCanvasElement = canvas?.GetChildren().First() as FrameworkElement;
 			Assert.IsTrue(
+#if WINDOWS_WINUI
 				SKCanvasElement.IsSupportedOnCurrentPlatform()
 					? skiaCanvasElement is SKCanvasElement
 					: skiaCanvasElement is SKXamlCanvas
+#else
+				skiaCanvasElement is SKCanvasElement
+#endif
 			);
 			var contentPresenter = grid?.GetChildren().Skip(1).First() as ContentPresenter;
 			var border = contentPresenter?.GetChildren().First() as Border;

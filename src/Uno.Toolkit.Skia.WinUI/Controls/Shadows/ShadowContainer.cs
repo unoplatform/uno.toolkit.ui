@@ -8,7 +8,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using SkiaSharp;
+#if WINDOWS
 using SkiaSharp.Views.Windows;
+#endif
 using Uno.Disposables;
 using Uno.WinUI.Graphics2DSK;
 using Windows.Foundation;
@@ -22,10 +24,6 @@ namespace Uno.Toolkit.UI;
 /// <summary>
 /// Provides the possibility to add many-colored shadows to its content.
 /// </summary>
-/// <remarks>
-/// For now it renders badly on WASM due to a bug on the wasm skiasharp construction of the SKXamlCanvas.
-/// It should be fixed when this PR will be merged: https://github.com/mono/SkiaSharp/pull/2443
-/// </remarks>
 [TemplatePart(Name = nameof(PART_Canvas), Type = typeof(Canvas))]
 public partial class ShadowContainer : ContentControl
 {
@@ -39,7 +37,7 @@ public partial class ShadowContainer : ContentControl
 	private Grid? _panel;
 	private Canvas? _canvas;
 
-	private FrameworkElement? _shadowHost; // either an SKXamlCanvas or an SKCanvasElement
+	private FrameworkElement? _shadowHost; // an SKCanvasElement, or an SKXamlCanvas on WinAppSDK
 
 	public ShadowContainer()
 	{
@@ -285,25 +283,23 @@ public partial class ShadowContainer : ContentControl
 		_canvas = GetTemplateChild(nameof(PART_Canvas)) as Canvas;
 		_panel = GetTemplateChild(nameof(PART_ShadowOwner)) as Grid;
 
-		FrameworkElement skiaCanvas;
-		if (SKCanvasElement.IsSupportedOnCurrentPlatform())
+		_shadowHost = CreateShadowHost();
+		_canvas?.Children.Insert(0, _shadowHost);
+	}
+
+	private FrameworkElement CreateShadowHost()
+	{
+#if WINDOWS
+		// SKCanvasElement renders through Uno's Skia compositor, which WinAppSDK does not have.
+		if (!SKCanvasElement.IsSupportedOnCurrentPlatform())
 		{
-			skiaCanvas = new ShadowContainerSKCanvasElement() { Owner = this };
-		}
-		else
-		{
-			var skXamlCanvas= new SKXamlCanvas();
+			var skXamlCanvas = new SKXamlCanvas();
 			skXamlCanvas.PaintSurface += OnSurfacePainted;
-			skiaCanvas = skXamlCanvas;
+			return skXamlCanvas;
 		}
-
-
-#if __IOS__ || __MACCATALYST__
-		skiaCanvas.Opaque = false;
 #endif
 
-		_shadowHost = skiaCanvas;
-		_canvas?.Children.Insert(0, _shadowHost!);
+		return new ShadowContainerSKCanvasElement() { Owner = this };
 	}
 
 
@@ -388,7 +384,9 @@ public partial class ShadowContainer : ContentControl
 	private void InvalidateShadows(bool force = false)
 	{
 		(_shadowHost as SKCanvasElement)?.Invalidate();
+#if WINDOWS
 		(_shadowHost as SKXamlCanvas)?.Invalidate();
+#endif
 	}
 
 	private static DependencyProperty? GetCornerRadiusPropertyFor(object? content)
