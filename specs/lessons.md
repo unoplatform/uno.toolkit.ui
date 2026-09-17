@@ -2,6 +2,27 @@
 
 Corrections worth not repeating. Newest first.
 
+## A Skia mobile head did not run your mobile asset before Uno 7 — now it does
+
+**2026-09-17 — Uno 7.0 retarget.**
+
+The first plan for the mobile port kept the native `ExtendedSplashScreen.Android.cs`/`.iOS.cs`
+implementations alive and set out to make them work under Skia. The maintainer pointed out that
+Skia Android should keep using the plain Skia path the toolkit already used. The reason is in the
+Uno SDK, not in this repo: in Uno 6 a Skia Android/iOS head replaced every Uno-referencing
+library's `-android`/`-ios` asset with its plain `netX.0` build (`RuntimeAssetsSelectorTask`). Every
+Skia mobile user of the toolkit has therefore always run the plain build — `not_mobile` XAML, no
+`__ANDROID__`/`__IOS__` code. Uno 7 commit `bc6254848a` removed that swap, so the mobile assets now
+run for the first time on Skia.
+
+**Rules:**
+
+- When deciding what a mobile TFM build should do on Uno 7, start from what the plain build did:
+  that is the behavior Skia mobile users already have. Keep a native-only path only as a justified
+  OS-level exception, and list it.
+- Before reasoning about which asset of a package an app loads, read the SDK task that selects
+  assets for the Uno version in use. NuGet's `project.assets.json` is not the final answer on Uno 6.
+
 ## Verify with the command CI runs, not an equivalent-looking one
 
 **2026-09-08 — Uno 7.0 retarget.**

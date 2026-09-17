@@ -9,210 +9,90 @@ pipeline. This document tracks what that costs the toolkit.
 
 ## Method note
 
-The Uno checkout at `D:\Work\uno` is **stale** relative to the shipped package. `uno.winui.nuspec`
-for `7.0.0-dev.679` pins commit `d1710cafb14428664bc3eadd5bd6d4ee49cc7395`. Grepping the working
-tree gives wrong answers — for example it still contains `Generic.Native.xaml` and
-`IDependencyObjectStoreProvider`, neither of which is in the shipped assemblies. Verify against
-`git show d1710ca:<path>` or against `D:\Packages\NuGet\uno.winui\7.0.0-dev.679`.
+The Uno checkout at `D:\Work\uno` is **stale** relative to the shipped package. Read the shipped
+assemblies under `D:\Packages\NuGet\uno.winui\<version>`, or the source at the commit the package
+pins: `uno.winui.nuspec` for `7.0.0-dev.701` pins `0a4053a40b7bc7fe5f7a0ef5aaa890c5cd5e7a6d`
+(use `git show <sha>:<path>`, never a working-tree grep).
+
+## Decisions
+
+- **Target frameworks: keep `net10.0-android` and `net10.0-ios`** on every library, alongside
+  `net10.0` and `net10.0-windows10.0.19041`, matching Uno.Themes 9.0. Skia Android and Skia iOS
+  are first-class. `net10.0-maccatalyst` is gone.
+- **The mobile builds behave like the plain Skia build.** In Uno 6, a Skia Android/iOS head did not
+  load a library's `-android`/`-ios` asset: the SDK's `RuntimeAssetsSelectorTask` swapped in the
+  plain `netX.0` build. Toolkit users on Skia mobile have therefore always run the plain build —
+  `not_mobile` XAML, no `__ANDROID__`/`__IOS__` code, the Skia `ExtendedSplashScreen` path. Uno 7
+  (`bc6254848a`, "Keep platform-specific assets on Skia mobile") stops the swap, so the mobile
+  assets now run. Native-renderer-era code is deleted and the plain path becomes what the mobile
+  targets compile. A native-only behavior survives only as a justified OS-level exception, and
+  each one is listed below.
+- `ExtendedSplashScreen` on Skia Android and Skia iOS uses the Skia (`.cross.cs`) implementation.
+  `ExtendedSplashScreen.Init(Activity)` keeps its signature.
 
 ## Done
 
-- [x] Rebase onto `main` (picks up `d88a0c12`, servicing/* publishing + `10.0-dev`).
-- [x] `chore(deps)`: `Uno.Sdk.Private` and `Uno.WinUI.DevServer` → `7.0.0-dev.679`.
-      Restores `GetBindingExpression`, clearing 4 CS1061 errors. Introduces no new errors.
-- [x] `fix(styles)`: split the `toolkit` xmlns. BC53 turned one namespace into two but both
-      halves kept the `toolkit` prefix; `Uno.XamlMerge.Task` requires one prefix → one namespace.
-      Now `toolkit` = `Uno.UI.Xaml.Controls`, `unoxaml` = `Uno.UI.Xaml`.
-- [x] `fix`: `IDependencyObjectStoreProvider` → `Uno.UI.Helpers.MarkupHelper.SetParent`.
-      BC26 removed both `IDependencyObjectStoreProvider` and `DependencyObjectStore`.
-- [x] `fix(skia)`: explicit `SkiaSharp.Views.Uno.WinUI` reference — see the caveat below.
-- [x] Commit messages: `BREAKING CHANGE:` bodies added so commitsar passes. The BC26 commit was
-      demoted from `fix!` to `fix` — widening `where T : class, DependencyObject` to
-      `where T : DependencyObject` is source- and binary-compatible, so it is not breaking.
+- [x] Rebase onto `main` (picks up `cab35f0b` 11.0-dev versioning, `572ffc3f` Themes typography).
+- [x] `chore(deps)`: `Uno.Sdk.Private` and `Uno.WinUI.DevServer` → `7.0.0-dev.701`;
+      `Uno.Themes` → `9.0.0-dev.15`, the first Themes line built against Uno 7. Clears every
+      `CS0012` (`CoreDispatcher`, `Color` in `Uno`) on the desktop and WASM sample heads.
+- [x] `fix(ci)`: pin the .NET SDK to `10.0.101`, the band `uno.check` 1.34.1 provisions
+      `wasm-tools` for. On `10.0.102` the Packages job failed `NETSDK1147` on every
+      `net10.0-ios` project (same fix as Uno.Themes `87bfb588`).
+- [x] `fix(skia)`: `ShadowContainer` renders through `SKCanvasElement` on every Uno target and keeps
+      `SKXamlCanvas` for WinAppSDK only. `SkiaSharp.Views.Uno.WinUI` (4.151.1 and 4.152.0) is
+      compiled against Uno 5 and binds `Uno.dll`/`Uno.UI.Toolkit`, so the reference is gone.
+- [x] `fix(styles)`: split the `toolkit` xmlns (`toolkit` = `Uno.UI.Xaml.Controls`,
+      `unoxaml` = `Uno.UI.Xaml`).
+- [x] `fix`: `IDependencyObjectStoreProvider` → `Uno.UI.Helpers.MarkupHelper.SetParent` (BC26).
+- [x] Commit messages carry `BREAKING CHANGE:` bodies so commitsar passes.
 
-### Verified green
+### Verified
 
-The Material desktop sample **publishes with 0 errors** via the exact CI command
-(`dotnet publish -c Release -f net10.0-desktop -p:TargetFrameworkOverride=desktop`), including
-`Uno.Toolkit`, `Uno.Toolkit.WinUI`, `Uno.Toolkit.Skia.WinUI`, `Uno.Toolkit.WinUI.Material` and
-`Uno.Toolkit.RuntimeTests` — **but only** when `Uno.Themes.WinUI` is a build retargeted to Uno 7.
+- Material desktop sample publishes with **0 errors** via the CI command.
+- Every published assembly binds only Uno 7 assemblies (checked with a metadata reader).
+- Desktop runtime-test host starts; all 20 `ShadowContainerTests` pass on Skia desktop (Windows).
+- Full desktop suite on Windows: 255 passed, 86 failed, 11 skipped of 341. Most failures are
+  sub-pixel `AutoLayout` assertions (`24.8` vs `25`) consistent with a non-100 % display scale;
+  CI runs under `xvfb` at scale 1, so re-baseline on Linux before reading them as regressions.
 
-## Blockers
+## In progress — mobile port
 
-### 1. Cross-repo dependencies (critical path)
+Split into four slices by file ownership, each in its own worktree, reviewed adversarially before
+integration:
 
-All 20 `UNOB0020` warnings name Uno-6-built *dependencies*, not toolkit code.
+- [ ] **NavigationBar** — delete native renderers, `NativeFramePresenter`,
+      `NativeNavigationBarPresenter`, the native templates/keys and the `IsNativeStyle` frame styles
+      (UI, Material v1/v2, Simple); port `NavigationBarTests`; update `doc/controls/NavigationBar.md`.
+- [ ] **TabBar and helpers** — managed `TabBarSelectorBehaviorState` everywhere, managed
+      `ScrollableHelper` scroll-to-top (the mobile branch threw `NotImplementedException`),
+      collapse `VisualTreeHelperEx.Native`, drop the `CS0109` `new` members, unwrap the TabBar, Chip,
+      segmented-control and FlipView XAML forks.
+- [ ] **Platform services** — `ExtendedSplashScreen` Skia path on mobile, `SafeArea` without
+      `IsStatusBarTranslucent`, remaining `ShadowContainer` mobile gates, their tests and docs.
+- [ ] **Samples, build and CI** — Android host through `UnoPlatformHostBuilder`, Android API 24 floor
+      for app heads, dead native sample code and XAML prefixes, remaining test gates, the upstream
+      `CS0407` generator issue, CI stage review.
+- [ ] Integrate, then build every leg with the CI commands (Packages via MSBuild, desktop, WASM,
+      Android, iOS) and run runtime tests on desktop, WASM and a local Android emulator.
 
-| Package | State | Action |
-|---|---|---|
-| `Uno.Themes.WinUI` / `.Material` / `.Cupertino` / `.Simple` `7.1.0-dev.1` | Uno 6 (`lib/net9.0-android35.0`, binds `Uno.dll`, `Uno.Foundation`, `Uno.UI.Toolkit`) | Retarget PR open: [uno.themes#1722](https://github.com/unoplatform/Uno.Themes/pull/1722) — all four desktop sample heads publish clean locally. Bump `UnoThemesVersion` once it merges and publishes a dev package. |
-| `Uno.ShowMeTheXAML` `2.0.0-dev0026` (latest) | Uno 6 (`net9.0`, binds `Uno.UI.Toolkit`) | Used by the Themes samples; crashes those apps at startup. Bumping does not help — no Uno 7 build exists. Same failure class as the SkiaSharp item below. |
-| `Uno.WinUI.Markup`, `Uno.Extensions.Markup.WinUI` `6.7.0-dev.16` | **No Uno 7 build exists** | Pinned by the SDK's `CSharpMarkup` group; the override lever is `$(UnoCSharpMarkupVersion)`, which this repo never sets. Gates `Uno.Toolkit.WinUI.Markup` and `.Material.Markup` entirely (both declare `<UnoFeatures>CSharpMarkup</UnoFeatures>`). Not a port task — needs the owning repo. **Longest lead time in the port; raise first.** |
+## Blockers and risks
 
-### 1b. The error list is shallower than it looks
-
-`clean679.log` is a build of `Uno.Toolkit-packages.slnf` — the 8 library projects only. It does
-**not** cover the runtime-test project or any sample head, and once a project reference fails its
-dependents are skipped without a diagnostic. So:
-
-- iOS diagnostics come from exactly one project (`Uno.Toolkit.WinUI`). The iOS surface of
-  Cupertino, Material, Simple, Skia and both Markup projects is unknown.
-- Known-but-never built breakage: `Tests/ShadowContainerTests.cs` (`SkiaSharp.Views.Windows`,
-  `is SKXamlCanvas`) and `Tests/NavigationBarTests.cs` (`GetNativeNavBar`,
-  `FindChild<NativeFramePresenter>`, `presenter.NavigationController`).
-
-Roslyn also stops binding method bodies once declaration errors exist, so a second wave is
-guaranteed. These Uno 6 APIs are absent from **every** Uno 7 assembly and sit in files no plan
-proposes to delete:
-
-| Symbol | Used at |
+| Item | State |
 |---|---|
-| `XamlWindow.IsStatusBarTranslucent()` | `Controls/SafeArea/SafeArea.cs:235` (`#if __ANDROID__`) |
-| `ListViewHelper.SmoothScrollToIndex` | `Helpers/ScrollableHelper.cs:133,135` (iOS **and** Android) |
-| `SKXamlCanvas.Opaque` | `Skia.WinUI/Controls/Shadows/ShadowContainer.cs:302` |
-
-`SafeArea` on Android has no public replacement for `IsStatusBarTranslucent` — it needs computing
-from the activity window, or the behavior changes.
-
-### 2. `ShadowContainer` / SkiaSharp — the committed fix is not sufficient
-
-`SkiaSharp.Views.Uno.WinUI` `4.151.1` (the version the Uno SDK pins) is **itself Uno-6-built** —
-it binds `Uno`, `Uno.Foundation` and `Uno.UI.Toolkit`. Referencing it makes the toolkit *compile*,
-but the app then dies at startup:
-
-```text
-System.IO.FileNotFoundException: Could not load file or assembly 'Uno.UI.Toolkit, Version=255.255.255.255'
-   at SkiaSharp.Views.Windows.GlobalStaticResources.Initialize()
-   at Uno.Toolkit.RuntimeTests.GlobalStaticResources..cctor()
-```
-
-Reproduced by running the published desktop sample with `--runtime-tests=`: the runtime-test host
-crashes before a single test executes, so the Runtime Tests CI job would still fail.
-
-The Uno 7 route for drawing Skia content is `Uno.WinUI.Graphics2DSK` (`SKCanvasElement`) — which is
-what the retargeted `Uno.Themes` already references. **`ShadowContainer` should be ported off
-`SKXamlCanvas` onto `SKCanvasElement`.** Until then the `SkiaSharp.Views.Uno.WinUI` reference stays
-as a compile-time unblock only.
-
-### 2b. Upstream: XAML generator emits a native-view template builder on mobile
-
-Seen on the sibling `uno.themes` PR, and likely to hit this repo once its mobile legs compile:
-
-```text
-mergedpages_*.cs: error CS0407: 'View  GlobalStaticResources...Build_ResDic..._ConTem(
-    object, TemplateMaterializationSettings)' has the wrong return type   (net10.0-android)
-mergedpages_*.cs: error CS0407: 'UIView GlobalStaticResources...Build_ResDic..._ConTem(
-    object, TemplateMaterializationSettings)' has the wrong return type   (net10.0-ios)
-```
-
-The generator still types a `ControlTemplate` builder as returning the native view type, which
-Uno 7 removed. It reproduces only in `Uno.Simple.WinUI` — Material and Cupertino build fine on the
-same target frameworks — so it is template-shape specific. Not fixable downstream; report upstream.
-
-### 3. Mobile (iOS + Android) — needs a product decision
-
-Every remaining error is on the `net10.0-ios` / `net10.0-android` legs. `net10.0` is clean and
-`net10.0-windows` fails only on `UNOB0008`, which is a local `dotnet build` vs `msbuild` artifact,
-not a CI failure.
-
-Error accounting (from a clean Release build; the raw counts are misleading):
-
-| Code | Count | Reality |
-|---|---|---|
-| CS0234 | 112 | Only **14** are `AndroidX.*`. 86 are `Uno.Toolkit.UI.*` cascade from the base library's android leg failing. |
-| CS0246 | 22 | `FlipViewSource`, `Toolbar`, `ViewPager`, `SKPaintSurfaceEventArgs` |
-| UXAML0001 | 20 | `Style.IsNativeStyle` + cascade |
-| CS0115 | 12 | UIKit overrides (`MovedToSuperview`, `Frame`, …) |
-| CS0109 | 10 | redundant `new` on `Card`/`Chip`/`TabBarItem`/`ExtendedSplashScreen` members |
-
-Corrections to earlier assumptions, both verified:
-
-- **Mobile TFMs are still first-class in Uno 7.** `Uno.WinUI` ships no mobile `lib/` asset, but it
-  *does* ship `buildTransitive/net10.0-android36.0`, `net10.0-ios26.0`, `net10.0-tvos26.0`.
-  Dropping mobile TFMs is a choice, not a forced consequence.
-- **`Uno.UI.DrawableHelper` moved, it was not removed** — it is now
-  `Uno.Helpers.DrawableHelper` in the `Uno.WinRT` assembly.
-
-`net10.0-maccatalyst` should go regardless: Uno 7 ships no MacCatalyst target and the package has
-no `maccatalyst` `buildTransitive` folder.
-
-## Plan
-
-Ordered deliberately — deleting sources *before* touching TFMs makes the compiler prove what is
-dead, instead of a TFM removal hiding it.
-
-- [ ] **0. Unblock dependencies.** Land [uno.themes#1722](https://github.com/unoplatform/Uno.Themes/pull/1722),
-      bump `UnoThemesVersion`. Raise the `Uno.WinUI.Markup` / `Uno.Extensions.Markup` gap.
-- [ ] **1. Port `ShadowContainer`** from `SKXamlCanvas` to `Uno.WinUI.Graphics2DSK`'s
-      `SKCanvasElement`, then drop the `SkiaSharp.Views.Uno.WinUI` reference.
-- [ ] **2. Delete the native rendering code** with the mobile TFMs still in place:
-      `Controls/NavigationBar/{AppBarButtonRenderer,NavigationAppBarButtonRenderer,NavigationBarRenderer,NavigationBarNavigationItemRenderer,NavigationBarHelper,NativeNavigationBarPresenter,NativeFramePresenter}.*`
-      (including the **shared** `NativeNavigationBarPresenter.cs`) and the forked `Renderer.cs`;
-      `Extensions/{ColorExtensions,UIBarButtonItemExtensions}.iOS.cs`;
-      `Helpers/{DictionaryExtensions,ImageHelper}.iOS.cs`;
-      `Behaviors/TabBarSelectorBehaviorState.{Android,iOS}.cs`.
-      Strip the markup they served (`NavigationBar.xaml` `mobile:` arms, `NativeDefaultToolkitFrame`,
-      both `IsNativeStyle="True"` styles, and the `mobile:` arms in Material v1/v2 and Simple).
-      Delete the CS0109 `#if __ANDROID__ new` sites explicitly rather than letting a TFM drop hide them.
-      Collapse `VisualTreeHelperEx.Native` and `ScrollableHelper` — Uno 7 aliases
-      `_View = UIElement`, so the "native tree isn't walkable" premise is dead.
-- [ ] **3. Port the runtime tests before touching TFMs.** ≥21 `[TestMethod]`s sit behind
-      `__ANDROID__`/`__IOS__` (`NavigationBarTests`, `SafeAreaTests`, the leak tests,
-      `ChipGroupTests`, `AutoLayoutTest`, `DrawerTests`, `LeakTest`). Re-express them against the
-      managed presenter — AGENTS.md §5 forbids losing coverage to a refactor.
-- [ ] **4. Decide the TFM set** — see below.
-- [ ] **5. Sweep remaining BCs**: BC38 (`FrameworkElement.Background` → `Control`),
-      BC58 (`DataContext` is FE-only), BC65 (`FrameworkElement` is no longer `IEnumerable`),
-      BC01 (`Microsoft.UI.Xaml.{NewFrameworkTemplateBuilder,TemplateMaterializationSettings}` →
-      `Uno.UI.*`).
-- [ ] **6. XAML prefix hygiene.** The conditional vocabulary is now `android`, `ios`, `tvos`,
-      `desktop`, `wasm`, `winappsdk`/`win` and `not_` forms. `skia`, `macos`, `netstdref`,
-      `xamarin`, `not_mux`, `legacy` are gone. `win`/`not_win` are now conditional on the WinAppSDK
-      target, so re-verify the four files that actually use them.
-- [ ] **7. Docs** (AGENTS.md §13): `doc/controls/NavigationBar.md` documents native mode across
-      ~600 lines; `doc/controls/ExtendedSplashScreen.md:125-131` documents `Init(Activity)`.
-- [ ] **8. Re-baseline visuals** on the Skia Android/iOS heads — HarfBuzz text metrics, managed
-      virtualization and Skia animation all differ.
-
-### Open decision — TFM set (step 4)
-
-**(a) Platform-neutral** — `net10.0` + `net10.0-windows10.0.19041`, matching `Uno.UI.Extras` and
-the retargeted `Uno.Themes`. Cost: `ExtendedSplashScreen.{Android,iOS,macOS}.cs` and the
-`AndroidResource` `Resources/values/Styles.xml` disappear, so **`ExtendedSplashScreen.Init(Activity)`
-is removed** (public, documented). Android splash falls back to the Skia path. Also the library can
-never gate XAML per-runtime again — a `net10.0` build bakes in `not_android`/`not_ios`/… permanently.
-
-**(b) Keep `net10.0-android` / `net10.0-ios` on `Uno.Toolkit.WinUI` only**, purely to host the
-platform services, via a per-project override — *not* by editing `src/tfm-common-winui.props`,
-which **eight** projects import (including `Uno.Toolkit.RuntimeTests`). Then add the missing
-`Xamarin.AndroidX.AppCompat` / `.Core` / `.ViewPager` references (`.Core.SplashScreen` is already
-there) and point `DrawableHelper` at `Uno.Helpers`.
-
-Either way, drop `net10.0-maccatalyst`.
+| Uno.Themes Uno 7 build | **Resolved** — `9.0.0-dev.15` |
+| `Uno.WinUI.Markup` Uno 7 build | Exists (`7.0.0-dev.33`); the SDK still pins `6.7.0-dev.16`, so the Markup projects need `UnoCSharpMarkupVersion`. `Uno.Themes.WinUI.Markup` 9.0 still references `Uno.WinUI.Markup` 5.2 — check at runtime |
+| SkiaSharp views built for Uno 7 | None exist; avoided by `SKCanvasElement` |
+| `CS0407` in generated `mergedpages_*.cs` on mobile (seen in Uno.Themes for Simple) | Under investigation |
+| Mobile runtime tests | CI runs desktop and WASM only; Android is verified locally |
 
 ## Public API removals to announce
 
-- `Uno.Toolkit.UI.NativeFramePresenter` — mobile-only, no shared partial; the type ceases to exist.
-- `Uno.Toolkit.UI.NativeNavigationBarPresenter` — internal in the shared partial, raised to public
-  only by the platform partials.
-- The `NativeDefaultToolkitFrame` resource key and both `IsNativeStyle` Frame styles — a consumer
-  doing `BasedOn="{StaticResource NativeDefaultToolkitFrame}"` breaks.
-- Under (a): `ExtendedSplashScreen.Init(Android.App.Activity)` and the per-platform `SplashIsEnabled`.
+- `NativeFramePresenter` and `NativeNavigationBarPresenter` (mobile-only types).
+- Resource keys `NativeDefaultToolkitFrame`, `NativeNavigationBarTemplate`,
+  `MaterialNativeNavigationBarTemplate`, `SimpleNativeNavigationBarTemplate`, and the implicit
+  native `Frame` styles.
 - `net10.0-maccatalyst`.
 
-Behavioral, no signature change: `NavigationBar` on Android/iOS stops rendering as a native
-`Toolbar`/`UINavigationBar`. `TabBarSelectorBehaviorState` is internal — no API impact.
-
-## CI environment issues (not code)
-
-- **Packages job never compiles.** It dies at `NETSDK1147: wasm-tools must be installed` on the
-  windows-2022 agent; `build/workflow/templates/dotnet-workload-install-windows.yml` does not
-  install it. Even a perfect tree fails this job.
-- **`dotnet build` cannot build the WinAppSDK leg** (`UNOB0008`) — CI uses `MSBuild@1`, so this is
-  a local-only artifact. The `net10.0-windows` leg is therefore unverified locally.
-
-## Not verified
-
-- iOS, Android, macOS and WASM heads were not built locally.
-- Runtime tests have never completed — the host crashes at startup (blocker 2). No test result
-  has been observed on this branch.
+Behavioral, no signature change: `NavigationBar` on Android/iOS no longer renders a native
+`Toolbar`/`UINavigationBar`, and the mobile assets now match what Skia mobile heads already ran.
