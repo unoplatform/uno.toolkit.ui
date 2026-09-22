@@ -1,10 +1,13 @@
 parameters:
-  # DotNetVersion must not exceed the SDK uno.check's manifest provisions wasm-tools for:
-  # installing it sets the mono.toolchain.current manifest, and if that lands BELOW the running
-  # SDK the resolver asks for a Microsoft.NET.Runtime.MonoTargets.Sdk that was never installed,
-  # failing every net10.0-ios library build with NETSDK1147. uno.check 1.34.1 now resolves
-  # wasm-tools 10.0.108, so 10.0.102 is covered; re-check when bumping either version.
-  DotNetVersion: '10.0.102'
+  # Pinned DOWN to match UnoCheck_Version, and verified against the tool: uno.check ships its
+  # manifest as an EMBEDDED resource, so the live one in unoplatform/uno.check is irrelevant.
+  # 1.34.1 embeds WASMTOOLS_VERSION '10.0.101/10.0.100', and provisioning wasm-tools therefore
+  # installs mono.toolchain.current 10.0.101. On SDK 10.0.102 that manifest sits BELOW the SDK,
+  # the resolver asks for a Microsoft.NET.Runtime.MonoTargets.Sdk that was never installed, and
+  # every net10.0-ios library build fails NETSDK1147 (invisible while the libraries targeted
+  # net9.0, which resolves through mono.toolchain.net9). Raising the SDK requires raising
+  # uno.check with it -- see the tracking issue; do not bump one alone.
+  DotNetVersion: '10.0.101'
   UnoCheck_Version: '1.34.1'
   Dotnet_Root: '/usr/local/share/dotnet/'
   Dotnet_Tools: '~/.dotnet/tools'

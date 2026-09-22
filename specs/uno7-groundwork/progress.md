@@ -36,15 +36,22 @@ pins: `uno.winui.nuspec` for `7.0.0-dev.701` pins `0a4053a40b7bc7fe5f7a0ef5aaa89
 - [x] `chore(deps)`: `Uno.Sdk.Private` and `Uno.WinUI.DevServer` → `7.0.0-dev.701`;
       `Uno.Themes` → `9.0.0-dev.15`, the first Themes line built against Uno 7. Clears every
       `CS0012` (`CoreDispatcher`, `Color` in `Uno`) on the desktop and WASM sample heads.
-- [x] `fix(ci)`: the .NET SDK was briefly pinned down to `10.0.101` (as Uno.Themes `87bfb588` did),
-      because provisioning `wasm-tools` downgraded the `mono.toolchain.current` manifest below the
-      running `10.0.102`, so the resolver asked for a `Microsoft.NET.Runtime.MonoTargets.Sdk` that
-      was never installed and every `net10.0-ios` library build failed `NETSDK1147`. Invisible while
-      the libraries targeted net9.0, which resolves through `mono.toolchain.net9`.
-      **Reverted:** uno.check's manifest moved from `WASMTOOLS_VERSION 10.0.101/10.0.100`
-      (`1cde21cd`, Dec 2025) to `10.0.108/10.0.100` (`c748387e`, Aug 2026), so it no longer lands
-      below `10.0.102` and the pin was holding the SDK back for nothing. Back on `10.0.102`, as
-      `main` has. Uno.Themes still carries the stale pin.
+- [x] `fix(ci)`: the .NET SDK is pinned **down** to `10.0.101` to match `uno.check` 1.34.1 (as
+      Uno.Themes `87bfb588` did). Verified against the tool, not guessed: uno.check ships its
+      manifest as an **embedded resource**, so the live one in `unoplatform/uno.check` does not
+      apply. 1.34.1 embeds `WASMTOOLS_VERSION 10.0.101/10.0.100`; provisioning `wasm-tools` runs
+      `dotnet workload install --from-rollback-file`, which installs `mono.toolchain.current`
+      **10.0.101**. On SDK `10.0.102` that sits below the SDK, the resolver asks for a
+      `Microsoft.NET.Runtime.MonoTargets.Sdk` that was never installed, and every `net10.0-ios`
+      library build fails `NETSDK1147`. Invisible while the libraries targeted net9.0, which
+      resolves through `mono.toolchain.net9`.
+      A revert to `10.0.102` was tried and **failed the Packages job again** (build 234972,
+      log 206: `Loading Manifest from embedded resource`, `Workloads (10.0.101) Checkup`,
+      `Installing workload manifest microsoft.net.workload.mono.toolchain.current version 10.0.101`).
+      Raising the SDK requires raising `uno.check` with it, and no released version does both
+      cleanly: every `1.35.0-dev.*` switches the `--pre-major` manifest (which only the Linux
+      template uses) to .NET 11, and `1.35.0-dev.98` also expects SDK `10.0.300`. Tracked as its
+      own item rather than forced through here.
 - [x] `fix(skia)`: `ShadowContainer` renders through `SKCanvasElement` on every Uno target and keeps
       `SKXamlCanvas` for WinAppSDK only. `SkiaSharp.Views.Uno.WinUI` (4.151.1 and 4.152.0) is
       compiled against Uno 5 and binds `Uno.dll`/`Uno.UI.Toolkit`, so the reference is gone.
