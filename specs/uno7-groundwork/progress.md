@@ -172,3 +172,32 @@ and is not committed.
 
 Behavioral, no signature change: `NavigationBar` on Android/iOS no longer renders a native
 `Toolbar`/`UINavigationBar`, and the mobile assets now match what Skia mobile heads already ran.
+
+## Review pass on PR #1635
+
+Feedback from @agneszitte, @Xiaoy312 and the code-quality bot, addressed in
+`55081a688..5219ef709`:
+
+- The `toolkit` xmlns prefix pointed at Uno's `Uno.UI.Xaml.Controls`, which reads as
+  Uno Toolkit inside this repo; renamed to `uuxc` in the 10 style dictionaries and in
+  the runtime-test `XamlHelper` xmlns map.
+- `contract7Present` / `contract8Present` were inlined and the `contract7NotPresent`
+  branches deleted. Uno's XAML generator reports `UniversalApiContract` present up to
+  major 14 (`ApiInformation.shared.cs`) and the WinAppSDK min target `10.0.19041` is
+  contract 10, so the `Present` halves always applied and the `NotPresent` halves never
+  did. The unreferenced `contract*` and `todo` xmlns declarations went with them.
+- WinAppSDK is **not** discontinued here: the libraries still crosstarget
+  `net10.0-windows10.0.19041` via `tfm-common-winui.props` (gated by `Build_Windows`).
+  Only the sample heads dropped their Windows TFM.
+- Dropping the Material v1 styles is agreed for this major but lands separately —
+  tracked in unoplatform/uno.toolkit.ui#1643. `mergedpages.v1.xaml` is already
+  unreachable and `MaterialToolkitResourcesV1` points at a path the merge task never
+  emits, so the removal is a clean-up rather than a behavior change.
+- `ExtendedSplashScreen` now catches the foreseeable IO/assembly-load failures
+  explicitly, keeping the generic catch as the last-resort fallback so startup still
+  degrades to "no splash screen".
+- Scroll-to-top waits use a tolerance instead of an exact float comparison.
+
+Desktop runtime tests: 430 tests, 91 failures — byte-identical before and after the
+change (AutoLayout padding/position cases that are display-scale sensitive on a Windows
+desktop host; CI's Linux Skia leg is green). No regressions introduced.
