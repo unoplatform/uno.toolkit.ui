@@ -3,11 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:todo="what should be done"
     xmlns:uuxc="using:Uno.UI.Xaml.Controls"
     xmlns:um="using:Uno.Material"
     xmlns:utu="using:Uno.Toolkit.UI"
-    mc:Ignorable="d todo">
+    mc:Ignorable="d">
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Default">

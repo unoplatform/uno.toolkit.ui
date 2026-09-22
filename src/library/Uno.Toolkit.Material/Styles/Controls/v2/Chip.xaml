@@ -1,11 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-					xmlns:todo="what should be done"
 					xmlns:uuxc="using:Uno.UI.Xaml.Controls"
 					xmlns:um="using:Uno.Material"
-					xmlns:utu="using:Uno.Toolkit.UI"
-					mc:Ignorable="todo">
+					xmlns:utu="using:Uno.Toolkit.UI">
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Default">
