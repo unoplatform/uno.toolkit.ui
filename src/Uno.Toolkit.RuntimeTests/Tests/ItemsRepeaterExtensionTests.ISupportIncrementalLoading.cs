@@ -47,21 +47,14 @@ partial class ItemsRepeaterExtensionTests
 		await Task.Delay(1000);
 		var initial = GetCurrenState();
 
-		(double? hOffset, double? vOffset) = orientation switch
-		{
-			Orientation.Vertical => ((double?)null, 10_000),
-			Orientation.Horizontal => (10_000, default),
-			_ => throw new NotSupportedException()
-		};
-
 		// scroll to bottom
-		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
+		ScrollToEnd(sv, orientation);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var firstScroll = GetCurrenState();
 
 		// scroll to bottom
-		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
+		ScrollToEnd(sv, orientation);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var secondScroll = GetCurrenState();
@@ -101,15 +94,8 @@ partial class ItemsRepeaterExtensionTests
 		await Task.Delay(1000);
 		var initial = GetCurrenState();
 
-		(double? hOffset, double? vOffset) = orientation switch
-		{
-			Orientation.Vertical => ((double?)null, 10_000),
-			Orientation.Horizontal => (10_000, default),
-			_ => throw new NotSupportedException()
-		};
-
 		// scroll to bottom
-		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
+		ScrollToEnd(sv, orientation);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var firstScroll = GetCurrenState();
@@ -118,7 +104,7 @@ partial class ItemsRepeaterExtensionTests
 		source.HasMoreItems = false;
 
 		// scroll to bottom
-		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
+		ScrollToEnd(sv, orientation);
 		await Task.Delay(500);
 		await UnitTestsUIContentHelper.WaitForIdle();
 		var secondScroll = GetCurrenState();
@@ -156,15 +142,8 @@ partial class ItemsRepeaterExtensionTests
 		await UnitTestUIContentHelperEx.SetContentAndWait(panel);
 		await Task.Delay(2000);
 
-		(double? hOffset, double? vOffset) = orientation switch
-		{
-			Orientation.Vertical => ((double?)null, 10_000),
-			Orientation.Horizontal => (10_000, default),
-			_ => throw new NotSupportedException()
-		};
-
 		// scroll to bottom
-		sv.ChangeView(hOffset, vOffset, null, disableAnimation: true);
+		ScrollToEnd(sv, orientation);
 
 		await UnitTestUIContentHelperEx.WaitFor(() => ItemsRepeaterExtensions.GetIsLoading(sut), timeoutMS: 2000, message: "IsLoading should become true");
 		await UnitTestUIContentHelperEx.WaitFor(() => !ItemsRepeaterExtensions.GetIsLoading(sut), timeoutMS: 2000, message: "IsLoading should become false when done loading more items");
@@ -203,6 +182,20 @@ partial class ItemsRepeaterExtensionTests
 			VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
 			VerticalScrollMode = ScrollMode.Enabled
 		};
+	}
+
+	// ChangeView keeps the requested offset as intent and re-clamps it as the extent grows (like WinUI),
+	// so an arbitrarily large offset would keep loading batches; target the current end instead.
+	private static void ScrollToEnd(ScrollViewer sv, Orientation orientation)
+	{
+		if (orientation == Orientation.Vertical)
+		{
+			sv.ChangeView(null, sv.ScrollableHeight, null, disableAnimation: true);
+		}
+		else
+		{
+			sv.ChangeView(sv.ScrollableWidth, null, null, disableAnimation: true);
+		}
 	}
 
 	private static (Grid panel, ItemsRepeater sut, ScrollViewer vs) BuildSetup(object source, Orientation orientation)

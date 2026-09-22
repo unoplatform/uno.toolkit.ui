@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -38,7 +39,7 @@ public class CommandExtensionsHrTest
 		Assert.IsNull(CommandExtensions.GetCommand(btn), "Command should start as null.");
 
 		// HR: remove the entire utu:CommandExtensions.Command attribute
-		await using (await HotReloadHelper.UpdateSourceFile<CommandExtensionsPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<CommandExtensionsPage>(
 			originalText: """<Button x:Name="ActionBtn" Content="Action" utu:CommandExtensions.Command="{x:Null}" />""",
 			replacementText: """<Button x:Name="ActionBtn" Content="Action" />""",
 			ct))
@@ -63,7 +64,7 @@ public class CommandExtensionsHrTest
 		var btn = UIHelper.GetChild<Button>(name: "ActionBtn");
 		Assert.AreEqual("Action", btn.Content as string);
 
-		await using (await HotReloadHelper.UpdateSourceFile<CommandExtensionsPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<CommandExtensionsPage>(
 			originalText: "Content=\"Action\"",
 			replacementText: "Content=\"Updated Action\"",
 			ct))
@@ -87,7 +88,7 @@ public class CommandExtensionsHrTest
 		var input = UIHelper.GetChild<TextBox>(name: "InputBox");
 		Assert.AreEqual("Type here", input.PlaceholderText);
 
-		await using (await HotReloadHelper.UpdateSourceFile<CommandExtensionsPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<CommandExtensionsPage>(
 			originalText: "PlaceholderText=\"Type here\"",
 			replacementText: "PlaceholderText=\"Enter text\"",
 			ct))

@@ -1,11 +1,7 @@
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:mobile="http://uno.ui/mobile"
-	xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:utu="using:Uno.Toolkit.UI"
-	mc:Ignorable="mobile">
+	xmlns:utu="using:Uno.Toolkit.UI">
 
 	<ResourceDictionary.ThemeDictionaries>
 
@@ -176,11 +172,11 @@
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
-								<not_mobile:VisualState x:Name="PointerOver">
+								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="RootGrid.Background" Value="{ThemeResource ChipBackgroundPointerOver}" />
 									</VisualState.Setters>
-								</not_mobile:VisualState>
+								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="RootGrid.Background" Value="{ThemeResource ChipBackgroundPointerOver}" />
@@ -203,7 +199,7 @@
 										<Setter Target="PART_RemoveButton.Foreground" Value="{ThemeResource ChipForegroundChecked}" />
 									</VisualState.Setters>
 								</VisualState>
-								<not_mobile:VisualState x:Name="CheckedPointerOver">
+								<VisualState x:Name="CheckedPointerOver">
 									<VisualState.Setters>
 										<Setter Target="RootGrid.Background" Value="{ThemeResource ChipBackgroundCheckedPointerOver}" />
 										<Setter Target="RootGrid.BorderThickness" Value="0" />
@@ -211,7 +207,7 @@
 										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource ChipForegroundChecked}" />
 										<Setter Target="PART_RemoveButton.Foreground" Value="{ThemeResource ChipForegroundChecked}" />
 									</VisualState.Setters>
-								</not_mobile:VisualState>
+								</VisualState>
 								<VisualState x:Name="CheckedPressed">
 									<VisualState.Setters>
 										<Setter Target="RootGrid.Background" Value="{ThemeResource ChipBackgroundCheckedPointerOver}" />

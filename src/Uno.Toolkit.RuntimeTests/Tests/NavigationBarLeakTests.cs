@@ -48,9 +48,6 @@ internal class NavigationBarLeakTests
 	}
 
 	[TestMethod]
-#if __ANDROID__ || __IOS__
-	[Ignore("Native NavigationBar hosting differs on mobile platforms.")]
-#endif
 	public async Task NavigationBar_IsCollectible_AfterRemovedFromTree()
 	{
 		// Real-path regression guard: drives the production OnLoaded subscription (not the DEBUG hook), then
