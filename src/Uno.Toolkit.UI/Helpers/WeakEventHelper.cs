@@ -78,14 +78,24 @@ internal static class WeakEventHelper
 	}
 
 	/// <summary>
-	/// Whether <paramref name="candidate"/> holds no captured state. A null target is a plain static method.
-	/// Otherwise the target is a compiler-generated class, and the two cases are told apart by their state: the
-	/// singleton Roslyn caches a non-capturing lambda on declares no instance fields, while a closure's display
-	/// class declares one per captured variable. Testing for a null target alone would reject every lambda,
-	/// because a non-capturing lambda is emitted as an instance method on that cached singleton — `static` on the
-	/// lambda forbids capturing, it does not change how the delegate is built.
+	/// Whether <paramref name="candidate"/> holds no captured state. A null target is a plain static method and
+	/// captures nothing. A non-null target is accepted only when it is the singleton Roslyn caches non-capturing
+	/// lambdas on: its type is compiler-generated and declares no instance fields, whereas a closure's display
+	/// class — also compiler-generated — declares one field per captured variable. Any other bound target is
+	/// rejected, however small, because the returned wrapper keeps it alive and it can root whatever it belongs
+	/// to. Testing for a null target alone would reject every lambda, because a non-capturing lambda is emitted
+	/// as an instance method on that cached singleton: `static` on the lambda forbids capturing, it does not
+	/// change how the delegate is built.
 	/// </summary>
-	private static bool DoesNotCapture(Delegate candidate) =>
-		candidate.Target is not { } target ||
-		target.GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).Length == 0;
+	private static bool DoesNotCapture(Delegate candidate)
+	{
+		if (candidate.Target is not { } target)
+		{
+			return true;
+		}
+
+		var targetType = target.GetType();
+		return targetType.IsDefined(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), inherit: false)
+			&& targetType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).Length == 0;
+	}
 }
