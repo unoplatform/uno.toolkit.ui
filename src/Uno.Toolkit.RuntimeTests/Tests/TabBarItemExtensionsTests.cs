@@ -13,6 +13,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 [RunsOnUIThread]
 internal class TabBarItemExtensionsTests
 {
+	// Smooth scrolling settles on a sub-pixel offset, so "at the top" needs a tolerance.
+	private const double TopOffsetTolerance = 0.5;
+
 	[TestMethod]
 	[DataRow(typeof(ListView))]
 	[DataRow(typeof(ScrollViewer))]
@@ -44,7 +47,7 @@ internal class TabBarItemExtensionsTests
 
 		selectedItem.ExecuteTap();
 
-		await UnitTestUIContentHelperEx.WaitFor(() => scrollViewer.VerticalOffset == 0, timeoutMS: 3000, message: "The content host was not scrolled back to the top");
+		await UnitTestUIContentHelperEx.WaitFor(() => scrollViewer.VerticalOffset <= TopOffsetTolerance, timeoutMS: 3000, message: "The content host was not scrolled back to the top");
 	}
 
 	private static FrameworkElement CreateScrollableContentHost(Type contentHostType)

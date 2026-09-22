@@ -11,6 +11,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 [RunsOnUIThread]
 internal class ScrollableHelperTests
 {
+	// Smooth scrolling settles on a sub-pixel offset, so "at the top" needs a tolerance.
+	private const double TopOffsetTolerance = 0.5;
+
 	[TestMethod]
 	public async Task When_SmoothScrollTop_ListView_Scrolls_To_Start()
 	{
@@ -21,7 +24,7 @@ internal class ScrollableHelperTests
 
 		ScrollableHelper.SmoothScrollTop(listView);
 
-		await UnitTestUIContentHelperEx.WaitFor(() => scrollViewer.VerticalOffset == 0, timeoutMS: 3000, message: "The ListView was not scrolled back to the top");
+		await UnitTestUIContentHelperEx.WaitFor(() => scrollViewer.VerticalOffset <= TopOffsetTolerance, timeoutMS: 3000, message: "The ListView was not scrolled back to the top");
 	}
 
 	[TestMethod]
