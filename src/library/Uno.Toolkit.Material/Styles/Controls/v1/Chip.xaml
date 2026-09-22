@@ -2,7 +2,7 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:um="using:Uno.Material"
-					xmlns:toolkit="using:Uno.UI.Xaml.Controls">
+					xmlns:uuxc="using:Uno.UI.Xaml.Controls">
 
 	<x:String x:Key="ClearGlyphPathData">M10.661012,7.5689991L7.5990001,10.650999 12.939089,15.997999 7.5990001,21.336999 10.661012,24.405 16.007082,19.065 21.369997,24.405 24.430058,21.336999 24.429081,21.336 19.088991,15.998999 24.429081,10.662001 21.345095,7.5819996 16.007082,12.919001z M15.997072,0C24.828983,0 31.994999,7.1770013 31.994999,15.999998 31.994999,24.826997 24.828007,31.999999 15.997072,31.999999 7.1569835,31.999999 1.5270052E-07,24.826997 0,15.999998 1.5270052E-07,7.1799997 7.1569835,0 15.997072,0z</x:String>
 	<x:String x:Key="CheckGlyphPathStyle">M28.718018,0L32,3.2819897 10.666016,24.616999 0,13.951997 3.2810059,10.670007 10.666016,18.055033z</x:String>
@@ -145,7 +145,7 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
-						<toolkit:ElevatedView x:Name="ElevatedRoot"
+						<uuxc:ElevatedView x:Name="ElevatedRoot"
 											  Background="{TemplateBinding Background}"
 											  CornerRadius="{TemplateBinding CornerRadius}">
 
@@ -203,7 +203,7 @@
 									</Grid>
 								</um:Ripple>
 							</Grid>
-						</toolkit:ElevatedView>
+						</uuxc:ElevatedView>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -279,7 +279,7 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
-						<toolkit:ElevatedView x:Name="ElevatedRoot"
+						<uuxc:ElevatedView x:Name="ElevatedRoot"
 											  Background="{TemplateBinding Background}"
 											  CornerRadius="{TemplateBinding CornerRadius}"
 											  BorderBrush="{TemplateBinding BorderBrush}"
@@ -339,7 +339,7 @@
 									</Grid>
 								</um:Ripple>
 							</Grid>
-						</toolkit:ElevatedView>
+						</uuxc:ElevatedView>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -436,7 +436,7 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
-						<toolkit:ElevatedView x:Name="ElevatedRoot"
+						<uuxc:ElevatedView x:Name="ElevatedRoot"
 											  Background="{TemplateBinding Background}"
 											  CornerRadius="{TemplateBinding CornerRadius}">
 
@@ -463,7 +463,7 @@
 									</Grid>
 								</um:Ripple>
 							</Grid>
-						</toolkit:ElevatedView>
+						</uuxc:ElevatedView>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -545,7 +545,7 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
-						<toolkit:ElevatedView x:Name="ElevatedRoot"
+						<uuxc:ElevatedView x:Name="ElevatedRoot"
 											  Background="{TemplateBinding Background}"
 											  CornerRadius="{TemplateBinding CornerRadius}"
 											  BorderBrush="{TemplateBinding BorderBrush}"
@@ -574,7 +574,7 @@
 									</Grid>
 								</um:Ripple>
 							</Grid>
-						</toolkit:ElevatedView>
+						</uuxc:ElevatedView>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -642,7 +642,7 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
-						<toolkit:ElevatedView x:Name="ElevatedRoot"
+						<uuxc:ElevatedView x:Name="ElevatedRoot"
 											  Background="{TemplateBinding Background}"
 											  CornerRadius="{TemplateBinding CornerRadius}">
 
@@ -690,7 +690,7 @@
 									</Grid>
 								</um:Ripple>
 							</Grid>
-						</toolkit:ElevatedView>
+						</uuxc:ElevatedView>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -749,7 +749,7 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
-						<toolkit:ElevatedView x:Name="ElevatedRoot"
+						<uuxc:ElevatedView x:Name="ElevatedRoot"
 											  Background="{TemplateBinding Background}"
 											  CornerRadius="{TemplateBinding CornerRadius}"
 											  BorderBrush="{TemplateBinding BorderBrush}"
@@ -799,7 +799,7 @@
 									</Grid>
 								</um:Ripple>
 							</Grid>
-						</toolkit:ElevatedView>
+						</uuxc:ElevatedView>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -861,7 +861,7 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
-						<toolkit:ElevatedView x:Name="ElevatedRoot"
+						<uuxc:ElevatedView x:Name="ElevatedRoot"
 											  Background="{TemplateBinding Background}"
 											  CornerRadius="{TemplateBinding CornerRadius}">
 
@@ -899,7 +899,7 @@
 									</Grid>
 								</um:Ripple>
 							</Grid>
-						</toolkit:ElevatedView>
+						</uuxc:ElevatedView>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -952,7 +952,7 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
-						<toolkit:ElevatedView x:Name="ElevatedRoot"
+						<uuxc:ElevatedView x:Name="ElevatedRoot"
 											  Background="{TemplateBinding Background}"
 											  CornerRadius="{TemplateBinding CornerRadius}"
 											  BorderBrush="{TemplateBinding BorderBrush}"
@@ -992,7 +992,7 @@
 									</Grid>
 								</um:Ripple>
 							</Grid>
-						</toolkit:ElevatedView>
+						</uuxc:ElevatedView>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

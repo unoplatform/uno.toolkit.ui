@@ -3,7 +3,7 @@
 					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:utu="using:Uno.Toolkit.UI"
-					xmlns:toolkit="using:Uno.UI.Xaml.Controls"
+					xmlns:uuxc="using:Uno.UI.Xaml.Controls"
 					mc:Ignorable="d">
 
 	<StaticResource x:Key="CupertinoSlidingSegmentedControlItemBackground"
@@ -241,7 +241,7 @@
 		<Setter Property="SelectionIndicatorContentTemplate">
 			<Setter.Value>
 				<DataTemplate>
-					<toolkit:ElevatedView Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}"
+					<uuxc:ElevatedView Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth}"
 					                      Margin="{StaticResource CupertinoSlidingSegmentedItemMargin}"
 										  Background="Transparent"
 										  CornerRadius="{StaticResource CupertinoSlidingSegmentedItemCornerRadius}"
@@ -253,7 +253,7 @@
 								   RadiusX="{StaticResource CupertinoSlidingSegmentedItemRadius}"
 								   RadiusY="{StaticResource CupertinoSlidingSegmentedItemRadius}"
 								   Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TemplateSettings.SelectionIndicatorWidth, Converter={StaticResource DeflateWidthConverter}}" />
-					</toolkit:ElevatedView>
+					</uuxc:ElevatedView>
 				</DataTemplate>
 			</Setter.Value>
 		</Setter>

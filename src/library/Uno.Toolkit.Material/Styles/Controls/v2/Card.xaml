@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:toolkit="using:Uno.UI.Xaml.Controls"
+	xmlns:uuxc="using:Uno.UI.Xaml.Controls"
 	xmlns:um="using:Uno.Material"
 	xmlns:utu="using:Uno.Toolkit.UI">
 
@@ -423,7 +423,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Card">
 					<!--  Elevated View  -->
-					<toolkit:ElevatedView
+					<uuxc:ElevatedView
 						x:Name="ElevatedRoot"
 						MinWidth="{TemplateBinding MinWidth}"
 						MinHeight="{TemplateBinding MinHeight}"
@@ -590,7 +590,7 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-					</toolkit:ElevatedView>
+					</uuxc:ElevatedView>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -825,7 +825,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Card">
 					<!--  Elevated View  -->
-					<toolkit:ElevatedView
+					<uuxc:ElevatedView
 						x:Name="ElevatedRoot"
 						MinWidth="{TemplateBinding MinWidth}"
 						MinHeight="{TemplateBinding MinHeight}"
@@ -1013,7 +1013,7 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-					</toolkit:ElevatedView>
+					</uuxc:ElevatedView>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -1236,7 +1236,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Card">
 					<!--  Elevated View  -->
-					<toolkit:ElevatedView
+					<uuxc:ElevatedView
 						x:Name="ElevatedRoot"
 						MinWidth="{TemplateBinding MinWidth}"
 						MinHeight="{TemplateBinding MinHeight}"
@@ -1412,7 +1412,7 @@
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-					</toolkit:ElevatedView>
+					</uuxc:ElevatedView>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

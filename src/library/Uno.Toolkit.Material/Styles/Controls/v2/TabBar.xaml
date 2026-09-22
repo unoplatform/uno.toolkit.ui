@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:todo="what should be done"
-    xmlns:toolkit="using:Uno.UI.Xaml.Controls"
+    xmlns:uuxc="using:Uno.UI.Xaml.Controls"
     xmlns:um="using:Uno.Material"
     xmlns:utu="using:Uno.Toolkit.UI"
     mc:Ignorable="d todo">
@@ -1181,7 +1181,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="utu:TabBarItem">
                     <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                        <toolkit:ElevatedView
+                        <uuxc:ElevatedView
                             x:Name="ElevatedView"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -1238,7 +1238,7 @@
                                         CornerRadius="{TemplateBinding CornerRadius}" />
                                 </Grid>
                             </um:Ripple>
-                        </toolkit:ElevatedView>
+                        </uuxc:ElevatedView>
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">

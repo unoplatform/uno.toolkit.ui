@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:todo="what should be done"
-    xmlns:toolkit="using:Uno.UI.Xaml.Controls"
+    xmlns:uuxc="using:Uno.UI.Xaml.Controls"
     xmlns:utu="using:Uno.Toolkit.UI"
     mc:Ignorable="todo">
 
@@ -210,7 +210,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="utu:Chip">
                     <Grid>
-                        <toolkit:ElevatedView
+                        <uuxc:ElevatedView
                             x:Name="ElevatedRoot"
                             Height="{ThemeResource ChipHeight}"
                             Margin="{ThemeResource ChipElevationMargin}"
@@ -272,7 +272,7 @@
                                         Visibility="{Binding CanRemove, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource FalseToCollapsedConverter}, FallbackValue=Collapsed}" />
                                 </Grid>
                             </Grid>
-                        </toolkit:ElevatedView>
+                        </uuxc:ElevatedView>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
