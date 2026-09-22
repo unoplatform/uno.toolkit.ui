@@ -211,9 +211,14 @@ namespace Uno.Toolkit.UI
 					return ParseResizetizerDefinition(reader.ReadLine());
 				}
 			}
+			catch (Exception e) when (e is IOException or BadImageFormatException or FileLoadException or NotSupportedException)
+			{
+				// The definition is embedded by Uno.Resizetizer; an unreadable assembly or stream just means no splash screen.
+				typeof(ExtendedSplashScreen).Log().LogWarning(e, "Could not read the splash screen definition.");
+			}
 			catch (Exception e)
 			{
-				typeof(ExtendedSplashScreen).Log().LogError(0, e, "Error while reading the splash screen definition.");
+				typeof(ExtendedSplashScreen).Log().LogError(0, e, "Unexpected error while reading the splash screen definition.");
 			}
 
 			return null;
