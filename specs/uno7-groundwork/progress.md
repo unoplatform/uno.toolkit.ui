@@ -175,7 +175,7 @@ Behavioral, no signature change: `NavigationBar` on Android/iOS no longer render
 
 ## Review pass on PR #1635
 
-Feedback from @agneszitte, @Xiaoy312 and the code-quality bot, addressed in
+Feedback from `@agneszitte`, `@Xiaoy312` and the code-quality bot, addressed in
 `55081a688..5219ef709`:
 
 - The `toolkit` xmlns prefix pointed at Uno's `Uno.UI.Xaml.Controls`, which reads as
@@ -186,7 +186,7 @@ Feedback from @agneszitte, @Xiaoy312 and the code-quality bot, addressed in
   major 14 (`ApiInformation.shared.cs`) and the WinAppSDK min target `10.0.19041` is
   contract 10, so the `Present` halves always applied and the `NotPresent` halves never
   did. The unreferenced `contract*` and `todo` xmlns declarations went with them.
-- WinAppSDK is **not** discontinued here: the libraries still crosstarget
+- WinAppSDK is **not** discontinued here: the libraries still cross-target
   `net10.0-windows10.0.19041` via `tfm-common-winui.props` (gated by `Build_Windows`).
   Only the sample heads dropped their Windows TFM.
 - Dropping the Material v1 styles is agreed for this major but lands separately —
