@@ -36,9 +36,15 @@ pins: `uno.winui.nuspec` for `7.0.0-dev.701` pins `0a4053a40b7bc7fe5f7a0ef5aaa89
 - [x] `chore(deps)`: `Uno.Sdk.Private` and `Uno.WinUI.DevServer` → `7.0.0-dev.701`;
       `Uno.Themes` → `9.0.0-dev.15`, the first Themes line built against Uno 7. Clears every
       `CS0012` (`CoreDispatcher`, `Color` in `Uno`) on the desktop and WASM sample heads.
-- [x] `fix(ci)`: pin the .NET SDK to `10.0.101`, the band `uno.check` 1.34.1 provisions
-      `wasm-tools` for. On `10.0.102` the Packages job failed `NETSDK1147` on every
-      `net10.0-ios` project (same fix as Uno.Themes `87bfb588`).
+- [x] `fix(ci)`: the .NET SDK was briefly pinned down to `10.0.101` (as Uno.Themes `87bfb588` did),
+      because provisioning `wasm-tools` downgraded the `mono.toolchain.current` manifest below the
+      running `10.0.102`, so the resolver asked for a `Microsoft.NET.Runtime.MonoTargets.Sdk` that
+      was never installed and every `net10.0-ios` library build failed `NETSDK1147`. Invisible while
+      the libraries targeted net9.0, which resolves through `mono.toolchain.net9`.
+      **Reverted:** uno.check's manifest moved from `WASMTOOLS_VERSION 10.0.101/10.0.100`
+      (`1cde21cd`, Dec 2025) to `10.0.108/10.0.100` (`c748387e`, Aug 2026), so it no longer lands
+      below `10.0.102` and the pin was holding the SDK back for nothing. Back on `10.0.102`, as
+      `main` has. Uno.Themes still carries the stale pin.
 - [x] `fix(skia)`: `ShadowContainer` renders through `SKCanvasElement` on every Uno target and keeps
       `SKXamlCanvas` for WinAppSDK only. `SkiaSharp.Views.Uno.WinUI` (4.151.1 and 4.152.0) is
       compiled against Uno 5 and binds `Uno.dll`/`Uno.UI.Toolkit`, so the reference is gone.
@@ -94,8 +100,9 @@ adversarially before integration.
       also writes `src/crosstargeting_override.props` (desktop): the dev-server ignores the build's
       global properties, and on the Linux agent the head's android/ios flavors otherwise load as
       plain `net10.0` and fail the workspace's initial emit.
-- [x] CI: the `.NET` install cache is keyed on `DotNetVersion`; without it the `10.0.101` pin restored
-      the cached `10.0.102` install and Packages kept failing with `NETSDK1147`.
+- [x] CI: the `.NET` install cache is keyed on `DotNetVersion`; without it a cached install of a
+      different SDK is restored unchanged and a version pin silently never takes effect. Kept — this
+      one is a real bug independent of which SDK is selected.
 
 ### Kept native-only exception
 
