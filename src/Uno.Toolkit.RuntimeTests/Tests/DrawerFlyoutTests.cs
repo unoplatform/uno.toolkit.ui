@@ -92,9 +92,9 @@ internal class DrawerFlyoutTests
 
 			var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
 
-			Assert.AreEqual(presenter.OpenDirection, DrawerOpenDirection.Left);
+			Assert.AreEqual(DrawerOpenDirection.Left, presenter.OpenDirection);
 			Assert.AreEqual(presenter.DrawerLength, new GridLength(312, GridUnitType.Star));
-			Assert.AreEqual(presenter.IsGestureEnabled, true);
+			Assert.IsTrue(presenter.IsGestureEnabled);
 			Assert.AreEqual((presenter.LightDismissOverlayBackground as SolidColorBrush)?.Color, Colors.Pink);
 		}
 		finally

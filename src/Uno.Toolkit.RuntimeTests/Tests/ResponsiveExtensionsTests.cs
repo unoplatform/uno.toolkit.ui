@@ -178,7 +178,8 @@ internal class ResponsiveExtensionsTests
 
 		ext.ForceResponsiveSize(new Size(0, 0));
 
-		Assert.AreEqual(previousResult, sut.Text);
+		Assert.AreEqual("qwe", sut.Text);
+		Assert.AreEqual(previousResult, ext.LastResolved?.Result);
 		Assert.AreEqual(previousSize, ext.LastResolved?.Size);
 	}
 }
