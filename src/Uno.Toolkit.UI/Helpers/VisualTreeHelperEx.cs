@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,21 +19,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Shapes;
 #endif
-#if __IOS__
-using UIKit;
-using _View = UIKit.UIView;
-#elif __MACOS__
-using AppKit;
-using _View = AppKit.NSView;
-#elif __ANDROID__
-using _View = Android.Views.View;
-#else
-#if IS_WINUI
-using _View = Microsoft.UI.Xaml.DependencyObject;
-#else
-using _View = Windows.UI.Xaml.DependencyObject;
-#endif
-#endif
 
 using static System.Reflection.BindingFlags;
 using static Uno.Toolkit.UI.PrettyPrint;
@@ -43,8 +29,7 @@ namespace Uno.Toolkit.UI
 	/// Utility class to traverse the visual tree.
 	/// </summary>
 	/// <remarks>
-	/// This class is implemented with <see cref="VisualTreeHelper.GetChild(DependencyObject, int)"/> which doesn't cross uwp/native barrier.
-	/// Use the <see cref="Native"/> counterpart if the uwp/native barrier needs to be crossed.
+	/// This class is implemented with <see cref="VisualTreeHelper.GetChild(DependencyObject, int)"/>.
 	/// </remarks>
 	internal static partial class VisualTreeHelperEx
 	{
@@ -216,20 +201,6 @@ namespace Uno.Toolkit.UI
 			static IEnumerable<string> GetDetails(object x)
 			{
 				#region Common Details: Layout (high priority)
-#if TREEGRAPH_VERBOSE_LAYOUT
-#if __IOS__
-				if (x is _View view && view.Superview is { })
-				{
-					var abs = view.Superview.ConvertPointToView(view.Frame.Location, toView: null);
-					yield return $"Abs=[Rect {view.Frame.Width:0.#}x{view.Frame.Height:0.#}@{abs.X:0.#},{abs.Y:0.#}]";
-				}
-#elif __ANDROID__
-				if (x is _View view)
-				{
-					yield return $"Rect={FormatViewRect(view)}";
-				}
-#endif
-#endif
 				if (x is FrameworkElement fe)
 				{
 					yield return $"Actual={fe.ActualWidth}x{fe.ActualHeight}";
@@ -327,6 +298,7 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Debug tree formatting reads optional dependency properties by name; a trimmed member is skipped.")]
 		internal static bool TryGetDpValue<T>(object owner, string property, out T? value)
 		{
 			if (owner is DependencyObject @do &&
@@ -353,59 +325,5 @@ namespace Uno.Toolkit.UI
 
 			return null;
 		}
-	}
-	internal static partial class VisualTreeHelperEx // Native view impl
-	{
-#if __IOS__ || __ANDROID__
-		internal static class Native
-		{
-			public static T? GetFirstDescendant<T>(_View reference) => GetDescendants(reference)
-				.OfType<T>()
-				.FirstOrDefault();
-
-			public static T? GetFirstDescendant<T>(_View reference, Func<T, bool> predicate) => GetDescendants(reference)
-				.OfType<T>()
-				.FirstOrDefault(predicate);
-
-			public static T? GetFirstDescendant<T>(_View reference, Func<_View, bool> hierarchyPredicate, Func<T, bool> predicate) => GetDescendants(reference, hierarchyPredicate)
-				.OfType<T>()
-				.FirstOrDefault(predicate);
-
-			public static IEnumerable<_View> GetDescendants(_View reference) => GetDescendants(reference, x => true);
-
-			public static IEnumerable<_View> GetDescendants(_View reference, Func<_View, bool> hierarchyPredicate)
-			{
-				foreach (var child in GetChildren(reference).Where(hierarchyPredicate))
-				{
-					yield return child;
-
-					foreach (var grandchild in GetDescendants(child, hierarchyPredicate))
-					{
-						yield return grandchild;
-					}
-				}
-			}
-
-#if __IOS__
-			private static _View[] GetChildren(_View reference)
-			{
-				return reference.Subviews;
-			}
-#elif __ANDROID__
-			private static _View[] GetChildren(_View reference)
-			{
-				if (reference is Android.Views.ViewGroup vg)
-				{
-					return Enumerable
-						.Range(0, vg.ChildCount)
-						.Select(idx => vg.GetChildAt(idx)!)
-						.ToArray();
-				}
-
-				return Array.Empty<_View>();
-			}
-#endif
-		}
-#endif
 	}
 }

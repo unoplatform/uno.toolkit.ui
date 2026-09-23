@@ -29,10 +29,10 @@ Uno Toolkit ships higher-level UI controls for multi-platform Uno Platform / Win
 Target frameworks are managed centrally:
 
 - `src/tfms.props` defines `NetCurrent` (currently `net10.0`).
-- `src/tfm-common-winui.props` expands library projects to `net9.0` + per-platform suffixes (`net9.0-ios`, `net9.0-android`, `net9.0-windows10.0.19041`, `net9.0-maccatalyst`); sample apps use `net10.0-*`.
-- The Uno SDK version is pinned in `global.json` (`Uno.Sdk` and `Uno.Sdk.Private`).
+- `src/tfm-common-winui.props` expands library projects to `net10.0` + per-platform suffixes (`net10.0-ios`, `net10.0-android`, `net10.0-windows10.0.19041`); sample apps use `net10.0-*`. Uno Platform 7 renders with Skia everywhere and Skia Android/iOS heads load the `-android`/`-ios` assets, so those builds must behave like the plain `net10.0` build (see `specs/uno7-groundwork/progress.md`).
+- The Uno SDK version is pinned in `global.json` (`Uno.Sdk.Private`).
 
-The top-level `Directory.Build.props` also exposes `Build_Android`, `Build_iOS`, `Build_MacOS`, `Build_Windows` switches; non-Windows hosts default `Build_Windows=false`. The single-platform local-build flow (via `crosstargeting_override.props`) is documented in §4 below.
+The top-level `Directory.Build.props` also exposes `Build_Android`, `Build_iOS`, `Build_Windows` switches; non-Windows hosts default `Build_Windows=false`. The single-platform local-build flow (via `crosstargeting_override.props`) is documented in §4 below.
 
 </repository_orientation>
 
@@ -149,7 +149,7 @@ This repository targets WASM as a first-class platform (sample apps and runtime 
 ✅ NEVER use `.Result` / `.GetAwaiter().GetResult()` outside a controlled, documented sync bridging point.
 ✅ ALWAYS prefer non-blocking async flow to remain WASM-safe; if a sync bridge is unavoidable, document why and keep it local.
 ✅ Prefer the WinUI/Uno-provided primitives (`DependencyProperty`, `VisualStateManager`, `ResourceDictionary` merging, `ItemsRepeater`, `FrameworkElement.Loaded/Unloaded`) over hand-rolled equivalents.
-✅ Multi-platform aware: code that compiles for net10.0-windows, net9.0-android, net9.0-ios, net9.0-maccatalyst, and browser-wasm. When platform behavior diverges, isolate it behind partial classes / conditional compilation symbols (`__WASM__`, `__ANDROID__`, `__IOS__`, etc.) — don't sprinkle `#if` blocks across method bodies if a platform-specific partial would do the job.
+✅ Multi-platform aware: code that compiles for net10.0, net10.0-windows10.0.19041, net10.0-android and net10.0-ios, and runs on Skia desktop, WebAssembly, Android and iOS heads. There is no native view tree: prefer runtime checks such as `OperatingSystem.IsAndroid()` for OS behavior. When platform behavior diverges, isolate it behind partial classes / conditional compilation symbols (`__ANDROID__`, `__IOS__`; `__WASM__` is only defined in app heads, never in the `net10.0` libraries) — don't sprinkle `#if` blocks across method bodies if a platform-specific partial would do the job.
 
 ---
 
@@ -174,7 +174,7 @@ Release build enforces warnings as errors via `src/Directory.Build.props` (`Trea
 
 ### Single-platform development
 
-Copy `src/crosstargeting_override.props.sample` → `src/crosstargeting_override.props` and uncomment the desired `TargetFrameworkOverride` (`windows`, `ios`, `android`, `browserwasm`, `desktop`, `maccatalyst`, `macos`). **Always close the IDE before changing this file** — switching while the solution is open corrupts the NuGet restore cache.
+Copy `src/crosstargeting_override.props.sample` → `src/crosstargeting_override.props` and uncomment the desired `TargetFrameworkOverride` (`windows`, `ios`, `android`, `browserwasm`, `desktop`). **Always close the IDE before changing this file** — switching while the solution is open corrupts the NuGet restore cache.
 
 CLI equivalent:
 
@@ -349,6 +349,8 @@ The PR template (`.github/pull_request_template.md`) requires updating documenta
 
 ✅ Prefer updating an existing page over adding a new one.
 ✅ Cross-link relevant pages (e.g. between a control's doc and `controls-styles.md`).
+✅ Keep public documentation independent of exact prerelease NuGet build versions; record package provenance in PR or validation notes instead.
+✅ Document Toolkit-specific setup, migration impact, and behavior here. For inherited Uno Themes / `BaseTheme` APIs, link to the authoritative Uno Themes documentation rather than duplicating usage, defaults, formulas, or runtime semantics.
 ✅ Sample pages: add a page under `samples/Uno.Toolkit.Samples/Content/` (the shared project) so all sample heads pick it up.
 
 </coding_directives>

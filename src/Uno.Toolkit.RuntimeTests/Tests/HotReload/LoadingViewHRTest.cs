@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 using Windows.Foundation;
 
@@ -36,7 +37,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests.HotReload
 			Assert.IsFalse(lv.Source!.IsExecuting);
 			Assert.AreEqual("Original marker", marker.Text);
 
-			await using (await HotReloadHelper.UpdateSourceFile<LoadingViewPage>(originalText: "Original marker", replacementText: "Updated marker", ct))
+			await using (await HotReloadTestHelper.UpdateSourceFile<LoadingViewPage>(originalText: "Original marker", replacementText: "Updated marker", ct))
 			{
 				await TestHelper.WaitFor(() =>
 					UIHelper.GetChild<TextBlock>(name: "Marker").Text == "Updated marker", ct);

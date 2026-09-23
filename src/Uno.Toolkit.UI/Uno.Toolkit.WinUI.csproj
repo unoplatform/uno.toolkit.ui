@@ -1,4 +1,4 @@
-﻿<Project Sdk="Uno.Sdk">
+﻿<Project Sdk="Uno.Sdk.Private">
 	<Import Project="..\tfm-common-winui.props" />
 
 	<!--
@@ -14,11 +14,6 @@
 		<RootNamespace>Uno.Toolkit.UI</RootNamespace>
 		<DefineConstants Condition="$(_IsWindowsWinUI)">$(DefineConstants);WINDOWS</DefineConstants>
 		<UnoXamlResourcesTrimming Condition="'$(OS)'=='Windows_NT' or '$(MSBuildRuntimeType)'=='Core'">true</UnoXamlResourcesTrimming>
-	</PropertyGroup>
-
-	<!-- Undo this as part of https://github.com/unoplatform/uno.toolkit.ui/issues/1078 once we update to Uno 5.1+ -->
-	<PropertyGroup>
-		<DefineConstants Condition="'$(TargetFramework)' == 'net9.0'">$(DefineConstants);__SKIA_OR_WASM__</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>

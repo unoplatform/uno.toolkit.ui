@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -35,7 +36,7 @@ public class ChipGroupHrTest
 		var cg = UIHelper.GetChild<ChipGroup>(name: "CG");
 		Assert.AreEqual(ChipSelectionMode.Single, cg.SelectionMode, "SelectionMode should start Single.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<ChipGroupPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ChipGroupPage>(
 			originalText: "SelectionMode=\"Single\"",
 			replacementText: "SelectionMode=\"Multiple\"",
 			ct))
@@ -59,7 +60,7 @@ public class ChipGroupHrTest
 		var cg = UIHelper.GetChild<ChipGroup>(name: "CG");
 		Assert.IsFalse(cg.CanRemove, "CanRemove should start False.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<ChipGroupPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ChipGroupPage>(
 			originalText: "CanRemove=\"False\"",
 			replacementText: "CanRemove=\"True\"",
 			ct))
@@ -83,7 +84,7 @@ public class ChipGroupHrTest
 		var cg = UIHelper.GetChild<ChipGroup>(name: "CG");
 		Assert.AreEqual(3, cg.Items.Count, "Should start with 3 chips.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<ChipGroupPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ChipGroupPage>(
 			originalText: """<utu:Chip Content="Gamma" />""",
 			replacementText: """
 				<utu:Chip Content="Gamma" />

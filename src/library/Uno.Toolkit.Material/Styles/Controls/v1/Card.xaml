@@ -2,7 +2,7 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:utu="using:Uno.Toolkit.UI"
 					xmlns:um="using:Uno.Material"
-					xmlns:toolkit="using:Uno.UI.Toolkit">
+					xmlns:uuxc="using:Uno.UI.Xaml.Controls">
 
 	<!--  Card Variables  -->
 	<CornerRadius x:Key="MaterialCardCornerRadius">4</CornerRadius>
@@ -311,7 +311,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Card">
 					<!--  Elevated View  -->
-					<toolkit:ElevatedView x:Name="ElevatedRoot"
+					<uuxc:ElevatedView x:Name="ElevatedRoot"
 										  MinWidth="{TemplateBinding MinWidth}"
 										  MinHeight="{TemplateBinding MinHeight}"
 										  MaxWidth="{TemplateBinding MaxWidth}"
@@ -474,7 +474,7 @@
 											  AutomationProperties.AccessibilityView="Raw"
 											  Visibility="{Binding IconsContentTemplate, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}}" />
 						</Grid>
-					</toolkit:ElevatedView>
+					</uuxc:ElevatedView>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -730,7 +730,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Card">
 					<!--  Elevated View  -->
-					<toolkit:ElevatedView x:Name="ElevatedRoot"
+					<uuxc:ElevatedView x:Name="ElevatedRoot"
 										  MinWidth="{TemplateBinding MinWidth}"
 										  MinHeight="{TemplateBinding MinHeight}"
 										  MaxWidth="{TemplateBinding MaxWidth}"
@@ -915,7 +915,7 @@
 											  AutomationProperties.AccessibilityView="Raw"
 											  Visibility="{Binding SupportingContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyOrNullToCollapsedConverter}}" />
 						</Grid>
-					</toolkit:ElevatedView>
+					</uuxc:ElevatedView>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -1168,7 +1168,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:Card">
 					<!--  Elevated View  -->
-					<toolkit:ElevatedView x:Name="ElevatedRoot"
+					<uuxc:ElevatedView x:Name="ElevatedRoot"
 										  MinWidth="{TemplateBinding MinWidth}"
 										  MinHeight="{TemplateBinding MinHeight}"
 										  MaxWidth="{TemplateBinding MaxWidth}"
@@ -1341,7 +1341,7 @@
 											  AutomationProperties.AccessibilityView="Raw"
 											  Visibility="{Binding IconsContentTemplate, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToCollapsedConverter}}" />
 						</Grid>
-					</toolkit:ElevatedView>
+					</uuxc:ElevatedView>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

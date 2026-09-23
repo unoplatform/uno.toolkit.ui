@@ -1,6 +1,3 @@
-﻿#if __IOS__ || __ANDROID__
-#define HAS_NATIVE_NAVBAR
-#endif
 #if !IS_WINUI || HAS_UNO
 #define SYS_NAV_MGR_SUPPORTED
 #endif
@@ -9,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Core;
@@ -41,10 +37,6 @@ using XamlWindow = Windows.UI.Xaml.Window;
 #if HAS_UNO
 using Uno.UI;
 using Uno.UI.Helpers;
-#endif
-
-#if __IOS__
-using UIKit;
 #endif
 
 namespace Uno.Toolkit.UI
@@ -189,11 +181,21 @@ namespace Uno.Toolkit.UI
 			_popupHost = Uno.Toolkit.UI.DependencyObjectExtensions.FindFirstParent<Popup>(this);
 
 #if SYS_NAV_MGR_SUPPORTED
-			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested);
+			// SystemNavigationManager is a process-global singleton. Subscribing to BackRequested with an
+			// instance-method delegate makes it strongly root this NavigationBar. Unloaded detaches it via
+			// the SerialDisposable below (the fast path), but Unloaded does not fire when the owner's
+			// AssemblyLoadContext is torn down abruptly (e.g. a downstream host that loads previewed apps
+			// into their own collectible ALCs). Subscribe weakly so the global singleton only holds a
+			// WeakReference back; the stale weak wrapper self-detaches on the next BackRequested raised
+			// after this instance is collected (Unloaded is the primary, proactive teardown below).
+			var backRequestedHandler = WeakEventHelper.CreateWeakHandler<NavigationBar, BackRequestedEventArgs>(
+				this,
+				static (self, s, e) => self.OnBackRequested(s, e),
+				static h => SystemNavigationManager.GetForCurrentView().BackRequested -= h);
+			SystemNavigationManager.GetForCurrentView().BackRequested += backRequestedHandler;
+			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= backRequestedHandler);
 #endif
 
-#if !HAS_NATIVE_NAVBAR
 			if (GetPage() is { } page)
 			{
 				var frame = page?.Frame;
@@ -203,7 +205,7 @@ namespace Uno.Toolkit.UI
 					_frameBackStackChangedHandler.Disposable = Disposable.Create(() => backStack.CollectionChanged -= OnBackStackChanged);
 				}
 			}
-#endif
+
 			UpdateMainCommandVisibility();
 		}
 
@@ -214,13 +216,10 @@ namespace Uno.Toolkit.UI
 				predicate: _ => true);
 		}
 
-
-#if !HAS_NATIVE_NAVBAR
 		private void OnBackStackChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			UpdateMainCommandVisibility();
 		}
-#endif
 
 #if SYS_NAV_MGR_SUPPORTED
 		private void OnBackRequested(object? sender, BackRequestedEventArgs e)
@@ -230,6 +229,21 @@ namespace Uno.Toolkit.UI
 				e.Handled = TryPerformMainCommand();
 			}
 		}
+
+#if DEBUG
+		// Test hook: subscribes this instance's weak BackRequested handler to the process-global
+		// SystemNavigationManager exactly as OnLoaded does, but deliberately WITHOUT recording the
+		// SerialDisposable teardown. This models an abrupt AssemblyLoadContext teardown where Unloaded
+		// never fires, so a test can verify the global singleton still holds only a weak reference back.
+		internal void TestHook_SubscribeWeakBackRequestedWithoutTeardown()
+		{
+			var backRequestedHandler = WeakEventHelper.CreateWeakHandler<NavigationBar, BackRequestedEventArgs>(
+				this,
+				static (self, s, e) => self.OnBackRequested(s, e),
+				static h => SystemNavigationManager.GetForCurrentView().BackRequested -= h);
+			SystemNavigationManager.GetForCurrentView().BackRequested += backRequestedHandler;
+		}
+#endif
 #endif
 
 		private void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
@@ -273,7 +287,6 @@ namespace Uno.Toolkit.UI
 
 		private void UpdateHeaderContentAlignment()
 		{
-			// native impl has centering built-in
 			if (!HasXamlPresenter()) return;
 
 			if (_skiaHeaderContentControl != null)
@@ -299,16 +312,6 @@ namespace Uno.Toolkit.UI
 			}
 
 			return null;
-		}
-
-		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "#if-conditioned implementation")]
-		private bool HasNativePresenter()
-		{
-#if HAS_NATIVE_NAVBAR
-			return _presenter is NativeNavigationBarPresenter;
-#else
-			return false;
-#endif
 		}
 
 		private bool HasXamlPresenter() => _presenter is NavigationBarPresenter;

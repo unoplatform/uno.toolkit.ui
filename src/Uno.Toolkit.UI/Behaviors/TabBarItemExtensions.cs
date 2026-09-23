@@ -155,12 +155,7 @@ namespace Uno.Toolkit.UI
 			if (context is null) return;
 
 			var contentHost = IsValidContentHost(context) ? context
-#if __IOS__ || __ANDROID__
-				// native view may not be fully crawlable using VisualTreeHelper.GetChild
-				: VisualTreeHelperEx.Native.GetFirstDescendant<DependencyObject>(
-#else
 				: VisualTreeHelperEx.GetFirstDescendant<DependencyObject>(
-#endif
 					context,
 					hierarchyPredicate: x => (x as UIElement)?.Visibility != Visibility.Collapsed,
 					predicate: IsValidContentHost

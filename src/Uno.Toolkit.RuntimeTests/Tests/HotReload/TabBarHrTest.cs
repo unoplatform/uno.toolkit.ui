@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 using static Uno.Toolkit.UI.TabBarItemExtensions;
 
@@ -46,7 +47,7 @@ public class TabBarHrTest
 		Assert.AreEqual(1, tb.SelectedIndex);
 
 		// Trigger HR by changing the marker text in XAML
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage>(
 			originalText: "Original marker",
 			replacementText: "Updated marker",
 			ct))
@@ -83,7 +84,7 @@ public class TabBarHrTest
 		tb.SelectedIndex = 1;
 
 		// Add a fourth TabBarItem via XAML HR
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage4>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage4>(
 			originalText: """"<utu:TabBarItem Content="Tab Three" />"""",
 			replacementText:
 				""""
@@ -116,7 +117,7 @@ public class TabBarHrTest
 		Assert.AreEqual("Tab One", firstItem.Content);
 
 		// Change the first tab's label via XAML HR
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage>(
 			originalText: "Content=\"Tab One\"",
 			replacementText: "Content=\"Tab First\"",
 			ct))
@@ -149,7 +150,7 @@ public class TabBarHrTest
 		tb.SelectedIndex = 1;
 
 		// Add Orientation="Vertical" to the TabBar via XAML HR
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage>(
 			originalText: "<utu:TabBar x:Name=\"TB\" Grid.Row=\"1\" SelectedIndex=\"0\">",
 			replacementText: "<utu:TabBar x:Name=\"TB\" Grid.Row=\"1\" SelectedIndex=\"0\" Orientation=\"Vertical\">",
 			ct))
@@ -208,7 +209,7 @@ public class TabBarHrTest
 		var tabBarXaml = $"<utu:TabBar x:Name=\"TB\" Grid.Row=\"1\" SelectedIndex=\"0\">{nl}\t\t\t<utu:TabBar.Items>{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab One\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />{nl}\t\t\t</utu:TabBar.Items>{nl}\t\t</utu:TabBar>";
 
 		// Remove the entire TabBar element, replacing it with a comment placeholder
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage2>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage2>(
 			originalText: tabBarXaml,
 			replacementText: "<!-- Removed_TabBar -->",
 			ct))
@@ -237,7 +238,7 @@ public class TabBarHrTest
 		Assert.AreEqual("Click Me", btn.Content as string, "Button should start with expected content.");
 
 		// Remove the Button, replacing it with a comment placeholder
-		await using (await HotReloadHelper.UpdateSourceFile<ButtonTestPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ButtonTestPage>(
 			originalText: "<Button x:Name=\"TestButton\" Grid.Row=\"1\" Content=\"Click Me\" />",
 			replacementText: "<!-- Removed_Button -->",
 			ct))
@@ -274,7 +275,7 @@ public class TabBarHrTest
 		var reorderedItems = $"<utu:TabBarItem Content=\"Tab Three\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab One\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />";
 
 		// Reorder: move Tab Three to be first
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage3>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage3>(
 			originalText: originalItems,
 			replacementText: reorderedItems,
 			ct))
@@ -308,7 +309,7 @@ public class TabBarHrTest
 		Assert.AreEqual(TBIOnClickBehaviors.None, GetOnClickBehaviors(tab2), "Tab2 should start without OnClickBehaviors.");
 
 		// Add OnClickBehaviors="ScrollToTop" to Tab2 via HR
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage5>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage5>(
 			originalText: """<utu:TabBarItem Content="Tab Two" />""",
 			replacementText: """<utu:TabBarItem Content="Tab Two" utu:TabBarItemExtensions.OnClickBehaviors="ScrollToTop" />""",
 			ct))
@@ -339,7 +340,7 @@ public class TabBarHrTest
 		Assert.AreEqual(TBIOnClickBehaviors.ScrollToTop, GetOnClickBehaviors(tab1), "Tab1 should start with ScrollToTop.");
 
 		// Remove OnClickBehaviors from Tab1 via HR
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage5>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage5>(
 			originalText: """<utu:TabBarItem Content="Tab One" utu:TabBarItemExtensions.OnClickBehaviors="ScrollToTop" />""",
 			replacementText: """<utu:TabBarItem Content="Tab One" />""",
 			ct))
@@ -370,7 +371,7 @@ public class TabBarHrTest
 		Assert.AreEqual(TBIOnClickBehaviors.ScrollToTop, GetOnClickBehaviors(tab1), "Tab1 should start with ScrollToTop.");
 
 		// Change ScrollToTop -> BackNavigation via HR
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage5>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage5>(
 			originalText: "utu:TabBarItemExtensions.OnClickBehaviors=\"ScrollToTop\"",
 			replacementText: "utu:TabBarItemExtensions.OnClickBehaviors=\"BackNavigation\"",
 			ct))
@@ -407,7 +408,7 @@ public class TabBarHrTest
 		var originalItems = $"<utu:TabBarItem Content=\"Tab One\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Two\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />";
 		var reducedItems = $"<utu:TabBarItem Content=\"Tab One\" />{nl}\t\t\t\t<utu:TabBarItem Content=\"Tab Three\" />";
 
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage4>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage4>(
 			originalText: originalItems,
 			replacementText: reducedItems,
 			ct))
@@ -438,7 +439,7 @@ public class TabBarHrTest
 		Assert.AreEqual(3, tb.Items.Count, "Should start with 3 tabs.");
 
 		// Add two tabs at once via HR — simulates responsive showing of extra tabs
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage4>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage4>(
 			originalText: """"<utu:TabBarItem Content="Tab Three" />"""",
 			replacementText:
 				""""
@@ -477,7 +478,7 @@ public class TabBarHrTest
 		Assert.AreEqual("No TabBar yet", placeholder.Text);
 
 		// Add a complete TabBar via HR — simulates responsive late-add
-		await using (await HotReloadHelper.UpdateSourceFile<TabBarPage6>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<TabBarPage6>(
 			originalText: """<TextBlock x:Name="Placeholder" Text="No TabBar yet" />""",
 			replacementText: """
 				<Grid.RowDefinitions>

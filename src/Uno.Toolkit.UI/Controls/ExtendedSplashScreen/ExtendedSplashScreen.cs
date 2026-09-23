@@ -57,20 +57,21 @@ public partial class ExtendedSplashScreen : LoadingView
 
 	protected static ExtendedSplashScreen? Instance { get; private set; }
 
-	public
-#if __IOS__ || __MACOS__ && !HAS_UNO_WINUI // hides UIView.Window and NSView.Window
-	new
+#if DEBUG
+	// Test hook: reports whether the process-lifetime Instance static currently references any splash
+	// screen, so a test can verify it is released on Unloaded.
+	internal static bool TestHook_HasInstance => Instance is not null;
 #endif
-Window? Window
-	{ get; set; }
+
+	public Window? Window { get; set; }
+
+	private bool _isUnloaded;
 
 	public ExtendedSplashScreen()
 	{
 		Instance = this;
-		InitPartial();
+		Unloaded += OnUnloaded;
 	}
-
-	partial void InitPartial();
 
 	protected override void OnApplyTemplate()
 	{
@@ -84,15 +85,48 @@ Window? Window
 		}
 	}
 
+	private void OnUnloaded(object sender, RoutedEventArgs e)
+	{
+		// The splash screen is a one-shot control shown at startup. It keeps a process-lifetime static
+		// Instance reference and holds SplashScreenContent (which references the splash image). If those are
+		// never released, this ExtendedSplashScreen — and, when it belongs to a previewed app loaded into a
+		// collectible AssemblyLoadContext, that app's whole ALC — is pinned for the process lifetime. Once
+		// the control leaves the tree it is done, so release both.
+		_isUnloaded = true;
+
+		if (ReferenceEquals(Instance, this))
+		{
+			Instance = null;
+		}
+
+		// Setting null on WinUI throws, so drop to an empty placeholder instead.
+		SplashScreenContent = new Border();
+	}
+
 	private async Task LoadNativeSplashScreen()
 	{
-		var splashScreenContent = await GetNativeSplashScreen();
-
-		if (splashScreenContent is not null)
+		try
 		{
-			// Return a non-visible element to make sure some content is set on the ContentPresenter
-			// Setting null on WinUI throws an exception
-			SplashScreenContent = splashScreenContent;
+			var splashScreenContent = await GetNativeSplashScreen();
+
+			// GetNativeSplashScreen can await real I/O (reading the app manifest),
+			// during which the control may unload. If it did, OnUnloaded already released the content, so a
+			// late completion must not re-populate SplashScreenContent and undo that teardown.
+			if (_isUnloaded)
+			{
+				return;
+			}
+
+			if (splashScreenContent is not null)
+			{
+				// Return a non-visible element to make sure some content is set on the ContentPresenter
+				// Setting null on WinUI throws an exception
+				SplashScreenContent = splashScreenContent;
+			}
+		}
+		catch (Exception e)
+		{
+			this.Log().LogError(0, e, "Error while loading native splash screen.");
 		}
 	}
 }

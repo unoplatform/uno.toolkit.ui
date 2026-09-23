@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 using Windows.UI;
 
@@ -42,7 +43,7 @@ public class StatusBarHrTest
 		var foreground = StatusBar.GetForeground(page);
 		Assert.AreEqual(StatusBarForegroundTheme.Dark, foreground, "Foreground should start as Dark.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<StatusBarPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<StatusBarPage>(
 			originalText: "utu:StatusBar.Foreground=\"Dark\"",
 			replacementText: "utu:StatusBar.Foreground=\"Light\"",
 			ct))
@@ -71,7 +72,7 @@ public class StatusBarHrTest
 		Assert.IsNotNull(bg, "Background should be set initially.");
 		Assert.AreEqual(Colors.Blue, bg!.Color, "Background should start as Blue.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<StatusBarPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<StatusBarPage>(
 			originalText: "utu:StatusBar.Background=\"Blue\"",
 			replacementText: "utu:StatusBar.Background=\"Red\"",
 			ct))
@@ -99,7 +100,7 @@ public class StatusBarHrTest
 		var content = UIHelper.GetChild<TextBlock>(name: "StatusContent");
 		Assert.AreEqual("StatusBar test page", content.Text);
 
-		await using (await HotReloadHelper.UpdateSourceFile<StatusBarPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<StatusBarPage>(
 			originalText: "Text=\"StatusBar test page\"",
 			replacementText: "Text=\"Updated page\"",
 			ct))

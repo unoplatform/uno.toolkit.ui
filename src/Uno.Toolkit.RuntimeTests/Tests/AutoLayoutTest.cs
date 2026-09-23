@@ -364,9 +364,6 @@ internal class AutoLayoutTest
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
 
-	// Issue with TransformToVisual not having the same result in iOS and Android and WinIU uno issue #11774
-	//https://github.com/unoplatform/uno/issues/11774
-#if !(__IOS__ || __ANDROID__)
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, 100, -50)]
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, 25, -50)]
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, -50)]
@@ -383,8 +380,6 @@ internal class AutoLayoutTest
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, -50, 100)]
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 100)]
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, 100)]
-#endif
-
 	public async Task When_Padding(bool isStretch, Orientation orientation, AutoLayoutAlignment primaryAxisAlignment, AutoLayoutAlignment counterAlignment, double rec1expected, double rec2expected)
 	{
 		var SUT = new AutoLayout()
@@ -444,9 +439,6 @@ internal class AutoLayoutTest
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.Start, 100, 100)]
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.Start, 100, 100)]
 
-	// Issue with TransformToVisual not having the same result in iOS and Android and WinIU uno issue #11774
-	//https://github.com/unoplatform/uno/issues/11774
-#if !(__IOS__ || __ANDROID__)
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, 100, -50)]
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, 25, -50)]
 	[DataRow(false, Orientation.Vertical, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, -50)]
@@ -463,8 +455,6 @@ internal class AutoLayoutTest
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Start, AutoLayoutAlignment.End, -50, 100)]
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.Center, AutoLayoutAlignment.End, -50, 100)]
 	[DataRow(true, Orientation.Horizontal, AutoLayoutAlignment.End, AutoLayoutAlignment.End, -50, 100)]
-#endif
-
 	public async Task When_Padding_CounterAxis(bool isStretch, Orientation orientation, AutoLayoutAlignment primaryAxisAlignment, AutoLayoutAlignment counterAlignment, double rec1expected, double rec2expected)
 	{
 		var SUT = new AutoLayout()
@@ -889,15 +879,7 @@ internal class AutoLayoutTest
 		SUT.Children.Add(textBlock);
 		SUT.Children.Add(button);
 
-#if __ANDROID__
-		// TODO: Remove workaround after this issue is fixed https://github.com/unoplatform/uno.toolkit.ui/issues/1051
-		var border = new Border();
-		border.Child = SUT;
-
-		await UnitTestUIContentHelperEx.SetContentAndWait(border);
-#else
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
-#endif
 
 		var textBlockTransform = textBlock.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
 		var buttonTransform = button.TransformToVisual(SUT).TransformPoint(new Windows.Foundation.Point(0, 0));
