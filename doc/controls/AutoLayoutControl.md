@@ -11,6 +11,9 @@ uid: Toolkit.Controls.AutoLayoutControl
 
 `AutoLayout` arranges child elements into a single row or column, depending on the `Orientation` property. The control is intended to reflect the same behaviors as the [AutoLayout Frame component in Figma](https://www.figma.com/widget-docs/api/component-AutoLayout).
 
+> [!TIP]
+> If you are reproducing a CSS layout rather than a Figma frame, see [`FlexPanel`](FlexPanel.md). It implements CSS Flexbox semantics — `flex-grow`/`flex-shrink`/`flex-basis` distribution, wrapping onto multiple lines, and `justify-content`/`align-items` — via the Yoga layout engine. `AutoLayout` remains the right choice for Figma auto-layout parity.
+
 ### C\#
 
 ```csharp
