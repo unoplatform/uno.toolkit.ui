@@ -29,7 +29,7 @@ tags: [splash-screen, loading, startup, app-launch, extended-splash, initializat
 </Page>
 ```
 
-What happens: the control renders an image of the **native splash** and keeps it on top until `IsLoading` becomes `false`. ([Uno Platform][2])
+What happens: the control recreates the app's splash screen with XAML and keeps it on top until `IsLoading` becomes `false`. See [Splash screen appearance](xref:Toolkit.Controls.ExtendedSplashScreen#splash-screen-appearance) for where the image and background color come from on each platform.
 
 ---
 
@@ -67,14 +67,14 @@ This overlays your branding **during** the extended splash—without changing th
 
 ## How to ensure support on Android 12+ and WebAssembly
 
-The control supports Android's newer splash mechanism and WebAssembly; use a recent Uno Toolkit build. Keep your Toolkit updated to pick up fixes and platform support. ([GitHub][5])
+On Android, the operating system splash screen stays visible until the app renders its first frame, and then `ExtendedSplashScreen` takes over. If your activity theme derives from `Theme.SplashScreen`, install the AndroidX splash screen before `base.OnCreate`, as described in [Setup on Android](xref:Toolkit.Controls.ExtendedSplashScreen#setup-on-android). On WebAssembly, the splash screen comes from the app manifest.
 
 ---
 
 ## Notes & tips
 
 * This control **extends** the native splash; it doesn't replace or restyle the initial OS splash. Customize the *initial* splash per platform (e.g., WASM via `AppManifest.js`) separately. ([dotnet new bald][4])
-* It's a specialized "loading shell" that sits above your app content and below your optional loading overlay. Think of it as three layers: your app, the captured native splash, and your loading overlay. ([dotnet new bald][4])
+* It's a specialized "loading shell" that sits above your app content and below your optional loading overlay. Think of it as three layers: your app, the recreated splash screen, and your loading overlay.
 * For videos and quick demos, see "ExtendedSplashScreen" in Uno Tech Bites. ([Uno Platform][6])
 
 ---
@@ -96,7 +96,7 @@ No. It only prolongs it. Customize the native splash per platform (e.g., WASM `A
 
 **Will this work on Android 12's SplashScreen API?**
 
-Yes—supported in recent Toolkit releases; update packages. ([GitHub][5])
+Yes. The AndroidX splash screen is displayed until the first frame, and then `ExtendedSplashScreen` shows the splash screen recreated from the app's `UnoSplashScreen` definition. See [Setup on Android](xref:Toolkit.Controls.ExtendedSplashScreen#setup-on-android).
 
 **Can I show anything while loading?**
 
@@ -110,6 +110,5 @@ Yes—use `LoadingContentTemplate` (e.g., `ProgressRing`, text, brand). ([Uno Pl
 [2]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/ExtendedSplashScreen.html "ExtendedSplashScreen"
 [3]: https://platform.uno/docs/articles/external/uno.chefs/doc/toolkit/ExtendedSplashScreen.html "Extending Splash Screen Duration for Custom Loading"
 [4]: https://kazo0.dev/toolkit-tuesday/2024/03/12/toolkit-tuesday-extendedsplashscreen.html "Toolkit Tuesdays: ExtendedSplashScreen"
-[5]: https://github.com/unoplatform/uno.toolkit.ui/releases "Releases · unoplatform/uno.toolkit.ui"
 [6]: https://platform.uno/blog/uno-toolkit-ui-tech-bites/ "Uno Toolkit – an Uno Tech Bite series"
 [7]: https://platform.uno/docs/articles/external/uno.wasm.bootstrap/doc/features-splash-screen.html "Splash screen customization"

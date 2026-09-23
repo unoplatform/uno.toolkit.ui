@@ -91,6 +91,8 @@
       href: helpers/command-extensions.md
     - name: FlipView Extensions
       href: helpers/FlipView-extensions.md
+    - name: Grid Extensions
+      href: helpers/grid-extensions.md
     - name: InputExtensions Extensions
       href: helpers/input-extensions.md
     - name: ItemsRepeater Extensions

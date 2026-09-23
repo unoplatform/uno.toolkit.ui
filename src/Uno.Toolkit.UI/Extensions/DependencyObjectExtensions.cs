@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Uno.Disposables;
 using Uno.Extensions;
@@ -25,7 +27,12 @@ namespace Uno.Toolkit.UI
 {
 	internal static class DependencyObjectExtensions
 	{
-		private static Dictionary<(Type Type, string Property), DependencyPropertyInfo?> _dependencyPropertyReflectionCache = new(2);
+		// Keyed weakly by owner Type so a Type from a collectible AssemblyLoadContext (e.g. a downstream
+		// host that loads previewed apps into their own collectible ALCs) is not rooted by this
+		// process-lifetime static cache. A strong Type key would keep the Type's LoaderAllocator alive,
+		// pinning the whole ALC for the process lifetime. When the owner Type is collected, its inner
+		// per-property dictionary (and the DependencyPropertyInfo values it holds) becomes unreachable too.
+		private static readonly ConditionalWeakTable<Type, Dictionary<string, DependencyPropertyInfo?>> _dependencyPropertyReflectionCache = new();
 
 #if HAS_UNO
 		/// <summary>
@@ -92,11 +99,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static T? FindChild<T>(this DependencyObject depObj)
-		where T :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+			where T : DependencyObject
 		{
 			if (depObj == null) return default(T);
 
@@ -111,11 +114,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static T? GetFirstParent<T>(this DependencyObject element, bool includeCurrent = true)
-		where T :
-#if HAS_UNO
-			class,
-#endif
-			DependencyObject
+			where T : DependencyObject
 		{
 			var c = element.GetAncestors(includeCurrent);
 			return c.OfType<T>().FirstOrDefault();
@@ -173,11 +172,11 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		internal static void SetParent(this DependencyObject dependencyObject, object? parent)
 		{
-			if (parent != null
-				&& dependencyObject is IDependencyObjectStoreProvider storeProvider
-				&& (!ReferenceEquals(storeProvider.Store.Parent, parent)))
+			if (parent != null)
 			{
-				storeProvider.Store.Parent = parent;
+				// MarkupHelper replaces the removed IDependencyObjectStoreProvider, and already
+				// no-ops when the parent is unchanged.
+				Uno.UI.Helpers.MarkupHelper.SetParent(dependencyObject, parent);
 			}
 		}
 #endif
@@ -205,22 +204,35 @@ namespace Uno.Toolkit.UI
 		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName) =>
 			FindDependencyPropertyInfo(ownerOrDescendantType, propertyName)?.Definition;
 
+		[UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Looks up a dependency property by name on any control type; a trimmed member resolves to null, which callers already handle.")]
+		[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Same lookup on the declaring type of the dependency property found above.")]
 		internal static DependencyPropertyInfo? FindDependencyPropertyInfo(this Type ownerOrDescendantType, string propertyName)
 		{
 			propertyName = propertyName.RemoveTail("Property");
 
 			var type = ownerOrDescendantType;
-			var key = (ownerType: type, propertyName);
 
 			// given that we are doing FlattenHierarchy lookup, it is fine that we are storing multiple pairs of (types-to-same-dp)
 			// since it is not worth the trouble to handle the type hierarchy...
-			if (!_dependencyPropertyReflectionCache.TryGetValue(key, out var property))
+			var propertyCache = _dependencyPropertyReflectionCache.GetOrCreateValue(type);
+			DependencyPropertyInfo? property;
+			bool cached;
+			lock (propertyCache)
+			{
+				cached = propertyCache.TryGetValue(propertyName, out property);
+			}
+
+			if (!cached)
 			{
 				property = GetDetails(
 					type.GetProperty($"{propertyName}Property", Public | NonPublic | Static | FlattenHierarchy) as MemberInfo ??
 					type.GetField($"{propertyName}Property", Public | NonPublic | Static | FlattenHierarchy)
 				);
-				_dependencyPropertyReflectionCache[key] = property;
+
+				lock (propertyCache)
+				{
+					propertyCache[propertyName] = property;
+				}
 
 				if (property is null)
 				{
@@ -257,6 +269,14 @@ namespace Uno.Toolkit.UI
 
 			return property;
 		}
+
+#if DEBUG
+		// Test hook: reports whether the reflection cache currently holds an entry for the given owner
+		// Type, so a test can verify the entry (and therefore the Type key) is released once the Type
+		// becomes collectible. Does not create an entry.
+		internal static bool TestHook_ReflectionCacheContains(Type ownerType) =>
+			_dependencyPropertyReflectionCache.TryGetValue(ownerType, out _);
+#endif
 
 		private static bool TryGetValue(this DependencyObject dependencyObject, DependencyProperty dependencyProperty, out DependencyObject? value)
 		{

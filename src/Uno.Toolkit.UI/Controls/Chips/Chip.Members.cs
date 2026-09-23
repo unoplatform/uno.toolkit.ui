@@ -44,11 +44,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Gets or sets the elevation of the Chip.
 		/// </summary>
-		public
-#if __ANDROID__
-			new
-#endif
-			double Elevation
+		public double Elevation
 		{
 			get => (double)GetValue(ElevationProperty);
 			set => SetValue(ElevationProperty, value);

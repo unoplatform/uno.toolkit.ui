@@ -17,7 +17,8 @@ public partial class App : Application
 	{
 			MainWindow = new Window();
 #if DEBUG
-			MainWindow.UseStudio();
+			// Registers the window for hot reload; Hot Design (UseStudio) has no Uno 7 build yet.
+			MainWindow.EnableHotReload();
 #endif
 
 			if (MainWindow.Content is null)
@@ -63,7 +64,7 @@ public partial class App : Application
 		{
 #if __WASM__
 			builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
-#elif __IOS__ || __MACCATALYST__
+#elif __IOS__
 			builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
 #else
 			builder.AddConsole();

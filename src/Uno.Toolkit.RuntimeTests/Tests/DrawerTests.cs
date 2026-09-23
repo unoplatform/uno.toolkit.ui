@@ -21,9 +21,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 internal class DrawerTests
 {
 	[TestMethod]
-#if __IOS__
-	[Ignore("Opacity is not supposed to be modified from non ui-thread")]
-#endif
 	public async Task IsOpen_FromNonUIThread()
 	{
 		var drawer = new DrawerControl

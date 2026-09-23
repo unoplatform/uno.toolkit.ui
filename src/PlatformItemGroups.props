@@ -7,15 +7,6 @@
 		<IsIOS>false</IsIOS>
 		<IsIOS Condition="$(TargetFramework.ToLower().Contains('-ios'))">true</IsIOS>
 
-		<IsMacOS>false</IsMacOS>
-		<IsMacOS Condition="$(TargetFramework.ToLower().Contains('-macos'))">true</IsMacOS>
-
-		<IsCatalyst>false</IsCatalyst>
-		<IsCatalyst Condition="$(TargetFramework.ToLower().Contains('-maccatalyst'))">true</IsCatalyst>
-
-		<IsIOSOrCatalyst>false</IsIOSOrCatalyst>
-		<IsIOSOrCatalyst Condition="$(IsIOS) or $(IsCatalyst)">true</IsIOSOrCatalyst>
-
 		<_IsNetCore>false</_IsNetCore>
 		<_IsNetCore Condition="'$(TargetFramework)'=='net5.0' or '$(TargetFramework)'=='net6.0' or '$(TargetFramework)'=='net9.0' or '$(TargetFramework)'=='net10.0'">true</_IsNetCore>
 
@@ -26,18 +17,9 @@
 		<_IsWindowsWinUI Condition="$(TargetFramework.Contains('-windows'))">true</_IsWindowsWinUI>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="$(IsIOSOrCatalyst)">
+	<PropertyGroup Condition="$(IsIOS)">
 		<DefineConstants>$(DefineConstants);XAMARIN;XAMARIN_IOS;XAMARIN_IOS_UNIFIED</DefineConstants>
 		<SupportedOSPlatformVersion>12.2</SupportedOSPlatformVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="$(IsMacOS)">
-		<DefineConstants>$(DefineConstants);XAMARIN</DefineConstants>
-		<SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="$(IsCatalyst)">
-		<SupportedOSPlatformVersion>13.1</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(IsAndroid)">
@@ -50,14 +32,12 @@
 		<IncludedPlatformExtension Condition="'$(UnoRuntimeIdentifier)'=='WebAssembly'" Include="wasm" />
 		<IncludedPlatformExtension Condition="'$(UnoRuntimeIdentifier)'=='Skia'"  Include="skia" />
 		<IncludedPlatformExtension Condition="$(_IsNetStd) and '$(UnoRuntimeIdentifier)'=='Reference'" Include="netstdref" />
-		<IncludedPlatformExtension Condition="$(IsIOSOrCatalyst)" Include="iOS" />
-		<IncludedPlatformExtension Condition="$(IsMacOS)" Include="macOS" />
-		<IncludedPlatformExtension Condition="$(IsMacOS) or $(IsIOSOrCatalyst)" Include="iOSmacOS" />
+		<IncludedPlatformExtension Condition="$(IsIOS)" Include="iOS" />
 		<IncludedPlatformExtension Condition="$(IsAndroid)" Include="Android" />
 	</ItemGroup>
 
 	<Choose>
-		<When Condition="$(IsAndroid) or $(IsIOSOrCatalyst)">
+		<When Condition="$(IsAndroid) or $(IsIOS)">
 			<ItemGroup>
 				<IncludeXamlNamespaces Include="mobile" />
 				<ExcludeXamlNamespaces Include="not_mobile" />
@@ -81,7 +61,7 @@
 
 		<Page Include="**\*.xaml"
 			  Exclude="bin/**/*.xaml;obj/**/*.xaml"
-			  Condition="$(IsAndroid) or $(IsIOSOrCatalyst) or $(_IsNetStd) or $(IsMacOS)" />
+			  Condition="$(IsAndroid) or $(IsIOS) or $(_IsNetStd)" />
 
 	</ItemGroup>
 

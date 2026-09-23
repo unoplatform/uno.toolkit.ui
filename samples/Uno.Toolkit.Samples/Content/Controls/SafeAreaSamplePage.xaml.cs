@@ -1,7 +1,3 @@
-#if __IOS__
-using UIKit;
-#endif
-
 namespace Uno.Toolkit.Samples.Content.Controls
 {
 	[SamplePage(SampleCategory.Controls, nameof(SafeArea), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]

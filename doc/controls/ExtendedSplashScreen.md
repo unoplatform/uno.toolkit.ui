@@ -27,11 +27,14 @@ A common use case for this control is to display an application loading element 
 | **Platforms** | `SplashScreenPlatform` | Gets or sets the platform(s) where extended splash screen should be used. This is a flag enumeration, which allows for combining multiple values eg: `"Android,iOS"` | Default value is **All**. Other possible values include **Android**, **iOS**, **Windows**, **WebAssembly**, **Skia**, and **None**. |
 | **SplashIsEnabled** | `bool` | Gets a value representing whether the current environment is to display this splash screen. | **True** if the current platform is included in the **Platforms** property, otherwise **false**. |
 
+> [!NOTE]
+> Every target renders with Skia on Uno Platform 7, so the `Platforms` flags name the platform the app runs on rather than its renderer: **Android** and **iOS** select the Android and iOS apps, **WebAssembly** the browser, **Windows** the Windows App SDK target, and **Skia** the desktop targets (Windows, macOS and Linux). Before Uno Platform 7, Android and iOS apps using the Skia renderer were matched by **Skia** instead.
+
 ## Methods
 
 | Method | Return Type | Description |
 |--------|-------------|-------------|
-| **Init** | `void` | Initializes the splash screen for the provided `Activity` instance. This static method should be invoked from the **OnCreate** override in `MainActivity`.<br/>**Note: This method only needs to be called on Android** |
+| **Init** | `void` | Installs the AndroidX splash screen on the provided `Activity` instance. This static method should be invoked from the **OnCreate** override in `MainActivity`, before `base.OnCreate`.<br/>**Note: This method is only available on Android.** See [Setup on Android](#setup-on-android). |
 
 ## Usage
 
@@ -120,16 +123,31 @@ With these changes, the splash screen will be displayed when the application fir
 
 In order to prolong the splash screen display, you can set the `Source` property of the `ExtendedSplashScreen` control to any custom implementation of the `ILoadable` interface. More information on how to use the `ILoadable` interface can be found in the [`LoadingView`](xref:Toolkit.Controls.LoadingView#iloadable) documentation.
 
+## Splash screen appearance
+
+`ExtendedSplashScreen` recreates the application's splash screen with XAML, using the image and background color declared for the app:
+
+- On Windows and the desktop targets, from the `SplashScreen` element of the `Package.appxmanifest`, or, when it declares no image, from the Uno.Resizetizer definition described below.
+- On WebAssembly, from the `splashScreenImage` and `splashScreenColor` entries of the app manifest.
+- On Android and iOS, from the splash screen definition that [Uno.Resizetizer](xref:Uno.Resizetizer.GettingStarted) generates for the app's `UnoSplashScreen` item. When the item sets a `BaseSize`, the image is centered at that size, like on the generated iOS launch screen.
+
+Uno Platform 7 renders Android and iOS apps with Skia, so `ExtendedSplashScreen` no longer hosts the native launch screen views: an app that defines its launch screen without `UnoSplashScreen` (for example a hand-written iOS `LaunchScreen` storyboard) is not reproduced, and only the `LoadingContent` is displayed.
+
 ## Setup on Android
 
-To use the `ExtendedSplashScreen` on Android, you need to add the following to your `MainActivity`:
+The operating system displays the Android splash screen until the app renders its first frame, at which point `ExtendedSplashScreen` takes over. If your activity theme derives from `Theme.SplashScreen`, the AndroidX splash screen must be installed before `base.OnCreate` in your `MainActivity`, either by calling `AndroidX.Core.SplashScreen.SplashScreen.InstallSplashScreen(this)`, as the Uno Platform templates do, or by calling `ExtendedSplashScreen.Init`:
 
 ```csharp
- protected override void OnCreate(Bundle bundle)
-{ 
-    // Handle the splash screen transition.
+protected override void OnCreate(Bundle bundle)
+{
+    // Install the AndroidX splash screen.
     Uno.Toolkit.UI.ExtendedSplashScreen.Init(this);
 
     base.OnCreate(bundle);
 }
 ```
+
+Unlike `InstallSplashScreen`, `Init` also works on Android 11 and earlier when the activity theme does not derive from `Theme.SplashScreen`.
+
+> [!NOTE]
+> Before Uno Platform 7, `Init` also captured the native splash screen as a bitmap and hid the system bars while it was displayed. Android apps now render edge-to-edge, and `ExtendedSplashScreen` recreates the splash screen from its `UnoSplashScreen` definition instead.

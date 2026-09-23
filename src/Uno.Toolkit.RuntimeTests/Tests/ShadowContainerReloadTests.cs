@@ -56,11 +56,6 @@ internal class ShadowContainerReloadTests
 	[TestMethod]
 	public async Task When_Unloaded_Then_Reloaded_Screenshot_Matches()
 	{
-		if (!ImageAssertHelper.IsScreenshotSupported())
-		{
-			Assert.Inconclusive("Screenshots not supported on this platform.");
-		}
-
 		// Arrange
 		var stackPanel = new StackPanel();
 		var shadowContainer = new ShadowContainer

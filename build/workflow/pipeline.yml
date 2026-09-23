@@ -2,6 +2,7 @@ trigger:
   branches:
     include:
       - main
+      - servicing/*
       - beta
       - release/beta/*
       - stable
@@ -18,6 +19,7 @@ pr:
   branches:
     include:
       - main
+      - servicing/*
       - beta
       - release/beta/*
       - stable
@@ -35,7 +37,7 @@ variables:
   PackageOutputPath: $(Build.ArtifactStagingDirectory)\nuget
 
   IsCanaryBranch: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/canaries/')]
-  IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
+  IsReleaseBranch: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/servicing/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'))]
   XCODE_ROOT: '/Applications/Xcode_26.1.1.app'
 
 stages:
@@ -89,9 +91,13 @@ stages:
 ## Publishing
 ##
 
+# A servicing/* branch continues a previous version line after main has moved on
+# to a newer one, so it publishes dev packages the same way main does. The same
+# pattern is added to the CI triggers, IsReleaseBranch, the dev-feed push step and
+# version.json's publicReleaseRefSpec.
 - stage: Publish_Dev
   displayName: 'Publish - Dev NuGet.org'
-  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature')), not(eq(variables['build.reason'], 'PullRequest')))
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/servicing/'), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature')), not(eq(variables['build.reason'], 'PullRequest')))
   dependsOn: Packages
   jobs:
   - template: publish/publish-nuget-dev.yml
