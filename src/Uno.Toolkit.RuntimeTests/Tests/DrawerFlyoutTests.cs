@@ -162,7 +162,7 @@ internal class DrawerFlyoutTests
 			var child = popup.Child as FlyoutPresenter ?? throw new InvalidOperationException("FlyoutPresenter not found");
 			await UnitTestsUIContentHelper.WaitForLoaded(child);
 
-			//var tree = popup.Child.TreeGraph();
+			//var tree = Uno.UI.Extensions.ViewExtensions.TreeGraph(popup.Child, VisualTreeHelperEx.DescribeToolkitProperties);
 			//FlyoutPresenter // Actual=1024x800, Constraints=[96,NaN,NaN]x[40,NaN,NaN], HV=Stretch/Stretch, HVC=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
 			//	DrawerFlyoutPresenter // Actual=1024x800, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, HVC=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
 			//		Grid#RootPanel // Actual=1024x800, Constraints=[0,NaN,∞]x[0,NaN,∞], HV=Stretch/Stretch, CornerRadius=0, Margin=0, Padding=0, Opacity=1, Visibility=Visible
