@@ -1,3 +1,4 @@
+using Uno.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
 
 using MUXC = Microsoft.UI.Xaml.Controls;
@@ -189,13 +190,13 @@ namespace Uno.Toolkit.Samples
 			}
 
 			// for the best viewing experience, paste the tree in VSCode (you can collapse node) with `ini` syntax highlighting
-			var tree = this.TreeGraph();
+			var tree = this.TreeGraph(DescribeToolkitProperties);
 			var target = FindViewOfInterest();
-			var targetTree = (target as DependencyObject)?.TreeGraph();
+			var targetTree = (target as DependencyObject)?.TreeGraph(DescribeToolkitProperties);
 
 			// note: you can also tag element with unique x:Name to inspect here
 			//var sut = this.GetFirstDescendant<Chip>(x => x.Name == "SUT");
-			//var tree = sut?.TreeGraph();
+			//var tree = sut?.TreeGraph(DescribeToolkitProperties);
 
 #if WINDOWS
 			var data = new DataPackage();
