@@ -31,7 +31,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class AutoLayoutTest
+public class AutoLayoutTest
 {
 	[TestMethod]
 	public async Task When_Collapsed()
@@ -136,7 +136,7 @@ internal class AutoLayoutTest
 	}
 
 	[TestMethod]
-	[DynamicData(nameof(When_Collapsed_With_Spacing_Margin_Test_Matrix), DynamicDataSourceType.Method)]
+	[DynamicData(nameof(When_Collapsed_With_Spacing_Margin_Test_Matrix))]
 	public async Task When_Collapsed_With_Spacing_Margin(Orientation orientation, double spacing, double itemMargin, double itemLength, int collapseStartIndex, int collapseEndIndex)
 	{
 		var SUT = new AutoLayout()
@@ -337,8 +337,8 @@ internal class AutoLayoutTest
 			Assert.AreEqual(border2Transform!.X, rec2expected);
 		}
 
-		Assert.AreEqual(border3Transform!.Y, expectedY);
-		Assert.AreEqual(border3Transform!.X, expectedX);
+		Assert.AreEqual(expectedY, border3Transform!.Y);
+		Assert.AreEqual(expectedX, border3Transform!.X);
 	}
 
 	[TestMethod]

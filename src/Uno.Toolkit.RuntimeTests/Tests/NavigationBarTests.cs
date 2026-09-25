@@ -37,7 +37,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal partial class NavigationBarTests
+	public partial class NavigationBarTests
 	{
 		[TestMethod]
 		public async Task NavigationBar_Renders_MainCommand()
@@ -90,14 +90,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var popup = new Popup { Width = 100, Height = 100, HorizontalOffset = 100, VerticalOffset = 100, Child = new StackPanel { Children = { navigationBar } } };
 			var content = new StackPanel { Children = { popup } };
 
-			EventHandler<object> popupOpened = async (s, e) => 
-			{
-				Assert.IsTrue(navigationBar.TryPerformMainCommand() == shouldGoBack, "Unexpected result from TryPerformMainCommand");
-
-				await UnitTestsUIContentHelper.WaitForIdle();
-
-				Assert.IsTrue(popup.IsOpen == !shouldGoBack, "Popup is in an incorrect state");
-			};
+			var mainCommandResult = new TaskCompletionSource<bool>();
+			EventHandler<object> popupOpened = (s, e) => mainCommandResult.TrySetResult(navigationBar.TryPerformMainCommand());
 
 			try
 			{
@@ -105,6 +99,18 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 
 				popup.Opened += popupOpened;
 				popup.IsOpen = true;
+
+				// Popup.Opened is raised asynchronously; 2s matches the other event waits in these tests.
+				if (await Task.WhenAny(mainCommandResult.Task, Task.Delay(2000)) != mainCommandResult.Task)
+				{
+					throw new TimeoutException("Timed out waiting for Popup.Opened");
+				}
+
+				Assert.AreEqual(shouldGoBack, await mainCommandResult.Task, "Unexpected result from TryPerformMainCommand");
+
+				await UnitTestsUIContentHelper.WaitForIdle();
+
+				Assert.AreEqual(!shouldGoBack, popup.IsOpen, "Popup is in an incorrect state");
 			}
 			finally
 			{

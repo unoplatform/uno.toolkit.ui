@@ -14,7 +14,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal sealed class ThemeCompatibilityTests
+	public sealed class ThemeCompatibilityTests
 	{
 		[TestCleanup]
 		public async Task Cleanup()

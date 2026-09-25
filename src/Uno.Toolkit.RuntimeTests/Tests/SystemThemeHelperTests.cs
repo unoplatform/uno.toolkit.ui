@@ -16,7 +16,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal class SystemThemeHelperTests
+	public class SystemThemeHelperTests
 	{
 		[TestMethod]
 		[DataRow(true, DisplayName = "App goes dark, host stays light")]

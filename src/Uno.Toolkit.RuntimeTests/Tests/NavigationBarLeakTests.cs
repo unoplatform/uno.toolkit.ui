@@ -25,7 +25,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 /// </summary>
 [TestClass]
 [RunsOnUIThread]
-internal class NavigationBarLeakTests
+public class NavigationBarLeakTests
 {
 	[TestMethod]
 	public async Task BackRequested_Subscription_IsWeak_WhenUnloadedNeverFires()

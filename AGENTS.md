@@ -214,7 +214,7 @@ VS Code task labels in `.vscode/tasks.json` (`build-desktop-Material`, `build-wa
 The runtime test project `src/Uno.Toolkit.RuntimeTests/` is **MSTest hosted inside the sample apps** via `Uno.UI.RuntimeTests.Engine`. There is **no `dotnet test`** entry point.
 
 - Interactive: launch a sample app with `--mode=rt` (or set `UNO_RUNTIME_TESTS_RUN_TESTS`) — see `samples/Uno.Toolkit.Samples/RuntimeTesting/RuntimeTestModeDetector.cs`. The app shows a runtime-test runner UI.
-- Headless (used in CI): launch the built sample DLL with `--runtime-tests=<results.xml>`. The script `build/workflow/scripts/linux-skia-runtime-tests.sh` does this under `xvfb-run` for desktop.
+- Headless (used in CI): set `UNO_RUNTIME_TESTS_RUN_TESTS='{}'` (or a filter) **and** `UNO_RUNTIME_TESTS_OUTPUT_PATH=<results.xml>`, then launch the built sample DLL with `--runtime-tests=<results.xml>`. The engine reads the output path only from the environment: without it the argument just opens the interactive runner, which sits idle and never writes results. The script `build/workflow/scripts/linux-skia-runtime-tests.sh` does this under `xvfb-run` for desktop.
 - Filter tests by name with `UNO_RUNTIME_TESTS_RUN_TESTS='{"Filter":{"Value":"<substring>"}}'` (the hot-reload CI job uses `_HotReload`).
 
 ### Hot-reload tests

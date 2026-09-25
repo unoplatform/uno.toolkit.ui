@@ -40,7 +40,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal partial class TabBarTests // test cases
+	public partial class TabBarTests // test cases
 	{
 		[TestMethod]
 		public async Task TabBar1285_ICS_With_TBI_ItemTemplate()
@@ -666,7 +666,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsTrue(selectionItem0.IsSelected, "AddToSelection should select when the TabBar has no selection");
 			Assert.IsFalse(selectionItem1.IsSelected);
 			Assert.AreEqual(0, SUT.SelectedIndex);
-			Assert.ThrowsException<InvalidOperationException>(
+			Assert.ThrowsExactly<InvalidOperationException>(
 				selectionItem1.AddToSelection,
 				"AddToSelection should reject a second selection");
 
@@ -685,7 +685,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsNull(SUT.SelectedItem);
 
 			item0.IsSelectable = false;
-			Assert.ThrowsException<InvalidOperationException>(
+			Assert.ThrowsExactly<InvalidOperationException>(
 				selectionItem0.Select,
 				"Select should reject a non-selectable TabBarItem");
 		}
@@ -728,7 +728,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		}
 	}
 	
-	internal partial class TabBarTests // supporting classes/methods
+	public partial class TabBarTests // supporting classes/methods
 	{
 		private class SelectedIndexTestViewModel : INotifyPropertyChanged
 		{
