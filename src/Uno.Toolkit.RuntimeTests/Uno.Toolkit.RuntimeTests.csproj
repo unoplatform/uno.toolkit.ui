@@ -11,11 +11,6 @@
     <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<DefineConstants Condition="$(IsWinAppSdk)">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
     <FrameworkLineage>WinUI</FrameworkLineage>
-    <!--
-      MSTEST0002/0003/0009: Uno.UI.RuntimeTests.Engine discovers internal test classes, which the
-      MSTest analyzers (brought in by MSTest.TestFramework 4.x) do not know about.
-    -->
-    <NoWarn>$(NoWarn);MSTEST0002;MSTEST0003;MSTEST0009</NoWarn>
 
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
