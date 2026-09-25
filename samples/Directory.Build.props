@@ -21,16 +21,4 @@
 		<UnoDisableHotDesign>true</UnoDisableHotDesign>
 		<UnoDisableMCPSupport>true</UnoDisableMCPSupport>
 	</PropertyGroup>
-
-	<!--
-	  MSTest.TestFramework 4.x (pulled in by the hosted Uno.Toolkit.RuntimeTests) adds a global
-	  `using Microsoft.VisualStudio.TestTools.UnitTesting` to every consumer with ImplicitUsings.
-	  The sample code does not use MSTest, and the using makes [Description] ambiguous with
-	  System.ComponentModel. Removed in a target because the package adds it after this file is evaluated.
-	-->
-	<Target Name="_RemoveMSTestImplicitUsing" BeforeTargets="GenerateGlobalUsings">
-		<ItemGroup>
-			<Using Remove="Microsoft.VisualStudio.TestTools.UnitTesting" />
-		</ItemGroup>
-	</Target>
 </Project>
