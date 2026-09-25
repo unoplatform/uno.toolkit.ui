@@ -42,7 +42,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal partial class ShadowContainerTests
+	public partial class ShadowContainerTests
 	{
 		[TestMethod]
 		public async Task When_Element_Is_Resized()

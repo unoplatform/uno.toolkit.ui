@@ -24,7 +24,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	partial class ItemsRepeaterExtensionsTests
+	public partial class ItemsRepeaterExtensionsTests
 	{
 		private const ItemsSelectionMode Single = ItemsSelectionMode.Single;
 

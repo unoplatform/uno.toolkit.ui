@@ -22,7 +22,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 /// </summary>
 [TestClass]
 [RunsOnUIThread]
-internal class ResponsiveExtensionsReconnectTests
+public class ResponsiveExtensionsReconnectTests
 {
 	private static readonly ResponsiveLayout DefaultLayout = ResponsiveLayout.Create(150, 300, 600, 800, 1080);
 	private static readonly Size NarrowSize = new(300, 400);

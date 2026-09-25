@@ -11,7 +11,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class TabBarItemExtensionsTests
+public class TabBarItemExtensionsTests
 {
 	// Smooth scrolling settles on a sub-pixel offset, so "at the top" needs a tolerance.
 	private const double TopOffsetTolerance = 0.5;

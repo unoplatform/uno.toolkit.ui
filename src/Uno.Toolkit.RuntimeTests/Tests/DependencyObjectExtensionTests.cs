@@ -21,7 +21,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal partial class DependencyObjectExtensionTests
+public partial class DependencyObjectExtensionTests
 {
 	[TestMethod]
 	public void When_Type_FindDependencyProperty()
@@ -74,7 +74,7 @@ internal partial class DependencyObjectExtensionTests
 	}
 }
 
-internal partial class DependencyObjectExtensionTests
+public partial class DependencyObjectExtensionTests
 {
 	private partial class AmbiguityBase : DependencyObject
 	{

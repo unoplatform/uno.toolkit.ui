@@ -37,7 +37,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal partial class NavigationBarTests
+	public partial class NavigationBarTests
 	{
 		[TestMethod]
 		public async Task NavigationBar_Renders_MainCommand()

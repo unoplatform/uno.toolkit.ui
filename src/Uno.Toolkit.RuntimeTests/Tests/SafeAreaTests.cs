@@ -38,7 +38,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal partial class SafeAreaTests
+	public partial class SafeAreaTests
 	{
 		[TestMethod]
 		[RequiresFullWindow]
