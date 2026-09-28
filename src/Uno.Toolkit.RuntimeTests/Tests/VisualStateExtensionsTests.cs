@@ -12,7 +12,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class VisualStateExtensionsTests
+public class VisualStateExtensionsTests
 {
 	[TestMethod]
 	public async Task When_State_Set_To_Red_Background_Changes()

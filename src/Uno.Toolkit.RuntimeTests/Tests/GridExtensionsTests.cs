@@ -8,9 +8,9 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal partial class GridExtensionsTests;
+public partial class GridExtensionsTests;
 
-partial class GridExtensionsTests
+public partial class GridExtensionsTests
 {
 	// Auto toggling
 
@@ -271,7 +271,7 @@ partial class GridExtensionsTests
 		Assert.AreEqual((2, 0), GetPosition(sut.Children[2]));
 	}
 }
-partial class GridExtensionsTests // helpers methods
+public partial class GridExtensionsTests // helpers methods
 {
 	private static readonly Color[] UnoColors =
 	[

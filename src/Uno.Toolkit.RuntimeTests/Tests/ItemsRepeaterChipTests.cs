@@ -25,7 +25,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class ItemsRepeaterChipTests
+public class ItemsRepeaterChipTests
 {
 	// note: the default state of Chip.IsChecked (inherited from ToggleButton) is false, since we don't use IsThreeState
 

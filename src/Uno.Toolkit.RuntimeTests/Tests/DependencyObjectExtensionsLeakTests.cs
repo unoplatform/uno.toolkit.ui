@@ -21,7 +21,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 /// </summary>
 [TestClass]
 [RunsOnUIThread]
-internal class DependencyObjectExtensionsLeakTests
+public class DependencyObjectExtensionsLeakTests
 {
 	[TestMethod]
 	public async Task ReflectionCache_DoesNotRoot_CollectibleTypeKey()

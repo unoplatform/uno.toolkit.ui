@@ -2,6 +2,23 @@
 
 Corrections worth not repeating. Newest first.
 
+## A headless runtime-test run needs the output path in the environment
+
+**2026-09-25 — MSTest 4 bump (#1649).**
+
+A local headless run launched the Material desktop head with `UNO_RUNTIME_TESTS_RUN_TESTS='{}'` and
+`--runtime-tests=<results.xml>`, but without `UNO_RUNTIME_TESTS_OUTPUT_PATH`. The app opened the
+interactive runner and sat idle, and the user noticed the tests were not running.
+`RuntimeTestEmbeddedRunner.AutoStartTests` reads the output destination only from the environment
+and aborts without one. The argument only makes `RuntimeTestModeDetector` show the runner UI.
+
+**Rules:**
+
+- Export both `UNO_RUNTIME_TESTS_RUN_TESTS` and `UNO_RUNTIME_TESTS_OUTPUT_PATH`, exactly as
+  `build/workflow/scripts/linux-skia-runtime-tests.sh` does.
+- Within a minute of launch, confirm the run started: the log shows
+  `RunTests: Starting test execution`, and the process CPU time keeps rising.
+
 ## A hot-reload run that is killed leaves its fixture edits on disk
 
 **2026-09-17 — Uno 7.0 retarget.**

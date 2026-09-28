@@ -14,7 +14,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class ShadowContainerReloadTests
+public class ShadowContainerReloadTests
 {
 	[TestMethod]
 	public async Task When_Unloaded_Then_Reloaded_No_Exception()
