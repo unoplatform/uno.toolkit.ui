@@ -25,42 +25,41 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 #endif
 
-namespace Uno.Toolkit.RuntimeTests.Tests
+namespace Uno.Toolkit.RuntimeTests.Tests;
+
+[TestClass]
+[RunsOnUIThread]
+public class ThemeInitTests
 {
-	[TestClass]
+	private const string DarkColor = "#FFC7BFFF";
+	private const string LightColor = "#FF5946D2";
+
+	[TestMethod]
+	[DataRow(true, DisplayName = "Dark Mode")]
+	[DataRow(false, DisplayName = "Light Mode")]
 	[RunsOnUIThread]
-	public class ThemeInitTests
+	public async Task Override_Colors(bool isDark)
 	{
-		private const string DarkColor = "#FFC7BFFF";
-		private const string LightColor = "#FF5946D2";
-
-		[TestMethod]
-		[DataRow(true, DisplayName = "Dark Mode")]
-		[DataRow(false, DisplayName = "Light Mode")]
-		[RunsOnUIThread]
-		public async Task Override_Colors(bool isDark)
+		bool isDarkInitial = false;
+		XamlRoot? root = null;
+		try
 		{
-			bool isDarkInitial = false;
-			XamlRoot? root = null;
-			try
-			{
-				var primaryButton = new Button() { Content = "Test" };
-				var grid = new Grid() { Children = { primaryButton } };
+			var primaryButton = new Button() { Content = "Test" };
+			var grid = new Grid() { Children = { primaryButton } };
 
-				await UnitTestUIContentHelperEx.SetContentAndWait(grid);
+			await UnitTestUIContentHelperEx.SetContentAndWait(grid);
 
-				root = UnitTestsUIContentHelper.Content?.XamlRoot;
-				isDarkInitial = SystemThemeHelper.IsRootInDarkMode(root!);
+			root = UnitTestsUIContentHelper.Content?.XamlRoot;
+			isDarkInitial = SystemThemeHelper.IsRootInDarkMode(root!);
 
-				SystemThemeHelper.SetRootTheme(root, isDark);
-				await UnitTestsUIContentHelper.WaitForIdle();
+			SystemThemeHelper.SetRootTheme(root, isDark);
+			await UnitTestsUIContentHelper.WaitForIdle();
 
-				Assert.AreEqual(isDark ? DarkColor : LightColor, (primaryButton.Background as SolidColorBrush)?.Color.ToString());
-			}
-			finally
-			{
-				SystemThemeHelper.SetRootTheme(root, isDarkInitial);
-			}
+			Assert.AreEqual(isDark ? DarkColor : LightColor, (primaryButton.Background as SolidColorBrush)?.Color.ToString());
+		}
+		finally
+		{
+			SystemThemeHelper.SetRootTheme(root, isDarkInitial);
 		}
 	}
 }
