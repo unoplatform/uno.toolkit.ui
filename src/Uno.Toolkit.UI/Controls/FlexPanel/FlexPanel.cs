@@ -31,10 +31,14 @@ namespace Uno.Toolkit.UI;
 /// <para>
 /// Container behavior is configured with <see cref="Direction"/>, <see cref="Wrap"/>,
 /// <see cref="JustifyContent"/>, <see cref="AlignItems"/>, <see cref="AlignContent"/>,
-/// <see cref="ColumnGap"/>, <see cref="RowGap"/>, <see cref="Padding"/> and
-/// <see cref="LayoutDirection"/>. Per-child behavior uses the attached properties <c>Grow</c>,
-/// <c>Shrink</c>, <c>Basis</c>, <c>FlexMinWidth</c>, <c>FlexMinHeight</c>, <c>AlignSelf</c>,
-/// <c>Position</c> and the <c>Left</c> / <c>Top</c> / <c>Right</c> / <c>Bottom</c> insets.
+/// <see cref="ColumnGap"/>, <see cref="RowGap"/> and <see cref="Padding"/>. Per-child behavior
+/// uses the attached properties <c>Grow</c>, <c>Shrink</c>, <c>Basis</c>, <c>FlexMinWidth</c>,
+/// <c>FlexMinHeight</c>, <c>AlignSelf</c>, <c>Position</c> and the <c>Left</c> / <c>Top</c> /
+/// <c>Right</c> / <c>Bottom</c> insets.
+/// </para>
+/// <para>
+/// Right-to-left layout comes from <see cref="FrameworkElement.FlowDirection"/>, like any other
+/// panel: the platform mirrors the whole panel, including the <c>Left</c> / <c>Right</c> insets.
 /// </para>
 /// <para>
 /// A child's <see cref="FrameworkElement.Margin"/>, <see cref="FrameworkElement.Width"/>,
@@ -268,7 +272,7 @@ public partial class FlexPanel : Panel
 			: fillBlockAxis ? (float)availableSize.Height
 			: float.NaN;
 
-		_rootNode.CalculateLayout(rootWidth, rootHeight, LayoutDirection);
+		_rootNode.CalculateLayout(rootWidth, rootHeight);
 
 		// When the panel has a definite own height, the box resolves to that size and never more.
 		var hasDefiniteOwnHeight = hasExplicitHeight || fillBlockAxis;
@@ -344,7 +348,7 @@ public partial class FlexPanel : Panel
 					? (float)finalSize.Height
 					: float.NaN;
 
-				_rootNode.CalculateLayout((float)finalSize.Width, arrangeHeight, LayoutDirection);
+				_rootNode.CalculateLayout((float)finalSize.Width, arrangeHeight);
 
 				_cachedChildLayouts.Clear();
 				for (var i = 0; i < Children.Count; i++)

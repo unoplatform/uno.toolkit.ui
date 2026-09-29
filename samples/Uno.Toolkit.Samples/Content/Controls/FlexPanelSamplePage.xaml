@@ -719,20 +719,18 @@
 								</utu:FlexPanel>
 							</Border>
 
-							<!-- 10. LayoutDirection -->
+							<!-- 10. FlowDirection -->
 							<TextBlock Margin="0,32,0,0"
-									   Text="LayoutDirection"
+									   Text="FlowDirection"
 									   Style="{StaticResource TitleTextBlockStyle}" />
 							<TextBlock Margin="0,4,0,0"
 									   TextWrapping="Wrap"
-									   Text="LayoutDirection is the only right-to-left input FlexPanel reads — FlowDirection is ignored. Setting both to a right-to-left value mirrors the layout twice, which is almost never what you want."
+									   Text="Right-to-left layout comes from FlowDirection, as with any other panel. The platform mirrors the whole panel: the main axis starts on the right, and the Left/Right insets of absolute children swap sides."
 									   Style="{StaticResource BodyTextBlockStyle}" />
 
 							<TextBlock Text="LeftToRight (default)" Style="{StaticResource FlexCaptionStyle}" />
 							<Border Style="{StaticResource FlexHostStyle}">
-								<utu:FlexPanel ColumnGap="8"
-											   LayoutDirection="LeftToRight"
-											   Padding="8">
+								<utu:FlexPanel ColumnGap="8" Padding="8">
 									<Border Style="{StaticResource FlexItemStyle}">
 										<TextBlock Text="First" Style="{StaticResource FlexItemTextStyle}" />
 									</Border>
@@ -748,7 +746,7 @@
 							<TextBlock Text="RightToLeft — the main axis starts on the right." Style="{StaticResource FlexCaptionStyle}" />
 							<Border Style="{StaticResource FlexHostStyle}">
 								<utu:FlexPanel ColumnGap="8"
-											   LayoutDirection="RightToLeft"
+											   FlowDirection="RightToLeft"
 											   Padding="8">
 									<Border Style="{StaticResource FlexItemStyle}">
 										<TextBlock Text="First" Style="{StaticResource FlexItemTextStyle}" />

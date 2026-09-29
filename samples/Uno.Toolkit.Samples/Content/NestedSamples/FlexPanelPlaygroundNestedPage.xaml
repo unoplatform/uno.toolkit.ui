@@ -172,11 +172,6 @@
 								  SelectionChanged="OnContainerOptionChanged"
 								  Style="{StaticResource OptionComboStyle}" />
 
-						<TextBlock Text="LayoutDirection" Style="{StaticResource OptionLabelStyle}" />
-						<ComboBox x:Name="LayoutDirectionCombo"
-								  SelectionChanged="OnContainerOptionChanged"
-								  Style="{StaticResource OptionComboStyle}" />
-
 						<TextBlock x:Name="ColumnGapLabel"
 								   Text="ColumnGap"
 								   Style="{StaticResource OptionLabelStyle}" />
@@ -269,7 +264,7 @@
 						<TextBlock FontSize="11"
 								   Opacity="0.7"
 								   TextWrapping="Wrap"
-								   Text="FlexPanel ignores FlowDirection. Combining it with LayoutDirection=RightToLeft mirrors twice — that is the documented hazard, shown here on purpose." />
+								   Text="Right-to-left mirrors the whole panel, including the Left/Right insets of absolute children." />
 
 						<TextBlock Text="Children" Style="{StaticResource SectionHeaderStyle}" />
 

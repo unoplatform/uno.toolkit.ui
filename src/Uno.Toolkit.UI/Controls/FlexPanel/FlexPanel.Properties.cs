@@ -176,33 +176,6 @@ partial class FlexPanel
 		set => SetValue(PaddingProperty, value);
 	}
 
-	// -- LayoutDirection DependencyProperty --
-	public static readonly DependencyProperty LayoutDirectionProperty = DependencyProperty.Register(
-		nameof(LayoutDirection),
-		typeof(FlexLayoutDirection),
-		typeof(FlexPanel),
-		new PropertyMetadata(FlexLayoutDirection.LeftToRight, propertyChangedCallback: OnContainerPropertyChanged));
-
-	// On Android the base View declares a LayoutDirection property, so this one hides it and needs
-	// `new`. No other target has a base member to hide, where `new` is redundant, so CS0109 is
-	// suppressed here rather than splitting the declaration across an #if.
-#pragma warning disable CS0109
-	/// <summary>
-	/// Gets or sets the writing direction used to resolve the main axis.
-	/// CSS equivalent: <c>direction</c>.
-	/// </summary>
-	/// <remarks>
-	/// This is the only right-to-left input <see cref="FlexPanel"/> reads;
-	/// <see cref="FrameworkElement.FlowDirection"/> is ignored. Setting both this property and
-	/// <c>FlowDirection</c> to a right-to-left value mirrors the layout twice.
-	/// </remarks>
-	public new FlexLayoutDirection LayoutDirection
-	{
-		get => (FlexLayoutDirection)GetValue(LayoutDirectionProperty);
-		set => SetValue(LayoutDirectionProperty, value);
-	}
-#pragma warning restore CS0109
-
 	// -- Grow Attached Property --
 	[DynamicDependency(nameof(GetGrow))]
 	public static readonly DependencyProperty GrowProperty = DependencyProperty.RegisterAttached(
