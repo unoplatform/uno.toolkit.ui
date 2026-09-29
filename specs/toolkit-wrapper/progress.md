@@ -109,7 +109,7 @@ dotnet publish samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj 
 - [x] Inspect PR #1654 checks and distinguish current failures from canceled runs.
 - [x] Fix MD012 in these notes and run the exact CI Markdown validation command.
 - [x] Fix desktop guest reclamation reproduced by the Linux CI smoke test; validate locally.
-- [ ] Monitor replacement runs and address additional failures without weakening checks.
+- [x] Monitor replacement runs and address additional failures without weakening checks.
 
 The Linux smoke on build 236378 reproduces the same reclamation failure observed on
 macOS. This is a cross-platform hosting issue, not a macOS-only limitation.
@@ -165,3 +165,16 @@ remains diagnostic. The deployed preview also passed at the pre-fix review commi
 Follow the latest
 [PR checks](https://github.com/unoplatform/uno.toolkit.ui/pull/1654/checks) for Linux CI
 verification and the preview deployment.
+
+### Final CI verification
+
+[Azure build 236394](https://dev.azure.com/uno-platform/Uno%20Platform/_build/results?buildId=236394)
+passed on `c3e2179c`, including the strict Linux hosting smoke, all sample platform
+builds, packages, documentation checks, and runtime tests. CI validated 372 desktop
+runtime test cases and 48 hot-reload cases. GitHub CodeQL and preview deployment also
+passed. The final deployed preview hosting smoke passed
+(`/tmp/toolkit-pr-final-deployed-browser.log`). The follow-up comment corrections align
+the Uno version and Lottie sharing documentation with the existing implementation.
+
+WASM collection remains diagnostic, and full sample builds still emit the warnings
+documented above. Those limitations are not hidden by the successful CI result.

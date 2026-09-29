@@ -3,9 +3,8 @@
 # payload filter in ToolkitSampleApp.csproj (ReadLinesFromFile). One rule per line:
 #   =Name    share with the default ALC on exact simple-name match; excluded from the wasm payload
 #   ^Prefix  share with the default ALC on prefix match; excluded from the wasm payload
-#   ~Name    share on exact match, but STILL SHIPPED in the payload (the wrapper's own closure
-#            does not carry it, so the guest directory must — this marker is why Uno.UI.Lottie
-#            was once stranded: excluded but unresolvable)
+#   ~Name    share on exact match if available in the default ALC; still shipped in the
+#            payload so the guest can load it when it is unavailable to the host
 #   !Prefix  ALWAYS isolate per-ALC on prefix match; always shipped. Isolation wins over sharing.
 # Invariant: every =/^ name MUST be resolvable from the wrapper's default ALC at runtime
 # (its own closure or the shared framework), or wasm guests fail to bind it.

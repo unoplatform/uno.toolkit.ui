@@ -33,7 +33,7 @@ internal sealed class GuestAppLoadException : Exception
 /// <remarks>
 /// Split across partials: session lifecycle here; run-loop and binary location per platform in
 /// <c>GuestAppLoader.Desktop.cs</c> / <c>GuestAppLoader.Wasm.cs</c>; the reflection-based
-/// compensations for Uno 6.7-dev per-ALC sweep gaps in <c>GuestAppLoader.Sweeps.cs</c>.
+/// compensations for Uno 7 per-ALC sweep gaps in <c>GuestAppLoader.Sweeps.cs</c>.
 /// </remarks>
 internal sealed partial class GuestAppLoader
 {
