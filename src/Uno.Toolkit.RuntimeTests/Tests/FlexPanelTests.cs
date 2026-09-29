@@ -248,6 +248,27 @@ public class FlexPanelTests
 	}
 
 	[TestMethod]
+	public async Task When_InnerFlexPanelUnderGridRow_ThenFillsDefiniteSlot()
+	{
+		// The outer panel's "measure me for content" signal is meant for a direct FlexPanel child
+		// only. Here a Grid sits in between and hands the inner panel a definite 300px row, which a
+		// Stretch panel must fill -- the outer panel's intent must not leak through the Grid.
+		var inner = new FlexPanel { VerticalAlignment = VerticalAlignment.Stretch };
+		inner.Children.Add(CreateChild(50, 20));
+
+		var grid = new Grid();
+		grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(300) });
+		grid.Children.Add(inner);
+
+		var SUT = new FlexPanel { Direction = FlexDirection.Column, Width = 200 };
+		SUT.Children.Add(grid);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		inner.DesiredSize.Height.Should().BeApproximately(300, Tolerance, "a Stretch panel fills the definite row it was given");
+	}
+
+	[TestMethod]
 	public async Task When_FlexMinWidthNotSet_ThenChildShrinksBelowItsContent()
 	{
 		// There is no automatic (CSS 4.5 min-content) floor: the default minimum is 0, as in Yoga
