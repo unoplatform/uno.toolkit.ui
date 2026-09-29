@@ -85,12 +85,13 @@ Set these on the *children* of a `FlexPanel`.
 
 ### Properties that participate without an attached property
 
-A child's `Margin`, `Width`, `Height` and `Visibility` are read directly:
+A child's `Margin`, `Width`, `Height`, `MinWidth` / `MaxWidth`, `MinHeight` / `MaxHeight` and `Visibility` are read directly:
 
 | Child property | Effect |
 |---|---|
 | `Margin` | Mapped to the item's margin edges. |
 | `Width` / `Height` | Mapped to a definite item size; `NaN` means `auto`. |
+| `MinWidth` / `MaxWidth`, `MinHeight` / `MaxHeight` | Clamp the item's slot, so grow and shrink stop at them. A `MinWidth` combines with `FlexMinWidth` (the larger wins). |
 | `Visibility="Collapsed"` | Mapped to `display: none` — the child contributes no size **and no gap slot**. |
 
 ### Which `FlexAlign` members apply where

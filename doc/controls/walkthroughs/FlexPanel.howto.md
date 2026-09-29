@@ -265,7 +265,7 @@ tags: [flexpanel, flexbox, css, layout, yoga, wrap, grow, shrink, basis, gap, ju
   Right-to-left comes from the inherited `FlowDirection`.
 * **Per-child (attached):** `Grow`, `Shrink`, `Basis`, `FlexMinWidth`, `FlexMinHeight`,
   `AlignSelf`, `Position`, `Left`, `Top`, `Right`, `Bottom`.
-* **Read directly off the child:** `Margin`, `Width`, `Height`, `Visibility`.
+* **Read directly off the child:** `Margin`, `Width`, `Height`, `MinWidth`, `MaxWidth`, `MinHeight`, `MaxHeight`, `Visibility`.
 
 See [FlexPanel](../FlexPanel.md) for types, defaults and the CSS equivalent of each.
 

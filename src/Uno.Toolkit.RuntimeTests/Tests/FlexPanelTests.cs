@@ -351,6 +351,56 @@ public class FlexPanelTests
 	}
 
 	[TestMethod]
+	public async Task When_ChildMaxWidthSet_ThenGrowStopsAtMax()
+	{
+		var SUT = new FlexPanel { Width = 400, Height = 50 };
+
+		var capped = CreateChild(height: 20);
+		capped.MaxWidth = 100;
+		FlexPanel.SetGrow(capped, 1);
+		var other = CreateChild(height: 20);
+		FlexPanel.SetGrow(other, 1);
+		SUT.Children.Add(capped);
+		SUT.Children.Add(other);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(capped).Width.Should().BeApproximately(100, Tolerance, "grow must not push a child past its MaxWidth");
+		SlotOf(other).Width.Should().BeApproximately(300, Tolerance, "the sibling takes the space the capped child could not");
+	}
+
+	[TestMethod]
+	public async Task When_ChildMinWidthSet_ThenShrinkStopsAtMin()
+	{
+		var SUT = new FlexPanel { Width = 100, Height = 50 };
+
+		var floored = CreateChild(100, 20);
+		floored.MinWidth = 80;
+		var other = CreateChild(100, 20);
+		SUT.Children.Add(floored);
+		SUT.Children.Add(other);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(floored).Width.Should().BeApproximately(80, Tolerance, "shrink must not pull a child below its MinWidth");
+		SlotOf(other).Width.Should().BeApproximately(20, Tolerance, "the sibling absorbs the rest of the deficit");
+	}
+
+	[TestMethod]
+	public async Task When_ChildMaxHeightSet_ThenStretchStopsAtMax()
+	{
+		var SUT = new FlexPanel { Width = 200, Height = 100 };
+
+		var capped = CreateChild(width: 50);
+		capped.MaxHeight = 40;
+		SUT.Children.Add(capped);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(capped).Height.Should().BeApproximately(40, Tolerance, "cross-axis stretch must not exceed MaxHeight");
+	}
+
+	[TestMethod]
 	public async Task When_ChildCollapsed_ThenExcludedFromLayoutAndGap()
 	{
 		// Collapsed is the XAML equivalent of display:none: no size contribution and no gap slot,

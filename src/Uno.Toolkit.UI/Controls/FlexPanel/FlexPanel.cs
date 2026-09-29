@@ -42,8 +42,9 @@ namespace Uno.Toolkit.UI;
 /// </para>
 /// <para>
 /// A child's <see cref="FrameworkElement.Margin"/>, <see cref="FrameworkElement.Width"/>,
-/// <see cref="FrameworkElement.Height"/> and <see cref="UIElement.Visibility"/> participate in
-/// layout without any attached property.
+/// <see cref="FrameworkElement.Height"/>, its <c>MinWidth</c> / <c>MaxWidth</c> /
+/// <c>MinHeight</c> / <c>MaxHeight</c> and <see cref="UIElement.Visibility"/> participate in layout
+/// without any attached property.
 /// </para>
 /// <para>
 /// Being a <see cref="Panel"/>, <c>FlexPanel</c> cannot draw a border or corner radius — wrap it in
@@ -571,18 +572,27 @@ public partial class FlexPanel : Panel
 		// No automatic (CSS 4.5 min-content) floor: the minimum is 0, as in Yoga and React Native,
 		// unless the caller sets one. WinUI has no way to ask an element for its min-content size -- a
 		// zero-width Measure clamps DesiredSize to 0 -- so such a floor could not be computed anyway.
-		node.MinWidth = ToMin(GetFlexMinWidth(element));
-		node.MinHeight = ToMin(GetFlexMinHeight(element));
+		var minWidth = GetFlexMinWidth(element);
+		var minHeight = GetFlexMinHeight(element);
+		var maxWidth = double.PositiveInfinity;
+		var maxHeight = double.PositiveInfinity;
 
 		node.Style.Position[(int)YogaEdge.Left] = ToInset(GetLeft(element));
 		node.Style.Position[(int)YogaEdge.Top] = ToInset(GetTop(element));
 		node.Style.Position[(int)YogaEdge.Right] = ToInset(GetRight(element));
 		node.Style.Position[(int)YogaEdge.Bottom] = ToInset(GetBottom(element));
 
-		// FR-4: Width / Height / Margin participate with no attached property. These are re-read
-		// every pass because they change without raising OnChildPropertyChanged.
+		// FR-4: Width / Height / Min* / Max* / Margin participate with no attached property. These
+		// are re-read every pass because they change without raising OnChildPropertyChanged.
 		if (element is FrameworkElement frameworkElement)
 		{
+			// Without these, grow could push a child past its MaxWidth and shrink pull it below its
+			// MinWidth, and the child would then clip or misalign inside its arranged slot.
+			minWidth = CombineMin(minWidth, frameworkElement.MinWidth);
+			minHeight = CombineMin(minHeight, frameworkElement.MinHeight);
+			maxWidth = frameworkElement.MaxWidth;
+			maxHeight = frameworkElement.MaxHeight;
+
 			node.Width = double.IsNaN(frameworkElement.Width)
 				? YogaValue.Auto
 				: YogaValue.Point((float)frameworkElement.Width);
@@ -607,10 +617,26 @@ public partial class FlexPanel : Panel
 			}
 		}
 
+		node.MinWidth = ToMin(minWidth);
+		node.MinHeight = ToMin(minHeight);
+		node.MaxWidth = ToMax(maxWidth);
+		node.MaxHeight = ToMax(maxHeight);
+
 		static YogaValue ToInset(double value)
 			=> double.IsNaN(value) ? YogaValue.Undefined : YogaValue.Point((float)value);
 
 		static YogaValue ToMin(double value)
 			=> double.IsNaN(value) ? YogaValue.Undefined : YogaValue.Point((float)Math.Max(0, value));
+
+		static YogaValue ToMax(double value)
+			=> double.IsNaN(value) || double.IsPositiveInfinity(value)
+				? YogaValue.Undefined
+				: YogaValue.Point((float)Math.Max(0, value));
+
+		// FlexMin* (NaN = unset) combined with FrameworkElement.Min* (0 = unset): the larger floor wins.
+		static double CombineMin(double flexMin, double frameworkMin)
+			=> frameworkMin <= 0 ? flexMin
+				: double.IsNaN(flexMin) ? frameworkMin
+				: Math.Max(flexMin, frameworkMin);
 	}
 }
