@@ -57,6 +57,8 @@ For the hosting smoke test, pass `-- --smoke` to the desktop `dotnet run` comman
 open the published site with `?smoke`. It checks all themes, reload, failed/canceled
 loads, and unload. Desktop Release also requires guest assembly contexts to be reclaimed;
 WASM and Debug report reclamation diagnostically, matching the Uno Themes host.
+Release desktop finishes collection before starting another guest; if cleanup cannot
+finish, the host reports an error and lets you retry loading.
 
 ## Documentation
 

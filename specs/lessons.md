@@ -2,6 +2,27 @@
 
 Corrections worth not repeating. Newest first.
 
+## Enumerate thread-static roots before blaming native ALC lifetime
+
+**2026-09-29 — Toolkit sample wrapper (#1654).**
+
+An ordinary heap-root scan showed only the runtime's native handle to a guest ALC.
+Explicit thread-static enumeration revealed `Control._isEnabledChangedEventArgs` holding
+a pooled property-change argument that had been reused for a guest dependency property.
+Replacing the property-change pool alone left this alias alive. Separately, starting the
+next guest before finalization completed let the binding resolver cache a getter from
+an unloaded-but-not-collected assembly, retaining that context through the new app.
+
+**Rules:**
+
+- Inspect thread-static fields on every relevant thread when the heap tool's root list
+  finds no ordinary root. A native ALC handle is not evidence of a native runtime leak.
+- Inspect aliases of pooled mutable event arguments as well as the pool itself.
+- Run cleanup on the thread that owns a thread-static cache, outside active callbacks.
+- For release-before-load hosting, yield out of teardown frames and verify collection
+  before loading the next app. One collection/finalization/collection sequence may
+  need another pass to finish collectible allocator finalization; keep a bounded, observable failure path.
+
 ## A headless runtime-test run needs the output path in the environment
 
 **2026-09-25 — MSTest 4 bump (#1649).**

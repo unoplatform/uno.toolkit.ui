@@ -17,7 +17,7 @@ namespace Uno.Toolkit.WrapperApp.GuestHosting;
 /// </list>
 /// unoplatform/uno#24076 (native X11 window/GL context leak) has no host-side sweep.
 /// Reference write-ups: ref/Uno.Themes/specs/05-alc-wrapper-app/upstream-issues.md.
-/// The additional event-args pool gap is tracked in specs/toolkit-wrapper/progress.md.
+/// The additional event-args retention gaps are tracked in specs/toolkit-wrapper/progress.md.
 /// Internal API by necessity; expected reflection failures degrade to logged warnings
 /// (memory may stay resident until the next guest exits).
 /// </remarks>
@@ -104,12 +104,13 @@ internal sealed partial class GuestAppLoader
 				_logger.LogWarning("DependencyProperty._getPropertyCache was not reachable; cross-ALC cache entries may pin the guest ALC.");
 			}
 		}
-		catch (Exception ex)
+		catch (Exception ex) when (ex is TargetInvocationException or TargetParameterCountException or MethodAccessException or FieldAccessException or ArgumentException)
 		{
 			_logger.LogWarning(ex, "Clearing DependencyProperty._getPropertyCache failed; cross-ALC cache entries may pin the guest ALC.");
 		}
 
 		ClearDependencyPropertyChangedEventArgsPool();
+		ClearIsEnabledChangedEventArgs();
 		PruneGuestNavigationHandlers();
 	}
 
@@ -141,6 +142,35 @@ internal sealed partial class GuestAppLoader
 		catch (Exception ex) when (ex is ArgumentException or MemberAccessException or TargetInvocationException)
 		{
 			_logger.LogWarning(ex, "Clearing the property-change event-args pool failed; guest ALC memory may stay resident.");
+		}
+	}
+
+	// Control caches these args in a UI-thread static. SourceEvent holds a pooled
+	// DependencyPropertyChangedEventArgs that is reused for unrelated properties, so it
+	// can retain a guest dependency property even after replacing the shared args pool.
+	// Verified by enumerating thread-static roots after unload: Control -> SourceEvent ->
+	// guest DependencyProperty -> RuntimeType -> LoaderAllocator. Clear only at teardown,
+	// outside property callbacks; Control lazily recreates the args on its next change.
+	// TODO: Remove when Uno clears SourceEvent after dispatching IsEnabledChanged.
+	private static readonly FieldInfo? _isEnabledChangedEventArgsField =
+		SafeGetField(typeof(global::Microsoft.UI.Xaml.Controls.Control), "_isEnabledChangedEventArgs", BindingFlags.Static | BindingFlags.NonPublic);
+
+	private static void ClearIsEnabledChangedEventArgs()
+	{
+		try
+		{
+			if (_isEnabledChangedEventArgsField is { } field)
+			{
+				field.SetValue(null, null);
+			}
+			else
+			{
+				_logger.LogWarning("Control's IsEnabledChanged event-args cache was not reachable; cached guest properties may pin the guest ALC.");
+			}
+		}
+		catch (Exception ex) when (ex is ArgumentException or FieldAccessException)
+		{
+			_logger.LogWarning(ex, "Clearing the IsEnabledChanged event-args cache failed; guest ALC memory may stay resident.");
 		}
 	}
 
@@ -199,7 +229,7 @@ internal sealed partial class GuestAppLoader
 				_logger.LogWarning("SystemNavigationManager event fields were not found; guest navigation handlers may keep the guest visual tree rooted.");
 			}
 		}
-		catch (Exception ex)
+		catch (Exception ex) when (ex is AmbiguousMatchException or FieldAccessException or ArgumentException)
 		{
 			_logger.LogWarning(ex, "Pruning guest navigation handlers failed; the guest visual tree may stay rooted.");
 		}

@@ -18,7 +18,8 @@ No package version changes or new third-party dependencies are intended.
 - [x] Build Release desktop and publish Release WASM with all guests.
 - [x] Run hosting smoke (switch/reload/unload all guests) and relevant runtime tests.
 - [x] Review changes and document commands, results, and remaining limitations.
-- [ ] Resolve remaining desktop ALC reclamation failures and obtain a clean full Release build.
+- [x] Resolve desktop ALC reclamation failures and verify with unchanged strict smoke.
+- [ ] Obtain a warning-free full Release build (sample warnings remain).
 
 ## Review
 
@@ -27,8 +28,8 @@ No package version changes or new third-party dependencies are intended.
   output with a warning-free clean solution build.
 - Material Release runtime suite: 361 passed, 0 failed, 11 skipped by existing test gates.
   Log: `/tmp/toolkit-wrapper-runtime-tests.log`; results: `/tmp/toolkit-wrapper-runtime-tests.xml`.
-- Final desktop hosting smoke renders all themes but fails ALC reclamation assertions.
-  The unresolved retention and investigation are recorded below; assertions remain enabled.
+- Initial desktop hosting smoke failed ALC reclamation. The follow-up fix below now passes
+  the unchanged strict smoke twice in fresh processes; assertions remain enabled.
 - First WASM guest run hit MSB4166 (build worker exited); retry with `-m:1` built all three
   guests. Final Release WASM guest builds and wrapper publish succeeded. Guest builds
   emitted 103/102/102 warnings (Material/Cupertino/Simple); the wrapper publish emitted
@@ -52,7 +53,7 @@ Browser smoke repeated against the final publish: passed.
 Final browser log: `/tmp/toolkit-wrapper-final-browser.log`.
 Preview: `/tmp/toolkit-wrapper-material.png`.
 
-### Desktop retention diagnosis
+### Initial desktop retention diagnosis
 
 The hosting smoke reproduced failures before adding cleanup. Heap dumps of the empty
 host identified two independent strong roots in the pinned Uno runtime:
@@ -69,20 +70,20 @@ shipping Toolkit libraries are unchanged. Remove it when Uno clears the retained
 property on pool return. Desktop and WASM installed assemblies were inspected for the
 pool's field layout and rent/return semantics; the untrimmed wrapper retains metadata.
 
-These fixes allow the first explicit unload to collect. Cross-theme/final unloads still
-fail the strict Release smoke test on macOS, reproduced on .NET 10.0.3 and 10.0.12.
+These initial fixes allowed the first explicit unload to collect. Cross-theme/final unloads still
+failed the strict Release smoke test on macOS, reproduced on .NET 10.0.3 and 10.0.12.
 Empty-host heap inspection found a native runtime strong handle to the remaining ALC,
 without an ordinary managed guest root or guest code on the stack. This narrows the
 investigation but does not establish the remaining root cause. Experimental delays,
 extra collection sweeps, diagnostic pauses, and inlining changes were removed.
 
 Constraint: Linux hosting smoke could not be run locally (Docker daemon unavailable).
-Impact: desktop unloading can retain guest memory, and desktop verification remains
-failing. Mitigation/follow-up: retain the strict Linux CI hosting smoke gate and resolve
-the remaining retention before treating this work as fully verified. Browser collection
+Initial impact: desktop unloading retained guest memory and failed verification.
+The resolution below now passes locally; the strict Linux CI hosting smoke gate remains
+required before treating the cross-platform behavior as fully verified. Browser collection
 diagnostics do not prove that memory is reclaimed. No test assertions were weakened.
 
-### Final validation commands and logs
+### Initial validation commands and logs
 
 ```bash
 dotnet build samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj -c Release -f net10.0-desktop -p:TargetFrameworkOverride=desktop -p:GeneratePackageOnBuild=false -m:1
@@ -99,15 +100,15 @@ dotnet publish samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj 
 - Missing-payload target check: failed as expected with an actionable missing guest error.
 - Solutions preserve standalone runtime-test artifacts and exclude the wrapper from
   mobile/package-only build configurations. No package dependencies or version pins added.
-- PR preparation: publish as a draft because desktop reclamation and a warning-free
-  full Release build remain unresolved. No related issue was supplied; association
-  remains pending. Creating the PR will trigger the configured preview workflow.
+- Initially published as a draft with the reclamation failure documented. The subsequent
+  fix below relates to [uno#24581](https://github.com/unoplatform/uno/issues/24581);
+  the PR preview workflow deploys the combined wrapper.
 
 ### PR CI follow-up
 
 - [x] Inspect PR #1654 checks and distinguish current failures from canceled runs.
 - [x] Fix MD012 in these notes and run the exact CI Markdown validation command.
-- [ ] Fix desktop guest reclamation reproduced by the Linux CI smoke test.
+- [x] Fix desktop guest reclamation reproduced by the Linux CI smoke test; validate locally.
 - [ ] Monitor replacement runs and address additional failures without weakening checks.
 
 The Linux smoke on build 236378 reproduces the same reclamation failure observed on
@@ -125,11 +126,42 @@ cleanup-invocation catches to expected reflection exceptions. Kept the intention
 collection passes and per-guest `App.Instance`; replacing either as suggested by the
 code-quality bot would break the host's lifecycle/resource-lookup contract.
 
-The review changes build in Release desktop with 0 warnings/errors. Strict smoke still
-fails reclamation (`/tmp/toolkit-ci-review-smoke.log`). Longer waits, extra cleanup passes,
+The earlier review changes built in Release desktop with 0 warnings/errors. Strict smoke still
+failed reclamation (`/tmp/toolkit-ci-review-smoke.log`). Longer waits, extra cleanup passes,
 no-inlining, path-based assembly loading, clearing the guest instance, and progressively
 simplified guest UIs did not produce a reliable fix. All diagnostic code was removed;
-no assertions or production GC settings were weakened. The current root cause remains
-unresolved. CI on `06644975` passed all standalone desktop/mobile/WASM builds, packages,
+no assertions or production GC settings were weakened. Those early experiments did not
+identify the root cause; see the resolution below. CI on `06644975` passed all standalone
+desktop/mobile/WASM builds, packages,
 Markdown/spelling, hot-reload tests, and CodeQL; wrapper publishing was still running
 when these results were recorded.
+
+### ALC reclamation resolution
+
+Explicit enumeration of thread-static fields identified another retained reference:
+`Control._isEnabledChangedEventArgs.SourceEvent` held a pooled
+`DependencyPropertyChangedEventArgs` whose reused `PropertyInternal` referred to a guest
+property. Replacing the shared event-args pool did not release this separate alias.
+The wrapper now clears the control cache on its UI thread after teardown; Uno lazily
+recreates it for the next IsEnabled change. No shipping Toolkit library was changed.
+
+The remaining intermediate failures came from starting a new guest before the prior
+context had finished collection. Uno's binding resolver could then cache the old guest's
+property getter in the new app (related to [uno#24581](https://github.com/unoplatform/uno/issues/24581)).
+Release desktop now yields out of the teardown continuation and allows up to five
+collection/finalization passes before booting another guest. If collection cannot finish,
+it leaves the host empty and reports a load error that lets the user retry. Debug/WASM retain diagnostic
+collection because their existing runtime limitations prevent this guarantee.
+
+Red/fix/green: `/tmp/toolkit-ci-tls-red.log` fails with the original strict smoke;
+`/tmp/toolkit-ci-alc-fixed-smoke1.log` and `...smoke2.log` both pass in fresh processes
+with normal runtime settings and unchanged assertions. The final incremental Release
+desktop build has 0 warnings/errors (`/tmp/toolkit-ci-alc-fixed-build.log`). No diagnostic
+branches, delays in the test, JIT overrides, or dependency changes were retained.
+
+The final Release WASM guest builds and wrapper publish passed, and the published
+browser hosting smoke passed (`/tmp/toolkit-ci-fixed-browser.log`). WASM collection
+remains diagnostic. The deployed preview also passed at the pre-fix review commit.
+Follow the latest
+[PR checks](https://github.com/unoplatform/uno.toolkit.ui/pull/1654/checks) for Linux CI
+verification and the preview deployment.

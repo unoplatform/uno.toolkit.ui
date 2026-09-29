@@ -184,8 +184,7 @@ internal sealed partial class GuestAppLoader
 
 			// Release-before-allocate: collect what the previous guest pinned before the next
 			// ALC maps its assemblies (WASM memory growth is irreversible).
-			await DeepCollectAsync().ConfigureAwait(false);
-			ReportPreviousAlcCollectionState();
+			await CollectPreviousAlcBeforeLoadAsync(cancellationToken).ConfigureAwait(false);
 
 			var session = new Session
 			{
@@ -549,6 +548,42 @@ internal sealed partial class GuestAppLoader
 		}
 
 		return true;
+	}
+
+	private async Task CollectPreviousAlcBeforeLoadAsync(CancellationToken cancellationToken)
+	{
+#if !DEBUG && !__WASM__
+		const int maxAttempts = 5;
+#else
+		// Debug/WASM collection is diagnostic, matching the reference host's limitations.
+		const int maxAttempts = 1;
+#endif
+		for (var attempt = 0; attempt < maxAttempts; attempt++)
+		{
+			// Do not collect inline on the teardown continuation: its stack may still hold
+			// guest locals. Finalizable UI objects and LoaderAllocatorScout then need
+			// separate collection/finalization passes before the ALC disappears.
+			await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+			await DeepCollectAsync().ConfigureAwait(false);
+			ReportPreviousAlcCollectionState();
+			if (LastUnloadedAlcCollected != false)
+			{
+				return;
+			}
+
+			if (attempt + 1 < maxAttempts)
+			{
+				// Allow finalizer continuations to finish without immediately spinning GCs.
+				await Task.Delay(TimeSpan.FromMilliseconds(200), cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+#if !DEBUG && !__WASM__
+		// Uno's binding type resolver can find unloaded-but-not-collected assemblies
+		// (unoplatform/uno#24581). Booting now can bind the new app to the old types and
+		// pin both ALCs. Leave the host empty and allow the user to retry loading.
+		throw new GuestAppLoadException("The previous app's assemblies have not been reclaimed. Try loading the app again after cleanup finishes.");
+#endif
 	}
 
 	private void ReportPreviousAlcCollectionState()
