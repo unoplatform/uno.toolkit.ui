@@ -112,7 +112,7 @@ Namespace `Uno.Toolkit.UI`. `public partial class FlexPanel : Panel`.
 
 | Property | Type | Default | CSS equivalent |
 |---|---|---|---|
-| `Direction` | `FlexDirection` (`Row`, `RowReverse`, `Column`, `ColumnReverse`) | `Row` ⚠️ | `flex-direction` |
+| `Direction` | `FlexDirection` (`Row`, `RowReverse`, `Column`, `ColumnReverse`) | `Row` | `flex-direction` |
 | `Wrap` | `FlexWrap` (`NoWrap`, `Wrap`, `WrapReverse`) | `NoWrap` | `flex-wrap` |
 | `JustifyContent` | `FlexJustify` (`FlexStart`, `Center`, `FlexEnd`, `SpaceBetween`, `SpaceAround`, `SpaceEvenly`) | `FlexStart` | `justify-content` |
 | `AlignItems` | `FlexAlign` (`Stretch`, `FlexStart`, `Center`, `FlexEnd`, `Baseline`) | `Stretch` | `align-items` |
@@ -120,9 +120,8 @@ Namespace `Uno.Toolkit.UI`. `public partial class FlexPanel : Panel`.
 | `ColumnGap` | `double` | `0` | `column-gap` |
 | `RowGap` | `double` | `0` | `row-gap` |
 | `Padding` | `Thickness` | `0` | `padding` |
-| `LayoutDirection` | `FlexLayoutDirection` (`Inherit`, `LeftToRight`, `RightToLeft`) | `LeftToRight` | `direction` |
 
-⚠️ `Direction`'s DP metadata default is `Row`, which **diverges from the enum's zero value** — upstream's `FlexEnums.cs` uses Yoga's numbering (`Column = 0, ColumnReverse = 1, Row = 2, RowReverse = 3`). Upstream gets away with it because its `FlexRow()`/`FlexColumn()` factories always set `Direction` explicitly; a bare `<utu:FlexPanel>` in XAML relies entirely on the metadata default. Keep `Row` (it is the CSS default and the useful one) and keep the comment in the DP registration, because a reader of `FlexEnums.cs` will otherwise assume `Column`.
+Right-to-left comes from the inherited `FlowDirection`, not from a property of our own (review amendment R2). The public enums are FlexPanel's own, with the default member first, so `Row` is `FlexDirection`'s zero value (R3).
 
 ### Attached properties
 
@@ -131,13 +130,13 @@ Namespace `Uno.Toolkit.UI`. `public partial class FlexPanel : Panel`.
 | `FlexPanel.Grow` | `double` | `0` | `flex-grow` |
 | `FlexPanel.Shrink` | `double` | `1` | `flex-shrink` |
 | `FlexPanel.Basis` | `double` | `NaN` (= `auto`) | `flex-basis` (px only in v1) |
-| `FlexPanel.FlexMinWidth` | `double` | `NaN` (= `min-width: auto`) | `min-width` |
-| `FlexPanel.FlexMinHeight` | `double` | `NaN` (= `min-height: auto`) | `min-height` |
+| `FlexPanel.FlexMinWidth` | `double` | `NaN` (= no floor; R1) | `min-width` |
+| `FlexPanel.FlexMinHeight` | `double` | `NaN` (= no floor; R1) | `min-height` |
 | `FlexPanel.AlignSelf` | `FlexAlign` | `Auto` | `align-self` |
-| `FlexPanel.Position` | `FlexPositionType` (`Static`, `Relative`, `Absolute`) | `Relative` | `position` |
+| `FlexPanel.Position` | `FlexPositionType` (`Relative`, `Absolute`) | `Relative` | `position` |
 | `FlexPanel.Left` / `.Top` / `.Right` / `.Bottom` | `double` | `NaN` | inset properties |
 
-Child `Margin`, `Width`, `Height`, and `Visibility` participate without any attached property: the adapter syncs `Margin` → Yoga margin edges, `Width`/`Height` → `YogaNode.Width`/`Height` (`NaN` → `auto`), and `Visibility="Collapsed"` → Yoga `Display: None`.
+Child `Margin`, `Width`, `Height`, `MinWidth`/`MaxWidth`, `MinHeight`/`MaxHeight` and `Visibility` participate without any attached property: the adapter syncs `Margin` → Yoga margin edges, `Width`/`Height` → `YogaNode.Width`/`Height` (`NaN` → `auto`), `Max*` → `YogaNode.MaxWidth`/`MaxHeight`, `Min*` → combined with `FlexMin*` (the larger floor wins; R5), and `Visibility="Collapsed"` → Yoga `Display: None`.
 
 ```xml
 <utu:FlexPanel Direction="Row"
@@ -154,7 +153,7 @@ Child `Margin`, `Width`, `Height`, and `Visibility` participate without any atta
 
 ### Deferred (engine supports it, v1 does not surface it)
 
-`MaxWidth`/`MaxHeight`, percentage `Basis`, `AspectRatio`, `Overflow`, `BoxSizing`, the `flex` shorthand, Yoga-measured `BorderThickness`, CSS Grid (`JustifyItems`/`JustifySelf`). Each is an additive attached property later — none requires touching the engine. `order` is *not* deferred: Yoga does not implement it, so `FlexPanel` will not have it.
+Percentage `Basis`, `AspectRatio`, `Overflow`, `BoxSizing`, the `flex` shorthand, Yoga-measured `BorderThickness`, CSS Grid (`JustifyItems`/`JustifySelf`). Each is an additive attached property later — none requires touching the engine. `order` is *not* deferred: Yoga does not implement it, so `FlexPanel` will not have it.
 
 ## Design decisions
 
@@ -182,10 +181,12 @@ Splitting DPs into `FlexPanel.Properties.cs` follows `AutoLayout`'s existing fil
 | `FlexEnums.cs` — the 6 public enums that become `FlexPanel`'s DP types | `Uno.Toolkit.UI` |
 | The other 9 engine files, all `internal` | `Uno.Toolkit.UI.Yoga` |
 
-The public enums join the flat toolkit namespace (132 of 133 files there today) so `FlexPanel.SetAlignSelf(el, FlexAlign.Center)` needs no extra `using`; C# enclosing-namespace lookup lets the engine resolve them without one either. Public surface added by the import is **exactly those 6 enum types** — everything else was already `internal` upstream, so no visibility rewrite was needed.
+The public enums join the flat toolkit namespace (132 of 133 files there today) so `FlexPanel.SetAlignSelf(el, FlexAlign.Center)` needs no extra `using`; C# enclosing-namespace lookup lets the engine resolve them without one either. Public surface added by the import is **exactly those 6 enum types** — everything else was already `internal` upstream, so no visibility rewrite was needed. ⚠️ *Superseded by R3: the vendored enums are now `internal` and the import adds no public surface at all.*
 
 **D3 — `Padding`, not `FlexPadding`.** Upstream needs the `Flex` prefix because Reactor's `.Padding()` DSL modifier already means "`FrameworkElement.Margin`/`Padding`". We have no such conflict: `Panel` exposes only `Background` — **there is no `Panel.Padding`** (verified against `src/Uno.UI/Generated/3.0.0.0/Microsoft.UI.Xaml.Controls/Panel.cs`). So `FlexPanel.Padding` reads exactly like `Border.Padding` and means what a XAML author expects.
 *Kept* upstream naming for `FlexMinWidth`/`FlexMinHeight`, despite the `FlexPanel.FlexMinWidth` stutter. Rejected alternative `FlexPanel.MinWidth`: it would sit next to `FrameworkElement.MinWidth` on the same element while meaning something different (the flex floor, not the measure constraint) — the stutter is cheaper than that trap.
+
+⚠️ *D3b's rationale is superseded by R2/R3: `FlexLayoutDirection` is no longer public. The scripted rename is kept, as it is harmless and avoids corpus churn.*
 
 **D3b — `FlexLayoutDirection` members are renamed `LTR`/`RTL` → `LeftToRight`/`RightToLeft`; numeric values stay verbatim.** The rename is the one place the v1 surface deliberately diverges from the vendored source: WinUI spells it out (`FlowDirection.LeftToRight`), abbreviations read badly in XAML, and the enum is part of *our* public API. It costs one adapter-side mapping and must be applied in P1, not discovered in P3. Everything else about the vendored enums is untouched — in particular **the numeric values are not renumbered**, including `FlexDirection`'s Yoga ordering. Renumbering for aesthetics would silently change any serialized or interop value, and by D8's logic divergence has to be paid for.
 
@@ -206,17 +207,17 @@ This gives an escape hatch for any target where double-rounding produces drift, 
 
 **D8 — The engine's static generation counter is accepted as-is.** `YogaAlgorithm` is a static class with `private static uint s_currentGenerationCount`, self-documented "thread-unsafe", bumped via `Interlocked.Increment`. Layout runs on the UI thread on every Uno target, so the invariant holds. It is a value type, so it pins nothing and is ALC-safe. Recorded rather than refactored — divergence from upstream must be paid for.
 
-**D9 — Node cache lifetime is already handled; we still guard it.** `SyncYogaTree()` prunes `_nodeCache` / `_attachedCache` against the live `Children` on every layout pass, so removed children are released. The residual window — a panel that never lays out again after a child is removed holds that child alive — is exactly what a `LeakTest` is for (see Tests, tier 3).
+**D9 — Node cache lifetime is already handled; we still guard it.** `SyncYogaTree()` prunes `_nodeCache` against the live `Children` on every layout pass, so removed children are released. The residual window — a panel that never lays out again after a child is removed holds that child alive — is exactly what a `LeakTest` is for (see Tests, tier 3).
 
 ## Requirements
 
 - **FR-1** — `FlexPanel` is a `Panel` usable from pure XAML with no C# DSL, no framework opt-in, and no initialization call.
 - **FR-2** — Every property in the two API tables above is a `DependencyProperty` with a CLR wrapper; attached properties follow the `Get/Set<Name>(DependencyObject)` convention and each has XML docs naming its CSS equivalent.
 - **FR-3** — Changing any container or attached property invalidates measure and produces a new layout pass.
-- **FR-4** — Child `Margin`, `Width`, `Height` and `Visibility="Collapsed"` participate in layout without attached properties (margin edges, definite dimensions, `Display: None` respectively).
-- **FR-5** — CSS §4.5 automatic minimum size is honored on the main axis: `Basis=auto` + `FlexMinWidth=NaN` floors at min-content; `FlexMinWidth=0` or `Basis=0` opts out; `ScrollViewer`/`ScrollView` children always floor at 0 so a sizing-only pre-measure never realizes virtualized content.
+- **FR-4** — Child `Margin`, `Width`, `Height`, `MinWidth`/`MaxWidth`, `MinHeight`/`MaxHeight` and `Visibility="Collapsed"` participate in layout without attached properties (margin edges, definite dimensions, min/max clamps, `Display: None` respectively).
+- **FR-5** — *(Revised in review, R1.)* There is no CSS §4.5 automatic minimum: the default minimum is `0`, as in Yoga and React Native. `FlexMinWidth` / `FlexMinHeight` set an explicit floor on their own physical axis, whatever `Direction` is.
 - **FR-6** — `UseLayoutRounding=false` disables Yoga's pixel-grid rounding (`PointScaleFactor=0`); `true` tracks `XamlRoot.RasterizationScale`.
-- **FR-7** — `LayoutDirection` is the *only* RTL input `FlexPanel` reads. Verified: the adapter never touches `FlowDirection` — it passes `LayoutDirection` straight into `CalculateLayout` (`FlexPanel.cs:479`, `:580`) and its DP default is `LeftToRight`, not `Inherit`. The two mirroring mechanisms are therefore fully independent, and setting **both** `FlowDirection="RightToLeft"` and `LayoutDirection="RightToLeft"` double-mirrors. v1 contract: `FlexPanel` ignores `FlowDirection`; the doc states this and the sample demonstrates `LayoutDirection`. (Deferred, not silently dropped: resolving `Inherit` from the ambient `FlowDirection` so the WinUI-idiomatic path works — additive, and better decided once we have real RTL feedback.)
+- **FR-7** — *(Revised in review, R2.)* RTL comes from `FlowDirection`, as for any panel: the engine always lays out left-to-right and the platform mirrors, `Left`/`Right` insets included. The original text follows for the record. `LayoutDirection` is the *only* RTL input `FlexPanel` reads. Verified: the adapter never touches `FlowDirection` — it passes `LayoutDirection` straight into `CalculateLayout` (`FlexPanel.cs:479`, `:580`) and its DP default is `LeftToRight`, not `Inherit`. The two mirroring mechanisms are therefore fully independent, and setting **both** `FlowDirection="RightToLeft"` and `LayoutDirection="RightToLeft"` double-mirrors. v1 contract: `FlexPanel` ignores `FlowDirection`; the doc states this and the sample demonstrates `LayoutDirection`. (Deferred, not silently dropped: resolving `Inherit` from the ambient `FlowDirection` so the WinUI-idiomatic path works — additive, and better decided once we have real RTL feedback.)
 - **FR-8** — Layout is identical across the **Skia heads** — desktop/Skia, WASM, and Skia mobile — for the conformance corpus, modulo documented rounding. (Narrowed in P1: Uno 7.0 removes the native `-ios` / `-android` / `-windows` / `-maccatalyst` targets, work already underway in this repo on `dev/mazi/uno7-groundwork`. Library projects have a single non-native TFM, and `-p:TargetFrameworkOverride=desktop` resolves to it alone. Costs nothing here — the engine is pure managed `float` math with no platform API, no `#if`, and no TFM-conditional code.)
 - **FR-9** — `AutoLayout`'s public API and behavior are byte-for-byte unchanged; its existing runtime tests pass untouched.
 
@@ -224,7 +225,7 @@ This gives an escape hatch for any target where double-rounding produces drift, 
 
 - **NFR-1** — Zero warnings in Release across all TFMs (D7 is the only sanctioned suppression, scoped to the vendored folder).
 - **NFR-2** — No per-layout-pass allocation in the adapter's steady state: the node cache, the child `HashSet`, and the removal list are instance fields reused across passes (upstream already does this; a change that regresses it is a defect). No LINQ in `MeasureOverride`/`ArrangeOverride`.
-- **NFR-3** — A `FlexPanel` whose children never change performs at most one `Measure` per child per pass in the `Basis`-definite case; the min-content pre-measure only runs where FR-5 requires it.
+- **NFR-3** — A `FlexPanel` whose children never change performs at most one `Measure` per child per pass. With the min-content probe gone (R1), a nested `FlexPanel` is measured once per level at any depth (`When_NestedFiveDeep_ThenEachLevelMeasuredOnce`).
 - **NFR-4** — No static event subscriptions, no `XamlRoot.Changed` subscription, no strong reference held to a child after it is removed *and* the panel re-lays out.
 - **NFR-5** — Every imported file carries a provenance + license header, and `THIRD-PARTY-NOTICES.md` at the repo root names Reactor/Yoga, both MIT texts, and the pinned SHA. (Restated in P1: there was **no upstream MIT header to keep** — the vendored files carry only `// C# port of Meta's Yoga…` comments, with no copyright, license or provenance. Each imported file is therefore prepended with a generated 4-line header giving the upstream repo, tag, commit, that file's own upstream path, the import date, and `SPDX-License-Identifier: MIT` with both copyright holders — Microsoft for the C# port, Facebook/Meta for Yoga. The full license text lives once in the notices file.)
 
@@ -242,15 +243,17 @@ Coverage inherited: `YogaAbsolutePositionTest`, `YogaAlignContentTest`, `YogaAli
 - `When_BasisSet_ThenWidthIgnored` — `Width=200` + `Grow=1` arranges at the grown size, not 200 (encodes the documented CSS/WinUI mismatch).
 - `When_Wrap_ThenLinesBreakAndRowGapApplies` — N chips in a constrained width produce 2 lines separated by `RowGap`.
 - `When_AlignItemsBaseline_ThenTextBaselinesAlign` — mixed-`FontSize` `TextBlock`s share a baseline.
-- `When_AutoMin_ThenChildDoesNotShrinkBelowMinContent` and `When_FlexMinWidthZero_ThenChildShrinksBelowContent` — FR-5 both directions.
-- `When_ScrollViewerChild_ThenMinContentIsZero` — FR-5 virtualization guard.
+- `When_FlexMinWidthNotSet_ThenChildShrinksBelowItsContent`, `When_FlexMinWidthSet_ThenChildDoesNotShrinkBelowIt`, `When_FlexMinHeightSet_InRow_ThenAppliesToHeight` and `When_FlexMinWidthZero_ThenChildShrinksBelowContent` — FR-5 as revised (R1). The original `When_AutoMin_*` test was vacuous: its child never overflowed.
+- `When_ScrollViewerChild_ThenShrinksToContainer`.
+- `When_NestedFiveDeep_ThenEachLevelMeasuredOnce` — NFR-3.
+- `When_InnerFlexPanelUnderGridRow_ThenFillsDefiniteSlot` — R4.
+- `When_ChildMaxWidthSet_ThenGrowStopsAtMax`, `When_ChildMinWidthSet_ThenShrinkStopsAtMin`, `When_ChildMaxHeightSet_ThenStretchStopsAtMax` — FR-4 / R5.
 - `When_ChildCollapsed_ThenExcludedFromLayoutAndGap` — no phantom gap.
 - `When_ChildMarginSet_ThenNotDoubleCounted` — guards the adapter's margin-compensation path.
 - `When_PositionAbsolute_ThenInsetsHonoredAndSiblingsUnaffected`.
 - `When_AttachedPropertyChanges_ThenLayoutUpdates` — FR-3 for one attached and one container property.
 - `When_UseLayoutRoundingFalse_ThenFractionalArrangePreserved` — FR-6.
-- `When_LayoutDirectionRightToLeft_ThenMainAxisMirrored` — FR-7.
-- `When_FlowDirectionAndLayoutDirectionBothSet_ThenNoDoubleMirror` — FR-7's hazard, pinned as a test so the "independent mechanisms" contract can't silently regress into double-mirroring on some target.
+- `When_FlowDirectionRightToLeft_ThenMirroredVisually` — FR-7 as revised (R2), checked through a transform to a left-to-right ancestor, since layout slots are not mirrored.
 
 Plus four mapping-rule guards from the `AutoLayout` coverage audit above, one per rule, so a future convergence attempt cannot quietly regress them:
 
@@ -280,11 +283,24 @@ Plus four mapping-rule guards from the `AutoLayout` coverage audit above, one pe
 ## Risks and open questions
 
 1. **Rounding parity across the Skia heads (highest).** D4 gives the escape hatch, but the per-head validation is real work — `YogaRoundingTest` at scale factors 1.0/1.25/1.5/2.0 on desktop/Skia, WASM and Skia mobile is the gate. Expect this to be where the schedule goes. (Scope narrowed with FR-8; the native heads are going away in Uno 7.0.) All 17,784 corpus assertions route through a single `YogaAssert.Equal` shim precisely so a tolerance can be introduced in one place if a head needs it.
-2. **Min-content pre-measure semantics.** `ComputeMinContent` calls `Measure(0, ∞)` and then re-measures; `DesiredSize` caching and repeat-measure behavior differ subtly across Uno targets. Tier-1 tests will not catch this — tier 2 `When_AutoMin_*` on WASM/iOS will.
+2. ✅ **Closed by R1** — the pre-measure is gone. Original text: **Min-content pre-measure semantics.** `ComputeMinContent` calls `Measure(0, ∞)` and then re-measures; `DesiredSize` caching and repeat-measure behavior differ subtly across Uno targets. Tier-1 tests will not catch this — tier 2 `When_AutoMin_*` on WASM/iOS will.
 3. **WASM cost.** Two-pass measure over a large `FlexPanel` is more `Measure` traffic than `StackPanel`. Need a sample-page stress case (200 children) profiled on WASM before we recommend `FlexPanel` for list rows in docs.
 4. **Fork drift.** Upstream is `0.1.0-preview.13` and moving weekly. Pin the SHA in `Layout/Yoga/README.md`; re-sync deliberately, never opportunistically.
 5. **Open — vendor or reference?** This spec assumes vendoring. Referencing `Microsoft.UI.Reactor` is not viable (single `net10.0-windows10.0.22621` TFM, WindowsAppSDK ≥ 2.1 dependency, ships the whole framework). If Microsoft later factors the panel into a layout-only multi-target package, revisit.
 6. **Open — is `FlexPanel` the final name?** It matches upstream and the `Panel` suffix convention. `FlexLayout` would echo MAUI and issue #17's title. Recommend `FlexPanel`: it *is* a `Panel`, and `AutoLayout` already burned the "Layout" suffix on a `RelativePanel` subclass.
+
+## Review amendments (PR #1639)
+
+From the PR review of 2026-09-28. Measured on desktop/Skia; see `progress.md` for the numbers.
+
+- **R1 — No automatic minimum; the min-content probe is removed.** `ComputeMinContent` measured each child at `(0, ∞)`, but `Measure` clamps `DesiredSize` to the constraint, so it always returned `0`: "Unbreakable" measured `0×300`, a `Width=300` border `0×20`. The §4.5 floor never took effect (in a 50px row, a 92px word shrank to a 26px slot), but the probe still cost one extra measure per child per pass. The minimum now defaults to `0`, the Yoga / React Native default, and `FlexMinWidth` / `FlexMinHeight` remain as explicit floors. WinUI has no API for an element's min-content size, so the CSS floor cannot be implemented without per-control heuristics.
+- **R2 — `LayoutDirection` removed.** `FlowDirection` already mirrors the panel through the platform, so a second RTL input could only double-mirror.
+- **R3 — FlexPanel owns its public enums.** `Controls/FlexPanel/FlexEnums.cs` holds only the meaningful members, with docs and the default first. The vendored `FlexEnums.cs` is made `internal` by `import-yoga.py`, and `FlexEnumMapping.cs` maps between the two by name. An upstream re-sync can no longer reshape public API. The inert `FlexJustify.Auto/Stretch/Start/End`, `FlexAlign.Start/End` and `FlexPositionType.Static`, and `FlexLayoutDirection`, are gone. `FlexAlign` stays one enum across AlignItems/Content/Self, as the CSS keyword set is.
+- **R4 — The parent's height mode is scoped to a direct FlexPanel child.** A `[ThreadStatic]` reached every descendant, so an inner panel under an intermediate `Grid` row reported its content height instead of filling the row.
+- **R5 — Child `Min*` / `Max*` sizes are honored** (FR-4).
+- **R6 — The attached-property snapshot cache is removed.** It had no profile behind it, and it needed a static weak table to handle children changed while detached.
+- **Declined — equality-guarding the `YogaNode` setters.** When only a child's content changes, every synced value is identical. A guarded, clean node would make Yoga serve its cached measurement without calling `MeasureFunction`, and the child's new size would be lost; no public API reports that a child's measure is stale. Upstream measured the guards at −39.6% on dynamic trees (see the note in `YogaNode.cs`). With R1, per-level measure counts are flat.
+- **Accepted — the conformance corpus runs in every sample head.** Its 544 active tests compile into the runtime-test assembly and so into every sample head, WASM included. They never reach the NuGet package. The cost is test-assembly size and a few seconds per full run (6s on desktop).
 
 ## Phases
 

@@ -17,6 +17,7 @@ namespace Uno.Toolkit.UI;
 partial class FlexPanel
 {
 	// -- Direction DependencyProperty --
+	/// <summary>Identifies the <see cref="Direction"/> dependency property.</summary>
 	public static readonly DependencyProperty DirectionProperty = DependencyProperty.Register(
 		nameof(Direction),
 		typeof(FlexDirection),
@@ -35,6 +36,7 @@ partial class FlexPanel
 	}
 
 	// -- Wrap DependencyProperty --
+	/// <summary>Identifies the <see cref="Wrap"/> dependency property.</summary>
 	public static readonly DependencyProperty WrapProperty = DependencyProperty.Register(
 		nameof(Wrap),
 		typeof(FlexWrap),
@@ -52,6 +54,7 @@ partial class FlexPanel
 	}
 
 	// -- JustifyContent DependencyProperty --
+	/// <summary>Identifies the <see cref="JustifyContent"/> dependency property.</summary>
 	public static readonly DependencyProperty JustifyContentProperty = DependencyProperty.Register(
 		nameof(JustifyContent),
 		typeof(FlexJustify),
@@ -69,6 +72,7 @@ partial class FlexPanel
 	}
 
 	// -- AlignItems DependencyProperty --
+	/// <summary>Identifies the <see cref="AlignItems"/> dependency property.</summary>
 	public static readonly DependencyProperty AlignItemsProperty = DependencyProperty.Register(
 		nameof(AlignItems),
 		typeof(FlexAlign),
@@ -92,6 +96,7 @@ partial class FlexPanel
 	}
 
 	// -- AlignContent DependencyProperty --
+	/// <summary>Identifies the <see cref="AlignContent"/> dependency property.</summary>
 	public static readonly DependencyProperty AlignContentProperty = DependencyProperty.Register(
 		nameof(AlignContent),
 		typeof(FlexAlign),
@@ -113,6 +118,7 @@ partial class FlexPanel
 	}
 
 	// -- ColumnGap DependencyProperty --
+	/// <summary>Identifies the <see cref="ColumnGap"/> dependency property.</summary>
 	public static readonly DependencyProperty ColumnGapProperty = DependencyProperty.Register(
 		nameof(ColumnGap),
 		typeof(double),
@@ -130,6 +136,7 @@ partial class FlexPanel
 	}
 
 	// -- RowGap DependencyProperty --
+	/// <summary>Identifies the <see cref="RowGap"/> dependency property.</summary>
 	public static readonly DependencyProperty RowGapProperty = DependencyProperty.Register(
 		nameof(RowGap),
 		typeof(double),
@@ -147,6 +154,7 @@ partial class FlexPanel
 	}
 
 	// -- Padding DependencyProperty --
+	/// <summary>Identifies the <see cref="Padding"/> dependency property.</summary>
 	public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register(
 		nameof(Padding),
 		typeof(Thickness),
@@ -164,6 +172,7 @@ partial class FlexPanel
 	}
 
 	// -- Grow Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.Grow</c> attached property.</summary>
 	[DynamicDependency(nameof(GetGrow))]
 	public static readonly DependencyProperty GrowProperty = DependencyProperty.RegisterAttached(
 		"Grow",
@@ -197,6 +206,7 @@ partial class FlexPanel
 	}
 
 	// -- Shrink Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.Shrink</c> attached property.</summary>
 	[DynamicDependency(nameof(GetShrink))]
 	public static readonly DependencyProperty ShrinkProperty = DependencyProperty.RegisterAttached(
 		"Shrink",
@@ -226,6 +236,7 @@ partial class FlexPanel
 	}
 
 	// -- Basis Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.Basis</c> attached property.</summary>
 	[DynamicDependency(nameof(GetBasis))]
 	public static readonly DependencyProperty BasisProperty = DependencyProperty.RegisterAttached(
 		"Basis",
@@ -263,6 +274,7 @@ partial class FlexPanel
 	// FrameworkElement.MinWidth on the same element while meaning something different:
 	// FrameworkElement.MinWidth forces Measure to return at least X, whereas this clamps the
 	// flex-resolved slot to at least X. The stutter is cheaper than that trap.
+	/// <summary>Identifies the <c>FlexPanel.FlexMinWidth</c> attached property.</summary>
 	[DynamicDependency(nameof(GetFlexMinWidth))]
 	public static readonly DependencyProperty FlexMinWidthProperty = DependencyProperty.RegisterAttached(
 		"FlexMinWidth",
@@ -295,6 +307,7 @@ partial class FlexPanel
 	}
 
 	// -- FlexMinHeight Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.FlexMinHeight</c> attached property.</summary>
 	[DynamicDependency(nameof(GetFlexMinHeight))]
 	public static readonly DependencyProperty FlexMinHeightProperty = DependencyProperty.RegisterAttached(
 		"FlexMinHeight",
@@ -325,6 +338,7 @@ partial class FlexPanel
 	}
 
 	// -- AlignSelf Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.AlignSelf</c> attached property.</summary>
 	[DynamicDependency(nameof(GetAlignSelf))]
 	public static readonly DependencyProperty AlignSelfProperty = DependencyProperty.RegisterAttached(
 		"AlignSelf",
@@ -353,6 +367,7 @@ partial class FlexPanel
 	}
 
 	// -- Position Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.Position</c> attached property.</summary>
 	[DynamicDependency(nameof(GetPosition))]
 	public static readonly DependencyProperty PositionProperty = DependencyProperty.RegisterAttached(
 		"Position",
@@ -384,6 +399,7 @@ partial class FlexPanel
 	}
 
 	// -- Left Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.Left</c> attached property.</summary>
 	[DynamicDependency(nameof(GetLeft))]
 	public static readonly DependencyProperty LeftProperty = DependencyProperty.RegisterAttached(
 		"Left",
@@ -410,6 +426,7 @@ partial class FlexPanel
 	}
 
 	// -- Top Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.Top</c> attached property.</summary>
 	[DynamicDependency(nameof(GetTop))]
 	public static readonly DependencyProperty TopProperty = DependencyProperty.RegisterAttached(
 		"Top",
@@ -436,6 +453,7 @@ partial class FlexPanel
 	}
 
 	// -- Right Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.Right</c> attached property.</summary>
 	[DynamicDependency(nameof(GetRight))]
 	public static readonly DependencyProperty RightProperty = DependencyProperty.RegisterAttached(
 		"Right",
@@ -462,6 +480,7 @@ partial class FlexPanel
 	}
 
 	// -- Bottom Attached Property --
+	/// <summary>Identifies the <c>FlexPanel.Bottom</c> attached property.</summary>
 	[DynamicDependency(nameof(GetBottom))]
 	public static readonly DependencyProperty BottomProperty = DependencyProperty.RegisterAttached(
 		"Bottom",

@@ -336,3 +336,39 @@ in the Material, Cupertino *and* Simple heads and uses only theme-neutral resour
 - Spec risk 3 (WASM cost of the two-pass measure over a large panel) is untouched — P5.
 - `YogaAlgorithm`'s static `s_currentGenerationCount` (D8) is safe while the runtime-test runner is
   sequential. Worth revisiting if it ever runs tests in parallel.
+
+## Review pass — PR #1639 (kazo0, 2026-09-28) ✅
+
+Spec amendments R1–R6 and the declined item are recorded in [`spec.md`](./spec.md#review-amendments-pr-1639).
+Everything here was measured on desktop/Skia (Debug head, `UNO_RUNTIME_TESTS_RUN_TESTS` filter).
+
+- [x] `Generated/mergedpages.xaml` restored to the Debug version, folded into the commit that had
+  swept in the Release output.
+- [x] `specs/lessons.md`: preamble placement, local path, and two new lessons (Release builds
+  rewrite `Generated/`; fold a fixup against the target commit's parent, not `main`).
+- [x] R2 `LayoutDirection` removed. `When_FlowDirectionRightToLeft_ThenMirroredVisually` confirms
+  the platform mirrors the panel (first child drawn at x = 200 in a 300px panel).
+- [x] R3 public enums owned by FlexPanel; `import-yoga.py` makes the vendored ones internal and
+  its self-check rejects public top-level engine types. Re-import is clean; corpus 544 passed,
+  46 skipped upstream.
+- [x] R6 attached-property cache removed.
+- [x] R1 min-content probe removed, after measuring it:
+  - `TextBlock("Unbreakable").Measure(0, ∞)` → `0×300`; `Border(Width=300).Measure(0, ∞)` → `0×20`.
+    The probe always returned 0.
+  - 50px row, 92px word: slot 26px. The §4.5 floor never applied.
+  - The old `When_AutoMin_*` child (92px) sat in a 100px panel and never overflowed.
+  - Per-level `MeasureOverride` counts, outer → inner, before: `[1,2,2,2,2]` with or without
+    overflow; after: `[1,1,1,1,1]` (`When_NestedFiveDeep_ThenEachLevelMeasuredOnce`, red before,
+    green after). No exponential growth either way, contrary to the review's estimate.
+  - A 500-item `ListView` measured at `(0, ∞)` reports its full 21000px extent but realizes only
+    8 items on Uno, so the virtualization concern did not reproduce.
+- [x] R4 parent height mode scoped to direct FlexPanel children
+  (`When_InnerFlexPanelUnderGridRow_ThenFillsDefiniteSlot`: DesiredSize 20 → 300).
+- [x] R5 child `Min*` / `Max*` honored (three tests, all red before: 200 → 100, 50 → 80, 100 → 40).
+- [x] XML docs on every `*Property` field (19).
+- Runtime tests: FlexPanel 34/34 passed.
+- Release, desktop: 0 warnings from the library, runtime tests or FlexPanel (the sample app's
+  pre-existing nullable warnings are unrelated). `src/Uno.Toolkit.sln` itself does not load at
+  this base — it still lists the deleted `Uno.Toolkit.UITest` project, fixed on `main` — so the
+  heads were built directly. WASM is left to CI: `crosstargeting_override.props` pins this
+  checkout to desktop.
