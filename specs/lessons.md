@@ -25,7 +25,7 @@ unoplatform/Uno.Themes#1735.
   deliberately wants the `Icon ?? Content` fallback may keep the name `Content`.
 - A template that splits a control's properties across several presenters needs a runtime test that
   puts a `UIElement`, not a string, into each of them — strings hide re-parenting bugs.
-- Before naming a part in a retemplated framework control, grep the Uno implementation for
+- Before naming a part in a re-templated framework control, grep the Uno implementation for
   `GetTemplateChild("...")`; Uno adds lookups WinUI does not have.
 - The toolkit ships its own `SimpleAppBarButtonStyle`, same key as `Uno.Simple.WinUI`'s. Fixes to
   the Uno.Themes copy do not reach the NavigationBar, which resolves the toolkit copy at parse time.
