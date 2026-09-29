@@ -15,13 +15,13 @@ namespace Uno.Toolkit.Samples
 
 #if THEME_MATERIAL
 			if (Resources.TryGetValue("MaterialNavigationViewStyle", out var navStyle) ||
-				Application.Current.Resources.TryGetValue("MaterialNavigationViewStyle", out navStyle))
+				App.Instance.Resources.TryGetValue("MaterialNavigationViewStyle", out navStyle))
 			{
 				NavigationViewControl.Style = (Style)navStyle;
 			}
 #elif THEME_SIMPLE
 			if (Resources.TryGetValue("SimpleNavigationViewStyle", out var navStyle) ||
-				Application.Current.Resources.TryGetValue("SimpleNavigationViewStyle", out navStyle))
+				App.Instance.Resources.TryGetValue("SimpleNavigationViewStyle", out navStyle))
 			{
 				NavigationViewControl.Style = (Style)navStyle;
 			}

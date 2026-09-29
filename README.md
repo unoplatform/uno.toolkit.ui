@@ -26,6 +26,40 @@ Uno.Toolkit.WinUI.Cupertino|[![NuGet stable](https://img.shields.io/nuget/v/Uno.
 See the complete [documentation](#documentation) for starting with this library.
 For a larger example and features demo, visit the [Uno Gallery](https://github.com/unoplatform/uno.gallery) repository.
 
+## Sample apps
+
+PR previews and main deployments use `ToolkitSampleApp`, a wrapper that hosts Material,
+Cupertino, and Simple in isolated assembly contexts. Use the picker to switch themes,
+Reload to restart a theme, or Unload to return to the empty host. A browser URL can select
+an initial theme with `?app=material`, `?app=cupertino`, or `?app=simple`.
+The individual sample heads remain runnable on their own.
+
+Build and run the desktop wrapper (this also builds its guests):
+
+```bash
+dotnet run --project samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj -c Release -f net10.0-desktop -p:TargetFrameworkOverride=desktop
+```
+
+Build the WASM guests, then publish the combined site:
+
+```bash
+bash build/workflow/scripts/build-wasm-guest-heads.sh Release
+dotnet publish samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj -c Release -f net10.0-browserwasm -p:TargetFrameworkOverride=browserwasm -p:CompressionEnabled=false
+```
+
+The deployable site is under
+`samples/Uno.Toolkit.Samples.ThemeWrapper/bin/Release/net10.0-browserwasm/publish/wwwroot`.
+The wrapper is untrimmed because guest assemblies are loaded dynamically. Missing guest
+builds fail packaging instead of producing a partial site. Guest font and image assets
+are included in the wrapper because `ms-appx` paths resolve against its package root.
+
+For the hosting smoke test, pass `-- --smoke` to the desktop `dotnet run` command or
+open the published site with `?smoke`. It checks all themes, reload, failed/canceled
+loads, and unload. Desktop Release also requires guest assembly contexts to be reclaimed;
+WASM and Debug report reclamation diagnostically, matching the Uno Themes host.
+Release desktop finishes collection before starting another guest; if cleanup cannot
+finish, the host reports an error and lets you retry loading.
+
 ## Documentation
 
 All documentation for `Uno.Toolkit.UI` can be found on our [website](https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/getting-started.html).
