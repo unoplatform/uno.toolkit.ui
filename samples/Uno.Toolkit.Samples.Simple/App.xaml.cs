@@ -9,40 +9,47 @@ namespace Uno.Toolkit.Samples;
 public partial class App : Application
 {
 	private Shell _shell;
-	public static App Instance => Current as App;
+	private static App? _instance;
+
+	// Application.Current belongs to the wrapper when this app runs in a secondary ALC.
+	public static App Instance => _instance ?? throw new InvalidOperationException("The sample application has not been initialized.");
 
 	public App()
 	{
+		_instance = this;
+		SamplePageLayout.ActiveDesign = Design.Simple;
 		this.InitializeComponent();
 	}
 
 	public Window? MainWindow { get; private set; }
 
-	protected override async void OnLaunched(LaunchActivatedEventArgs e)
+	protected override void OnLaunched(LaunchActivatedEventArgs e)
 	{
+<<<<<<< HEAD
 #if __IOS__ && USE_UITESTS && !MACCATALYST && HAS_TESTCLOUD_AGENT
 			Xamarin.Calabash.Start();
 #endif
 			MainWindow = new Window();
+=======
+		MainWindow = new Window();
+>>>>>>> dfa8b63 (feat(samples): host theme apps in a Toolkit wrapper (#1654))
 
-			if (MainWindow.Content is null)
+		if (MainWindow.Content is null)
+		{
+			var loadable = new ManualLoadable { IsExecuting = true };
+			var splash = new ExtendedSplashScreen
 			{
-				var loadable = new ManualLoadable { IsExecuting = true };
-				var splash = new ExtendedSplashScreen
-				{
-					Window = MainWindow,
-					Source = loadable
-				};
-				MainWindow.Content = splash;
-				MainWindow.Activate();
+				Window = MainWindow,
+				Source = loadable
+			};
+			MainWindow.Content = splash;
+			MainWindow.Activate();
 
-				await Task.Yield();
-
-				splash.Content = _shell = BuildShell();
-				loadable.IsExecuting = false;
-			}
-
+			// Finish launch synchronously so a hosted app cannot resume after it is unloaded.
+			splash.Content = _shell = BuildShell();
+			loadable.IsExecuting = false;
 		}
+	}
 
 		private class ManualLoadable : ILoadable
 		{
@@ -99,7 +106,7 @@ public partial class App : Application
 #if __WASM__
 	[System.Runtime.InteropServices.JavaScript.JSExport]
 #endif
-	public static void ForceNavigation(string sampleName) => (Application.Current as App)?.ForceSampleNavigation(sampleName);
+	public static void ForceNavigation(string sampleName) => Instance.ForceSampleNavigation(sampleName);
 #if __WASM__
 	[System.Runtime.InteropServices.JavaScript.JSExport]
 #endif
@@ -107,7 +114,7 @@ public partial class App : Application
 #if __WASM__
 	[System.Runtime.InteropServices.JavaScript.JSExport]
 #endif
-	public static void NavigateToNestedSample(string pageName) => (Application.Current as App)?.NavigateToNestedSampleCore(pageName);
+	public static void NavigateToNestedSample(string pageName) => Instance.NavigateToNestedSampleCore(pageName);
 #if __WASM__
 
 	[System.Runtime.InteropServices.JavaScript.JSExport]

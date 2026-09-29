@@ -12,6 +12,11 @@ jobs:
           SAMPLE_DIR: Uno.Toolkit.Samples.Cupertino
           SAMPLE_CSPROJ: CupertinoSampleApp
           ARTIFACT_SUFFIX: cupertino
+        Toolkit:
+          SAMPLE_DIR: Uno.Toolkit.Samples.ThemeWrapper
+          SAMPLE_CSPROJ: ToolkitSampleApp
+          ARTIFACT_SUFFIX: toolkit
+          BUILD_GUEST_HEADS: 'true'
 
     pool:
       vmImage: ubuntu-latest
@@ -30,6 +35,14 @@ jobs:
           UnoCheckParameters: '--tfm net10.0-browserwasm'
 
       - template: templates/canary-updater.yml
+
+      # Preserve the standalone artifacts used by runtime tests and publish the wrapper
+      # separately, with all three guests built before its payload is collected.
+      - bash: bash build/workflow/scripts/build-wasm-guest-heads.sh Release -p:GeneratePackageOnBuild=false
+        displayName: Build guest sample heads (WebAssembly)
+        condition: and(succeeded(), eq(variables['BUILD_GUEST_HEADS'], 'true'))
+        env:
+          BINLOG_DIR: $(build.artifactstagingdirectory)/binlogs
 
       - bash: |
           dotnet publish -c Release -f net10.0-browserwasm \
