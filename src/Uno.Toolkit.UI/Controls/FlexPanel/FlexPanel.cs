@@ -544,7 +544,7 @@ public partial class FlexPanel : Panel
 		};
 	}
 
-	private void ApplyAttachedProperties(UIElement element, YogaNode node)
+	private static void ApplyAttachedProperties(UIElement element, YogaNode node)
 	{
 		// Read straight from the property system every pass, so every value -- attached or not -- is
 		// guaranteed current. An earlier per-child snapshot cache was removed: no profile showed these
@@ -566,19 +566,11 @@ public partial class FlexPanel : Panel
 		node.Style.AlignSelf = GetAlignSelf(element).ToYoga(fallback: YogaAlign.Auto);
 		node.Style.PositionType = GetPosition(element).ToYoga();
 
-		var mainAxisIsRow = Direction is FlexDirection.Row or FlexDirection.RowReverse;
-		node.MinWidth = ResolveMinDimension(
-			element,
-			axisIsMain: mainAxisIsRow,
-			explicitMin: GetFlexMinWidth(element),
-			basis: basis,
-			isWidth: true);
-		node.MinHeight = ResolveMinDimension(
-			element,
-			axisIsMain: !mainAxisIsRow,
-			explicitMin: GetFlexMinHeight(element),
-			basis: basis,
-			isWidth: false);
+		// No automatic (CSS 4.5 min-content) floor: the minimum is 0, as in Yoga and React Native,
+		// unless the caller sets one. WinUI has no way to ask an element for its min-content size -- a
+		// zero-width Measure clamps DesiredSize to 0 -- so such a floor could not be computed anyway.
+		node.MinWidth = ToMin(GetFlexMinWidth(element));
+		node.MinHeight = ToMin(GetFlexMinHeight(element));
 
 		node.Style.Position[(int)YogaEdge.Left] = ToInset(GetLeft(element));
 		node.Style.Position[(int)YogaEdge.Top] = ToInset(GetTop(element));
@@ -615,80 +607,8 @@ public partial class FlexPanel : Panel
 
 		static YogaValue ToInset(double value)
 			=> double.IsNaN(value) ? YogaValue.Undefined : YogaValue.Point((float)value);
-	}
 
-	/// <summary>
-	/// Resolves the CSS Flexbox automatic minimum size (section 4.5) for one axis.
-	/// </summary>
-	private static YogaValue ResolveMinDimension(
-		UIElement element,
-		bool axisIsMain,
-		double explicitMin,
-		double basis,
-		bool isWidth)
-	{
-		// An explicit value always wins, including 0 - that is how a caller opts out of the floor.
-		if (!double.IsNaN(explicitMin))
-		{
-			return YogaValue.Point((float)Math.Max(0, explicitMin));
-		}
-
-		// The automatic minimum applies only on the main axis; the cross axis defaults to no floor.
-		if (!axisIsMain)
-		{
-			return YogaValue.Undefined;
-		}
-
-		// basis: 0 means the specified-size suggestion is 0, so the minimum is 0. No pre-measure.
-		if (!double.IsNaN(basis) && basis <= 0)
-		{
-			return YogaValue.Point(0);
-		}
-
-		// A scrolling container's CSS overflow is `scroll`, which makes the automatic minimum 0.
-		// Skipping the pre-measure here also stops a sizing-only pass from realizing virtualized
-		// content. Callers who want a floor can still set FlexMinWidth / FlexMinHeight.
-		if (IsScrollLikeContainer(element))
-		{
-			return YogaValue.Point(0);
-		}
-
-		var minContent = ComputeMinContent(element, isWidth);
-
-		// With a definite positive basis the automatic minimum is min(basis, min-content).
-		if (!double.IsNaN(basis))
-		{
-			return YogaValue.Point((float)Math.Max(0, Math.Min(basis, minContent)));
-		}
-
-		return YogaValue.Point((float)Math.Max(0, minContent));
-	}
-
-	private static bool IsScrollLikeContainer(UIElement element)
-		=> element is ScrollViewer or ScrollView;
-
-	/// <summary>
-	/// Approximates the min-content size of a child by measuring it against a zero-width (or
-	/// zero-height) constraint, which reports the widest unbreakable content for text and the
-	/// natural size for fixed-size controls.
-	/// </summary>
-	private static double ComputeMinContent(UIElement element, bool isWidth)
-	{
-		var margin = element is FrameworkElement frameworkElement ? frameworkElement.Margin : default;
-		var marginH = margin.Left + margin.Right;
-		var marginV = margin.Top + margin.Bottom;
-
-		// This pollutes the child's cached DesiredSize, but the Yoga measure pass (or the final
-		// sweep in MeasureOverride) re-measures with the real constraint. A restore-measure would
-		// itself perturb layout, so there is none.
-		var constraint = isWidth
-			? new Size(marginH, double.PositiveInfinity)
-			: new Size(double.PositiveInfinity, marginV);
-
-		element.Measure(constraint);
-
-		return isWidth
-			? Math.Max(0, element.DesiredSize.Width - marginH)
-			: Math.Max(0, element.DesiredSize.Height - marginV);
+		static YogaValue ToMin(double value)
+			=> double.IsNaN(value) ? YogaValue.Undefined : YogaValue.Point((float)Math.Max(0, value));
 	}
 }

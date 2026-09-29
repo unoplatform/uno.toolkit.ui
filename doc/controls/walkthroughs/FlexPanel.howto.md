@@ -84,7 +84,7 @@ tags: [flexpanel, flexbox, css, layout, yoga, wrap, grow, shrink, basis, gap, ju
 ```
 
 * `Grow` is a ratio, not a length in pixels.
-* `Shrink` distributes a *deficit* by the same ratio rule: a child with `Shrink="1"` beside a child with `Shrink="0"` absorbs the whole overflow. How far it can actually shrink is capped by the automatic minimum size — see [Let a child shrink below its content width](#let-a-child-shrink-below-its-content-width).
+* `Shrink` distributes a *deficit* by the same ratio rule: a child with `Shrink="1"` beside a child with `Shrink="0"` absorbs the whole overflow. Nothing stops a child at its content width — see [Keep a child from shrinking too far](#keep-a-child-from-shrinking-too-far).
 
 ---
 
@@ -104,21 +104,21 @@ tags: [flexpanel, flexbox, css, layout, yoga, wrap, grow, shrink, basis, gap, ju
 
 ---
 
-## Let a child shrink below its content width
+## Keep a child from shrinking too far
 
-**Outcome:** A wide child compresses instead of pushing the row wider.
+**Outcome:** A child compresses with its siblings, but never below a floor you choose.
 
 ```xml
 <utu:FlexPanel Width="100">
-    <!-- Arranges 100 wide, not 400. -->
-    <Border Width="400" utu:FlexPanel.FlexMinWidth="0" />
+    <!-- Arranges 80 wide; the sibling takes the remaining 20. -->
+    <Border Width="100" utu:FlexPanel.FlexMinWidth="80" />
+    <Border Width="100" />
 </utu:FlexPanel>
 ```
 
-* By default a flex item does **not** shrink below its min-content size ([CSS Flexbox 4.5](https://www.w3.org/TR/css-flexbox-1/#min-size-auto)). That stops labels from being crushed, but it means a row can overflow rather than fit.
-* `FlexMinWidth="0"` (or `FlexMinHeight="0"` in a column) opts out of that automatic minimum.
-* `ScrollViewer` and `ScrollView` children already floor at `0`, matching CSS `overflow: scroll`.
-* See [FlexPanel](../FlexPanel.md) for the full table of how `Basis` and `FlexMinWidth` interact.
+* By default a child can shrink all the way to `0`, as in Yoga and React Native. Unlike CSS ([Flexbox 4.5](https://www.w3.org/TR/css-flexbox-1/#min-size-auto)), there is no automatic min-content floor, because WinUI cannot report an element's min-content size.
+* `FlexMinWidth` clamps the width and `FlexMinHeight` the height, whatever the `Direction`.
+* To keep a child at its natural size instead, use `Shrink="0"`.
 
 > [!NOTE]
 > `FlexMinWidth` / `FlexMinHeight` are **not** `FrameworkElement.MinWidth` / `MinHeight`. The framework properties force `Measure` to return at least *X*; these clamp the flex-resolved slot to at least *X*.
@@ -275,7 +275,7 @@ See [FlexPanel](../FlexPanel.md) for types, defaults and the CSS equivalent of e
 
 * **`Basis` beats `Width` on the main axis.** If a child arranges at an unexpected size, check whether `Grow` or `Basis` is resolving the slot.
 * **`Grow="1"` is not `flex: 1 1 0`.** Add `Basis="0"` whenever you want equal shares rather than equal *leftovers*.
-* **Rows can overflow.** The automatic minimum size keeps items at min-content unless you set `FlexMinWidth="0"`.
+* **No min-content floor.** Children shrink to `0` by default; set `FlexMinWidth` / `FlexMinHeight`, or `Shrink="0"`, to protect a label.
 * **`FlexAlign` is shared.** As in CSS, `AlignItems`, `AlignContent` and `AlignSelf` use one keyword set, so `Auto` only means something on `AlignSelf` and the `Space*` members only on `AlignContent`.
 * **No border or corner radius.** `FlexPanel` derives from `Panel`, which exposes only `Background`. Wrap it in a `Border` if you need one.
 * **No CSS `order`.** Reorder the children instead.

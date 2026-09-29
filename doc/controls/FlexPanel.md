@@ -75,8 +75,8 @@ Set these on the *children* of a `FlexPanel`.
 | `FlexPanel.Grow` | `double` | `0` | `flex-grow` |
 | `FlexPanel.Shrink` | `double` | `1` | `flex-shrink` |
 | `FlexPanel.Basis` | `double` | `NaN` (= `auto`) | `flex-basis` (points only) |
-| `FlexPanel.FlexMinWidth` | `double` | `NaN` (= `auto`) | `min-width` |
-| `FlexPanel.FlexMinHeight` | `double` | `NaN` (= `auto`) | `min-height` |
+| `FlexPanel.FlexMinWidth` | `double` | `NaN` (= no floor) | `min-width` |
+| `FlexPanel.FlexMinHeight` | `double` | `NaN` (= no floor) | `min-height` |
 | `FlexPanel.AlignSelf` | `FlexAlign` | `Auto` | `align-self` |
 | `FlexPanel.Position` | `FlexPositionType` | `Relative` | `position` |
 | `FlexPanel.Left` / `.Top` / `.Right` / `.Bottom` | `double` | `NaN` | inset properties |
@@ -128,21 +128,16 @@ This is the most common surprise when coming from WinUI. On the main axis, `Basi
 </utu:FlexPanel>
 ```
 
-## Automatic minimum size
+## Minimum size
 
-Per [CSS Flexbox §4.5](https://www.w3.org/TR/css-flexbox-1/#min-size-auto), a flex item does not shrink below its min-content size by default. That is usually what you want — it stops labels from being crushed — but it means a row can overflow rather than fit.
+By default a child can shrink all the way to `0`, as in Yoga and React Native. This is a deliberate difference from CSS, where [§4.5](https://www.w3.org/TR/css-flexbox-1/#min-size-auto) floors a flex item at its min-content size (for text, its longest word). WinUI has no way to ask an element for its min-content size, so that floor cannot be computed.
 
-| `Basis` | `FlexMinWidth` / `FlexMinHeight` | Main-axis floor |
-|---|---|---|
-| `auto` (default) | `NaN` (default) | min-content |
-| definite, `> 0` | `NaN` | `min(Basis, min-content)` |
-| `0` | `NaN` | `0` |
-| any | `0` | `0` |
-| any | definite | that value |
+To keep a child from being crushed:
 
-The floor applies to the **main axis** only; the cross axis has no automatic floor.
+- set `FlexPanel.Shrink="0"` to keep it at its natural size, or
+- set `FlexPanel.FlexMinWidth` / `FlexPanel.FlexMinHeight` to an explicit floor.
 
-`ScrollViewer` and `ScrollView` children always floor at `0`, matching CSS (`overflow: scroll` makes the automatic minimum `0`). This also avoids realizing virtualized content during a sizing-only measure.
+`FlexMinWidth` always clamps the width and `FlexMinHeight` always clamps the height, whatever the `Direction`.
 
 ## Right-to-left
 

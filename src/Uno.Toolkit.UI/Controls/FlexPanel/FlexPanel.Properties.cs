@@ -271,12 +271,13 @@ partial class FlexPanel
 		new PropertyMetadata(double.NaN, propertyChangedCallback: OnChildPropertyChanged));
 
 	/// <summary>
-	/// Sets the minimum size of the element on the main axis. CSS equivalent: <c>min-width</c>.
+	/// Sets the minimum width of the element's flex slot, whatever the <see cref="Direction"/>.
+	/// CSS equivalent: <c>min-width</c>.
 	/// </summary>
 	/// <remarks>
-	/// <see cref="double.NaN"/> (the default) means <c>auto</c>: the element is floored at its
-	/// min-content size, per CSS Flexbox section 4.5. Any explicit value — including <c>0</c> — opts
-	/// out of that automatic floor.
+	/// <see cref="double.NaN"/> (the default) means no floor, so the element can shrink to <c>0</c>.
+	/// Unlike CSS, there is no automatic min-content floor: WinUI offers no way to ask an element for
+	/// its min-content size. Set <c>Shrink</c> to <c>0</c> to keep an element at its natural size.
 	/// </remarks>
 	[DynamicDependency(nameof(GetFlexMinWidth))]
 	public static void SetFlexMinWidth(DependencyObject element, double value)
@@ -285,7 +286,7 @@ partial class FlexPanel
 	}
 
 	/// <summary>
-	/// Gets the minimum size of the element on the main axis. CSS equivalent: <c>min-width</c>.
+	/// Gets the minimum width of the element's flex slot. CSS equivalent: <c>min-width</c>.
 	/// </summary>
 	[DynamicDependency(nameof(SetFlexMinWidth))]
 	public static double GetFlexMinWidth(DependencyObject element)
@@ -302,11 +303,11 @@ partial class FlexPanel
 		new PropertyMetadata(double.NaN, propertyChangedCallback: OnChildPropertyChanged));
 
 	/// <summary>
-	/// Sets the minimum size of the element on the cross axis. CSS equivalent: <c>min-height</c>.
+	/// Sets the minimum height of the element's flex slot, whatever the <see cref="Direction"/>.
+	/// CSS equivalent: <c>min-height</c>.
 	/// </summary>
 	/// <remarks>
-	/// <see cref="double.NaN"/> (the default) means <c>auto</c>. See <see cref="SetFlexMinWidth"/>
-	/// for the automatic-minimum rules; they apply to whichever axis is the main axis.
+	/// <see cref="double.NaN"/> (the default) means no floor. See <see cref="SetFlexMinWidth"/>.
 	/// </remarks>
 	[DynamicDependency(nameof(GetFlexMinHeight))]
 	public static void SetFlexMinHeight(DependencyObject element, double value)
@@ -315,7 +316,7 @@ partial class FlexPanel
 	}
 
 	/// <summary>
-	/// Gets the minimum size of the element on the cross axis. CSS equivalent: <c>min-height</c>.
+	/// Gets the minimum height of the element's flex slot. CSS equivalent: <c>min-height</c>.
 	/// </summary>
 	[DynamicDependency(nameof(SetFlexMinHeight))]
 	public static double GetFlexMinHeight(DependencyObject element)
