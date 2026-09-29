@@ -760,13 +760,13 @@
 								</utu:FlexPanel>
 							</Border>
 
-							<!-- 11. Padding and the automatic minimum size -->
+							<!-- 11. Padding and the minimum size -->
 							<TextBlock Margin="0,32,0,0"
 									   Text="Padding and FlexMinWidth"
 									   Style="{StaticResource TitleTextBlockStyle}" />
 							<TextBlock Margin="0,4,0,0"
 									   TextWrapping="Wrap"
-									   Text="By default a flex item will not shrink below its min-content size (CSS Flexbox section 4.5). Setting FlexMinWidth to 0 opts out of that floor and lets the text be clipped instead."
+									   Text="By default a flex item can shrink all the way to 0; unlike CSS, there is no automatic min-content floor. Set FlexMinWidth to choose a floor, or Shrink to 0 to keep the natural size."
 									   Style="{StaticResource BodyTextBlockStyle}" />
 
 							<TextBlock Text="Padding 24,16 on the panel itself." Style="{StaticResource FlexCaptionStyle}" />
@@ -781,7 +781,7 @@
 								</utu:FlexPanel>
 							</Border>
 
-							<TextBlock Text="Default auto minimum — the long label refuses to shrink past its min-content width." Style="{StaticResource FlexCaptionStyle}" />
+							<TextBlock Text="Default — the long label shrinks and trims to fit." Style="{StaticResource FlexCaptionStyle}" />
 							<Border Style="{StaticResource FlexHostStyle}">
 								<utu:FlexPanel ColumnGap="8" Padding="8">
 									<Border Width="600" Style="{StaticResource FlexItemStyle}">
@@ -797,10 +797,10 @@
 								</utu:FlexPanel>
 							</Border>
 
-							<TextBlock Text="FlexMinWidth=0 — the same row, opted out of the floor, so the label shrinks and trims." Style="{StaticResource FlexCaptionStyle}" />
+							<TextBlock Text="FlexMinWidth=400 — the same row, but the label stops shrinking at 400." Style="{StaticResource FlexCaptionStyle}" />
 							<Border Style="{StaticResource FlexHostStyle}">
 								<utu:FlexPanel ColumnGap="8" Padding="8">
-									<Border utu:FlexPanel.FlexMinWidth="0"
+									<Border utu:FlexPanel.FlexMinWidth="400"
 											Width="600"
 											Style="{StaticResource FlexItemStyle}">
 										<TextBlock Text="An intentionally long single line of text that would rather not be squeezed"

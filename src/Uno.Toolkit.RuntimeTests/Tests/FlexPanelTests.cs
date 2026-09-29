@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -58,6 +60,18 @@ public class FlexPanelTests
 	}
 
 	private static Rect SlotOf(FrameworkElement element) => LayoutInformation.GetLayoutSlot(element);
+
+	/// <summary>A <see cref="FlexPanel"/> that counts how many times it is actually measured.</summary>
+	private sealed class MeasureCountingFlexPanel : FlexPanel
+	{
+		public int MeasureCount { get; private set; }
+
+		protected override Size MeasureOverride(Size availableSize)
+		{
+			MeasureCount++;
+			return base.MeasureOverride(availableSize);
+		}
+	}
 
 	[TestMethod]
 	public async Task When_DirectionNotSet_ThenDefaultsToRow()
@@ -201,20 +215,84 @@ public class FlexPanelTests
 	}
 
 	[TestMethod]
-	public async Task When_AutoMin_ThenChildDoesNotShrinkBelowMinContent()
+	[DataRow(false)]
+	[DataRow(true)]
+	public async Task When_NestedFiveDeep_ThenEachLevelMeasuredOnce(bool overflow)
 	{
-		// CSS Flexbox 4.5: with basis auto and no explicit floor, a flex item will not shrink below
-		// its min-content size, even when that overflows the container.
-		var SUT = new FlexPanel { Width = 100, Height = 100 };
+		// Guards against measure cost compounding with nesting depth. Each level used to measure its
+		// child twice (a min-content probe, then Yoga's real constraint).
+		const int Depth = 5;
+		UIElement current = new TextBlock { Text = "Some words here" };
+		var panels = new MeasureCountingFlexPanel[Depth];
+		for (var i = Depth - 1; i >= 0; i--)
+		{
+			var panel = new MeasureCountingFlexPanel { Children = { current } };
+			if (overflow)
+			{
+				// A wide sibling makes every level shrink.
+				panel.Children.Add(new Border { Width = 400, Height = 10 });
+			}
 
-		var child = new TextBlock { Text = "Unbreakable", FontSize = 20 };
+			panels[i] = panel;
+			current = panel;
+		}
+
+		panels[0].Width = 300;
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(panels[0]);
+
+		for (var i = 0; i < Depth; i++)
+		{
+			panels[i].MeasureCount.Should().Be(1, $"nesting level {i} should be measured exactly once");
+		}
+	}
+
+	[TestMethod]
+	public async Task When_FlexMinWidthNotSet_ThenChildShrinksBelowItsContent()
+	{
+		// There is no automatic (CSS 4.5 min-content) floor: the default minimum is 0, as in Yoga
+		// and React Native, so an overflowing text child shrinks along with its siblings.
+		var SUT = new FlexPanel { Width = 50, Height = 30 };
+
+		var text = new TextBlock { Text = "Unbreakable", FontSize = 20 };
+		SUT.Children.Add(text);
+		SUT.Children.Add(CreateChild(40, 20));
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(text).Width.Should().BeLessThan(50, "the text absorbs part of the overflow instead of holding its content width");
+	}
+
+	[TestMethod]
+	public async Task When_FlexMinWidthSet_ThenChildDoesNotShrinkBelowIt()
+	{
+		var SUT = new FlexPanel { Width = 100, Height = 50 };
+
+		var floored = CreateChild(100, 20);
+		FlexPanel.SetFlexMinWidth(floored, 80);
+		var other = CreateChild(100, 20);
+		SUT.Children.Add(floored);
+		SUT.Children.Add(other);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(floored).Width.Should().BeApproximately(80, Tolerance, "the explicit floor stops the shrink at 80");
+		SlotOf(other).Width.Should().BeApproximately(20, Tolerance, "the sibling absorbs the rest of the deficit");
+	}
+
+	[TestMethod]
+	public async Task When_FlexMinHeightSet_InRow_ThenAppliesToHeight()
+	{
+		// FlexMinWidth / FlexMinHeight are physical: each clamps its own axis whatever Direction is.
+		var SUT = new FlexPanel { Width = 100, AlignItems = FlexAlign.FlexStart };
+
+		var child = CreateChild(50, 10);
+		FlexPanel.SetFlexMinHeight(child, 40);
 		SUT.Children.Add(child);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
 
-		var minContent = child.DesiredSize.Width;
-		SlotOf(child).Width.Should().BeGreaterOrEqualTo(minContent - Tolerance,
-			"the automatic minimum size floors the item at its min-content width");
+		SlotOf(child).Height.Should().BeApproximately(40, Tolerance, "FlexMinHeight floors the cross-axis height in a row");
 	}
 
 	[TestMethod]
@@ -233,10 +311,10 @@ public class FlexPanelTests
 	}
 
 	[TestMethod]
-	public async Task When_ScrollViewerChild_ThenMinContentIsZero()
+	public async Task When_ScrollViewerChild_ThenShrinksToContainer()
 	{
-		// A scrolling child must floor at 0 rather than at its content size: measuring min-content
-		// on a virtualizing container would realize items during a sizing-only pass.
+		// A scrolling child must shrink to the container rather than hold its content size, or it
+		// would never scroll.
 		var SUT = new FlexPanel { Width = 100, Height = 100 };
 
 		var scroller = new ScrollViewer
