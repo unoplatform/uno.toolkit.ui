@@ -17,11 +17,11 @@ on:
 
 env:
   # Deploy one host containing Material, Cupertino and Simple guest apps.
-  SOLUTION_PATH: samples/Uno.Toolkit.Samples.Wrapper
-  APP_PROJECT: samples/Uno.Toolkit.Samples.Wrapper/ToolkitSampleApp.csproj
+  SOLUTION_PATH: samples/Uno.Toolkit.Samples.ThemeWrapper
+  APP_PROJECT: samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj
   WASM_FRAMEWORK: net10.0-browserwasm
   BUILD_CONFIGURATION: Release
-  WASM_PUBLISH_DIR: samples/Uno.Toolkit.Samples.Wrapper/bin/Release/net10.0-browserwasm/publish/wwwroot
+  WASM_PUBLISH_DIR: samples/Uno.Toolkit.Samples.ThemeWrapper/bin/Release/net10.0-browserwasm/publish/wwwroot
   TargetFrameworkOverride: browserwasm
 
 permissions:

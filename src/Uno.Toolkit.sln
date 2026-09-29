@@ -65,7 +65,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSampleApp", "..\sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno.Toolkit.WinUI.Simple", "library\Uno.Toolkit.Simple\Uno.Toolkit.WinUI.Simple.csproj", "{7A4E5B77-FEBB-4AF6-AFE2-8CF7B107030B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitSampleApp", "..\samples\Uno.Toolkit.Samples.Wrapper\ToolkitSampleApp.csproj", "{9C7A5594-E35B-4888-BD52-3D72FF0585CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitSampleApp", "..\samples\Uno.Toolkit.Samples.ThemeWrapper\ToolkitSampleApp.csproj", "{9C7A5594-E35B-4888-BD52-3D72FF0585CB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D1A2B3C4-E5F6-7890-ABCD-EF1234567890} = {D1A2B3C4-E5F6-7890-ABCD-EF1234567890}
 		{A1B2C3D4-E5F6-7890-ABCD-EF0987654321} = {A1B2C3D4-E5F6-7890-ABCD-EF0987654321}

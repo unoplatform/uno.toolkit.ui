@@ -3,7 +3,7 @@
 ## Design
 
 Port the Uno Themes `ThemesSampleApp` secondary-AssemblyLoadContext host to
-`samples/Uno.Toolkit.Samples.Wrapper/ToolkitSampleApp.csproj`. Host Material,
+`samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj`. Host Material,
 Cupertino, and Simple with isolated Toolkit/theme assemblies, shared Uno runtime,
 and the same switching, teardown, deep links, and hosting smoke checks. Include
 shared sample assets and guest WASM assembly payloads. Preserve standalone heads.
@@ -85,10 +85,10 @@ diagnostics do not prove that memory is reclaimed. No test assertions were weake
 ### Final validation commands and logs
 
 ```bash
-dotnet build samples/Uno.Toolkit.Samples.Wrapper/ToolkitSampleApp.csproj -c Release -f net10.0-desktop -p:TargetFrameworkOverride=desktop -p:GeneratePackageOnBuild=false -m:1
-dotnet samples/Uno.Toolkit.Samples.Wrapper/bin/Release/net10.0-desktop/ToolkitSampleApp.dll --smoke
+dotnet build samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj -c Release -f net10.0-desktop -p:TargetFrameworkOverride=desktop -p:GeneratePackageOnBuild=false -m:1
+dotnet samples/Uno.Toolkit.Samples.ThemeWrapper/bin/Release/net10.0-desktop/ToolkitSampleApp.dll --smoke
 bash build/workflow/scripts/build-wasm-guest-heads.sh Release -p:CompressionEnabled=false -m:1
-dotnet publish samples/Uno.Toolkit.Samples.Wrapper/ToolkitSampleApp.csproj -c Release -f net10.0-browserwasm -p:TargetFrameworkOverride=browserwasm -p:CompressionEnabled=false -m:1
+dotnet publish samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj -c Release -f net10.0-browserwasm -p:TargetFrameworkOverride=browserwasm -p:CompressionEnabled=false -m:1
 ```
 
 - `/tmp/toolkit-wrapper-final-desktop-build.log`: passed, incremental build, 0 warnings/errors.
@@ -102,3 +102,19 @@ dotnet publish samples/Uno.Toolkit.Samples.Wrapper/ToolkitSampleApp.csproj -c Re
 - PR preparation: publish as a draft because desktop reclamation and a warning-free
   full Release build remain unresolved. No related issue was supplied; association
   remains pending. Creating the PR will trigger the configured preview workflow.
+
+### PR CI follow-up
+
+- [x] Inspect PR #1654 checks and distinguish current failures from canceled runs.
+- [x] Fix MD012 in these notes and run the exact CI Markdown validation command.
+- [ ] Fix desktop guest reclamation reproduced by the Linux CI smoke test.
+- [ ] Monitor replacement runs and address additional failures without weakening checks.
+
+The Linux smoke on build 236378 reproduces the same reclamation failure observed on
+macOS. This is a cross-platform hosting issue, not a macOS-only limitation.
+
+Compared the exact diff of [Uno Themes PR #1729](https://github.com/unoplatform/Uno.Themes/pull/1729):
+the Uno 7 cleanup arity/dying-ALC fix, guest-owned application resource lookup, and full
+shared asset packaging are already present here. Toolkit samples do not use
+ShowMeTheXAML, so its entry-assembly initialization fix does not apply. This parity
+check does not establish that the remaining guest reclamation failure is fixed.

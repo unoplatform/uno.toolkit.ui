@@ -13,7 +13,7 @@ jobs:
           SAMPLE_CSPROJ: CupertinoSampleApp
           ARTIFACT_SUFFIX: cupertino
         Toolkit:
-          SAMPLE_DIR: Uno.Toolkit.Samples.Wrapper
+          SAMPLE_DIR: Uno.Toolkit.Samples.ThemeWrapper
           SAMPLE_CSPROJ: ToolkitSampleApp
           ARTIFACT_SUFFIX: toolkit
           BUILD_GUEST_HEADS: 'true'

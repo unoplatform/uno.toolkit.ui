@@ -37,18 +37,18 @@ The individual sample heads remain runnable on their own.
 Build and run the desktop wrapper (this also builds its guests):
 
 ```bash
-dotnet run --project samples/Uno.Toolkit.Samples.Wrapper/ToolkitSampleApp.csproj -c Release -f net10.0-desktop -p:TargetFrameworkOverride=desktop
+dotnet run --project samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj -c Release -f net10.0-desktop -p:TargetFrameworkOverride=desktop
 ```
 
 Build the WASM guests, then publish the combined site:
 
 ```bash
 bash build/workflow/scripts/build-wasm-guest-heads.sh Release
-dotnet publish samples/Uno.Toolkit.Samples.Wrapper/ToolkitSampleApp.csproj -c Release -f net10.0-browserwasm -p:TargetFrameworkOverride=browserwasm -p:CompressionEnabled=false
+dotnet publish samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj -c Release -f net10.0-browserwasm -p:TargetFrameworkOverride=browserwasm -p:CompressionEnabled=false
 ```
 
 The deployable site is under
-`samples/Uno.Toolkit.Samples.Wrapper/bin/Release/net10.0-browserwasm/publish/wwwroot`.
+`samples/Uno.Toolkit.Samples.ThemeWrapper/bin/Release/net10.0-browserwasm/publish/wwwroot`.
 The wrapper is untrimmed because guest assemblies are loaded dynamically. Missing guest
 builds fail packaging instead of producing a partial site. Guest font and image assets
 are included in the wrapper because `ms-appx` paths resolve against its package root.

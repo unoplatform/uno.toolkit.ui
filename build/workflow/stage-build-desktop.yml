@@ -82,7 +82,7 @@ jobs:
 
       # Desktop ordering references build the three sibling guest outputs used by the host.
       - bash: |
-          dotnet build samples/Uno.Toolkit.Samples.Wrapper/ToolkitSampleApp.csproj \
+          dotnet build samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj \
             -c Release -f net10.0-desktop \
             -p:TargetFrameworkOverride=desktop \
             -p:GeneratePackageOnBuild=false \
@@ -95,7 +95,7 @@ jobs:
           sudo apt-get install -y -qq xvfb fluxbox
           xvfb-run --auto-servernum --server-args='-screen 0 1280x1024x24' \
             bash -c 'fluxbox & timeout 900 dotnet ToolkitSampleApp.dll --smoke'
-        workingDirectory: samples/Uno.Toolkit.Samples.Wrapper/bin/Release/net10.0-desktop
+        workingDirectory: samples/Uno.Toolkit.Samples.ThemeWrapper/bin/Release/net10.0-desktop
         displayName: Load and unload every hosted theme
 
       - task: PublishBuildArtifacts@1
