@@ -118,3 +118,18 @@ the Uno 7 cleanup arity/dying-ALC fix, guest-owned application resource lookup, 
 shared asset packaging are already present here. Toolkit samples do not use
 ShowMeTheXAML, so its entry-assembly initialization fix does not apply. This parity
 check does not establish that the remaining guest reclamation failure is fixed.
+
+Review follow-up: renamed the project directory to `Uno.Toolkit.Samples.ThemeWrapper`
+and updated solutions, workflows, and README commands. Narrowed reflection lookup and
+cleanup-invocation catches to expected reflection exceptions. Kept the intentional
+collection passes and per-guest `App.Instance`; replacing either as suggested by the
+code-quality bot would break the host's lifecycle/resource-lookup contract.
+
+The review changes build in Release desktop with 0 warnings/errors. Strict smoke still
+fails reclamation (`/tmp/toolkit-ci-review-smoke.log`). Longer waits, extra cleanup passes,
+no-inlining, path-based assembly loading, clearing the guest instance, and progressively
+simplified guest UIs did not produce a reliable fix. All diagnostic code was removed;
+no assertions or production GC settings were weakened. The current root cause remains
+unresolved. CI on `06644975` passed all standalone desktop/mobile/WASM builds, packages,
+Markdown/spelling, hot-reload tests, and CodeQL; wrapper publishing was still running
+when these results were recorded.

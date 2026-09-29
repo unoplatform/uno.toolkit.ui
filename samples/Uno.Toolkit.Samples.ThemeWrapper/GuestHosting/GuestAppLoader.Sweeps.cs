@@ -18,8 +18,8 @@ namespace Uno.Toolkit.WrapperApp.GuestHosting;
 /// unoplatform/uno#24076 (native X11 window/GL context leak) has no host-side sweep.
 /// Reference write-ups: ref/Uno.Themes/specs/05-alc-wrapper-app/upstream-issues.md.
 /// The additional event-args pool gap is tracked in specs/toolkit-wrapper/progress.md.
-/// Internal API by necessity; every step degrades to a logged warning (memory stays resident
-/// until the next guest exits), never an exception.
+/// Internal API by necessity; expected reflection failures degrade to logged warnings
+/// (memory may stay resident until the next guest exits).
 /// </remarks>
 internal sealed partial class GuestAppLoader
 {
@@ -48,15 +48,15 @@ internal sealed partial class GuestAppLoader
 			? SafeGetMethod(cacheField.FieldType, "Clear", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
 			: null;
 
-	// Lookup failures surface at the sweep call sites (which log); throwing here would turn a
-	// future Uno rename into a TypeInitializationException at app launch.
+	// Missing or ambiguous members surface at the sweep call sites (which log), so an Uno
+	// rename or new overload does not become a TypeInitializationException at app launch.
 	private static MethodInfo? SafeGetMethod(Type type, string name, BindingFlags flags)
 	{
 		try
 		{
 			return type.GetMethod(name, flags);
 		}
-		catch (Exception)
+		catch (AmbiguousMatchException)
 		{
 			return null;
 		}
@@ -68,7 +68,7 @@ internal sealed partial class GuestAppLoader
 		{
 			return type.GetField(name, flags);
 		}
-		catch (Exception)
+		catch (AmbiguousMatchException)
 		{
 			return null;
 		}
@@ -88,7 +88,7 @@ internal sealed partial class GuestAppLoader
 				_logger.LogWarning("Application.CleanupNonDefaultAlcCaches was not found; guest ALC memory may stay resident until the next guest exits.");
 			}
 		}
-		catch (Exception ex)
+		catch (Exception ex) when (ex is TargetInvocationException or TargetParameterCountException or MethodAccessException or ArgumentException)
 		{
 			_logger.LogWarning(ex, "Application.CleanupNonDefaultAlcCaches failed; guest ALC memory may stay resident.");
 		}
