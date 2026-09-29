@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Uno.Toolkit.UI.Yoga;
+using YogaAlign = Uno.Toolkit.UI.Yoga.FlexAlign;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -396,11 +397,11 @@ public partial class FlexPanel : Panel
 
 	private void SetRootConstraints()
 	{
-		_rootNode.FlexDirection = Direction;
-		_rootNode.JustifyContent = JustifyContent;
-		_rootNode.AlignItems = AlignItems;
-		_rootNode.AlignContent = AlignContent;
-		_rootNode.FlexWrap = Wrap;
+		_rootNode.FlexDirection = Direction.ToYoga();
+		_rootNode.JustifyContent = JustifyContent.ToYoga();
+		_rootNode.AlignItems = AlignItems.ToYoga(fallback: YogaAlign.Stretch);
+		_rootNode.AlignContent = AlignContent.ToYoga(fallback: YogaAlign.FlexStart);
+		_rootNode.FlexWrap = Wrap.ToYoga();
 		_rootNode.SetGap(YogaGutter.Column, (float)ColumnGap);
 		_rootNode.SetGap(YogaGutter.Row, (float)RowGap);
 
@@ -613,10 +614,10 @@ public partial class FlexPanel : Panel
 		node.Style.FlexBasis = double.IsNaN(attached.Basis)
 			? YogaValue.Auto
 			: YogaValue.Point((float)attached.Basis);
-		node.Style.AlignSelf = attached.AlignSelf;
-		node.Style.PositionType = attached.Position;
+		node.Style.AlignSelf = attached.AlignSelf.ToYoga(fallback: YogaAlign.Auto);
+		node.Style.PositionType = attached.Position.ToYoga();
 
-		var mainAxisIsRow = FlexDirectionHelper.IsRow(Direction);
+		var mainAxisIsRow = Direction is FlexDirection.Row or FlexDirection.RowReverse;
 		node.MinWidth = ResolveMinDimension(
 			element,
 			axisIsMain: mainAxisIsRow,

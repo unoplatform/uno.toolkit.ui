@@ -4,7 +4,6 @@
 // Full license text: THIRD-PARTY-NOTICES.md
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Uno.Toolkit.UI;
 using Uno.Toolkit.UI.Yoga;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.Yoga;

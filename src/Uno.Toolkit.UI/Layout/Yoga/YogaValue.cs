@@ -8,7 +8,6 @@
 // yoga/style/StyleLength.h, yoga/style/StyleSizeLength.h
 
 using System;
-using Uno.Toolkit.UI;
 
 namespace Uno.Toolkit.UI.Yoga;
 

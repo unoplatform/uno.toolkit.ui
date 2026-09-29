@@ -19,7 +19,6 @@
 
 using System;
 using System.Collections.Generic;
-using Uno.Toolkit.UI;
 
 namespace Uno.Toolkit.UI.Yoga;
 

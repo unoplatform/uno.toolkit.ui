@@ -7,7 +7,6 @@
 // Ported from yoga/node/LayoutResults.h, yoga/node/CachedMeasurement.h
 
 using System.Runtime.CompilerServices;
-using Uno.Toolkit.UI;
 
 namespace Uno.Toolkit.UI.Yoga;
 

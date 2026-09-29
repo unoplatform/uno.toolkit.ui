@@ -7,7 +7,6 @@
 // Ported from yoga/config/Config.h, yoga/config/Config.cpp
 
 using System.Diagnostics;
-using Uno.Toolkit.UI;
 
 namespace Uno.Toolkit.UI.Yoga;
 

@@ -66,9 +66,6 @@ Two concrete capability differences worth knowing before you choose:
 | `RowGap` | `double` | `0` | `row-gap` |
 | `Padding` | `Thickness` | `0` | `padding` |
 
-> [!NOTE]
-> `Direction` defaults to `Row`, which is **not** the zero value of the `FlexDirection` enum. The enum preserves Yoga's numbering, in which `Column = 0`. The default is `Row` because that is the CSS initial value and the one a XAML author expects from a bare `<utu:FlexPanel>`.
-
 ### Attached properties
 
 Set these on the *children* of a `FlexPanel`.
@@ -96,9 +93,9 @@ A child's `Margin`, `Width`, `Height` and `Visibility` are read directly:
 | `Width` / `Height` | Mapped to a definite item size; `NaN` means `auto`. |
 | `Visibility="Collapsed"` | Mapped to `display: none` — the child contributes no size **and no gap slot**. |
 
-### Enum members that do nothing
+### Which `FlexAlign` members apply where
 
-`FlexAlign` and `FlexJustify` are shared with the underlying engine and carry more members than any one property honours. Binding a picker to `Enum.GetValues` will produce entries that silently do nothing.
+As in CSS, `AlignItems`, `AlignContent` and `AlignSelf` share one keyword set (`FlexAlign`), so not every member is meaningful on every property. Every member of `FlexDirection`, `FlexWrap`, `FlexJustify` and `FlexPositionType` has an effect.
 
 | Property | Meaningful members |
 |---|---|
@@ -106,8 +103,6 @@ A child's `Margin`, `Width`, `Height` and `Visibility` are read directly:
 | `AlignItems` | `Stretch`, `FlexStart`, `Center`, `FlexEnd`, `Baseline` |
 | `AlignContent` | `FlexStart`, `Center`, `FlexEnd`, `Stretch`, `SpaceBetween`, `SpaceAround`, `SpaceEvenly` |
 | `AlignSelf` | `Auto` plus everything valid for `AlignItems` |
-
-The remaining `FlexJustify` members (`Auto`, `Stretch`, `Start`, `End`) collapse onto `FlexStart` or `FlexEnd`.
 
 ## `Basis` vs `Width`
 

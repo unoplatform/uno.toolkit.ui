@@ -18,7 +18,6 @@
 
 using System;
 using System.Threading;
-using Uno.Toolkit.UI;
 
 namespace Uno.Toolkit.UI.Yoga;
 

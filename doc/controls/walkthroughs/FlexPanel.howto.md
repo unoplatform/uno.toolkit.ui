@@ -276,7 +276,7 @@ See [FlexPanel](../FlexPanel.md) for types, defaults and the CSS equivalent of e
 * **`Basis` beats `Width` on the main axis.** If a child arranges at an unexpected size, check whether `Grow` or `Basis` is resolving the slot.
 * **`Grow="1"` is not `flex: 1 1 0`.** Add `Basis="0"` whenever you want equal shares rather than equal *leftovers*.
 * **Rows can overflow.** The automatic minimum size keeps items at min-content unless you set `FlexMinWidth="0"`.
-* **Not every enum member does something.** `FlexAlign` and `FlexJustify` are shared with the underlying engine and carry more members than any one property honours; binding a picker to `Enum.GetValues` will produce entries that silently do nothing.
+* **`FlexAlign` is shared.** As in CSS, `AlignItems`, `AlignContent` and `AlignSelf` use one keyword set, so `Auto` only means something on `AlignSelf` and the `Space*` members only on `AlignContent`.
 * **No border or corner radius.** `FlexPanel` derives from `Panel`, which exposes only `Background`. Wrap it in a `Border` if you need one.
 * **No CSS `order`.** Reorder the children instead.
 * **Pixel snapping** follows `UseLayoutRounding`. Set it to `false` if you see sub-pixel drift from double-rounding on a particular target.

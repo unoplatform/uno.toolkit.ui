@@ -62,9 +62,9 @@ public class FlexPanelTests
 	[TestMethod]
 	public async Task When_DirectionNotSet_ThenDefaultsToRow()
 	{
-		// FlexEnums.cs keeps Yoga's numbering, where FlexDirection.Column is the zero value. The DP
-		// metadata default must override that to Row, or every bare <FlexPanel/> silently becomes a
-		// column. This is cheap to get wrong and invisible until someone looks at a screen.
+		// Row is the CSS initial value and what a bare <FlexPanel/> must be. It is also the public
+		// enum's zero value, while the vendored engine numbers Column first, so this also guards the
+		// public-to-engine mapping. Cheap to get wrong and invisible until someone looks at a screen.
 		var SUT = new FlexPanel { Width = 400, Height = 200 };
 
 		var first = CreateChild(50, 50);
