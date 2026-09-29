@@ -55,3 +55,54 @@ jobs:
         inputs:
           targetPath: $(build.artifactstagingdirectory)/desktop
           artifactName: desktop-$(ARTIFACT_SUFFIX)
+
+  # Exercise the wrapper's secondary-app loading and unloading without replacing the
+  # standalone app artifacts consumed by the existing runtime-test stage.
+  - job: HostingSmoke_Desktop
+    displayName: Hosting Smoke - Toolkit Desktop
+    timeoutInMinutes: 30
+
+    pool:
+      vmImage: ubuntu-latest
+
+    variables:
+      NUGET_PACKAGES: $(build.sourcesdirectory)/.nuget
+
+    steps:
+      - checkout: self
+        clean: true
+
+      - template: templates/host-cleanup-linux.yml
+
+      - template: templates/dotnet-workload-install-linux.yml
+        parameters:
+          UnoCheckParameters: '--tfm net10.0-desktop'
+
+      - template: templates/canary-updater.yml
+
+      # Desktop ordering references build the three sibling guest outputs used by the host.
+      - bash: |
+          dotnet build samples/Uno.Toolkit.Samples.Wrapper/ToolkitSampleApp.csproj \
+            -c Release -f net10.0-desktop \
+            -p:TargetFrameworkOverride=desktop \
+            -p:GeneratePackageOnBuild=false \
+            -bl:$(build.artifactstagingdirectory)/binlogs/build-hosting-smoke.binlog
+        displayName: Build Toolkit wrapper and guest heads
+
+      - bash: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb fluxbox
+          xvfb-run --auto-servernum --server-args='-screen 0 1280x1024x24' \
+            bash -c 'fluxbox & timeout 900 dotnet ToolkitSampleApp.dll --smoke'
+        workingDirectory: samples/Uno.Toolkit.Samples.Wrapper/bin/Release/net10.0-desktop
+        displayName: Load and unload every hosted theme
+
+      - task: PublishBuildArtifacts@1
+        retryCountOnTaskFailure: 3
+        condition: always()
+        displayName: Publish hosting smoke binlog
+        inputs:
+          PathtoPublish: $(build.artifactstagingdirectory)/binlogs
+          ArtifactName: binlogs-hosting-smoke
+          ArtifactType: Container

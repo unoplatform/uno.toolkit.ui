@@ -16,6 +16,7 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<UnoSingleProject>true</UnoSingleProject>
+		<UnoEnableAlcAppSupport>true</UnoEnableAlcAppSupport>
 		<!-- Display name -->
 		<ApplicationTitle>Uno.Toolkit.Material.Samples</ApplicationTitle>
 		<!-- App Identifier -->
