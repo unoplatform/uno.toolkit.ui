@@ -1,5 +1,146 @@
 # Lessons
 
+<<<<<<< HEAD
+=======
+Corrections worth not repeating. Newest first. Per `AGENTS.md` §3, corrections that should bind
+every agent on this repo go here (or in `AGENTS.md` / a skill's `SKILL.md`), never in personal memory.
+
+## A Release build rewrites `Generated/mergedpages.xaml`
+
+**2026-09-29 — FlexPanel review (#1639).**
+
+**Context:** `f0eeef12` committed the Release-merged `src/Uno.Toolkit.UI/Generated/mergedpages.xaml` (+2,019 lines) alongside an unrelated test change. On `main` that file is the Debug version — a small dictionary pointing at each control's XAML so hot reload works — and `AGENTS.md` forbids editing anything under `Generated/`. Nobody wrote it by hand; a Release build did, and `git add` of a directory swept it in.
+
+**How to apply:** After any Release build, run `git status` and restore `Generated/` (`git checkout <base> -- src/Uno.Toolkit.UI/Generated/`) before staging. Stage by explicit path, not by directory.
+
+## Fold a fix into an old commit against that commit's parent, never against `main`
+
+**2026-09-29 — FlexPanel review (#1639).**
+
+**Context:** Folding a revert into an earlier branch commit was done with `git rebase -i --autosquash main`. `main` had moved ~100 commits past the branch's base, so the "squash" silently rebased the whole branch onto the unrelated Uno 7 groundwork, which then had to be undone by hand.
+
+**How to apply:** `git commit --fixup=<sha>` then `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash <sha>^`. The base is the target commit's parent, which keeps every earlier SHA and the branch's base untouched. Confirm afterwards with `git merge-base HEAD main` (unchanged) and `git diff <old-tip> HEAD` (only the intended change).
+
+## A headless runtime-test run needs the output path in the environment
+
+**2026-09-25 — MSTest 4 bump (#1649).**
+
+A local headless run launched the Material desktop head with `UNO_RUNTIME_TESTS_RUN_TESTS='{}'` and
+`--runtime-tests=<results.xml>`, but without `UNO_RUNTIME_TESTS_OUTPUT_PATH`. The app opened the
+interactive runner and sat idle, and the user noticed the tests were not running.
+`RuntimeTestEmbeddedRunner.AutoStartTests` reads the output destination only from the environment
+and aborts without one. The argument only makes `RuntimeTestModeDetector` show the runner UI.
+
+**Rules:**
+
+- Export both `UNO_RUNTIME_TESTS_RUN_TESTS` and `UNO_RUNTIME_TESTS_OUTPUT_PATH`, exactly as
+  `build/workflow/scripts/linux-skia-runtime-tests.sh` does.
+- Within a minute of launch, confirm the run started: the log shows
+  `RunTests: Starting test execution`, and the process CPU time keeps rising.
+
+## A hot-reload run that is killed leaves its fixture edits on disk
+
+**2026-09-17 — Uno 7.0 retarget.**
+
+A timed-out local hot-reload run left `StatusBarPage.xaml` edited ("Updated page"). The next
+Debug build compiled that text into the page, so the test failed on its initial assertion before
+any hot reload happened.
+
+**Rules:**
+
+- After any interrupted hot-reload run, `git status src/Uno.Toolkit.RuntimeTests/Tests` and restore
+  the fixtures before building. A diff that flips a baseline literal is leftover test state.
+- When a CI version pin "does not take effect", check the cache keys of the steps that install it
+  before anything else: a key without the version restores the old install unchanged.
+
+## A Skia mobile head did not run your mobile asset before Uno 7 — now it does
+
+**2026-09-17 — Uno 7.0 retarget.**
+
+The first plan for the mobile port kept the native `ExtendedSplashScreen.Android.cs`/`.iOS.cs`
+implementations alive and set out to make them work under Skia. The maintainer pointed out that
+Skia Android should keep using the plain Skia path the toolkit already used. The reason is in the
+Uno SDK, not in this repo: in Uno 6 a Skia Android/iOS head replaced every Uno-referencing
+library's `-android`/`-ios` asset with its plain `netX.0` build (`RuntimeAssetsSelectorTask`). Every
+Skia mobile user of the toolkit has therefore always run the plain build — `not_mobile` XAML, no
+`__ANDROID__`/`__IOS__` code. Uno 7 commit `bc6254848a` removed that swap, so the mobile assets now
+run for the first time on Skia.
+
+**Rules:**
+
+- When deciding what a mobile TFM build should do on Uno 7, start from what the plain build did:
+  that is the behavior Skia mobile users already have. Keep a native-only path only as a justified
+  OS-level exception, and list it.
+- Before reasoning about which asset of a package an app loads, read the SDK task that selects
+  assets for the Uno version in use. NuGet's `project.assets.json` is not the final answer on Uno 6.
+
+## Verify with the command CI runs, not an equivalent-looking one
+
+**2026-09-08 — Uno 7.0 retarget.**
+
+A `uno.themes` retarget built with **0 errors** via
+`dotnet build Uno.Themes.sln -c Release -p:TargetFrameworkOverride=desktop`, then failed
+immediately in CI with `CS0413` and, behind it, 29 XAML errors.
+
+Cause: MSBuild resolves `msbuild-sdks` from the `global.json` nearest the **entry point**.
+A solution build at the repo root reads the root `global.json`; CI's
+`dotnet publish src/samples/<head>/<head>.csproj` reads `src/samples/global.json`. That repo has
+both, and only the root one had been bumped — so the libraries compiled against Uno 7 and the
+sample heads against Uno 6. Same source, same flags, opposite results.
+
+The `CS0413` was a real portability bug the wrong-SDK build happened to expose:
+`where T : class, DependencyObject` is illegal once `DependencyObject` is a class (CS0450), but
+plain `where T : DependencyObject` breaks `child as T` while it is still an interface (CS0413).
+A type pattern (`child is T typed`) needs no class constraint and compiles either way.
+
+**Rules:**
+
+- Before claiming a build is green, run the *literal* command from the pipeline YAML. For this
+  repo that is `dotnet publish samples/<head>/<head>.csproj -c Release -f net10.0-desktop
+  -p:TargetFrameworkOverride=desktop` for the sample jobs, and the `Uno.Toolkit-packages.slnf`
+  build for the Packages job — not a convenient solution-wide build.
+- `grep -rn "global.json"` before an SDK bump. Nested `global.json` files are invisible to a
+  solution build and authoritative for a direct project build.
+- When a local build and CI disagree, dump `obj/**/project.assets.json` and compare resolved
+  package versions before theorising. It named the exact culprit in one step here.
+
+## Read the shipped package, not the source checkout
+
+**2026-09-08 — Uno 7.0 retarget.**
+
+`D:\Work\uno` was ~5 weeks behind the build the toolkit consumes. `uno.winui.nuspec` for
+`7.0.0-dev.679` pins commit `d1710cafb14428664bc3eadd5bd6d4ee49cc7395`. Greps of the working tree
+returned types that are **not** in the shipped assemblies (`IDependencyObjectStoreProvider`,
+`Generic.Native.xaml`, `Style.IsNativeStyle`), which is exactly backwards from what the build
+errors said.
+
+**Rule:** for "was this API removed?", read the assembly in `D:\Packages\NuGet\<pkg>\<version>\`
+or `git show <nuspec-commit>:<path>`. A working-tree grep is a hypothesis, not evidence.
+
+## Compiling is not the same as working
+
+**2026-09-08 — Uno 7.0 retarget.**
+
+Two separate bugs in one day that a green build would have hidden:
+
+- `xmlns:toolkit="using:Uno.UI.Extras"` compiled fine — the namespace exists, holding only a
+  generated `GlobalStaticResources` — while the XAML generator emitted references to
+  `Uno.UI.Extras.ElevatedView`, a type that does not exist. It would have failed at runtime, in
+  every affected template.
+- Adding `SkiaSharp.Views.Uno.WinUI` made `ShadowContainer` compile, but that package is itself
+  Uno-6-built and binds `Uno.UI.Toolkit`, so the app died at startup with a `FileNotFoundException`
+  before a single runtime test ran.
+
+**Rules:**
+
+- After a namespace/xmlns migration, disassemble the output and check the emitted type references
+  actually resolve — a `TypeReference` to a non-existent type is not a build error.
+- Check what a dependency binds to, not just that it restores:
+  list its `AssemblyReferences` and look for the assemblies the new major version removed.
+- Launch the app (`--runtime-tests=`) before claiming a port works. A clean build proved nothing
+  here.
+
+>>>>>>> 1a69b1f (docs(lessons): fix preamble placement and local path)
 ## Documentation ownership
 
 - Public migration guidance should describe release-level behavior without pinning the explanation to an exact prerelease NuGet build. Package provenance belongs in PR and validation notes.
@@ -10,7 +151,6 @@
 
 - Test Toolkit's inheritance of upstream token generation against the upstream theme with identical inputs. Keep arithmetic tables and default asset names in the owning Themes tests.
 - Reuse Toolkit's existing visual-tree helpers in runtime tests instead of introducing a second traversal implementation.
-Patterns worth not repeating. Per `AGENTS.md` §3, corrections that should bind every agent on this repo go here (or in `AGENTS.md` / a skill's `SKILL.md`), never in personal memory.
 
 ## Never state a ratio, percentage, or proportion you did not compute
 
@@ -34,7 +174,7 @@ The gating does not survive contact with the arithmetic. `PrimaryAxisAlignmentOf
 
 **Context:** Establishing what `FlexPanel : Panel` would lose relative to `AutoLayout : RelativePanel` required knowing where `Padding` / `BorderBrush` / `BorderThickness` / `CornerRadius` are actually declared. They are public on `RelativePanel` (Uno's `RelativePanel.Properties.cs`); `Panel` carries only the `internal` `PaddingInternal` / `BorderThicknessInternal` / `CornerRadiusInternal` plumbing, unreachable from `Uno.Toolkit.UI`. A `Panel` subclass therefore cannot draw a border at all — a materially different limitation from "Yoga doesn't measure borders".
 
-**How to apply:** The Uno source is checked out alongside this repo (`../../framework/uno-readonly/src/Uno.UI`, with `Generated/3.0.0.0/**` for the WinUI surface). Two greps there settle any "does this base type expose X?" question. `AutoLayout` compiling against `Padding` without declaring it is a hint, not an answer — it does not tell you whether the member is public, protected, or where it comes from.
+**How to apply:** Use a local clone of [unoplatform/uno](https://github.com/unoplatform/uno) (`src/Uno.UI`, with `Generated/3.0.0.0/**` for the WinUI surface). Two greps there settle any "does this base type expose X?" question. `AutoLayout` compiling against `Padding` without declaring it is a hint, not an answer — it does not tell you whether the member is public, protected, or where it comes from.
 
 ## A platform-specific hide needs a platform-specific fix
 
