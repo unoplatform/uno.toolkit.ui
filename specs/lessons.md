@@ -1,6 +1,23 @@
 # Lessons
 
-Corrections worth not repeating. Newest first.
+Corrections worth not repeating. Newest first. Per `AGENTS.md` §3, corrections that should bind
+every agent on this repo go here (or in `AGENTS.md` / a skill's `SKILL.md`), never in personal memory.
+
+## A Release build rewrites `Generated/mergedpages.xaml`
+
+**2026-09-29 — FlexPanel review (#1639).**
+
+**Context:** `f0eeef12` committed the Release-merged `src/Uno.Toolkit.UI/Generated/mergedpages.xaml` (+2,019 lines) alongside an unrelated test change. On `main` that file is the Debug version — a small dictionary pointing at each control's XAML so hot reload works — and `AGENTS.md` forbids editing anything under `Generated/`. Nobody wrote it by hand; a Release build did, and `git add` of a directory swept it in.
+
+**How to apply:** After any Release build, run `git status` and restore `Generated/` (`git checkout <base> -- src/Uno.Toolkit.UI/Generated/`) before staging. Stage by explicit path, not by directory.
+
+## Fold a fix into an old commit against that commit's parent, never against `main`
+
+**2026-09-29 — FlexPanel review (#1639).**
+
+**Context:** Folding a revert into an earlier branch commit was done with `git rebase -i --autosquash main`. `main` had moved ~100 commits past the branch's base, so the "squash" silently rebased the whole branch onto the unrelated Uno 7 groundwork, which then had to be undone by hand.
+
+**How to apply:** `git commit --fixup=<sha>` then `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash <sha>^`. The base is the target commit's parent, which keeps every earlier SHA and the branch's base untouched. Confirm afterwards with `git merge-base HEAD main` (unchanged) and `git diff <old-tip> HEAD` (only the intended change).
 
 ## A headless runtime-test run needs the output path in the environment
 
@@ -131,7 +148,6 @@ Two separate bugs in one day that a green build would have hidden:
 
 - Test Toolkit's inheritance of upstream token generation against the upstream theme with identical inputs. Keep arithmetic tables and default asset names in the owning Themes tests.
 - Reuse Toolkit's existing visual-tree helpers in runtime tests instead of introducing a second traversal implementation.
-Patterns worth not repeating. Per `AGENTS.md` §3, corrections that should bind every agent on this repo go here (or in `AGENTS.md` / a skill's `SKILL.md`), never in personal memory.
 
 ## Never state a ratio, percentage, or proportion you did not compute
 
@@ -155,7 +171,7 @@ The gating does not survive contact with the arithmetic. `PrimaryAxisAlignmentOf
 
 **Context:** Establishing what `FlexPanel : Panel` would lose relative to `AutoLayout : RelativePanel` required knowing where `Padding` / `BorderBrush` / `BorderThickness` / `CornerRadius` are actually declared. They are public on `RelativePanel` (Uno's `RelativePanel.Properties.cs`); `Panel` carries only the `internal` `PaddingInternal` / `BorderThicknessInternal` / `CornerRadiusInternal` plumbing, unreachable from `Uno.Toolkit.UI`. A `Panel` subclass therefore cannot draw a border at all — a materially different limitation from "Yoga doesn't measure borders".
 
-**How to apply:** The Uno source is checked out alongside this repo (`../../framework/uno-readonly/src/Uno.UI`, with `Generated/3.0.0.0/**` for the WinUI surface). Two greps there settle any "does this base type expose X?" question. `AutoLayout` compiling against `Padding` without declaring it is a hint, not an answer — it does not tell you whether the member is public, protected, or where it comes from.
+**How to apply:** Use a local clone of [unoplatform/uno](https://github.com/unoplatform/uno) (`src/Uno.UI`, with `Generated/3.0.0.0/**` for the WinUI surface). Two greps there settle any "does this base type expose X?" question. `AutoLayout` compiling against `Padding` without declaring it is a hint, not an answer — it does not tell you whether the member is public, protected, or where it comes from.
 
 ## A platform-specific hide needs a platform-specific fix
 
