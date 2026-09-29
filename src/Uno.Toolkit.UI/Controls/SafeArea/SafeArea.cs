@@ -370,12 +370,21 @@ namespace Uno.Toolkit.UI
 			}
 
 			// A static/non-capturing lambda is still emitted as an instance method on the compiler's cached
-			// `<>c` singleton, so its Target is non-null. What matters is whether the target carries state:
-			// a closure display-class (or a bound `this`) has instance fields, `<>c` has none.
-			[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Only evaluated inside Debug.Assert; trimmed fields can only make this dev-time check more permissive.")]
+			// `<>c` singleton, so its Target is non-null. Accept only that shape: a compiler-generated
+			// target type with no instance fields. A closure display-class is compiler-generated but has
+			// fields; a bound `this` (even one with no fields) is not compiler-generated.
+			[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Dev-time diagnostic (Debug.Assert and its runtime test); a trimmed field can only make the check more permissive, it cannot throw.")]
 			internal static bool IsNonCapturing(Delegate d)
-				=> d.Target is null
-				|| d.Target.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length == 0;
+			{
+				if (d.Target is null)
+				{
+					return true;
+				}
+
+				var targetType = d.Target.GetType();
+				return targetType.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false)
+					&& targetType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length == 0;
+			}
 
 			private void RegisterEvents()
 			{

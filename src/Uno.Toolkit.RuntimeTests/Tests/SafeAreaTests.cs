@@ -92,11 +92,20 @@ public partial class SafeAreaTests
 		Action<int> staticLambda = static x => { };
 		Action<int> capturingLambda = x => captured += x;
 		Action<int> boundInstanceMethod = new List<int>().Add;
+		Action<int> boundFieldlessInstanceMethod = new FieldlessTarget().Handle;
 
 		// Act & Assert
 		Assert.IsTrue(SafeArea.SafeAreaDetails.IsNonCapturing(staticLambda), "static lambda");
 		Assert.IsFalse(SafeArea.SafeAreaDetails.IsNonCapturing(capturingLambda), "lambda capturing a local");
 		Assert.IsFalse(SafeArea.SafeAreaDetails.IsNonCapturing(boundInstanceMethod), "delegate bound to an instance");
+		Assert.IsFalse(SafeArea.SafeAreaDetails.IsNonCapturing(boundFieldlessInstanceMethod), "delegate bound to an instance of a user type with no fields");
+	}
+
+	// A bound instance still roots its target even when the type has no state; the
+	// "no instance fields" heuristic alone would wrongly accept it.
+	private sealed class FieldlessTarget
+	{
+		public void Handle(int _) { }
 	}
 
 #if DEBUG && !__ANDROID__ && !WINDOWS_WINUI
