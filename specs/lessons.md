@@ -2,6 +2,34 @@
 
 Corrections worth not repeating. Newest first.
 
+## Never name an `AppBarButton` template part `Content` unless it must show `Icon ?? Content`
+
+**2026-09-29 — Simple NavigationBar primary commands (#1652).**
+
+An `AppBarButton` in `NavigationBar.PrimaryCommands` whose `Content` was a `UIElement` rendered an
+empty slot under the Simple theme, while a string `Content` and an `Icon` rendered fine. Uno's
+`AppBarButton` (`AppBarButton.uno.cs`, `SetupContentUpdate`) looks up the template part named
+`Content` and force-sets it to `Icon ?? Content` on every change of either property, so WinUI's
+icon-only template still shows something when only `Content` is set. The toolkit's own
+`SimpleAppBarButtonStyle` in `Uno.Toolkit.Simple/Styles/Controls/NavigationBar.xaml` used that name
+for the icon presenter inside the `Viewbox` that collapses when `Icon` is null; with no `Icon`,
+Uno moved the user's `Content` into that hidden presenter, and a `UIElement` can only have one
+visual parent, so it vanished from the visible `ContentPresenter`. Strings passed every sample and
+test because a string can be shown by two presenters at once. Same root cause as
+unoplatform/Uno.Themes#1735.
+
+**Rules:**
+
+- In an `AppBarButton` template, the part named `Content` is owned by Uno. Name the icon presenter
+  `IconPresenter` (and the content presenter `ContentPresenter`); only an icon-only template that
+  deliberately wants the `Icon ?? Content` fallback may keep the name `Content`.
+- A template that splits a control's properties across several presenters needs a runtime test that
+  puts a `UIElement`, not a string, into each of them — strings hide re-parenting bugs.
+- Before naming a part in a retemplated framework control, grep the Uno implementation for
+  `GetTemplateChild("...")`; Uno adds lookups WinUI does not have.
+- The toolkit ships its own `SimpleAppBarButtonStyle`, same key as `Uno.Simple.WinUI`'s. Fixes to
+  the Uno.Themes copy do not reach the NavigationBar, which resolves the toolkit copy at parse time.
+
 ## A headless runtime-test run needs the output path in the environment
 
 **2026-09-25 — MSTest 4 bump (#1649).**
