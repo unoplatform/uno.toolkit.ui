@@ -38,7 +38,6 @@ No package version changes or new third-party dependencies are intended.
 - The host retains the reference implementation's framework cache cleanup mitigations.
   WASM/Debug ALC collection is diagnostic; Release desktop collection is required.
 
-
 ### Browser verification
 
 Release WASM publish succeeded with the workflow flags plus `-m:1` locally.
