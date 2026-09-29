@@ -7,9 +7,9 @@
 // These are the user-facing enum types for flex layout configuration.
 // AI-HINT: Maps 1:1 to CSS Flexbox enum values. Used by FlexPanel and YogaStyle.
 
-namespace Uno.Toolkit.UI;
+namespace Uno.Toolkit.UI.Yoga;
 
-public enum FlexAlign
+internal enum FlexAlign
 {
     Auto = 0,
     FlexStart = 1,
@@ -24,7 +24,7 @@ public enum FlexAlign
     End = 10,
 }
 
-public enum FlexDirection
+internal enum FlexDirection
 {
     Column = 0,
     ColumnReverse = 1,
@@ -32,7 +32,7 @@ public enum FlexDirection
     RowReverse = 3,
 }
 
-public enum FlexJustify
+internal enum FlexJustify
 {
     Auto = 0,
     FlexStart = 1,
@@ -46,21 +46,21 @@ public enum FlexJustify
     End = 9,
 }
 
-public enum FlexLayoutDirection
+internal enum FlexLayoutDirection
 {
     Inherit = 0,
     LeftToRight = 1,
     RightToLeft = 2,
 }
 
-public enum FlexPositionType
+internal enum FlexPositionType
 {
     Static = 0,
     Relative = 1,
     Absolute = 2,
 }
 
-public enum FlexWrap
+internal enum FlexWrap
 {
     NoWrap = 0,
     Wrap = 1,

@@ -16,10 +16,8 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples;
 /// </remarks>
 public sealed partial class FlexPanelPlaygroundNestedPage // constants, choices-values
 {
-	// Only the members that produce a distinct layout are offered. FlexJustify and FlexAlign both
-	// carry extra members for engine parity -- FlexJustify.Auto/Stretch/Start collapse onto
-	// FlexStart, and End onto FlexEnd -- so binding the raw Enum.GetValues would fill these
-	// pickers with no-op entries.
+	// FlexAlign is shared by AlignItems, AlignContent and AlignSelf, as the CSS keyword set is, so
+	// each picker offers only the members that are meaningful for its own property.
 	private static readonly FlexDirection[] Directions =
 	{
 		FlexDirection.Row, FlexDirection.RowReverse, FlexDirection.Column, FlexDirection.ColumnReverse,
@@ -57,7 +55,7 @@ public sealed partial class FlexPanelPlaygroundNestedPage // constants, choices-
 
 	private static readonly FlexPositionType[] Positions =
 	{
-		FlexPositionType.Relative, FlexPositionType.Absolute, FlexPositionType.Static,
+		FlexPositionType.Relative, FlexPositionType.Absolute,
 	};
 
 	private static readonly Color[] SwatchColors =

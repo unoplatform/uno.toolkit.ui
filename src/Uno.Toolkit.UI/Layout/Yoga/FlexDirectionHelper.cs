@@ -7,7 +7,6 @@
 // Ported from yoga/algorithm/FlexDirection.h
 
 using System;
-using Uno.Toolkit.UI;
 
 namespace Uno.Toolkit.UI.Yoga;
 

@@ -35,17 +35,18 @@ ENGINE_DST_DIR = "src/Uno.Toolkit.UI/Layout/Yoga"
 TESTS_SRC_DIR = "tests/Reactor.Tests/YogaGenerated"
 TESTS_DST_DIR = "src/Uno.Toolkit.RuntimeTests/Tests/Yoga"
 
-NS_PUBLIC = "Uno.Toolkit.UI"        # the 6 user-facing enums (DP types)
-NS_ENGINE = "Uno.Toolkit.UI.Yoga"   # everything else, all internal
+NS_ENGINE = "Uno.Toolkit.UI.Yoga"   # the whole engine, all internal
 NS_TESTS = "Uno.Toolkit.RuntimeTests.Tests.Yoga"
 
-# FlexEnums.cs holds the 6 public enums and lands in the flat toolkit namespace.
+# FlexEnums.cs is public upstream; here it is made internal like the rest of the
+# engine. FlexPanel's public enums are our own (Controls/FlexPanel/FlexEnums.cs), so an
+# upstream re-sync cannot reshape public API.
 # NB: namespace Uno.Toolkit.UI.Layout is NOT available - it collides with the
 # existing "public enum Layout" in Uno.Toolkit.UI (Helpers/ResponsiveHelper.cs).
 ENGINE_FILES = {
     "AlgorithmUtils.cs": (NS_ENGINE, ["System", "System.Collections.Generic"]),
     "FlexDirectionHelper.cs": (NS_ENGINE, ["System"]),
-    "FlexEnums.cs": (NS_PUBLIC, []),
+    "FlexEnums.cs": (NS_ENGINE, []),
     "LayoutResults.cs": (NS_ENGINE, ["System.Runtime.CompilerServices"]),
     "YogaAlgorithm.cs": (NS_ENGINE, ["System", "System.Threading"]),
     "YogaConfig.cs": (NS_ENGINE, ["System.Diagnostics"]),
@@ -85,7 +86,10 @@ def header(source_path, readme, extra=""):
 
 
 def rename_layout_direction(text):
-    """D3b: FlexLayoutDirection.LTR/RTL -> LeftToRight/RightToLeft. Numeric values unchanged."""
+    """D3b: FlexLayoutDirection.LTR/RTL -> LeftToRight/RightToLeft. Numeric values unchanged.
+
+    The enum is internal now, but the rename is kept: it reads like WinUI's FlowDirection,
+    and dropping it would churn every corpus file for no gain."""
     text = re.sub(r"\bFlexLayoutDirection\.LTR\b", "FlexLayoutDirection.LeftToRight", text)
     text = re.sub(r"\bFlexLayoutDirection\.RTL\b", "FlexLayoutDirection.RightToLeft", text)
     # the two declarations inside FlexEnums.cs
@@ -115,16 +119,17 @@ def import_engine():
         text = read_lf(os.path.join(SRC, *src_rel.split("/")))
 
         text = text.replace(f"namespace {UPSTREAM_NS};", f"namespace {ns};")
-        # the upstream self-using becomes the (meaningful) reference to the enum namespace
-        text = text.replace(f"using {UPSTREAM_NS};", f"using {NS_PUBLIC};")
-        if ns == NS_PUBLIC:
-            text = text.replace(f"using {NS_PUBLIC};\n", "")  # would be a self-using
+        # the added usings go where upstream's self-using sits, so insert them first...
+        text = "".join(insert_usings(text.splitlines(keepends=True), usings))
+        # ...then drop that self-using: it is redundant once every file shares one namespace
+        text = text.replace(f"using {UPSTREAM_NS};\n", "")
+        # the only public upstream types are the flex enums; nothing here is public API
+        text = re.sub(r"^public enum ", "internal enum ", text, flags=re.M)
         # stale prose references to the upstream namespace, inside comments
         text = text.replace(UPSTREAM_NS, ns)
         text = rename_layout_direction(text)
 
-        lines = insert_usings(text.splitlines(keepends=True), usings)
-        text = header(src_rel, "Layout/Yoga/README.md") + "".join(lines)
+        text = header(src_rel, "Layout/Yoga/README.md") + text
 
         write_crlf(os.path.join(DST, *ENGINE_DST_DIR.split("/"), name), text)
         out.append((name, ns, len(text.splitlines())))
@@ -146,7 +151,6 @@ def import_tests(only=None):
         text = text.replace(
             f"using {UPSTREAM_NS};\nusing Xunit;\n",
             "using Microsoft.VisualStudio.TestTools.UnitTesting;\n"
-            f"using {NS_PUBLIC};\n"
             f"using {NS_ENGINE};\n",
         )
         text = text.replace(f"namespace {UPSTREAM_TEST_NS};", f"namespace {NS_TESTS};")
@@ -182,21 +186,28 @@ RESIDUE = (
     (r"(?<!Yoga)Assert\.Equal\(", "un-shimmed Assert.Equal"),
 )
 
+# The engine must add nothing to the package's public surface. Test classes are public by
+# design, so this applies to the engine folder only.
+ENGINE_RESIDUE = (
+    # top-level only: a public member nested in an internal type is still internal
+    (r"^public (?:enum|class|struct|interface|delegate|record) ", "public type in the engine"),
+)
+
 
 def verify():
     """Check only the imported files - hand-written companions (YogaAssert.cs) are ours."""
     problems = []
     upstream_tests = set(os.listdir(os.path.join(SRC, *TESTS_SRC_DIR.split("/"))))
     roots = [
-        (os.path.join(DST, *ENGINE_DST_DIR.split("/")), set(ENGINE_FILES)),
-        (os.path.join(DST, *TESTS_DST_DIR.split("/")), upstream_tests),
+        (os.path.join(DST, *ENGINE_DST_DIR.split("/")), set(ENGINE_FILES), RESIDUE + ENGINE_RESIDUE),
+        (os.path.join(DST, *TESTS_DST_DIR.split("/")), upstream_tests, RESIDUE),
     ]
-    for root, imported in roots:
+    for root, imported, residue in roots:
         if not os.path.isdir(root):
             continue
         for name in sorted(n for n in os.listdir(root) if n in imported):
             text = read_lf(os.path.join(root, name))
-            for pattern, label in RESIDUE:
+            for pattern, label in residue:
                 hits = len(re.findall(pattern, text, flags=re.M))
                 if hits:
                     problems.append(f"{name}: {hits}x {label}")

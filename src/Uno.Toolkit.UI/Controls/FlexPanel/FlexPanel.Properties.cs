@@ -21,19 +21,13 @@ partial class FlexPanel
 		nameof(Direction),
 		typeof(FlexDirection),
 		typeof(FlexPanel),
-		// The default is deliberately Row, which is NOT the enum's zero value: FlexEnums.cs keeps
-		// Yoga's numbering, where Column = 0. Row is the CSS `flex-direction` initial value and the
-		// one a XAML author expects from a bare <FlexPanel>. Do not "simplify" this to default(T).
 		new PropertyMetadata(FlexDirection.Row, propertyChangedCallback: OnContainerPropertyChanged));
 
 	/// <summary>
 	/// Gets or sets the direction of the main axis along which children are laid out.
 	/// CSS equivalent: <c>flex-direction</c>.
 	/// </summary>
-	/// <remarks>
-	/// Defaults to <see cref="FlexDirection.Row"/>. Note this differs from the zero value of
-	/// <see cref="FlexDirection"/>, which is <see cref="FlexDirection.Column"/>.
-	/// </remarks>
+	/// <remarks>Defaults to <see cref="FlexDirection.Row"/>, the CSS initial value.</remarks>
 	public FlexDirection Direction
 	{
 		get => (FlexDirection)GetValue(DirectionProperty);
@@ -68,13 +62,6 @@ partial class FlexPanel
 	/// Gets or sets how children are distributed along the main axis.
 	/// CSS equivalent: <c>justify-content</c>.
 	/// </summary>
-	/// <remarks>
-	/// Meaningful values are <see cref="FlexJustify.FlexStart"/>, <see cref="FlexJustify.Center"/>,
-	/// <see cref="FlexJustify.FlexEnd"/>, <see cref="FlexJustify.SpaceBetween"/>,
-	/// <see cref="FlexJustify.SpaceAround"/> and <see cref="FlexJustify.SpaceEvenly"/>. The remaining
-	/// members of <see cref="FlexJustify"/> exist for engine parity and behave as
-	/// <see cref="FlexJustify.FlexStart"/> or <see cref="FlexJustify.FlexEnd"/>.
-	/// </remarks>
 	public FlexJustify JustifyContent
 	{
 		get => (FlexJustify)GetValue(JustifyContentProperty);

@@ -36,12 +36,7 @@ Re-running it against a newer upstream reproduces this folder exactly.
 1. **Provenance header.** Four lines prepended to each file: upstream repo, tag, commit, that file's
    original upstream path, import date, and SPDX license with both copyright holders. This offsets every
    file by **4 lines** when diffing against upstream — account for it.
-2. **Namespace.**
-   - `FlexEnums.cs` → `Uno.Toolkit.UI`. It holds the six public, user-facing enums (`FlexAlign`,
-     `FlexDirection`, `FlexJustify`, `FlexWrap`, `FlexPositionType`, `FlexLayoutDirection`) that are the
-     DP types of `FlexPanel`, so they belong in the flat toolkit namespace where consumers already look.
-   - Everything else → `Uno.Toolkit.UI.Yoga`. All of it is `internal`, so none of it is public API.
-     C# enclosing-namespace lookup resolves the enums from here with no `using`.
+2. **Namespace.** Every file → `Uno.Toolkit.UI.Yoga`, and upstream's redundant self-`using` is dropped.
 
    > ⚠️ `Uno.Toolkit.UI.Layout` — which `specs/flexpanel-import/spec.md` originally proposed — **cannot be
    > used**. It collides with the existing `public enum Layout` in `Uno.Toolkit.UI`
@@ -51,12 +46,18 @@ Re-running it against a newer upstream reproduces this folder exactly.
    `Uno.Toolkit.WinUI.csproj` does not. `System`, `System.Collections.Generic`,
    `System.Runtime.CompilerServices`, `System.Diagnostics` and `System.Threading` are added per file
    as needed. The script skips any a file already declares.
-4. **`FlexLayoutDirection.LTR`/`.RTL` renamed to `.LeftToRight`/`.RightToLeft`** (spec D3b). This enum is
-   part of *our* public API and WinUI spells it out (`FlowDirection.LeftToRight`); abbreviations read
-   badly in XAML. **Numeric values are not renumbered** — not here, and not for `FlexDirection`, whose
-   Yoga ordering (`Column = 0, ColumnReverse = 1, Row = 2, RowReverse = 3`) is deliberately preserved.
-5. **Nothing else.** No visibility changes (upstream is already `internal` everywhere but `FlexEnums.cs`),
-   no reformatting, no `#nullable` pragmas, no analyzer suppressions — none turned out to be necessary.
+4. **`FlexLayoutDirection.LTR`/`.RTL` renamed to `.LeftToRight`/`.RightToLeft`** (spec D3b). The enum is
+   internal now, so this is purely cosmetic; it is kept because it matches WinUI's
+   `FlowDirection.LeftToRight` and dropping it would churn every corpus file. **Numeric values are not
+   renumbered**, including `FlexDirection`'s Yoga ordering (`Column = 0, ColumnReverse = 1, Row = 2,
+   RowReverse = 3`).
+5. **`FlexEnums.cs` made `internal`.** Upstream's six flex enums are the only public types in the folder.
+   Here every top-level type is `internal`, so an upstream re-sync can never reshape the package's public
+   API. `FlexPanel`'s public enums are our own, in `Controls/FlexPanel/FlexEnums.cs`, and
+   `Controls/FlexPanel/FlexEnumMapping.cs` maps them onto these by name. The script's self-check fails on
+   any public top-level type left in the engine.
+6. **Nothing else.** No reformatting, no `#nullable` pragmas, no analyzer suppressions — none turned out to
+   be necessary.
 
 ## Accepted as-is
 
