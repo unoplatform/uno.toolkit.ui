@@ -6,7 +6,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Uno.Toolkit.UI.Yoga;
 using YogaAlign = Uno.Toolkit.UI.Yoga.FlexAlign;
 
@@ -65,20 +64,6 @@ public partial class FlexPanel : Panel
 	private readonly List<UIElement> _syncToRemove = new();
 	private readonly List<ChildLayout> _cachedChildLayouts = new();
 
-	// Per-child snapshot of the last-read attached-property values. Reading an attached DP boxes the
-	// double/enum, so an uncached read costs ~11 boxed allocations per child per pass. Attached DPs
-	// can only change through the property system, which raises OnChildPropertyChanged and drops the
-	// entry. Width/Height/Margin/Visibility are deliberately NOT cached: they change without any
-	// callback of ours, so they are re-read every pass.
-	private readonly Dictionary<UIElement, AttachedProps> _attachedCache = new();
-
-	// An attached DP can change while a child is detached from its panel (removed, re-styled, then
-	// re-added before the next measure). OnChildPropertyChanged cannot reach the owning panel in that
-	// window, so the child is flagged here instead and re-read on the next sync. Weak-keyed, so it
-	// holds nothing alive.
-	private static readonly ConditionalWeakTable<UIElement, object> s_detachedAttachedDirty = new();
-	private static readonly object s_detachedDirtyMarker = new();
-
 	// Children already measured through Yoga's MeasureFunction this pass. Such a child must not be
 	// measured a second time at Yoga's resolved (rounded) size: a finite re-measure makes the child
 	// re-run its own measure logic and DesiredSize can drift sub-pixel, which shows up as a 1px
@@ -102,13 +87,6 @@ public partial class FlexPanel : Panel
 		public float X, Y, Width, Height;
 	}
 
-	private struct AttachedProps
-	{
-		public double Grow, Shrink, Basis, MinWidth, MinHeight, Left, Top, Right, Bottom;
-		public FlexAlign AlignSelf;
-		public FlexPositionType Position;
-	}
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FlexPanel"/> class.
 	/// </summary>
@@ -128,23 +106,11 @@ public partial class FlexPanel : Panel
 
 	private static void OnChildPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		if (d is not UIElement element)
+		// Attached values are re-read on every pass, so a change only needs a new pass. A child that
+		// is not currently in a FlexPanel is read afresh when it next gets measured by one.
+		if (d is UIElement element && VisualTreeHelper.GetParent(element) is FlexPanel panel)
 		{
-			return;
-		}
-
-		if (VisualTreeHelper.GetParent(element) is FlexPanel panel)
-		{
-			// Drop the cached snapshot so the next sync re-reads the changed value.
-			panel._attachedCache.Remove(element);
 			panel.InvalidateMeasure();
-		}
-		else
-		{
-			// Detached, or not yet parented: we cannot reach the owning panel's cache, so flag the
-			// element. The next ApplyAttachedProperties re-reads it rather than trusting a stale
-			// snapshot.
-			s_detachedAttachedDirty.AddOrUpdate(element, s_detachedDirtyMarker);
 		}
 	}
 
@@ -157,7 +123,6 @@ public partial class FlexPanel : Panel
 		}
 
 		_nodeCache.Clear();
-		_attachedCache.Clear();
 
 		// The scratch collections are normally emptied at the end of each pass. Clearing them here
 		// too makes the release unconditional rather than dependent on the last pass having
@@ -458,7 +423,6 @@ public partial class FlexPanel : Panel
 			}
 
 			_nodeCache.Remove(element);
-			_attachedCache.Remove(element);
 		}
 
 		for (var i = 0; i < Children.Count; i++)
@@ -582,59 +546,44 @@ public partial class FlexPanel : Panel
 
 	private void ApplyAttachedProperties(UIElement element, YogaNode node)
 	{
-		var hit = _attachedCache.TryGetValue(element, out var attached);
-		if (hit && s_detachedAttachedDirty.TryGetValue(element, out _))
-		{
-			// The snapshot was invalidated while the child was detached from a panel.
-			hit = false;
-		}
-
-		if (!hit)
-		{
-			s_detachedAttachedDirty.Remove(element);
-			attached = new AttachedProps
-			{
-				Grow = GetGrow(element),
-				Shrink = GetShrink(element),
-				Basis = GetBasis(element),
-				AlignSelf = GetAlignSelf(element),
-				Position = GetPosition(element),
-				MinWidth = GetFlexMinWidth(element),
-				MinHeight = GetFlexMinHeight(element),
-				Left = GetLeft(element),
-				Top = GetTop(element),
-				Right = GetRight(element),
-				Bottom = GetBottom(element),
-			};
-			_attachedCache[element] = attached;
-		}
-
-		node.Style.FlexGrow = (float)attached.Grow;
-		node.Style.FlexShrink = (float)attached.Shrink;
-		node.Style.FlexBasis = double.IsNaN(attached.Basis)
+		// Read straight from the property system every pass, so every value -- attached or not -- is
+		// guaranteed current. An earlier per-child snapshot cache was removed: no profile showed these
+		// reads as a cost, and the cache needed its own invalidation for children changed while
+		// detached from a panel.
+		//
+		// The node is dirtied on every pass too (the node.MinWidth / Width / SetMargin setters below
+		// always do). Do not guard those writes with "skip if unchanged": when only a child's content
+		// changes, every synced value is identical, and a clean node would make Yoga serve its cached
+		// measurement without ever calling MeasureFunction, so the child's new size would be lost.
+		// Re-measuring stays cheap because WinUI short-circuits child.Measure at an unchanged
+		// constraint.
+		var basis = GetBasis(element);
+		node.Style.FlexGrow = (float)GetGrow(element);
+		node.Style.FlexShrink = (float)GetShrink(element);
+		node.Style.FlexBasis = double.IsNaN(basis)
 			? YogaValue.Auto
-			: YogaValue.Point((float)attached.Basis);
-		node.Style.AlignSelf = attached.AlignSelf.ToYoga(fallback: YogaAlign.Auto);
-		node.Style.PositionType = attached.Position.ToYoga();
+			: YogaValue.Point((float)basis);
+		node.Style.AlignSelf = GetAlignSelf(element).ToYoga(fallback: YogaAlign.Auto);
+		node.Style.PositionType = GetPosition(element).ToYoga();
 
 		var mainAxisIsRow = Direction is FlexDirection.Row or FlexDirection.RowReverse;
 		node.MinWidth = ResolveMinDimension(
 			element,
 			axisIsMain: mainAxisIsRow,
-			explicitMin: attached.MinWidth,
-			basis: attached.Basis,
+			explicitMin: GetFlexMinWidth(element),
+			basis: basis,
 			isWidth: true);
 		node.MinHeight = ResolveMinDimension(
 			element,
 			axisIsMain: !mainAxisIsRow,
-			explicitMin: attached.MinHeight,
-			basis: attached.Basis,
+			explicitMin: GetFlexMinHeight(element),
+			basis: basis,
 			isWidth: false);
 
-		node.Style.Position[(int)YogaEdge.Left] = ToInset(attached.Left);
-		node.Style.Position[(int)YogaEdge.Top] = ToInset(attached.Top);
-		node.Style.Position[(int)YogaEdge.Right] = ToInset(attached.Right);
-		node.Style.Position[(int)YogaEdge.Bottom] = ToInset(attached.Bottom);
+		node.Style.Position[(int)YogaEdge.Left] = ToInset(GetLeft(element));
+		node.Style.Position[(int)YogaEdge.Top] = ToInset(GetTop(element));
+		node.Style.Position[(int)YogaEdge.Right] = ToInset(GetRight(element));
+		node.Style.Position[(int)YogaEdge.Bottom] = ToInset(GetBottom(element));
 
 		// FR-4: Width / Height / Margin participate with no attached property. These are re-read
 		// every pass because they change without raising OnChildPropertyChanged.
