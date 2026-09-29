@@ -55,11 +55,6 @@ public sealed partial class FlexPanelPlaygroundNestedPage // constants, choices-
 		FlexAlign.FlexEnd, FlexAlign.Baseline,
 	};
 
-	private static readonly FlexLayoutDirection[] LayoutDirections =
-	{
-		FlexLayoutDirection.LeftToRight, FlexLayoutDirection.RightToLeft,
-	};
-
 	private static readonly FlexPositionType[] Positions =
 	{
 		FlexPositionType.Relative, FlexPositionType.Absolute, FlexPositionType.Static,
@@ -101,7 +96,6 @@ public sealed partial class FlexPanelPlaygroundNestedPage : Page
 			PopulateCombo(JustifyCombo, Justifications, FlexJustify.FlexStart);
 			PopulateCombo(AlignItemsCombo, ItemAlignments, FlexAlign.Stretch);
 			PopulateCombo(AlignContentCombo, ContentAlignments, FlexAlign.FlexStart);
-			PopulateCombo(LayoutDirectionCombo, LayoutDirections, FlexLayoutDirection.LeftToRight);
 			PopulateCombo(AlignSelfCombo, SelfAlignments, FlexAlign.Auto);
 			PopulateCombo(PositionCombo, Positions, FlexPositionType.Relative);
 		}
@@ -188,11 +182,6 @@ partial class FlexPanelPlaygroundNestedPage // container
 			Stage.AlignContent = alignContent;
 		}
 
-		if (LayoutDirectionCombo.SelectedItem is FlexLayoutDirection layoutDirection)
-		{
-			Stage.LayoutDirection = layoutDirection;
-		}
-
 		Stage.ColumnGap = ColumnGapSlider.Value;
 		Stage.RowGap = RowGapSlider.Value;
 		Stage.Padding = new Thickness(
@@ -258,7 +247,6 @@ partial class FlexPanelPlaygroundNestedPage // host size and rounding
 			return;
 		}
 
-		// FlexPanel ignores FlowDirection; this exists to make the double-mirror visible.
 		Stage.FlowDirection = FlowDirectionRtlCheck.IsChecked is true
 			? FlowDirection.RightToLeft
 			: FlowDirection.LeftToRight;

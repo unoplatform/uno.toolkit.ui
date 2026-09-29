@@ -65,7 +65,6 @@ Two concrete capability differences worth knowing before you choose:
 | `ColumnGap` | `double` | `0` | `column-gap` |
 | `RowGap` | `double` | `0` | `row-gap` |
 | `Padding` | `Thickness` | `0` | `padding` |
-| `LayoutDirection` | `FlexLayoutDirection` | `LeftToRight` | `direction` |
 
 > [!NOTE]
 > `Direction` defaults to `Row`, which is **not** the zero value of the `FlexDirection` enum. The enum preserves Yoga's numbering, in which `Column = 0`. The default is `Row` because that is the CSS initial value and the one a XAML author expects from a bare `<utu:FlexPanel>`.
@@ -152,10 +151,9 @@ The floor applies to the **main axis** only; the cross axis has no automatic flo
 
 ## Right-to-left
 
-`LayoutDirection` is the **only** right-to-left input `FlexPanel` reads. `FlowDirection` is ignored.
+Set `FlowDirection="RightToLeft"` (inherited from `FrameworkElement`), as with any other panel. The engine always lays out left-to-right and the platform mirrors the whole panel, so the main axis starts on the right.
 
-> [!WARNING]
-> Setting both `FlowDirection="RightToLeft"` and `LayoutDirection="RightToLeft"` mirrors the layout **twice**, which cancels out. Set `LayoutDirection` only.
+Because the mirroring is visual, the `Left` / `Right` insets of an absolutely positioned child swap sides too, the same way `Canvas.Left` does. CSS treats `left` / `right` as physical edges instead.
 
 ## Layout rounding
 
@@ -176,4 +174,4 @@ Set it to `false` if you see sub-pixel drift from double-rounding on a particula
 
 ## Samples
 
-The **FlexPanel** page under *Controls* in the sample app walks through each property with a labelled example. Its **Open the interactive playground** button opens a full-screen surface where every container and per-child property is driven live, including a `UseLayoutRounding` toggle, the `FlowDirection` double-mirror hazard, a 200-child stress case, and a readout of each child's arranged rectangle.
+The **FlexPanel** page under *Controls* in the sample app walks through each property with a labelled example. Its **Open the interactive playground** button opens a full-screen surface where every container and per-child property is driven live, including a `UseLayoutRounding` toggle, a `FlowDirection` toggle, a 200-child stress case, and a readout of each child's arranged rectangle.

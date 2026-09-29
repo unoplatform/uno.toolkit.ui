@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -397,38 +397,16 @@ public class FlexPanelTests
 	}
 
 	[TestMethod]
-	public async Task When_LayoutDirectionRightToLeft_ThenMainAxisMirrored()
+	public async Task When_FlowDirectionRightToLeft_ThenMirroredVisually()
 	{
-		var SUT = new FlexPanel
-		{
-			Width = 300,
-			Height = 100,
-			LayoutDirection = FlexLayoutDirection.RightToLeft,
-		};
-
-		var first = CreateChild(100, 50);
-		var second = CreateChild(100, 50);
-		SUT.Children.Add(first);
-		SUT.Children.Add(second);
-
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
-
-		SlotOf(first).X.Should().BeApproximately(200, Tolerance, "the first child starts at the right edge");
-		SlotOf(second).X.Should().BeApproximately(100, Tolerance);
-	}
-
-	[TestMethod]
-	public async Task When_FlowDirectionAndLayoutDirectionBothSet_ThenNoDoubleMirror()
-	{
-		// FR-7's contract: LayoutDirection is the only RTL input the panel reads. The two mechanisms
-		// are independent, so a panel left at LeftToRight lays out left-to-right no matter what
-		// FlowDirection says. Pinning this stops the two from being quietly coupled later.
+		// FlowDirection is the panel's only RTL input, and the platform does the mirroring. Layout
+		// slots stay in the panel's own (unmirrored) space, so the visible placement is checked
+		// through a transform to a left-to-right ancestor instead.
 		var SUT = new FlexPanel
 		{
 			Width = 300,
 			Height = 100,
 			FlowDirection = FlowDirection.RightToLeft,
-			LayoutDirection = FlexLayoutDirection.LeftToRight,
 		};
 
 		var first = CreateChild(100, 50);
@@ -436,11 +414,21 @@ public class FlexPanelTests
 		SUT.Children.Add(first);
 		SUT.Children.Add(second);
 
-		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+		var host = new Grid
+		{
+			HorizontalAlignment = HorizontalAlignment.Left,
+			VerticalAlignment = VerticalAlignment.Top,
+			Children = { SUT },
+		};
 
-		SlotOf(first).X.Should().BeApproximately(0, Tolerance,
-			"FlexPanel ignores FlowDirection; only LayoutDirection mirrors its main axis");
-		SlotOf(second).X.Should().BeApproximately(100, Tolerance);
+		await UnitTestUIContentHelperEx.SetContentAndWait(host);
+
+		SlotOf(first).X.Should().BeApproximately(0, Tolerance, "the engine itself always lays out left-to-right");
+
+		var firstBounds = first.TransformToVisual(host).TransformBounds(new Rect(0, 0, 100, 50));
+		var secondBounds = second.TransformToVisual(host).TransformBounds(new Rect(0, 0, 100, 50));
+		firstBounds.X.Should().BeApproximately(200, Tolerance, "the first child is drawn against the right edge");
+		secondBounds.X.Should().BeApproximately(100, Tolerance);
 	}
 
 	[TestMethod]

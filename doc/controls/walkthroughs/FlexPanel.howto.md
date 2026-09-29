@@ -247,24 +247,22 @@ tags: [flexpanel, flexbox, css, layout, yoga, wrap, grow, shrink, basis, gap, ju
 **Outcome:** The main axis runs right-to-left.
 
 ```xml
-<utu:FlexPanel LayoutDirection="RightToLeft" ColumnGap="8">
+<utu:FlexPanel FlowDirection="RightToLeft" ColumnGap="8">
     <Border Width="60" Height="40" />
     <Border Width="60" Height="40" />
 </utu:FlexPanel>
 ```
 
-* `LayoutDirection` is the **only** right-to-left input `FlexPanel` reads. `FlowDirection` is ignored.
-
-> [!WARNING]
-> Setting both `FlowDirection="RightToLeft"` and `LayoutDirection="RightToLeft"` mirrors the layout **twice**, which cancels out. Set `LayoutDirection` only.
+* `FlowDirection` works as it does on any other panel: the platform mirrors the whole panel, and the engine itself always lays out left-to-right.
+* The mirroring is visual, so the `Left` / `Right` insets of an absolute child swap sides too, as `Canvas.Left` does.
 
 ---
 
 ## Quick reference: key properties & attachments
 
 * **Container:** `Direction` (`Row|Column|RowReverse|ColumnReverse`), `Wrap` (`NoWrap|Wrap|WrapReverse`),
-  `JustifyContent`, `AlignItems`, `AlignContent`, `ColumnGap`, `RowGap`, `Padding`,
-  `LayoutDirection` (`Inherit|LeftToRight|RightToLeft`).
+  `JustifyContent`, `AlignItems`, `AlignContent`, `ColumnGap`, `RowGap`, `Padding`.
+  Right-to-left comes from the inherited `FlowDirection`.
 * **Per-child (attached):** `Grow`, `Shrink`, `Basis`, `FlexMinWidth`, `FlexMinHeight`,
   `AlignSelf`, `Position`, `Left`, `Top`, `Right`, `Bottom`.
 * **Read directly off the child:** `Margin`, `Width`, `Height`, `Visibility`.
