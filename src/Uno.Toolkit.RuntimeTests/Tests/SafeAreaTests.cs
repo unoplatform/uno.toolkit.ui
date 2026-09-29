@@ -84,6 +84,21 @@ public partial class SafeAreaTests
 		Assert.AreEqual((nameof(grid0), customBounds), effectiveUpdates[0]);
 	}
 
+	[TestMethod]
+	public void WeakHandler_IsNonCapturing()
+	{
+		// Arrange
+		var captured = 0;
+		Action<int> staticLambda = static x => { };
+		Action<int> capturingLambda = x => captured += x;
+		Action<int> boundInstanceMethod = new List<int>().Add;
+
+		// Act & Assert
+		Assert.IsTrue(SafeArea.SafeAreaDetails.IsNonCapturing(staticLambda), "static lambda");
+		Assert.IsFalse(SafeArea.SafeAreaDetails.IsNonCapturing(capturingLambda), "lambda capturing a local");
+		Assert.IsFalse(SafeArea.SafeAreaDetails.IsNonCapturing(boundInstanceMethod), "delegate bound to an instance");
+	}
+
 #if DEBUG && !__ANDROID__ && !WINDOWS_WINUI
 	[TestMethod]
 	[RequiresFullWindow]

@@ -5,7 +5,9 @@
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Uno.Disposables;
 using Uno.Extensions;
@@ -345,11 +347,11 @@ namespace Uno.Toolkit.UI
 			{
 				// The whole point of this wrapper is that the global event singleton holds only a
 				// WeakReference back. That guarantee is defeated if a caller passes a capturing lambda:
-				// its closure display-class would be rooted by the delegate (Target != null) and would
-				// in turn root whatever it captured. Callers must pass static/non-capturing delegates
-				// (Target == null); assert it in DEBUG so an accidental capture is caught during dev.
-				System.Diagnostics.Debug.Assert(onEvent.Target is null, "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
-				System.Diagnostics.Debug.Assert(detach.Target is null, "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+				// its closure display-class would be rooted by the delegate and would in turn root
+				// whatever it captured. Callers must pass static/non-capturing delegates; assert it in
+				// DEBUG so an accidental capture is caught during dev.
+				System.Diagnostics.Debug.Assert(IsNonCapturing(onEvent), "CreateWeakHandler: onEvent must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
+				System.Diagnostics.Debug.Assert(IsNonCapturing(detach), "CreateWeakHandler: detach must be a static/non-capturing delegate, otherwise it reintroduces a strong reference.");
 
 				var weakTarget = new WeakReference<SafeAreaDetails>(target);
 				TypedEventHandler<TSender, TArgs> h = null!;
@@ -366,6 +368,14 @@ namespace Uno.Toolkit.UI
 				};
 				return h;
 			}
+
+			// A static/non-capturing lambda is still emitted as an instance method on the compiler's cached
+			// `<>c` singleton, so its Target is non-null. What matters is whether the target carries state:
+			// a closure display-class (or a bound `this`) has instance fields, `<>c` has none.
+			[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Only evaluated inside Debug.Assert; trimmed fields can only make this dev-time check more permissive.")]
+			internal static bool IsNonCapturing(Delegate d)
+				=> d.Target is null
+				|| d.Target.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length == 0;
 
 			private void RegisterEvents()
 			{
