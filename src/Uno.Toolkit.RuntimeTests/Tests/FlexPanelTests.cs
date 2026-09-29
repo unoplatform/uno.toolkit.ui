@@ -35,7 +35,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 /// </remarks>
 [TestClass]
 [RunsOnUIThread]
-public class FlexPanelTests
+public partial class FlexPanelTests
 {
 	private const double Tolerance = 0.5;
 
@@ -62,7 +62,7 @@ public class FlexPanelTests
 	private static Rect SlotOf(FrameworkElement element) => LayoutInformation.GetLayoutSlot(element);
 
 	/// <summary>A <see cref="FlexPanel"/> that counts how many times it is actually measured.</summary>
-	private sealed class MeasureCountingFlexPanel : FlexPanel
+	private sealed partial class MeasureCountingFlexPanel : FlexPanel
 	{
 		public int MeasureCount { get; private set; }
 
