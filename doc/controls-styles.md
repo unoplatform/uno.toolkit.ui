@@ -13,6 +13,7 @@ The `Uno.Toolkit.UI` library adds the following controls:
 - [`Divider`](controls/Divider.md): \[Material control\] A divider is a thin line that groups content in lists and layouts.
 - [`DrawerControl`](controls/DrawerControl.md): A container to display additional content, in a hidden pane that can be revealed using a swipe gesture, like a drawer.
 - [`DrawerFlyoutPresenter`](controls/DrawerFlyoutPresenter.md): A specialized `ContentPresenter` to be used in the template of a `FlyoutPresenter` to enable gesture support.
+- [`FlexPanel`](controls/FlexPanel.md): A panel that arranges its children using CSS Flexbox semantics, backed by the Yoga layout engine.
 - [`LoadingView`](controls/LoadingView.md): A control that indicates that the UI is waiting on a task to complete.
 - [`NavigationBar`](controls/NavigationBar.md): A custom control that helps implement navigation logic for your application.
 - [`ShadowContainer`](controls/ShadowContainer.md): A content control allowing you to add multiple shadows to your content.

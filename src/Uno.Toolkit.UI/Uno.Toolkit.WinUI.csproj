@@ -36,6 +36,17 @@
 		<Content Include="Assets\**\*.png" />
 	</ItemGroup>
 
+	<!--
+		This assembly embeds the vendored Yoga layout engine (Layout/Yoga/, MIT - see
+		THIRD-PARTY-NOTICES.md). MIT requires its copyright and permission notice to travel
+		with "all copies or substantial portions of the Software", and a compiled nupkg is a
+		copy - so the notice file must ship inside the package, not only live in the repo.
+		Uno.Toolkit.WinUI is the only package that embeds this code.
+	-->
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)..\..\THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="\" Visible="false" />
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(ImplicitUsings)'=='true' OR '$(ImplicitUsings)'=='enable'">
 		<Using Include="Uno.Toolkit.UI" />
 	</ItemGroup>
