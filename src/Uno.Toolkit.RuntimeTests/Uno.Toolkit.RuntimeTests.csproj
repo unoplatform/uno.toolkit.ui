@@ -12,6 +12,11 @@
 		<DefineConstants Condition="$(IsWinAppSdk)">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
     <FrameworkLineage>WinUI</FrameworkLineage>
 
+    <!-- UXAML0007: Uno.UI.RuntimeTests.Engine (still built on Uno 6.5) ships UnitTestsControl.xaml as source
+         with the skia:/not_skia: prefixes that Uno 7 removed. Remove once the engine is referenced at a version
+         built on Uno 7. -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);UXAML0007</WarningsNotAsErrors>
+
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
       https://aka.platform.uno/singleproject-features
