@@ -18,7 +18,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 /// assigned to <c>Content</c> was re-parented into that collapsed presenter and never rendered. A string survived
 /// only because it can be displayed by two presenters at once.
 /// </summary>
-public partial class NavigationBarTests
+partial class NavigationBarTests
 {
 	[TestMethod]
 	public async Task Simple_PrimaryCommands_Render_Icon_And_Content_Variants()
@@ -55,7 +55,12 @@ public partial class NavigationBarTests
 
 	private static void AssertRenderedInside(AppBarButton button, FrameworkElement? element, string what)
 	{
-		Assert.IsNotNull(element, $"{what} should be part of the AppBarButton visual tree.");
+		if (element is null)
+		{
+			Assert.Fail($"{what} should be part of the AppBarButton visual tree.");
+			return;
+		}
+
 		Assert.AreSame(button, element.GetFirstAncestor<AppBarButton>(), $"{what} should be hosted by the expected AppBarButton.");
 
 		var collapsedAncestor = element.GetAncestors().OfType<FrameworkElement>().FirstOrDefault(x => x.Visibility == Visibility.Collapsed);
