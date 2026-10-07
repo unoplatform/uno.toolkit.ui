@@ -29,6 +29,7 @@ NuGet package(s) and version(s), if referenced directly:
 
 Affected platform(s):
 
+- [ ] All platforms
 - [ ] WebAssembly
 - [ ] Android
 - [ ] iOS

@@ -30,6 +30,7 @@ What kind of change does this PR introduce?
 
 Please check if your PR fulfills the following requirements:
 - [ ] Tested the changes where applicable:
+	- [ ] All platforms
 	- [ ] WebAssembly
 	- [ ] Android
 	- [ ] iOS
