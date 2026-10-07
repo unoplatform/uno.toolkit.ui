@@ -1,7 +1,7 @@
 <Project ToolsVersion="15.0">
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <UnoThemesVersion>9.0.0-dev.34</UnoThemesVersion>
+    <UnoThemesVersion>9.0.0-dev.37</UnoThemesVersion>
     <!-- The SDK still pins the Uno 6 C# Markup line (6.7.0-dev.16), which UNOB0020 reports as broken on Uno 7. -->
     <UnoCSharpMarkupVersion>7.0.0-dev.33</UnoCSharpMarkupVersion>
   </PropertyGroup>
