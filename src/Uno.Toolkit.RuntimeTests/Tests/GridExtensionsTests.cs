@@ -201,8 +201,8 @@ public partial class GridExtensionsTests
 	public async Task When_Child_Has_Preset_Position_It_Is_Overwritten()
 	{
 		var sut = CreateGrid(rows: 2, cols: 3, childCount: 4);
-		Grid.SetRow(sut.Children[1], 1);
-		Grid.SetColumn(sut.Children[1], 2);
+		Grid.SetRow((FrameworkElement)sut.Children[1], 1);
+		Grid.SetColumn((FrameworkElement)sut.Children[1], 2);
 
 		GridExtensions.SetAuto(sut, true);
 
@@ -216,7 +216,7 @@ public partial class GridExtensionsTests
 	public async Task When_Child_Has_Span_It_Is_Ignored()
 	{
 		var sut = CreateGrid(rows: 2, cols: 2, childCount: 3);
-		Grid.SetColumnSpan(sut.Children[0], 2);
+		Grid.SetColumnSpan((FrameworkElement)sut.Children[0], 2);
 
 		GridExtensions.SetAuto(sut, true);
 
@@ -228,7 +228,7 @@ public partial class GridExtensionsTests
 		Assert.AreEqual((0, 1), GetPosition(sut.Children[1]));
 		Assert.AreEqual((1, 0), GetPosition(sut.Children[2]));
 
-		Assert.AreEqual(2, Grid.GetColumnSpan(sut.Children[0]), "the span itself should be left untouched");
+		Assert.AreEqual(2, Grid.GetColumnSpan((FrameworkElement)sut.Children[0]), "the span itself should be left untouched");
 	}
 
 	// Edge cases
@@ -304,5 +304,5 @@ public partial class GridExtensionsTests // helpers methods
 		Background = new SolidColorBrush(UnoColors[index % UnoColors.Length]),
 	};
 
-	private static (int row, int col) GetPosition(UIElement child) => (Grid.GetRow(child), Grid.GetColumn(child));
+	private static (int row, int col) GetPosition(UIElement child) => (Grid.GetRow((FrameworkElement)child), Grid.GetColumn((FrameworkElement)child));
 }

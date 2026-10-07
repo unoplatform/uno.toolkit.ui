@@ -103,33 +103,34 @@ public class VisualStateExtensionsTests
 	{
 		// Build the same structure as the sample page: a UserControl with
 		// VisualStateManagerExtensions.States driving VisualStates that set a Border background.
-		var border = new Border
-		{
-			Width = 200,
-			Height = 200,
-			Background = new SolidColorBrush(Colors.Transparent),
-		};
+		// VisualState.Name is only settable through x:Name, as in WinUI.
+		var grid = (Grid)XamlReader.Load("""
+			<Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+				<VisualStateManager.VisualStateGroups>
+					<VisualStateGroup>
+						<VisualState x:Name="Red">
+							<VisualState.Setters>
+								<Setter Target="border.Background" Value="#FFFF0000" />
+							</VisualState.Setters>
+						</VisualState>
+						<VisualState x:Name="Green">
+							<VisualState.Setters>
+								<Setter Target="border.Background" Value="#FF008000" />
+							</VisualState.Setters>
+						</VisualState>
+						<VisualState x:Name="Blue">
+							<VisualState.Setters>
+								<Setter Target="border.Background" Value="#FF0000FF" />
+							</VisualState.Setters>
+						</VisualState>
+					</VisualStateGroup>
+				</VisualStateManager.VisualStateGroups>
+				<Border x:Name="border" Width="200" Height="200" Background="Transparent" />
+			</Grid>
+			""");
 
-		var grid = new Grid();
-		grid.Children.Add(border);
-
-		// Define visual states
-		var redState = new VisualState { Name = "Red" };
-		redState.Setters.Add(new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Background"), Target = border }, Value = new SolidColorBrush(Colors.Red) });
-
-		var greenState = new VisualState { Name = "Green" };
-		greenState.Setters.Add(new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Background"), Target = border }, Value = new SolidColorBrush(Color.FromArgb(255, 0, 128, 0)) });
-
-		var blueState = new VisualState { Name = "Blue" };
-		blueState.Setters.Add(new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Background"), Target = border }, Value = new SolidColorBrush(Colors.Blue) });
-
-		var group = new VisualStateGroup();
-		group.States.Add(redState);
-		group.States.Add(greenState);
-		group.States.Add(blueState);
-
-		VisualStateManager.SetVisualStateGroups(grid, new List<VisualStateGroup> { group }	);
-
+		var border = (Border)grid.Children[0];
 		var userControl = new UserControl { Content = grid };
 
 		return (userControl, border);
