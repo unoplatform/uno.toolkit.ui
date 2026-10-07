@@ -24,14 +24,11 @@ labels: kind/consumer-experience, kind/documentation, triage/untriaged
 - [ ] WebAssembly
 - [ ] Android
 - [ ] iOS
-- [ ] macOS (AppKit)
-- [ ] Mac Catalyst
-- [ ] Skia
-  - [ ] WPF
-  - [ ] GTK (Linux)
-  - [ ] Linux Framebuffer
-  - [ ] Tizen
-- [ ] Windows
+- [ ] Desktop (Windows)
+- [ ] Desktop (macOS)
+- [ ] Desktop (X11)
+- [ ] Desktop (Linux Framebuffer)
+- [ ] Windows App SDK
 
 ## Anything else we need to know?
 
