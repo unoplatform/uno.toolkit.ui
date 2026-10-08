@@ -44,7 +44,7 @@ Driven by `SkeletonFeedViewStyle` in uno.extensions (`dev/sb/skeleton-feedview`)
 - [x] `SkeletonPresenter` takes `PlaceholderCount` from the nearest ancestor setting it (attached properties can't be template-bound from a control template) — `When_PlaceholderCount_Set_On_Ancestor`
 - [x] Unconstrained `SkeletonPresenter` (e.g. in a vertical `StackPanel`): placeholder rows are stamped before the overlay size check, since the empty list is what keeps it at 0 height — `When_Presenter_Has_No_Height_Constraint`
 - [x] 17/17 skeleton runtime tests pass headless (Material desktop); Release zero-warning
-- Out of scope: swapping `FeedView.Source` leaves the view in the `Some` visual state with cleared data (only changed axes drive visual states), so a source swap shows blank content instead of the initial-load skeleton
+- `FeedView.Source` swaps leave the view in the `Some` visual state with cleared data (only changed axes drive visual states). Resolved in the style, not FeedView: the initial skeleton follows the FeedView's `ILoadable` state (true during the initial load and after a Source change) instead of the data visual state
 
 ## Phase 5 — documentation and samples
 
