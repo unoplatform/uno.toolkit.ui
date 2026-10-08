@@ -4,6 +4,6 @@
 		<UnoThemesVersion>9.0.0-dev.37</UnoThemesVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
+		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="5.0.0-dev.34" />
 	</ItemGroup>
 </Project>

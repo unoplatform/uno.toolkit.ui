@@ -8,9 +8,9 @@
   <ItemGroup>
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-    <PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
-    <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.1.1" />
-    <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
+    <PackageVersion Include="Uno.Core.Extensions.Collections" Version="5.0.0-dev.34" />
+    <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="5.0.0-dev.34" />
+    <PackageVersion Include="Uno.Core.Extensions.Logging" Version="5.0.0-dev.34" />
     <PackageVersion Include="Uno.SourceGenerationTasks" Version="4.2.0" />
     <PackageVersion Include="Uno.XamlMerge.Task" Version="1.32.0-dev.61" />
     <PackageVersion Include="FluentAssertions" Version="5.10.3" />
