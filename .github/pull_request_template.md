@@ -29,14 +29,16 @@ What kind of change does this PR introduce?
 ## PR Checklist
 
 Please check if your PR fulfills the following requirements:
-- [ ] Tested code with current [supported SDKs](../README.md#supported)
 - [ ] Tested the changes where applicable:
-	- [ ] UWP
-	- [ ] WinUI
-	- [ ] iOS
+	- [ ] All platforms
+	- [ ] WebAssembly
 	- [ ] Android
-	- [ ] WASM
-	- [ ] MacOS
+	- [ ] iOS
+	- [ ] Desktop (Windows)
+	- [ ] Desktop (macOS)
+	- [ ] Desktop (X11)
+	- [ ] Desktop (Linux Framebuffer)
+	- [ ] Windows App SDK
 - [ ] Updated the documentation as needed:
 	- [ ] [General Doc Update](https://github.com/unoplatform/uno.toolkit.ui/tree/main/doc)
 	- [ ] [Controls Doc Update](https://github.com/unoplatform/uno.toolkit.ui/tree/main/doc/controls)

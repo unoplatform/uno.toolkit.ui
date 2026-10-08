@@ -6,7 +6,7 @@ labels: kind/bug, triage/untriaged
 
 <!-- Please use this template while reporting a bug and provide as much info as possible. Not doing so may result in your bug not being addressed in a timely manner. Thanks!
 
-If the matter is security related, please disclose it privately via https://github.com/nventive/Uno/security/
+If the matter is security related, please disclose it privately via https://github.com/unoplatform/uno/security
 -->
 
 ## Current behavior
@@ -21,34 +21,33 @@ If the matter is security related, please disclose it privately via https://gith
 
 <!-- Please provide a **MINIMAL REPRO PROJECT** and the **STEPS TO REPRODUCE**-->
 
-Nuget Package:
+Uno.Sdk version (found in `global.json`):
 
-Package Version(s):
+`Uno{Component}Version` overrides, if any (e.g. `UnoToolkitVersion` set in your `.csproj` or `Directory.Build.props`):
+
+NuGet package(s) and version(s), if referenced directly:
 
 Affected platform(s):
 
+- [ ] All platforms
 - [ ] WebAssembly
 - [ ] Android
 - [ ] iOS
-- [ ] macOS (AppKit)
-- [ ] Mac Catalyst
-- [ ] Skia
-  - [ ] WPF
-  - [ ] GTK (Linux)
-  - [ ] Linux Framebuffer
-  - [ ] Tizen
-- [ ] Windows
+- [ ] Desktop (Windows)
+- [ ] Desktop (macOS)
+- [ ] Desktop (X11)
+- [ ] Desktop (Linux Framebuffer)
+- [ ] Windows App SDK
 
 IDE:
 
 - [ ] Visual Studio 2022
-- [ ] Visual Studio 2019
 - [ ] Visual Studio Code
-- [ ] Visual Studio for Mac
 - [ ] Rider Windows
 - [ ] Rider macOS
+- [ ] Rider Linux
 
-Relevant plugins:
+IDE version:
 
 ## Anything else we need to know?
 
