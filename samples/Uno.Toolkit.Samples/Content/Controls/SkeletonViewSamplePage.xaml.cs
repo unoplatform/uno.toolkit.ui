@@ -32,10 +32,34 @@ namespace Uno.Toolkit.Samples.Content.Controls
 
 			public AsyncCommand LoadDataCommand { get; }
 
+			public string[] Tags { get; } = { "Design", "Mobile", "WinUI" };
+
+			public Person[] People { get; } =
+			{
+				new("John Doe", "Software Engineer"),
+				new("Jane Smith", "Product Designer"),
+				new("Alex Martin", "Engineering Manager"),
+			};
+
+			public Person[]? LoadedPeople { get => GetProperty<Person[]?>(); set => SetProperty(value); }
+
+			public AsyncCommand LoadPeopleCommand { get; }
+
 			public SkeletonViewViewModel()
 			{
 				IsLoading = true;
 				LoadDataCommand = new AsyncCommand(LoadDataAsync);
+				LoadPeopleCommand = new AsyncCommand(LoadPeopleAsync);
+			}
+
+			private async Task LoadPeopleAsync()
+			{
+				LoadedPeople = null;
+
+				// Simulate loading data
+				await Task.Delay(2000);
+
+				LoadedPeople = People;
 			}
 
 			private async Task LoadDataAsync()
@@ -55,6 +79,8 @@ namespace Uno.Toolkit.Samples.Content.Controls
 				Description = "This is the actual content that appears once loading completes. While the data was being fetched, placeholders matching this layout were generated automatically.";
 			}
 		}
+
+		public record Person(string Name, string Title);
 
 		public class AsyncCommand : ICommand, ILoadable
 		{

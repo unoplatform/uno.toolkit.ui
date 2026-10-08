@@ -25,6 +25,17 @@
 				</StackPanel>
 			</StackPanel>
 		</DataTemplate>
+
+		<Style x:Key="SectionTitleStyle"
+			   BasedOn="{StaticResource TitleTextBlockStyle}"
+			   TargetType="TextBlock">
+			<Setter Property="Margin" Value="0,24,0,0" />
+		</Style>
+		<Style x:Key="SectionDescriptionStyle"
+			   TargetType="TextBlock">
+			<Setter Property="TextWrapping" Value="Wrap" />
+			<Setter Property="Opacity" Value="0.8" />
+		</Style>
 	</Page.Resources>
 
 	<sample:SamplePageLayout x:Name="SamplePageLayout"
@@ -33,18 +44,16 @@
 			<DataTemplate>
 				<ScrollViewer>
 					<StackPanel Padding="16"
-								Spacing="24">
+								Spacing="12">
 
-						<!-- Section 1: auto-generated skeleton from the real content -->
+						<!-- 1. SkeletonView: placeholders generated from the live content -->
 						<TextBlock Style="{StaticResource TitleTextBlockStyle}"
-								   Text="Auto-generated skeleton" />
-						<TextBlock Text="The placeholders below are generated from the actual content layout — no skeleton shapes are declared."
-								   TextWrapping="Wrap" />
-
+								   Text="Generated from live content" />
+						<TextBlock Style="{StaticResource SectionDescriptionStyle}"
+								   Text="SkeletonView.IsLoading: one placeholder per TextBlock, Image, Shape and button, at its actual position. Empty bound text (the description, before data arrives) falls back to its layout slot. No skeleton shapes are declared." />
 						<ToggleSwitch IsOn="{Binding Data.IsLoading, Mode=TwoWay}"
 									  OffContent="Loaded"
 									  OnContent="Loading" />
-
 						<utu:SkeletonView IsLoading="{Binding Data.IsLoading}">
 							<StackPanel Spacing="12">
 								<StackPanel Orientation="Horizontal"
@@ -66,14 +75,13 @@
 							</StackPanel>
 						</utu:SkeletonView>
 
-						<!-- Section 2: driven by an ILoadable source -->
-						<TextBlock Margin="0,16,0,0"
-								   Style="{StaticResource TitleTextBlockStyle}"
+						<!-- 2. SkeletonView driven by an ILoadable -->
+						<TextBlock Style="{StaticResource SectionTitleStyle}"
 								   Text="Driven by an ILoadable" />
-
+						<TextBlock Style="{StaticResource SectionDescriptionStyle}"
+								   Text="SkeletonView.Source: IsLoading follows the IsExecuting state of an ILoadable, such as this async command (2 second load)." />
 						<Button Command="{Binding Data.LoadDataCommand}"
 								Content="Reload data" />
-
 						<utu:SkeletonView Source="{Binding Data.LoadDataCommand}">
 							<StackPanel Spacing="8">
 								<TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
@@ -83,19 +91,19 @@
 							</StackPanel>
 						</utu:SkeletonView>
 
-						<!-- Section 3: overrides -->
-						<TextBlock Margin="0,16,0,0"
-								   Style="{StaticResource TitleTextBlockStyle}"
+						<!-- 3. Generation overrides -->
+						<TextBlock Style="{StaticResource SectionTitleStyle}"
 								   Text="Overrides" />
-						<TextBlock Text="A static header is excluded with Skeleton.Ignore; a square image is forced into a circle with Skeleton.Shape."
-								   TextWrapping="Wrap" />
-
-						<utu:SkeletonView EnableShimmer="False"
-										  IsLoading="{Binding Data.IsLoading}">
+						<TextBlock Style="{StaticResource SectionDescriptionStyle}"
+								   Text="Skeleton.Ignore keeps the static header visible while loading. Skeleton.Shape=&quot;Circle&quot; turns the square avatar into one circle. Skeleton.Shape=&quot;Rectangle&quot; collapses the tag list into a single block instead of one placeholder per tag." />
+						<ToggleSwitch IsOn="{Binding Data.IsLoading, Mode=TwoWay}"
+									  OffContent="Loaded"
+									  OnContent="Loading" />
+						<utu:SkeletonView IsLoading="{Binding Data.IsLoading}">
 							<StackPanel Spacing="12">
 								<TextBlock utu:Skeleton.Ignore="True"
 										   Style="{StaticResource SubtitleTextBlockStyle}"
-										   Text="Always visible header" />
+										   Text="Static header (Skeleton.Ignore)" />
 								<StackPanel Orientation="Horizontal"
 											Spacing="12">
 									<Border utu:Skeleton.Shape="Circle"
@@ -105,24 +113,105 @@
 									<TextBlock VerticalAlignment="Center"
 											   Text="{Binding Data.Subtitle}" />
 								</StackPanel>
+								<ItemsControl utu:Skeleton.Shape="Rectangle"
+											  HorizontalAlignment="Left"
+											  ItemsSource="{Binding Data.Tags}">
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel Orientation="Horizontal"
+														Spacing="8" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<Border Padding="12,4"
+													Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+													CornerRadius="12">
+												<TextBlock Text="{Binding}" />
+											</Border>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
 							</StackPanel>
 						</utu:SkeletonView>
 
-						<!-- Section 4: template-driven skeleton (SkeletonPresenter) -->
-						<TextBlock Margin="0,16,0,0"
-								   Style="{StaticResource TitleTextBlockStyle}"
-								   Text="Template-driven (SkeletonPresenter)" />
-						<TextBlock Text="The same DataTemplate that renders real list items also drives the skeleton — empty list controls are stamped with placeholder rows. This is what utu:Skeleton.IsEnabled injects as a FeedView's ProgressTemplate."
-								   TextWrapping="Wrap" />
+						<!-- 4. Appearance -->
+						<TextBlock Style="{StaticResource SectionTitleStyle}"
+								   Text="Appearance" />
+						<TextBlock Style="{StaticResource SectionDescriptionStyle}"
+								   Text="Left: custom SkeletonBackground, ShimmerBrush, ShimmerDuration (3 seconds) and PlaceholderCornerRadius. Right: EnableShimmer=&quot;False&quot; for static placeholders." />
+						<ToggleSwitch IsOn="{Binding Data.IsLoading, Mode=TwoWay}"
+									  OffContent="Loaded"
+									  OnContent="Loading" />
+						<Grid ColumnSpacing="24">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<utu:SkeletonView IsLoading="{Binding Data.IsLoading}"
+											  PlaceholderCornerRadius="12"
+											  ShimmerDuration="0:0:3"
+											  SkeletonBackground="#7FB0C4DE">
+								<utu:SkeletonView.ShimmerBrush>
+									<LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+										<GradientStop Offset="0" Color="#00FFFFFF" />
+										<GradientStop Offset="0.5" Color="#AAFFFFFF" />
+										<GradientStop Offset="1" Color="#00FFFFFF" />
+									</LinearGradientBrush>
+								</utu:SkeletonView.ShimmerBrush>
+								<StackPanel Spacing="8">
+									<TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+											   Text="{Binding Data.Title}" />
+									<TextBlock Text="{Binding Data.Subtitle}" />
+								</StackPanel>
+							</utu:SkeletonView>
+							<utu:SkeletonView Grid.Column="1"
+											  EnableShimmer="False"
+											  IsLoading="{Binding Data.IsLoading}">
+								<StackPanel Spacing="8">
+									<TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+											   Text="{Binding Data.Title}" />
+									<TextBlock Text="{Binding Data.Subtitle}" />
+								</StackPanel>
+							</utu:SkeletonView>
+						</Grid>
 
-						<utu:SkeletonPresenter utu:Skeleton.PlaceholderCount="3"
-											   MaxHeight="220">
+						<!-- 5. SkeletonPresenter: derived from a template -->
+						<TextBlock Style="{StaticResource SectionTitleStyle}"
+								   Text="Derived from a template (SkeletonPresenter)" />
+						<TextBlock Style="{StaticResource SectionDescriptionStyle}"
+								   Text="SkeletonPresenter.ContentTemplate: the same item template that renders real rows drives the skeleton. The empty ListView is stamped with Skeleton.PlaceholderCount (3) placeholder rows." />
+						<utu:SkeletonPresenter utu:Skeleton.PlaceholderCount="3">
 							<utu:SkeletonPresenter.ContentTemplate>
 								<DataTemplate>
-									<ListView ItemTemplate="{StaticResource PersonRowTemplate}" />
+									<ListView ItemTemplate="{StaticResource PersonRowTemplate}"
+											  SelectionMode="None" />
 								</DataTemplate>
 							</utu:SkeletonPresenter.ContentTemplate>
 						</utu:SkeletonPresenter>
+
+						<!-- 6. SkeletonPresenter as LoadingView content -->
+						<TextBlock Style="{StaticResource SectionTitleStyle}"
+								   Text="In a LoadingView" />
+						<TextBlock Style="{StaticResource SectionDescriptionStyle}"
+								   Text="A SkeletonPresenter as LoadingView.LoadingContent replaces the default spinner with a skeleton of the list being loaded." />
+						<Button Command="{Binding Data.LoadPeopleCommand}"
+								Content="Load people" />
+						<utu:LoadingView Source="{Binding Data.LoadPeopleCommand}">
+							<ListView ItemTemplate="{StaticResource PersonRowTemplate}"
+									  ItemsSource="{Binding Data.LoadedPeople}"
+									  SelectionMode="None" />
+							<utu:LoadingView.LoadingContent>
+								<utu:SkeletonPresenter utu:Skeleton.PlaceholderCount="3">
+									<utu:SkeletonPresenter.ContentTemplate>
+										<DataTemplate>
+											<ListView ItemTemplate="{StaticResource PersonRowTemplate}"
+													  SelectionMode="None" />
+										</DataTemplate>
+									</utu:SkeletonPresenter.ContentTemplate>
+								</utu:SkeletonPresenter>
+							</utu:LoadingView.LoadingContent>
+						</utu:LoadingView>
 
 					</StackPanel>
 				</ScrollViewer>
