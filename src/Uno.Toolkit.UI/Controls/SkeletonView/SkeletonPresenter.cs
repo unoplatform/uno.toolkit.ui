@@ -64,12 +64,28 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		private int ResolvePlaceholderCount()
+		{
+			if (_skeletonOwner is { } owner)
+			{
+				return Skeleton.GetPlaceholderCount(owner);
+			}
+
+			// Otherwise the nearest element setting it applies, e.g. the templated control when this presenter
+			// is part of a control template (where the attached property can't be template-bound).
+			var source = this.GetAncestors(includeCurrent: true)
+				.OfType<FrameworkElement>()
+				.FirstOrDefault(x => x.ReadLocalValue(Skeleton.PlaceholderCountProperty) != DependencyProperty.UnsetValue);
+
+			return Skeleton.GetPlaceholderCount(source ?? this);
+		}
+
 		private protected override void PrepareSkeletonContent(DependencyObject contentRoot)
 		{
 			// This is our private, invisible instantiation of the template — never the app's live content —
 			// so stamping placeholder items into its empty list controls cannot fight app data. Idempotent:
 			// only a null ItemsSource is filled, and the dummy assignment makes it non-null.
-			var count = Skeleton.GetPlaceholderCount(_skeletonOwner ?? this);
+			var count = ResolvePlaceholderCount();
 			if (count <= 0) return;
 
 			foreach (var descendant in contentRoot.GetDescendants())

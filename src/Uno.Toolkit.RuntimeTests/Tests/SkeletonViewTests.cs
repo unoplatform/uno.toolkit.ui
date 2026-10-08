@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.UI.Xaml;
@@ -85,10 +86,11 @@ public class SkeletonViewTests
 	[TestMethod]
 	public async Task When_IsLoading_Toggles()
 	{
+		var text = new TextBlock { Text = "content" };
 		var sut = new SkeletonView
 		{
 			EnableShimmer = false,
-			Content = new StackPanel { Width = 200, Children = { new TextBlock { Text = "content" } } },
+			Content = new StackPanel { Width = 200, Children = { text } },
 		};
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
@@ -96,21 +98,120 @@ public class SkeletonViewTests
 		var overlay = GetOverlay(sut);
 		var presenter = GetPresenter(sut);
 		overlay.Children.Count.Should().Be(1);
-		presenter.Opacity.Should().Be(0, "content should be hidden while loading");
+		text.Opacity.Should().Be(0, "an element covered by a placeholder should be hidden while loading");
+		presenter.IsHitTestVisible.Should().BeFalse("content should not be interactive while loading");
 
 		sut.IsLoading = false;
 		await UnitTestUIContentHelperEx.WaitForIdle();
 
 		overlay.Children.Count.Should().Be(0, "placeholders should be released once loaded");
 		overlay.Visibility.Should().Be(Visibility.Collapsed);
-		presenter.Opacity.Should().Be(1, "content should be visible once loaded");
+		text.Opacity.Should().Be(1, "content should be visible once loaded");
 		presenter.IsHitTestVisible.Should().BeTrue();
 
 		sut.IsLoading = true;
 		await UnitTestUIContentHelperEx.WaitForIdle();
 
 		overlay.Children.Count.Should().Be(1, "placeholders should be regenerated when loading restarts");
-		presenter.Opacity.Should().Be(0);
+		text.Opacity.Should().Be(0);
+	}
+
+	[TestMethod]
+	public async Task When_Ignore_Set_Element_Stays_Visible()
+	{
+		var header = new TextBlock { Text = "static header" };
+		Skeleton.SetIgnore(header, true);
+		var text = new TextBlock { Text = "loading content" };
+		var card = new Border { Background = new SolidColorBrush(Microsoft.UI.Colors.Gray), Child = text };
+		var sut = new SkeletonView
+		{
+			EnableShimmer = false,
+			Content = new StackPanel { Width = 200, Children = { header, card } },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		GetOverlay(sut).Children.Count.Should().Be(1, "only the non-ignored text gets a placeholder");
+		header.Opacity.Should().Be(1, "an ignored element stays visible while loading");
+		card.Opacity.Should().Be(1, "containers stay visible: only placeholder-covered elements are hidden");
+		text.Opacity.Should().Be(0);
+	}
+
+	[TestMethod]
+	public async Task When_Loaded_Original_Opacity_Restored()
+	{
+		var local = new TextBlock { Text = "local", Opacity = 0.5 };
+		var bound = new TextBlock { Text = "bound" };
+		bound.SetBinding(UIElement.OpacityProperty, new Microsoft.UI.Xaml.Data.Binding { Source = 0.7 });
+		var sut = new SkeletonView
+		{
+			EnableShimmer = false,
+			Content = new StackPanel { Width = 200, Children = { local, bound } },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		local.Opacity.Should().Be(0);
+		bound.Opacity.Should().Be(0);
+
+		sut.IsLoading = false;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		local.Opacity.Should().Be(0.5, "a local Opacity value should be restored");
+		bound.Opacity.Should().BeApproximately(0.7, 0.001, "an Opacity binding should be restored");
+		bound.GetBindingExpression(UIElement.OpacityProperty).Should().NotBeNull();
+	}
+
+	[TestMethod]
+	public async Task When_ContentControl_Chrome_Skipped()
+	{
+		// Mimics a styled container such as Material's ListViewItem: a full-size background shape behind the content.
+		var template = XamlHelper.LoadXaml<ControlTemplate>("""
+			<ControlTemplate TargetType="ContentControl">
+				<Grid>
+					<Rectangle Fill="Gray" />
+					<ContentPresenter />
+				</Grid>
+			</ControlTemplate>
+			""");
+		var text = new TextBlock { Text = "content", HorizontalAlignment = HorizontalAlignment.Left };
+		var container = new ContentControl { Width = 200, Height = 60, Template = template, Content = text };
+		var sut = new SkeletonView
+		{
+			EnableShimmer = false,
+			Content = new StackPanel { Children = { container } },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		var overlay = GetOverlay(sut);
+		overlay.Children.Count.Should().Be(1, "only the container's content should produce a placeholder, not its template chrome");
+		var placeholder = (FrameworkElement)overlay.Children[0];
+		placeholder.Width.Should().BeApproximately(text.ActualWidth, Tolerance);
+	}
+
+	[TestMethod]
+	public async Task When_ListView_Items_First_Loading_Pass_Skips_Item_Chrome()
+	{
+		// Mirrors a FeedView refresh: the list is realized while loaded, then loading turns on for the first time.
+		var itemTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+			<DataTemplate>
+				<StackPanel Orientation="Horizontal" Spacing="12">
+					<Ellipse Width="40" Height="40" Fill="Gray" />
+					<TextBlock Text="{Binding}" />
+				</StackPanel>
+			</DataTemplate>
+			""");
+		var list = new ListView { Width = 300, ItemTemplate = itemTemplate, ItemsSource = new[] { "one", "two", "three" } };
+		var sut = new SkeletonView { EnableShimmer = false, IsLoading = false, Content = list };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		sut.IsLoading = true;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		var placeholders = GetOverlay(sut).Children.OfType<FrameworkElement>().ToArray();
+		placeholders.Should().HaveCount(6, "each item contributes its Ellipse and TextBlock, not its container chrome");
+		placeholders.Should().OnlyContain(x => x.Width < 100, "no placeholder should span the item container");
 	}
 
 	[TestMethod]

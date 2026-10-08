@@ -119,6 +119,36 @@ public class SkeletonInjectionTests
 	}
 
 	[TestMethod]
+	public async Task When_PlaceholderCount_Set_On_Ancestor()
+	{
+		// e.g. SkeletonPresenter hosted in a control template, with the count set on the templated control
+		var presenter = new SkeletonPresenter { ContentTemplate = ItemsControlValueTemplate() };
+		var host = new Border { Width = 320, Height = 300, Child = presenter };
+		Skeleton.SetPlaceholderCount(host, 2);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(host);
+		await UnitTestUIContentHelperEx.WaitFor(() => GetOverlay(presenter).Children.Count > 0, timeoutMS: 3000);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		GetOverlay(presenter).Children.Count.Should().Be(2, "the nearest ancestor setting PlaceholderCount should apply");
+	}
+
+	[TestMethod]
+	public async Task When_Presenter_Has_No_Height_Constraint()
+	{
+		// e.g. in a vertical StackPanel: the empty list measures 0 tall until placeholder rows are stamped into it
+		var presenter = new SkeletonPresenter { ContentTemplate = ItemsControlValueTemplate() };
+		Skeleton.SetPlaceholderCount(presenter, 3);
+		var host = new StackPanel { Width = 320, Children = { presenter } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(host);
+		await UnitTestUIContentHelperEx.WaitFor(() => GetOverlay(presenter).Children.Count > 0, timeoutMS: 3000);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		GetOverlay(presenter).Children.Count.Should().Be(3, "rows should be stamped even though the empty list initially has no height");
+	}
+
+	[TestMethod]
 	public async Task When_PlaceholderTemplate_Overrides_ValueTemplate()
 	{
 		var placeholderTemplate = XamlHelper.LoadXaml<DataTemplate>("""

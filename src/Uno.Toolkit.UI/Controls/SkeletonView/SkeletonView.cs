@@ -8,6 +8,7 @@ using Windows.Foundation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Shapes;
@@ -15,6 +16,7 @@ using Microsoft.UI.Xaml.Shapes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
@@ -55,11 +57,15 @@ namespace Uno.Toolkit.UI
 		// The sweeping highlight stays at least this wide so it remains visible on narrow layouts.
 		private const double MinShimmerBandWidth = 100;
 
-		private readonly record struct PlaceholderInfo(Rect Rect, bool IsCircle);
+		private readonly record struct PlaceholderInfo(Rect Rect, bool IsCircle, FrameworkElement Element);
+
+		// Original Opacity of a content element hidden behind its placeholder, restored once loaded.
+		private readonly record struct OpacityValue(BindingBase? Binding, object LocalValue);
 
 		private readonly SerialDisposable _sourceSubscription = new();
 		private readonly List<(TranslateTransform Transform, double OffsetX, double BandWidth)> _shimmerBands = new();
 		private List<PlaceholderInfo> _lastPlaceholders = new();
+		private readonly Dictionary<FrameworkElement, OpacityValue> _hiddenElements = new();
 		private ContentPresenter? _contentPresenter;
 		private Canvas? _overlay;
 		private Storyboard? _shimmerStoryboard;
@@ -214,6 +220,7 @@ namespace Uno.Toolkit.UI
 				VisualStateManager.GoToState(this, VisualStateNames.SkeletonHidden, useTransitions: IsLoaded);
 				StopShimmer();
 				ClearOverlay();
+				RestoreHiddenElements();
 				UnhookLayoutUpdated();
 			}
 		}
@@ -221,12 +228,19 @@ namespace Uno.Toolkit.UI
 		private void GenerateOverlay()
 		{
 			if (_overlay is null || _contentPresenter is null) return;
-			if (_overlay.ActualWidth < EmptySizeThreshold || _overlay.ActualHeight < EmptySizeThreshold) return; // not laid out yet
 
+			// Before the size check: prepared content (e.g. placeholder rows in an empty list) is often
+			// what gives an unconstrained control its size in the first place.
 			PrepareSkeletonContent(_contentPresenter);
+
+			if (_overlay.ActualWidth < EmptySizeThreshold || _overlay.ActualHeight < EmptySizeThreshold) return; // not laid out yet
 
 			var placeholders = new List<PlaceholderInfo>();
 			CollectPlaceholders(_contentPresenter, placeholders);
+
+			// Only the elements covered by a placeholder are hidden: ignored elements and container
+			// backgrounds (e.g. a card's border) stay visible while loading.
+			HideCoveredElements(placeholders);
 
 			// Content that materializes asynchronously (e.g. list containers realized for injected placeholder
 			// items) can appear without resizing the presenter or the overlay; while loading yields nothing,
@@ -264,29 +278,72 @@ namespace Uno.Toolkit.UI
 		{
 			foreach (var child in parent.GetChildren())
 			{
-				if (child is not UIElement element || element.Visibility == Visibility.Collapsed)
-				{
-					continue;
-				}
-
-				var fe = element as FrameworkElement;
-				if (fe is { } && Skeleton.GetIgnore(fe))
-				{
-					continue;
-				}
-
-				var shape = fe is { } ? Skeleton.GetShape(fe) : SkeletonShape.Auto;
-				if (fe is { } && (shape != SkeletonShape.Auto || IsSkeletonLeaf(element)))
-				{
-					if (TryCreatePlaceholderInfo(fe, shape, out var info))
-					{
-						results.Add(info);
-					}
-					continue; // leaves are covered by a single placeholder; don't descend
-				}
-
-				CollectPlaceholders(child, results);
+				CollectPlaceholder(child, results);
 			}
+		}
+
+		private void CollectPlaceholder(DependencyObject child, List<PlaceholderInfo> results)
+		{
+			if (child is not UIElement element || element.Visibility == Visibility.Collapsed)
+			{
+				return;
+			}
+
+			var fe = element as FrameworkElement;
+			if (fe is { } && Skeleton.GetIgnore(fe))
+			{
+				return;
+			}
+
+			var shape = fe is { } ? Skeleton.GetShape(fe) : SkeletonShape.Auto;
+			if (fe is { } && (shape != SkeletonShape.Auto || IsSkeletonLeaf(element)))
+			{
+				if (TryCreatePlaceholderInfo(fe, shape, out var info))
+				{
+					results.Add(info);
+				}
+				return; // leaves are covered by a single placeholder; don't descend
+			}
+
+			// Only a container's content is mirrored, not its template chrome: e.g. Material's ListViewItem
+			// has a full-size background Rectangle whose placeholder would cover the content's placeholders.
+			if (element is ContentControl container && FindContentRoot(container) is { } contentRoot)
+			{
+				CollectPlaceholder(contentRoot, results);
+				return;
+			}
+
+			CollectPlaceholders(child, results);
+		}
+
+		private static UIElement? FindContentRoot(ContentControl container)
+		{
+			// ContentTemplateRoot isn't reliably available (e.g. list item containers on their first pass), and
+			// direct UIElement content is its own root; otherwise fall back to the template's ContentPresenter.
+			if ((container.ContentTemplateRoot ?? container.Content as UIElement) is { } root)
+			{
+				return root;
+			}
+
+			var pending = new Queue<DependencyObject>(container.GetChildren());
+			while (pending.Count > 0)
+			{
+				var current = pending.Dequeue();
+				if (current is ContentPresenter presenter)
+				{
+					return presenter;
+				}
+				if (current is Control)
+				{
+					continue; // a nested control's presenter belongs to that control
+				}
+				foreach (var child in current.GetChildren())
+				{
+					pending.Enqueue(child);
+				}
+			}
+
+			return null;
 		}
 
 		private static bool IsSkeletonLeaf(UIElement element)
@@ -344,7 +401,7 @@ namespace Uno.Toolkit.UI
 					diameter);
 			}
 
-			info = new PlaceholderInfo(bounds, isCircle);
+			info = new PlaceholderInfo(bounds, isCircle, element);
 			return true;
 		}
 
@@ -378,6 +435,75 @@ namespace Uno.Toolkit.UI
 			Canvas.SetLeft(placeholder, rect.X);
 			Canvas.SetTop(placeholder, rect.Y);
 			_overlay!.Children.Add(placeholder);
+		}
+
+		private void HideCoveredElements(List<PlaceholderInfo> placeholders)
+		{
+			var covered = new HashSet<FrameworkElement>();
+			foreach (var placeholder in placeholders)
+			{
+				covered.Add(placeholder.Element);
+			}
+
+			// restore elements no longer covered (e.g. content replaced or re-laid out while loading)
+			if (_hiddenElements.Count > 0)
+			{
+				var uncovered = new List<FrameworkElement>();
+				foreach (var element in _hiddenElements.Keys)
+				{
+					if (!covered.Contains(element))
+					{
+						uncovered.Add(element);
+					}
+				}
+				foreach (var element in uncovered)
+				{
+					RestoreElement(element);
+				}
+			}
+
+			foreach (var element in covered)
+			{
+				if (_hiddenElements.ContainsKey(element)) continue;
+
+				_hiddenElements[element] = new OpacityValue(
+					element.GetBindingExpression(UIElement.OpacityProperty)?.ParentBinding,
+					element.ReadLocalValue(UIElement.OpacityProperty));
+				element.Opacity = 0;
+			}
+		}
+
+		private void RestoreHiddenElements()
+		{
+			foreach (var (element, original) in _hiddenElements)
+			{
+				RestoreOpacity(element, original);
+			}
+			_hiddenElements.Clear();
+		}
+
+		private void RestoreElement(FrameworkElement element)
+		{
+			if (_hiddenElements.Remove(element, out var original))
+			{
+				RestoreOpacity(element, original);
+			}
+		}
+
+		private static void RestoreOpacity(FrameworkElement element, OpacityValue original)
+		{
+			if (original.Binding is { } binding)
+			{
+				element.SetBinding(UIElement.OpacityProperty, binding);
+			}
+			else if (original.LocalValue == DependencyProperty.UnsetValue)
+			{
+				element.ClearValue(UIElement.OpacityProperty);
+			}
+			else
+			{
+				element.SetValue(UIElement.OpacityProperty, original.LocalValue);
+			}
 		}
 
 		private void StartShimmerIfNeeded()

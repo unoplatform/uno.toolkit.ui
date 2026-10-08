@@ -59,7 +59,6 @@
 								<VisualState x:Name="SkeletonHidden" />
 								<VisualState x:Name="SkeletonVisible">
 									<VisualState.Setters>
-										<Setter Target="PART_ContentPresenter.Opacity" Value="0" />
 										<Setter Target="PART_ContentPresenter.IsHitTestVisible" Value="False" />
 										<Setter Target="PART_SkeletonOverlay.Visibility" Value="Visible" />
 									</VisualState.Setters>
