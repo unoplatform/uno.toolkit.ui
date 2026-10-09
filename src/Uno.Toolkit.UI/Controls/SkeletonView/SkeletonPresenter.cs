@@ -73,11 +73,9 @@ namespace Uno.Toolkit.UI
 
 			// Otherwise the nearest element setting it applies, e.g. the templated control when this presenter
 			// is part of a control template (where the attached property can't be template-bound).
-			var source = this.GetAncestors(includeCurrent: true)
-				.OfType<FrameworkElement>()
-				.FirstOrDefault(x => x.ReadLocalValue(Skeleton.PlaceholderCountProperty) != DependencyProperty.UnsetValue);
-
-			return Skeleton.GetPlaceholderCount(source ?? this);
+			return Skeleton.TryGetInheritedPlaceholderCount(this, out var count)
+				? count
+				: Skeleton.GetPlaceholderCount(this);
 		}
 
 		private protected override void PrepareSkeletonContent(DependencyObject contentRoot)

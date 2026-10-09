@@ -10,7 +10,7 @@ Three building blocks cover the different ways content can be loading:
 
 | Type | Use it when | How it works |
 |------|-------------|--------------|
-| [`SkeletonView`](#skeletonview) | The real content is already in the visual tree, bound to data that is still loading (or being refreshed). | Wraps the content, hides it while `IsLoading` is true, and overlays one placeholder per visual element at its actual position. |
+| [`SkeletonView`](#skeletonview) | The real content is already in the visual tree, bound to data that is still loading (or being refreshed). | Wraps the content, hides it while `IsLoading` is true, and overlays one placeholder per visual element at its actual position. Empty lists can get placeholder rows from their `ItemTemplate`. |
 | [`SkeletonPresenter`](#skeletonpresenter) | The real content is *not* in the tree while loading, e.g. inside a loading slot or a `ProgressTemplate`. | Instantiates a private, data-less copy of a `DataTemplate` and generates placeholders from it, stamping placeholder rows into empty lists. |
 | [`Skeleton` attached properties](#skeleton-attached-properties) | You need to tune generation, or inject a skeleton into a control that follows the `ProgressTemplate`/`ValueTemplate` convention. | `Ignore`, `Shape`, `PlaceholderCount`, `PlaceholderTemplate`, `IsEnabled`. |
 
@@ -33,6 +33,7 @@ Understanding the generation rules helps you get the skeleton you want with litt
    - height: for a `TextBlock`, one text line derived from its `FontSize`; otherwise the slot's height.
    Give such elements an explicit size, alignment or `MinWidth` when you want a more realistic placeholder.
 6. **Shape:** an `Ellipse` produces a circle; every other leaf produces a rounded rectangle using `PlaceholderCornerRadius`. Force either with `utu:Skeleton.Shape`. A circle is sized to the smaller dimension and centered.
+7. **Empty lists with `utu:Skeleton.PlaceholderCount` get placeholder rows** generated from their `ItemTemplate` (see [Empty lists](#empty-lists)). Other empty lists have nothing to mirror and produce no placeholders.
 
 Placeholders are regenerated whenever the content or the control is resized, and when an appearance property changes.
 
@@ -94,6 +95,43 @@ Instead of a flag, let any `ILoadable` (e.g. an async command) drive the loading
 
 Because placeholders are generated from the live layout, toggling `IsLoading` back on over content that is already loaded produces a skeleton that matches it exactly: the same number of list items, and text lines matching the length of the current text. This makes `SkeletonView` well suited to *refresh* scenarios.
 
+### Empty lists
+
+On a first load, a list has no items yet, so there are no rows to mirror. Set `utu:Skeleton.PlaceholderCount` on the list (or on any ancestor) to get placeholder rows anyway. The list can be nested anywhere in the content:
+
+```xml
+<utu:SkeletonView Source="{Binding LoadPeopleCommand}">
+	<Grid RowSpacing="8">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<TextBlock Text="Team" utu:Skeleton.Ignore="True" />
+		<ListView Grid.Row="1"
+				  utu:Skeleton.PlaceholderCount="3"
+				  ItemsSource="{Binding People}"
+				  ItemTemplate="{StaticResource PersonRowTemplate}" />
+		<Button Grid.Row="2" Content="Invite someone" />
+	</Grid>
+</utu:SkeletonView>
+```
+
+While loading, every `ItemsControl`, `ListView`, `GridView` and `ItemsRepeater` in the content that has an `ItemTemplate`, **no items**, and a `PlaceholderCount` (set on itself or an ancestor):
+
+- gets `PlaceholderCount` rows built from a private copy of the list (same `ItemTemplate`, `ItemContainerStyle`, `ItemsPanel`/`Layout`, `Style` and `Padding`) filled with `null` items, so bound values are empty and follow the [empty-value rules](#how-placeholders-are-generated);
+- **reserves the rows' space** when it is sized by its content (e.g. in an `Auto` row or a vertical `StackPanel`): its `MinHeight` is raised temporarily, so the content below it moves down as if the rows existed. A list that already has more space than it needs (e.g. stretched in a `*` row) keeps its size, and rows that don't fit are clipped. A list with an explicit `Height` is never resized;
+- goes back to normal once loading ends or its items arrive: the rows are dropped, its own items are mirrored instead, and its `MinHeight` (local value or binding) is restored.
+
+The list's `ItemsSource`, selection and position in the tree are never changed.
+
+Notes:
+
+- The list needs a width: a list that is 0 wide (e.g. unconstrained in a horizontal `StackPanel`) gets no rows.
+- A list's `Header` and `Footer` are not mirrored; placeholder rows start at the top of the list.
+- `ItemTemplateSelector` is not used for placeholder rows: set `ItemTemplate`. The template must tolerate a `null` data context.
+- Other `ItemsControl`-derived controls (`ComboBox`, `FlipView`, custom subclasses of `ItemsControl`) don't get rows. Subclasses of `ListView` and `GridView` are treated as `ListView` and `GridView`.
+
 ### Appearance
 
 Every appearance property can be set per instance:
@@ -124,6 +162,8 @@ To change the look app-wide, override the [lightweight styling](#lightweight-sty
 ## SkeletonPresenter
 
 A `SkeletonView` that generates its skeleton from a `DataTemplate` instead of live content. Use it wherever the real content does not exist yet while loading: a `LoadingView`'s `LoadingContent`, a hand-written `ProgressTemplate`, or a control template.
+
+If the real content *is* in the tree while loading, and only its list is empty, you don't need a `SkeletonPresenter`: wrap the content in a `SkeletonView` and set `utu:Skeleton.PlaceholderCount` on the list (see [Empty lists](#empty-lists)).
 
 `SkeletonPresenter` derives from `SkeletonView`, so it inherits all of its [properties](#properties) and lightweight styling. `IsLoading` defaults to `true`, which is what you want for a loading slot; set it to `false` to stop the shimmer when the presenter stays in the tree but is hidden.
 
@@ -195,7 +235,7 @@ The static `Skeleton` class provides attached properties that tune generation an
 |----------|------|---------|--------|-------------|
 | `Skeleton.Ignore` | `bool` | `false` | Any element inside the content | Excludes the element **and its subtree** from generation: no placeholder is produced for it, and it **stays visible** while loading. Use it for static parts that do not depend on the data being loaded, such as headers or labels. |
 | `Skeleton.Shape` | `SkeletonShape` | `Auto` | Any element inside the content | Forces the placeholder shape. Any value other than `Auto` also makes the element a leaf: a single placeholder covers it and its subtree is not visited. Use it to collapse a complex element (e.g. an avatar made of an `Image` inside a `Border`) into one shape. |
-| `Skeleton.PlaceholderCount` | `int` | `4` | A `SkeletonPresenter`, or any of its ancestors (typically the control using `Skeleton.IsEnabled`, or the control whose template hosts the presenter) | Number of placeholder rows stamped into empty lists of a template-derived skeleton. The value of the `Skeleton.IsEnabled` owner wins; otherwise the nearest element (the presenter itself first) that sets it. `0` disables stamping. |
+| `Skeleton.PlaceholderCount` | `int` | `4` | In a `SkeletonView`: an empty list, or any of its ancestors. For a `SkeletonPresenter`: the presenter or any of its ancestors (typically the control using `Skeleton.IsEnabled`, or the control whose template hosts the presenter) | Number of placeholder rows generated for empty lists while loading. In a `SkeletonView`, this is opt-in: only lists with the property set on themselves or an ancestor get [rows](#empty-lists), and the nearest value applies. A `SkeletonPresenter` [stamps](#placeholder-rows-for-lists) its template's lists with the value of the `Skeleton.IsEnabled` owner, else the nearest element (the presenter itself first) that sets it, else the default of `4`. `0` disables placeholder rows. |
 | `Skeleton.PlaceholderTemplate` | `DataTemplate` | `null` | The control using `Skeleton.IsEnabled` | Template the injected skeleton is derived from, instead of the control's `ValueTemplate`. Use it when the value template is too complex, or when you want a simplified loading layout. |
 | `Skeleton.IsEnabled` | `bool` | `false` | A control exposing a `ProgressTemplate` dependency property | Injects an auto-generated skeleton as the control's `ProgressTemplate`. See [Automatic injection](#automatic-injection-skeletonisenabled). |
 
@@ -293,7 +333,8 @@ These resources apply to both `SkeletonView` and `SkeletonPresenter`. Override t
 
 ## Limitations and troubleshooting
 
-- **Nothing is shown while loading.** The content has no leaves yet, or they are collapsed: e.g. a `ListView` with no items inside a `SkeletonView`. A `SkeletonView` only mirrors what is laid out; use a `SkeletonPresenter` (template-derived, with placeholder rows) for content that does not exist yet.
+- **Nothing is shown while loading.** The content has no leaves yet, or they are collapsed. For an empty list, set `utu:Skeleton.PlaceholderCount` on it (see [Empty lists](#empty-lists)). For content that isn't in the tree at all while loading, use a `SkeletonPresenter`.
+- **An empty list gets no rows.** Check that it has an `ItemTemplate` and a width, and that `PlaceholderCount` is set on it or an ancestor and is greater than 0.
 - **A placeholder covers a whole area.** An element in the content is a `Shape` or button spanning that area (e.g. a decorative background `Rectangle`). Mark it with `utu:Skeleton.Ignore="True"` to keep it visible as-is instead.
 - **Text placeholders are full width.** An empty, horizontally stretched `TextBlock` falls back to its layout slot. Set `HorizontalAlignment="Left"` with a `MinWidth`, or a `Width`, for a shorter line.
 - **An element's `Opacity` is changed while loading.** Covered elements are hidden through `Opacity`, overriding values the app sets or animates on them during that time; the original value or binding is restored once loaded. Avoid driving `Opacity` of covered elements while loading.
@@ -303,4 +344,4 @@ These resources apply to both `SkeletonView` and `SkeletonPresenter`. Override t
 
 ## Samples
 
-See the `SkeletonView` page of the Uno Toolkit sample app for a live demo of `SkeletonView` and `SkeletonPresenter`, including generation overrides, appearance and `LoadingView` integration.
+See the `SkeletonView` page of the Uno Toolkit sample app for a live demo of `SkeletonView` and `SkeletonPresenter`, including generation overrides, appearance, empty lists and `LoadingView` integration.

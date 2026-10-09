@@ -91,7 +91,7 @@ namespace Uno.Toolkit.UI
 		#region AttachedProperty: PlaceholderCount
 
 		/// <summary>
-		/// Backing property for how many placeholder rows are stamped into empty list controls of a derived skeleton.
+		/// Backing property for how many placeholder rows are generated for empty list controls while loading.
 		/// </summary>
 		[DynamicDependency(nameof(GetPlaceholderCount))]
 		[DynamicDependency(nameof(SetPlaceholderCount))]
@@ -101,10 +101,15 @@ namespace Uno.Toolkit.UI
 			typeof(Skeleton),
 			new PropertyMetadata(4));
 
-		/// <summary>Gets how many placeholder rows are stamped into empty list controls of a derived skeleton.</summary>
+		/// <summary>Gets how many placeholder rows are generated for empty list controls while loading.</summary>
 		public static int GetPlaceholderCount(FrameworkElement element) => (int)element.GetValue(PlaceholderCountProperty);
 
-		/// <summary>Sets how many placeholder rows are stamped into empty list controls of a derived skeleton. Default is 4.</summary>
+		/// <summary>
+		/// Sets how many placeholder rows are generated, while loading, for empty list controls (<c>ItemsControl</c>,
+		/// <c>ListView</c>, <c>GridView</c>, <c>ItemsRepeater</c>) with an <c>ItemTemplate</c>, applying to the element and its descendants.
+		/// In a <see cref="SkeletonView"/>, only lists with this property set on themselves or an ancestor get rows.
+		/// A <see cref="SkeletonPresenter"/> stamps its template's lists with 4 rows by default.
+		/// </summary>
 		public static void SetPlaceholderCount(FrameworkElement element, int value) => element.SetValue(PlaceholderCountProperty, value);
 
 		#endregion
@@ -217,6 +222,25 @@ namespace Uno.Toolkit.UI
 			{
 				element.ClearValue(progressTemplateProperty);
 			}
+		}
+
+		/// <summary>
+		/// Resolves the <see cref="PlaceholderCountProperty"/> set (as a local value) on the element or its nearest ancestor,
+		/// e.g. on a FeedView for the lists of its <c>ValueTemplate</c>. The metadata default never applies here.
+		/// </summary>
+		internal static bool TryGetInheritedPlaceholderCount(FrameworkElement element, out int count)
+		{
+			foreach (var ancestor in element.GetAncestors(includeCurrent: true))
+			{
+				if (ancestor.ReadLocalValue(PlaceholderCountProperty) != DependencyProperty.UnsetValue)
+				{
+					count = (int)ancestor.GetValue(PlaceholderCountProperty);
+					return true;
+				}
+			}
+
+			count = 0;
+			return false;
 		}
 
 		/// <summary>

@@ -59,13 +59,35 @@ namespace Uno.Toolkit.UI
 
 		private readonly record struct PlaceholderInfo(Rect Rect, bool IsCircle, FrameworkElement Element);
 
-		// Original Opacity of a content element hidden behind its placeholder, restored once loaded.
-		private readonly record struct OpacityValue(BindingBase? Binding, object LocalValue);
+		// Original value of a property the skeleton overrides on content elements while loading
+		// (e.g. Opacity of an element hidden behind its placeholder), restored once loaded.
+		private readonly record struct PropertyValue(BindingBase? Binding, object LocalValue)
+		{
+			public static PropertyValue Capture(FrameworkElement element, DependencyProperty property) => new(
+				element.GetBindingExpression(property)?.ParentBinding,
+				element.ReadLocalValue(property));
+
+			public void Restore(FrameworkElement element, DependencyProperty property)
+			{
+				if (Binding is { } binding)
+				{
+					element.SetBinding(property, binding);
+				}
+				else if (LocalValue == DependencyProperty.UnsetValue)
+				{
+					element.ClearValue(property);
+				}
+				else
+				{
+					element.SetValue(property, LocalValue);
+				}
+			}
+		}
 
 		private readonly SerialDisposable _sourceSubscription = new();
 		private readonly List<(TranslateTransform Transform, double OffsetX, double BandWidth)> _shimmerBands = new();
 		private List<PlaceholderInfo> _lastPlaceholders = new();
-		private readonly Dictionary<FrameworkElement, OpacityValue> _hiddenElements = new();
+		private readonly Dictionary<FrameworkElement, PropertyValue> _hiddenElements = new();
 		private ContentPresenter? _contentPresenter;
 		private Canvas? _overlay;
 		private Storyboard? _shimmerStoryboard;
@@ -90,6 +112,8 @@ namespace Uno.Toolkit.UI
 			{
 				_overlay.SizeChanged -= OnPartSizeChanged;
 			}
+
+			RemoveListStandIns(); // hosted in the previous template's overlay
 
 			base.OnApplyTemplate();
 
@@ -221,6 +245,7 @@ namespace Uno.Toolkit.UI
 				StopShimmer();
 				ClearOverlay();
 				RestoreHiddenElements();
+				RemoveListStandIns();
 				UnhookLayoutUpdated();
 			}
 		}
@@ -232,8 +257,19 @@ namespace Uno.Toolkit.UI
 			// Before the size check: prepared content (e.g. placeholder rows in an empty list) is often
 			// what gives an unconstrained control its size in the first place.
 			PrepareSkeletonContent(_contentPresenter);
+			// Also before the size check: an empty list reserving the space of its placeholder rows can likewise be
+			// what gives the content its size.
+			UpdateListStandIns(_contentPresenter);
 
-			if (_overlay.ActualWidth < EmptySizeThreshold || _overlay.ActualHeight < EmptySizeThreshold) return; // not laid out yet
+			if (_overlay.ActualWidth < EmptySizeThreshold || _overlay.ActualHeight < EmptySizeThreshold)
+			{
+				// not laid out yet
+				if (_listStandIns.Count > 0)
+				{
+					HookLayoutUpdated();
+				}
+				return;
+			}
 
 			var placeholders = new List<PlaceholderInfo>();
 			CollectPlaceholders(_contentPresenter, placeholders);
@@ -244,8 +280,9 @@ namespace Uno.Toolkit.UI
 
 			// Content that materializes asynchronously (e.g. list containers realized for injected placeholder
 			// items) can appear without resizing the presenter or the overlay; while loading yields nothing,
-			// retry on layout activity until something materializes.
-			if (placeholders.Count == 0)
+			// retry on layout activity until something materializes. Likewise while lists are stood in for: their
+			// placeholder rows, or the real items replacing them, realize without necessarily resizing anything.
+			if (placeholders.Count == 0 || _listStandIns.Count > 0)
 			{
 				HookLayoutUpdated();
 			}
@@ -313,6 +350,12 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
+			if (fe is { } && _listStandIns.TryGetValue(fe, out var standIn))
+			{
+				CollectStandInPlaceholders(fe, standIn, results);
+				return;
+			}
+
 			CollectPlaceholders(child, results);
 		}
 
@@ -361,16 +404,7 @@ namespace Uno.Toolkit.UI
 			{
 				// The element has no value yet, so its own size is no use; fall back to the space the
 				// layout granted it (its slot), synthesizing a text-line size where the slot gives no hint.
-				if (VisualTreeHelper.GetParent(element) is not UIElement parent) return false;
-
-				var slot = LayoutInformation.GetLayoutSlot(element);
-				var margin = element.Margin;
-				slot = new Rect(
-					slot.X + margin.Left,
-					slot.Y + margin.Top,
-					Math.Max(0, slot.Width - margin.Left - margin.Right),
-					Math.Max(0, slot.Height - margin.Top - margin.Bottom));
-				var slotBounds = parent.TransformToVisual(_overlay).TransformBounds(slot);
+				if (!TryGetLayoutSlotBounds(element, out var slotBounds)) return false;
 
 				if (bounds.Width < EmptySizeThreshold)
 				{
@@ -402,6 +436,23 @@ namespace Uno.Toolkit.UI
 			}
 
 			info = new PlaceholderInfo(bounds, isCircle, element);
+			return true;
+		}
+
+		// The space the layout granted the element (its margin excluded), in overlay coordinates.
+		private bool TryGetLayoutSlotBounds(FrameworkElement element, out Rect bounds)
+		{
+			bounds = default;
+			if (_overlay is null || VisualTreeHelper.GetParent(element) is not UIElement parent) return false;
+
+			var slot = LayoutInformation.GetLayoutSlot(element);
+			var margin = element.Margin;
+			slot = new Rect(
+				slot.X + margin.Left,
+				slot.Y + margin.Top,
+				Math.Max(0, slot.Width - margin.Left - margin.Right),
+				Math.Max(0, slot.Height - margin.Top - margin.Bottom));
+			bounds = parent.TransformToVisual(_overlay).TransformBounds(slot);
 			return true;
 		}
 
@@ -466,9 +517,7 @@ namespace Uno.Toolkit.UI
 			{
 				if (_hiddenElements.ContainsKey(element)) continue;
 
-				_hiddenElements[element] = new OpacityValue(
-					element.GetBindingExpression(UIElement.OpacityProperty)?.ParentBinding,
-					element.ReadLocalValue(UIElement.OpacityProperty));
+				_hiddenElements[element] = PropertyValue.Capture(element, UIElement.OpacityProperty);
 				element.Opacity = 0;
 			}
 		}
@@ -477,7 +526,7 @@ namespace Uno.Toolkit.UI
 		{
 			foreach (var (element, original) in _hiddenElements)
 			{
-				RestoreOpacity(element, original);
+				original.Restore(element, UIElement.OpacityProperty);
 			}
 			_hiddenElements.Clear();
 		}
@@ -486,23 +535,7 @@ namespace Uno.Toolkit.UI
 		{
 			if (_hiddenElements.Remove(element, out var original))
 			{
-				RestoreOpacity(element, original);
-			}
-		}
-
-		private static void RestoreOpacity(FrameworkElement element, OpacityValue original)
-		{
-			if (original.Binding is { } binding)
-			{
-				element.SetBinding(UIElement.OpacityProperty, binding);
-			}
-			else if (original.LocalValue == DependencyProperty.UnsetValue)
-			{
-				element.ClearValue(UIElement.OpacityProperty);
-			}
-			else
-			{
-				element.SetValue(UIElement.OpacityProperty, original.LocalValue);
+				original.Restore(element, UIElement.OpacityProperty);
 			}
 		}
 
@@ -543,7 +576,17 @@ namespace Uno.Toolkit.UI
 		{
 			_shimmerBands.Clear();
 			_lastPlaceholders.Clear();
-			_overlay?.Children.Clear();
+			if (_overlay is { } overlay)
+			{
+				// the stand-in host stays: recreating it would re-realize its placeholder rows on every pass
+				for (var i = overlay.Children.Count - 1; i >= 0; i--)
+				{
+					if (!ReferenceEquals(overlay.Children[i], _standInHost))
+					{
+						overlay.Children.RemoveAt(i);
+					}
+				}
+			}
 		}
 	}
 }

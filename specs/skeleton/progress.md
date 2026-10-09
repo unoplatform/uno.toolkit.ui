@@ -57,6 +57,32 @@ Driven by `SkeletonFeedViewStyle` in uno.extensions (`dev/sb/skeleton-feedview`)
 - [x] While loading, only placeholder-covered elements are hidden (`Opacity` 0, original local value/binding restored once loaded) instead of the whole content presenter; ignored elements and container backgrounds stay visible. Template no longer sets `PART_ContentPresenter.Opacity` (still not hit-testable)
 - [x] Tests: `When_Ignore_Set_Element_Stays_Visible`, `When_Loaded_Original_Opacity_Restored`; `When_IsLoading_Toggles` updated to assert per-element hiding (19/19 pass)
 
+## Phase 7 — empty lists inside SkeletonView (stand-in rows)
+
+Goal: `SkeletonPresenter` + a duplicated `DataTemplate` is no longer needed for list skeletons. A `SkeletonView` around any content (including a nested, empty `ListView`) produces placeholder rows for opted-in lists, without touching the app's list data or visual tree.
+
+Design:
+
+- Opt-in: an `ItemsControl`/`ItemsRepeater` in the content with an `ItemTemplate`, **no items**, and a *local* `Skeleton.PlaceholderCount`.
+- While loading, a private stand-in list (same kind: `ListView`/`GridView`/`ItemsControl`/`ItemsRepeater`, sharing `ItemTemplate`, `ItemContainerStyle`, `ItemsPanel`/`Layout`, `Style`, `Padding`) filled with `PlaceholderCount` null items is hosted in an invisible canvas inside the overlay, positioned over the real list at its width. Placeholders are collected from the stand-in instead of the real list (single shimmer storyboard), clipped to the real list's bounds.
+- Space: when the real list is sized by its content (not stretched into extra space, no explicit `Height`), its `MinHeight` is temporarily raised to the stand-in's height, so surrounding content lays out as if the rows existed. Otherwise (star row, fixed height) the rows fill its bounds and are clipped. `MinHeight` is restored (local value or binding) when loading ends or real items arrive.
+- No reparenting, no `ItemsSource` swap, no template change (the stand-in host is created in code, only while needed).
+- Limitations: list `Header`/`Footer` are not mirrored (rows start at the list's top); a list with no width (e.g. unconstrained in a horizontal `StackPanel`) gets no stand-in.
+
+Tasks:
+
+- [x] Red tests (`SkeletonListPlaceholderTests`, 7): nested empty `ListView` in a `Grid` → rows + content below pushed down; constrained list → rows clipped; items arriving while loading → real rows mirrored, `MinHeight` released; original `MinHeight` restored once loaded; no `PlaceholderCount` → no rows; `PlaceholderCount` on an ancestor; `ItemsRepeater`. 6 failed before the fix (the opt-out guard passed)
+- [x] Implement in `SkeletonView` (`SkeletonView.ListStandIns.cs`); `PlaceholderCount` lookup shared with `SkeletonPresenter` (`Skeleton.TryGetInheritedPlaceholderCount`, local values only, metadata default never applies in a `SkeletonView`)
+- [x] Sample section 5 → wrapped empty `ListView` in a `Grid`; section 6 (`LoadingView`) keeps `SkeletonPresenter`. Docs: "Empty lists" section, generation rule 7, `PlaceholderCount` row, troubleshooting
+- [x] Release zero-warning (library, runtime tests; the 2 `UXAML0007` warnings come from the `Uno.UI.RuntimeTests.Engine` package); 26/26 skeleton runtime tests pass (Material desktop)
+
+Review:
+
+- Implementation choices: rows are collected from the stand-in instead of the list (one shimmer storyboard). The stand-in host lives in the overlay only while needed and survives `ClearOverlay`. Rows are clipped to the list's layout slot. `MinHeight` is raised only when the list's slot ≈ its desired height, so stretched lists aren't resized.
+- Hot path: `GenerateOverlay` now walks the content twice, once to find empty lists and once to collect placeholders, even when there are no lists. It's still O(n), and only runs while loading. Stand-in lists are disabled, so they never take focus.
+- While stand-ins exist, the `LayoutUpdated` retry stays hooked rather than subscribing to the lists' collection events, because realized rows or arriving items always trigger a layout pass. The cost is one content walk per layout pass while loading with an empty list; there's no per-list subscription, so nothing to leak.
+- Follow-up (uno.extensions, separate commit): `SkeletonFeedViewStyle` can likely drop `InitialSkeleton` now that `PlaceholderCount` on the FeedView reaches lists in a `SkeletonView`. Needs a Playground check.
+
 ## Notes for future work
 
 - Headless runtime tests locally need **both** `UNO_RUNTIME_TESTS_RUN_TESTS` and `UNO_RUNTIME_TESTS_OUTPUT_PATH` env vars in addition to `--runtime-tests=<path>`; with only the filter var set, the app idles at the runner UI and never starts.

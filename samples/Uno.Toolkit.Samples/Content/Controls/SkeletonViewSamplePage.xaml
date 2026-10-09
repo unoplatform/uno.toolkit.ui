@@ -176,25 +176,38 @@
 							</utu:SkeletonView>
 						</Grid>
 
-						<!-- 5. SkeletonPresenter: derived from a template -->
+						<!-- 5. Empty list inside a SkeletonView -->
 						<TextBlock Style="{StaticResource SectionTitleStyle}"
-								   Text="Derived from a template (SkeletonPresenter)" />
+								   Text="Empty list" />
 						<TextBlock Style="{StaticResource SectionDescriptionStyle}"
-								   Text="SkeletonPresenter.ContentTemplate: the same item template that renders real rows drives the skeleton. The empty ListView is stamped with Skeleton.PlaceholderCount (3) placeholder rows." />
-						<utu:SkeletonPresenter utu:Skeleton.PlaceholderCount="3">
-							<utu:SkeletonPresenter.ContentTemplate>
-								<DataTemplate>
-									<ListView ItemTemplate="{StaticResource PersonRowTemplate}"
-											  SelectionMode="None" />
-								</DataTemplate>
-							</utu:SkeletonPresenter.ContentTemplate>
-						</utu:SkeletonPresenter>
+								   Text="Skeleton.PlaceholderCount on an empty list: while loading, 3 placeholder rows are generated from its ItemTemplate and the list reserves their space, so the footer below moves down. The rest of the content is mirrored as usual, and the list's data is never touched." />
+						<Button Command="{Binding Data.LoadPeopleCommand}"
+								Content="Load people" />
+						<utu:SkeletonView Source="{Binding Data.LoadPeopleCommand}">
+							<Grid RowSpacing="8">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<TextBlock utu:Skeleton.Ignore="True"
+										   Style="{StaticResource SubtitleTextBlockStyle}"
+										   Text="Team" />
+								<ListView Grid.Row="1"
+										  utu:Skeleton.PlaceholderCount="3"
+										  ItemTemplate="{StaticResource PersonRowTemplate}"
+										  ItemsSource="{Binding Data.LoadedPeople}"
+										  SelectionMode="None" />
+								<Button Grid.Row="2"
+										Content="Invite someone" />
+							</Grid>
+						</utu:SkeletonView>
 
 						<!-- 6. SkeletonPresenter as LoadingView content -->
 						<TextBlock Style="{StaticResource SectionTitleStyle}"
-								   Text="In a LoadingView" />
+								   Text="In a LoadingView (SkeletonPresenter)" />
 						<TextBlock Style="{StaticResource SectionDescriptionStyle}"
-								   Text="A SkeletonPresenter as LoadingView.LoadingContent replaces the default spinner with a skeleton of the list being loaded." />
+								   Text="SkeletonPresenter: when the real content isn't in the tree while loading, such as LoadingView.LoadingContent, the skeleton is derived from a template instead. Its empty list is stamped with Skeleton.PlaceholderCount (3) rows." />
 						<Button Command="{Binding Data.LoadPeopleCommand}"
 								Content="Load people" />
 						<utu:LoadingView Source="{Binding Data.LoadPeopleCommand}">
