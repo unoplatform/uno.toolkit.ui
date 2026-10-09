@@ -81,7 +81,7 @@ Review:
 - Implementation choices: rows are collected from the stand-in instead of the list (one shimmer storyboard). The stand-in host lives in the overlay only while needed and survives `ClearOverlay`. Rows are clipped to the list's layout slot. `MinHeight` is raised only when the list's slot ≈ its desired height, so stretched lists aren't resized.
 - Hot path: `GenerateOverlay` now walks the content twice, once to find empty lists and once to collect placeholders, even when there are no lists. It's still O(n), and only runs while loading. Stand-in lists are disabled, so they never take focus.
 - While stand-ins exist, the `LayoutUpdated` retry stays hooked rather than subscribing to the lists' collection events, because realized rows or arriving items always trigger a layout pass. The cost is one content walk per layout pass while loading with an empty list; there's no per-list subscription, so nothing to leak.
-- Follow-up (uno.extensions, separate commit): `SkeletonFeedViewStyle` can likely drop `InitialSkeleton` now that `PlaceholderCount` on the FeedView reaches lists in a `SkeletonView`. Needs a Playground check.
+- `SkeletonFeedViewStyle` (uno.extensions) keeps `InitialSkeleton`. Dropping it would mean showing `SomePresenter` in the `Undefined` state, with `IsLoading` driven both by the FeedView's `ILoadable` and by the `Indeterminate` setter. It would also lose the default of 4 rows: inside a `SkeletonView`, rows are opt-in, and the style can't give `PlaceholderCount` a default without shadowing the FeedView's own value (attached properties can't be template-bound). Apps that set `PlaceholderCount` on the FeedView also get rows when refreshing an empty list.
 
 ## Notes for future work
 
