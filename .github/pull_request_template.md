@@ -34,6 +34,7 @@ Please check if your PR fulfills the following requirements:
 	- [ ] WebAssembly
 	- [ ] Android
 	- [ ] iOS
+	- [ ] tvOS
 	- [ ] Desktop (Windows)
 	- [ ] Desktop (macOS)
 	- [ ] Desktop (X11)

@@ -33,6 +33,7 @@ Affected platform(s):
 - [ ] WebAssembly
 - [ ] Android
 - [ ] iOS
+- [ ] tvOS
 - [ ] Desktop (Windows)
 - [ ] Desktop (macOS)
 - [ ] Desktop (X11)
