@@ -15,6 +15,7 @@
         <ResourceDictionary Source="ms-appx:///Uno.Toolkit.WinUI/Controls/NavigationBar/NavigationBar.xaml" />
         <ResourceDictionary Source="ms-appx:///Uno.Toolkit.WinUI/Controls/ResponsiveView/ResponsiveView.xaml" />
         <ResourceDictionary Source="ms-appx:///Uno.Toolkit.WinUI/Controls/SafeArea/SafeArea.xaml" />
+        <ResourceDictionary Source="ms-appx:///Uno.Toolkit.WinUI/Controls/SkeletonView/SkeletonView.xaml" />
         <ResourceDictionary Source="ms-appx:///Uno.Toolkit.WinUI/Controls/TabBar/TabBar.xaml" />
         <ResourceDictionary Source="ms-appx:///Uno.Toolkit.WinUI/Controls/ZoomContentControl/ZoomContentControl.xaml" />
         <ResourceDictionary Source="ms-appx:///Uno.Toolkit.WinUI/Behaviors/FlipView.xaml" />
