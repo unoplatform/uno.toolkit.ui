@@ -16,6 +16,7 @@ labels: kind/contributor-experience, kind/documentation, triage/untriaged
 - [ ] WebAssembly
 - [ ] Android
 - [ ] iOS
+- [ ] tvOS
 - [ ] Desktop (Windows)
 - [ ] Desktop (macOS)
 - [ ] Desktop (X11)
