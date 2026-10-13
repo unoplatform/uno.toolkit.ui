@@ -63,17 +63,17 @@ Write the content once, as regular XAML bound to your data, and wrap it:
 
 ```xml
 <utu:SkeletonView IsLoading="{Binding IsBusy}">
-	<StackPanel Spacing="12">
-		<StackPanel Orientation="Horizontal" Spacing="12">
-			<Ellipse Width="48" Height="48" Fill="{ThemeResource SystemControlHighlightAccentBrush}" />
-			<StackPanel VerticalAlignment="Center" Spacing="4">
-				<TextBlock Text="{Binding Title}" Style="{StaticResource SubtitleTextBlockStyle}" />
-				<TextBlock Text="{Binding Subtitle}" Style="{StaticResource CaptionTextBlockStyle}" />
-			</StackPanel>
-		</StackPanel>
-		<TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
-		<Button Content="Some action" />
-	</StackPanel>
+    <StackPanel Spacing="12">
+        <StackPanel Orientation="Horizontal" Spacing="12">
+            <Ellipse Width="48" Height="48" Fill="{ThemeResource SystemControlHighlightAccentBrush}" />
+            <StackPanel VerticalAlignment="Center" Spacing="4">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource CaptionTextBlockStyle}" />
+            </StackPanel>
+        </StackPanel>
+        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+        <Button Content="Some action" />
+    </StackPanel>
 </utu:SkeletonView>
 ```
 
@@ -87,7 +87,7 @@ Instead of a flag, let any `ILoadable` (e.g. an async command) drive the loading
 <Button Content="Reload" Command="{Binding LoadDataCommand}" />
 
 <utu:SkeletonView Source="{Binding LoadDataCommand}">
-	<TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
 </utu:SkeletonView>
 ```
 
@@ -101,19 +101,19 @@ On a first load, a list has no items yet, so there are no rows to mirror. Set `u
 
 ```xml
 <utu:SkeletonView Source="{Binding LoadPeopleCommand}">
-	<Grid RowSpacing="8">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<TextBlock Text="Team" utu:Skeleton.Ignore="True" />
-		<ListView Grid.Row="1"
-				  utu:Skeleton.PlaceholderCount="3"
-				  ItemsSource="{Binding People}"
-				  ItemTemplate="{StaticResource PersonRowTemplate}" />
-		<Button Grid.Row="2" Content="Invite someone" />
-	</Grid>
+    <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Team" utu:Skeleton.Ignore="True" />
+        <ListView Grid.Row="1"
+                  utu:Skeleton.PlaceholderCount="3"
+                  ItemsSource="{Binding People}"
+                  ItemTemplate="{StaticResource PersonRowTemplate}" />
+        <Button Grid.Row="2" Content="Invite someone" />
+    </Grid>
 </utu:SkeletonView>
 ```
 
@@ -138,22 +138,22 @@ Every appearance property can be set per instance:
 
 ```xml
 <utu:SkeletonView IsLoading="{Binding IsBusy}"
-				  SkeletonBackground="#D7E3F4"
-				  PlaceholderCornerRadius="12"
-				  ShimmerDuration="0:0:3">
-	<utu:SkeletonView.ShimmerBrush>
-		<LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-			<GradientStop Offset="0" Color="#00FFFFFF" />
-			<GradientStop Offset="0.5" Color="#AAFFFFFF" />
-			<GradientStop Offset="1" Color="#00FFFFFF" />
-		</LinearGradientBrush>
-	</utu:SkeletonView.ShimmerBrush>
-	<!-- content -->
+                  SkeletonBackground="#D7E3F4"
+                  PlaceholderCornerRadius="12"
+                  ShimmerDuration="0:0:3">
+    <utu:SkeletonView.ShimmerBrush>
+        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+            <GradientStop Offset="0" Color="#00FFFFFF" />
+            <GradientStop Offset="0.5" Color="#AAFFFFFF" />
+            <GradientStop Offset="1" Color="#00FFFFFF" />
+        </LinearGradientBrush>
+    </utu:SkeletonView.ShimmerBrush>
+    <!-- content -->
 </utu:SkeletonView>
 
 <!-- Static placeholders, no animation -->
 <utu:SkeletonView IsLoading="{Binding IsBusy}" EnableShimmer="False">
-	<!-- content -->
+    <!-- content -->
 </utu:SkeletonView>
 ```
 
@@ -187,23 +187,23 @@ A template typically contains a list whose items are not loaded yet. Every `Item
 
 ```xml
 <Page.Resources>
-	<DataTemplate x:Key="PersonRowTemplate">
-		<StackPanel Orientation="Horizontal" Spacing="12">
-			<Ellipse Width="40" Height="40" Fill="{ThemeResource SystemControlHighlightAccentBrush}" />
-			<StackPanel VerticalAlignment="Center" Spacing="4">
-				<TextBlock Text="{Binding Name}" />
-				<TextBlock Text="{Binding Title}" FontSize="12" />
-			</StackPanel>
-		</StackPanel>
-	</DataTemplate>
+    <DataTemplate x:Key="PersonRowTemplate">
+        <StackPanel Orientation="Horizontal" Spacing="12">
+            <Ellipse Width="40" Height="40" Fill="{ThemeResource SystemControlHighlightAccentBrush}" />
+            <StackPanel VerticalAlignment="Center" Spacing="4">
+                <TextBlock Text="{Binding Name}" />
+                <TextBlock Text="{Binding Title}" FontSize="12" />
+            </StackPanel>
+        </StackPanel>
+    </DataTemplate>
 </Page.Resources>
 
 <utu:SkeletonPresenter utu:Skeleton.PlaceholderCount="3">
-	<utu:SkeletonPresenter.ContentTemplate>
-		<DataTemplate>
-			<ListView ItemTemplate="{StaticResource PersonRowTemplate}" />
-		</DataTemplate>
-	</utu:SkeletonPresenter.ContentTemplate>
+    <utu:SkeletonPresenter.ContentTemplate>
+        <DataTemplate>
+            <ListView ItemTemplate="{StaticResource PersonRowTemplate}" />
+        </DataTemplate>
+    </utu:SkeletonPresenter.ContentTemplate>
 </utu:SkeletonPresenter>
 ```
 
@@ -213,17 +213,17 @@ Reuse the same item template for both the loaded list and its loading skeleton:
 
 ```xml
 <utu:LoadingView Source="{Binding LoadPeopleCommand}">
-	<ListView ItemsSource="{Binding People}" ItemTemplate="{StaticResource PersonRowTemplate}" />
+    <ListView ItemsSource="{Binding People}" ItemTemplate="{StaticResource PersonRowTemplate}" />
 
-	<utu:LoadingView.LoadingContent>
-		<utu:SkeletonPresenter utu:Skeleton.PlaceholderCount="3">
-			<utu:SkeletonPresenter.ContentTemplate>
-				<DataTemplate>
-					<ListView ItemTemplate="{StaticResource PersonRowTemplate}" />
-				</DataTemplate>
-			</utu:SkeletonPresenter.ContentTemplate>
-		</utu:SkeletonPresenter>
-	</utu:LoadingView.LoadingContent>
+    <utu:LoadingView.LoadingContent>
+        <utu:SkeletonPresenter utu:Skeleton.PlaceholderCount="3">
+            <utu:SkeletonPresenter.ContentTemplate>
+                <DataTemplate>
+                    <ListView ItemTemplate="{StaticResource PersonRowTemplate}" />
+                </DataTemplate>
+            </utu:SkeletonPresenter.ContentTemplate>
+        </utu:SkeletonPresenter>
+    </utu:LoadingView.LoadingContent>
 </utu:LoadingView>
 ```
 
@@ -251,18 +251,18 @@ The static `Skeleton` class provides attached properties that tune generation an
 
 ```xml
 <utu:SkeletonView IsLoading="{Binding IsBusy}">
-	<StackPanel Spacing="12">
-		<!-- static header: stays visible while loading -->
-		<TextBlock utu:Skeleton.Ignore="True" Text="Profile" />
+    <StackPanel Spacing="12">
+        <!-- static header: stays visible while loading -->
+        <TextBlock utu:Skeleton.Ignore="True" Text="Profile" />
 
-		<!-- one circle instead of the image inside -->
-		<Border utu:Skeleton.Shape="Circle" Width="64" Height="64" CornerRadius="32">
-			<Image Source="{Binding AvatarUrl}" Stretch="UniformToFill" />
-		</Border>
+        <!-- one circle instead of the image inside -->
+        <Border utu:Skeleton.Shape="Circle" Width="64" Height="64" CornerRadius="32">
+            <Image Source="{Binding AvatarUrl}" Stretch="UniformToFill" />
+        </Border>
 
-		<!-- one block instead of every chip inside -->
-		<ItemsControl utu:Skeleton.Shape="Rectangle" Height="32" ItemsSource="{Binding Tags}" />
-	</StackPanel>
+        <!-- one block instead of every chip inside -->
+        <ItemsControl utu:Skeleton.Shape="Rectangle" Height="32" ItemsSource="{Binding Tags}" />
+    </StackPanel>
 </utu:SkeletonView>
 ```
 
@@ -272,13 +272,13 @@ Some state-aware controls display a separate `ProgressTemplate` while loading an
 
 ```xml
 <local:MyStateView Source="{Binding People}"
-				   utu:Skeleton.IsEnabled="True"
-				   utu:Skeleton.PlaceholderCount="5">
-	<local:MyStateView.ValueTemplate>
-		<DataTemplate>
-			<ListView ItemsSource="{Binding Data}" ItemTemplate="{StaticResource PersonRowTemplate}" />
-		</DataTemplate>
-	</local:MyStateView.ValueTemplate>
+                   utu:Skeleton.IsEnabled="True"
+                   utu:Skeleton.PlaceholderCount="5">
+    <local:MyStateView.ValueTemplate>
+        <DataTemplate>
+            <ListView ItemsSource="{Binding Data}" ItemTemplate="{StaticResource PersonRowTemplate}" />
+        </DataTemplate>
+    </local:MyStateView.ValueTemplate>
 </local:MyStateView>
 ```
 
@@ -286,15 +286,15 @@ To derive the skeleton from a different, simpler template:
 
 ```xml
 <local:MyStateView utu:Skeleton.IsEnabled="True">
-	<utu:Skeleton.PlaceholderTemplate>
-		<DataTemplate>
-			<StackPanel Spacing="8">
-				<TextBlock Width="200" />
-				<TextBlock Width="120" />
-			</StackPanel>
-		</DataTemplate>
-	</utu:Skeleton.PlaceholderTemplate>
-	<!-- ... -->
+    <utu:Skeleton.PlaceholderTemplate>
+        <DataTemplate>
+            <StackPanel Spacing="8">
+                <TextBlock Width="200" />
+                <TextBlock Width="120" />
+            </StackPanel>
+        </DataTemplate>
+    </utu:Skeleton.PlaceholderTemplate>
+    <!-- ... -->
 </local:MyStateView>
 ```
 
@@ -322,12 +322,12 @@ These resources apply to both `SkeletonView` and `SkeletonPresenter`. Override t
 
 ```xml
 <ResourceDictionary.ThemeDictionaries>
-	<ResourceDictionary x:Key="Light">
-		<SolidColorBrush x:Key="SkeletonViewBackground" Color="#E8EEF6" />
-	</ResourceDictionary>
-	<ResourceDictionary x:Key="Dark">
-		<SolidColorBrush x:Key="SkeletonViewBackground" Color="#2B3442" />
-	</ResourceDictionary>
+    <ResourceDictionary x:Key="Light">
+        <SolidColorBrush x:Key="SkeletonViewBackground" Color="#E8EEF6" />
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Dark">
+        <SolidColorBrush x:Key="SkeletonViewBackground" Color="#2B3442" />
+    </ResourceDictionary>
 </ResourceDictionary.ThemeDictionaries>
 ```
 
