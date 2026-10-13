@@ -197,4 +197,45 @@ public class SkeletonListPlaceholderTests
 		GetAvatarRects(sut).Should().HaveCount(2);
 		repeater.ActualHeight.Should().BeGreaterOrEqualTo((2 * AvatarSize) - Tolerance);
 	}
+
+	[TestMethod]
+	public async Task When_Empty_Horizontal_ItemsControl_Generates_One_Placeholder_Per_Item()
+	{
+		const double ChipTextWidth = 48;
+		var itemsControl = new ItemsControl
+		{
+			ItemTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+				<DataTemplate>
+					<Border Padding="14,6" Background="Gray" CornerRadius="16">
+						<TextBlock MinWidth="48" HorizontalAlignment="Left" Text="{Binding}" />
+					</Border>
+				</DataTemplate>
+				"""),
+			ItemsPanel = XamlHelper.LoadXaml<ItemsPanelTemplate>("""
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Horizontal" Spacing="8" />
+				</ItemsPanelTemplate>
+				"""),
+			ItemsSource = new ObservableCollection<string>(),
+		};
+		Skeleton.SetPlaceholderCount(itemsControl, 4);
+		var sut = new SkeletonView
+		{
+			EnableShimmer = false,
+			// the page's view model: placeholder items must not bind to it
+			DataContext = "A page DataContext that is much wider than a chip",
+			Content = new StackPanel { Width = 400, Children = { itemsControl } },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		await WaitForPlaceholders(sut, x => x.Length == 4);
+
+		var rects = GetPlaceholderRects(sut).OrderBy(x => x.Left).ToArray();
+		rects.Should().HaveCount(4, "each placeholder item should produce its own placeholder");
+		rects.Should().OnlyContain(x => Math.Abs(x.Width - ChipTextWidth) < Tolerance, "each placeholder should match the item's text slot");
+		for (var i = 1; i < rects.Length; i++)
+		{
+			rects[i].Left.Should().BeGreaterThan(rects[i - 1].Right, "items of a horizontal panel should be laid out side by side");
+		}
+	}
 }

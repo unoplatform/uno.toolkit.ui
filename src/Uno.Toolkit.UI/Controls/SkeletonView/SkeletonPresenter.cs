@@ -86,14 +86,18 @@ namespace Uno.Toolkit.UI
 			var count = ResolvePlaceholderCount();
 			if (count <= 0) return;
 
+			// The lists' DataContext is cleared too: null items leave their containers' DataContext to inheritance,
+			// so the rows would otherwise bind to the template's (or the page's) data instead of having empty values.
 			foreach (var descendant in contentRoot.GetDescendants())
 			{
 				if (descendant is ItemsControl { ItemsSource: null, ItemTemplate: { } } itemsControl)
 				{
+					itemsControl.DataContext = null;
 					itemsControl.ItemsSource = new object[count];
 				}
 				else if (descendant is ItemsRepeater { ItemsSource: null, ItemTemplate: { } } itemsRepeater)
 				{
+					itemsRepeater.DataContext = null;
 					itemsRepeater.ItemsSource = new object[count];
 				}
 			}

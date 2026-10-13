@@ -149,6 +149,36 @@ public class SkeletonInjectionTests
 	}
 
 	[TestMethod]
+	public async Task When_Inherited_DataContext_Placeholder_Rows_Stay_Empty()
+	{
+		const double TextWidth = 48;
+		var presenter = new SkeletonPresenter
+		{
+			ContentTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+				<DataTemplate>
+					<ItemsControl>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Height="20" MinWidth="48" HorizontalAlignment="Left" Text="{Binding}" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</DataTemplate>
+				"""),
+		};
+		Skeleton.SetPlaceholderCount(presenter, 2);
+		// the page's view model: placeholder items must not bind to it
+		var host = new Border { Width = 320, DataContext = "A page DataContext that is much wider than a row", Child = presenter };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(host);
+		await UnitTestUIContentHelperEx.WaitFor(() => GetOverlay(presenter).Children.Count == 2, timeoutMS: 3000);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		GetOverlay(presenter).Children.OfType<FrameworkElement>().Should().HaveCount(2)
+			.And.OnlyContain(x => Math.Abs(x.Width - TextWidth) < 1.5, "placeholder rows should have empty values, not the inherited DataContext");
+	}
+
+	[TestMethod]
 	public async Task When_PlaceholderTemplate_Overrides_ValueTemplate()
 	{
 		var placeholderTemplate = XamlHelper.LoadXaml<DataTemplate>("""

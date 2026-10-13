@@ -89,6 +89,9 @@ namespace Uno.Toolkit.UI
 						{
 							control.IsEnabled = false;
 						}
+						// null items leave their containers' DataContext to inheritance: without this, rows would bind
+						// to the SkeletonView's DataContext (typically the page's model) instead of having empty values
+						placeholderList.DataContext = null;
 
 						standIn = new ListStandIn(placeholderList, count);
 						_listStandIns[list] = standIn;

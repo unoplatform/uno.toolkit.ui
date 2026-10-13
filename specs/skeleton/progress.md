@@ -66,7 +66,7 @@ Design:
 - Opt-in: an `ItemsControl`/`ItemsRepeater` in the content with an `ItemTemplate`, **no items**, and a *local* `Skeleton.PlaceholderCount`.
 - While loading, a private stand-in list (same kind: `ListView`/`GridView`/`ItemsControl`/`ItemsRepeater`, sharing `ItemTemplate`, `ItemContainerStyle`, `ItemsPanel`/`Layout`, `Style`, `Padding`) filled with `PlaceholderCount` null items is hosted in an invisible canvas inside the overlay, positioned over the real list at its width. Placeholders are collected from the stand-in instead of the real list (single shimmer storyboard), clipped to the real list's bounds.
 - Space: when the real list is sized by its content (not stretched into extra space, no explicit `Height`), its `MinHeight` is temporarily raised to the stand-in's height, so surrounding content lays out as if the rows existed. Otherwise (star row, fixed height) the rows fill its bounds and are clipped. `MinHeight` is restored (local value or binding) when loading ends or real items arrive.
-- No reparenting, no `ItemsSource` swap, no template change (the stand-in host is created in code, only while needed).
+- The list is never moved to another parent, and there is no `ItemsSource` swap, no template change (the stand-in host is created in code, only while needed).
 - Limitations: list `Header`/`Footer` are not mirrored (rows start at the list's top); a list with no width (e.g. unconstrained in a horizontal `StackPanel`) gets no stand-in.
 
 Tasks:
@@ -82,6 +82,14 @@ Review:
 - Hot path: `GenerateOverlay` now walks the content twice, once to find empty lists and once to collect placeholders, even when there are no lists. It's still O(n), and only runs while loading. Stand-in lists are disabled, so they never take focus.
 - While stand-ins exist, the `LayoutUpdated` retry stays hooked rather than subscribing to the lists' collection events, because realized rows or arriving items always trigger a layout pass. The cost is one content walk per layout pass while loading with an empty list; there's no per-list subscription, so nothing to leak.
 - `SkeletonFeedViewStyle` (uno.extensions) keeps `InitialSkeleton`. Dropping it would mean showing `SomePresenter` in the `Undefined` state, with `IsLoading` driven both by the FeedView's `ILoadable` and by the `Indeterminate` setter. It would also lose the default of 4 rows: inside a `SkeletonView`, rows are opt-in, and the style can't give `PlaceholderCount` a default without shadowing the FeedView's own value (attached properties can't be template-bound). Apps that set `PlaceholderCount` on the FeedView also get rows when refreshing an empty list.
+
+## Phase 8 — placeholder rows must not inherit the page's DataContext
+
+Found while building a teaser app: placeholder items are `null`, so their containers inherited the outer DataContext. Rows bound to the page's model (`{Binding}` showed the model's `ToString()`, and `{Binding Name}` would show real data). A horizontal chip row rendered 2 wide bars instead of 4 chips. In `SkeletonPresenter`, the same leak hung the UI thread.
+
+- [x] Red: `When_Empty_Horizontal_ItemsControl_Generates_One_Placeholder_Per_Item` (2 rects instead of 4), `When_Inherited_DataContext_Placeholder_Rows_Stay_Empty` (app hung)
+- [x] Fix: the stand-in list (`SkeletonView.ListStandIns.cs`) and the lists `SkeletonPresenter` stamps get `DataContext = null`
+- [x] Green: 28/28 skeleton runtime tests (Material desktop); Release library build has zero warnings
 
 ## Notes for future work
 
