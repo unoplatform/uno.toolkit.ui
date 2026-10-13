@@ -26,5 +26,17 @@
 		<Using Include="Uno.Toolkit.UI.Markup" />
 	</ItemGroup>
 
+	<!--
+	Workarounds for Uno.Extensions.Markup.Generators bugs with an attached property of type DataTemplate (Skeleton.PlaceholderTemplate):
+	its DataTemplate overloads cast to DataTemplateSelector without importing that namespace, and skip the null check
+	on the target element that its other overloads have (CS8602). Remove both once the generator is fixed.
+	-->
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);CS8602</NoWarn>
+	</PropertyGroup>
+	<ItemGroup>
+		<Using Include="Microsoft.UI.Xaml.Controls.DataTemplateSelector" Alias="DataTemplateSelector" />
+	</ItemGroup>
+
 	<Import Project="..\..\winappsdk-workaround.targets" />
 </Project>
