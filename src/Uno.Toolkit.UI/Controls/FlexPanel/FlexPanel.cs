@@ -234,11 +234,11 @@ public partial class FlexPanel : Panel
 		//  3. Otherwise `height: auto` - content-sized, and content overflows a smaller parent.
 		var hasExplicitHeight = !double.IsNaN(Height);
 		var parentHeightMode = parentFlex ? _parentFlexHeightMode : null;
-		var outerFlexWantsContent =
+		var outerFlexWantsContentHeight =
 			parentHeightMode == YogaMeasureMode.Undefined ||
 			parentHeightMode == YogaMeasureMode.AtMost;
 		var fillBlockAxis = !hasExplicitHeight
-			&& !outerFlexWantsContent
+			&& !outerFlexWantsContentHeight
 			&& VerticalAlignment == VerticalAlignment.Stretch
 			&& hasDefiniteHeight;
 
@@ -512,8 +512,8 @@ public partial class FlexPanel : Panel
 
 			// Undefined means "report your content size", so the constraint is infinite. AtMost and
 			// Exactly pass a real cap, which TextBlock wrapping and Image stretch sizing depend on.
-			// The "is this AtMost a fill target?" question is answered by handing heightMode to a
-			// direct FlexPanel child, not by altering the constraint.
+			// The "is this AtMost a fill target?" question is answered by handing widthMode and
+			// heightMode to a direct FlexPanel child, not by altering the constraint.
 			var constraintWidth = widthMode == YogaMeasureMode.Undefined
 				? double.PositiveInfinity
 				: width + marginH;
