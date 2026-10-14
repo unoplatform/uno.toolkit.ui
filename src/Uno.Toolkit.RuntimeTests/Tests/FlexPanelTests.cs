@@ -269,6 +269,61 @@ public class FlexPanelTests
 	}
 
 	[TestMethod]
+	public async Task When_InnerFlexPanelIsRowItem_ThenSizedToContentAndGrowSiblingGetsRemainder()
+	{
+		// As a flex item an inner panel's base size is its content (CSS flex-basis: auto). Filling the
+		// line instead would leave the grow sibling with nothing.
+		var grow = CreateChild(height: 20);
+		FlexPanel.SetGrow(grow, 1);
+
+		var inner = new FlexPanel();
+		inner.Children.Add(CreateChild(80, 20));
+		FlexPanel.SetShrink(inner, 0);
+
+		var SUT = new FlexPanel { Width = 600 };
+		SUT.Children.Add(grow);
+		SUT.Children.Add(inner);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(inner).Width.Should().BeApproximately(80, Tolerance, "the inner panel is sized to its content");
+		SlotOf(grow).Width.Should().BeApproximately(520, Tolerance, "the grow sibling takes the rest of the line");
+	}
+
+	[TestMethod]
+	public async Task When_InnerFlexPanelIsGrowingRowItem_ThenFillsItsShare()
+	{
+		var inner = new FlexPanel();
+		inner.Children.Add(CreateChild(80, 20));
+		FlexPanel.SetGrow(inner, 1);
+
+		var SUT = new FlexPanel { Width = 600 };
+		SUT.Children.Add(CreateChild(100, 20));
+		SUT.Children.Add(inner);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(inner).Width.Should().BeApproximately(500, Tolerance, "a growing inner panel still fills its share");
+		inner.ActualWidth.Should().BeApproximately(500, Tolerance);
+	}
+
+	[TestMethod]
+	public async Task When_InnerFlexPanelInCenteredColumn_ThenSizedToContent()
+	{
+		// align-items: center sizes a flex item to its content on the cross axis.
+		var inner = new FlexPanel();
+		inner.Children.Add(CreateChild(80, 20));
+
+		var SUT = new FlexPanel { Direction = FlexDirection.Column, AlignItems = FlexAlign.Center, Width = 600 };
+		SUT.Children.Add(inner);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(inner).Width.Should().BeApproximately(80, Tolerance);
+		SlotOf(inner).X.Should().BeApproximately(260, Tolerance);
+	}
+
+	[TestMethod]
 	public async Task When_FlexMinWidthNotSet_ThenChildShrinksBelowItsContent()
 	{
 		// There is no automatic (CSS 4.5 min-content) floor: the default minimum is 0, as in Yoga

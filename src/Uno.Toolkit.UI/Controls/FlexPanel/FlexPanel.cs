@@ -74,13 +74,14 @@ public partial class FlexPanel : Panel
 	private Size _cachedDesiredSize;
 	private bool _arranging;
 
-	// The height-axis MeasureMode the parent FlexPanel last measured this panel with, set by the
-	// parent's MeasureFunction on its direct children only. It lets this panel tell two meanings of
+	// The MeasureModes the parent FlexPanel last measured this panel with, set by the parent's
+	// MeasureFunction on its direct children only. They let this panel tell two meanings of
 	// "AtMost" apart: the ordinary WinUI contract (Stretch means fill up to this) and an outer
 	// FlexPanel measuring content for basis resolution (a soft cap, not a fill target). Treating the
 	// latter as fill would report the cap as DesiredSize and defeat the outer's grow distribution.
-	// It is only honored while the parent really is a FlexPanel, so a stale value left from an
+	// They are only honored while the parent really is a FlexPanel, so a stale value left from an
 	// earlier parent, or one seen through an intermediate Grid, cannot leak in.
+	private YogaMeasureMode? _parentFlexWidthMode;
 	private YogaMeasureMode? _parentFlexHeightMode;
 
 	private struct ChildLayout
@@ -199,7 +200,15 @@ public partial class FlexPanel : Panel
 		// containing block before flex layout runs, so `width: auto` fills the parent. Measuring
 		// children under a definite cross-axis constraint is also what lets text wrap in one pass.
 		// HorizontalAlignment != Stretch is the opt-in `width: fit-content` escape hatch.
-		var fillInlineAxis = HorizontalAlignment == HorizontalAlignment.Stretch;
+		// As a flex item, though, the panel's base size is its content: a parent FlexPanel measuring
+		// it for content (an auto basis in a row, or a non-stretch cross axis) must not get the cap
+		// back, or this panel claims the whole line and the parent's grow children get nothing.
+		var parentFlex = VisualTreeHelper.GetParent(this) is FlexPanel;
+		var parentWidthMode = parentFlex ? _parentFlexWidthMode : null;
+		var outerFlexWantsContentWidth =
+			parentWidthMode == YogaMeasureMode.Undefined ||
+			parentWidthMode == YogaMeasureMode.AtMost;
+		var fillInlineAxis = HorizontalAlignment == HorizontalAlignment.Stretch && !outerFlexWantsContentWidth;
 
 		float rootWidth;
 		if (fillInlineAxis && hasDefiniteWidth)
@@ -224,9 +233,7 @@ public partial class FlexPanel : Panel
 		//     fill, which _parentFlexHeightMode reports.
 		//  3. Otherwise `height: auto` - content-sized, and content overflows a smaller parent.
 		var hasExplicitHeight = !double.IsNaN(Height);
-		var parentHeightMode = VisualTreeHelper.GetParent(this) is FlexPanel
-			? _parentFlexHeightMode
-			: null;
+		var parentHeightMode = parentFlex ? _parentFlexHeightMode : null;
 		var outerFlexWantsContent =
 			parentHeightMode == YogaMeasureMode.Undefined ||
 			parentHeightMode == YogaMeasureMode.AtMost;
@@ -514,10 +521,12 @@ public partial class FlexPanel : Panel
 				? double.PositiveInfinity
 				: height + marginV;
 
-			if (child is FlexPanel innerFlex && innerFlex._parentFlexHeightMode != heightMode)
+			if (child is FlexPanel innerFlex
+				&& (innerFlex._parentFlexWidthMode != widthMode || innerFlex._parentFlexHeightMode != heightMode))
 			{
 				// WinUI's measure cache keys on the constraint alone, so a mode change at an
 				// unchanged constraint would otherwise return a DesiredSize computed for the old mode.
+				innerFlex._parentFlexWidthMode = widthMode;
 				innerFlex._parentFlexHeightMode = heightMode;
 				innerFlex.InvalidateMeasure();
 			}
