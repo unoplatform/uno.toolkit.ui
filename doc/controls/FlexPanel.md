@@ -140,6 +140,17 @@ To keep a child from being crushed:
 
 `FlexMinWidth` always clamps the width and `FlexMinHeight` always clamps the height, whatever the `Direction`.
 
+## Nesting FlexPanels
+
+On its own, a `FlexPanel` fills the width it is offered, like a block-level CSS flex container. Set `HorizontalAlignment` to anything other than `Stretch` to size it to its content instead.
+
+A `FlexPanel` placed directly inside another `FlexPanel` is a flex item, so it follows the flex-item rules:
+
+- In a row, it starts at its content width. Give it `FlexPanel.Grow="1"` to take the remaining space.
+- In a column, it fills the column with the default `AlignItems="Stretch"`, and hugs its content with `Center`, `FlexStart` or `FlexEnd` (or the matching `FlexPanel.AlignSelf`).
+
+When another panel sits between the two (a `Border`, `StackPanel` or `Grid`), the inner `FlexPanel` fills whatever width that panel hands it. Set `HorizontalAlignment="Left"` on it when it should hug its content.
+
 ## Right-to-left
 
 Set `FlowDirection="RightToLeft"` (inherited from `FrameworkElement`), as with any other panel. The engine always lays out left-to-right and the platform mirrors the whole panel, so the main axis starts on the right.

@@ -269,6 +269,113 @@ public partial class FlexPanelTests
 	}
 
 	[TestMethod]
+	[DataRow(false)]
+	[DataRow(true)]
+	public async Task When_InnerFlexPanelIsRowItem_ThenSizedToContentAndGrowSiblingGetsRemainder(bool noShrink)
+	{
+		// As a flex item an inner panel's base size is its content (CSS flex-basis: auto). Filling the
+		// line instead would leave the grow sibling with nothing, whatever the inner panel's Shrink.
+		var grow = CreateChild(height: 20);
+		FlexPanel.SetGrow(grow, 1);
+
+		var inner = new FlexPanel();
+		inner.Children.Add(CreateChild(80, 20));
+		if (noShrink)
+		{
+			FlexPanel.SetShrink(inner, 0);
+		}
+
+		var SUT = new FlexPanel { Width = 600 };
+		SUT.Children.Add(grow);
+		SUT.Children.Add(inner);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(inner).Width.Should().BeApproximately(80, Tolerance, "the inner panel is sized to its content");
+		SlotOf(grow).Width.Should().BeApproximately(520, Tolerance, "the grow sibling takes the rest of the line");
+	}
+
+	[TestMethod]
+	public async Task When_InnerFlexPanelIsGrowingRowItem_ThenFillsItsShare()
+	{
+		var inner = new FlexPanel();
+		inner.Children.Add(CreateChild(80, 20));
+		FlexPanel.SetGrow(inner, 1);
+
+		var SUT = new FlexPanel { Width = 600 };
+		SUT.Children.Add(CreateChild(100, 20));
+		SUT.Children.Add(inner);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(inner).Width.Should().BeApproximately(500, Tolerance, "a growing inner panel still fills its share");
+		inner.ActualWidth.Should().BeApproximately(500, Tolerance);
+	}
+
+	[TestMethod]
+	public async Task When_InnerFlexPanelInCenteredColumn_ThenSizedToContent()
+	{
+		// align-items: center sizes a flex item to its content on the cross axis.
+		var inner = new FlexPanel();
+		inner.Children.Add(CreateChild(80, 20));
+
+		var SUT = new FlexPanel { Direction = FlexDirection.Column, AlignItems = FlexAlign.Center, Width = 600 };
+		SUT.Children.Add(inner);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(inner).Width.Should().BeApproximately(80, Tolerance);
+		SlotOf(inner).X.Should().BeApproximately(260, Tolerance);
+		inner.ActualWidth.Should().BeApproximately(80, Tolerance);
+	}
+
+	[TestMethod]
+	public async Task When_InnerFlexPanelInStretchColumn_ThenFillsCrossAxis()
+	{
+		// The default align-items: stretch measures the item at the column's width, so it must still fill.
+		var inner = new FlexPanel();
+		inner.Children.Add(CreateChild(80, 20));
+
+		var SUT = new FlexPanel { Direction = FlexDirection.Column, Width = 600 };
+		SUT.Children.Add(inner);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		SlotOf(inner).Width.Should().BeApproximately(600, Tolerance);
+		inner.ActualWidth.Should().BeApproximately(600, Tolerance);
+	}
+
+	[TestMethod]
+	public async Task When_NestedRowsWithGrowSiblings_ThenMeasureCountDoesNotCompound()
+	{
+		// Each level is a flex item next to a Grow sibling under a definite height, so only the width
+		// mode changes between the basis and the final measure. The count must stay flat with depth.
+		const int Depth = 5;
+		UIElement current = CreateChild(40, 10);
+		var panels = new MeasureCountingFlexPanel[Depth];
+		for (var i = Depth - 1; i >= 0; i--)
+		{
+			var grow = CreateChild(height: 10);
+			FlexPanel.SetGrow(grow, 1);
+
+			var panel = new MeasureCountingFlexPanel { Children = { grow, current } };
+			panels[i] = panel;
+			current = panel;
+		}
+
+		panels[0].Width = 600;
+		panels[0].Height = 100;
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(panels[0]);
+
+		var counts = string.Join(", ", panels.Select(p => p.MeasureCount));
+		for (var i = 0; i < Depth; i++)
+		{
+			panels[i].MeasureCount.Should().BeLessOrEqualTo(2, $"nesting level {i} must not compound with depth (counts: {counts})");
+		}
+	}
+
+	[TestMethod]
 	public async Task When_FlexMinWidthNotSet_ThenChildShrinksBelowItsContent()
 	{
 		// There is no automatic (CSS 4.5 min-content) floor: the default minimum is 0, as in Yoga
