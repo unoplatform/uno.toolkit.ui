@@ -15,8 +15,8 @@ using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 namespace Uno.Toolkit.UI
 {
 	/// <summary>
-	/// A lightweight, always-loading <see cref="SkeletonView"/> that derives its skeleton from a template
-	/// instead of live content. Designed to be dropped into (or injected as, via <see cref="Skeleton.IsEnabledProperty"/>)
+	/// A <see cref="SkeletonView"/> that derives its skeleton from a template instead of live content, loading by default.
+	/// Designed to be dropped into (or injected as, via <see cref="Skeleton.IsEnabledProperty"/>)
 	/// the loading template of a state-aware control such as <c>FeedView</c>.
 	/// </summary>
 	/// <remarks>
@@ -29,21 +29,23 @@ namespace Uno.Toolkit.UI
 	{
 		private FrameworkElement? _skeletonOwner;
 
+		/// <summary>Initializes a new instance of the <see cref="SkeletonPresenter"/> class.</summary>
 		public SkeletonPresenter()
 		{
 			DefaultStyleKey = typeof(SkeletonPresenter);
 
-			Loaded += (s, e) => ResolveTemplate();
+			// the owner's templates may only be in place once in the tree: this is the resolution that gets to warn
+			Loaded += (s, e) => ResolveTemplate(warnIfUnresolved: true);
 		}
 
 		protected override void OnApplyTemplate()
 		{
-			ResolveTemplate();
+			ResolveTemplate(warnIfUnresolved: false);
 
 			base.OnApplyTemplate();
 		}
 
-		private void ResolveTemplate()
+		private void ResolveTemplate(bool warnIfUnresolved)
 		{
 			_skeletonOwner = this.GetAncestors().OfType<FrameworkElement>().FirstOrDefault(Skeleton.GetIsEnabled);
 
@@ -56,7 +58,7 @@ namespace Uno.Toolkit.UI
 				{
 					ContentTemplate = template;
 				}
-				else if (IsLoaded)
+				else if (warnIfUnresolved && Content is not UIElement)
 				{
 					typeof(SkeletonPresenter).Log().LogWarning(
 						"Unable to resolve a template to derive the skeleton from; set ContentTemplate, or Skeleton.PlaceholderTemplate / a ValueTemplate on the ancestor with Skeleton.IsEnabled.");
@@ -80,9 +82,11 @@ namespace Uno.Toolkit.UI
 
 		private protected override void PrepareSkeletonContent(DependencyObject contentRoot)
 		{
-			// This is our private, invisible instantiation of the template — never the app's live content —
-			// so stamping placeholder items into its empty list controls cannot fight app data. Idempotent:
-			// only a null ItemsSource is filled, and the dummy assignment makes it non-null.
+			// Only our private, invisible instantiation of the template is stamped: content set directly is the app's
+			// live content, which is never mutated (its empty lists can opt into stand-in rows like in any SkeletonView).
+			// Idempotent: only an empty list with a null ItemsSource is filled, and the dummy assignment makes it non-null.
+			if (ContentTemplate is null) return;
+
 			var count = ResolvePlaceholderCount();
 			if (count <= 0) return;
 
@@ -90,7 +94,7 @@ namespace Uno.Toolkit.UI
 			// so the rows would otherwise bind to the template's (or the page's) data instead of having empty values.
 			foreach (var descendant in contentRoot.GetDescendants())
 			{
-				if (descendant is ItemsControl { ItemsSource: null, ItemTemplate: { } } itemsControl)
+				if (descendant is ItemsControl { ItemsSource: null, ItemTemplate: { } } itemsControl && itemsControl.Items.Count == 0)
 				{
 					itemsControl.DataContext = null;
 					itemsControl.ItemsSource = new object[count];

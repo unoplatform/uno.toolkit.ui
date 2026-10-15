@@ -15,6 +15,7 @@ namespace Uno.Toolkit.UI
 	{
 		#region DependencyProperty: IsLoading
 
+		/// <summary>Identifies the <see cref="IsLoading"/> dependency property.</summary>
 		public static DependencyProperty IsLoadingProperty { get; } = DependencyProperty.Register(
 			nameof(IsLoading),
 			typeof(bool),
@@ -35,18 +36,23 @@ namespace Uno.Toolkit.UI
 
 		#region DependencyProperty: Source
 
+		/// <summary>Identifies the <see cref="Source"/> dependency property.</summary>
 		public static DependencyProperty SourceProperty { get; } = DependencyProperty.Register(
 			nameof(Source),
 			typeof(ILoadable),
 			typeof(SkeletonView),
-			new PropertyMetadata(default(ILoadable), (s, e) => ((SkeletonView)s).OnSourceChanged()));
+			new PropertyMetadata(default(ILoadable), (s, e) => ((SkeletonView)s).OnSourceChanged(e)));
 
 		/// <summary>
 		/// Gets or sets the <see cref="ILoadable"/> whose <see cref="ILoadable.IsExecuting"/> state drives <see cref="IsLoading"/>.
 		/// </summary>
-		public ILoadable Source
+		/// <remarks>
+		/// <see cref="ILoadable.IsExecutingChanged"/> must be raised on the UI thread; wrap a source that completes
+		/// elsewhere in a <see cref="LoadableSource"/>, which also inherits this control's <c>DataContext</c> for its bindings.
+		/// </remarks>
+		public ILoadable? Source
 		{
-			get => (ILoadable)GetValue(SourceProperty);
+			get => (ILoadable?)GetValue(SourceProperty);
 			set => SetValue(SourceProperty, value);
 		}
 
@@ -54,6 +60,7 @@ namespace Uno.Toolkit.UI
 
 		#region DependencyProperty: SkeletonBackground
 
+		/// <summary>Identifies the <see cref="SkeletonBackground"/> dependency property.</summary>
 		public static DependencyProperty SkeletonBackgroundProperty { get; } = DependencyProperty.Register(
 			nameof(SkeletonBackground),
 			typeof(Brush),
@@ -73,6 +80,7 @@ namespace Uno.Toolkit.UI
 
 		#region DependencyProperty: ShimmerBrush
 
+		/// <summary>Identifies the <see cref="ShimmerBrush"/> dependency property.</summary>
 		public static DependencyProperty ShimmerBrushProperty { get; } = DependencyProperty.Register(
 			nameof(ShimmerBrush),
 			typeof(Brush),
@@ -81,11 +89,11 @@ namespace Uno.Toolkit.UI
 
 		/// <summary>
 		/// Gets or sets the brush of the band swept across the placeholders by the shimmer animation.
-		/// Typically a horizontal <see cref="LinearGradientBrush"/> fading in and out of transparency.
+		/// Typically a horizontal <see cref="LinearGradientBrush"/> fading in and out of transparency; null removes the band.
 		/// </summary>
-		public Brush ShimmerBrush
+		public Brush? ShimmerBrush
 		{
-			get => (Brush)GetValue(ShimmerBrushProperty);
+			get => (Brush?)GetValue(ShimmerBrushProperty);
 			set => SetValue(ShimmerBrushProperty, value);
 		}
 
@@ -93,6 +101,7 @@ namespace Uno.Toolkit.UI
 
 		#region DependencyProperty: ShimmerDuration
 
+		/// <summary>Identifies the <see cref="ShimmerDuration"/> dependency property.</summary>
 		public static DependencyProperty ShimmerDurationProperty { get; } = DependencyProperty.Register(
 			nameof(ShimmerDuration),
 			typeof(Duration),
@@ -112,6 +121,7 @@ namespace Uno.Toolkit.UI
 
 		#region DependencyProperty: EnableShimmer
 
+		/// <summary>Identifies the <see cref="EnableShimmer"/> dependency property.</summary>
 		public static DependencyProperty EnableShimmerProperty { get; } = DependencyProperty.Register(
 			nameof(EnableShimmer),
 			typeof(bool),
@@ -131,6 +141,7 @@ namespace Uno.Toolkit.UI
 
 		#region DependencyProperty: PlaceholderCornerRadius
 
+		/// <summary>Identifies the <see cref="PlaceholderCornerRadius"/> dependency property.</summary>
 		public static DependencyProperty PlaceholderCornerRadiusProperty { get; } = DependencyProperty.Register(
 			nameof(PlaceholderCornerRadius),
 			typeof(CornerRadius),

@@ -202,6 +202,61 @@ public class SkeletonInjectionTests
 
 		GetOverlay(presenter).Children.Count.Should().Be(2, "the skeleton should derive from the PlaceholderTemplate (two leaves), not the ValueTemplate (one)");
 	}
+
+	[TestMethod]
+	public void When_Style_ProgressTemplate_Replaced_By_Injection()
+	{
+		// FeedView's default style provides a ProgressTemplate: only a locally assigned one wins over the injection
+		var styleTemplate = SingleLineValueTemplate();
+		var stub = new FeedViewStub
+		{
+			Style = new Style(typeof(FeedViewStub)) { Setters = { new Setter(FeedViewStub.ProgressTemplateProperty, styleTemplate) } },
+		};
+		stub.ProgressTemplate.Should().BeSameAs(styleTemplate);
+
+		Skeleton.SetIsEnabled(stub, true);
+		stub.ProgressTemplate.Should().NotBeSameAs(styleTemplate, "a style-provided ProgressTemplate should be replaced by the injected skeleton");
+
+		Skeleton.SetIsEnabled(stub, false);
+		stub.ProgressTemplate.Should().BeSameAs(styleTemplate, "disabling should fall back to the style's template");
+	}
+
+	[TestMethod]
+	public async Task When_Presenter_Direct_Content_Not_Stamped()
+	{
+		// direct content is live content: only a ContentTemplate instantiation gets placeholder rows stamped in
+		var list = new ItemsControl { ItemTemplate = ItemsControlValueTemplate() };
+		var presenter = new SkeletonPresenter { Width = 320, Height = 200, Content = list };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(presenter);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		list.ItemsSource.Should().BeNull("the app's own list must never be mutated");
+	}
+
+	[TestMethod]
+	public async Task When_Template_List_Has_Items_Not_Stamped()
+	{
+		var template = XamlHelper.LoadXaml<DataTemplate>("""
+			<DataTemplate>
+				<ItemsControl>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Height="20" Text="{Binding}" />
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<x:String>one</x:String>
+				</ItemsControl>
+			</DataTemplate>
+			""");
+		var presenter = new SkeletonPresenter { Width = 320, Height = 200, ContentTemplate = template };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(presenter);
+		await UnitTestUIContentHelperEx.WaitFor(() => GetOverlay(presenter).Children.Count > 0, timeoutMS: 3000);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		GetOverlay(presenter).Children.Count.Should().Be(1, "a list that already has items is left alone");
+	}
 }
 
 /// <summary>

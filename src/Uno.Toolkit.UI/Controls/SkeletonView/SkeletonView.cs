@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Uno.Disposables;
 using Windows.Foundation;
 
@@ -94,6 +93,7 @@ namespace Uno.Toolkit.UI
 		private bool _isReady;
 		private bool _isWaitingForContent;
 
+		/// <summary>Initializes a new instance of the <see cref="SkeletonView"/> class.</summary>
 		public SkeletonView()
 		{
 			DefaultStyleKey = typeof(SkeletonView);
@@ -113,7 +113,10 @@ namespace Uno.Toolkit.UI
 				_overlay.SizeChanged -= OnPartSizeChanged;
 			}
 
-			RemoveListStandIns(); // hosted in the previous template's overlay
+			// everything built on the previous template's overlay is gone with it: the next pass must rebuild from scratch
+			StopShimmer();
+			ClearOverlay();
+			RemoveListStandIns();
 
 			base.OnApplyTemplate();
 
@@ -148,6 +151,34 @@ namespace Uno.Toolkit.UI
 			UnhookLayoutUpdated();
 		}
 
+		protected override void OnContentChanged(object oldContent, object newContent)
+		{
+			base.OnContentChanged(oldContent, newContent);
+			OnContentReplaced();
+		}
+
+		protected override void OnContentTemplateChanged(DataTemplate oldContentTemplate, DataTemplate newContentTemplate)
+		{
+			base.OnContentTemplateChanged(oldContentTemplate, newContentTemplate);
+			OnContentReplaced();
+		}
+
+		private void OnContentReplaced()
+		{
+			if (!_isReady) return;
+
+			// The previous content's elements are no longer covered. A same-size replacement resizes nothing, so the
+			// overlay is rebuilt from the new content on the layout pass that materializes it rather than right away.
+			RestoreHiddenElements();
+			RemoveListStandIns();
+			StopShimmer();
+			ClearOverlay();
+			if (IsLoading)
+			{
+				HookLayoutUpdated();
+			}
+		}
+
 		/// <summary>
 		/// Called before placeholders are collected, allowing derived controls to prepare
 		/// the (invisible) content tree — e.g. stamping placeholder rows into empty list controls.
@@ -159,7 +190,9 @@ namespace Uno.Toolkit.UI
 
 		private void HookLayoutUpdated()
 		{
-			if (_isWaitingForContent) return;
+			// LayoutUpdated is raised for every layout pass of the window: never listen while detached (e.g. a page kept
+			// in a back stack whose IsLoading changes); OnLoaded regenerates, and hooks again if needed.
+			if (_isWaitingForContent || !IsLoaded) return;
 
 			_isWaitingForContent = true;
 			LayoutUpdated += OnLayoutUpdated;
@@ -185,7 +218,14 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void OnSourceChanged() => BindSource();
+		private void OnSourceChanged(DependencyPropertyChangedEventArgs e)
+		{
+			// an element-based source (e.g. LoadableSource) lives outside the tree: it gets our DataContext for its bindings
+			(e.NewValue as FrameworkElement)?.InheritDataContextFrom(this);
+			(e.OldValue as FrameworkElement)?.ClearValue(DataContextProperty);
+
+			BindSource();
+		}
 
 		private void BindSource() => _sourceSubscription.Disposable = Source?.BindIsExecuting(isExecuting => IsLoading = isExecuting);
 
@@ -291,7 +331,7 @@ namespace Uno.Toolkit.UI
 				UnhookLayoutUpdated();
 			}
 
-			if (placeholders.SequenceEqual(_lastPlaceholders))
+			if (SameGeometry(placeholders, _lastPlaceholders))
 			{
 				// same geometry; just make sure the shimmer is running (e.g. first Loaded after OnApplyTemplate)
 				StartShimmerIfNeeded();
@@ -301,10 +341,9 @@ namespace Uno.Toolkit.UI
 			StopShimmer();
 			ClearOverlay();
 
-			var overlayWidth = _overlay.ActualWidth;
 			foreach (var placeholder in placeholders)
 			{
-				AddPlaceholder(placeholder, overlayWidth);
+				AddPlaceholder(placeholder, _overlay);
 			}
 
 			_lastPlaceholders = placeholders;
@@ -340,6 +379,11 @@ namespace Uno.Toolkit.UI
 					results.Add(info);
 				}
 				return; // leaves are covered by a single placeholder; don't descend
+			}
+
+			if (IsNestedSkeleton(element))
+			{
+				return;
 			}
 
 			// Only a container's content is mirrored, not its template chrome: e.g. Material's ListViewItem
@@ -391,6 +435,27 @@ namespace Uno.Toolkit.UI
 
 		private static bool IsSkeletonLeaf(UIElement element)
 			=> element is TextBlock or Image or Shape or ButtonBase;
+
+		// A nested skeleton view hides and restores its own content: walking into it would capture its hidden state as
+		// the original, and mirror its leaves twice.
+		private static bool IsNestedSkeleton(UIElement element)
+			=> element is SkeletonView;
+
+		// Same placeholders, within layout rounding: exact comparison would rebuild the overlay (and restart the
+		// shimmer) on sub-pixel drift between passes.
+		private static bool SameGeometry(List<PlaceholderInfo> current, List<PlaceholderInfo> previous)
+		{
+			if (current.Count != previous.Count) return false;
+
+			for (var i = 0; i < current.Count; i++)
+			{
+				var a = current[i];
+				var b = previous[i];
+				if (!ReferenceEquals(a.Element, b.Element) || a.IsCircle != b.IsCircle || !IsClose(a.Rect, b.Rect)) return false;
+			}
+
+			return true;
+		}
 
 		private bool TryCreatePlaceholderInfo(FrameworkElement element, SkeletonShape shape, out PlaceholderInfo info)
 		{
@@ -456,8 +521,9 @@ namespace Uno.Toolkit.UI
 			return true;
 		}
 
-		private void AddPlaceholder(PlaceholderInfo info, double overlayWidth)
+		private void AddPlaceholder(PlaceholderInfo info, Canvas overlay)
 		{
+			var overlayWidth = overlay.ActualWidth;
 			var rect = info.Rect;
 			var placeholder = new Grid
 			{
@@ -485,7 +551,7 @@ namespace Uno.Toolkit.UI
 
 			Canvas.SetLeft(placeholder, rect.X);
 			Canvas.SetTop(placeholder, rect.Y);
-			_overlay!.Children.Add(placeholder);
+			overlay.Children.Add(placeholder);
 		}
 
 		private void HideCoveredElements(List<PlaceholderInfo> placeholders)

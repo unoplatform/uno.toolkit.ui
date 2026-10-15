@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
 
@@ -185,7 +184,7 @@ namespace Uno.Toolkit.UI
 
 		private static void InjectProgressTemplate(FrameworkElement element)
 		{
-			if (FindDependencyProperty(element.GetType(), ProgressTemplatePropertyName) is not { } progressTemplateProperty)
+			if (element.GetType().FindDependencyProperty(ProgressTemplatePropertyName, logMissing: false) is not { } progressTemplateProperty)
 			{
 				typeof(Skeleton).Log().LogWarning(
 					"Skeleton.IsEnabled is set on a {Type} which does not expose a {Property} dependency property; no skeleton is injected.",
@@ -193,9 +192,13 @@ namespace Uno.Toolkit.UI
 				return;
 			}
 
-			if (element.GetValue(progressTemplateProperty) is not null)
+			// Only a locally assigned ProgressTemplate wins. One coming from a style (e.g. FeedView's default
+			// progress ring) is exactly what the injection is meant to replace.
+			if (element.ReadLocalValue(progressTemplateProperty) != DependencyProperty.UnsetValue)
 			{
-				// an explicitly assigned ProgressTemplate always wins
+				typeof(Skeleton).Log().LogDebug(
+					"Skeleton.IsEnabled is set on a {Type} whose {Property} is assigned locally; the assigned template is kept.",
+					element.GetType().Name, ProgressTemplatePropertyName);
 				return;
 			}
 
@@ -217,7 +220,7 @@ namespace Uno.Toolkit.UI
 			if (element.GetValue(InjectedTemplateProperty) is not DataTemplate injected) return;
 			element.ClearValue(InjectedTemplateProperty);
 
-			if (FindDependencyProperty(element.GetType(), ProgressTemplatePropertyName) is { } progressTemplateProperty &&
+			if (element.GetType().FindDependencyProperty(ProgressTemplatePropertyName, logMissing: false) is { } progressTemplateProperty &&
 				ReferenceEquals(element.GetValue(progressTemplateProperty), injected))
 			{
 				element.ClearValue(progressTemplateProperty);
@@ -247,16 +250,8 @@ namespace Uno.Toolkit.UI
 		/// Resolves the element's <c>ValueTemplate</c> by convention, if it exposes one.
 		/// </summary>
 		internal static DataTemplate? FindValueTemplate(FrameworkElement element) =>
-			FindDependencyProperty(element.GetType(), ValueTemplatePropertyName) is { } dp
+			element.GetType().FindDependencyProperty(ValueTemplatePropertyName, logMissing: false) is { } dp
 				? element.GetValue(dp) as DataTemplate
 				: null;
-
-		[UnconditionalSuppressMessage("Trimming", "IL2070", Justification =
-			"The looked-up members belong to a control type actively used by the consuming app (e.g. FeedView), whose statics are preserved with it. " +
-			"A trimmed-away member degrades gracefully: no skeleton is injected and a warning is logged.")]
-		private static DependencyProperty? FindDependencyProperty(Type type, string name) =>
-			(type.GetProperty($"{name}Property", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)?.GetValue(null)
-				?? type.GetField($"{name}Property", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)?.GetValue(null))
-			as DependencyProperty;
 	}
 }

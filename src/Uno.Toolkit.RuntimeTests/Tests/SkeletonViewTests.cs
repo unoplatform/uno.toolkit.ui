@@ -292,4 +292,193 @@ public class SkeletonViewTests
 		sut.IsLoading.Should().BeFalse("Source.IsExecuting should drive IsLoading");
 		GetOverlay(sut).Children.Count.Should().Be(0);
 	}
+
+	[TestMethod]
+	public async Task When_Source_Is_LoadableSource_DataContext_Inherited()
+	{
+		// a LoadableSource declared as Source lives outside the tree: it needs the view's DataContext for its binding
+		var loadable = new TestLoadable(isExecuting: true);
+		var source = new LoadableSource();
+		source.SetBinding(LoadableSource.SourceProperty, new Microsoft.UI.Xaml.Data.Binding { Path = new PropertyPath(nameof(SourceHost.Loadable)) });
+		var sut = new SkeletonView
+		{
+			EnableShimmer = false,
+			DataContext = new SourceHost(loadable),
+			Source = source,
+			Content = new StackPanel { Width = 200, Children = { new TextBlock { Text = "content" } } },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		sut.IsLoading.Should().BeTrue("the LoadableSource binding should resolve against the view's DataContext");
+
+		loadable.IsExecuting = false;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		sut.IsLoading.Should().BeFalse();
+	}
+
+	[TestMethod]
+	public async Task When_Nested_SkeletonView_Outer_Finishes_First()
+	{
+		var (outer, inner, text) = BuildNested();
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(outer);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		GetOwnOverlay(outer).Children.Count.Should().Be(1, "a nested SkeletonView owns its subtree: the outer view only mirrors its own leaves");
+		GetOwnOverlay(inner).Children.Count.Should().Be(1);
+		text.Opacity.Should().Be(0);
+
+		outer.IsLoading = false;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		text.Opacity.Should().Be(0, "the inner view is still loading");
+
+		inner.IsLoading = false;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		text.Opacity.Should().Be(1, "only the view that hid the element restores it, whichever finishes last");
+	}
+
+	[TestMethod]
+	public async Task When_Nested_SkeletonView_Inner_Finishes_First()
+	{
+		var (outer, inner, text) = BuildNested();
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(outer);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		inner.IsLoading = false;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		text.Opacity.Should().Be(1, "the outer view never hid the inner view's content");
+
+		outer.IsLoading = false;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		text.Opacity.Should().Be(1);
+	}
+
+	[TestMethod]
+	public async Task When_Content_Replaced_Same_Size_While_Loading()
+	{
+		var first = new TextBlock { Text = "first", HorizontalAlignment = HorizontalAlignment.Left };
+		var second = new TextBlock { Text = "second, noticeably longer", HorizontalAlignment = HorizontalAlignment.Left };
+		var sut = new SkeletonView { EnableShimmer = false, Content = new Grid { Width = 200, Height = 100, Children = { first } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		first.Opacity.Should().Be(0);
+
+		// same size: no SizeChanged to trigger a regeneration
+		sut.Content = new Grid { Width = 200, Height = 100, Children = { second } };
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		first.Opacity.Should().Be(1, "content removed while loading is no longer covered");
+		second.Opacity.Should().Be(0, "the new content is covered");
+		var overlay = GetOverlay(sut);
+		overlay.Children.Count.Should().Be(1);
+		((FrameworkElement)overlay.Children[0]).Width.Should().BeApproximately(second.ActualWidth, Tolerance, "the placeholder should mirror the new content");
+	}
+
+	[TestMethod]
+	public async Task When_Content_Set_Null_While_Loading()
+	{
+		var text = new TextBlock { Text = "content" };
+		var sut = new SkeletonView { EnableShimmer = false, Content = new StackPanel { Width = 200, Children = { text } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		GetOverlay(sut).Children.Count.Should().Be(1);
+
+		sut.Content = null;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		text.Opacity.Should().Be(1, "content removed while loading is no longer covered");
+		GetOverlay(sut).Children.Count.Should().Be(0, "no content, no placeholders");
+	}
+
+	[TestMethod]
+	public async Task When_ContentTemplate_Changed_While_Loading()
+	{
+		var oneLine = XamlHelper.LoadXaml<DataTemplate>("""
+			<DataTemplate>
+				<StackPanel Width="200" Height="100">
+					<TextBlock Text="{Binding}" />
+				</StackPanel>
+			</DataTemplate>
+			""");
+		var twoLines = XamlHelper.LoadXaml<DataTemplate>("""
+			<DataTemplate>
+				<StackPanel Width="200" Height="100">
+					<TextBlock Text="{Binding}" />
+					<TextBlock Text="{Binding}" />
+				</StackPanel>
+			</DataTemplate>
+			""");
+		var sut = new SkeletonView { EnableShimmer = false, Content = "data", ContentTemplate = oneLine };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		GetOverlay(sut).Children.Count.Should().Be(1);
+
+		sut.ContentTemplate = twoLines;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		GetOverlay(sut).Children.Count.Should().Be(2, "the placeholders should follow the new template");
+	}
+
+	[TestMethod]
+	public async Task When_Template_Swapped_While_Loading()
+	{
+		var text = new TextBlock { Text = "content" };
+		var sut = new SkeletonView { Content = new StackPanel { Width = 200, Children = { text } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		GetOverlay(sut).Children.Count.Should().Be(1);
+
+		// same parts as the default template, so the placeholders' geometry doesn't change
+		sut.Template = XamlHelper.LoadXaml<ControlTemplate>("""
+			<ControlTemplate TargetType="utu:SkeletonView">
+				<Grid>
+					<VisualStateManager.VisualStateGroups>
+						<VisualStateGroup x:Name="SkeletonStates">
+							<VisualState x:Name="SkeletonHidden" />
+							<VisualState x:Name="SkeletonVisible">
+								<VisualState.Setters>
+									<Setter Target="PART_ContentPresenter.IsHitTestVisible" Value="False" />
+									<Setter Target="PART_SkeletonOverlay.Visibility" Value="Visible" />
+								</VisualState.Setters>
+							</VisualState>
+						</VisualStateGroup>
+					</VisualStateManager.VisualStateGroups>
+					<ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}" />
+					<Canvas x:Name="PART_SkeletonOverlay" IsHitTestVisible="False" Visibility="Collapsed" />
+				</Grid>
+			</ControlTemplate>
+			""");
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		GetOverlay(sut).Children.Count.Should().Be(1, "the new template's overlay should be populated");
+		text.Opacity.Should().Be(0);
+
+		sut.IsLoading = false;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		text.Opacity.Should().Be(1);
+		GetOverlay(sut).Children.Count.Should().Be(0);
+	}
+
+	private static (SkeletonView Outer, SkeletonView Inner, TextBlock Text) BuildNested()
+	{
+		var text = new TextBlock { Text = "nested" };
+		var inner = new SkeletonView { EnableShimmer = false, Content = new StackPanel { Width = 200, Children = { text } } };
+		var outer = new SkeletonView { EnableShimmer = false, Content = new StackPanel { Width = 300, Children = { new TextBlock { Text = "outer" }, inner } } };
+		return (outer, inner, text);
+	}
+
+	// The view's own overlay: GetFirstDescendant is depth-first and would reach a nested view's overlay first.
+	private static Canvas GetOwnOverlay(SkeletonView sut) =>
+		((Panel)VisualTreeHelper.GetChild(sut, 0)).Children.OfType<Canvas>().First(x => x.Name == "PART_SkeletonOverlay");
+
+	private sealed class SourceHost
+	{
+		public SourceHost(ILoadable loadable) => Loadable = loadable;
+
+		public ILoadable Loadable { get; }
+	}
 }

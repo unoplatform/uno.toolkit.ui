@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Uno.Extensions;
 using Windows.Foundation;
 
 #if IS_WINUI
@@ -82,7 +84,17 @@ namespace Uno.Toolkit.UI
 				{
 					if (!_listStandIns.TryGetValue(list, out var standIn))
 					{
-						if (CreatePlaceholderList(list, count) is not { } placeholderList) continue;
+						if (CreatePlaceholderList(list, count) is not { } placeholderList)
+						{
+							// repeats on every pass, so Debug only: the list was opted in, the silence is otherwise puzzling
+							if (typeof(SkeletonView).Log().IsEnabled(LogLevel.Debug))
+							{
+								typeof(SkeletonView).Log().LogDebug(
+									"Skeleton.PlaceholderCount is set on a {Type}, which is not a supported list kind; no placeholder rows are generated.",
+									list.GetType().Name);
+							}
+							continue;
+						}
 
 						// never focusable (IsTabStop alone would leave its item containers as tab stops)
 						if (placeholderList is Control control)
@@ -132,7 +144,7 @@ namespace Uno.Toolkit.UI
 				if (element is FrameworkElement fe)
 				{
 					// same exclusions as placeholder collection: such elements are never walked into
-					if (Skeleton.GetIgnore(fe) || Skeleton.GetShape(fe) != SkeletonShape.Auto || IsSkeletonLeaf(fe)) continue;
+					if (Skeleton.GetIgnore(fe) || Skeleton.GetShape(fe) != SkeletonShape.Auto || IsSkeletonLeaf(fe) || IsNestedSkeleton(fe)) continue;
 
 					if (IsEmptyTemplatedList(fe))
 					{
@@ -189,7 +201,8 @@ namespace Uno.Toolkit.UI
 
 		private static ItemsControl CopyItemsControl(ItemsControl source, ItemsControl copy, int count)
 		{
-			if (source.Style is { } style)
+			// the copy is the base kind: a style targeting a subclass of the real list doesn't apply to it
+			if (source.Style is { } style && style.TargetType?.IsAssignableFrom(copy.GetType()) == true)
 			{
 				copy.Style = style;
 			}
@@ -255,7 +268,8 @@ namespace Uno.Toolkit.UI
 				standIn.OriginalMinHeightValue = list.MinHeight;
 			}
 
-			var minHeight = Math.Max(standIn.OriginalMinHeightValue, rowsHeight);
+			// MinHeight wins over MaxHeight in layout, so the cap is applied here; rows beyond it are clipped
+			var minHeight = Math.Min(Math.Max(standIn.OriginalMinHeightValue, rowsHeight), list.MaxHeight);
 			if (!IsClose(list.MinHeight, minHeight))
 			{
 				list.MinHeight = minHeight;
@@ -321,5 +335,8 @@ namespace Uno.Toolkit.UI
 		}
 
 		private static bool IsClose(double value, double expected) => Math.Abs(value - expected) <= LayoutTolerance;
+
+		private static bool IsClose(Rect value, Rect expected) =>
+			IsClose(value.X, expected.X) && IsClose(value.Y, expected.Y) && IsClose(value.Width, expected.Width) && IsClose(value.Height, expected.Height);
 	}
 }

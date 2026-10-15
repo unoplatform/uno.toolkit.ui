@@ -120,7 +120,7 @@ On a first load, a list has no items yet, so there are no rows to mirror. Set `u
 While loading, every `ItemsControl`, `ListView`, `GridView` and `ItemsRepeater` in the content that has an `ItemTemplate`, **no items**, and a `PlaceholderCount` (set on itself or an ancestor):
 
 - gets `PlaceholderCount` rows built from a private copy of the list (same `ItemTemplate`, `ItemContainerStyle`, `ItemsPanel`/`Layout`, `Style` and `Padding`) filled with `null` items, so bound values are empty and follow the [empty-value rules](#how-placeholders-are-generated);
-- **reserves the rows' space** when it is sized by its content (e.g. in an `Auto` row or a vertical `StackPanel`): its `MinHeight` is raised temporarily, so the content below it moves down as if the rows existed. A list that already has more space than it needs (e.g. stretched in a `*` row) keeps its size, and rows that don't fit are clipped. A list with an explicit `Height` is never resized;
+- **reserves the rows' space** when it is sized by its content (e.g. in an `Auto` row or a vertical `StackPanel`): its `MinHeight` is raised temporarily, up to its `MaxHeight`, so the content below it moves down as if the rows existed. A list that already has more space than it needs (e.g. stretched in a `*` row) keeps its size, and rows that don't fit are clipped. A list with an explicit `Height` is never resized;
 - goes back to normal once loading ends or its items arrive: the rows are dropped, its own items are mirrored instead, and its `MinHeight` (local value or binding) is restored.
 
 The list's `ItemsSource`, selection and position in the tree are never changed.
@@ -130,7 +130,7 @@ Notes:
 - The list needs a width: a list that is 0 wide (e.g. unconstrained in a horizontal `StackPanel`) gets no rows.
 - A list's `Header` and `Footer` are not mirrored; placeholder rows start at the top of the list.
 - `ItemTemplateSelector` is not used for placeholder rows: set `ItemTemplate`. The template must tolerate a `null` data context.
-- Other `ItemsControl`-derived controls (`ComboBox`, `FlipView`, custom subclasses of `ItemsControl`) don't get rows. Subclasses of `ListView` and `GridView` are treated as `ListView` and `GridView`.
+- Other `ItemsControl`-derived controls (`ComboBox`, `FlipView`, custom subclasses of `ItemsControl`) don't get rows; a `Debug` log entry says so. Subclasses of `ListView` and `GridView` are treated as `ListView` and `GridView`: a `Style` targeting the subclass is not applied to the placeholder copy.
 
 ### Appearance
 
@@ -179,7 +179,7 @@ The presenter's `Content` (if any) becomes the template's data context. Leave it
 
 ### Placeholder rows for lists
 
-A template typically contains a list whose items are not loaded yet. Every `ItemsControl` (including `ListView`/`GridView`) and `ItemsRepeater` in the instantiated template that has an `ItemTemplate` but no `ItemsSource` receives `utu:Skeleton.PlaceholderCount` dummy items, so the list realizes placeholder rows from its own `ItemTemplate`. This only ever affects the presenter's private copy of the template, never your live content.
+A template typically contains a list whose items are not loaded yet. Every `ItemsControl` (including `ListView`/`GridView`) and `ItemsRepeater` in the instantiated template that has an `ItemTemplate` but no items and no `ItemsSource` receives `utu:Skeleton.PlaceholderCount` dummy items, so the list realizes placeholder rows from its own `ItemTemplate`. This only ever affects the presenter's private instantiation of its `ContentTemplate`, never your live content: elements set directly as the presenter's `Content` are treated like the content of any `SkeletonView` (an empty list in them gets rows through [`PlaceholderCount`](#empty-lists) instead).
 
 `ItemTemplateSelector` is not used for placeholder rows: set `ItemTemplate`.
 
@@ -301,7 +301,7 @@ To derive the skeleton from a different, simpler template:
 Requirements and behavior:
 
 - The control must expose a public static `ProgressTemplateProperty` dependency property (field or property). `ValueTemplateProperty` is used as the default skeleton source. These are resolved by convention, using reflection, so the toolkit takes no dependency on the control's library.
-- A `ProgressTemplate` you assign yourself is never overwritten, and setting `IsEnabled` back to `false` only removes the template it injected.
+- A `ProgressTemplate` assigned locally on the control (in XAML or code) is never overwritten. One that comes from a style, such as `FeedView`'s default progress ring, is replaced, since that is what the injection is for. Setting `IsEnabled` back to `false` only removes the template it injected.
 - The injected template is the `SkeletonDefaultProgressTemplate` resource from the Uno Toolkit resources, which must be merged in your application resources (as for any Uno Toolkit control).
 - If the property cannot be found (unsupported control, or removed by trimming), nothing is injected and a warning is logged.
 - Injection only replaces the loading template, so it covers the *initial* load. On MVUX's `FeedView` it works, but prefer [`SkeletonFeedViewStyle`](#feedview-uno-extensions), which also covers refreshes.
@@ -340,6 +340,8 @@ These resources apply to both `SkeletonView` and `SkeletonPresenter`. Override t
 - **An element's `Opacity` is changed while loading.** Covered elements are hidden through `Opacity`, overriding values the app sets or animates on them during that time; the original value or binding is restored once loaded. Avoid driving `Opacity` of covered elements while loading.
 - **The skeleton always shows.** `IsLoading` defaults to `true`; bind it or set `Source`.
 - **Elements outside the control are not covered.** Placeholders are confined to the `SkeletonView`; wrap each area that loads.
+- **Nested skeletons own their content.** A `SkeletonView` (or `SkeletonPresenter`) inside the content is left alone: the outer view produces no placeholders for it, and each view hides and restores its own elements.
+- **Warnings in the log.** `Uno.Toolkit.UI.Skeleton` warns when `Skeleton.IsEnabled` targets a control without a `ProgressTemplate` property, or when the Uno Toolkit resources aren't merged; `Uno.Toolkit.UI.SkeletonPresenter` warns when no template can be resolved. Lists skipped for an unsupported kind are logged at `Debug` level.
 - **Virtualized lists** only produce placeholders for realized items, which is usually what fills the viewport.
 
 ## Samples

@@ -238,4 +238,37 @@ public class SkeletonListPlaceholderTests
 			rects[i].Left.Should().BeGreaterThan(rects[i - 1].Right, "items of a horizontal panel should be laid out side by side");
 		}
 	}
+
+	[TestMethod]
+	public async Task When_Empty_List_Has_MaxHeight_Rows_Clipped()
+	{
+		var list = new ListView { MaxHeight = 100, ItemTemplate = RowTemplate(), ItemsSource = new ObservableCollection<string>(), SelectionMode = ListViewSelectionMode.None };
+		Skeleton.SetPlaceholderCount(list, 6);
+		var sut = new SkeletonView { EnableShimmer = false, Content = new StackPanel { Width = 300, Children = { list } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		await WaitForPlaceholders(sut, x => x.Length > 0);
+
+		list.ActualHeight.Should().BeLessOrEqualTo(100 + Tolerance, "the reserved space should respect MaxHeight");
+		GetPlaceholderRects(sut).Should().OnlyContain(x => x.Bottom <= GetBounds(list, GetOverlay(sut)).Bottom + Tolerance, "rows beyond the list's bounds should be clipped");
+	}
+
+	[TestMethod]
+	public async Task When_ListView_Subclass_With_Own_Style_Gets_Rows()
+	{
+		// the stand-in is a plain ListView: a Style targeting the subclass must not be copied onto it
+		var style = new Style(typeof(StyledListView)) { Setters = { new Setter(FrameworkElement.MarginProperty, new Thickness(2)) } };
+		var list = new StyledListView { Style = style, ItemTemplate = RowTemplate(), ItemsSource = new ObservableCollection<string>(), SelectionMode = ListViewSelectionMode.None };
+		Skeleton.SetPlaceholderCount(list, 2);
+		var sut = new SkeletonView { EnableShimmer = false, Content = new StackPanel { Width = 300, Children = { list } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		await WaitForPlaceholders(sut, _ => GetAvatarRects(sut).Length == 2);
+
+		GetAvatarRects(sut).Should().HaveCount(2);
+	}
+
+	private sealed partial class StyledListView : ListView
+	{
+	}
 }
