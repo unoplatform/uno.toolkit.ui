@@ -196,6 +196,116 @@ public class DrawerFlyoutTests
 		}
 	}
 
+	[TestMethod]
+	public async Task Reopen_After_Hide_Starts_Closed()
+	{
+		var host = BuildButtonFlyout(DefaultDrawerFlyoutXaml);
+
+		try
+		{
+			var (drawer, overlay, transform) = await ShowAndWaitForOpenedDrawer(host);
+			var drawerLength = drawer.ActualHeight;
+
+			// Hide() closes the popup directly, without playing the closing animation.
+			host.Flyout.Hide();
+
+			// The drawer must not be left opened: on the next opening, the popup is rendered before the presenter gets to reset
+			// itself and start the opening animation, so the drawer would be visible in that state for a frame.
+			// This is checked without awaiting anything, since nothing guarantees that the popup isn't shown again right away.
+			Assert.AreEqual(drawerLength, transform.Y, 1d, "The drawer should be back to its closed position as soon as the popup is closed"); // within a pixel, for layout rounding
+			Assert.AreEqual(0d, overlay.Opacity, "The light-dismiss overlay should be transparent as soon as the popup is closed");
+
+			// And it is still closed at the time the popup is shown again, from where the opening animation plays as usual.
+			await WaitForFlyoutClosed();
+			host.Flyout.ShowAt(host);
+
+			Assert.AreEqual(drawerLength, transform.Y, 1d, "The drawer should be closed when the popup is shown again");
+			Assert.AreEqual(0d, overlay.Opacity, "The light-dismiss overlay should be transparent when the popup is shown again");
+
+			await UnitTestUIContentHelperEx.WaitFor(
+				() => transform.Y == 0 && overlay.Opacity == 1,
+				timeoutMS: 2000,
+				message: "Timeout waiting on the opening animation after reopening");
+		}
+		finally
+		{
+			host.Flyout.Hide();
+		}
+	}
+
+	[TestMethod]
+	public async Task Hide_Before_Opened_Stays_Closed()
+	{
+		var host = BuildButtonFlyout(DefaultDrawerFlyoutXaml);
+
+		try
+		{
+			var (drawer, overlay, transform) = await ShowAndWaitForOpenedDrawer(host);
+			var drawerLength = drawer.ActualHeight;
+
+			host.Flyout.Hide();
+			await WaitForFlyoutClosed();
+
+			// Showing then hiding the flyout back-to-back: the popup is closed again before its Opened event, which is raised
+			// asynchronously, gets to the presenter.
+			host.Flyout.ShowAt(host);
+			host.Flyout.Hide();
+
+			// The presenter must not open the drawer of a popup that is no longer open: it would be left opened,
+			// and be visible in that state for a frame on the next opening.
+			await UnitTestUIContentHelperEx.WaitForIdle();
+			await Task.Delay(500); // longer than the opening animation, which must not be played
+
+			Assert.AreEqual(drawerLength, transform.Y, 1d, "The drawer should stay in its closed position"); // within a pixel, for layout rounding
+			Assert.AreEqual(0d, overlay.Opacity, "The light-dismiss overlay should stay transparent");
+		}
+		finally
+		{
+			host.Flyout.Hide();
+		}
+	}
+
+	// A drawer flyout with the default open direction (Up): the drawer slides in from the bottom edge.
+	private const string DefaultDrawerFlyoutXaml = """
+		<Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource DrawerFlyoutPresenterStyle}">
+			<Border x:Name="FlyoutContentBorder" Background="SkyBlue">
+				<TextBlock Text="Asd" />
+			</Border>
+		</Flyout>
+		""";
+
+	private static async Task<(ContentPresenter Drawer, Border Overlay, TranslateTransform Transform)> ShowAndWaitForOpenedDrawer(Button host)
+	{
+		await UnitTestUIContentHelperEx.SetContentAndWait(host);
+		host.Flyout.ShowAt(host);
+
+		await UnitTestUIContentHelperEx.WaitFor(() => GetOpenPopupsCompat().Any(), message: "Timeout waiting on flyout open");
+
+		var popup = GetOpenPopup();
+		var child = popup.Child as FlyoutPresenter ?? throw new InvalidOperationException("FlyoutPresenter not found");
+		await UnitTestsUIContentHelper.WaitForLoaded(child);
+
+		var presenter = popup.Child.GetFirstDescendant<DrawerFlyoutPresenter>() ?? throw new InvalidOperationException("DrawerFlyoutPresenter not found");
+		var drawer = presenter.GetFirstDescendant<ContentPresenter>(DrawerFlyoutPresenter.TemplateParts.DrawerContentPresenter) ?? throw new InvalidOperationException("DrawerContentPresenter not found");
+		var overlay = presenter.GetFirstDescendant<Border>(DrawerFlyoutPresenter.TemplateParts.LightDismissOverlay) ?? throw new InvalidOperationException("LightDismissOverlay not found");
+		var transform = drawer.RenderTransform as TranslateTransform ?? throw new InvalidOperationException("DrawerContentPresenter is not translated");
+
+		// The drawer is fully opened once it is no longer translated, and the light-dismiss overlay is fully opaque.
+		await UnitTestUIContentHelperEx.WaitFor(
+			() => drawer.ActualHeight > 0 && transform.Y == 0 && overlay.Opacity == 1,
+			timeoutMS: 2000,
+			message: "Timeout waiting on the opening animation");
+
+		return (drawer, overlay, transform);
+	}
+
+	// note: the flyout ignores ShowAt() until it is done closing.
+	private static async Task WaitForFlyoutClosed()
+	{
+		await UnitTestUIContentHelperEx.WaitFor(() => !GetOpenPopupsCompat().Any(), message: "Timeout waiting on flyout close");
+		await UnitTestUIContentHelperEx.WaitForIdle();
+	}
+
 	private static Button BuildButtonFlyout(string flyoutXaml, string? header = null)
 	{
 		return XamlHelper.LoadXaml<Button>($$"""
