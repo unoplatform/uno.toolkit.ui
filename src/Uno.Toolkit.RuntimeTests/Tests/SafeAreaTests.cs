@@ -108,6 +108,51 @@ public partial class SafeAreaTests
 		public void Handle(int _) { }
 	}
 
+#if !WINDOWS_WINUI // SafeArea is not supported there (no VisibleBounds API)
+	[TestMethod]
+	public async Task SoftInput_ClaimsInputPaneOcclusion_OnlyForFocusedDescendant()
+	{
+		// Arrange
+		var inside = new TextBox();
+		var outside = new TextBox();
+		var softInputArea = new Grid { Children = { inside } };
+		SafeArea.SetInsets(softInputArea, SafeArea.InsetMask.SoftInput);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(new StackPanel { Children = { softInputArea, outside } });
+
+		var details = SafeArea.SafeAreaDetails.FindInstance(softInputArea) ?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+		// Act & Assert
+		inside.Focus(FocusState.Programmatic);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		Assert.IsTrue(details.TryClaimInputPaneOcclusion(isInputPaneVisible: true), "The SoftInput SafeArea should claim the occlusion for its focused descendant.");
+
+		outside.Focus(FocusState.Programmatic);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		Assert.IsFalse(details.TryClaimInputPaneOcclusion(isInputPaneVisible: true), "The SoftInput SafeArea should not claim the occlusion for an element it doesn't contain.");
+	}
+
+	[TestMethod]
+	public async Task VisibleBounds_DoesNotClaimInputPaneOcclusion()
+	{
+		// Arrange
+		var textBox = new TextBox();
+		var visibleBoundsArea = new Grid { Children = { textBox } };
+		SafeArea.SetInsets(visibleBoundsArea, SafeArea.InsetMask.VisibleBounds);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(visibleBoundsArea);
+
+		var details = SafeArea.SafeAreaDetails.FindInstance(visibleBoundsArea) ?? throw new InvalidOperationException("SafeAreaDetails not found");
+
+		// Act
+		textBox.Focus(FocusState.Programmatic);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		// Assert
+		Assert.IsFalse(details.TryClaimInputPaneOcclusion(isInputPaneVisible: true), "Only a SoftInput SafeArea keeps the focused element above the input pane.");
+	}
+#endif
+
 #if DEBUG && !__ANDROID__ && !WINDOWS_WINUI
 	[TestMethod]
 	[RequiresFullWindow]
