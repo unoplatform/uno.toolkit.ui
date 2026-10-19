@@ -151,7 +151,46 @@ public partial class SafeAreaTests
 		// Assert
 		Assert.IsFalse(details.TryClaimInputPaneOcclusion(isInputPaneVisible: true), "Only a SoftInput SafeArea keeps the focused element above the input pane.");
 	}
+
+#if DEBUG
+	[TestMethod]
+	public void SubPixelInsetChange_IsNotReapplied()
+	{
+		// Arrange: not in the visual tree, so that only the applied insets below set the margin (at a scale of 1).
+		var border = new Border();
+		SafeArea.SetMode(border, SafeArea.InsetMode.Margin);
+
+		var details = SafeArea.SafeAreaDetails.FindInstance(border) ?? throw new InvalidOperationException("SafeAreaDetails not found");
+		var applied = new List<Thickness>();
+		details.EffectiveInsetsApplied += (s, e) => applied.Add(e);
+
+		// Act: successive values differing by a float ulp, as computed from transformed bounds (unoplatform/uno#25529).
+		details.TestHook_ApplyInsets(new Thickness(0, 52.727272033691406, 0, 38.1768798828125));
+		details.TestHook_ApplyInsets(new Thickness(0, 52.727272033691406, 0, 38.17681884765625));
+		details.TestHook_ApplyInsets(new Thickness(0, 52.727272033691406, 0, 38.1767578125));
+
+		// Assert
+		Assert.AreEqual(1, applied.Count, $"The insets should only be applied once: {string.Join(", ", applied)}");
+		Assert.AreEqual(new Thickness(0, 53, 0, 38), border.Margin);
+	}
 #endif
+#endif
+
+	[TestMethod]
+	[DataRow(14.09527587890625, 2.625, 37d / 2.625)]
+	[DataRow(14.09533691406250, 2.625, 37d / 2.625)]
+	[DataRow(24d, 2.625, 24d)]
+	[DataRow(50.28571319580078, 2.625, 132d / 2.625)]
+	[DataRow(10.4, 1d, 10d)]
+	[DataRow(10.6, 1d, 11d)]
+	[DataRow(10.6, 0d, 11d)] // invalid scales fall back to 1
+	[DataRow(10.6, double.NaN, 11d)]
+	public void SnapToPhysicalPixels_RoundsToPhysicalPixels(double inset, double scale, double expected)
+	{
+		var snapped = SafeArea.SafeAreaDetails.SnapToPhysicalPixels(new Thickness(inset), scale);
+
+		Assert.AreEqual(new Thickness(expected), snapped);
+	}
 
 #if DEBUG && !__ANDROID__ && !WINDOWS_WINUI
 	[TestMethod]

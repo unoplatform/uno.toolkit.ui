@@ -271,6 +271,7 @@ namespace Uno.Toolkit.UI
 			internal static Rect TestHook_LastKnownVisibleBounds { get => s_lastKnownVisibleBounds; set => s_lastKnownVisibleBounds = value; }
 			internal static bool TestHook_BoundsTransitionPending { get => s_boundsTransitionPending; set => s_boundsTransitionPending = value; }
 			internal void TestHook_InvokeUpdateInsets(bool forceUpdate = false) => UpdateInsets(forceUpdate);
+			internal void TestHook_ApplyInsets(Thickness insets) => ApplyInsets(insets);
 #endif
 
 			// Track the last-known Window.Bounds and VisibleBounds to detect race conditions
@@ -808,7 +809,10 @@ namespace Uno.Toolkit.UI
 				{
 					return;
 				}
-				else if (_insetMode == InsetMode.Padding)
+
+				insets = SnapToPhysicalPixels(insets, owner.XamlRoot?.RasterizationScale ?? 1d);
+
+				if (_insetMode == InsetMode.Padding)
 				{
 					if (owner.TryUpdatePadding(insets))
 					{
@@ -831,6 +835,25 @@ namespace Uno.Toolkit.UI
 					InsetsApplied?.Invoke(this, insets);
 #endif
 				}
+			}
+
+			/// <summary>
+			/// Rounds the insets to physical pixels, the finest they can be rendered at.
+			/// </summary>
+			/// <remarks>
+			/// The insets are computed from transformed bounds (in float precision) and applied from LayoutUpdated: compared exactly,
+			/// sub-pixel noise in them would invalidate the layout on every pass, and it would never settle.
+			/// </remarks>
+			internal static Thickness SnapToPhysicalPixels(Thickness insets, double scale)
+			{
+				if (!double.IsFinite(scale) || scale <= 0)
+				{
+					scale = 1;
+				}
+
+				return new Thickness(Snap(insets.Left), Snap(insets.Top), Snap(insets.Right), Snap(insets.Bottom));
+
+				double Snap(double value) => Math.Round(value * scale) / scale;
 			}
 
 			private void OnInsetsApplied(Thickness newInsets)
