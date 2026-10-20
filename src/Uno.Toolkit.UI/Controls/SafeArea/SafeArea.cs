@@ -298,6 +298,7 @@ namespace Uno.Toolkit.UI
 			internal static Rect TestHook_LastKnownVisibleBounds { get => s_lastKnownVisibleBounds; set => s_lastKnownVisibleBounds = value; }
 			internal static bool TestHook_BoundsTransitionPending { get => s_boundsTransitionPending; set => s_boundsTransitionPending = value; }
 			internal void TestHook_InvokeUpdateInsets(bool forceUpdate = false) => UpdateInsets(forceUpdate);
+			internal void TestHook_ApplyInsets(Thickness insets) => ApplyInsets(insets);
 #endif
 
 			// Track the last-known Window.Bounds and VisibleBounds to detect race conditions
@@ -318,6 +319,7 @@ namespace Uno.Toolkit.UI
 			private Thickness _appliedMargin = new Thickness(0);
 			private readonly CompositeDisposable _subscriptions = new();
 			private ScrollViewer? _scrollAncestor;
+			private UIElement? _pendingBringIntoView;
 
 			internal SafeAreaDetails(FrameworkElement owner)
 			{
@@ -362,6 +364,13 @@ namespace Uno.Toolkit.UI
 			private void OnOwnerLayoutUpdated(object? sender, object e)
 			{
 				UpdateInsets(forceUpdate: false);
+
+				if (_pendingBringIntoView is { } focused && Owner is { } owner)
+				{
+					// The padding for the input pane has been laid out: the inner scrollers can now bring the focused element into view.
+					_pendingBringIntoView = null;
+					owner.GetDispatcherCompat().Schedule(() => BringFocusedElementIntoView(focused));
+				}
 			}
 
 			private void OnInsetUpdateRequired(object? sender, object? args)
@@ -461,8 +470,70 @@ namespace Uno.Toolkit.UI
 			{
 				if (HasSoftInput())
 				{
+					if (TryClaimInputPaneOcclusion(sender.Visible))
+					{
+						// This SafeArea keeps the focused element above the input pane: tell the framework, so that it doesn't
+						// also bring it into view by scrolling the root content up. The InputPane reads this flag after raising
+						// Showing/Hiding, and the two adjustments together would never settle (unoplatform/uno#25529).
+						args.EnsuredFocusedElementInView = true;
+					}
+
 					UpdateInsets();
 				}
+			}
+
+			/// <summary>
+			/// Claims the input pane occlusion when the focused element is within this SoftInput SafeArea, which pads it above the pane.
+			/// </summary>
+			/// <param name="isInputPaneVisible">Whether the input pane is showing (or hiding).</param>
+			/// <returns>True if this SafeArea handles the occlusion for the focused element.</returns>
+			internal bool TryClaimInputPaneOcclusion(bool isInputPaneVisible)
+			{
+				if (!HasSoftInput() || GetFocusedDescendant() is not { } focused)
+				{
+					return false;
+				}
+
+				// Claiming the occlusion also skips the framework bringing the focused element into view, which the inner
+				// scrollers still need: do it once the padding has been laid out.
+				_pendingBringIntoView = isInputPaneVisible ? focused : null;
+
+				if (_log.IsEnabled(LogLevel.Debug))
+				{
+					_log.LogDebug($"Claimed the input pane occlusion for {focused.GetType().Name} (visible={isInputPaneVisible})");
+				}
+
+				return true;
+			}
+
+			private UIElement? GetFocusedDescendant()
+			{
+				if (Owner is { XamlRoot: { } xamlRoot } owner
+					&& FocusManager.GetFocusedElement(xamlRoot) is UIElement focused
+					&& focused.GetAncestors(includeCurrent: true).Contains(owner))
+				{
+					return focused;
+				}
+
+				return null;
+			}
+
+			// WinUI's ExtraPixelsForBringIntoView: the margin kept between the focused element and the input pane.
+			private const double ExtraPixelsForBringIntoView = 20;
+
+			// The same request as the framework's own, which claiming the occlusion skips. Only the inner scrollers react to it,
+			// as the root content isn't constrained by the input pane once the occlusion is claimed.
+			private static void BringFocusedElementIntoView(UIElement focused)
+			{
+				var size = focused.RenderSize;
+				var targetRect = new Rect(0, 0, size.Width, size.Height);
+				if (InputPane.GetForCurrentView() is { Visible: true } inputPane
+					&& size.Height + (2 * ExtraPixelsForBringIntoView) <= inputPane.OccludedRect.Y)
+				{
+					targetRect = new Rect(0, -ExtraPixelsForBringIntoView, size.Width, size.Height + (2 * ExtraPixelsForBringIntoView));
+				}
+
+				focused.StartBringIntoView(new BringIntoViewOptions { AnimationDesired = false, TargetRect = targetRect });
 			}
 
 			/// <summary>
@@ -762,7 +833,10 @@ namespace Uno.Toolkit.UI
 				{
 					return;
 				}
-				else if (_insetMode == InsetMode.Padding)
+
+				insets = SnapToPhysicalPixels(insets, owner.XamlRoot?.RasterizationScale ?? 1d);
+
+				if (_insetMode == InsetMode.Padding)
 				{
 					if (owner.TryUpdatePadding(insets))
 					{
@@ -787,7 +861,30 @@ namespace Uno.Toolkit.UI
 				}
 			}
 
+<<<<<<< HEAD
 			private void OnInsetsApplied(FrameworkElement owner, Thickness newInsets)
+=======
+			/// <summary>
+			/// Rounds the insets to physical pixels, the finest they can be rendered at.
+			/// </summary>
+			/// <remarks>
+			/// The insets are computed from transformed bounds (in float precision) and applied from LayoutUpdated: compared exactly,
+			/// sub-pixel noise in them would invalidate the layout on every pass, and it would never settle.
+			/// </remarks>
+			internal static Thickness SnapToPhysicalPixels(Thickness insets, double scale)
+			{
+				if (!double.IsFinite(scale) || scale <= 0)
+				{
+					scale = 1;
+				}
+
+				return new Thickness(Snap(insets.Left), Snap(insets.Top), Snap(insets.Right), Snap(insets.Bottom));
+
+				double Snap(double value) => Math.Round(value * scale) / scale;
+			}
+
+			private void OnInsetsApplied(Thickness newInsets)
+>>>>>>> 6496c40 (fix(safearea): snap the insets to physical pixels)
 			{
 				if (_log.IsEnabled(LogLevel.Debug))
 				{
