@@ -17,11 +17,11 @@ internal static class GuestHostingSmoke
 	// retention and residual WASM roots are documented, accepted limitations (see
 	// specs/toolkit-wrapper/progress.md), so those configurations report reclamation
 	// without failing on it.
-#if DEBUG || __WASM__
+	//
+	// Release desktop is temporarily in the same bucket: from Uno 7.0.0-dev.2285, some guest
+	// ALCs stay alive after unload on Win32 and Linux (unoplatform/uno-private#2469). Once that
+	// is fixed, make it authoritative again (true outside DEBUG/__WASM__).
 	private static readonly bool _reclamationIsAuthoritative = false;
-#else
-	private static readonly bool _reclamationIsAuthoritative = true;
-#endif
 
 	private static readonly ILogger _logger =
 		global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory.CreateLogger("Uno.Toolkit.WrapperApp.GuestHosting.GuestHostingSmoke");
@@ -196,7 +196,7 @@ internal static class GuestHostingSmoke
 			return false;
 		}
 
-		_logger.LogWarning("[HOSTING-SMOKE] Previous guest ALC not reclaimed — expected on Debug/WASM (documented root retention), not failing the smoke.");
+		_logger.LogWarning("[HOSTING-SMOKE] Previous guest ALC not reclaimed — expected on Debug/WASM (documented root retention) and, until unoplatform/uno-private#2469 is fixed, on Release desktop; not failing the smoke.");
 		return true;
 	}
 }

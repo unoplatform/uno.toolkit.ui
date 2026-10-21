@@ -580,9 +580,12 @@ internal sealed partial class GuestAppLoader
 
 #if !DEBUG && !__WASM__
 		// Uno's binding type resolver can find unloaded-but-not-collected assemblies
-		// (unoplatform/uno#24581). Booting now can bind the new app to the old types and
-		// pin both ALCs. Leave the host empty and allow the user to retry loading.
-		throw new GuestAppLoadException("The previous app's assemblies have not been reclaimed. Try loading the app again after cleanup finishes.");
+		// (unoplatform/uno#24581), so booting now can bind the new app to the old types and
+		// pin both ALCs. From Uno 7.0.0-dev.2285 some guest ALCs are never reclaimed
+		// (unoplatform/uno-private#2469), and refusing to boot would leave the host stuck on
+		// that guest. Boot anyway; once #2469 is fixed, restore the GuestAppLoadException
+		// that left the host empty here.
+		_logger.LogWarning("The previous app's assemblies have not been reclaimed (unoplatform/uno-private#2469); loading the next app anyway.");
 #endif
 	}
 
