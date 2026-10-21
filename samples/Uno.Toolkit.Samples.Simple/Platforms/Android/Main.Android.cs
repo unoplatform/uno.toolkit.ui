@@ -20,7 +20,7 @@ namespace Uno.Toolkit.Samples.Droid;
     Theme = "@style/Theme.App.Starting"
 )]
 public class Application(IntPtr javaReference, JniHandleOwnership transfer)
-	: NativeApplication(javaReference, transfer)
+	: Uno.UI.Runtime.Android.NativeApplication(javaReference, transfer)
 {
     static Application()
     {
