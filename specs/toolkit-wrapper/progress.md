@@ -178,3 +178,56 @@ the Uno version and Lottie sharing documentation with the existing implementatio
 
 WASM collection remains diagnostic, and full sample builds still emit the warnings
 documented above. Those limitations are not hidden by the successful CI result.
+
+## Uno 7.0.0-dev.2285 retarget (2026-10-21)
+
+Uno `7.0.0-dev.1664` removed the `Uno.WinUI.Lottie` package (unoplatform/uno#25117);
+`LottieVisualSource` now ships in `Uno.UI`. Uno.Themes moved past it in
+unoplatform/Uno.Themes#1760, and Toolkit follows with Uno.Sdk `7.0.0-dev.2285` and
+Uno.Themes `9.0.0-dev.56`. Themes `9.0.0-dev.37` still depended on `Uno.WinUI.Lottie`, which
+`Uno.Toolkit.WinUI.Material` / `.Cupertino` passed on to consumers.
+
+- No Release guest ships `Uno.UI.Lottie` any more, so the `!Uno.UI.Lottie` rule was removed
+  from `GuestSharedAssemblies.txt`.
+- Sample heads: Android host base types come from `Uno.UI.Runtime.Android`, and
+  `UnoSplashScreen` uses `BackgroundColor` (`Uno.Resizetizer0001`).
+
+### Not fixed (upstream): hosted ProgressRing animations never load
+
+Same as Uno.Themes' `specs/05-alc-wrapper-app/upstream-issues.md` § 6: `Uno.UI` resolves
+`embedded://uno.material.winui/...` with `Assembly.Load` from the default ALC, which cannot see
+the guest's isolated theme assembly (`FileNotFoundException`, `Failed to load animation`).
+This is not a regression: `main` (`7.0.0-dev.1574`, with the `!Uno.UI.Lottie` rule) logs the
+same two failures for hosted Material. Standalone heads are unaffected.
+
+### Not fixed (upstream): a reloaded guest's ALC is not reclaimed (uno-private#2469)
+
+On Win32 Release, the smoke fails at "Reloading Cupertino": the previous Cupertino ALC stays
+alive through all five collection passes. Deterministic: `main` passes 2/2, the branch and the
+dependency-bump commit alone fail 2/2. Uno.Themes sees the same retention on Linux
+(unoplatform/uno-private#2469).
+
+Unlike Themes, the Toolkit loader refused to boot while the previous ALC was alive (the
+uno#24581 guard above), so the wrapper got stuck rather than only failing the reclamation
+check. Until #2469 is fixed:
+
+- `GuestAppLoader.CollectPreviousAlcBeforeLoadAsync` logs a warning and boots the next guest,
+  accepting the uno#24581 stale-type risk in the sample wrapper.
+- `GuestHostingSmoke` treats reclamation as warning-only on Release desktop too. Loading,
+  switching, failure preservation and unloading stay gated.
+
+Restore both (the `GuestAppLoadException` and authoritative reclamation outside Debug/WASM)
+once #2469 is fixed.
+
+### Verification
+
+- Desktop Release solution build: 0 errors, libraries warning-free. Remaining warnings are the
+  existing sample nullable warnings and `UXAML0007` from the runtime-test engine.
+- Material runtime suite (Skia desktop, Release): 957 passed, 0 failed, the same as `main`.
+- Android heads (Debug) and iOS/Windows libraries build. The two `WMC1500` warnings in the
+  Windows Material library are also present on `main`.
+- Packed `Uno.Toolkit.WinUI.Material` depends on `Uno.Material.WinUI 9.0.0-dev.56` and
+  `Uno.WinUI 7.0.0-dev.2285`, with no `Uno.WinUI.Lottie`.
+- Standalone Material, Cupertino and Simple heads launch without errors. Win32 hosting smoke
+  passes 2/2 with the change above.
+- Not run locally: the Linux hosting smoke (CI), WASM.
