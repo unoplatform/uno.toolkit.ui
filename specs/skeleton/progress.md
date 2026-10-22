@@ -147,6 +147,30 @@ Scope: `origin/main..HEAD` (11 commits, 17 files). Six targeted reviews (quality
 - `TransformToVisual` cannot throw on Uno for non-live/non-ancestor targets (identity/root-inverse); same-tree invariant holds at every call site. `Binding` instance reuse in `PropertyValue.Restore` is legal on WinUI and Uno. `LayoutUpdated` hook/unhook is symmetric. No async code. Logging matches `LoadingView`'s `typeof(X).Log()` pattern. No enum in the library declares an underlying type. `IsLoading` default `true` matches `LoadingView` (`Source?.IsExecuting ?? true`).
 - `specs/lessons.md`: no correction this phase, nothing to add.
 
+## Phase 10 — PR review follow-up (2026-10-22)
+
+Scope: the findings posted on #1669 (review 5619702536) plus the two inline review comments from the maintainer. Red/fix/green per item; headless on the Material desktop head. Not fixable from macOS: a WinUI run (gating item 1); not decided here: shipping the injection API without a consumer (decision B).
+
+- [x] Maintainer comments: typed `FindDependencyProperty<DataTemplate>` lookups in `Skeleton` (`logMissing` threaded through the typed overload, whose log token printed `RuntimeType`); stand-ins no longer copy `ItemTemplateSelector`/`ItemContainerStyleSelector`
+- [x] Placeholders clipped to their clipping ancestors (`ScrollContentPresenter` viewport, explicit `UIElement.Clip`) and to the overlay; a clipped circle becomes a rectangle, a fully clipped leaf gets none. One memoized visible area per visited element per pass (`GetVisibleArea`), so a leaf costs one lookup. Stand-in rows are clipped to the real list's visible area too
+- [x] `LayoutUpdated` stays hooked for the whole loading period; `SameGeometry` short-circuits the rebuild
+- [x] `FindContentRoot`: the direct jump is validated by walking back up to the container (collapsed chrome, or content not under the container yet, means nothing is mirrored); the BFS skips collapsed nodes
+- [x] `ProgressExtensions.IsActive` drives the shimmer (`SetProgressActive`, pushed on change) and a view reads the nearest ancestor's local value when it loads (`ReadProgressActivity`), so a `SkeletonPresenter` in `LoadingView.LoadingContent` stops once loaded, including when the view is already loaded when the slot materializes. `LoadingView.xaml` drops the no-op `IsActive="false"` literal on its content presenter, which the pull would otherwise read
+- [x] Input/value controls are leaves (`IsInputControl`: `RangeBase`, `ProgressRing`, `ToggleSwitch`, `TextBox`, `PasswordBox`, `RichEditBox`, `AutoSuggestBox`, `ComboBox`, `DatePicker`, `TimePicker`, `CalendarDatePicker`, `CalendarView`, `NumberBox`, `RatingControl`, `ColorPicker`). A blanket "every non-content `Control`" rule was rejected: it would flatten `Card`, `ResponsiveView`, `SplitView`, `TabView`
+- [x] Decision A: `Skeleton.PlaceholderCount` default `0`; `TryGetInheritedPlaceholderCount` takes the nearest ancestor with a local value or a non-zero effective value (Style setters work, an explicit `0` vetoes); `SkeletonPresenter.DefaultPlaceholderCount` (`4`, public const) replaces the owner-first lookup
+- [x] `OnUnloaded` restores hidden elements and stand-ins and clears the overlay (`OnLoaded` regenerates); the overlay is `AccessibilityView=Raw`
+- [x] `SkeletonPresenter`: owner lookup excludes self; stamping stops at nested skeletons
+- [x] Unused using removed. CodeQL's `Where()` suggestions not applied: explicit loops in the per-pass path, no behavior difference
+- [x] Tests: 18 added (58 skeleton tests). Red before the fix: `When_Scrolled_List_Placeholders_Clipped_To_Viewport` (rows at y = -59.5 and 183.5 for a list spanning 0..130), `When_Items_Arrive_In_Fixed_Size_List_While_Loading`, `When_Input_Controls_Are_Leaves` (12 placeholders for 3 controls), `When_LoadingView_Loaded_Skeleton_Shimmer_Stops`, `When_LoadingView_Already_Loaded_Skeleton_Shimmer_Suspended`, `When_Unloaded_While_Loading_Content_Restored`, `When_ProgressTemplate_Not_A_DataTemplate_Injection_Skipped`, `When_PlaceholderCount_Not_Set_Getter_Reports_Zero`, `When_PlaceholderCount_From_Style_Applies`. Green before the fix, kept as guards: `When_Container_Chrome_Collapsed_Content_Not_Mirrored` (Skia leaves the collapsed content unparented), `When_Stand_In_Does_Not_Use_Container_Style_Selector` (Skia's `ListView` never called the selector; the crash is WinUI's), the coverage gaps (`Shape=Rectangle`, `GridView`, `PlaceholderCount=0` veto, `ShimmerBrush=null`, `Source` reassignment, `IsEnabled` on a `Border`, a skeleton in a `LoadingView`'s content slot)
+- [x] Docs: generation rules (leaves, chrome, clipping, regeneration), empty-list selectors, presenter in a hidden slot, `PlaceholderCount` default and Style support, keyboard-focus limitation; `progress-extensions.md` lists `SkeletonView`
+- [x] 58/58 skeleton runtime tests pass headless (Material desktop). Release: `Uno.Toolkit.WinUI` zero warnings; `Uno.Toolkit.RuntimeTests` only the 2 `UXAML0007` from the engine package; Material head only pre-existing sample-app warnings. `Generated/mergedpages.xaml` restored after the Release build
+
+Not done, with reason:
+
+- Keyboard focus guard: cancelling `GettingFocus` leaves Tab stuck on the previous element (WinUI keeps focus where it is), `IsEnabled=false` on the view would restyle visible container chrome, and per-control `IsTabStop` capture is a third captured property. Same gap as `LoadingView`; documented in troubleshooting instead.
+- `NoWarn CS8602` in the Markup csproj: no upstream issue exists yet (searched uno.extensions); filing one is for the author.
+- WinUI run: not possible from this machine; still the gating item.
+
 ## Notes for future work
 
 - Headless runtime tests locally need **both** `UNO_RUNTIME_TESTS_RUN_TESTS` and `UNO_RUNTIME_TESTS_OUTPUT_PATH` env vars in addition to `--runtime-tests=<path>`; with only the filter var set, the app idles at the runner UI and never starts.
