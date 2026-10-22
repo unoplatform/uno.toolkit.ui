@@ -19,6 +19,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
+using NumberBox = Microsoft.UI.Xaml.Controls.NumberBox;
+using RatingControl = Microsoft.UI.Xaml.Controls.RatingControl;
 #endif
 
 namespace Uno.Toolkit.UI
@@ -87,11 +89,15 @@ namespace Uno.Toolkit.UI
 		private readonly List<(TranslateTransform Transform, double OffsetX, double BandWidth)> _shimmerBands = new();
 		private List<PlaceholderInfo> _lastPlaceholders = new();
 		private readonly Dictionary<FrameworkElement, PropertyValue> _hiddenElements = new();
+		// Per generation pass: the area of the overlay within which each visited element's descendants are visible.
+		private readonly Dictionary<DependencyObject, Rect> _visibleAreas = new();
 		private ContentPresenter? _contentPresenter;
 		private Canvas? _overlay;
 		private Storyboard? _shimmerStoryboard;
 		private bool _isReady;
 		private bool _isWaitingForContent;
+		// Set through ProgressExtensions.IsActive by a host whose loading slot is hidden (e.g. a loaded LoadingView).
+		private bool _isProgressInactive;
 
 		/// <summary>Initializes a new instance of the <see cref="SkeletonView"/> class.</summary>
 		public SkeletonView()
@@ -141,14 +147,57 @@ namespace Uno.Toolkit.UI
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			BindSource();
+			ReadProgressActivity();
 			UpdateSkeletonState();
 		}
 
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
 			_sourceSubscription.Disposable = null;
-			StopShimmer();
 			UnhookLayoutUpdated();
+
+			// The content is left as it was found: an element reparented elsewhere must not stay hidden, and a list
+			// must not keep a raised MinHeight. OnLoaded regenerates.
+			StopShimmer();
+			ClearOverlay();
+			RestoreHiddenElements();
+			RemoveListStandIns();
+		}
+
+		/// <summary>
+		/// Follows <see cref="ProgressExtensions.IsActiveProperty"/> set on an ancestor: an inactive host (e.g. a
+		/// <see cref="LoadingView"/> whose loading slot is hidden once loaded) suspends the shimmer, which would
+		/// otherwise keep animating out of sight.
+		/// </summary>
+		internal void SetProgressActive(bool isActive)
+		{
+			if (_isProgressInactive == !isActive) return;
+
+			_isProgressInactive = !isActive;
+			if (_isProgressInactive)
+			{
+				StopShimmer();
+			}
+			else
+			{
+				StartShimmerIfNeeded();
+			}
+		}
+
+		// ProgressExtensions only pushes changes to the descendants present at that time: a view materializing
+		// in an already inactive host reads the state of the nearest ancestor that sets it.
+		private void ReadProgressActivity()
+		{
+			foreach (var ancestor in this.GetAncestors(includeCurrent: false))
+			{
+				if (ancestor is FrameworkElement host && host.ReadLocalValue(ProgressExtensions.IsActiveProperty) != DependencyProperty.UnsetValue)
+				{
+					SetProgressActive(ProgressExtensions.GetIsActive(host));
+					return;
+				}
+			}
+
+			SetProgressActive(true);
 		}
 
 		protected override void OnContentChanged(object oldContent, object newContent)
@@ -294,6 +343,11 @@ namespace Uno.Toolkit.UI
 		{
 			if (_overlay is null || _contentPresenter is null) return;
 
+			// Content changes without resizing the presenter or the overlay (rows arriving in a fixed-size list,
+			// recycled containers, placeholder rows realizing): every layout pass while loading is a chance to catch
+			// up, and SameGeometry keeps a pass where nothing moved down to a walk. Unhooked once loaded or unloaded.
+			HookLayoutUpdated();
+
 			// Before the size check: prepared content (e.g. placeholder rows in an empty list) is often
 			// what gives an unconstrained control its size in the first place.
 			PrepareSkeletonContent(_contentPresenter);
@@ -304,32 +358,16 @@ namespace Uno.Toolkit.UI
 			if (_overlay.ActualWidth < EmptySizeThreshold || _overlay.ActualHeight < EmptySizeThreshold)
 			{
 				// not laid out yet
-				if (_listStandIns.Count > 0)
-				{
-					HookLayoutUpdated();
-				}
 				return;
 			}
 
+			_visibleAreas.Clear();
 			var placeholders = new List<PlaceholderInfo>();
 			CollectPlaceholders(_contentPresenter, placeholders);
 
 			// Only the elements covered by a placeholder are hidden: ignored elements and container
 			// backgrounds (e.g. a card's border) stay visible while loading.
 			HideCoveredElements(placeholders);
-
-			// Content that materializes asynchronously (e.g. list containers realized for injected placeholder
-			// items) can appear without resizing the presenter or the overlay; while loading yields nothing,
-			// retry on layout activity until something materializes. Likewise while lists are stood in for: their
-			// placeholder rows, or the real items replacing them, realize without necessarily resizing anything.
-			if (placeholders.Count == 0 || _listStandIns.Count > 0)
-			{
-				HookLayoutUpdated();
-			}
-			else
-			{
-				UnhookLayoutUpdated();
-			}
 
 			if (SameGeometry(placeholders, _lastPlaceholders))
 			{
@@ -409,13 +447,19 @@ namespace Uno.Toolkit.UI
 			// direct UIElement content is its own root; otherwise fall back to the template's ContentPresenter.
 			if ((container.ContentTemplateRoot ?? container.Content as UIElement) is { } root)
 			{
-				return root;
+				// Jumping over the chrome must not jump over collapsed chrome (e.g. a collapsed Expander's content),
+				// nor land on content that isn't under the container yet.
+				return IsVisibleDescendant(root, container) ? root : null;
 			}
 
 			var pending = new Queue<DependencyObject>(container.GetChildren());
 			while (pending.Count > 0)
 			{
 				var current = pending.Dequeue();
+				if (current is UIElement { Visibility: Visibility.Collapsed })
+				{
+					continue;
+				}
 				if (current is ContentPresenter presenter)
 				{
 					return presenter;
@@ -433,8 +477,28 @@ namespace Uno.Toolkit.UI
 			return null;
 		}
 
+		private static bool IsVisibleDescendant(UIElement element, DependencyObject ancestor)
+		{
+			for (var current = VisualTreeHelper.GetParent(element); current is { }; current = VisualTreeHelper.GetParent(current))
+			{
+				if (ReferenceEquals(current, ancestor)) return true;
+				if (current is UIElement { Visibility: Visibility.Collapsed }) return false;
+			}
+
+			return false;
+		}
+
 		private static bool IsSkeletonLeaf(UIElement element)
-			=> element is TextBlock or Image or Shape or ButtonBase;
+			=> element is TextBlock or Image or Shape or ButtonBase || IsInputControl(element);
+
+		// Controls whose value is their own chrome: one placeholder covers the whole control, the same on every
+		// platform (a TextBox hosts a TextBlock on Skia but renders its text natively on WinUI). RangeBase also
+		// matches ScrollBar, which only ever appears in a ScrollViewer's chrome, and chrome is never walked.
+		private static bool IsInputControl(UIElement element)
+			=> element is RangeBase or ProgressRing or ToggleSwitch
+				or TextBox or PasswordBox or RichEditBox or AutoSuggestBox or ComboBox
+				or DatePicker or TimePicker or CalendarDatePicker or CalendarView
+				or NumberBox or RatingControl or ColorPicker;
 
 		// A nested skeleton view hides and restores its own content: walking into it would capture its hidden state as
 		// the original, and mirror its leaves twice.
@@ -500,9 +564,55 @@ namespace Uno.Toolkit.UI
 					diameter);
 			}
 
-			info = new PlaceholderInfo(bounds, isCircle, element);
+			// Only what the user can see is mirrored: a row scrolled half out of its list gets half a placeholder, a
+			// row realized ahead of the viewport gets none (and a clipped circle is no longer one).
+			var visible = bounds;
+			visible.Intersect(GetVisibleArea(element));
+			if (visible.IsEmpty || visible.Width < EmptySizeThreshold || visible.Height < EmptySizeThreshold) return false;
+
+			info = new PlaceholderInfo(visible, isCircle && visible == bounds, element);
 			return true;
 		}
+
+		// The area of the overlay within which the element (and its descendants) can be seen: the overlay's bounds,
+		// narrowed by every scrolling viewport and explicit Clip on the way up to the content presenter (for content)
+		// or the overlay (for stand-in rows). Memoized per pass, so a leaf costs one lookup for its parent. Empty when
+		// the element is not under either.
+		private Rect GetVisibleArea(DependencyObject element)
+		{
+			if (_visibleAreas.TryGetValue(element, out var area)) return area;
+
+			if (_overlay is null)
+			{
+				area = Rect.Empty;
+			}
+			else if (ReferenceEquals(element, _overlay) || ReferenceEquals(element, _contentPresenter))
+			{
+				area = new Rect(0, 0, _overlay.ActualWidth, _overlay.ActualHeight);
+			}
+			else if (VisualTreeHelper.GetParent(element) is not { } parent)
+			{
+				area = Rect.Empty;
+			}
+			else
+			{
+				area = GetVisibleArea(parent);
+				if (!area.IsEmpty && element is UIElement ui && GetOwnClip(ui) is { } clip)
+				{
+					area.Intersect(ui.TransformToVisual(_overlay).TransformBounds(clip));
+				}
+			}
+
+			_visibleAreas[element] = area;
+			return area;
+		}
+
+		private static Rect? GetOwnClip(UIElement element) => element switch
+		{
+			{ Clip: RectangleGeometry geometry } => geometry.Rect,
+			ScrollContentPresenter viewport => new Rect(0, 0, viewport.ActualWidth, viewport.ActualHeight),
+			_ => (Rect?)null,
+		};
 
 		// The space the layout granted the element (its margin excluded), in overlay coordinates.
 		private bool TryGetLayoutSlotBounds(FrameworkElement element, out Rect bounds)
@@ -605,9 +715,12 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+		// Test seam: whether the shimmer storyboard is currently playing.
+		internal bool IsShimmerRunning => _shimmerStoryboard is { };
+
 		private void StartShimmerIfNeeded()
 		{
-			if (!EnableShimmer || !IsLoading || !IsLoaded) return;
+			if (!EnableShimmer || !IsLoading || !IsLoaded || _isProgressInactive) return;
 			if (_shimmerStoryboard is { } || _shimmerBands.Count == 0 || _overlay is null) return;
 
 			// Each band is animated in its host placeholder's coordinate space with offsets such that
@@ -642,6 +755,7 @@ namespace Uno.Toolkit.UI
 		{
 			_shimmerBands.Clear();
 			_lastPlaceholders.Clear();
+			_visibleAreas.Clear();
 			if (_overlay is { } overlay)
 			{
 				// the stand-in host stays: recreating it would re-realize its placeholder rows on every pass

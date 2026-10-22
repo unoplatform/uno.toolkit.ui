@@ -268,6 +268,88 @@ public class SkeletonListPlaceholderTests
 		GetAvatarRects(sut).Should().HaveCount(2);
 	}
 
+	[TestMethod]
+	public async Task When_Empty_GridView_Generates_Rows()
+	{
+		var grid = new GridView { ItemTemplate = RowTemplate(), ItemsSource = new ObservableCollection<string>(), SelectionMode = ListViewSelectionMode.None };
+		Skeleton.SetPlaceholderCount(grid, 2);
+		var sut = new SkeletonView { EnableShimmer = false, Content = new StackPanel { Width = 300, Children = { grid } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		await WaitForPlaceholders(sut, _ => GetAvatarRects(sut).Length == 2);
+
+		GetAvatarRects(sut).Should().HaveCount(2);
+	}
+
+	[TestMethod]
+	public async Task When_PlaceholderCount_Zero_On_List_Vetoes_Ancestor()
+	{
+		var list = new ListView { ItemTemplate = RowTemplate(), ItemsSource = new ObservableCollection<string>(), SelectionMode = ListViewSelectionMode.None };
+		Skeleton.SetPlaceholderCount(list, 0);
+		var root = new StackPanel { Width = 300, Children = { new TextBlock { Text = "title" }, list } };
+		Skeleton.SetPlaceholderCount(root, 3);
+		var sut = new SkeletonView { EnableShimmer = false, Content = root };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		GetAvatarRects(sut).Should().BeEmpty("an explicit 0 on the list wins over the ancestor's count");
+		GetPlaceholderRects(sut).Should().HaveCount(1);
+	}
+
+	[TestMethod]
+	public void When_PlaceholderCount_Not_Set_Getter_Reports_Zero()
+	{
+		Skeleton.GetPlaceholderCount(new ListView()).Should().Be(0, "a list without a count gets no rows, and the getter says so");
+	}
+
+	[TestMethod]
+	public async Task When_PlaceholderCount_From_Style_Applies()
+	{
+		var style = new Style(typeof(ListView)) { Setters = { new Setter(Skeleton.PlaceholderCountProperty, 2) } };
+		var list = new ListView { Style = style, ItemTemplate = RowTemplate(), ItemsSource = new ObservableCollection<string>(), SelectionMode = ListViewSelectionMode.None };
+		// the title gives the view a size even without rows, so a failure is the rows' count, not a load timeout
+		var sut = new SkeletonView { EnableShimmer = false, Content = new StackPanel { Width = 300, Children = { new TextBlock { Text = "title" }, list } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		await WaitForPlaceholders(sut, _ => GetAvatarRects(sut).Length == 2);
+
+		GetAvatarRects(sut).Should().HaveCount(2, "a count coming from a Style should apply");
+	}
+
+	[TestMethod]
+	public async Task When_Stand_In_Does_Not_Use_Container_Style_Selector()
+	{
+		var selector = new RecordingContainerStyleSelector();
+		var list = new ListView { ItemTemplate = RowTemplate(), ItemsSource = new ObservableCollection<string>(), ItemContainerStyleSelector = selector, SelectionMode = ListViewSelectionMode.None };
+		Skeleton.SetPlaceholderCount(list, 2);
+		var sut = new SkeletonView { EnableShimmer = false, Content = new StackPanel { Width = 300, Children = { list } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		await WaitForPlaceholders(sut, _ => GetAvatarRects(sut).Length == 2);
+
+		GetAvatarRects(sut).Should().HaveCount(2);
+		selector.NullItems.Should().Be(0, "placeholder rows have null items, which an app's selector cannot be expected to handle");
+	}
+
+	private sealed partial class RecordingContainerStyleSelector : StyleSelector
+	{
+		private readonly Style _style = new(typeof(ListViewItem));
+
+		public int NullItems { get; private set; }
+
+		protected override Style SelectStyleCore(object item, DependencyObject container)
+		{
+			if (item is null)
+			{
+				NullItems++;
+			}
+
+			return _style;
+		}
+	}
+
 	private sealed partial class StyledListView : ListView
 	{
 	}

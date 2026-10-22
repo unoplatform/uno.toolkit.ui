@@ -90,7 +90,7 @@ namespace Uno.Toolkit.UI
 		#region AttachedProperty: PlaceholderCount
 
 		/// <summary>
-		/// Backing property for how many placeholder rows are generated for empty list controls while loading.
+		/// Backing property for how many placeholder rows are generated for empty list controls while loading. Default is 0 (no rows).
 		/// </summary>
 		[DynamicDependency(nameof(GetPlaceholderCount))]
 		[DynamicDependency(nameof(SetPlaceholderCount))]
@@ -98,7 +98,7 @@ namespace Uno.Toolkit.UI
 			"PlaceholderCount",
 			typeof(int),
 			typeof(Skeleton),
-			new PropertyMetadata(4));
+			new PropertyMetadata(0));
 
 		/// <summary>Gets how many placeholder rows are generated for empty list controls while loading.</summary>
 		public static int GetPlaceholderCount(FrameworkElement element) => (int)element.GetValue(PlaceholderCountProperty);
@@ -106,8 +106,8 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Sets how many placeholder rows are generated, while loading, for empty list controls (<c>ItemsControl</c>,
 		/// <c>ListView</c>, <c>GridView</c>, <c>ItemsRepeater</c>) with an <c>ItemTemplate</c>, applying to the element and its descendants.
-		/// In a <see cref="SkeletonView"/>, only lists with this property set on themselves or an ancestor get rows.
-		/// A <see cref="SkeletonPresenter"/> stamps its template's lists with 4 rows by default.
+		/// The nearest element with a value (set locally or through a <c>Style</c>) applies; an explicit 0 disables rows.
+		/// A <see cref="SkeletonPresenter"/> stamps its template's lists with <see cref="SkeletonPresenter.DefaultPlaceholderCount"/> rows when no value is found.
 		/// </summary>
 		public static void SetPlaceholderCount(FrameworkElement element, int value) => element.SetValue(PlaceholderCountProperty, value);
 
@@ -184,10 +184,11 @@ namespace Uno.Toolkit.UI
 
 		private static void InjectProgressTemplate(FrameworkElement element)
 		{
-			if (element.GetType().FindDependencyProperty(ProgressTemplatePropertyName, logMissing: false) is not { } progressTemplateProperty)
+			// typed: a ProgressTemplate of another type would make the SetValue below throw (on WinUI) while the page is loading
+			if (element.GetType().FindDependencyProperty<DataTemplate>(ProgressTemplatePropertyName, logMissing: false) is not { } progressTemplateProperty)
 			{
 				typeof(Skeleton).Log().LogWarning(
-					"Skeleton.IsEnabled is set on a {Type} which does not expose a {Property} dependency property; no skeleton is injected.",
+					"Skeleton.IsEnabled is set on a {Type} which does not expose a {Property} dependency property of type DataTemplate; no skeleton is injected.",
 					element.GetType().Name, ProgressTemplatePropertyName);
 				return;
 			}
@@ -220,7 +221,7 @@ namespace Uno.Toolkit.UI
 			if (element.GetValue(InjectedTemplateProperty) is not DataTemplate injected) return;
 			element.ClearValue(InjectedTemplateProperty);
 
-			if (element.GetType().FindDependencyProperty(ProgressTemplatePropertyName, logMissing: false) is { } progressTemplateProperty &&
+			if (element.GetType().FindDependencyProperty<DataTemplate>(ProgressTemplatePropertyName, logMissing: false) is { } progressTemplateProperty &&
 				ReferenceEquals(element.GetValue(progressTemplateProperty), injected))
 			{
 				element.ClearValue(progressTemplateProperty);
@@ -228,16 +229,16 @@ namespace Uno.Toolkit.UI
 		}
 
 		/// <summary>
-		/// Resolves the <see cref="PlaceholderCountProperty"/> set (as a local value) on the element or its nearest ancestor,
-		/// e.g. on a FeedView for the lists of its <c>ValueTemplate</c>. The metadata default never applies here.
+		/// Resolves the <see cref="PlaceholderCountProperty"/> of the element or its nearest ancestor with a value: one set
+		/// locally (an explicit 0 counts, and vetoes an ancestor's value) or coming from a <c>Style</c> (any non-zero value).
 		/// </summary>
 		internal static bool TryGetInheritedPlaceholderCount(FrameworkElement element, out int count)
 		{
 			foreach (var ancestor in element.GetAncestors(includeCurrent: true))
 			{
-				if (ancestor.ReadLocalValue(PlaceholderCountProperty) != DependencyProperty.UnsetValue)
+				count = (int)ancestor.GetValue(PlaceholderCountProperty);
+				if (count != 0 || ancestor.ReadLocalValue(PlaceholderCountProperty) != DependencyProperty.UnsetValue)
 				{
-					count = (int)ancestor.GetValue(PlaceholderCountProperty);
 					return true;
 				}
 			}
@@ -250,7 +251,7 @@ namespace Uno.Toolkit.UI
 		/// Resolves the element's <c>ValueTemplate</c> by convention, if it exposes one.
 		/// </summary>
 		internal static DataTemplate? FindValueTemplate(FrameworkElement element) =>
-			element.GetType().FindDependencyProperty(ValueTemplatePropertyName, logMissing: false) is { } dp
+			element.GetType().FindDependencyProperty<DataTemplate>(ValueTemplatePropertyName, logMissing: false) is { } dp
 				? element.GetValue(dp) as DataTemplate
 				: null;
 	}

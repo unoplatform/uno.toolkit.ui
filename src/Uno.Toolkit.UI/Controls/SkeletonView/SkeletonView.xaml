@@ -74,6 +74,7 @@
 										  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" />
 
 						<Canvas x:Name="PART_SkeletonOverlay"
+								AutomationProperties.AccessibilityView="Raw"
 								IsHitTestVisible="False"
 								Visibility="Collapsed" />
 					</Grid>

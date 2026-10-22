@@ -18,7 +18,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 [RunsOnUIThread]
 public class SkeletonInjectionTests
 {
-	private const int DefaultPlaceholderCount = 4; // keep in sync with Skeleton.PlaceholderCountProperty default
+	private const int DefaultPlaceholderCount = SkeletonPresenter.DefaultPlaceholderCount;
 
 	private static Canvas GetOverlay(FrameworkElement root) =>
 		root.GetFirstDescendant<Canvas>(x => x.Name == "PART_SkeletonOverlay") ?? throw new Exception("Failed to find PART_SkeletonOverlay");
@@ -67,6 +67,29 @@ public class SkeletonInjectionTests
 
 		Skeleton.SetIsEnabled(stub, false);
 		stub.ProgressTemplate.Should().BeSameAs(userTemplate);
+	}
+
+	[TestMethod]
+	public void When_ProgressTemplate_Not_A_DataTemplate_Injection_Skipped()
+	{
+		var stub = new UntypedProgressTemplateStub();
+
+		Skeleton.SetIsEnabled(stub, true);
+
+		stub.ReadLocalValue(UntypedProgressTemplateStub.ProgressTemplateProperty).Should().Be(DependencyProperty.UnsetValue, "a ProgressTemplate of another type is not an injection target");
+
+		Skeleton.SetIsEnabled(stub, false);
+	}
+
+	[TestMethod]
+	public void When_IsEnabled_On_Element_Without_ProgressTemplate_Nothing_Happens()
+	{
+		var border = new Border();
+
+		Skeleton.SetIsEnabled(border, true);
+		Skeleton.SetIsEnabled(border, false);
+
+		Skeleton.GetIsEnabled(border).Should().BeFalse("the miss is logged, nothing throws");
 	}
 
 	[TestMethod]
@@ -292,4 +315,19 @@ public sealed partial class FeedViewStub : ContentControl
 
 	public void ShowProgress() => ContentTemplate = ProgressTemplate;
 	public void ShowValue() => ContentTemplate = ValueTemplate;
+}
+
+/// <summary>
+/// A control whose <c>ProgressTemplate</c> exists by name but is not a <c>DataTemplate</c>: not an injection target.
+/// </summary>
+public sealed partial class UntypedProgressTemplateStub : ContentControl
+{
+	public static readonly DependencyProperty ProgressTemplateProperty = DependencyProperty.Register(
+		nameof(ProgressTemplate), typeof(object), typeof(UntypedProgressTemplateStub), new PropertyMetadata(null));
+
+	public object? ProgressTemplate
+	{
+		get => GetValue(ProgressTemplateProperty);
+		set => SetValue(ProgressTemplateProperty, value);
+	}
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -462,6 +463,258 @@ public class SkeletonViewTests
 		text.Opacity.Should().Be(1);
 		GetOverlay(sut).Children.Count.Should().Be(0);
 	}
+
+	[TestMethod]
+	public async Task When_Scrolled_List_Placeholders_Clipped_To_Viewport()
+	{
+		// Refresh after scrolling (e.g. pull-to-refresh): rows partially scrolled out of the viewport, and rows realized
+		// ahead of it, must not produce placeholders outside the list.
+		var list = new ListView
+		{
+			Width = 300,
+			Height = 130,
+			VerticalAlignment = VerticalAlignment.Top,
+			ItemTemplate = FixedRowTemplate(),
+			ItemsSource = Enumerable.Range(1, 30).Select(i => $"item {i}").ToArray(),
+			SelectionMode = ListViewSelectionMode.None,
+		};
+		var sut = new SkeletonView { EnableShimmer = false, IsLoading = false, Content = new Grid { Width = 300, Height = 300, Children = { list } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		var scrollViewer = list.GetFirstDescendant<ScrollViewer>() ?? throw new Exception("Failed to find the list's ScrollViewer");
+		scrollViewer.ChangeView(null, 60, null, disableAnimation: true);
+		await UnitTestUIContentHelperEx.WaitFor(() => scrollViewer.VerticalOffset > 50, timeoutMS: 3000);
+		scrollViewer.VerticalOffset.Should().BeApproximately(60, Tolerance, "the list should be scrolled before loading starts");
+
+		sut.IsLoading = true;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		var overlay = GetOverlay(sut);
+		var listBounds = list.TransformToVisual(overlay).TransformBounds(new Rect(0, 0, list.ActualWidth, list.ActualHeight));
+		var rects = overlay.Children.OfType<Grid>().Select(x => new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height)).ToArray();
+		rects.Should().NotBeEmpty();
+		rects.Should().OnlyContain(x => x.Top >= listBounds.Top - Tolerance && x.Bottom <= listBounds.Bottom + Tolerance, "placeholders must stay within the list's viewport");
+	}
+
+	[TestMethod]
+	public async Task When_Items_Arrive_In_Fixed_Size_List_While_Loading()
+	{
+		// The list fills a fixed-size cell: rows that arrive realize without resizing anything, and must still be covered.
+		var items = new ObservableCollection<string> { "one" };
+		var list = new ListView { ItemTemplate = FixedRowTemplate(), ItemsSource = items, SelectionMode = ListViewSelectionMode.None };
+		var sut = new SkeletonView { EnableShimmer = false, Content = new Grid { Width = 300, Height = 300, Children = { list } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		await UnitTestUIContentHelperEx.WaitFor(() => GetOverlay(sut).Children.Count == 1, timeoutMS: 3000);
+
+		items.Add("two");
+		items.Add("three");
+		await UnitTestUIContentHelperEx.WaitFor(() => GetOverlay(sut).Children.Count == 3, timeoutMS: 3000, message: "rows that arrive while loading should be mirrored");
+
+		var texts = list.GetDescendants().OfType<TextBlock>().Where(x => items.Contains(x.Text)).ToArray();
+		texts.Should().HaveCount(3);
+		texts.Should().OnlyContain(x => x.Opacity == 0, "rows that arrive while loading should be hidden");
+	}
+
+	[TestMethod]
+	public async Task When_Container_Chrome_Collapsed_Content_Not_Mirrored()
+	{
+		// e.g. a collapsed Expander: the content is reachable from the container, but hidden by the container's chrome
+		var template = XamlHelper.LoadXaml<ControlTemplate>("""
+			<ControlTemplate TargetType="ContentControl">
+				<Grid>
+					<Border Visibility="Collapsed">
+						<ContentPresenter />
+					</Border>
+				</Grid>
+			</ControlTemplate>
+			""");
+		var hidden = new TextBlock { Text = "hidden" };
+		var container = new ContentControl { Width = 200, Height = 60, Template = template, Content = hidden };
+		var sut = new SkeletonView
+		{
+			EnableShimmer = false,
+			Content = new StackPanel { Width = 200, Children = { new TextBlock { Text = "visible" }, container } },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		GetOverlay(sut).Children.Count.Should().Be(1, "content behind collapsed chrome should produce no placeholder");
+		hidden.Opacity.Should().Be(1);
+	}
+
+	[TestMethod]
+	public async Task When_Input_Controls_Are_Leaves()
+	{
+		var textBox = new TextBox { Text = "typed", Width = 200 };
+		var slider = new Slider { Width = 200, Value = 50 };
+		var toggle = new ToggleSwitch { OnContent = "On", OffContent = "Off" };
+		var sut = new SkeletonView
+		{
+			EnableShimmer = false,
+			Content = new StackPanel { Width = 300, Spacing = 8, Children = { textBox, slider, toggle } },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		var overlay = GetOverlay(sut);
+		overlay.Children.Count.Should().Be(3, "an input control is a single leaf, whatever its template contains");
+		var placeholder = (FrameworkElement)overlay.Children[0];
+		placeholder.Width.Should().BeApproximately(textBox.ActualWidth, Tolerance);
+		placeholder.Height.Should().BeApproximately(textBox.ActualHeight, Tolerance);
+		textBox.Opacity.Should().Be(0);
+	}
+
+	[TestMethod]
+	public async Task When_Shape_Rectangle_Forced()
+	{
+		var tags = new ItemsControl
+		{
+			ItemsSource = new[] { "a", "b", "c" },
+			ItemTemplate = XamlHelper.LoadXaml<DataTemplate>("""
+				<DataTemplate>
+					<Border Padding="12,4" Background="Gray" CornerRadius="12">
+						<TextBlock Text="{Binding}" />
+					</Border>
+				</DataTemplate>
+				"""),
+		};
+		Skeleton.SetShape(tags, SkeletonShape.Rectangle);
+		var sut = new SkeletonView { EnableShimmer = false, Content = new StackPanel { Width = 200, Children = { tags } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		var overlay = GetOverlay(sut);
+		overlay.Children.Count.Should().Be(1, "a forced Rectangle collapses the list into one placeholder");
+		var placeholder = (Grid)overlay.Children[0];
+		placeholder.Width.Should().BeApproximately(tags.ActualWidth, Tolerance);
+		placeholder.Height.Should().BeApproximately(tags.ActualHeight, Tolerance);
+		placeholder.CornerRadius.Should().Be(sut.PlaceholderCornerRadius);
+	}
+
+	[TestMethod]
+	public async Task When_ShimmerBrush_Null_No_Band()
+	{
+		var sut = new SkeletonView
+		{
+			ShimmerBrush = null,
+			Content = new StackPanel { Width = 200, Children = { new TextBlock { Text = "content" } } },
+		};
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+
+		var placeholder = (Grid)GetOverlay(sut).Children[0];
+		placeholder.Children.Count.Should().Be(0, "a null ShimmerBrush removes the band");
+		sut.IsShimmerRunning.Should().BeFalse("there is nothing to animate");
+	}
+
+	[TestMethod]
+	public async Task When_Source_Reassigned_Old_Source_Released()
+	{
+		var first = new TestLoadable(isExecuting: true);
+		var second = new TestLoadable(isExecuting: false);
+		var sut = new SkeletonView { EnableShimmer = false, Source = first, Content = new StackPanel { Width = 200, Children = { new TextBlock { Text = "content" } } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		sut.IsLoading.Should().BeTrue();
+
+		sut.Source = second;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		sut.IsLoading.Should().BeFalse("IsLoading follows the new source");
+
+		first.IsExecuting = false;
+		first.IsExecuting = true;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		sut.IsLoading.Should().BeFalse("the previous source is no longer observed");
+	}
+
+	[TestMethod]
+	public async Task When_Unloaded_While_Loading_Content_Restored()
+	{
+		var loadable = new TestLoadable(isExecuting: true);
+		var text = new TextBlock { Text = "content" };
+		var sut = new SkeletonView { EnableShimmer = false, Source = loadable, Content = new StackPanel { Width = 200, Children = { text } } };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		text.Opacity.Should().Be(0);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(new Border { Width = 50, Height = 50 });
+		text.Opacity.Should().Be(1, "an unloaded view leaves its content as it found it");
+
+		loadable.IsExecuting = false;
+		await UnitTestUIContentHelperEx.SetContentAndWait(sut);
+		sut.IsLoading.Should().BeFalse("the source state is re-read once loaded again");
+		text.Opacity.Should().Be(1);
+	}
+
+	[TestMethod]
+	public async Task When_LoadingView_Loaded_Skeleton_Shimmer_Stops()
+	{
+		var loadable = new TestLoadable(isExecuting: true);
+		var presenter = new SkeletonPresenter { ContentTemplate = SingleLineTemplate() };
+		var loadingView = new LoadingView { Width = 300, Height = 200, Source = loadable, Content = new TextBlock { Text = "loaded" }, LoadingContent = presenter };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(loadingView);
+		await UnitTestUIContentHelperEx.WaitFor(() => presenter.IsShimmerRunning, timeoutMS: 3000);
+
+		loadable.IsExecuting = false;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		presenter.IsShimmerRunning.Should().BeFalse("a hidden loading slot should not keep animating");
+
+		loadable.IsExecuting = true;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		presenter.IsShimmerRunning.Should().BeTrue("the shimmer resumes with the loading state");
+	}
+
+	[TestMethod]
+	public async Task When_LoadingView_Already_Loaded_Skeleton_Shimmer_Suspended()
+	{
+		// the loading slot materializes while the view is already loaded: no IsActive change is ever pushed down to it
+		var loadable = new TestLoadable(isExecuting: false);
+		var presenter = new SkeletonPresenter { ContentTemplate = SingleLineTemplate() };
+		var loadingView = new LoadingView { Width = 300, Height = 200, Source = loadable, Content = new TextBlock { Text = "loaded" }, LoadingContent = presenter };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(loadingView);
+		await UnitTestUIContentHelperEx.WaitFor(() => GetOverlay(presenter).Children.Count > 0, timeoutMS: 3000);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		presenter.IsShimmerRunning.Should().BeFalse("the slot is hidden: the view reads the inactive state when it loads");
+
+		loadable.IsExecuting = true;
+		await UnitTestUIContentHelperEx.WaitForIdle();
+		presenter.IsShimmerRunning.Should().BeTrue();
+	}
+
+	[TestMethod]
+	public async Task When_SkeletonView_In_LoadingView_Content_Shimmers()
+	{
+		// only the loading slot is driven by the LoadingView: a skeleton in its content keeps its own state
+		var loadable = new TestLoadable(isExecuting: false);
+		var inner = new SkeletonView { Content = new StackPanel { Width = 200, Children = { new TextBlock { Text = "content" } } } };
+		var loadingView = new LoadingView { Width = 300, Height = 200, Source = loadable, Content = inner };
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(loadingView);
+		await UnitTestUIContentHelperEx.WaitFor(() => GetOverlay(inner).Children.Count > 0, timeoutMS: 3000);
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		inner.IsShimmerRunning.Should().BeTrue("the content slot is active once loaded");
+	}
+
+	private static DataTemplate FixedRowTemplate() => XamlHelper.LoadXaml<DataTemplate>("""
+		<DataTemplate>
+			<TextBlock Height="40" Text="{Binding}" />
+		</DataTemplate>
+		""");
+
+	private static DataTemplate SingleLineTemplate() => XamlHelper.LoadXaml<DataTemplate>("""
+		<DataTemplate>
+			<StackPanel Width="200">
+				<TextBlock Text="{Binding}" />
+			</StackPanel>
+		</DataTemplate>
+		""");
 
 	private static (SkeletonView Outer, SkeletonView Inner, TextBlock Text) BuildNested()
 	{

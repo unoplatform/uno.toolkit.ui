@@ -25,9 +25,9 @@ xmlns:utu="using:Uno.Toolkit.UI"
 Understanding the generation rules helps you get the skeleton you want with little or no tuning.
 
 1. **The visual tree is walked from the content root.** Collapsed elements and elements marked with `utu:Skeleton.Ignore="True"` are skipped along with their subtree.
-2. **Leaves get exactly one placeholder.** A leaf is a `TextBlock`, an `Image`, any `Shape` (`Ellipse`, `Rectangle`, `Path`, ...), or a button (`ButtonBase`). Leaves are not descended into, so a `Button` produces a single button-sized placeholder regardless of its content.
-3. **Containers contribute their children, not themselves.** Panels and borders produce no placeholder of their own. For content controls (e.g. `ListViewItem`, `ContentControl`, cards), only the *content* is walked; the control's template chrome (backgrounds, selection and focus visuals) is ignored.
-4. **Each placeholder matches the leaf's position and size** within the control.
+2. **Leaves get exactly one placeholder.** A leaf is a `TextBlock`, an `Image`, any `Shape` (`Ellipse`, `Rectangle`, `Path`, ...), a button (`ButtonBase`), or an input control whose value is its own chrome: `TextBox`, `PasswordBox`, `RichEditBox`, `AutoSuggestBox`, `ComboBox`, `NumberBox`, `Slider` and the other `RangeBase` controls, `ProgressRing`, `ToggleSwitch`, `DatePicker`, `TimePicker`, `CalendarDatePicker`, `CalendarView`, `RatingControl`, `ColorPicker`. Leaves are not descended into, so a `Button` produces a single button-sized placeholder regardless of its content, and a `TextBox` one placeholder on every platform.
+3. **Containers contribute their children, not themselves.** Panels and borders produce no placeholder of their own. For content controls (e.g. `ListViewItem`, `ContentControl`, cards), only the *content* is walked; the control's template chrome (backgrounds, selection and focus visuals) is ignored. Content hidden by that chrome (e.g. a collapsed `Expander`) is not mirrored.
+4. **Each placeholder matches the leaf's position and size** within the control, clipped to what can be seen of it: a row scrolled half out of a list produces half a placeholder, a row realized ahead of the viewport produces none, and a circle that gets clipped becomes a rectangle. Scrolling viewports and explicit `Clip`s are honored; the `SkeletonView`'s own bounds always are.
 5. **Leaves without a value yet fall back to their layout slot.** An empty data-bound `TextBlock` or a source-less `Image` measures as (almost) nothing, so the space the layout granted it is used instead:
    - width: the slot's width (a stretched empty `TextBlock` produces a full-width line); when the slot gives no width either, a `TextBlock` uses a default line width of 100;
    - height: for a `TextBlock`, one text line derived from its `FontSize`; otherwise the slot's height.
@@ -35,9 +35,9 @@ Understanding the generation rules helps you get the skeleton you want with litt
 6. **Shape:** an `Ellipse` produces a circle; every other leaf produces a rounded rectangle using `PlaceholderCornerRadius`. Force either with `utu:Skeleton.Shape`. A circle is sized to the smaller dimension and centered.
 7. **Empty lists with `utu:Skeleton.PlaceholderCount` get placeholder rows** generated from their `ItemTemplate` (see [Empty lists](#empty-lists)). Other empty lists have nothing to mirror and produce no placeholders.
 
-Placeholders are regenerated whenever the content or the control is resized, and when an appearance property changes.
+Placeholders are regenerated on every layout pass while loading (the content can change without resizing anything: rows arriving in a list, containers being recycled), and when an appearance property changes. A pass where nothing moved costs a walk of the content and nothing else.
 
-While loading, the content stays in the tree, so layout and bindings keep working, but it is not hit-testable. **Only the elements covered by a placeholder are hidden**: everything else stays visible, including ignored elements and the backgrounds and borders of containers (for example a card keeps its frame, with placeholders inside). Covered elements are hidden by setting their `Opacity` to 0; their original `Opacity` (local value or binding) is restored once loaded.
+While loading, the content stays in the tree, so layout and bindings keep working, but it is not hit-testable. **Only the elements covered by a placeholder are hidden**: everything else stays visible, including ignored elements and the backgrounds and borders of containers (for example a card keeps its frame, with placeholders inside). Covered elements are hidden by setting their `Opacity` to 0; their original `Opacity` (local value or binding) is restored once loaded, and whenever the `SkeletonView` leaves the visual tree.
 
 ## SkeletonView
 
@@ -117,7 +117,7 @@ On a first load, a list has no items yet, so there are no rows to mirror. Set `u
 </utu:SkeletonView>
 ```
 
-While loading, every `ItemsControl`, `ListView`, `GridView` and `ItemsRepeater` in the content that has an `ItemTemplate`, **no items**, and a `PlaceholderCount` (set on itself or an ancestor):
+While loading, every `ItemsControl`, `ListView`, `GridView` and `ItemsRepeater` in the content that has an `ItemTemplate`, **no items**, and a `PlaceholderCount` (set on itself or an ancestor, locally or through a `Style`):
 
 - gets `PlaceholderCount` rows built from a private copy of the list (same `ItemTemplate`, `ItemContainerStyle`, `ItemsPanel`/`Layout`, `Style` and `Padding`) filled with `null` items, so bound values are empty and follow the [empty-value rules](#how-placeholders-are-generated);
 - **reserves the rows' space** when it is sized by its content (e.g. in an `Auto` row or a vertical `StackPanel`): its `MinHeight` is raised temporarily, up to its `MaxHeight`, so the content below it moves down as if the rows existed. A list that already has more space than it needs (e.g. stretched in a `*` row) keeps its size, and rows that don't fit are clipped. A list with an explicit `Height` is never resized;
@@ -129,7 +129,7 @@ Notes:
 
 - The list needs a width: a list that is 0 wide (e.g. unconstrained in a horizontal `StackPanel`) gets no rows.
 - A list's `Header` and `Footer` are not mirrored; placeholder rows start at the top of the list.
-- `ItemTemplateSelector` is not used for placeholder rows: set `ItemTemplate`. The template must tolerate a `null` data context.
+- `ItemTemplateSelector` and `ItemContainerStyleSelector` are not used for placeholder rows (their items are `null`): set `ItemTemplate`, and `ItemContainerStyle` if needed. The template must tolerate a `null` data context.
 - Other `ItemsControl`-derived controls (`ComboBox`, `FlipView`, custom subclasses of `ItemsControl`) don't get rows; a `Debug` log entry says so. Subclasses of `ListView` and `GridView` are treated as `ListView` and `GridView`: a `Style` targeting the subclass is not applied to the placeholder copy.
 
 ### Appearance
@@ -165,7 +165,7 @@ A `SkeletonView` that generates its skeleton from a `DataTemplate` instead of li
 
 If the real content *is* in the tree while loading, and only its list is empty, you don't need a `SkeletonPresenter`: wrap the content in a `SkeletonView` and set `utu:Skeleton.PlaceholderCount` on the list (see [Empty lists](#empty-lists)).
 
-`SkeletonPresenter` derives from `SkeletonView`, so it inherits all of its [properties](#properties) and lightweight styling. `IsLoading` defaults to `true`, which is what you want for a loading slot; set it to `false` to stop the shimmer when the presenter stays in the tree but is hidden.
+`SkeletonPresenter` derives from `SkeletonView`, so it inherits all of its [properties](#properties) and lightweight styling. `IsLoading` defaults to `true`, which is what you want for a loading slot. When the slot is hidden rather than removed (a `LoadingView` keeps its `LoadingContent` in the tree once loaded), the shimmer follows [`ProgressExtensions.IsActive`](xref:Toolkit.Helpers.ProgressExtensions) like a `ProgressRing` would: `LoadingView` sets it on its loading slot, so nothing animates out of sight. Elsewhere, set `IsLoading` to `false` to stop it.
 
 ### Template resolution
 
@@ -235,7 +235,7 @@ The static `Skeleton` class provides attached properties that tune generation an
 |----------|------|---------|--------|-------------|
 | `Skeleton.Ignore` | `bool` | `false` | Any element inside the content | Excludes the element **and its subtree** from generation: no placeholder is produced for it, and it **stays visible** while loading. Use it for static parts that do not depend on the data being loaded, such as headers or labels. |
 | `Skeleton.Shape` | `SkeletonShape` | `Auto` | Any element inside the content | Forces the placeholder shape. Any value other than `Auto` also makes the element a leaf: a single placeholder covers it and its subtree is not visited. Use it to collapse a complex element (e.g. an avatar made of an `Image` inside a `Border`) into one shape. |
-| `Skeleton.PlaceholderCount` | `int` | `4` | In a `SkeletonView`: an empty list, or any of its ancestors. For a `SkeletonPresenter`: the presenter or any of its ancestors (typically the control using `Skeleton.IsEnabled`, or the control whose template hosts the presenter) | Number of placeholder rows generated for empty lists while loading. In a `SkeletonView`, this is opt-in: only lists with the property set on themselves or an ancestor get [rows](#empty-lists), and the nearest value applies. A `SkeletonPresenter` [stamps](#placeholder-rows-for-lists) its template's lists with the value of the `Skeleton.IsEnabled` owner, else the nearest element (the presenter itself first) that sets it, else the default of `4`. `0` disables placeholder rows. |
+| `Skeleton.PlaceholderCount` | `int` | `0` | In a `SkeletonView`: an empty list, or any of its ancestors. For a `SkeletonPresenter`: the presenter or any of its ancestors (typically the control using `Skeleton.IsEnabled`, or the control whose template hosts the presenter) | Number of placeholder rows generated for empty lists while loading. The nearest element with a value applies, whether set locally or through a `Style`; an explicit `0` disables rows, and vetoes an ancestor's value. In a `SkeletonView`, rows are opt-in: a list without a value gets [none](#empty-lists). A `SkeletonPresenter` [stamps](#placeholder-rows-for-lists) its template's lists with the nearest value (the presenter itself first, then its ancestors, including the `Skeleton.IsEnabled` owner), else `SkeletonPresenter.DefaultPlaceholderCount` (`4`). |
 | `Skeleton.PlaceholderTemplate` | `DataTemplate` | `null` | The control using `Skeleton.IsEnabled` | Template the injected skeleton is derived from, instead of the control's `ValueTemplate`. Use it when the value template is too complex, or when you want a simplified loading layout. |
 | `Skeleton.IsEnabled` | `bool` | `false` | A control exposing a `ProgressTemplate` dependency property | Injects an auto-generated skeleton as the control's `ProgressTemplate`. See [Automatic injection](#automatic-injection-skeletonisenabled). |
 
@@ -341,6 +341,7 @@ These resources apply to both `SkeletonView` and `SkeletonPresenter`. Override t
 - **The skeleton always shows.** `IsLoading` defaults to `true`; bind it or set `Source`.
 - **Elements outside the control are not covered.** Placeholders are confined to the `SkeletonView`; wrap each area that loads.
 - **Nested skeletons own their content.** A `SkeletonView` (or `SkeletonPresenter`) inside the content is left alone: the outer view produces no placeholders for it, and each view hides and restores its own elements.
+- **Keyboard focus can still reach covered content.** Hidden elements are not hit-testable, but a `Tab` can still focus a covered control, as with `LoadingView`. Bind `IsEnabled` of such controls to your loading flag if that matters. The placeholders themselves are not exposed to assistive technologies.
 - **Warnings in the log.** `Uno.Toolkit.UI.Skeleton` warns when `Skeleton.IsEnabled` targets a control without a `ProgressTemplate` property, or when the Uno Toolkit resources aren't merged; `Uno.Toolkit.UI.SkeletonPresenter` warns when no template can be resolved. Lists skipped for an unsupported kind are logged at `Debug` level.
 - **Virtualized lists** only produce placeholders for realized items, which is usually what fills the viewport.
 

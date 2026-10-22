@@ -206,10 +206,10 @@ namespace Uno.Toolkit.UI
 			{
 				copy.Style = style;
 			}
+			// The selectors are not copied: the rows' items are null, which an app's selector cannot be expected to
+			// handle (and ItemTemplate, required here, wins over ItemTemplateSelector anyway).
 			copy.ItemTemplate = source.ItemTemplate;
-			copy.ItemTemplateSelector = source.ItemTemplateSelector;
 			copy.ItemContainerStyle = source.ItemContainerStyle;
-			copy.ItemContainerStyleSelector = source.ItemContainerStyleSelector;
 			copy.ItemsPanel = source.ItemsPanel;
 			copy.Padding = source.Padding;
 			copy.IsTabStop = false;
@@ -278,8 +278,10 @@ namespace Uno.Toolkit.UI
 
 		private void CollectStandInPlaceholders(FrameworkElement list, ListStandIn standIn, List<PlaceholderInfo> results)
 		{
-			// rows are clipped to the space the layout granted the real list
+			// rows are clipped to the space the layout granted the real list, and to what can be seen of it
 			if (!TryGetLayoutSlotBounds(list, out var clip)) return;
+			clip.Intersect(GetVisibleArea(list));
+			if (clip.IsEmpty) return;
 
 			var rows = new List<PlaceholderInfo>();
 			CollectPlaceholder(standIn.PlaceholderList, rows);

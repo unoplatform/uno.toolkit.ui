@@ -23,10 +23,14 @@ namespace Uno.Toolkit.UI
 	/// The template resolution order is: its own <see cref="ContentControl.ContentTemplate"/>, then the
 	/// <see cref="Skeleton.PlaceholderTemplateProperty"/> and <c>ValueTemplate</c> of the nearest ancestor
 	/// with <see cref="Skeleton.IsEnabledProperty"/> set. Empty list controls in the resolved template are
-	/// stamped with <see cref="Skeleton.PlaceholderCountProperty"/> placeholder rows.
+	/// stamped with <see cref="Skeleton.PlaceholderCountProperty"/> placeholder rows: the value of the nearest
+	/// element setting it (the presenter itself first), else <see cref="DefaultPlaceholderCount"/>.
 	/// </remarks>
 	public partial class SkeletonPresenter : SkeletonView
 	{
+		/// <summary>Placeholder rows stamped into the template's empty lists when no <see cref="Skeleton.PlaceholderCountProperty"/> is found.</summary>
+		public const int DefaultPlaceholderCount = 4;
+
 		private FrameworkElement? _skeletonOwner;
 
 		/// <summary>Initializes a new instance of the <see cref="SkeletonPresenter"/> class.</summary>
@@ -47,7 +51,7 @@ namespace Uno.Toolkit.UI
 
 		private void ResolveTemplate(bool warnIfUnresolved)
 		{
-			_skeletonOwner = this.GetAncestors().OfType<FrameworkElement>().FirstOrDefault(Skeleton.GetIsEnabled);
+			_skeletonOwner = this.GetAncestors(includeCurrent: false).OfType<FrameworkElement>().FirstOrDefault(Skeleton.GetIsEnabled);
 
 			if (ContentTemplate is null)
 			{
@@ -66,19 +70,12 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private int ResolvePlaceholderCount()
-		{
-			if (_skeletonOwner is { } owner)
-			{
-				return Skeleton.GetPlaceholderCount(owner);
-			}
-
-			// Otherwise the nearest element setting it applies, e.g. the templated control when this presenter
-			// is part of a control template (where the attached property can't be template-bound).
-			return Skeleton.TryGetInheritedPlaceholderCount(this, out var count)
+		// The nearest element setting it applies: the Skeleton.IsEnabled owner, or the templated control when this
+		// presenter is part of a control template (where the attached property can't be template-bound).
+		private int ResolvePlaceholderCount() =>
+			Skeleton.TryGetInheritedPlaceholderCount(this, out var count)
 				? count
-				: Skeleton.GetPlaceholderCount(this);
-		}
+				: DefaultPlaceholderCount;
 
 		private protected override void PrepareSkeletonContent(DependencyObject contentRoot)
 		{
@@ -92,7 +89,8 @@ namespace Uno.Toolkit.UI
 
 			// The lists' DataContext is cleared too: null items leave their containers' DataContext to inheritance,
 			// so the rows would otherwise bind to the template's (or the page's) data instead of having empty values.
-			foreach (var descendant in contentRoot.GetDescendants())
+			// a nested skeleton owns its content, as in CollectPlaceholder
+			foreach (var descendant in contentRoot.GetDescendants(x => x is not SkeletonView))
 			{
 				if (descendant is ItemsControl { ItemsSource: null, ItemTemplate: { } } itemsControl && itemsControl.Items.Count == 0)
 				{
