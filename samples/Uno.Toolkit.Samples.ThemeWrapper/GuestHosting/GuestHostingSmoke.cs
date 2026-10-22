@@ -7,7 +7,9 @@ namespace Uno.Toolkit.WrapperApp.GuestHosting;
 /// in the browser): loads and reloads every guest, verifies failed requests preserve the active
 /// app, and checks that unloaded guest ALCs are actually reclaimed. On desktop the process exits with
 /// <c>0</c> (pass) / <c>1</c> (fail) so CI can gate on it; in the browser the verdict is
-/// logged as <c>[HOSTING-SMOKE] RESULT: …</c> for a driving harness to scrape.
+/// logged as <c>[HOSTING-SMOKE] RESULT: …</c> for a driving harness to scrape. A known upstream
+/// retention (<see cref="GuestAppLoader.IsRetentionKnown"/>) is reported as a known issue on the
+/// RESULT line instead of failing it.
 /// </summary>
 internal static class GuestHostingSmoke
 {
@@ -17,11 +19,15 @@ internal static class GuestHostingSmoke
 	// retention and residual WASM roots are documented, accepted limitations (see
 	// specs/toolkit-wrapper/progress.md), so those configurations report reclamation
 	// without failing on it.
-	//
-	// Release desktop is temporarily in the same bucket: from Uno 7.0.0-dev.2285, some guest
-	// ALCs stay alive after unload on Win32 and Linux (unoplatform/uno-private#2469). Once that
-	// is fixed, make it authoritative again (true outside DEBUG/__WASM__).
+#if DEBUG || __WASM__
 	private static readonly bool _reclamationIsAuthoritative = false;
+#else
+	private static readonly bool _reclamationIsAuthoritative = true;
+#endif
+
+	// TODO(uno-private#2469): drop with GuestAppLoader._knownRetainedGuests once fixed.
+	private const string KnownIssue = "uno-private#2469";
+	private static bool _knownIssueHit;
 
 	private static readonly ILogger _logger =
 		global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory.CreateLogger("Uno.Toolkit.WrapperApp.GuestHosting.GuestHostingSmoke");
@@ -91,7 +97,10 @@ internal static class GuestHostingSmoke
 			passed = false;
 		}
 
-		_logger.LogInformation("[HOSTING-SMOKE] RESULT: {Result}", passed ? "PASS" : "FAIL");
+		_logger.LogInformation(
+			"[HOSTING-SMOKE] RESULT: {Result}{KnownIssue}",
+			passed ? "PASS" : "FAIL",
+			_knownIssueHit ? $" (KNOWN-ISSUE {KnownIssue}: a known guest ALC was not reclaimed)" : "");
 		return passed;
 	}
 
@@ -190,13 +199,20 @@ internal static class GuestHostingSmoke
 			return true;
 		}
 
+		if (loader.IsRetentionKnown)
+		{
+			_knownIssueHit = true;
+			_logger.LogWarning("[HOSTING-SMOKE] KNOWN-ISSUE {KnownIssue}: a known guest ALC was not reclaimed; not failing the smoke.", KnownIssue);
+			return true;
+		}
+
 		if (_reclamationIsAuthoritative)
 		{
 			_logger.LogError("[HOSTING-SMOKE] Previous guest ALC was NOT reclaimed.");
 			return false;
 		}
 
-		_logger.LogWarning("[HOSTING-SMOKE] Previous guest ALC not reclaimed — expected on Debug/WASM (documented root retention) and, until unoplatform/uno-private#2469 is fixed, on Release desktop; not failing the smoke.");
+		_logger.LogWarning("[HOSTING-SMOKE] Previous guest ALC not reclaimed — expected on Debug/WASM (documented root retention), not failing the smoke.");
 		return true;
 	}
 }

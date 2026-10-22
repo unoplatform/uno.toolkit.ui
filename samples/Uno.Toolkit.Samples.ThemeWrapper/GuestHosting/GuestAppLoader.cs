@@ -68,9 +68,18 @@ internal sealed partial class GuestAppLoader
 	private readonly global::Uno.UI.DataBinding.IBindableMetadataProvider? _hostBindableMetadataProvider =
 		global::Uno.UI.DataBinding.BindableMetadata.Provider;
 
-	// Diagnostics: tracks the previously unloaded guest ALC so the next load can report whether
-	// it was actually collected (the wrapper's reason to exist is exercising this machinery).
-	private WeakReference<GuestAssemblyLoadContext>? _lastUnloadedAlc;
+	// Diagnostics: tracks every unloaded guest ALC until it is collected, so the next load can
+	// report whether it was actually reclaimed (the wrapper's reason to exist is exercising this
+	// machinery). A single slot would let an older leaked ALC drop out of sight.
+	private readonly List<(string App, WeakReference<GuestAssemblyLoadContext> Alc)> _unloadedAlcs = [];
+	private bool _anyAlcUnloaded;
+
+	// TODO(uno-private#2469): from Uno 7.0.0-dev.2285, a reloaded Cupertino guest's ALC is never
+	// reclaimed (Win32 and Linux, no wrapper-side root found). Release desktop tolerates that one
+	// guest, at most _maxKnownRetainedAlcs at a time, instead of refusing to load. Once #2469 is
+	// fixed, empty this set (reverts 6e38489e and its follow-up).
+	private static readonly HashSet<string> _knownRetainedGuests = new(StringComparer.Ordinal) { "CupertinoSampleApp" };
+	private const int _maxKnownRetainedAlcs = 1;
 
 	private sealed class Session
 	{
@@ -103,11 +112,19 @@ internal sealed partial class GuestAppLoader
 	public GuestAppInfo? CurrentApp => _session?.Info;
 
 	/// <summary>
-	/// Gets whether the most recently unloaded guest ALC was observed collected: <see langword="true"/>
-	/// once the weak reference died, <see langword="false"/> while it is still alive after a
+	/// Gets whether every unloaded guest ALC was observed collected: <see langword="true"/>
+	/// once all their weak references died, <see langword="false"/> while any is still alive after a
 	/// collection pass, <see langword="null"/> when nothing has been unloaded yet.
 	/// </summary>
 	internal bool? LastUnloadedAlcCollected { get; private set; }
+
+	/// <summary>
+	/// Gets whether every unloaded guest ALC that is still alive is a known upstream retention
+	/// (uno-private#2469), within the tolerated count. Release desktop loads over those.
+	/// </summary>
+	internal bool IsRetentionKnown =>
+		_unloadedAlcs.Count is > 0 and <= _maxKnownRetainedAlcs
+		&& _unloadedAlcs.TrueForAll(entry => _knownRetainedGuests.Contains(entry.App));
 
 	/// <summary>
 	/// Verifies the guest has its own application and has rendered its sample shell.
@@ -184,7 +201,7 @@ internal sealed partial class GuestAppLoader
 
 			// Release-before-allocate: collect what the previous guest pinned before the next
 			// ALC maps its assemblies (WASM memory growth is irreversible).
-			await CollectPreviousAlcBeforeLoadAsync(cancellationToken).ConfigureAwait(false);
+			await CollectPreviousAlcBeforeLoadAsync(info, cancellationToken).ConfigureAwait(false);
 
 			var session = new Session
 			{
@@ -526,7 +543,8 @@ internal sealed partial class GuestAppLoader
 		session.ExecutionThread = null;
 
 		await Task.Run(alc.Dispose).ConfigureAwait(false);
-		_lastUnloadedAlc = new WeakReference<GuestAssemblyLoadContext>(alc);
+		_unloadedAlcs.Add((session.Info.AssemblyName, new WeakReference<GuestAssemblyLoadContext>(alc)));
+		_anyAlcUnloaded = true;
 
 		// Guest finalizers (DependencyObject teardown) run during unload and can re-populate
 		// the shared property-system caches AFTER ExitAlcApplication's sweep — observed via
@@ -550,7 +568,7 @@ internal sealed partial class GuestAppLoader
 		return true;
 	}
 
-	private async Task CollectPreviousAlcBeforeLoadAsync(CancellationToken cancellationToken)
+	private async Task CollectPreviousAlcBeforeLoadAsync(GuestAppInfo next, CancellationToken cancellationToken)
 	{
 #if !DEBUG && !__WASM__
 		const int maxAttempts = 5;
@@ -580,44 +598,62 @@ internal sealed partial class GuestAppLoader
 
 #if !DEBUG && !__WASM__
 		// Uno's binding type resolver can find unloaded-but-not-collected assemblies
-		// (unoplatform/uno#24581), so booting now can bind the new app to the old types and
-		// pin both ALCs. From Uno 7.0.0-dev.2285 some guest ALCs are never reclaimed
-		// (unoplatform/uno-private#2469), and refusing to boot would leave the host stuck on
-		// that guest. Boot anyway; once #2469 is fixed, restore the GuestAppLoadException
-		// that left the host empty here.
-		_logger.LogWarning("The previous app's assemblies have not been reclaimed (unoplatform/uno-private#2469); loading the next app anyway.");
+		// (unoplatform/uno#24581). Booting now can bind the new app to the old types and
+		// pin both ALCs, so leave the host empty and allow the user to retry loading.
+		// TODO(uno-private#2469): the known-retention branch goes away with _knownRetainedGuests.
+		if (!IsRetentionKnown)
+		{
+			throw new GuestAppLoadException("The previous app's assemblies have not been reclaimed. Try loading the app again after cleanup finishes.");
+		}
+
+		const string outcome = "known retention";
+#else
+		const string outcome = "diagnostic only";
 #endif
+
+		if (_logger.IsEnabled(LogLevel.Warning))
+		{
+			_logger.LogWarning(
+				"Unloaded guest ALC(s) of {Retained} not reclaimed after {Attempts} collection passes ({Outcome}); loading {App} anyway. Its bindings may resolve stale types (uno#24581).",
+				string.Join(", ", _unloadedAlcs.Select(entry => entry.App)),
+				maxAttempts,
+				outcome,
+				next.AssemblyName);
+		}
 	}
 
 	private void ReportPreviousAlcCollectionState()
 	{
-		if (_lastUnloadedAlc is not { } weakAlc)
+		if (!_anyAlcUnloaded)
 		{
 			LastUnloadedAlcCollected = null;
 			return;
 		}
 
-		if (weakAlc.TryGetTarget(out var previous))
+		_unloadedAlcs.RemoveAll(entry => !entry.Alc.TryGetTarget(out _));
+		LastUnloadedAlcCollected = _unloadedAlcs.Count == 0;
+
+		if (LastUnloadedAlcCollected == true)
 		{
-			LastUnloadedAlcCollected = false;
-			_logger.LogWarning("Previous guest ALC {Name} is still alive after unload + GC; its memory is not yet reclaimed.", previous.Name);
-		}
-		else
-		{
-			LastUnloadedAlcCollected = true;
 			_logger.LogInformation("Previous guest ALC was fully collected.");
-			_lastUnloadedAlc = null;
+		}
+		else if (_logger.IsEnabled(LogLevel.Debug))
+		{
+			// Callers retry several passes and report the final outcome themselves.
+			_logger.LogDebug(
+				"Unloaded guest ALC(s) of {Retained} still alive after unload + GC; their memory is not yet reclaimed.",
+				string.Join(", ", _unloadedAlcs.Select(entry => entry.App)));
 		}
 	}
 
 	/// <summary>
-	/// Forces a collection pass and re-checks whether the most recently unloaded guest ALC has
-	/// been reclaimed. Regular loads report this automatically; the hosting smoke calls it
+	/// Forces a collection pass and re-checks whether every unloaded guest ALC has been
+	/// reclaimed. Regular loads report this automatically; the hosting smoke calls it
 	/// after the final unload (and to retry while finalizers drain).
 	/// </summary>
 	internal async Task<bool?> VerifyPreviousAlcCollectedAsync()
 	{
-		if (_lastUnloadedAlc is null)
+		if (_unloadedAlcs.Count == 0)
 		{
 			return LastUnloadedAlcCollected;
 		}
