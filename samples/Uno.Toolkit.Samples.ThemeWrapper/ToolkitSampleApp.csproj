@@ -65,7 +65,7 @@
 
   <ItemGroup>
     <UnoIcon Include="../Uno.Toolkit.Samples/Assets/Icons/icon.svg" ForegroundFile="../Uno.Toolkit.Samples/Assets/Icons/icon_foreground.svg" Color="#512BD4" />
-    <UnoSplashScreen Include="../Uno.Toolkit.Samples/Assets/Splash/splash_screen.svg" Color="#512BD4" />
+    <UnoSplashScreen Include="../Uno.Toolkit.Samples/Assets/Splash/splash_screen.svg" BackgroundColor="#512BD4" />
   </ItemGroup>
 
   <!--

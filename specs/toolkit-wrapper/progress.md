@@ -178,3 +178,74 @@ the Uno version and Lottie sharing documentation with the existing implementatio
 
 WASM collection remains diagnostic, and full sample builds still emit the warnings
 documented above. Those limitations are not hidden by the successful CI result.
+
+## Uno 7.0.0-dev.2285 retarget (2026-10-21)
+
+Uno `7.0.0-dev.1664` removed the `Uno.WinUI.Lottie` package (unoplatform/uno#25117);
+`LottieVisualSource` now ships in `Uno.UI`. Uno.Themes moved past it in
+unoplatform/Uno.Themes#1760, and Toolkit follows with Uno.Sdk `7.0.0-dev.2285` and
+Uno.Themes `9.0.0-dev.56`. Themes `9.0.0-dev.37` still depended on `Uno.WinUI.Lottie`, which
+`Uno.Toolkit.WinUI.Material` / `.Cupertino` passed on to consumers.
+
+- No Release guest ships `Uno.UI.Lottie` any more, so the `!Uno.UI.Lottie` rule was removed
+  from `GuestSharedAssemblies.txt`.
+- Sample heads: Android host base types come from `Uno.UI.Runtime.Android`, and
+  `UnoSplashScreen` uses `BackgroundColor` (`Uno.Resizetizer0001`).
+
+### Not fixed (upstream): hosted ProgressRing animations never load
+
+Same as Uno.Themes' `specs/05-alc-wrapper-app/upstream-issues.md` § 6: `Uno.UI` resolves
+`embedded://uno.material.winui/...` with `Assembly.Load` from the default ALC, which cannot see
+the guest's isolated theme assembly (`FileNotFoundException`, `Failed to load animation`).
+This is not a regression: `main` (`7.0.0-dev.1574`, with the `!Uno.UI.Lottie` rule) logs the
+same two failures for hosted Material (Win32 Release, `--app=material`):
+`Failed to load animation: embedded://uno.material.winui/Uno.Material.WinUI.Assets.MaterialDeterminate.json`
+and `...MaterialIndeterminate.json`, each with `FileNotFoundException: Could not load file or
+assembly 'uno.material.winui'`. Standalone heads are unaffected.
+
+### Not fixed (upstream): a reloaded Cupertino guest's ALC is not reclaimed (uno-private#2469)
+
+On Win32 Release, the smoke failed at "Reloading Cupertino": the previous Cupertino ALC stayed
+alive through all five collection passes. Deterministic: `main` passes 2/2, the branch and the
+dependency-bump commit alone fail 2/2. The Linux CI smoke (build 240718) shows the same single
+case: Material and Simple are reclaimed within the retries; only the reloaded Cupertino is not.
+Uno.Themes sees comparable retention on Linux (unoplatform/uno-private#2469).
+
+What is known about the cause:
+
+- The wrapper's reflection sweeps of private Uno fields (`GuestAppLoader.Sweeps.cs`) still find
+  every field on 2285: no "was not reachable" / "were not found" warning in any Win32 or Linux
+  smoke log.
+- No retention root path was recorded (no heap dump). The bisect cannot separate the Uno change
+  from the Themes change, because Themes `9.0.0-dev.37` cannot run on Uno 2285.
+
+Unlike Themes, the Toolkit loader refuses to boot while an unloaded ALC is alive (the uno#24581
+guard above), so the wrapper got stuck rather than only failing the reclamation check. Until
+uno-private#2469 is fixed (`6e38489e`, narrowed by `f5a04959`):
+
+- The loader tracks every unloaded ALC. Release desktop still throws `GuestAppLoadException`
+  unless the only survivor is one Cupertino ALC (`_knownRetainedGuests`, at most
+  `_maxKnownRetainedAlcs`). Then it logs one warning naming the retained guest and the uno#24581
+  risk, and boots the next guest.
+- The smoke's reclamation check stays authoritative on Release desktop. The known retention
+  passes and adds `KNOWN-ISSUE uno-private#2469` to the RESULT line. With the set emptied, the
+  smoke fails again at "Reloading Cupertino" (checked locally).
+- On Win32 the retained Cupertino ALC is collected once the next guest (Simple) is hosted.
+
+- [ ] Once uno-private#2469 is fixed: empty `_knownRetainedGuests` and remove the
+  `TODO(uno-private#2469)` code in `GuestAppLoader.cs` and `GuestHostingSmoke.cs` (revert
+  `f5a04959` and `6e38489e`), and drop the exception from `README.md`.
+
+### Verification
+
+- Desktop Release solution build: 0 errors, libraries warning-free. Remaining warnings are the
+  existing sample nullable warnings and `UXAML0007` from the runtime-test engine.
+- Material runtime suite (Skia desktop, Release): 957 passed, 0 failed, the same as `main`.
+- Android heads (Debug) and iOS/Windows libraries build. The two `WMC1500` warnings in the
+  Windows Material library are also present on `main`.
+- Packed `Uno.Toolkit.WinUI.Material` / `.Cupertino` depend on `Uno.Material.WinUI` /
+  `Uno.Cupertino.WinUI 9.0.0-dev.56` and `Uno.WinUI 7.0.0-dev.2285`, with no `Uno.WinUI.Lottie`.
+- Standalone Material, Cupertino and Simple heads launch without errors.
+- Win32 Release hosting smoke passes with the known issue reported. CI build 240718 (before the
+  narrowing) passed the hosting smoke, hot-reload, desktop runtime test, WASM, Android and iOS
+  jobs.

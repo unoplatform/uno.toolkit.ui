@@ -58,7 +58,9 @@ open the published site with `?smoke`. It checks all themes, reload, failed/canc
 loads, and unload. Desktop Release also requires guest assembly contexts to be reclaimed;
 WASM and Debug report reclamation diagnostically, matching the Uno Themes host.
 Release desktop finishes collection before starting another guest; if cleanup cannot
-finish, the host reports an error and lets you retry loading.
+finish, the host reports an error and lets you retry loading. One exception is temporary:
+a reloaded Cupertino guest is not reclaimed on Uno 7.0.0-dev.2285, so the host loads over
+that single retained context and the smoke reports it as a known issue instead of failing.
 
 ## Documentation
 
