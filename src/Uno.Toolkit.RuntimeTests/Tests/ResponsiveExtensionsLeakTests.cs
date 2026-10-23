@@ -25,7 +25,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 /// </summary>
 [TestClass]
 [RunsOnUIThread]
-internal class ResponsiveExtensionsLeakTests
+public class ResponsiveExtensionsLeakTests
 {
 	private readonly static ResponsiveLayout DefaultLayout = ResponsiveLayout.Create(150, 300, 600, 800, 1080);
 

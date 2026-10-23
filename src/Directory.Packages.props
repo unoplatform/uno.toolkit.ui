@@ -1,16 +1,16 @@
 <Project ToolsVersion="15.0">
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <UnoThemesVersion>9.0.0-dev.15</UnoThemesVersion>
+    <UnoThemesVersion>9.0.0-dev.56</UnoThemesVersion>
     <!-- The SDK still pins the Uno 6 C# Markup line (6.7.0-dev.16), which UNOB0020 reports as broken on Uno 7. -->
     <UnoCSharpMarkupVersion>7.0.0-dev.33</UnoCSharpMarkupVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
-    <PackageVersion Include="Uno.Core.Extensions.Collections" Version="4.0.1" />
-    <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.1.1" />
-    <PackageVersion Include="Uno.Core.Extensions.Logging" Version="4.0.1" />
+    <PackageVersion Include="Uno.Core.Extensions.Collections" Version="5.0.0-dev.34" />
+    <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="5.0.0-dev.34" />
+    <PackageVersion Include="Uno.Core.Extensions.Logging" Version="5.0.0-dev.34" />
     <PackageVersion Include="Uno.SourceGenerationTasks" Version="4.2.0" />
     <PackageVersion Include="Uno.XamlMerge.Task" Version="1.32.0-dev.61" />
     <PackageVersion Include="FluentAssertions" Version="5.10.3" />
@@ -19,14 +19,14 @@
     <PackageVersion Include="NUnit" Version="3.14.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.2.0" />
     <PackageVersion Include="NunitXml.TestLogger" Version="3.0.131" />
-    <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="2.0.0-dev.79" />
-    <PackageVersion Include="Uno.WinUI.DevServer" Version="7.0.0-dev.701" />
+    <PackageVersion Include="Uno.UI.RuntimeTests.Engine" Version="2.0.0-dev.89" />
+    <PackageVersion Include="Uno.WinUI.DevServer" Version="7.0.0-dev.2285" />
     <PackageVersion Include="Uno.UITest" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Helpers" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Selenium" Version="1.1.0-dev.82" />
     <PackageVersion Include="Uno.UITest.Xamarin" Version="1.1.0-dev.82" />
     <PackageVersion Include="Xamarin.UITest" Version="4.4.0" />
-    <PackageVersion Include="MSTest.TestFramework" Version="2.1.2" />
+    <PackageVersion Include="MSTest.TestFramework" Version="4.3.3" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0" />
     <PackageVersion Include="Uno.Simple.WinUI" Version="$(UnoThemesVersion)" />
     <PackageVersion Include="Uno.Themes.WinUI" Version="$(UnoThemesVersion)" />

@@ -1,0 +1,16 @@
+# Scoped to the vendored Yoga engine. Deliberately NOT `root = true` - everything
+# else (CRLF, trailing whitespace, final newline) still inherits from the repo root.
+#
+# The only override is indentation: upstream uses 4 spaces, the repo uses tabs.
+# Reformatting would destroy the line-for-line correspondence that makes an upstream
+# re-sync a diff rather than an archaeology exercise. See README.md.
+#
+# No analyzer suppressions live here on purpose. Spec D7 anticipated needing them, but
+# the vendored code builds clean under this repo's `TreatWarningsAsErrors=true`,
+# `Nullable=enable` and `AnalysisModePerformance=AllEnabledByDefault` - verified, zero
+# warnings. If a future sync does trip a rule, add it *here*, scoped to this folder,
+# never to the global <NoWarn> in src/Directory.Build.props.
+
+[*.cs]
+indent_style = space
+indent_size = 4

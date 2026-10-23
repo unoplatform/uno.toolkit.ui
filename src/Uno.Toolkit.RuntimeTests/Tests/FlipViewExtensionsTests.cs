@@ -9,7 +9,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal class FlipViewExtensionsTests
+public class FlipViewExtensionsTests
 {
 	[TestMethod]
 	public async Task When_Next_Button_Tapped_Advances_SelectedIndex()

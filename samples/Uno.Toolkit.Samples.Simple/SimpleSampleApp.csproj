@@ -18,6 +18,7 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<UnoSingleProject>true</UnoSingleProject>
+		<UnoEnableAlcAppSupport>true</UnoEnableAlcAppSupport>
 		<!-- Display name -->
 		<ApplicationTitle>Uno.Toolkit.Simple.Samples</ApplicationTitle>
 		<!-- App Identifier -->
@@ -64,7 +65,7 @@
 				 ForegroundFile="..\Uno.Toolkit.Samples\Assets\Icons\icon_foreground.svg"
 				 Color="#FFFFFF" />
 		<UnoSplashScreen Include="..\Uno.Toolkit.Samples\Assets\Splash\splash_screen.svg"
-						 Color="#FFFFFF"
+						 BackgroundColor="#FFFFFF"
 						 BaseSize="128,128" />
 	</ItemGroup>
 </Project>

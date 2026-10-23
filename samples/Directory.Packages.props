@@ -1,9 +1,9 @@
 <Project ToolsVersion="15.0">
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-		<UnoThemesVersion>9.0.0-dev.15</UnoThemesVersion>
+		<UnoThemesVersion>9.0.0-dev.56</UnoThemesVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="4.0.1" />
+		<PackageVersion Include="Uno.Core.Extensions.Compatibility" Version="5.0.0-dev.34" />
 	</ItemGroup>
 </Project>

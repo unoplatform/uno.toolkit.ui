@@ -5,47 +5,49 @@ namespace Uno.Toolkit.Samples;
 public partial class App : Application
 {
 	private Shell _shell;
-	public static App Instance => Current as App;
+	private static App? _instance;
+
+	// Application.Current belongs to the wrapper when this app runs in a secondary ALC.
+	public static App Instance => _instance ?? throw new InvalidOperationException("The sample application has not been initialized.");
 
 	public App()
 	{
+		_instance = this;
 		SamplePageLayout.ActiveDesign = Design.Material;
 		this.InitializeComponent();
 	}
 
 	public Window? MainWindow { get; private set; }
 
-	protected override async void OnLaunched(LaunchActivatedEventArgs e)
+	protected override void OnLaunched(LaunchActivatedEventArgs e)
 	{
-			MainWindow = new Window();
+		MainWindow = new Window();
 #if DEBUG
-			// Registers the window for hot reload; Hot Design (UseStudio) has no Uno 7 build yet.
-			MainWindow.EnableHotReload();
+		// Registers the window for hot reload; Hot Design (UseStudio) has no Uno 7 build yet.
+		MainWindow.EnableHotReload();
 #endif
 
-			if (TryStartRuntimeTests(e))
-			{
-				return;
-			}
-
-			if (MainWindow.Content is null)
-			{
-				var loadable = new ManualLoadable { IsExecuting = true };
-				var splash = new ExtendedSplashScreen
-				{
-					Window = MainWindow,
-					Source = loadable
-				};
-				MainWindow.Content = splash;
-				MainWindow.Activate();
-
-				await Task.Yield();
-
-				splash.Content = _shell = BuildShell();
-				loadable.IsExecuting = false;
-			}
-
+		if (TryStartRuntimeTests(e))
+		{
+			return;
 		}
+
+		if (MainWindow.Content is null)
+		{
+			var loadable = new ManualLoadable { IsExecuting = true };
+			var splash = new ExtendedSplashScreen
+			{
+				Window = MainWindow,
+				Source = loadable
+			};
+			MainWindow.Content = splash;
+			MainWindow.Activate();
+
+			// Finish launch synchronously so a hosted app cannot resume after it is unloaded.
+			splash.Content = _shell = BuildShell();
+			loadable.IsExecuting = false;
+		}
+	}
 
 	private bool TryStartRuntimeTests(LaunchActivatedEventArgs args)
 	{

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -33,50 +32,6 @@ namespace Uno.Toolkit.UI
 	/// </remarks>
 	internal static partial class VisualTreeHelperEx
 	{
-		/// <summary>
-		/// Produces a text representation of the visual tree.
-		/// </summary>
-		/// <param name="reference">Any node of the visual tree</param>
-		public static string TreeGraph(this DependencyObject reference) => TreeGraph(reference, DebugVTNode);
-
-		/// <summary>
-		/// Produces a text representation of the visual tree, using the provided method of description.
-		/// </summary>
-		/// <param name="reference">Any node of the visual tree</param>
-		/// <param name="describeProperties">A function to describe the properties of interest of a visual tree node.</param>
-		/// <returns></returns>
-		public static string TreeGraph(this DependencyObject reference, Func<object, IEnumerable<string>> describeProperties) =>
-			TreeGraph(reference, x => DebugVTNode(x, describeProperties));
-
-		/// <summary>
-		/// Produces a text representation of the visual tree, using the provided method of description.
-		/// </summary>
-		/// <param name="reference">Any node of the visual tree</param>
-		/// <param name="describe">A function to describe a visual tree node in a single line.</param>
-		/// <returns></returns>
-		public static string TreeGraph(this DependencyObject reference, Func<object, string> describe)
-		{
-			var buffer = new StringBuilder();
-			Walk(reference);
-			return buffer.ToString();
-
-			void Walk(DependencyObject o, int depth = 0)
-			{
-				Print(o, depth);
-				foreach (var child in o.GetChildren())
-				{
-					Walk(child, depth + 1);
-				}
-			}
-			void Print(object o, int depth)
-			{
-				buffer
-					.Append(new string(' ', depth * 4))
-					.Append(describe(o))
-					.AppendLine();
-			}
-		}
-
 		/// <summary>
 		/// Returns the first ancestor of a specified type.
 		/// </summary>
@@ -192,110 +147,86 @@ namespace Uno.Toolkit.UI
 
 		public static DependencyObject? GetTemplateRoot(this DependencyObject o) => o?.GetChildren().FirstOrDefault();
 	}
-	internal static partial class VisualTreeHelperEx // TreeGraph helper methods
+	internal static partial class VisualTreeHelperEx // tree-graph describer
 	{
-		private static string DebugVTNode(object x)
+		/// <summary>
+		/// Describes the properties of interest of a visual tree node, including toolkit-specific details.
+		/// </summary>
+		/// <param name="x">Any node of the visual tree</param>
+		/// <remarks>Meant to be used with Uno's TreeGraph: <c>Uno.UI.Extensions.ViewExtensions.TreeGraph(reference, DescribeToolkitProperties)</c>.</remarks>
+		internal static IEnumerable<string> DescribeToolkitProperties(object x)
 		{
-			return DebugVTNode(x, GetDetails);
-
-			static IEnumerable<string> GetDetails(object x)
+			#region Common Details: Layout (high priority)
+			if (x is FrameworkElement fe)
 			{
-				#region Common Details: Layout (high priority)
-				if (x is FrameworkElement fe)
-				{
-					yield return $"Actual={fe.ActualWidth}x{fe.ActualHeight}";
+				yield return $"Actual={fe.ActualWidth}x{fe.ActualHeight}";
 #if TREEGRAPH_VERBOSE_LAYOUT
-					yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
+				yield return $"Constraints=[{fe.MinWidth},{fe.Width},{fe.MaxWidth}]x[{fe.MinHeight},{fe.Height},{fe.MaxHeight}]";
 #endif
-					yield return $"HV={fe.HorizontalAlignment}/{fe.VerticalAlignment}";
-				}
-				if (x is UIElement uie)
-				{
-					//yield return $"Desired={FormatSize(uie.DesiredSize)}";
-					//yield return $"LAS={FormatSize(uie.LastAvailableSize)}";
-				}
+				yield return $"HV={fe.HorizontalAlignment}/{fe.VerticalAlignment}";
+			}
+			if (x is UIElement uie)
+			{
+				//yield return $"Desired={FormatSize(uie.DesiredSize)}";
+				//yield return $"LAS={FormatSize(uie.LastAvailableSize)}";
+			}
 #if TREEGRAPH_VERBOSE_LAYOUT
-				if (TryGetDpValue<HorizontalAlignment>(x, "HorizontalContentAlignment", out var hca) |
-					TryGetDpValue<HorizontalAlignment>(x, "VerticalContentAlignment", out var vca))
-				{
-					yield return $"HVC={hca}/{vca}";
-				}
+			if (TryGetDpValue<HorizontalAlignment>(x, "HorizontalContentAlignment", out var hca) |
+				TryGetDpValue<HorizontalAlignment>(x, "VerticalContentAlignment", out var vca))
+			{
+				yield return $"HVC={hca}/{vca}";
+			}
 #endif
-				#endregion
-				#region WinUI Control Details
-				if (x is ScrollViewer sv)
+			#endregion
+			#region WinUI Control Details
+			if (x is ScrollViewer sv)
+			{
+				yield return $"Offset={sv.HorizontalOffset:0.#},{sv.VerticalOffset:0.#}";
+				yield return $"Viewport={sv.ViewportWidth:0.#}x{sv.ViewportHeight:0.#}";
+				yield return $"Extent={sv.ExtentWidth:0.#}x{sv.ExtentHeight:0.#}";
+			}
+			if (x is ListViewItem lvi)
+			{
+				yield return $"Index={ItemsControl.ItemsControlFromItemContainer(lvi)?.IndexFromContainer(lvi) ?? -1}";
+			}
+			if (x is TextBlock txt && !string.IsNullOrEmpty(txt.Text))
+			{
+				yield return $"Text=\"{EscapeMultiline(txt.Text)}\"";
+			}
+			if (x is Shape shape)
+			{
+				if (shape.Fill is not null) yield return $"Fill={FormatBrush(shape.Fill)}";
+				if (shape.Stroke is not null) yield return $"Stroke={FormatBrush(shape.Stroke)}*{shape.StrokeThickness}px";
+			}
+			#endregion
+			#region Toolkit Control Details
+			if (x is ResponsiveView rv)
+			{
+				yield return rv.LastResolved is { }
+					? $"Responsive: {FormatSize(rv.LastResolved.Size)}@{rv.LastResolved.Layout}->{rv.LastResolved.Result}"
+					: "Responsive: unresolved";
+			}
+			if (ResponsiveExtension.TrackedInstances.Where(y => y.Owner.Target == x).ToArray() is { Length: > 0 } instances)
+			{
+				foreach (var item in instances)
 				{
-					yield return $"Offset={sv.HorizontalOffset:0.#},{sv.VerticalOffset:0.#}";
-					yield return $"Viewport={sv.ViewportWidth:0.#}x{sv.ViewportHeight:0.#}";
-					yield return $"Extent={sv.ExtentWidth:0.#}x{sv.ExtentHeight:0.#}";
-				}
-				if (x is ListViewItem lvi)
-				{
-					yield return $"Index={ItemsControl.ItemsControlFromItemContainer(lvi)?.IndexFromContainer(lvi) ?? -1}";
-				}
-				if (x is TextBlock txt && !string.IsNullOrEmpty(txt.Text))
-				{
-					yield return $"Text=\"{EscapeMultiline(txt.Text)}\"";
-				}
-				if (x is Shape shape)
-				{
-					if (shape.Fill is not null) yield return $"Fill={FormatBrush(shape.Fill)}";
-					if (shape.Stroke is not null) yield return $"Stroke={FormatBrush(shape.Stroke)}*{shape.StrokeThickness}px";
-				}
-				#endregion
-				#region Toolkit Control Details
-				if (x is ResponsiveView rv)
-				{
-					yield return rv.LastResolved is { }
-						? $"Responsive: {FormatSize(rv.LastResolved.Size)}@{rv.LastResolved.Layout}->{rv.LastResolved.Result}"
-						: "Responsive: unresolved";
-				}
-				if (ResponsiveExtension.TrackedInstances.Where(y => y.Owner.Target == x).ToArray() is { Length: > 0 } instances)
-				{
-					foreach (var item in instances)
+					if (item.Extension.Target is ResponsiveExtension re)
 					{
-						if (item.Extension.Target is ResponsiveExtension re)
-						{
-							yield return re.LastResolved is { }
-								? $"{item.Property}@Responsive: {FormatSize(re.LastResolved.Size)}@{re.LastResolved.Layout}->{re.LastResolved.Result}\\{re.CurrentValue}"
-								: $"{item.Property}@Responsive: unresolved";
-						}
+						yield return re.LastResolved is { }
+							? $"{item.Property}@Responsive: {FormatSize(re.LastResolved.Size)}@{re.LastResolved.Layout}->{re.LastResolved.Result}\\{re.CurrentValue}"
+							: $"{item.Property}@Responsive: unresolved";
 					}
 				}
-				#endregion
-				#region Common Details: Layout,Misc (low priority)
-				if (TryGetDpValue<CornerRadius>(x, "CornerRadius", out var cr)) yield return $"CornerRadius={FormatCornerRadius(cr)}";
-				if (TryGetDpValue<Thickness>(x, "Margin", out var margin)) yield return $"Margin={FormatThickness(margin)}";
-				if (TryGetDpValue<Thickness>(x, "Padding", out var padding)) yield return $"Padding={FormatThickness(padding)}";
-				if (TryGetDpValue<double>(x, "Opacity", out var opacity)) yield return $"Opacity={opacity}";
-				if (TryGetDpValue<Visibility>(x, "Visibility", out var visibility)) yield return $"Visibility={visibility}";
-				if (GetActiveVisualStates(x as Control) is { } states) yield return $"VisualStates={states}";
-				#endregion
 			}
-		}
-		private static string DebugVTNode(object x, Func<object, IEnumerable<string>> describeProperties)
-		{
-			if (x is null) return "<null>";
-
-			return new StringBuilder()
-				.Append(x.GetType().Name)
-				.Append((x as FrameworkElement)?.Name is string { Length: > 0 } xname ? $"#{xname}" : string.Empty)
-				.Append(GetPropertiesDescriptionSafe())
-				.ToString();
-
-			string? GetPropertiesDescriptionSafe()
-			{
-				try
-				{
-					return string.Join(", ", describeProperties(x)) is { Length: > 0 } propertiesDescription
-						? $" // {propertiesDescription}"
-						: null;
-				}
-				catch (Exception e)
-				{
-					return $"// threw {e.GetType().Name}: {EscapeMultiline(e.Message, escapeTabs: true)}";
-				}
-			}
+			#endregion
+			#region Common Details: Layout,Misc (low priority)
+			if (TryGetDpValue<CornerRadius>(x, "CornerRadius", out var cr)) yield return $"CornerRadius={FormatCornerRadius(cr)}";
+			if (TryGetDpValue<Thickness>(x, "Margin", out var margin)) yield return $"Margin={FormatThickness(margin)}";
+			if (TryGetDpValue<Thickness>(x, "Padding", out var padding)) yield return $"Padding={FormatThickness(padding)}";
+			if (TryGetDpValue<double>(x, "Opacity", out var opacity)) yield return $"Opacity={opacity}";
+			if (TryGetDpValue<Visibility>(x, "Visibility", out var visibility)) yield return $"Visibility={visibility}";
+			if (GetActiveVisualStates(x as Control) is { } states) yield return $"VisualStates={states}";
+			#endregion
 		}
 
 		[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Debug tree formatting reads optional dependency properties by name; a trimmed member is skipped.")]

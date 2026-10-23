@@ -25,7 +25,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 /// </summary>
 [TestClass]
 [RunsOnUIThread]
-internal class FrameworkElementExtensionsLeakTests
+public class FrameworkElementExtensionsLeakTests
 {
 	private sealed class Sentinel;
 

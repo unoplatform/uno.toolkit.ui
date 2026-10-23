@@ -24,7 +24,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 
 [TestClass]
 [RunsOnUIThread]
-internal partial class ItemsRepeaterExtensionTests
+public partial class ItemsRepeaterExtensionTests
 {
 	[TestMethod]
 	[DataRow(nameof(ItemsRepeaterExtensions.SelectedItemProperty))]

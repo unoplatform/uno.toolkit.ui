@@ -22,7 +22,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Uno.Toolkit.RuntimeTests.Tests;
 
-partial class ItemsRepeaterExtensionTests
+public partial class ItemsRepeaterExtensionTests
 {
 	[TestMethod]
 	[RequiresFullWindow]

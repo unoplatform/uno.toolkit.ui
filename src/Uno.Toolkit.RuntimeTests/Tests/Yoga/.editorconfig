@@ -1,0 +1,16 @@
+# Scoped to the vendored Yoga conformance corpus. Deliberately NOT `root = true` -
+# everything else (CRLF, trailing whitespace, final newline) still inherits from the
+# repo root.
+#
+# The only override is indentation: the imported files use 4 spaces, the repo uses tabs.
+# Reformatting them would make diffing against upstream painful and would rewrite 1.7 MB
+# of generated test code for no benefit. Mirrors the config in
+# src/Uno.Toolkit.UI/Layout/Yoga/. See README.md.
+
+[*.cs]
+indent_style = space
+indent_size = 4
+
+# YogaAssert.cs is ours, not vendored - it follows repo style.
+[YogaAssert.cs]
+indent_style = tab

@@ -27,52 +27,51 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 #endif
 
-namespace Uno.Toolkit.RuntimeTests.Tests
+namespace Uno.Toolkit.RuntimeTests.Tests;
+
+[TestClass]
+[RunsOnUIThread]
+public class CardContentControlTests
 {
-	[TestClass]
-	[RunsOnUIThread]
-	internal class CardContentControlTests
+	[TestMethod]
+	[RequiresFullWindow]
+	public async Task Should_Hug_Content()
 	{
-		[TestMethod]
-		[RequiresFullWindow]
-		public async Task Should_Hug_Content()
-		{
-			var rootGrid = XamlHelper.LoadXaml<Grid>("""
-				<Grid Width="500" Height="500">
-					<utu:CardContentControl Padding="0" x:Name="MyCard" Style="{StaticResource FilledCardContentControlStyle}">
-						<Grid Background="Red" Height="200" Width="200" />
-					</utu:CardContentControl>
-				</Grid>
-			""");
+		var rootGrid = XamlHelper.LoadXaml<Grid>("""
+			<Grid Width="500" Height="500">
+				<utu:CardContentControl Padding="0" x:Name="MyCard" Style="{StaticResource FilledCardContentControlStyle}">
+					<Grid Background="Red" Height="200" Width="200" />
+				</utu:CardContentControl>
+			</Grid>
+		""");
 
 
-			var card = (CardContentControl)rootGrid.FindName("MyCard");
+		var card = (CardContentControl)rootGrid.FindName("MyCard");
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(rootGrid);
+		await UnitTestUIContentHelperEx.SetContentAndWait(rootGrid);
 
-			Assert.AreEqual(200d, card.ActualWidth);
-			Assert.AreEqual(200d, card.ActualHeight);
-		}
+		Assert.AreEqual(200d, card.ActualWidth);
+		Assert.AreEqual(200d, card.ActualHeight);
+	}
 
-		[TestMethod]
-		[RequiresFullWindow]
-		[DataRow("FilledCardContentControlStyle")]
-		[DataRow("OutlinedCardContentControlStyle")]
-		public async Task Only_Elevated_Has_Margin(string cardStyle)
-		{
-			var rootGrid = XamlHelper.LoadXaml<Grid>($$"""
-				<Grid>
-					<utu:CardContentControl Padding="0" x:Name="MyCard" Style="{StaticResource {{cardStyle}}}">
-						<Grid Background="Red" Height="200" Width="200" />
-					</utu:CardContentControl>
-				</Grid>
-			""");
+	[TestMethod]
+	[RequiresFullWindow]
+	[DataRow("FilledCardContentControlStyle")]
+	[DataRow("OutlinedCardContentControlStyle")]
+	public async Task Only_Elevated_Has_Margin(string cardStyle)
+	{
+		var rootGrid = XamlHelper.LoadXaml<Grid>($$"""
+			<Grid>
+				<utu:CardContentControl Padding="0" x:Name="MyCard" Style="{StaticResource {{cardStyle}}}">
+					<Grid Background="Red" Height="200" Width="200" />
+				</utu:CardContentControl>
+			</Grid>
+		""");
 
-			var card = (CardContentControl)rootGrid.FindName("MyCard");
+		var card = (CardContentControl)rootGrid.FindName("MyCard");
 
-			await UnitTestUIContentHelperEx.SetContentAndWait(rootGrid);
+		await UnitTestUIContentHelperEx.SetContentAndWait(rootGrid);
 
-			Assert.AreEqual(default, card.Margin);
-		}
+		Assert.AreEqual(default, card.Margin);
 	}
 }
