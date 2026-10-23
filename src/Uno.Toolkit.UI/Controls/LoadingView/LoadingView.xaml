@@ -65,9 +65,10 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
+						<!-- No ProgressExtensions.IsActive here: it never changed (so it did nothing), and a SkeletonView in the content reads
+							 the nearest ancestor setting it when it loads, which must not be this always-false slot. -->
 						<ContentPresenter x:Name="ContentPresenter"
 										  Content="{TemplateBinding Content}"
-										  utu:ProgressExtensions.IsActive="false"
 										  Opacity="0"
 										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										  HorizontalContentAlignment="Stretch"
