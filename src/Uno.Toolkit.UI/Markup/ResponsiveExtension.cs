@@ -148,7 +148,16 @@ public partial class ResponsiveExtension
 		{
 			connectableHost.Loaded -= OnTargetLoaded;
 			connectableHost.Loaded += OnTargetLoaded;
-			_disposable.Disposable = Disposable.Create(() => connectableHost.Loaded -= OnTargetLoaded);
+
+			// Captured weakly: HardSelfReferences roots this extension, and must not root the host through it.
+			var hostRef = new WeakReference(connectableHost);
+			_disposable.Disposable = Disposable.Create(() =>
+			{
+				if (hostRef.Target is FrameworkElement host)
+				{
+					host.Loaded -= OnTargetLoaded;
+				}
+			});
 		}
 	}
 
@@ -173,7 +182,7 @@ public partial class ResponsiveExtension
 		// the previewed app's ALC. Sweeping here bounds the accumulation to live instances.
 		SweepDeadInstances();
 
-		_hostWeakRef = new WeakReference(selfOrProxyHost);
+		var hostRef = _hostWeakRef = new WeakReference(selfOrProxyHost);
 		ResponsiveHelper.InitializeIfNeeded(selfOrProxyHost.XamlRoot);
 
 		// Subscribe to the process-lifetime static WindowSizeChanged event weakly, so the static event
@@ -199,7 +208,10 @@ public partial class ResponsiveExtension
 		_disposable.Disposable = Disposable.Create(() =>
 		{
 			ResponsiveHelper.WindowSizeChanged -= handler;
-			selfOrProxyHost.Unloaded -= OnHostUnloaded;
+			if (hostRef.Target is FrameworkElement host)
+			{
+				host.Unloaded -= OnHostUnloaded;
+			}
 			IsConnected = false;
 		});
 
@@ -245,7 +257,7 @@ public partial class ResponsiveExtension
 #if UNO14502_WORKAROUND
 		for (var i = HardSelfReferences.Count - 1; i >= 0; i--)
 		{
-			if (HardSelfReferences[i] is { _hostWeakRef.IsAlive: false })
+			if (HardSelfReferences[i].IsHostGone)
 			{
 				HardSelfReferences.RemoveAt(i);
 			}
@@ -361,10 +373,13 @@ public partial class ResponsiveExtension
 		(TargetWeakRef?.Target as FrameworkElement)?.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey) ??
 		Application.Current.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
 
+	// A never-connected extension has no host yet; its target is then the only liveness signal.
+	private bool IsHostGone => (_hostWeakRef ?? _targetWeakRef) is { IsAlive: false };
+
 	private bool CleanupIfHostDisposed(bool force = false)
 	{
 		// if self/proxy host was disposed (or the host unloaded), remove the circular references to allow self-disposal.
-		if (force || _hostWeakRef is { Target: null })
+		if (force || IsHostGone)
 		{
 #if UNO14502_WORKAROUND
 			HardSelfReferences.Remove(this);
