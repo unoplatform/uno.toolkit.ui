@@ -48,7 +48,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Sets how many placeholder rows are generated, while loading, for empty list controls (<c>ItemsControl</c>,
 		/// <c>ListView</c>, <c>GridView</c>, <c>ItemsRepeater</c>) with an <c>ItemTemplate</c>, applying to the element and its descendants.
-		/// The nearest element with a value (set locally or through a <c>Style</c>) applies; an explicit 0 disables rows.
+		/// The nearest element with a value (set locally or through a <c>Style</c>) applies; a 0 set locally disables rows.
 		/// A <see cref="SkeletonPresenter"/> stamps its template's lists with <see cref="SkeletonPresenter.DefaultPlaceholderCount"/> rows when no value is found.
 		/// </summary>
 		public static void SetPlaceholderCount(FrameworkElement element, int value) => element.SetValue(PlaceholderCountProperty, value);

@@ -95,7 +95,7 @@ namespace Uno.Toolkit.UI
 		private Canvas? _overlay;
 		private Storyboard? _shimmerStoryboard;
 		private bool _isReady;
-		private bool _isWaitingForContent;
+		private bool _isLayoutUpdatedHooked;
 		// Set through ProgressExtensions.IsActive by a host whose loading slot is hidden (e.g. a loaded LoadingView).
 		private bool _isProgressInactive;
 
@@ -241,17 +241,17 @@ namespace Uno.Toolkit.UI
 		{
 			// LayoutUpdated is raised for every layout pass of the window: never listen while detached (e.g. a page kept
 			// in a back stack whose IsLoading changes); OnLoaded regenerates, and hooks again if needed.
-			if (_isWaitingForContent || !IsLoaded) return;
+			if (_isLayoutUpdatedHooked || !IsLoaded) return;
 
-			_isWaitingForContent = true;
+			_isLayoutUpdatedHooked = true;
 			LayoutUpdated += OnLayoutUpdated;
 		}
 
 		private void UnhookLayoutUpdated()
 		{
-			if (!_isWaitingForContent) return;
+			if (!_isLayoutUpdatedHooked) return;
 
-			_isWaitingForContent = false;
+			_isLayoutUpdatedHooked = false;
 			LayoutUpdated -= OnLayoutUpdated;
 		}
 
@@ -259,7 +259,7 @@ namespace Uno.Toolkit.UI
 		{
 			if (IsLoading)
 			{
-				GenerateOverlay(); // unhooks itself once content materializes
+				GenerateOverlay();
 			}
 			else
 			{

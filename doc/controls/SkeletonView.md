@@ -48,7 +48,7 @@ Wraps live content and replaces it visually with generated placeholders while lo
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `IsLoading` | `bool` | **`true`** | Whether the placeholders are shown instead of the content. Note the default: a `SkeletonView` starts in its loading state. Bind it to your busy flag, or set `Source`. |
-| `Source` | `ILoadable` | `null` | An `ILoadable` (such as an async command) whose `IsExecuting` state drives `IsLoading`. When set, `IsLoading` follows `IsExecuting`. See [LoadingView](xref:Toolkit.Controls.LoadingView) for `ILoadable` implementations. |
+| `Source` | `ILoadable` | `null` | An `ILoadable` (such as an async command) whose `IsExecuting` state drives `IsLoading`. When set, `IsLoading` follows `IsExecuting`. `IsExecutingChanged` must be raised on the UI thread: wrap a source that completes elsewhere in a `LoadableSource`. See [LoadingView](xref:Toolkit.Controls.LoadingView) for `ILoadable` implementations. |
 | `EnableShimmer` | `bool` | `true` | Whether the shimmer animation plays while loading. Set to `false` for static placeholders (e.g. to reduce motion). |
 | `ShimmerDuration` | `Duration` | `0:0:1.5` | Duration of one shimmer sweep across the control. Larger values produce a slower sweep. |
 | `SkeletonBackground` | `Brush` | `SkeletonViewBackground` resource | Fill brush of the placeholders. |
@@ -119,7 +119,7 @@ On a first load, a list has no items yet, so there are no rows to mirror. Set `u
 
 While loading, every `ItemsControl`, `ListView`, `GridView` and `ItemsRepeater` in the content that has an `ItemTemplate`, **no items**, and a `PlaceholderCount` (set on itself or an ancestor, locally or through a `Style`):
 
-- gets `PlaceholderCount` rows built from a private copy of the list (same `ItemTemplate`, `ItemContainerStyle`, `ItemsPanel`/`Layout`, `Style` and `Padding`) filled with `null` items, so bound values are empty and follow the [empty-value rules](#how-placeholders-are-generated);
+- gets `PlaceholderCount` rows built from a private copy of the list (same `ItemTemplate`, plus `ItemContainerStyle`, `ItemsPanel`, `Style` and `Padding` for an `ItemsControl`, or `Layout` for an `ItemsRepeater`) filled with `null` items, so bound values are empty and follow the [empty-value rules](#how-placeholders-are-generated);
 - **reserves the rows' space** when it is sized by its content (e.g. in an `Auto` row or a vertical `StackPanel`): its `MinHeight` is raised temporarily, up to its `MaxHeight`, so the content below it moves down as if the rows existed. A list that already has more space than it needs (e.g. stretched in a `*` row) keeps its size, and rows that don't fit are clipped. A list with an explicit `Height` is never resized;
 - goes back to normal once loading ends or its items arrive: the rows are dropped, its own items are mirrored instead, and its `MinHeight` (local value or binding) is restored.
 
@@ -130,7 +130,7 @@ Notes:
 - The list needs a width: a list that is 0 wide (e.g. unconstrained in a horizontal `StackPanel`) gets no rows.
 - A list's `Header` and `Footer` are not mirrored; placeholder rows start at the top of the list.
 - `ItemTemplateSelector` and `ItemContainerStyleSelector` are not used for placeholder rows (their items are `null`): set `ItemTemplate`, and `ItemContainerStyle` if needed. The template must tolerate a `null` data context.
-- Other `ItemsControl`-derived controls (`ComboBox`, `FlipView`, custom subclasses of `ItemsControl`) don't get rows; a `Debug` log entry says so. Subclasses of `ListView` and `GridView` are treated as `ListView` and `GridView`: a `Style` targeting the subclass is not applied to the placeholder copy.
+- Other `ItemsControl`-derived controls (`ListBox`, `FlipView`, custom subclasses of `ItemsControl`) don't get rows; a `Debug` log entry says so. Subclasses of `ListView` and `GridView` are treated as `ListView` and `GridView`: a `Style` targeting the subclass is not applied to the placeholder copy.
 
 ### Appearance
 
@@ -169,7 +169,7 @@ If the real content *is* in the tree while loading, and only its list is empty, 
 
 ### Template
 
-The skeleton is derived from the presenter's `ContentTemplate`. In a control template, template-bind it to the control's value template (e.g. `ContentTemplate="{TemplateBinding ValueTemplate}"`). A presenter without a `ContentTemplate` (and without element `Content`) logs a warning once loaded.
+The skeleton is derived from the presenter's `ContentTemplate`. In a control template, template-bind it to the control's value template (e.g. `ContentTemplate="{TemplateBinding ValueTemplate}"`). A presenter without a `ContentTemplate` (and without element `Content`) logs a warning when it loads.
 
 The presenter's `Content` (if any) becomes the template's data context. Leave it empty, or pass an object whose data is not loaded yet, so that bound values are empty and placeholders follow the [empty-value rules](#how-placeholders-are-generated).
 
@@ -231,7 +231,7 @@ The static `Skeleton` class provides attached properties that tune generation.
 |----------|------|---------|--------|-------------|
 | `Skeleton.Ignore` | `bool` | `false` | Any element inside the content | Excludes the element **and its subtree** from generation: no placeholder is produced for it, and it **stays visible** while loading. Use it for static parts that do not depend on the data being loaded, such as headers or labels. |
 | `Skeleton.Shape` | `SkeletonShape` | `Auto` | Any element inside the content | Forces the placeholder shape. Any value other than `Auto` also makes the element a leaf: a single placeholder covers it and its subtree is not visited. Use it to collapse a complex element (e.g. an avatar made of an `Image` inside a `Border`) into one shape. |
-| `Skeleton.PlaceholderCount` | `int` | `0` | In a `SkeletonView`: an empty list, or any of its ancestors. For a `SkeletonPresenter`: the presenter or any of its ancestors (typically the control whose template hosts the presenter) | Number of placeholder rows generated for empty lists while loading. The nearest element with a value applies, whether set locally or through a `Style`; an explicit `0` disables rows, and vetoes an ancestor's value. In a `SkeletonView`, rows are opt-in: a list without a value gets [none](#empty-lists). A `SkeletonPresenter` [stamps](#placeholder-rows-for-lists) its template's lists with the nearest value (the presenter itself first, then its ancestors), else `SkeletonPresenter.DefaultPlaceholderCount` (`4`). |
+| `Skeleton.PlaceholderCount` | `int` | `0` | In a `SkeletonView`: an empty list, or any of its ancestors. For a `SkeletonPresenter`: the presenter or any of its ancestors (typically the control whose template hosts the presenter) | Number of placeholder rows generated for empty lists while loading. The nearest element with a value applies, whether set locally or through a `Style`; a `0` set locally disables rows, and vetoes an ancestor's value (a `0` from a `Style` is the same as no value). In a `SkeletonView`, rows are opt-in: a list without a value gets [none](#empty-lists). A `SkeletonPresenter` [stamps](#placeholder-rows-for-lists) its template's lists with the nearest value (the presenter itself first, then its ancestors), else `SkeletonPresenter.DefaultPlaceholderCount` (`4`). |
 
 ### SkeletonShape
 
