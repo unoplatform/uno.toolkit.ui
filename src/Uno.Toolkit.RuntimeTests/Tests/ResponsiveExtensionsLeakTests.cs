@@ -32,6 +32,11 @@ public class ResponsiveExtensionsLeakTests
 	[TestMethod]
 	public async Task SweepDeadInstances_Prunes_CollectedTrackedInstances()
 	{
+		// Baseline after a sweep, so dead entries left by earlier tests are not counted.
+		await CollectAndWait();
+		ResponsiveExtension.TestHook_SweepDeadInstances();
+		await CollectAndWait();
+		ResponsiveExtension.TestHook_SweepDeadInstances();
 		var before = ResponsiveExtension.TestHook_TrackedInstanceCount;
 
 		// Add a tracked entry whose extension is collectible and then goes away (modelling an extension
@@ -105,6 +110,38 @@ public class ResponsiveExtensionsLeakTests
 		await UnitTestUIContentHelperEx.WaitForIdle();
 
 		return extensionRef;
+	}
+
+	[TestMethod]
+	public async Task NeverLoaded_Host_IsCollectible_AfterSweep()
+	{
+		// An extension installed on a host that never loads never connects, so it has no host weak-reference
+		// to sweep on. It must still not keep that host alive once the host is released.
+		var (hostRef, extensionRef) = InstallOnNeverLoadedHost();
+
+		await CollectAndWait();
+		ResponsiveExtension.TestHook_SweepDeadInstances();
+		await CollectAndWait();
+
+		Assert.IsFalse(
+			hostRef.IsAlive,
+			"A host that never loaded should be collectible once released; if it survives, the pending Loaded " +
+			"unsubscription of a never-connected ResponsiveExtension is still holding it.");
+		Assert.IsFalse(
+			extensionRef.IsAlive,
+			"A never-connected ResponsiveExtension should be swept from HardSelfReferences once its target is collected.");
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	private static (WeakReference Host, WeakReference Extension) InstallOnNeverLoadedHost()
+	{
+		var host = new TextBlock { Text = "Uninitialized" };
+		var markup = new ResponsiveExtension { Layout = DefaultLayout, Narrow = "Narrow", Wide = "Wide" };
+
+		Assert.IsTrue(ResponsiveExtension.Install(host, null, nameof(host.Text), markup), "Install should succeed.");
+		Assert.IsFalse(markup.IsConnected, "Extension should not connect while its host is not loaded.");
+
+		return (new WeakReference(host), new WeakReference(markup));
 	}
 
 	private static async Task CollectAndWait()
