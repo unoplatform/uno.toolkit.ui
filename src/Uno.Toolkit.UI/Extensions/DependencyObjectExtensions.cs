@@ -187,28 +187,26 @@ namespace Uno.Toolkit.UI
 		public static DependencyProperty? FindDependencyProperty(this DependencyObject owner, string propertyName) =>
 			owner.GetType().FindDependencyProperty(propertyName);
 
-		/// <param name="logMissing">Whether a property that cannot be found is logged; false for lookups where a miss is an expected outcome.</param>
-		public static DependencyProperty? FindDependencyProperty<TProperty>(this Type ownerOrDescendantType, string propertyName, bool logMissing = true)
+		public static DependencyProperty? FindDependencyProperty<TProperty>(this Type ownerOrDescendantType, string propertyName)
 		{
 			var propertyType = typeof(TProperty);
-			var property = FindDependencyPropertyInfo(ownerOrDescendantType, propertyName, logMissing);
+			var property = FindDependencyPropertyInfo(ownerOrDescendantType, propertyName);
 
 			if (property is { } && property.PropertyType != typeof(TProperty))
 			{
-				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{ownerOrDescendantType.Name}.{propertyName}' dependency property is not of the expected type '{propertyType.Name}': [{property.PropertyType?.FullName}]{property.OwnerType.FullName}{property.PropertyName}");
+				typeof(DependencyObjectExtensions).Log().LogWarning($"The '{ownerOrDescendantType.GetType().Name}.{propertyName}' dependency property is not of the expected type '{propertyType.Name}': [{property.PropertyType?.FullName}]{property.OwnerType.FullName}{property.PropertyName}");
 				property = null;
 			}
 
 			return property?.Definition;
 		}
 
-		/// <param name="logMissing">Whether a property that cannot be found is logged; false for lookups where a miss is an expected outcome.</param>
-		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName, bool logMissing = true) =>
-			FindDependencyPropertyInfo(ownerOrDescendantType, propertyName, logMissing)?.Definition;
+		public static DependencyProperty? FindDependencyProperty(this Type ownerOrDescendantType, string propertyName) =>
+			FindDependencyPropertyInfo(ownerOrDescendantType, propertyName)?.Definition;
 
 		[UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Looks up a dependency property by name on any control type; a trimmed member resolves to null, which callers already handle.")]
 		[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Same lookup on the declaring type of the dependency property found above.")]
-		internal static DependencyPropertyInfo? FindDependencyPropertyInfo(this Type ownerOrDescendantType, string propertyName, bool logMissing = true)
+		internal static DependencyPropertyInfo? FindDependencyPropertyInfo(this Type ownerOrDescendantType, string propertyName)
 		{
 			propertyName = propertyName.RemoveTail("Property");
 
@@ -236,7 +234,7 @@ namespace Uno.Toolkit.UI
 					propertyCache[propertyName] = property;
 				}
 
-				if (property is null && logMissing)
+				if (property is null)
 				{
 					typeof(DependencyObjectExtensions).Log().LogWarning($"The dependency property '{propertyName}' does not exist on '{type}' or its ancestors.");
 				}

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
 
@@ -16,14 +15,12 @@ namespace Uno.Toolkit.UI
 {
 	/// <summary>
 	/// A <see cref="SkeletonView"/> that derives its skeleton from a template instead of live content, loading by default.
-	/// Designed to be dropped into (or injected as, via <see cref="Skeleton.IsEnabledProperty"/>)
-	/// the loading template of a state-aware control such as <c>FeedView</c>.
+	/// Designed to be dropped into the loading template of a state-aware control such as <c>FeedView</c>.
 	/// </summary>
 	/// <remarks>
-	/// The template resolution order is: its own <see cref="ContentControl.ContentTemplate"/>, then the
-	/// <see cref="Skeleton.PlaceholderTemplateProperty"/> and <c>ValueTemplate</c> of the nearest ancestor
-	/// with <see cref="Skeleton.IsEnabledProperty"/> set. Empty list controls in the resolved template are
-	/// stamped with <see cref="Skeleton.PlaceholderCountProperty"/> placeholder rows: the value of the nearest
+	/// The skeleton is derived from its <see cref="ContentControl.ContentTemplate"/>, typically template-bound to the
+	/// state-aware control's value template. Empty list controls in that template are stamped with
+	/// <see cref="Skeleton.PlaceholderCountProperty"/> placeholder rows: the value of the nearest
 	/// element setting it (the presenter itself first), else <see cref="DefaultPlaceholderCount"/>.
 	/// </remarks>
 	public partial class SkeletonPresenter : SkeletonView
@@ -31,47 +28,25 @@ namespace Uno.Toolkit.UI
 		/// <summary>Placeholder rows stamped into the template's empty lists when no <see cref="Skeleton.PlaceholderCountProperty"/> is found.</summary>
 		public const int DefaultPlaceholderCount = 4;
 
-		private FrameworkElement? _skeletonOwner;
-
 		/// <summary>Initializes a new instance of the <see cref="SkeletonPresenter"/> class.</summary>
 		public SkeletonPresenter()
 		{
 			DefaultStyleKey = typeof(SkeletonPresenter);
 
-			// the owner's templates may only be in place once in the tree: this is the resolution that gets to warn
-			Loaded += (s, e) => ResolveTemplate(warnIfUnresolved: true);
+			// a template-bound ContentTemplate is only in place once in the tree
+			Loaded += (s, e) => WarnIfNoTemplate();
 		}
 
-		protected override void OnApplyTemplate()
+		private void WarnIfNoTemplate()
 		{
-			ResolveTemplate(warnIfUnresolved: false);
-
-			base.OnApplyTemplate();
-		}
-
-		private void ResolveTemplate(bool warnIfUnresolved)
-		{
-			_skeletonOwner = this.GetAncestors(includeCurrent: false).OfType<FrameworkElement>().FirstOrDefault(Skeleton.GetIsEnabled);
-
-			if (ContentTemplate is null)
+			if (ContentTemplate is null && Content is not UIElement)
 			{
-				var template = _skeletonOwner is { } owner
-					? Skeleton.GetPlaceholderTemplate(owner) ?? Skeleton.FindValueTemplate(owner)
-					: null;
-				if (template is { })
-				{
-					ContentTemplate = template;
-				}
-				else if (warnIfUnresolved && Content is not UIElement)
-				{
-					typeof(SkeletonPresenter).Log().LogWarning(
-						"Unable to resolve a template to derive the skeleton from; set ContentTemplate, or Skeleton.PlaceholderTemplate / a ValueTemplate on the ancestor with Skeleton.IsEnabled.");
-				}
+				typeof(SkeletonPresenter).Log().LogWarning("No ContentTemplate is set to derive the skeleton from.");
 			}
 		}
 
-		// The nearest element setting it applies: the Skeleton.IsEnabled owner, or the templated control when this
-		// presenter is part of a control template (where the attached property can't be template-bound).
+		// The nearest element setting it applies, e.g. the templated control when this presenter is part of
+		// a control template (where the attached property can't be template-bound).
 		private int ResolvePlaceholderCount() =>
 			Skeleton.TryGetInheritedPlaceholderCount(this, out var count)
 				? count

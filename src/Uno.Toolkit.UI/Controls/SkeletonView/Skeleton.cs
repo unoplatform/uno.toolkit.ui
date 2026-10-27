@@ -1,7 +1,5 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.Logging;
-using Uno.Extensions;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
@@ -27,66 +25,10 @@ namespace Uno.Toolkit.UI
 	}
 
 	/// <summary>
-	/// Provides attached properties to configure skeleton generation, and to inject an auto-generated
-	/// skeleton as the loading template of state-aware controls exposing a <c>ProgressTemplate</c>
-	/// (such as <c>FeedView</c> from Uno.Extensions), without any skeleton markup.
+	/// Provides attached properties to configure skeleton generation.
 	/// </summary>
 	public static class Skeleton
 	{
-		// FeedView-convention member names, resolved by reflection so the toolkit takes no dependency on Uno.Extensions.
-		private const string ProgressTemplatePropertyName = "ProgressTemplate";
-		private const string ValueTemplatePropertyName = "ValueTemplate";
-
-		// Keyed resource (in SkeletonView.xaml) hosting the SkeletonPresenter injected as ProgressTemplate.
-		internal const string DefaultProgressTemplateResourceKey = "SkeletonDefaultProgressTemplate";
-
-		#region AttachedProperty: IsEnabled
-
-		/// <summary>
-		/// Backing property for enabling automatic skeleton injection on a control exposing a <c>ProgressTemplate</c>.
-		/// </summary>
-		[DynamicDependency(nameof(GetIsEnabled))]
-		[DynamicDependency(nameof(SetIsEnabled))]
-		public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached(
-			"IsEnabled",
-			typeof(bool),
-			typeof(Skeleton),
-			new PropertyMetadata(false, OnIsEnabledChanged));
-
-		/// <summary>Gets whether an auto-generated skeleton is injected as the element's <c>ProgressTemplate</c>.</summary>
-		public static bool GetIsEnabled(FrameworkElement element) => (bool)element.GetValue(IsEnabledProperty);
-
-		/// <summary>
-		/// Sets whether an auto-generated skeleton is injected as the element's <c>ProgressTemplate</c>.
-		/// The skeleton layout is derived from the element's <c>ValueTemplate</c> unless
-		/// <see cref="PlaceholderTemplateProperty"/> is set. An explicitly assigned <c>ProgressTemplate</c> is never overwritten.
-		/// </summary>
-		public static void SetIsEnabled(FrameworkElement element, bool value) => element.SetValue(IsEnabledProperty, value);
-
-		#endregion
-
-		#region AttachedProperty: PlaceholderTemplate
-
-		/// <summary>
-		/// Backing property for the template the injected skeleton is derived from,
-		/// overriding the default derivation from the element's <c>ValueTemplate</c>.
-		/// </summary>
-		[DynamicDependency(nameof(GetPlaceholderTemplate))]
-		[DynamicDependency(nameof(SetPlaceholderTemplate))]
-		public static readonly DependencyProperty PlaceholderTemplateProperty = DependencyProperty.RegisterAttached(
-			"PlaceholderTemplate",
-			typeof(DataTemplate),
-			typeof(Skeleton),
-			new PropertyMetadata(default(DataTemplate)));
-
-		/// <summary>Gets the template the injected skeleton is derived from.</summary>
-		public static DataTemplate? GetPlaceholderTemplate(FrameworkElement element) => (DataTemplate?)element.GetValue(PlaceholderTemplateProperty);
-
-		/// <summary>Sets the template the injected skeleton is derived from, instead of the element's <c>ValueTemplate</c>.</summary>
-		public static void SetPlaceholderTemplate(FrameworkElement element, DataTemplate? value) => element.SetValue(PlaceholderTemplateProperty, value);
-
-		#endregion
-
 		#region AttachedProperty: PlaceholderCount
 
 		/// <summary>
@@ -157,77 +99,6 @@ namespace Uno.Toolkit.UI
 
 		#endregion
 
-		#region AttachedProperty (private): InjectedTemplate
-
-		// Remembers the template instance this class injected, so disabling only clears what it set.
-		private static readonly DependencyProperty InjectedTemplateProperty = DependencyProperty.RegisterAttached(
-			"InjectedTemplate",
-			typeof(DataTemplate),
-			typeof(Skeleton),
-			new PropertyMetadata(default(DataTemplate)));
-
-		#endregion
-
-		private static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is not FrameworkElement element) return;
-
-			if (e.NewValue is true)
-			{
-				InjectProgressTemplate(element);
-			}
-			else
-			{
-				RemoveInjectedProgressTemplate(element);
-			}
-		}
-
-		private static void InjectProgressTemplate(FrameworkElement element)
-		{
-			// typed: a ProgressTemplate of another type would make the SetValue below throw (on WinUI) while the page is loading
-			if (element.GetType().FindDependencyProperty<DataTemplate>(ProgressTemplatePropertyName, logMissing: false) is not { } progressTemplateProperty)
-			{
-				typeof(Skeleton).Log().LogWarning(
-					"Skeleton.IsEnabled is set on a {Type} which does not expose a {Property} dependency property of type DataTemplate; no skeleton is injected.",
-					element.GetType().Name, ProgressTemplatePropertyName);
-				return;
-			}
-
-			// Only a locally assigned ProgressTemplate wins. One coming from a style (e.g. FeedView's default
-			// progress ring) is exactly what the injection is meant to replace.
-			if (element.ReadLocalValue(progressTemplateProperty) != DependencyProperty.UnsetValue)
-			{
-				typeof(Skeleton).Log().LogDebug(
-					"Skeleton.IsEnabled is set on a {Type} whose {Property} is assigned locally; the assigned template is kept.",
-					element.GetType().Name, ProgressTemplatePropertyName);
-				return;
-			}
-
-			if (!(Application.Current?.Resources.TryGetValue(DefaultProgressTemplateResourceKey, out var resource) ?? false) ||
-				resource is not DataTemplate template)
-			{
-				typeof(Skeleton).Log().LogWarning(
-					"Unable to resolve the '{Key}' resource; ensure the Uno.Toolkit resources are merged into the application resources.",
-					DefaultProgressTemplateResourceKey);
-				return;
-			}
-
-			element.SetValue(progressTemplateProperty, template);
-			element.SetValue(InjectedTemplateProperty, template);
-		}
-
-		private static void RemoveInjectedProgressTemplate(FrameworkElement element)
-		{
-			if (element.GetValue(InjectedTemplateProperty) is not DataTemplate injected) return;
-			element.ClearValue(InjectedTemplateProperty);
-
-			if (element.GetType().FindDependencyProperty<DataTemplate>(ProgressTemplatePropertyName, logMissing: false) is { } progressTemplateProperty &&
-				ReferenceEquals(element.GetValue(progressTemplateProperty), injected))
-			{
-				element.ClearValue(progressTemplateProperty);
-			}
-		}
-
 		/// <summary>
 		/// Resolves the <see cref="PlaceholderCountProperty"/> of the element or its nearest ancestor with a value: one set
 		/// locally (an explicit 0 counts, and vetoes an ancestor's value) or coming from a <c>Style</c> (any non-zero value).
@@ -246,13 +117,5 @@ namespace Uno.Toolkit.UI
 			count = 0;
 			return false;
 		}
-
-		/// <summary>
-		/// Resolves the element's <c>ValueTemplate</c> by convention, if it exposes one.
-		/// </summary>
-		internal static DataTemplate? FindValueTemplate(FrameworkElement element) =>
-			element.GetType().FindDependencyProperty<DataTemplate>(ValueTemplatePropertyName, logMissing: false) is { } dp
-				? element.GetValue(dp) as DataTemplate
-				: null;
 	}
 }

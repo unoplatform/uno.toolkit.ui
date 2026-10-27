@@ -12,7 +12,7 @@ Three building blocks cover the different ways content can be loading:
 |------|-------------|--------------|
 | [`SkeletonView`](#skeletonview) | The real content is already in the visual tree, bound to data that is still loading (or being refreshed). | Wraps the content, hides it while `IsLoading` is true, and overlays one placeholder per visual element at its actual position. Empty lists can get placeholder rows from their `ItemTemplate`. |
 | [`SkeletonPresenter`](#skeletonpresenter) | The real content is *not* in the tree while loading, e.g. inside a loading slot or a `ProgressTemplate`. | Instantiates a private, data-less copy of a `DataTemplate` and generates placeholders from it, stamping placeholder rows into empty lists. |
-| [`Skeleton` attached properties](#skeleton-attached-properties) | You need to tune generation, or inject a skeleton into a control that follows the `ProgressTemplate`/`ValueTemplate` convention. | `Ignore`, `Shape`, `PlaceholderCount`, `PlaceholderTemplate`, `IsEnabled`. |
+| [`Skeleton` attached properties](#skeleton-attached-properties) | You need to tune generation. | `Ignore`, `Shape`, `PlaceholderCount`. |
 
 For MVUX's `FeedView`, see [FeedView](#feedview-uno-extensions).
 
@@ -167,13 +167,9 @@ If the real content *is* in the tree while loading, and only its list is empty, 
 
 `SkeletonPresenter` derives from `SkeletonView`, so it inherits all of its [properties](#properties) and lightweight styling. `IsLoading` defaults to `true`, which is what you want for a loading slot. When the slot is hidden rather than removed (a `LoadingView` keeps its `LoadingContent` in the tree once loaded), the shimmer follows [`ProgressExtensions.IsActive`](xref:Toolkit.Helpers.ProgressExtensions) like a `ProgressRing` would: `LoadingView` sets it on its loading slot, so nothing animates out of sight. Elsewhere, set `IsLoading` to `false` to stop it.
 
-### Template resolution
+### Template
 
-The template the skeleton is derived from is, in order:
-
-1. the presenter's own `ContentTemplate`;
-2. otherwise, `utu:Skeleton.PlaceholderTemplate` of the nearest ancestor with `utu:Skeleton.IsEnabled="True"`;
-3. otherwise, that ancestor's `ValueTemplate` (see [Automatic injection](#automatic-injection-skeletonisenabled)).
+The skeleton is derived from the presenter's `ContentTemplate`. In a control template, template-bind it to the control's value template (e.g. `ContentTemplate="{TemplateBinding ValueTemplate}"`). A presenter without a `ContentTemplate` (and without element `Content`) logs a warning once loaded.
 
 The presenter's `Content` (if any) becomes the template's data context. Leave it empty, or pass an object whose data is not loaded yet, so that bound values are empty and placeholders follow the [empty-value rules](#how-placeholders-are-generated).
 
@@ -229,15 +225,13 @@ Reuse the same item template for both the loaded list and its loading skeleton:
 
 ## Skeleton attached properties
 
-The static `Skeleton` class provides attached properties that tune generation and enable automatic injection.
+The static `Skeleton` class provides attached properties that tune generation.
 
 | Property | Type | Default | Set on | Description |
 |----------|------|---------|--------|-------------|
 | `Skeleton.Ignore` | `bool` | `false` | Any element inside the content | Excludes the element **and its subtree** from generation: no placeholder is produced for it, and it **stays visible** while loading. Use it for static parts that do not depend on the data being loaded, such as headers or labels. |
 | `Skeleton.Shape` | `SkeletonShape` | `Auto` | Any element inside the content | Forces the placeholder shape. Any value other than `Auto` also makes the element a leaf: a single placeholder covers it and its subtree is not visited. Use it to collapse a complex element (e.g. an avatar made of an `Image` inside a `Border`) into one shape. |
-| `Skeleton.PlaceholderCount` | `int` | `0` | In a `SkeletonView`: an empty list, or any of its ancestors. For a `SkeletonPresenter`: the presenter or any of its ancestors (typically the control using `Skeleton.IsEnabled`, or the control whose template hosts the presenter) | Number of placeholder rows generated for empty lists while loading. The nearest element with a value applies, whether set locally or through a `Style`; an explicit `0` disables rows, and vetoes an ancestor's value. In a `SkeletonView`, rows are opt-in: a list without a value gets [none](#empty-lists). A `SkeletonPresenter` [stamps](#placeholder-rows-for-lists) its template's lists with the nearest value (the presenter itself first, then its ancestors, including the `Skeleton.IsEnabled` owner), else `SkeletonPresenter.DefaultPlaceholderCount` (`4`). |
-| `Skeleton.PlaceholderTemplate` | `DataTemplate` | `null` | The control using `Skeleton.IsEnabled` | Template the injected skeleton is derived from, instead of the control's `ValueTemplate`. Use it when the value template is too complex, or when you want a simplified loading layout. |
-| `Skeleton.IsEnabled` | `bool` | `false` | A control exposing a `ProgressTemplate` dependency property | Injects an auto-generated skeleton as the control's `ProgressTemplate`. See [Automatic injection](#automatic-injection-skeletonisenabled). |
+| `Skeleton.PlaceholderCount` | `int` | `0` | In a `SkeletonView`: an empty list, or any of its ancestors. For a `SkeletonPresenter`: the presenter or any of its ancestors (typically the control whose template hosts the presenter) | Number of placeholder rows generated for empty lists while loading. The nearest element with a value applies, whether set locally or through a `Style`; an explicit `0` disables rows, and vetoes an ancestor's value. In a `SkeletonView`, rows are opt-in: a list without a value gets [none](#empty-lists). A `SkeletonPresenter` [stamps](#placeholder-rows-for-lists) its template's lists with the nearest value (the presenter itself first, then its ancestors), else `SkeletonPresenter.DefaultPlaceholderCount` (`4`). |
 
 ### SkeletonShape
 
@@ -265,46 +259,6 @@ The static `Skeleton` class provides attached properties that tune generation an
     </StackPanel>
 </utu:SkeletonView>
 ```
-
-### Automatic injection (Skeleton.IsEnabled)
-
-Some state-aware controls display a separate `ProgressTemplate` while loading and a `ValueTemplate` once loaded. Setting `utu:Skeleton.IsEnabled="True"` on such a control injects a `SkeletonPresenter` as its `ProgressTemplate`, so its loading state becomes a skeleton derived from its own `ValueTemplate`, with no skeleton markup at all:
-
-```xml
-<local:MyStateView Source="{Binding People}"
-                   utu:Skeleton.IsEnabled="True"
-                   utu:Skeleton.PlaceholderCount="5">
-    <local:MyStateView.ValueTemplate>
-        <DataTemplate>
-            <ListView ItemsSource="{Binding Data}" ItemTemplate="{StaticResource PersonRowTemplate}" />
-        </DataTemplate>
-    </local:MyStateView.ValueTemplate>
-</local:MyStateView>
-```
-
-To derive the skeleton from a different, simpler template:
-
-```xml
-<local:MyStateView utu:Skeleton.IsEnabled="True">
-    <utu:Skeleton.PlaceholderTemplate>
-        <DataTemplate>
-            <StackPanel Spacing="8">
-                <TextBlock Width="200" />
-                <TextBlock Width="120" />
-            </StackPanel>
-        </DataTemplate>
-    </utu:Skeleton.PlaceholderTemplate>
-    <!-- ... -->
-</local:MyStateView>
-```
-
-Requirements and behavior:
-
-- The control must expose a public static `ProgressTemplateProperty` dependency property (field or property). `ValueTemplateProperty` is used as the default skeleton source. These are resolved by convention, using reflection, so the toolkit takes no dependency on the control's library.
-- A `ProgressTemplate` assigned locally on the control (in XAML or code) is never overwritten. One that comes from a style, such as `FeedView`'s default progress ring, is replaced, since that is what the injection is for. Setting `IsEnabled` back to `false` only removes the template it injected.
-- The injected template is the `SkeletonDefaultProgressTemplate` resource from the Uno Toolkit resources, which must be merged in your application resources (as for any Uno Toolkit control).
-- If the property cannot be found (unsupported control, or removed by trimming), nothing is injected and a warning is logged.
-- Injection only replaces the loading template, so it covers the *initial* load. On MVUX's `FeedView` it works, but prefer [`SkeletonFeedViewStyle`](#feedview-uno-extensions), which also covers refreshes.
 
 ## FeedView (Uno Extensions)
 
@@ -342,7 +296,7 @@ These resources apply to both `SkeletonView` and `SkeletonPresenter`. Override t
 - **Elements outside the control are not covered.** Placeholders are confined to the `SkeletonView`; wrap each area that loads.
 - **Nested skeletons own their content.** A `SkeletonView` (or `SkeletonPresenter`) inside the content is left alone: the outer view produces no placeholders for it, and each view hides and restores its own elements.
 - **Keyboard focus can still reach covered content.** Hidden elements are not hit-testable, but a `Tab` can still focus a covered control, as with `LoadingView`. Bind `IsEnabled` of such controls to your loading flag if that matters. The placeholders themselves are not exposed to assistive technologies.
-- **Warnings in the log.** `Uno.Toolkit.UI.Skeleton` warns when `Skeleton.IsEnabled` targets a control without a `ProgressTemplate` property, or when the Uno Toolkit resources aren't merged; `Uno.Toolkit.UI.SkeletonPresenter` warns when no template can be resolved. Lists skipped for an unsupported kind are logged at `Debug` level.
+- **Warnings in the log.** `Uno.Toolkit.UI.SkeletonPresenter` warns when it has no `ContentTemplate` to derive the skeleton from. Lists skipped for an unsupported kind are logged at `Debug` level.
 - **Virtualized lists** only produce placeholders for realized items, which is usually what fills the viewport.
 
 ## Samples

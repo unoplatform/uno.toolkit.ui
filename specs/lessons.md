@@ -3,6 +3,14 @@
 Corrections worth not repeating. Newest first. Per `AGENTS.md` §3, corrections that should bind
 every agent on this repo go here (or in `AGENTS.md` / a skill's `SKILL.md`), never in personal memory.
 
+## No convention-by-reflection API without a consumer that needs it
+
+**2026-10-27 — SkeletonView (#1669).**
+
+**Context:** `Skeleton.IsEnabled` found a control's `ProgressTemplate`/`ValueTemplate` dependency properties by name, through reflection, so the toolkit could inject a skeleton into `FeedView` without referencing Uno.Extensions. The only real consumer, `SkeletonFeedViewStyle`, never used it: it template-binds `SkeletonPresenter.ContentTemplate` to `ValueTemplate` directly. The reflection still cost a trimming suppression, a `logMissing` flag on a shared helper, two public attached properties, a Markup generator workaround, and stub-based tests that never ran against a real `FeedView`. The maintainer asked for the reflection to be removed entirely.
+
+**How to apply:** Before resolving another library's members by name, check whether that library can wire itself to a public toolkit type instead (a style, a template binding, a `ContentTemplate`). Ship the reflection path only when a named consumer needs it and it has been exercised against that consumer, not a stub.
+
 ## A Release build rewrites `Generated/mergedpages.xaml`
 
 **2026-09-29 — FlexPanel review (#1639).**
@@ -232,4 +240,4 @@ The gating does not survive contact with the arithmetic. `PrimaryAxisAlignmentOf
 
 **Context:** `Skeleton.PlaceholderTemplate` was the toolkit's first attached property of type `DataTemplate`. The desktop sample and runtime-test builds were green, but CI's `Build_Packages` failed: `Uno.Toolkit.WinUI.Markup` generates a builder for every public attached property, and the generator's `DataTemplate` overloads don't compile (missing `DataTemplateSelector` import, CS8602 on a missing null check). The same CI run also failed markdownlint (hard tabs in a doc's code blocks) and cspell on `specs/` text.
 
-**How to apply:** Before pushing a change that adds or retypes a public attached property, build `src/library/Uno.Toolkit.WinUI.Markup` in Release; it is not part of the sample or runtime-test builds. Before pushing `.md` changes, run `npx markdownlint-cli -c build/workflow/.markdownlint.json <files>` and `npx cspell --config build/workflow/cspell.json "**/*.md"`. CI lints `specs/` too, and `.md` code blocks indent with spaces, never tabs. An `.editorconfig` severity override does not reach this generator's output, so a workaround has to be project-scoped (see the Markup csproj).
+**How to apply:** Before pushing a change that adds or retypes a public attached property, build `src/library/Uno.Toolkit.WinUI.Markup` in Release; it is not part of the sample or runtime-test builds. Before pushing `.md` changes, run `npx markdownlint-cli -c build/workflow/.markdownlint.json <files>` and `npx cspell --config build/workflow/cspell.json "**/*.md"`. CI lints `specs/` too, and `.md` code blocks indent with spaces, never tabs. An `.editorconfig` severity override does not reach this generator's output, so a workaround has to be project-scoped in the Markup csproj (the `PlaceholderTemplate` one was removed with that property).

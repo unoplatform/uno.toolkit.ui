@@ -168,8 +168,22 @@ Scope: the findings posted on #1669 (review 5619702536) plus the two inline revi
 Not done, with reason:
 
 - Keyboard focus guard: cancelling `GettingFocus` leaves Tab stuck on the previous element (WinUI keeps focus where it is), `IsEnabled=false` on the view would restyle visible container chrome, and per-control `IsTabStop` capture is a third captured property. Same gap as `LoadingView`; documented in troubleshooting instead.
-- `NoWarn CS8602` in the Markup csproj: no upstream issue exists yet (searched uno.extensions); filing one is for the author.
+- `NoWarn CS8602` in the Markup csproj: no upstream issue exists yet (searched uno.extensions); filing one is for the author. (Moot since Phase 11: the workaround is gone with `PlaceholderTemplate`.)
 - WinUI run: not possible from this machine; still the gating item.
+
+## Phase 11 — no reflection (2026-10-27)
+
+Decision B resolved: the injection API is removed, so the skeleton feature uses no reflection. `SkeletonFeedViewStyle` (uno.extensions) template-binds `SkeletonPresenter.ContentTemplate` to `ValueTemplate`, so it never needed the convention lookup.
+
+- [x] `Skeleton`: removed `IsEnabled`, `PlaceholderTemplate`, the private `InjectedTemplate`, the `ProgressTemplate`/`ValueTemplate` name lookups and `FindValueTemplate`
+- [x] `SkeletonPresenter`: derives only from its own `ContentTemplate`; the ancestor-owner lookup and `OnApplyTemplate` override are gone; warns once loaded when it has no template and no element `Content`
+- [x] `SkeletonView.xaml`: `SkeletonDefaultProgressTemplate` resource removed
+- [x] Reverted to `main`: `DependencyObjectExtensions` (the `logMissing` flag had no other caller; this also drops its unrelated log-message fix) and the Markup csproj (`NoWarn CS8602` + `DataTemplateSelector` alias existed only for `PlaceholderTemplate`)
+- [x] Tests: `SkeletonInjectionTests` → `SkeletonPresenterTests`. Removed the six injection-only tests and the `FeedViewStub`/`UntypedProgressTemplateStub` stubs. Converted to plain presenters: `When_ContentTemplate_Skeleton_Derived_From_It`, `When_List_Template_Stamped_With_Default_Placeholder_Rows`, `When_Hosted_In_Control_Template_Count_From_Templated_Control` (the `SkeletonFeedViewStyle` shape: template-bound `ContentTemplate`, count on the templated control). Added `When_No_ContentTemplate_Nothing_Generated`
+- [x] Docs: `SkeletonView.md` drops the automatic-injection section, the two property rows and the template-resolution order
+- [x] 53/53 skeleton runtime tests pass headless (Material desktop): 58 − 6 removed + 1 added. Release: library zero warnings, runtime tests only the 2 `UXAML0007` from the engine package, Markup zero warnings. `Generated/mergedpages.xaml` restored after the Release build
+
+Follow-up outside this repo: uno.extensions `dev/sb/skeleton-feedview` `doc/Learn/Mvux/FeedView.md` still says `utu:Skeleton.IsEnabled` and `utu:Skeleton.PlaceholderTemplate` "have no effect" with the style; that sentence should go.
 
 ## Notes for future work
 
