@@ -35,6 +35,8 @@ public class ResponsiveExtensionsLeakTests
 		// Baseline after a sweep, so dead entries left by earlier tests are not counted.
 		await CollectAndWait();
 		ResponsiveExtension.TestHook_SweepDeadInstances();
+		await CollectAndWait();
+		ResponsiveExtension.TestHook_SweepDeadInstances();
 		var before = ResponsiveExtension.TestHook_TrackedInstanceCount;
 
 		// Add a tracked entry whose extension is collectible and then goes away (modelling an extension
