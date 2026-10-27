@@ -183,7 +183,15 @@ Decision B resolved: the injection API is removed, so the skeleton feature uses 
 - [x] Docs: `SkeletonView.md` drops the automatic-injection section, the two property rows and the template-resolution order
 - [x] 53/53 skeleton runtime tests pass headless (Material desktop): 58 − 6 removed + 1 added. Release: library zero warnings, runtime tests only the 2 `UXAML0007` from the engine package, Markup zero warnings. `Generated/mergedpages.xaml` restored after the Release build
 
-Follow-up outside this repo: uno.extensions `dev/sb/skeleton-feedview` `doc/Learn/Mvux/FeedView.md` still says `utu:Skeleton.IsEnabled` and `utu:Skeleton.PlaceholderTemplate` "have no effect" with the style; that sentence should go.
+Follow-up outside this repo: uno.extensions `dev/sb/skeleton-feedview` `doc/Learn/Mvux/FeedView.md` said `utu:Skeleton.IsEnabled` and `utu:Skeleton.PlaceholderTemplate` "have no effect" with the style. Fixed in `ccaa9aa4a` (uno.extensions#3269).
+
+## Phase 12 — default shimmer brushes (2026-10-27)
+
+Five default palettes were compared in light and dark over neutral, Material and Cupertino surfaces (A: the previous opaque greys; B: translucent; C: Material 3 tonal; D: iOS system grays; E: a narrower glint). B was chosen: it is the only one that reads correctly on any surface without per-library overrides, and placeholders hide the content they cover (`Opacity` 0), so nothing shows through.
+
+- [x] `SkeletonView.xaml`: Light/Default background `#14000000` (black 8%), band `#A6FFFFFF` (white 65%); Dark background `#1AFFFFFF` (white 10%), band `#1AFFFFFF`; gradient ends `#00FFFFFF`
+- [x] `SkeletonView.md`: lightweight-styling values updated, with the rationale
+- [x] Release build: library zero warnings (only the engine package `UXAML0007`s); 53/53 skeleton runtime tests pass headless (Material desktop). No test asserts the default colors
 
 ## Notes for future work
 

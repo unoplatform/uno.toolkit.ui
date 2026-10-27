@@ -5,34 +5,35 @@
 					xmlns:utu="using:Uno.Toolkit.UI"
 					mc:Ignorable="d">
 
+	<!-- Translucent black/white rather than opaque greys, so placeholders take on the surface they sit on (cards, tinted pages, any theme library) -->
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Default">
 			<SolidColorBrush x:Key="SkeletonViewBackground"
-							 Color="#E0E0E0" />
+							 Color="#14000000" />
 			<LinearGradientBrush x:Key="SkeletonViewShimmerBrush" StartPoint="0,0.5" EndPoint="1,0.5">
-				<GradientStop Offset="0" Color="#00F5F5F5" />
-				<GradientStop Offset="0.5" Color="#F5F5F5" />
-				<GradientStop Offset="1" Color="#00F5F5F5" />
+				<GradientStop Offset="0" Color="#00FFFFFF" />
+				<GradientStop Offset="0.5" Color="#A6FFFFFF" />
+				<GradientStop Offset="1" Color="#00FFFFFF" />
 			</LinearGradientBrush>
 			<CornerRadius x:Key="SkeletonViewCornerRadius">4</CornerRadius>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Light">
 			<SolidColorBrush x:Key="SkeletonViewBackground"
-							 Color="#E0E0E0" />
+							 Color="#14000000" />
 			<LinearGradientBrush x:Key="SkeletonViewShimmerBrush" StartPoint="0,0.5" EndPoint="1,0.5">
-				<GradientStop Offset="0" Color="#00F5F5F5" />
-				<GradientStop Offset="0.5" Color="#F5F5F5" />
-				<GradientStop Offset="1" Color="#00F5F5F5" />
+				<GradientStop Offset="0" Color="#00FFFFFF" />
+				<GradientStop Offset="0.5" Color="#A6FFFFFF" />
+				<GradientStop Offset="1" Color="#00FFFFFF" />
 			</LinearGradientBrush>
 			<CornerRadius x:Key="SkeletonViewCornerRadius">4</CornerRadius>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Dark">
 			<SolidColorBrush x:Key="SkeletonViewBackground"
-							 Color="#3D3D3D" />
+							 Color="#1AFFFFFF" />
 			<LinearGradientBrush x:Key="SkeletonViewShimmerBrush" StartPoint="0,0.5" EndPoint="1,0.5">
-				<GradientStop Offset="0" Color="#004D4D4D" />
-				<GradientStop Offset="0.5" Color="#4D4D4D" />
-				<GradientStop Offset="1" Color="#004D4D4D" />
+				<GradientStop Offset="0" Color="#00FFFFFF" />
+				<GradientStop Offset="0.5" Color="#1AFFFFFF" />
+				<GradientStop Offset="1" Color="#00FFFFFF" />
 			</LinearGradientBrush>
 			<CornerRadius x:Key="SkeletonViewCornerRadius">4</CornerRadius>
 		</ResourceDictionary>

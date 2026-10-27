@@ -266,11 +266,13 @@ MVUX's `FeedView` is supported through the `SkeletonFeedViewStyle` style provide
 
 ## Lightweight Styling
 
-| Key                        | Type                  | Value                                                              |
-|----------------------------|-----------------------|--------------------------------------------------------------------|
-| `SkeletonViewBackground`   | `SolidColorBrush`     | `#E0E0E0` (Dark: `#3D3D3D`)                                        |
-| `SkeletonViewShimmerBrush` | `LinearGradientBrush` | Horizontal transparent → `#F5F5F5` → transparent (Dark: `#4D4D4D`) |
-| `SkeletonViewCornerRadius` | `CornerRadius`        | `4`                                                                |
+| Key                        | Type                  | Value                                                                    |
+|----------------------------|-----------------------|--------------------------------------------------------------------------|
+| `SkeletonViewBackground`   | `SolidColorBrush`     | `#14000000`, black at 8% (Dark: `#1AFFFFFF`, white at 10%)               |
+| `SkeletonViewShimmerBrush` | `LinearGradientBrush` | Horizontal transparent → `#A6FFFFFF` → transparent (Dark: `#1AFFFFFF`)   |
+| `SkeletonViewCornerRadius` | `CornerRadius`        | `4`                                                                      |
+
+The default brushes are translucent, so placeholders take on the surface they sit on (a card, a tinted page, or the Material and Cupertino backgrounds) without per-theme overrides.
 
 These resources apply to both `SkeletonView` and `SkeletonPresenter`. Override them in your application resources to restyle every skeleton:
 
