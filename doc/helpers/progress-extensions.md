@@ -6,7 +6,7 @@ uid: Toolkit.Helpers.ProgressExtensions
 
 **UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
-Provides attached properties to easily change the behavior of progress controls (ie. `ProgressBar` and `ProgressRing`), when nested in a complex visual tree.
+Provides attached properties to easily change the behavior of progress controls (ie. `ProgressBar`, `ProgressRing` and the shimmer of a [`SkeletonView`](xref:Toolkit.Controls.SkeletonView)), when nested in a complex visual tree.
 
 ## Remarks
 
@@ -18,7 +18,7 @@ This attached property is useful to indicate that some operation is ongoing for 
 |---------------------|-------------|-----------------------------------------------------------------------------------------------|
 | `IsActive`          | `bool`      | Once applied to a `FrameworkElement`, this property value sets whether its visual descendant progress controls display a loading indicator. |
 
-Setting `ProgressExtensions.IsActive` to `true` will recursively enable the loading animation on all `ProgressBar` and `ProgressRing` controls in the visual tree.
+Setting `ProgressExtensions.IsActive` to `true` will recursively enable the loading animation on all `ProgressBar` and `ProgressRing` controls in the visual tree, and resume the shimmer of every `SkeletonView`; `false` disables them. Progress controls only receive the value when it changes; a `SkeletonView` also reads the value of the nearest ancestor setting it when it loads, so one materialized in an already inactive host (e.g. the loading slot of a `LoadingView` that has finished loading) starts suspended.
 
 ## Usage
 
