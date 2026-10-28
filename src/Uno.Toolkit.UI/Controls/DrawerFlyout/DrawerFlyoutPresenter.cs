@@ -129,6 +129,7 @@ namespace Uno.Toolkit.UI
 
 					_popup = FindHostPopup() ?? throw new Exception("Unable to find host popup.");
 					_popup.Opened += OnPopupOpened;
+					_popup.RegisterPropertyChangedCallback(Popup.IsOpenProperty, OnPopupIsOpenChanged);
 					_storyboard.Completed += (s, e) =>
 					{
 						if (!IsOpen)
@@ -186,6 +187,21 @@ namespace Uno.Toolkit.UI
 			{
 				StartOpenAnimation();
 			}
+		}
+
+		private void OnPopupIsOpenChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			// nothing to do unless the popup was closed while the drawer is still opened
+			if (_popup.IsOpen || !IsOpen) return;
+
+			// The popup can also be closed without going through the closing animation: Flyout.Hide(), back button, lost focus...
+			// This leaves the drawer opened. And since the popup is rendered before its Opened event is raised,
+			// the drawer would be visible in that state on the next opening, until the opening animation starts.
+			// note: This is done as the popup closes, rather than from its Closed event which is raised asynchronously,
+			// so that the popup cannot be shown again before the drawer is reset.
+			StopRunningAnimation();
+			UpdateIsOpenWithSuppress(false);
+			UpdateOpenness(false);
 		}
 
 		private void OnDrawerLengthChanged(DependencyPropertyChangedEventArgs e)
@@ -302,18 +318,18 @@ namespace Uno.Toolkit.UI
 				PlayAnimation(currentOffset / GetVectoredLength(), willBeOpen);
 				// note: the popup will be closed on Storyboard.Completed
 			}
+		}
 
-			void UpdateIsOpenWithSuppress(bool value)
+		private void UpdateIsOpenWithSuppress(bool value)
+		{
+			try
 			{
-				try
-				{
-					_suppressIsOpenHandler = true;
-					IsOpen = value;
-				}
-				finally
-				{
-					_suppressIsOpenHandler = false;
-				}
+				_suppressIsOpenHandler = true;
+				IsOpen = value;
+			}
+			finally
+			{
+				_suppressIsOpenHandler = false;
 			}
 		}
 
@@ -331,6 +347,10 @@ namespace Uno.Toolkit.UI
 
 		private void StartOpenAnimation()
 		{
+			// The popup may have been closed again by the time we get here, since its Opened event is raised asynchronously.
+			// In such case, opening the drawer would leave it opened inside of a closed popup.
+			if (_popup is not { IsOpen: true }) return;
+
 			// reset to close position, and animate to open position
 			UpdateOpenness(false);
 			UpdateIsOpen(true, animate: true);
