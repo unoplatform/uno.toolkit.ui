@@ -861,9 +861,6 @@ namespace Uno.Toolkit.UI
 				}
 			}
 
-<<<<<<< HEAD
-			private void OnInsetsApplied(FrameworkElement owner, Thickness newInsets)
-=======
 			/// <summary>
 			/// Rounds the insets to physical pixels, the finest they can be rendered at.
 			/// </summary>
@@ -883,8 +880,7 @@ namespace Uno.Toolkit.UI
 				double Snap(double value) => Math.Round(value * scale) / scale;
 			}
 
-			private void OnInsetsApplied(Thickness newInsets)
->>>>>>> 6496c40 (fix(safearea): snap the insets to physical pixels)
+			private void OnInsetsApplied(FrameworkElement owner, Thickness newInsets)
 			{
 				if (_log.IsEnabled(LogLevel.Debug))
 				{
