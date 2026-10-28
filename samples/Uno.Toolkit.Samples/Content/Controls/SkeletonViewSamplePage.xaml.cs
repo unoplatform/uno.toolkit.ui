@@ -1,3 +1,4 @@
+using Uno.Extensions;
 using Uno.Toolkit.Samples.ViewModels;
 
 namespace Uno.Toolkit.Samples.Content.Controls
@@ -118,9 +119,14 @@ namespace Uno.Toolkit.Samples.Content.Controls
 					IsExecuting = true;
 					await _executeAsync();
 				}
-				catch (Exception)
+				catch (OperationCanceledException)
 				{
-					// Simulated load; nothing to surface. async void must not throw.
+					// a cancelled load is not a failure
+				}
+				catch (Exception ex)
+				{
+					// async void must not throw
+					typeof(SkeletonViewSamplePage).Log().LogError(ex, "The simulated load failed.");
 				}
 				finally
 				{
