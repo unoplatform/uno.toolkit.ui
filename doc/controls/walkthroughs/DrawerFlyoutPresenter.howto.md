@@ -11,11 +11,11 @@ tags: [drawer, flyout, bottom-sheet, slide-up, gesture, swipe, modal]
 
 ```xml
 <Button Content="Open drawer"
-        xmlns:toolkit="using:Uno.UI.Toolkit">
+        xmlns:utu="using:Uno.Toolkit.UI">
     <Button.Flyout>
         <Flyout Placement="Full"
                 FlyoutPresenterStyle="{StaticResource BottomDrawerFlyoutPresenterStyle}">
-            <StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All"
+            <StackPanel utu:SafeArea.Insets="VisibleBounds"
                         Background="SkyBlue"
                         MinHeight="200">
                 <TextBlock Text="Hello from the drawer" />
@@ -27,7 +27,7 @@ tags: [drawer, flyout, bottom-sheet, slide-up, gesture, swipe, modal]
 ```
 
 * Use `Placement="Full"` and a `*DrawerFlyoutPresenterStyle` resource (e.g., `BottomDrawerFlyoutPresenterStyle`). ([Uno Platform][1])
-* `VisibleBoundsPadding.PaddingMask="All"` keeps content inside safe areas on mobile. ([Uno Platform][1])
+* `SafeArea.Insets="VisibleBounds"` keeps content inside safe areas on mobile. ([Uno Platform][1])
 
 ---
 
