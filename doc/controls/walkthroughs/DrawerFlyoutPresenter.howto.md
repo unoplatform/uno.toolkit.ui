@@ -27,7 +27,7 @@ tags: [drawer, flyout, bottom-sheet, slide-up, gesture, swipe, modal]
 ```
 
 * Use `Placement="Full"` and a `*DrawerFlyoutPresenterStyle` resource (e.g., `BottomDrawerFlyoutPresenterStyle`). ([Uno Platform][1])
-* `SafeArea.Insets="VisibleBounds"` keeps content inside safe areas on mobile. ([Uno Platform][1])
+* `SafeArea.Insets="VisibleBounds"` keeps content inside safe areas on mobile. ([Uno Platform][2])
 
 ---
 
@@ -150,3 +150,4 @@ Choose one built-in presenter style:
 ---
 
 [1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/DrawerFlyoutPresenter.html "DrawerFlyoutPresenter "
+[2]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/SafeArea.html "SafeArea"
