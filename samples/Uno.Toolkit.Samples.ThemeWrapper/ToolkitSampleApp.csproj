@@ -1,4 +1,4 @@
-<Project Sdk="Uno.Sdk.Private">
+<Project Sdk="Uno.Sdk">
   <!--
     Expand platform suffix overrides to versioned TFMs (see crosstargeting_override.props.sample).
     This wrapper head only supports desktop and browserwasm; other overrides (ios, android, ...)

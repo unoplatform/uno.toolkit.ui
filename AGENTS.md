@@ -30,7 +30,7 @@ Target frameworks are managed centrally:
 
 - `src/tfms.props` defines `NetCurrent` (currently `net10.0`).
 - `src/tfm-common-winui.props` expands library projects to `net10.0` + per-platform suffixes (`net10.0-ios`, `net10.0-android`, `net10.0-windows10.0.19041`); sample apps use `net10.0-*`. Uno Platform 7 renders with Skia everywhere and Skia Android/iOS heads load the `-android`/`-ios` assets, so those builds must behave like the plain `net10.0` build (see `specs/uno7-groundwork/progress.md`).
-- The Uno SDK version is pinned in `global.json` (`Uno.Sdk.Private`).
+- The Uno SDK version is pinned in `global.json` (`Uno.Sdk`).
 
 The top-level `Directory.Build.props` also exposes `Build_Android`, `Build_iOS`, `Build_Windows` switches; non-Windows hosts default `Build_Windows=false`. The single-platform local-build flow (via `crosstargeting_override.props`) is documented in §4 below.
 
