@@ -108,10 +108,10 @@ Example:
 
 ```xml
 <Button Content="Bottom Drawer"
-        xmlns:toolkit="using:Uno.UI.Toolkit">
+        xmlns:utu="using:Uno.Toolkit.UI">
     <Button.Flyout>
         <Flyout Placement="Full" FlyoutPresenterStyle="{StaticResource BottomDrawerFlyoutPresenterStyle}">
-            <StackPanel toolkit:VisibleBoundsPadding.PaddingMask="All"
+            <StackPanel utu:SafeArea.Insets="VisibleBounds"
                         Background="SkyBlue"
                         MinHeight="200">
                 <TextBlock Text="text" />
@@ -123,7 +123,7 @@ Example:
 ```
 
 > [!NOTE]
-> Here `VisibleBoundsPadding.PaddingMask` is used to prevent the content from being placed outside of the user-interactable area on mobile devices.
+> Here [`SafeArea.Insets`](xref:Toolkit.Controls.SafeArea) is used to prevent the content from being placed outside of the user-interactable area on mobile devices.
 
 ### Extended Use Cases
 
@@ -136,7 +136,7 @@ Example:
                 <Setter Property="CornerRadius" Value="16,16,0,0" />
             </Style>
         </Flyout.FlyoutPresenterStyle>
-        <Border toolkit:VisibleBoundsPadding.PaddingMask="All" Padding="16,16,0,0">
+        <Border utu:SafeArea.Insets="VisibleBounds" Padding="16,16,0,0">
             <!-- flyout content -->
         </Border>
     </Flyout>
@@ -153,7 +153,7 @@ Example:
                 <Setter Property="Background" Value="SkyBlue" />
             </Style>
         </Flyout.FlyoutPresenterStyle>
-        <Border toolkit:VisibleBoundsPadding.PaddingMask="All" >
+        <Border utu:SafeArea.Insets="VisibleBounds" >
             <!-- flyout content -->
         </Border>
     </Flyout>
@@ -163,7 +163,7 @@ Example:
     > Avoid setting `Background` directly on the flyout content:
     >
     > ```xml
-    > <Border toolkit:VisibleBoundsPadding.PaddingMask="All" Background="SkyBlue">
+    > <Border utu:SafeArea.Insets="VisibleBounds" Background="SkyBlue">
     > ```
     >
     > Instead, `Background` should be set from style setter to avoid edge bleeding on certain platforms, and to avoid default background being painted on the rounded corners.

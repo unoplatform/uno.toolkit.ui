@@ -6,6 +6,17 @@ uid: Toolkit.Migration
 
 **UnoFeatures:** `Toolkit` (add to `<UnoFeatures>` in your `.csproj`)
 
+## Upgrading to Uno Toolkit 11.0
+
+Uno Toolkit 11.0 requires Uno Platform 7.0, .NET 10 and Uno Themes 9.0. Apps using the Uno SDK get compatible versions by updating the SDK; apps pinning package versions manually should update their `Uno.WinUI` and Uno Themes references.
+
+Uno Platform 7.0 renders with Skia on every platform, so the native mode of `NavigationBar` on iOS and Android has been removed and the control is rendered from its XAML template everywhere:
+
+- `NativeFramePresenter` and `NativeNavigationBarPresenter` have been removed. Remove any `Frame` style based on `NativeDefaultToolkitFrame`; `Frame` no longer needs a custom style.
+- The `NativeDefaultToolkitFrame`, `NativeNavigationBarTemplate`, `MaterialNativeNavigationBarTemplate` and `SimpleNativeNavigationBarTemplate` resources have been removed.
+
+See [Migrating from the native mode](xref:Toolkit.Controls.NavigationBar#migrating-from-the-native-mode) for the behavior changes, and the [Uno Platform 7.0 migration guide](xref:Uno.Development.MigratingToUno7) for the platform changes.
+
 ## Upgrading to Uno Toolkit 10.0
 
 Uno Toolkit 10.0 adopts the Uno Themes typography and spacing changes. Applications that override removed font resources or persist numeric density values need to update those usages:
