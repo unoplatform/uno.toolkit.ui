@@ -133,21 +133,15 @@ namespace Uno.Toolkit.UI
 					return result;
 				}
 
-				// note: naive js parsing with string manipulation
-				// this may just fail, if we start to use nested object or escaped string containing '}'...
-				var startIdx = js!.IndexOf('{') + 1;
-				var endIdx = js.LastIndexOf('}') - 1;
-				var manifestProps = js.Substring(startIdx, endIdx - startIdx); // Trim "var UnoAppManifest = " from the start of the file so we're left with just the inner of JSON
-				var manifest = manifestProps.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-					.Select(x => x.Split(':', 2, StringSplitOptions.TrimEntries))
-					.ToDictionarySafe(x => x[0], x => x[1].Trim('\"'));
+				// Follows the browser color scheme, like the HTML loader: the app has not started when the loader picks its theme,
+				// so the app's RequestedTheme must not influence this. On WebAssembly, UISettings reads prefers-color-scheme.
+				var isDark = SystemThemeHelper.GetCurrentOsTheme() == ApplicationTheme.Dark;
+				var selection = WasmAppManifest.SelectSplash(WasmAppManifest.Parse(js), isDark);
 
 				return result with
 				{
-					ImageUri = manifest.TryGetValue("splashScreenImage", out var image) ? new Uri("ms-appx:///" + image) : null,
-					Background = manifest.TryGetValue("splashScreenColor", out var color)
-						? TryParseColor(color) ?? Colors.Transparent
-						: Colors.White,
+					ImageUri = selection.Image is { } image ? ToImageUri(image) : null,
+					Background = TryParseColor(selection.Background) ?? TryParseColor(WasmAppManifest.GetDefaultBackground(isDark)) ?? Colors.Transparent,
 				};
 			}
 
@@ -158,6 +152,11 @@ namespace Uno.Toolkit.UI
 
 			return result;
 		}
+
+		private static Uri ToImageUri(string image)
+			=> Uri.TryCreate(image, UriKind.Absolute, out var uri) && uri.Scheme is "http" or "https"
+				? uri
+				: new Uri("ms-appx:///" + image);
 
 		private static async Task<SplashScreenInfo> LoadSplashScreenFromPackageManifest()
 		{
