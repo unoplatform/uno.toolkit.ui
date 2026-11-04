@@ -2,4 +2,13 @@
 	<PropertyGroup>
 		<NoWarn>$(NoWarn);NU1507</NoWarn>
 	</PropertyGroup>
+
+	<!--
+		Build net10.0 Windows assets against the .NET 10 SDK default projection (WinRT.Runtime 2.2.0), like Uno core does
+		(unoplatform/uno#25106). A higher projection makes every .NET 10 SDK consumer fail with CS1705.
+		Lives in the targets so it also applies to projects that set a singular TargetFramework in their body.
+	-->
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-windows'))">
+		<WindowsSdkPackageVersion>10.0.19041.57</WindowsSdkPackageVersion>
+	</PropertyGroup>
 </Project>
