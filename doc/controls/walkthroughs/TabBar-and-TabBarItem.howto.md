@@ -239,7 +239,7 @@ Use `BottomFabTabBarItemStyle` to embed a FAB within the TabBar. ([aka.platform.
 **Packages:** `Uno.Toolkit.UI` + `Uno.Toolkit.UI.Cupertino`
 
 ```xml
-<utu:TabBar Style="{StaticResource SegmentedStyle}">
+<utu:TabBar Style="{StaticResource CupertinoSegmentedStyle}">
     <utu:TabBar.Items>
         <utu:TabBarItem Content="ORANGE"/>
         <utu:TabBarItem Content="PURPLE"/>
@@ -248,7 +248,7 @@ Use `BottomFabTabBarItemStyle` to embed a FAB within the TabBar. ([aka.platform.
 </utu:TabBar>
 
 <!-- Sliding thumb style -->
-<utu:TabBar Style="{StaticResource SlidingSegmentedStyle}">
+<utu:TabBar Style="{StaticResource CupertinoSlidingSegmentedStyle}">
     <utu:TabBar.Items>
         <utu:TabBarItem Content="ORANGE"/>
         <utu:TabBarItem Content="PURPLE"/>
@@ -257,7 +257,7 @@ Use `BottomFabTabBarItemStyle` to embed a FAB within the TabBar. ([aka.platform.
 </utu:TabBar>
 ```
 
-Use `SegmentedStyle` or `SlidingSegmentedStyle` from the Cupertino theme. ([aka.platform.uno][1])
+Use `CupertinoSegmentedStyle` or `CupertinoSlidingSegmentedStyle` from the Cupertino theme. ([aka.platform.uno][1])
 
 ---
 
@@ -433,7 +433,7 @@ You likely forgot to set a `Style` attribute on the `TabBar`. TabBar requires an
 </utu:TabBar>
 ```
 
-Common styles: `BottomTabBarStyle`, `VerticalTabBarStyle`, `TopTabBarStyle`, `ColoredTopTabBarStyle` (Material), or `SegmentedStyle`, `SlidingSegmentedStyle` (Cupertino). ([aka.platform.uno][1])
+Common styles: `BottomTabBarStyle`, `VerticalTabBarStyle`, `TopTabBarStyle`, `ColoredTopTabBarStyle` (Material), or `CupertinoBottomTabBarStyle`, `CupertinoSegmentedStyle`, `CupertinoSlidingSegmentedStyle` (Cupertino). ([aka.platform.uno][1])
 
 **Q: How do I make TabBar responsive (show different TabBars on mobile vs desktop)?**
 
