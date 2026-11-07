@@ -16,7 +16,7 @@ tags: [safe-area, visible-bounds-padding, safearea, visible-bounds, safe-area-co
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:utu="using:Uno.Toolkit.UI">
 
-    <utu:SafeArea>
+    <utu:SafeArea Insets="VisibleBounds">
         <Grid>
             <!-- Place interactive content here -->
             <TextBlock Text="Hello safe world" />
@@ -25,7 +25,7 @@ tags: [safe-area, visible-bounds-padding, safearea, visible-bounds, safe-area-co
 </Page>
 ```
 
-**Why this works:** `SafeArea` overrides padding/margin so content stays within `VisibleBounds`. Prefer it over the older `VisibleBoundsPadding` behavior. ([Uno Platform][1])
+**Why this works:** `SafeArea` overrides padding/margin so content stays within `VisibleBounds`, on the edges named by `Insets`. `Insets` defaults to `None`, which applies no inset, so always set it: `VisibleBounds` covers the left, top, right and bottom edges. Prefer it over the older `VisibleBoundsPadding` behavior. ([Uno Platform][1])
 
 ---
 
