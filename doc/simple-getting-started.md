@@ -3,7 +3,7 @@ uid: Toolkit.GettingStarted.Simple
 ---
 # Uno Simple Toolkit Library
 
-**UnoFeatures:** `Toolkit;Simple` (add to `<UnoFeatures>` in your `.csproj`)
+**UnoFeatures:** `Toolkit;SimpleTheme` (add to `<UnoFeatures>` in your `.csproj`)
 
 The Uno Simple Toolkit provides a set of resources and styles based on the Uno Simple design system for the controls included in the base [Uno Toolkit library](xref:Toolkit.GettingStarted)
 
@@ -51,7 +51,7 @@ Initialization of the Simple Toolkit resources is handled by the specialized `Si
 2. Create a new application with:
 
     ```bash
-    dotnet new unoapp -o SimpleToolkitApp -toolkit -theme simpletheme
+    dotnet new unoapp -o SimpleToolkitApp -toolkit -theme simple
     ```
 
 ---
