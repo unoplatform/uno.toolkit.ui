@@ -3,8 +3,10 @@
 
 	<PropertyGroup>
 		<UnoEnableXamlFuzzyMatching>false</UnoEnableXamlFuzzyMatching>
-		<!-- Required by uno 7.0 (WinRT.Runtime.dll >= 2.3.1); the .NET SDK default (10.0.19041.57) ships 2.2.0 -->
-		<WindowsSdkPackageVersion>10.0.19041.87</WindowsSdkPackageVersion>
+		<!-- Required by uno 7.0 (WinRT.Runtime.dll >= 2.3.1); the .NET SDK default (10.0.19041.57) ships 2.2.0.
+		     A minimum revision, like Uno.Sdk 7.0 sets itself (unoplatform/uno#25836): WindowsSdkPackageVersion
+		     next to it fails with NETSDK1230 (unoplatform/uno#26174). -->
+		<WindowsSdkPackageMinimumRevision Condition="'$(WindowsSdkPackageVersion)'=='' and '$(WindowsSdkPackageMinimumRevision)'==''">87</WindowsSdkPackageMinimumRevision>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 

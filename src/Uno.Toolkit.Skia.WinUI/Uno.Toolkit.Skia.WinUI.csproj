@@ -21,6 +21,8 @@
 
 	<PropertyGroup>
 		<UnoFeatures>Skia</UnoFeatures>
+		<!-- Uno 7.0 turns Skia off on Windows (WinAppSDK) unless the project opts in; ShadowContainer draws with SkiaSharp there too. -->
+		<UnoEnableSkiaOnWinAppSdk>true</UnoEnableSkiaOnWinAppSdk>
 	</PropertyGroup>
 
 	<ItemGroup>
