@@ -68,5 +68,20 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			Assert.IsTrue(InputExtensions.GetAutoFocusNext(tb1));
 		}
 
+		[TestMethod]
+		public void InputParameter_TextBox_Is_Text()
+		{
+			var tb = new TextBox { Text = "asd" };
+
+			Assert.AreEqual("asd", InputExtensions.GetInputParameter(tb));
+		}
+
+		[TestMethod]
+		public void InputParameter_PasswordBox_Is_Password()
+		{
+			var pb = new PasswordBox { Password = "qwe" };
+
+			Assert.AreEqual("qwe", InputExtensions.GetInputParameter(pb));
+		}
 	}
 }
