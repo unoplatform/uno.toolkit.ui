@@ -211,9 +211,11 @@ public class DrawerFlyoutTests
 
 			// The drawer must not be left opened: on the next opening, the popup is rendered before the presenter gets to reset
 			// itself and start the opening animation, so the drawer would be visible in that state for a frame.
+#if HAS_UNO // windows: the drawer is reset only after the popup's close transition.
 			// This is checked without awaiting anything, since nothing guarantees that the popup isn't shown again right away.
 			Assert.AreEqual(drawerLength, transform.Y, 1d, "The drawer should be back to its closed position as soon as the popup is closed"); // within a pixel, for layout rounding
 			Assert.AreEqual(0d, overlay.Opacity, "The light-dismiss overlay should be transparent as soon as the popup is closed");
+#endif
 
 			// And it is still closed at the time the popup is shown again, from where the opening animation plays as usual.
 			await WaitForFlyoutClosed();
@@ -254,7 +256,8 @@ public class DrawerFlyoutTests
 			// The presenter must not open the drawer of a popup that is no longer open: it would be left opened,
 			// and be visible in that state for a frame on the next opening.
 			await UnitTestUIContentHelperEx.WaitForIdle();
-			await Task.Delay(500); // longer than the opening animation, which must not be played
+			// Twice the duration of the opening animation, which must not be played: long enough for it to have completed if it had started.
+			await Task.Delay(DrawerFlyoutPresenter.AnimationDuration * 2);
 
 			Assert.AreEqual(drawerLength, transform.Y, 1d, "The drawer should stay in its closed position"); // within a pixel, for layout rounding
 			Assert.AreEqual(0d, overlay.Opacity, "The light-dismiss overlay should stay transparent");

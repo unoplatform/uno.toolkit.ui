@@ -44,7 +44,7 @@ namespace Uno.Toolkit.UI
 
 		private const double DragToggleThresholdRatio = 1.0 / 3;
 		private const double AnimateSnappingThresholdRatio = 0.95;
-		private static readonly TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(250);
+		internal static readonly TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(250);
 	}
 
 	[TemplatePart(Name = TemplateParts.LightDismissOverlay, Type = typeof(Border))]
@@ -129,7 +129,22 @@ namespace Uno.Toolkit.UI
 
 					_popup = FindHostPopup() ?? throw new Exception("Unable to find host popup.");
 					_popup.Opened += OnPopupOpened;
-					_popup.RegisterPropertyChangedCallback(Popup.IsOpenProperty, OnPopupIsOpenChanged);
+#if HAS_UNO
+					// uno: the popup has no close transition, so the drawer is reset as the popup closes. This is not done from
+					// its Closed event, which is raised asynchronously, so that the popup cannot be shown again before the reset.
+					_popup.RegisterPropertyChangedCallback(Popup.IsOpenProperty, (s, e) =>
+					{
+						if (!_popup.IsOpen && IsOpen) ResetAfterDirectClose();
+					});
+#else
+					// windows: the popup keeps rendering its child for the close transition after IsOpen is cleared,
+					// and unloads it once that is over: resetting the drawer before that would leave nothing to fade out.
+					// note: The popup may already be open again by then, when the flyout was shown again in the meantime.
+					Unloaded += (s, e) =>
+					{
+						if (IsOpen) ResetAfterDirectClose();
+					};
+#endif
 					_storyboard.Completed += (s, e) =>
 					{
 						if (!IsOpen)
@@ -167,8 +182,7 @@ namespace Uno.Toolkit.UI
 			// For the first open animation, we attempt to delay StartOpenAnimation to run after DrawerContentPresenterSizeChanged, by re-dispatching it.
 			// On native, it may still be too early. In that case, we should start the animation again, as we now have the required size to proceed.
 			var previousLength = IsOpenDirectionHorizontal() ? e.PreviousSize.Width : e.PreviousSize.Height;
-			if (previousLength is 0 && HasConcreteDrawerActualSize() &&
-				IsOpen && _popup is { IsOpen: true })
+			if (previousLength is 0 && HasConcreteDrawerActualSize() && IsOpen)
 			{
 				StartOpenAnimation();
 			}
@@ -189,16 +203,11 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
-		private void OnPopupIsOpenChanged(DependencyObject sender, DependencyProperty dp)
+		private void ResetAfterDirectClose()
 		{
-			// nothing to do unless the popup was closed while the drawer is still opened
-			if (_popup.IsOpen || !IsOpen) return;
-
 			// The popup can also be closed without going through the closing animation: Flyout.Hide(), back button, lost focus...
 			// This leaves the drawer opened. And since the popup is rendered before its Opened event is raised,
 			// the drawer would be visible in that state on the next opening, until the opening animation starts.
-			// note: This is done as the popup closes, rather than from its Closed event which is raised asynchronously,
-			// so that the popup cannot be shown again before the drawer is reset.
 			StopRunningAnimation();
 			UpdateIsOpenWithSuppress(false);
 			UpdateOpenness(false);
