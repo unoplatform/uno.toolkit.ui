@@ -266,12 +266,44 @@ For responsive layouts where different `TabBar` instances are shown based on scr
 
 ## Styling `TabBar` & `TabBarItem`
 
+Without a design-system library, `TabBar` and `TabBarItem` use the default Fluent styles that ship in `Uno.Toolkit.UI`:
+
+| Style Key                     | Use                                                                                       |
+|-------------------------------|-------------------------------------------------------------------------------------------|
+| `DefaultBottomTabBarStyle`    | Bottom navigation: icon above label, accent pill under the selected item. Applied when no `Style` is set. |
+| `DefaultTopTabBarStyle`       | Top tabs, after the WinUI `SelectorBar`: icon beside label, accent pill under the selected item. |
+| `DefaultSegmentedTabBarStyle` | A boxed bar whose selected item is a raised plate.                                        |
+| `DefaultVerticalTabBarStyle`  | Vertical navigation: icon above label, accent pill beside the selected item.              |
+
+```xml
+<!-- Bottom navigation, no Style needed -->
+<utu:TabBar SelectedIndex="0">
+    <utu:TabBarItem Content="Home">
+        <utu:TabBarItem.Icon><SymbolIcon Symbol="Home"/></utu:TabBarItem.Icon>
+    </utu:TabBarItem>
+    <utu:TabBarItem Content="Search">
+        <utu:TabBarItem.Icon><SymbolIcon Symbol="Find"/></utu:TabBarItem.Icon>
+    </utu:TabBarItem>
+</utu:TabBar>
+
+<!-- Top tabs -->
+<utu:TabBar Style="{StaticResource DefaultTopTabBarStyle}" SelectedIndex="0">
+    <utu:TabBarItem Content="Recent" />
+    <utu:TabBarItem Content="Shared" />
+</utu:TabBar>
+```
+
+The accent pill and the segmented plate are part of the `TabBarItem` template, as in WinUI's `SelectorBar` and `NavigationView`. They are separate from the [selection indicator](#selection-indicator): setting `SelectionIndicatorContent` adds your own sliding indicator on top. To hide the built-in pill, override `TabBarSelectionIndicatorFill` with a transparent brush. Items share the width of the bar equally.
+
+To get a Material or Cupertino look, use either:
+
+- [One of the pre-built styles](../controls-styles.md#control-styles) that come packaged within the `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` libraries
+- A custom-built style that is defined within the consuming application
+
 > [!WARNING]
-> **TabBar requires an explicit Style attribute**
+> **With Material or Cupertino, set a `Style` on the `TabBar`**
 >
-> While Toolkit provides a default style, `TabBar` will not have proper Material Design or Cupertino appearance without explicitly setting a `Style` attribute.
->
-> **Always specify a style on the TabBar container:**
+> Those libraries do not restyle a `TabBar` that has no `Style`. Pick one of their styles explicitly:
 >
 > ```xml
 > <utu:TabBar Style="{StaticResource BottomTabBarStyle}">
@@ -279,13 +311,7 @@ For responsive layouts where different `TabBar` instances are shown based on scr
 >         <utu:TabBarItem.Icon><SymbolIcon Symbol="Home"/></utu:TabBarItem.Icon>
 >     </utu:TabBarItem>
 > </utu:TabBar>
-> 
 > ```
-
-Toolkit provides a barebones default style for `TabBar` and `TabBarItem`. It is recommended to use either:
-
-- [One of the pre-built styles](../controls-styles.md#control-styles) that come packaged within the `Uno.Toolkit.UI.Material` or `Uno.Toolkit.UI.Cupertino` libraries
-- A custom-built style that is defined within the consuming application
 
 The styles that exist within the Toolkit Theming Libraries are built for the most common scenarios in which a `TabBar` could be used.
 
@@ -422,7 +448,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ### `TabBarItem` Style
 
-The Uno Toolkit provides several styles of `TabBarItem` for both Material and Cupertino themes.
+The default styles use `DefaultTabBarItemStyle` and `DefaultVerticalTabBarItemStyle` (icon above label), and `DefaultTopTabBarItemStyle` and `DefaultSegmentedTabBarItemStyle` (icon beside label). The Uno Toolkit also provides several styles of `TabBarItem` for both Material and Cupertino themes.
 
 | Style Key                            | Material | Cupertino |
 |--------------------------------------|----------|-----------|
@@ -562,6 +588,69 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 ## Lightweight Styling
+
+### Default (Fluent)
+
+All brushes are defined for the Light, Dark, and High Contrast themes.
+
+| Key                                               | Type           | Value                              |
+|---------------------------------------------------|----------------|------------------------------------|
+| `TabBarHeightOrWidth`                             | `Double`       | 64                                 |
+| `TabBarItemIconHeight`                            | `Double`       | 16                                 |
+| `TabBarItemIconWidth`                             | `Double`       | 16                                 |
+| `TabBarItemContentMargin`                         | `Thickness`    | 0,0,0,12                           |
+| `DefaultVerticalTabBarItemContentMargin`          | `Thickness`    | 12,0,12,12                         |
+| `TabBarItemContentOnlyMargin`                     | `Thickness`    | 12,0                               |
+| `TabBarItemPlateMargin`                           | `Thickness`    | 4                                  |
+| `TabBarItemPlateCornerRadius`                     | `CornerRadius` | 4                                  |
+| `TabBarSelectionIndicatorLength`                  | `Double`       | 16                                 |
+| `TabBarSelectionIndicatorThickness`               | `Double`       | 3                                  |
+| `TabBarSelectionIndicatorCornerRadius`            | `CornerRadius` | 1.5                                |
+| `TabBarSelectionIndicatorHorizontalMargin`        | `Thickness`    | 0,0,0,4                            |
+| `TabBarSelectionIndicatorVerticalMargin`          | `Thickness`    | 4,0,0,0                            |
+| `TabBarSelectionIndicatorFill`                    | `Brush`        | `AccentFillColorDefaultBrush`      |
+| `TabBarSelectionIndicatorFillDisabled`            | `Brush`        | `AccentFillColorDisabledBrush`     |
+| `TabBarItemBackground`                            | `Brush`        | `SubtleFillColorTransparentBrush`  |
+| `TabBarItemBackgroundPointerOver`                 | `Brush`        | `SubtleFillColorSecondaryBrush`    |
+| `TabBarItemBackgroundPressed`                     | `Brush`        | `SubtleFillColorTertiaryBrush`     |
+| `TabBarItemBackgroundSelected`                    | `Brush`        | `SubtleFillColorTransparentBrush`  |
+| `TabBarItemBackgroundSelectedPointerOver`         | `Brush`        | `SubtleFillColorSecondaryBrush`    |
+| `TabBarItemBackgroundSelectedPressed`             | `Brush`        | `SubtleFillColorTertiaryBrush`     |
+| `TabBarItemForeground`                            | `Brush`        | `TextFillColorPrimaryBrush`        |
+| `TabBarItemForegroundPointerOver`                 | `Brush`        | `TextFillColorPrimaryBrush`        |
+| `TabBarItemForegroundPressed`                     | `Brush`        | `TextFillColorSecondaryBrush`      |
+| `TabBarItemForegroundDisabled`                    | `Brush`        | `TextFillColorDisabledBrush`       |
+| `TabBarItemForegroundSelected`                    | `Brush`        | `TextFillColorPrimaryBrush`        |
+| `TabBarItemForegroundSelectedPointerOver`         | `Brush`        | `TextFillColorPrimaryBrush`        |
+| `TabBarItemForegroundSelectedPressed`             | `Brush`        | `TextFillColorSecondaryBrush`      |
+| `TabBarItemBorderBrush`                           | `Brush`        | `SubtleFillColorTransparentBrush`  |
+| `DefaultTopTabBarHeight`                          | `Double`       | 40                                 |
+| `DefaultTopTabBarItemPadding`                     | `Thickness`    | 12,0                               |
+| `DefaultTopTabBarItemIconSpacing`                 | `Double`       | 8                                  |
+| `DefaultTopTabBarSelectionIndicatorMargin`        | `Thickness`    | 0                                  |
+| `DefaultTopTabBarItemBackground`                  | `Brush`        | `SubtleFillColorTransparentBrush`  |
+| `DefaultTopTabBarItemForeground`                  | `Brush`        | `TextFillColorPrimaryBrush`        |
+| `DefaultTopTabBarItemForegroundPointerOver`       | `Brush`        | `TextFillColorSecondaryBrush`      |
+| `DefaultTopTabBarItemForegroundPressed`           | `Brush`        | `TextFillColorTertiaryBrush`       |
+| `DefaultTopTabBarItemForegroundSelected`          | `Brush`        | `TextFillColorPrimaryBrush`        |
+| `DefaultTopTabBarItemForegroundDisabled`          | `Brush`        | `TextFillColorDisabledBrush`       |
+| `DefaultSegmentedTabBarHeight`                    | `Double`       | 40                                 |
+| `DefaultSegmentedTabBarBorderThickness`           | `Thickness`    | 1                                  |
+| `DefaultSegmentedTabBarItemPlateMargin`           | `Thickness`    | 3                                  |
+| `DefaultSegmentedTabBarItemPlateCornerRadius`     | `CornerRadius` | 3                                  |
+| `DefaultSegmentedTabBarBackground`                | `Brush`        | `ControlAltFillColorSecondaryBrush`|
+| `DefaultSegmentedTabBarBorderBrush`               | `Brush`        | `ControlStrokeColorDefaultBrush`   |
+| `DefaultSegmentedTabBarItemBackground`            | `Brush`        | `SubtleFillColorTransparentBrush`  |
+| `DefaultSegmentedTabBarItemBackgroundPointerOver` | `Brush`        | `SubtleFillColorSecondaryBrush`    |
+| `DefaultSegmentedTabBarItemBackgroundPressed`     | `Brush`        | `SubtleFillColorTertiaryBrush`     |
+| `DefaultSegmentedTabBarItemForeground`            | `Brush`        | `TextFillColorPrimaryBrush`        |
+| `DefaultSegmentedTabBarItemForegroundPointerOver` | `Brush`        | `TextFillColorPrimaryBrush`        |
+| `DefaultSegmentedTabBarItemForegroundPressed`     | `Brush`        | `TextFillColorSecondaryBrush`      |
+| `DefaultSegmentedTabBarItemForegroundDisabled`    | `Brush`        | `TextFillColorDisabledBrush`       |
+| `DefaultSegmentedTabBarSelectedItemBackground`    | `Brush`        | `ControlFillColorDefaultBrush`     |
+| `DefaultSegmentedTabBarSelectedItemBorderBrush`   | `Brush`        | `ControlElevationBorderBrush`      |
+
+The `TabBarItem*` state brushes apply to the bottom and vertical styles. The top and segmented styles have their own `DefaultTopTabBar*` and `DefaultSegmentedTabBar*` state brushes, because the Material library already uses the `TopTabBar*` names. The icon size, `TabBarItemBorderBrush`, and the `TabBarSelectionIndicator*` keys are shared by all four styles, and the segmented style reuses `DefaultTopTabBarItemPadding` and `DefaultTopTabBarItemIconSpacing`.
 
 ### Material
 
