@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -37,7 +38,7 @@ public class DrawerFlyoutHrTest
 
 		Assert.AreEqual(DrawerOpenDirection.Left, DrawerFlyoutPresenter.GetOpenDirection(flyout));
 
-		await using (await HotReloadHelper.UpdateSourceFile<DrawerFlyoutPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<DrawerFlyoutPage>(
 			originalText: "OpenDirection=\"Left\"",
 			replacementText: "OpenDirection=\"Right\"",
 			ct))
@@ -68,7 +69,7 @@ public class DrawerFlyoutHrTest
 		var length = DrawerFlyoutPresenter.GetDrawerLength(flyout);
 		Assert.AreEqual(300d, length.Value, "DrawerLength should start at 300.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<DrawerFlyoutPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<DrawerFlyoutPage>(
 			originalText: "DrawerLength=\"300\"",
 			replacementText: "DrawerLength=\"400\"",
 			ct))
@@ -98,7 +99,7 @@ public class DrawerFlyoutHrTest
 
 		Assert.IsTrue(DrawerFlyoutPresenter.GetIsGestureEnabled(flyout), "IsGestureEnabled should start True.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<DrawerFlyoutPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<DrawerFlyoutPage>(
 			originalText: "IsGestureEnabled=\"True\"",
 			replacementText: "IsGestureEnabled=\"False\"",
 			ct))

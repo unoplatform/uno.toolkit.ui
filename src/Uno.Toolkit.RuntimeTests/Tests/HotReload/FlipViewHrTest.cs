@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -35,7 +36,7 @@ public class FlipViewHrTest
 		var fv = UIHelper.GetChild<FlipView>(name: "FV");
 		Assert.AreEqual(2, fv.Items.Count, "Should start with 2 slides.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<FlipViewPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<FlipViewPage>(
 			originalText: """<TextBlock Text="Slide Two" />""",
 			replacementText: """
 				<TextBlock Text="Slide Two" />
@@ -62,7 +63,7 @@ public class FlipViewHrTest
 		var fv = UIHelper.GetChild<FlipView>(name: "FV");
 		Assert.AreEqual(200d, fv.Height, "Height should start at 200.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<FlipViewPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<FlipViewPage>(
 			originalText: "Height=\"200\"",
 			replacementText: "Height=\"300\"",
 			ct))
@@ -86,7 +87,7 @@ public class FlipViewHrTest
 		var nextBtn = UIHelper.GetChild<Button>(name: "NextBtn");
 		Assert.AreEqual("Next", nextBtn.Content as string);
 
-		await using (await HotReloadHelper.UpdateSourceFile<FlipViewPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<FlipViewPage>(
 			originalText: """<Button x:Name="NextBtn" Content="Next" """,
 			replacementText: """<Button x:Name="NextBtn" Content="Forward" """,
 			ct))

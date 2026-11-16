@@ -66,7 +66,7 @@ public sealed partial class SeedColorSamplePage : Page
 	/// </summary>
 	private static void SetPrimarySeed(Color? seed)
 	{
-		var baseTheme = Application.Current?.Resources?.MergedDictionaries
+		var baseTheme = App.Instance.Resources.MergedDictionaries
 			.SelectMany(rd => rd.MergedDictionaries)
 			.OfType<BaseTheme>()
 			.FirstOrDefault();

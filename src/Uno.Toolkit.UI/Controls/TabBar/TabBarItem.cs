@@ -48,11 +48,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		internal event RoutedEventHandler? IsSelectedChanged;
-		public
-#if __ANDROID__
-			new
-#endif
-			event RoutedEventHandler? Click;
+		public event RoutedEventHandler? Click;
 
 		private bool _isPointerOver;
 		private bool _isPointerPressed;
@@ -71,12 +67,7 @@ namespace Uno.Toolkit.UI
 
 		internal UIElement? GetContentTemplateRoot()
 		{
-			// ContentControl.ContentTemplateRoot is typed as the native view on
-			// some platforms (UIView on iOS/macOS, View on Android), so it needs
-			// a cast rather than an implicit conversion. On those platforms
-			// UIElement derives from the native type, so the cast succeeds for
-			// XAML content.
-			if (ContentTemplateRoot as UIElement is { } root)
+			if (ContentTemplateRoot is { } root)
 			{
 				return root;
 			}

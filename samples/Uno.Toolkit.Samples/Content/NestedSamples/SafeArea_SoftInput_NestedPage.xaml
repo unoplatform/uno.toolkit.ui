@@ -5,7 +5,6 @@
 	  xmlns:local="using:Uno.Toolkit.Samples.Content.NestedSamples"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-	  xmlns:toolkit="using:Uno.UI.Toolkit"
 	  xmlns:utu="using:Uno.Toolkit.UI"
 	  Background="Green"
 	  mc:Ignorable="d">

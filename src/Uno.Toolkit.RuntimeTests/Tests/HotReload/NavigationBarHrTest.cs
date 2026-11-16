@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -35,7 +36,7 @@ public class NavigationBarHrTest
 		var navBar = UIHelper.GetChild<NavigationBar>(name: "NavBar");
 		Assert.AreEqual("Page Title", navBar.Content as string, "Content should start as 'Page Title'.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<NavigationBarPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<NavigationBarPage>(
 			originalText: "Content=\"Page Title\"",
 			replacementText: "Content=\"Updated Title\"",
 			ct))
@@ -60,7 +61,7 @@ public class NavigationBarHrTest
 		var searchBtn = navBar.PrimaryCommands.OfType<AppBarButton>().First();
 		Assert.AreEqual("Search", searchBtn.Label, "AppBarButton label should start as 'Search'.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<NavigationBarPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<NavigationBarPage>(
 			originalText: "Label=\"Search\"",
 			replacementText: "Label=\"Find\"",
 			ct))
@@ -86,7 +87,7 @@ public class NavigationBarHrTest
 		var navBar = UIHelper.GetChild<NavigationBar>(name: "NavBar");
 		Assert.AreEqual(1, navBar.PrimaryCommands.Count, "Should start with 1 primary command.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<NavigationBarPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<NavigationBarPage>(
 			originalText: """<AppBarButton x:Name="SearchBtn" Label="Search" />""",
 			replacementText: """
 				<AppBarButton x:Name="SearchBtn" Label="Search" />

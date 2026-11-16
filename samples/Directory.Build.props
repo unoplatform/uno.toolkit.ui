@@ -12,5 +12,13 @@
 		  PRI257: Ignore default language (en) not being one of the included resources (eg en-us, en-uk)
 		-->
 		<NoWarn>$(NoWarn);NU1507;NETSDK1201;PRI257</NoWarn>
+
+		<!--
+		  The SDK adds Uno.UI.HotDesign and Uno.UI.App.Mcp to Debug heads, and neither has an Uno 7 build yet:
+		  both bind Uno 6 assemblies (Uno, Uno.UI.Toolkit), which fails compilation with CS0012.
+		  Hot Design also depends on the Uno.Toolkit.WinUI package, which these heads build from source.
+		-->
+		<UnoDisableHotDesign>true</UnoDisableHotDesign>
+		<UnoDisableMCPSupport>true</UnoDisableMCPSupport>
 	</PropertyGroup>
 </Project>

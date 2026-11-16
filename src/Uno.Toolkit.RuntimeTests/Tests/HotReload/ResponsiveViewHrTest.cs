@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -35,7 +36,7 @@ public class ResponsiveViewHrTest
 
 		// The ResponsiveView should display one of its templates based on window width.
 		// We just verify the HR update propagates into the template content.
-		await using (await HotReloadHelper.UpdateSourceFile<ResponsiveViewPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ResponsiveViewPage>(
 			originalText: "Text=\"Narrow layout\"",
 			replacementText: "Text=\"Updated narrow layout\"",
 			ct))
@@ -58,7 +59,7 @@ public class ResponsiveViewHrTest
 	{
 		await UIHelper.Load(new ResponsiveViewPage(), ct);
 
-		await using (await HotReloadHelper.UpdateSourceFile<ResponsiveViewPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ResponsiveViewPage>(
 			originalText: "Text=\"Wide layout\"",
 			replacementText: "Text=\"Updated wide layout\"",
 			ct))
@@ -80,7 +81,7 @@ public class ResponsiveViewHrTest
 		await UIHelper.Load(new ResponsiveViewPage(), ct);
 
 		// Replace the narrow template text with something completely different
-		await using (await HotReloadHelper.UpdateSourceFile<ResponsiveViewPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ResponsiveViewPage>(
 			originalText: """<TextBlock x:Name="NarrowText" Text="Narrow layout" />""",
 			replacementText: """
 				<StackPanel>

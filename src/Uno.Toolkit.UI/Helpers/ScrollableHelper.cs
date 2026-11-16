@@ -15,15 +15,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 #endif
 
-#if __IOS__ || __ANDROID__
-using Uno.UI.Helpers;
-#endif
-
-#if __IOS__
-using Foundation;
-using UIKit;
-#endif
-
 namespace Uno.Toolkit.UI
 {
 	public partial class ScrollableHelper
@@ -38,7 +29,7 @@ namespace Uno.Toolkit.UI
 	}
 
 #if !HAS_UNO
-	static partial class ScrollableHelper // uwp
+	static partial class ScrollableHelper // winappsdk
 	{
 		static partial void SmoothScrollTopImpl(ListView lv) => lv.ScrollToIndex(0);
 
@@ -127,19 +118,25 @@ namespace Uno.Toolkit.UI
 			}
 		}
 	}
-#elif __IOS__ || __ANDROID__
-	static partial class ScrollableHelper // ios and droid
-	{
-		static partial void SmoothScrollTopImpl(ListView lv) => lv.SmoothScrollToIndex(0);
-
-		static partial void SmoothScrollBottomImpl(ListView lv) => lv.SmoothScrollToIndex(lv.Items.Count - 1);
-	}
 #else
-	static partial class ScrollableHelper
+	static partial class ScrollableHelper // uno
 	{
-		static partial void SmoothScrollTopImpl(ListView lv) => throw new NotImplementedException("Not yet implemented for this platform.");
+		static partial void SmoothScrollTopImpl(ListView lv)
+		{
+			if (lv.GetFirstDescendant<ScrollViewer>() is { } scrollViewer)
+			{
+				scrollViewer.ChangeView(0, 0, zoomFactor: null, disableAnimation: false);
+			}
+		}
 
-		static partial void SmoothScrollBottomImpl(ListView lv) => throw new NotImplementedException("Not yet implemented for this platform.");
+		static partial void SmoothScrollBottomImpl(ListView lv)
+		{
+			// With a virtualizing panel, the scrollable size is based on the estimated extent.
+			if (lv.GetFirstDescendant<ScrollViewer>() is { } scrollViewer)
+			{
+				scrollViewer.ChangeView(scrollViewer.ScrollableWidth, scrollViewer.ScrollableHeight, zoomFactor: null, disableAnimation: false);
+			}
+		}
 	}
 #endif
 }

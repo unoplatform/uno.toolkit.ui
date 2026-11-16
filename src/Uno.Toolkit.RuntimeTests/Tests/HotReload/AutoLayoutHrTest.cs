@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -37,7 +38,7 @@ public class AutoLayoutHrTest
 		var al = UIHelper.GetChild<AutoLayout>(name: "AL");
 		Assert.AreEqual(10d, al.Spacing, "Spacing should start at 10.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<AutoLayoutPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<AutoLayoutPage>(
 			originalText: "Spacing=\"10\"",
 			replacementText: "Spacing=\"20\"",
 			ct))
@@ -61,7 +62,7 @@ public class AutoLayoutHrTest
 		var al = UIHelper.GetChild<AutoLayout>(name: "AL");
 		Assert.AreEqual(Orientation.Vertical, al.Orientation, "Orientation should start Vertical.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<AutoLayoutPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<AutoLayoutPage>(
 			originalText: "Orientation=\"Vertical\"",
 			replacementText: "Orientation=\"Horizontal\"",
 			ct))
@@ -85,7 +86,7 @@ public class AutoLayoutHrTest
 		var al = UIHelper.GetChild<AutoLayout>(name: "AL");
 		Assert.AreEqual(3, al.Children.Count, "Should start with 3 children.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<AutoLayoutPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<AutoLayoutPage>(
 			originalText: """<TextBlock x:Name="Child3" Text="Item Three" />""",
 			replacementText: """
 				<TextBlock x:Name="Child3" Text="Item Three" />
@@ -116,7 +117,7 @@ public class AutoLayoutHrTest
 		var originalChildren = $"<TextBlock x:Name=\"Child2\" Text=\"Item Two\" />{nl}\t\t\t<TextBlock x:Name=\"Child3\" Text=\"Item Three\" />";
 		var reducedChildren = $"<TextBlock x:Name=\"Child3\" Text=\"Item Three\" />";
 
-		await using (await HotReloadHelper.UpdateSourceFile<AutoLayoutPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<AutoLayoutPage>(
 			originalText: originalChildren,
 			replacementText: reducedChildren,
 			ct))

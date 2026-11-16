@@ -26,7 +26,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 /// </summary>
 [TestClass]
 [RunsOnUIThread]
-internal class ResponsiveHelperLeakTests
+public class ResponsiveHelperLeakTests
 {
 	[TestMethod]
 	public async Task Reset_TearsDown_DefaultProvider()

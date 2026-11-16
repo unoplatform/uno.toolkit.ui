@@ -156,11 +156,26 @@ namespace Uno.Toolkit.UI
 
 		private void OnIsOpenChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (!_isReady) return;
-			if (_suppressIsOpenHandler) return;
+			if (_dispatcher.HasThreadAccess)
+			{
+				ApplyIsOpen((bool)e.NewValue, shouldAnimate: true);
+			}
+			else
+			{
+				// Visuals reject off-thread updates, so snap to the latest IsOpen on the UI thread instead of animating.
+				_dispatcher.Schedule(() => ApplyIsOpen(IsOpen, shouldAnimate: false));
+			}
+		}
+
+		private void ApplyIsOpen(bool willBeOpen, bool shouldAnimate)
+		{
+			if (!_isReady || _suppressIsOpenHandler)
+			{
+				return;
+			}
 
 			StopRunningAnimation();
-			UpdateIsOpen((bool)e.NewValue, shouldAnimate: true);
+			UpdateIsOpen(willBeOpen, shouldAnimate);
 		}
 
 		private void OnDrawerDepthChanged(DependencyPropertyChangedEventArgs e)
@@ -293,7 +308,6 @@ namespace Uno.Toolkit.UI
 
 			if (shouldAnimate &&
 				IsLoaded &&
-				_dispatcher.HasThreadAccess &&
 				length > 0 && // skip animation if we have nothing to animate (either from not being ready, or no valid content)
 				relativeDistanceRatio >= AnimateSnappingThresholdRatio) // skip animation if we are less than 5% from done
 			{

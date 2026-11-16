@@ -1,9 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-					xmlns:utu="using:Uno.Toolkit.UI"
-					xmlns:todo="what should be done"
-					mc:Ignorable="todo">
+					xmlns:utu="using:Uno.Toolkit.UI">
 
 	<Style x:Key="DefaultDrawerFlyoutPresenterStyle" TargetType="utu:DrawerFlyoutPresenter">
 		<Setter Property="BorderThickness" Value="0" />

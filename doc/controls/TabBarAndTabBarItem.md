@@ -320,7 +320,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 Following the explanation of Lateral Navigation and the use case for "Top" `TabBar` styles, another common scenario is to use `TabBar` as an application's primary navigation component. In this case, we want a component that would provide lateral navigation to all **top-level** destinations. In this case, a `TabBar` styled as a `BottomTabBar` is most appropriate.
 
-Currently, both the Material and Cupertino Theme Toolkit Libraries contain a `BottomTabBarStyle`.
+The Material and Simple Toolkit libraries provide a `BottomTabBarStyle`, and the Cupertino Toolkit library provides a `CupertinoBottomTabBarStyle`.
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
@@ -404,7 +404,7 @@ There are some styles that are built specifically for the Cupertino theme. These
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
-<utu:TabBar Style="{StaticResource SegmentedStyle}">
+<utu:TabBar Style="{StaticResource CupertinoSegmentedStyle}">
     <utu:TabBar.Items>
         <utu:TabBarItem Content="ORANGE" />
         <utu:TabBarItem Content="PURPLE" />
@@ -412,7 +412,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
     </utu:TabBar.Items>
 </utu:TabBar>
 
-<utu:TabBar Style="{StaticResource SlidingSegmentedStyle}">
+<utu:TabBar Style="{StaticResource CupertinoSlidingSegmentedStyle}">
     <utu:TabBar.Items>
         <utu:TabBarItem Content="ORANGE" />
         <utu:TabBarItem Content="PURPLE" />
@@ -421,22 +421,23 @@ xmlns:utu="using:Uno.Toolkit.UI"
 </utu:TabBar>
 ```
 
-![TabBar on Android using the SegmentedStyle](../assets/tabbar-android-segmented.png)
-![TabBar on Android using the SlidingSegmentedStyle](../assets/tabbar-android-sliding-segmented.png)
+![TabBar on Android using the CupertinoSegmentedStyle](../assets/tabbar-android-segmented.png)
+![TabBar on Android using the CupertinoSlidingSegmentedStyle](../assets/tabbar-android-sliding-segmented.png)
 
 ### `TabBarItem` Style
 
 The Uno Toolkit provides several styles of `TabBarItem` for both Material and Cupertino themes.
 
-| Style Key                   | Material | Cupertino |
-|-----------------------------|----------|-----------|
-| `BottomFabTabBarItemStyle`  | &check;  |           |
-| `BottomTabBarItemStyle`     | &check;  | &check;   |
-| `ColoredTopTabBarItemStyle` | &check;  |           |
-| `SegmentedItemStyle`        |          | &check;   |
-| `SlidingSegmentedItemStyle` | &check;  |           |
-| `TopTabBarItemStyle`        | &check;  |           |
-| `VerticalTabBarItemStyle`   | &check;  |           |
+| Style Key                            | Material | Cupertino |
+|--------------------------------------|----------|-----------|
+| `BottomFabTabBarItemStyle`           | &check;  |           |
+| `BottomTabBarItemStyle`              | &check;  |           |
+| `ColoredTopTabBarItemStyle`          | &check;  |           |
+| `CupertinoBottomTabBarItemStyle`     |          | &check;   |
+| `CupertinoSegmentedItemStyle`        |          | &check;   |
+| `CupertinoSlidingSegmentedItemStyle` |          | &check;   |
+| `TopTabBarItemStyle`                 | &check;  |           |
+| `VerticalTabBarItemStyle`            | &check;  |           |
 
 > [!IMPORTANT]
 > **Styling Pattern for TabBar in Material Toolkit v2:**
@@ -594,6 +595,8 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## Lightweight Styling
 
+### Material
+
 | Key                                                                  | Type            | Value                                        |
 |----------------------------------------------------------------------|-----------------|----------------------------------------------|
 | `NavigationTabBarWidthOrHeight`                                    | `Double`          | 80                                           |
@@ -750,3 +753,22 @@ xmlns:utu="using:Uno.Toolkit.UI"
 | `NavigationTabBarForegroundSelectedPressed`                        | `SolidColorBrush` | OnSurfaceBrush                               |
 | `NavigationTabBarBorderBrush`                                      | `SolidColorBrush` | SystemControlTransparentBrush                |
 | `NavigationTabBarTintBrush`                                        | `SolidColorBrush` | SurfaceTintColor@NavigationTabBarTintOpacity |
+
+### Simple
+
+| Key                               | Type              | Value                  |
+|-----------------------------------|-------------------|------------------------|
+| `TopTabBarHeight`                 | `Double`          | 48                     |
+| `TopTabBarBackground`             | `SolidColorBrush` | SurfaceBrush           |
+| `BottomTabBarBackground`          | `SolidColorBrush` | SurfaceBrush           |
+| `VerticalTabBarBackground`        | `SolidColorBrush` | SurfaceBrush           |
+| `NavigationTabBarWidthOrHeight`   | `Double`          | 80                     |
+| `TabBarItemForeground`            | `SolidColorBrush` | OnSurfaceMediumBrush   |
+| `TabBarItemForegroundSelected`    | `SolidColorBrush` | OnSurfaceBrush         |
+| `TabBarItemForegroundDisabled`    | `SolidColorBrush` | OnSurfaceDisabledBrush |
+| `TabBarItemBackgroundPointerOver` | `SolidColorBrush` | SurfaceVariantBrush    |
+| `TabBarIndicatorBrush`            | `SolidColorBrush` | OnSurfaceBrush         |
+| `TopTabBarItemPadding`            | `Thickness`       | 12,4                   |
+| `TopTabBarItemCornerRadius`       | `CornerRadius`    | 4,4,0,0                |
+
+`TabBarIndicatorBrush` colors the `TabBar`-level selection indicator — the hairline that animates between tabs. It is the only line the Simple styles draw; items have no border of their own, so overriding this key is what changes the selection visual.

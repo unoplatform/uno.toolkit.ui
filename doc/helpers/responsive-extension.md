@@ -109,7 +109,7 @@ Here are the selected layout at different screen width if only `Narrow` and `Wid
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
-<TextBlock Background="{utu:Responsive Narrow=Red, Wide=Blue}" Text="Asd" />
+<Border Background="{utu:Responsive Narrow=Red, Wide=Blue}" Width="24" Height="24" />
 ```
 
 > [!NOTE]

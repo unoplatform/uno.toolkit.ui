@@ -1,8 +1,5 @@
+using Uno.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
-
-#if __IOS__
-using Foundation;
-#endif
 
 using MUXC = Microsoft.UI.Xaml.Controls;
 using static Uno.Toolkit.UI.VisualTreeHelperEx;
@@ -18,13 +15,13 @@ namespace Uno.Toolkit.Samples
 
 #if THEME_MATERIAL
 			if (Resources.TryGetValue("MaterialNavigationViewStyle", out var navStyle) ||
-				Application.Current.Resources.TryGetValue("MaterialNavigationViewStyle", out navStyle))
+				App.Instance.Resources.TryGetValue("MaterialNavigationViewStyle", out navStyle))
 			{
 				NavigationViewControl.Style = (Style)navStyle;
 			}
 #elif THEME_SIMPLE
 			if (Resources.TryGetValue("SimpleNavigationViewStyle", out var navStyle) ||
-				Application.Current.Resources.TryGetValue("SimpleNavigationViewStyle", out navStyle))
+				App.Instance.Resources.TryGetValue("SimpleNavigationViewStyle", out navStyle))
 			{
 				NavigationViewControl.Style = (Style)navStyle;
 			}
@@ -144,18 +141,6 @@ namespace Uno.Toolkit.Samples
 			var sender = NestedSampleFrame.Content;
 			NestedSampleFrame.Content = null;
 
-#if __IOS__
-			// This will force reset the UINavigationController, to prevent the back button from appearing when the stack is supposely empty.
-			// note: Merely setting the Frame.Content to null, doesnt fully reset the stack.
-			// When revisiting the page1 again, the previous page1 is still in the UINavigationController stack
-			// causing a back button to appear that takes us back to the previous page1
-			NestedSampleFrame.BackStack.Add(default);
-			NestedSampleFrame.BackStack.Clear();
-#endif
-#if __ANDROID__
-			NestedSampleFrame.BackStack.Clear();
-#endif
-
 			if (NavigationView.Content is IExitNestedSampleHandler handler)
 			{
 				// Allows the page to be able to handle back navigation that exited nested sample.
@@ -205,13 +190,13 @@ namespace Uno.Toolkit.Samples
 			}
 
 			// for the best viewing experience, paste the tree in VSCode (you can collapse node) with `ini` syntax highlighting
-			var tree = this.TreeGraph();
+			var tree = this.TreeGraph(DescribeToolkitProperties);
 			var target = FindViewOfInterest();
-			var targetTree = (target as DependencyObject)?.TreeGraph();
+			var targetTree = (target as DependencyObject)?.TreeGraph(DescribeToolkitProperties);
 
 			// note: you can also tag element with unique x:Name to inspect here
 			//var sut = this.GetFirstDescendant<Chip>(x => x.Name == "SUT");
-			//var tree = sut?.TreeGraph();
+			//var tree = sut?.TreeGraph(DescribeToolkitProperties);
 
 #if WINDOWS
 			var data = new DataPackage();
