@@ -436,7 +436,7 @@ public class ChipGroupTests
 
 		var selectionItem = GetSelectionItemProvider(SUT, 0);
 		Assert.IsTrue(selectionItem.IsSelected);
-		Assert.ThrowsException<InvalidOperationException>(selectionItem.RemoveFromSelection);
+		Assert.ThrowsExactly<InvalidOperationException>(selectionItem.RemoveFromSelection);
 	}
 
 	[TestMethod]
