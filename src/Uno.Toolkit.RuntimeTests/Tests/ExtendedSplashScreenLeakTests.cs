@@ -26,9 +26,6 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 public class ExtendedSplashScreenLeakTests
 {
 	[TestMethod]
-#if __ANDROID__ || __IOS__
-	[Ignore("Splash screen control hosting differs on native platforms.")]
-#endif
 	public async Task Instance_IsReleased_OnUnloaded()
 	{
 		var container = new ContentControl();
@@ -50,9 +47,6 @@ public class ExtendedSplashScreenLeakTests
 	}
 
 	[TestMethod]
-#if __ANDROID__ || __IOS__
-	[Ignore("Splash screen control hosting differs on native platforms.")]
-#endif
 	public async Task SplashScreen_IsCollectible_AfterUnloaded()
 	{
 		var splashRef = await LoadAndUnloadSplash();

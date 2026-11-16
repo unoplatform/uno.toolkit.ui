@@ -1,4 +1,4 @@
-#if DEBUG && !__WASM__ && !__ANDROID__ && !__IOS__
+#if DEBUG && !__ANDROID__ && !__IOS__
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -21,7 +21,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests;
 /// </summary>
 [TestClass]
 [RunsOnUIThread]
-internal class DependencyObjectExtensionsLeakTests
+public class DependencyObjectExtensionsLeakTests
 {
 	[TestMethod]
 	public async Task ReflectionCache_DoesNotRoot_CollectibleTypeKey()

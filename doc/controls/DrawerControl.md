@@ -72,7 +72,6 @@ xmlns:utu="using:Uno.Toolkit.UI"
 #### Basic usage
 
 ```xml
-xmlns:toolkit="using:Uno.UI.Toolkit"
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
@@ -82,7 +81,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
         <Frame x:Name="ContentFrame"/>
     </utu:DrawerControl.Content>
     <utu:DrawerControl.DrawerContent>
-        <Grid toolkit:VisibleBoundsPadding.PaddingMask="All"
+        <Grid utu:SafeArea.Insets="VisibleBounds"
               Padding="16">
               <!-- Drawer Content... -->
               <TextBlock Text="Drawer" />

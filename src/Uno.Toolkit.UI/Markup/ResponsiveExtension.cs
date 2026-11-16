@@ -148,7 +148,16 @@ public partial class ResponsiveExtension
 		{
 			connectableHost.Loaded -= OnTargetLoaded;
 			connectableHost.Loaded += OnTargetLoaded;
-			_disposable.Disposable = Disposable.Create(() => connectableHost.Loaded -= OnTargetLoaded);
+
+			// Captured weakly: HardSelfReferences roots this extension, and must not root the host through it.
+			var hostRef = new WeakReference(connectableHost);
+			_disposable.Disposable = Disposable.Create(() =>
+			{
+				if (hostRef.Target is FrameworkElement host)
+				{
+					host.Loaded -= OnTargetLoaded;
+				}
+			});
 		}
 	}
 
@@ -173,7 +182,7 @@ public partial class ResponsiveExtension
 		// the previewed app's ALC. Sweeping here bounds the accumulation to live instances.
 		SweepDeadInstances();
 
-		_hostWeakRef = new WeakReference(selfOrProxyHost);
+		var hostRef = _hostWeakRef = new WeakReference(selfOrProxyHost);
 		ResponsiveHelper.InitializeIfNeeded(selfOrProxyHost.XamlRoot);
 
 		// Subscribe to the process-lifetime static WindowSizeChanged event weakly, so the static event
@@ -199,7 +208,10 @@ public partial class ResponsiveExtension
 		_disposable.Disposable = Disposable.Create(() =>
 		{
 			ResponsiveHelper.WindowSizeChanged -= handler;
-			selfOrProxyHost.Unloaded -= OnHostUnloaded;
+			if (hostRef.Target is FrameworkElement host)
+			{
+				host.Unloaded -= OnHostUnloaded;
+			}
 			IsConnected = false;
 		});
 
@@ -211,10 +223,22 @@ public partial class ResponsiveExtension
 
 	private void OnHostUnloaded(object sender, RoutedEventArgs e)
 	{
-		// Host left the tree: release the hard self-reference and tracking so this extension can be
-		// collected instead of lingering in the process-lifetime statics.
+		// Host left the tree: drop the process-lifetime pins (the hard self-reference and the static
+		// WindowSizeChanged subscription) so this extension no longer roots its target/host graph — and,
+		// across a collectible AssemblyLoadContext boundary, the previewed app's ALC.
+		//
+		// Then re-arm Loaded rather than tearing down for good: an unloaded host is not necessarily a dead
+		// one. A host that is re-parented — a designer or preview surface moving live content between trees,
+		// a ContentControl swapping its content back, a Frame re-showing a cached page — loads again, and
+		// must re-resolve against the size in effect then instead of keeping the value it last resolved.
+		// The re-armed subscription is held by the host, not by a static, so a host that really is gone still
+		// takes this extension with it (ResponsiveExtensionsLeakTests covers that).
 		CleanupIfHostDisposed(force: true);
-		Disconnect();
+		_disposable.Disposable = null;
+		if (sender is FrameworkElement host)
+		{
+			ConnectWhenLoaded(host);
+		}
 	}
 
 	// Prunes dead entries from the process-lifetime statics: TrackedInstances tuples whose extension has
@@ -233,7 +257,7 @@ public partial class ResponsiveExtension
 #if UNO14502_WORKAROUND
 		for (var i = HardSelfReferences.Count - 1; i >= 0; i--)
 		{
-			if (HardSelfReferences[i] is { _hostWeakRef.IsAlive: false })
+			if (HardSelfReferences[i].IsHostGone)
 			{
 				HardSelfReferences.RemoveAt(i);
 			}
@@ -349,10 +373,13 @@ public partial class ResponsiveExtension
 		(TargetWeakRef?.Target as FrameworkElement)?.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey) ??
 		Application.Current.ResolveLocalResource<ResponsiveLayout>(ResponsiveLayout.DefaultResourceKey);
 
+	// A never-connected extension has no host yet; its target is then the only liveness signal.
+	private bool IsHostGone => (_hostWeakRef ?? _targetWeakRef) is { IsAlive: false };
+
 	private bool CleanupIfHostDisposed(bool force = false)
 	{
 		// if self/proxy host was disposed (or the host unloaded), remove the circular references to allow self-disposal.
-		if (force || _hostWeakRef is { Target: null })
+		if (force || IsHostGone)
 		{
 #if UNO14502_WORKAROUND
 			HardSelfReferences.Remove(this);

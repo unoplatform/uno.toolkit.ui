@@ -11,6 +11,9 @@
     <DefineConstants>$(DefineConstants);IS_WINUI</DefineConstants>
 		<DefineConstants Condition="$(IsWinAppSdk)">$(DefineConstants);WINDOWS_WINUI</DefineConstants>
     <FrameworkLineage>WinUI</FrameworkLineage>
+    <!-- Uno.UI.RuntimeTests.Engine's UnitTestsControl.xaml still uses the removed skia/not_skia prefixes
+         (unoplatform/uno.ui.runtimetests.engine#227); they only pick emoji vs plain-text button labels. -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);UXAML0007</WarningsNotAsErrors>
 
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
@@ -32,6 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
     <ProjectReference Include="..\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
+    <ProjectReference Include="..\library\Uno.Toolkit.Simple\Uno.Toolkit.WinUI.Simple.csproj" />
     <ProjectReference Include="..\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
   </ItemGroup>
   <Import Project="..\winappsdk-workaround.targets" />

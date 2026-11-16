@@ -156,9 +156,12 @@ UpdateInsets() called
 
 | Test | Covers |
 |------|--------|
-| `Translucent_SystemBars` | Static translucent bars: correct inset padding applied |
-| `Translucent_SystemBars_Dynamic` | Dynamic opaque→translucent transition: insets update correctly |
-| `BottomInset_NotInflated_WhenTransitioningToTranslucentBars` | [PR #1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554) regression guard: TabBar height doesn't inflate during transition |
+| `SystemBars_Insets_Applied` | Edge-to-edge window: the system bar insets are applied as padding |
+| `SystemBars_Insets_Updated_WhenBarsHidden` | Full screen hides the system bars: insets update correctly |
+| `BottomInset_NotInflated_WhenStatusBarBackgroundSet` | [PR #1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554) regression guard: no applied bottom inset exceeds its settled value while a StatusBar background changes `Window.Bounds` (API 35+, see below) |
+| `BottomInset_AutoRowShrinks_WhenSystemBarsHidden` | The Auto row hosting the SafeArea shrinks when the bottom inset decreases |
+
+These tests were renamed for Uno Platform 7 (formerly `Translucent_SystemBars`, `Translucent_SystemBars_Dynamic` and `BottomInset_NotInflated_WhenTransitioningToTranslucentBars`): the `FLAG_TRANSLUCENT_*` window flags they toggled have no effect on the edge-to-edge window.
 
 ### Manual Repro Page
 
@@ -166,9 +169,24 @@ UpdateInsets() called
 
 ---
 
+## Uno Platform 7 (Skia Android)
+
+Uno Platform 7 renders Android apps with Skia only, in an edge-to-edge window. Two things changed for the guard.
+
+**The race still exists.** `NativeWindowWrapper.RaiseNativeSizeChanged` computes both rectangles, then calls `NativeWindowWrapperBase.SetBoundsAndVisibleBounds`, which raises `VisibleBoundsChanged` *before* it assigns the new `Bounds`. `ApplicationView.VisibleBoundsChanged` is raised synchronously from there, so a SafeArea handler reads the new `VisibleBounds` against the stale `Window.Bounds`. Only transitions that change both rectangles at once hit it:
+
+- **StatusBar background on API 35+** (the original trigger). With a non-null `StatusBar.BackgroundColor`, the decor view is padded below the status bar, and `Window.Bounds` excludes the top inset while `VisibleBounds` moves up to `Y = 0`. Against the stale, taller `Bounds`, the bottom inset becomes the status bar height plus the navigation bar height. `BottomInset_NotInflated_WhenStatusBarBackgroundSet` reproduces this, and asserts `Window.Bounds` changed so it cannot silently stop exercising the race.
+- Orientation changes and multi-window resizes.
+
+Before API 35, a StatusBar background only recolors the bar and does not resize the window. Showing or hiding the system bars (full screen) changes `VisibleBounds` only. The DEBUG `BoundsTransition_*` tests cover the guard branches on every API level.
+
+**The Android parent `InvalidateMeasure()` was removed.** [PR #1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554) dispatched `owner.InvalidateMeasure()` and `(owner.Parent as UIElement)?.InvalidateMeasure()` from `OnInsetsApplied`, so native Android layout would shrink Auto rows when the padding decreased. Managed layout already invalidates the owner and its ancestors when `Padding` or `Margin` changes. `BottomInset_AutoRowShrinks_WhenSystemBarsHidden` covers the shrink.
+
+---
+
 ## Key Design Decisions
 
-1. **`OperatingSystem.IsAndroid()` vs `#if __ANDROID__`**: Runtime check is required because Skia Android builds use the `net9.0` TFM without the `__ANDROID__` compiler define. The guard must be active on Skia Android.
+1. **`OperatingSystem.IsAndroid()` vs `#if __ANDROID__`**: Before Uno Platform 7, Skia Android heads loaded the plain `net` build of the library, without the `__ANDROID__` compiler define, so only a runtime check kept the guard active there. From Uno Platform 7, Android heads load the `net10.0-android` build, and the runtime check keeps working for either build.
 
 2. **One-shot deferral vs zero deferral**: Zero deferral (removing the guard entirely on Android) would re-expose the [PR #1554](https://github.com/unoplatform/uno.toolkit.ui/pull/1554) bug. One-shot deferral gives `Window.Bounds` exactly one dispatch cycle to catch up — sufficient for the StatusBar translucency transition — while preventing infinite loops.
 

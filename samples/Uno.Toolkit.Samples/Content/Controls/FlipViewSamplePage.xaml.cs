@@ -1,8 +1,3 @@
-#if __IOS__
-using UIKit;
-#endif
-
-
 namespace Uno.Toolkit.Samples.Content.Controls
 {
 	[SamplePage(SampleCategory.Behaviors, nameof(FlipViewExtensions), SupportedDesigns = new[] { Design.Material, Design.Cupertino })]

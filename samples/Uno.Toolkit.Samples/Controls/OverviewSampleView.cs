@@ -44,7 +44,7 @@ namespace Uno.Toolkit.Samples
 
 			void OnViewClicked(object sender, RoutedEventArgs e)
 			{
-				(Application.Current as App)?.ShellNavigateTo(Sample);
+				App.Instance.ShellNavigateTo(Sample);
 			}
 		}
 	}

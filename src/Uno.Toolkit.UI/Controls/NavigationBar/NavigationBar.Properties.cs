@@ -239,7 +239,8 @@ namespace Uno.Toolkit.UI
 
 		#region Subtitle
 		/// <summary>
-		/// Gets or sets the subtitle for the CommandBar. Android only.
+		/// Gets or sets the subtitle for the NavigationBar.
+		/// The built-in templates do not display it; only the native Android bar removed in Uno Platform 7 did.
 		/// </summary>
 		public string? Subtitle
 		{

@@ -1,6 +1,6 @@
 ---
 uid: Toolkit.Controls.NavigationBar.HowTo
-tags: [navigationbar, appbar, toolbar, back-button, navigation, commandbar, native-navigation]
+tags: [navigationbar, appbar, toolbar, back-button, navigation, commandbar, safe-area]
 ---
 
 # Display a cross-platform navigation bar with back and actions
@@ -27,7 +27,7 @@ Use the built-in MainCommand in **Back** mode (default). It appears on the left 
 > [!IMPORTANT]
 > For a simple text title, set `Content` directly as a string — **do not wrap it inside any `FrameworkElement`**.
 
-* The back icon/text is native on iOS/Android; on desktop you can override a resource (`NavigationBarBackIconData`). ([Uno Platform][1])
+* The back icon comes from the style; with the Material and Simple styles you can override a resource (`NavigationBarBackIconData`). ([Uno Platform][1])
 * The bar auto-handles system back requests when visible. (WinAppSDK note: `SystemNavigationManager` isn't supported.) ([Uno Platform][1])
 
 ---
@@ -74,13 +74,13 @@ Put **AppBarButton** items in `PrimaryCommands`.
 </utu:NavigationBar>
 ```
 
-* Supports `AppBarButton` only (no `AppBarToggleButton`/`AppBarSeparator`). ([Uno Platform][1])
+* Accepts the same items as `CommandBar.PrimaryCommands`. ([Uno Platform][1])
 
 ---
 
-## Add overflow menu (Android only)
+## Add an overflow menu
 
-Use `SecondaryCommands` — it shows as an overflow (ellipsis) on Android; iOS doesn't support it.
+Use `SecondaryCommands` — they show in the overflow (ellipsis) menu.
 
 ```xml
 <utu:NavigationBar Content="Items">
@@ -91,19 +91,17 @@ Use `SecondaryCommands` — it shows as an overflow (ellipsis) on Android; iOS d
 </utu:NavigationBar>
 ```
 
-* Not supported on iOS. ([Uno Platform][1])
-
 ---
 
 ## Change the title text color (foreground)
 
-Use the bar's `Foreground` (solid color only).
+Use the bar's `Foreground`.
 
 ```xml
 <utu:NavigationBar Content="Inbox" Foreground="White"/>
 ```
 
-* Affects the title; not the buttons — set button `Foreground` individually. SolidColorBrush only. ([Uno Platform][1])
+* Affects the title; not the buttons — set button `Foreground` individually. ([Uno Platform][1])
 
 ---
 
@@ -126,43 +124,37 @@ Use the bar's `Foreground` (solid color only).
 </utu:NavigationBar>
 ```
 
-* `Horizontal/VerticalContentAlignment` are ignored; on iOS content centers unless `HorizontalAlignment="Stretch"`. ([Uno Platform][1])
-
----
-
-## Show iOS back label (text next to the chevron)
-
-Provide a `Label` in `MainCommand` (iOS only).
-
-```xml
-<utu:NavigationBar Content="Details">
-    <utu:NavigationBar.MainCommand>
-        <AppBarButton Label="Back"/>
-    </utu:NavigationBar.MainCommand>
-</utu:NavigationBar>
-```
-
-* iOS uses previous page's title for back text; set `Label=""` in a style to hide it globally. ([Uno Platform][1])
+* `HorizontalContentAlignment="Center"` centers the content across the bar; other values place it next to the back button. ([Uno Platform][1])
 
 ---
 
 ## Respect safe areas (notches/punch-holes)
 
-Padding is applied automatically on iOS/Android (`SafeArea.Insets=Top`).
-No extra work needed for typical layouts. ([Uno Platform][1])
+The default style applies `SafeArea.Insets="Top"` to the bar.
+With the Material and Simple styles, reserve the status bar area on the page instead. ([Uno Platform][1])
+
+```xml
+<Grid utu:SafeArea.Insets="VisibleBounds">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <utu:NavigationBar Content="Details"/>
+</Grid>
+```
 
 ---
 
-## Use bitmap icons for buttons (cross-platform)
+## Use icons for buttons
 
-Use `BitmapIcon`/bitmap sources for bar buttons to avoid known mobile issues.
-(Design guidance also recommends bitmaps for NavigationBar buttons.) ([Uno Platform][2])
+Any `IconElement` works (`BitmapIcon`, `PathIcon`, `FontIcon`, `SymbolIcon`).
+(Design guidance recommends bitmaps for NavigationBar buttons.) ([Uno Platform][2])
 
 ---
 
 ### Notes for RAG indexers
 
-* Properties frequently asked: `MainCommandMode`, `PrimaryCommands`, `SecondaryCommands`, `Foreground`, `Content`, platform **heights**, **placement** rules. ([Uno Platform][1])
+* Properties frequently asked: `MainCommandMode`, `PrimaryCommands`, `SecondaryCommands`, `Foreground`, `Content`, **safe area** handling. ([Uno Platform][1])
 
 [1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/controls/NavigationBar.html "NavigationBar "
 [2]: https://platform.uno/docs/articles/external/figma-docs/components/navigation-bar.html "Navigation Bar"

@@ -1,6 +1,3 @@
-#if __IOS__ || __ANDROID__
-#define HAS_NATIVE_NAVBAR
-#endif
 #if !IS_WINUI || HAS_UNO
 #define SYS_NAV_MGR_SUPPORTED
 #endif
@@ -9,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Core;
@@ -41,10 +37,6 @@ using XamlWindow = Windows.UI.Xaml.Window;
 #if HAS_UNO
 using Uno.UI;
 using Uno.UI.Helpers;
-#endif
-
-#if __IOS__
-using UIKit;
 #endif
 
 namespace Uno.Toolkit.UI
@@ -204,7 +196,6 @@ namespace Uno.Toolkit.UI
 			_backRequestedHandler.Disposable = Disposable.Create(() => SystemNavigationManager.GetForCurrentView().BackRequested -= backRequestedHandler);
 #endif
 
-#if !HAS_NATIVE_NAVBAR
 			if (GetPage() is { } page)
 			{
 				var frame = page?.Frame;
@@ -214,7 +205,7 @@ namespace Uno.Toolkit.UI
 					_frameBackStackChangedHandler.Disposable = Disposable.Create(() => backStack.CollectionChanged -= OnBackStackChanged);
 				}
 			}
-#endif
+
 			UpdateMainCommandVisibility();
 		}
 
@@ -225,13 +216,10 @@ namespace Uno.Toolkit.UI
 				predicate: _ => true);
 		}
 
-
-#if !HAS_NATIVE_NAVBAR
 		private void OnBackStackChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			UpdateMainCommandVisibility();
 		}
-#endif
 
 #if SYS_NAV_MGR_SUPPORTED
 		private void OnBackRequested(object? sender, BackRequestedEventArgs e)
@@ -299,7 +287,6 @@ namespace Uno.Toolkit.UI
 
 		private void UpdateHeaderContentAlignment()
 		{
-			// native impl has centering built-in
 			if (!HasXamlPresenter()) return;
 
 			if (_skiaHeaderContentControl != null)
@@ -325,16 +312,6 @@ namespace Uno.Toolkit.UI
 			}
 
 			return null;
-		}
-
-		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "#if-conditioned implementation")]
-		private bool HasNativePresenter()
-		{
-#if HAS_NATIVE_NAVBAR
-			return _presenter is NativeNavigationBarPresenter;
-#else
-			return false;
-#endif
 		}
 
 		private bool HasXamlPresenter() => _presenter is NavigationBarPresenter;

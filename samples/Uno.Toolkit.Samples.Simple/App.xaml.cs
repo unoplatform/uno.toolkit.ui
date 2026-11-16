@@ -1,48 +1,44 @@
 using System.Globalization;
 
-#if __IOS__
-using Foundation;
-#endif
-
 namespace Uno.Toolkit.Samples;
 
 public partial class App : Application
 {
 	private Shell _shell;
-	public static App Instance => Current as App;
+	private static App? _instance;
+
+	// Application.Current belongs to the wrapper when this app runs in a secondary ALC.
+	public static App Instance => _instance ?? throw new InvalidOperationException("The sample application has not been initialized.");
 
 	public App()
 	{
+		_instance = this;
+		SamplePageLayout.ActiveDesign = Design.Simple;
 		this.InitializeComponent();
 	}
 
 	public Window? MainWindow { get; private set; }
 
-	protected override async void OnLaunched(LaunchActivatedEventArgs e)
+	protected override void OnLaunched(LaunchActivatedEventArgs e)
 	{
-#if __IOS__ && USE_UITESTS && !MACCATALYST && HAS_TESTCLOUD_AGENT
-			Xamarin.Calabash.Start();
-#endif
-			MainWindow = new Window();
+		MainWindow = new Window();
 
-			if (MainWindow.Content is null)
+		if (MainWindow.Content is null)
+		{
+			var loadable = new ManualLoadable { IsExecuting = true };
+			var splash = new ExtendedSplashScreen
 			{
-				var loadable = new ManualLoadable { IsExecuting = true };
-				var splash = new ExtendedSplashScreen
-				{
-					Window = MainWindow,
-					Source = loadable
-				};
-				MainWindow.Content = splash;
-				MainWindow.Activate();
+				Window = MainWindow,
+				Source = loadable
+			};
+			MainWindow.Content = splash;
+			MainWindow.Activate();
 
-				await Task.Yield();
-
-				splash.Content = _shell = BuildShell();
-				loadable.IsExecuting = false;
-			}
-
+			// Finish launch synchronously so a hosted app cannot resume after it is unloaded.
+			splash.Content = _shell = BuildShell();
+			loadable.IsExecuting = false;
 		}
+	}
 
 		private class ManualLoadable : ILoadable
 		{
@@ -68,7 +64,7 @@ public partial class App : Application
 		{
 #if __WASM__
 			builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
-#elif __IOS__ || __MACCATALYST__
+#elif __IOS__
 			builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
 #else
 			builder.AddConsole();
@@ -99,7 +95,7 @@ public partial class App : Application
 #if __WASM__
 	[System.Runtime.InteropServices.JavaScript.JSExport]
 #endif
-	public static void ForceNavigation(string sampleName) => (Application.Current as App)?.ForceSampleNavigation(sampleName);
+	public static void ForceNavigation(string sampleName) => Instance.ForceSampleNavigation(sampleName);
 #if __WASM__
 	[System.Runtime.InteropServices.JavaScript.JSExport]
 #endif
@@ -107,31 +103,12 @@ public partial class App : Application
 #if __WASM__
 	[System.Runtime.InteropServices.JavaScript.JSExport]
 #endif
-	public static void NavigateToNestedSample(string pageName) => (Application.Current as App)?.NavigateToNestedSampleCore(pageName);
+	public static void NavigateToNestedSample(string pageName) => Instance.NavigateToNestedSampleCore(pageName);
 #if __WASM__
 
 	[System.Runtime.InteropServices.JavaScript.JSExport]
 #endif
 	public static string GetDisplayScreenScaling(string value) => (DisplayInformation.GetForCurrentView().LogicalDpi * 100f / 96f).ToString(CultureInfo.InvariantCulture);
 #pragma warning restore CA1416 // Validate platform compatibility
-
-
-#if __IOS__
-	[Export("navBackFromNestedPage:")]
-	public void NavBackFromNestedPageBackdoor(NSString value) => NavBackFromNestedPage();
-
-	[Export("forceNavigation:")]
-	public void ForceNavigationBackdoor(NSString value) => ForceNavigation(value);
-
-	[Export("exitNestedSample:")]
-	public void ExitNestedSampleBackdoor(NSString value) => ExitNestedSample();
-
-	[Export("navigateToNestedSample:")]
-	public void NavigateToNestedSampleBackdoor(NSString value) => NavigateToNestedSample(value);
-
-	[Export("getDisplayScreenScaling:")]
-	public NSString GetDisplayScreenScalingBackdoor(NSString value) => new NSString(GetDisplayScreenScaling(value));
-#endif
-
 #endif
 }

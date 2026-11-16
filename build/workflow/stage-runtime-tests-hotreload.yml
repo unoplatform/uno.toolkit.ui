@@ -24,6 +24,21 @@ jobs:
 
       - template: templates/canary-updater.yml
 
+      # The dev-server re-evaluates the projects for hot reload without the build's global properties,
+      # so TargetFrameworkOverride=desktop alone does not reach it. On this agent (no mobile workloads)
+      # the head's android and ios flavors then load as plain net10.0 and fail the workspace's initial
+      # emit. The override file is read by both the build and the dev-server.
+      - bash: |
+          cat > src/crosstargeting_override.props <<'EOF'
+          <Project>
+            <PropertyGroup>
+              <TargetFrameworkOverride>desktop</TargetFrameworkOverride>
+            </PropertyGroup>
+          </Project>
+          EOF
+          cat src/crosstargeting_override.props
+        displayName: Pin the desktop target framework for the hot-reload workspace
+
       - bash: |
           dotnet build -c Debug -f net10.0-desktop \
             samples/$(SAMPLE_DIR)/$(SAMPLE_CSPROJ).csproj \

@@ -1,12 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-					xmlns:mobile="http://uno.ui/mobile"
-					xmlns:not_mobile="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					mc:Ignorable="mobile">
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Style x:Key="NoArrowsFlipViewStyle"
 		   TargetType="FlipView">
-		<not_mobile:Setter Property="Template">
+		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="FlipView">
 					<Grid Background="{TemplateBinding Background}"
@@ -35,6 +31,6 @@
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
-		</not_mobile:Setter>
+		</Setter>
 	</Style>
 </ResourceDictionary>

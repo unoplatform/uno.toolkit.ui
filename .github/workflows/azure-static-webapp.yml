@@ -16,11 +16,12 @@ on:
       - feature/*
 
 env:
-  SOLUTION_PATH: samples/Uno.Toolkit.Samples.Simple
-  APP_PROJECT: samples/Uno.Toolkit.Samples.Simple/SimpleSampleApp.csproj
+  # Deploy one host containing Material, Cupertino and Simple guest apps.
+  SOLUTION_PATH: samples/Uno.Toolkit.Samples.ThemeWrapper
+  APP_PROJECT: samples/Uno.Toolkit.Samples.ThemeWrapper/ToolkitSampleApp.csproj
   WASM_FRAMEWORK: net10.0-browserwasm
   BUILD_CONFIGURATION: Release
-  WASM_PUBLISH_DIR: samples/Uno.Toolkit.Samples.Simple/bin/Release/net10.0-browserwasm/publish/wwwroot
+  WASM_PUBLISH_DIR: samples/Uno.Toolkit.Samples.ThemeWrapper/bin/Release/net10.0-browserwasm/publish/wwwroot
   TargetFrameworkOverride: browserwasm
 
 permissions:
@@ -48,7 +49,7 @@ jobs:
 
       - name: Set EMSDK cache path
         shell: bash
-        run: echo "WasmCachePath=$HOME/.emscripten-cache" >> $GITHUB_ENV
+        run: echo "WasmCachePath=$HOME/.emscripten-cache" >> "$GITHUB_ENV"
 
       - name: Cache EMSDK
         id: cache-emsdk
@@ -72,6 +73,13 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+      # WebAssembly guests cannot be ProjectReferences: their static web assets collide.
+      # Build the guest assemblies before the wrapper packages them into its payload.
+      - name: Build guest sample heads (WebAssembly)
+        run: bash build/workflow/scripts/build-wasm-guest-heads.sh ${{ env.BUILD_CONFIGURATION }} -p:CompressionEnabled=false
+        env:
+          BINLOG_DIR: ${{ github.workspace }}/binlogs
 
       - name: Publish WebAssembly app
         run: >

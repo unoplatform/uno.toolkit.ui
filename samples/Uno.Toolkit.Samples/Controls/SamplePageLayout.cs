@@ -257,19 +257,8 @@ namespace Uno.Toolkit.Samples
 
 		private double GetRelativeOffset()
 		{
-#if NETFX_CORE
-			// On UWP we can count on finding a ScrollContentPresenter.
-			var scp = VisualTreeHelperEx.GetFirstDescendant<ScrollContentPresenter>(_scrollViewer);
-			var content = scp?.Content as FrameworkElement;
-			var transform = _scrollingTabs.TransformToVisual(content);
-			return transform.TransformPoint(new Point(0, 0)).Y - _scrollViewer.VerticalOffset;
-#elif __IOS__
-			var transform = _scrollingTabs.TransformToVisual(_scrollViewer);
-			return transform.TransformPoint(new Point(0, 0)).Y;
-#else
 			var transform = _scrollingTabs.TransformToVisual(this);
 			return transform.TransformPoint(new Point(0, 0)).Y - _top.ActualHeight;
-#endif
 		}
 
 		/// <summary>

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -36,7 +37,7 @@ public class SafeAreaHrTest
 		var insets = SafeArea.GetInsets(border);
 		Assert.AreEqual(SafeArea.InsetMask.Top | SafeArea.InsetMask.Bottom, insets, "Insets should start as Top,Bottom.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<SafeAreaPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<SafeAreaPage>(
 			originalText: "utu:SafeArea.Insets=\"Top,Bottom\"",
 			replacementText: "utu:SafeArea.Insets=\"Left,Right\"",
 			ct))
@@ -63,7 +64,7 @@ public class SafeAreaHrTest
 		var mode = SafeArea.GetMode(border);
 		Assert.AreEqual(SafeArea.InsetMode.Padding, mode, "Mode should start as Padding.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<SafeAreaPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<SafeAreaPage>(
 			originalText: "utu:SafeArea.Mode=\"Padding\"",
 			replacementText: "utu:SafeArea.Mode=\"Margin\"",
 			ct))
@@ -89,7 +90,7 @@ public class SafeAreaHrTest
 		var content = UIHelper.GetChild<TextBlock>(name: "SafeContent");
 		Assert.AreEqual("Safe content", content.Text);
 
-		await using (await HotReloadHelper.UpdateSourceFile<SafeAreaPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<SafeAreaPage>(
 			originalText: "Text=\"Safe content\"",
 			replacementText: "Text=\"Updated safe content\"",
 			ct))

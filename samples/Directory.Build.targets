@@ -1,0 +1,14 @@
+<Project>
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
+
+	<!--
+	  MSTest.TestFramework 4.x (pulled in by the hosted Uno.Toolkit.RuntimeTests) adds a global
+	  `using Microsoft.VisualStudio.TestTools.UnitTesting` to every consumer with ImplicitUsings.
+	  The sample code does not use MSTest, and the using makes [Description] ambiguous with
+	  System.ComponentModel. This lives in a .targets file because NuGet imports the package's
+	  Using item after Directory.Build.props, but before Directory.Build.targets.
+	-->
+	<ItemGroup>
+		<Using Remove="Microsoft.VisualStudio.TestTools.UnitTesting" />
+	</ItemGroup>
+</Project>

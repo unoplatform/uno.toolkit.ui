@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Uno.Toolkit.RuntimeTests.Tests.TestPages;
 using Uno.Toolkit.UI;
+using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.UI.RuntimeTests;
 
 namespace Uno.Toolkit.RuntimeTests.Tests.HotReload;
@@ -36,7 +37,7 @@ public class ResponsiveExtensionHrTest
 		var tb = UIHelper.GetChild<TextBlock>(name: "ResponsiveText");
 		Assert.IsNotNull(tb, "TextBlock should exist.");
 
-		await using (await HotReloadHelper.UpdateSourceFile<ResponsiveExtensionPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ResponsiveExtensionPage>(
 			originalText: "Narrow=14, Wide=24",
 			replacementText: "Narrow=18, Wide=24",
 			ct))
@@ -64,7 +65,7 @@ public class ResponsiveExtensionHrTest
 		// On a desktop test (wide breakpoint), FontSize should initially be 24
 		var initialSize = tb.FontSize;
 
-		await using (await HotReloadHelper.UpdateSourceFile<ResponsiveExtensionPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ResponsiveExtensionPage>(
 			originalText: "Narrow=14, Wide=24",
 			replacementText: "Narrow=14, Wide=32",
 			ct))
@@ -92,7 +93,7 @@ public class ResponsiveExtensionHrTest
 		var tb = UIHelper.GetChild<TextBlock>(name: "ResponsiveText");
 		Assert.AreEqual("Responsive text", tb.Text);
 
-		await using (await HotReloadHelper.UpdateSourceFile<ResponsiveExtensionPage>(
+		await using (await HotReloadTestHelper.UpdateSourceFile<ResponsiveExtensionPage>(
 			originalText: "Text=\"Responsive text\"",
 			replacementText: "Text=\"Updated responsive text\"",
 			ct))

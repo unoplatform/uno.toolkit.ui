@@ -53,6 +53,10 @@ namespace Uno.Toolkit.UI
 					{
 						progressBar.IsIndeterminate = isActive;
 					}
+					else if (item is SkeletonView skeletonView)
+					{
+						skeletonView.SetProgressActive(isActive);
+					}
 				}
 			}
 		}
