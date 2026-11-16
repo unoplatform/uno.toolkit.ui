@@ -18,9 +18,14 @@ using ItemsRepeater = Microsoft.UI.Xaml.Controls.ItemsRepeater;
 namespace Uno.Toolkit.UI
 {
 	[TemplatePart(Name = RemoveButtonName, Type = typeof(Button))]
+	[TemplateVisualState(GroupName = IconStatesGroupName, Name = IconCollapsedStateName)]
+	[TemplateVisualState(GroupName = IconStatesGroupName, Name = IconVisibleStateName)]
 	public partial class Chip : ToggleButton
 	{
 		private const string RemoveButtonName = "PART_RemoveButton";
+		private const string IconStatesGroupName = "IconStates";
+		private const string IconCollapsedStateName = "IconCollapsed";
+		private const string IconVisibleStateName = "IconVisible";
 
 		private bool _shouldRaiseIsCheckedChanged;
 
@@ -40,6 +45,13 @@ namespace Uno.Toolkit.UI
 			{
 				removeButton.Click += RaiseRemoveButtonClicked;
 			}
+
+			UpdateIconState();
+		}
+
+		private void UpdateIconState()
+		{
+			VisualStateManager.GoToState(this, Icon is null ? IconCollapsedStateName : IconVisibleStateName, useTransitions: false);
 		}
 
 		internal void OnChipSelectionModeChanged(DependencyPropertyChangedEventArgs e)

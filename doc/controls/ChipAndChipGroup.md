@@ -4,7 +4,7 @@ uid: Toolkit.Controls.Chip
 # Chip & ChipGroup
 
 > [!TIP]
-> This guide covers details for `Chip` and `ChipGroup` specifically. If you are just getting started with the Uno Material Toolkit Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
+> This guide covers details for `Chip` and `ChipGroup` specifically. If you are just getting started with the Uno Toolkit, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 
 ## Summary
 
@@ -72,10 +72,30 @@ sealed class ChipRemovingEventArgs : EventArgs
 
 ### Usage
 
+Without a design-system package, `Chip` uses its default Fluent style (`DefaultChipStyle`): a pill-shaped toggle that follows the WinUI `ToggleButton` fills and text colors, with an optional leading icon and remove button.
+
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
 ...
 
+<utu:Chip Content="Chip" />
+<utu:Chip Content="Selected" IsChecked="True" />
+<utu:Chip Content="Removable" CanRemove="True" />
+
+<!-- with icon -->
+<utu:Chip Content="Chip">
+    <utu:Chip.Icon>
+        <SymbolIcon Symbol="Favorite" />
+    </utu:Chip.Icon>
+</utu:Chip>
+```
+
+> [!NOTE]
+> The default style does not draw a shadow, so `Elevation` has no effect on it.
+
+With the Material or Simple Toolkit libraries, the following style keys are also available:
+
+```xml
 <utu:Chip Content="Assist Chip" Style="{StaticResource AssistChipStyle}" />
 <utu:Chip Content="Input Chip" IsChecked="True" Style="{StaticResource InputChipStyle}" />
 <utu:Chip Content="Filter Chip" IsChecked="True" Style="{StaticResource FilterChipStyle}" />
@@ -90,6 +110,67 @@ xmlns:utu="using:Uno.Toolkit.UI"
 ```
 
 ## Lightweight Styling
+
+The default, Material, and Simple styles share the `Chip*` key names, so an override applies to whichever style is active. The default values differ per design system.
+
+### Default (Fluent)
+
+The default style follows the Pill in the [Windows UI Kit](https://www.figma.com/community/file/1440832812269040007). Fills and text use the WinUI `ToggleButton` resources of the same state; the border is a flat stroke that disappears when the chip is checked. In High Contrast, borders also follow the `ToggleButton` resources.
+
+| Key                                   | Type           | Value                                    |
+|---------------------------------------|----------------|------------------------------------------|
+| `ChipHeight`                          | `Double`       | 32                                       |
+| `ChipIconSize`                        | `Double`       | 16                                       |
+| `ChipDeleteIconContainerLength`       | `Double`       | 20                                       |
+| `ChipDeleteIconLength`                | `Double`       | 8                                        |
+| `ChipCornerRadius`                    | `CornerRadius` | 16                                       |
+| `ChipDeleteIconCornerRadius`          | `CornerRadius` | 10                                       |
+| `ChipBorderThickness`                 | `Thickness`    | 1                                        |
+| `ChipPadding`                         | `Thickness`    | 11,0,5,0                                 |
+| `ChipContentMargin`                   | `Thickness`    | 0,0,6,0                                  |
+| `ChipIconMargin`                      | `Thickness`    | 0,0,8,0                                  |
+| `ChipBackground`                      | `Brush`        | `ToggleButtonBackground`                 |
+| `ChipBackgroundPointerOver`           | `Brush`        | `ToggleButtonBackgroundPointerOver`      |
+| `ChipBackgroundPressed`               | `Brush`        | `ToggleButtonBackgroundPressed`          |
+| `ChipBackgroundDisabled`              | `Brush`        | `ToggleButtonBackgroundDisabled`         |
+| `ChipBackgroundChecked`               | `Brush`        | `ToggleButtonBackgroundChecked`          |
+| `ChipBackgroundCheckedPointerOver`    | `Brush`        | `ToggleButtonBackgroundCheckedPointerOver` |
+| `ChipBackgroundCheckedPressed`        | `Brush`        | `ToggleButtonBackgroundCheckedPressed`   |
+| `ChipBackgroundCheckedDisabled`       | `Brush`        | `ToggleButtonBackgroundCheckedDisabled`  |
+| `ChipForeground`                      | `Brush`        | `ToggleButtonForeground`                 |
+| `ChipForegroundPointerOver`           | `Brush`        | `ToggleButtonForegroundPointerOver`      |
+| `ChipForegroundPressed`               | `Brush`        | `ToggleButtonForegroundPressed`          |
+| `ChipForegroundDisabled`              | `Brush`        | `ToggleButtonForegroundDisabled`         |
+| `ChipForegroundChecked`               | `Brush`        | `ToggleButtonForegroundChecked`          |
+| `ChipForegroundCheckedPointerOver`    | `Brush`        | `ToggleButtonForegroundCheckedPointerOver` |
+| `ChipForegroundCheckedPressed`        | `Brush`        | `ToggleButtonForegroundCheckedPressed`   |
+| `ChipForegroundCheckedDisabled`       | `Brush`        | `TextOnAccentFillColorDisabledBrush`     |
+| `ChipIconForeground`                  | `Brush`        | `ToggleButtonForeground`                 |
+| `ChipIconForegroundPointerOver`       | `Brush`        | `ToggleButtonForegroundPointerOver`      |
+| `ChipIconForegroundPressed`           | `Brush`        | `ToggleButtonForegroundPressed`          |
+| `ChipIconForegroundDisabled`          | `Brush`        | `ToggleButtonForegroundDisabled`         |
+| `ChipIconForegroundChecked`           | `Brush`        | `ToggleButtonForegroundChecked`          |
+| `ChipIconForegroundCheckedPointerOver`| `Brush`        | `ToggleButtonForegroundCheckedPointerOver` |
+| `ChipIconForegroundCheckedPressed`    | `Brush`        | `ToggleButtonForegroundCheckedPressed`   |
+| `ChipIconForegroundCheckedDisabled`   | `Brush`        | `TextOnAccentFillColorDisabledBrush`     |
+| `ChipBorderBrush` | `Brush` | `ControlStrokeColorDefaultBrush` |
+| `ChipBorderBrushPointerOver` | `Brush` | `ControlStrokeColorDefaultBrush` |
+| `ChipBorderBrushPressed` | `Brush` | `ControlStrokeColorDefaultBrush` |
+| `ChipBorderBrushDisabled` | `Brush` | `ControlStrokeColorDefaultBrush` |
+| `ChipBorderBrushChecked` | `Brush` | `ControlFillColorTransparentBrush` |
+| `ChipBorderBrushCheckedPointerOver` | `Brush` | `ControlFillColorTransparentBrush` |
+| `ChipBorderBrushCheckedPressed` | `Brush` | `ControlFillColorTransparentBrush` |
+| `ChipBorderBrushCheckedDisabled` | `Brush` | `ControlFillColorTransparentBrush` |
+| `ChipDeleteIconBackground`            | `Brush`        | `SubtleFillColorTransparentBrush`        |
+| `ChipDeleteIconBackgroundPointerOver` | `Brush`        | `SubtleFillColorSecondaryBrush`          |
+| `ChipDeleteIconBackgroundPressed`     | `Brush`        | `SubtleFillColorTertiaryBrush`           |
+| `ChipDeleteIconForeground`            | `Brush`        | `ToggleButtonForeground`                 |
+
+The right inset of the text is `ChipPadding` plus `ChipContentMargin`, which lets the remove button sit closer to the edge than the text does.
+
+The default style has no `Chip*Focused`, `ChipStateOverlay*`, or `ChipElevation*` resources: focus uses the system focus visual, and there is no overlay or shadow layer.
+
+### Material
 
 | Key                                    | Type              | Value                               |
 |----------------------------------------|-------------------|-------------------------------------|
@@ -244,6 +325,8 @@ class ChipItemRemovingEventHandler : ChipItemEventHandler
 ```
 
 ### Usage
+
+Without a design-system package, `ChipGroup` uses `DefaultChipGroupStyle`, which lays its chips out in a horizontal row. The `Style` values below come from the Material and Simple Toolkit libraries; omit them to use the default style.
 
 ```xml
 xmlns:utu="using:Uno.Toolkit.UI"
