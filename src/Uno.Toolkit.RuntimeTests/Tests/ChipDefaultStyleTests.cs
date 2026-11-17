@@ -8,6 +8,7 @@ using Uno.Toolkit.UI;
 using Uno.Toolkit.UI.Material;
 using Uno.Toolkit.UI.Simple;
 using Uno.UI.RuntimeTests;
+using Windows.Foundation;
 
 namespace Uno.Toolkit.RuntimeTests.Tests;
 
@@ -213,6 +214,47 @@ public sealed class ChipDefaultStyleTests
 	}
 
 	[TestMethod]
+	public async Task When_RightToLeft_IconAndRemoveButtonAreMirrored()
+	{
+		var chip = new Chip { Content = "Chip", CanRemove = true, Icon = new SymbolIcon(Symbol.Favorite) };
+
+		var root = await Load(chip, flowDirection: FlowDirection.RightToLeft);
+
+		var bounds = ScreenBounds(chip, root);
+		var icon = ScreenBounds(Find<ContentPresenter>(chip, IconPresenterName)!, root);
+		var content = ScreenBounds(Find<ContentPresenter>(chip, ContentPresenterName)!, root);
+		var remove = ScreenBounds(Find<Button>(chip, RemoveButtonName)!, root);
+		Assert.IsTrue(icon.Left >= content.Right - 0.5, $"The icon ({icon}) must be at the leading, right side of the text ({content}).");
+		Assert.IsTrue(remove.Right <= content.Left + 0.5, $"The remove button ({remove}) must be at the trailing, left side of the text ({content}).");
+		Assert.IsTrue(remove.Left >= bounds.Left && icon.Right <= bounds.Right + 0.5, "Icon and remove button must stay inside the chip.");
+	}
+
+	[TestMethod]
+	public async Task When_RightToLeft_InsetsAreMirrored()
+	{
+		var ltrChip = new Chip { Content = "Chip", CanRemove = true, Icon = new SymbolIcon(Symbol.Favorite) };
+		var ltrRoot = await Load(ltrChip);
+		var ltrIconInset = ScreenBounds(Find<ContentPresenter>(ltrChip, IconPresenterName)!, ltrRoot).Left - ScreenBounds(ltrChip, ltrRoot).Left;
+		var ltrRemoveInset = ScreenBounds(ltrChip, ltrRoot).Right - ScreenBounds(Find<Button>(ltrChip, RemoveButtonName)!, ltrRoot).Right;
+
+		var rtlChip = new Chip { Content = "Chip", CanRemove = true, Icon = new SymbolIcon(Symbol.Favorite) };
+		var rtlRoot = await Load(rtlChip, flowDirection: FlowDirection.RightToLeft);
+		var rtlIconInset = ScreenBounds(rtlChip, rtlRoot).Right - ScreenBounds(Find<ContentPresenter>(rtlChip, IconPresenterName)!, rtlRoot).Right;
+		var rtlRemoveInset = ScreenBounds(Find<Button>(rtlChip, RemoveButtonName)!, rtlRoot).Left - ScreenBounds(rtlChip, rtlRoot).Left;
+
+		Assert.AreEqual(ltrIconInset, rtlIconInset, 0.5, "Icon inset from the leading edge");
+		Assert.AreEqual(ltrRemoveInset, rtlRemoveInset, 0.5, "Remove button inset from the trailing edge");
+	}
+
+	[TestMethod]
+	public void When_ToolkitResourcesLoaded_HighContrastBrushesResolve()
+	{
+		var unresolved = ThemeDictionaryHelper.FindUnresolvedBrushes(new ToolkitResources(), "HighContrast", minimumCount: 30, "Chip");
+
+		Assert.AreEqual(0, unresolved.Count, $"These Chip High Contrast keys do not resolve to a brush: {string.Join(", ", unresolved)}");
+	}
+
+	[TestMethod]
 	public async Task When_ChipGroupHasNoStyle_ChipsAreLaidOutHorizontally()
 	{
 		var group = new ChipGroup();
@@ -265,14 +307,19 @@ public sealed class ChipDefaultStyleTests
 		Assert.AreEqual(TemplateShape(explicitChip), TemplateShape(implicitChip), "Template");
 	}
 
-	private static async Task Load(FrameworkElement content, ElementTheme theme = ElementTheme.Light)
+	private static async Task<Grid> Load(FrameworkElement content, ElementTheme theme = ElementTheme.Light, FlowDirection flowDirection = FlowDirection.LeftToRight)
 	{
-		var root = new Grid { RequestedTheme = theme, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+		var root = new Grid { RequestedTheme = theme, FlowDirection = flowDirection, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
 		root.Resources.MergedDictionaries.Add(new ToolkitResources());
 		root.Children.Add(content);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(root);
+		return root;
 	}
+
+	/// <summary>Bounds on screen. Measured against the LTR parent of the test root, so that a right-to-left layout is not reported in leading-edge coordinates.</summary>
+	private static Rect ScreenBounds(FrameworkElement element, FrameworkElement root)
+		=> element.TransformToVisual((UIElement)root.Parent).TransformBounds(new Rect(0, 0, element.ActualWidth, element.ActualHeight));
 
 	private static T? Find<T>(FrameworkElement owner, string name) where T : FrameworkElement
 		=> owner.GetDescendants().OfType<T>().FirstOrDefault(x => x.Name == name);

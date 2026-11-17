@@ -91,46 +91,47 @@
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
-            <StaticResource x:Key="ChipBackground" ResourceKey="ToggleButtonBackground" />
-            <StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="ToggleButtonBackgroundPointerOver" />
-            <StaticResource x:Key="ChipBackgroundPressed" ResourceKey="ToggleButtonBackgroundPressed" />
-            <StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="ToggleButtonBackgroundDisabled" />
-            <StaticResource x:Key="ChipBackgroundChecked" ResourceKey="ToggleButtonBackgroundChecked" />
-            <StaticResource x:Key="ChipBackgroundCheckedPointerOver" ResourceKey="ToggleButtonBackgroundCheckedPointerOver" />
-            <StaticResource x:Key="ChipBackgroundCheckedPressed" ResourceKey="ToggleButtonBackgroundCheckedPressed" />
-            <StaticResource x:Key="ChipBackgroundCheckedDisabled" ResourceKey="ToggleButtonBackgroundCheckedDisabled" />
+            <!--  Straight to the system brushes the WinUI ToggleButton uses in High Contrast, as WinUI's own High Contrast dictionaries do.  -->
+            <StaticResource x:Key="ChipBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+            <StaticResource x:Key="ChipBackgroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="ChipBackgroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="ChipBackgroundDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+            <StaticResource x:Key="ChipBackgroundChecked" ResourceKey="SystemControlHighlightAccentBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedPointerOver" ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="ChipBackgroundCheckedDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
 
-            <StaticResource x:Key="ChipForeground" ResourceKey="ToggleButtonForeground" />
-            <StaticResource x:Key="ChipForegroundPointerOver" ResourceKey="ToggleButtonForegroundPointerOver" />
-            <StaticResource x:Key="ChipForegroundPressed" ResourceKey="ToggleButtonForegroundPressed" />
-            <StaticResource x:Key="ChipForegroundDisabled" ResourceKey="ToggleButtonForegroundDisabled" />
-            <StaticResource x:Key="ChipForegroundChecked" ResourceKey="ToggleButtonForegroundChecked" />
-            <StaticResource x:Key="ChipForegroundCheckedPointerOver" ResourceKey="ToggleButtonForegroundCheckedPointerOver" />
-            <StaticResource x:Key="ChipForegroundCheckedPressed" ResourceKey="ToggleButtonForegroundCheckedPressed" />
-            <StaticResource x:Key="ChipForegroundCheckedDisabled" ResourceKey="ToggleButtonForegroundCheckedDisabled" />
+            <StaticResource x:Key="ChipForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
+            <StaticResource x:Key="ChipForegroundPointerOver" ResourceKey="SystemControlHighlightBaseHighBrush" />
+            <StaticResource x:Key="ChipForegroundPressed" ResourceKey="SystemControlHighlightBaseHighBrush" />
+            <StaticResource x:Key="ChipForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+            <StaticResource x:Key="ChipForegroundChecked" ResourceKey="SystemControlHighlightAltChromeWhiteBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedPointerOver" ResourceKey="SystemColorButtonFaceColorBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedPressed" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="ChipForegroundCheckedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 
-            <StaticResource x:Key="ChipIconForeground" ResourceKey="ToggleButtonForeground" />
-            <StaticResource x:Key="ChipIconForegroundPointerOver" ResourceKey="ToggleButtonForegroundPointerOver" />
-            <StaticResource x:Key="ChipIconForegroundPressed" ResourceKey="ToggleButtonForegroundPressed" />
-            <StaticResource x:Key="ChipIconForegroundDisabled" ResourceKey="ToggleButtonForegroundDisabled" />
-            <StaticResource x:Key="ChipIconForegroundChecked" ResourceKey="ToggleButtonForegroundChecked" />
-            <StaticResource x:Key="ChipIconForegroundCheckedPointerOver" ResourceKey="ToggleButtonForegroundCheckedPointerOver" />
-            <StaticResource x:Key="ChipIconForegroundCheckedPressed" ResourceKey="ToggleButtonForegroundCheckedPressed" />
-            <StaticResource x:Key="ChipIconForegroundCheckedDisabled" ResourceKey="ToggleButtonForegroundCheckedDisabled" />
+            <StaticResource x:Key="ChipIconForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
+            <StaticResource x:Key="ChipIconForegroundPointerOver" ResourceKey="SystemControlHighlightBaseHighBrush" />
+            <StaticResource x:Key="ChipIconForegroundPressed" ResourceKey="SystemControlHighlightBaseHighBrush" />
+            <StaticResource x:Key="ChipIconForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+            <StaticResource x:Key="ChipIconForegroundChecked" ResourceKey="SystemControlHighlightAltChromeWhiteBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedPointerOver" ResourceKey="SystemColorButtonFaceColorBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedPressed" ResourceKey="SystemColorHighlightColorBrush" />
+            <StaticResource x:Key="ChipIconForegroundCheckedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 
-            <StaticResource x:Key="ChipBorderBrush" ResourceKey="ToggleButtonBorderBrush" />
-            <StaticResource x:Key="ChipBorderBrushPointerOver" ResourceKey="ToggleButtonBorderBrushPointerOver" />
-            <StaticResource x:Key="ChipBorderBrushPressed" ResourceKey="ToggleButtonBorderBrushPressed" />
-            <StaticResource x:Key="ChipBorderBrushDisabled" ResourceKey="ToggleButtonBorderBrushDisabled" />
-            <StaticResource x:Key="ChipBorderBrushChecked" ResourceKey="ToggleButtonBorderBrushChecked" />
-            <StaticResource x:Key="ChipBorderBrushCheckedPointerOver" ResourceKey="ToggleButtonBorderBrushCheckedPointerOver" />
-            <StaticResource x:Key="ChipBorderBrushCheckedPressed" ResourceKey="ToggleButtonBorderBrushCheckedPressed" />
-            <StaticResource x:Key="ChipBorderBrushCheckedDisabled" ResourceKey="ToggleButtonBorderBrushCheckedDisabled" />
+            <StaticResource x:Key="ChipBorderBrush" ResourceKey="SystemControlForegroundTransparentBrush" />
+            <StaticResource x:Key="ChipBorderBrushPointerOver" ResourceKey="SystemControlHighlightBaseMediumLowBrush" />
+            <StaticResource x:Key="ChipBorderBrushPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="ChipBorderBrushDisabled" ResourceKey="SystemControlDisabledTransparentBrush" />
+            <StaticResource x:Key="ChipBorderBrushChecked" ResourceKey="SystemControlHighlightAltTransparentBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedPointerOver" ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+            <StaticResource x:Key="ChipBorderBrushCheckedDisabled" ResourceKey="SystemControlDisabledTransparentBrush" />
 
             <StaticResource x:Key="ChipDeleteIconBackground" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="ChipDeleteIconBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="ChipDeleteIconBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
-            <StaticResource x:Key="ChipDeleteIconForeground" ResourceKey="ToggleButtonForeground" />
+            <StaticResource x:Key="ChipDeleteIconForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

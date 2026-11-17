@@ -115,7 +115,7 @@ The default, Material, and Simple styles share the `Chip*` key names, so an over
 
 ### Default (Fluent)
 
-The default style follows the Pill in the [Windows UI Kit](https://www.figma.com/community/file/1440832812269040007). Fills and text use the WinUI `ToggleButton` resources of the same state; the border is a flat stroke that disappears when the chip is checked. In High Contrast, borders also follow the `ToggleButton` resources.
+The default style follows the Pill in the [Windows UI Kit](https://www.figma.com/community/file/1440832812269040007). Fills and text use the WinUI `ToggleButton` resources of the same state; the border is a flat stroke that disappears when the chip is checked. In High Contrast, every brush is the system brush that the `ToggleButton` uses there, so the values in the table below apply to the Light and Dark themes.
 
 | Key                                   | Type           | Value                                    |
 |---------------------------------------|----------------|------------------------------------------|
