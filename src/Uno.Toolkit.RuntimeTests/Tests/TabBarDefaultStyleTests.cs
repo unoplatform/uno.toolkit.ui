@@ -213,6 +213,64 @@ public sealed class TabBarDefaultStyleTests
 	}
 
 	[TestMethod]
+	[DataRow(null)]
+	[DataRow(TopStyle)]
+	[DataRow(SegmentedStyle)]
+	[DataRow(BottomStyle)]
+	public async Task When_RightToLeft_ItemsAndIndicatorAreMirrored(string? styleKey)
+	{
+		var tabBar = CreateTabBar(selectedIndex: 0);
+
+		var root = await Load(tabBar, styleKey, flowDirection: FlowDirection.RightToLeft);
+
+		var first = ScreenBounds(Item(tabBar, 0), root);
+		var second = ScreenBounds(Item(tabBar, 1), root);
+		Assert.IsTrue(first.Left >= second.Right - 0.5, $"The first item ({first}) must be at the leading, right side of the second ({second}).");
+		var pill = ScreenBounds(Find<Border>(Item(tabBar, 0), SelectionIndicatorName), root);
+		Assert.AreEqual(first.Left + first.Width / 2, pill.Left + pill.Width / 2, 0.5, "The selection indicator must stay centered on the selected item.");
+	}
+
+	[TestMethod]
+	[DataRow(TopStyle)]
+	[DataRow(SegmentedStyle)]
+	public async Task When_RightToLeft_IconLeadsTheLabel(string styleKey)
+	{
+		var tabBar = CreateTabBar();
+
+		var root = await Load(tabBar, styleKey, flowDirection: FlowDirection.RightToLeft);
+
+		var item = Item(tabBar, 0);
+		var icon = ScreenBounds(Find<ContentPresenter>(item, IconPresenterName), root);
+		var label = ScreenBounds(Find<ContentPresenter>(item, ContentPresenterName), root);
+		Assert.IsTrue(icon.Left >= label.Right - 0.5, $"The icon ({icon}) must be at the leading, right side of the label ({label}).");
+	}
+
+	[TestMethod]
+	public async Task When_RightToLeft_VerticalIndicatorIsOnTheLeadingEdge()
+	{
+		var ltrBar = CreateTabBar(selectedIndex: 0);
+		var ltrRoot = await Load(ltrBar, VerticalStyle);
+		var ltrItem = ScreenBounds(Item(ltrBar, 0), ltrRoot);
+		var ltrPill = ScreenBounds(Find<Border>(Item(ltrBar, 0), SelectionIndicatorName), ltrRoot);
+
+		var rtlBar = CreateTabBar(selectedIndex: 0);
+		var rtlRoot = await Load(rtlBar, VerticalStyle, flowDirection: FlowDirection.RightToLeft);
+		var rtlItem = ScreenBounds(Item(rtlBar, 0), rtlRoot);
+		var rtlPill = ScreenBounds(Find<Border>(Item(rtlBar, 0), SelectionIndicatorName), rtlRoot);
+
+		Assert.IsTrue(ltrPill.Left < ltrItem.Left + ltrItem.Width / 2, "In LTR the indicator is at the left edge of the item.");
+		Assert.IsTrue(rtlPill.Left > rtlItem.Left + rtlItem.Width / 2, "In RTL the indicator is at the right edge of the item.");
+	}
+
+	[TestMethod]
+	public void When_ToolkitResourcesLoaded_HighContrastBrushesResolve()
+	{
+		var unresolved = ThemeDictionaryHelper.FindUnresolvedBrushes(new ToolkitResources(), "HighContrast", minimumCount: 30, "TabBar", "DefaultTopTabBar", "DefaultSegmentedTabBar");
+
+		Assert.AreEqual(0, unresolved.Count, $"These TabBar High Contrast keys do not resolve to a brush: {string.Join(", ", unresolved)}");
+	}
+
+	[TestMethod]
 	public async Task When_SegmentedStyle_BarIsBoxed()
 	{
 		var tabBar = CreateTabBar();
@@ -295,13 +353,13 @@ public sealed class TabBarDefaultStyleTests
 		return tabBar;
 	}
 
-	private static Task Load(TabBar tabBar, string? styleKey, ElementTheme theme = ElementTheme.Light)
-		=> Load(tabBar, tabBar, styleKey, theme);
+	private static Task<Grid> Load(TabBar tabBar, string? styleKey, ElementTheme theme = ElementTheme.Light, FlowDirection flowDirection = FlowDirection.LeftToRight)
+		=> Load(tabBar, tabBar, styleKey, theme, flowDirection);
 
-	private static async Task Load(FrameworkElement content, TabBar tabBar, string? styleKey, ElementTheme theme)
+	private static async Task<Grid> Load(FrameworkElement content, TabBar tabBar, string? styleKey, ElementTheme theme, FlowDirection flowDirection = FlowDirection.LeftToRight)
 	{
 		var resources = new ToolkitResources();
-		var root = new Grid { RequestedTheme = theme, Width = 400, Height = 320, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+		var root = new Grid { RequestedTheme = theme, FlowDirection = flowDirection, Width = 400, Height = 320, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
 		root.Resources.MergedDictionaries.Add(resources);
 		if (styleKey is not null)
 		{
@@ -312,7 +370,12 @@ public sealed class TabBarDefaultStyleTests
 		root.Children.Add(content);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(root);
+		return root;
 	}
+
+	/// <summary>Bounds on screen. Measured against the LTR parent of the test root, so that a right-to-left layout is not reported in leading-edge coordinates.</summary>
+	private static Rect ScreenBounds(FrameworkElement element, FrameworkElement root)
+		=> Bounds(element, (UIElement)root.Parent);
 
 	private static TabBarItem Item(TabBar tabBar, int index)
 		=> tabBar.GetDescendants().OfType<TabBarItem>().ElementAt(index);
