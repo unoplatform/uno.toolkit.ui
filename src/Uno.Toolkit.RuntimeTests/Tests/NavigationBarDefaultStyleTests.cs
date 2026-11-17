@@ -159,6 +159,7 @@ public sealed class NavigationBarDefaultStyleTests
 		await Load(navBar);
 
 		Assert.IsTrue(icon.ActualWidth > 0 && icon.ActualHeight > 0, "The main command icon must be laid out.");
+		Assert.IsFalse(navBar.MainCommand.GetDescendants().OfType<TextBlock>().Any(x => x.Text == BackGlyph), "An explicit Icon must replace the back glyph, not sit next to it.");
 		var bounds = Bounds(icon, navBar.MainCommand);
 		Assert.IsTrue(bounds.Left >= 0 && bounds.Right <= navBar.MainCommand.ActualWidth, $"The icon ({bounds}) must sit inside the button.");
 	}
@@ -210,6 +211,44 @@ public sealed class NavigationBarDefaultStyleTests
 	}
 
 	[TestMethod]
+	public async Task When_RightToLeft_LayoutIsMirrored()
+	{
+		// Back button and title lead, so they sit at the left in LTR and at the right in RTL. A lone primary command trails them.
+		var ltr = await RightShareOfInk(FlowDirection.LeftToRight);
+		var rtl = await RightShareOfInk(FlowDirection.RightToLeft);
+
+		Assert.IsTrue(ltr < 0.5, $"In LTR the back button and title must be at the left, but {ltr:P0} of the ink is at the right.");
+		Assert.IsTrue(rtl > 0.5, $"In RTL the back button and title must be at the right, but only {rtl:P0} of the ink is at the right.");
+
+		static async Task<double> RightShareOfInk(FlowDirection flowDirection)
+		{
+			var navBar = new NavigationBar { Content = Title, MainCommandMode = MainCommandMode.Action };
+			navBar.PrimaryCommands.Add(new AppBarButton { Icon = new SymbolIcon(Symbol.Add) });
+			var root = await Load(navBar, flowDirection: flowDirection);
+			return await InkHelper.RightShare(root);
+		}
+	}
+
+	[TestMethod]
+	public async Task When_RightToLeftAndTitleIsCentered_TitleIsCenteredInTheBar()
+	{
+		var navBar = new NavigationBar { Content = Title, MainCommandMode = MainCommandMode.Action, HorizontalContentAlignment = HorizontalAlignment.Center };
+
+		await Load(navBar, flowDirection: FlowDirection.RightToLeft);
+
+		var title = Bounds(TitleText(navBar), navBar);
+		Assert.AreEqual(navBar.ActualWidth / 2, title.Left + title.Width / 2, CommandBarGutter / 2 + 0.5);
+	}
+
+	[TestMethod]
+	public void When_ToolkitResourcesLoaded_HighContrastBrushesResolve()
+	{
+		var unresolved = ThemeDictionaryHelper.FindUnresolvedBrushes(new ToolkitResources(), "HighContrast", minimumCount: 14, "NavigationBar");
+
+		Assert.AreEqual(0, unresolved.Count, $"These NavigationBar High Contrast keys do not resolve to a brush: {string.Join(", ", unresolved)}");
+	}
+
+	[TestMethod]
 	public async Task When_ThemeChanges_TitleColorFollows()
 	{
 		var navBar = new NavigationBar { Content = Title };
@@ -253,13 +292,14 @@ public sealed class NavigationBarDefaultStyleTests
 		}
 	}
 
-	private static async Task Load(FrameworkElement content, ElementTheme theme = ElementTheme.Light)
+	private static async Task<Grid> Load(FrameworkElement content, ElementTheme theme = ElementTheme.Light, FlowDirection flowDirection = FlowDirection.LeftToRight)
 	{
-		var root = new Grid { RequestedTheme = theme, Width = BarWidth, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+		var root = new Grid { RequestedTheme = theme, FlowDirection = flowDirection, Background = new SolidColorBrush(Microsoft.UI.Colors.White), Width = BarWidth, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
 		root.Resources.MergedDictionaries.Add(new ToolkitResources());
 		root.Children.Add(content);
 
 		await UnitTestUIContentHelperEx.SetContentAndWait(root);
+		return root;
 	}
 
 	private static TextBlock TitleText(NavigationBar navBar)
