@@ -5,8 +5,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Uno.Toolkit.RuntimeTests.Helpers;
 using Uno.Toolkit.UI;
-using Uno.Toolkit.UI.Material;
-using Uno.Toolkit.UI.Simple;
 using Uno.UI.RuntimeTests;
 using Windows.Foundation;
 
@@ -41,13 +39,9 @@ public sealed class TabBarDefaultStyleTests
 	}
 
 	[TestMethod]
-	[DataRow(null)]
-	[DataRow(BaseDefaultStyle)]
 	[DataRow(TopStyle)]
-	[DataRow(SegmentedStyle)]
-	[DataRow(BottomStyle)]
 	[DataRow(VerticalStyle)]
-	public async Task When_ItemSelected_OnlyThatItemIsMarked(string? styleKey)
+	public async Task When_ItemSelected_OnlyThatItemHasTheIndicator(string styleKey)
 	{
 		var tabBar = CreateTabBar(selectedIndex: 1);
 
@@ -67,6 +61,42 @@ public sealed class TabBarDefaultStyleTests
 
 		Assert.AreEqual(0d, Find<Border>(Item(tabBar, 1), SelectionIndicatorName).Opacity, "Deselected item");
 		Assert.AreEqual(1d, Find<Border>(Item(tabBar, 2), SelectionIndicatorName).Opacity, "Newly selected item");
+	}
+
+	[TestMethod]
+	[DataRow(null)]
+	[DataRow(BaseDefaultStyle)]
+	[DataRow(BottomStyle)]
+	public async Task When_BottomStyle_SelectedItemIsShownInTheAccentColor(string? styleKey)
+	{
+		var tabBar = CreateTabBar(selectedIndex: 1);
+
+		await Load(tabBar, styleKey);
+
+		var selected = ForegroundOf(Item(tabBar, 1));
+		Assert.AreNotEqual(selected, ForegroundOf(Item(tabBar, 0)), "The selected item must look different from the others.");
+		Assert.AreEqual(ForegroundOf(Item(tabBar, 0)), ForegroundOf(Item(tabBar, 2)), "Unselected items look the same.");
+		Assert.AreEqual(0, tabBar.GetDescendants().OfType<Border>().Count(x => x.Name == SelectionIndicatorName), "A bottom bar marks the selection with color, not with a pill.");
+
+		tabBar.SelectedIndex = 2;
+		await UnitTestsUIContentHelper.WaitForIdle();
+
+		Assert.AreEqual(selected, ForegroundOf(Item(tabBar, 2)), "The newly selected item takes the selected look.");
+		Assert.AreEqual(ForegroundOf(Item(tabBar, 0)), ForegroundOf(Item(tabBar, 1)), "The deselected item goes back to the unselected look.");
+	}
+
+	[TestMethod]
+	public async Task When_SegmentedStyle_OnlyTheSelectedSegmentIsRaised()
+	{
+		var tabBar = CreateTabBar(selectedIndex: 1);
+
+		await Load(tabBar, SegmentedStyle);
+
+		for (var i = 0; i < 3; i++)
+		{
+			Assert.AreEqual(i == 1 ? 1d : 0d, Find<Border>(Item(tabBar, i), "SelectedPlate").Opacity, $"Plate of segment {i}");
+		}
+		Assert.AreEqual(0, tabBar.GetDescendants().OfType<FrameworkElement>().Count(x => x.Name == SelectionIndicatorName), "A segmented bar has one selection visual: the plate.");
 	}
 
 	[TestMethod]
@@ -116,8 +146,7 @@ public sealed class TabBarDefaultStyleTests
 	[TestMethod]
 	[DataRow(null)]
 	[DataRow(BottomStyle)]
-	[DataRow(VerticalStyle)]
-	public async Task When_NavigationStyle_IconSitsAboveLabel(string? styleKey)
+	public async Task When_BottomStyle_IconSitsAboveLabel(string? styleKey)
 	{
 		var tabBar = CreateTabBar();
 
@@ -127,6 +156,100 @@ public sealed class TabBarDefaultStyleTests
 		var icon = Bounds(Find<ContentPresenter>(item, IconPresenterName), item);
 		var label = Bounds(Find<ContentPresenter>(item, ContentPresenterName), item);
 		Assert.IsTrue(icon.Bottom <= label.Top, $"Icon ({icon}) must be above the label ({label}).");
+		Assert.AreEqual(24d, icon.Width, 0.5, "Icon width");
+		Assert.AreEqual(12d, Find<ContentPresenter>(item, ContentPresenterName).FontSize, "Label size");
+		var content = icon;
+		content.Union(label);
+		Assert.AreEqual(item.ActualHeight / 2, content.Top + content.Height / 2, 1.5, "Icon and label are centered together.");
+	}
+
+	[TestMethod]
+	public async Task When_BottomStyle_BarHasADividerAndASurface_ButTheImplicitStyleHasNone()
+	{
+		var styled = CreateTabBar();
+		var bare = CreateTabBar();
+		await Load(new StackPanel { Children = { styled, bare } }, styled, BottomStyle, ElementTheme.Light);
+
+		Assert.AreEqual(new Thickness(0, 1, 0, 0), styled.BorderThickness, "The bottom style has a divider on top.");
+		Assert.IsInstanceOfType<SolidColorBrush>(styled.Background, "The bottom style has a solid surface.");
+		Assert.AreEqual(0d, bare.BorderThickness.Top, "A TabBar without a Style has no divider: the implicit style must stay neutral.");
+		Assert.IsNull(bare.Background, "A TabBar without a Style has no surface: the implicit style must stay neutral.");
+	}
+
+	[TestMethod]
+	public void When_ToolkitResourcesLoaded_ImplicitTabBarStyleDoesNotSetTheBarSurface()
+	{
+		// Uno applies the implicit style underneath every explicit one. The Material and Simple TabBar styles do not set
+		// BorderBrush or BorderThickness (and some not Background), so a surface here would leak into all of them.
+		var resources = new ToolkitResources();
+		Assert.IsTrue(resources.TryGetValue(typeof(TabBar), out var value) && value is Style, "ToolkitResources must define an implicit TabBar style.");
+
+		var surface = new[] { Control.BackgroundProperty, Control.BorderBrushProperty, Control.BorderThicknessProperty };
+		for (var style = (Style?)value; style is not null; style = style.BasedOn)
+		{
+			var leaking = style.Setters.OfType<Setter>().Where(x => surface.Contains(x.Property)).Select(x => x.Property?.ToString() ?? "?").ToArray();
+			Assert.AreEqual(0, leaking.Length, $"The implicit TabBar style (or one it is based on) sets {string.Join(", ", leaking)}.");
+		}
+	}
+
+	[TestMethod]
+	public async Task When_VerticalStyle_ItemsStackAtTheTopAsNavigationViewItems()
+	{
+		var tabBar = CreateTabBar();
+
+		var root = await Load(tabBar, VerticalStyle);
+
+		var items = Enumerable.Range(0, 3).Select(i => Bounds(Item(tabBar, i), tabBar)).ToArray();
+		Assert.AreEqual(0d, items[0].Top, 0.5, "The first item is at the top.");
+		Assert.AreEqual(40d, items[0].Height, 0.5, "Item height");
+		Assert.AreEqual(items[0].Bottom, items[1].Top, 0.5, "Items follow each other without gaps.");
+		Assert.IsTrue(tabBar.ActualHeight < root.Height - 100, $"The bar ({tabBar.ActualHeight}) must be as tall as its items, not stretched over the {root.Height} available.");
+		Assert.IsTrue(items.All(x => Math.Abs(x.Width - tabBar.ActualWidth) < 0.5), "Every item is as wide as the bar.");
+	}
+
+	[TestMethod]
+	public async Task When_VerticalStyleHasIconsOnly_BarIsTheCompactRail()
+	{
+		// Like a navigation pane in an Auto column, the bar is as wide as its items.
+		var tabBar = new TabBar { HorizontalAlignment = HorizontalAlignment.Left };
+		for (var i = 0; i < 3; i++)
+		{
+			tabBar.Items.Add(new TabBarItem { Icon = new SymbolIcon(Symbol.Home) });
+		}
+		tabBar.SelectedIndex = 0;
+
+		await Load(tabBar, VerticalStyle);
+
+		Assert.AreEqual(48d, tabBar.ActualWidth, 0.5, "The compact rail is 48 wide.");
+	}
+
+	[TestMethod]
+	public async Task When_VerticalStyle_IconSitsBesideLabelAtTheLeadingEdge()
+	{
+		var tabBar = CreateTabBar();
+
+		await Load(tabBar, VerticalStyle);
+
+		var item = Item(tabBar, 0);
+		var icon = Bounds(Find<ContentPresenter>(item, IconPresenterName), item);
+		var label = Bounds(Find<ContentPresenter>(item, ContentPresenterName), item);
+		Assert.IsTrue(icon.Right <= label.Left, $"Icon ({icon}) must be left of the label ({label}).");
+		Assert.AreEqual(12d, icon.Left, 0.5, "Items are left-aligned with the NavigationView item padding.");
+		Assert.AreEqual(item.ActualHeight / 2, icon.Top + icon.Height / 2, 1, "Icon vertical centre");
+	}
+
+	[TestMethod]
+	public async Task When_TopStyle_ItemsAreAsWideAsTheirContent()
+	{
+		var tabBar = CreateTabBar();
+
+		await Load(tabBar, TopStyle);
+
+		var items = Enumerable.Range(0, 3).Select(i => Bounds(Item(tabBar, i), tabBar)).ToArray();
+		Assert.AreEqual(0d, items[0].Left, 0.5, "The first tab is at the leading edge.");
+		Assert.AreEqual(items[0].Right, items[1].Left, 0.5, "Tabs follow each other without gaps.");
+		Assert.IsTrue(items[2].Right < tabBar.ActualWidth - 20, $"Tabs are as wide as their content ({items[2].Right} of {tabBar.ActualWidth}), not stretched over the bar.");
+		Assert.IsTrue(items[0].Width < items[1].Width + 60 && items[0].Width != items[1].Width, "Tab widths follow their labels.");
 	}
 
 	[TestMethod]
@@ -193,7 +316,6 @@ public sealed class TabBarDefaultStyleTests
 		await UnitTestsUIContentHelper.WaitForIdle();
 
 		Assert.AreEqual(selectedBrush.Color, ForegroundOf(item), "Re-enabled");
-		Assert.AreEqual(1d, Find<Border>(item, SelectionIndicatorName).Opacity, "The item must still be marked as selected.");
 	}
 
 	[TestMethod]
@@ -217,7 +339,7 @@ public sealed class TabBarDefaultStyleTests
 	[DataRow(TopStyle)]
 	[DataRow(SegmentedStyle)]
 	[DataRow(BottomStyle)]
-	public async Task When_RightToLeft_ItemsAndIndicatorAreMirrored(string? styleKey)
+	public async Task When_RightToLeft_ItemsAreMirrored(string? styleKey)
 	{
 		var tabBar = CreateTabBar(selectedIndex: 0);
 
@@ -226,13 +348,24 @@ public sealed class TabBarDefaultStyleTests
 		var first = ScreenBounds(Item(tabBar, 0), root);
 		var second = ScreenBounds(Item(tabBar, 1), root);
 		Assert.IsTrue(first.Left >= second.Right - 0.5, $"The first item ({first}) must be at the leading, right side of the second ({second}).");
+	}
+
+	[TestMethod]
+	public async Task When_RightToLeft_TopIndicatorStaysCenteredOnTheSelectedItem()
+	{
+		var tabBar = CreateTabBar(selectedIndex: 0);
+
+		var root = await Load(tabBar, TopStyle, flowDirection: FlowDirection.RightToLeft);
+
+		var first = ScreenBounds(Item(tabBar, 0), root);
 		var pill = ScreenBounds(Find<Border>(Item(tabBar, 0), SelectionIndicatorName), root);
-		Assert.AreEqual(first.Left + first.Width / 2, pill.Left + pill.Width / 2, 0.5, "The selection indicator must stay centered on the selected item.");
+		Assert.AreEqual(first.Left + first.Width / 2, pill.Left + pill.Width / 2, 0.5);
 	}
 
 	[TestMethod]
 	[DataRow(TopStyle)]
 	[DataRow(SegmentedStyle)]
+	[DataRow(VerticalStyle)]
 	public async Task When_RightToLeft_IconLeadsTheLabel(string styleKey)
 	{
 		var tabBar = CreateTabBar();
@@ -310,37 +443,11 @@ public sealed class TabBarDefaultStyleTests
 		{
 			"TabBarItemBackground", "TabBarItemBackgroundPointerOver", "TabBarItemForeground", "TabBarItemForegroundSelected", "TabBarItemForegroundDisabled",
 			"TabBarSelectionIndicatorFill", "DefaultTopTabBarItemForeground", "DefaultSegmentedTabBarBackground",
+			"DefaultBottomTabBarBackground", "DefaultBottomTabBarBorderBrush", "DefaultVerticalTabBarItemBackgroundSelected", "DefaultVerticalTabBarItemForeground", "DefaultVerticalTabBarSelectionIndicatorFill",
 		})
 		{
 			Assert.IsTrue(keys.Contains(key), $"'{key}' is missing from the '{theme}' theme dictionary.");
 		}
-	}
-
-	[TestMethod]
-	[DataRow("Material", "TopTabBarStyle")]
-	[DataRow("Material", "BottomTabBarStyle")]
-	[DataRow("Simple", "TopTabBarStyle")]
-	public async Task When_DesignSystemLoaded_ItsStylesAreUnchanged(string designSystem, string styleKey)
-	{
-		ResourceDictionary NewTheme() => designSystem == "Material" ? new MaterialToolkitTheme() : new SimpleToolkitTheme();
-		var themeOnly = NewTheme();
-		var layered = NewTheme();
-		var reference = CreateTabBar(selectedIndex: 1);
-		var subject = CreateTabBar(selectedIndex: 1);
-		reference.Style = (Style)themeOnly[styleKey];
-		subject.Style = (Style)layered[styleKey];
-		var referenceRoot = new Grid { Width = 400, Children = { reference } };
-		referenceRoot.Resources.MergedDictionaries.Add(themeOnly);
-		var subjectRoot = new Grid { Width = 400, Children = { subject } };
-		// The design system is merged after the toolkit defaults, as its own theme dictionary does.
-		subjectRoot.Resources.MergedDictionaries.Add(new ToolkitResources());
-		subjectRoot.Resources.MergedDictionaries.Add(layered);
-
-		await UnitTestUIContentHelperEx.SetContentAndWait(new StackPanel { Children = { referenceRoot, subjectRoot } });
-
-		Assert.AreEqual(reference.ActualHeight, subject.ActualHeight, 0.5, "Height");
-		Assert.AreEqual(Shape(Item(reference, 0)), Shape(Item(subject, 0)), "Item template");
-		Assert.AreEqual(ForegroundOf(Item(reference, 1)), ForegroundOf(Item(subject, 1)), "Selected item foreground");
 	}
 
 	private static TabBar CreateTabBar(int selectedIndex = 0)

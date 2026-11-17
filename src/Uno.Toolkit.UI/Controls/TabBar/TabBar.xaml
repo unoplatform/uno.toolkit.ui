@@ -4,33 +4,44 @@
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Default">
-
 			<StaticResource x:Key="TabBarItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelected" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelectedPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
-
-			<StaticResource x:Key="TabBarItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForeground" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="TabBarItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="TabBarItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="AccentTextFillColorPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver" ResourceKey="AccentTextFillColorSecondaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPressed" ResourceKey="AccentTextFillColorTertiaryBrush" />
 			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
-			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="TabBarItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
-
 			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="TabBarSelectionIndicatorFill" ResourceKey="AccentFillColorDefaultBrush" />
 			<StaticResource x:Key="TabBarSelectionIndicatorFillDisabled" ResourceKey="AccentFillColorDisabledBrush" />
-
+			<StaticResource x:Key="DefaultVerticalTabBarSelectionIndicatorFill" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="DefaultBottomTabBarBackground" ResourceKey="SolidBackgroundFillColorTertiaryBrush" />
+			<StaticResource x:Key="DefaultBottomTabBarBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelected" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelectedPointerOver" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelectedPressed" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelectedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundPressed" ResourceKey="TextFillColorTertiaryBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
-
 			<StaticResource x:Key="DefaultSegmentedTabBarBackground" ResourceKey="ControlAltFillColorSecondaryBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarBorderBrush" ResourceKey="ControlStrokeColorDefaultBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
@@ -45,33 +56,44 @@
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Light">
-
 			<StaticResource x:Key="TabBarItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelected" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelectedPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
-
-			<StaticResource x:Key="TabBarItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForeground" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="TabBarItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="TabBarItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundPressed" ResourceKey="TextFillColorTertiaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="AccentTextFillColorPrimaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver" ResourceKey="AccentTextFillColorSecondaryBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelectedPressed" ResourceKey="AccentTextFillColorTertiaryBrush" />
 			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
-			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="TabBarItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
-
 			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="TabBarSelectionIndicatorFill" ResourceKey="AccentFillColorDefaultBrush" />
 			<StaticResource x:Key="TabBarSelectionIndicatorFillDisabled" ResourceKey="AccentFillColorDisabledBrush" />
-
+			<StaticResource x:Key="DefaultVerticalTabBarSelectionIndicatorFill" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="DefaultBottomTabBarBackground" ResourceKey="SolidBackgroundFillColorTertiaryBrush" />
+			<StaticResource x:Key="DefaultBottomTabBarBorderBrush" ResourceKey="DividerStrokeColorDefaultBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelected" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelectedPointerOver" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelectedPressed" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelectedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundPointerOver" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundPressed" ResourceKey="TextFillColorTertiaryBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
-
 			<StaticResource x:Key="DefaultSegmentedTabBarBackground" ResourceKey="ControlAltFillColorSecondaryBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarBorderBrush" ResourceKey="ControlStrokeColorDefaultBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemBackground" ResourceKey="SubtleFillColorTransparentBrush" />
@@ -86,33 +108,44 @@
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="HighContrast">
-
 			<StaticResource x:Key="TabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundPressed" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelectedPressed" ResourceKey="SystemColorHighlightColorBrush" />
-
 			<StaticResource x:Key="TabBarItemForeground" ResourceKey="SystemColorButtonTextColorBrush" />
 			<StaticResource x:Key="TabBarItemForegroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
 			<StaticResource x:Key="TabBarItemForegroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
-			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="TabBarItemForegroundSelectedPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
 			<StaticResource x:Key="TabBarItemForegroundSelectedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
-
+			<StaticResource x:Key="TabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 			<StaticResource x:Key="TabBarItemBorderBrush" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="TabBarSelectionIndicatorFill" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="TabBarSelectionIndicatorFillDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-
+			<StaticResource x:Key="DefaultVerticalTabBarSelectionIndicatorFill" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="DefaultBottomTabBarBackground" ResourceKey="SystemControlBackgroundChromeMediumBrush" />
+			<StaticResource x:Key="DefaultBottomTabBarBorderBrush" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundPressed" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelected" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelectedPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelectedPressed" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelected" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelectedPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelectedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForeground" ResourceKey="SystemColorButtonTextColorBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundPressed" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundSelected" ResourceKey="SystemColorButtonTextColorBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
-
 			<StaticResource x:Key="DefaultSegmentedTabBarBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarBorderBrush" ResourceKey="SystemColorButtonTextColorBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
@@ -128,14 +161,16 @@
 	</ResourceDictionary.ThemeDictionaries>
 
 	<x:Double x:Key="TabBarHeightOrWidth">64</x:Double>
-	<x:Double x:Key="TabBarItemIconHeight">16</x:Double>
-	<x:Double x:Key="TabBarItemIconWidth">16</x:Double>
+	<x:Double x:Key="TabBarItemIconHeight">24</x:Double>
+	<x:Double x:Key="TabBarItemIconWidth">24</x:Double>
 	<x:Double x:Key="TabBarCornerRadius">8</x:Double>
-	<Thickness x:Key="TabBarItemContentMargin">0,0,0,12</Thickness>
-	<!-- The side margins keep a vertical bar's labels clear of its selection indicator. -->
-	<Thickness x:Key="DefaultVerticalTabBarItemContentMargin">12,0,12,12</Thickness>
+	<Thickness x:Key="TabBarItemContentMargin">0,4,0,0</Thickness>
 	<Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
 	<Duration x:Key="TabBarIndicatorAnimationDuration">0:0:0.25</Duration>
+
+	<!-- Bottom navigation, as the Fluent mobile tab bar: a 24 icon above a 12 label, selected in the accent color, on a flat bar with a divider on top. -->
+	<x:Double x:Key="TabBarItemFontSize">12</x:Double>
+	<Thickness x:Key="DefaultBottomTabBarBorderThickness">0,1,0,0</Thickness>
 
 	<!-- The plate behind an item on pointer over and pressed, as on NavigationView items. -->
 	<Thickness x:Key="TabBarItemPlateMargin">4</Thickness>
@@ -145,21 +180,29 @@
 	<x:Double x:Key="TabBarSelectionIndicatorLength">16</x:Double>
 	<x:Double x:Key="TabBarSelectionIndicatorThickness">3</x:Double>
 	<CornerRadius x:Key="TabBarSelectionIndicatorCornerRadius">1.5</CornerRadius>
-	<Thickness x:Key="TabBarSelectionIndicatorHorizontalMargin">0,0,0,4</Thickness>
 	<Thickness x:Key="TabBarSelectionIndicatorVerticalMargin">4,0,0,0</Thickness>
 
-	<!-- SelectorBar metrics. -->
+	<!-- Vertical navigation, as the left pane of NavigationView: 40 high items, a 16 icon beside the label, and a 48 wide compact rail for icon-only items. -->
+	<x:Double x:Key="DefaultVerticalTabBarMinWidth">48</x:Double>
+	<x:Double x:Key="DefaultVerticalTabBarItemHeight">40</x:Double>
+	<x:Double x:Key="DefaultVerticalTabBarItemIconSize">16</x:Double>
+	<x:Double x:Key="DefaultVerticalTabBarItemIconSpacing">12</x:Double>
+	<Thickness x:Key="DefaultVerticalTabBarItemPadding">12,0</Thickness>
+	<Thickness x:Key="DefaultVerticalTabBarItemPlateMargin">4,2</Thickness>
+
+	<!-- Top tabs, as the SelectorBar: items are as wide as their content. -->
 	<x:Double x:Key="DefaultTopTabBarHeight">40</x:Double>
-	<Thickness x:Key="DefaultTopTabBarItemPadding">12,0</Thickness>
+	<x:Double x:Key="DefaultTopTabBarItemIconSize">16</x:Double>
 	<x:Double x:Key="DefaultTopTabBarItemIconSpacing">8</x:Double>
+	<Thickness x:Key="DefaultTopTabBarItemPadding">12,0</Thickness>
 	<Thickness x:Key="DefaultTopTabBarSelectionIndicatorMargin">0</Thickness>
 
+	<!-- Segmented tabs: equal-width segments, with the selected one raised. -->
 	<x:Double x:Key="DefaultSegmentedTabBarHeight">40</x:Double>
 	<Thickness x:Key="DefaultSegmentedTabBarBorderThickness">1</Thickness>
 	<!-- Keeps the selected plate and the pointer plate clear of the bar border. -->
 	<Thickness x:Key="DefaultSegmentedTabBarItemPlateMargin">3</Thickness>
 	<CornerRadius x:Key="DefaultSegmentedTabBarItemPlateCornerRadius">3</CornerRadius>
-
 
 	<Style x:Key="BaseTabBarStyle"
 		   TargetType="utu:TabBar">
@@ -277,8 +320,8 @@
 		<Setter Property="BorderBrush" Value="{ThemeResource TabBarItemBorderBrush}" />
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontWeight" Value="Normal" />
-		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="FontSize" Value="{ThemeResource TabBarItemFontSize}" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -308,21 +351,18 @@
 									<VisualState.Setters>
 										<Setter Target="Plate.Background" Value="{ThemeResource TabBarItemBackgroundSelected}" />
 										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource TabBarItemForegroundSelected}" />
-										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
 										<Setter Target="Plate.Background" Value="{ThemeResource TabBarItemBackgroundSelectedPointerOver}" />
 										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource TabBarItemForegroundSelectedPointerOver}" />
-										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
 										<Setter Target="Plate.Background" Value="{ThemeResource TabBarItemBackgroundSelectedPressed}" />
 										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource TabBarItemForegroundSelectedPressed}" />
-										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -337,7 +377,6 @@
 									<VisualState.Setters>
 										<Setter Target="Icon.Foreground" Value="{ThemeResource TabBarItemForegroundDisabled}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabBarItemForegroundDisabled}" />
-										<Setter Target="SelectionIndicator.Background" Value="{ThemeResource TabBarSelectionIndicatorFillDisabled}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -346,16 +385,12 @@
 								<VisualState x:Name="IconOnly">
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
-										<Setter Target="IconRow.Height" Value="*" />
-										<Setter Target="ContentRow.Height" Value="0" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="ContentOnly">
 									<VisualState.Setters>
 										<Setter Target="IconBox.Visibility" Value="Collapsed" />
 										<Setter Target="ContentPresenter.Margin" Value="{StaticResource TabBarItemContentOnlyMargin}" />
-										<Setter Target="IconRow.Height" Value="0" />
-										<Setter Target="ContentRow.Height" Value="*" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -366,41 +401,27 @@
 								CornerRadius="{ThemeResource TabBarItemPlateCornerRadius}" />
 						<ContentPresenter x:Name="ForegroundScope"
 										  Foreground="{TemplateBinding Foreground}">
-						<Grid x:Name="ContentGrid">
-							<Grid.RowDefinitions>
-								<RowDefinition x:Name="IconRow"
-											   Height="*" />
-								<RowDefinition x:Name="ContentRow"
-											   Height="Auto" />
-							</Grid.RowDefinitions>
-							<Viewbox x:Name="IconBox"
-									 Height="{StaticResource TabBarItemIconHeight}"
-									 Width="{StaticResource TabBarItemIconWidth}">
-								<ContentPresenter x:Name="Icon"
-												  Content="{TemplateBinding Icon}" />
-							</Viewbox>
-							<ContentPresenter x:Name="ContentPresenter"
-											  Grid.Row="1"
-											  TextWrapping="NoWrap"
-											  Margin="{StaticResource TabBarItemContentMargin}"
-											  ContentTransitions="{TemplateBinding ContentTransitions}"
-											  ContentTemplate="{TemplateBinding ContentTemplate}"
-											  Content="{TemplateBinding Content}"
-											  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-											  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											  AutomationProperties.AccessibilityView="Raw" />
-						</Grid>
+							<StackPanel x:Name="ContentGrid"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center">
+								<Viewbox x:Name="IconBox"
+										 Width="{ThemeResource TabBarItemIconWidth}"
+										 Height="{ThemeResource TabBarItemIconHeight}"
+										 HorizontalAlignment="Center">
+									<ContentPresenter x:Name="Icon"
+													  Content="{TemplateBinding Icon}" />
+								</Viewbox>
+								<ContentPresenter x:Name="ContentPresenter"
+												  Margin="{ThemeResource TabBarItemContentMargin}"
+												  HorizontalAlignment="Center"
+												  AutomationProperties.AccessibilityView="Raw"
+												  Content="{TemplateBinding Content}"
+												  ContentTemplate="{TemplateBinding ContentTemplate}"
+												  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+												  ContentTransitions="{TemplateBinding ContentTransitions}"
+												  TextWrapping="NoWrap" />
+							</StackPanel>
 						</ContentPresenter>
-						<Border x:Name="SelectionIndicator"
-								Width="{ThemeResource TabBarSelectionIndicatorLength}"
-								Height="{ThemeResource TabBarSelectionIndicatorThickness}"
-								Margin="{ThemeResource TabBarSelectionIndicatorHorizontalMargin}"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Bottom"
-								Background="{ThemeResource TabBarSelectionIndicatorFill}"
-								CornerRadius="{ThemeResource TabBarSelectionIndicatorCornerRadius}"
-								Opacity="0" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -409,14 +430,17 @@
 
 	<Style x:Key="DefaultVerticalTabBarItemStyle"
 		   TargetType="utu:TabBarItem">
-		<Setter Property="Foreground" Value="{ThemeResource TabBarItemForeground}" />
-		<Setter Property="Background" Value="{ThemeResource TabBarItemBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource DefaultVerticalTabBarItemForeground}" />
+		<Setter Property="Background" Value="{ThemeResource DefaultVerticalTabBarItemBackground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource TabBarItemBorderBrush}" />
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontWeight" Value="Normal" />
-		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
-		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+		<Setter Property="MinHeight" Value="{ThemeResource DefaultVerticalTabBarItemHeight}" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="Padding" Value="{ThemeResource DefaultVerticalTabBarItemPadding}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="utu:TabBarItem">
@@ -431,34 +455,34 @@
 								<VisualState x:Name="Normal" />
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="Plate.Background" Value="{ThemeResource TabBarItemBackgroundPointerOver}" />
-										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource TabBarItemForegroundPointerOver}" />
+										<Setter Target="Plate.Background" Value="{ThemeResource DefaultVerticalTabBarItemBackgroundPointerOver}" />
+										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultVerticalTabBarItemForegroundPointerOver}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="Plate.Background" Value="{ThemeResource TabBarItemBackgroundPressed}" />
-										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource TabBarItemForegroundPressed}" />
+										<Setter Target="Plate.Background" Value="{ThemeResource DefaultVerticalTabBarItemBackgroundPressed}" />
+										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultVerticalTabBarItemForegroundPressed}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Selected">
 									<VisualState.Setters>
-										<Setter Target="Plate.Background" Value="{ThemeResource TabBarItemBackgroundSelected}" />
-										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource TabBarItemForegroundSelected}" />
+										<Setter Target="Plate.Background" Value="{ThemeResource DefaultVerticalTabBarItemBackgroundSelected}" />
+										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultVerticalTabBarItemForegroundSelected}" />
 										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
-										<Setter Target="Plate.Background" Value="{ThemeResource TabBarItemBackgroundSelectedPointerOver}" />
-										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource TabBarItemForegroundSelectedPointerOver}" />
+										<Setter Target="Plate.Background" Value="{ThemeResource DefaultVerticalTabBarItemBackgroundSelectedPointerOver}" />
+										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultVerticalTabBarItemForegroundSelectedPointerOver}" />
 										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
-										<Setter Target="Plate.Background" Value="{ThemeResource TabBarItemBackgroundSelectedPressed}" />
-										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource TabBarItemForegroundSelectedPressed}" />
+										<Setter Target="Plate.Background" Value="{ThemeResource DefaultVerticalTabBarItemBackgroundSelectedPressed}" />
+										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultVerticalTabBarItemForegroundSelectedPressed}" />
 										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
@@ -472,62 +496,54 @@
 								<VisualState x:Name="Enabled" />
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
-										<Setter Target="Icon.Foreground" Value="{ThemeResource TabBarItemForegroundDisabled}" />
-										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabBarItemForegroundDisabled}" />
+										<Setter Target="Icon.Foreground" Value="{ThemeResource DefaultVerticalTabBarItemForegroundDisabled}" />
+										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource DefaultVerticalTabBarItemForegroundDisabled}" />
 										<Setter Target="SelectionIndicator.Background" Value="{ThemeResource TabBarSelectionIndicatorFillDisabled}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
 							<VisualStateGroup x:Name="TabBarIconPositionStates">
+								<!-- The state names come from TabBarItem; in this template the icon sits beside the label. -->
 								<VisualState x:Name="IconOnTop" />
 								<VisualState x:Name="IconOnly">
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
-										<Setter Target="IconRow.Height" Value="*" />
-										<Setter Target="ContentRow.Height" Value="0" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="ContentOnly">
 									<VisualState.Setters>
 										<Setter Target="IconBox.Visibility" Value="Collapsed" />
-										<Setter Target="ContentPresenter.Margin" Value="{StaticResource TabBarItemContentOnlyMargin}" />
-										<Setter Target="IconRow.Height" Value="0" />
-										<Setter Target="ContentRow.Height" Value="*" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 						<Border x:Name="Plate"
-								Margin="{ThemeResource TabBarItemPlateMargin}"
+								Margin="{ThemeResource DefaultVerticalTabBarItemPlateMargin}"
 								Background="{TemplateBinding Background}"
 								CornerRadius="{ThemeResource TabBarItemPlateCornerRadius}" />
 						<ContentPresenter x:Name="ForegroundScope"
 										  Foreground="{TemplateBinding Foreground}">
-						<Grid x:Name="ContentGrid">
-							<Grid.RowDefinitions>
-								<RowDefinition x:Name="IconRow"
-											   Height="*" />
-								<RowDefinition x:Name="ContentRow"
-											   Height="Auto" />
-							</Grid.RowDefinitions>
-							<Viewbox x:Name="IconBox"
-									 Height="{StaticResource TabBarItemIconHeight}"
-									 Width="{StaticResource TabBarItemIconWidth}">
-								<ContentPresenter x:Name="Icon"
-												  Content="{TemplateBinding Icon}" />
-							</Viewbox>
-							<ContentPresenter x:Name="ContentPresenter"
-											  Grid.Row="1"
-											  TextWrapping="NoWrap"
-											  Margin="{StaticResource DefaultVerticalTabBarItemContentMargin}"
-											  ContentTransitions="{TemplateBinding ContentTransitions}"
-											  ContentTemplate="{TemplateBinding ContentTemplate}"
-											  Content="{TemplateBinding Content}"
-											  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-											  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											  AutomationProperties.AccessibilityView="Raw" />
-						</Grid>
+							<StackPanel x:Name="ContentGrid"
+										Margin="{TemplateBinding Padding}"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										Orientation="Horizontal"
+										Spacing="{ThemeResource DefaultVerticalTabBarItemIconSpacing}">
+								<Viewbox x:Name="IconBox"
+										 Width="{ThemeResource DefaultVerticalTabBarItemIconSize}"
+										 Height="{ThemeResource DefaultVerticalTabBarItemIconSize}">
+									<ContentPresenter x:Name="Icon"
+													  Content="{TemplateBinding Icon}" />
+								</Viewbox>
+								<ContentPresenter x:Name="ContentPresenter"
+												  VerticalAlignment="Center"
+												  AutomationProperties.AccessibilityView="Raw"
+												  Content="{TemplateBinding Content}"
+												  ContentTemplate="{TemplateBinding ContentTemplate}"
+												  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+												  ContentTransitions="{TemplateBinding ContentTransitions}"
+												  TextWrapping="NoWrap" />
+							</StackPanel>
 						</ContentPresenter>
 						<Border x:Name="SelectionIndicator"
 								Width="{ThemeResource TabBarSelectionIndicatorThickness}"
@@ -535,7 +551,7 @@
 								Margin="{ThemeResource TabBarSelectionIndicatorVerticalMargin}"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
-								Background="{ThemeResource TabBarSelectionIndicatorFill}"
+								Background="{ThemeResource DefaultVerticalTabBarSelectionIndicatorFill}"
 								CornerRadius="{ThemeResource TabBarSelectionIndicatorCornerRadius}"
 								Opacity="0" />
 					</Grid>
@@ -551,8 +567,8 @@
 		<Setter Property="BorderBrush" Value="{ThemeResource TabBarItemBorderBrush}" />
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontWeight" Value="Normal" />
-		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="Padding" Value="{ThemeResource DefaultTopTabBarItemPadding}" />
@@ -633,27 +649,27 @@
 								CornerRadius="{ThemeResource TabBarItemPlateCornerRadius}" />
 						<ContentPresenter x:Name="ForegroundScope"
 										  Foreground="{TemplateBinding Foreground}">
-						<StackPanel x:Name="ContentGrid"
-									Margin="{TemplateBinding Padding}"
-									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-									Orientation="Horizontal"
-									Spacing="{ThemeResource DefaultTopTabBarItemIconSpacing}">
-							<Viewbox x:Name="IconBox"
-									 Height="{StaticResource TabBarItemIconHeight}"
-									 Width="{StaticResource TabBarItemIconWidth}">
-								<ContentPresenter x:Name="Icon"
-												  Content="{TemplateBinding Icon}" />
-							</Viewbox>
-							<ContentPresenter x:Name="ContentPresenter"
-											  TextWrapping="NoWrap"
-											  ContentTransitions="{TemplateBinding ContentTransitions}"
-											  ContentTemplate="{TemplateBinding ContentTemplate}"
-											  Content="{TemplateBinding Content}"
-											  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-											  VerticalAlignment="Center"
-											  AutomationProperties.AccessibilityView="Raw" />
-						</StackPanel>
+							<StackPanel x:Name="ContentGrid"
+										Margin="{TemplateBinding Padding}"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										Orientation="Horizontal"
+										Spacing="{ThemeResource DefaultTopTabBarItemIconSpacing}">
+								<Viewbox x:Name="IconBox"
+										 Width="{ThemeResource DefaultTopTabBarItemIconSize}"
+										 Height="{ThemeResource DefaultTopTabBarItemIconSize}">
+									<ContentPresenter x:Name="Icon"
+													  Content="{TemplateBinding Icon}" />
+								</Viewbox>
+								<ContentPresenter x:Name="ContentPresenter"
+												  VerticalAlignment="Center"
+												  AutomationProperties.AccessibilityView="Raw"
+												  Content="{TemplateBinding Content}"
+												  ContentTemplate="{TemplateBinding ContentTemplate}"
+												  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+												  ContentTransitions="{TemplateBinding ContentTransitions}"
+												  TextWrapping="NoWrap" />
+							</StackPanel>
 						</ContentPresenter>
 						<Border x:Name="SelectionIndicator"
 								Width="{ThemeResource TabBarSelectionIndicatorLength}"
@@ -677,8 +693,8 @@
 		<Setter Property="BorderBrush" Value="{ThemeResource TabBarItemBorderBrush}" />
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontWeight" Value="Normal" />
-		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="Padding" Value="{ThemeResource DefaultTopTabBarItemPadding}" />
@@ -709,21 +725,18 @@
 								<VisualState x:Name="Selected">
 									<VisualState.Setters>
 										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultSegmentedTabBarItemForeground}" />
-										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 										<Setter Target="SelectedPlate.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerOverSelected">
 									<VisualState.Setters>
 										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultSegmentedTabBarItemForeground}" />
-										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 										<Setter Target="SelectedPlate.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
 										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultSegmentedTabBarItemForegroundPressed}" />
-										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 										<Setter Target="SelectedPlate.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
@@ -739,7 +752,6 @@
 									<VisualState.Setters>
 										<Setter Target="Icon.Foreground" Value="{ThemeResource DefaultSegmentedTabBarItemForegroundDisabled}" />
 										<Setter Target="ContentPresenter.Foreground" Value="{ThemeResource DefaultSegmentedTabBarItemForegroundDisabled}" />
-										<Setter Target="SelectionIndicator.Background" Value="{ThemeResource TabBarSelectionIndicatorFillDisabled}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -771,37 +783,28 @@
 								Opacity="0" />
 						<ContentPresenter x:Name="ForegroundScope"
 										  Foreground="{TemplateBinding Foreground}">
-						<StackPanel x:Name="ContentGrid"
-									Margin="{TemplateBinding Padding}"
-									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-									Orientation="Horizontal"
-									Spacing="{ThemeResource DefaultTopTabBarItemIconSpacing}">
-							<Viewbox x:Name="IconBox"
-									 Height="{StaticResource TabBarItemIconHeight}"
-									 Width="{StaticResource TabBarItemIconWidth}">
-								<ContentPresenter x:Name="Icon"
-												  Content="{TemplateBinding Icon}" />
-							</Viewbox>
-							<ContentPresenter x:Name="ContentPresenter"
-											  TextWrapping="NoWrap"
-											  ContentTransitions="{TemplateBinding ContentTransitions}"
-											  ContentTemplate="{TemplateBinding ContentTemplate}"
-											  Content="{TemplateBinding Content}"
-											  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-											  VerticalAlignment="Center"
-											  AutomationProperties.AccessibilityView="Raw" />
-						</StackPanel>
+							<StackPanel x:Name="ContentGrid"
+										Margin="{TemplateBinding Padding}"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										Orientation="Horizontal"
+										Spacing="{ThemeResource DefaultTopTabBarItemIconSpacing}">
+								<Viewbox x:Name="IconBox"
+										 Width="{ThemeResource DefaultTopTabBarItemIconSize}"
+										 Height="{ThemeResource DefaultTopTabBarItemIconSize}">
+									<ContentPresenter x:Name="Icon"
+													  Content="{TemplateBinding Icon}" />
+								</Viewbox>
+								<ContentPresenter x:Name="ContentPresenter"
+												  VerticalAlignment="Center"
+												  AutomationProperties.AccessibilityView="Raw"
+												  Content="{TemplateBinding Content}"
+												  ContentTemplate="{TemplateBinding ContentTemplate}"
+												  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+												  ContentTransitions="{TemplateBinding ContentTransitions}"
+												  TextWrapping="NoWrap" />
+							</StackPanel>
 						</ContentPresenter>
-						<Border x:Name="SelectionIndicator"
-								Width="{ThemeResource TabBarSelectionIndicatorLength}"
-								Height="{ThemeResource TabBarSelectionIndicatorThickness}"
-								Margin="{ThemeResource DefaultSegmentedTabBarItemPlateMargin}"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Bottom"
-								Background="{ThemeResource TabBarSelectionIndicatorFill}"
-								CornerRadius="{ThemeResource TabBarSelectionIndicatorCornerRadius}"
-								Opacity="0" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -859,28 +862,56 @@
 		</Setter>
 	</Style>
 
-	<!-- Bottom navigation: icon above label, accent pill under the selected item. -->
+	<!--
+		Bottom navigation, as the Fluent mobile tab bar: a flat bar with a divider on top, a 24 icon above a 12 label,
+		and the selected item in the accent color. A TabBar without a Style gets the same items, but not the bar background
+		and divider: the implicit TabBar style stays neutral, because Uno applies it under every explicit style.
+	-->
 	<Style x:Key="DefaultBottomTabBarStyle"
 		   BasedOn="{StaticResource DefaultTabBarStyle}"
-		   TargetType="utu:TabBar" />
+		   TargetType="utu:TabBar">
+		<Setter Property="Background" Value="{ThemeResource DefaultBottomTabBarBackground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource DefaultBottomTabBarBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{ThemeResource DefaultBottomTabBarBorderThickness}" />
+		<Setter Property="CornerRadius" Value="0" />
+	</Style>
 
-	<!-- Vertical navigation: icon above label, accent pill beside the selected item. -->
+	<!--
+		Vertical navigation, as the left pane of NavigationView. Items stack at the top and are as wide as the widest one;
+		items with an icon only make a 48 wide compact rail.
+	-->
 	<Style x:Key="DefaultVerticalTabBarStyle"
 		   BasedOn="{StaticResource BaseVerticalTabBarStyle}"
 		   TargetType="utu:TabBar">
+		<Setter Property="MinWidth" Value="{ThemeResource DefaultVerticalTabBarMinWidth}" />
+		<Setter Property="CornerRadius" Value="0" />
 		<Setter Property="ItemContainerStyle" Value="{StaticResource DefaultVerticalTabBarItemStyle}" />
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Vertical" />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 
-	<!-- Top tabs, after the WinUI SelectorBar: text-only states and an accent pill under the selected item. -->
+	<!-- Top tabs, as the SelectorBar: items are as wide as their content, with an accent pill under the selected one. -->
 	<Style x:Key="DefaultTopTabBarStyle"
 		   BasedOn="{StaticResource BaseHorizontalTabBarStyle}"
 		   TargetType="utu:TabBar">
 		<Setter Property="MinHeight" Value="{ThemeResource DefaultTopTabBarHeight}" />
 		<Setter Property="CornerRadius" Value="0" />
 		<Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTopTabBarItemStyle}" />
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Horizontal" />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 
-	<!-- Segmented tabs: a boxed bar whose selected item is a raised plate. -->
+	<!-- Segmented tabs: a boxed bar of equal-width segments, with the selected one raised. -->
 	<Style x:Key="DefaultSegmentedTabBarStyle"
 		   BasedOn="{StaticResource BaseHorizontalTabBarStyle}"
 		   TargetType="utu:TabBar">
