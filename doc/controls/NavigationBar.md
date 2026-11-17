@@ -335,6 +335,7 @@ The default style sets the background, foreground, `FontFamily`, `FontSize`, and
 The default style does not mirror the back arrow in right-to-left layouts.
 
 ### Material
+
 | Key                                                                    | Type              | Value                                   |
 |------------------------------------------------------------------------|-------------------|-----------------------------------------|
 | `NavigationBarCommandBarEllipsisIconForegroundDisabled`                | `SolidColorBrush` | TextFillColorDisabledBrush              |
