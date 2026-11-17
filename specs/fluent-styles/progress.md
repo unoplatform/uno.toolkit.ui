@@ -36,7 +36,7 @@ Other findings that shape the work:
 
 ## Design
 
-Every colour goes through a per-control lightweight key with `Default`, `Light`, and
+Every color goes through a per-control lightweight key with `Default`, `Light`, and
 `HighContrast` dictionaries, as WinUI does. Existing key names stay; new keys are additive.
 
 ### Chip (#1328), model: `DefaultToggleButtonStyle`, pill-shaped
