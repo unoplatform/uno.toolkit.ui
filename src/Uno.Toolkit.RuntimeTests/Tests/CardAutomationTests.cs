@@ -20,7 +20,7 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 {
 	[TestClass]
 	[RunsOnUIThread]
-	internal class CardAutomationTests
+	public class CardAutomationTests
 	{
 		[TestMethod]
 		[RequiresFullWindow]
