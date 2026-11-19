@@ -2,8 +2,9 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <UnoThemesVersion>9.1.0-dev.8</UnoThemesVersion>
-    <!-- The SDK still pins the Uno 6 C# Markup line (6.7.0-dev.16), which UNOB0020 reports as broken on Uno 7. -->
-    <UnoCSharpMarkupVersion>7.0.1</UnoCSharpMarkupVersion>
+    <!-- Set here because the canary updater doesn't update this property. Keep it on the same C# Markup
+         build as Uno Themes' Markup packages (Uno.WinUI.Markup). -->
+    <UnoCSharpMarkupVersion>7.1.0-dev.5</UnoCSharpMarkupVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.14" />
