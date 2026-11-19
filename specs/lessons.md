@@ -3,6 +3,14 @@
 Corrections worth not repeating. Newest first. Per `AGENTS.md` §3, corrections that should bind
 every agent on this repo go here (or in `AGENTS.md` / a skill's `SKILL.md`), never in personal memory.
 
+## A `StaticResource` alias in a template is fixed at parse time; test the override you document
+
+**2026-11-16 — Fluent NavigationBar style (#1326).**
+
+**Context:** The default NavigationBar template aliased `AppBarThemeCompactHeight` to a new `NavigationBarHeight` key with `<StaticResource>` and the docs told users to override `NavigationBarHeight`. A runtime test that put the override on a parent `Grid` showed the bar stayed 48: the alias is resolved where the template is defined, and the CommandBar sizes itself from its own `Height`, which `NavigationBar` does not pass down. Replacing the template's `ThemeResource AppBarThemeCompactHeight` uses with `NavigationBarHeight` moved the template content but not the bar (a probe showed `ContentRoot` 56, CommandBar 48). Only a `Height` setter in the inner CommandBar style, resolved in the element tree like the font setters, fixed it.
+
+**How to apply:** Do not document a lightweight-styling key as overridable until a runtime test overrides it on a parent element and asserts the rendered result. When a toolkit control passes only some properties down to an inner framework control, set the rest with style setters on that inner control. Use `ThemeResource`, not a `StaticResource` alias, where an override must follow the element tree.
+
 ## No convention-by-reflection API without a consumer that needs it
 
 **2026-10-27 — SkeletonView (#1669).**

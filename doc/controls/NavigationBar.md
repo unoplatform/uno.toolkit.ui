@@ -5,7 +5,7 @@ uid: Toolkit.Controls.NavigationBar
 # NavigationBar
 
 > [!TIP]
-> This guide covers details for `NavigationBar` specifically. If you are just getting started with the Uno Material Toolkit Library, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
+> This guide covers details for `NavigationBar` specifically. If you are just getting started with the Uno Toolkit, please see our [general getting started](../getting-started.md) page to make sure you have the correct setup in place.
 
 ## Summary
 
@@ -53,11 +53,31 @@ Under the hood, `NavigationBar` uses a custom-styled `CommandBar`. It is templat
 
 ### Usage Example
 
+Without a design-system library, a `NavigationBar` uses the default Fluent style (`DefaultNavigationBar`), which is modelled on the WinUI `CommandBar` and `NavigationView` back button:
+
+* The bar is 48 high with a transparent background.
+* The title is left-aligned and uses the WinUI Subtitle text style (20, SemiBold). Set `HorizontalContentAlignment="Center"` to center it.
+* The main command is a 40 x 36 back button with hover and pressed feedback. Without an `Icon`, it shows the back arrow glyph of the Segoe Fluent Icons font; set `Icon` to show something else, such as a close icon.
+* Primary commands are icon buttons: their labels are hidden to keep the bar 48 high, because `NavigationBar.DefaultLabelPosition` is not passed to the inner `CommandBar`.
+* The overflow button only appears when there are secondary commands.
+
+```xml
+<utu:NavigationBar Content="Page title" MainCommandMode="Back">
+    <utu:NavigationBar.PrimaryCommands>
+        <AppBarButton Icon="Add" Label="Add" />
+        <AppBarButton Icon="Edit" Label="Edit" />
+    </utu:NavigationBar.PrimaryCommands>
+    <utu:NavigationBar.SecondaryCommands>
+        <AppBarButton Label="Settings" />
+    </utu:NavigationBar.SecondaryCommands>
+</utu:NavigationBar>
+```
+
+To use a design system's look, set the style it provides. `NavigationBarStyle` is provided by the Material and Simple style libraries:
+
 ```xml
 <Style TargetType="utu:NavigationBar" BasedOn="{StaticResource NavigationBarStyle}" />
 ```
-
-`NavigationBarStyle` is provided by the Material and Simple style libraries. Without a design system, use `DefaultNavigationBar`.
 
 ## Properties
 
@@ -226,6 +246,9 @@ Remarks:
 
 The `Label` behaves like the `Label` of any other `AppBarButton`. It is not replaced by the title of the previous page. It is highly recommended to set and localize `Label` on all `AppBarButton`s, if only for accessibility.
 
+> [!NOTE]
+> The default, Material, and Simple styles draw only the `Icon` of the `MainCommand`. `Label` and `Content` are not displayed, but they still provide the accessible name. The default style shows a back arrow when no `Icon` is set.
+
 #### Foreground
 
 Gets or sets the back button foreground for the `MainCommand`.
@@ -274,6 +297,45 @@ Any `IconElement` can be used.
 
 ## Lightweight Styling
 
+The default style and the design systems use their own keys. Some names are shared, such as `NavigationBarBackground` and `NavigationBarForeground`, but the height and content margin are not: the default style uses `NavigationBarHeight` and `NavigationBarContentMargin`, while Material uses the `MaterialNavigationBar*` keys listed below.
+
+### Default (Fluent)
+
+All brushes are defined for the Light, Dark, and High Contrast themes.
+
+| Key                                                     | Type              | Value                                |
+|---------------------------------------------------------|-------------------|--------------------------------------|
+| `NavigationBarHeight`                                   | `Double`          | 48                                   |
+| `NavigationBarFontFamily`                               | `FontFamily`      | `ContentControlThemeFontFamily`      |
+| `NavigationBarFontSize`                                 | `Double`          | 20                                   |
+| `NavigationBarFontWeight`                               | `FontWeight`      | SemiBold                             |
+| `NavigationBarContentMargin`                            | `Thickness`       | 12,0                                 |
+| `NavigationBarMainCommandWidth`                         | `Double`          | 40                                   |
+| `NavigationBarMainCommandHeight`                        | `Double`          | 36                                   |
+| `NavigationBarMainCommandMargin`                        | `Thickness`       | 4,0                                  |
+| `NavigationBarMainCommandIconSize`                      | `Double`          | 16                                   |
+| `NavigationBarMainCommandGlyph`                         | `String`          | `&#xE72B;` (back arrow)              |
+| `NavigationBarBackground`                               | `Brush`           | `ControlFillColorTransparentBrush`   |
+| `NavigationBarForeground`                               | `Brush`           | `TextFillColorPrimaryBrush`          |
+| `NavigationBarMainCommandBackground`                    | `Brush`           | `SubtleFillColorTransparentBrush`    |
+| `NavigationBarMainCommandBackgroundPointerOver`         | `Brush`           | `SubtleFillColorSecondaryBrush`      |
+| `NavigationBarMainCommandBackgroundPressed`             | `Brush`           | `SubtleFillColorTertiaryBrush`       |
+| `NavigationBarMainCommandBackgroundDisabled`            | `Brush`           | `SubtleFillColorTransparentBrush`    |
+| `NavigationBarMainCommandForeground`                    | `Brush`           | `TextFillColorPrimaryBrush`          |
+| `NavigationBarMainCommandForegroundPointerOver`         | `Brush`           | `TextFillColorPrimaryBrush`          |
+| `NavigationBarMainCommandForegroundPressed`             | `Brush`           | `TextFillColorSecondaryBrush`        |
+| `NavigationBarMainCommandForegroundDisabled`            | `Brush`           | `TextFillColorDisabledBrush`         |
+| `NavigationBarCommandBarEllipsisIconForegroundDisabled` | `Brush`           | `TextFillColorDisabledBrush`         |
+| `NavigationBarCommandBarBackgroundCompactOpenUp`        | `Brush`           | `SolidBackgroundFillColorBaseBrush`  |
+| `NavigationBarCommandBarBackgroundCompactOpenDown`      | `Brush`           | `SolidBackgroundFillColorBaseBrush`  |
+| `NavigationBarCommandBarHighContrastBorder`             | `Brush`           | `SystemControlForegroundTransparentBrush` |
+
+The default style sets the background, foreground, `FontFamily`, `FontSize`, and alignment on the `NavigationBar` itself, because the `NavigationBar` passes those properties down to its `CommandBar`. To change them for one bar, set them on the `NavigationBar`. The title weight comes from `NavigationBarFontWeight`: the `NavigationBar` does not pass `FontWeight` down.
+
+The default style does not mirror the back arrow in right-to-left layouts.
+
+### Material
+
 | Key                                                                    | Type              | Value                                   |
 |------------------------------------------------------------------------|-------------------|-----------------------------------------|
 | `NavigationBarCommandBarEllipsisIconForegroundDisabled`                | `SolidColorBrush` | TextFillColorDisabledBrush              |
@@ -305,17 +367,17 @@ Any `IconElement` can be used.
 | `NavigationBarEllipsisButtonForeground`                                | `SolidColorBrush` | OnSurfaceBrush                          |
 | `NavigationBarEllipsisButtonBackground`                                | `SolidColorBrush` | SolidColorBrush { Color = Transparent } |
 | `MaterialXamlNavigationBarHeight`                                      | `Double`          | 64                                      |
-| `MaterialNavigationBarHeight`                                          | `Double`          | 48                                      |
-| `MaterialNavigationBarContentMargin`                                   | `Thickness`       | 16,0,0,0                                |
+| `MaterialNavigationBarHeight`                                          | `Double`          | 64                                      |
+| `MaterialNavigationBarContentMargin`                                   | `Thickness`       | 16,0                                    |
 | `MaterialAppBarEllipsisButtonInnerBorderMargin`                        | `Thickness`       | 2,6,6,6                                 |
 | `NavigationBarMaterialEllipsisButtonFontFamily`                        | `FontFamily`      | MaterialRegularFontFamily               |
 | `NavigationBarMaterialEllipsisButtonFontWeight`                        | `FontWeight`      | SemiBold                                |
 | `NavigationBarMaterialEllipsisButtonFontSize`                          | `Double`          | ControlContentThemeFontSize             |
 | `NavigationBarMaterialEllipsisButtonWidth`                             | `Double`          | AppBarExpandButtonThemeWidth            |
-| `NavBarAppBarButtonContentHeight`                                      | `Double`          | 24                                      |
-| `NavBarMainCommandAppBarButtonContentHeight`                           | `Double`          | 16                                      |
-| `NavBarAppBarThemeCompactHeight`                                       | `Double`          | 56                                      |
-| `NavBarAppBarButtonPadding`                                            | `Thickness`       | 12,16                                   |
+| `NavBarAppBarButtonContentHeight`                                      | `Double`          | 16                                      |
+| `NavBarMainCommandAppBarButtonContentHeight`                           | `Double`          | 24                                      |
+| `NavBarAppBarThemeCompactHeight`                                       | `Double`          | 64                                      |
+| `NavBarAppBarButtonPadding`                                            | `Thickness`       | 12,16,12,16                             |
 | `NavBarAppBarButtonHasFlyoutChevronVisibility`                         | `Visibility`      | Collapsed                               |
 
 ## Navigation
@@ -442,7 +504,7 @@ You can set a custom content to an `AppBarButton` like this:
 
 ### How can I change the height of my NavigationBar?
 
-The height is defined by the style in use. Override the related resources listed in the **Lightweight Styling** section, or provide your own style.
+The height is defined by the style in use. For the default style, override `NavigationBarHeight`. For Material and Simple, override the `NavBar*` resources listed in the **Lightweight Styling** section. You can also provide your own style.
 
 ### How can I add a burger menu to the left of my NavigationBar?
 

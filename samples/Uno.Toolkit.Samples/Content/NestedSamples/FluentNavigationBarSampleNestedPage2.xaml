@@ -8,6 +8,15 @@
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	  mc:Ignorable="d">
 
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!--  Restores the default (Fluent) NavigationBar styles, whichever design system the app has loaded.  -->
+				<utu:ToolkitResources />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Page.Resources>
+
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />

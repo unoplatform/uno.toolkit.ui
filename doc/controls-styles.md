@@ -37,6 +37,21 @@ Exposes visual states as attachable properties that lets you bind a string on a 
 
 ## Control Styles
 
+### Default (Fluent) styles
+
+These styles ship in `Uno.Toolkit.UI` itself and apply when no design-system package provides its own.
+
+| Control             | Style Key                 | IsDefaultStyle\* |
+|---------------------|---------------------------|------------------|
+| `utu:NavigationBar` | `DefaultNavigationBar`    | True             |
+| `AppBarButton`      | `DefaultMainCommandStyle` |                  |
+
+`DefaultMainCommandStyle` is the style `DefaultNavigationBar` sets as the `MainCommandStyle` of the bar.
+
+### Design system styles
+
+These keys are provided by the design-system Toolkit libraries, such as Material.
+
 | Control                  | Style Key                          | IsDefaultStyle\* |
 |--------------------------|------------------------------------|-----------------|
 | `AppBarButton`           | `MainCommandStyle`                 | True            |
