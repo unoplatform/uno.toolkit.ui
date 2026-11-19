@@ -436,6 +436,7 @@ Unexplained deviations block merge.
 
 - Commit messages: clear, imperative, reference issues.
 - MUST follow [Conventional Commits](https://www.conventionalcommits.org/) — enforced by `.github/workflows/conventional-commits.yml`. Bullet points, no big walls of text.
+- Link the issue a PR resolves with a closing keyword in the PR description, including issues in another repo: put `Closes unoplatform/uno-private#123` on the template's "GitHub Issue (If applicable):" line, and leave the "Internal Issue (If applicable):" line alone. Cross-repo closing works; a bare issue URL only mentions the issue, which then stays open after merge. Check the link took with `gh pr view <n> --json closingIssuesReferences`.
 
 </review_directives>
 
