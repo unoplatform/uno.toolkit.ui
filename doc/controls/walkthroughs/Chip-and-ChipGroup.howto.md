@@ -192,12 +192,11 @@ Override keys to adjust visuals globally:
 ```xml
 <ResourceDictionary>
     <x:Double x:Key="ChipHeight">28</x:Double>
-    <x:Double x:Key="ChipElevation">2</x:Double>
     <CornerRadius x:Key="ChipCornerRadius">12</CornerRadius>
 </ResourceDictionary>
 ```
 
-Common tokens include `ChipHeight`, `ChipElevation`, `ChipCornerRadius`, `ChipPadding`, and brushes like `ChipBackgroundChecked`. ([Uno Platform][2])
+Common tokens include `ChipHeight`, `ChipCornerRadius`, `ChipPadding`, and brushes like `ChipBackgroundChecked`. ([Uno Platform][2])
 
 ---
 

@@ -10,4 +10,6 @@
     <Style x:Key="DefaultChipGroupStyle" TargetType="utu:ChipGroup">
         <Setter Property="ItemsPanel" Value="{StaticResource ChipGroupItemsPanel}" />
     </Style>
+
+    <Style BasedOn="{StaticResource DefaultChipGroupStyle}" TargetType="utu:ChipGroup" />
 </ResourceDictionary>
