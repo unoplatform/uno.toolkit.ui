@@ -964,6 +964,143 @@
 			</DataTemplate>
 		</sample:SamplePageLayout.CupertinoTemplate>
 
+		<sample:SamplePageLayout.FluentTemplate>
+			<DataTemplate>
+				<ScrollViewer>
+					<StackPanel Padding="0,20"
+								Spacing="24">
+						<StackPanel.Resources>
+							<ResourceDictionary>
+								<ResourceDictionary.MergedDictionaries>
+									<!-- Restores the default (Fluent) TabBar styles and resources, whichever design system the app has loaded. -->
+									<utu:ToolkitResources />
+								</ResourceDictionary.MergedDictionaries>
+							</ResourceDictionary>
+						</StackPanel.Resources>
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="DefaultBottomTabBarStyle" />
+							<TextBlock Opacity="0.7"
+									   Text="Bottom navigation on phones, as the Fluent mobile tab bar: a divider on top, and the selected item in the accent color."
+									   TextWrapping="Wrap" />
+							<utu:TabBar SelectedIndex="0"
+										Style="{StaticResource DefaultBottomTabBarStyle}">
+								<utu:TabBarItem Content="Home">
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Home" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+								<utu:TabBarItem Content="Search">
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Find" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+								<utu:TabBarItem Content="Favorites">
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Favorite" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+								<utu:TabBarItem Content="Settings"
+												IsEnabled="False">
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Setting" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+							</utu:TabBar>
+						</StackPanel>
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="DefaultVerticalTabBarStyle" />
+							<TextBlock Opacity="0.7"
+									   Text="Vertical navigation, as the left pane of NavigationView. Items stack at the top and are as wide as the widest one."
+									   TextWrapping="Wrap" />
+							<utu:TabBar HorizontalAlignment="Left"
+										SelectedIndex="0"
+										Style="{StaticResource DefaultVerticalTabBarStyle}">
+								<utu:TabBarItem Content="Home">
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Home" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+								<utu:TabBarItem Content="Search">
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Find" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+								<utu:TabBarItem Content="Favorites">
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Favorite" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+								<utu:TabBarItem Content="Settings"
+												IsEnabled="False">
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Setting" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+							</utu:TabBar>
+						</StackPanel>
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="Compact rail" />
+							<TextBlock Opacity="0.7"
+									   Text="The same style with icons only: a 48 wide rail."
+									   TextWrapping="Wrap" />
+							<utu:TabBar HorizontalAlignment="Left"
+										SelectedIndex="1"
+										Style="{StaticResource DefaultVerticalTabBarStyle}">
+								<utu:TabBarItem>
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Home" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+								<utu:TabBarItem>
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Find" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+								<utu:TabBarItem>
+									<utu:TabBarItem.Icon>
+										<SymbolIcon Symbol="Favorite" />
+									</utu:TabBarItem.Icon>
+								</utu:TabBarItem>
+							</utu:TabBar>
+						</StackPanel>
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="DefaultTopTabBarStyle" />
+							<TextBlock Opacity="0.7"
+									   Text="Tabs that switch the content of a page, as the WinUI SelectorBar. Tabs are as wide as their content."
+									   TextWrapping="Wrap" />
+							<utu:TabBar SelectedIndex="0"
+										Style="{StaticResource DefaultTopTabBarStyle}">
+								<utu:TabBarItem Content="Recent" />
+								<utu:TabBarItem Content="Shared" />
+								<utu:TabBarItem Content="Favorites" />
+								<utu:TabBarItem Content="Archived"
+												IsEnabled="False" />
+							</utu:TabBar>
+						</StackPanel>
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="DefaultSegmentedTabBarStyle" />
+							<TextBlock Opacity="0.7"
+									   Text="A switcher between a few views of the same content. The selected segment is raised."
+									   TextWrapping="Wrap" />
+							<utu:TabBar Width="320"
+										HorizontalAlignment="Left"
+										SelectedIndex="1"
+										Style="{StaticResource DefaultSegmentedTabBarStyle}">
+								<utu:TabBarItem Content="Day" />
+								<utu:TabBarItem Content="Week" />
+								<utu:TabBarItem Content="Month" />
+							</utu:TabBar>
+						</StackPanel>
+					</StackPanel>
+				</ScrollViewer>
+			</DataTemplate>
+		</sample:SamplePageLayout.FluentTemplate>
+
 		<sample:SamplePageLayout.DesignAgnosticTemplate>
 			<DataTemplate>
 				<ScrollViewer>
