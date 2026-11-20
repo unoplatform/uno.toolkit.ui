@@ -18,16 +18,38 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples
 #if IOS27_1_OR_GREATER
 			Loaded += (_, _) =>
 			{
-				ApplicationView.GetForCurrentView().VisibleBoundsChanged += OnVisibleBoundsChanged;
+				_appView = ApplicationView.GetForCurrentView();
+				_appView.VisibleBoundsChanged += OnVisibleBoundsChanged;
+				_xamlRoot = XamlRoot;
+				if (_xamlRoot is not null)
+				{
+					_xamlRoot.Changed += OnXamlRootChanged;
+				}
 				UpdateTabBarPlacement();
 			};
-			Unloaded += (_, _) => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= OnVisibleBoundsChanged;
+			Unloaded += (_, _) =>
+			{
+				if (_appView is not null)
+				{
+					_appView.VisibleBoundsChanged -= OnVisibleBoundsChanged;
+				}
+				if (_xamlRoot is not null)
+				{
+					_xamlRoot.Changed -= OnXamlRootChanged;
+				}
+			};
 #endif
 		}
 
 #if IOS27_1_OR_GREATER
-		// The insets change on rotation, and when the vertical bar appears after launch.
+		private ApplicationView? _appView;
+		private XamlRoot? _xamlRoot;
+
+		// The vertical bar can appear after launch without a size change.
 		private void OnVisibleBoundsChanged(ApplicationView sender, object args) => UpdateTabBarPlacement();
+
+		// On rotation, VisibleBoundsChanged is raised before the window size is updated, so update again once it is.
+		private void OnXamlRootChanged(XamlRoot sender, XamlRootChangedEventArgs args) => UpdateTabBarPlacement();
 
 		private void UpdateTabBarPlacement()
 		{
@@ -53,7 +75,8 @@ namespace Uno.Toolkit.Samples.Content.NestedSamples
 				return false;
 			}
 
-			var scene = UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>().FirstOrDefault();
+			var scene = UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>()
+				.FirstOrDefault(s => s.ActivationState is UISceneActivationState.ForegroundActive or UISceneActivationState.ForegroundInactive);
 			return scene is not null && scene.TraitCollection.VerticalBarEdge != UIVerticalBarEdge.Unspecified;
 		}
 #endif
