@@ -28,6 +28,7 @@ Building with the iOS 27.1 bindings defines `IOS27_1_OR_GREATER`. CI builds the 
 - [x] Sample: `M3MaterialIOSVerticalBarSampleNestedPage`, opened from the Material TabBar sample page ("Show iOS Vertical Bar Sample")
 - [x] Build the Material sample head for iOS (27.1 bindings) and desktop
 - [x] Run the sample on the iPhone Duo simulator
+- [x] Screenshots in the how-to (`doc/assets/tabbar-ios-vertical-bar-*.png`): the Material bottom TabBar sample with the strip left empty, and the new sample in portrait and landscape, taken on the iPhone Duo simulator cover screen and scaled to 600 px
 
 ## Review
 

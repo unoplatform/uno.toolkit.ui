@@ -138,6 +138,8 @@ This wires TabBar selection to a named region for navigation. ([Uno Platform][2]
 
 Starting with iOS 27.1, some devices show a *vertical bar*: a strip along one side of the screen that holds the status bar. On the iPhone Duo cover screen it is 84 pt wide, on the right in portrait and on the left in landscape. Native tab bars move into this strip as an icon-only vertical bar. iOS reports the strip as a left or right safe-area inset. A bottom `TabBar` with `utu:SafeArea` stays clear of it, but the strip is left empty.
 
+![A bottom TabBar on the iPhone Duo cover screen, with the vertical bar on the right left empty](../../assets/tabbar-ios-vertical-bar-empty.png)
+
 The window width doesn't change when the strip appears, so `{utu:Responsive}` can't detect it. Read the iOS `VerticalBarEdge` trait instead, and show an icon-only vertical `TabBar` inside the strip:
 
 ```xml
@@ -267,6 +269,12 @@ public sealed partial class MainPage : Page
 #endif
 }
 ```
+
+On the iPhone Duo cover screen, the TabBar moves into the strip: on the right in portrait, on the left in landscape.
+
+![The TabBar in the vertical bar on the right, iPhone Duo cover screen in portrait](../../assets/tabbar-ios-vertical-bar-portrait.png)
+
+![The TabBar in the vertical bar on the left, iPhone Duo cover screen in landscape](../../assets/tabbar-ios-vertical-bar-landscape.png)
 
 Notes:
 
