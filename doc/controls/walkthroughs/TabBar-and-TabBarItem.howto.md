@@ -228,16 +228,38 @@ public sealed partial class MainPage : Page
 #if IOS27_1_OR_GREATER
         Loaded += (_, _) =>
         {
-            ApplicationView.GetForCurrentView().VisibleBoundsChanged += OnVisibleBoundsChanged;
+            _appView = ApplicationView.GetForCurrentView();
+            _appView.VisibleBoundsChanged += OnVisibleBoundsChanged;
+            _xamlRoot = XamlRoot;
+            if (_xamlRoot is not null)
+            {
+                _xamlRoot.Changed += OnXamlRootChanged;
+            }
             UpdateTabBarPlacement();
         };
-        Unloaded += (_, _) => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= OnVisibleBoundsChanged;
+        Unloaded += (_, _) =>
+        {
+            if (_appView is not null)
+            {
+                _appView.VisibleBoundsChanged -= OnVisibleBoundsChanged;
+            }
+            if (_xamlRoot is not null)
+            {
+                _xamlRoot.Changed -= OnXamlRootChanged;
+            }
+        };
 #endif
     }
 
 #if IOS27_1_OR_GREATER
-    // The insets change on rotation, and when the vertical bar appears after launch.
+    private ApplicationView? _appView;
+    private XamlRoot? _xamlRoot;
+
+    // The vertical bar can appear after launch without a size change.
     private void OnVisibleBoundsChanged(ApplicationView sender, object args) => UpdateTabBarPlacement();
+
+    // On rotation, VisibleBoundsChanged is raised before the window size is updated, so update again once it is.
+    private void OnXamlRootChanged(XamlRoot sender, XamlRootChangedEventArgs args) => UpdateTabBarPlacement();
 
     private void UpdateTabBarPlacement()
     {
@@ -263,7 +285,8 @@ public sealed partial class MainPage : Page
             return false;
         }
 
-        var scene = UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>().FirstOrDefault();
+        var scene = UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>()
+            .FirstOrDefault(s => s.ActivationState is UISceneActivationState.ForegroundActive or UISceneActivationState.ForegroundInactive);
         return scene is not null && scene.TraitCollection.VerticalBarEdge != UIVerticalBarEdge.Unspecified;
     }
 #endif
@@ -279,7 +302,8 @@ On the iPhone Duo cover screen, the TabBar moves into the strip: on the right in
 Notes:
 
 * The vertical bar code only compiles when the app builds against the iOS 27.1 SDK (Xcode 27.1 or later), which defines `IOS27_1_OR_GREATER`. Other platforms and older SDKs keep the bottom TabBar.
-* Update on `VisibleBoundsChanged`, not on `SizeChanged`: after launch, the strip can appear without the window size changing.
+* Update on both events. After launch, the strip can appear without the window size changing, which raises only `VisibleBoundsChanged`. On rotation, `VisibleBoundsChanged` is raised before the window size is updated, so `SafeArea.WindowInsets` is only correct once `XamlRoot.Changed` is raised.
+* Take the side of the strip from the insets, not from `VerticalBarEdge`: when these events are raised, the trait can still hold the value from before the rotation.
 * The strip fits icons but not labels. Give the vertical TabBar a fixed `Height` (about 56 per item plus padding), because it otherwise spreads its items over the full height.
 * Binding `SelectedIndex` keeps both TabBars on the same tab when the placement changes.
 * Keep other full-width elements out of the strip too. For example, `NavigationBar` styles only inset the top by default; set `utu:SafeArea.Insets="Left,Top,Right"` on it.
