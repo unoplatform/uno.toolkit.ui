@@ -48,6 +48,11 @@ namespace Uno.Toolkit.UI
 		/// </summary>
 		public string? ConverterLanguage { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value that indicates the direction of the data flow in the binding.
+		/// </summary>
+		public BindingMode Mode { get; set; } = BindingMode.OneWay;
+
 		public AncestorBindingExtension()
 		{
 		}
@@ -82,7 +87,7 @@ namespace Uno.Toolkit.UI
 						{
 							Path = new PropertyPath(Path),
 							Source = source,
-							Mode = BindingMode.OneWay,
+							Mode = Mode,
 							Converter = Converter,
 							ConverterLanguage = ConverterLanguage,
 							ConverterParameter = ConverterParameter,
