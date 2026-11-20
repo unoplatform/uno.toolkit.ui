@@ -433,6 +433,7 @@ The Uno Toolkit provides several styles of `TabBarItem` for both Material and Cu
 | `CupertinoSegmentedItemStyle`        |          | &check;   |
 | `CupertinoSlidingSegmentedItemStyle` |          | &check;   |
 | `TopTabBarItemStyle`                 | &check;  |           |
+| `VerticalFabTabBarItemStyle`         | &check;  |           |
 | `VerticalTabBarItemStyle`            | &check;  |           |
 
 > [!IMPORTANT]

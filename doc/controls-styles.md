@@ -88,5 +88,6 @@ Exposes visual states as attachable properties that lets you bind a string on a 
 | `utu:TabBarItem`         | `BottomFabTabBarItemStyle`         |                 |
 | `utu:TabBarItem`         | `BottomTabBarItemStyle`            |                 |
 | `utu:TabBarItem`         | `VerticalTabBarItemStyle`          |                 |
+| `utu:TabBarItem`         | `VerticalFabTabBarItemStyle`       |                 |
 
 IsDefaultStyle\*: Styles in this column will be set as the default implicit style for the matching control
