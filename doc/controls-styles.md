@@ -39,7 +39,7 @@ Exposes visual states as attachable properties that lets you bind a string on a 
 
 ### Default (Fluent) styles
 
-These styles ship in `Uno.Toolkit.UI` itself and apply when no design-system package provides its own.
+These styles ship in `Uno.Toolkit.UI` itself and are always available by key. The ones marked True are also applied implicitly, unless a design-system package provides its own implicit style.
 
 | Control             | Style Key                 | IsDefaultStyle\* |
 |---------------------|---------------------------|------------------|
