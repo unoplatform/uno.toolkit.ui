@@ -39,6 +39,10 @@ public class FlexPanelTests
 {
 	private const double Tolerance = 0.5;
 
+	// Layout rounding snaps each child's position to the pixel grid while text baselines stay
+	// fractional, so two baselines that coincide before rounding can end up to a pixel apart.
+	private const double BaselineTolerance = 1;
+
 	private static Border CreateChild(double? width = null, double? height = null)
 	{
 		var border = new Border
@@ -212,7 +216,86 @@ public class FlexPanelTests
 		// it both would sit at y=0.
 		smallSlot.Y.Should().BeGreaterThan(largeSlot.Y,
 			"the shorter text must be offset downwards to share the taller text's baseline");
+
+		// Bottom-edge alignment also pushes it down, but leaves the baselines apart by the difference
+		// in descent, which grows with the font size.
+		BaselineOf(small, SUT).Should().BeApproximately(BaselineOf(large, SUT), BaselineTolerance,
+			"the text baselines, not the bottom edges, must coincide");
 	}
+
+	[TestMethod]
+	public async Task When_AlignItemsBaseline_ThenTextPaddingIsHonored()
+	{
+		// Bottom padding moves a TextBlock's bottom edge but not its baseline.
+		var SUT = new FlexPanel
+		{
+			Width = 400,
+			Height = 200,
+			AlignItems = FlexAlign.Baseline,
+		};
+
+		var padded = new TextBlock { Text = "padded", FontSize = 16, Padding = new Thickness(0, 10, 0, 30) };
+		var plain = new TextBlock { Text = "plain", FontSize = 16 };
+		SUT.Children.Add(padded);
+		SUT.Children.Add(plain);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		BaselineOf(padded, SUT).Should().BeApproximately(BaselineOf(plain, SUT), BaselineTolerance);
+	}
+
+	[TestMethod]
+	public async Task When_AlignItemsBaseline_ThenNestedFlexPanelUsesItsFirstTextBaseline()
+	{
+		var SUT = new FlexPanel
+		{
+			Width = 400,
+			Height = 200,
+			AlignItems = FlexAlign.Baseline,
+		};
+
+		var nestedText = new TextBlock { Text = "nested", FontSize = 12 };
+		var nested = new FlexPanel
+		{
+			Direction = FlexDirection.Column,
+			Padding = new Thickness(0, 5, 0, 0),
+			Children = { nestedText, CreateChild(40, 40) },
+		};
+		var large = new TextBlock { Text = "large", FontSize = 36 };
+		SUT.Children.Add(nested);
+		SUT.Children.Add(large);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		BaselineOf(nestedText, SUT).Should().BeApproximately(BaselineOf(large, SUT), BaselineTolerance,
+			"a nested panel's baseline is its first child's baseline, as in CSS");
+	}
+
+	[TestMethod]
+	public async Task When_AlignItemsBaseline_ThenNonTextChildAlignsByBottomEdge()
+	{
+		// An element with no text baseline gets one synthesized from its bottom edge, as in CSS.
+		var SUT = new FlexPanel
+		{
+			Width = 400,
+			Height = 200,
+			AlignItems = FlexAlign.Baseline,
+		};
+
+		var box = CreateChild(40, 40);
+		var text = new TextBlock { Text = "text", FontSize = 36 };
+		SUT.Children.Add(box);
+		SUT.Children.Add(text);
+
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var boxSlot = SlotOf(box);
+		(boxSlot.Y + boxSlot.Height).Should().BeApproximately(BaselineOf(text, SUT), BaselineTolerance);
+	}
+
+	/// <summary>The y of a text element's first baseline, in <paramref name="panel"/>'s coordinates.</summary>
+	private static double BaselineOf(TextBlock text, UIElement panel)
+		=> text.TransformToVisual(panel).TransformPoint(new Point(0, text.Padding.Top + text.BaselineOffset)).Y;
 
 	[TestMethod]
 	[DataRow(false)]
