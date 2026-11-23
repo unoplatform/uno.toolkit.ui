@@ -255,6 +255,47 @@ public sealed class ChipDefaultStyleTests
 	}
 
 	[TestMethod]
+	public void When_ToolkitResourcesLoaded_ImplicitChipStyleSetsOnlyWhatMaterialV1ChipsSetOrIgnore()
+	{
+		// On Uno the implicit Chip style sits under every explicit design-system style, so a property set here reaches each
+		// Material v1 chip that does not set it (v1 defines no implicit Chip style of its own). v1 chips set the first group
+		// and their templates do not read the second, so neither changes how they render; anything new must go in the template.
+		var setByMaterialV1 = new[]
+		{
+			Control.ForegroundProperty, Control.BackgroundProperty, Control.BorderBrushProperty, Control.BorderThicknessProperty, Control.CornerRadiusProperty,
+			Control.PaddingProperty, Control.FontFamilyProperty, FrameworkElement.VerticalAlignmentProperty, Control.VerticalContentAlignmentProperty, Control.TemplateProperty,
+		};
+		var ignoredByMaterialV1Templates = new[]
+		{
+			FrameworkElement.HorizontalAlignmentProperty, Control.HorizontalContentAlignmentProperty, Control.FontSizeProperty,
+			Control.UseSystemFocusVisualsProperty, Control.FocusVisualMarginProperty,
+		};
+		var resources = new ToolkitResources();
+		Assert.IsTrue(resources.TryGetValue(typeof(Chip), out var value) && value is Style, "ToolkitResources must define an implicit Chip style.");
+
+		for (var style = (Style?)value; style is not null; style = style.BasedOn)
+		{
+			var added = style.Setters.OfType<Setter>()
+				.Where(x => !setByMaterialV1.Contains(x.Property) && !ignoredByMaterialV1Templates.Contains(x.Property))
+				.Select(x => x.Property?.ToString() ?? "?")
+				.ToArray();
+			Assert.AreEqual(0, added.Length, $"The implicit Chip style (or one it is based on) now also sets {string.Join(", ", added)}.");
+		}
+	}
+
+	[TestMethod]
+	public async Task When_ChipHasNoSize_ItIsAtLeastTheChipHeightTall()
+	{
+		// MinHeight lives in the template (not the implicit style) so it cannot leak into design-system chips.
+		var chip = new Chip { Content = "Chip" };
+
+		await Load(chip);
+
+		Assert.AreEqual(ExpectedHeight, chip.ActualHeight, 0.5);
+		Assert.AreEqual(0d, chip.MinHeight, "The style must not set MinHeight on the chip itself.");
+	}
+
+	[TestMethod]
 	public async Task When_ChipGroupHasNoStyle_ChipsAreLaidOutHorizontally()
 	{
 		var group = new ChipGroup();
