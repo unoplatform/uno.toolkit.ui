@@ -92,7 +92,11 @@ public enum FlexAlign
 	/// <summary>Stretched to fill the cross axis, unless the child has an explicit cross size.</summary>
 	Stretch,
 
-	/// <summary>Aligned so that the children's text baselines coincide.</summary>
+	/// <summary>
+	/// Aligned so that the children's first text baselines coincide. A <c>TextBlock</c> or a
+	/// nested <see cref="FlexPanel"/> reports its baseline; any other child aligns by its
+	/// bottom margin edge.
+	/// </summary>
 	Baseline,
 
 	/// <summary>Lines are spread out, the first and last touching the edges. <c>AlignContent</c> only.</summary>

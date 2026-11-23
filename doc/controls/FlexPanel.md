@@ -105,6 +105,15 @@ As in CSS, `AlignItems`, `AlignContent` and `AlignSelf` share one keyword set (`
 | `AlignContent` | `FlexStart`, `Center`, `FlexEnd`, `Stretch`, `SpaceBetween`, `SpaceAround`, `SpaceEvenly` |
 | `AlignSelf` | `Auto` plus everything valid for `AlignItems` |
 
+### Baseline alignment
+
+`Baseline` lines up the first text baseline of each child in a row (in a column it acts as `FlexStart`, as in CSS). Only some children report a baseline:
+
+- a `TextBlock`: the baseline of its first line, below its top `Padding`;
+- a nested `FlexPanel`: the baseline of its first baseline-aligned child, or else of its first child.
+
+Any other child, including a `Button` or `TextBox` that contains text, aligns by its bottom margin edge, the baseline CSS synthesizes for a box without one.
+
 ## `Basis` vs `Width`
 
 This is the most common surprise when coming from WinUI. On the main axis, `Basis` is the flex base size and `Width` is not:
