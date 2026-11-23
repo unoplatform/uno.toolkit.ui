@@ -45,7 +45,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 **Outcome:** user re-taps the selected tab → app navigates back (like clicking the navigation back button).
 
-**When to use:** tab shows a navigation area (`Frame`, `NavigationView`) and you want a “back to previous page” gesture on re-tap.
+**When to use:** tab shows a navigation area (`Frame`) and you want a “back to previous page” gesture on re-tap.
 
 ```xml
 <Grid>
@@ -63,7 +63,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 **What it does**
 
-* Finds the first `NavigationView` (or a host with a back stack)
+* Finds the first `Frame` with a back stack
 * Calls back navigation if it can
 * Triggered only when the tab was already selected
 * If no back stack is found, nothing happens
@@ -72,7 +72,7 @@ xmlns:utu="using:Uno.Toolkit.UI"
 
 ## How to enable “do everything” on re-tap
 
-**Outcome:** user re-taps the selected tab → it tries to go back, and also tries to scroll to top.
+**Outcome:** user re-taps the selected tab → it goes back if it can, otherwise it scrolls to top.
 
 This is the `Auto` mode.
 
@@ -93,7 +93,7 @@ This is the `Auto` mode.
 **What it does (order):**
 
 1. Look for navigation with back stack → go back
-2. Look for list / scroll viewer → scroll to top
+2. Otherwise, look for list / scroll viewer → scroll to top
 
 Use this if you don’t want to decide which behavior to use.
 
@@ -176,9 +176,9 @@ This ensures the behavior applies to the frame, **not** to the shell grid.
 
 **Behavior rules from the original doc** ([Uno Platform][1])
 
-* `BackNavigation`: find first `NavigationView` with back stack → go back
+* `BackNavigation`: find first `Frame` with back stack → go back
 * `ScrollToTop`: find first `ListView` or `ScrollViewer` → scroll to top
-* `Auto`: do both
+* `Auto`: go back if a `Frame` with back stack is found, otherwise scroll to top
 * If target not set → use the parent of the `TabBar` as the target
 
 [1]: https://platform.uno/docs/articles/external/uno.toolkit.ui/doc/helpers/TabBarItem-extensions.html "TabBarItem Extensions"

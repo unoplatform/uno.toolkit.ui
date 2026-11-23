@@ -330,7 +330,7 @@ Use `OnClickBehaviors="ScrollToTop"` and point `OnClickBehaviorsTarget` to the c
     utu:TabBarItemExtensions.OnClickBehaviors="BackNavigation"/>
 ```
 
-`BackNavigation` finds the nearest `NavigationView` with a back stack and navigates back. ([Uno Platform][3])
+`BackNavigation` finds the first `Frame` with a back stack and navigates back. ([Uno Platform][3])
 
 ---
 
