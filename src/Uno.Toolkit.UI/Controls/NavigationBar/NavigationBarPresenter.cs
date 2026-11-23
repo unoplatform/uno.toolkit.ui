@@ -75,13 +75,14 @@ namespace Uno.Toolkit.UI
 			if (_commandBar != null
 				&& navigationBar != null)
 			{
-				void setBinding(UIElement target, object source, DependencyProperty property, string path, BindingMode mode = BindingMode.TwoWay)
+				void setBinding(UIElement target, object source, DependencyProperty property, string path, BindingMode mode = BindingMode.TwoWay, IValueConverter? converter = null)
 				{
 					var binding = new Binding
 					{
 						Path = new PropertyPath(path),
 						Source = source,
-						Mode = mode
+						Mode = mode,
+						Converter = converter,
 					};
 
 					BindingOperations.SetBinding(target, property, binding);
@@ -114,6 +115,9 @@ namespace Uno.Toolkit.UI
 				setBinding(_commandBar, navigationBar, CommandBar.WidthProperty, nameof(navigationBar.Width));
 				setBinding(_commandBar, navigationBar, CommandBar.UseSystemFocusVisualsProperty, nameof(navigationBar.UseSystemFocusVisuals));
 				setBinding(_commandBar, navigationBar, CommandBarExtensions.MainCommandProperty, nameof(navigationBar.MainCommand));
+				setBinding(_commandBar, navigationBar, CommandBar.ClosedDisplayModeProperty, nameof(navigationBar.ClosedDisplayMode), BindingMode.OneWay, CommandBarEnumConverter.Instance);
+				setBinding(_commandBar, navigationBar, CommandBar.DefaultLabelPositionProperty, nameof(navigationBar.DefaultLabelPosition), BindingMode.OneWay, CommandBarEnumConverter.Instance);
+				setBinding(_commandBar, navigationBar, CommandBar.OverflowButtonVisibilityProperty, nameof(navigationBar.OverflowButtonVisibility), BindingMode.OneWay, CommandBarEnumConverter.Instance);
 
 				var MainCommand = CommandBarExtensions.GetMainCommand(_commandBar);
 				if (MainCommand != null)
@@ -123,6 +127,34 @@ namespace Uno.Toolkit.UI
 			}
 		}
 
+
+		/// <summary>
+		/// Maps the NavigationBar enums onto their <see cref="CommandBar"/> counterparts, which a binding can't convert on its own.
+		/// </summary>
+		private sealed class CommandBarEnumConverter : IValueConverter
+		{
+			public static CommandBarEnumConverter Instance { get; } = new();
+
+			public object Convert(object value, Type targetType, object parameter, string language) => value switch
+			{
+				NavigationBarClosedDisplayMode.Compact => AppBarClosedDisplayMode.Compact,
+				NavigationBarClosedDisplayMode.Minimal => AppBarClosedDisplayMode.Minimal,
+				NavigationBarClosedDisplayMode.Hidden => AppBarClosedDisplayMode.Hidden,
+
+				NavigationBarDefaultLabelPosition.Bottom => CommandBarDefaultLabelPosition.Bottom,
+				NavigationBarDefaultLabelPosition.Right => CommandBarDefaultLabelPosition.Right,
+				NavigationBarDefaultLabelPosition.Collapsed => CommandBarDefaultLabelPosition.Collapsed,
+
+				NavigationBarOverflowButtonVisibility.Auto => CommandBarOverflowButtonVisibility.Auto,
+				NavigationBarOverflowButtonVisibility.Visible => CommandBarOverflowButtonVisibility.Visible,
+				NavigationBarOverflowButtonVisibility.Collapsed => CommandBarOverflowButtonVisibility.Collapsed,
+
+				_ => DependencyProperty.UnsetValue,
+			};
+
+			public object ConvertBack(object value, Type targetType, object parameter, string language)
+				=> throw new NotSupportedException();
+		}
 
 		private void OnCommandBarMainCommandClicked(object sender, RoutedEventArgs e)
 		{
