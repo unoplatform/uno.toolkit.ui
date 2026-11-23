@@ -207,12 +207,9 @@
         <Setter Property="BorderThickness" Value="{ThemeResource ChipBorderThickness}" />
         <Setter Property="CornerRadius" Value="{ThemeResource ChipCornerRadius}" />
         <Setter Property="Padding" Value="{ThemeResource ChipPadding}" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
         <Setter Property="FocusVisualMargin" Value="-3" />
 

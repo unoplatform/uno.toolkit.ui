@@ -255,11 +255,11 @@ public sealed class ChipDefaultStyleTests
 	}
 
 	[TestMethod]
-	public void When_ToolkitResourcesLoaded_ImplicitChipStyleSetsOnlyWhatMaterialV1ChipsSetOrIgnore()
+	public void When_ToolkitResourcesLoaded_ImplicitChipStyleSetsOnlyWhatMaterialV1ChipsSet()
 	{
 		// On Uno the implicit Chip style sits under every explicit design-system style, so a property set here reaches each
 		// Material v1 chip that does not set it (v1 defines no implicit Chip style of its own). v1 chips set the first group
-		// and their templates do not read the second, so neither changes how they render; anything new must go in the template.
+		// and their templates do not read the second (focus visuals only); anything new must go in the template, or be left to the ToggleButton default style as alignment and font size are.
 		var setByMaterialV1 = new[]
 		{
 			Control.ForegroundProperty, Control.BackgroundProperty, Control.BorderBrushProperty, Control.BorderThicknessProperty, Control.CornerRadiusProperty,
@@ -267,7 +267,6 @@ public sealed class ChipDefaultStyleTests
 		};
 		var ignoredByMaterialV1Templates = new[]
 		{
-			FrameworkElement.HorizontalAlignmentProperty, Control.HorizontalContentAlignmentProperty, Control.FontSizeProperty,
 			Control.UseSystemFocusVisualsProperty, Control.FocusVisualMarginProperty,
 		};
 		var resources = new ToolkitResources();
@@ -281,6 +280,19 @@ public sealed class ChipDefaultStyleTests
 				.ToArray();
 			Assert.AreEqual(0, added.Length, $"The implicit Chip style (or one it is based on) now also sets {string.Join(", ", added)}.");
 		}
+	}
+
+	[TestMethod]
+	public async Task When_ChipHasNoFontSize_ItUsesTheControlContentFontSize()
+	{
+		// The font size comes from the ToggleButton default style, so the implicit Chip style does not set it.
+		var chip = new Chip { Content = "Chip" };
+
+		await Load(chip);
+
+		Assert.AreEqual((double)Application.Current.Resources["ControlContentThemeFontSize"], chip.FontSize);
+		Assert.AreEqual(HorizontalAlignment.Left, chip.HorizontalAlignment, "HorizontalAlignment");
+		Assert.AreEqual(HorizontalAlignment.Center, chip.HorizontalContentAlignment, "HorizontalContentAlignment");
 	}
 
 	[TestMethod]

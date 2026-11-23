@@ -168,6 +168,8 @@ The default style follows the Pill in the [Windows UI Kit](https://www.figma.com
 
 The right inset of the text is `ChipPadding` plus `ChipContentMargin`, which lets the remove button sit closer to the edge than the text does.
 
+The glyph of the remove button takes its color from `ChipDeleteIconForeground`, and from the foreground keys of the chip's states while it is hovered, pressed, checked or disabled. It does not follow `Chip.Foreground`.
+
 The default style has no `Chip*Focused`, `ChipStateOverlay*`, or `ChipElevation*` resources: focus uses the system focus visual, and there is no overlay or shadow layer.
 
 ### Material
