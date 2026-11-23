@@ -288,4 +288,64 @@ public class ChipGroupTests
 	}
 
 	#endregion
+
+	#region Removal
+
+	[TestMethod]
+	public async Task ItemRemoving_Cancel_ShouldPreventRemoval()
+	{
+		var SUT = CreateRemovableChipGroup();
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var target = SUT.ContainerFromIndex(1) as ChipControl ?? throw new Exception("Container#1 not found");
+		object? removingItem = null;
+		var removedCount = 0;
+		SUT.ItemRemoving += (s, e) =>
+		{
+			removingItem = e.Item;
+			e.Cancel = true;
+		};
+		SUT.ItemRemoved += (s, e) => removedCount++;
+
+		target.GetFirstDescendantOrThrow<Button>(RemoveButtonName).RaiseClick();
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		Assert.AreEqual(target, removingItem, "ItemRemoving should have been raised for container#1");
+		Assert.AreEqual(0, removedCount, "ItemRemoved should not be raised when ItemRemoving is cancelled");
+		Assert.AreEqual(3, SUT.Items.Count, "No item should be removed when ItemRemoving is cancelled");
+		Assert.AreEqual(1, SUT.Items.IndexOf(target), "Container#1 should still be in place");
+	}
+
+	[TestMethod]
+	public async Task ItemRemoving_NotCancelled_ShouldRemoveItem()
+	{
+		var SUT = CreateRemovableChipGroup();
+		await UnitTestUIContentHelperEx.SetContentAndWait(SUT);
+
+		var target = SUT.ContainerFromIndex(1) as ChipControl ?? throw new Exception("Container#1 not found");
+		var removingCount = 0;
+		object? removedItem = null;
+		SUT.ItemRemoving += (s, e) => removingCount++;
+		SUT.ItemRemoved += (s, e) => removedItem = e.Item;
+
+		target.GetFirstDescendantOrThrow<Button>(RemoveButtonName).RaiseClick();
+		await UnitTestUIContentHelperEx.WaitForIdle();
+
+		Assert.AreEqual(1, removingCount, "ItemRemoving should be raised once");
+		Assert.AreEqual(target, removedItem, "ItemRemoved should be raised for container#1");
+		Assert.AreEqual(2, SUT.Items.Count, "Container#1 should be removed");
+		Assert.AreEqual(-1, SUT.Items.IndexOf(target), "Container#1 should no longer be in Items");
+	}
+
+	private const string RemoveButtonName = "PART_RemoveButton";
+
+	private static ChipGroup CreateRemovableChipGroup() => XamlHelper.LoadXaml<ChipGroup>("""
+		<utu:ChipGroup CanRemove="True">
+			<utu:Chip Content="Uno" />
+			<utu:Chip Content="Deux" />
+			<utu:Chip Content="Three" />
+		</utu:ChipGroup>
+	""");
+
+	#endregion
 }
