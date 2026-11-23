@@ -229,14 +229,14 @@ All events below are forwarded from the nested `Chip`s:
 
 ```csharp
 delegate void ChipItemEventHandler(object sender, ChipItemEventArgs e);
-delegate void ChipItemRemovingEventHandler(object sender, ChipItemRemovingEventHandler e);
+delegate void ChipItemRemovingEventHandler(object sender, ChipItemRemovingEventArgs e);
 
 class ChipItemEventArgs : EventArgs
 {
     // Gets the item associated with the event
     object Item { get; }
 }
-class ChipItemRemovingEventHandler : ChipItemEventHandler
+class ChipItemRemovingEventArgs : ChipItemEventArgs
 {
     // Gets or sets whether the ItemRemoved event should be canceled.
     bool Cancel { get; set; }

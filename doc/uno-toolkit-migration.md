@@ -45,7 +45,7 @@ Uno Toolkit 9.0 takes a dependency on Uno Themes 7.0, which introduces seed-base
     | `ms-appx:///Uno.Toolkit.WinUI/Generated/mergedpages.WinUI.xaml`               | `ms-appx:///Uno.Toolkit.WinUI/Generated/mergedpages.xaml`             |
     | `ms-appx:///Uno.Toolkit.WinUI.Material/Generated/mergedpages.WinUI.v2.xaml`   | `ms-appx:///Uno.Toolkit.WinUI.Material/Generated/mergedpages.v2.xaml` |
 
-    This breaks code that merged these dictionaries directly by URI, as well as the deprecated `MaterialToolkitResourcesV1` / `MaterialToolkitResourcesV2` dictionaries, which reference the old URIs internally and now fail at startup with `Cannot locate resource from 'ms-appx:///Uno.Toolkit.WinUI.Material/Generated/mergedpages.WinUI.v2.xaml'`. Replace them with `<MaterialToolkitTheme/>`. Apps already using `<MaterialToolkitTheme/>` or `<SimpleToolkitTheme/>` are unaffected.
+    This breaks code that merged these dictionaries directly by URI. From 9.0 through 11.0 it also broke the deprecated `MaterialToolkitResources`, `MaterialToolkitResourcesV1` and `MaterialToolkitResourcesV2` dictionaries, which kept the old URIs internally and failed at startup with `Cannot locate resource from 'ms-appx:///Uno.Toolkit.WinUI.Material/Generated/mergedpages.WinUI.v2.xaml'`; they load again from 11.1. They remain deprecated, so replace them with `<MaterialToolkitTheme/>`. Apps already using `<MaterialToolkitTheme/>` or `<SimpleToolkitTheme/>` are unaffected.
 
 3. `MaterialToolkitTheme` and new `SimpleToolkitTheme` inherit from their underlying theme
 

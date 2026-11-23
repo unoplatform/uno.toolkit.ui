@@ -17,21 +17,11 @@ namespace Uno.Toolkit.UI.Material
 	/// </summary>
 	public class MaterialToolkitResourcesV1 : ResourceDictionary
 	{
-#if IS_WINUI
-		private const string PackageName =
-			"Uno.Toolkit.WinUI.Material";
-		private const string PackageNameSuffix =
-			"WinUI";
-#else
-		private const string PackageName =
-			"Uno.Toolkit.UI.Material";
-		private const string PackageNameSuffix =
-			"UWP";
-#endif
+		private const string PackageName = "Uno.Toolkit.WinUI.Material";
 
 		public MaterialToolkitResourcesV1()
 		{
-			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.v1.xaml");
+			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.v1.xaml");
 		}
 	}
 }
