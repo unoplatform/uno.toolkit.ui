@@ -14,8 +14,45 @@ using Windows.UI.Xaml.Media;
 
 namespace Uno.Toolkit.UI
 {
+	/// <summary>
+	/// A thin line that groups content in lists and layouts, with an optional subheader below it.
+	/// </summary>
+	[TemplateVisualState(GroupName = VisualStateNames.SubHeaderStates, Name = VisualStateNames.SubHeaderVisible)]
+	[TemplateVisualState(GroupName = VisualStateNames.SubHeaderStates, Name = VisualStateNames.SubHeaderCollapsed)]
 	public partial class Divider : Control
 	{
+		private static class VisualStateNames
+		{
+			public const string SubHeaderStates = nameof(SubHeaderStates);
+			public const string SubHeaderVisible = nameof(SubHeaderVisible);
+			public const string SubHeaderCollapsed = nameof(SubHeaderCollapsed);
+		}
+
+		protected override void OnApplyTemplate()
+		{
+			base.OnApplyTemplate();
+
+			UpdateSubHeaderState(useTransitions: false);
+		}
+
+		private static void OnSubHeaderChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (sender is Divider divider)
+			{
+				divider.UpdateSubHeaderState(useTransitions: true);
+			}
+		}
+
+		// Lets templates collapse the subheader without a converter (the base library doesn't depend on Uno.Themes' converters).
+		private void UpdateSubHeaderState(bool useTransitions)
+		{
+			var state = string.IsNullOrEmpty(SubHeader)
+				? VisualStateNames.SubHeaderCollapsed
+				: VisualStateNames.SubHeaderVisible;
+
+			VisualStateManager.GoToState(this, state, useTransitions);
+		}
+
 		public string SubHeader
 		{
 			get { return (string)GetValue(SubHeaderProperty); }
@@ -23,7 +60,7 @@ namespace Uno.Toolkit.UI
 		}
 
 		public static readonly DependencyProperty SubHeaderProperty =
-			DependencyProperty.Register("SubHeader", typeof(string), typeof(Divider), new PropertyMetadata(string.Empty));
+			DependencyProperty.Register("SubHeader", typeof(string), typeof(Divider), new PropertyMetadata(string.Empty, OnSubHeaderChanged));
 
 		public Brush SubHeaderForeground
 		{
