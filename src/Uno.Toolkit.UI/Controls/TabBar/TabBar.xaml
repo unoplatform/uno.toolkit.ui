@@ -50,6 +50,7 @@
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarSelectedItemBackground" ResourceKey="ControlFillColorDefaultBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
@@ -102,6 +103,7 @@
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundSelectedPressed" ResourceKey="TextFillColorSecondaryBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarSelectedItemBackground" ResourceKey="ControlFillColorDefaultBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
@@ -114,7 +116,7 @@
 			<StaticResource x:Key="TabBarItemBackgroundSelected" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelectedPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="TabBarItemBackgroundSelectedPressed" ResourceKey="SystemColorHighlightColorBrush" />
-			<StaticResource x:Key="TabBarItemForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="TabBarItemForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
 			<StaticResource x:Key="TabBarItemForegroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
 			<StaticResource x:Key="TabBarItemForegroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
 			<StaticResource x:Key="TabBarItemForegroundSelected" ResourceKey="SystemColorHighlightColorBrush" />
@@ -133,7 +135,7 @@
 			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelected" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelectedPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="DefaultVerticalTabBarItemBackgroundSelectedPressed" ResourceKey="SystemColorHighlightColorBrush" />
-			<StaticResource x:Key="DefaultVerticalTabBarItemForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="DefaultVerticalTabBarItemForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
 			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
 			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
 			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelected" ResourceKey="SystemColorHighlightTextColorBrush" />
@@ -141,19 +143,20 @@
 			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundSelectedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
 			<StaticResource x:Key="DefaultVerticalTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
-			<StaticResource x:Key="DefaultTopTabBarItemForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="DefaultTopTabBarItemForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundPressed" ResourceKey="SystemColorHighlightColorBrush" />
-			<StaticResource x:Key="DefaultTopTabBarItemForegroundSelected" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="DefaultTopTabBarItemForegroundSelected" ResourceKey="SystemControlForegroundBaseHighBrush" />
 			<StaticResource x:Key="DefaultTopTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarBorderBrush" ResourceKey="SystemColorButtonTextColorBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemBackgroundPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemBackgroundPressed" ResourceKey="SystemColorHighlightColorBrush" />
-			<StaticResource x:Key="DefaultSegmentedTabBarItemForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="DefaultSegmentedTabBarItemForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundSelectedPressed" ResourceKey="SystemControlForegroundBaseHighBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarItemForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarSelectedItemBackground" ResourceKey="SystemControlTransparentBrush" />
 			<StaticResource x:Key="DefaultSegmentedTabBarSelectedItemBorderBrush" ResourceKey="SystemColorButtonTextColorBrush" />
@@ -168,7 +171,11 @@
 	<Thickness x:Key="TabBarItemContentOnlyMargin">12,0</Thickness>
 	<Duration x:Key="TabBarIndicatorAnimationDuration">0:0:0.25</Duration>
 
-	<!-- Bottom navigation, as the Fluent mobile tab bar: a 24 icon above a 12 label, selected in the accent color, on a flat bar with a divider on top. -->
+	<!--
+		Bottom navigation, as the Fluent mobile tab bar: a 24 icon above a 12 label, selected in the accent color, on a flat bar with a divider on top.
+		The implicit TabBarItem style (DefaultTabBarItemStyle) sits under every design-system item style, so it keeps setting the same
+		properties to the same kind of values as before (14 text, primary foreground); the Fluent label size and the rest color are applied in its template.
+	-->
 	<x:Double x:Key="TabBarItemFontSize">12</x:Double>
 	<Thickness x:Key="DefaultBottomTabBarBorderThickness">0,1,0,0</Thickness>
 
@@ -315,13 +322,13 @@
 
 	<Style x:Key="DefaultTabBarItemStyle"
 		   TargetType="utu:TabBarItem">
-		<Setter Property="Foreground" Value="{ThemeResource TabBarItemForeground}" />
+		<Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
 		<Setter Property="Background" Value="{ThemeResource TabBarItemBackground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource TabBarItemBorderBrush}" />
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontWeight" Value="Normal" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
-		<Setter Property="FontSize" Value="{ThemeResource TabBarItemFontSize}" />
+		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -334,7 +341,11 @@
 
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="PointerStates">
-								<VisualState x:Name="Normal" />
+								<VisualState x:Name="Normal">
+									<VisualState.Setters>
+										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource TabBarItemForeground}" />
+									</VisualState.Setters>
+								</VisualState>
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="Plate.Background" Value="{ThemeResource TabBarItemBackgroundPointerOver}" />
@@ -402,7 +413,7 @@
 						<ContentPresenter x:Name="ForegroundScope"
 										  Foreground="{TemplateBinding Foreground}">
 							<StackPanel x:Name="ContentGrid"
-										HorizontalAlignment="Center"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 										VerticalAlignment="Center">
 								<Viewbox x:Name="IconBox"
 										 Width="{ThemeResource TabBarItemIconWidth}"
@@ -414,6 +425,7 @@
 								<ContentPresenter x:Name="ContentPresenter"
 												  Margin="{ThemeResource TabBarItemContentMargin}"
 												  HorizontalAlignment="Center"
+												  FontSize="{ThemeResource TabBarItemFontSize}"
 												  AutomationProperties.AccessibilityView="Raw"
 												  Content="{TemplateBinding Content}"
 												  ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -508,6 +520,7 @@
 								<VisualState x:Name="IconOnly">
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="ContentGrid.HorizontalAlignment" Value="Center" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="ContentOnly">
@@ -634,6 +647,7 @@
 								<VisualState x:Name="IconOnly">
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="ContentGrid.HorizontalAlignment" Value="Center" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="ContentOnly">
@@ -736,7 +750,7 @@
 								</VisualState>
 								<VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
-										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultSegmentedTabBarItemForegroundPressed}" />
+										<Setter Target="ForegroundScope.Foreground" Value="{ThemeResource DefaultSegmentedTabBarItemForegroundSelectedPressed}" />
 										<Setter Target="SelectedPlate.Opacity" Value="1" />
 									</VisualState.Setters>
 								</VisualState>
@@ -761,6 +775,7 @@
 								<VisualState x:Name="IconOnly">
 									<VisualState.Setters>
 										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="ContentGrid.HorizontalAlignment" Value="Center" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="ContentOnly">

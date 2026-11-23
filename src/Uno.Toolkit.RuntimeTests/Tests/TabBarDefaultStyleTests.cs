@@ -156,8 +156,8 @@ public sealed class TabBarDefaultStyleTests
 		var icon = Bounds(Find<ContentPresenter>(item, IconPresenterName), item);
 		var label = Bounds(Find<ContentPresenter>(item, ContentPresenterName), item);
 		Assert.IsTrue(icon.Bottom <= label.Top, $"Icon ({icon}) must be above the label ({label}).");
-		Assert.AreEqual(24d, icon.Width, 0.5, "Icon width");
-		Assert.AreEqual(12d, Find<ContentPresenter>(item, ContentPresenterName).FontSize, "Label size");
+		Assert.AreEqual(Metric("TabBarItemIconWidth"), icon.Width, 0.5, "Icon width");
+		Assert.AreEqual(Metric("TabBarItemFontSize"), Find<ContentPresenter>(item, ContentPresenterName).FontSize, "Label size");
 		var content = icon;
 		content.Union(label);
 		Assert.AreEqual(item.ActualHeight / 2, content.Top + content.Height / 2, 1.5, "Icon and label are centered together.");
@@ -179,7 +179,7 @@ public sealed class TabBarDefaultStyleTests
 	[TestMethod]
 	public void When_ToolkitResourcesLoaded_ImplicitTabBarStyleDoesNotSetTheBarSurface()
 	{
-		// Uno applies the implicit style underneath every explicit one. The Material and Simple TabBar styles do not set
+		// On Uno the implicit style shows through underneath an explicit one (WinUI replaces it). The Material and Simple TabBar styles do not set
 		// BorderBrush or BorderThickness (and some not Background), so a surface here would leak into all of them.
 		var resources = new ToolkitResources();
 		Assert.IsTrue(resources.TryGetValue(typeof(TabBar), out var value) && value is Style, "ToolkitResources must define an implicit TabBar style.");
@@ -201,7 +201,7 @@ public sealed class TabBarDefaultStyleTests
 
 		var items = Enumerable.Range(0, 3).Select(i => Bounds(Item(tabBar, i), tabBar)).ToArray();
 		Assert.AreEqual(0d, items[0].Top, 0.5, "The first item is at the top.");
-		Assert.AreEqual(40d, items[0].Height, 0.5, "Item height");
+		Assert.AreEqual(Metric("DefaultVerticalTabBarItemHeight"), items[0].Height, 0.5, "Item height");
 		Assert.AreEqual(items[0].Bottom, items[1].Top, 0.5, "Items follow each other without gaps.");
 		Assert.IsTrue(tabBar.ActualHeight < root.Height - 100, $"The bar ({tabBar.ActualHeight}) must be as tall as its items, not stretched over the {root.Height} available.");
 		Assert.IsTrue(items.All(x => Math.Abs(x.Width - tabBar.ActualWidth) < 0.5), "Every item is as wide as the bar.");
@@ -220,7 +220,7 @@ public sealed class TabBarDefaultStyleTests
 
 		await Load(tabBar, VerticalStyle);
 
-		Assert.AreEqual(48d, tabBar.ActualWidth, 0.5, "The compact rail is 48 wide.");
+		Assert.AreEqual(Metric("DefaultVerticalTabBarMinWidth"), tabBar.ActualWidth, 0.5, "The compact rail has the minimum width.");
 	}
 
 	[TestMethod]
@@ -234,7 +234,7 @@ public sealed class TabBarDefaultStyleTests
 		var icon = Bounds(Find<ContentPresenter>(item, IconPresenterName), item);
 		var label = Bounds(Find<ContentPresenter>(item, ContentPresenterName), item);
 		Assert.IsTrue(icon.Right <= label.Left, $"Icon ({icon}) must be left of the label ({label}).");
-		Assert.AreEqual(12d, icon.Left, 0.5, "Items are left-aligned with the NavigationView item padding.");
+		Assert.AreEqual(((Thickness)new ToolkitResources()["DefaultVerticalTabBarItemPadding"]).Left, icon.Left, 0.5, "Items are left-aligned with the item padding.");
 		Assert.AreEqual(item.ActualHeight / 2, icon.Top + icon.Height / 2, 1, "Icon vertical centre");
 	}
 
@@ -396,11 +396,16 @@ public sealed class TabBarDefaultStyleTests
 	}
 
 	[TestMethod]
-	public void When_ToolkitResourcesLoaded_HighContrastBrushesResolve()
+	[DataRow("Default")]
+	[DataRow("Light")]
+	[DataRow("HighContrast")]
+	public void When_ToolkitResourcesLoaded_EveryBrushOfEveryTabBarStyleResolves(string theme)
 	{
-		var unresolved = ThemeDictionaryHelper.FindUnresolvedBrushes(new ToolkitResources(), "HighContrast", minimumCount: 30, "TabBar", "DefaultTopTabBar", "DefaultSegmentedTabBar");
+		var unresolved = ThemeDictionaryHelper.FindUnresolvedBrushes(
+			new ToolkitResources(), theme, minimumCount: 40,
+			"TabBar", "DefaultBottomTabBar", "DefaultVerticalTabBar", "DefaultTopTabBar", "DefaultSegmentedTabBar");
 
-		Assert.AreEqual(0, unresolved.Count, $"These TabBar High Contrast keys do not resolve to a brush: {string.Join(", ", unresolved)}");
+		Assert.AreEqual(0, unresolved.Count, $"These TabBar keys do not resolve to a brush in the {theme} theme: {string.Join(", ", unresolved)}");
 	}
 
 	[TestMethod]
@@ -441,13 +446,141 @@ public sealed class TabBarDefaultStyleTests
 
 		foreach (var key in new[]
 		{
-			"TabBarItemBackground", "TabBarItemBackgroundPointerOver", "TabBarItemForeground", "TabBarItemForegroundSelected", "TabBarItemForegroundDisabled",
+			// The 14 brush keys that existed before the Fluent styles: apps override them, so they must stay.
+			"TabBarItemBackground", "TabBarItemBackgroundPointerOver", "TabBarItemBackgroundPressed", "TabBarItemBackgroundSelected", "TabBarItemBackgroundSelectedPointerOver", "TabBarItemBackgroundSelectedPressed",
+			"TabBarItemForeground", "TabBarItemForegroundPointerOver", "TabBarItemForegroundPressed", "TabBarItemForegroundDisabled", "TabBarItemForegroundSelected", "TabBarItemForegroundSelectedPointerOver", "TabBarItemForegroundSelectedPressed",
+			"TabBarItemBorderBrush",
 			"TabBarSelectionIndicatorFill", "DefaultTopTabBarItemForeground", "DefaultSegmentedTabBarBackground",
 			"DefaultBottomTabBarBackground", "DefaultBottomTabBarBorderBrush", "DefaultVerticalTabBarItemBackgroundSelected", "DefaultVerticalTabBarItemForeground", "DefaultVerticalTabBarSelectionIndicatorFill",
 		})
 		{
 			Assert.IsTrue(keys.Contains(key), $"'{key}' is missing from the '{theme}' theme dictionary.");
 		}
+	}
+
+	[TestMethod]
+	[DataRow(null)]
+	[DataRow(TopStyle)]
+	[DataRow(SegmentedStyle)]
+	[DataRow(BottomStyle)]
+	[DataRow(VerticalStyle)]
+	public async Task When_EveryStateIsEntered_TheTemplateHasIt(string? styleKey)
+	{
+		// A state setter that names a missing element throws, and a state that is missing returns false.
+		var tabBar = CreateTabBar(selectedIndex: 0);
+		await Load(tabBar, styleKey);
+		var item = Item(tabBar, 1);
+
+		foreach (var state in new[] { "PointerOver", "Pressed", "Selected", "PointerOverSelected", "PressedSelected", "Normal", "Disabled", "Enabled", "IconOnly", "ContentOnly", "IconOnTop" })
+		{
+			Assert.IsTrue(VisualStateManager.GoToState(item, state, useTransitions: false), $"'{styleKey ?? "(no style)"}' has no '{state}' state.");
+		}
+	}
+
+	[TestMethod]
+	[DataRow(null)]
+	[DataRow(TopStyle)]
+	[DataRow(SegmentedStyle)]
+	[DataRow(BottomStyle)]
+	[DataRow(VerticalStyle)]
+	public async Task When_SelectionIsPreset_SelectionStaysInSync(string? styleKey)
+	{
+		// The vertical and top styles do not use TabBarListPanel, which is what reports back to the TabBar once the panel is loaded.
+		var tabBar = CreateTabBar(selectedIndex: 1);
+		var changes = new List<int>();
+		tabBar.SelectionChanged += (_, _) => changes.Add(tabBar.SelectedIndex);
+
+		await Load(tabBar, styleKey);
+
+		Assert.AreEqual(1, tabBar.SelectedIndex, "SelectedIndex");
+		Assert.AreSame(Item(tabBar, 1), tabBar.SelectedItem, "SelectedItem");
+		Assert.IsTrue(Item(tabBar, 1).IsSelected, "IsSelected of the preset item");
+		Assert.IsFalse(Item(tabBar, 0).IsSelected, "IsSelected of another item");
+
+		tabBar.SelectedIndex = 2;
+		await UnitTestsUIContentHelper.WaitForIdle();
+
+		Assert.AreSame(Item(tabBar, 2), tabBar.SelectedItem, "SelectedItem after a change");
+		Assert.IsTrue(Item(tabBar, 2).IsSelected && !Item(tabBar, 1).IsSelected, "IsSelected follows the selection");
+		CollectionAssert.Contains(changes, 2, "SelectionChanged must be raised when the selection changes.");
+	}
+
+	[TestMethod]
+	public async Task When_VerticalStyleHasIconsOnly_IconIsCenteredInTheCompactRail()
+	{
+		var tabBar = new TabBar { HorizontalAlignment = HorizontalAlignment.Left };
+		for (var i = 0; i < 3; i++)
+		{
+			tabBar.Items.Add(new TabBarItem { Icon = new SymbolIcon(Symbol.Home) });
+		}
+		tabBar.SelectedIndex = 0;
+
+		await Load(tabBar, VerticalStyle);
+
+		var item = Item(tabBar, 0);
+		var icon = Bounds(Find<ContentPresenter>(item, IconPresenterName), item);
+		Assert.AreEqual(item.ActualWidth / 2, icon.Left + icon.Width / 2, 0.5, "The icon is centered in the item, as in NavigationView's compact pane.");
+	}
+
+	private static double Metric(string key)
+	{
+		var resources = new ToolkitResources();
+		Assert.IsTrue(resources.TryGetValue(key, out var value) && value is double, $"'{key}' must be a Double resource.");
+		return (double)value;
+	}
+
+	[TestMethod]
+	[DataRow(null)]
+	[DataRow(TopStyle)]
+	[DataRow(SegmentedStyle)]
+	[DataRow(VerticalStyle)]
+	public async Task When_Styled_ItemTemplatesExposeTheSameParts(string? styleKey)
+	{
+		// TabBarItem looks up "ContentPresenter" by name, and the state groups of every template target the same parts.
+		var tabBar = CreateTabBar();
+
+		await Load(tabBar, styleKey);
+
+		var item = Item(tabBar, 0);
+		foreach (var part in new[] { "LayoutRoot", "Plate", "ForegroundScope", "ContentGrid", "IconBox", IconPresenterName, ContentPresenterName })
+		{
+			Assert.IsNotNull(item.GetDescendants().OfType<FrameworkElement>().FirstOrDefault(x => x.Name == part), $"The item template of '{styleKey ?? "(no style)"}' has no '{part}'.");
+		}
+	}
+
+	[TestMethod]
+	public void When_ToolkitResourcesLoaded_ImplicitTabBarItemStyleSetsOnlyWhatItSetBefore()
+	{
+		// The implicit TabBarItem style sits under every design-system item style on Uno. These are the properties it set
+		// before the Fluent styles; a new one would reach every Material, Simple and Cupertino item that does not set it.
+		var before = new[]
+		{
+			Control.ForegroundProperty, Control.BackgroundProperty, Control.BorderBrushProperty, Control.FontFamilyProperty, Control.FontWeightProperty,
+			Control.FontSizeProperty, Control.UseSystemFocusVisualsProperty, Control.HorizontalContentAlignmentProperty, Control.TemplateProperty,
+		};
+		var resources = new ToolkitResources();
+		Assert.IsTrue(resources.TryGetValue(typeof(TabBarItem), out var value) && value is Style, "ToolkitResources must define an implicit TabBarItem style.");
+
+		for (var style = (Style?)value; style is not null; style = style.BasedOn)
+		{
+			var added = style.Setters.OfType<Setter>().Where(x => !before.Contains(x.Property)).Select(x => x.Property?.ToString() ?? "?").ToArray();
+			Assert.AreEqual(0, added.Length, $"The implicit TabBarItem style (or one it is based on) now also sets {string.Join(", ", added)}.");
+		}
+	}
+
+	[TestMethod]
+	public async Task When_BottomStyle_RestColorKeyStillControlsTheUnselectedItem()
+	{
+		// The rest foreground is applied in the Normal state, not by the item Foreground, so the lightweight key must be tested.
+		var rest = new SolidColorBrush(Microsoft.UI.Colors.Green);
+		var tabBar = CreateTabBar(selectedIndex: 1);
+		var scope = new Grid { Children = { tabBar } };
+		scope.Resources["TabBarItemForeground"] = rest;
+
+		await Load(scope, tabBar, styleKey: null, ElementTheme.Light);
+
+		Assert.AreEqual(rest.Color, ForegroundOf(Item(tabBar, 0)), "Unselected item");
+		Assert.AreNotEqual(rest.Color, ForegroundOf(Item(tabBar, 1)), "The selected item does not use the rest key.");
 	}
 
 	private static TabBar CreateTabBar(int selectedIndex = 0)
