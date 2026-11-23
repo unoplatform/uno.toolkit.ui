@@ -241,6 +241,36 @@ public sealed class NavigationBarDefaultStyleTests
 	}
 
 	[TestMethod]
+	public void When_ToolkitResourcesLoaded_ImplicitNavigationBarStyleSetsOnlyKnownProperties()
+	{
+		// On Uno the implicit NavigationBar style sits under every explicit design-system style. The first group is what it set
+		// before the Fluent style. The second is new: Material v1 sets the title and glyph fonts on its own template parts and
+		// its command bar sets its own alignment, and Material v2 defines its own implicit style, so none of them reach a
+		// design-system bar. A property outside both groups would, so it has to go in the template instead.
+		var setBeforeFluent = new[]
+		{
+			Control.BackgroundProperty, Control.ForegroundProperty, FrameworkElement.HorizontalAlignmentProperty, FrameworkElement.VerticalAlignmentProperty,
+			NavigationBar.OverflowButtonVisibilityProperty, NavigationBar.IsDynamicOverflowEnabledProperty, NavigationBar.MainCommandStyleProperty,
+			SafeArea.InsetsProperty, Control.TemplateProperty,
+		};
+		var addedByFluent = new[]
+		{
+			Control.HorizontalContentAlignmentProperty, Control.VerticalContentAlignmentProperty, Control.FontFamilyProperty, Control.FontSizeProperty,
+		};
+		var resources = new ToolkitResources();
+		Assert.IsTrue(resources.TryGetValue(typeof(NavigationBar), out var value) && value is Style, "ToolkitResources must define an implicit NavigationBar style.");
+
+		for (var style = (Style?)value; style is not null; style = style.BasedOn)
+		{
+			var unknown = style.Setters.OfType<Setter>()
+				.Where(x => !setBeforeFluent.Contains(x.Property) && !addedByFluent.Contains(x.Property))
+				.Select(x => x.Property?.ToString() ?? "?")
+				.ToArray();
+			Assert.AreEqual(0, unknown.Length, $"The implicit NavigationBar style (or one it is based on) now also sets {string.Join(", ", unknown)}.");
+		}
+	}
+
+	[TestMethod]
 	public void When_ToolkitResourcesLoaded_HighContrastBrushesResolve()
 	{
 		var unresolved = ThemeDictionaryHelper.FindUnresolvedBrushes(new ToolkitResources(), "HighContrast", minimumCount: 14, "NavigationBar");
