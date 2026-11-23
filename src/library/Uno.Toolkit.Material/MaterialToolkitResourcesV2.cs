@@ -20,20 +20,11 @@ namespace Uno.Toolkit.UI.Material
 	[Deprecated("Resource initialization for the Toolkit Material theme should now be done using the MaterialToolkitTheme class instead.", DeprecationType.Deprecate, 3)]
 	public class MaterialToolkitResourcesV2 : ResourceDictionary
 	{
-#if IS_WINUI
-		private const string PackageName =
-			"Uno.Toolkit.WinUI.Material";
-		private const string PackageNameSuffix =
-			"WinUI";
-#else
-		private const string PackageName =
-			"Uno.Toolkit.UI.Material";
-		private const string PackageNameSuffix =
-			"UWP";
-#endif
+		private const string PackageName = "Uno.Toolkit.WinUI.Material";
+
 		public MaterialToolkitResourcesV2()
 		{
-			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.{PackageNameSuffix}.v2.xaml");
+			Source = new Uri($"ms-appx:///{PackageName}/Generated/mergedpages.v2.xaml");
 
 			MergedDictionaries.Add(new MaterialFonts());
 			MergedDictionaries.Add(new MaterialColorsV2());

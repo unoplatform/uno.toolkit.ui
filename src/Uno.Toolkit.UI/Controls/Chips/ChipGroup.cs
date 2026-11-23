@@ -267,7 +267,7 @@ namespace Uno.Toolkit.UI
 				var args = new ChipItemRemovingEventArgs(ItemFromContainer(container));
 				args.Cancel = e.Cancel;
 
-				ItemRemoving?.Invoke(this, new ChipItemRemovingEventArgs(ItemFromContainer(container)));
+				ItemRemoving?.Invoke(this, args);
 				e.Cancel = args.Cancel;
 			}
 		}
@@ -276,6 +276,9 @@ namespace Uno.Toolkit.UI
 		{
 			if (sender is Chip container)
 			{
+				// resolve the item before removing it, as ItemFromContainer can no longer find it afterward
+				var item = ItemFromContainer(container);
+
 				// there isn't much that can be done here if the item is generated from an ItemsSource
 				// in such case, the removal should be handled from the source provider (view-model or code-behind)
 
@@ -286,7 +289,7 @@ namespace Uno.Toolkit.UI
 					Items.RemoveAt(index);
 				}
 
-				RaiseItemEvent(ItemRemoved, sender);
+				ItemRemoved?.Invoke(this, new ChipItemEventArgs(item));
 			}
 		}
 

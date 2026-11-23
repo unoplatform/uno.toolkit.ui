@@ -204,7 +204,7 @@ namespace Uno.Toolkit.UI
 			if (e.Key != VirtualKey.Enter) return;
 
 			// handle enter command
-			CommandExtensions.TryInvokeCommand(host, CommandExtensions.GetCommandParameter(host) ?? GetInputParameter());
+			CommandExtensions.TryInvokeCommand(host, CommandExtensions.GetCommandParameter(host) ?? GetInputParameter(host));
 
 #if HAS_UNO
 			// dismiss keyboard
@@ -241,16 +241,16 @@ namespace Uno.Toolkit.UI
 
 				target?.Focus(FocusState.Keyboard);
 			}
-
-			object? GetInputParameter() => sender switch
-			{
-				TextBox tb => tb.Text,
-#if !HAS_UNO // note: on uno, PasswordBox inherits from TextBox which isnt the case on uwp...
-				PasswordBox pb => pb.Password,
-#endif
-
-				_ => default,
-			};
 		}
+
+		/// <summary>
+		/// Gets the parameter passed to <see cref="CommandExtensions.CommandProperty"/> on enter, when <see cref="CommandExtensions.CommandParameterProperty"/> is not set.
+		/// </summary>
+		internal static object? GetInputParameter(DependencyObject host) => host switch
+		{
+			TextBox tb => tb.Text,
+			PasswordBox pb => pb.Password,
+			_ => default,
+		};
 	}
 }
