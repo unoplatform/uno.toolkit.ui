@@ -58,7 +58,7 @@ Without a design-system library, a `NavigationBar` uses the default Fluent style
 * The bar is 48 high with a transparent background.
 * The title is left-aligned and uses the WinUI Subtitle text style (20, SemiBold). Set `HorizontalContentAlignment="Center"` to center it.
 * The main command is a 40 x 36 back button with hover and pressed feedback. Without an `Icon`, it shows the back arrow glyph of the Segoe Fluent Icons font; set `Icon` to show something else, such as a close icon.
-* Primary commands are icon buttons: their labels are hidden to keep the bar 48 high, because `NavigationBar.DefaultLabelPosition` is not passed to the inner `CommandBar`.
+* Primary commands are icon buttons: their labels are hidden to keep the bar 48 high, because `NavigationBar.DefaultLabelPosition` is not passed to the inner `CommandBar`. An `AppBarButton` without an `Icon` is therefore empty. For a text command, put a `Button` in an `AppBarElementContainer`.
 * The overflow button only appears when there are secondary commands.
 
 ```xml
@@ -162,6 +162,7 @@ Gets or sets a `Brush` that describes the foreground color.
 Remarks:
 
 * This is typically used to change the text color of the `Content`.
+* The commands of the bar use their own implicit `AppBarButton` style, so an implicit `AppBarButton` style of the app does not reach them. Set the `Style` of each `AppBarButton` to change that.
 * The `AppBarButton`s take their colors from their own styles. To change them, set `Foreground` on each `AppBarButton`, or use `MainCommandStyle` for the `MainCommand`.
 
 ### PrimaryCommands
@@ -252,6 +253,9 @@ The `Label` behaves like the `Label` of any other `AppBarButton`. It is not repl
 #### Foreground
 
 Gets or sets the back button foreground for the `MainCommand`.
+
+> [!NOTE]
+> In the default style, `Foreground` colors the `MainCommand` at rest. While it is hovered, pressed or disabled, the colors come from the `NavigationBarMainCommandForeground*` keys.
 
 ```xml
 <utu:NavigationBar Content="Title">

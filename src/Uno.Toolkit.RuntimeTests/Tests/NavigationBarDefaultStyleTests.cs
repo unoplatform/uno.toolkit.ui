@@ -241,6 +241,34 @@ public sealed class NavigationBarDefaultStyleTests
 	}
 
 	[TestMethod]
+	public async Task When_PrimaryCommandHasOnlyALabel_TheLabelIsNotShown()
+	{
+		// Documents the icon-only convention of the primary commands: a command needs an Icon to be visible.
+		var navBar = new NavigationBar { Content = Title };
+		navBar.PrimaryCommands.Add(new AppBarButton { Label = "LabelOnlyCommand" });
+
+		await Load(navBar);
+
+		var shown = navBar.GetDescendants().OfType<TextBlock>().Any(x => x.Text == "LabelOnlyCommand" && x.ActualWidth > 0 && x.Visibility == Visibility.Visible);
+		Assert.IsFalse(shown, "Primary command labels are hidden to keep the bar compact.");
+	}
+
+	[TestMethod]
+	public async Task When_PrimaryCommandIsAButtonInAContainer_ItsTextIsShownInTheBar()
+	{
+		// The way to get a text command, since AppBarButton labels are hidden.
+		var navBar = new NavigationBar { Content = Title };
+		navBar.PrimaryCommands.Add(new AppBarElementContainer { Content = new Button { Content = "Done" } });
+
+		await Load(navBar);
+
+		var done = navBar.GetDescendants().OfType<TextBlock>().FirstOrDefault(x => x.Text == "Done");
+		Assert.IsNotNull(done, "The button text was not found.");
+		Assert.IsTrue(done.ActualWidth > 0 && Bounds(done, navBar).Bottom <= BarHeight + 0.5, "The text must be laid out inside the bar.");
+		Assert.AreEqual(BarHeight, navBar.ActualHeight, 0.5, "Bar height");
+	}
+
+	[TestMethod]
 	public void When_ToolkitResourcesLoaded_ImplicitNavigationBarStyleSetsOnlyKnownProperties()
 	{
 		// On Uno the implicit NavigationBar style sits under every explicit design-system style. The first group is what it set

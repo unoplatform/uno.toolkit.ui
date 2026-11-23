@@ -36,9 +36,11 @@
 				</AppBarButton>
 			</utu:NavigationBar.MainCommand>
 			<utu:NavigationBar.PrimaryCommands>
-				<AppBarButton Label="More"
+				<AppBarButton Icon="Add"
+							  Label="Add"
 							  Style="{StaticResource DefaultAppBarButtonStyle}" />
-				<AppBarButton Label="More"
+				<AppBarButton Icon="Edit"
+							  Label="Edit"
 							  Style="{StaticResource DefaultAppBarButtonStyle}" />
 			</utu:NavigationBar.PrimaryCommands>
 			<utu:NavigationBar.SecondaryCommands>
