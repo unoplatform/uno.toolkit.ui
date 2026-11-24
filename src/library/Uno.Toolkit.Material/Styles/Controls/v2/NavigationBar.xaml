@@ -55,7 +55,6 @@
 
 			<x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
 			<x:Double x:Key="MaterialXamlNavigationBarHeight">64</x:Double>
-			<x:Double x:Key="MaterialNavigationBarHeight">64</x:Double>
 			<Thickness x:Key="MaterialNavigationBarContentMargin">16,0</Thickness>
 			<Thickness x:Key="MaterialAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
 
@@ -113,7 +112,6 @@
 
 			<x:Double x:Key="MaterialNavigationBarElevation">4</x:Double>
 			<x:Double x:Key="MaterialXamlNavigationBarHeight">64</x:Double>
-			<x:Double x:Key="MaterialNavigationBarHeight">64</x:Double>
 			<Thickness x:Key="MaterialNavigationBarContentMargin">16,0</Thickness>
 
 			<Thickness x:Key="MaterialAppBarEllipsisButtonInnerBorderMargin">2,6,6,6</Thickness>
