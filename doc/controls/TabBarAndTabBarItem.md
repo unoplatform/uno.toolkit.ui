@@ -264,6 +264,8 @@ For responsive layouts where different `TabBar` instances are shown based on scr
 </utu:TabBar>
 ```
 
+On iOS 27.1 devices that show a vertical bar along one side of the screen, such as the iPhone Duo cover screen, native tab bars move into that strip. The window width doesn't change, so `Responsive` can't detect it. See [Put the TabBar in the iOS vertical bar](walkthroughs/TabBar-and-TabBarItem.howto.md#put-the-tabbar-in-the-ios-vertical-bar).
+
 ## Styling `TabBar` & `TabBarItem`
 
 Without a design-system library, `TabBar` and `TabBarItem` use the default Fluent styles that ship in `Uno.Toolkit.UI`. Each one follows the Fluent control that does the same job:
@@ -475,6 +477,7 @@ The default styles use `DefaultTabBarItemStyle` (icon above label), and `Default
 | `DefaultTopTabBarItemStyle`          | &check;  |          |           |
 | `DefaultVerticalTabBarItemStyle`     | &check;  |          |           |
 | `TopTabBarItemStyle`                 |          | &check;  |           |
+| `VerticalFabTabBarItemStyle`         |          | &check;  |           |
 | `VerticalTabBarItemStyle`            |          | &check;  |           |
 
 > [!IMPORTANT]

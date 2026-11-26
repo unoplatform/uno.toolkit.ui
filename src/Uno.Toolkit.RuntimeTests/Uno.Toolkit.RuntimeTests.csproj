@@ -14,6 +14,9 @@
     <!-- Uno.UI.RuntimeTests.Engine's UnitTestsControl.xaml still uses the removed skia/not_skia prefixes
          (unoplatform/uno.ui.runtimetests.engine#227); they only pick emoji vs plain-text button labels. -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);UXAML0007</WarningsNotAsErrors>
+    <!-- The Markup reference is only read by reflection; keep the C# Markup packages' global usings
+         (e.g. Uno.UI.Xaml.Controls, which makes CommandBarExtensions ambiguous) out of this project. -->
+    <EnableUnoCSMUsings>false</EnableUnoCSMUsings>
 
     <!--
       UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
@@ -36,6 +39,8 @@
     <ProjectReference Include="..\Uno.Toolkit.UI\Uno.Toolkit.WinUI.csproj" />
     <ProjectReference Include="..\library\Uno.Toolkit.Material\Uno.Toolkit.WinUI.Material.csproj" />
     <ProjectReference Include="..\library\Uno.Toolkit.Simple\Uno.Toolkit.WinUI.Simple.csproj" />
+    <!-- MarkupThemeKeyTests reads the C# Markup resource keys to check that every theme defines them. -->
+    <ProjectReference Include="..\library\Uno.Toolkit.WinUI.Markup\Uno.Toolkit.WinUI.Markup.csproj" />
     <ProjectReference Include="..\Uno.Toolkit.Skia.WinUI\Uno.Toolkit.Skia.WinUI.csproj" />
   </ItemGroup>
   <Import Project="..\winappsdk-workaround.targets" />

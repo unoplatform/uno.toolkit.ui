@@ -42,6 +42,11 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		{
 			Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialVerticalBarSampleNestedPage>(clearStack: true);
 		}
+
+		private void ShowM3MaterialIOSVerticalBarSampleInNestedFrame(object sender, RoutedEventArgs e)
+		{
+			Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialIOSVerticalBarSampleNestedPage>(clearStack: true);
+		}
 	}
 
 	public class TabBarViewModel : ViewModelBase
