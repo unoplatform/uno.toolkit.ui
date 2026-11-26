@@ -19,6 +19,14 @@ every agent on this repo go here (or in `AGENTS.md` / a skill's `SKILL.md`), nev
 
 **How to apply:** For a control with several roles, render each role inside a realistic page (shell, content, neighbours) before polishing states. Read the platform guidance for the role (Fluent 2 sources, `NavigationView` resources) and write down what it says about indicators and sizes first. Check whether the control's panel or template forces a layout the guidance does not use, and whether a style alone can change it.
 
+## A design reference linked from an issue is a source: open it before saying none exists
+
+**2026-11-16 — Fluent Chip style (#1328).**
+
+**Context:** #1328 points at the Pill in the Windows UI Kit Figma file and attaches an image of it. The audit only searched the WinUI source, found no chip or pill control there, and reported that there was no primary source for the look. The first Chip style was modelled on `ToggleButton` alone and shipped the button's elevation border, which the Pill does not have. The user had to point back at the link.
+
+**How to apply:** Read every link and attachment in the issue before auditing code. When the reference is an image, download it (`gh auth token` works for `user-attachments` URLs) and measure fills, borders and text per state against the theme tokens instead of eyeballing it. "Not in the WinUI source" and "no reference exists" are different findings; report which one was checked.
+
 ## No convention-by-reflection API without a consumer that needs it
 
 **2026-10-27 — SkeletonView (#1669).**
