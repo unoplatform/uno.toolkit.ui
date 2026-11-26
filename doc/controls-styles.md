@@ -9,7 +9,7 @@ The `Uno.Toolkit.UI` library adds the following controls:
 
 - `AutoLayout`: A custom panel used by the [Figma plugin](https://platform.uno/unofigma/) to bridge the gap between Figma and UWP/WinUI layout implementation.
 - [`Card` and `CardContentControl`](controls/CardAndCardContentControl.md): \[Material control\] Cards contain content and actions that relate information about a subject.
-- [`Chip` and `ChipGroup`](controls/ChipAndChipGroup.md): \[Material control\] Chips are compact elements that represent an input, attribute, or action.
+- [`Chip` and `ChipGroup`](controls/ChipAndChipGroup.md): Chips are compact elements that represent an input, attribute, or action.
 - [`Divider`](controls/Divider.md): \[Material control\] A divider is a thin line that groups content in lists and layouts.
 - [`DrawerControl`](controls/DrawerControl.md): A container to display additional content, in a hidden pane that can be revealed using a swipe gesture, like a drawer.
 - [`DrawerFlyoutPresenter`](controls/DrawerFlyoutPresenter.md): A specialized `ContentPresenter` to be used in the template of a `FlyoutPresenter` to enable gesture support.
@@ -36,6 +36,19 @@ The `Uno.Toolkit.UI` library adds the following helper classes:
 Exposes visual states as attachable properties that lets you bind a string on a `Control` to set its `VisualState`s.
 
 ## Control Styles
+
+### Default (Fluent) styles
+
+These styles ship in `Uno.Toolkit.UI` itself and are always available by key. The ones marked True are also applied implicitly, unless a design-system package provides its own implicit style.
+
+| Control         | Style Key               | IsDefaultStyle\* |
+|-----------------|-------------------------|------------------|
+| `utu:Chip`      | `DefaultChipStyle`      | True             |
+| `utu:ChipGroup` | `DefaultChipGroupStyle` | True             |
+
+### Design system styles
+
+These keys are provided by the design-system Toolkit libraries, such as Material.
 
 | Control                  | Style Key                          | IsDefaultStyle\* |
 |--------------------------|------------------------------------|-----------------|
