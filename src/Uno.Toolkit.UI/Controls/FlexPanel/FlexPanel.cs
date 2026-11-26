@@ -444,6 +444,7 @@ public partial class FlexPanel : Panel
 				childNode = new YogaNode(_yogaConfig);
 				_nodeCache[child] = childNode;
 				childNode.MeasureFunction = CreateMeasureFunction(child);
+				childNode.BaselineFunction = CreateBaselineFunction(child);
 			}
 
 			ApplyAttachedProperties(child, childNode);
@@ -555,6 +556,30 @@ public partial class FlexPanel : Panel
 			return new YogaSize(Math.Max(0, measuredWidth), Math.Max(0, measuredHeight));
 		};
 	}
+
+	/// <summary>
+	/// Builds the bridge that gives the layout engine a child's first baseline, for
+	/// <see cref="FlexAlign.Baseline"/>.
+	/// </summary>
+	/// <remarks>
+	/// The engine works on leaf nodes and cannot see into a child's content, so without this every
+	/// child would get the baseline the engine synthesizes from its bottom edge. Only a
+	/// <see cref="TextBlock"/> and a nested <see cref="FlexPanel"/> report one; any other child keeps
+	/// the bottom-edge baseline, which is also what CSS synthesizes for a box without text. Both are
+	/// read after the child has been measured, which is when the engine asks.
+	/// </remarks>
+	private static YogaBaselineFunc? CreateBaselineFunction(UIElement child) => child switch
+	{
+		// BaselineOffset is measured from the text's content box, so the top padding is added to
+		// make it relative to the node's top edge. The margin is outside the node already.
+		TextBlock text => (_, _, _) => (float)(text.Padding.Top + text.BaselineOffset),
+
+		// A nested panel's baseline is that of its first baseline-aligned child, or else its first
+		// child, as in CSS. The engine resolves that from the inner tree's last layout.
+		FlexPanel panel => (_, _, _) => BaselineHelper.CalculateBaseline(panel._rootNode),
+
+		_ => null,
+	};
 
 	private static void ApplyAttachedProperties(UIElement element, YogaNode node)
 	{
