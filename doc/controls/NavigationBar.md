@@ -301,7 +301,7 @@ Any `IconElement` can be used.
 
 ## Lightweight Styling
 
-The default style and the design systems use their own keys. Some names are shared, such as `NavigationBarBackground` and `NavigationBarForeground`, but the height and content margin are not: the default style uses `NavigationBarHeight` and `NavigationBarContentMargin`, while Material uses the `MaterialNavigationBar*` keys listed below.
+The default style and the design systems use their own keys. Some names are shared, such as `NavigationBarBackground` and `NavigationBarForeground`, but the height and content margin are not: the default style uses `NavigationBarHeight` and `NavigationBarContentMargin`, Material uses `MaterialXamlNavigationBarHeight` and `MaterialNavigationBarContentMargin`, and Simple sizes its bar with `XamlNavigationBarHeight` (its `NavigationBarHeight` is no longer applied). All are listed below.
 
 ### Default (Fluent)
 
