@@ -160,12 +160,6 @@ namespace Uno.Toolkit.UI
 		}
 		internal static object? TryGetItemCommandParameter(DependencyObject? container)
 		{
-			if (container is ListViewItem)
-			{
-				// fixme: it doesn't work here, because we came from ListView::ItemClick,
-				// and when that happens the SelectedIndex not yet set.
-				return null;
-			}
 			if (container is { })
 			{
 				// we can have two scenarios here: // where the CommandParameter property can be assigned to
@@ -195,7 +189,9 @@ namespace Uno.Toolkit.UI
 		{
 			if (sender is not ListViewBase host) return;
 
-			TryInvokeCommand(host, /*TryGetItemCommandParameter(host.ContainerFromIndex(host.SelectedIndex)) ??*/ e.ClickedItem);
+			// The container is resolved from the clicked item, since SelectedIndex is not yet updated when ItemClick is raised
+			// (and never is with SelectionMode=None).
+			TryInvokeCommand(host, TryGetItemCommandParameter(host.ContainerFromItem(e.ClickedItem)) ?? e.ClickedItem);
 		}
 		private static void OnSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{

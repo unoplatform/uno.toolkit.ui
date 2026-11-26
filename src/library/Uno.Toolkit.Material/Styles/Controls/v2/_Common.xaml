@@ -59,5 +59,6 @@
 	<StaticResource x:Key="VerticalTabBarStyle" ResourceKey="MaterialVerticalTabBarStyle" />
 	<StaticResource x:Key="VerticalTabBarItemStyle" ResourceKey="MaterialVerticalTabBarItemStyle" />
 	<StaticResource x:Key="FabTabBarItemStyle" ResourceKey="MaterialFabTabBarItemStyle" />
+	<StaticResource x:Key="VerticalFabTabBarItemStyle" ResourceKey="MaterialVerticalFabTabBarItemStyle" />
 	<StaticResource x:Key="NavigationTabBarItemStyle" ResourceKey="MaterialNavigationTabBarItemStyle" />
 </ResourceDictionary>
