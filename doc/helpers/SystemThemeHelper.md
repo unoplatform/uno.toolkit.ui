@@ -15,11 +15,9 @@ Provides utilities for managing and retrieving the current theme of the operatin
 | Method                       | Return Type             | Description                                                                                                   |
 |------------------------------|-------------------------|---------------------------------------------------------------------------------------------------------------|
 | `GetCurrentOsTheme()`        | `ApplicationTheme`      | Retrieves the current theme of the operating system.                          |
-| `GetApplicationTheme()`      | `ApplicationTheme`      | **[Obsolete]** Retrieves the current theme of the application. Will be removed in future versions.           |
 | `GetRootTheme(XamlRoot?)`    | `ApplicationTheme`      | Gets the `ApplicationTheme` of the provided `XamlRoot`, or falls back to the operating system theme.          |
 | `GetRootTheme(FrameworkElement?)` | `ApplicationTheme` | Gets the `ApplicationTheme` of the provided root element, or falls back to the operating system theme. Use when the app is hosted under a `XamlRoot` it doesn't own (e.g. ALC-hosted), where `XamlRoot.Content` is the host's root. |
 | `GetRootTheme(Window?)`      | `ApplicationTheme`      | Gets the `ApplicationTheme` of the provided window's content, or falls back to the operating system theme.   |
-| `IsAppInDarkMode()`          | `bool`                 | **[Obsolete]** Returns `true` if the application is currently in dark mode, otherwise `false`.               |
 | `IsRootInDarkMode(XamlRoot)` | `bool`                 | Determines if the provided `XamlRoot` is in dark mode.                                                       |
 | `IsRootInDarkMode(FrameworkElement)` | `bool`        | Determines if the provided root element is in dark mode.                                                     |
 | `IsRootInDarkMode(Window)`   | `bool`                 | Determines if the provided window's content is in dark mode.                                                 |
@@ -47,14 +45,12 @@ Console.WriteLine($"Current App Theme: {appTheme}");
 
 | Method                              | Description                                                                                  |
 |-------------------------------------|----------------------------------------------------------------------------------------------|
-| `SetApplicationTheme(bool)`         | **[Obsolete]** Sets the application theme to dark mode if `darkMode` is `true`, otherwise light mode. Will be removed in future versions. |
 | `SetRootTheme(XamlRoot?, bool)`     | Sets the theme for the provided `XamlRoot` based on the `darkMode` parameter.              |
 | `SetRootTheme(FrameworkElement?, bool)` | Sets the theme for the provided root element (and its subtree) based on the `darkMode` parameter. Use when the app is hosted under a `XamlRoot` it doesn't own (e.g. ALC-hosted), where `XamlRoot.Content` is the host's root. |
 | `SetRootTheme(Window?, bool)`       | Sets the theme for the provided window's content based on the `darkMode` parameter.        |
 | `SetApplicationTheme(XamlRoot?, ElementTheme)` | Sets the `ElementTheme` (`Light` or `Dark`) for the provided `XamlRoot`. |
 | `SetApplicationTheme(FrameworkElement?, ElementTheme)` | Sets the `ElementTheme` (`Light` or `Dark`) on the provided root element, theming its whole subtree. |
 | `SetApplicationTheme(Window?, ElementTheme)` | Sets the `ElementTheme` (`Light` or `Dark`) on the provided window's content. |
-| `ToggleApplicationTheme()`          | **[Obsolete]** Toggles the application theme between light and dark modes. Will be removed in future versions. |
 
 ### Usage
 

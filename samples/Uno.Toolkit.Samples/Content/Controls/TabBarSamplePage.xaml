@@ -686,6 +686,10 @@
 							Click="ShowM3MaterialVerticalBarSampleInNestedFrame"
 							Style="{StaticResource OutlinedButtonStyle}" />
 
+					<Button Content="Show iOS Vertical Bar Sample"
+							Click="ShowM3MaterialIOSVerticalBarSampleInNestedFrame"
+							Style="{StaticResource OutlinedButtonStyle}" />
+
 					<ContentControl Height="500"
 									Template="{StaticResource TabBarSampleTemplate}">
 						<utu:TabBar Style="{StaticResource VerticalTabBarStyle}">

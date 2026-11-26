@@ -148,21 +148,21 @@ This is handy for diagnostics on platforms where theme can change underneath.
 
 ---
 
-## 7. Migrate away from obsolete methods
+## 7. Migrate away from removed methods
 
-The original helper exposes some members marked **[Obsolete]**:
+The following members were marked **[Obsolete]** and have now been **removed**. They always threw `NotSupportedException` on WinUI, since they relied on `Window.Current`:
 
-* `GetApplicationTheme()` – obsolete
-* `IsAppInDarkMode()` – obsolete
-* `SetApplicationTheme(bool)` – obsolete
-* `ToggleApplicationTheme()` – obsolete
+* `GetApplicationTheme()` – removed
+* `IsAppInDarkMode()` – removed
+* `SetApplicationTheme(bool)` – removed
+* `ToggleApplicationTheme()` – removed
 
 ### 7.1 If you used `GetApplicationTheme()`
 
-**Before (obsolete):**
+**Before (removed):**
 
 ```csharp
-var theme = SystemThemeHelper.GetApplicationTheme(); // obsolete
+var theme = SystemThemeHelper.GetApplicationTheme(); // removed
 ```
 
 **After (recommended):**
@@ -178,10 +178,10 @@ Why: the new version is root-aware.
 
 ### 7.2 If you used `IsAppInDarkMode()`
 
-**Before (obsolete):**
+**Before (removed):**
 
 ```csharp
-var isDark = SystemThemeHelper.IsAppInDarkMode(); // obsolete
+var isDark = SystemThemeHelper.IsAppInDarkMode(); // removed
 ```
 
 **After (recommended):**
@@ -197,7 +197,7 @@ Why: again, this works for the current visual root.
 
 ### 7.3 If you used `SetApplicationTheme(bool)`
 
-**Before (obsolete):**
+**Before (removed):**
 
 ```csharp
 SystemThemeHelper.SetApplicationTheme(true); // dark
@@ -223,10 +223,10 @@ Hosted under a `XamlRoot` the app doesn't own: use the root element / window ove
 
 ### 7.4 If you used `ToggleApplicationTheme()`
 
-**Before (obsolete):**
+**Before (removed):**
 
 ```csharp
-SystemThemeHelper.ToggleApplicationTheme(); // obsolete
+SystemThemeHelper.ToggleApplicationTheme(); // removed
 ```
 
 **After (manual toggle):**

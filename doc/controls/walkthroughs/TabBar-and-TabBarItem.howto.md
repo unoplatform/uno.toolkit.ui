@@ -130,6 +130,188 @@ This wires TabBar selection to a named region for navigation. ([Uno Platform][2]
 
 ---
 
+## Put the TabBar in the iOS vertical bar
+
+**Goal:** place the tabs where native iOS apps put them on devices with a vertical bar, such as the cover screen of the iPhone Duo.
+
+**Packages:** `Uno.Toolkit.UI` + `Uno.Toolkit.UI.Material`
+
+Starting with iOS 27.1, some devices show a *vertical bar*: a strip along one side of the screen that holds the status bar. On the iPhone Duo cover screen it is 84 pt wide, on the right in portrait and on the left in landscape. Native tab bars move into this strip as an icon-only vertical bar. iOS reports the strip as a left or right safe-area inset. A bottom `TabBar` with `utu:SafeArea` stays clear of it, but the strip is left empty.
+
+![A bottom TabBar on the iPhone Duo cover screen, with the vertical bar on the right left empty](../../assets/tabbar-ios-vertical-bar-empty.png)
+
+The window width doesn't change when the strip appears, so `{utu:Responsive}` can't detect it. Read the iOS `VerticalBarEdge` trait instead, and show an icon-only vertical `TabBar` inside the strip:
+
+```xml
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:utu="using:Uno.Toolkit.UI">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Page content -->
+        <Grid utu:SafeArea.Insets="Left,Top,Right">
+            <!-- ... -->
+        </Grid>
+
+        <!-- Default: bottom TabBar -->
+        <utu:TabBar x:Name="BottomTabBar"
+                    Grid.Row="1"
+                    SelectedIndex="0"
+                    Style="{StaticResource BottomTabBarStyle}">
+            <utu:TabBarItem Content="Home">
+                <utu:TabBarItem.Icon><SymbolIcon Symbol="Home"/></utu:TabBarItem.Icon>
+            </utu:TabBarItem>
+            <utu:TabBarItem Content="Search">
+                <utu:TabBarItem.Icon><SymbolIcon Symbol="Find"/></utu:TabBarItem.Icon>
+            </utu:TabBarItem>
+            <utu:TabBarItem Content="Library">
+                <utu:TabBarItem.Icon><SymbolIcon Symbol="Library"/></utu:TabBarItem.Icon>
+            </utu:TabBarItem>
+            <utu:TabBarItem Content="Settings">
+                <utu:TabBarItem.Icon><SymbolIcon Symbol="Setting"/></utu:TabBarItem.Icon>
+            </utu:TabBarItem>
+        </utu:TabBar>
+
+        <!-- iOS vertical bar: icon-only TabBar inside the strip, placed from code -->
+        <Grid x:Name="VerticalBarHost"
+              Grid.RowSpan="2"
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed"
+              utu:SafeArea.Insets="Bottom">
+            <Border Margin="8"
+                    CornerRadius="32"
+                    Background="{ThemeResource SurfaceBrush}">
+                <!-- The vertical TabBar fills the height it gets, so size it to its items -->
+                <utu:TabBar Height="240"
+                            MinWidth="0"
+                            Padding="0,8"
+                            Background="Transparent"
+                            SelectedIndex="{Binding SelectedIndex, ElementName=BottomTabBar, Mode=TwoWay}"
+                            Style="{StaticResource VerticalTabBarStyle}"
+                            utu:SafeArea.Insets="None">
+                    <utu:TabBarItem>
+                        <utu:TabBarItem.Icon><SymbolIcon Symbol="Home"/></utu:TabBarItem.Icon>
+                    </utu:TabBarItem>
+                    <utu:TabBarItem>
+                        <utu:TabBarItem.Icon><SymbolIcon Symbol="Find"/></utu:TabBarItem.Icon>
+                    </utu:TabBarItem>
+                    <utu:TabBarItem>
+                        <utu:TabBarItem.Icon><SymbolIcon Symbol="Library"/></utu:TabBarItem.Icon>
+                    </utu:TabBarItem>
+                    <utu:TabBarItem>
+                        <utu:TabBarItem.Icon><SymbolIcon Symbol="Setting"/></utu:TabBarItem.Icon>
+                    </utu:TabBarItem>
+                </utu:TabBar>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
+```
+
+```csharp
+#if IOS27_1_OR_GREATER
+using UIKit;
+using Uno.Toolkit.UI;
+using Windows.UI.ViewManagement;
+#endif
+
+public sealed partial class MainPage : Page
+{
+    public MainPage()
+    {
+        this.InitializeComponent();
+#if IOS27_1_OR_GREATER
+        Loaded += (_, _) =>
+        {
+            _appView = ApplicationView.GetForCurrentView();
+            _appView.VisibleBoundsChanged += OnVisibleBoundsChanged;
+            _xamlRoot = XamlRoot;
+            if (_xamlRoot is not null)
+            {
+                _xamlRoot.Changed += OnXamlRootChanged;
+            }
+            UpdateTabBarPlacement();
+        };
+        Unloaded += (_, _) =>
+        {
+            if (_appView is not null)
+            {
+                _appView.VisibleBoundsChanged -= OnVisibleBoundsChanged;
+            }
+            if (_xamlRoot is not null)
+            {
+                _xamlRoot.Changed -= OnXamlRootChanged;
+            }
+        };
+#endif
+    }
+
+#if IOS27_1_OR_GREATER
+    private ApplicationView? _appView;
+    private XamlRoot? _xamlRoot;
+
+    // The vertical bar can appear after launch without a size change.
+    private void OnVisibleBoundsChanged(ApplicationView sender, object args) => UpdateTabBarPlacement();
+
+    // On rotation, VisibleBoundsChanged is raised before the window size is updated, so update again once it is.
+    private void OnXamlRootChanged(XamlRoot sender, XamlRootChangedEventArgs args) => UpdateTabBarPlacement();
+
+    private void UpdateTabBarPlacement()
+    {
+        // iOS reports the strip as a left or right safe-area inset.
+        var insets = SafeArea.WindowInsets;
+        var stripWidth = HasVerticalBar() ? Math.Max(insets.Left, insets.Right) : 0;
+        var useStrip = stripWidth > 0;
+
+        BottomTabBar.Visibility = useStrip ? Visibility.Collapsed : Visibility.Visible;
+        VerticalBarHost.Visibility = useStrip ? Visibility.Visible : Visibility.Collapsed;
+        if (useStrip)
+        {
+            VerticalBarHost.Width = stripWidth;
+            VerticalBarHost.HorizontalAlignment = insets.Left > insets.Right ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+        }
+    }
+
+    private static bool HasVerticalBar()
+    {
+        // VerticalBarEdge is iOS-only; IsIOSVersionAtLeast also allows Mac Catalyst, which CA1416 flags.
+        if (!OperatingSystem.IsOSPlatformVersionAtLeast("ios", 27, 1))
+        {
+            return false;
+        }
+
+        var scene = UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>()
+            .FirstOrDefault(s => s.ActivationState is UISceneActivationState.ForegroundActive or UISceneActivationState.ForegroundInactive);
+        return scene is not null && scene.TraitCollection.VerticalBarEdge != UIVerticalBarEdge.Unspecified;
+    }
+#endif
+}
+```
+
+On the iPhone Duo cover screen, the TabBar moves into the strip: on the right in portrait, on the left in landscape.
+
+![The TabBar in the vertical bar on the right, iPhone Duo cover screen in portrait](../../assets/tabbar-ios-vertical-bar-portrait.png)
+
+![The TabBar in the vertical bar on the left, iPhone Duo cover screen in landscape](../../assets/tabbar-ios-vertical-bar-landscape.png)
+
+Notes:
+
+* The vertical bar code only compiles when the app builds against the iOS 27.1 SDK (Xcode 27.1 or later), which defines `IOS27_1_OR_GREATER`. Other platforms and older SDKs keep the bottom TabBar.
+* Update on both events. After launch, the strip can appear without the window size changing, which raises only `VisibleBoundsChanged`. On rotation, `VisibleBoundsChanged` is raised before the window size is updated, so `SafeArea.WindowInsets` is only correct once `XamlRoot.Changed` is raised.
+* Take the side of the strip from the insets, not from `VerticalBarEdge`: when these events are raised, the trait can still hold the value from before the rotation.
+* The strip fits icons but not labels. Give the vertical TabBar a fixed `Height` (about 56 per item plus padding), because it otherwise spreads its items over the full height.
+* Binding `SelectedIndex` keeps both TabBars on the same tab when the placement changes.
+* Keep other full-width elements out of the strip too. For example, `NavigationBar` styles only inset the top by default; set `utu:SafeArea.Insets="Left,Top,Right"` on it.
+* Setting `Visibility` from code replaces a `{utu:Responsive}` value. To combine this with the responsive recipe above, wrap the responsive TabBars in a container and toggle the container's `Visibility` instead.
+* The code assumes a left-to-right `FlowDirection`.
+
+---
+
 ## Add a selection indicator (underline / slider)
 
 **Goal:** show an indicator above or below the selected item.
@@ -450,6 +632,10 @@ Use the `{utu:Responsive}` markup extension on the `Visibility` property. Do NOT
 ```
 
 The `Responsive` extension is the modern Uno Toolkit approach for adaptive layouts. ([Uno Platform][5])
+
+**Q: Why is there an empty strip next to my TabBar on the iPhone Duo?**
+
+On iOS 27.1, the iPhone Duo cover screen shows a vertical bar along one side, and native tab bars move into it. See [Put the TabBar in the iOS vertical bar](#put-the-tabbar-in-the-ios-vertical-bar).
 
 **Q: Which theme packages do I need for the ready-made looks?**
 

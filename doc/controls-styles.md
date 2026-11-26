@@ -101,5 +101,6 @@ These keys are provided by the design-system Toolkit libraries, such as Material
 | `utu:TabBarItem`         | `BottomFabTabBarItemStyle`         |                 |
 | `utu:TabBarItem`         | `BottomTabBarItemStyle`            |                 |
 | `utu:TabBarItem`         | `VerticalTabBarItemStyle`          |                 |
+| `utu:TabBarItem`         | `VerticalFabTabBarItemStyle`       |                 |
 
 IsDefaultStyle\*: Styles in this column will be set as the default implicit style for the matching control
