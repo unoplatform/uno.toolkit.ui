@@ -19,15 +19,8 @@ internal static class ThemeDictionaryHelper
 			foreach (var key in dictionary.Keys.OfType<string>().Where(k => prefixes.Any(p => k.StartsWith(p, StringComparison.Ordinal))))
 			{
 				count++;
-				object? value;
-				try
-				{
-					value = dictionary[key];
-				}
-				catch (Exception)
-				{
-					value = null;
-				}
+				// TryGetValue resolves aliases without throwing; a key that names a missing resource yields no value.
+				dictionary.TryGetValue(key, out var value);
 
 				if (value is not Brush)
 				{
