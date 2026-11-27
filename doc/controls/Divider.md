@@ -14,6 +14,8 @@ A divider is a thin line that groups content in lists and layouts.
 
 ## Lightweight Styling
 
+The values below are the Material ones. `Uno.Toolkit.WinUI` also ships a basic default style, used when no design-system library styles `Divider` (e.g. with Cupertino): it reads the same keys, with `DividerForeground` set to `DividerStrokeColorDefaultBrush`, `DividerSubHeaderForeground` to `TextFillColorSecondaryBrush`, `DividerSubHeaderFontFamily` to `ContentControlThemeFontFamily`, and a `12` subheader font size.
+
 | Key                              | Type                 | Value                       |
 |------------------------------------|--------------------|-----------------------------|
 | `DividerForeground`                | `SolidColorBrush`  | `OutlineVariantBrush`       |
