@@ -64,7 +64,9 @@ Under the hood, `NavigationBar` uses a custom-styled `CommandBar`. It is templat
 | Property                     | Comments                                                                                                                            |
 |------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | `Background`                 |                                                                                                                                     |
+| `ClosedDisplayMode`          | Forwarded to the inner `CommandBar`.                                                                                                |
 | `Content`                    | Please refer to the `Content` section.                                                                                              |
+| `DefaultLabelPosition`       | Forwarded to the inner `CommandBar`.                                                                                                |
 | `Foreground`                 |                                                                                                                                     |
 | `Height`                     |                                                                                                                                     |
 | `HorizontalAlignment`        |                                                                                                                                     |
@@ -74,6 +76,7 @@ Under the hood, `NavigationBar` uses a custom-styled `CommandBar`. It is templat
 | `MainCommandMode`            | Please refer to the `MainCommandMode` section.                                                                                      |
 | `MainCommandStyle`           |                                                                                                                                     |
 | `Opacity`                    |                                                                                                                                     |
+| `OverflowButtonVisibility`   | Forwarded to the inner `CommandBar`. The built-in styles set it to `Collapsed`.                                                     |
 | `Padding`                    |                                                                                                                                     |
 | `PrimaryCommands`            |                                                                                                                                     |
 | `SecondaryCommands`          |                                                                                                                                     |
