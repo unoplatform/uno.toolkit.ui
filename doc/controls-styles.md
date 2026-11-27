@@ -41,10 +41,15 @@ Exposes visual states as attachable properties that lets you bind a string on a 
 
 These styles ship in `Uno.Toolkit.UI` itself and are always available by key. The ones marked True are also applied implicitly, unless a design-system package provides its own implicit style.
 
-| Control         | Style Key               | IsDefaultStyle\* |
-|-----------------|-------------------------|------------------|
-| `utu:Chip`      | `DefaultChipStyle`      | True             |
-| `utu:ChipGroup` | `DefaultChipGroupStyle` | True             |
+| Control         | Style Key                     | IsDefaultStyle\* |
+|-----------------|-------------------------------|------------------|
+| `utu:Chip`      | `DefaultChipStyle`            | True             |
+| `utu:ChipGroup` | `DefaultChipGroupStyle`       | True             |
+| `utu:TabBar`    | `DefaultTabBarStyle`          | True             |
+| `utu:TabBar`    | `DefaultBottomTabBarStyle`    |                  |
+| `utu:TabBar`    | `DefaultTopTabBarStyle`       |                  |
+| `utu:TabBar`    | `DefaultSegmentedTabBarStyle` |                  |
+| `utu:TabBar`    | `DefaultVerticalTabBarStyle`  |                  |
 
 ### Design system styles
 
