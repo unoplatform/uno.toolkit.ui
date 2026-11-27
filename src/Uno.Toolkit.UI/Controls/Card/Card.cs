@@ -25,11 +25,7 @@ namespace Uno.Toolkit.UI
 		/// <summary>
 		/// Occurs when the clickable card is activated by pointer, keyboard, or automation.
 		/// </summary>
-		public
-#if __ANDROID__
-			new
-#endif
-			event RoutedEventHandler? Click;
+		public event RoutedEventHandler? Click;
 
 		public Card()
 		{
