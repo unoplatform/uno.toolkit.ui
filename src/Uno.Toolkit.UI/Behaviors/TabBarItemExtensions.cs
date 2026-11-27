@@ -31,7 +31,7 @@ namespace Uno.Toolkit.UI
 			None = 0,
 
 			/// <summary>
-			/// Find the first <see cref="NavigationView"/> with back stack to back navigate.
+			/// Find the first <see cref="Frame"/> with back stack to back navigate.
 			/// </summary>
 			BackNavigation = 1 << 0,
 
@@ -41,7 +41,7 @@ namespace Uno.Toolkit.UI
 			ScrollToTop = 1 << 1,
 
 			/// <summary>
-			/// All of above.
+			/// All of above: back navigate if a <see cref="Frame"/> with back stack is found, otherwise reset scroll position.
 			/// </summary>
 			Auto = BackNavigation | ScrollToTop,
 		}
@@ -141,11 +141,6 @@ namespace Uno.Toolkit.UI
 		{
 			if (sender is not TabBarItem tbi) return;
 
-			bool IsValidContentHost(object x) =>
-				x is ListView ||
-				x is ScrollViewer ||
-				x is Frame { CanGoBack: true };
-
 			// defaults to the parent of TabBar if not provided
 			var target = GetOnClickBehaviorsTarget(tbi);
 			var context = target ?? VisualTreeHelperEx.GetAncestors(tbi)
@@ -154,23 +149,36 @@ namespace Uno.Toolkit.UI
 				.FirstOrDefault();
 			if (context is null) return;
 
-			var contentHost = IsValidContentHost(context) ? context
+			// Back navigation takes precedence when both behaviors are requested (Auto).
+			var behaviors = GetOnClickBehaviors(tbi);
+			if (behaviors.HasFlag(TBIOnClickBehaviors.BackNavigation) &&
+				FindContentHost(context, static x => x is Frame { CanGoBack: true }) is Frame frame)
+			{
+				frame.GoBack();
+			}
+			else if (behaviors.HasFlag(TBIOnClickBehaviors.ScrollToTop) &&
+				FindContentHost(context, static x => x is ListView or ScrollViewer) is { } scrollHost)
+			{
+				switch (scrollHost)
+				{
+					case ListView lv: ScrollableHelper.SmoothScrollTop(lv); break;
+					case ScrollViewer sv: sv.ChangeView(0, 0, zoomFactor: default, disableAnimation: false); break;
+				}
+			}
+			else
+			{
+				Logger.WarnIfEnabled(() => $"No suitable content host found in the visual tree for {behaviors}.");
+			}
+		}
+
+		private static DependencyObject? FindContentHost(UIElement context, Func<DependencyObject, bool> predicate)
+		{
+			return predicate(context) ? context
 				: VisualTreeHelperEx.GetFirstDescendant<DependencyObject>(
 					context,
 					hierarchyPredicate: x => (x as UIElement)?.Visibility != Visibility.Collapsed,
-					predicate: IsValidContentHost
+					predicate: predicate
 				);
-
-			switch (contentHost)
-			{
-				case ListView lv: ScrollableHelper.SmoothScrollTop(lv); break;
-				case ScrollViewer sv: sv.ChangeView(0, 0, zoomFactor: default, disableAnimation: false); break;
-				case Frame f: if (f.CanGoBack) f.GoBack(); break;
-
-				default:
-					Logger.WarnIfEnabled(() => "No suitable content host found in the visual tree.");
-					break;
-			}
 		}
 	}
 }
