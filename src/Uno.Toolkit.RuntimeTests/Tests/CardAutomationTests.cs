@@ -149,6 +149,8 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 		[RequiresFullWindow]
 		public async Task CardContentControl_AutomationPeer_Name_Honors_LabeledBy_And_Rendered_Content()
 		{
+			// CardContentControl has no implicit style in the base library, so without a style it has no template and renders nothing.
+			var cardStyle = (Style)Application.Current.Resources["FilledCardContentControlStyle"];
 			var label = new TextBlock
 			{
 				Text = "Open settings",
@@ -156,11 +158,13 @@ namespace Uno.Toolkit.RuntimeTests.Tests
 			var labeledCard = new CardContentControl
 			{
 				Content = "Ignored content",
+				Style = cardStyle,
 			};
 			AutomationProperties.SetLabeledBy(labeledCard, label);
 
 			var renderedContentCard = new CardContentControl
 			{
+				Style = cardStyle,
 				Content = new CardTestData("Rendered settings"),
 				ContentTemplate = XamlHelper.LoadXaml<DataTemplate>("""
 					<DataTemplate>
