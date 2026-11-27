@@ -14,6 +14,14 @@
 			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SolidBackgroundFillColorBaseBrush" />
 			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SolidBackgroundFillColorBaseBrush" />
 			<StaticResource x:Key="NavigationBarCommandBarHighContrastBorder" ResourceKey="SystemControlForegroundTransparentBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackgroundDisabled" ResourceKey="SubtleFillColorTransparentBrush" />
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Light">
 			<StaticResource x:Key="NavigationBarBackground" ResourceKey="ControlFillColorTransparentBrush" />
@@ -22,16 +30,114 @@
 			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SolidBackgroundFillColorBaseBrush" />
 			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SolidBackgroundFillColorBaseBrush" />
 			<StaticResource x:Key="NavigationBarCommandBarHighContrastBorder" ResourceKey="SystemControlForegroundTransparentBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForegroundPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForegroundDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackground" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackgroundDisabled" ResourceKey="SubtleFillColorTransparentBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="NavigationBarBackground" ResourceKey="SystemControlBackgroundChromeMediumBrush" />
+			<StaticResource x:Key="NavigationBarForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarEllipsisIconForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenUp" ResourceKey="SystemControlBackgroundChromeMediumBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarBackgroundCompactOpenDown" ResourceKey="SystemControlBackgroundChromeMediumBrush" />
+			<StaticResource x:Key="NavigationBarCommandBarHighContrastBorder" ResourceKey="SystemControlForegroundTransparentBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForeground" ResourceKey="SystemColorButtonTextColorBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForegroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForegroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackground" ResourceKey="SystemControlTransparentBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackgroundPointerOver" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackgroundPressed" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="NavigationBarMainCommandBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
+	<!-- The bar is a WinUI CommandBar: 48 high, with the title in the Subtitle text style (20, SemiBold). -->
+	<x:Double x:Key="NavigationBarHeight">48</x:Double>
+	<StaticResource x:Key="NavigationBarFontFamily" ResourceKey="ContentControlThemeFontFamily" />
+	<x:Double x:Key="NavigationBarFontSize">20</x:Double>
+	<FontWeight x:Key="NavigationBarFontWeight">SemiBold</FontWeight>
+	<Thickness x:Key="NavigationBarContentMargin">12,0</Thickness>
+
+	<!-- The main (back) command is sized as the NavigationView back button. -->
+	<x:Double x:Key="NavigationBarMainCommandWidth">40</x:Double>
+	<x:Double x:Key="NavigationBarMainCommandHeight">36</x:Double>
+	<Thickness x:Key="NavigationBarMainCommandMargin">4,0</Thickness>
+	<x:Double x:Key="NavigationBarMainCommandIconSize">16</x:Double>
+	<!-- The Back glyph of the Segoe Fluent Icons font, shown when the main command has no Icon. -->
+	<x:String x:Key="NavigationBarMainCommandGlyph">&#xE72B;</x:String>
+
+	<!-- The back button of the NavigationView, as a style for the AppBarButton of the NavigationBar. -->
 	<Style x:Key="DefaultMainCommandStyle"
 		   TargetType="AppBarButton">
-		<Setter Property="Icon"
-				win:Value="{x:Null}">
-			<not_win:Setter.Value>
-				<SymbolIcon Symbol="Back" />
-			</not_win:Setter.Value>
+		<Setter Property="Foreground" Value="{ThemeResource NavigationBarMainCommandForeground}" />
+		<Setter Property="Background" Value="{ThemeResource NavigationBarMainCommandBackground}" />
+		<Setter Property="Width" Value="{ThemeResource NavigationBarMainCommandWidth}" />
+		<Setter Property="Height" Value="{ThemeResource NavigationBarMainCommandHeight}" />
+		<Setter Property="Margin" Value="{ThemeResource NavigationBarMainCommandMargin}" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+		<Setter Property="FocusVisualMargin" Value="-3" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="AppBarButton">
+					<Grid x:Name="Root"
+						  Background="Transparent">
+						<Border x:Name="AppBarButtonInnerBorder"
+								Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								CornerRadius="{TemplateBinding CornerRadius}"
+								Control.IsTemplateFocusTarget="True" />
+						<Viewbox Width="{ThemeResource NavigationBarMainCommandIconSize}"
+								 Height="{ThemeResource NavigationBarMainCommandIconSize}"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"
+								 AutomationProperties.AccessibilityView="Raw">
+							<!--
+								Not named "Content": Uno's AppBarButton force-sets a template part with that name to
+								Icon ?? Content (unoplatform/uno.toolkit.ui#1652).
+								The glyph is the fallback for a missing Icon, so no shared element instance is needed.
+							-->
+							<ContentPresenter x:Name="IconPresenter"
+											  Content="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource NavigationBarMainCommandGlyph}}"
+											  FontFamily="{ThemeResource SymbolThemeFontFamily}"
+											  FontSize="{ThemeResource NavigationBarMainCommandIconSize}"
+											  Foreground="{TemplateBinding Foreground}" />
+						</Viewbox>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource NavigationBarMainCommandBackgroundPointerOver}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource NavigationBarMainCommandForegroundPointerOver}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource NavigationBarMainCommandBackgroundPressed}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource NavigationBarMainCommandForegroundPressed}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource NavigationBarMainCommandBackgroundDisabled}" />
+										<Setter Target="IconPresenter.Foreground" Value="{ThemeResource NavigationBarMainCommandForegroundDisabled}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
 		</Setter>
 	</Style>
 
@@ -53,13 +159,19 @@
 
 	<Style x:Key="NavigationBarCommandBar"
 		   TargetType="CommandBar">
-		<Setter Property="Padding" Value="4,0,0,0" />
 		<Setter Property="IsTabStop" Value="False" />
+		<!-- NavigationBar.Height is not passed to the CommandBar, and the CommandBar sizes itself from AppBarThemeCompactHeight otherwise. -->
+		<Setter Property="Height" Value="{ThemeResource NavigationBarHeight}" />
 		<Setter Property="VerticalAlignment" Value="Top" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="VerticalContentAlignment" Value="Top" />
 		<Setter Property="ClosedDisplayMode" Value="Compact" />
+		<!--
+			Primary commands are icon buttons in a 48 high bar. With labels shown, the buttons stay 64 high and are clipped.
+			This is a setter, not a binding, because NavigationBar.DefaultLabelPosition does not reach the CommandBar.
+		-->
+		<Setter Property="DefaultLabelPosition" Value="Collapsed" />
 		<Setter Property="ExitDisplayModeOnAccessKeyInvoked" Value="False" />
 		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 
@@ -72,6 +184,16 @@
 					<Grid x:Name="LayoutRoot">
 						<Grid.Resources>
 							<Visibility x:Key="AppBarButtonHasFlyoutChevronVisibility">Collapsed</Visibility>
+							<!--
+								The AppBarButton template reads AppBarThemeCompactHeight. This alias is resolved when the template is
+								parsed, so it gives the commands the default bar height. The bar itself reads NavigationBarHeight in the
+								element tree, so an override of that resource is followed by the bar, and the commands stay centered in it.
+							-->
+							<StaticResource x:Key="AppBarThemeCompactHeight" ResourceKey="NavigationBarHeight" />
+							<Style BasedOn="{StaticResource DefaultAppBarButtonStyle}"
+								   TargetType="AppBarButton">
+								<Setter Property="VerticalAlignment" Value="Center" />
+							</Style>
 							<Storyboard x:Key="OverlayOpeningAnimation">
 								<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
 									<DiscreteDoubleKeyFrame KeyTime="0:0:0"
@@ -104,7 +226,7 @@
 						</Grid.Clip>
 						<Grid x:Name="ContentRoot"
 							  Height="{TemplateBinding Height}"
-							  MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+							  MinHeight="{ThemeResource NavigationBarHeight}"
 							  VerticalAlignment="Top"
 							  Background="{TemplateBinding Background}"
 							  XYFocusKeyboardNavigation="Enabled">
@@ -136,6 +258,7 @@
 								<ContentControl x:Name="ContentControl"
 												Grid.Column="0"
 												Grid.ColumnSpan="3"
+												Margin="{ThemeResource NavigationBarContentMargin}"
 												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 												HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -143,6 +266,9 @@
 												Content="{TemplateBinding Content}"
 												ContentTemplate="{TemplateBinding ContentTemplate}"
 												ContentTransitions="{TemplateBinding ContentTransitions}"
+												FontFamily="{TemplateBinding FontFamily}"
+												FontSize="{TemplateBinding FontSize}"
+												FontWeight="{ThemeResource NavigationBarFontWeight}"
 												Foreground="{TemplateBinding Foreground}"
 												IsTabStop="False" />
 
@@ -151,7 +277,7 @@
 
 								<ItemsControl x:Name="PrimaryItemsControl"
 											  Grid.Column="2"
-											  MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+											  MinHeight="{ThemeResource NavigationBarHeight}"
 											  HorizontalAlignment="Center"
 											  IsTabStop="False">
 									<ItemsControl.ItemsPanel>
@@ -163,7 +289,7 @@
 							</Grid>
 							<Button x:Name="MoreButton"
 									Grid.Column="2"
-									MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+									MinHeight="{ThemeResource NavigationBarHeight}"
 									Padding="{ThemeResource CommandBarMoreButtonMargin}"
 									VerticalAlignment="Top"
 									Control.IsTemplateKeyTipTarget="True"
@@ -440,7 +566,7 @@
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentRootTransform"
 																		   Storyboard.TargetProperty="Y">
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0"
-																		Value="{ThemeResource AppBarThemeCompactHeight}" />
+																		Value="{ThemeResource NavigationBarHeight}" />
 												<SplineDoubleKeyFrame KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
 																	  KeyTime="{StaticResource ControlNormalAnimationDuration}"
 																	  Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
@@ -492,7 +618,7 @@
 																		Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandBarTemplateSettings.ContentHeight}" />
 												<SplineDoubleKeyFrame KeySpline="{StaticResource ControlFastOutSlowInKeySpline}"
 																	  KeyTime="{StaticResource ControlFastAnimationDuration}"
-																	  Value="{ThemeResource AppBarThemeCompactHeight}" />
+																	  Value="{ThemeResource NavigationBarHeight}" />
 											</DoubleAnimationUsingKeyFrames>
 											<DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverflowContentTransform"
 																		   Storyboard.TargetProperty="Y">
@@ -1412,6 +1538,11 @@
 		<Setter Property="Foreground" Value="{ThemeResource NavigationBarForeground}" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<!-- The font is set here, not in the template, so that FontFamily and FontSize set on a NavigationBar still apply. -->
+		<Setter Property="FontFamily" Value="{ThemeResource NavigationBarFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource NavigationBarFontSize}" />
 		<Setter Property="OverflowButtonVisibility" Value="Collapsed" />
 		<Setter Property="IsDynamicOverflowEnabled" Value="False" />
 		<Setter Property="MainCommandStyle" Value="{StaticResource DefaultMainCommandStyle}" />

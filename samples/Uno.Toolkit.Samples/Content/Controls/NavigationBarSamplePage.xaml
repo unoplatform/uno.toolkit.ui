@@ -49,11 +49,70 @@
 		</sample:SamplePageLayout.MaterialTemplate>
 		<sample:SamplePageLayout.FluentTemplate>
 			<DataTemplate>
-				<StackPanel Margin="50"
-							Spacing="8">
-					<Button Click="LaunchFullScreenFluentSample"
-							Content="Show sample" />
-				</StackPanel>
+				<ScrollViewer>
+					<StackPanel Padding="0,20"
+								Spacing="24">
+						<StackPanel.Resources>
+							<ResourceDictionary>
+								<ResourceDictionary.MergedDictionaries>
+									<!-- Restores the default (Fluent) NavigationBar styles, whichever design system the app has loaded. -->
+									<utu:ToolkitResources />
+								</ResourceDictionary.MergedDictionaries>
+							</ResourceDictionary>
+						</StackPanel.Resources>
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="Title" />
+							<TextBlock Opacity="0.7"
+									   Text="A NavigationBar without a Style gets the default Fluent style: a 48 high bar with a left-aligned title."
+									   TextWrapping="Wrap" />
+							<utu:NavigationBar Content="Page title" />
+						</StackPanel>
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="Back button and commands" />
+							<TextBlock Opacity="0.7"
+									   Text="MainCommandMode=Action shows the back button. Primary commands are icon buttons; secondary commands open from the overflow button."
+									   TextWrapping="Wrap" />
+							<utu:NavigationBar Content="Page title"
+											   MainCommandMode="Action">
+								<utu:NavigationBar.PrimaryCommands>
+									<AppBarButton Icon="Add"
+												  Label="Add" />
+									<AppBarButton Icon="Edit"
+												  Label="Edit" />
+								</utu:NavigationBar.PrimaryCommands>
+								<utu:NavigationBar.SecondaryCommands>
+									<AppBarButton Label="Settings" />
+								</utu:NavigationBar.SecondaryCommands>
+							</utu:NavigationBar>
+						</StackPanel>
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="Centered title" />
+							<TextBlock Opacity="0.7"
+									   Text="Set HorizontalContentAlignment to center the title."
+									   TextWrapping="Wrap" />
+							<utu:NavigationBar Content="Centered title"
+											   HorizontalContentAlignment="Center"
+											   MainCommandMode="Action">
+								<utu:NavigationBar.PrimaryCommands>
+									<AppBarButton Icon="Add"
+												  Label="Add" />
+								</utu:NavigationBar.PrimaryCommands>
+							</utu:NavigationBar>
+						</StackPanel>
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="Full screen sample" />
+							<TextBlock Opacity="0.7"
+									   Text="Navigation between pages, flyouts, and a custom main command."
+									   TextWrapping="Wrap" />
+							<Button Click="LaunchFullScreenFluentSample"
+									Content="Show sample" />
+						</StackPanel>
+					</StackPanel>
+				</ScrollViewer>
 			</DataTemplate>
 		</sample:SamplePageLayout.FluentTemplate>
 		<sample:SamplePageLayout.M3MaterialTemplate>
