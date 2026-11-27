@@ -961,6 +961,123 @@
 				</DataTemplate>
 			</sample:SamplePageLayout.M3MaterialTemplate>
 
+			<sample:SamplePageLayout.FluentTemplate>
+				<DataTemplate>
+					<StackPanel Padding="0,20"
+								Spacing="24">
+						<StackPanel.Resources>
+							<!--
+								Re-merging ToolkitResources restores the default (Fluent) Chip styles and
+								resources inside this section, whichever design system the app has loaded.
+							-->
+							<ResourceDictionary>
+								<ResourceDictionary.MergedDictionaries>
+									<utu:ToolkitResources />
+								</ResourceDictionary.MergedDictionaries>
+							</ResourceDictionary>
+						</StackPanel.Resources>
+
+						<!--  DefaultChipStyle  -->
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="Chip" />
+							<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+								<StackPanel Orientation="Horizontal"
+											Spacing="8">
+									<utu:Chip Content="Enabled" />
+									<utu:Chip Content="Selected"
+											  IsChecked="True" />
+									<utu:Chip Content="Disabled"
+											  IsEnabled="False" />
+									<utu:Chip Content="Selected disabled"
+											  IsChecked="True"
+											  IsEnabled="False" />
+								</StackPanel>
+							</ScrollViewer>
+						</StackPanel>
+
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="Icon and remove button" />
+							<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+								<StackPanel Orientation="Horizontal"
+											Spacing="8">
+									<utu:Chip Content="Icon">
+										<utu:Chip.Icon>
+											<SymbolIcon Symbol="Favorite" />
+										</utu:Chip.Icon>
+									</utu:Chip>
+									<utu:Chip Content="Avatar">
+										<utu:Chip.Icon>
+											<Image Source="ms-appx:///Assets/Avatar.png" />
+										</utu:Chip.Icon>
+									</utu:Chip>
+									<utu:Chip CanRemove="True"
+											  Content="Removable" />
+									<utu:Chip CanRemove="True"
+											  Content="Icon and remove"
+											  IsChecked="True">
+										<utu:Chip.Icon>
+											<SymbolIcon Symbol="Favorite" />
+										</utu:Chip.Icon>
+									</utu:Chip>
+								</StackPanel>
+							</ScrollViewer>
+						</StackPanel>
+
+						<!--  DefaultChipGroupStyle  -->
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="ChipGroup - single selection" />
+							<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+								<utu:ChipGroup ItemsSource="{Binding Data.TestCollection}"
+											   SelectionMode="Single">
+									<utu:ChipGroup.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Index}" />
+										</DataTemplate>
+									</utu:ChipGroup.ItemTemplate>
+								</utu:ChipGroup>
+							</ScrollViewer>
+						</StackPanel>
+
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="ChipGroup - multiple selection" />
+							<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+								<utu:ChipGroup ItemsSource="{Binding Data.TestCollection}"
+											   SelectionMode="Multiple">
+									<utu:ChipGroup.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Index}" />
+										</DataTemplate>
+									</utu:ChipGroup.ItemTemplate>
+								</utu:ChipGroup>
+							</ScrollViewer>
+						</StackPanel>
+
+						<StackPanel Spacing="8">
+							<TextBlock FontWeight="SemiBold"
+									   Text="ChipGroup - removable" />
+							<ScrollViewer Style="{StaticResource HorizontalScrollViewerStyle}">
+								<utu:ChipGroup CanRemove="True"
+											   ItemRemoved="RemoveChipItem"
+											   ItemsSource="{Binding Data.MutableTestCollection}"
+											   SelectionMode="None">
+									<utu:ChipGroup.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Index}" />
+										</DataTemplate>
+									</utu:ChipGroup.ItemTemplate>
+								</utu:ChipGroup>
+							</ScrollViewer>
+							<Button Click="ResetChipItems"
+									Content="Reset" />
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+			</sample:SamplePageLayout.FluentTemplate>
+
 			<sample:SamplePageLayout.DesignAgnosticTemplate>
 				<DataTemplate>
 					<ScrollViewer>

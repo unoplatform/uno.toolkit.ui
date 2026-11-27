@@ -3,6 +3,30 @@
 Corrections worth not repeating. Newest first. Per `AGENTS.md` §3, corrections that should bind
 every agent on this repo go here (or in `AGENTS.md` / a skill's `SKILL.md`), never in personal memory.
 
+## Uno applies the implicit style underneath an explicit one; keep implicit styles free of visuals
+
+**2026-11-17 — Fluent TabBar (#1327).**
+
+**Context:** The implicit `TabBar` style was based on a new bottom-bar style that set `Background`, `BorderBrush` and `BorderThickness`. A TabBar with an explicit `Style` that did not set them (the new top and vertical styles) came out with the bottom bar's surface and top divider. A walk over the Material and Simple style chains showed the same would happen to every one of their bars, since none sets `BorderBrush` or `BorderThickness`. A first leak test rendered those styles with an empty implicit style in a nearer scope and passed, because Uno resolves the implicit style from the application resources, so the override never took effect. A negative control (the toolkit's own top style, known to leak) passed too, which is what exposed the test as blind.
+
+**How to apply:** Do not set visual properties in the implicit style of a control that design-system styles derive from or sit beside. Test it at the source: walk the implicit style's `BasedOn` chain and assert it does not set those properties. Before trusting a detector, run it on a case that is known to be bad and see it fail.
+
+## Judge a control's default style in the app it is for, against the guidance for its purpose
+
+**2026-11-17 — Fluent TabBar (#1327).**
+
+**Context:** The first TabBar styles passed review as rows of states next to a WinUI reference control. Put in a phone shell and a desktop shell they did not fit their purpose: the bottom bar showed selection only as a small pill, the vertical bar split the full height into 130px cells, and the segmented bar had two selection marks. Fluent's own sources use color for selection on a phone bottom bar, and `NavigationView`'s left pane for a vertical bar. I had copied the look of the nearest WinUI control for each row instead of asking what the Fluent control for that job looks like.
+
+**How to apply:** For a control with several roles, render each role inside a realistic page (shell, content, neighbours) before polishing states. Read the platform guidance for the role (Fluent 2 sources, `NavigationView` resources) and write down what it says about indicators and sizes first. Check whether the control's panel or template forces a layout the guidance does not use, and whether a style alone can change it.
+
+## A design reference linked from an issue is a source: open it before saying none exists
+
+**2026-11-16 — Fluent Chip style (#1328).**
+
+**Context:** #1328 points at the Pill in the Windows UI Kit Figma file and attaches an image of it. The audit only searched the WinUI source, found no chip or pill control there, and reported that there was no primary source for the look. The first Chip style was modelled on `ToggleButton` alone and shipped the button's elevation border, which the Pill does not have. The user had to point back at the link.
+
+**How to apply:** Read every link and attachment in the issue before auditing code. When the reference is an image, download it (`gh auth token` works for `user-attachments` URLs) and measure fills, borders and text per state against the theme tokens instead of eyeballing it. "Not in the WinUI source" and "no reference exists" are different findings; report which one was checked.
+
 ## A `StaticResource` alias in a template is fixed at parse time; test the override you document
 
 **2026-11-16 — Fluent NavigationBar style (#1326).**
