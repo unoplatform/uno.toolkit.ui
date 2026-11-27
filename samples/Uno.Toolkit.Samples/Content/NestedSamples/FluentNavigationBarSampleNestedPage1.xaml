@@ -8,11 +8,17 @@
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	  mc:Ignorable="d">
 	<Page.Resources>
-		<Style x:Key="SmallFlyoutPresenterStyle"
-			   TargetType="FlyoutPresenter">
-			<Setter Property="MinHeight" Value="300" />
-			<Setter Property="MinWidth" Value="300" />
-		</Style>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!--  Restores the default (Fluent) NavigationBar styles, whichever design system the app has loaded.  -->
+				<utu:ToolkitResources />
+			</ResourceDictionary.MergedDictionaries>
+			<Style x:Key="SmallFlyoutPresenterStyle"
+				   TargetType="FlyoutPresenter">
+				<Setter Property="MinHeight" Value="300" />
+				<Setter Property="MinWidth" Value="300" />
+			</Style>
+		</ResourceDictionary>
 	</Page.Resources>
 
 	<Grid>

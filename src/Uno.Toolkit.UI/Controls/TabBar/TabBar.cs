@@ -45,6 +45,7 @@ namespace Uno.Toolkit.UI
 		private object? _previouslySelectedItem;
 		private bool _isLoaded;
 		private bool _isUpdatingSelectedItem;
+		private bool _isWaitingForFirstLayout;
 
 		public TabBar()
 		{
@@ -219,11 +220,12 @@ namespace Uno.Toolkit.UI
 			SynchronizeInitialSelection();
 		}
 
-		private void SynchronizeInitialSelection()
+		/// <returns><c>true</c> when the selection was synchronized, <c>false</c> when the TabBar is not ready yet.</returns>
+		private bool SynchronizeInitialSelection()
 		{
 			if (!IsReady)
 			{
-				return;
+				return false;
 			}
 
 			if (SelectedItem != null)
@@ -234,13 +236,40 @@ namespace Uno.Toolkit.UI
 			{
 				OnSelectedIndexChanged(null);
 			}
+
+			return true;
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			_isLoaded = true;
-			SynchronizeInitialSelection();
+			if (!SynchronizeInitialSelection())
+			{
+				// A TabBarListPanel tells the TabBar when it is connected (#1287), but an items panel of another type does not,
+				// such as the StackPanel of the vertical and top Fluent styles. Synchronize once the first layout has created it.
+				SynchronizeInitialSelectionAfterLayout();
+			}
 			UpdateOrientation();
+		}
+
+		private void SynchronizeInitialSelectionAfterLayout()
+		{
+			if (_isWaitingForFirstLayout)
+			{
+				return;
+			}
+
+			_isWaitingForFirstLayout = true;
+			LayoutUpdated += OnLayoutUpdatedSynchronizeSelection;
+		}
+
+		private void OnLayoutUpdatedSynchronizeSelection(object? sender, object e)
+		{
+			if (SynchronizeInitialSelection())
+			{
+				LayoutUpdated -= OnLayoutUpdatedSynchronizeSelection;
+				_isWaitingForFirstLayout = false;
+			}
 		}
 
 		internal void OnItemsPanelConnected(TabBarListPanel panel)

@@ -58,7 +58,7 @@ namespace Uno.Toolkit.UI
 			nameof(Icon),
 			typeof(object),
 			typeof(Chip),
-			new PropertyMetadata(default(object)));
+			new PropertyMetadata(default(object), (s, e) => (s as Chip)?.UpdateIconState()));
 
 		/// <summary>
 		/// Gets or sets the icon of the Chip.

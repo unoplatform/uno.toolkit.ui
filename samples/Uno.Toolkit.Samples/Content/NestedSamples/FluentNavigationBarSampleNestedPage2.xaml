@@ -8,6 +8,15 @@
 	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	  mc:Ignorable="d">
 
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!--  Restores the default (Fluent) NavigationBar styles, whichever design system the app has loaded.  -->
+				<utu:ToolkitResources />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Page.Resources>
+
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -27,9 +36,11 @@
 				</AppBarButton>
 			</utu:NavigationBar.MainCommand>
 			<utu:NavigationBar.PrimaryCommands>
-				<AppBarButton Label="More"
+				<AppBarButton Icon="Add"
+							  Label="Add"
 							  Style="{StaticResource DefaultAppBarButtonStyle}" />
-				<AppBarButton Label="More"
+				<AppBarButton Icon="Edit"
+							  Label="Edit"
 							  Style="{StaticResource DefaultAppBarButtonStyle}" />
 			</utu:NavigationBar.PrimaryCommands>
 			<utu:NavigationBar.SecondaryCommands>

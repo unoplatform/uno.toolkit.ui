@@ -5,7 +5,7 @@ using Uno.Toolkit.Samples.ViewModels;
 
 namespace Uno.Toolkit.Samples.Content.Controls
 {
-	[SamplePage(SampleCategory.Controls, "TabBar", DataType = typeof(TabBarViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Agnostic })]
+	[SamplePage(SampleCategory.Controls, "TabBar", DataType = typeof(TabBarViewModel), SupportedDesigns = new[] { Design.Material, Design.Cupertino, Design.Fluent, Design.Agnostic })]
 	public sealed partial class TabBarSamplePage : Page
 	{
 		public TabBarSamplePage()
@@ -41,6 +41,11 @@ namespace Uno.Toolkit.Samples.Content.Controls
 		private void ShowM3MaterialVerticalBarSampleInNestedFrame(object sender, RoutedEventArgs e)
 		{
 			Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialVerticalBarSampleNestedPage>(clearStack: true);
+		}
+
+		private void ShowM3MaterialIOSVerticalBarSampleInNestedFrame(object sender, RoutedEventArgs e)
+		{
+			Shell.GetForCurrentView()?.ShowNestedSample<M3MaterialIOSVerticalBarSampleNestedPage>(clearStack: true);
 		}
 	}
 
