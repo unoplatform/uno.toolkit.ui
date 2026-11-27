@@ -220,7 +220,7 @@ namespace Uno.Toolkit.UI
 			nameof(IsLightDismissEnabled),
 			typeof(bool),
 			typeof(DrawerControl),
-			new PropertyMetadata(DefaultValues.IsLightDismissEnabled));
+			new PropertyMetadata(DefaultValues.IsLightDismissEnabled, OnIsLightDismissEnabledChanged));
 
 		/// <summary>
 		/// Gets or sets a value that indicates whether the drawer can be light-dismissed.
@@ -238,6 +238,7 @@ namespace Uno.Toolkit.UI
 		private static void OnIsOpenChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnIsOpenChanged(e);
 		private static void OnFitToDrawerContentChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnFitToDrawerContentChanged(e);
 		private static void OnIsGestureEnabledChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnIsGestureEnabledChanged(e);
+		private static void OnIsLightDismissEnabledChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnIsLightDismissEnabledChanged(e);
 		private static void OnEdgeSwipeDetectionLengthChanged(DependencyObject control, DependencyPropertyChangedEventArgs e) => ((DrawerControl)control).OnEdgeSwipeDetectionLengthChanged(e);
 	}
 }

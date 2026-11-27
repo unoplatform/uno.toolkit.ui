@@ -33,22 +33,22 @@
 										  not_win:Content="{TemplateBinding Content}" />
 						<Border x:Name="LightDismissOverlay"
 								Background="{TemplateBinding LightDismissOverlayBackground}" />
-						<ContentControl x:Name="DrawerContentControl"
+						<utu:DrawerPane x:Name="DrawerContentControl"
 										Content="{TemplateBinding DrawerContent}"
 										Background="{TemplateBinding DrawerBackground}"
 										HorizontalContentAlignment="{TemplateBinding HorizontalAlignment}"
 										VerticalContentAlignment="{TemplateBinding VerticalAlignment}">
-							<ContentControl.Template>
+							<utu:DrawerPane.Template>
 								<ControlTemplate TargetType="ContentControl">
 									<Border Background="{TemplateBinding Background}">
 										<ContentPresenter not_win:Content="{TemplateBinding Content}" />
 									</Border>
 								</ControlTemplate>
-							</ContentControl.Template>
-							<ContentControl.RenderTransform>
+							</utu:DrawerPane.Template>
+							<utu:DrawerPane.RenderTransform>
 								<TranslateTransform />
-							</ContentControl.RenderTransform>
-						</ContentControl>
+							</utu:DrawerPane.RenderTransform>
+						</utu:DrawerPane>
 
 						<!-- workaround for edge swipe to work on top of other control (eg: SwipeControl) -->
 						<!-- see: https://github.com/unoplatform/nventive-private/issues/271 -->

@@ -8,13 +8,20 @@ using Uno.UI.Extensions;
 
 #if IS_WINUI
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using XamlFlowDirection = Microsoft.UI.Xaml.FlowDirection;
 #else
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using XamlFlowDirection = Windows.UI.Xaml.FlowDirection;
 #endif
+using Windows.System;
 
 namespace Uno.Toolkit.UI
 {
@@ -29,6 +36,9 @@ namespace Uno.Toolkit.UI
 			this.Loaded += OnLoaded;
 		}
 
+		/// <inheritdoc />
+		protected override AutomationPeer OnCreateAutomationPeer() => new ChipGroupAutomationPeer(this);
+
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -41,6 +51,51 @@ namespace Uno.Toolkit.UI
 			{
 				presenter.Loaded += OnItemsPresenterLoaded;
 			}
+		}
+
+		protected override void OnKeyDown(KeyRoutedEventArgs e)
+		{
+			if (!e.Handled &&
+				e.OriginalSource is DependencyObject source &&
+				source.FindFirstParent<Chip>() is { } currentChip &&
+				ReferenceEquals(currentChip.OwningChipGroup, this) &&
+				GetNavigationOffset(e.Key) is int offset &&
+				TryMoveFocus(currentChip, offset))
+			{
+				e.Handled = true;
+				return;
+			}
+
+			base.OnKeyDown(e);
+		}
+
+		private int? GetNavigationOffset(VirtualKey key) => key switch
+		{
+			VirtualKey.Up => -1,
+			VirtualKey.Down => 1,
+			VirtualKey.Left => FlowDirection == XamlFlowDirection.RightToLeft ? 1 : -1,
+			VirtualKey.Right => FlowDirection == XamlFlowDirection.RightToLeft ? -1 : 1,
+			_ => null,
+		};
+
+		private bool TryMoveFocus(Chip currentChip, int offset)
+		{
+			var containers = this.GetItemContainers<Chip>().ToArray();
+			var currentIndex = Array.IndexOf(containers, currentChip);
+			if (currentIndex < 0)
+			{
+				return false;
+			}
+
+			for (var index = currentIndex + offset; index >= 0 && index < containers.Length; index += offset)
+			{
+				if (containers[index].Focus(FocusState.Keyboard))
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
